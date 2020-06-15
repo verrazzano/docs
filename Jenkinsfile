@@ -6,8 +6,8 @@ pipeline {
     }
 
     agent {
-        label 'docs-build'
         docker {
+            label 'docs-build'
             image 'ubuntu'
             args '-v /publish:/usr/share/nginx/html/docs-stage'
         }
