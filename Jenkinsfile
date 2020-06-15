@@ -36,6 +36,9 @@ pipeline {
         }
 
         stage('Publish documentation') {
+            when {
+                branch pattern: "master"
+            }
             steps {
                 sh """
                     cp -r public/ /publish/
