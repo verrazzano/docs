@@ -6,10 +6,11 @@ pipeline {
     }
 
     agent {
+    
         docker {
-            label 'docs-build'
+            label 'VM.Standard2.8'
             image 'ubuntu'
-            args '-v /publish:/usr/share/nginx/html/docs-stage'
+            args '-u root:root -v /publish:${WORKSPACE}/publish/'
         }
     }
 
@@ -40,10 +41,9 @@ pipeline {
                 branch pattern: "master"
             }
             steps {
-                sh """
-                    cp -r public/ /publish/
-                """
+                archiveArtifacts artifacts: 'public/**'
             }
         }
     }
 }
+
