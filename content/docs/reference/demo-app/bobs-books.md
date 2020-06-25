@@ -5,11 +5,7 @@ weight: 4
 
 # Bob's Books Demo Application
 
-The `Bob's Books` demo application is located in the repository `https://gitlab-odx.oracledx.com/verrazzano/demo-app-bobs-books.git`.
-
-**TBD - DO WE HAVE AN UPDATED DIAGRAM WE WANT TO INCLUDE?**
-See the [diagram here](https://confluence.oraclecorp.com/confluence/display/JCSWLS/Proof+of+concept)
-for a graphical overview of the application.
+The `Bob's Books` demo application is located in the repository `https://github.com/verrazzano/examples`.
 
 Bob's Books consists of three main parts:
 
@@ -167,7 +163,6 @@ Example endpoints for an install with the following settings:
 | --- | --- | --- |
 | Rancher Server | https://rancher.demo.verrazzano.demo.com | admin/admin |
 | Keycloak | https://keycloak.demo.verrazzano.demo.com | verrazzano/verrazzan0 |
-| GitLab Server | https://gitlab.demo.verrazzano.demo.com | root/Welcome1 |
 | Verrazzano API | https://api.demo.verrazzano.demo.com | |
 
 ### Model/Binding Endpoints
