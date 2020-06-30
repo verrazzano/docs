@@ -79,3 +79,113 @@ Additionally, on the machine where you will perform the installation:
 * Helm 3.1 or later.
 
 
+### Prerequisites detail
+#### Storage
+A default storage class is necessary. When using preallocated PersistentVolumes e.g. iSCSI/FC/NFS
+they should be declared with a storageClassName as shown:
+* Create a default StorageClass
+  ```yaml
+  cat << EOF | kubectl apply -f -
+    apiVersion: storage.k8s.io/v1
+    kind: StorageClass
+    metadata:
+      name: datacentre5-nfs
+      annotations:
+        storageclass.kubernetes.io/is-default-class: "true"
+    provisioner: kubernetes.io/no-provisioner
+    volumeBindingMode: WaitForFirstConsumer
+  EOF
+  ```
+* Create a PersistentVolume
+  ```yaml
+  cat << EOF | kubectl apply -f -
+    apiVersion: v1
+    kind: PersistentVolume
+    metadata:
+      name: pv0001
+    spec:
+      storageClassName: datacentre5-nfs
+      accessModes:
+        - ReadWriteOnce
+        - ReadWriteMany
+      capacity:
+        storage: 50Gi
+      nfs:
+        path: /datapool/k8s/pv0001
+        server: 10.10.10.10
+      volumeMode: Filesystem
+  EOF
+  ```
+
+#### Networking
+
+##### Oracle Linux Cloud Native Environment
+When installing Verrazzano on Oracle Linux Cloud Native Environment it's likely you will be using your
+own external load balancer services, not those dynamically provided by Kubernetes.
+Prior to installation two load balancers should be deployed, one for management traffic, one
+for general traffic.
+
+{{<mermaid align="left">}}
+graph LR
+	admin([Administrator]) --> |80| A(Management Load Balancer) -->|31380| D[Worker Nodes]
+	admin([Administrator]) --> |443| A(Management Load Balancer) -->|31390| D[Worker Nodes]
+	user([User]) --> |80| B(General Load Balancer) -->|30080| D[Worker Nodes]
+	user([User]) --> |443| B(General Load Balancer) -->|30443| D[Worker Nodes]
+{{< /mermaid >}}
+
+* Target Host: Hostnames of Kubernetes worker nodes
+* Target Port: see table
+* Distribution: Round Robin
+* Health Check: TCP
+
+Traffic Type | Service Name | Target Port | Type | Suggested External Port
+ ---|---|---|---|---
+Management | istio-ingressgateway | 31380 | TCP | 80
+Management | istio-ingressgateway | 31390 | TCP | 443
+General | ingress-controller-nginx-ingress-controller | 30080 | TCP | 80
+General | ingress-controller-nginx-ingress-controller | 30443 | TCP | 443
+
+An NGINX example of the management load balancer
+```
+load_module /usr/lib64/nginx/modules/ngx_stream_module.so;
+events {
+  worker_connections 2048;
+}
+stream {
+  upstream backend_http {
+    server worker-0.example.com:31380;
+    server worker-1.example.com:31380;
+    server worker-2.example.com:31380;
+  }
+  upstream backend_https {
+    server worker-0.example.com:31390;
+    server worker-1.example.com:31390;
+    server worker-2.example.com:31390;
+  }
+  server {
+    listen 80;
+    proxy_pass backend_http;
+  }
+  server {
+    listen 443;
+    proxy_pass backend_https;
+  }
+}
+```
+
+##### Manual DNS type
+When using the DNS type of `manual` the installer searches the DNS zone you provide for two specific records
+
+Record | Use
+---|---
+ingress-mgmt | Set as the `.spec.externalIPs` value of the `istio-ingressgateway` service
+ingress-verrazzano | Set as the `.spec.externalIPs` value of the `ingress-controller-nginx-ingress-controller` service
+
+## Installing Dependencies for the installation machine
+### Oracle Linux 7
+```shell script
+sudo yum install -y oracle-olcne-release-el7
+sudo yum-config-manager --enable ol7_olcne11 ol7_addons ol7_latest
+sudo yum install -y kubectl helm jq openssl curl patch
+```
+### Other Platforms
