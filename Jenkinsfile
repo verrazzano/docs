@@ -9,7 +9,7 @@ pipeline {
     
         docker {
             label 'VM.Standard2.8'
-            image 'ubuntu'
+            image 'oraclelinux:8-slim'
             args '-u root:root -v /publish:${WORKSPACE}/publish/'
         }
     }
@@ -18,8 +18,7 @@ pipeline {
         stage('Setup Hugo') {
             steps {
                 sh """
-                    apt-get update
-                    apt-get -y install wget git
+                    microdnf install -y wget git tar
                     wget https://github.com/gohugoio/hugo/releases/download/v0.68.3/hugo_extended_0.68.3_Linux-64bit.tar.gz
                     tar xzvf hugo_extended_0.68.3_Linux-64bit.tar.gz hugo
                     mv hugo /bin
