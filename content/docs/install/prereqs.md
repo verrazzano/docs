@@ -125,6 +125,14 @@ own external load balancer services, not those dynamically provided by Kubernete
 Prior to installation two load balancers should be deployed, one for management traffic, one
 for general traffic.
 
+{{<mermaid align="left">}}
+graph LR
+	admin([Administrator]) --> |80| A(Management Load Balancer) -->|31380| D[Worker Nodes]
+	admin([Administrator]) --> |443| A(Management Load Balancer) -->|31390| D[Worker Nodes]
+	user([User]) --> |80| B(General Load Balancer) -->|30080| D[Worker Nodes]
+	user([User]) --> |443| B(General Load Balancer) -->|30443| D[Worker Nodes]
+{{< /mermaid >}}
+
 * Target Host: Hostnames of Kubernetes worker nodes
 * Target Port: see table
 * Distribution: Round Robin
