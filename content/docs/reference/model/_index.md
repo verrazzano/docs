@@ -16,8 +16,7 @@ bookCollapseSection: true
 The Verrazzano Model (vm kubectl resource) is a Kubernetes Custom Resource Definition that is added to the Verrazzano management cluster. This CRD describes a "Verrazzano Application," which is made up of one or more components.  Components can be WebLogic domains, Coherence clusters, Helidon microservices, or other generic container workloads.  The model also defines connections between components, ingresses to an application, and connections to external services, such as a database or a REST endpoint. Conceptually, the model captures information about the application which does not vary based on where the application is deployed.  A Verrazzano Binding (vb kubectl resource) is then used to map the Verrazzano application defined in the model to the deployment environment. For example, the WebLogic domain X always talks to database Y, no matter how many times this application is deployed. In a particular instance or deployment of the application, e.g. the "test" instance, there may be different credentials and a different URL to access the test version of Y database, but X always talks to Y. The application ***model*** then must define a connection to the database, but the actual credentials and URL used when the application is deployed is defined in the ***binding***. Bindings map the application to the environment.
 
 The combination of a model and and binding produces an instance of an application.
-Both the model and binding are meant to be sparse - they contain only the information
-that is needed from the user.  Anything that Verrazzano can infer or use a default value can be omitted from these files.
+Both the model and binding are meant to be sparse - they contain only the information that is needed to deploy the application.  Anything that Verrazzano can infer or use a default value can be omitted from these files.
 
 ## Structure of the `VerrazzanoApplicationModel`
 
@@ -61,10 +60,10 @@ VerrazzanoApplicationModel
             []-ingress
               -name                             the name of the ingress to connect to the domain
             []-database
-              target                            the name of the target component (defined in the model)
+              target                            the name of the database component defined in the model or databasebinding defined in the binding
               datasourceName                    the JDBC data source name within the WebLogic domain configuration for the database
             []-coherence
-              target                            the name of the target component (defined in the model)
+              target                            the name of the target Coherence cluster (defined in the model)
               address                           the coherence cluster services address
     []-coherenceClusters
         - name                                  the name of component and Coherence cluster
@@ -72,203 +71,51 @@ VerrazzanoApplicationModel
           imagePullSecrets
           cacheConfig
           pofConfig
-          []-connections
+          []-connections                         A list of connections needed by the Coherence cluster
             []-rest                              connections of type REST needed by the Coherence cluster
-               target                            the name of the target component
+               target                            the name of the target REST connection 
                -environmentVariableForHost       the dns name of the target component (its Kubernetes service)
                -environmentVariableForPort       the port for the target component
             []-ingress
-               -name                             the name of the ingress to connect to the cluster
+               -name                             the name of the ingress to connect to the cluster. Ingress details are defined in the binding using this name.
             []-database
-               target                            the name of the target component (defined in the model)
+               target                            the name of the target database component defined in the model or databasebinding defined in the binding
             []-coherence
-              target                            the name of the target component (defined in the model)
+              target                            the name of the target Coherence cluster (defined in the model)
               address                           the coherence cluster services address
     []-helidonApplications
-        name                                    the name of the component
+        name                                    the name of the component within the Verrazzano model
         image                                   the docker image:tag that runs the application
-        -imagePullSecret                        name of secret containing credentials for pulling image
-        []-connections                          See definition weblogicDomains
-           []-rest                              connections of type REST needed by the Helidon application
+        -imagePullSecret                        name of Kubernetes secret containing credentials for pulling the image
+        []-connections                          A list of connections needed by this application component
+           []-rest                              connections of type REST needed by the application
               target                            the name of the target component
               -environmentVariableForHost       the dns name of the target component (its Kubernetes service)
               -environmentVariableForPort       the port for the target component
            []-ingress
-              -name                             the name of the ingress to connect to the application
+              -name                             the name of the ingress to connect to the application. Ingress details are defined in the binding.
            []-database
-              target                            the name of the target component (defined in the model)
+              target                            the name of the target database component defined in the model or databasebinding defined in the binding
            []-coherence
-              target                            the name of the target component (defined in the model)
+              target                            the name of the target Coherence cluster defined in the model
               address      
         
 ```
+For an example Verrazzano model, see [demo-model](https://github.com/verrazzano/examples/blob/master/bobs-books/yaml/demo-model.yaml).
 
-Here is an example `VerrazzanoApplicationModel`:
-
-```yaml
-apiVersion: verrazzano.io/v1beta1
-kind: VerrazzanoModel
-metadata:
-  name: bobs-books-model
-  namespace: default
-spec:
-  description: "Bob's Books model"
-  weblogicDomains:
-    - name: bobbys-front-end
-      adminPort: 32701
-      t3Port: 32702
-      domainCRValues:
-        domainUID: bobbys-front-end
-        domainHome: /u01/oracle/user_projects/domains/bobbys-front-end
-        image: phx.ocir.io/stevengreenberginc/bobbys-front-end:324813
-        logHome: /u01/oracle/user_projects/domains/bobbys-front-end/logs
-        logHomeEnabled: false
-        includeServerOutInPodLog: true
-        replicas: 1
-        webLogicCredentialsSecret:
-          name: bobbys-front-end-weblogic-credentials
-        imagePullSecrets:
-          - name: ocir
-        clusters:
-          - clusterName: cluster-1
-        serverPod:
-          env:
-            - name: JAVA_OPTIONS
-              value: "-Dweblogic.StdoutDebugEnabled=false"
-            - name: USER_MEM_ARGS
-              value: "-Djava.security.egd=file:/dev/./urandom -Xms64m -Xmx256m "
-            - name: WL_HOME
-              value: /u01/oracle/wlserver
-            - name: MW_HOME
-              value: /u01/oracle
-      connections:
-        - ingress:
-            - name: bobbys-ingress
-              match:
-                - uri:
-                    prefix: "/bobbys-front-end"
-        - rest:
-            - target: "bobbys-helidon-stock-application"
-              environmentVariableForHost: "HELIDON_HOSTNAME"
-              environmentVariableForPort: "HELIDON_PORT"
-    - name: bobs-bookstore
-      adminPort: 32401
-      t3Port: 32402
-      domainCRValues:
-        domainUID: bobs-bookstore
-        domainHome: /u01/oracle/user_projects/domains/bobs-bookstore
-        image: phx.ocir.io/stevengreenberginc/bobs-bookstore-order-manager:324813
-        logHome: /u01/oracle/bobs-bookstore/logs
-        logHomeEnabled: false
-        includeServerOutInPodLog: true
-        replicas: 2
-        webLogicCredentialsSecret:
-          name: bobs-bookstore-weblogic-credentials
-        imagePullSecrets:
-          - name: ocir
-        clusters:
-          - clusterName: cluster-1
-        serverPod:
-          env:
-            - name: JAVA_OPTIONS
-              value: "-Dweblogic.StdoutDebugEnabled=false"
-            - name: USER_MEM_ARGS
-              value: "-Djava.security.egd=file:/dev/./urandom -Xms64m -Xmx256m "
-            - name: WL_HOME
-              value: /u01/oracle/wlserver
-            - name: MW_HOME
-              value: /u01/oracle
-            - name: DB_ADMIN_USER
-              valueFrom:
-                secretKeyRef:
-                  name: books-wallet
-                  key: user_name
-            - name: DB_ADMIN_PWD
-              valueFrom:
-                secretKeyRef:
-                  name: books-passphrase
-                  key: password
-            - name: WALLET_PWD
-              valueFrom:
-                secretKeyRef:
-                  name: books-passphrase
-                  key: walletPassword
-            - name: TNS_ADMIN
-              value: /db/wallet
-          volumeMounts:
-            - name: creds
-              mountPath: /db/wallet      
-          initContainers:
-          ...
-
-      connections:
-        - ingress:
-            - name: bobs-ingress
-              match:
-                - uri:
-                    prefix: "/bobs-bookstore-order-manager"
-        - atp:
-            - target: books  
-  helidonApplications:
-    - name: "bobbys-helidon-stock-application"
-      image: "phx.ocir.io/stevengreenberginc/bobbys-helidon-stock-application:428201"
-      imagePullSecrets:
-        - name: ocir
-      connections:
-        - coherence:
-            - target: "bobbys-coherence"
-              address: "bobbys-coherence-wka"
-        - rest:
-            - target: "bobs-bookstore"
-              environmentVariableForHost: "BACKEND_HOSTNAME"
-              environmentVariableForPort: "BACKEND_PORT"
-    - name: "roberts-helidon-stock-application"
-      image: "phx.ocir.io/stevengreenberginc/roberts-helidon-stock-application:428201"
-      imagePullSecrets:
-        - name: ocir
-      connections:
-        - ingress:
-            - name: "roberts-ingress"
-        - coherence:
-            - target: "roberts-coherence"
-              address: "roberts-coherence-wka"
-  coherenceClusters:
-    - name: "bobbys-coherence"
-      image: "phx.ocir.io/stevengreenberginc/bobbys-coherence:324813"
-      imagePullSecrets:
-        - name: ocir # secret to pull bobbys-coherence image from OCIR
-        - name: ocr  # secret to pull container-registry.oracle.com/middleware/coherence:12.2.1.4.0
-      cacheConfig: "bobbys-cache-config.xml"
-      pofConfig: "bobbys-pof-config.xml"
-    - name: "roberts-coherence"
-      image: "phx.ocir.io/stevengreenberginc/roberts-coherence:324813"
-      imagePullSecrets:
-        - name: ocir # secret to pull roberts-coherence image from OCIR
-        - name: ocr  # secret to pull container-registry.oracle.com/middleware/coherence:12.2.1.4.0
-      cacheConfig: "books-cache-config.xml"
-      pofConfig: "books-pof-config.xml"
-      connections:
-        - rest:
-            - target: "bobs-bookstore"
-              environmentVariableForHost: "BACKEND_HOSTNAME"
-              environmentVariableForPort: "BACKEND_PORT"
-```
-
-## Deployment Behavior
-When a Verrazzzano application is deployed, Verrazzano pushes custom resources to the managed clusters. Within the managed cluster, the component operator interprets the custom resource and deploys the component as defined. For example, if a WebLogic domain is defined in the model, Verrazzano pushes the WebLogic domain custom resource to the appriate managed cluster, and in that cluster, the WebLogic Kubernetes Operator deploys the domain as specified in the model. It is important to understand that the Verrazzano Model can contain custom resource specifications that the component operators (WebLogic, Coherence, and Helidon) can interpret. Much of the necessary component specification is included here, but complete documentation is included in the documentation for the component operator.
 
 See the following additional documentation:
 
 * WebLogic Kubernetes Operator Reference: [https://oracle.github.io/weblogic-kubernetes-operator/userguide/managing-domains/domain-resource/#domain-resource-spec-elements](https://oracle.github.io/weblogic-kubernetes-operator/userguide/managing-domains/domain-resource/#domain-resource-spec-elements)
-* Coherence Operator Reference: [https://oracle.github.io/coherence-operator/docs/2.1.0/#/clusters/010_introduction](https://oracle.github.io/coherence-operator/docs/2.1.0/#/clusters/010_introduction)
+* Coherence Operator Reference: [https://oracle.github.io/coherence-operator/docs/2.1.1/#/clusters/010_introduction](https://oracle.github.io/coherence-operator/docs/2.1.1/#/clusters/010_introduction)
 
 ## WebLogic Domain Components
-WebLogic domain components in a Verrazzano model represent the custom resource for the domain that is managed by the WebLogic Kubernetes Operator. Because the operator is what manages the domain, CR options that the model can handle are acceptable as entries in the component within the model file.
+WebLogic domain components in a Verrazzano model represent the custom resource for the WebLogic domain that is managed by the WebLogic Kubernetes Operator. Because the operator is what manages the domain, CR options that the model can handle are acceptable as entries in the component within the model file.
 
 {{< hint working >}}
 Limitations:
 
-* Verrazzano uses WebLogic Kubernetes Operator version 2.6. Any features or values added in latger versions of the operator are not valid.
+* Verrazzano uses WebLogic Kubernetes Operator version 2.6. Any features or values added in later versions of the operator are not valid.
 * "Domain Home in Image" is the only valid domain home strategy with Verrazzano in this early release. Future releases will include support for other domain home strategies.
 * Domain configuration overrides are not supported in this early release of Verrazzano, but will be supported in a future release. If you use secrets or config maps to store configuration overrides, those overrides will not be applied, and may cause other errors.
 * JRF domains are not supported in this early release of Verrazzano. Restricted JRF is supported.
@@ -304,17 +151,18 @@ A WebLogic domain component typically includes the following items:
 ## Coherence Cluster Components
 Note that support for Coherence is an experimental feature in this release of Verrazzano.
 
-Verrazzano relies on version 2.1.1 of the [Coherence Operator](https://github.com/oracle/coherence-operator).  See the documentation at [https://oracle.github.io/coherence-operator/docs/2.1.1/#/clusters/010_introduction](https://oracle.github.io/coherence-operator/docs/2.1.1/#/clusters/010_introduction). For the Coherence Clusters section of the Verrazzano model, valid values are determined by the Coherence operator.
+Verrazzano relies on version 2.1.1 of the [Coherence Operator](https://github.com/oracle/coherence-operator).  For the Coherence Clusters section of the Verrazzano model, Coherence custom resource values are defined in the Verrazzano and then converted to a custom resource that the Coherence operator can interpret.
 
 A Coherence cluster component must have the following item:
+
 * name
 
 Coherence cluster components typically have the following items:
+
 * image
 * imagePullSecrets
 * cacheConfig
-* pof
-* roles
+* pofConfig
 
 
 ## Helidon Application Components
@@ -339,7 +187,7 @@ Within a Verrazzano model, you can define the following connection types:
 * Ingress
 
 ### REST Connections
-You can define a REST connection from one component in the model to another component in the same model. When you define a REST connection between components, you can then define variable names that will be provided in the Verrazzano binding. Verrazzano also sets up netowrk policies that enable the components to communicate in the service mesh over TLS.
+You can define a REST connection from one component in the model to another component in the same model. When you define a REST connection between components, you can then define variable names that will be provided in the Verrazzano binding. Verrazzano also sets up network policies that enable the components to communicate in the service mesh over TLS.
 
 Settings:
 
@@ -360,51 +208,3 @@ In the Verrazzano Model, you can define connections to external databases. These
 
 * Target: name of the database to specify in a Verrazzano binding. That is, in the binding, you will define a database entry that the component will connect to.
 * DatasourceName: The name of the datasource within the WebLogic configuration that will map to the connected database.
-
-
-## Logic
-
-The combination of a model and and binding produces an instance of an application.
-Both the model and binding are meant to be sparse - they contain only the information
-that is needed from the user.  Anything that Verrazzano can infer or default is omited from
-these files.
-
-When a binding CRD is created, Verrazzano proceeds as follows:
-
-```
-// pseudocode
-
-// phase 1 - build the "to be" state
-build a list "components" from the model, include all details under each component
-
-iterate over the bindings file
-for each binding:
-    if you can find the matching connection in the "to be" state
-        update the connection with the information in the binding
-    else
-        abort
-
-for each placement:
-    if you can find the matching component in the "to be" state
-        update the component with its placement information
-    else
-        abort
-
-// phase 2 - build the "current" state
-
-iterate over the "to be" state
-for each component:
-    if that component already exists:
-        if the config matches the "to be" state
-            nothing to do, continue
-    else
-        mark the component to be created or updated (which is pretty much the same thing)
-
-// phase 3 - initiate updates
-
-iterate over the "to be" state
-for each component:
-    if the component is marked for create/update
-        create the CR that describes this component (* see below *)
-
-```
