@@ -1,10 +1,10 @@
 ---
-title: "Demo Applications"
+title: "Example Applications"
 weight: 9
 bookCollapseSection: true
 bookHidden: true
 ---
 
-# Demo Applications
+# Example Applications
 
-This section provides information about the demo apps.
+This section provides information about the example applications available for Verrazzano.
