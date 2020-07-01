@@ -208,3 +208,6 @@ In the Verrazzano Model, you can define connections to external databases. These
 
 * Target: name of the database to specify in a Verrazzano binding. That is, in the binding, you will define a database entry that the component will connect to.
 * DatasourceName: The name of the datasource within the WebLogic configuration that will map to the connected database.
+
+## Related kubectl Commands
+TBD

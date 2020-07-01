@@ -11,7 +11,7 @@ bookCollapseSection: true
 ** Important ** The details on this page are subject to change.
 {{< /hint >}}
 
-The Verrazzano Application Binding (vb) maps a Verrazzano Application Model to an environment. The binding defines placement of the components, environment-specific aspects of a component, and connection details for the connections defined in the model.
+The Verrazzano Application Binding (vb Kubernetes object type) maps a Verrazzano Application Model to an environment. The binding defines placement of the components, environment-specific aspects of a component, and connection details for the connections defined in the model.
 
 Adding a binding to the Verrazzano instance results in a running application: Namespaces are created in the specified clusters, components are deployed in those namespaces, and ingresses, network policies, and routing rules are created in the service mesh. Behind the scenes, Verrazzano also copies secrets where necessary, creates custom resources, and deploys operators for the various component types in the application model. 
 
