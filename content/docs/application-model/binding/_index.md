@@ -11,6 +11,8 @@ bookCollapseSection: true
 ** Important ** The details on this page are still subject to change.
 {{< /hint >}}
 
+test
+
 The Verrazzano Application Binding (vb) maps a Verrazzano Application Model to an environment. The binding defines placement of the components, environment-specific aspects of each component (such as volume mounts), and connection details for the connections defined in the model.
 
 Adding a binding to the Verrazzano instance results in a running application: Namespaces are created in the specified clusters, components are deployed in those namespaces, and ingresses, netowrik policies, and routing rules are created in the service mesh. 
@@ -68,7 +70,7 @@ VerrazzanoApplicationBinding
         -jmx
             -enabled
             -replicas
-            -maxHeap                            model or binding???
+            -maxHeap                            
         -readinessProbe
             -initialDelaySeconds
             -periodSeconds
