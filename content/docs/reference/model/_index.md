@@ -94,6 +94,7 @@ VerrazzanoApplicationModel
               -environmentVariableForPort       the port for the target component
            []-ingress
               -name                             the name of the ingress to connect to the application. Ingress details are defined in the binding.
+              -match
            []-database
               target                            the name of the target database component defined in the model or databasebinding defined in the binding
            []-coherence
