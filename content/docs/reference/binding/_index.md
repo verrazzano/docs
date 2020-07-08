@@ -112,3 +112,86 @@ spec:
     - name: "roberts-ingress"
       dnsName: "*"
 ```
+### Database Bindings
+The Verrazzano Model allows you to define connections to external databases.  You can then set the credentials and the URL for the database in the Verrazzano binding.  The database binding has the following fields: 
+
+* Name: The name of the database binding. A database connection in the model is linked by its `target` field to the database binding `name`.
+* Credentials: The credentials to be used to connect to the database.
+* URL: The URL for the database connection. 
+
+If a WebLogic component specifies a database connection that has a corresponding `databaseBinding` then the Verrazzano operators will:
+
+1. copy the secret specified in the `databaseBinding` to the namespace of the WebLogic domain.
+2. create a config map in the namespace of the WebLogic domain to specify overrides for the url and secret.  These configuration overrides (also called situational configuration) are used to customize the database configuration for the WebLogic domain.
+3. specify the override config map when the WebLogic domain is created.
+
+For example, if a `weblogicDomain` in the model has a database connection...
+
+```   
+connections:
+    - database:
+      - target: mysql
+       datasourceName: books
+```
+and the binding has a database binding...
+``` 
+ databaseBindings:
+  - credentials: mysqlsecret
+   name: mysql
+   url: jdbc:mysql://mysql.default.svc.cluster.local:3306/books
+``` 
+Then the secret `mysqlsecret` will be copied from the default namespace to the namespace specified in the binding placement for the WebLogic domain. The url will be added to the secret with the value from the database binding.  Note that the secret specified in the binding must exist in the default namespace before the model and binding are applied.
+
+``` 
+apiVersion: v1
+data:
+  password: xxxxxxxxx
+  url: amRiYzpteXNxbDovL215c3FsLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWw6MzMwNi9ib29rcw==
+  username: xxxxxxxx
+kind: Secret
+metadata:
+  labels:
+    weblogic.domainUID: bobs-bookstore
+  name: mysqlsecret
+  namespace: bob
+type: Opaque
+``` 
+A config map for override values will be created in the WebLogic domain namespace with values from the secret.
+
+``` 
+apiVersion: v1
+data:
+  jdbc-books.xml: |
+    <?xml version='1.0' encoding='UTF-8'?>
+    <jdbc-data-source xmlns="http://xmlns.oracle.com/weblogic/jdbc-data-source"
+                      xmlns:f="http://xmlns.oracle.com/weblogic/jdbc-data-source-fragment"
+                      xmlns:s="http://xmlns.oracle.com/weblogic/situational-config">
+      <name>books</name>
+      <jdbc-driver-params>
+        <url f:combine-mode="replace">jdbc:mysql://mysql.default.svc.cluster.local:3306/books</url>
+        <properties>
+           <property>
+              <name>user</name>
+              <value f:combine-mode="replace">${secret:mysqlsecret.username}</value>
+           </property>
+        </properties>
+        <password-encrypted f:combine-mode="replace">${secret:mysqlsecret.password}</password-encrypted>
+      </jdbc-driver-params>
+    </jdbc-data-source>
+  version.txt: "2.0"
+kind: ConfigMap
+metadata:
+  labels:
+    weblogic.domainUID: bobs-bookstore
+  name: jdbccm
+  namespace: bob
+``` 
+The overrides and override secrets are set when the WebLogic domain is created.
+``` 
+apiVersion: weblogic.oracle/v7
+kind: Domain
+...
+  configOverrideSecrets:
+  - mysqlsecret
+  configOverrides: jdbccm
+``` 
