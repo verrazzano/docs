@@ -91,7 +91,7 @@ spec:
     - --default-acme-issuer-challenge-type=dns01
     - --default-acme-issuer-dns01-provider-name=acmedns
     - --default-issuer-kind=ClusterIssuer
-    - --default-issuer-name=sauron-dyndns-issuer
+    - --default-issuer-name=verrazzano-dyndns-issuer
     - --renew-before-expiry-duration=360h
     - --v=6
     ...
