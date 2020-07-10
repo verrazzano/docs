@@ -8,4 +8,4 @@ bookCollapseSection: true
 
 ra ra ra
 
-An overview of Sauron goes here - including the operator, etc.
+An overview of Verrazzano monitoring goes here - including the operator, etc.

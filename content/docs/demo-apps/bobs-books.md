@@ -27,8 +27,8 @@ Bob's Books consists of three main parts:
 
 | "onprem" cluster | "cloud" cluster |
 | --- | --- |
-| **WebLogic 12.2.1.3 components** | **Sauron components** |
-| *(ns weblogicx-system)*  istio enabled| *(ns sauron0)* istio disabled |
+| **WebLogic 12.2.1.3 components** | **Verrazzano components** |
+| *(ns weblogicx-system)*  istio enabled| *(ns verrazzanosystem)* istio disabled |
 | weblogicx-service (svc) -> web (port 30000), apiserver (port 31456) | operator | 
 | fakeworkflow (port 8080) | elasticsearch | 
 | operatorsvc (port 8080) | kibana | 

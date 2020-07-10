@@ -86,14 +86,14 @@ as new information becomes available.
 
 // defaulted/infered values
 
-the domain will be configured to send logs to this application's sauron-provided elasticsearch
+the domain will be configured to send logs to this application's verrazzano-provided elasticsearch
     if component.logging.type is specified:
         if it is exporter:
             udpate the WebLogicLoggingExporter.yaml in `<domain_home>/config` with the right host/port
             it looks like this: 
 
-            publishHost:  {{ the sauron elasticsearch host }}
-            publishPort:  {{ the sauron elasticsearch port }}
+            publishHost:  {{ the verrazzano elasticsearch host }}
+            publishPort:  {{ the verrazzano elasticsearch port }}
             domainUID:  {{ component.name }}
             weblogicLoggingExporterEnabled: true
             weblogicLoggingIndexName:  {{  component.logging.index-pattern if specified, else "wls-"component.name }}
@@ -105,7 +105,7 @@ the domain will be configured to send logs to this application's sauron-provided
         if it is anything else:
             ignore for now
 
-this application's sauron-provided prometheus will be configured to scrape metrics from each pod in this domain
+this application's verrazzano-provided prometheus will be configured to scrape metrics from each pod in this domain
     if component.metrics is specified:
         create a ServiceMonitor object (??? check with Sandeep ???) 
         it looks like this: 
