@@ -16,6 +16,13 @@ pipeline {
     }
 
     stages {
+        stage('Copyright Compliance Check') {
+            when { not { buildingTag() } }
+            steps {
+                copyrightScan "${WORKSPACE}"
+            }
+        }
+
         stage('Setup Hugo') {
             steps {
                 sh """
