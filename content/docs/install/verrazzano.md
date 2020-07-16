@@ -7,17 +7,17 @@ weight: 4
 
 The following Verrazzano components need to be installed in the management cluster:
 
-* The Verrazzano custom resource definitions, operators and admission controllers.
-* The Verrazzano web user interface.
-* Verrazzano Monitoring Infrastructure.
-* NGINX ingress controller.
+* Verrazzano custom resource definitions, operators, and admission controllers
+* Verrazzano web user interface
+* Verrazzano Monitoring Infrastructure
+* NGINX ingress controller
 
 These components are installed using the provided Helm charts using the steps below:
 
-* As per the prerequisites, ensure you have Helm 3.1 or later.  You can check using
+* As per the prerequisites, ensure that you have Helm 3.1 or later.  You can check using
   this command:
 
-   ```bash 
+   ```bash
    helm version
    ```
 
