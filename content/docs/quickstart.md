@@ -23,29 +23,29 @@ or on [kind](https://kind.sigs.k8s.io/docs/user/quick-start/) (Kubernetes in Doc
 To install Verrazzano in a production environment, see the [Installation]() section instead.
 {{< /hint >}}
 
-### Obtain the Verrazzano Quick Start samples
+### Prerequisites
+
+To follow the Quick Start guide, you must have:
+* An Oracle Cloud account with permission to create OKE clusters.
+* At least 2 VMs available in your tenancy, with a shape equivalent to or better than VM.Standard2.4.
+* An Oracle ID for pulling images from the Oracle Container Registry.
+
+### Obtain the Verrazzano Quick Start repository
 
 Verrazzano Enterprise Container Platform software is available in open source on GitHub
 at [https://github.com/verrazzano](https://github.com/verrazzano).
 
-To follow the Quick Start guide, you must:
-* Meet the following prerequisites:
-  - An Oracle Cloud account with permission to create OKE clusters.
-  - At least 2 VMs available in your tenancy, with a shape equivalent to or better than VM.Standard2.4.
-  - An Oracle ID for pulling images from the Oracle Container Registry.
-
-* Download the appropriate sample files:
 
 {{< tabs "tabs-git-clone" >}}
 {{< tab "OKE" >}}
-Clone the samples repository:
+Clone the Quick Start repository:
 
 ```bash
 git clone https://github.com/verrazzano/quickstart-oke
 ```
 {{< /tab >}}
 {{< tab "Kind" >}}
-Clone the samples repository:
+Clone the Quick Start repository:
 
 ```bash
 git clone https://github.com/verrazzano/quickstart-kind
@@ -91,7 +91,7 @@ kind create cluster --config quickstart/kind-config.yaml
 ```
 
 Reminder: The `quickstart` directory is the one you created when you cloned
-the sample repostiory in the previous step.
+the Quick Start repository in the previous step.
 
 Kind will automatically update your `$HOME/.kube/config` file and set the correct
 context and cluster for you.
@@ -130,11 +130,6 @@ Verify the installation with this `kubectl` command:
 kubectl get pods --all-namespaces
 ```
 
-### Install the Bob's Books demonstration application (optional)
+### Install the Hello World Helidon demonstration application (optional)
 
-To install the sample application:
-
-1. clone repo
-2. create secrets
-3. apply model
-4. apply binding
+Follow the steps at [Hello World Helidon](https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md). 
