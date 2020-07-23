@@ -16,7 +16,7 @@ plane model with mutual TLS enabled.
 
 To install Istio:
 
-* Create a directory to hold the installation files, and change into this directory,
+* Create a directory to hold the installation files, and change to this directory,
   for example:
 
     ```bash
@@ -31,7 +31,7 @@ To install Istio:
     ```
 
 * Ensure you have `kubectl` configured to point to the correct cluster, for example
-  by setting the `KUBECONFIG` environment variable, or setting the correct cluster 
+  by setting the `KUBECONFIG` environment variable, or setting the correct cluster
   and context using the `kubectl config` commands.  Refer to the `kubectl` documentation
   for more details.
 
