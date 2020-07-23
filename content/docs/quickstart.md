@@ -63,9 +63,6 @@ To create a kind cluster:
 kind create cluster --config quickstart/kind-config.yaml
 ```
 
-Reminder: The `quickstart` directory is the one you created when you cloned
-the Verrazzano repository.
-
 Kind will automatically update your `$HOME/.kube/config` file and set the correct
 context and cluster for you.
 {{< /tab >}}
@@ -82,11 +79,6 @@ Clone the Verrazzano repository:
 $ git clone https://github.com/verrazzano/verrazzano
 $ cd verrazzano
 ```
-
-{{< hint info >}}
-This document will refer to this directory you just created as the `quickstart`
-directory.
-{{< /hint >}}
 
 ### Run the following commands:
 
