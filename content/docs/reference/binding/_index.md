@@ -162,22 +162,22 @@ A config map for override values will be created in the WebLogic domain namespac
 apiVersion: v1
 data:
   jdbc-books.xml: |
-    <?xml version='1.0' encoding='UTF-8'?>
-    <jdbc-data-source xmlns="http://xmlns.oracle.com/weblogic/jdbc-data-source"
-                      xmlns:f="http://xmlns.oracle.com/weblogic/jdbc-data-source-fragment"
-                      xmlns:s="http://xmlns.oracle.com/weblogic/situational-config">
-      <name>books</name>
-      <jdbc-driver-params>
-        <url f:combine-mode="replace">jdbc:mysql://mysql.default.svc.cluster.local:3306/books</url>
-        <properties>
-           <property>
-              <name>user</name>
-              <value f:combine-mode="replace">${secret:mysqlsecret.username}</value>
-           </property>
-        </properties>
-        <password-encrypted f:combine-mode="replace">${secret:mysqlsecret.password}</password-encrypted>
-      </jdbc-driver-params>
-    </jdbc-data-source>
+  <?xml version='1.0' encoding='UTF-8'?>
+  <jdbc-data-source xmlns="http://xmlns.oracle.com/weblogic/jdbc-data-source"
+                    xmlns:f="http://xmlns.oracle.com/weblogic/jdbc-data-source-fragment"
+                    xmlns:s="http://xmlns.oracle.com/weblogic/situational-config">
+    <name>books</name>
+    <jdbc-driver-params>
+      <url f:combine-mode="replace">jdbc:mysql://mysql:3306/books</url>
+      <properties>
+         <property>
+            <name>user</name>
+            <value f:combine-mode="replace">${secret:mysql-credentials.username}</value>
+         </property>
+      </properties>
+      <password-encrypted f:combine-mode="replace">${secret:mysql-credentials.password:encrypt}</password-encrypted>
+    </jdbc-driver-params>
+  </jdbc-data-source>
   version.txt: "2.0"
 kind: ConfigMap
 metadata:
