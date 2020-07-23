@@ -9,4 +9,4 @@ Select Quick Start to get started.
 
 To learn more, select Concepts.
 
-Source code is available at [https://github.com/verrazzano](https://github.com/verrazzano).
+Source code is available at [https://github.com/verrazzano/verrazzano](https://github.com/verrazzano/verrazzano).

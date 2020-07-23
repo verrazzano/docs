@@ -6,7 +6,7 @@ weight: 1
 # Quick Start
 
 Welcome to Oracle Verrazzano Enterprise Container Platform. Verrazzano is a curated
-collection of open source and Oracle-authored components that form a complete platform
+collection of open source components that form a complete platform
 for deploying and managing your container applications across multiple Kubernetes clusters.
 
 ## About this Quick Start
@@ -28,35 +28,7 @@ To install Verrazzano in a production environment, see the [Installation]() sect
 To follow the Quick Start guide, you must have:
 * An Oracle Cloud account with permission to create OKE clusters.
 * At least 2 VMs available in your tenancy, with a shape equivalent to or better than VM.Standard2.4.
-* An Oracle ID for pulling images from the Oracle Container Registry.
-
-### Obtain the Verrazzano Quick Start repository
-
-Verrazzano Enterprise Container Platform software is available in open source on GitHub
-at [https://github.com/verrazzano](https://github.com/verrazzano).
-
-
-{{< tabs "tabs-git-clone" >}}
-{{< tab "OKE" >}}
-Clone the Quick Start repository:
-
-```bash
-git clone https://github.com/verrazzano/quickstart-oke
-```
-{{< /tab >}}
-{{< tab "Kind" >}}
-Clone the Quick Start repository:
-
-```bash
-git clone https://github.com/verrazzano/quickstart-kind
-```
-{{< /tab >}}
-{{< /tabs >}}
-
-{{< hint info >}}
-This document will refer to this directory you just created as the `quickstart`
-directory.
-{{< /hint >}}
+* An Oracle ID for pulling images from the [Oracle Container Registry](https://container-registry.oracle.com).
 
 ### Create a Kubernetes cluster
 
@@ -69,15 +41,16 @@ To create an OKE cluster:
 1. Click **Create Cluster**.
 1. Use the "Quick Create" option to create a cluster with the following required
    network resources, then click **Launch Workflow**.
-    * Use Kubernetes version 1.15 or later.
+    * Use Kubernetes version 1.16.8 or later.
 	* Choose a shape with at least 4 cores, for example `VM.Standard2.4`.
 	* Create at least three nodes.
 	* If you want to use Kubernetes NodePorts to access your cluster, so that
 	  you do not need an OCI Load Balancer, make sure you select Public
 	  node visibility.
 1. Click **Create Cluster**.
-1. Follow the provided instructions to obtain the `kubeconfig` file and save
-   that on your machine.
+1. To access your cluster, click **Launch Cloud Shell**.
+1. Copy the `kubeconfig` file to Cloud Shell.
+
 {{< /tab >}}
 {{< tab "Kind" >}}
 To create a kind cluster:
@@ -91,35 +64,64 @@ kind create cluster --config quickstart/kind-config.yaml
 ```
 
 Reminder: The `quickstart` directory is the one you created when you cloned
-the Quick Start repository in the previous step.
+the Verrazzano repository.
 
 Kind will automatically update your `$HOME/.kube/config` file and set the correct
 context and cluster for you.
 {{< /tab >}}
 {{< /tabs >}}
 
-### Install Istio
+### Obtain the Verrazzano repository
 
-Install Istio in your cluster using the provided script:
+Verrazzano Enterprise Container Platform software is available in open source on GitHub
+at [https://github.com/verrazzano/verrazzano](https://github.com/verrazzano/verrazzano).
 
-```bash
-quickstart/install-istio.sh
-```
-
-### Install Rancher
-
-Install Rancher in your cluster using the provided script:
+Clone the Verrazzano repository:
 
 ```bash
-quickstart/install-rancher.sh
+$ git clone https://github.com/verrazzano/verrazzano
+$ cd verrazzano
 ```
+
+{{< hint info >}}
+This document will refer to this directory you just created as the `quickstart`
+directory.
+{{< /hint >}}
+
+### Run the following commands:
+
+
+{{< tabs "tabs-git-clone" >}}
+{{< tab "OKE" >}}
+
+```bash
+$ export CLUSTER_TYPE=OKE
+```
+{{< /tab >}}
+{{< tab "Kind" >}}
+
+```bash
+$ export CLUSTER_TYPE=KIND
+```
+{{< /tab >}}
+{{< /tabs >}}
+
+```bash
+$ export VERRAZZANO_KUBECONFIG=~/.kube/config
+$ export KUBECONFIG=~/.kube/config
+$ kubectl create secret docker-registry ocr --docker-username=<username> --docker-password=<password> --docker-server=container-registry.oracle.com
+```
+
 
 ### Install Verrazzano
 
-Install Verrazzano in your cluster using the provided script:
+Install Verrazzano in your cluster using the provided scripts:
 
 ```bash
-quickstart/install-verrazzano.sh
+./install/1-install-istio.sh
+./install/2-install-system-components-magicdns.sh
+./install/3-install-verrazzano.sh
+./install/4-install-keycloak.sh
 ```
 
 ### Access the environment
@@ -132,4 +134,4 @@ kubectl get pods --all-namespaces
 
 ### Install the Hello World Helidon demonstration application (optional)
 
-Follow the steps at [Hello World Helidon](https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md). 
+Follow the steps at [Hello World Helidon](https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md).
