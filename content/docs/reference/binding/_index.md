@@ -24,6 +24,8 @@ information about an application, for example, information that would be differe
 deployment/instance.  A good example would be credentials and URLs used to connect to a
 database.  Bindings refer to (and extend) "models" (see below).
 
+**Note**: A hyphen prefix denotes an optional element.
+
 ```
 kind: VerrazzanoBinding
 metadata:
@@ -56,8 +58,6 @@ spec:
                 name           
 
 ```
-
-Note: A hyphen prefix denotes an optional element.
 
 Here is an example of a `VerrazzanoApplicationBinding`:
 
@@ -113,7 +113,7 @@ spec:
       dnsName: "*"
 ```
 ### Database Bindings
-The Verrazzano Model allows you to define connections to external databases.  You can then set the credentials and the URL for the database in the Verrazzano binding.  The database binding has the following fields:
+The Verrazzano Model allows you to define connections to external databases.  You can then set the credentials and the URL for the database in the Verrazzano Binding.  The database binding has the following fields:
 
 * Name: The name of the database binding. A database connection in the model is linked by its `target` field to the database binding `name`.
 * Credentials: The credentials to be used to connect to the database.
