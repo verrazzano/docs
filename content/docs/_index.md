@@ -1,5 +1,5 @@
 ---
-weight: 3
+weight: 1
 bookCollapseSection: true
 ---
 # Welcome to Verrazzano

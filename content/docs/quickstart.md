@@ -1,6 +1,6 @@
 ---
 title: "Quick Start"
-weight: 1
+weight: 2
 ---
 
 # Quick Start
