@@ -5,7 +5,7 @@ bookCollapseSection: true
 # Welcome to Verrazzano
 Verrazzano is an enterprise container platform built from open source components.
 
-Select Quick Start to get started.
+Select [Quick Start](quickstart) to get started.
 
 To learn more, select Concepts.
 
