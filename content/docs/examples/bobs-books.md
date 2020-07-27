@@ -3,9 +3,9 @@ title: "Bob's Books"
 weight: 2
 ---
 
-# Bob's Books Demo Application
+# Bob's Books Sample Application
 
-The `Bob's Books` demo application is located in the repository `https://github.com/verrazzano/examples`.
+The `Bob's Books` sample application is located in the repository `https://github.com/verrazzano/examples`.
 
 Bob's Books consists of three main parts:
 
@@ -15,24 +15,24 @@ Bob's Books consists of three main parts:
   Server.
 * A front end web store "Robert's Books" which is a general book
   seller.  This is implemented as a Helidon microservice which
-  gets book data from Coherence, uses a Coherence cache store to persist 
+  gets book data from Coherence, uses a Coherence cache store to persist
   data for the order manager, and has a React web UI.
 * A front end web store "Bobby's Books" which is a specialist
   children's book store.  This is implemented as a Helidon
   microservice which gets book data from a (different) Coherence,
-  interfaces directly with the order manager, 
+  interfaces directly with the order manager,
   and has a JSF Faces web UI running on WebLogic Server.
-  
+
 **TBD - DO WE WANT TO KEEP THIS SECTION, IF SO WE NEED TO CLEAN THIS UP?** When fully deployed, the environment will look like this:
 
 | "onprem" cluster | "cloud" cluster |
 | --- | --- |
 | **WebLogic 12.2.1.3 components** | **Verrazzano components** |
 | *(ns weblogicx-system)*  istio enabled| *(ns verrazzanosystem)* istio disabled |
-| weblogicx-service (svc) -> web (port 30000), apiserver (port 31456) | operator | 
-| fakeworkflow (port 8080) | elasticsearch | 
-| operatorsvc (port 8080) | kibana | 
-| domainsvc (port 8080) | prometheus | 
+| weblogicx-service (svc) -> web (port 30000), apiserver (port 31456) | operator |
+| fakeworkflow (port 8080) | elasticsearch |
+| operatorsvc (port 8080) | kibana |
+| domainsvc (port 8080) | prometheus |
 | imagebldsvc (port 8080) | grafana |
 | k8ssvc (port 8080) | api |
 | cohclustersvc (port 8080) | auth |
@@ -44,15 +44,15 @@ Bob's Books consists of three main parts:
 | bobs-bookstore-order-manager-cluster-1 (svc) -> bobs-bookstore-managed-server[1..n] | bobbys-front-end (svc) -> bobbys-front-end-managed-server[1..n] |
 | bobs-bookstore-admin-server (+ svcs) (port 32402, 32403, 31111) | bobbys-front-end-admin-server (+ svcs) (port 32702, 32703, 31111) |
 | bobs-bookstore-weblogic-credentials (sec) | bobbys-front-end-weblogic-credentials (sec) |
-| mysql-server (svc) -> mysql-xxx (istio disabled) (port 3306) | bobbys-helidon-stock-application (svc) -> bobbys-helidon-stock-application-xxx | 
+| mysql-server (svc) -> mysql-xxx (istio disabled) (port 3306) | bobbys-helidon-stock-application (svc) -> bobbys-helidon-stock-application-xxx |
 | | bobbys-coherence (svc) -> bobbys-coherence-[0..n] (istio disabled) |
 | | *(ns robert)* istio enabled |
 | | roberts-helidon-stock-application (svc) -> roberts-helidon-stock-application-xxx |
-| | roberts-coherence (svc) -> roberts-coherence-[0..n] (istio disabled) | 
+| | roberts-coherence (svc) -> roberts-coherence-[0..n] (istio disabled) |
 | **Istio** | **Istio** |
 | bobs-bookstore (virtual service) | bobs-bookstore (istio service entry) |
-| | bobbys-front-end (istio virtual service) | 
-| | roberts-helidon-stock-application (istio virtual service) | 
+| | bobbys-front-end (istio virtual service) |
+| | roberts-helidon-stock-application (istio virtual service) |
 
 ## How to Deploy the Demo
 The files `superdomain/demo-model.yaml` and `superdomain/demo-binding.yaml` define the demo environment.  They assume a verrazzano installation was completed that created a single management cluster and two managed clusters.  The management cluster contains the verrazzano infrastructure components, the managed clusters will be used to run the demo app (e.g. run weblogic domains, coherence and helidon applications).
@@ -79,7 +79,7 @@ kubectl create secret docker-registry ocir \
 
 The secret `ocr` contains the credentials required for pulling the `coherence` docker images.
 ```text
-kubectl create secret docker-registry ocr \ 
+kubectl create secret docker-registry ocr \
     --docker-server=container-registry.oracle.com \
     --docker-username='<USERNAME>' \
     --docker-password='<PASSWORD>' \
