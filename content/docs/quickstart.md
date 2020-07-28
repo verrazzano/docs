@@ -5,7 +5,7 @@ weight: 2
 
 # Quick Start
 
-Welcome to Oracle Verrazzano Enterprise Container Platform. Verrazzano is a curated
+Welcome to Verrazzano. Verrazzano is a curated
 collection of open source components that form a complete platform
 for deploying and managing your container applications across multiple Kubernetes clusters.
 
@@ -17,10 +17,10 @@ This is primarily intended for setting up an environment for development and tes
 
 The Quick Start may be run either on [Oracle Cloud Infrastructure Container Engine for
 Kubernetes](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm) (OKE)
-or on [kind](https://kind.sigs.k8s.io/docs/user/quick-start/) (Kubernetes in Docker).
+or an Oracle Linux Cloud Native Environment (OLCNE) cluster.
 
 {{< hint info >}}
-To install Verrazzano in a production environment, see the [Installation]() section instead.
+To install Verrazzano in a production environment, see the [Installation](../install/) section instead.
 {{< /hint >}}
 
 ### Prerequisites
@@ -32,8 +32,7 @@ To follow the Quick Start guide, you must have:
 
 ### Create a Kubernetes cluster
 
-{{< tabs "tabs-create-cluster" >}}
-{{< tab "OKE" >}}
+
 To create an OKE cluster:
 
 1. Log in to the [OCI Console](https://console.us-phoenix-1.oraclecloud.com/).
@@ -51,22 +50,6 @@ To create an OKE cluster:
 1. To access your cluster, click **Launch Cloud Shell**.
 1. Copy the `kubeconfig` file to Cloud Shell.
 
-{{< /tab >}}
-{{< tab "Kind" >}}
-To create a kind cluster:
-
-1. Download the latest stable release of kind from the [kind releases page](https://github.com/kubernetes-sigs/kind/releases).
-1. Rename this file `kind` and place it in your `PATH`.
-1. Create a cluster using the provided sample configuration:
-
-```bash
-kind create cluster --config quickstart/kind-config.yaml
-```
-
-Kind will automatically update your `$HOME/.kube/config` file and set the correct
-context and cluster for you.
-{{< /tab >}}
-{{< /tabs >}}
 
 ### Obtain the Verrazzano repository
 
@@ -83,22 +66,8 @@ $ cd verrazzano
 ### Run the following commands:
 
 
-{{< tabs "tabs-git-clone" >}}
-{{< tab "OKE" >}}
-
 ```bash
 $ export CLUSTER_TYPE=OKE
-```
-{{< /tab >}}
-{{< tab "Kind" >}}
-
-```bash
-$ export CLUSTER_TYPE=KIND
-```
-{{< /tab >}}
-{{< /tabs >}}
-
-```bash
 $ export VERRAZZANO_KUBECONFIG=~/.kube/config
 $ export KUBECONFIG=~/.kube/config
 $ kubectl create secret docker-registry ocr --docker-username=<username> --docker-password=<password> --docker-server=container-registry.oracle.com
@@ -124,6 +93,9 @@ Verify the installation with this `kubectl` command:
 kubectl get pods --all-namespaces
 ```
 
-### Install the Hello World Helidon demonstration application (optional)
+### Deploy the example applications (optional)
 
-Follow the steps at [Hello World Helidon](https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md).
+See the following instructions:
+
+- [Hello World Helidon ](https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md)
+- [Bob's Books](https://github.com/verrazzano/verrazzano/tree/master/examples/bobs-books/README.md)
