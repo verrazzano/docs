@@ -1,8 +1,12 @@
 ---
 title: "Verify the Environment"
-weight: 5
+weight: 3
 ---
 
 # Verify the Environment
 
-ra
+Verify the installation with this `kubectl` command:
+
+```bash
+kubectl get pods --all-namespaces
+```
