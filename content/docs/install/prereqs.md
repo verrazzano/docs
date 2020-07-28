@@ -58,8 +58,8 @@ The following prerequisites must be met to install the Verrazzano Enterprise Con
   solution like Oracle Cloud Infrastructure FastConnect.  You must be able to route IP traffic
   from each worker in each cluster to either each worker in every other cluster, or alternatively
   to a load balancer which provides access to workers in each other cluster.
-* A DNS provider where you can create DNS `A` and `CNAME` records. This could
-  be a "magic DNS" service like [xip.io](http://xip.io) for a non-production environment.
+* A DNS provider where you can create DNS `A` and `CNAME` records. For a non-production environment, this could
+  be a "magic DNS" service like [xip.io](http://xip.io).
 * A load balancer in front of the worker nodes in each cluster.  For a non-production environment,
   you may choose to access your clusters using NodePorts instead, in which case the load balancer
   is not required.
@@ -120,7 +120,7 @@ they should be declared with a `storageClassName` as shown:
 #### Networking
 
 ##### Oracle Linux Cloud Native Environment
-When installing Verrazzano on Oracle Linux Cloud Native Environment (OLCNE) it's likely you will be using your
+When installing Verrazzano on Oracle Linux Cloud Native Environment (OLCNE), it's likely you will be using your
 own external load balancer services, not those dynamically provided by Kubernetes.
 Prior to installation, two load balancers should be deployed, one for management traffic and one
 for general traffic.
