@@ -5,15 +5,15 @@ weight: 2
 
 # Quick Start
 
-Welcome to Verrazzano. Verrazzano is a curated
+Introducing Verrazzano, a curated
 collection of open source components that form a complete platform
 for deploying and managing your container applications across multiple Kubernetes clusters.
 
 ## About this Quick Start
 
-This Quick Start guide describes how to quickly and easily set up Verrazzano in
+This Quick Start describes how to quickly and easily set up Verrazzano in
 a single cluster environment with sensible defaults.
-This is primarily intended for setting up an environment for development and testing purposes.
+This is primarily intended for setting up development and testing environments.
 
 The Quick Start may be run either on [Oracle Cloud Infrastructure Container Engine for
 Kubernetes](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm) (OKE)
@@ -25,7 +25,7 @@ To install Verrazzano in a production environment, see the [Installation](../ins
 
 ### Prerequisites
 
-To follow the Quick Start guide, you must have:
+To follow the Quick Start, you must have:
 * An Oracle Cloud account with permission to create OKE clusters.
 * At least 2 VMs available in your tenancy, with a shape equivalent to or better than VM.Standard2.4.
 * An Oracle ID for pulling images from the [Oracle Container Registry](https://container-registry.oracle.com).
@@ -53,7 +53,7 @@ To create an OKE cluster:
 
 ### Obtain the Verrazzano repository
 
-Verrazzano Enterprise Container Platform software is available in open source on GitHub
+Verrazzano software is available in open source on GitHub
 at [https://github.com/verrazzano/verrazzano](https://github.com/verrazzano/verrazzano).
 
 Clone the Verrazzano repository:
@@ -63,7 +63,7 @@ $ git clone https://github.com/verrazzano/verrazzano
 $ cd verrazzano
 ```
 
-### Run the following commands:
+Run the following commands:
 
 
 ```bash
@@ -95,7 +95,7 @@ kubectl get pods --all-namespaces
 
 ### Deploy the example applications (optional)
 
-See the following instructions:
+See the instructions at:
 
 - [Hello World Helidon ](https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md)
 - [Bob's Books](https://github.com/verrazzano/verrazzano/tree/master/examples/bobs-books/README.md)

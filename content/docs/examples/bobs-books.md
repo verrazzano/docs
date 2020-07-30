@@ -5,8 +5,6 @@ weight: 2
 
 # Bob's Books Example Application
 
-The `Bob's Books` sample application is located in the repository `https://github.com/verrazzano/examples`.
-
 Bob's Books consists of three main parts:
 
 * A back-end "order processing" application, which is a Java EE
@@ -24,3 +22,5 @@ Bob's Books consists of three main parts:
   and has a JSF Faces web UI running on WebLogic Server.
 
 To deploy the application, see [Bob's Books](https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/README.md).
+
+The `Bob's Books` example application is located in the repository [`https://github.com/verrazzano/examples`](https://github.com/verrazzano/examples).
