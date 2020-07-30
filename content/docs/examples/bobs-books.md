@@ -23,4 +23,4 @@ Bob's Books consists of three main parts:
 
 To deploy the application, see [Bob's Books](https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/README.md).
 
-The `Bob's Books` example application is located in the repository [`https://github.com/verrazzano/examples`](https://github.com/verrazzano/examples).
+The Bob's Books example application is located in the repository [`https://github.com/verrazzano/examples`](https://github.com/verrazzano/examples).
