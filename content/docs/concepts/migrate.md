@@ -12,8 +12,5 @@ The Discover Domain Tool introspects an existing domain and creates a model file
 For detailed usage instructions, see the [Discover Domain Tool](https://github.com/oracle/weblogic-deploy-tooling/blob/master/site/discover.md).
 
 The Prepare Model Tool prepares model files for deploying to specific target environments. For detailed usage instructions, see the
-[Prepare Model Tool](https://github.com/oracle/weblogic-deploy-tooling/blob/master/site/prepare.md).
-
-
-For information on how target an Verrazzano environment,
+[Prepare Model Tool](https://github.com/oracle/weblogic-deploy-tooling/blob/master/site/prepare.md). For information on how target an Verrazzano environment,
 see [The Verrazzano Target](https://github.com/oracle/weblogic-deploy-tooling/blob/master/site/config/target_env.md#the-verrazzano-target).
