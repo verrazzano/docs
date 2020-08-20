@@ -42,7 +42,7 @@ Bob's Books consists of three main parts:
 | **Demo App components** | **Demo App components** |
 | *(ns bob)* istio enabled | *(ns bobby)* istio enabled |
 | bobs-bookstore-order-manager-cluster-1 (svc) -> bobs-bookstore-managed-server[1..n] | bobbys-front-end (svc) -> bobbys-front-end-managed-server[1..n] |
-| bobs-bookstore-admin-server (+ svcs) (port 32402, 32403, 31111) | bobbys-front-end-admin-server (+ svcs) (port 32702, 32703, 31111) |
+| bobs-bookstore-adminserver (+ svcs) (port 32402, 32403, 31111) | bobbys-front-end-adminserver (+ svcs) (port 32702, 32703, 31111) |
 | bobs-bookstore-weblogic-credentials (sec) | bobbys-front-end-weblogic-credentials (sec) |
 | mysql-server (svc) -> mysql-xxx (istio disabled) (port 3306) | bobbys-helidon-stock-application (svc) -> bobbys-helidon-stock-application-xxx |
 | | bobbys-coherence (svc) -> bobbys-coherence-[0..n] (istio disabled) |
