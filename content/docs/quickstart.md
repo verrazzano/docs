@@ -36,7 +36,7 @@ To follow the Quick Start, you must have:
 To create an OKE cluster:
 
 1. Log in to the [OCI Console](https://console.us-phoenix-1.oraclecloud.com/).
-1. Navigate to Developer Services and select the "Container Clusters (OKE)" page.
+1. Navigate to Developer Services and select the "Kubernetes Clusters" page.
 1. Click **Create Cluster**.
 1. Use the "Quick Create" option to create a cluster with the following required
    network resources, then click **Launch Workflow**.
@@ -80,7 +80,7 @@ Install Verrazzano in your cluster using the provided scripts:
 
 ```bash
 ./install/1-install-istio.sh
-./install/2-install-system-components-magicdns.sh
+./install/2a-install-system-components-magicdns.sh
 ./install/3-install-verrazzano.sh
 ./install/4-install-keycloak.sh
 ```
@@ -99,3 +99,5 @@ See the instructions at:
 
 - [Hello World Helidon ](https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md)
 - [Bob's Books](https://github.com/verrazzano/verrazzano/tree/master/examples/bobs-books/README.md)
+- [Helidon Sock Shop](https://github.com/verrazzano/verrazzano/blob/master/examples/sock-shop/README.md)
+- [ToDo List Lift-and-Shift Application](https://github.com/verrazzano/examples/blob/master/todo-list/README.md)
