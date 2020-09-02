@@ -8,20 +8,18 @@ pipeline {
     agent {
     
         docker {
-            label 'VM.Standard2.8'
-            image 'oraclelinux:8-slim'
-            args '-u root:root -v /publish:${WORKSPACE}/publish/'
+            image "${RUNNER_DOCKER_IMAGE}"
+            args "${RUNNER_DOCKER_ARGS}"
+            registryUrl "${RUNNER_DOCKER_REGISTRY_URL}"
+            registryCredentialsId 'ocir-pull-and-push-account'
         }
     }
 
     stages {
-        stage('Setup Hugo') {
+        stage('Setup Dependencies') {
             steps {
                 sh """
-                    microdnf install -y wget git tar
-                    wget https://github.com/gohugoio/hugo/releases/download/v0.68.3/hugo_extended_0.68.3_Linux-64bit.tar.gz
-                    tar xzvf hugo_extended_0.68.3_Linux-64bit.tar.gz hugo
-                    mv hugo /bin
+                    npm install
                 """
             }
         }
@@ -36,9 +34,6 @@ pipeline {
         }
 
         stage('Publish documentation') {
-            when {
-                branch pattern: "master"
-            }
             steps {
                 archiveArtifacts artifacts: 'public/**'
             }
