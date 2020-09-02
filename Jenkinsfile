@@ -8,7 +8,7 @@ pipeline {
     agent {
     
         docker {
-            image "phx.ocir.io/stevengreenberginc/verrazzano/jenkins-runner-ci-jenkins:11"
+            image "${RUNNER_DOCKER_IMAGE}"
             args "${RUNNER_DOCKER_ARGS}"
             registryUrl "${RUNNER_DOCKER_REGISTRY_URL}"
             registryCredentialsId 'ocir-pull-and-push-account'
