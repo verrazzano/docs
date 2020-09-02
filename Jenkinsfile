@@ -34,9 +34,6 @@ pipeline {
         }
 
         stage('Publish documentation') {
-            when {
-                branch pattern: "master"
-            }
             steps {
                 archiveArtifacts artifacts: 'public/**'
             }
