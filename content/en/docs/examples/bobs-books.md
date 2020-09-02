@@ -13,11 +13,11 @@ Bob's Books consists of three main parts:
   seller.  This is implemented as a Helidon microservice, which
   gets book data from Coherence, uses a Coherence cache store to persist
   data for the order manager, and has a React web UI.
-* A front-end web store "Bobby's Books", which is a specialist
+* A front-end web store "Bobby's Books", which is a specialty
   children's book store.  This is implemented as a Helidon
-  microservice, which gets book data from a (different) Coherence,
+  microservice, which gets book data from a (different) Coherence cache store,
   interfaces directly with the order manager,
-  and has a JSF Faces web UI running on WebLogic Server.
+  and has a JSF web UI running on WebLogic Server.
 
 To deploy the application, see [Bob's Books](https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/README.md).
 
