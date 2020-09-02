@@ -15,6 +15,16 @@ pipeline {
         }
     }
 
+    parameters {
+        booleanParam (name: 'PUBLISH_TO_GH_PAGES',
+                defaultValue: false,
+                description: 'When true, builds the production website and pushes to the gh-pages branch')
+    }
+
+    environment {
+        GIT_AUTH = credentials('github-packages-credentials-rw')
+    }
+
     stages {
         stage('Setup Dependencies') {
             steps {
@@ -33,9 +43,30 @@ pipeline {
             }
         }
 
-        stage('Publish documentation') {
+        stage('Build production documentation') {
             steps {
-                archiveArtifacts artifacts: 'staging/**'
+                sh """
+                    mkdir -p public
+                    hugo --source . --destination production --environment production
+                """
+            }
+        }
+
+        stage('Archive artifacts ') {
+            steps {
+               archiveArtifacts artifacts: 'staging/**'
+               archiveArtifacts artifacts: 'production/**'
+            }
+        }
+
+        stage('Publish documentation to gh-pages') {
+            when { equals expected: true, actual: params.PUBLISH_TO_GH_PAGES }
+            steps {
+                sh """
+                    npm -g install gh-pages@3.0.0
+                    git config --local credential.helper "!f() { echo username=\\$GIT_USERNAME; echo password=\\$GIT_PASSWORD; }; f"
+                    gh-pages -d production -b gh-pages
+                """
             }
         }
     }
