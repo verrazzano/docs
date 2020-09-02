@@ -1,6 +1,6 @@
 ---
 title: "Welcome to Verrazzano"
-linkTitle: "Welcome to Verrazzano"
+linkTitle: "Documentation"
 weight: 20
 menu:
   main:

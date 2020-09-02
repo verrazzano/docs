@@ -24,18 +24,18 @@ pipeline {
             }
         }
 
-        stage('Build documentation') {
+        stage('Build staging documentation') {
             steps {
                 sh """
-                    mkdir -p public/docs
-                    hugo --source . --destination public
+                    mkdir -p staging
+                    hugo --source . --destination staging --environment staging
                 """
             }
         }
 
         stage('Publish documentation') {
             steps {
-                archiveArtifacts artifacts: 'public/**'
+                archiveArtifacts artifacts: 'staging/**'
             }
         }
     }
