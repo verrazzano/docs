@@ -26,6 +26,14 @@ pipeline {
             }
         }
 
+        stage('Setup Dependencies') {
+            steps {
+                sh """
+                    npm install
+                """
+            }
+        }
+
         stage('Build documentation') {
             steps {
                 sh """
