@@ -8,7 +8,7 @@ pipeline {
     agent {
     
         docker {
-            image "${RUNNER_DOCKER_IMAGE}"
+            image "phx.ocir.io/stevengreenberginc/verrazzano/jenkins-runner-ci-jenkins:5"
             args "${RUNNER_DOCKER_ARGS}"
             registryUrl "${RUNNER_DOCKER_REGISTRY_URL}"
             registryCredentialsId 'ocir-pull-and-push-account'
@@ -16,18 +16,6 @@ pipeline {
     }
 
     stages {
-        stage('Setup Hugo') {
-            steps {
-                sh """
-                    sudo yum -y install gcc-c++
-                    curl -L https://github.com/gohugoio/hugo/archive/v0.74.3.tar.gz | tar zxvf -
-                    pushd hugo-0.74.3
-                    go install
-                    popd
-                """
-            }
-        }
-
         stage('Setup Dependencies') {
             steps {
                 sh """
