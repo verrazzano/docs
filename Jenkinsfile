@@ -19,7 +19,7 @@ pipeline {
         stage('Setup Hugo') {
             steps {
                 sh """
-                    sudo yum -y install gcc-g++
+                    sudo yum -y install gcc-c++
                     curl -L https://github.com/gohugoio/hugo/archive/v0.74.3.tar.gz | tar zxvf -
                     cd hugo-0.74.3
                     go install
