@@ -3,8 +3,6 @@ title: "Quick Start"
 weight: 2
 ---
 
-# Quick Start
-
 Introducing Verrazzano, a curated
 collection of open source components that form a complete platform
 for deploying and managing your container applications across multiple Kubernetes clusters.

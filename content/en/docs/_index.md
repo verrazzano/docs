@@ -1,12 +1,11 @@
 ---
-title: "Docs"
-linkTitle: "Docs"
+title: "Welcome to Verrazzano"
+linkTitle: "Welcome to Verrazzano"
 weight: 20
 menu:
   main:
     weight: 20
 ---
-# Welcome to Verrazzano
 Verrazzano is an enterprise container platform built from open source components.
 
 Select [Quick Start](quickstart) to get started.

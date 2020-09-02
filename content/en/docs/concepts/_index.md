@@ -4,7 +4,6 @@ weight: 3
 bookCollapseSection: false
 ---
 
-# Concepts
 <!---
 >
 > Notes to Author - need to include the following information within the Concepts section:
