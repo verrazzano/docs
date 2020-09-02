@@ -20,11 +20,11 @@ draft: true
 
 Verrazzano Enterprise Container Platform is a curated collection of open source and Oracle-authored components that form a complete platform for modernizing existing applications, and for deploying and managing your container applications across multiple Kubernetes clusters.
 
-Most enterprises have applications that are related to each other, may even be dependant on one another, and are best managed together. For example, if an application system has a front-end web application, a back-end Java EE application, and a series of microservices that provide additional functionality, that application is best managed and monitored as a unit, even if some of the components need to run in different environments or on different clouds.
+Most enterprises have applications that are related to each other, may even be dependent on one another, and are best managed together. For example, if an application system has a front-end web application, a back-end Java EE application, and a series of microservices that provide additional functionality, that application is best managed and monitored as a unit, even if some of the components need to run in different environments or on different clouds.
 
-With Verrazzano Enterprise Container Platform, you can create a model of this application system, and then manage the life cycle of all of the components from a single tool. Verrazzano automatically creates a pre-wired monitoring stack (Prometheus, Grafana, and the EFK stack) for the complete application so that you can view runtime status, troubleshoot, and set up alerts for all of the application components.
+With Verrazzano Enterprise Container Platform, you can create a model of this application system, and then manage the life cycle of all of the components from a single tool. Verrazzano creates a pre-wired monitoring stack (Prometheus, Grafana, and the EFK stack) for the complete application so that you can view runtime status, troubleshoot, and set up alerts for all of the application components.
 
-Verrazzano Enterprise Container Platform includes the following capabilites:
+Verrazzano Enterprise Container Platform includes the following capabilities:
 
 * Hybrid and multi-cluster workload management
 * Special handling for WebLogic, Coherence, and Helidon applications
@@ -56,7 +56,7 @@ With Verrazzano, you can include WebLogic domains in your Verrazzano Application
 
 # Verrazzano Components
 <!---
-* Oracle-authored components, including custom resource definitions and microperators
+* Oracle-authored components, including custom resource definitions and micro operators
 * Istio
 * Rancher
 * Prometheus
