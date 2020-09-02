@@ -23,6 +23,7 @@ pipeline {
                     curl -L https://github.com/gohugoio/hugo/archive/v0.74.3.tar.gz | tar zxvf -
                     cd hugo-0.74.3
                     go install
+                    cd $HOME
                 """
             }
         }
