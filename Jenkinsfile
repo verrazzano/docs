@@ -47,7 +47,7 @@ pipeline {
             steps {
                 sh """
                     mkdir -p public
-                    hugo --source . --destination production --environment production
+                    env HUGO_ENV=production hugo --source . --destination production --environment production
                 """
             }
         }
