@@ -64,9 +64,9 @@ pipeline {
             steps {
                 sh """
                     npm -g install gh-pages@3.0.0
-                    git config --local credential.helper "!f() { echo username=\\$GIT_AUTH_USR; echo password=\\$GIT_AUTH_PSW; }; f"
-                    git config user.name $GIT_AUTH_USR 
-                    git config user.email "70212020+verrazzanobot@users.noreply.github.com"
+                    git config --global credential.helper "!f() { echo username=\\$GIT_AUTH_USR; echo password=\\$GIT_AUTH_PSW; }; f"
+                    git config --global user.name $GIT_AUTH_USR 
+                    git config --global user.email "70212020+verrazzanobot@users.noreply.github.com"
                     /home/opc/graalvm-ce-java8-20.1.0/jre/languages/js/bin/gh-pages -d production -b gh-pages
                 """
             }
