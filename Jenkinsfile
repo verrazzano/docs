@@ -64,7 +64,7 @@ pipeline {
             steps {
                 sh """
                     npm -g install gh-pages@3.0.0
-                    git config --local credential.helper "!f() { echo username=\\$GIT_USERNAME; echo password=\\$GIT_PASSWORD; }; f"
+                    git config --local credential.helper "!f() { echo username=\\$GIT_AUTH_USR; echo password=\\$GIT_AUTH_PSW; }; f"
                     gh-pages -d production -b gh-pages
                 """
             }
