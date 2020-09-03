@@ -93,7 +93,7 @@ VerrazzanoApplicationModel
               address      
 
 ```
-For an example Verrazzano Model, see [demo-model](https://github.com/verrazzano/examples/blob/master/bobs-books/yaml/demo-model.yaml).
+For an example Verrazzano Model, see [demo-model](https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/bobs-books-model.yaml).
 
 
 See the following additional documentation:
