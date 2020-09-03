@@ -3,93 +3,45 @@ title: "Quick Start"
 weight: 2
 ---
 
-Introducing Verrazzano, a curated
-collection of open source components that form a complete platform
-for deploying and managing your container applications across multiple Kubernetes clusters.
+Verrazzano is an end-to-end Enterprise Container Platform for deploying cloud-native and traditional applications in multi-cloud and hybrid environments. It is made up of a curated set of open source components – many that you may already use and trust, and some that were written specifically to pull together all of the pieces to make this a cohesive and easy to use platform.
 
-## About this Quick Start
+Verrazzano Enterprise Container Platform includes the following capabilities:
 
-This Quick Start describes how to quickly and easily set up Verrazzano in
-a single cluster environment with sensible defaults.
-This is primarily intended for setting up development and testing environments.
+* Hybrid and multi-cluster workload management
+* Special handling for WebLogic, Coherence, and Helidon applications
+* Multi-cluster infrastructure management
+* Integrated and pre-wired application monitoring
+* Integrated security
+* DevOps and GitOps enablement
+* This repository contains installation scripts and example applications for use with Verrazzano.
 
-The Quick Start may be run either on [Oracle Cloud Infrastructure Container Engine for
-Kubernetes](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm) (OKE)
-or an Oracle Linux Cloud Native Environment (OLCNE) cluster.
-
-{{< alert color="info" >}}
-To install Verrazzano in a production environment, see the [Installation](../install/) section instead.
+{{< alert title="NOTE" color="warning" >}}
+This is a developer preview release of Verrazzano. It is intended for installation in a single cluster on
+[Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE)](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm)
+or [Oracle Linux Cloud Native Environment (OLCNE)](https://docs.oracle.com/en/operating-systems/olcne/). 
+You should only install Verrazzano in a cluster that can be safely deleted when your evaluation is complete.
 {{< /alert >}}
 
-### Prerequisites
+## TL;DR
 
-To follow the Quick Start, you must have:
-* An Oracle Cloud account with permission to create OKE clusters.
-* At least 2 VMs available in your tenancy, with a shape equivalent to or better than VM.Standard2.4.
-* An Oracle ID for pulling images from the [Oracle Container Registry](https://container-registry.oracle.com).
+To install Verrazzano, follow these steps:
 
-### Create a Kubernetes cluster
-
-
-To create an OKE cluster:
-
-1. Log in to the [OCI Console](https://console.us-phoenix-1.oraclecloud.com/).
-1. Navigate to Developer Services and select the "Kubernetes Clusters" page.
-1. Click **Create Cluster**.
-1. Use the "Quick Create" option to create a cluster with the following required
-   network resources, then click **Launch Workflow**.
-    * Use Kubernetes version 1.16.8 or later.
-	* Choose a shape with at least 4 cores, for example `VM.Standard2.4`.
-	* Create at least three nodes.
-	* If you want to use Kubernetes NodePorts to access your cluster, so that
-	  you do not need an OCI Load Balancer, make sure you select Public
-	  node visibility.
-1. Click **Create Cluster**.
-1. To access your cluster, click **Launch Cloud Shell**.
-1. Copy the `kubeconfig` file to Cloud Shell.
-
-
-### Obtain the Verrazzano repository
-
-Verrazzano software is available in open source on GitHub
-at [https://github.com/verrazzano/verrazzano](https://github.com/verrazzano/verrazzano).
-
-Clone the Verrazzano repository:
-
-```bash
-$ git clone https://github.com/verrazzano/verrazzano
-$ cd verrazzano
-```
-
-Run the following commands:
-
-
-```bash
-$ export CLUSTER_TYPE=OKE
-$ export VERRAZZANO_KUBECONFIG=~/.kube/config
-$ export KUBECONFIG=~/.kube/config
-$ kubectl create secret docker-registry ocr --docker-username=<username> --docker-password=<password> --docker-server=container-registry.oracle.com
-```
-
-
-### Install Verrazzano
-
-Install Verrazzano in your cluster using the provided scripts:
-
-```bash
-./install/1-install-istio.sh
-./install/2a-install-system-components-magicdns.sh
-./install/3-install-verrazzano.sh
-./install/4-install-keycloak.sh
-```
-
-### Access the environment
-
-Verify the installation with this `kubectl` command:
-
-```bash
-kubectl get pods --all-namespaces
-```
+1. Create an [Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE)](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm) cluster.
+1. Launch [OCI Cloud Shell](https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/cloudshellgettingstarted.htm).
+1. Set up a [kubeconfig](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/) file in the OCI Cloud Shell for the OKE cluster. See these detailed [instructions](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengdownloadkubeconfigfile.htm).
+1. Clone this [repo](https://github.com/verrazzano/verrazzano) into the home directory of the OCI Cloud Shell.
+   - `git clone https://github.com/verrazzano/verrazzano`
+   - `cd verrazzano`
+1. Execute the following commands in the OCI Cloud Shell:
+   - `export CLUSTER_TYPE=OKE`
+   - `export VERRAZZANO_KUBECONFIG=~/.kube/config`
+   - `export KUBECONFIG=~/.kube/config`
+   - `kubectl create secret docker-registry ocr --docker-username=<username> --docker-password=<password> --docker-server=container-registry.oracle.com`
+   - `./install/1-install-istio.sh`
+   - `./install/2a-install-system-components-magicdns.sh`
+   - `./install/3-install-verrazzano.sh`
+   - `./install/4-install-keycloak.sh`
+1. (Optional) Install some example applications - see [Deploying the example applications](#deploying-the-example-applications) for details.
 
 ### Deploy the example applications (optional)
 

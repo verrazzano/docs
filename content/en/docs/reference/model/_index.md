@@ -4,11 +4,6 @@ weight: 1
 bookCollapseSection: true
 ---
 
-{{< alert title="Important" color="warning" >}}
-The details on this page are subject to change.
-{{< /alert >}}
-
-
 The Verrazzano Model (vm kubectl resource) is a Kubernetes Custom Resource Definition (CRD) that is added to the Verrazzano management cluster. This CRD describes a "Verrazzano Application," which is made up of one or more components.  Components can be WebLogic domains, Coherence clusters, Helidon microservices, or other generic container workloads.  The model also defines connections between components, ingresses to an application, and connections to external services, such as a database or a REST endpoint. Conceptually, the model captures information about the application which does not vary based on where the application is deployed.  Then a Verrazzano Binding (vb kubectl resource) is used to map the Verrazzano Application defined in the model to the deployment environment. For example, the WebLogic domain X always talks to database Y, no matter how many times this application is deployed. In a particular instance or deployment of the application, for example, the "test" instance, there may be different credentials and a different URL to access the test version of Y database, but X always talks to Y. The application ***model*** must define a connection to the database, but the actual credentials and URL used when the application is deployed is defined in the ***binding***. Bindings map the application to the environment.
 
 The combination of a model and binding produces an instance of an application.
@@ -205,5 +200,3 @@ In the Verrazzano Model, you can define connections to external databases. These
 * Target: name of the database to specify in a Verrazzano Binding. That is, in the binding, you will define a database entry that the component will connect to.
 * DatasourceName: The name of the data source within the WebLogic configuration that will map to the connected database.
 
-## Related kubectl Commands
-TBD
