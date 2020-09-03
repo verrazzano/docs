@@ -22,14 +22,7 @@
       <description>
         
         
-        
-
-&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
-&lt;h4 class=&#34;alert-heading&#34;&gt;Important&lt;/h4&gt;
-The details on this page are subject to change.
-&lt;/div&gt;
-
-&lt;p&gt;The Verrazzano Model (vm kubectl resource) is a Kubernetes Custom Resource Definition (CRD) that is added to the Verrazzano management cluster. This CRD describes a &amp;ldquo;Verrazzano Application,&amp;rdquo; which is made up of one or more components.  Components can be WebLogic domains, Coherence clusters, Helidon microservices, or other generic container workloads.  The model also defines connections between components, ingresses to an application, and connections to external services, such as a database or a REST endpoint. Conceptually, the model captures information about the application which does not vary based on where the application is deployed.  Then a Verrazzano Binding (vb kubectl resource) is used to map the Verrazzano Application defined in the model to the deployment environment. For example, the WebLogic domain X always talks to database Y, no matter how many times this application is deployed. In a particular instance or deployment of the application, for example, the &amp;ldquo;test&amp;rdquo; instance, there may be different credentials and a different URL to access the test version of Y database, but X always talks to Y. The application &lt;em&gt;&lt;strong&gt;model&lt;/strong&gt;&lt;/em&gt; must define a connection to the database, but the actual credentials and URL used when the application is deployed is defined in the &lt;em&gt;&lt;strong&gt;binding&lt;/strong&gt;&lt;/em&gt;. Bindings map the application to the environment.&lt;/p&gt;
+        &lt;p&gt;The Verrazzano Model (vm kubectl resource) is a Kubernetes Custom Resource Definition (CRD) that is added to the Verrazzano management cluster. This CRD describes a &amp;ldquo;Verrazzano Application,&amp;rdquo; which is made up of one or more components.  Components can be WebLogic domains, Coherence clusters, Helidon microservices, or other generic container workloads.  The model also defines connections between components, ingresses to an application, and connections to external services, such as a database or a REST endpoint. Conceptually, the model captures information about the application which does not vary based on where the application is deployed.  Then a Verrazzano Binding (vb kubectl resource) is used to map the Verrazzano Application defined in the model to the deployment environment. For example, the WebLogic domain X always talks to database Y, no matter how many times this application is deployed. In a particular instance or deployment of the application, for example, the &amp;ldquo;test&amp;rdquo; instance, there may be different credentials and a different URL to access the test version of Y database, but X always talks to Y. The application &lt;em&gt;&lt;strong&gt;model&lt;/strong&gt;&lt;/em&gt; must define a connection to the database, but the actual credentials and URL used when the application is deployed is defined in the &lt;em&gt;&lt;strong&gt;binding&lt;/strong&gt;&lt;/em&gt;. Bindings map the application to the environment.&lt;/p&gt;
 &lt;p&gt;The combination of a model and binding produces an instance of an application.
 Both the model and binding are meant to be sparse; they contain only the information that is needed to deploy the application.  Anything that Verrazzano can infer or use a default value for, can be omitted from these files.&lt;/p&gt;
 &lt;h2 id=&#34;structure-of-the-verrazzanoapplicationmodel&#34;&gt;Structure of the &lt;code&gt;VerrazzanoApplicationModel&lt;/code&gt;&lt;/h2&gt;
@@ -220,8 +213,6 @@ Both the model and binding are meant to be sparse; they contain only the informa
 &lt;li&gt;Target: name of the database to specify in a Verrazzano Binding. That is, in the binding, you will define a database entry that the component will connect to.&lt;/li&gt;
 &lt;li&gt;DatasourceName: The name of the data source within the WebLogic configuration that will map to the connected database.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;related-kubectl-commands&#34;&gt;Related kubectl Commands&lt;/h2&gt;
-&lt;p&gt;TBD&lt;/p&gt;
 
       </description>
     </item>
@@ -235,14 +226,7 @@ Both the model and binding are meant to be sparse; they contain only the informa
       <description>
         
         
-        
-
-&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
-&lt;h4 class=&#34;alert-heading&#34;&gt;Important&lt;/h4&gt;
-The details on this page are subject to change.
-&lt;/div&gt;
-
-&lt;p&gt;The Verrazzano Application Binding (vb Kubernetes object type) maps a Verrazzano Application Model to an environment. The binding defines placement of the components, environment-specific aspects of a component, and connection details for the connections defined in the model.&lt;/p&gt;
+        &lt;p&gt;The Verrazzano Application Binding (vb Kubernetes object type) maps a Verrazzano Application Model to an environment. The binding defines placement of the components, environment-specific aspects of a component, and connection details for the connections defined in the model.&lt;/p&gt;
 &lt;p&gt;Adding a binding to the Verrazzano instance results in a running application: Namespaces are created in the specified clusters, components are deployed in those namespaces, and ingresses, network policies, and routing rules are created in the service mesh. Behind the scenes, Verrazzano also copies secrets where necessary, creates custom resources, and deploys operators for the various component types in the application model.&lt;/p&gt;
 &lt;p&gt;There can be zero to many bindings to every model; a binding can refer to one model only.&lt;/p&gt;
 &lt;h3 id=&#34;verrazzanoapplicationbinding&#34;&gt;VerrazzanoApplicationBinding&lt;/h3&gt;
