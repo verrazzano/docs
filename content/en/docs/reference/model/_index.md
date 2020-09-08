@@ -4,7 +4,7 @@ weight: 1
 bookCollapseSection: true
 ---
 
-The Verrazzano Model (vm kubectl resource) is a Kubernetes Custom Resource Definition (CRD) that is added to the Verrazzano management cluster. This CRD describes a "Verrazzano Application," which is made up of one or more components.  Components can be WebLogic domains, Coherence clusters, Helidon microservices, or other generic container workloads.  The model also defines connections between components, ingresses to an application, and connections to external services, such as a database or a REST endpoint. Conceptually, the model captures information about the application which does not vary based on where the application is deployed.  Then a Verrazzano Binding (vb kubectl resource) is used to map the Verrazzano Application defined in the model to the deployment environment. For example, the WebLogic domain X always talks to database Y, no matter how many times this application is deployed. In a particular instance or deployment of the application, for example, the "test" instance, there may be different credentials and a different URL to access the test version of Y database, but X always talks to Y. The application ***model*** must define a connection to the database, but the actual credentials and URL used when the application is deployed is defined in the ***binding***. Bindings map the application to the environment.
+The Verrazzano Model (`vm` kubectl resource) is a Kubernetes Custom Resource Definition (CRD) that is added to the Verrazzano management cluster. This CRD describes a "Verrazzano Application," which is made up of one or more components.  Components can be WebLogic domains, Coherence clusters, Helidon microservices, or other generic container workloads.  The model also defines connections between components, ingresses to an application, and connections to external services, such as a database or a REST endpoint. Conceptually, the model captures information about the application which does not vary based on where the application is deployed.  Then a Verrazzano Binding (`vb` kubectl resource) is used to map the Verrazzano Application defined in the model to the deployment environment. For example, the WebLogic domain X always talks to database Y, no matter how many times this application is deployed. In a particular instance or deployment of the application, for example, the "test" instance, there may be different credentials and a different URL to access the test version of Y database, but X always talks to Y. The application ***model*** must define a connection to the database, but the actual credentials and URL used when the application is deployed is defined in the ***binding***. Bindings map the application to the environment.
 
 The combination of a model and binding produces an instance of an application.
 Both the model and binding are meant to be sparse; they contain only the information that is needed to deploy the application.  Anything that Verrazzano can infer or use a default value for, can be omitted from these files.
@@ -142,7 +142,7 @@ A WebLogic domain component typically includes the following items:
 ## Coherence Cluster Components
 Note that support for Coherence is an experimental feature in this release of Verrazzano.
 
-Verrazzano relies on version 2.1.1 of the [Coherence Operator](https://github.com/oracle/coherence-operator).  For the Coherence clusters section of the Verrazzano Model, Coherence custom resource values are defined in Verrazzano and then converted to a custom resource that the Coherence operator can interpret.
+Verrazzano relies on version 2.1.1 of the [Coherence Operator](https://github.com/oracle/coherence-operator).  For the Coherence clusters section of the Verrazzano Model, Coherence custom resource values are defined in Verrazzano and then converted to a custom resource that the Coherence Operator can interpret.
 
 A Coherence cluster component must have the following item:
 
@@ -182,21 +182,20 @@ You can define a REST connection from one component in the model to another comp
 
 Settings:
 
-* Target: The name of the target component within the same model
-* EnvironmentVariableForHost: The DNS name or IP address of the target component (its Kubernetes service)
-* EnvironmentVariableForPort: The port for the target component
+* Target: The name of the target component within the same model.
+* EnvironmentVariableForHost: The DNS name or IP address of the target component (its Kubernetes service).
+* EnvironmentVariableForPort: The port for the target component.
 
 ### Coherence Connections
 You can define a Coherence connection for a component that needs to communicate with a Coherence cluster. The Coherence cluster must also be defined in the same Verrazzano Model.
 
 Settings:
 
-* Target: The name of the target Coherence component
-* Address: The coherence cluster services address
+* Target: The name of the target Coherence component.
+* Address: The Coherence cluster services address.
 
 ### Database Connections
 In the Verrazzano Model, you can define connections to external databases. These connections then become available to modify in the Verrazzano Binding. That is, you can identify a necessary database connection in the model, and then define credentials and the URL for the database in the binding. Verrazzano operators then handle the database connection accordingly.
 
 * Target: name of the database to specify in a Verrazzano Binding. That is, in the binding, you will define a database entry that the component will connect to.
 * DatasourceName: The name of the data source within the WebLogic configuration that will map to the connected database.
-

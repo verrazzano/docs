@@ -4,9 +4,9 @@ weight: 2
 bookCollapseSection: true
 ---
 
-The Verrazzano Application Binding (vb Kubernetes object type) maps a Verrazzano Application Model to an environment. The binding defines placement of the components, environment-specific aspects of a component, and connection details for the connections defined in the model.
+The Verrazzano Application Binding (`vb` Kubernetes object type) maps a Verrazzano Application Model to an environment. The binding defines placement of the components, environment-specific aspects of a component, and connection details for the connections defined in the model.
 
-Adding a binding to the Verrazzano instance results in a running application: Namespaces are created in the specified clusters, components are deployed in those namespaces, and ingresses, network policies, and routing rules are created in the service mesh. Behind the scenes, Verrazzano also copies secrets where necessary, creates custom resources, and deploys operators for the various component types in the application model.
+Adding a binding to the Verrazzano instance results in a running application: namespaces are created in the specified clusters, components are deployed in those namespaces, and ingresses, network policies, and routing rules are created in the service mesh. Behind the scenes, Verrazzano also copies secrets where necessary, creates custom resources, and deploys operators for the various component types in the application model.
 
 There can be zero to many bindings to every model; a binding can refer to one model only.
 
@@ -112,7 +112,7 @@ The Verrazzano Model allows you to define connections to external databases.  Yo
 * Credentials: The credentials to be used to connect to the database.
 * URL: The URL for the database connection.
 
-If a WebLogic component specifies a database connection that has a corresponding `databaseBinding` then the Verrazzano operators will:
+If a WebLogic component specifies a database connection that has a corresponding `databaseBinding`, then the Verrazzano operators will:
 
 1. Copy the secret specified in the `databaseBinding` to the namespace of the WebLogic domain.
 2. Create a config map in the namespace of the WebLogic domain to specify overrides for the URL and secret.  These configuration overrides (also called situational configuration) are used to customize the database configuration for the WebLogic domain.
