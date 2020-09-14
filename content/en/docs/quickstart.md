@@ -18,11 +18,11 @@ Verrazzano Enterprise Container Platform includes the following capabilities:
 {{< alert title="NOTE" color="warning" >}}
 This is a developer preview release of Verrazzano. It is intended for installation in a single cluster on
 [Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE)](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm)
-or [Oracle Linux Cloud Native Environment (OLCNE)](https://docs.oracle.com/en/operating-systems/olcne/). 
+or [Oracle Linux Cloud Native Environment (OLCNE)](https://docs.oracle.com/en/operating-systems/olcne/).
 You should only install Verrazzano in a cluster that can be safely deleted when your evaluation is complete.
 {{< /alert >}}
 
-## TL;DR
+## Install Verrazzano
 
 To install Verrazzano, follow these steps:
 
