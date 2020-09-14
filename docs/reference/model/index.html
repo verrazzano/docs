@@ -305,7 +305,7 @@ if (!doNotTrack) {
 	<h1>Verrazzano Application Model</h1>
         
 	
-	<p>The Verrazzano Model (vm kubectl resource) is a Kubernetes Custom Resource Definition (CRD) that is added to the Verrazzano management cluster. This CRD describes a &ldquo;Verrazzano Application,&rdquo; which is made up of one or more components.  Components can be WebLogic domains, Coherence clusters, Helidon microservices, or other generic container workloads.  The model also defines connections between components, ingresses to an application, and connections to external services, such as a database or a REST endpoint. Conceptually, the model captures information about the application which does not vary based on where the application is deployed.  Then a Verrazzano Binding (vb kubectl resource) is used to map the Verrazzano Application defined in the model to the deployment environment. For example, the WebLogic domain X always talks to database Y, no matter how many times this application is deployed. In a particular instance or deployment of the application, for example, the &ldquo;test&rdquo; instance, there may be different credentials and a different URL to access the test version of Y database, but X always talks to Y. The application <em><strong>model</strong></em> must define a connection to the database, but the actual credentials and URL used when the application is deployed is defined in the <em><strong>binding</strong></em>. Bindings map the application to the environment.</p>
+	<p>The Verrazzano Model (<code>vm</code> kubectl resource) is a Kubernetes Custom Resource Definition (CRD) that is added to the Verrazzano management cluster. This CRD describes a &ldquo;Verrazzano Application,&rdquo; which is made up of one or more components.  Components can be WebLogic domains, Coherence clusters, Helidon microservices, or other generic container workloads.  The model also defines connections between components, ingresses to an application, and connections to external services, such as a database or a REST endpoint. Conceptually, the model captures information about the application which does not vary based on where the application is deployed.  Then a Verrazzano Binding (<code>vb</code> kubectl resource) is used to map the Verrazzano Application defined in the model to the deployment environment. For example, the WebLogic domain X always talks to database Y, no matter how many times this application is deployed. In a particular instance or deployment of the application, for example, the &ldquo;test&rdquo; instance, there may be different credentials and a different URL to access the test version of Y database, but X always talks to Y. The application <em><strong>model</strong></em> must define a connection to the database, but the actual credentials and URL used when the application is deployed is defined in the <em><strong>binding</strong></em>. Bindings map the application to the environment.</p>
 <p>The combination of a model and binding produces an instance of an application.
 Both the model and binding are meant to be sparse; they contain only the information that is needed to deploy the application.  Anything that Verrazzano can infer or use a default value for, can be omitted from these files.</p>
 <h2 id="structure-of-the-verrazzanoapplicationmodel">Structure of the <code>VerrazzanoApplicationModel</code></h2>
@@ -389,7 +389,7 @@ Both the model and binding are meant to be sparse; they contain only the informa
               target                             Name of the target Coherence cluster defined in the model
               address      
 
-</code></pre><p>For an example Verrazzano Model, see <a href="https://github.com/verrazzano/examples/blob/master/bobs-books/yaml/demo-model.yaml">demo-model</a>.</p>
+</code></pre><p>For an example Verrazzano Model, see <a href="https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/bobs-books-model.yaml">demo-model</a>.</p>
 <p>See the following additional documentation:</p>
 <ul>
 <li>WebLogic Server Kubernetes Operator Reference: <a href="https://oracle.github.io/weblogic-kubernetes-operator/userguide/managing-domains/domain-resource/#domain-resource-spec-elements">https://oracle.github.io/weblogic-kubernetes-operator/userguide/managing-domains/domain-resource/#domain-resource-spec-elements</a></li>
@@ -444,7 +444,7 @@ Both the model and binding are meant to be sparse; they contain only the informa
 <p>For a full list of valid CR values, see the WebLogic Server Kubernetes Operator repository at <a href="https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md">https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md</a>.</p>
 <h2 id="coherence-cluster-components">Coherence Cluster Components</h2>
 <p>Note that support for Coherence is an experimental feature in this release of Verrazzano.</p>
-<p>Verrazzano relies on version 2.1.1 of the <a href="https://github.com/oracle/coherence-operator">Coherence Operator</a>.  For the Coherence clusters section of the Verrazzano Model, Coherence custom resource values are defined in Verrazzano and then converted to a custom resource that the Coherence operator can interpret.</p>
+<p>Verrazzano relies on version 2.1.1 of the <a href="https://github.com/oracle/coherence-operator">Coherence Operator</a>.  For the Coherence clusters section of the Verrazzano Model, Coherence custom resource values are defined in Verrazzano and then converted to a custom resource that the Coherence Operator can interpret.</p>
 <p>A Coherence cluster component must have the following item:</p>
 <ul>
 <li>name</li>
@@ -479,16 +479,16 @@ Both the model and binding are meant to be sparse; they contain only the informa
 <p>You can define a REST connection from one component in the model to another component in the same model. When you define a REST connection between components, you can then define variable names that will be provided in the Verrazzano Binding. Verrazzano also sets up network policies that enable the components to communicate in the service mesh over TLS.</p>
 <p>Settings:</p>
 <ul>
-<li>Target: The name of the target component within the same model</li>
-<li>EnvironmentVariableForHost: The DNS name or IP address of the target component (its Kubernetes service)</li>
-<li>EnvironmentVariableForPort: The port for the target component</li>
+<li>Target: The name of the target component within the same model.</li>
+<li>EnvironmentVariableForHost: The DNS name or IP address of the target component (its Kubernetes service).</li>
+<li>EnvironmentVariableForPort: The port for the target component.</li>
 </ul>
 <h3 id="coherence-connections">Coherence Connections</h3>
 <p>You can define a Coherence connection for a component that needs to communicate with a Coherence cluster. The Coherence cluster must also be defined in the same Verrazzano Model.</p>
 <p>Settings:</p>
 <ul>
-<li>Target: The name of the target Coherence component</li>
-<li>Address: The coherence cluster services address</li>
+<li>Target: The name of the target Coherence component.</li>
+<li>Address: The Coherence cluster services address.</li>
 </ul>
 <h3 id="database-connections">Database Connections</h3>
 <p>In the Verrazzano Model, you can define connections to external databases. These connections then become available to modify in the Verrazzano Binding. That is, you can identify a necessary database connection in the model, and then define credentials and the URL for the database in the binding. Verrazzano operators then handle the database connection accordingly.</p>
@@ -579,7 +579,7 @@ Both the model and binding are meant to be sparse; they contain only the informa
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified September 3, 2020: <a  href="https://github.com/verrazzano/docs/commit/4db3c9ac5538e79921609322666cbaca50ad3209">Remove obsolete content (4db3c9a)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified September 14, 2020: <a  href="https://github.com/verrazzano/docs/commit/e482fe367f938010cb3f3fbe80f7172f0c43a6e7">mino edits (#29) (e482fe3)</a>
 </div>
 </div>
 
