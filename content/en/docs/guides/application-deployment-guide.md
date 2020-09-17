@@ -4,40 +4,37 @@ description: "A guide to deploying an application on Verrazzano"
 weight: 4
 draft: false
 ---
-<!--
-Copyright (c) 2020, Oracle and/or its affiliates.
-Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
--->
 This guide demonstrates deploying an example application to [Verrazzano](https://verrazzano.io/).
 
-Completing this guide should take about 10 minutes.
+Completing this guide should take about ten minutes.
 
 ## Prerequisites
-Following this guide requires access to a few things.
+Following this guide requires:
 1. Access to an existing Verrazzano environment.
-   If necessary install Verrazzano using the [quick start](../../quickstart) instructions.
+   Use the [quick start](../../quickstart) instructions to install Verrazzano.
 2. Access to the application's image in Oracle Container Registry.
    Confirm access using this command to pull the Docker image.
    ```
    docker pull container-registry.oracle.com/verrazzano/example-hello-world-helidon:0.1.10-3-e5ae893-124
    ```
+
 ## Overview
 
-Developing and deploying an application to Verrazzano requires several high level steps.
+Developing and deploying an application to Verrazzano consists of a few steps.
 1. Package the application as a Docker image.
 2. Publish the application to a container registry.
-3. Applying the application's Verrazzano model resource on a Kubernetes cluster.
-4. Applying the application's Verrazzano binding resource on a Kubernetes cluster.
+3. Applying the application's Verrazzano Application Model to the Verrazzano Management Cluster.
+4. Applying the application's Verrazzano Binding Model on the Verrazzano Management Cluster.
 
-This guide does not provide full details for the first two steps.  
+This guide does not provide full details for the first two steps.
 An existing example application Docker image has been packaged and published for use.
 
 ## Application Development
 This guide uses an example application which is written with Java and [Helidon](https://helidon.io).
 Implementation details can be found in the [Helidon MP tutorial](https://helidon.io/docs/latest/#/mp/guides/10_mp-tutorial).
-Check the Verrazzano examples repository for the application's [source code](https://github.com/verrazzano/examples/tree/master/hello-helidon).
+See the Verrazzano examples repository for the application's [source code](https://github.com/verrazzano/examples/tree/master/hello-helidon).
 
-The example application is a JAX-RS service and implements the following REST style endpoints.
+The example application is a JAX-RS service and implements the following REST endpoints.
 - `/greet` - Returns a default greeting message that is stored in memory.
   This endpoint accepts the `GET` HTTP request method.
 - `/greet/{name}` - Returns a greeting message including the name provided in the path parameter.
@@ -46,7 +43,7 @@ The example application is a JAX-RS service and implements the following REST st
   This endpoint accepts the `PUT` HTTP request method, and a JSON payload.
 
 Below is a portion of the application's implementation.
-The Verrazzano examples contain the complete [implementation](https://github.com/verrazzano/examples/blob/master/hello-helidon/helidon-app-greet-v1/src/main/java/io/helidon/examples/quickstart/mp/GreetResource.java).
+The Verrazzano examples repository contains the complete [implementation](https://github.com/verrazzano/examples/blob/master/hello-helidon/helidon-app-greet-v1/src/main/java/io/helidon/examples/quickstart/mp/GreetResource.java).
 An important detail here is that the application contains a single resource exposed on path `/greet`.
 
 ```java
@@ -80,9 +77,9 @@ public class GreetResource {
 }
 ```
 
-A Dockerfile is used to package the completed application's JAR into a Docker image.
+A `Dockerfile` is used to package the completed application's JAR into a Docker image.
 Below is a portion of the Dockerfile.
-The Verrazzano examples contain the complete [Dockerfile](https://github.com/verrazzano/examples/blob/master/hello-helidon/helidon-app-greet-v1/Dockerfile).
+The Verrazzano examples repository contains the complete [Dockerfile](https://github.com/verrazzano/examples/blob/master/hello-helidon/helidon-app-greet-v1/Dockerfile).
 Note that the Docker container will expose a single port 8080.
 
 ```dockerfile
@@ -100,7 +97,7 @@ A Verrazzano model is a
 [Kubernetes Custom Resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 describing an application's general composition and environmental requirements.
 Below is the Verrazzano model for the example application used in this guide.
-This model describes an application which is implemented by a single docker image containing a Helidon application exposing a single endpoint.
+This model describes an application which is implemented by a single Docker image containing a Helidon application exposing a single endpoint.
 More details about Verrazzano models can be found in the [Verrazzano model documentation](https://verrazzano.io/docs/reference/model/).
 
 ```yaml
@@ -131,7 +128,7 @@ A brief description of each field in the model follows.
 * `spec.helidonApplications.name` - Name used to identify this application from the binding
 * `spec.helidonApplications.image` - Docker image used to implement the application
 * `spec.helidonApplications.connections.ingress.name` - Name used to identify this ingress from the binding
-* `spec.helidonApplications.connections.ingress.match.uri.prefix` - Physical URI prefix for the application's ingress
+* `spec.helidonApplications.connections.ingress.match.uri.prefix` - URI prefix for the application's ingress
 
 ### Verrazzano Binding
 
@@ -139,8 +136,8 @@ A Verrazzano binding is a
 [Kubernetes Custom Resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 which provides environment specific customizations.
 Below is the Verrazzano binding for this guide.
-This binding specifies that the application be placed in the 'local' cluster 
-within the 'greet' namespace having an ingress endpoint bound to DNS name '*'. 
+This binding specifies that the application be placed in the `local` cluster
+within the `greet` namespace having an ingress endpoint bound to DNS name `*`.
 More details about Verrazzano bindings can be found in the [Verrazzano
 binding documentation](https://verrazzano.io/docs/reference/binding/).
 
@@ -175,7 +172,7 @@ A brief description of each field in the model follows.
 * `spec.placement.namespaces.name` - Name of a namespace in which to place the application's deployed components
 * `spec.placement.namespaces.components.name` - Name of a model's component to deploy within the namespace
 * `spec.ingressBindings.name` - Reference to a model's ingress
-* `spec.ingressBineings.dnsName` - The DNS name use for the referenced ingress
+* `spec.ingressBindings.dnsName` - The DNS name to use for the ingress when created. A real DNS name should be provided instead of `*` for production.
 
 ### Deploy the application
 
@@ -214,7 +211,7 @@ Steps similar to the `apply` steps below would be used to deploy any application
    
    This step causes the validation and then registration of the binding.
    The binding registration triggers the activation of a number of Verrazzano operators.
-   These operators create Kubernetes objects (e.g. deployments, replacsets, pods, services, ingresses) 
+   These operators create Kubernetes objects (e.g. deployments, replicasets, pods, services, ingresses)
    that collectively provide and support the application.
    
 ### Verify the deployment
@@ -223,10 +220,10 @@ Steps similar to the `apply` steps below would be used to deploy any application
   Actual creation and initialization of these object occurs asynchronously.
   The following steps provide commands for determining when these objects are ready for use.
   
-  _Note: Many other Kubernetes objects unrelated to the example application may also exist.  
+  _Note: Many other Kubernetes objects unrelated to the example application may also exist.
   Those have been omitted from the lists below._
   
-1. Verify the Helidon application pod is running  
+1. Verify the Helidon application pod is running.
    
    ```
    $ kubectl get pods -n greet | grep hello-world-application
@@ -244,7 +241,7 @@ Steps similar to the `apply` steps below would be used to deploy any application
    |greet            |hello-world-application-648f8f79d9-8xkhl              |Pod        |
    <br/>
 
-1. Verify the Verrazzano Helidon application operator pod is running
+1. Verify the Verrazzano Helidon application operator pod is running.
 
    ```
    $ kubectl get pods -n verrazzano-system | grep verrazzano-helidon-app-operator
@@ -264,7 +261,7 @@ Steps similar to the `apply` steps below would be used to deploy any application
    |verrazzano-system|verrazzano-helidon-app-operator-metrics               |Service    |
    <br/>
 
-1. Verify the Verrazzano monitoring infrastructure is running
+1. Verify the Verrazzano monitoring infrastructure is running.
 
    ```bash
    $ kubectl get pods -n verrazzano-system | grep vmi-hello-world-binding
@@ -324,60 +321,15 @@ Steps similar to the `apply` steps below would be used to deploy any application
    |verrazzano-system|vmi-hello-world-binding-prometheus-gw-6df8bf4689-dmfxh|Pod        |
    <br/>
 
-1. Verify the Verrazzano metrics collection infrastructure is running
+1. Verify the Verrazzano metrics collection infrastructure is running.
 
-   ```bash
-   kubectl get pods -n monitoring | grep prom-pusher-hello-world-binding
 
-   prom-pusher-hello-world-binding-6648484f89-t8rf8   1/1     Running   0          21h
-   ```
-
-   The table below is an example list of Kubernetes objects that should have been created for application metrics collection.
-
-   |Namespace        |Name                                                  |Kind       |
-   |-----------------|------------------------------------------------------|-----------|
-   |monitoring       |prom-pusher-hello-world-binding                       |Deployment |
-   |monitoring       |prom-pusher-hello-world-binding-6648484f89            |ReplicaSet |
-   |monitoring       |prom-pusher-hello-world-binding-6648484f89-t8rf8      |Pod        |
-   <br/>
-
-1. Diagnose failures
-
-   View the event logs of any pod not entering the "Running" state within a reasonable length of time.
-   
-   ```bash
-   kubectl describe pod -n greet hello-world-application-648f8f79d9-8xkhl
-   ``` 
-
-### Explore the application
-
-Follow these steps to explore the application's functionality.
-
-1.  Get the IP address of the load balancer exposing the applications REST service endpoints
-    ```
-    SERVER=$(kubectl get service -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}') && echo $SERVER
-    ```
-
-1.  Get the default message
-    ```bash
-    $ curl -s -X GET http://${SERVER}/greet
-
-    {"message":"Hello World!"}
-    ```
-
-1.  Get a message for Robert
-    ```bash
-    $ curl -s -X GET http://${SERVER}/greet/Robert
-
-    {"message":"Hello Robert!"}
-    ```
-
-1.  Update the default greeting
+1.  Update the default greeting.
     ```bash
     $ curl -s -X PUT -H "Content-Type: application/json" -d '{"greeting" : "Greetings"}' http://${SERVER}/greet/greeting
     ```
 
-1.  Get the new message for Robert
+1.  Get the new message for Robert.
     ```bash
     $ curl -s -X GET http://${SERVER}/greet/Robert
 
