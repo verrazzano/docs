@@ -343,7 +343,8 @@ Steps similar to the `apply` steps below would be used to deploy any application
 
 1. Diagnose failures
 
-   View the event logs of any pod not entering the "Running" state within a reasonable length of time.
+   View the event logs of any pod not entering the `Running` state within
+   a reasonable length of time such as five minutes.
 
    ```shell script
    kubectl describe pod -n greet hello-world-application-648f8f79d9-8xkhl
@@ -398,7 +399,7 @@ echo "${KIBANA_URL}"
 open "${KIBANA_URL}"
 ```
 
-The username used to access Kibana is currently defaulted during Verrazzano install to `verrazzano`. 
+The username used to access Kibana defaults to `verrazzano` during the Verrazzano install.
 
 The password used to access Kibana can be determined using the following commands.
 ```shell script
@@ -449,12 +450,14 @@ Run the following commands to delete the application's Verrazzano binding and op
    kubectl delete -f ./hello-world-binding.yaml
    ```
    
-   The deletion of of the application's model will result in the destruction 
+   The deletion of the application's binding will result in the destruction
    of all application specific Kubernetes objects.
+   This includes objects created by Verrazzano on behalf of the application
+   such as monitoring components.
     
 1. Delete the application's model (optional)
 
    ```shell script
    kubectl delete -f ./hello-world-model.yaml
    ```
-   _Note: This step is not required if other bindings for this application will be applied in the future._
+   _Note: This step is not required if other bindings for this model will be applied in the future._
