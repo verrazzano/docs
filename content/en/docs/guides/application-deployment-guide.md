@@ -181,13 +181,13 @@ Steps similar to the `apply` steps below would be used to deploy any application
 
 1. Clone the Verrazzano [repository](https://github.com/verrazzano/verrazzano).
 
-   ```bash
+   ```shell script
    git clone https://github.com/verrazzano/verrazzano.git
    ```
 
 1. Change the current directory to the example hello-helidon directory.
 
-   ```bash
+   ```shell script
    cd verrazzano/examples/hello-helidon
    ``` 
 
@@ -195,7 +195,7 @@ Steps similar to the `apply` steps below would be used to deploy any application
 
 1. Apply the application's Verrazzano model
 
-   ```bash
+   ```shell script
    kubectl apply -f ./hello-world-model.yaml
    ```
 
@@ -205,7 +205,7 @@ Steps similar to the `apply` steps below would be used to deploy any application
 
 1. Apply the application's Verrazzano binding
 
-   ```bash
+   ```shell script
    kubectl apply -f ./hello-world-binding.yaml
    ```
    
@@ -226,12 +226,13 @@ Steps similar to the `apply` steps below would be used to deploy any application
 1. Verify the Helidon application pod is running.
    
    ```
-   $ kubectl get pods -n greet | grep hello-world-application
+   $ kubectl get pods -n greet | grep '^NAME\|hello-world-application'
 
-   hello-world-application-648f8f79d9-8xkhl   3/3     Running   0          20h
+   NAME                                       READY   STATUS    RESTARTS   AGE
+   hello-world-application-648f8f79d9-8xkhl   3/3     Running   0          2h
    ```
    
-   The table below is an example of the Kubernetes objects that might be created to implement a Helidon application.
+   The table below is an example of the Kubernetes objects that would typically be created to implement a Helidon application.
 
    |Namespace        |Name                                                  |Kind       |
    |-----------------|------------------------------------------------------|-----------|
@@ -244,14 +245,15 @@ Steps similar to the `apply` steps below would be used to deploy any application
 1. Verify the Verrazzano Helidon application operator pod is running.
 
    ```
-   $ kubectl get pods -n verrazzano-system | grep verrazzano-helidon-app-operator
+   $ kubectl get pods -n verrazzano-system | grep '^NAME\|verrazzano-helidon-app-operator'
 
-   verrazzano-helidon-app-operator-d746d7bc6-67th8          1/1     Running   0          20h
+   NAME                                                     READY   STATUS    RESTARTS   AGE
+   verrazzano-helidon-app-operator-d746d7bc6-67th8          1/1     Running   0          2h
    ```
      
-   A single verrazzano-helidon-app-operator manages the lifecycle of all Helidon based applications within the cluster.
+   A single `verrazzano-helidon-app-operator` manages the lifecycle of all Helidon based applications within the cluster.
 
-   The table below is an example of the Kubernetes objects that might be created to managing a Helidon application's lifecycle.
+   The table below is an example of the Kubernetes objects that would typically be created to managing a Helidon application's lifecycle.
    
    |Namespace        |Name                                                  |Kind       |
    |-----------------|------------------------------------------------------|-----------|
@@ -263,23 +265,24 @@ Steps similar to the `apply` steps below would be used to deploy any application
 
 1. Verify the Verrazzano monitoring infrastructure is running.
 
-   ```bash
-   $ kubectl get pods -n verrazzano-system | grep vmi-hello-world-binding
+   ```
+   $ kubectl get pods -n verrazzano-system | grep '^NAME\|vmi-hello-world-binding'
 
-   vmi-hello-world-binding-api-69987d6dbb-stpd4             1/1     Running   0          21h
-   vmi-hello-world-binding-es-data-0-55b679d6bb-5g2bf       2/2     Running   0          21h
-   vmi-hello-world-binding-es-data-1-7888dbdfcf-76ff9       2/2     Running   0          21h
-   vmi-hello-world-binding-es-ingest-b7d59fb69-6hbr4        1/1     Running   0          21h
-   vmi-hello-world-binding-es-master-0                      1/1     Running   0          21h
-   vmi-hello-world-binding-es-master-1                      1/1     Running   0          21h
-   vmi-hello-world-binding-es-master-2                      1/1     Running   0          21h
-   vmi-hello-world-binding-grafana-85b669cdbc-4rszf         1/1     Running   0          21h
-   vmi-hello-world-binding-kibana-64f958c7f-knxk4           1/1     Running   0          21h
-   vmi-hello-world-binding-prometheus-0-598f79557-ttzmz     3/3     Running   0          21h
-   vmi-hello-world-binding-prometheus-gw-6df8bf4689-dmfxh   1/1     Running   0          21h
+   NAME                                                     READY   STATUS    RESTARTS   AGE
+   vmi-hello-world-binding-api-69987d6dbb-stpd4             1/1     Running   0          2h
+   vmi-hello-world-binding-es-data-0-55b679d6bb-5g2bf       2/2     Running   0          2h
+   vmi-hello-world-binding-es-data-1-7888dbdfcf-76ff9       2/2     Running   0          2h
+   vmi-hello-world-binding-es-ingest-b7d59fb69-6hbr4        1/1     Running   0          2h
+   vmi-hello-world-binding-es-master-0                      1/1     Running   0          2h
+   vmi-hello-world-binding-es-master-1                      1/1     Running   0          2h
+   vmi-hello-world-binding-es-master-2                      1/1     Running   0          2h
+   vmi-hello-world-binding-grafana-85b669cdbc-4rszf         1/1     Running   0          2h
+   vmi-hello-world-binding-kibana-64f958c7f-knxk4           1/1     Running   0          2h
+   vmi-hello-world-binding-prometheus-0-598f79557-ttzmz     3/3     Running   0          2h
+   vmi-hello-world-binding-prometheus-gw-6df8bf4689-dmfxh   1/1     Running   0          2h
    ```
 
-   The table below is an example of the Kubernetes objects that might be created for application monitoring.
+   The table below is an example of the Kubernetes objects that would typically be created for application monitoring.
 
    |Namespace        |Name                                                  |Kind       |
    |-----------------|------------------------------------------------------|-----------|
@@ -323,14 +326,59 @@ Steps similar to the `apply` steps below would be used to deploy any application
 
 1. Verify the Verrazzano metrics collection infrastructure is running.
 
+   ```
+   $ kubectl get pods -n monitoring | grep '^NAME\|prom-pusher-hello-world-binding'
+
+   NAME                                               READY   STATUS    RESTARTS   AGE
+   prom-pusher-hello-world-binding-6648484f89-t8rf8   1/1     Running   0          2h  
+   ```
+   The table below is an example of the Kubernetes objects that would typically be created for metrics collection.
+
+   |Namespace        |Name                                                  |Kind       |
+   |-----------------|------------------------------------------------------|-----------|
+   |monitoring       |prom-pusher-hello-world-binding                       |Deployment |
+   |monitoring       |prom-pusher-hello-world-binding-6648484f89            |ReplicaSet |
+   |monitoring       |prom-pusher-hello-world-binding-6648484f89-t8rf8      |Pod        |
+   <br/>
+
+1. Diagnose failures
+
+   View the event logs of any pod not entering the "Running" state within a reasonable length of time.
+
+   ```shell script
+   kubectl describe pod -n greet hello-world-application-648f8f79d9-8xkhl
+   ```
+
+### Explore the application
+
+Follow these steps to explore the application's functionality.
+
+1.  Save the IP address of the load balancer exposing the application's REST service endpoints for use later.
+    ```shell script
+    SERVER=$(kubectl get service -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}') && echo $SERVER
+    ```
+
+1.  Get the default message.
+    ```shell script
+    $ curl -s -X GET http://${SERVER}/greet
+
+    {"message":"Hello World!"}
+    ```
+
+1.  Get a message for Robert.
+    ```shell script
+    $ curl -s -X GET http://${SERVER}/greet/Robert
+
+    {"message":"Hello Robert!"}
+    ```
 
 1.  Update the default greeting.
-    ```bash
+    ```shell script
     $ curl -s -X PUT -H "Content-Type: application/json" -d '{"greeting" : "Greetings"}' http://${SERVER}/greet/greeting
     ```
 
 1.  Get the new message for Robert.
-    ```bash
+    ```shell script
     $ curl -s -X GET http://${SERVER}/greet/Robert
 
     {"message":"Welcome Robert!"}
@@ -339,11 +387,11 @@ Steps similar to the `apply` steps below would be used to deploy any application
 ### Access the application's logs
 
 Applications deployed using Verrazzano bindings automatically have log collection enabled.
-These logs are collected using ElasticSearch and can be accessed using Kibana.
-ElasticSearch and Kibana are examples infrastructure Verrazzano creates in support of an application as a result of applying a binding.
+These logs are collected using Elasticsearch and can be accessed using Kibana.
+Elasticsearch and Kibana are examples infrastructure Verrazzano creates in support of an application as a result of applying a binding.
 
 The URL used to access Kibana can be determined using the following commands.
- ```bash
+ ```shell script
 KIBANA_HOST=$(kubectl get ingress -n verrazzano-system vmi-hello-world-binding-kibana -o jsonpath='{.spec.rules[0].host}')
 KIBANA_URL="https://${KIBANA_HOST}"
 echo "${KIBANA_URL}"
@@ -353,7 +401,7 @@ open "${KIBANA_URL}"
 The username used to access Kibana is currently defaulted during Verrazzano install to `verrazzano`. 
 
 The password used to access Kibana can be determined using the following commands.
-```bash
+```shell script
 echo $(kubectl get secret -n verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode)
 ``` 
  
@@ -365,29 +413,30 @@ Prometheus and Grafana are additional components Verrazzano creates as a result 
 
 The URL used to access Grafana can be determined using the following commands.
 
-```bash
+```shell script
 GRAFANA_HOST=$(kubectl get ingress -n verrazzano-system vmi-hello-world-binding-grafana -o jsonpath='{.spec.rules[0].host}')
 GRAFANA_URL="https://${GRAFANA_HOST}"
 echo "${GRAFANA_URL}"
 open "${GRAFANA_URL}"
 ```
-The username, used to access Grafana, is set to the default value `verrazzano` during Verrazzano install.
+The username used to access Grafana is set to the default value `verrazzano` during Verrazzano install.
  
-The password, used to access Grafana, can be determined using the following commands.
+The password used to access Grafana can be determined using the following commands.
 
-```bash
+```shell script
 echo $(kubectl get secret -n verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode)
 ``` 
 
-Alternativly metrics can be accessed directly using Prometheus.
+Alternatively metrics can be accessed directly using Prometheus.
 The URL used for this access can be determined using the following commands.
 
-```bash
+```shell script
 PROMETHEUS_HOST=$(kubectl get ingress -n verrazzano-system vmi-hello-world-binding-prometheus -o jsonpath='{.spec.rules[0].host}')
 PROMETHEUS_URL="https://${PROMETHEUS_HOST}"
 echo "${PROMETHEUS_URL}"
 open "${PROMETHEUS_URL}"
 ```
+
 The username and password used for Prometheus access are the same as for Grafana.
 
 ## Application Removal
@@ -396,7 +445,7 @@ Run the following commands to delete the application's Verrazzano binding and op
 
 1. Delete the application's binding
 
-   ```bash
+   ```shell script
    kubectl delete -f ./hello-world-binding.yaml
    ```
    
@@ -405,7 +454,7 @@ Run the following commands to delete the application's Verrazzano binding and op
     
 1. Delete the application's model (optional)
 
-   ```bash
+   ```shell script
    kubectl delete -f ./hello-world-model.yaml
    ```
    _Note: This step is not required if other bindings for this application will be applied in the future._
