@@ -1,5 +1,6 @@
 ---
 title: "Quick Start"
+description: "Instructions for getting started with Verrazzano"
 weight: 2
 ---
 

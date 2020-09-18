@@ -1,5 +1,6 @@
 ---
 title: "Reference"
+description: "Technical reference material for Verrazzano"
 weight: 5
 bookCollapseSection: true
 bookHidden: false
