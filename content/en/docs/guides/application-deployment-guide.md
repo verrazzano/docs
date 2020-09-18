@@ -23,8 +23,8 @@ Following this guide requires:
 Developing and deploying an application to Verrazzano consists of a few steps.
 1. Package the application as a Docker image.
 2. Publish the application to a container registry.
-3. Applying the application's Verrazzano Application Model to the Verrazzano Management Cluster.
-4. Applying the application's Verrazzano Binding Model on the Verrazzano Management Cluster.
+3. Apply the application's Verrazzano Application Model to the Verrazzano Management Cluster.
+4. Apply the application's Verrazzano Binding Model to the Verrazzano Management Cluster.
 
 This guide does not provide full details for the first two steps.
 An existing example application Docker image has been packaged and published for use.
@@ -91,9 +91,9 @@ EXPOSE 8080
 
 ## Application Deployment
 
-### Verrazzano Model
+### Verrazzano Application Model
 
-A Verrazzano model is a 
+Verrazzano Application Model is a
 [Kubernetes Custom Resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 describing an application's general composition and environmental requirements.
 Below is the Verrazzano model for the example application used in this guide.
@@ -130,9 +130,9 @@ A brief description of each field in the model follows.
 * `spec.helidonApplications.connections.ingress.name` - Name used to identify this ingress from the binding
 * `spec.helidonApplications.connections.ingress.match.uri.prefix` - URI prefix for the application's ingress
 
-### Verrazzano Binding
+### Verrazzano Binding Model
 
-A Verrazzano binding is a 
+A Verrazzano Binding Model is a
 [Kubernetes Custom Resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 which provides environment specific customizations.
 Below is the Verrazzano binding for this guide.
