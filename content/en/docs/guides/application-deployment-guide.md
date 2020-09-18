@@ -10,7 +10,7 @@ Completing this guide should take about ten minutes.
 
 ## Prerequisites
 Following this guide requires:
-1. Access to an existing Verrazzano environment.
+1. Access to an existing Kubernetes cluster with Verrazzano installed.
    Use the [quick start](../../quickstart) instructions to install Verrazzano.
 2. Access to the application's image in Oracle Container Registry.
    Confirm access using this command to pull the Docker image.
