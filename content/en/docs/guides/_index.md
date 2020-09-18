@@ -1,8 +1,6 @@
 ---
 title: "Guides"
-weight: 1
-bookCollapseSection: true
-bookHidden: false
+weight: 3
 ---
 
-This section provides hands-on material to step you through some interesting samples.
+This section provides hands-on material to step you through some common tasks with Verrazzano.

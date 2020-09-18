@@ -1,8 +1,6 @@
 ---
 title: "Lift-and-Shift Guide"
-weight: 2
-bookCollapseSection: true
-bookHidden: false
+weight: 5
 ---
 
 
@@ -10,7 +8,7 @@ This guide describes how to move ("Lift-and-Shift") an on-premises WebLogic Serv
 
 ## Overview
 
-The [Initial steps](#initial-steps) create a very simple on-premises domain that you will move to Kubernetes.  The sample domain is the starting point for the lift and shift process; it contains one application (ToDo List) and one data source.  First, you'll configure the database and the WebLogic Server domain.  Then, in [Lift and Shift](#lift-and-shift-steps), you will move the domain to Kubernetes with Verrazzano.  This guide does not include the setup of the virtual cloud network that would be needed to access an on-premises database, nor does it document how to migrate a database to the cloud.  
+The [Initial steps](#initial-steps) create a very simple on-premises domain that you will move to Kubernetes.  The sample domain is the starting point for the lift and shift process; it contains one application (ToDo List) and one data source.  First, you'll configure the database and the WebLogic Server domain.  Then, in [Lift and Shift](#lift-and-shift-steps), you will move the domain to Kubernetes with Verrazzano.  This guide does not include the setup of the networking that would be needed to access an on-premises database, nor does it document how to migrate a database to the cloud.  
 
 ## What you need
 MySQL Database 8.x - a database server
@@ -38,16 +36,25 @@ In the initial steps, you create a sample domain that represents your on-premise
     docker run --name tododb -p3306:3306 -e MYSQL_USER=derek -e MYSQL_PASSWORD=welcome1 -e MYSQL_DATABASE=tododb -e MYSQL_ROOT_PASSWORD=welcome1 -d mysql:latest
     ```
 
+   {{< alert title="NOTE" color="tip" >}}
+   You should use a more secure password.
+   {{< /alert >}}
+
 1. Start a MySQL client to change the password algorithm to `mysql_native_password`.
     - Assuming the database server is running, start a database CLI client:
         ```shell script
         docker exec -it tododb mysql -uroot -p
         ```
-    - When prompted for the password, enter the password for the root user, `welcome1`.  
+    - When prompted for the password, enter the password for the root user, `welcome1` or
+    whatever password you set when starting the container in the previous step.  
     - After being connected, run the `ALTER` command at the MySQL prompt.
         ```mysql
         ALTER USER 'derek'@'%' IDENTIFIED WITH mysql_native_password BY 'welcome1';
         ```
+
+   {{< alert title="NOTE" color="tip" >}}
+   You should use a more secure password.
+   {{< /alert >}}
 
 ### Create a WebLogic Server domain
 1. If you do not have WebLogic Server 12.2.1.4.0 installed, install it now.  
@@ -92,7 +99,7 @@ Using the WebLogic Server Administration Console, log in and add a data source c
     - Host name: `localhost`
     - Database Port: `3306`
     - Database User Name: `derek`
-    - Password: `welcome1`
+    - Password: `welcome1` (or whatever password you used)
     - Confirm Password: `welcome1`
 
 1. Click **Next** and then **Finish** to complete the configuration.
@@ -103,6 +110,7 @@ Using the WebLogic Server Administration Console, log in and add a data source c
 1. Using Maven, build this project to produce `todo.war`.
    ```shell script
     git clone https://github.com/verrazzano/examples.git
+    cd examples
     mvn clean package
    ```
 
@@ -143,7 +151,12 @@ To create a reusable model of the application and domain, use WDT to create a me
 - Then, run WDT `discoverDomain`.
 ```shell script
 mkdir v8o
-$WDT_HOME/bin/discoverDomain.sh -oracle_home $ORACLE_HOME -domain_home /path/to/domain/dir -model_file ./v8o/wdt-model.yaml -archive_file ./v8o/wdt-archive.zip -target vz -output_dir v8o
+$WDT_HOME/bin/discoverDomain.sh \
+-oracle_home $ORACLE_HOME \
+-domain_home /path/to/domain/dir \
+-model_file ./v8o/wdt-model.yaml \
+-archive_file ./v8o/wdt-archive.zip \
+-target vz -output_dir v8o
 ```
 
 You will find the following files in `./v8o`:
@@ -168,21 +181,38 @@ fill in the placeholders for you, or you can edit the model manually to set the 
    ```
 
 You will need a Docker image to run your WebLogic Server domain in Kubernetes.  To use WIT to
-create the Docker image, run `imagetool create`.  Although WIT will download patches and PSUs for you, it does not yet download installers.  Until then, you must download the WebLogic Server and Java Development Kit installer manually and provide their location to the `imagetool cache addInstaller` command.
+create the Docker image, run `imagetool create`.  Although WIT will download patches and PSUs for you, it does not yet download installers.  Until then, you must download the [WebLogic Server](https://www.oracle.com/middleware/technologies/weblogic-server-downloads.html) and [Java Development Kit](https://www.oracle.com/java/technologies/javase/javase8u211-later-archive-downloads.html) installer manually and provide their location to the `imagetool cache addInstaller` command.
 
 ```shell script
 # The directory created previously to hold the generated scripts and models.
 cd v8o
 
-$WIT_HOME/bin/imagetool.sh cache addInstaller --path /path/to/intaller/jdk-8u231-linux-x64.tar.gz --type jdk --version 8u231
+$WIT_HOME/bin/imagetool.sh cache addInstaller \
+--path /path/to/intaller/jdk-8u231-linux-x64.tar.gz \
+--type jdk \
+--version 8u231
 
 # The installer file name may be slightly different depending on which version of the 12.2.1.4.0 installer that you downloaded, slim or generic.
-$WIT_HOME/bin/imagetool.sh cache addInstaller --path /path/to/intaller/fmw_12.2.1.4.0_wls_Disk1_1of1.zip --type wls --version 12.2.1.4.0
+$WIT_HOME/bin/imagetool.sh cache addInstaller \
+--path /path/to/intaller/fmw_12.2.1.4.0_wls_Disk1_1of1.zip \
+--type wls \
+--version 12.2.1.4.0
 
-$WIT_HOME/bin/imagetool.sh cache addInstaller --path /path/to/intaller/weblogic-deploy.zip --type wdt --version latest
+$WIT_HOME/bin/imagetool.sh cache addInstaller \
+--path /path/to/intaller/weblogic-deploy.zip \
+--type wdt \
+--version latest
 
 # Paths for the files in this command assume that you are running it from the v8o directory created during the `discoverDomain` step.
-$WIT_HOME/bin/imagetool.sh create --tag your/repo/todo:1 --version 12.2.1.4.0 --jdkVersion 8u231 --wdtModel ./wdt-model.yaml --wdtArchive ./wdt-archive.zip --wdtVariables ./vz_variable.properties  --vzModel ./model.yaml --wdtModelOnly
+$WIT_HOME/bin/imagetool.sh create \
+--tag your/repo/todo:1 \
+--version 12.2.1.4.0 \
+--jdkVersion 8u231 \
+--wdtModel ./wdt-model.yaml \
+--wdtArchive ./wdt-archive.zip \
+--wdtVariables ./vz_variable.properties \
+--vzModel ./model.yaml \
+--wdtModelOnly
 ```
 
 The `imagetool create` command will have created a local Docker image and updated the Verrazzano model with the domain home
@@ -199,7 +229,7 @@ docker push your/repo/todo:1
 ```
 
 ### Deploy to Verrazzano
-The following steps assume that you have a Kubernetes cluster and that Verrazzano is already installed in that cluster.
+The following steps assume that you have a Kubernetes cluster and that [Verrazzano]({{< relref "/quickstart.md#install-verrazzano" >}}) is already installed in that cluster.
 
 If you haven't already done so, edit and run the `create_k8s_secrets.sh` to generate the Kubernetes secrets.
 WDT does not discover passwords from your existing domain.  Before running the create secrets script, you will need to
@@ -220,7 +250,11 @@ Verrazzano will need a credential to pull the image that you just created, so yo
 The name for this credential can be changed in the `model.yaml` file to anything you like, but it defaults to `ocir`.  
 Assuming that you leave the name `ocir`, you will need to run a `kubectl create secret` command similar to the following:
 ```shell script
-kubectl create secret docker-registry ocir --docker-server=phx.ocir.io --docker-email=your.name@company.com --docker-username=tenancy/username --docker-password='passwordForUsername'
+kubectl create secret docker-registry ocir \
+--docker-server=phx.ocir.io \
+--docker-email=your.name@company.com \
+--docker-username=tenancy/username \
+--docker-password='passwordForUsername'
 ```
 
 And finally, run `kubectl apply` to apply the Verrazzano Model and Verrazzano Binding files to start your domain.
