@@ -110,7 +110,7 @@ Using the WebLogic Server Administration Console, log in and add a data source c
 1. Using Maven, build this project to produce `todo.war`.
    ```shell script
     git clone https://github.com/verrazzano/examples.git
-    cd examples
+    cd examples/todo-list/
     mvn clean package
    ```
 
@@ -130,6 +130,9 @@ the `init` service also will load four sample items into the table.
 ### Access the application
 
 - Access the application at `http://localhost:7001/todo/index.html`.  
+
+![ToDoList](../../images/ToDoList.png)
+
 - Add a few entries or delete some.
 - After verifying the application and database, you may shut down the local WebLogic Server domain.
 
