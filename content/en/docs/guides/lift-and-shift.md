@@ -152,11 +152,11 @@ To create a reusable model of the application and domain, use WDT to create a me
 ```shell script
 mkdir v8o
 $WDT_HOME/bin/discoverDomain.sh \
--oracle_home $ORACLE_HOME \
--domain_home /path/to/domain/dir \
--model_file ./v8o/wdt-model.yaml \
--archive_file ./v8o/wdt-archive.zip \
--target vz -output_dir v8o
+  -oracle_home $ORACLE_HOME \
+  -domain_home /path/to/domain/dir \
+  -model_file ./v8o/wdt-model.yaml \
+  -archive_file ./v8o/wdt-archive.zip \
+  -target vz -output_dir v8o
 ```
 
 You will find the following files in `./v8o`:
@@ -188,31 +188,31 @@ create the Docker image, run `imagetool create`.  Although WIT will download pat
 cd v8o
 
 $WIT_HOME/bin/imagetool.sh cache addInstaller \
---path /path/to/intaller/jdk-8u231-linux-x64.tar.gz \
---type jdk \
---version 8u231
+  --path /path/to/intaller/jdk-8u231-linux-x64.tar.gz \
+  --type jdk \
+  --version 8u231
 
 # The installer file name may be slightly different depending on which version of the 12.2.1.4.0 installer that you downloaded, slim or generic.
 $WIT_HOME/bin/imagetool.sh cache addInstaller \
---path /path/to/intaller/fmw_12.2.1.4.0_wls_Disk1_1of1.zip \
---type wls \
---version 12.2.1.4.0
+  --path /path/to/intaller/fmw_12.2.1.4.0_wls_Disk1_1of1.zip \
+  --type wls \
+  --version 12.2.1.4.0
 
 $WIT_HOME/bin/imagetool.sh cache addInstaller \
---path /path/to/intaller/weblogic-deploy.zip \
---type wdt \
---version latest
+  --path /path/to/intaller/weblogic-deploy.zip \
+  --type wdt \
+  --version latest
 
 # Paths for the files in this command assume that you are running it from the v8o directory created during the `discoverDomain` step.
 $WIT_HOME/bin/imagetool.sh create \
---tag your/repo/todo:1 \
---version 12.2.1.4.0 \
---jdkVersion 8u231 \
---wdtModel ./wdt-model.yaml \
---wdtArchive ./wdt-archive.zip \
---wdtVariables ./vz_variable.properties \
---vzModel ./model.yaml \
---wdtModelOnly
+  --tag your/repo/todo:1 \
+  --version 12.2.1.4.0 \
+  --jdkVersion 8u231 \
+  --wdtModel ./wdt-model.yaml \
+  --wdtArchive ./wdt-archive.zip \
+  --wdtVariables ./vz_variable.properties \
+  --vzModel ./model.yaml \
+  --wdtModelOnly
 ```
 
 The `imagetool create` command will have created a local Docker image and updated the Verrazzano model with the domain home
@@ -251,10 +251,10 @@ The name for this credential can be changed in the `model.yaml` file to anything
 Assuming that you leave the name `ocir`, you will need to run a `kubectl create secret` command similar to the following:
 ```shell script
 kubectl create secret docker-registry ocir \
---docker-server=phx.ocir.io \
---docker-email=your.name@company.com \
---docker-username=tenancy/username \
---docker-password='passwordForUsername'
+  --docker-server=phx.ocir.io \
+  --docker-email=your.name@company.com \
+  --docker-username=tenancy/username \
+  --docker-password='passwordForUsername'
 ```
 
 And finally, run `kubectl apply` to apply the Verrazzano Model and Verrazzano Binding files to start your domain.
