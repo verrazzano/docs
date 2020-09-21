@@ -27,7 +27,7 @@ Developing and deploying an application to Verrazzano consists of a few steps.
 1. Package the application as a Docker image.
 1. Publish the application's Docker image to a container registry.
 1. Apply the application's Verrazzano Application Model to the cluster.
-1. Apply the application's Verrazzano Binding Model to the cluster.
+1. Apply the application's Verrazzano Application Binding to the cluster.
 
 This guide does not provide full details for the first two steps.
 An existing example application Docker image has been packaged and published for use.
@@ -99,7 +99,7 @@ EXPOSE 8080
 Verrazzano Application Model is a
 [Kubernetes Custom Resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 describing an application's general composition and environmental requirements.
-Below is the Verrazzano model for the example application used in this guide.
+Below is the model for the example application used in this guide.
 This model describes an application which is implemented by a single Docker image containing a Helidon application exposing a single endpoint.
 More details about Verrazzano models can be found in the [Verrazzano model documentation](https://verrazzano.io/docs/reference/model/).
 
@@ -124,8 +124,8 @@ spec:
 
 A brief description of each field in the model follows.
 
-* `apiVersion` - Version of the Verrazzano model custom resource definition used
-* `kind` - Standard name of the Verrazzano model custom resource definition
+* `apiVersion` - Version of the model custom resource definition used
+* `kind` - Standard name of the model custom resource definition
 * `metadata.name` - The name used to create the model's custom resource
 * `metadata.namespace` - The namespace used to create this model's custom resource
 * `spec.helidonApplications.name` - Name used to identify this application from the binding
@@ -133,12 +133,12 @@ A brief description of each field in the model follows.
 * `spec.helidonApplications.connections.ingress.name` - Name used to identify this ingress from the binding
 * `spec.helidonApplications.connections.ingress.match.uri.prefix` - URI prefix for the application's ingress
 
-### Verrazzano Binding Model
+### Verrazzano Application Binding
 
-A Verrazzano Binding Model is a
+A Verrazzano Application Binding is a
 [Kubernetes Custom Resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 which provides environment specific customizations.
-Below is the Verrazzano binding for this guide.
+Below is the binding for this guide.
 This binding specifies that the application be placed in the `local` cluster
 within the `greet` namespace having an ingress endpoint bound to DNS name `www.example.com`.
 More details about Verrazzano bindings can be found in the [Verrazzano
@@ -392,7 +392,7 @@ If DNS was not configured alternate commands will need to be used below.
 
 ### Access the application's logs
 
-Applications deployed using Verrazzano bindings automatically have log collection enabled.
+Applications deployed using bindings automatically have log collection enabled.
 These logs are collected using Elasticsearch and can be accessed using Kibana.
 Elasticsearch and Kibana are examples of infrastructure Verrazzano creates in support of an application as a result of applying a binding.
 
@@ -413,7 +413,7 @@ echo $(kubectl get secret -n verrazzano-system verrazzano -o jsonpath={.data.pas
  
 ### Access the application's metrics
 
-Applications deployed using Verrazzano bindings automatically have metric collection enabled.
+Applications deployed using bindings automatically have metric collection enabled.
 Grafana can be used to access these metrics collected by Prometheus.
 Prometheus and Grafana are additional components Verrazzano creates as a result of applying an application binding.
 
