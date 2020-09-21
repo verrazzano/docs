@@ -1,6 +1,6 @@
 ---
 title: "Lift-and-Shift Guide"
-linkTitle: "Lift-and-Shift Guide"
+linkTitle: "Lift-and-Shift"
 description: "A guide for moving WLS domains to Verrazzano."
 weight: 5
 draft: false
@@ -35,7 +35,13 @@ In the initial steps, you create a sample domain that represents your on-premise
     ```
 1. Start the container database (and optionally mount a volume for data).
     ```
-    docker run --name tododb -p3306:3306 -e MYSQL_USER=derek -e MYSQL_PASSWORD=welcome1 -e MYSQL_DATABASE=tododb -e MYSQL_ROOT_PASSWORD=welcome1 -d mysql:latest
+    docker run --name tododb \
+      -p 3306:3306 \
+      -e MYSQL_USER=derek \
+      -e MYSQL_PASSWORD=welcome1 \
+      -e MYSQL_DATABASE=tododb \
+      -e MYSQL_ROOT_PASSWORD=welcome1 \
+      -d mysql:latest
     ```
 
    {{< alert title="NOTE" color="tip" >}}
@@ -66,9 +72,9 @@ In the initial steps, you create a sample domain that represents your on-premise
 
    - To make copying commands easier, define an environment variable for `ORACLE_HOME` that points to the folder where you installed WebLogic Server 12.2.1.4.0.
 
-    ```shell script
-    export ORACLE_HOME=/install/directory
-    ```
+     ```shell script
+     export ORACLE_HOME=/install/directory
+     ```
 
 1. Using the Oracle WebLogic Server Configuration Wizard, create a domain called `tododomain`. Add the password for the administrative user and accept the defaults for everything else to create a simple domain with a single Administration Server.
 
@@ -154,15 +160,16 @@ The following steps will move the sample domain to Kubernetes with Verrazzano.
 To create a reusable model of the application and domain, use WDT to create a metadata model of the domain.  
 - First, create an output directory to hold the generated scripts and models.  
 - Then, run WDT `discoverDomain`.
-```shell script
-mkdir v8o
-$WDT_HOME/bin/discoverDomain.sh \
-  -oracle_home $ORACLE_HOME \
-  -domain_home /path/to/domain/dir \
-  -model_file ./v8o/wdt-model.yaml \
-  -archive_file ./v8o/wdt-archive.zip \
-  -target vz -output_dir v8o
-```
+  ```shell script
+  mkdir v8o
+  $WDT_HOME/bin/discoverDomain.sh \
+    -oracle_home $ORACLE_HOME \
+    -domain_home /path/to/domain/dir \
+    -model_file ./v8o/wdt-model.yaml \
+    -archive_file ./v8o/wdt-archive.zip \
+    -target vz \
+    -output_dir v8o
+  ```
 
 You will find the following files in `./v8o`:
 - `binding.yaml` - Verrazzano Binding file
@@ -268,6 +275,3 @@ And finally, run `kubectl apply` to apply the Verrazzano Model and Verrazzano Bi
 kubectl apply -f model.yaml
 kubectl apply -f binding.yaml
 ```
-
-## Copyright
-Copyright (c) 2020, Oracle and/or its affiliates.
