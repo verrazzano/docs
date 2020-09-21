@@ -1,8 +1,10 @@
 ---
 title: "Lift-and-Shift Guide"
+linkTitle: "Lift-and-Shift Guide"
+description: "A guide for moving WLS domains to Verrazzano."
 weight: 5
+draft: false
 ---
-
 
 This guide describes how to move ("Lift-and-Shift") an on-premises WebLogic Server domain to a cloud environment running Kubernetes using Verrazzano.
 
@@ -11,7 +13,7 @@ This guide describes how to move ("Lift-and-Shift") an on-premises WebLogic Serv
 The [Initial steps](#initial-steps) create a very simple on-premises domain that you will move to Kubernetes.  The sample domain is the starting point for the lift and shift process; it contains one application (ToDo List) and one data source.  First, you'll configure the database and the WebLogic Server domain.  Then, in [Lift and Shift](#lift-and-shift-steps), you will move the domain to Kubernetes with Verrazzano.  This guide does not include the setup of the networking that would be needed to access an on-premises database, nor does it document how to migrate a database to the cloud.  
 
 ## What you need
-MySQL Database 8.x - a database server
+[MySQL Database 8.x](https://hub.docker.com/_/mysql) - a database server
 
 [WebLogic Server 12.2.1.4.0](https://www.oracle.com/middleware/technologies/weblogic-server-downloads.html) - an application server
 
@@ -27,7 +29,7 @@ In the initial steps, you create a sample domain that represents your on-premise
 
 ### Create a database using MySQL called `tododb`
 
-1. Download the MySQL image from Docker Hub.
+1. Download the [MySQL image](https://hub.docker.com/_/mysql) from Docker Hub.
     ```
     docker pull mysql:latest
     ```
@@ -191,18 +193,18 @@ create the Docker image, run `imagetool create`.  Although WIT will download pat
 cd v8o
 
 $WIT_HOME/bin/imagetool.sh cache addInstaller \
-  --path /path/to/intaller/jdk-8u231-linux-x64.tar.gz \
+  --path /path/to/installer/jdk-8u231-linux-x64.tar.gz \
   --type jdk \
   --version 8u231
 
 # The installer file name may be slightly different depending on which version of the 12.2.1.4.0 installer that you downloaded, slim or generic.
 $WIT_HOME/bin/imagetool.sh cache addInstaller \
-  --path /path/to/intaller/fmw_12.2.1.4.0_wls_Disk1_1of1.zip \
+  --path /path/to/installer/fmw_12.2.1.4.0_wls_Disk1_1of1.zip \
   --type wls \
   --version 12.2.1.4.0
 
 $WIT_HOME/bin/imagetool.sh cache addInstaller \
-  --path /path/to/intaller/weblogic-deploy.zip \
+  --path /path/to/installer/weblogic-deploy.zip \
   --type wdt \
   --version latest
 
@@ -234,7 +236,7 @@ docker push your/repo/todo:1
 ### Deploy to Verrazzano
 The following steps assume that you have a Kubernetes cluster and that [Verrazzano]({{< relref "/quickstart.md#install-verrazzano" >}}) is already installed in that cluster.
 
-If you haven't already done so, edit and run the `create_k8s_secrets.sh` to generate the Kubernetes secrets.
+If you haven't already done so, edit and run the `create_k8s_secrets.sh` script to generate the Kubernetes secrets.
 WDT does not discover passwords from your existing domain.  Before running the create secrets script, you will need to
 edit `create_k8s_secrets.sh` to set the passwords for the WebLogic Server domain and the data source.  In this domain,
 there are only two passwords that you need to enter: administrator credentials (like `weblogic/welcome1`) and the
