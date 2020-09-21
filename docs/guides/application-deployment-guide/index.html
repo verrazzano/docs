@@ -24,11 +24,11 @@
 <meta property="og:description" content="A guide for deploying an example application on Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/guides/application-deployment-guide/" />
-<meta property="article:modified_time" content="2020-09-18T16:14:43-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2020-09-21T11:29:51-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Application Deployment Guide">
 <meta itemprop="description" content="A guide for deploying an example application on Verrazzano">
-<meta itemprop="dateModified" content="2020-09-18T16:14:43-04:00" />
-<meta itemprop="wordCount" content="1943">
+<meta itemprop="dateModified" content="2020-09-21T11:29:51-04:00" />
+<meta itemprop="wordCount" content="1937">
 
 
 
@@ -359,7 +359,7 @@ Confirm access using this command to pull the example&rsquo;s Docker image.</p>
 <li>Package the application as a Docker image.</li>
 <li>Publish the application&rsquo;s Docker image to a container registry.</li>
 <li>Apply the application&rsquo;s Verrazzano Application Model to the cluster.</li>
-<li>Apply the application&rsquo;s Verrazzano Binding Model to the cluster.</li>
+<li>Apply the application&rsquo;s Verrazzano Application Binding to the cluster.</li>
 </ol>
 <p>This guide does not provide full details for the first two steps.
 An existing example application Docker image has been packaged and published for use.</p>
@@ -420,7 +420,7 @@ Note that the Docker container will expose a single port 8080.</p>
 <p>Verrazzano Application Model is a
 <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">Kubernetes Custom Resource</a>
 describing an application&rsquo;s general composition and environmental requirements.
-Below is the Verrazzano model for the example application used in this guide.
+Below is the model for the example application used in this guide.
 This model describes an application which is implemented by a single Docker image containing a Helidon application exposing a single endpoint.
 More details about Verrazzano models can be found in the <a href="https://verrazzano.io/docs/reference/model/">Verrazzano model documentation</a>.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>verrazzano.io/v1beta1<span style="color:#f8f8f8;text-decoration:underline">
@@ -441,8 +441,8 @@ More details about Verrazzano models can be found in the <a href="https://verraz
 </span><span style="color:#f8f8f8;text-decoration:underline">                    </span><span style="color:#204a87;font-weight:bold">prefix</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;/greet&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></code></pre></div><p>A brief description of each field in the model follows.</p>
 <ul>
-<li><code>apiVersion</code> - Version of the Verrazzano model custom resource definition used</li>
-<li><code>kind</code> - Standard name of the Verrazzano model custom resource definition</li>
+<li><code>apiVersion</code> - Version of the model custom resource definition used</li>
+<li><code>kind</code> - Standard name of the model custom resource definition</li>
 <li><code>metadata.name</code> - The name used to create the model&rsquo;s custom resource</li>
 <li><code>metadata.namespace</code> - The namespace used to create this model&rsquo;s custom resource</li>
 <li><code>spec.helidonApplications.name</code> - Name used to identify this application from the binding</li>
@@ -450,11 +450,11 @@ More details about Verrazzano models can be found in the <a href="https://verraz
 <li><code>spec.helidonApplications.connections.ingress.name</code> - Name used to identify this ingress from the binding</li>
 <li><code>spec.helidonApplications.connections.ingress.match.uri.prefix</code> - URI prefix for the application&rsquo;s ingress</li>
 </ul>
-<h3 id="verrazzano-binding-model">Verrazzano Binding Model</h3>
-<p>A Verrazzano Binding Model is a
+<h3 id="verrazzano-application-binding">Verrazzano Application Binding</h3>
+<p>A Verrazzano Application Binding is a
 <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">Kubernetes Custom Resource</a>
 which provides environment specific customizations.
-Below is the Verrazzano binding for this guide.
+Below is the binding for this guide.
 This binding specifies that the application be placed in the <code>local</code> cluster
 within the <code>greet</code> namespace having an ingress endpoint bound to DNS name <code>www.example.com</code>.
 More details about Verrazzano bindings can be found in the <a href="https://verrazzano.io/docs/reference/binding/">Verrazzano
@@ -660,7 +660,7 @@ with firewalls that validate HTTP Host headers.</em></li>
 </code></pre></div></li>
 </ol>
 <h3 id="access-the-applications-logs">Access the application&rsquo;s logs</h3>
-<p>Applications deployed using Verrazzano bindings automatically have log collection enabled.
+<p>Applications deployed using bindings automatically have log collection enabled.
 These logs are collected using Elasticsearch and can be accessed using Kibana.
 Elasticsearch and Kibana are examples of infrastructure Verrazzano creates in support of an application as a result of applying a binding.</p>
 <p>The URL used to access Kibana can be determined using the following commands.</p>
@@ -672,7 +672,7 @@ open <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">${</spa
 <p>The password used to access Kibana can be determined using the following command.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#204a87">echo</span> <span style="color:#204a87;font-weight:bold">$(</span>kubectl get secret -n verrazzano-system verrazzano -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">={</span>.data.password<span style="color:#ce5c00;font-weight:bold">}</span> <span style="color:#000;font-weight:bold">|</span> base64 --decode<span style="color:#204a87;font-weight:bold">)</span>
 </code></pre></div><h3 id="access-the-applications-metrics">Access the application&rsquo;s metrics</h3>
-<p>Applications deployed using Verrazzano bindings automatically have metric collection enabled.
+<p>Applications deployed using bindings automatically have metric collection enabled.
 Grafana can be used to access these metrics collected by Prometheus.
 Prometheus and Grafana are additional components Verrazzano creates as a result of applying an application binding.</p>
 <p>The URL used to access Grafana can be determined using the following commands.</p>
@@ -770,7 +770,7 @@ such as monitoring components.</p>
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified September 18, 2020: <a  href="https://github.com/verrazzano/docs/commit/d342c9d0563a5a802b2593adf0830b68ba9d9953">VZ-1224: create helidon hello world guide (#35) (d342c9d)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified September 21, 2020: <a  href="https://github.com/verrazzano/docs/commit/5dfcc25677b41c7c15d02ae4587be67a9e6018cb">VZ-1224: create helidon hello world guide binding term fix (#36) (5dfcc25)</a>
 </div>
 </div>
 
