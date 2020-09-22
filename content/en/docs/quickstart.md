@@ -42,13 +42,9 @@ To install Verrazzano, follow these steps:
    - `./install/2a-install-system-components-magicdns.sh`
    - `./install/3-install-verrazzano.sh`
    - `./install/4-install-keycloak.sh`
-1. (Optional) Install some example applications - see [Deploy the example applications](#deploy-the-example-applications).
 
-### Deploy the example applications (optional)
+## Next steps
 
-See the instructions at:
+1. [Verify](https://github.com/verrazzano/verrazzano/blob/master/install/README.md#4-verify-the-install) the installation.
 
-- [Hello World Helidon ](https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md)
-- [Bob's Books](https://github.com/verrazzano/verrazzano/tree/master/examples/bobs-books/README.md)
-- [Helidon Sock Shop](https://github.com/verrazzano/verrazzano/blob/master/examples/sock-shop/README.md)
-- [ToDo List Lift-and-Shift Application](https://github.com/verrazzano/examples/blob/master/todo-list/README.md)
+1. [Deploy an example application](../guides/application-deployment-guide) on Verrazzano.
