@@ -5,47 +5,47 @@ description: "A guide for deploying an example application on Verrazzano"
 weight: 4
 draft: false
 ---
-This guide demonstrates deploying an example application to [Verrazzano](https://verrazzano.io/).
 
-Completing this guide should take about ten minutes.
 
-## Prerequisites
-Following this guide requires:
-1. Access to an existing Kubernetes cluster with Verrazzano installed.
-   Use the [quick start](../../quickstart) instructions to install Verrazzano.
+## Overview
 
-1. Access to the application's image in Oracle Container Registry.
+Developing and deploying an application to [Verrazzano](https://verrazzano.io/) consists of:
+1. Packaging the application as a Docker image.
+1. Publishing the application's Docker image to a container registry.
+1. Applying the application's Verrazzano Application Model to the cluster.
+1. Applying the application's Verrazzano Application Binding to the cluster.
+
+This guide does not provide the full details for the first two steps. An existing example application
+Docker image has been packaged and published for use.
+
+## What you need
+
+1. About 10 minutes.
+
+1. Access to an existing Kubernetes cluster with Verrazzano [installed]({{< relref "/quickstart.md#install-verrazzano" >}}).
+
+1. Access to the application's image in the Oracle Container Registry.
+
    Confirm access using this command to pull the example's Docker image.
 
    ```
    docker pull container-registry.oracle.com/verrazzano/example-hello-world-helidon:0.1.10-3-e5ae893-124
    ```
 
-## Overview
-
-Developing and deploying an application to Verrazzano consists of a few steps.
-1. Package the application as a Docker image.
-1. Publish the application's Docker image to a container registry.
-1. Apply the application's Verrazzano Application Model to the cluster.
-1. Apply the application's Verrazzano Application Binding to the cluster.
-
-This guide does not provide full details for the first two steps.
-An existing example application Docker image has been packaged and published for use.
-
 ## Application Development
-This guide uses an example application which is written with Java and [Helidon](https://helidon.io).
-Implementation details can be found in the [Helidon MP tutorial](https://helidon.io/docs/latest/#/mp/guides/10_mp-tutorial).
-See the Verrazzano examples repository for the application's [source code](https://github.com/verrazzano/examples/tree/master/hello-helidon).
+This guide uses an example application which was written with Java and [Helidon](https://helidon.io).
+For the implementation details, see the [Helidon MP tutorial](https://helidon.io/docs/latest/#/mp/guides/10_mp-tutorial).
+See the application [source code](https://github.com/verrazzano/examples/tree/master/hello-helidon) in the Verrazzano examples repository.
 
-The example application is a JAX-RS service and implements the following REST endpoints.
+The example application is a JAX-RS service and implements the following REST endpoints:
 - `/greet` - Returns a default greeting message that is stored in memory.
   This endpoint accepts the `GET` HTTP request method.
 - `/greet/{name}` - Returns a greeting message including the name provided in the path parameter.
   This endpoint accepts the `GET` HTTP request method.
 - `/greet/greeting` - Changes the greeting message to be used in future calls to the other endpoints.
-  This endpoint accepts the `PUT` HTTP request method, and a JSON payload.
+  This endpoint accepts the `PUT` HTTP request method and a JSON payload.
 
-Below is a portion of the application's implementation.
+The following code shows a portion of the application's implementation.
 The Verrazzano examples repository contains the complete [implementation](https://github.com/verrazzano/examples/blob/master/hello-helidon/helidon-app-greet-v1/src/main/java/io/helidon/examples/quickstart/mp/GreetResource.java).
 An important detail here is that the application contains a single resource exposed on path `/greet`.
 
@@ -74,16 +74,16 @@ public class GreetResource {
     @Consumes(MediaType.APPLICATION_JSON)
     ...
     public Response updateGreeting(JsonObject jsonObject) {
-        ... 
+        ...
     }
-    
+
 }
 ```
 
-A `Dockerfile` is used to package the completed application's JAR into a Docker image.
-Below is a portion of the Dockerfile.
+A Dockerfile is used to package the completed application JAR file into a Docker image.
+The following code shows a portion of the Dockerfile.
 The Verrazzano examples repository contains the complete [Dockerfile](https://github.com/verrazzano/examples/blob/master/hello-helidon/helidon-app-greet-v1/Dockerfile).
-Note that the Docker container will expose a single port 8080.
+Note that the Docker container exposes a single port 8080.
 
 ```dockerfile
 FROM container-registry.oracle.com/os/oraclelinux:7-slim@sha256:9b86d1332a883ee8f68dd44ba42133de518b2e0ec1cc70257e59fb4da86b1ad3
@@ -96,12 +96,12 @@ EXPOSE 8080
 
 ### Verrazzano Application Model
 
-Verrazzano Application Model is a
+A Verrazzano Application Model is a
 [Kubernetes Custom Resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
-describing an application's general composition and environmental requirements.
-Below is the model for the example application used in this guide.
+describing an application's general composition and environment requirements.
+The following code shows the model for the example application used in this guide.
 This model describes an application which is implemented by a single Docker image containing a Helidon application exposing a single endpoint.
-More details about Verrazzano models can be found in the [Verrazzano model documentation](https://verrazzano.io/docs/reference/model/).
+For more details about Verrazzano models, see the [Verrazzano Application Model](https://verrazzano.io/docs/reference/model/) documentation.
 
 ```yaml
 apiVersion: verrazzano.io/v1beta1
@@ -122,9 +122,9 @@ spec:
                     prefix: "/greet"
 ```
 
-A brief description of each field in the model follows.
+A brief description of each field in the model:
 
-* `apiVersion` - Version of the model custom resource definition used
+* `apiVersion` - Version of the model custom resource definition
 * `kind` - Standard name of the model custom resource definition
 * `metadata.name` - The name used to create the model's custom resource
 * `metadata.namespace` - The namespace used to create this model's custom resource
@@ -138,11 +138,11 @@ A brief description of each field in the model follows.
 A Verrazzano Application Binding is a
 [Kubernetes Custom Resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 which provides environment specific customizations.
-Below is the binding for this guide.
+The following code shows the binding for the example application used in this guide.
 This binding specifies that the application be placed in the `local` cluster
 within the `greet` namespace having an ingress endpoint bound to DNS name `www.example.com`.
-More details about Verrazzano bindings can be found in the [Verrazzano
-binding documentation](https://verrazzano.io/docs/reference/binding/).
+For more details about Verrazzano bindings, see the [Verrazzano
+Application Binding](https://verrazzano.io/docs/reference/binding/) documentation.
 
 ```yaml
 apiVersion: verrazzano.io/v1beta1
@@ -164,9 +164,9 @@ spec:
       dnsName: "www.example.com"
 ```
 
-A brief description of each field in the model follows.
+A brief description of each field in the model:
 
-* `apiVersion` - Version of the Verrazzano binding custom resource definition used
+* `apiVersion` - Version of the Verrazzano binding custom resource definition
 * `kind` - Standard name of the Verrazzano binding custom resource definition
 * `metadata.name` - The name used to create this binding's custom resource
 * `metadata.namespace` - The namespace used to create this binding's custom resource
@@ -179,8 +179,8 @@ A brief description of each field in the model follows.
 
 ### Deploy the application
 
-Below are the steps required to deploy the example application.
-Steps similar to the `apply` steps below would be used to deploy any application to Verrazzano.
+The following steps are required to deploy the example application.
+Steps similar to the `apply` steps would be used to deploy any application to Verrazzano.
 
 1. Clone the Verrazzano [repository](https://github.com/verrazzano/verrazzano).
 
@@ -188,13 +188,14 @@ Steps similar to the `apply` steps below would be used to deploy any application
    git clone https://github.com/verrazzano/verrazzano.git
    ```
 
-1. Change the current directory to the example hello-helidon directory.
+1. Change the current directory to the example `hello-helidon` directory.
 
    ```shell script
    cd verrazzano/examples/hello-helidon
-   ``` 
-
-   _Note: The remainder of this guide uses file locations relative to this directory._ 
+   ```
+   {{< alert title="NOTE" color="tip" >}}
+   The remainder of this guide uses file locations relative to this directory.
+   {{< /alert >}}
 
 1. Apply the application's model.
 
@@ -204,17 +205,17 @@ Steps similar to the `apply` steps below would be used to deploy any application
 
    This step causes the validation and creation of the model resource.
    No other resources or objects are created as a result.
-   Bindings applied in the future may reference these models.
+   Bindings applied in the future may reference this model.
 
 1. Apply the application's binding.
 
    ```shell script
    kubectl apply -f ./hello-world-binding.yaml
    ```
-   
-   This step causes the validation and then creation of the binding resource.
+
+   This step causes the validation and creation of the binding resource.
    The binding creation triggers the activation of a number of Verrazzano operators.
-   These operators create other Kubernetes objects (e.g. deployments, replicasets, pods, services, ingresses)
+   These operators create other Kubernetes objects (for example, deployments, replicasets, pods, services, ingresses)
    that collectively provide and support the application.
 
 1. Configure the application's DNS resolution.
@@ -230,21 +231,20 @@ Steps similar to the `apply` steps below would be used to deploy any application
    kubectl get service -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}
    ```
 
-   DNS configuration steps are outside the scope of this guide. See
-   [Oracle Cloud Infrastructure DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/gettingstarted.htm)
-   for DNS infrastructure that could be configured and used.
-   In some small non-production scenarios DNS configuration via
-   `/etc/hosts` or equivalent may be sufficient.
+   DNS configuration steps are outside the scope of this guide. For DNS infrastructure that can be configured and used, see
+   the [Oracle Cloud Infrastructure DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/gettingstarted.htm) documentation.
+   In some small non-production scenarios, DNS configuration using
+   `/etc/hosts` or an equivalent may be sufficient.
 
 ### Verify the deployment
 
   Applying the binding initiates the creation of several Kubernetes objects.
   Actual creation and initialization of these object occurs asynchronously.
   The following steps provide commands for determining when these objects are ready for use.
-  
-  _Note: Many other Kubernetes objects unrelated to the example application may also exist.
-  Those have been omitted from the lists below._
-  
+
+  **Note**: Many other Kubernetes objects unrelated to the example application may also exist.
+  Those have been omitted from the lists.
+
 1. Verify the Helidon application pod is running.
 
    ```
@@ -270,8 +270,8 @@ Steps similar to the `apply` steps below would be used to deploy any application
 
    The namespace `verrazzano-system` is used by Verrazzano for
    non-application objects managed by Verrazzano.
-   A single `verrazzano-helidon-app-operator` manages the lifecycle of
-   all Helidon based applications within the cluster.
+   A single `verrazzano-helidon-app-operator` manages the life cycle of
+   all Helidon-based applications within the cluster.
 
 1. Verify the Verrazzano monitoring infrastructure is running.
 
@@ -297,7 +297,7 @@ Steps similar to the `apply` steps below would be used to deploy any application
    The `hello-world-binding` portion of the pod names are from the
    binding's `metadata.name` value.
 
-   The monitoring infrastructure comprises several components.
+   The monitoring infrastructure comprises several components:
    * `vmi-hello-world-binding-api` Internal API for configuring monitoring
    * `vmi-hello-world-binding-es` - Elasticsearch for log collection
    * `vmi-hello-world-binding-kibana` - Kibana for log visualization
@@ -323,7 +323,7 @@ Steps similar to the `apply` steps below would be used to deploy any application
 1. Diagnose failures.
 
    View the event logs of any pod not entering the `Running` state within
-   a reasonable length of time such as five minutes.
+   a reasonable length of time, such as five minutes.
 
    ```shell script
    kubectl describe pod -n greet hello-world-application-648f8f79d9-8xkhl
@@ -334,19 +334,20 @@ Steps similar to the `apply` steps below would be used to deploy any application
 ### Explore the application
 
 Follow these steps to explore the application's functionality.
-If DNS was not configured alternate commands will need to be used below.
+If DNS was not configured, then use alternate commands.
 
-1.  Save the hostname and IP address of the load balancer exposing the application's REST service endpoints for later.
+1.  Save the host name and IP address of the load balancer exposing the application's REST service endpoints for later.
     ```shell script
     HOST='www.example.com'
     ADDRESS=$(kubectl get service -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     ```
+    **NOTE**:
 
-    * _Note: The value of `ADDRESS` is only used if DNS has not been
-    configured._
-    * _Note: The alternate commands below may not work in conjunction
-    with firewalls that validate HTTP Host headers._
-    <p/>
+    * The value of `ADDRESS` is used only if DNS has not been
+    configured.
+    * The following alternate commands may not work in conjunction
+    with firewalls that validate `HTTP Host` headers.
+
 
 1.  Get the default message.
     ```shell script
@@ -354,7 +355,7 @@ If DNS was not configured alternate commands will need to be used below.
 
     {"message":"Hello World!"}
     ```
-    If DNS has not been configured use this command.
+    If DNS has not been configured, then use this command.
     ```shell script
     $ curl -s -X GET "http://${ADDRESS}/greet" -H "Host: ${HOST}"
     ```
@@ -365,7 +366,7 @@ If DNS was not configured alternate commands will need to be used below.
 
     {"message":"Hello Robert!"}
     ```
-    If DNS has not been configured use this command.
+    If DNS has not been configured, then use this command.
     ```shell script
     $ curl -s -X GET "http://${ADDRESS}/greet/Robert" -H "Host: ${HOST}"
     ````
@@ -374,7 +375,7 @@ If DNS was not configured alternate commands will need to be used below.
     ```shell script
     $ curl -s -X PUT "http://${HOST}/greet/greeting" -H 'Content-Type: application/json' -d '{"greeting" : "Greetings"}'
     ```
-    If DNS has not been configured use this command.
+    If DNS has not been configured, then use this command.
     ```shell script
     $ curl -s -X PUT "http://${ADDRESS}/greet/greeting" -H 'Content-Type: application/json' -d '{"greeting" : "Greetings"}' -H "Host: ${HOST}"
     ````
@@ -385,18 +386,18 @@ If DNS was not configured alternate commands will need to be used below.
 
     {"message":"Welcome Robert!"}
     ```
-    If DNS has not been configured use this command.
+    If DNS has not been configured, then use this command.
     ```shell script
     $ curl -s -X GET "http://${ADDRESS}/greet/Robert" -H "Host: ${HOST}"
     ````
 
 ### Access the application's logs
 
-Applications deployed using bindings automatically have log collection enabled.
+Applications deployed using bindings have log collection enabled.
 These logs are collected using Elasticsearch and can be accessed using Kibana.
 Elasticsearch and Kibana are examples of infrastructure Verrazzano creates in support of an application as a result of applying a binding.
 
-The URL used to access Kibana can be determined using the following commands.
+Determine the URL to access Kibana using the following commands.
  ```shell script
 KIBANA_HOST=$(kubectl get ingress -n verrazzano-system vmi-hello-world-binding-kibana -o jsonpath='{.spec.rules[0].host}')
 KIBANA_URL="https://${KIBANA_HOST}"
@@ -404,20 +405,20 @@ echo "${KIBANA_URL}"
 open "${KIBANA_URL}"
 ```
 
-The username used to access Kibana defaults to `verrazzano` during the Verrazzano install.
+The user name to access Kibana defaults to `verrazzano` during the Verrazzano installation.
 
-The password used to access Kibana can be determined using the following command.
+Determine the password to access Kibana using the following command.
 ```shell script
 echo $(kubectl get secret -n verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode)
-``` 
- 
+```
+
 ### Access the application's metrics
 
-Applications deployed using bindings automatically have metric collection enabled.
+Applications deployed using bindings have metric collection enabled.
 Grafana can be used to access these metrics collected by Prometheus.
 Prometheus and Grafana are additional components Verrazzano creates as a result of applying an application binding.
 
-The URL used to access Grafana can be determined using the following commands.
+Determine the URL to access Grafana using the following commands.
 
 ```shell script
 GRAFANA_HOST=$(kubectl get ingress -n verrazzano-system vmi-hello-world-binding-grafana -o jsonpath='{.spec.rules[0].host}')
@@ -425,16 +426,16 @@ GRAFANA_URL="https://${GRAFANA_HOST}"
 echo "${GRAFANA_URL}"
 open "${GRAFANA_URL}"
 ```
-The username used to access Grafana is set to the default value `verrazzano` during Verrazzano install.
- 
-The password used to access Grafana can be determined using the following command.
+The user name to access Grafana is set to the default value `verrazzano` during the Verrazzano installation.
+
+Determine the password to access Grafana using the following command.
 
 ```shell script
 echo $(kubectl get secret -n verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode)
-``` 
+```
 
-Alternatively metrics can be accessed directly using Prometheus.
-The URL used for this access can be determined using the following commands.
+Alternatively, metrics can be accessed directly using Prometheus.
+Determine the URL for this access using the following commands.
 
 ```shell script
 PROMETHEUS_HOST=$(kubectl get ingress -n verrazzano-system vmi-hello-world-binding-prometheus -o jsonpath='{.spec.rules[0].host}')
@@ -443,26 +444,26 @@ echo "${PROMETHEUS_URL}"
 open "${PROMETHEUS_URL}"
 ```
 
-The username and password used for Prometheus access are the same as for Grafana.
+The user name and password for Prometheus access are the same as for Grafana.
 
 ## Application Removal
 
-Run the following commands to delete the application's binding and optionally model.
+Run the following commands to delete the application's binding and, optionally, model.
 
 1. Delete the application's binding.
 
    ```shell script
    kubectl delete -f ./hello-world-binding.yaml
    ```
-   
+
    The deletion of the application's binding will result in the destruction
-   of all application specific Kubernetes objects.
-   This includes objects created by Verrazzano on behalf of the application
+   of all application-specific Kubernetes objects.
+   This includes objects created by Verrazzano on behalf of the application,
    such as monitoring components.
-    
+
 1. Delete the application's model (optional).
 
    ```shell script
    kubectl delete -f ./hello-world-model.yaml
    ```
-   _Note: This step is not required if other bindings for this model will be applied in the future._
+   **Note**: This step is not required if other bindings for this model will be applied in the future.
