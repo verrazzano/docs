@@ -1,7 +1,7 @@
 ---
 title: "Lift-and-Shift Guide"
 linkTitle: "Lift-and-Shift"
-description: "A guide for moving WLS domains to Verrazzano."
+description: "A guide for moving WLS domains to Verrazzano"
 weight: 5
 draft: false
 ---
