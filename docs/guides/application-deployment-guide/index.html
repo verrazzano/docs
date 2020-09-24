@@ -24,11 +24,11 @@
 <meta property="og:description" content="A guide for deploying an example application on Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/guides/application-deployment-guide/" />
-<meta property="article:modified_time" content="2020-09-21T11:29:51-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2020-09-22T13:19:33-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Application Deployment Guide">
 <meta itemprop="description" content="A guide for deploying an example application on Verrazzano">
-<meta itemprop="dateModified" content="2020-09-21T11:29:51-04:00" />
-<meta itemprop="wordCount" content="1937">
+<meta itemprop="dateModified" content="2020-09-22T13:19:33-04:00" />
+<meta itemprop="wordCount" content="1903">
 
 
 
@@ -282,8 +282,8 @@ if (!doNotTrack) {
   <ul>
     <li>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#overview">Overview</a></li>
+        <li><a href="#what-you-need">What you need</a></li>
         <li><a href="#application-development">Application Development</a></li>
         <li><a href="#application-deployment">Application Deployment</a></li>
         <li><a href="#application-removal">Application Removal</a></li>
@@ -338,45 +338,44 @@ if (!doNotTrack) {
 	<h1>Application Deployment Guide</h1>
     <div class="lead">A guide for deploying an example application on Verrazzano</div>
 	       
-	<p>This guide demonstrates deploying an example application to <a href="https://verrazzano.io/">Verrazzano</a>.</p>
-<p>Completing this guide should take about ten minutes.</p>
-<h2 id="prerequisites">Prerequisites</h2>
-<p>Following this guide requires:</p>
+	<h2 id="overview">Overview</h2>
+<p>Developing and deploying an application to <a href="https://verrazzano.io/">Verrazzano</a> consists of:</p>
+<ol>
+<li>Packaging the application as a Docker image.</li>
+<li>Publishing the application&rsquo;s Docker image to a container registry.</li>
+<li>Applying the application&rsquo;s Verrazzano Application Model to the cluster.</li>
+<li>Applying the application&rsquo;s Verrazzano Application Binding to the cluster.</li>
+</ol>
+<p>This guide does not provide the full details for the first two steps. An existing example application
+Docker image has been packaged and published for use.</p>
+<h2 id="what-you-need">What you need</h2>
 <ol>
 <li>
-<p>Access to an existing Kubernetes cluster with Verrazzano installed.
-Use the <a href="../../quickstart">quick start</a> instructions to install Verrazzano.</p>
+<p>About 10 minutes.</p>
 </li>
 <li>
-<p>Access to the application&rsquo;s image in Oracle Container Registry.
-Confirm access using this command to pull the example&rsquo;s Docker image.</p>
+<p>Access to an existing Kubernetes cluster with Verrazzano <a href="../../../docs/quickstart/#install-verrazzano">installed</a>.</p>
+</li>
+<li>
+<p>Access to the application&rsquo;s image in the Oracle Container Registry.</p>
+<p>Confirm access using this command to pull the example&rsquo;s Docker image.</p>
 <pre><code>docker pull container-registry.oracle.com/verrazzano/example-hello-world-helidon:0.1.10-3-e5ae893-124
 </code></pre></li>
 </ol>
-<h2 id="overview">Overview</h2>
-<p>Developing and deploying an application to Verrazzano consists of a few steps.</p>
-<ol>
-<li>Package the application as a Docker image.</li>
-<li>Publish the application&rsquo;s Docker image to a container registry.</li>
-<li>Apply the application&rsquo;s Verrazzano Application Model to the cluster.</li>
-<li>Apply the application&rsquo;s Verrazzano Application Binding to the cluster.</li>
-</ol>
-<p>This guide does not provide full details for the first two steps.
-An existing example application Docker image has been packaged and published for use.</p>
 <h2 id="application-development">Application Development</h2>
-<p>This guide uses an example application which is written with Java and <a href="https://helidon.io">Helidon</a>.
-Implementation details can be found in the <a href="https://helidon.io/docs/latest/#/mp/guides/10_mp-tutorial">Helidon MP tutorial</a>.
-See the Verrazzano examples repository for the application&rsquo;s <a href="https://github.com/verrazzano/examples/tree/master/hello-helidon">source code</a>.</p>
-<p>The example application is a JAX-RS service and implements the following REST endpoints.</p>
+<p>This guide uses an example application which was written with Java and <a href="https://helidon.io">Helidon</a>.
+For the implementation details, see the <a href="https://helidon.io/docs/latest/#/mp/guides/10_mp-tutorial">Helidon MP tutorial</a>.
+See the application <a href="https://github.com/verrazzano/examples/tree/master/hello-helidon">source code</a> in the Verrazzano examples repository.</p>
+<p>The example application is a JAX-RS service and implements the following REST endpoints:</p>
 <ul>
 <li><code>/greet</code> - Returns a default greeting message that is stored in memory.
 This endpoint accepts the <code>GET</code> HTTP request method.</li>
 <li><code>/greet/{name}</code> - Returns a greeting message including the name provided in the path parameter.
 This endpoint accepts the <code>GET</code> HTTP request method.</li>
 <li><code>/greet/greeting</code> - Changes the greeting message to be used in future calls to the other endpoints.
-This endpoint accepts the <code>PUT</code> HTTP request method, and a JSON payload.</li>
+This endpoint accepts the <code>PUT</code> HTTP request method and a JSON payload.</li>
 </ul>
-<p>Below is a portion of the application&rsquo;s implementation.
+<p>The following code shows a portion of the application&rsquo;s implementation.
 The Verrazzano examples repository contains the complete <a href="https://github.com/verrazzano/examples/blob/master/hello-helidon/helidon-app-greet-v1/src/main/java/io/helidon/examples/quickstart/mp/GreetResource.java">implementation</a>.
 An important detail here is that the application contains a single resource exposed on path <code>/greet</code>.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#204a87;font-weight:bold">package</span> <span style="color:#000">io.helidon.examples.quickstart.mp</span><span style="color:#ce5c00;font-weight:bold">;</span>
@@ -403,26 +402,26 @@ An important detail here is that the application contains a single resource expo
     <span style="color:#5c35cc;font-weight:bold">@Consumes</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">MediaType</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">APPLICATION_JSON</span><span style="color:#ce5c00;font-weight:bold">)</span>
     <span style="color:#ce5c00;font-weight:bold">...</span>
     <span style="color:#204a87;font-weight:bold">public</span> <span style="color:#000">Response</span> <span style="color:#000">updateGreeting</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">JsonObject</span> <span style="color:#000">jsonObject</span><span style="color:#ce5c00;font-weight:bold">)</span> <span style="color:#ce5c00;font-weight:bold">{</span>
-        <span style="color:#ce5c00;font-weight:bold">...</span> 
+        <span style="color:#ce5c00;font-weight:bold">...</span>
     <span style="color:#ce5c00;font-weight:bold">}</span>
-    
+
 <span style="color:#ce5c00;font-weight:bold">}</span>
-</code></pre></div><p>A <code>Dockerfile</code> is used to package the completed application&rsquo;s JAR into a Docker image.
-Below is a portion of the Dockerfile.
+</code></pre></div><p>A Dockerfile is used to package the completed application JAR file into a Docker image.
+The following code shows a portion of the Dockerfile.
 The Verrazzano examples repository contains the complete <a href="https://github.com/verrazzano/examples/blob/master/hello-helidon/helidon-app-greet-v1/Dockerfile">Dockerfile</a>.
-Note that the Docker container will expose a single port 8080.</p>
+Note that the Docker container exposes a single port 8080.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#204a87;font-weight:bold">FROM</span><span style="color:#4e9a06"> container-registry.oracle.com/os/oraclelinux:7-slim@sha256:9b86d1332a883ee8f68dd44ba42133de518b2e0ec1cc70257e59fb4da86b1ad3</span><span style="color:#a40000">
 </span><span style="color:#a40000"></span>...<span style="color:#a40000">
 </span><span style="color:#a40000"></span><span style="color:#204a87;font-weight:bold">CMD</span> java -cp /app/helidon-quickstart-mp.jar:/app/* io.helidon.examples.quickstart.mp.Main<span style="color:#a40000">
 </span><span style="color:#a40000"></span><span style="color:#204a87;font-weight:bold">EXPOSE</span><span style="color:#4e9a06"> 8080</span><span style="color:#a40000">
 </span></code></pre></div><h2 id="application-deployment">Application Deployment</h2>
 <h3 id="verrazzano-application-model">Verrazzano Application Model</h3>
-<p>Verrazzano Application Model is a
+<p>A Verrazzano Application Model is a
 <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">Kubernetes Custom Resource</a>
-describing an application&rsquo;s general composition and environmental requirements.
-Below is the model for the example application used in this guide.
+describing an application&rsquo;s general composition and environment requirements.
+The following code shows the model for the example application used in this guide.
 This model describes an application which is implemented by a single Docker image containing a Helidon application exposing a single endpoint.
-More details about Verrazzano models can be found in the <a href="https://verrazzano.io/docs/reference/model/">Verrazzano model documentation</a>.</p>
+For more details about Verrazzano models, see the <a href="https://verrazzano.io/docs/reference/model/">Verrazzano Application Model</a> documentation.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>verrazzano.io/v1beta1<span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>VerrazzanoModel<span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
@@ -439,9 +438,9 @@ More details about Verrazzano models can be found in the <a href="https://verraz
 </span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">match</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline">                </span>- <span style="color:#204a87;font-weight:bold">uri</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline">                    </span><span style="color:#204a87;font-weight:bold">prefix</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;/greet&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></code></pre></div><p>A brief description of each field in the model follows.</p>
+</span></code></pre></div><p>A brief description of each field in the model:</p>
 <ul>
-<li><code>apiVersion</code> - Version of the model custom resource definition used</li>
+<li><code>apiVersion</code> - Version of the model custom resource definition</li>
 <li><code>kind</code> - Standard name of the model custom resource definition</li>
 <li><code>metadata.name</code> - The name used to create the model&rsquo;s custom resource</li>
 <li><code>metadata.namespace</code> - The namespace used to create this model&rsquo;s custom resource</li>
@@ -454,11 +453,11 @@ More details about Verrazzano models can be found in the <a href="https://verraz
 <p>A Verrazzano Application Binding is a
 <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">Kubernetes Custom Resource</a>
 which provides environment specific customizations.
-Below is the binding for this guide.
+The following code shows the binding for the example application used in this guide.
 This binding specifies that the application be placed in the <code>local</code> cluster
 within the <code>greet</code> namespace having an ingress endpoint bound to DNS name <code>www.example.com</code>.
-More details about Verrazzano bindings can be found in the <a href="https://verrazzano.io/docs/reference/binding/">Verrazzano
-binding documentation</a>.</p>
+For more details about Verrazzano bindings, see the <a href="https://verrazzano.io/docs/reference/binding/">Verrazzano
+Application Binding</a> documentation.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>verrazzano.io/v1beta1<span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>VerrazzanoBinding<span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
@@ -476,9 +475,9 @@ binding documentation</a>.</p>
 </span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">ingressBindings</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;greet-ingress&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">dnsName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;www.example.com&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></code></pre></div><p>A brief description of each field in the model follows.</p>
+</span></code></pre></div><p>A brief description of each field in the model:</p>
 <ul>
-<li><code>apiVersion</code> - Version of the Verrazzano binding custom resource definition used</li>
+<li><code>apiVersion</code> - Version of the Verrazzano binding custom resource definition</li>
 <li><code>kind</code> - Standard name of the Verrazzano binding custom resource definition</li>
 <li><code>metadata.name</code> - The name used to create this binding&rsquo;s custom resource</li>
 <li><code>metadata.namespace</code> - The namespace used to create this binding&rsquo;s custom resource</li>
@@ -490,31 +489,37 @@ binding documentation</a>.</p>
 <li><code>spec.ingressBindings.dnsName</code> - The DNS name to use for the ingress when created</li>
 </ul>
 <h3 id="deploy-the-application">Deploy the application</h3>
-<p>Below are the steps required to deploy the example application.
-Steps similar to the <code>apply</code> steps below would be used to deploy any application to Verrazzano.</p>
+<p>The following steps are required to deploy the example application.
+Steps similar to the <code>apply</code> steps would be used to deploy any application to Verrazzano.</p>
 <ol>
 <li>
 <p>Clone the Verrazzano <a href="https://github.com/verrazzano/verrazzano">repository</a>.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">git clone https://github.com/verrazzano/verrazzano.git
 </code></pre></div></li>
 <li>
-<p>Change the current directory to the example hello-helidon directory.</p>
+<p>Change the current directory to the example <code>hello-helidon</code> directory.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#204a87">cd</span> verrazzano/examples/hello-helidon
-</code></pre></div><p><em>Note: The remainder of this guide uses file locations relative to this directory.</em></p>
+</code></pre></div>
+
+<div class="alert alert-tip" role="alert">
+<h4 class="alert-heading">NOTE</h4>
+The remainder of this guide uses file locations relative to this directory.
+</div>
+
 </li>
 <li>
 <p>Apply the application&rsquo;s model.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f ./hello-world-model.yaml
 </code></pre></div><p>This step causes the validation and creation of the model resource.
 No other resources or objects are created as a result.
-Bindings applied in the future may reference these models.</p>
+Bindings applied in the future may reference this model.</p>
 </li>
 <li>
 <p>Apply the application&rsquo;s binding.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f ./hello-world-binding.yaml
-</code></pre></div><p>This step causes the validation and then creation of the binding resource.
+</code></pre></div><p>This step causes the validation and creation of the binding resource.
 The binding creation triggers the activation of a number of Verrazzano operators.
-These operators create other Kubernetes objects (e.g. deployments, replicasets, pods, services, ingresses)
+These operators create other Kubernetes objects (for example, deployments, replicasets, pods, services, ingresses)
 that collectively provide and support the application.</p>
 </li>
 <li>
@@ -526,19 +531,18 @@ The application&rsquo;s DNS name is the value of the binding&rsquo;s
 The load balancer IP is obtained by querying Kubernetes for the
 Istio ingress gateway status.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl get service -n istio-system istio-ingressgateway -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#a40000">&#39;</span><span style="color:#ce5c00;font-weight:bold">{</span>.status.loadBalancer.ingress<span style="color:#ce5c00;font-weight:bold">[</span>0<span style="color:#ce5c00;font-weight:bold">]</span>.ip<span style="color:#ce5c00;font-weight:bold">}</span>
-</code></pre></div><p>DNS configuration steps are outside the scope of this guide. See
-<a href="https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/gettingstarted.htm">Oracle Cloud Infrastructure DNS</a>
-for DNS infrastructure that could be configured and used.
-In some small non-production scenarios DNS configuration via
-<code>/etc/hosts</code> or equivalent may be sufficient.</p>
+</code></pre></div><p>DNS configuration steps are outside the scope of this guide. For DNS infrastructure that can be configured and used, see
+the <a href="https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/gettingstarted.htm">Oracle Cloud Infrastructure DNS</a> documentation.
+In some small non-production scenarios, DNS configuration using
+<code>/etc/hosts</code> or an equivalent may be sufficient.</p>
 </li>
 </ol>
 <h3 id="verify-the-deployment">Verify the deployment</h3>
 <p>Applying the binding initiates the creation of several Kubernetes objects.
 Actual creation and initialization of these object occurs asynchronously.
 The following steps provide commands for determining when these objects are ready for use.</p>
-<p><em>Note: Many other Kubernetes objects unrelated to the example application may also exist.
-Those have been omitted from the lists below.</em></p>
+<p><strong>Note</strong>: Many other Kubernetes objects unrelated to the example application may also exist.
+Those have been omitted from the lists.</p>
 <ol>
 <li>
 <p>Verify the Helidon application pod is running.</p>
@@ -559,8 +563,8 @@ NAME                                                     READY   STATUS    RESTA
 verrazzano-helidon-app-operator-d746d7bc6-67th8          1/1     Running   0          2h
 </code></pre><p>The namespace <code>verrazzano-system</code> is used by Verrazzano for
 non-application objects managed by Verrazzano.
-A single <code>verrazzano-helidon-app-operator</code> manages the lifecycle of
-all Helidon based applications within the cluster.</p>
+A single <code>verrazzano-helidon-app-operator</code> manages the life cycle of
+all Helidon-based applications within the cluster.</p>
 </li>
 <li>
 <p>Verify the Verrazzano monitoring infrastructure is running.</p>
@@ -582,7 +586,7 @@ vmi-hello-world-binding-prometheus-gw-6df8bf4689-dmfxh   1/1     Running   0    
 monitoring stack created by Verrazzano for each binding.
 The <code>hello-world-binding</code> portion of the pod names are from the
 binding&rsquo;s <code>metadata.name</code> value.</p>
-<p>The monitoring infrastructure comprises several components.</p>
+<p>The monitoring infrastructure comprises several components:</p>
 <ul>
 <li><code>vmi-hello-world-binding-api</code> Internal API for configuring monitoring</li>
 <li><code>vmi-hello-world-binding-es</code> - Elasticsearch for log collection</li>
@@ -607,33 +611,33 @@ These components push collected metrics to Prometheus.</p>
 <li>
 <p>Diagnose failures.</p>
 <p>View the event logs of any pod not entering the <code>Running</code> state within
-a reasonable length of time such as five minutes.</p>
+a reasonable length of time, such as five minutes.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl describe pod -n greet hello-world-application-648f8f79d9-8xkhl
 </code></pre></div><p>Use the specific namespace and name for the pod being investigated.</p>
 </li>
 </ol>
 <h3 id="explore-the-application">Explore the application</h3>
 <p>Follow these steps to explore the application&rsquo;s functionality.
-If DNS was not configured alternate commands will need to be used below.</p>
+If DNS was not configured, then use alternate commands.</p>
 <ol>
 <li>
-<p>Save the hostname and IP address of the load balancer exposing the application&rsquo;s REST service endpoints for later.</p>
+<p>Save the host name and IP address of the load balancer exposing the application&rsquo;s REST service endpoints for later.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000">HOST</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;www.example.com&#39;</span>
 <span style="color:#000">ADDRESS</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get service -n istio-system istio-ingressgateway -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.status.loadBalancer.ingress[0].ip}&#39;</span><span style="color:#204a87;font-weight:bold">)</span>
-</code></pre></div><ul>
-<li><em>Note: The value of <code>ADDRESS</code> is only used if DNS has not been
-configured.</em></li>
-<li><em>Note: The alternate commands below may not work in conjunction
-with firewalls that validate HTTP Host headers.</em></li>
+</code></pre></div><p><strong>NOTE</strong>:</p>
+<ul>
+<li>The value of <code>ADDRESS</code> is used only if DNS has not been
+configured.</li>
+<li>The following alternate commands may not work in conjunction
+with firewalls that validate <code>HTTP Host</code> headers.</li>
 </ul>
-<p/>
 </li>
 <li>
 <p>Get the default message.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -s -X GET <span style="color:#4e9a06">&#34;http://</span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet&#34;</span>
 
 <span style="color:#ce5c00;font-weight:bold">{</span><span style="color:#4e9a06">&#34;message&#34;</span>:<span style="color:#4e9a06">&#34;Hello World!&#34;</span><span style="color:#ce5c00;font-weight:bold">}</span>
-</code></pre></div><p>If DNS has not been configured use this command.</p>
+</code></pre></div><p>If DNS has not been configured, then use this command.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -s -X GET <span style="color:#4e9a06">&#34;http://</span><span style="color:#4e9a06">${</span><span style="color:#000">ADDRESS</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet&#34;</span> -H <span style="color:#4e9a06">&#34;Host: </span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 </code></pre></div></li>
 <li>
@@ -641,13 +645,13 @@ with firewalls that validate HTTP Host headers.</em></li>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -s -X GET <span style="color:#4e9a06">&#34;http://</span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet/Robert&#34;</span>
 
 <span style="color:#ce5c00;font-weight:bold">{</span><span style="color:#4e9a06">&#34;message&#34;</span>:<span style="color:#4e9a06">&#34;Hello Robert!&#34;</span><span style="color:#ce5c00;font-weight:bold">}</span>
-</code></pre></div><p>If DNS has not been configured use this command.</p>
+</code></pre></div><p>If DNS has not been configured, then use this command.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -s -X GET <span style="color:#4e9a06">&#34;http://</span><span style="color:#4e9a06">${</span><span style="color:#000">ADDRESS</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet/Robert&#34;</span> -H <span style="color:#4e9a06">&#34;Host: </span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 </code></pre></div></li>
 <li>
 <p>Update the default greeting.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -s -X PUT <span style="color:#4e9a06">&#34;http://</span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet/greeting&#34;</span> -H <span style="color:#4e9a06">&#39;Content-Type: application/json&#39;</span> -d <span style="color:#4e9a06">&#39;{&#34;greeting&#34; : &#34;Greetings&#34;}&#39;</span>
-</code></pre></div><p>If DNS has not been configured use this command.</p>
+</code></pre></div><p>If DNS has not been configured, then use this command.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -s -X PUT <span style="color:#4e9a06">&#34;http://</span><span style="color:#4e9a06">${</span><span style="color:#000">ADDRESS</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet/greeting&#34;</span> -H <span style="color:#4e9a06">&#39;Content-Type: application/json&#39;</span> -d <span style="color:#4e9a06">&#39;{&#34;greeting&#34; : &#34;Greetings&#34;}&#39;</span> -H <span style="color:#4e9a06">&#34;Host: </span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 </code></pre></div></li>
 <li>
@@ -655,56 +659,56 @@ with firewalls that validate HTTP Host headers.</em></li>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -s -X GET <span style="color:#4e9a06">&#34;http://</span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet/Robert&#34;</span>
 
 <span style="color:#ce5c00;font-weight:bold">{</span><span style="color:#4e9a06">&#34;message&#34;</span>:<span style="color:#4e9a06">&#34;Welcome Robert!&#34;</span><span style="color:#ce5c00;font-weight:bold">}</span>
-</code></pre></div><p>If DNS has not been configured use this command.</p>
+</code></pre></div><p>If DNS has not been configured, then use this command.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -s -X GET <span style="color:#4e9a06">&#34;http://</span><span style="color:#4e9a06">${</span><span style="color:#000">ADDRESS</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet/Robert&#34;</span> -H <span style="color:#4e9a06">&#34;Host: </span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 </code></pre></div></li>
 </ol>
 <h3 id="access-the-applications-logs">Access the application&rsquo;s logs</h3>
-<p>Applications deployed using bindings automatically have log collection enabled.
+<p>Applications deployed using bindings have log collection enabled.
 These logs are collected using Elasticsearch and can be accessed using Kibana.
 Elasticsearch and Kibana are examples of infrastructure Verrazzano creates in support of an application as a result of applying a binding.</p>
-<p>The URL used to access Kibana can be determined using the following commands.</p>
+<p>Determine the URL to access Kibana using the following commands.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000">KIBANA_HOST</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get ingress -n verrazzano-system vmi-hello-world-binding-kibana -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.spec.rules[0].host}&#39;</span><span style="color:#204a87;font-weight:bold">)</span>
 <span style="color:#000">KIBANA_URL</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">KIBANA_HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 <span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">${</span><span style="color:#000">KIBANA_URL</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 open <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">${</span><span style="color:#000">KIBANA_URL</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
-</code></pre></div><p>The username used to access Kibana defaults to <code>verrazzano</code> during the Verrazzano install.</p>
-<p>The password used to access Kibana can be determined using the following command.</p>
+</code></pre></div><p>The user name to access Kibana defaults to <code>verrazzano</code> during the Verrazzano installation.</p>
+<p>Determine the password to access Kibana using the following command.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#204a87">echo</span> <span style="color:#204a87;font-weight:bold">$(</span>kubectl get secret -n verrazzano-system verrazzano -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">={</span>.data.password<span style="color:#ce5c00;font-weight:bold">}</span> <span style="color:#000;font-weight:bold">|</span> base64 --decode<span style="color:#204a87;font-weight:bold">)</span>
 </code></pre></div><h3 id="access-the-applications-metrics">Access the application&rsquo;s metrics</h3>
-<p>Applications deployed using bindings automatically have metric collection enabled.
+<p>Applications deployed using bindings have metric collection enabled.
 Grafana can be used to access these metrics collected by Prometheus.
 Prometheus and Grafana are additional components Verrazzano creates as a result of applying an application binding.</p>
-<p>The URL used to access Grafana can be determined using the following commands.</p>
+<p>Determine the URL to access Grafana using the following commands.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000">GRAFANA_HOST</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get ingress -n verrazzano-system vmi-hello-world-binding-grafana -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.spec.rules[0].host}&#39;</span><span style="color:#204a87;font-weight:bold">)</span>
 <span style="color:#000">GRAFANA_URL</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">GRAFANA_HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 <span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">${</span><span style="color:#000">GRAFANA_URL</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 open <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">${</span><span style="color:#000">GRAFANA_URL</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
-</code></pre></div><p>The username used to access Grafana is set to the default value <code>verrazzano</code> during Verrazzano install.</p>
-<p>The password used to access Grafana can be determined using the following command.</p>
+</code></pre></div><p>The user name to access Grafana is set to the default value <code>verrazzano</code> during the Verrazzano installation.</p>
+<p>Determine the password to access Grafana using the following command.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#204a87">echo</span> <span style="color:#204a87;font-weight:bold">$(</span>kubectl get secret -n verrazzano-system verrazzano -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">={</span>.data.password<span style="color:#ce5c00;font-weight:bold">}</span> <span style="color:#000;font-weight:bold">|</span> base64 --decode<span style="color:#204a87;font-weight:bold">)</span>
-</code></pre></div><p>Alternatively metrics can be accessed directly using Prometheus.
-The URL used for this access can be determined using the following commands.</p>
+</code></pre></div><p>Alternatively, metrics can be accessed directly using Prometheus.
+Determine the URL for this access using the following commands.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000">PROMETHEUS_HOST</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get ingress -n verrazzano-system vmi-hello-world-binding-prometheus -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.spec.rules[0].host}&#39;</span><span style="color:#204a87;font-weight:bold">)</span>
 <span style="color:#000">PROMETHEUS_URL</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">PROMETHEUS_HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 <span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">${</span><span style="color:#000">PROMETHEUS_URL</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 open <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">${</span><span style="color:#000">PROMETHEUS_URL</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
-</code></pre></div><p>The username and password used for Prometheus access are the same as for Grafana.</p>
+</code></pre></div><p>The user name and password for Prometheus access are the same as for Grafana.</p>
 <h2 id="application-removal">Application Removal</h2>
-<p>Run the following commands to delete the application&rsquo;s binding and optionally model.</p>
+<p>Run the following commands to delete the application&rsquo;s binding and, optionally, model.</p>
 <ol>
 <li>
 <p>Delete the application&rsquo;s binding.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl delete -f ./hello-world-binding.yaml
 </code></pre></div><p>The deletion of the application&rsquo;s binding will result in the destruction
-of all application specific Kubernetes objects.
-This includes objects created by Verrazzano on behalf of the application
+of all application-specific Kubernetes objects.
+This includes objects created by Verrazzano on behalf of the application,
 such as monitoring components.</p>
 </li>
 <li>
 <p>Delete the application&rsquo;s model (optional).</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl delete -f ./hello-world-model.yaml
-</code></pre></div><p><em>Note: This step is not required if other bindings for this model will be applied in the future.</em></p>
+</code></pre></div><p><strong>Note</strong>: This step is not required if other bindings for this model will be applied in the future.</p>
 </li>
 </ol>
 
@@ -770,7 +774,7 @@ such as monitoring components.</p>
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified September 21, 2020: <a  href="https://github.com/verrazzano/docs/commit/5dfcc25677b41c7c15d02ae4587be67a9e6018cb">VZ-1224: create helidon hello world guide binding term fix (#36) (5dfcc25)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified September 22, 2020: <a  href="https://github.com/verrazzano/docs/commit/ca538ec7ce84d8265e004e644ab9f096cf24e831">review and edit (#37) (ca538ec)</a>
 </div>
 </div>
 
