@@ -239,7 +239,7 @@ Steps similar to the `apply` steps would be used to deploy any application to Ve
 ### Verify the deployment
 
   Applying the binding initiates the creation of several Kubernetes objects.
-  Actual creation and initialization of these object occurs asynchronously.
+  Actual creation and initialization of these objects occurs asynchronously.
   The following steps provide commands for determining when these objects are ready for use.
 
   **Note**: Many other Kubernetes objects unrelated to the example application may also exist.
@@ -334,7 +334,7 @@ Steps similar to the `apply` steps would be used to deploy any application to Ve
 ### Explore the application
 
 Follow these steps to explore the application's functionality.
-If DNS was not configured, then use alternate commands.
+If DNS was not configured, then use the alternative commands.
 
 1.  Save the host name and IP address of the load balancer exposing the application's REST service endpoints for later.
     ```shell script
