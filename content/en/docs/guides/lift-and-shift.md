@@ -284,3 +284,9 @@ And finally, run `kubectl apply` to apply the Verrazzano Model and Verrazzano Bi
 kubectl apply -f model.yaml
 kubectl apply -f binding.yaml
 ```
+
+To [verify](https://github.com/verrazzano/verrazzano/blob/master/install/README.md#4-verify-the-install) the installation:
+
+```shell script
+kubectl get pods -n verrazzano-system
+```
