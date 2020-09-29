@@ -119,6 +119,8 @@ Using the WebLogic Server Administration Console, log in and add a data source c
     - Password: `welcome1` (or whatever password you used)
     - Confirm Password: `welcome1`
 
+1. On the **Select Targets** page, select `AdminServer`.
+
 1. Click **Next** and then **Finish** to complete the configuration.
 
 
@@ -135,7 +137,6 @@ Using the WebLogic Server Administration Console, log in and add a data source c
 
    - In the left pane in the Console, select **Deployments** and click **Install**.
    - Provide the file path to `todo.war`.
-   - On the **Select Targets** page, select `AdminServer`.
    - Accepting all the default options is fine.
 
    NOTE: The remaining steps assume that the application context is `todo`.
