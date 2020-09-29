@@ -287,9 +287,7 @@ kubectl apply -f model.yaml
 kubectl apply -f binding.yaml
 ```
 
-To verify the ToDo List application deployment:
-
-1. Check that the WebLogic Server pods were created in the `todo` namespace; you should see a pod named `tododomain-admin-server`:
+To verify the ToDo List application deployment, check that the WebLogic Server pods were created in the `todo` namespace; you should see a pod named `tododomain-admin-server`:
 
     ```shell script
     kubectl get pods -n todo
