@@ -15,7 +15,7 @@ The [Initial steps](#initial-steps) create a very simple on-premises domain that
 ## What you need
 [MySQL Database 8.x](https://hub.docker.com/_/mysql) - a database server
 
-[WebLogic Server 12.2.1.4.0](https://www.oracle.com/middleware/technologies/weblogic-server-downloads.html) - an application server
+[WebLogic Server 12.2.1.4.0](https://www.oracle.com/middleware/technologies/weblogic-server-downloads.html) - an application server; Note that all WebLogic Server installers are supported except the Quick Installer.
 
 [Maven](https://maven.apache.org/download.cgi) - to build the application
 
@@ -67,6 +67,15 @@ In the initial steps, you create a sample domain that represents your on-premise
 ### Create a WebLogic Server domain
 1. If you do not have WebLogic Server 12.2.1.4.0 installed, install it now.  
    - Choose the `GENERIC` installer from [WebLogic Server Downloads](https://www.oracle.com/middleware/technologies/weblogic-server-downloads.html) and follow the documented installation instructions.
+   - Be aware of these domain limitations:
+
+        - There are two supported domain types, single server and single cluster.
+        - Domains must use the default value, `AdminServer`, for `AdminServerName`.
+        - Domains must use:
+            - WebLogic Server listen port for the Administration Server: 7001.
+            - WebLogic Server listen port for the Managed Server: 8001.
+            - Note that these are all standard WebLogic Server default values.
+
 
    - Save the installer after you have finished; you will need it to build the Docker image.  
 
