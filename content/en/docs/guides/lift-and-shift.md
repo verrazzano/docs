@@ -240,7 +240,7 @@ $WIT_HOME/bin/imagetool.sh create \
 
 The `imagetool create` command will have created a local Docker image and updated the Verrazzano model with the domain home
 and image name.  Check your Docker images for the tag that you used in the `create` command using `docker images` from the Docker
-CLI.  If everything worked correctly, it is time to push that image to the repository that Verrazzano will use to access
+CLI.  If everything worked correctly, it is time to push that image to the container registry that Verrazzano will use to access
 the image from Kubernetes. You can use the Oracle Cloud Infrastructure Registry (OCIR) as your repository for this
 example, but most Docker compliant registries should work.
 
