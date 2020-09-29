@@ -223,7 +223,7 @@ In some small non-production scenarios, DNS configuration using
 &lt;/ol&gt;
 &lt;h3 id=&#34;verify-the-deployment&#34;&gt;Verify the deployment&lt;/h3&gt;
 &lt;p&gt;Applying the binding initiates the creation of several Kubernetes objects.
-Actual creation and initialization of these object occurs asynchronously.
+Actual creation and initialization of these objects occurs asynchronously.
 The following steps provide commands for determining when these objects are ready for use.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: Many other Kubernetes objects unrelated to the example application may also exist.
 Those have been omitted from the lists.&lt;/p&gt;
@@ -302,7 +302,7 @@ a reasonable length of time, such as five minutes.&lt;/p&gt;
 &lt;/ol&gt;
 &lt;h3 id=&#34;explore-the-application&#34;&gt;Explore the application&lt;/h3&gt;
 &lt;p&gt;Follow these steps to explore the application&amp;rsquo;s functionality.
-If DNS was not configured, then use alternate commands.&lt;/p&gt;
+If DNS was not configured, then use the alternative commands.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Save the host name and IP address of the load balancer exposing the application&amp;rsquo;s REST service endpoints for later.&lt;/p&gt;
@@ -393,6 +393,308 @@ such as monitoring components.&lt;/p&gt;
 &lt;p&gt;Delete the application&amp;rsquo;s model (optional).&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl delete -f ./hello-world-model.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: This step is not required if other bindings for this model will be applied in the future.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Lift-and-Shift Guide</title>
+      <link>https://verrazzano.io/docs/guides/lift-and-shift/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/guides/lift-and-shift/</guid>
+      <description>
+        
+        
+        &lt;p&gt;This guide describes how to move (&amp;ldquo;Lift-and-Shift&amp;rdquo;) an on-premises WebLogic Server domain to a cloud environment running Kubernetes using Verrazzano.&lt;/p&gt;
+&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;
+&lt;p&gt;The &lt;a href=&#34;#initial-steps&#34;&gt;Initial steps&lt;/a&gt; create a very simple on-premises domain that you will move to Kubernetes.  The sample domain is the starting point for the lift and shift process; it contains one application (ToDo List) and one data source.  First, you&amp;rsquo;ll configure the database and the WebLogic Server domain.  Then, in &lt;a href=&#34;#lift-and-shift-steps&#34;&gt;Lift and Shift&lt;/a&gt;, you will move the domain to Kubernetes with Verrazzano.  This guide does not include the setup of the networking that would be needed to access an on-premises database, nor does it document how to migrate a database to the cloud.&lt;/p&gt;
+&lt;h2 id=&#34;what-you-need&#34;&gt;What you need&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://hub.docker.com/_/mysql&#34;&gt;MySQL Database 8.x&lt;/a&gt; - a database server&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.oracle.com/middleware/technologies/weblogic-server-downloads.html&#34;&gt;WebLogic Server 12.2.1.4.0&lt;/a&gt; - an application server; Note that all WebLogic Server installers are supported except the Quick Installer.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://maven.apache.org/download.cgi&#34;&gt;Maven&lt;/a&gt; - to build the application&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/oracle/weblogic-deploy-tooling/releases&#34;&gt;WebLogic Deploy Tooling&lt;/a&gt; (WDT) - to convert the WebLogic Server domain to and from metadata&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/oracle/weblogic-image-tool/releases&#34;&gt;WebLogic Image Tool&lt;/a&gt; (WIT) - to build the Docker image&lt;/p&gt;
+&lt;h2 id=&#34;initial-steps&#34;&gt;Initial steps&lt;/h2&gt;
+&lt;p&gt;In the initial steps, you create a sample domain that represents your on-premises WebLogic Server domain.&lt;/p&gt;
+&lt;h3 id=&#34;create-a-database-using-mysql-called-tododb&#34;&gt;Create a database using MySQL called &lt;code&gt;tododb&lt;/code&gt;&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Download the &lt;a href=&#34;https://hub.docker.com/_/mysql&#34;&gt;MySQL image&lt;/a&gt; from Docker Hub.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;docker pull mysql:latest
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Start the container database (and optionally mount a volume for data).&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;docker run --name tododb \
+  -p 3306:3306 \
+  -e MYSQL_USER=derek \
+  -e MYSQL_PASSWORD=welcome1 \
+  -e MYSQL_DATABASE=tododb \
+  -e MYSQL_ROOT_PASSWORD=welcome1 \
+  -d mysql:latest
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;div class=&#34;alert alert-tip&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+You should use a more secure password.
+&lt;/div&gt;
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Start a MySQL client to change the password algorithm to &lt;code&gt;mysql_native_password&lt;/code&gt;.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Assuming the database server is running, start a database CLI client:
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;docker &lt;span style=&#34;color:#204a87&#34;&gt;exec&lt;/span&gt; -it tododb mysql -uroot -p
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;When prompted for the password, enter the password for the root user, &lt;code&gt;welcome1&lt;/code&gt; or
+whatever password you set when starting the container in the previous step.&lt;/li&gt;
+&lt;li&gt;After being connected, run the &lt;code&gt;ALTER&lt;/code&gt; command at the MySQL prompt.
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-mysql&#34; data-lang=&#34;mysql&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;ALTER&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;USER&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;derek&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;@&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;%&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;IDENTIFIED&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;WITH&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;mysql_native_password&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;BY&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;welcome1&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;div class=&#34;alert alert-tip&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+You should use a more secure password.
+&lt;/div&gt;
+
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;create-a-weblogic-server-domain&#34;&gt;Create a WebLogic Server domain&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;If you do not have WebLogic Server 12.2.1.4.0 installed, install it now.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Choose the &lt;code&gt;GENERIC&lt;/code&gt; installer from &lt;a href=&#34;https://www.oracle.com/middleware/technologies/weblogic-server-downloads.html&#34;&gt;WebLogic Server Downloads&lt;/a&gt; and follow the documented installation instructions.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Be aware of these domain limitations:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;There are two supported domain types, single server and single cluster.&lt;/li&gt;
+&lt;li&gt;Domains must use the default value, &lt;code&gt;AdminServer&lt;/code&gt;, for &lt;code&gt;AdminServerName&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Domains must use:
+&lt;ul&gt;
+&lt;li&gt;WebLogic Server listen port for the Administration Server: 7001.&lt;/li&gt;
+&lt;li&gt;WebLogic Server listen port for the Managed Server: 8001.&lt;/li&gt;
+&lt;li&gt;Note that these are all standard WebLogic Server default values.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Save the installer after you have finished; you will need it to build the Docker image.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;To make copying commands easier, define an environment variable for &lt;code&gt;ORACLE_HOME&lt;/code&gt; that points to the folder where you installed WebLogic Server 12.2.1.4.0.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;ORACLE_HOME&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;/install/directory
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Using the Oracle WebLogic Server Configuration Wizard, create a domain called &lt;code&gt;tododomain&lt;/code&gt;. Add the password for the administrative user and accept the defaults for everything else to create a simple domain with a single Administration Server.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt; &lt;span style=&#34;color:#000&#34;&gt;$ORACLE_HOME&lt;/span&gt;/oracle_common/common/bin/config.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;To start the newly created domain, select &lt;strong&gt;Start Admin Server&lt;/strong&gt; and click &lt;strong&gt;Finish&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Access the Console of the newly started domain with your browser, for example, &lt;a href=&#34;http://localhost:7001/console&#34;&gt;http://localhost:7001/console&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;add-a-data-source-configuration-to-access-the-database&#34;&gt;Add a data source configuration to access the database&lt;/h3&gt;
+&lt;p&gt;Using the WebLogic Server Administration Console, log in and add a data source configuration to access the MySQL database. During the data source configuration, you can accept the default values for most fields, but the following fields are required to match the application and database settings you used when you created the MySQL database.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;In the left pane in the Console, expand &lt;strong&gt;Services&lt;/strong&gt; and select &lt;strong&gt;Data Sources&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;On the Summary of JDBC Data Sources page, click &lt;strong&gt;New&lt;/strong&gt; and select &lt;strong&gt;Generic Data Source&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;On the JDBC Data Sources page, enter or select the following information:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;JNDI Name: &lt;code&gt;jdbc/ToDoDB&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Database Type: &lt;code&gt;MySQL&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Click &lt;strong&gt;Next&lt;/strong&gt; and then click &lt;strong&gt;Next&lt;/strong&gt; two more times.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;On the Create a New JDBC Data Source page, enter the following information:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Database Name: &lt;code&gt;tododb&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Host name: &lt;code&gt;localhost&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Database Port: &lt;code&gt;3306&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Database User Name: &lt;code&gt;derek&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Password: &lt;code&gt;welcome1&lt;/code&gt; (or whatever password you used)&lt;/li&gt;
+&lt;li&gt;Confirm Password: &lt;code&gt;welcome1&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;On the &lt;strong&gt;Select Targets&lt;/strong&gt; page, select &lt;code&gt;AdminServer&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Click &lt;strong&gt;Next&lt;/strong&gt; and then &lt;strong&gt;Finish&lt;/strong&gt; to complete the configuration.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;build-and-deploy-the-application&#34;&gt;Build and deploy the application&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Using Maven, build this project to produce &lt;code&gt;todo.war&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt; git clone https://github.com/verrazzano/examples.git
+ &lt;span style=&#34;color:#204a87&#34;&gt;cd&lt;/span&gt; examples/todo-list/
+ mvn clean package
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Using the WebLogic Server Administration Console, deploy the ToDo List application.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;In the left pane in the Console, select &lt;strong&gt;Deployments&lt;/strong&gt; and click &lt;strong&gt;Install&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Provide the file path to &lt;code&gt;todo.war&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Accepting all the default options is fine.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;NOTE: The remaining steps assume that the application context is &lt;code&gt;todo&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;initialize-the-database&#34;&gt;Initialize the database&lt;/h3&gt;
+&lt;p&gt;After the application is deployed and running in WebLogic Server, access the &lt;code&gt;http://localhost:7001/todo/rest/items/init&lt;/code&gt;
+REST service to create the database table used by the application. In addition to creating the application table,
+the &lt;code&gt;init&lt;/code&gt; service also will load four sample items into the table.&lt;/p&gt;
+&lt;h3 id=&#34;access-the-application&#34;&gt;Access the application&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Access the application at &lt;code&gt;http://localhost:7001/todo/index.html&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;../../images/ToDoList.png&#34; alt=&#34;ToDoList&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Add a few entries or delete some.&lt;/li&gt;
+&lt;li&gt;After verifying the application and database, you may shut down the local WebLogic Server domain.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;lift-and-shift-steps&#34;&gt;Lift and Shift steps&lt;/h2&gt;
+&lt;p&gt;The following steps will move the sample domain to Kubernetes with Verrazzano.&lt;/p&gt;
+&lt;h3 id=&#34;create-a-wdt-model&#34;&gt;Create a WDT Model&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;If you have not already done so, download &lt;a href=&#34;https://github.com/oracle/weblogic-deploy-tooling/releases&#34;&gt;WebLogic Deploy Tooling&lt;/a&gt; (WDT) from GitHub.&lt;/li&gt;
+&lt;li&gt;Unzip the installer &lt;code&gt;weblogic-deploy.zip&lt;/code&gt; file so that you can access &lt;code&gt;bin/discoverDomain.sh&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;To make copying commands easier, define an environment variable for &lt;code&gt;WDT_HOME&lt;/code&gt; that points to the folder where you installed WebLogic Deploy Tooling.
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt; &lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;WDT_HOME&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;/install/directory
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To create a reusable model of the application and domain, use WDT to create a metadata model of the domain.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;First, create an output directory to hold the generated scripts and models.&lt;/li&gt;
+&lt;li&gt;Then, run WDT &lt;code&gt;discoverDomain&lt;/code&gt;.
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;mkdir v8o
+&lt;span style=&#34;color:#000&#34;&gt;$WDT_HOME&lt;/span&gt;/bin/discoverDomain.sh &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  -oracle_home &lt;span style=&#34;color:#000&#34;&gt;$ORACLE_HOME&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  -domain_home /path/to/domain/dir &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  -model_file ./v8o/wdt-model.yaml &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  -archive_file ./v8o/wdt-archive.zip &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  -target vz &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  -output_dir v8o
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You will find the following files in &lt;code&gt;./v8o&lt;/code&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;binding.yaml&lt;/code&gt; - Verrazzano Binding file&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;model.yaml&lt;/code&gt; - Verrazzano Model template&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;wdt-archive.zip&lt;/code&gt; - The WDT archive containing the ToDo List application WAR file&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;wdt-model.yaml&lt;/code&gt; - The WDT model of the WebLogic Server domain&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;vz_variable.properties&lt;/code&gt; - A set of properties extracted from the WDT domain model&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;create_k8s_secrets.sh&lt;/code&gt; - A helper script with &lt;code&gt;kubectl&lt;/code&gt; commands to apply the Kubernetes secrets needed for this domain&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If you chose to skip the &lt;a href=&#34;#access-the-application&#34;&gt;Access the application&lt;/a&gt; step and did not verify that the ToDo List application was deployed, then you should verify that you see the &lt;code&gt;todo.war&lt;/code&gt; file inside the &lt;code&gt;wdt-archive.zip&lt;/code&gt; file.  If you do not see the WAR file, there was something wrong in your deployment of the application on WebLogic Server that will require additional troubleshooting in your domain.&lt;/p&gt;
+&lt;h3 id=&#34;create-a-docker-image&#34;&gt;Create a Docker image&lt;/h3&gt;
+&lt;p&gt;At this point, the Verrazzano model is just a template for the real model.  The WebLogic Image Tool will
+fill in the placeholders for you, or you can edit the model manually to set the image name and domain home directory.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If you have not already done so, download &lt;a href=&#34;https://github.com/oracle/weblogic-image-tool/releases&#34;&gt;WebLogic Image Tool&lt;/a&gt; (WIT) from GitHub.&lt;/li&gt;
+&lt;li&gt;Unzip the installer &lt;code&gt;imagetool.zip&lt;/code&gt; file so that you can access &lt;code&gt;bin/imagetool.sh&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;To make copying commands easier, define an environment variable for &lt;code&gt;WIT_HOME&lt;/code&gt; that points to the folder where you installed WebLogic Image Tool.
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt; &lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;WIT_HOME&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;/install/directory
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You will need a Docker image to run your WebLogic Server domain in Kubernetes.  To use WIT to
+create the Docker image, run &lt;code&gt;imagetool create&lt;/code&gt;.  Although WIT will download patches and PSUs for you, it does not yet download installers.  Until then, you must download the &lt;a href=&#34;https://www.oracle.com/middleware/technologies/weblogic-server-downloads.html&#34;&gt;WebLogic Server&lt;/a&gt; and &lt;a href=&#34;https://www.oracle.com/java/technologies/javase/javase8u211-later-archive-downloads.html&#34;&gt;Java Development Kit&lt;/a&gt; installer manually and provide their location to the &lt;code&gt;imagetool cache addInstaller&lt;/code&gt; command.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# The directory created previously to hold the generated scripts and models.&lt;/span&gt;
+&lt;span style=&#34;color:#204a87&#34;&gt;cd&lt;/span&gt; v8o
+
+&lt;span style=&#34;color:#000&#34;&gt;$WIT_HOME&lt;/span&gt;/bin/imagetool.sh cache addInstaller &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --path /path/to/installer/jdk-8u231-linux-x64.tar.gz &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --type jdk &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --version 8u231
+
+&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# The installer file name may be slightly different depending on which version of the 12.2.1.4.0 installer that you downloaded, slim or generic.&lt;/span&gt;
+&lt;span style=&#34;color:#000&#34;&gt;$WIT_HOME&lt;/span&gt;/bin/imagetool.sh cache addInstaller &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --path /path/to/installer/fmw_12.2.1.4.0_wls_Disk1_1of1.zip &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --type wls &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --version 12.2.1.4.0
+
+&lt;span style=&#34;color:#000&#34;&gt;$WIT_HOME&lt;/span&gt;/bin/imagetool.sh cache addInstaller &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --path /path/to/installer/weblogic-deploy.zip &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --type wdt &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --version latest
+
+&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Paths for the files in this command assume that you are running it from the v8o directory created during the `discoverDomain` step.&lt;/span&gt;
+&lt;span style=&#34;color:#000&#34;&gt;$WIT_HOME&lt;/span&gt;/bin/imagetool.sh create &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --tag your/repo/todo:1 &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --version 12.2.1.4.0 &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --jdkVersion 8u231 &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --wdtModel ./wdt-model.yaml &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --wdtArchive ./wdt-archive.zip &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --wdtVariables ./vz_variable.properties &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --vzModel ./model.yaml &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --wdtModelOnly
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;imagetool create&lt;/code&gt; command will have created a local Docker image and updated the Verrazzano model with the domain home
+and image name.  Check your Docker images for the tag that you used in the &lt;code&gt;create&lt;/code&gt; command using &lt;code&gt;docker images&lt;/code&gt; from the Docker
+CLI.  If everything worked correctly, it is time to push that image to the container registry that Verrazzano will use to access
+the image from Kubernetes. You can use the Oracle Cloud Infrastructure Registry (OCIR) as your repository for this
+example, but most Docker compliant registries should work.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The image name must be the same as what is in the Verrazzano &lt;code&gt;model.yaml&lt;/code&gt; file under
+&lt;code&gt;spec &amp;gt; weblogicDomains &amp;gt; domainCRValues &amp;gt; image&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;docker push your/repo/todo:1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;deploy-to-verrazzano&#34;&gt;Deploy to Verrazzano&lt;/h3&gt;
+&lt;p&gt;The following steps assume that you have a Kubernetes cluster and that &lt;a href=&#34;../../docs/quickstart/#install-verrazzano&#34;&gt;Verrazzano&lt;/a&gt; is already installed in that cluster.&lt;/p&gt;
+&lt;p&gt;If you haven&amp;rsquo;t already done so, edit and run the &lt;code&gt;create_k8s_secrets.sh&lt;/code&gt; script to generate the Kubernetes secrets.
+WDT does not discover passwords from your existing domain.  Before running the create secrets script, you will need to
+edit &lt;code&gt;create_k8s_secrets.sh&lt;/code&gt; to set the passwords for the WebLogic Server domain and the data source.  In this domain,
+there are only two passwords that you need to enter: administrator credentials (like &lt;code&gt;weblogic/welcome1&lt;/code&gt;) and the
+ToDo database credentials (like &lt;code&gt;derek/welcome1&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;For example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Update &amp;lt;admin-user&amp;gt; and &amp;lt;admin-password&amp;gt; for weblogic-credentials&lt;/span&gt;
+create_paired_k8s_secret weblogic-credentials weblogic welcome1
+
+&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Update &amp;lt;user&amp;gt; and &amp;lt;password&amp;gt; for jdbc-todo-datasource&lt;/span&gt;
+create_paired_k8s_secret jdbc-todo-datasource derek welcome1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Verrazzano will need a credential to pull the image that you just created, so you need to create one more secret.
+The name for this credential can be changed in the &lt;code&gt;model.yaml&lt;/code&gt; file to anything you like, but it defaults to &lt;code&gt;ocir&lt;/code&gt;.&lt;br&gt;
+Assuming that you leave the name &lt;code&gt;ocir&lt;/code&gt;, you will need to run a &lt;code&gt;kubectl create secret&lt;/code&gt; command similar to the following:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl create secret docker-registry ocir &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --docker-server&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;phx.ocir.io &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --docker-email&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;your.name@company.com &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --docker-username&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;tenancy/username &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --docker-password&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;passwordForUsername&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And finally, run &lt;code&gt;kubectl apply&lt;/code&gt; to apply the Verrazzano Model and Verrazzano Binding files to start your domain.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f model.yaml
+kubectl apply -f binding.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To verify the ToDo List application deployment, check that the WebLogic Server pods were created in the &lt;code&gt;todo&lt;/code&gt; namespace; you should see a pod named &lt;code&gt;tododomain-admin-server&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;```shell script
+kubectl get pods -n todo
+```
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Check that you can access the application from your browser:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Obtain the external IP address for application access:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl get svc -n istio-system istio-ingressgateway
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The IP address is listed in the &lt;code&gt;EXTERNAL-IP&lt;/code&gt; column.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Open a browser to that IP address with the path &lt;code&gt;/todo&lt;/code&gt;, for example, if the IP address is 1.2.3.4, then open your browser to &lt;code&gt;http://1.2.3.4/todo&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;You should see the same application that you saw when you accessed the original source domain.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 
