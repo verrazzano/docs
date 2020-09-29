@@ -287,8 +287,24 @@ kubectl apply -f model.yaml
 kubectl apply -f binding.yaml
 ```
 
-To [verify](https://github.com/verrazzano/verrazzano/blob/master/install/README.md#4-verify-the-install) the installation:
+To verify the ToDo List application deployment:
 
-```shell script
-kubectl get pods -n verrazzano-system
-```
+1. Check that the WebLogic Server pods were created in the `todo` namespace; you should see a pod named `tododomain-admin-server`:
+
+    ```shell script
+    kubectl get pods -n todo
+    ```
+
+Check that you can access the application from your browser:
+
+1. Obtain the external IP address for application access:
+
+    ```shell script 
+    kubectl get svc -n istio-system istio-ingressgateway
+    ```
+
+    The IP address is listed in the `EXTERNAL-IP` column.
+
+1. Open a browser to that IP address with the path `/todo`, for example, if the IP address is 1.2.3.4, then open your browser to `http://1.2.3.4/todo`. 
+
+    You should see the same application that you saw when you accessed the original source domain.
