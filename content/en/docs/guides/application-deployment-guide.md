@@ -298,7 +298,7 @@ Steps similar to the `apply` steps would be used to deploy any application to Ve
    binding's `metadata.name` value.
 
    The monitoring infrastructure comprises several components:
-   * `vmi-hello-world-binding-api` Internal API for configuring monitoring
+   * `vmi-hello-world-binding-api` - Internal API for configuring monitoring
    * `vmi-hello-world-binding-es` - Elasticsearch for log collection
    * `vmi-hello-world-binding-kibana` - Kibana for log visualization
    * `vmi-hello-world-binding-grafana` - Grafana for metric visualization
@@ -345,7 +345,7 @@ If DNS was not configured, then use the alternative commands.
 
     * The value of `ADDRESS` is used only if DNS has not been
     configured.
-    * The following alternate commands may not work in conjunction
+    * The following alternative commands may not work in conjunction
     with firewalls that validate `HTTP Host` headers.
 
 
