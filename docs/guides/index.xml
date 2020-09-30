@@ -272,7 +272,7 @@ The &lt;code&gt;hello-world-binding&lt;/code&gt; portion of the pod names are fr
 binding&amp;rsquo;s &lt;code&gt;metadata.name&lt;/code&gt; value.&lt;/p&gt;
 &lt;p&gt;The monitoring infrastructure comprises several components:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;vmi-hello-world-binding-api&lt;/code&gt; Internal API for configuring monitoring&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;vmi-hello-world-binding-api&lt;/code&gt; - Internal API for configuring monitoring&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;vmi-hello-world-binding-es&lt;/code&gt; - Elasticsearch for log collection&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;vmi-hello-world-binding-kibana&lt;/code&gt; - Kibana for log visualization&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;vmi-hello-world-binding-grafana&lt;/code&gt; - Grafana for metric visualization&lt;/li&gt;
@@ -312,7 +312,7 @@ If DNS was not configured, then use the alternative commands.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;The value of &lt;code&gt;ADDRESS&lt;/code&gt; is used only if DNS has not been
 configured.&lt;/li&gt;
-&lt;li&gt;The following alternate commands may not work in conjunction
+&lt;li&gt;The following alternative commands may not work in conjunction
 with firewalls that validate &lt;code&gt;HTTP Host&lt;/code&gt; headers.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
@@ -412,11 +412,23 @@ such as monitoring components.&lt;/p&gt;
 &lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;
 &lt;p&gt;The &lt;a href=&#34;#initial-steps&#34;&gt;Initial steps&lt;/a&gt; create a very simple on-premises domain that you will move to Kubernetes.  The sample domain is the starting point for the lift and shift process; it contains one application (ToDo List) and one data source.  First, you&amp;rsquo;ll configure the database and the WebLogic Server domain.  Then, in &lt;a href=&#34;#lift-and-shift-steps&#34;&gt;Lift and Shift&lt;/a&gt;, you will move the domain to Kubernetes with Verrazzano.  This guide does not include the setup of the networking that would be needed to access an on-premises database, nor does it document how to migrate a database to the cloud.&lt;/p&gt;
 &lt;h2 id=&#34;what-you-need&#34;&gt;What you need&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
 &lt;p&gt;&lt;a href=&#34;https://hub.docker.com/_/mysql&#34;&gt;MySQL Database 8.x&lt;/a&gt; - a database server&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://www.oracle.com/middleware/technologies/weblogic-server-downloads.html&#34;&gt;WebLogic Server 12.2.1.4.0&lt;/a&gt; - an application server; Note that all WebLogic Server installers are supported except the Quick Installer.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.oracle.com/middleware/technologies/weblogic-server-downloads.html&#34;&gt;WebLogic Server 12.2.1.4.0&lt;/a&gt; - an application server; Note that all WebLogic Server installers are supported &lt;em&gt;except&lt;/em&gt; the Quick Installer.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
 &lt;p&gt;&lt;a href=&#34;https://maven.apache.org/download.cgi&#34;&gt;Maven&lt;/a&gt; - to build the application&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/oracle/weblogic-deploy-tooling/releases&#34;&gt;WebLogic Deploy Tooling&lt;/a&gt; (WDT) - to convert the WebLogic Server domain to and from metadata&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/oracle/weblogic-image-tool/releases&#34;&gt;WebLogic Image Tool&lt;/a&gt; (WIT) - to build the Docker image&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h2 id=&#34;initial-steps&#34;&gt;Initial steps&lt;/h2&gt;
 &lt;p&gt;In the initial steps, you create a sample domain that represents your on-premises WebLogic Server domain.&lt;/p&gt;
 &lt;h3 id=&#34;create-a-database-using-mysql-called-tododb&#34;&gt;Create a database using MySQL called &lt;code&gt;tododb&lt;/code&gt;&lt;/h3&gt;
@@ -475,11 +487,11 @@ You should use a more secure password.
 &lt;p&gt;Be aware of these domain limitations:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;There are two supported domain types, single server and single cluster.&lt;/li&gt;
-&lt;li&gt;Domains must use the default value, &lt;code&gt;AdminServer&lt;/code&gt;, for &lt;code&gt;AdminServerName&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;Domains must use:
 &lt;ul&gt;
-&lt;li&gt;WebLogic Server listen port for the Administration Server: 7001.&lt;/li&gt;
-&lt;li&gt;WebLogic Server listen port for the Managed Server: 8001.&lt;/li&gt;
+&lt;li&gt;The default value &lt;code&gt;AdminServer&lt;/code&gt; for &lt;code&gt;AdminServerName&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;WebLogic Server listen port for the Administration Server: &lt;code&gt;7001&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;WebLogic Server listen port for the Managed Server: &lt;code&gt;8001&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;Note that these are all standard WebLogic Server default values.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
@@ -536,7 +548,7 @@ You should use a more secure password.
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;On the &lt;strong&gt;Select Targets&lt;/strong&gt; page, select &lt;code&gt;AdminServer&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;On the Select Targets page, select &lt;code&gt;AdminServer&lt;/code&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Click &lt;strong&gt;Next&lt;/strong&gt; and then &lt;strong&gt;Finish&lt;/strong&gt; to complete the configuration.&lt;/p&gt;
@@ -601,7 +613,7 @@ the &lt;code&gt;init&lt;/code&gt; service also will load four sample items into 
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;binding.yaml&lt;/code&gt; - Verrazzano Binding file&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;model.yaml&lt;/code&gt; - Verrazzano Model template&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;wdt-archive.zip&lt;/code&gt; - The WDT archive containing the ToDo List application WAR file&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;wdt-archive.zip&lt;/code&gt; - The WDT archive file containing the ToDo List application WAR file&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;wdt-model.yaml&lt;/code&gt; - The WDT model of the WebLogic Server domain&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;vz_variable.properties&lt;/code&gt; - A set of properties extracted from the WDT domain model&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;create_k8s_secrets.sh&lt;/code&gt; - A helper script with &lt;code&gt;kubectl&lt;/code&gt; commands to apply the Kubernetes secrets needed for this domain&lt;/li&gt;
@@ -627,7 +639,8 @@ create the Docker image, run &lt;code&gt;imagetool create&lt;/code&gt;.  Althoug
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --type jdk &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --version 8u231
 
-&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# The installer file name may be slightly different depending on which version of the 12.2.1.4.0 installer that you downloaded, slim or generic.&lt;/span&gt;
+&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# The installer file name may be slightly different depending on&lt;/span&gt;
+&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# which version of the 12.2.1.4.0 installer that you downloaded, slim or generic.&lt;/span&gt;
 &lt;span style=&#34;color:#000&#34;&gt;$WIT_HOME&lt;/span&gt;/bin/imagetool.sh cache addInstaller &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --path /path/to/installer/fmw_12.2.1.4.0_wls_Disk1_1of1.zip &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --type wls &lt;span style=&#34;color:#4e9a06&#34;&gt;\
@@ -638,7 +651,8 @@ create the Docker image, run &lt;code&gt;imagetool create&lt;/code&gt;.  Althoug
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --type wdt &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --version latest
 
-&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Paths for the files in this command assume that you are running it from the v8o directory created during the `discoverDomain` step.&lt;/span&gt;
+&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Paths for the files in this command assume that you are running it from the&lt;/span&gt;
+&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# v8o directory created during the `discoverDomain` step.&lt;/span&gt;
 &lt;span style=&#34;color:#000&#34;&gt;$WIT_HOME&lt;/span&gt;/bin/imagetool.sh create &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --tag your/repo/todo:1 &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --version 12.2.1.4.0 &lt;span style=&#34;color:#4e9a06&#34;&gt;\
@@ -680,21 +694,19 @@ Assuming that you leave the name &lt;code&gt;ocir&lt;/code&gt;, you will need to
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And finally, run &lt;code&gt;kubectl apply&lt;/code&gt; to apply the Verrazzano Model and Verrazzano Binding files to start your domain.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f model.yaml
 kubectl apply -f binding.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To verify the ToDo List application deployment, check that the WebLogic Server pods were created in the &lt;code&gt;todo&lt;/code&gt; namespace; you should see a pod named &lt;code&gt;tododomain-admin-server&lt;/code&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;```shell script
-kubectl get pods -n todo
-```
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Check that you can access the application from your browser:&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;verify-the-todo-list-application-deployment&#34;&gt;Verify the ToDo List application deployment&lt;/h4&gt;
+&lt;p&gt;Check that the WebLogic Server pods were created in the &lt;code&gt;todo&lt;/code&gt; namespace; you will see a pod named &lt;code&gt;tododomain-admin-server&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl get pods -n todo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;verify-that-you-can-access-the-application-from-your-browser&#34;&gt;Verify that you can access the application from your browser&lt;/h4&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;Obtain the external IP address for application access:&lt;/p&gt;
+&lt;p&gt;Obtain the external IP address for application access.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl get svc -n istio-system istio-ingressgateway
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The IP address is listed in the &lt;code&gt;EXTERNAL-IP&lt;/code&gt; column.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Open a browser to that IP address with the path &lt;code&gt;/todo&lt;/code&gt;, for example, if the IP address is 1.2.3.4, then open your browser to &lt;code&gt;http://1.2.3.4/todo&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;You should see the same application that you saw when you accessed the original source domain.&lt;/p&gt;
+&lt;p&gt;You will see the same application as in the &lt;a href=&#34;#access-the-application&#34;&gt;Access the application&lt;/a&gt; step.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 

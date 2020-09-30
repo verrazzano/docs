@@ -24,11 +24,11 @@
 <meta property="og:description" content="A guide for moving WebLogic Server domains to Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/guides/lift-and-shift/" />
-<meta property="article:modified_time" content="2020-09-29T13:38:07-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2020-09-30T09:35:12-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Lift-and-Shift Guide">
 <meta itemprop="description" content="A guide for moving WebLogic Server domains to Verrazzano">
-<meta itemprop="dateModified" content="2020-09-29T13:38:07-04:00" />
-<meta itemprop="wordCount" content="1825">
+<meta itemprop="dateModified" content="2020-09-30T09:35:12-04:00" />
+<meta itemprop="wordCount" content="1818">
 
 
 
@@ -347,11 +347,23 @@ if (!doNotTrack) {
 <h2 id="overview">Overview</h2>
 <p>The <a href="#initial-steps">Initial steps</a> create a very simple on-premises domain that you will move to Kubernetes.  The sample domain is the starting point for the lift and shift process; it contains one application (ToDo List) and one data source.  First, you&rsquo;ll configure the database and the WebLogic Server domain.  Then, in <a href="#lift-and-shift-steps">Lift and Shift</a>, you will move the domain to Kubernetes with Verrazzano.  This guide does not include the setup of the networking that would be needed to access an on-premises database, nor does it document how to migrate a database to the cloud.</p>
 <h2 id="what-you-need">What you need</h2>
+<ul>
+<li>
 <p><a href="https://hub.docker.com/_/mysql">MySQL Database 8.x</a> - a database server</p>
-<p><a href="https://www.oracle.com/middleware/technologies/weblogic-server-downloads.html">WebLogic Server 12.2.1.4.0</a> - an application server; Note that all WebLogic Server installers are supported except the Quick Installer.</p>
+</li>
+<li>
+<p><a href="https://www.oracle.com/middleware/technologies/weblogic-server-downloads.html">WebLogic Server 12.2.1.4.0</a> - an application server; Note that all WebLogic Server installers are supported <em>except</em> the Quick Installer.</p>
+</li>
+<li>
 <p><a href="https://maven.apache.org/download.cgi">Maven</a> - to build the application</p>
+</li>
+<li>
 <p><a href="https://github.com/oracle/weblogic-deploy-tooling/releases">WebLogic Deploy Tooling</a> (WDT) - to convert the WebLogic Server domain to and from metadata</p>
+</li>
+<li>
 <p><a href="https://github.com/oracle/weblogic-image-tool/releases">WebLogic Image Tool</a> (WIT) - to build the Docker image</p>
+</li>
+</ul>
 <h2 id="initial-steps">Initial steps</h2>
 <p>In the initial steps, you create a sample domain that represents your on-premises WebLogic Server domain.</p>
 <h3 id="create-a-database-using-mysql-called-tododb">Create a database using MySQL called <code>tododb</code></h3>
@@ -410,11 +422,11 @@ You should use a more secure password.
 <p>Be aware of these domain limitations:</p>
 <ul>
 <li>There are two supported domain types, single server and single cluster.</li>
-<li>Domains must use the default value, <code>AdminServer</code>, for <code>AdminServerName</code>.</li>
 <li>Domains must use:
 <ul>
-<li>WebLogic Server listen port for the Administration Server: 7001.</li>
-<li>WebLogic Server listen port for the Managed Server: 8001.</li>
+<li>The default value <code>AdminServer</code> for <code>AdminServerName</code>.</li>
+<li>WebLogic Server listen port for the Administration Server: <code>7001</code>.</li>
+<li>WebLogic Server listen port for the Managed Server: <code>8001</code>.</li>
 <li>Note that these are all standard WebLogic Server default values.</li>
 </ul>
 </li>
@@ -471,7 +483,7 @@ You should use a more secure password.
 </ul>
 </li>
 <li>
-<p>On the <strong>Select Targets</strong> page, select <code>AdminServer</code>.</p>
+<p>On the Select Targets page, select <code>AdminServer</code>.</p>
 </li>
 <li>
 <p>Click <strong>Next</strong> and then <strong>Finish</strong> to complete the configuration.</p>
@@ -536,7 +548,7 @@ the <code>init</code> service also will load four sample items into the table.</
 <ul>
 <li><code>binding.yaml</code> - Verrazzano Binding file</li>
 <li><code>model.yaml</code> - Verrazzano Model template</li>
-<li><code>wdt-archive.zip</code> - The WDT archive containing the ToDo List application WAR file</li>
+<li><code>wdt-archive.zip</code> - The WDT archive file containing the ToDo List application WAR file</li>
 <li><code>wdt-model.yaml</code> - The WDT model of the WebLogic Server domain</li>
 <li><code>vz_variable.properties</code> - A set of properties extracted from the WDT domain model</li>
 <li><code>create_k8s_secrets.sh</code> - A helper script with <code>kubectl</code> commands to apply the Kubernetes secrets needed for this domain</li>
@@ -562,7 +574,8 @@ create the Docker image, run <code>imagetool create</code>.  Although WIT will d
 </span><span style="color:#4e9a06"></span>  --type jdk <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>  --version 8u231
 
-<span style="color:#8f5902;font-style:italic"># The installer file name may be slightly different depending on which version of the 12.2.1.4.0 installer that you downloaded, slim or generic.</span>
+<span style="color:#8f5902;font-style:italic"># The installer file name may be slightly different depending on</span>
+<span style="color:#8f5902;font-style:italic"># which version of the 12.2.1.4.0 installer that you downloaded, slim or generic.</span>
 <span style="color:#000">$WIT_HOME</span>/bin/imagetool.sh cache addInstaller <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>  --path /path/to/installer/fmw_12.2.1.4.0_wls_Disk1_1of1.zip <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>  --type wls <span style="color:#4e9a06">\
@@ -573,7 +586,8 @@ create the Docker image, run <code>imagetool create</code>.  Although WIT will d
 </span><span style="color:#4e9a06"></span>  --type wdt <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>  --version latest
 
-<span style="color:#8f5902;font-style:italic"># Paths for the files in this command assume that you are running it from the v8o directory created during the `discoverDomain` step.</span>
+<span style="color:#8f5902;font-style:italic"># Paths for the files in this command assume that you are running it from the</span>
+<span style="color:#8f5902;font-style:italic"># v8o directory created during the `discoverDomain` step.</span>
 <span style="color:#000">$WIT_HOME</span>/bin/imagetool.sh create <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>  --tag your/repo/todo:1 <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>  --version 12.2.1.4.0 <span style="color:#4e9a06">\
@@ -615,21 +629,19 @@ Assuming that you leave the name <code>ocir</code>, you will need to run a <code
 </code></pre></div><p>And finally, run <code>kubectl apply</code> to apply the Verrazzano Model and Verrazzano Binding files to start your domain.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f model.yaml
 kubectl apply -f binding.yaml
-</code></pre></div><p>To verify the ToDo List application deployment, check that the WebLogic Server pods were created in the <code>todo</code> namespace; you should see a pod named <code>tododomain-admin-server</code>:</p>
-<pre><code>```shell script
-kubectl get pods -n todo
-```
-</code></pre>
-<p>Check that you can access the application from your browser:</p>
+</code></pre></div><h4 id="verify-the-todo-list-application-deployment">Verify the ToDo List application deployment</h4>
+<p>Check that the WebLogic Server pods were created in the <code>todo</code> namespace; you will see a pod named <code>tododomain-admin-server</code>.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl get pods -n todo
+</code></pre></div><h4 id="verify-that-you-can-access-the-application-from-your-browser">Verify that you can access the application from your browser</h4>
 <ol>
 <li>
-<p>Obtain the external IP address for application access:</p>
+<p>Obtain the external IP address for application access.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl get svc -n istio-system istio-ingressgateway
 </code></pre></div><p>The IP address is listed in the <code>EXTERNAL-IP</code> column.</p>
 </li>
 <li>
 <p>Open a browser to that IP address with the path <code>/todo</code>, for example, if the IP address is 1.2.3.4, then open your browser to <code>http://1.2.3.4/todo</code>.</p>
-<p>You should see the same application that you saw when you accessed the original source domain.</p>
+<p>You will see the same application as in the <a href="#access-the-application">Access the application</a> step.</p>
 </li>
 </ol>
 
@@ -695,7 +707,7 @@ kubectl get pods -n todo
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified September 29, 2020: <a  href="https://github.com/verrazzano/docs/commit/06b5b3680b1c4b5f30160b3cf4b0ecb7a2c801f5">add lift-and-shift guide (#34) (06b5b36)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified September 30, 2020: <a  href="https://github.com/verrazzano/docs/commit/2b6e2549117df4d8171fb3a8707fe93f2db18d86">minor edits and formatting (#40) (2b6e254)</a>
 </div>
 </div>
 
