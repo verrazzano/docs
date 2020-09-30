@@ -13,15 +13,15 @@ This guide describes how to move ("Lift-and-Shift") an on-premises WebLogic Serv
 The [Initial steps](#initial-steps) create a very simple on-premises domain that you will move to Kubernetes.  The sample domain is the starting point for the lift and shift process; it contains one application (ToDo List) and one data source.  First, you'll configure the database and the WebLogic Server domain.  Then, in [Lift and Shift](#lift-and-shift-steps), you will move the domain to Kubernetes with Verrazzano.  This guide does not include the setup of the networking that would be needed to access an on-premises database, nor does it document how to migrate a database to the cloud.  
 
 ## What you need
-[MySQL Database 8.x](https://hub.docker.com/_/mysql) - a database server
+- [MySQL Database 8.x](https://hub.docker.com/_/mysql) - a database server
 
-[WebLogic Server 12.2.1.4.0](https://www.oracle.com/middleware/technologies/weblogic-server-downloads.html) - an application server; Note that all WebLogic Server installers are supported except the Quick Installer.
+- [WebLogic Server 12.2.1.4.0](https://www.oracle.com/middleware/technologies/weblogic-server-downloads.html) - an application server; Note that all WebLogic Server installers are supported _except_ the Quick Installer.
 
-[Maven](https://maven.apache.org/download.cgi) - to build the application
+- [Maven](https://maven.apache.org/download.cgi) - to build the application
 
-[WebLogic Deploy Tooling](https://github.com/oracle/weblogic-deploy-tooling/releases) (WDT) - to convert the WebLogic Server domain to and from metadata
+- [WebLogic Deploy Tooling](https://github.com/oracle/weblogic-deploy-tooling/releases) (WDT) - to convert the WebLogic Server domain to and from metadata
 
-[WebLogic Image Tool](https://github.com/oracle/weblogic-image-tool/releases) (WIT) - to build the Docker image
+- [WebLogic Image Tool](https://github.com/oracle/weblogic-image-tool/releases) (WIT) - to build the Docker image
 
 ## Initial steps
 
@@ -70,12 +70,11 @@ In the initial steps, you create a sample domain that represents your on-premise
    - Be aware of these domain limitations:
 
         - There are two supported domain types, single server and single cluster.
-        - Domains must use the default value, `AdminServer`, for `AdminServerName`.
         - Domains must use:
-            - WebLogic Server listen port for the Administration Server: 7001.
-            - WebLogic Server listen port for the Managed Server: 8001.
+            - The default value `AdminServer` for `AdminServerName`.
+            - WebLogic Server listen port for the Administration Server: `7001`.
+            - WebLogic Server listen port for the Managed Server: `8001`.
             - Note that these are all standard WebLogic Server default values.
-
 
    - Save the installer after you have finished; you will need it to build the Docker image.  
 
@@ -119,7 +118,7 @@ Using the WebLogic Server Administration Console, log in and add a data source c
     - Password: `welcome1` (or whatever password you used)
     - Confirm Password: `welcome1`
 
-1. On the **Select Targets** page, select `AdminServer`.
+1. On the Select Targets page, select `AdminServer`.
 
 1. Click **Next** and then **Finish** to complete the configuration.
 
@@ -185,7 +184,7 @@ To create a reusable model of the application and domain, use WDT to create a me
 You will find the following files in `./v8o`:
 - `binding.yaml` - Verrazzano Binding file
 - `model.yaml` - Verrazzano Model template
-- `wdt-archive.zip` - The WDT archive containing the ToDo List application WAR file
+- `wdt-archive.zip` - The WDT archive file containing the ToDo List application WAR file
 - `wdt-model.yaml` - The WDT model of the WebLogic Server domain
 - `vz_variable.properties` - A set of properties extracted from the WDT domain model
 - `create_k8s_secrets.sh` - A helper script with `kubectl` commands to apply the Kubernetes secrets needed for this domain
@@ -215,7 +214,8 @@ $WIT_HOME/bin/imagetool.sh cache addInstaller \
   --type jdk \
   --version 8u231
 
-# The installer file name may be slightly different depending on which version of the 12.2.1.4.0 installer that you downloaded, slim or generic.
+# The installer file name may be slightly different depending on
+# which version of the 12.2.1.4.0 installer that you downloaded, slim or generic.
 $WIT_HOME/bin/imagetool.sh cache addInstaller \
   --path /path/to/installer/fmw_12.2.1.4.0_wls_Disk1_1of1.zip \
   --type wls \
@@ -226,7 +226,8 @@ $WIT_HOME/bin/imagetool.sh cache addInstaller \
   --type wdt \
   --version latest
 
-# Paths for the files in this command assume that you are running it from the v8o directory created during the `discoverDomain` step.
+# Paths for the files in this command assume that you are running it from the
+# v8o directory created during the `discoverDomain` step.
 $WIT_HOME/bin/imagetool.sh create \
   --tag your/repo/todo:1 \
   --version 12.2.1.4.0 \
@@ -287,22 +288,23 @@ kubectl apply -f model.yaml
 kubectl apply -f binding.yaml
 ```
 
-To verify the ToDo List application deployment, check that the WebLogic Server pods were created in the `todo` namespace; you should see a pod named `tododomain-admin-server`:
+#### Verify the ToDo List application deployment
+Check that the WebLogic Server pods were created in the `todo` namespace; you will see a pod named `tododomain-admin-server`.
+
+```shell script
+kubectl get pods -n todo
+```
+
+#### Verify that you can access the application from your browser
+
+1. Obtain the external IP address for application access.
 
     ```shell script
-    kubectl get pods -n todo
-    ```
-
-Check that you can access the application from your browser:
-
-1. Obtain the external IP address for application access:
-
-    ```shell script 
     kubectl get svc -n istio-system istio-ingressgateway
     ```
 
     The IP address is listed in the `EXTERNAL-IP` column.
 
-1. Open a browser to that IP address with the path `/todo`, for example, if the IP address is 1.2.3.4, then open your browser to `http://1.2.3.4/todo`. 
+1. Open a browser to that IP address with the path `/todo`, for example, if the IP address is 1.2.3.4, then open your browser to `http://1.2.3.4/todo`.
 
-    You should see the same application that you saw when you accessed the original source domain.
+    You will see the same application as in the [Access the application](#access-the-application) step.
