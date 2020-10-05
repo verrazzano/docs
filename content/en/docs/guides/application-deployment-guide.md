@@ -20,11 +20,11 @@ Docker image has been packaged and published for use.
 
 ## What you need
 
-1. About 10 minutes.
+- About 10 minutes.
 
-1. Access to an existing Kubernetes cluster with Verrazzano [installed]({{< relref "/quickstart.md#install-verrazzano" >}}).
+- Access to an existing Kubernetes cluster with Verrazzano [installed]({{< relref "/quickstart.md#install-verrazzano" >}}).
 
-1. Access to the application's image in the Oracle Container Registry.
+- Access to the application's image in the Oracle Container Registry.
 
    Confirm access using this command to pull the example's Docker image.
 
@@ -93,6 +93,11 @@ EXPOSE 8080
 ```
 
 ## Application Deployment
+
+When you deploy applications with Verrazzano, the platform sets up connections, network policies, and
+ingresses in the service mesh, and wires up a monitoring stack to capture the metrics, logs, and traces.
+Verrazzano employs an "application model" that lets you assemble applications into a system that can be
+managed together and an "application binding" that you use to map the application model to an environment.
 
 ### Verrazzano Application Model
 
