@@ -136,9 +136,9 @@ The domain CR value defines the desired state of the WebLogic domain.
 
 VerrazzanoSecret identifies a Kubernetes secret by name
 
-| Attribute | Type | Required | Default Value | Description |
-|-----------|------|----------|---------------|-------------|
-| `name` | `string` | Y || The name of the secret. |
+| Attribute | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `name` | `string` | Y | The name of the secret. |
 
 ### WebLogicCluster
 
@@ -153,8 +153,6 @@ Optional list of clusters for which additional configuration is needed.
 
 ### CoherenceCluster
 
-
-## Coherence Cluster Components
 Note that support for Coherence is an experimental feature in this release of Verrazzano.
 
 Verrazzano relies on version 2.1.1 of the [Coherence Operator](https://github.com/oracle/coherence-operator).  For the Coherence clusters section of the Verrazzano Model, Coherence custom resource values are defined in Verrazzano and then converted to a custom resource that the Coherence Operator can interpret.
@@ -174,7 +172,7 @@ A Coherence cluster component must have the following item:
 | `image` | `string` | Y | The name of the image. More info: https://kubernetes.io/docs/concepts/containers/images |
 | `imagePullSecrets` | [`[]VerrazzanoSecret`](#verrazzanosecret) | N | List of Kubernetes secrets from which the credentials required to pull this container's image can be loaded. |
 | `name` | `string` | Y | Name of the component within the Verrazzano model. |
-| `pofConfig` | `string` | Y | Name of the POF configuration file to use. |
+| `pofConfig` | `string` | Y | Name of the Portable Object Format (POF) configuration file to use. |
 | `ports` | [`[]NamedPortSpec`](https://oracle.github.io/coherence-operator/docs/3.0.2/#/about/04_coherence_spec#_namedportspec) | N | Defines a named port for a Coherence cluster component. |
       
 
@@ -220,38 +218,36 @@ Generic components typically have connections defined as part of the components 
 
 ### Connection
 
-The connection defines an ingress or egress network connection needed by an application component.
+Connection defines network connection and/or database connections needed by an application component.
 
 | Attribute | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `ingress` | [`[]IngressConnection`](#ingressconnection) | N | The names of the ingresses to associate with this component. |
-| `rest` | [`[]RESTConnection`](#restconnection) | N | Connections of type REST needed by the application. |
+| `coherence` | [`[]CoherenceConnection`](#coherenceconnection) | N | Coherence type connections needed by a component. |
+| `database` | [`[]DatabaseConnection`](#databaseconnection) | N | Database type connections needed by a component. |
+| `ingress` | [`[]IngressConnection`](#ingressconnection) | N | Ingresses to associate with a component. |
+| `rest` | [`[]RESTConnection`](#restconnection) | N | REST type connections needed by a component. |
 
 
 ### RESTConnection
 
-You can define a REST connection from one component in the model to another component in the same model. When you define a REST connection between components, you can then define variable names that will be provided in the Verrazzano Binding. Verrazzano also sets up network policies that enable the components to communicate in the service mesh over TLS.
+You can define a REST connection from one component in the model to another component in the same model. 
+When you define a REST connection between components, you can then define variable names that will be provided in the
+Verrazzano Binding. Verrazzano also sets up network policies that enable the components to communicate in the service mesh over TLS.
 
-Settings:
-
-* Target: The name of the target component within the same model.
-* EnvironmentVariableForHost: The DNS name or IP address of the target component (its Kubernetes service).
-* EnvironmentVariableForPort: The port for the target component.
-
-| Attribute | Type | Required | Default Value | Description |
-|-----------|------|----------|---------------|-------------|
-| `target` | `string` | Y || Name of the target component in the Verrazzano application.
-| `environmentVariableForHost` | `string` | N || Name of the environment variable that contains the DNS name of the Kubernetes service in target component. |
-| `environmentVariableForPort` | `int32` | N || Name of the environment variable that contains the port number for the service in target component. |
+| Attribute | Type | Required | Description |
+|-----------|------|--------- |-------------|
+| `environmentVariableForHost` | `string` | Y | Name of the environment variable that contains the DNS name of the Kubernetes service in target component. |
+| `environmentVariableForPort` | `integer` | Y | Name of the environment variable that contains the port number for the service in target component. |
+| `target` | `string` | Y | Name of the target component in the Verrazzano application. |
 
 ### IngressConnection
 
 The Ingress connection defines an ingress associated with an application component.
 
-| Attribute | Type | Required | Default Value | Description |
-|-----------|------|----------|---------------|-------------|
-| `name` | `string` | Y || Name of the ingress to connect to the application. Ingress details are defined in the binding.
-| `match` | `[]IngressConnectionMatch` | N || Match rules associated with the ingress connection. |
+| Attribute | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `name` | `string` | Y | Name of the ingress to connect to the application. Ingress details are defined in the binding. |
+| `match` | `[]IngressConnectionMatch` | N | Match rules associated with the ingress connection. Default is match the prefix "/". |
 
 
 ### CoherenceConnections
@@ -274,10 +270,20 @@ In the Verrazzano Model, you can define connections to external databases. These
 
 The Match rule associated with the ingress connection.
 
-| Attribute | Type | Required | Default Value | Description |
-|-----------|------|----------|---------------|-------------|
-| `uri` | `string` | Y || Name of the ingress to connect to the application. Ingress details are defined in the binding.
+| Attribute | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `uri` | `StringMatch` | Y | Describes how to match a given string in HTTP headers. Match is case-sensitive. |
 
+
+### StringMatch
+
+Describes how to match a given string in HTTP headers. Match is case-sensitive.
+
+| Attribute | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `exact` | `string` (oneof) | N | exact string match |
+| `prefix` | `string` (oneof) | N | prefix string match |
+| `regex` | `string` (oneof) | N | RE2 style regex-based match (https://github.com/google/re2/wiki/Syntax). |
 
 ## Additional Info
 
