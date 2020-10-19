@@ -162,22 +162,20 @@ Verrazzano relies on version 2.1.1 of the [Coherence Operator](https://github.co
 A Coherence cluster component must have the following item:
 
 * name
-
-Coherence cluster components typically have the following items:
-
 * image
-* imagePullSecrets
 * cacheConfig
 * pofConfig
 
 
-| Attribute | Type | Required | Default Value | Description |
-|-----------|------|----------|---------------|-------------|
-| `name` | `string` | Y || Name of the component within the Verrazzano model. |
-| `image` | `string` | N || The name of the image. More info: https://kubernetes.io/docs/concepts/containers/images |
-| `imagePullSecrets` | [`[]VerrazzanoSecret`](#verrazzanosecret) | N || ImagePullSecrets is an optional list of references to secrets in the same namespace to use for pulling any of the images used by this PodSpec. If specified, these secrets will be passed to individual puller implementations for them to use. For example, in the case of docker, only DockerConfig type secrets are honored. More info: https://kubernetes.io/docs/concepts/containers/images#specifying-imagepullsecrets-on-a-pod |
-| `cacheConfig` | `string` | N || CacheConfig is the name of the cache configuration file to use see: [Configure Cache Config File](https://oracle.github.io/coherence-operator/docs/3.0.2/#/about/04_coherence_spec#coherence_settings/030_cache_config.adoc) |
-| `connections` | [`[]Connection`](#connection) | N || List of connections used by this application component. |
+| Attribute | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `cacheConfig` | `string` | Y| Name of the cache configuration file to use. |
+| `connections` | [`[]Connection`](#connection) | N | List of connections used by this application component. |
+| `image` | `string` | Y | The name of the image. More info: https://kubernetes.io/docs/concepts/containers/images |
+| `imagePullSecrets` | [`[]VerrazzanoSecret`](#verrazzanosecret) | N | List of Kubernetes secrets from which the credentials required to pull this container's image can be loaded. |
+| `name` | `string` | Y | Name of the component within the Verrazzano model. |
+| `pofConfig` | `string` | Y | Name of the POF configuration file to use. |
+| `ports` | [`[]NamedPortSpec`](https://oracle.github.io/coherence-operator/docs/3.0.2/#/about/04_coherence_spec#_namedportspec) | N | Defines a named port for a Coherence cluster component. |
       
 
 ### HelidonApplication
@@ -188,15 +186,15 @@ Helidon applications must have the following items defined in the model file:
 
 Helidon applications typically have connections defined as part of the components specification, including REST, database, Coherence, and ingress connections.
 
-Helidon applications are managed by the Verrazzano Helidon App Operator. See the source for the operator for the list of additional configuration properties available for Helidon applications.
+Helidon applications are managed by the Verrazzano Helidon Application Operator.
 
 | Attribute | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `connections` | [`[]Connection`](#connection) | N | List of connections used by this application component. |
-| `env` | [`[]EnvVar`](https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#podspec-v1-core) | N | List of environment variables to set in the container. |
-| `fluentdEnabled` | `boolean` | N | Determines whether a Fluentd container is included to send logs to Elasticsearch. Defaults to true. |
+| `env` | [`[]EnvVar`](https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#envvar-v1-core) | N | List of environment variables to set for container. |
+| `fluentdEnabled` | `boolean` | N | Determines whether a Fluentd container is included for sending logs to Elasticsearch. Defaults to true. |
 | `image` | `string` | Y | Container image that runs the application. Must be a path-like or URI-like representation of an OCI image. May be prefixed with a registry address and should be suffixed with a tag. |
-| `imagePullSecrets` | [`[]LocalObjectReference`](https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#localobjectreference-v1-core) | N | List of Kubernetes secrets from which the credentials required to pull this container's image can be loaded. |
+| `imagePullSecrets` | [`[]VerrazzanoSecret`](#verrazzanosecret) | N | List of Kubernetes secrets from which the credentials required to pull this container's image can be loaded. |
 | `name` | `string` | Y | Name of the component within the Verrazzano model. |
 | `port` | `integer` | N | Port to be used for the service port. Defaults to 8080. |
 | `targetPort` | `integer` | N | Target port to be used for the service port. Defaults to 8080. |
@@ -216,7 +214,7 @@ Generic components typically have connections defined as part of the components 
 |-----------|------|----------|-------------|
 | `connections` | [`[]Connection`](#connection) | N | List of connections used by this application component. |
 | `deployment` | [`PodSpec`](https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#podspec-v1-core) | Y | Desired behavior of a pod for a generic component. |
-| `fluentdEnabled` | `boolean` | N | Determines whether a Fluentd container is included to send logs to Elasticsearch. Defaults to true.|
+| `fluentdEnabled` | `boolean` | N | Determines whether a Fluentd container is included for sending logs to Elasticsearch. Defaults to true.|
 | `name` | `string` | Y | Name of the component within the Verrazzano model. |
 | `replicas` | `integer` | N | Number of desired pods for a generic component. Defaults to 1.|
 
