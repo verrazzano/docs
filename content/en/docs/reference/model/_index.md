@@ -56,6 +56,7 @@ spec:
 | `weblogicDomains` | [`[]WebLogicDomain`](#weblogicdomain) | N || WebLogic Server domain components in the application. |
 | `coherenceClusters` | [`[]CoherenceCluster`](#coherencecluster) | N || Coherence cluster components in the application. |
 | `helidonApplications` | [`[]HelidonApplication`](#helidonapplication) | N || Helidon application components in the application. |
+| `genericComponents` | [`[]GenericComponent`](#genericcomponent) | N || Generic components in the application. |
 
 ### WebLogicDomain
 
@@ -184,27 +185,49 @@ Coherence cluster components typically have the following items:
 Helidon applications must have the following items defined in the model file:
 * name
 * image
-* imagePullSecrets
 
-Helidon applications typically have connections defined as part of the components specification, including REST, database, Coherence, and ingress connections as described for the previous component types.
+Helidon applications typically have connections defined as part of the components specification, including REST, database, Coherence, and ingress connections.
 
 Helidon applications are managed by the Verrazzano Helidon App Operator. See the source for the operator for the list of additional configuration properties available for Helidon applications.
 
-| Attribute | Type | Required | Default Value | Description |
-|-----------|------|----------|---------------|-------------|
-| `name` | `string` | Y || Name of the component within the Verrazzano model. |
-| `image` | `string` | Y || Container image that runs the application. Must be a path-like or URI-like representation of an OCI image. May be prefixed with a registry address and should be suffixed with a tag.. |
-| `imagePullSecret` | `string` | N || Specifies the name of a Kubernetes Secret from which the credentials required to pull this container's image can be loaded. |
-| `connections` | [`[]Connection`(#connection)] | N || List of connections used by this application component. |
+| Attribute | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `connections` | [`[]Connection`](#connection) | N | List of connections used by this application component. |
+| `env` | [`[]EnvVar`](https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#podspec-v1-core) | N | List of environment variables to set in the container. |
+| `fluentdEnabled` | `boolean` | N | Determines whether a Fluentd container is included to send logs to Elasticsearch. Defaults to true. |
+| `image` | `string` | Y | Container image that runs the application. Must be a path-like or URI-like representation of an OCI image. May be prefixed with a registry address and should be suffixed with a tag. |
+| `imagePullSecrets` | [`[]LocalObjectReference`](https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#localobjectreference-v1-core) | N | List of Kubernetes secrets from which the credentials required to pull this container's image can be loaded. |
+| `name` | `string` | Y | Name of the component within the Verrazzano model. |
+| `port` | `integer` | N | Port to be used for the service port. Defaults to 8080. |
+| `targetPort` | `integer` | N | Target port to be used for the service port. Defaults to 8080. |
+
+
+### GenericComponent
+
+Generic components must have the following items defined in the model file:
+* name
+* deployment
+
+Generic components are managed by the Verrazzano Operator and result in a single Kubernetes deployment and service being created.
+
+Generic components typically have connections defined as part of the components specification, including REST and ingress connections.
+
+| Attribute | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `connections` | [`[]Connection`](#connection) | N | List of connections used by this application component. |
+| `deployment` | [`PodSpec`](https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#podspec-v1-core) | Y | Desired behavior of a pod for a generic component. |
+| `fluentdEnabled` | `boolean` | N | Determines whether a Fluentd container is included to send logs to Elasticsearch. Defaults to true.|
+| `name` | `string` | Y | Name of the component within the Verrazzano model. |
+| `replicas` | `integer` | N | Number of desired pods for a generic component. Defaults to 1.|
 
 ### Connection
 
 The connection defines an ingress or egress network connection needed by an application component.
 
-| Attribute | Type | Required | Default Value | Description |
-|-----------|------|----------|---------------|-------------|
-| `rest` | [`RESTConnection`](#restconnection) | N || Connections of type REST needed by the application. |
-| `ingress` | [`[]IngressConnection`](#ingressconnection) | N || The names of the ingresses to associate with this component. |
+| Attribute | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `ingress` | [`[]IngressConnection`](#ingressconnection) | N | The names of the ingresses to associate with this component. |
+| `rest` | [`[]RESTConnection`](#restconnection) | N | Connections of type REST needed by the application. |
 
 
 ### RESTConnection
