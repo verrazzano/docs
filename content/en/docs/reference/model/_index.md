@@ -25,12 +25,12 @@ spec:
   ...
 ```
 
-| Attribute | Type | Required | Default Value | Description |
-|-----------|------|----------|---------------|-------------|
-| `apiVersion` | `string` | Y || A string that identifies the version of the schema the object should have. The core types uses `verrazzano.io/v1beta1` in this version of specification. |
-| `kind` | `string` | Y || Must be `VerrazzanoModel` |
-| `metadata` | [`ObjectMeta`](https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#objectmeta-v1-meta) | Y | | Information about the model. |
-| `spec`| [`Spec`](#spec) | Y || A specification for application model attributes. |
+| Attribute | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `apiVersion` | `string` | Y | A string that identifies the version of the schema the object should have. The core types uses `verrazzano.io/v1beta1` in this version of specification. |
+| `kind` | `string` | Y | Must be `VerrazzanoModel` |
+| `metadata` | [`ObjectMeta`](https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#objectmeta-v1-meta) | Y | Information about the model. |
+| `spec`| [`Spec`](#spec) | Y | A specification for application model attributes. |
 
 ### Spec
 
@@ -48,15 +48,18 @@ spec:
   helidonApplications:
     - name: hello-helidon
       ...
+  genericComponents:
+    - name: hello-generic
+      ...
 ```
 
-| Attribute | Type | Required | Default Value | Description |
-|-----------|------|----------|---------------|-------------|
-| `description` | `string` | Y || Description of the model. |
-| `weblogicDomains` | [`[]WebLogicDomain`](#weblogicdomain) | N || WebLogic Server domain components in the application. |
-| `coherenceClusters` | [`[]CoherenceCluster`](#coherencecluster) | N || Coherence cluster components in the application. |
-| `helidonApplications` | [`[]HelidonApplication`](#helidonapplication) | N || Helidon application components in the application. |
-| `genericComponents` | [`[]GenericComponent`](#genericcomponent) | N || Generic components in the application. |
+| Attribute | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `description` | `string` | Y | Description of the model. |
+| `weblogicDomains` | [`[]WebLogicDomain`](#weblogicdomain) | N | WebLogic Server domain components in the application. |
+| `coherenceClusters` | [`[]CoherenceCluster`](#coherencecluster) | N | Coherence cluster components in the application. |
+| `helidonApplications` | [`[]HelidonApplication`](#helidonapplication) | N | Helidon application components in the application. |
+| `genericComponents` | [`[]GenericComponent`](#genericcomponent) | N | Generic components in the application. |
 
 ### WebLogicDomain
 
@@ -69,13 +72,13 @@ WebLogic domain components in a Verrazzano Model represent the custom resource f
         ...
 ```
 
-| Attribute | Type | Required | Default Value | Description |
-|-----------|------|----------|---------------|-------------|
-| `name` | `string` | Y || Name of the component within the Verrazzano model. |
-| `adminPort` | `int32` | N || External port number for the Administration console. |
-| `t3Port` | `int32` | N || External port number for T3. |
-| `domainCRValues` | [`[]DomainCRValue`](#domaincrvalue) | Y || Domain CR values; you can provide valid Domain CR values accepted by the WebLogic Server Kubernetes Operator with a few exceptions. |
-| `connections` | [`[]Connection`](#connection) | N || List of connections used by this application component. |
+| Attribute | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `adminPort` | `integer` | N | External port number for the Administration console. |
+| `connections` | [`[]Connection`](#connection) | N | List of connections used by this application component. |
+| `domainCRValues` | [`[]DomainCRValue`](#domaincrvalue) | Y | Domain CR values; you can provide valid Domain CR values accepted by the WebLogic Server Kubernetes Operator with a few exceptions. |
+| `name` | `string` | Y | Name of the component within the Verrazzano model. |
+| `t3Port` | `integer` | N | External port number for T3. |
 
 ### DomainCRValue
 
@@ -123,14 +126,14 @@ The domain CR value defines the desired state of the WebLogic domain.
 
 | Attribute | Type | Required | Default Value | Description |
 |-----------|------|----------|---------------|-------------|
-| `domainUID` | `string` | N | Value of `metadata.name`| Domain unique identifier. It is recommended that this value be unique to assist in future work to identify related domains in active-passive scenarios across data centers; however, it is only required that this value be unique within the namespace, similarly to the names of Kubernetes resources. This value is distinct and need not match the domain name from the WebLogic domain configuration. Defaults to the value of metadata.name. |
+| `clusters` | [`[]WebLogicCluster`](#weblogiccluster) | Y | |List of clusters for which additional configuration is needed. |
 | `domainHome` | `string` | N | `/u01/domains/` | Path to the WebLogic domain home in the image. |
-| `image` | `string` | Y || Docker image to use for pods in the WebLogic domain. |
-| `logHome` | `string` | Y || The directory in a server's container in which to store the domain, Node Manager, server logs, server *.out, and optionally HTTP access log file. |
+| `domainUID` | `string` | N | Value of `metadata.name`| Domain unique identifier. It is recommended that this value be unique to assist in future work to identify related domains in active-passive scenarios across data centers; however, it is only required that this value be unique within the namespace, similarly to the names of Kubernetes resources. This value is distinct and need not match the domain name from the WebLogic domain configuration. Defaults to the value of metadata.name. |
+| `image` | `string` | Y | | Docker image to use for pods in the WebLogic domain. |
+| `imagePullSecrets` | [`[]VerrazzanoSecret`](#verrazzanosecret) | Y | | Name of the secret for pulling Docker images for the WebLogic domain. |
+| `logHome` | `string` | Y | | The directory in a server's container in which to store the domain, Node Manager, server logs, server *.out, and optionally HTTP access log file. |
 | `logHomeEnabled` | `boolean` | Y | `false` | Enables the WebLogic Server Kubernetes Operator to override the domain log location. |
-| `webLogicCredentialsSecret` | [`VerrazzanoSecret`](#verrazzanosecret) | Y || Secret containing administrative credentials for the WebLogic domain. |
-| `imagePullSecrets` | [`[]VerrazzanoSecret`](#verrazzanosecret) | Y || Name of the secret for pulling Docker images for the WebLogic domain. |
-| `clusters` | [`[]WebLogicCluster`](#weblogiccluster) | Y ||List of clusters for which additional configuration is needed. |
+| `webLogicCredentialsSecret` | [`VerrazzanoSecret`](#verrazzanosecret) | Y | | Secret containing administrative credentials for the WebLogic domain. |
 
 ### VerrazzanoSecret
 
@@ -186,16 +189,16 @@ Helidon applications typically have connections defined as part of the component
 
 Helidon applications are managed by the Verrazzano Helidon Application Operator.
 
-| Attribute | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `connections` | [`[]Connection`](#connection) | N | List of connections used by this application component. |
-| `env` | [`[]EnvVar`](https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#envvar-v1-core) | N | List of environment variables to set for container. |
-| `fluentdEnabled` | `boolean` | N | Determines whether a Fluentd container is included for sending logs to Elasticsearch. Defaults to true. |
-| `image` | `string` | Y | Container image that runs the application. Must be a path-like or URI-like representation of an OCI image. May be prefixed with a registry address and should be suffixed with a tag. |
-| `imagePullSecrets` | [`[]VerrazzanoSecret`](#verrazzanosecret) | N | List of Kubernetes secrets from which the credentials required to pull this container's image can be loaded. |
-| `name` | `string` | Y | Name of the component within the Verrazzano model. |
-| `port` | `integer` | N | Port to be used for the service port. Defaults to 8080. |
-| `targetPort` | `integer` | N | Target port to be used for the service port. Defaults to 8080. |
+| Attribute | Type | Required | Default Value |Description |
+|-----------|------|----------|---------------|-------------|
+| `connections` | [`[]Connection`](#connection) | N | | List of connections used by this application component. |
+| `env` | [`[]EnvVar`](https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#envvar-v1-core) | N | | List of environment variables to set for container. |
+| `fluentdEnabled` | `boolean` | N | true | Determines whether a Fluentd container is included for sending logs to Elasticsearch. |
+| `image` | `string` | Y | | Container image that runs the application. Must be a path-like or URI-like representation of an OCI image. May be prefixed with a registry address and should be suffixed with a tag. |
+| `imagePullSecrets` | [`[]VerrazzanoSecret`](#verrazzanosecret) | N | | List of Kubernetes secrets from which the credentials required to pull this container's image can be loaded. |
+| `name` | `string` | Y | | Name of the component within the Verrazzano model. |
+| `port` | `integer` | N | 8080 | Port to be used for the service port. |
+| `targetPort` | `integer` | N | 8080 | Target port to be used for the service target port. |
 
 
 ### GenericComponent
@@ -208,13 +211,13 @@ Generic components are managed by the Verrazzano Operator and result in a single
 
 Generic components typically have connections defined as part of the components specification, including REST and ingress connections.
 
-| Attribute | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `connections` | [`[]Connection`](#connection) | N | List of connections used by this application component. |
-| `deployment` | [`PodSpec`](https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#podspec-v1-core) | Y | Desired behavior of a pod for a generic component. |
-| `fluentdEnabled` | `boolean` | N | Determines whether a Fluentd container is included for sending logs to Elasticsearch. Defaults to true.|
-| `name` | `string` | Y | Name of the component within the Verrazzano model. |
-| `replicas` | `integer` | N | Number of desired pods for a generic component. Defaults to 1.|
+| Attribute | Type | Required | Default Value | Description |
+|-----------|------|----------|---------------|-------------|
+| `connections` | [`[]Connection`](#connection) | N | | List of connections used by this application component. |
+| `deployment` | [`PodSpec`](https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#podspec-v1-core) | Y | | Desired behavior of a pod for a generic component. |
+| `fluentdEnabled` | `boolean` | N | true | Determines whether a Fluentd container is included for sending logs to Elasticsearch. |
+| `name` | `string` | Y | | Name of the component within the Verrazzano model. |
+| `replicas` | `integer` | N | 1 | Number of desired pods for a generic component. |
 
 ### Connection
 
@@ -226,6 +229,34 @@ Connection defines network connection and/or database connections needed by an a
 | `database` | [`[]DatabaseConnection`](#databaseconnection) | N | Database type connections needed by a component. |
 | `ingress` | [`[]IngressConnection`](#ingressconnection) | N | Ingresses to associate with a component. |
 | `rest` | [`[]RESTConnection`](#restconnection) | N | REST type connections needed by a component. |
+
+
+### CoherenceConnection
+You can define a Coherence connection for a component that needs to communicate with a Coherence cluster. The Coherence cluster must also be defined in the same Verrazzano Model.
+
+| Attribute | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `target` | `string` | Y | Name of the target Coherence component. |
+| `address` | `string` | Y | Coherence cluster services address. |
+
+### DatabaseConnection
+
+In the Verrazzano Model, you can define connections to external databases. These connections then become available to modify in the Verrazzano Binding. 
+That is, you can identify a necessary database connection in the model, and then define credentials and the URL for the database in the binding. Verrazzano operators then handle the database connection accordingly.
+
+| Attribute | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `target` | `string` | Y | Name of the database to specify in a Verrazzano Binding. That is, in the binding, you will define a database entry that the component will connect to. |
+| `datasourceName` | `string` | Y | Name of the data source within the WebLogic configuration that will map to the connected database. |
+
+### IngressConnection
+
+The Ingress connection defines an ingress associated with an application component.
+
+| Attribute | Type | Required | Default Value | Description |
+|-----------|------|----------|---------------|-------------|
+| `name` | `string` | Y | | Name of the ingress to connect to the application. Ingress details are defined in the binding. |
+| `match` | [`[]IngressConnectionMatch`](#ingressconnectionmatch) | N | prefix "/" | Match rules associated with the ingress connection. |
 
 
 ### RESTConnection
@@ -240,31 +271,6 @@ Verrazzano Binding. Verrazzano also sets up network policies that enable the com
 | `environmentVariableForPort` | `integer` | Y | Name of the environment variable that contains the port number for the service in target component. |
 | `target` | `string` | Y | Name of the target component in the Verrazzano application. |
 
-### IngressConnection
-
-The Ingress connection defines an ingress associated with an application component.
-
-| Attribute | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `name` | `string` | Y | Name of the ingress to connect to the application. Ingress details are defined in the binding. |
-| `match` | `[]IngressConnectionMatch` | N | Match rules associated with the ingress connection. Default is match the prefix "/". |
-
-
-### CoherenceConnections
-You can define a Coherence connection for a component that needs to communicate with a Coherence cluster. The Coherence cluster must also be defined in the same Verrazzano Model.
-
-Settings:
-
-* Target: The name of the target Coherence component.
-* Address: The Coherence cluster services address.
-
-### DatabaseConnection
-
-In the Verrazzano Model, you can define connections to external databases. These connections then become available to modify in the Verrazzano Binding. That is, you can identify a necessary database connection in the model, and then define credentials and the URL for the database in the binding. Verrazzano operators then handle the database connection accordingly.
-
-* Target: name of the database to specify in a Verrazzano Binding. That is, in the binding, you will define a database entry that the component will connect to.
-* DatasourceName: The name of the data source within the WebLogic configuration that will map to the connected database.
-
 
 ### IngressConnectionMatch
 
@@ -272,7 +278,7 @@ The Match rule associated with the ingress connection.
 
 | Attribute | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `uri` | `StringMatch` | Y | Describes how to match a given string in HTTP headers. Match is case-sensitive. |
+| `uri` | [`StringMatch`](#stringmatch) | Y | Describes how to match a given string in HTTP headers. Match is case-sensitive. |
 
 
 ### StringMatch
