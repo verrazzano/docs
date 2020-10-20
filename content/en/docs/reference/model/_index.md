@@ -76,13 +76,13 @@ WebLogic domain components in a Verrazzano Model represent the custom resource f
 |-----------|------|----------|-------------|
 | `adminPort` | `integer` | N | External port number for the Administration console. |
 | `connections` | [`[]Connection`](#connection) | N | List of connections used by this application component. |
-| `domainCRValues` | [`[]DomainCRValue`](#domaincrvalue) | Y | Domain CR values; you can provide valid Domain CR values accepted by the WebLogic Server Kubernetes Operator with a few exceptions. |
+| `domainCRValues` | [`[]DomainCRValue`](#domaincrvalue) | Y | Domain Custome Resource (CR) values; you can provide valid Domain CR values accepted by the WebLogic Server Kubernetes Operator. |
 | `name` | `string` | Y | Name of the component within the Verrazzano model. |
 | `t3Port` | `integer` | N | External port number for T3. |
 
 ### DomainCRValue
 
-The domain CR value defines the desired state of the WebLogic domain.
+The domain Custome Resource (CR) value defines the desired state of the WebLogic domain.
 
 {{< alert title="Limitations" color="notice" >}}
 
@@ -95,7 +95,7 @@ The domain CR value defines the desired state of the WebLogic domain.
 {{< /alert >}}
 
 
- For a full list of valid CR values, see the WebLogic Server Kubernetes Operator repository at [https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md](https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md).
+ For a full list of valid domain CR values, see the WebLogic Server Kubernetes Operator repository at [https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md](https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md).
 
 ``` yaml
   weblogicDomains:
@@ -104,7 +104,6 @@ The domain CR value defines the desired state of the WebLogic domain.
         domainUID: hello-weblogic
         domainHome: /u01/oracle/user_projects/domains/hello-weblogic
         image: example.registry/hello-weblogic:latest
-        includeServerOutInPodLog: true
         replicas: 2
         webLogicCredentialsSecret:
           name: hello-weblogic-credentials
@@ -126,13 +125,14 @@ The domain CR value defines the desired state of the WebLogic domain.
 
 | Attribute | Type | Required | Default Value | Description |
 |-----------|------|----------|---------------|-------------|
-| `clusters` | [`[]WebLogicCluster`](#weblogiccluster) | Y | |List of clusters for which additional configuration is needed. |
-| `domainHome` | `string` | N | `/u01/domains/` | Path to the WebLogic domain home in the image. |
+| `clusters` | `[]Cluster` | N | | List of clusters for which additional configuration is needed. More info: [https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md](https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md).|
+| `domainHome` | `string` | N | /u01/domains/ | Path to the WebLogic domain home in the image. |
 | `domainUID` | `string` | N | Value of `metadata.name`| Domain unique identifier. It is recommended that this value be unique to assist in future work to identify related domains in active-passive scenarios across data centers; however, it is only required that this value be unique within the namespace, similarly to the names of Kubernetes resources. This value is distinct and need not match the domain name from the WebLogic domain configuration. Defaults to the value of metadata.name. |
+| `fluentdEnabled` | `boolean` | N | true | Determines whether a Fluentd container is included for sending logs to Elasticsearch. |
 | `image` | `string` | Y | | Docker image to use for pods in the WebLogic domain. |
 | `imagePullSecrets` | [`[]VerrazzanoSecret`](#verrazzanosecret) | Y | | Name of the secret for pulling Docker images for the WebLogic domain. |
-| `logHome` | `string` | Y | | The directory in a server's container in which to store the domain, Node Manager, server logs, server *.out, and optionally HTTP access log file. |
-| `logHomeEnabled` | `boolean` | Y | `false` | Enables the WebLogic Server Kubernetes Operator to override the domain log location. |
+| `replicas` | `integer` | Y | 1 | Default number of cluster member Managed Server instances to start for each WebLogic cluster in the domain configuration.
+| `serverPod` | `ServerPod` | N | | List of clusters for which additional configuration is needed. More info: [https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md](https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md).|
 | `webLogicCredentialsSecret` | [`VerrazzanoSecret`](#verrazzanosecret) | Y | | Secret containing administrative credentials for the WebLogic domain. |
 
 ### VerrazzanoSecret
@@ -142,16 +142,6 @@ VerrazzanoSecret identifies a Kubernetes secret by name
 | Attribute | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `name` | `string` | Y | The name of the secret. |
-
-### WebLogicCluster
-
-Optional list of clusters for which additional configuration is needed.
-
-| Attribute | Type | Required | Default Value | Description |
-|-----------|------|----------|---------------|-------------|
-| `clusterName` | `string` | Y || The name of the cluster. This value must match the name of a WebLogic cluster already defined in the WebLogic domain configuration. |
-| `serverStartState` | `string` | RUNNING || Desired start state for managed servers in the cluster: ADMIN or RUNNING (default) |
-| `serverPod` | [`PodSpec`](https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#podspec-v1-core)
 
 
 ### CoherenceCluster
@@ -211,6 +201,26 @@ Generic components are managed by the Verrazzano Operator and result in a single
 
 Generic components typically have connections defined as part of the components specification, including REST and ingress connections.
 
+Snippet of Verrazzano model showing a Generic component:
+
+``` yaml
+  genericComponents:
+    - name: "verrazzano-springboot"
+      replicas: 2
+      deployment:
+        containers:
+          - image: spring-boot-verrazzano:0.0.1
+            name: verrazzano-springboot
+            ports:
+              - containerPort: 8080
+                name: springboot-port
+      connections:
+        - ingress:
+            - name: "springboot-ingress"
+              match:
+                - uri:
+                    prefix: /
+```
 | Attribute | Type | Required | Default Value | Description |
 |-----------|------|----------|---------------|-------------|
 | `connections` | [`[]Connection`](#connection) | N | | List of connections used by this application component. |
