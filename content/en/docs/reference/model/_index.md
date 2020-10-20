@@ -298,7 +298,7 @@ Describes how to match a given string in HTTP headers. Match is case-sensitive.
 |-----------|------|----------|-------------|
 | `exact` | `string` (oneof) | N | exact string match |
 | `prefix` | `string` (oneof) | N | prefix string match |
-| `regex` | `string` (oneof) | N | RE2 style regex-based match (https://github.com/google/re2/wiki/Syntax). |
+| `regex` | `string` (oneof) | N | RE2 style regex-based match. |
 
 ## Additional Info
 
