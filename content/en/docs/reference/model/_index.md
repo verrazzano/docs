@@ -13,7 +13,7 @@ For an example Verrazzano Model, see [demo-model](https://github.com/verrazzano/
 
 ### Top-Level Attributes
 
-The top-level attributes of a Verrazzano application model define its version, kind, metadata, and spec.
+The top-level attributes of a Verrazzano application model define its `version`, `kind`, `metadata`, and `spec`.
 
 ``` yaml
 apiVersion: verrazzano.io/v1beta1
@@ -86,8 +86,8 @@ The domain Custom Resource (CR) value defines the desired state of the WebLogic 
 
 {{< alert title="Limitations" color="notice" >}}
 
-* Verrazzano uses WebLogic Server Kubernetes Operator version 3.0. Any features or values added in later versions of the operator are not valid.
-* ["Domain in Image"](https://oracle.github.io/weblogic-kubernetes-operator/userguide/managing-domains/choosing-a-model/) is the only valid domain home strategy with Verrazzano in this early release. Future releases will include support for other domain home strategies.
+* Verrazzano uses WebLogic Server Kubernetes Operator version 3.0.2. Any features or values added in later versions of the operator are not valid.
+* ["Model in Image"](https://oracle.github.io/weblogic-kubernetes-operator/userguide/managing-domains/choosing-a-model/) is the only valid domain home strategy with Verrazzano in this early release. Future releases will include support for other domain home strategies.
 * Domain configuration overrides are not supported in this early release of Verrazzano. If you use secrets or config maps to store configuration overrides, those overrides will not be applied and may cause other errors.
 * JRF domains are not supported in this early release of Verrazzano. Restricted JRF is supported.
 * Use of Oracle Platform Security Services is not supported in this early release.
@@ -136,7 +136,7 @@ The domain Custom Resource (CR) value defines the desired state of the WebLogic 
 
 ### VerrazzanoSecret
 
-VerrazzanoSecret identifies a Kubernetes secret by name
+VerrazzanoSecret identifies a Kubernetes secret by name.
 
 | Attribute | Type | Required | Description |
 |-----------|------|----------|-------------|
@@ -144,8 +144,6 @@ VerrazzanoSecret identifies a Kubernetes secret by name
 
 
 ### CoherenceCluster
-
-Note that support for Coherence is an experimental feature in this release of Verrazzano.
 
 Verrazzano relies on version 2.1.1 of the [Coherence Operator](https://github.com/oracle/coherence-operator).  For the Coherence clusters section of the Verrazzano Model, Coherence custom resource values are defined in Verrazzano and then converted to a custom resource that the Coherence Operator can interpret.
 
@@ -202,19 +200,19 @@ Generic components typically have connections defined as part of the components 
 
 ``` yaml
   genericComponents:
-    - name: "verrazzano-springboot"
+    - name: "verrazzano-generic"
       replicas: 2
       fluentdEnabled: true
       deployment:
         containers:
-          - image: spring-boot-verrazzano:0.0.1
-            name: verrazzano-springboot
+          - image: generic-verrazzano:0.0.1
+            name: verrazzano-generic
             ports:
               - containerPort: 8080
-                name: springboot-port
+                name: generic-port
       connections:
         - ingress:
-            - name: "springboot-ingress"
+            - name: "generic-ingress"
               match:
                 - uri:
                     prefix: /
@@ -298,7 +296,7 @@ Describes how to match a given string in HTTP headers. Match is case-sensitive.
 |-----------|------|----------|-------------|
 | `exact` | `string` (oneof) | N | exact string match |
 | `prefix` | `string` (oneof) | N | prefix string match |
-| `regex` | `string` (oneof) | N | RE2 style regex-based match. |
+| `regex` | `string` (oneof) | N | RE2 style regex-based match |
 
 ## Additional Info
 
