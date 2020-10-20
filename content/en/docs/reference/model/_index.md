@@ -13,7 +13,7 @@ For an example Verrazzano Model, see [demo-model](https://github.com/verrazzano/
 
 ### Top-Level Attributes
 
-The top-level attributes of a Verrazzano application model define its metadata, version, kind, and spec.
+The top-level attributes of a Verrazzano application model define its version, kind, metadata, and spec.
 
 ``` yaml
 apiVersion: verrazzano.io/v1beta1
@@ -27,7 +27,7 @@ spec:
 
 | Attribute | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `apiVersion` | `string` | Y | A string that identifies the version of the schema the object should have. The core types uses `verrazzano.io/v1beta1` in this version of specification. |
+| `apiVersion` | `string` | Y | A string that identifies the version of the schema the object should have. Must be `verrazzano.io/v1beta1`. |
 | `kind` | `string` | Y | Must be `VerrazzanoModel` |
 | `metadata` | [`ObjectMeta`](https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#objectmeta-v1-meta) | Y | Information about the model. |
 | `spec`| [`Spec`](#spec) | Y | A specification for application model attributes. |
@@ -63,7 +63,7 @@ spec:
 
 ### WebLogicDomain
 
-WebLogic domain components in a Verrazzano Model represent the custom resource for the WebLogic domain that is managed by the WebLogic Server Kubernetes Operator. Because the operator is what manages the domain, CR options that the model can handle are acceptable as entries in the component within the model file.
+WebLogic domain components in a Verrazzano Model represent the custom resource for the WebLogic domain that is managed by the WebLogic Server Kubernetes Operator. Because the operator is what manages the domain, custom resource options that the model can handle are acceptable as entries in the component within the model file.
 
 ``` yaml
   weblogicDomains:
@@ -74,15 +74,15 @@ WebLogic domain components in a Verrazzano Model represent the custom resource f
 
 | Attribute | Type | Required | Description |
 |-----------|------|----------|-------------|
+| `name` | `string` | Y | Name of the component within the Verrazzano model. |
+| `domainCRValues` | [`[]DomainCRValue`](#domaincrvalue) | Y | Domain Custom Resource (CR) values; you can provide valid Domain CR values accepted by the WebLogic Server Kubernetes Operator. |
 | `adminPort` | `integer` | N | External port number for the Administration console. |
 | `connections` | [`[]Connection`](#connection) | N | List of connections used by this application component. |
-| `domainCRValues` | [`[]DomainCRValue`](#domaincrvalue) | Y | Domain Custome Resource (CR) values; you can provide valid Domain CR values accepted by the WebLogic Server Kubernetes Operator. |
-| `name` | `string` | Y | Name of the component within the Verrazzano model. |
 | `t3Port` | `integer` | N | External port number for T3. |
 
 ### DomainCRValue
 
-The domain Custome Resource (CR) value defines the desired state of the WebLogic domain.
+The domain Custom Resource (CR) value defines the desired state of the WebLogic domain.
 
 {{< alert title="Limitations" color="notice" >}}
 
@@ -125,15 +125,14 @@ The domain Custome Resource (CR) value defines the desired state of the WebLogic
 
 | Attribute | Type | Required | Default Value | Description |
 |-----------|------|----------|---------------|-------------|
-| `clusters` | `[]Cluster` | N | | List of clusters for which additional configuration is needed. More info: [https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md](https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md).|
-| `domainHome` | `string` | N | /u01/domains/ | Path to the WebLogic domain home in the image. |
 | `domainUID` | `string` | N | Value of `metadata.name`| Domain unique identifier. It is recommended that this value be unique to assist in future work to identify related domains in active-passive scenarios across data centers; however, it is only required that this value be unique within the namespace, similarly to the names of Kubernetes resources. This value is distinct and need not match the domain name from the WebLogic domain configuration. Defaults to the value of metadata.name. |
-| `fluentdEnabled` | `boolean` | N | true | Determines whether a Fluentd container is included for sending logs to Elasticsearch. |
+| `domainHome` | `string` | N | /u01/domains/ | Path to the WebLogic domain home in the image. |
 | `image` | `string` | Y | | Docker image to use for pods in the WebLogic domain. |
-| `imagePullSecrets` | [`[]VerrazzanoSecret`](#verrazzanosecret) | Y | | Name of the secret for pulling Docker images for the WebLogic domain. |
 | `replicas` | `integer` | Y | 1 | Default number of cluster member Managed Server instances to start for each WebLogic cluster in the domain configuration.
-| `serverPod` | `ServerPod` | N | | List of clusters for which additional configuration is needed. More info: [https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md](https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md).|
 | `webLogicCredentialsSecret` | [`VerrazzanoSecret`](#verrazzanosecret) | Y | | Secret containing administrative credentials for the WebLogic domain. |
+| `imagePullSecrets` | [`[]VerrazzanoSecret`](#verrazzanosecret) | Y | | Name of the secret for pulling Docker images for the WebLogic domain. |
+| `clusters` | `[]Cluster` | N | | List of clusters for which additional configuration is needed. More info: [https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md](https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md).|
+| `serverPod` | [`ServerPod`](https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#podspec-v1-core) | N | | Desired behavior of a pod for a WebLogic server.|
 
 ### VerrazzanoSecret
 
@@ -201,12 +200,11 @@ Generic components are managed by the Verrazzano Operator and result in a single
 
 Generic components typically have connections defined as part of the components specification, including REST and ingress connections.
 
-Snippet of Verrazzano model showing a Generic component:
-
 ``` yaml
   genericComponents:
     - name: "verrazzano-springboot"
       replicas: 2
+      fluentdEnabled: true
       deployment:
         containers:
           - image: spring-boot-verrazzano:0.0.1
@@ -221,13 +219,14 @@ Snippet of Verrazzano model showing a Generic component:
                 - uri:
                     prefix: /
 ```
+
 | Attribute | Type | Required | Default Value | Description |
 |-----------|------|----------|---------------|-------------|
-| `connections` | [`[]Connection`](#connection) | N | | List of connections used by this application component. |
-| `deployment` | [`PodSpec`](https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#podspec-v1-core) | Y | | Desired behavior of a pod for a generic component. |
-| `fluentdEnabled` | `boolean` | N | true | Determines whether a Fluentd container is included for sending logs to Elasticsearch. |
 | `name` | `string` | Y | | Name of the component within the Verrazzano model. |
 | `replicas` | `integer` | N | 1 | Number of desired pods for a generic component. |
+| `fluentdEnabled` | `boolean` | N | true | Determines whether a Fluentd container is included for sending logs to Elasticsearch. |
+| `deployment` | [`PodSpec`](https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#podspec-v1-core) | Y | | Desired behavior of a pod for a generic component. |
+| `connections` | [`[]Connection`](#connection) | N | | List of connections used by this application component. |
 
 ### Connection
 
@@ -277,9 +276,9 @@ Verrazzano Binding. Verrazzano also sets up network policies that enable the com
 
 | Attribute | Type | Required | Description |
 |-----------|------|--------- |-------------|
+| `target` | `string` | Y | Name of the target component in the Verrazzano application. |
 | `environmentVariableForHost` | `string` | Y | Name of the environment variable that contains the DNS name of the Kubernetes service in target component. |
 | `environmentVariableForPort` | `integer` | Y | Name of the environment variable that contains the port number for the service in target component. |
-| `target` | `string` | Y | Name of the target component in the Verrazzano application. |
 
 
 ### IngressConnectionMatch
