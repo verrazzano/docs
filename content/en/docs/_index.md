@@ -7,14 +7,6 @@ menu:
     weight: 20
 ---
 Verrazzano is an enterprise container platform built from open source components.
-Verrazzano Enterprise Container Platform includes the following capabilities:
-
-* Hybrid and multi-cluster workload management
-Special handling for WebLogic, Coherence, and Helidon applications
-* Multi-cluster infrastructure management
-* Integrated and pre-wired application monitoring
-* Integrated security
-* DevOps and GitOps enablement
 
 Select [Quick Start](quickstart) to get started.
 
