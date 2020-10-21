@@ -279,21 +279,6 @@ if (!doNotTrack) {
 
 
 
-<nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#structure-of-the-verrazzanoapplicationmodel">Structure of the <code>VerrazzanoApplicationModel</code></a></li>
-        <li><a href="#weblogic-domain-components">WebLogic Domain Components</a></li>
-        <li><a href="#coherence-cluster-components">Coherence Cluster Components</a></li>
-        <li><a href="#helidon-application-components">Helidon Application Components</a></li>
-        <li><a href="#generic-container-components">Generic Container Components</a></li>
-        <li><a href="#connections">Connections</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-
 
 
           </div>
@@ -340,105 +325,170 @@ if (!doNotTrack) {
 	<h1>Verrazzano Application Model</h1>
         
 	
-	<p>The Verrazzano Model (<code>vm</code> kubectl resource) is a Kubernetes Custom Resource Definition (CRD) that is added to the Verrazzano management cluster. This CRD describes a &ldquo;Verrazzano Application,&rdquo; which is made up of one or more components.  Components can be WebLogic domains, Coherence clusters, Helidon microservices, or other generic container workloads.  The model also defines connections between components, ingresses to an application, and connections to external services, such as a database or a REST endpoint. Conceptually, the model captures information about the application which does not vary based on where the application is deployed.  Then a Verrazzano Binding (<code>vb</code> kubectl resource) is used to map the Verrazzano Application defined in the model to the deployment environment. For example, the WebLogic domain X always talks to database Y, no matter how many times this application is deployed. In a particular instance or deployment of the application, for example, the &ldquo;test&rdquo; instance, there may be different credentials and a different URL to access the test version of Y database, but X always talks to Y. The application <em><strong>model</strong></em> must define a connection to the database, but the actual credentials and URL used when the application is deployed is defined in the <em><strong>binding</strong></em>. Bindings map the application to the environment.</p>
+	<p>The Verrazzano Application Model (<code>vm</code> kubectl resource) is a Kubernetes Custom Resource Definition (CRD) that is added to the Verrazzano management cluster. This CRD describes a &ldquo;Verrazzano Application,&rdquo; which is made up of one or more components.  Components can be WebLogic domains, Coherence clusters, Helidon microservices, or other generic container workloads.  The model also defines connections between components, ingresses to an application, and connections to external services, such as a database or a REST endpoint. Conceptually, the model captures information about the application which does not vary based on where the application is deployed.  Then a Verrazzano Binding (<code>vb</code> kubectl resource) is used to map the Verrazzano Application defined in the model to the deployment environment. For example, the WebLogic domain X always talks to database Y, no matter how many times this application is deployed. In a particular instance or deployment of the application, for example, the &ldquo;test&rdquo; instance, there may be different credentials and a different URL to access the test version of Y database, but X always talks to Y. The application <em><strong>model</strong></em> must define a connection to the database, but the actual credentials and URL used when the application is deployed is defined in the <em><strong>binding</strong></em>. Bindings map the application to the environment.</p>
 <p>The combination of a model and binding produces an instance of an application.
 Both the model and binding are meant to be sparse; they contain only the information that is needed to deploy the application.  Anything that Verrazzano can infer or use a default value for, can be omitted from these files.</p>
-<h2 id="structure-of-the-verrazzanoapplicationmodel">Structure of the <code>VerrazzanoApplicationModel</code></h2>
-<pre><code>VerrazzanoApplicationModel
-    name                                        Name of the model
-    description                                 Description of the model
-    []weblogicDomains
-        -name                                   Name of the component; this is the name used within the application model only.
-         adminPort                              External port number for the Administration Console
-         t3Port                                 External port number for T3
-         domainCRValues                         Domain CR values; you can provide valid Domain CR values accepted by the WebLogic Server Kubernetes Operator, with a few exceptions.
-            domainUID                           WebLogic domain name
-            domainHome                          Path to the WebLogic domain home in the image
-            image                               Docker image to use for pods in the WebLogic domain
-            logHome                             Path to the log home for the WebLogic domain
-            logHomeEnabled                      Enables the WebLogic Server Kubernetes Operator to override the domain log location
-            webLogicCredentialsSecret
-                name                            Secret containing administrative credentials for the WebLogic domain
-            imagePullSecrets
-                name                            Name of the secret for pulling Docker images for the WebLogic domain
-            clusters                            Optional list of clusters for which additional configuration is needed
-                clusterName                     Name of the WebLogic cluster
-                serverStartState                Desired start state for managed servers in the cluster: ADMIN or RUNNING (default)
-                serverPod                       Configuration affecting server pods for WebLogic Server instances in the cluster
-                  env
-                    - name: JAVA_OPTIONS
-                      value
-                    - name: USER_MEM_ARGS
-                      value
-                    - name: WL_HOME
-                      value
-                    - name: MW_HOME
-                      value
-                replicas: 2
-        -connections                            List of connections for the WebLogic domain
-           []-rest                              Connections of type REST needed by the WebLogic domain
-              target                            Name of the target component
-              -environmentVariableForHost       DNS name of the target component (its Kubernetes service)
-              -environmentVariableForPort       Port for the target component
-            []-ingress
-              -name                             Name of the ingress to connect to the domain
-            []-database
-              target                            Name of the database component defined in the model or `databasebinding` defined in the binding
-              datasourceName                    JDBC data source name within the WebLogic domain configuration for the database
-            []-coherence
-              target                            Name of the target Coherence cluster (defined in the model)
-              address                           Coherence cluster services address
-    []-coherenceClusters
-        - name                                  Name of component and Coherence cluster
-          image
-          imagePullSecrets
-          cacheConfig
-          pofConfig
-          []-connections                         List of connections needed by the Coherence cluster
-            []-rest                              Connections of type REST needed by the Coherence cluster
-               target                            Name of the target REST connection
-               -environmentVariableForHost       DNS name of the target component (its Kubernetes service)
-               -environmentVariableForPort       Port for the target component
-            []-ingress
-               -name                             Name of the ingress to connect to the cluster. Ingress details are defined in the binding using this name.
-            []-database
-               target                            Name of the target database component defined in the model or `databasebinding` defined in the binding
-            []-coherence
-              target                             Name of the target Coherence cluster (defined in the model)
-              address                            Coherence cluster services address
-    []-helidonApplications
-        name                                     Name of the component within the Verrazzano Model
-        image                                    Docker `image:tag` that runs the application
-        -imagePullSecret                         Name of the Kubernetes secret containing credentials for pulling the image
-        []-connections                           List of connections needed by this application component
-           []-rest                               Connections of type REST needed by the application
-              target                             Name of the target component
-              -environmentVariableForHost        DNS name of the target component (its Kubernetes service)
-              -environmentVariableForPort        Port for the target component
-           []-ingress
-              -name                              Name of the ingress to connect to the application. Ingress details are defined in the binding.
-              -match
-           []-database
-              target                             Name of the target database component defined in the model or `databasebinding` defined in the binding
-           []-coherence
-              target                             Name of the target Coherence cluster defined in the model
-              address      
-
-</code></pre><p>For an example Verrazzano Model, see <a href="https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/bobs-books-model.yaml">demo-model</a>.</p>
-<p>See the following additional documentation:</p>
-<ul>
-<li>WebLogic Server Kubernetes Operator Reference: <a href="https://oracle.github.io/weblogic-kubernetes-operator/userguide/managing-domains/domain-resource/#domain-resource-spec-elements">https://oracle.github.io/weblogic-kubernetes-operator/userguide/managing-domains/domain-resource/#domain-resource-spec-elements</a></li>
-<li>Coherence Operator Reference: <a href="https://oracle.github.io/coherence-operator/docs/2.1.1/#/clusters/010_introduction">https://oracle.github.io/coherence-operator/docs/2.1.1/#/clusters/010_introduction</a></li>
-</ul>
-<h2 id="weblogic-domain-components">WebLogic Domain Components</h2>
-<p>WebLogic domain components in a Verrazzano Model represent the custom resource for the WebLogic domain that is managed by the WebLogic Server Kubernetes Operator. Because the operator is what manages the domain, CR options that the model can handle are acceptable as entries in the component within the model file.</p>
+<p>For an example Verrazzano Application Model, see <a href="https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/bobs-books-model.yaml">demo-model</a>.</p>
+<h3 id="top-level-attributes">Top-Level Attributes</h3>
+<p>The top-level attributes of a Verrazzano Application Model define its <code>version</code>, <code>kind</code>, <code>metadata</code>, and <code>spec</code>.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>verrazzano.io/v1beta1<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>VerrazzanoModel<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-world-model<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">namespace</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>default<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span>...<span style="color:#f8f8f8;text-decoration:underline">
+</span></code></pre></div><table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>apiVersion</code></td>
+<td><code>String</code></td>
+<td>Y</td>
+<td>A string that identifies the version of the schema the object should have. Must be <code>verrazzano.io/v1beta1</code>.</td>
+</tr>
+<tr>
+<td><code>kind</code></td>
+<td><code>String</code></td>
+<td>Y</td>
+<td>Must be <code>VerrazzanoModel</code>.</td>
+</tr>
+<tr>
+<td><code>metadata</code></td>
+<td><a href="https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#objectmeta-v1-meta"><code>ObjectMeta</code></a></td>
+<td>Y</td>
+<td>Information about the model.</td>
+</tr>
+<tr>
+<td><code>spec</code></td>
+<td><a href="#spec"><code>Spec</code></a></td>
+<td>Y</td>
+<td>A specification for application model attributes.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="spec">Spec</h3>
+<p>The specification defines a Verrazzano Application Model.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">description</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>Hello<span style="color:#f8f8f8;text-decoration:underline"> </span>World<span style="color:#f8f8f8;text-decoration:underline"> </span>application<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">weblogicDomains</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-weblogic<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">      </span>...<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">coherenceClusters</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-coherence<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">      </span>...<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">helidonApplications</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-helidon<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">      </span>...<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">genericComponents</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-generic<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">      </span>...<span style="color:#f8f8f8;text-decoration:underline">
+</span></code></pre></div><table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>description</code></td>
+<td><code>String</code></td>
+<td>Y</td>
+<td>Description of the model.</td>
+</tr>
+<tr>
+<td><code>weblogicDomains</code></td>
+<td><a href="#weblogicdomain"><code>[]WebLogicDomain</code></a></td>
+<td>N</td>
+<td>WebLogic Server domain components in the application.</td>
+</tr>
+<tr>
+<td><code>coherenceClusters</code></td>
+<td><a href="#coherencecluster"><code>[]CoherenceCluster</code></a></td>
+<td>N</td>
+<td>Coherence cluster components in the application.</td>
+</tr>
+<tr>
+<td><code>helidonApplications</code></td>
+<td><a href="#helidonapplication"><code>[]HelidonApplication</code></a></td>
+<td>N</td>
+<td>Helidon application components in the application.</td>
+</tr>
+<tr>
+<td><code>genericComponents</code></td>
+<td><a href="#genericcomponent"><code>[]GenericComponent</code></a></td>
+<td>N</td>
+<td>Generic components in the application.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="weblogicdomain">WebLogicDomain</h3>
+<p>WebLogic domain components in a Verrazzano Application Model represent the custom resource for the WebLogic domain that is managed by the WebLogic Server Kubernetes Operator. Because the operator is what manages the domain, custom resource options that the model can handle are acceptable as entries in the component within the model file.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">weblogicDomains</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-weblogic<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">domainCRValues</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span>...<span style="color:#f8f8f8;text-decoration:underline">
+</span></code></pre></div><table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td><code>String</code></td>
+<td>Y</td>
+<td>Name of the component within the Verrazzano Application Model.</td>
+</tr>
+<tr>
+<td><code>domainCRValues</code></td>
+<td><a href="#domaincrvalue"><code>[]DomainCRValue</code></a></td>
+<td>Y</td>
+<td>Domain Custom Resource (CR) values; you can provide valid domain CR values accepted by the WebLogic Server Kubernetes Operator.</td>
+</tr>
+<tr>
+<td><code>adminPort</code></td>
+<td><code>Integer</code></td>
+<td>N</td>
+<td>External port number for the WebLogic Server Administration Console.</td>
+</tr>
+<tr>
+<td><code>connections</code></td>
+<td><a href="#connection"><code>[]Connection</code></a></td>
+<td>N</td>
+<td>List of connections used by this application component.</td>
+</tr>
+<tr>
+<td><code>t3Port</code></td>
+<td><code>Integer</code></td>
+<td>N</td>
+<td>External port number for T3.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="domaincrvalue">DomainCRValue</h3>
+<p>The domain Custom Resource (CR) value defines the desired state of the WebLogic domain.</p>
 
 
 <div class="alert alert-notice" role="alert">
 <h4 class="alert-heading">Limitations</h4>
 <ul>
-<li>Verrazzano uses WebLogic Server Kubernetes Operator version 2.6. Any features or values added in later versions of the operator are not valid.</li>
-<li><a href="https://oracle.github.io/weblogic-kubernetes-operator/userguide/managing-domains/choosing-a-model/">&ldquo;Domain in Image&rdquo;</a> is the only valid domain home strategy with Verrazzano in this early release. Future releases will include support for other domain home strategies.</li>
+<li>Verrazzano uses WebLogic Server Kubernetes Operator version 3.0.2. Any features or values added in later versions of the operator are not valid.</li>
+<li><a href="https://oracle.github.io/weblogic-kubernetes-operator/userguide/managing-domains/choosing-a-model/">&ldquo;Model in Image&rdquo;</a> is the only valid domain home source type that can be used with Verrazzano in this early release. Future releases will include support for other domain home options.</li>
 <li>Domain configuration overrides are not supported in this early release of Verrazzano. If you use secrets or config maps to store configuration overrides, those overrides will not be applied and may cause other errors.</li>
 <li>JRF domains are not supported in this early release of Verrazzano. Restricted JRF is supported.</li>
 <li>Use of Oracle Platform Security Services is not supported in this early release.</li>
@@ -446,90 +496,543 @@ Both the model and binding are meant to be sparse; they contain only the informa
 
 </div>
 
-<p>A WebLogic domain component must include the following items:</p>
-<ul>
-<li>Name</li>
-<li>domainCRValues
-<ul>
-<li>domainUID</li>
-<li>webLogicCredentialsSecret</li>
-<li>image</li>
-<li>imagePullSecret</li>
-</ul>
-</li>
-</ul>
-<p>A WebLogic domain component typically includes the following items:</p>
-<ul>
-<li>adminPort</li>
-<li>t3Port</li>
-<li>Clusters
-<ul>
-<li>Server Pod (e.g., server startup parameters)</li>
-</ul>
-</li>
-<li>Connections
-<ul>
-<li>Rest (outbound)</li>
-<li>Ingress</li>
-<li>Database</li>
-<li>Coherence</li>
-</ul>
-</li>
-</ul>
-<p>For a full list of valid CR values, see the WebLogic Server Kubernetes Operator repository at <a href="https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md">https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md</a>.</p>
-<h2 id="coherence-cluster-components">Coherence Cluster Components</h2>
-<p>Note that support for Coherence is an experimental feature in this release of Verrazzano.</p>
-<p>Verrazzano relies on version 2.1.1 of the <a href="https://github.com/oracle/coherence-operator">Coherence Operator</a>.  For the Coherence clusters section of the Verrazzano Model, Coherence custom resource values are defined in Verrazzano and then converted to a custom resource that the Coherence Operator can interpret.</p>
+<p>For a full list of valid domain CR values, see the WebLogic Server Kubernetes Operator repository at <a href="https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md">https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md</a>.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">weblogicDomains</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-weblogic<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">domainCRValues</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">domainUID</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-weblogic<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">domainHome</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>/u01/oracle/user_projects/domains/hello-weblogic<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">image</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>example.registry/hello-weblogic<span style="color:#000;font-weight:bold">:</span>latest<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">replicas</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">2</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">webLogicCredentialsSecret</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">          </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-weblogic-credentials<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">imagePullSecrets</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">          </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-weblogic-secret<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">clusters</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">          </span>- <span style="color:#204a87;font-weight:bold">clusterName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>cluster<span style="color:#0000cf;font-weight:bold">-1</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">serverPod</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">          </span><span style="color:#204a87;font-weight:bold">env</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">            </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>JAVA_OPTIONS<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">value</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;-Dweblogic.StdoutDebugEnabled=false&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">            </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>USER_MEM_ARGS<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">value</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;-Djava.security.egd=file:/dev/./urandom &#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">            </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>WL_HOME<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">value</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>/u01/oracle/wlserver<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">            </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>MW_HOME<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">value</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>/u01/oracle<span style="color:#f8f8f8;text-decoration:underline">
+</span></code></pre></div><table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>domainUID</code></td>
+<td><code>String</code></td>
+<td>N</td>
+<td>Value of <code>metadata.name</code></td>
+<td>Domain unique identifier. It is recommended that this value be unique to assist in future work to identify related domains in active-passive scenarios across data centers; however, it is only required that this value be unique within the namespace, similarly to the names of Kubernetes resources. This value is distinct and need not match the domain name from the WebLogic domain configuration. Defaults to the value of metadata.name.</td>
+</tr>
+<tr>
+<td><code>domainHome</code></td>
+<td><code>String</code></td>
+<td>N</td>
+<td><code>/u01/domains/</code></td>
+<td>Path to the WebLogic domain home in the image.</td>
+</tr>
+<tr>
+<td><code>image</code></td>
+<td><code>String</code></td>
+<td>Y</td>
+<td></td>
+<td>Docker image to use for pods in the WebLogic domain.</td>
+</tr>
+<tr>
+<td><code>replicas</code></td>
+<td><code>Integer</code></td>
+<td>Y</td>
+<td>1</td>
+<td>Default number of cluster member Managed Server instances to start for each WebLogic cluster in the domain configuration.</td>
+</tr>
+<tr>
+<td><code>webLogicCredentialsSecret</code></td>
+<td><a href="#verrazzanosecret"><code>VerrazzanoSecret</code></a></td>
+<td>Y</td>
+<td></td>
+<td>Secret containing administrative credentials for the WebLogic domain.</td>
+</tr>
+<tr>
+<td><code>imagePullSecrets</code></td>
+<td><a href="#verrazzanosecret"><code>[]VerrazzanoSecret</code></a></td>
+<td>Y</td>
+<td></td>
+<td>Name of the secret for pulling Docker images for the WebLogic domain.</td>
+</tr>
+<tr>
+<td><code>clusters</code></td>
+<td><code>[]Cluster</code></td>
+<td>N</td>
+<td></td>
+<td>List of clusters for which additional configuration is needed. More info: <a href="https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md">https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md</a>.</td>
+</tr>
+<tr>
+<td><code>serverPod</code></td>
+<td><a href="https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#podspec-v1-core"><code>ServerPod</code></a></td>
+<td>N</td>
+<td></td>
+<td>Desired behavior of a pod for a WebLogic Server.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="verrazzanosecret">VerrazzanoSecret</h3>
+<p>VerrazzanoSecret identifies a Kubernetes secret by name.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td><code>String</code></td>
+<td>Y</td>
+<td>The name of the secret.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="coherencecluster">CoherenceCluster</h3>
+<p>Verrazzano relies on version 2.1.1 of the <a href="https://github.com/oracle/coherence-operator">Coherence Operator</a>.  For the Coherence clusters section of the Verrazzano Application Model, Coherence custom resource values are defined in Verrazzano and then converted to a custom resource that the Coherence Operator can interpret.</p>
 <p>A Coherence cluster component must have the following item:</p>
 <ul>
-<li>name</li>
+<li><code>name</code></li>
+<li><code>image</code></li>
+<li><code>cacheConfig</code></li>
+<li><code>pofConfig</code></li>
 </ul>
-<p>Coherence cluster components typically have the following items:</p>
-<ul>
-<li>image</li>
-<li>imagePullSecrets</li>
-<li>cacheConfig</li>
-<li>pofConfig</li>
-</ul>
-<h2 id="helidon-application-components">Helidon Application Components</h2>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cacheConfig</code></td>
+<td><code>String</code></td>
+<td>Y</td>
+<td>Name of the cache configuration file to use.</td>
+</tr>
+<tr>
+<td><code>connections</code></td>
+<td><a href="#connection"><code>[]Connection</code></a></td>
+<td>N</td>
+<td>List of connections used by this application component.</td>
+</tr>
+<tr>
+<td><code>image</code></td>
+<td><code>String</code></td>
+<td>Y</td>
+<td>The name of the image. More info: <a href="https://kubernetes.io/docs/concepts/containers/images">https://kubernetes.io/docs/concepts/containers/images</a></td>
+</tr>
+<tr>
+<td><code>imagePullSecrets</code></td>
+<td><a href="#verrazzanosecret"><code>[]VerrazzanoSecret</code></a></td>
+<td>N</td>
+<td>List of Kubernetes secrets from which the credentials required to pull this container&rsquo;s image can be loaded.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>String</code></td>
+<td>Y</td>
+<td>Name of the component within the Verrazzano Application Model.</td>
+</tr>
+<tr>
+<td><code>pofConfig</code></td>
+<td><code>String</code></td>
+<td>Y</td>
+<td>Name of the Portable Object Format (POF) configuration file to use.</td>
+</tr>
+<tr>
+<td><code>ports</code></td>
+<td><a href="https://oracle.github.io/coherence-operator/docs/3.0.2/#/about/04_coherence_spec#_namedportspec"><code>[]NamedPortSpec</code></a></td>
+<td>N</td>
+<td>Defines a named port for a Coherence cluster component.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="helidonapplication">HelidonApplication</h3>
 <p>Helidon applications must have the following items defined in the model file:</p>
 <ul>
-<li>name</li>
-<li>image</li>
-<li>imagePullSecrets</li>
+<li><code>name</code></li>
+<li><code>image</code></li>
 </ul>
-<p>Helidon applications typically have connections defined as part of the components specification, including REST, database, Coherence, and ingress connections as described for the previous component types.</p>
-<p>Helidon applications are managed by the Verrazzano Helidon App Operator. See the source for the operator for the list of additional configuration properties available for Helidon applications.</p>
-<h2 id="generic-container-components">Generic Container Components</h2>
-<p>Coming soon.</p>
-<h2 id="connections">Connections</h2>
-<p>Within a Verrazzano Model, you can define the following connection types:</p>
+<p>Helidon applications typically have connections defined as part of the components specification, including REST, database, Coherence, and ingress connections.</p>
+<p>Helidon applications are managed by the Verrazzano Helidon Application Operator.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>connections</code></td>
+<td><a href="#connection"><code>[]Connection</code></a></td>
+<td>N</td>
+<td></td>
+<td>List of connections used by this application component.</td>
+</tr>
+<tr>
+<td><code>env</code></td>
+<td><a href="https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#envvar-v1-core"><code>[]EnvVar</code></a></td>
+<td>N</td>
+<td></td>
+<td>List of environment variables to set for container.</td>
+</tr>
+<tr>
+<td><code>fluentdEnabled</code></td>
+<td><code>Boolean</code></td>
+<td>N</td>
+<td>true</td>
+<td>Determines whether a Fluentd container is included for sending logs to Elasticsearch.</td>
+</tr>
+<tr>
+<td><code>image</code></td>
+<td><code>String</code></td>
+<td>Y</td>
+<td></td>
+<td>Container image that runs the application. Must be a path-like or URI-like representation of an OCI image. May be prefixed with a registry address and should be suffixed with a tag.</td>
+</tr>
+<tr>
+<td><code>imagePullSecrets</code></td>
+<td><a href="#verrazzanosecret"><code>[]VerrazzanoSecret</code></a></td>
+<td>N</td>
+<td></td>
+<td>List of Kubernetes secrets from which the credentials required to pull this container&rsquo;s image can be loaded.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>String</code></td>
+<td>Y</td>
+<td></td>
+<td>Name of the component within the Verrazzano Application Model.</td>
+</tr>
+<tr>
+<td><code>port</code></td>
+<td><code>Integer</code></td>
+<td>N</td>
+<td>8080</td>
+<td>Port to be used for the service port.</td>
+</tr>
+<tr>
+<td><code>targetPort</code></td>
+<td><code>Integer</code></td>
+<td>N</td>
+<td>8080</td>
+<td>Target port to be used for the service target port.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="genericcomponent">GenericComponent</h3>
+<p>Generic components must have the following items defined in the model file:</p>
 <ul>
-<li>REST</li>
-<li>Coherence</li>
-<li>Database</li>
-<li>Ingress</li>
+<li><code>name</code></li>
+<li><code>deployment</code></li>
 </ul>
-<h3 id="rest-connections">REST Connections</h3>
-<p>You can define a REST connection from one component in the model to another component in the same model. When you define a REST connection between components, you can then define variable names that will be provided in the Verrazzano Binding. Verrazzano also sets up network policies that enable the components to communicate in the service mesh over TLS.</p>
-<p>Settings:</p>
+<p>Generic components are managed by the Verrazzano Operator and result in a single Kubernetes deployment and service being created.</p>
+<p>Generic components typically have connections defined as part of the components specification, including REST and ingress connections.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">genericComponents</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;verrazzano-generic&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">replicas</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">2</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">fluentdEnabled</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">deployment</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">containers</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">          </span>- <span style="color:#204a87;font-weight:bold">image</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>generic-verrazzano<span style="color:#000;font-weight:bold">:</span><span style="color:#0000cf;font-weight:bold">0.0.1</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>verrazzano-generic<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">ports</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">              </span>- <span style="color:#204a87;font-weight:bold">containerPort</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">8080</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">                </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>generic-port<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">connections</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span>- <span style="color:#204a87;font-weight:bold">ingress</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">            </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;generic-ingress&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">match</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">                </span>- <span style="color:#204a87;font-weight:bold">uri</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">                    </span><span style="color:#204a87;font-weight:bold">prefix</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>/<span style="color:#f8f8f8;text-decoration:underline">
+</span></code></pre></div><table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td><code>String</code></td>
+<td>Y</td>
+<td></td>
+<td>Name of the component within the Verrazzano Application Model.</td>
+</tr>
+<tr>
+<td><code>replicas</code></td>
+<td><code>Integer</code></td>
+<td>N</td>
+<td>1</td>
+<td>Number of desired pods for a generic component.</td>
+</tr>
+<tr>
+<td><code>fluentdEnabled</code></td>
+<td><code>Boolean</code></td>
+<td>N</td>
+<td>true</td>
+<td>Determines whether a Fluentd container is included for sending logs to Elasticsearch.</td>
+</tr>
+<tr>
+<td><code>deployment</code></td>
+<td><a href="https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#podspec-v1-core"><code>PodSpec</code></a></td>
+<td>Y</td>
+<td></td>
+<td>Desired behavior of a pod for a generic component.</td>
+</tr>
+<tr>
+<td><code>connections</code></td>
+<td><a href="#connection"><code>[]Connection</code></a></td>
+<td>N</td>
+<td></td>
+<td>List of connections used by this application component.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="connection">Connection</h3>
+<p>Connection defines network connection and/or database connections needed by an application component.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>coherence</code></td>
+<td><a href="#coherenceconnection"><code>[]CoherenceConnection</code></a></td>
+<td>N</td>
+<td>Coherence type connections needed by a component.</td>
+</tr>
+<tr>
+<td><code>database</code></td>
+<td><a href="#databaseconnection"><code>[]DatabaseConnection</code></a></td>
+<td>N</td>
+<td>Database type connections needed by a component.</td>
+</tr>
+<tr>
+<td><code>ingress</code></td>
+<td><a href="#ingressconnection"><code>[]IngressConnection</code></a></td>
+<td>N</td>
+<td>Ingresses to associate with a component.</td>
+</tr>
+<tr>
+<td><code>rest</code></td>
+<td><a href="#restconnection"><code>[]RESTConnection</code></a></td>
+<td>N</td>
+<td>REST type connections needed by a component.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="coherenceconnection">CoherenceConnection</h3>
+<p>You can define a Coherence connection for a component that needs to communicate with a Coherence cluster. The Coherence cluster must also be defined in the same Verrazzano Application Model.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>target</code></td>
+<td><code>String</code></td>
+<td>Y</td>
+<td>Name of the target Coherence component.</td>
+</tr>
+<tr>
+<td><code>address</code></td>
+<td><code>String</code></td>
+<td>Y</td>
+<td>Coherence cluster services address.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="databaseconnection">DatabaseConnection</h3>
+<p>In the Verrazzano Application Model, you can define connections to external databases. These connections then become available to modify in the Verrazzano Binding.
+That is, you can identify a necessary database connection in the model, and then define credentials and the URL for the database in the binding. Verrazzano operators then handle the database connection accordingly.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>target</code></td>
+<td><code>String</code></td>
+<td>Y</td>
+<td>Name of the database to specify in a Verrazzano Binding. That is, in the binding, you will define a database entry that the component will connect to.</td>
+</tr>
+<tr>
+<td><code>datasourceName</code></td>
+<td><code>String</code></td>
+<td>Y</td>
+<td>Name of the data source within the WebLogic configuration that will map to the connected database.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ingressconnection">IngressConnection</h3>
+<p>The Ingress connection defines an ingress associated with an application component.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td><code>String</code></td>
+<td>Y</td>
+<td></td>
+<td>Name of the ingress to connect to the application. Ingress details are defined in the binding.</td>
+</tr>
+<tr>
+<td><code>match</code></td>
+<td><a href="#ingressconnectionmatch"><code>[]IngressConnectionMatch</code></a></td>
+<td>N</td>
+<td>prefix &ldquo;/&rdquo;</td>
+<td>Match rules associated with the ingress connection.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="restconnection">RESTConnection</h3>
+<p>You can define a REST connection from one component in the model to another component in the same model.
+When you define a REST connection between components, you can then define variable names that will be provided in the
+Verrazzano Binding. Verrazzano also sets up network policies that enable the components to communicate in the service mesh over TLS.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>target</code></td>
+<td><code>String</code></td>
+<td>Y</td>
+<td>Name of the target component in the Verrazzano application.</td>
+</tr>
+<tr>
+<td><code>environmentVariableForHost</code></td>
+<td><code>String</code></td>
+<td>Y</td>
+<td>Name of the environment variable that contains the DNS name of the Kubernetes service in target component.</td>
+</tr>
+<tr>
+<td><code>environmentVariableForPort</code></td>
+<td><code>Integer</code></td>
+<td>Y</td>
+<td>Name of the environment variable that contains the port number for the service in target component.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ingressconnectionmatch">IngressConnectionMatch</h3>
+<p>The Match rule associated with the ingress connection.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>uri</code></td>
+<td><a href="#stringmatch"><code>StringMatch</code></a></td>
+<td>Y</td>
+<td>Describes how to match a given string in HTTP headers. Match is case-sensitive.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="stringmatch">StringMatch</h3>
+<p>Describes how to match a given string in HTTP headers. Match is case-sensitive.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>exact</code></td>
+<td><code>String</code> (oneof)</td>
+<td>N</td>
+<td>exact string match</td>
+</tr>
+<tr>
+<td><code>prefix</code></td>
+<td><code>String</code> (oneof)</td>
+<td>N</td>
+<td>prefix string match</td>
+</tr>
+<tr>
+<td><code>regex</code></td>
+<td><code>String</code> (oneof)</td>
+<td>N</td>
+<td>RE2 style regex-based match</td>
+</tr>
+</tbody>
+</table>
+<h2 id="additional-information">Additional Information</h2>
+<p>See the following documentation:</p>
 <ul>
-<li>Target: The name of the target component within the same model.</li>
-<li>EnvironmentVariableForHost: The DNS name or IP address of the target component (its Kubernetes service).</li>
-<li>EnvironmentVariableForPort: The port for the target component.</li>
-</ul>
-<h3 id="coherence-connections">Coherence Connections</h3>
-<p>You can define a Coherence connection for a component that needs to communicate with a Coherence cluster. The Coherence cluster must also be defined in the same Verrazzano Model.</p>
-<p>Settings:</p>
-<ul>
-<li>Target: The name of the target Coherence component.</li>
-<li>Address: The Coherence cluster services address.</li>
-</ul>
-<h3 id="database-connections">Database Connections</h3>
-<p>In the Verrazzano Model, you can define connections to external databases. These connections then become available to modify in the Verrazzano Binding. That is, you can identify a necessary database connection in the model, and then define credentials and the URL for the database in the binding. Verrazzano operators then handle the database connection accordingly.</p>
-<ul>
-<li>Target: name of the database to specify in a Verrazzano Binding. That is, in the binding, you will define a database entry that the component will connect to.</li>
-<li>DatasourceName: The name of the data source within the WebLogic configuration that will map to the connected database.</li>
+<li>WebLogic Server Kubernetes Operator Reference: <a href="https://oracle.github.io/weblogic-kubernetes-operator/userguide/managing-domains/domain-resource/#domain-resource-spec-elements">https://oracle.github.io/weblogic-kubernetes-operator/userguide/managing-domains/domain-resource/#domain-resource-spec-elements</a></li>
+<li>Coherence Operator Reference: <a href="https://oracle.github.io/coherence-operator/docs/2.1.1/#/clusters/010_introduction">https://oracle.github.io/coherence-operator/docs/2.1.1/#/clusters/010_introduction</a></li>
 </ul>
 
         <div class="section-index">
@@ -620,7 +1123,7 @@ Both the model and binding are meant to be sparse; they contain only the informa
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified September 14, 2020: <a  href="https://github.com/verrazzano/docs/commit/e482fe367f938010cb3f3fbe80f7172f0c43a6e7">mino edits (#29) (e482fe3)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified October 21, 2020: <a  href="https://github.com/verrazzano/docs/commit/d709d9dabc6cff8c23478afe59cff9f618e6ea41">Update the model reference documentation (#42) (d709d9d)</a>
 </div>
 </div>
 
