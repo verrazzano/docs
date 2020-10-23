@@ -75,22 +75,24 @@ WebLogic domain components in a Verrazzano Application Model represent the custo
 | Attribute | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `name` | `String` | Y | Name of the component within the Verrazzano Application Model. |
-| `domainCRValues` | [`DomainCRValue`](#domaincrvalue) | Y | Domain Custom Resource (CR) values; you can provide valid domain CR values accepted by the WebLogic Server Kubernetes Operator. |
+| `domainCRValues` | [`DomainCRValue`](#domaincrvalue) | Y | Domain Custom Resource (CR) values; provide valid domain CR values accepted by the WebLogic Server Kubernetes Operator. |
 | `adminPort` | `Integer` | N | External port number for the WebLogic Server Administration Console. |
 | `connections` | [`Connection`](#connection) | N | List of connections used by this application component. |
 | `t3Port` | `Integer` | N | External port number for T3. |
 
 ### DomainCRValue
 
-The domain Custom Resource (CR) value defines the desired state of the WebLogic domain.
+The domain CR value defines the desired state of the WebLogic domain.
 
 {{< alert title="Limitations" color="notice" >}}
 
+In this early release of Verrazzano:
+
 * Verrazzano uses WebLogic Server Kubernetes Operator version 3.0.2. Any features or values added in later versions of the operator are not valid.
-* ["Model in Image"](https://oracle.github.io/weblogic-kubernetes-operator/userguide/managing-domains/choosing-a-model/) is the only valid domain home source type that can be used with Verrazzano in this early release. Future releases will include support for other domain home options.
-* Domain configuration overrides are not supported in this early release of Verrazzano. If you use secrets or config maps to store configuration overrides, those overrides will not be applied and may cause other errors.
-* JRF domains are not supported in this early release of Verrazzano. Restricted JRF is supported.
-* Use of Oracle Platform Security Services is not supported in this early release.
+* ["Model in Image"](https://oracle.github.io/weblogic-kubernetes-operator/userguide/managing-domains/choosing-a-model/) is the only valid domain home source type that can be used.
+* Domain configuration overrides are not supported. If you use secrets or config maps to store configuration overrides, those overrides will not be applied and may cause other errors.
+* JRF domains are not supported. Restricted JRF _is_ supported.
+* Use of Oracle Platform Security Services is not supported.
 
 {{< /alert >}}
 
