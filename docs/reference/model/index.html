@@ -325,7 +325,7 @@ if (!doNotTrack) {
 	<h1>Verrazzano Application Model</h1>
         
 	
-	<p>The Verrazzano Application Model (<code>vm</code> kubectl resource) is a Kubernetes Custom Resource Definition (CRD) that is added to the Verrazzano management cluster. This CRD describes a &ldquo;Verrazzano Application,&rdquo; which is made up of one or more components.  Components can be WebLogic domains, Coherence clusters, Helidon microservices, or other generic container workloads.  The model also defines connections between components, ingresses to an application, and connections to external services, such as a database or a REST endpoint. Conceptually, the model captures information about the application which does not vary based on where the application is deployed.  Then a Verrazzano Binding (<code>vb</code> kubectl resource) is used to map the Verrazzano Application defined in the model to the deployment environment. For example, the WebLogic domain X always talks to database Y, no matter how many times this application is deployed. In a particular instance or deployment of the application, for example, the &ldquo;test&rdquo; instance, there may be different credentials and a different URL to access the test version of Y database, but X always talks to Y. The application <em><strong>model</strong></em> must define a connection to the database, but the actual credentials and URL used when the application is deployed is defined in the <em><strong>binding</strong></em>. Bindings map the application to the environment.</p>
+	<p>The Verrazzano Application Model (<code>vm</code> kubectl resource) is a Kubernetes Custom Resource Definition (CRD) that is added to the Verrazzano management cluster. This CRD describes a &ldquo;Verrazzano Application,&rdquo; which is made up of one or more components.  Components can be WebLogic domains, Coherence clusters, Helidon microservices, or other generic container workloads.  The model also defines connections between components, ingresses to an application, and connections to external services, such as a database or a REST endpoint. Conceptually, the model captures information about the application which does not vary based on where the application is deployed.  Then a Verrazzano Application Binding (<code>vb</code> kubectl resource) is used to map the Verrazzano Application defined in the model to the deployment environment. For example, the WebLogic domain X always talks to database Y, no matter how many times this application is deployed. In a particular instance or deployment of the application, for example, the &ldquo;test&rdquo; instance, there may be different credentials and a different URL to access the test version of Y database, but X always talks to Y. The application <em><strong>model</strong></em> must define a connection to the database, but the actual credentials and URL used when the application is deployed is defined in the <em><strong>binding</strong></em>. Bindings map the application to the environment.</p>
 <p>The combination of a model and binding produces an instance of an application.
 Both the model and binding are meant to be sparse; they contain only the information that is needed to deploy the application.  Anything that Verrazzano can infer or use a default value for, can be omitted from these files.</p>
 <p>For an example Verrazzano Application Model, see <a href="https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/bobs-books-model.yaml">demo-model</a>.</p>
@@ -408,25 +408,25 @@ Both the model and binding are meant to be sparse; they contain only the informa
 </tr>
 <tr>
 <td><code>weblogicDomains</code></td>
-<td><a href="#weblogicdomain"><code>[]WebLogicDomain</code></a></td>
+<td><a href="#weblogicdomain"><code>WebLogicDomain</code></a></td>
 <td>N</td>
 <td>WebLogic Server domain components in the application.</td>
 </tr>
 <tr>
 <td><code>coherenceClusters</code></td>
-<td><a href="#coherencecluster"><code>[]CoherenceCluster</code></a></td>
+<td><a href="#coherencecluster"><code>CoherenceCluster</code></a></td>
 <td>N</td>
 <td>Coherence cluster components in the application.</td>
 </tr>
 <tr>
 <td><code>helidonApplications</code></td>
-<td><a href="#helidonapplication"><code>[]HelidonApplication</code></a></td>
+<td><a href="#helidonapplication"><code>HelidonApplication</code></a></td>
 <td>N</td>
 <td>Helidon application components in the application.</td>
 </tr>
 <tr>
 <td><code>genericComponents</code></td>
-<td><a href="#genericcomponent"><code>[]GenericComponent</code></a></td>
+<td><a href="#genericcomponent"><code>GenericComponent</code></a></td>
 <td>N</td>
 <td>Generic components in the application.</td>
 </tr>
@@ -456,9 +456,9 @@ Both the model and binding are meant to be sparse; they contain only the informa
 </tr>
 <tr>
 <td><code>domainCRValues</code></td>
-<td><a href="#domaincrvalue"><code>[]DomainCRValue</code></a></td>
+<td><a href="#domaincrvalue"><code>DomainCRValue</code></a></td>
 <td>Y</td>
-<td>Domain Custom Resource (CR) values; you can provide valid domain CR values accepted by the WebLogic Server Kubernetes Operator.</td>
+<td>Domain Custom Resource (CR) values; provide valid domain CR values accepted by the WebLogic Server Kubernetes Operator.</td>
 </tr>
 <tr>
 <td><code>adminPort</code></td>
@@ -468,7 +468,7 @@ Both the model and binding are meant to be sparse; they contain only the informa
 </tr>
 <tr>
 <td><code>connections</code></td>
-<td><a href="#connection"><code>[]Connection</code></a></td>
+<td><a href="#connection"><code>Connection</code></a></td>
 <td>N</td>
 <td>List of connections used by this application component.</td>
 </tr>
@@ -481,22 +481,23 @@ Both the model and binding are meant to be sparse; they contain only the informa
 </tbody>
 </table>
 <h3 id="domaincrvalue">DomainCRValue</h3>
-<p>The domain Custom Resource (CR) value defines the desired state of the WebLogic domain.</p>
+<p>The domain CR value defines the desired state of the WebLogic domain.</p>
 
 
 <div class="alert alert-notice" role="alert">
 <h4 class="alert-heading">Limitations</h4>
+<p>In this early release of Verrazzano:</p>
 <ul>
 <li>Verrazzano uses WebLogic Server Kubernetes Operator version 3.0.2. Any features or values added in later versions of the operator are not valid.</li>
-<li><a href="https://oracle.github.io/weblogic-kubernetes-operator/userguide/managing-domains/choosing-a-model/">&ldquo;Model in Image&rdquo;</a> is the only valid domain home source type that can be used with Verrazzano in this early release. Future releases will include support for other domain home options.</li>
-<li>Domain configuration overrides are not supported in this early release of Verrazzano. If you use secrets or config maps to store configuration overrides, those overrides will not be applied and may cause other errors.</li>
-<li>JRF domains are not supported in this early release of Verrazzano. Restricted JRF is supported.</li>
-<li>Use of Oracle Platform Security Services is not supported in this early release.</li>
+<li><a href="https://oracle.github.io/weblogic-kubernetes-operator/userguide/managing-domains/choosing-a-model/">&ldquo;Model in Image&rdquo;</a> is the only valid domain home source type that can be used.</li>
+<li>Domain configuration overrides are not supported. If you use secrets or config maps to store configuration overrides, those overrides will not be applied and may cause other errors.</li>
+<li>JRF domains are not supported. Restricted JRF <em>is</em> supported.</li>
+<li>Use of Oracle Platform Security Services is not supported.</li>
 </ul>
 
 </div>
 
-<p>For a full list of valid domain CR values, see the WebLogic Server Kubernetes Operator repository at <a href="https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md">https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md</a>.</p>
+<p>For a full list of valid domain CR values, see <a href="https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md">https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md</a>.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">weblogicDomains</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-weblogic<span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">domainCRValues</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
@@ -536,7 +537,7 @@ Both the model and binding are meant to be sparse; they contain only the informa
 <td><code>String</code></td>
 <td>N</td>
 <td>Value of <code>metadata.name</code></td>
-<td>Domain unique identifier. It is recommended that this value be unique to assist in future work to identify related domains in active-passive scenarios across data centers; however, it is only required that this value be unique within the namespace, similarly to the names of Kubernetes resources. This value is distinct and need not match the domain name from the WebLogic domain configuration. Defaults to the value of metadata.name.</td>
+<td>Domain unique identifier. It is recommended that this value be unique to assist in future work to identify related domains in active-passive scenarios across data centers; however, it is only required that this value be unique within the namespace, similarly to the names of Kubernetes resources. This value is distinct and need not match the domain name from the WebLogic domain configuration. Defaults to the value of <code>metadata.name</code>.</td>
 </tr>
 <tr>
 <td><code>domainHome</code></td>
@@ -568,17 +569,17 @@ Both the model and binding are meant to be sparse; they contain only the informa
 </tr>
 <tr>
 <td><code>imagePullSecrets</code></td>
-<td><a href="#verrazzanosecret"><code>[]VerrazzanoSecret</code></a></td>
+<td><a href="#verrazzanosecret"><code>VerrazzanoSecret</code></a></td>
 <td>Y</td>
 <td></td>
 <td>Name of the secret for pulling Docker images for the WebLogic domain.</td>
 </tr>
 <tr>
 <td><code>clusters</code></td>
-<td><code>[]Cluster</code></td>
+<td><code>Cluster</code></td>
 <td>N</td>
 <td></td>
-<td>List of clusters for which additional configuration is needed. More info: <a href="https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md">https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md</a>.</td>
+<td>List of clusters for which additional configuration is needed. For more information, see <a href="https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md">https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md</a>.</td>
 </tr>
 <tr>
 <td><code>serverPod</code></td>
@@ -636,7 +637,7 @@ Both the model and binding are meant to be sparse; they contain only the informa
 </tr>
 <tr>
 <td><code>connections</code></td>
-<td><a href="#connection"><code>[]Connection</code></a></td>
+<td><a href="#connection"><code>Connection</code></a></td>
 <td>N</td>
 <td>List of connections used by this application component.</td>
 </tr>
@@ -644,11 +645,11 @@ Both the model and binding are meant to be sparse; they contain only the informa
 <td><code>image</code></td>
 <td><code>String</code></td>
 <td>Y</td>
-<td>The name of the image. More info: <a href="https://kubernetes.io/docs/concepts/containers/images">https://kubernetes.io/docs/concepts/containers/images</a></td>
+<td>The name of the image. For more information, see <a href="https://kubernetes.io/docs/concepts/containers/images">https://kubernetes.io/docs/concepts/containers/images</a></td>
 </tr>
 <tr>
 <td><code>imagePullSecrets</code></td>
-<td><a href="#verrazzanosecret"><code>[]VerrazzanoSecret</code></a></td>
+<td><a href="#verrazzanosecret"><code>VerrazzanoSecret</code></a></td>
 <td>N</td>
 <td>List of Kubernetes secrets from which the credentials required to pull this container&rsquo;s image can be loaded.</td>
 </tr>
@@ -666,7 +667,7 @@ Both the model and binding are meant to be sparse; they contain only the informa
 </tr>
 <tr>
 <td><code>ports</code></td>
-<td><a href="https://oracle.github.io/coherence-operator/docs/3.0.2/#/about/04_coherence_spec#_namedportspec"><code>[]NamedPortSpec</code></a></td>
+<td><a href="https://oracle.github.io/coherence-operator/docs/3.0.2/#/about/04_coherence_spec#_namedportspec"><code>NamedPortSpec</code></a></td>
 <td>N</td>
 <td>Defines a named port for a Coherence cluster component.</td>
 </tr>
@@ -693,14 +694,14 @@ Both the model and binding are meant to be sparse; they contain only the informa
 <tbody>
 <tr>
 <td><code>connections</code></td>
-<td><a href="#connection"><code>[]Connection</code></a></td>
+<td><a href="#connection"><code>Connection</code></a></td>
 <td>N</td>
 <td></td>
 <td>List of connections used by this application component.</td>
 </tr>
 <tr>
 <td><code>env</code></td>
-<td><a href="https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#envvar-v1-core"><code>[]EnvVar</code></a></td>
+<td><a href="https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#envvar-v1-core"><code>EnvVar</code></a></td>
 <td>N</td>
 <td></td>
 <td>List of environment variables to set for container.</td>
@@ -709,7 +710,7 @@ Both the model and binding are meant to be sparse; they contain only the informa
 <td><code>fluentdEnabled</code></td>
 <td><code>Boolean</code></td>
 <td>N</td>
-<td>true</td>
+<td><code>true</code></td>
 <td>Determines whether a Fluentd container is included for sending logs to Elasticsearch.</td>
 </tr>
 <tr>
@@ -721,7 +722,7 @@ Both the model and binding are meant to be sparse; they contain only the informa
 </tr>
 <tr>
 <td><code>imagePullSecrets</code></td>
-<td><a href="#verrazzanosecret"><code>[]VerrazzanoSecret</code></a></td>
+<td><a href="#verrazzanosecret"><code>VerrazzanoSecret</code></a></td>
 <td>N</td>
 <td></td>
 <td>List of Kubernetes secrets from which the credentials required to pull this container&rsquo;s image can be loaded.</td>
@@ -737,14 +738,14 @@ Both the model and binding are meant to be sparse; they contain only the informa
 <td><code>port</code></td>
 <td><code>Integer</code></td>
 <td>N</td>
-<td>8080</td>
+<td><code>8080</code></td>
 <td>Port to be used for the service port.</td>
 </tr>
 <tr>
 <td><code>targetPort</code></td>
 <td><code>Integer</code></td>
 <td>N</td>
-<td>8080</td>
+<td><code>8080</code></td>
 <td>Target port to be used for the service target port.</td>
 </tr>
 </tbody>
@@ -796,14 +797,14 @@ Both the model and binding are meant to be sparse; they contain only the informa
 <td><code>replicas</code></td>
 <td><code>Integer</code></td>
 <td>N</td>
-<td>1</td>
+<td><code>1</code></td>
 <td>Number of desired pods for a generic component.</td>
 </tr>
 <tr>
 <td><code>fluentdEnabled</code></td>
 <td><code>Boolean</code></td>
 <td>N</td>
-<td>true</td>
+<td><code>true</code></td>
 <td>Determines whether a Fluentd container is included for sending logs to Elasticsearch.</td>
 </tr>
 <tr>
@@ -815,7 +816,7 @@ Both the model and binding are meant to be sparse; they contain only the informa
 </tr>
 <tr>
 <td><code>connections</code></td>
-<td><a href="#connection"><code>[]Connection</code></a></td>
+<td><a href="#connection"><code>Connection</code></a></td>
 <td>N</td>
 <td></td>
 <td>List of connections used by this application component.</td>
@@ -823,7 +824,7 @@ Both the model and binding are meant to be sparse; they contain only the informa
 </tbody>
 </table>
 <h3 id="connection">Connection</h3>
-<p>Connection defines network connection and/or database connections needed by an application component.</p>
+<p>Connection defines network connections and/or database connections needed by an application component.</p>
 <table>
 <thead>
 <tr>
@@ -836,25 +837,25 @@ Both the model and binding are meant to be sparse; they contain only the informa
 <tbody>
 <tr>
 <td><code>coherence</code></td>
-<td><a href="#coherenceconnection"><code>[]CoherenceConnection</code></a></td>
+<td><a href="#coherenceconnection"><code>CoherenceConnection</code></a></td>
 <td>N</td>
 <td>Coherence type connections needed by a component.</td>
 </tr>
 <tr>
 <td><code>database</code></td>
-<td><a href="#databaseconnection"><code>[]DatabaseConnection</code></a></td>
+<td><a href="#databaseconnection"><code>DatabaseConnection</code></a></td>
 <td>N</td>
 <td>Database type connections needed by a component.</td>
 </tr>
 <tr>
 <td><code>ingress</code></td>
-<td><a href="#ingressconnection"><code>[]IngressConnection</code></a></td>
+<td><a href="#ingressconnection"><code>IngressConnection</code></a></td>
 <td>N</td>
 <td>Ingresses to associate with a component.</td>
 </tr>
 <tr>
 <td><code>rest</code></td>
-<td><a href="#restconnection"><code>[]RESTConnection</code></a></td>
+<td><a href="#restconnection"><code>RESTConnection</code></a></td>
 <td>N</td>
 <td>REST type connections needed by a component.</td>
 </tr>
@@ -887,7 +888,7 @@ Both the model and binding are meant to be sparse; they contain only the informa
 </tbody>
 </table>
 <h3 id="databaseconnection">DatabaseConnection</h3>
-<p>In the Verrazzano Application Model, you can define connections to external databases. These connections then become available to modify in the Verrazzano Binding.
+<p>In the Verrazzano Application Model, you can define connections to external databases. These connections then become available to modify in the Verrazzano Application Binding.
 That is, you can identify a necessary database connection in the model, and then define credentials and the URL for the database in the binding. Verrazzano operators then handle the database connection accordingly.</p>
 <table>
 <thead>
@@ -903,7 +904,7 @@ That is, you can identify a necessary database connection in the model, and then
 <td><code>target</code></td>
 <td><code>String</code></td>
 <td>Y</td>
-<td>Name of the database to specify in a Verrazzano Binding. That is, in the binding, you will define a database entry that the component will connect to.</td>
+<td>Name of the database to specify in a Verrazzano Application Binding. That is, in the binding, you will define a database entry to which the component will connect.</td>
 </tr>
 <tr>
 <td><code>datasourceName</code></td>
@@ -935,9 +936,9 @@ That is, you can identify a necessary database connection in the model, and then
 </tr>
 <tr>
 <td><code>match</code></td>
-<td><a href="#ingressconnectionmatch"><code>[]IngressConnectionMatch</code></a></td>
+<td><a href="#ingressconnectionmatch"><code>IngressConnectionMatch</code></a></td>
 <td>N</td>
-<td>prefix &ldquo;/&rdquo;</td>
+<td><code>prefix &quot;/&quot;</code></td>
 <td>Match rules associated with the ingress connection.</td>
 </tr>
 </tbody>
@@ -945,7 +946,7 @@ That is, you can identify a necessary database connection in the model, and then
 <h3 id="restconnection">RESTConnection</h3>
 <p>You can define a REST connection from one component in the model to another component in the same model.
 When you define a REST connection between components, you can then define variable names that will be provided in the
-Verrazzano Binding. Verrazzano also sets up network policies that enable the components to communicate in the service mesh over TLS.</p>
+Verrazzano Application Binding. Verrazzano also sets up network policies that enable the components to communicate in the service mesh over TLS.</p>
 <table>
 <thead>
 <tr>
@@ -966,18 +967,18 @@ Verrazzano Binding. Verrazzano also sets up network policies that enable the com
 <td><code>environmentVariableForHost</code></td>
 <td><code>String</code></td>
 <td>Y</td>
-<td>Name of the environment variable that contains the DNS name of the Kubernetes service in target component.</td>
+<td>Name of the environment variable that contains the DNS name of the Kubernetes service in the target component.</td>
 </tr>
 <tr>
 <td><code>environmentVariableForPort</code></td>
 <td><code>Integer</code></td>
 <td>Y</td>
-<td>Name of the environment variable that contains the port number for the service in target component.</td>
+<td>Name of the environment variable that contains the port number for the service in the target component.</td>
 </tr>
 </tbody>
 </table>
 <h3 id="ingressconnectionmatch">IngressConnectionMatch</h3>
-<p>The Match rule associated with the ingress connection.</p>
+<p>The match rule associated with the ingress connection.</p>
 <table>
 <thead>
 <tr>
@@ -1010,21 +1011,21 @@ Verrazzano Binding. Verrazzano also sets up network policies that enable the com
 <tbody>
 <tr>
 <td><code>exact</code></td>
-<td><code>String</code> (oneof)</td>
+<td><code>String</code> <code>(oneOf)</code></td>
 <td>N</td>
-<td>exact string match</td>
+<td>Exact string match.</td>
 </tr>
 <tr>
 <td><code>prefix</code></td>
-<td><code>String</code> (oneof)</td>
+<td><code>String</code> <code>(oneOf)</code></td>
 <td>N</td>
-<td>prefix string match</td>
+<td>Prefix string match.</td>
 </tr>
 <tr>
 <td><code>regex</code></td>
-<td><code>String</code> (oneof)</td>
+<td><code>String</code> <code>(oneOf)</code></td>
 <td>N</td>
-<td>RE2 style regex-based match</td>
+<td>RE2 style regex-based match.</td>
 </tr>
 </tbody>
 </table>
@@ -1123,7 +1124,7 @@ Verrazzano Binding. Verrazzano also sets up network policies that enable the com
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified October 21, 2020: <a  href="https://github.com/verrazzano/docs/commit/d709d9dabc6cff8c23478afe59cff9f618e6ea41">Update the model reference documentation (#42) (d709d9d)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified October 26, 2020: <a  href="https://github.com/verrazzano/docs/commit/acd0195cdfa1eb95eda9575b6e6f5856b2854544">first pass at binding ref (#43) (acd0195)</a>
 </div>
 </div>
 
