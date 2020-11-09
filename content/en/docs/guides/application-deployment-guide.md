@@ -169,7 +169,7 @@ spec:
       dnsName: "www.example.com"
 ```
 
-A brief description of each field in the model:
+A brief description of each field in the binding:
 
 * `apiVersion` - Version of the Verrazzano binding custom resource definition
 * `kind` - Standard name of the Verrazzano binding custom resource definition

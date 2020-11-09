@@ -78,7 +78,7 @@ In the initial steps, you create a sample domain that represents your on-premise
 
    - Save the installer after you have finished; you will need it to build the Docker image.  
 
-   - To make copying commands easier, define an environment variable for `ORACLE_HOME` that points to the folder where you installed WebLogic Server 12.2.1.4.0.
+   - To make copying commands easier, define an environment variable for `ORACLE_HOME` that points to the directory where you installed WebLogic Server 12.2.1.4.0.
 
      ```shell script
      export ORACLE_HOME=/install/directory
@@ -138,7 +138,7 @@ Using the WebLogic Server Administration Console, log in and add a data source c
    - Provide the file path to `todo.war`.
    - Accepting all the default options is fine.
 
-   NOTE: The remaining steps assume that the application context is `todo`.
+   **NOTE**: The remaining steps assume that the application context is `todo`.
 
 ### Initialize the database
 After the application is deployed and running in WebLogic Server, access the `http://localhost:7001/todo/rest/items/init`
@@ -162,7 +162,7 @@ The following steps will move the sample domain to Kubernetes with Verrazzano.
 
 - If you have not already done so, download [WebLogic Deploy Tooling](https://github.com/oracle/weblogic-deploy-tooling/releases) (WDT) from GitHub.
 - Unzip the installer `weblogic-deploy.zip` file so that you can access `bin/discoverDomain.sh`.
-- To make copying commands easier, define an environment variable for `WDT_HOME` that points to the folder where you installed WebLogic Deploy Tooling.
+- To make copying commands easier, define an environment variable for `WDT_HOME` that points to the directory where you installed WebLogic Deploy Tooling.
    ```shell script
     export WDT_HOME=/install/directory
    ```
@@ -197,7 +197,7 @@ fill in the placeholders for you, or you can edit the model manually to set the 
 
 - If you have not already done so, download [WebLogic Image Tool](https://github.com/oracle/weblogic-image-tool/releases) (WIT) from GitHub.
 - Unzip the installer `imagetool.zip` file so that you can access `bin/imagetool.sh`.
-- To make copying commands easier, define an environment variable for `WIT_HOME` that points to the folder where you installed WebLogic Image Tool.
+- To make copying commands easier, define an environment variable for `WIT_HOME` that points to the directory where you installed WebLogic Image Tool.
    ```shell script
     export WIT_HOME=/install/directory
    ```
