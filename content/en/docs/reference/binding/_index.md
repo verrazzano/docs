@@ -71,15 +71,15 @@ spec:
 |-----------|------|----------|-------------|
 | `description` | `String` | Y | Description of the binding. |
 | `modelName` | `String` | Y | Reference to a Verrazzano Application Model. |
-| `coherenceBindings` | [`CoherenceBindings`](#coherencebindings) | N | Coherence components to bind, as defined in the model. |
-| `helidonBindings` | [`HelidonBindings`](#helidonbindings) | N | Helidon application components to bind, as defined in the model. |
-| `weblogicBindings` | [`WebLogicBindings`](#weblogicbindings) | N | WebLogic components to bind, as defined in the model. |
-| `databaseBindings` | [`DatabaseBindings`](#databasebindings) | N | Database component in the model, or the target in a database connection definition in the model, to bind. |
+| `coherenceBindings` | [`CoherenceBinding`](#coherencebinding) | N | Coherence components to bind, as defined in the model. |
+| `helidonBindings` | [`HelidonBinding`](#helidonbinding) | N | Helidon application components to bind, as defined in the model. |
+| `weblogicBindings` | [`WebLogicBinding`](#weblogicbinding) | N | WebLogic components to bind, as defined in the model. |
+| `databaseBindings` | [`DatabaseBinding`](#databasebinding) | N | Database component in the model, or the target in a database connection definition in the model, to bind. |
 | `placement` | [`Placement`](#placement) | N | List of "placements" of model components. |
-| `ingressBindings` | [`IngressBindings`](#ingressbindings) | N | Ingresses to bind, as defined in the model. |
+| `ingressBindings` | [`IngressBinding`](#ingressbinding) | N | Ingresses to bind, as defined in the model. |
 
 
-#### CoherenceBindings
+#### CoherenceBinding
 
 ```yaml
 coherenceBindings:
@@ -95,7 +95,7 @@ coherenceBindings:
 | `replicas` | `Integer` | N | Initial number of members of the Coherence cluster. |
 
 
-#### HelidonBindings
+#### HelidonBinding
 
 ```yaml
 helidonBindings:
@@ -110,7 +110,7 @@ helidonBindings:
 | `name` | `String` | N | Name of the Helidon component. |
 | `replicas` | `Integer` | N | Initial number of replicas for a Helidon application. |
 
-#### WebLogicBindings
+#### WebLogicBinding
 
 ```yaml
 weblogicBindings:
@@ -125,7 +125,7 @@ weblogicBindings:
 | `name` | `String` | N | Name of the WebLogic component. |
 | `replicas` | `Integer` | N | Initial number of Managed Server instances to run. |
 
-#### DatabaseBindings
+#### DatabaseBinding
 
 ```yaml
 databaseBindings:
@@ -175,7 +175,7 @@ placement:
 
 
 
-#### IngressBindings
+#### IngressBinding
 
 ```yaml
 ingressBindings:

@@ -149,7 +149,7 @@ VerrazzanoSecret identifies a Kubernetes secret by name.
 
 Verrazzano relies on version 2.1.1 of the [Coherence Operator](https://github.com/oracle/coherence-operator).  For the Coherence clusters section of the Verrazzano Application Model, Coherence custom resource values are defined in Verrazzano and then converted to a custom resource that the Coherence Operator can interpret.
 
-A Coherence cluster component must have the following item:
+A Coherence cluster component must have the following items:
 
 * `name`
 * `image`
