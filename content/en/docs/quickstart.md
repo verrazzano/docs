@@ -31,11 +31,7 @@ To install Verrazzano, follow these steps:
 1. Create an [Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE)](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm) cluster.
 1. Launch [OCI Cloud Shell](https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/cloudshellgettingstarted.htm).
 1. Set up a [kubeconfig](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/) file in the OCI Cloud Shell for the OKE cluster. See these detailed [instructions](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengdownloadkubeconfigfile.htm).
-1. Clone this [repo](https://github.com/verrazzano/verrazzano) into the home directory of the OCI Cloud Shell.
 
-    `git clone https://github.com/verrazzano/verrazzano`
-
-    `cd verrazzano`
 1. Install Helm 3.2.4.
 
     `curl https://get.helm.sh/helm-v3.2.4-linux-amd64.tar.gz > ./helm.tar.gz`
@@ -43,6 +39,12 @@ To install Verrazzano, follow these steps:
     `tar xzf ./helm.tar.gz`
 
     `export PATH="$(pwd)/linux-amd64:${PATH}"`
+
+1. Clone this [repo](https://github.com/verrazzano/verrazzano) into the home directory of the OCI Cloud Shell.
+
+    `git clone https://github.com/verrazzano/verrazzano`
+
+    `cd verrazzano`
 
 1. Run the following commands in the OCI Cloud Shell:
 
