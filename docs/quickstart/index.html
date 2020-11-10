@@ -24,11 +24,11 @@
 <meta property="og:description" content="Instructions for getting started with Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/quickstart/" />
-<meta property="article:modified_time" content="2020-09-22T14:45:49-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2020-11-10T13:38:14-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Quick Start">
 <meta itemprop="description" content="Instructions for getting started with Verrazzano">
-<meta itemprop="dateModified" content="2020-09-22T14:45:49-04:00" />
-<meta itemprop="wordCount" content="249">
+<meta itemprop="dateModified" content="2020-11-10T13:38:14-05:00" />
+<meta itemprop="wordCount" content="258">
 
 
 
@@ -331,8 +331,8 @@ if (!doNotTrack) {
 	<h1>Quick Start</h1>
     <div class="lead">Instructions for getting started with Verrazzano</div>
 	       
-	<p>Verrazzano is an end-to-end Enterprise Container Platform for deploying cloud-native and traditional applications in multi-cloud and hybrid environments. It is made up of a curated set of open source components – many that you may already use and trust, and some that were written specifically to pull together all of the pieces that make Verrazzano a cohesive and easy to use platform.</p>
-<p>Verrazzano Enterprise Container Platform includes the following capabilities:</p>
+	<p>Verrazzano is an end-to-end enterprise container platform for deploying cloud-native and traditional applications in multi-cloud and hybrid environments. It is made up of a curated set of open source components – many that you may already use and trust, and some that were written specifically to pull together all of the pieces that make Verrazzano a cohesive and easy to use platform.</p>
+<p>Verrazzano includes the following capabilities:</p>
 <ul>
 <li>Hybrid and multi-cluster workload management</li>
 <li>Special handling for WebLogic, Coherence, and Helidon applications</li>
@@ -349,37 +349,47 @@ if (!doNotTrack) {
 This is a developer preview release of Verrazzano. It is intended for installation in a single cluster on
 <a href="https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm">Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE)</a>
 or <a href="https://docs.oracle.com/en/operating-systems/olcne/">Oracle Linux Cloud Native Environment (OLCNE)</a>.
-You should only install Verrazzano in a cluster that can be safely deleted when your evaluation is complete.
+You should install Verrazzano only in a cluster that can be safely deleted when your evaluation is complete.
 </div>
 
 <h2 id="install-verrazzano">Install Verrazzano</h2>
 <p>To install Verrazzano, follow these steps:</p>
 <ol>
-<li>Create an <a href="https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm">Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE)</a> cluster.</li>
-<li>Launch <a href="https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/cloudshellgettingstarted.htm">OCI Cloud Shell</a>.</li>
-<li>Set up a <a href="https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/">kubeconfig</a> file in the OCI Cloud Shell for the OKE cluster. See these detailed <a href="https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengdownloadkubeconfigfile.htm">instructions</a>.</li>
-<li>Clone this <a href="https://github.com/verrazzano/verrazzano">repo</a> into the home directory of the OCI Cloud Shell.
-<ul>
-<li><code>git clone https://github.com/verrazzano/verrazzano</code></li>
-<li><code>cd verrazzano</code></li>
-</ul>
+<li>
+<p>Create an <a href="https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm">Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE)</a> cluster.</p>
 </li>
-<li>Execute the following commands in the OCI Cloud Shell:
-<ul>
-<li><code>export CLUSTER_TYPE=OKE</code></li>
-<li><code>export VERRAZZANO_KUBECONFIG=~/.kube/config</code></li>
-<li><code>export KUBECONFIG=~/.kube/config</code></li>
-<li><code>./install/1-install-istio.sh</code></li>
-<li><code>./install/2a-install-system-components-magicdns.sh</code></li>
-<li><code>./install/3-install-verrazzano.sh</code></li>
-<li><code>./install/4-install-keycloak.sh</code></li>
-</ul>
+<li>
+<p>Launch <a href="https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/cloudshellgettingstarted.htm">OCI Cloud Shell</a>.</p>
+</li>
+<li>
+<p>Set up a <a href="https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/">kubeconfig</a> file in the OCI Cloud Shell for the OKE cluster. See these detailed <a href="https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengdownloadkubeconfigfile.htm">instructions</a>.</p>
+</li>
+<li>
+<p>Install Helm 3.2.4.</p>
+<p><code>curl https://get.helm.sh/helm-v3.2.4-linux-amd64.tar.gz &gt; ./helm.tar.gz</code></p>
+<p><code>tar xzf ./helm.tar.gz</code></p>
+<p><code>export PATH=&quot;$(pwd)/linux-amd64:${PATH}&quot;</code></p>
+</li>
+<li>
+<p>Clone this <a href="https://github.com/verrazzano/verrazzano">repo</a> into the home directory of the OCI Cloud Shell.</p>
+<p><code>git clone https://github.com/verrazzano/verrazzano</code></p>
+<p><code>cd verrazzano</code></p>
+</li>
+<li>
+<p>Run the following commands in the OCI Cloud Shell:</p>
+<p><code>export CLUSTER_TYPE=OKE</code></p>
+<p><code>export VERRAZZANO_KUBECONFIG=~/.kube/config</code></p>
+<p><code>export KUBECONFIG=~/.kube/config</code></p>
+<p><code>./install/1-install-istio.sh</code></p>
+<p><code>./install/2a-install-system-components-magicdns.sh</code></p>
+<p><code>./install/3-install-verrazzano.sh</code></p>
+<p><code>./install/4-install-keycloak.sh</code></p>
 </li>
 </ol>
 <h2 id="next-steps">Next steps</h2>
 <ol>
 <li>
-<p><a href="https://github.com/verrazzano/verrazzano/blob/master/install/README.md#4-verify-the-install">Verify</a> the installation.</p>
+<p><a href="https://github.com/verrazzano/verrazzano/blob/master/install/README.md#3-verify-the-install">Verify</a> the installation.</p>
 </li>
 <li>
 <p><a href="../guides/application-deployment-guide">Deploy an example application</a> on Verrazzano.</p>
@@ -448,7 +458,7 @@ You should only install Verrazzano in a cluster that can be safely deleted when 
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified September 22, 2020: <a  href="https://github.com/verrazzano/docs/commit/bfc4b80503dd3ecb2c896b15ad57f44c9d0c7fc0">update quick start (#38) (bfc4b80)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified November 10, 2020: <a  href="https://github.com/verrazzano/docs/commit/2fcf0b81887cba39d144f3e7f34e25b264d8138c">update quick start (#44) (2fcf0b8)</a>
 </div>
 </div>
 

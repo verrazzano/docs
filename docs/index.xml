@@ -22,8 +22,8 @@
       <description>
         
         
-        &lt;p&gt;Verrazzano is an end-to-end Enterprise Container Platform for deploying cloud-native and traditional applications in multi-cloud and hybrid environments. It is made up of a curated set of open source components – many that you may already use and trust, and some that were written specifically to pull together all of the pieces that make Verrazzano a cohesive and easy to use platform.&lt;/p&gt;
-&lt;p&gt;Verrazzano Enterprise Container Platform includes the following capabilities:&lt;/p&gt;
+        &lt;p&gt;Verrazzano is an end-to-end enterprise container platform for deploying cloud-native and traditional applications in multi-cloud and hybrid environments. It is made up of a curated set of open source components – many that you may already use and trust, and some that were written specifically to pull together all of the pieces that make Verrazzano a cohesive and easy to use platform.&lt;/p&gt;
+&lt;p&gt;Verrazzano includes the following capabilities:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Hybrid and multi-cluster workload management&lt;/li&gt;
 &lt;li&gt;Special handling for WebLogic, Coherence, and Helidon applications&lt;/li&gt;
@@ -40,37 +40,47 @@
 This is a developer preview release of Verrazzano. It is intended for installation in a single cluster on
 &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm&#34;&gt;Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE)&lt;/a&gt;
 or &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/&#34;&gt;Oracle Linux Cloud Native Environment (OLCNE)&lt;/a&gt;.
-You should only install Verrazzano in a cluster that can be safely deleted when your evaluation is complete.
+You should install Verrazzano only in a cluster that can be safely deleted when your evaluation is complete.
 &lt;/div&gt;
 
 &lt;h2 id=&#34;install-verrazzano&#34;&gt;Install Verrazzano&lt;/h2&gt;
 &lt;p&gt;To install Verrazzano, follow these steps:&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;Create an &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm&#34;&gt;Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE)&lt;/a&gt; cluster.&lt;/li&gt;
-&lt;li&gt;Launch &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/cloudshellgettingstarted.htm&#34;&gt;OCI Cloud Shell&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;Set up a &lt;a href=&#34;https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/&#34;&gt;kubeconfig&lt;/a&gt; file in the OCI Cloud Shell for the OKE cluster. See these detailed &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengdownloadkubeconfigfile.htm&#34;&gt;instructions&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;Clone this &lt;a href=&#34;https://github.com/verrazzano/verrazzano&#34;&gt;repo&lt;/a&gt; into the home directory of the OCI Cloud Shell.
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;git clone https://github.com/verrazzano/verrazzano&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;cd verrazzano&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;li&gt;
+&lt;p&gt;Create an &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm&#34;&gt;Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE)&lt;/a&gt; cluster.&lt;/p&gt;
 &lt;/li&gt;
-&lt;li&gt;Execute the following commands in the OCI Cloud Shell:
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;export CLUSTER_TYPE=OKE&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;export VERRAZZANO_KUBECONFIG=~/.kube/config&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;export KUBECONFIG=~/.kube/config&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;./install/1-install-istio.sh&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;./install/2a-install-system-components-magicdns.sh&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;./install/3-install-verrazzano.sh&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;./install/4-install-keycloak.sh&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;li&gt;
+&lt;p&gt;Launch &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/cloudshellgettingstarted.htm&#34;&gt;OCI Cloud Shell&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Set up a &lt;a href=&#34;https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/&#34;&gt;kubeconfig&lt;/a&gt; file in the OCI Cloud Shell for the OKE cluster. See these detailed &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengdownloadkubeconfigfile.htm&#34;&gt;instructions&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Install Helm 3.2.4.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;curl https://get.helm.sh/helm-v3.2.4-linux-amd64.tar.gz &amp;gt; ./helm.tar.gz&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;tar xzf ./helm.tar.gz&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;export PATH=&amp;quot;$(pwd)/linux-amd64:${PATH}&amp;quot;&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Clone this &lt;a href=&#34;https://github.com/verrazzano/verrazzano&#34;&gt;repo&lt;/a&gt; into the home directory of the OCI Cloud Shell.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;git clone https://github.com/verrazzano/verrazzano&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cd verrazzano&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Run the following commands in the OCI Cloud Shell:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;export CLUSTER_TYPE=OKE&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;export VERRAZZANO_KUBECONFIG=~/.kube/config&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;export KUBECONFIG=~/.kube/config&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;./install/1-install-istio.sh&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;./install/2a-install-system-components-magicdns.sh&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;./install/3-install-verrazzano.sh&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;./install/4-install-keycloak.sh&lt;/code&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/install/README.md#4-verify-the-install&#34;&gt;Verify&lt;/a&gt; the installation.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/install/README.md#3-verify-the-install&#34;&gt;Verify&lt;/a&gt; the installation.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;a href=&#34;../guides/application-deployment-guide&#34;&gt;Deploy an example application&lt;/a&gt; on Verrazzano.&lt;/p&gt;
@@ -230,7 +240,7 @@ Application Binding&lt;/a&gt; documentation.&lt;/p&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;ingressBindings&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;greet-ingress&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;dnsName&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;www.example.com&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;A brief description of each field in the model:&lt;/p&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;A brief description of each field in the binding:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;apiVersion&lt;/code&gt; - Version of the Verrazzano binding custom resource definition&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;kind&lt;/code&gt; - Standard name of the Verrazzano binding custom resource definition&lt;/li&gt;
@@ -572,7 +582,7 @@ You should use a more secure password.
 &lt;p&gt;Save the installer after you have finished; you will need it to build the Docker image.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;To make copying commands easier, define an environment variable for &lt;code&gt;ORACLE_HOME&lt;/code&gt; that points to the folder where you installed WebLogic Server 12.2.1.4.0.&lt;/p&gt;
+&lt;p&gt;To make copying commands easier, define an environment variable for &lt;code&gt;ORACLE_HOME&lt;/code&gt; that points to the directory where you installed WebLogic Server 12.2.1.4.0.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;ORACLE_HOME&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;/install/directory
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -640,7 +650,7 @@ You should use a more secure password.
 &lt;li&gt;Provide the file path to &lt;code&gt;todo.war&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;Accepting all the default options is fine.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;NOTE: The remaining steps assume that the application context is &lt;code&gt;todo&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The remaining steps assume that the application context is &lt;code&gt;todo&lt;/code&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3 id=&#34;initialize-the-database&#34;&gt;Initialize the database&lt;/h3&gt;
@@ -662,7 +672,7 @@ the &lt;code&gt;init&lt;/code&gt; service also will load four sample items into 
 &lt;ul&gt;
 &lt;li&gt;If you have not already done so, download &lt;a href=&#34;https://github.com/oracle/weblogic-deploy-tooling/releases&#34;&gt;WebLogic Deploy Tooling&lt;/a&gt; (WDT) from GitHub.&lt;/li&gt;
 &lt;li&gt;Unzip the installer &lt;code&gt;weblogic-deploy.zip&lt;/code&gt; file so that you can access &lt;code&gt;bin/discoverDomain.sh&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;To make copying commands easier, define an environment variable for &lt;code&gt;WDT_HOME&lt;/code&gt; that points to the folder where you installed WebLogic Deploy Tooling.
+&lt;li&gt;To make copying commands easier, define an environment variable for &lt;code&gt;WDT_HOME&lt;/code&gt; that points to the directory where you installed WebLogic Deploy Tooling.
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt; &lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;WDT_HOME&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;/install/directory
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -696,7 +706,7 @@ fill in the placeholders for you, or you can edit the model manually to set the 
 &lt;ul&gt;
 &lt;li&gt;If you have not already done so, download &lt;a href=&#34;https://github.com/oracle/weblogic-image-tool/releases&#34;&gt;WebLogic Image Tool&lt;/a&gt; (WIT) from GitHub.&lt;/li&gt;
 &lt;li&gt;Unzip the installer &lt;code&gt;imagetool.zip&lt;/code&gt; file so that you can access &lt;code&gt;bin/imagetool.sh&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;To make copying commands easier, define an environment variable for &lt;code&gt;WIT_HOME&lt;/code&gt; that points to the folder where you installed WebLogic Image Tool.
+&lt;li&gt;To make copying commands easier, define an environment variable for &lt;code&gt;WIT_HOME&lt;/code&gt; that points to the directory where you installed WebLogic Image Tool.
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt; &lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;WIT_HOME&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;/install/directory
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ul&gt;
