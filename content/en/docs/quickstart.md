@@ -15,8 +15,6 @@ Verrazzano includes the following capabilities:
 * Integrated security
 * DevOps and GitOps enablement
 
-This [repository](https://github.com/verrazzano/verrazzano) contains installation scripts and example applications for use with Verrazzano.
-
 {{< alert title="NOTE" color="warning" >}}
 This is a developer preview release of Verrazzano. It is intended for installation in a single cluster on
 [Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE)](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm)
@@ -31,32 +29,76 @@ To install Verrazzano, follow these steps:
 1. Create an [Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE)](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm) cluster.
 1. Launch [OCI Cloud Shell](https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/cloudshellgettingstarted.htm).
 1. Set up a [kubeconfig](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/) file in the OCI Cloud Shell for the OKE cluster. See these detailed [instructions](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengdownloadkubeconfigfile.htm).
+1. Deploy the Verrazzano platform operator.
 
+    ```
+    kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
+    ```
+1. Install Verrazzano with its default configuration.
 
-1. Clone this [repo](https://github.com/verrazzano/verrazzano) into the home directory of the OCI Cloud Shell.
+    ```
+    kubectl apply -f - <<EOF
+    apiVersion: install.verrazzano.io/v1alpha1
+    kind: Verrazzano
+    metadata:
+      name: example-verrazzano
+    EOF
+    ```
+1. Wait for the installation to complete.
+    ```
+    kubectl wait \
+        --timeout=20m \
+        --for=condition=InstallComplete \
+        verrazzano/example-verrazzano
+    ```
 
-    `git clone https://github.com/verrazzano/verrazzano`
+1. View the installation logs (optional).
 
-    `cd verrazzano`
+    The Verrazzano operator launches a Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) to install Verrazzano.  You can view the installation logs from that job with the following command:
 
-1. Run the following commands in the OCI Cloud Shell:
+    ```
+    kubectl logs -f \
+        $( \
+          kubectl get pod  \
+              -l job-name=verrazzano-install-example-verrazzano \
+              -o jsonpath="{.items[0].metadata.name}" \
+        )
+    ```
 
-    `export CLUSTER_TYPE=OKE`
+## Uninstall Verrazzano
 
-    `export VERRAZZANO_KUBECONFIG=~/.kube/config`
+To uninstall Verrazzano, follow these steps:
 
-    `export KUBECONFIG=~/.kube/config`
+1. Delete the Verrazzano custom resource.
 
-    `./install/1-install-istio.sh`
+    ```
+    kubectl delete verrazzano example-verrazzano
+    ```
 
-    `./install/2a-install-system-components-magicdns.sh`
+    {{< alert title="NOTE" color="info" >}}
+    This command blocks until the uninstall has completed.  To follow the progress
+    you can view the uninstall logs.
+    {{< /alert >}}
 
-    `./install/3-install-verrazzano.sh`
+1. View the uninstall logs (optional).
 
-    `./install/4-install-keycloak.sh`
+    The Verrazzano operator launches a Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) to delete the Verrazzano installation.  You can view the uninstall logs from that job with the following command:
 
-## Next steps
+    ```
+    kubectl logs -f \
+        $( \
+          kubectl get pod  \
+              -l job-name=verrazzano-uninstall-example-verrazzano \
+              -o jsonpath="{.items[0].metadata.name}" \
+        )
+    ```
 
-1. [Verify](https://github.com/verrazzano/verrazzano/blob/master/install/README.md#3-verify-the-install) the installation.
+## Deploy the Example Applications
 
-1. [Deploy an example application](../guides/application-deployment-guide) on Verrazzano.
+To deploy the example applications, please see the following instructions:
+
+* [Helidon Hello World](https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md)
+* [Bob's Books](https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/README.md)
+* [Helidon Sock Shop](https://github.com/verrazzano/verrazzano/blob/master/examples/sock-shop/README.md)
+* [ToDo List](https://github.com/verrazzano/examples/blob/master/todo-list/README.md)
+
