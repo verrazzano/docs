@@ -1,7 +1,6 @@
 ---
 title: "Installation"
-weight: 4
-bookCollapseSection: true
+weight: 40
 draft: true
 ---
 
