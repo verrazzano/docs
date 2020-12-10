@@ -32,7 +32,6 @@
 &lt;li&gt;Integrated security&lt;/li&gt;
 &lt;li&gt;DevOps and GitOps enablement&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;This &lt;a href=&#34;https://github.com/verrazzano/verrazzano&#34;&gt;repository&lt;/a&gt; contains installation scripts and example applications for use with Verrazzano.&lt;/p&gt;
 
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
@@ -56,30 +55,72 @@ You should install Verrazzano only in a cluster that can be safely deleted when 
 &lt;p&gt;Set up a &lt;a href=&#34;https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/&#34;&gt;kubeconfig&lt;/a&gt; file in the OCI Cloud Shell for the OKE cluster. See these detailed &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengdownloadkubeconfigfile.htm&#34;&gt;instructions&lt;/a&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Clone this &lt;a href=&#34;https://github.com/verrazzano/verrazzano&#34;&gt;repo&lt;/a&gt; into the home directory of the OCI Cloud Shell.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;git clone https://github.com/verrazzano/verrazzano&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;cd verrazzano&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
+&lt;p&gt;Deploy the Verrazzano platform operator.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Run the following commands in the OCI Cloud Shell:&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;export CLUSTER_TYPE=OKE&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;export VERRAZZANO_KUBECONFIG=~/.kube/config&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;export KUBECONFIG=~/.kube/config&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;./install/1-install-istio.sh&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;./install/2a-install-system-components-magicdns.sh&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;./install/3-install-verrazzano.sh&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;./install/4-install-keycloak.sh&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
+&lt;p&gt;Install Verrazzano with its default configuration.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kubectl apply -f - &amp;lt;&amp;lt;EOF
+apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: example-verrazzano
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Wait for the installation to complete.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kubectl wait \
+    --timeout=20m \
+    --for=condition=InstallComplete \
+    verrazzano/example-verrazzano
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;View the installation logs (optional).&lt;/p&gt;
+&lt;p&gt;The Verrazzano operator launches a Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/workloads/controllers/job/&#34;&gt;job&lt;/a&gt; to install Verrazzano.  You can view the installation logs from that job with the following command:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kubectl logs -f \
+    $( \
+      kubectl get pod  \
+          -l job-name=verrazzano-install-example-verrazzano \
+          -o jsonpath=&amp;quot;{.items[0].metadata.name}&amp;quot; \
+    )
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
+&lt;h2 id=&#34;uninstall-verrazzano&#34;&gt;Uninstall Verrazzano&lt;/h2&gt;
+&lt;p&gt;To uninstall Verrazzano, follow these steps:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/install/README.md#3-verify-the-install&#34;&gt;Verify&lt;/a&gt; the installation.&lt;/p&gt;
+&lt;p&gt;Delete the Verrazzano custom resource.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kubectl delete verrazzano example-verrazzano
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;This command blocks until the uninstall has completed.  To follow the progress
+you can view the uninstall logs.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;../guides/application-deployment-guide&#34;&gt;Deploy an example application&lt;/a&gt; on Verrazzano.&lt;/p&gt;
-&lt;/li&gt;
+&lt;p&gt;View the uninstall logs (optional).&lt;/p&gt;
+&lt;p&gt;The Verrazzano operator launches a Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/workloads/controllers/job/&#34;&gt;job&lt;/a&gt; to delete the Verrazzano installation.  You can view the uninstall logs from that job with the following command:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kubectl logs -f \
+    $( \
+      kubectl get pod  \
+          -l job-name=verrazzano-uninstall-example-verrazzano \
+          -o jsonpath=&amp;quot;{.items[0].metadata.name}&amp;quot; \
+    )
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ol&gt;
+&lt;h2 id=&#34;deploy-the-example-applications&#34;&gt;Deploy the Example Applications&lt;/h2&gt;
+&lt;p&gt;To deploy the example applications, please see the following instructions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md&#34;&gt;Helidon Hello World&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/README.md&#34;&gt;Bob&amp;rsquo;s Books&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples/sock-shop/README.md&#34;&gt;Helidon Sock Shop&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/verrazzano/examples/blob/master/todo-list/README.md&#34;&gt;ToDo List&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
       </description>
     </item>
