@@ -1,4 +1,4 @@
-# Development instructions
+# Documentation Development Instructions
 
 ## Setup
 
@@ -8,7 +8,7 @@
    git clone --recurse-submodules https://github.com/verrazzano/docs.git
    ```
 
-   If you accidentally cloned this repository without `--recurse-submodules`, you'll
+   If you cloned this repository without `--recurse-submodules`, you'll
    need to run the following commands inside the repository:
 
    ```shell
@@ -34,7 +34,7 @@ Run a local Hugo server with live reloading.
 hugo server --environment local
 ```
 
-Access the local Hugo server to see the rendered docs.  The rendered docs will refresh as edits are made.
+Access the local Hugo server to see the rendered docs.  The rendered docs will refresh when you save your edits.
 
 ```
 open http://localhost:1313

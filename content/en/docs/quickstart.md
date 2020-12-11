@@ -4,31 +4,29 @@ description: "Instructions for getting started with Verrazzano"
 weight: 2
 ---
 
-This guide provides instructions for you to quickly evaluate Verrazzano.
 
 ## Prerequisites
 
-Verrazzano assumes you have already installed a
-[Kubernetes](https://kubernetes.io/) cluster.  Verrazzano is currently tested on
+The Quick Start assumes that you have already installed a
+[Kubernetes](https://kubernetes.io/) cluster.  Verrazzano has been tested on
 [Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE)](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm)  and
-[Oracle Linux Cloud Native Environment (OLCNE)](https://docs.oracle.com/en/operating-systems/olcne/)
-though it is possible that Verrazzano can be configured to work on other Kubernetes
+[Oracle Linux Cloud Native Environment (OLCNE)](https://docs.oracle.com/en/operating-systems/olcne/); it is possible that it can be configured to work on other Kubernetes
 environments.
 
 Verrazzano requires the following:
-* A Kuberntes cluster `v1.16` or later and a compatible `kubectl`
-* At least 2 CPUs, 100GB disk storage and 16GB RAM available on the Kubernetes worker nodes.
+* A Kuberntes cluster `v1.16` or later and a compatible `kubectl`.
+* At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.
 
 ## Install the Verrazzano Platform Operator
 
 Verrazzano provides a platform [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
-to manage the lifecycle of Verrazzano installations for you.  You can install,
-uninstall and update Verrazzano installations by updating the Verrazzano
-[custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
+to manage the life cycle of Verrazzano installations.  You can install,
+uninstall, and update Verrazzano installations by updating the Verrazzano
+[custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/).
 
 To install the Verrazzano platform operator, follow these steps:
 
-1. Deploy the Verrazzano platorm operator.
+1. Deploy the Verrazzano platform operator.
 
     ```shell
     kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
@@ -41,7 +39,7 @@ To install the Verrazzano platform operator, follow these steps:
     deployment "verrazzano-platform-operator" successfully rolled out
     ```
 
-1. Confirm the operator pod is correctly defined and running.
+1. Confirm that the operator pod is correctly defined and running.
 
     ```shell
     $ kubectl -n verrazzano-install get pods
@@ -52,14 +50,15 @@ To install the Verrazzano platform operator, follow these steps:
 ## Install Verrazzano
 
 
-You can install Verrazzano by creating a Verrazzano Custom Resource in
+You install Verrazzano by creating a Verrazzano custom resource in
 your Kubernetes cluster.  Verrazzano currently supports a default production
-profile and a dev profile suitable for evaluation.  The dev profile has
-the following characteristics:
+profile and a development profile suitable for evaluation.  
+
+The development (dev) profile has the following characteristics:
 * Magic (xip.io) DNS
 * Self-signed certificates
 * Shared observability stack used by the system components and all applications
-* Ephemeral storage for the observability stack (i.e.if the pods are restarted you will lose all of your logs and metrics)
+* Ephemeral storage for the observability stack (if the pods are restarted, you lose all of your logs and metrics)
 * Single-node, reduced memory Elasticsearch cluster
 
 To install Verrazzano, follow these steps:
@@ -76,6 +75,7 @@ To install Verrazzano, follow these steps:
       profile: dev
     EOF
     ```
+
 1. Wait for the installation to complete.
     ```shell
     kubectl wait \
@@ -99,11 +99,11 @@ To install Verrazzano, follow these steps:
 
 ## Deploy an Example Application
 
-The [Helidon Hello World](https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md)
+The [Hello World Helidon](https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md)
 example application provides a simple *Hello World* REST service written with [Helidon](https://helidon.io).
 For more information and the code of this application, see the [Verrazzano examples](https://github.com/verrazzano/examples).
 
-To deploy the Helidon Hello World example application, follow these steps:
+To deploy the Hello World Helidon example application, follow these steps:
 
 1. Deploy the Verrazzano Application Model and Verrazzano Application Binding for the example application.
 
@@ -114,10 +114,10 @@ To deploy the Helidon Hello World example application, follow these steps:
    ```
 
 
-   The deploys creates the Verrazzano Application Model and Verrazzano Application Binding, waits for the pods in the `greet` namespace to be
+   This creates the Verrazzano Application Model and Verrazzano Application Binding, waits for the pods in the `greet` namespace to be
    ready, and calls one of the endpoints provided by the REST service implemented by the example application.
 
-1. Verify the Verrazzano Application Model and Verrazzano Application Binding resources were created in the `default` namespace.
+1. Verify that the Verrazzano Application Model and Verrazzano Application Binding resources were created in the `default` namespace.
 
    ```shell
     $ kubectl get vm
@@ -128,7 +128,7 @@ To deploy the Helidon Hello World example application, follow these steps:
     hello-world-binding   4m8s
    ```
 
-1. Verify the greet namespace has been created.
+1. Verify that the `greet` namespace has been created.
 
    ```shell
    $ kubectl get ns greet
@@ -180,7 +180,7 @@ To deploy the Helidon Hello World example application, follow these steps:
 
 ## Uninstall the Example Application
 
-To uninstall the Hello Helidon example application the Verrazzano Application Model and Verrazzano Application Binding
+To uninstall the Hello World Helidon example application, delete the Verrazzano Application Model and Verrazzano Application Binding
 for the example application.
 
 1. Delete the Verrazzano Application Binding for the example application.
@@ -198,7 +198,7 @@ for the example application.
    verrazzanobinding.verrazzano.io "hello-world-model" deleted
     ```
 
-1. Verify the greet namespace has been deleted.
+1. Verify that the `greet` namespace has been deleted.
 
    ```shell
    $ kubectl get ns greet
@@ -232,4 +232,3 @@ To uninstall Verrazzano, follow these steps:
               -o jsonpath="{.items[0].metadata.name}" \
         )
     ```
-
