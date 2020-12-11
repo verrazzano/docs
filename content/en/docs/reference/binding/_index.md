@@ -208,8 +208,8 @@ The Verrazzano Application Model lets you define connections to external databas
 If a WebLogic component specifies a database connection that has a corresponding `databaseBinding`, then the Verrazzano operators will:
 
 1. Copy the secret specified in the `databaseBinding` to the namespace of the WebLogic domain.
-2. Create a config map in the namespace of the WebLogic domain to specify overrides for the URL and secret.  These configuration overrides (also called situational configuration) are used to customize the database configuration for the WebLogic domain.
-3. Specify the override config map when the WebLogic domain is created.
+2. Create a ConfigMap in the namespace of the WebLogic domain to specify overrides for the URL and secret.  These configuration overrides (also called situational configuration) are used to customize the database configuration for the WebLogic domain.
+3. Specify the override ConfigMap when the WebLogic domain is created.
 
 For example, if a `weblogicDomain` in the model has a database connection, as follows:
 
@@ -242,7 +242,7 @@ metadata:
   namespace: bob
 type: Opaque
 ```
-A config map for override values will be created in the WebLogic domain namespace with values from the secret.
+A ConfigMap for override values will be created in the WebLogic domain namespace with values from the secret.
 
 ```
 apiVersion: v1
