@@ -1,0 +1,13 @@
+{{- $path := .Get "path" -}}
+{{- $raw := (default false (.Get "raw")) -}}
+{{- $gh_repo := cond ((isset .Site.Params "github_repo") | and (ne .Site.Params.github_repo "")) .Site.Params.github_repo "" -}}
+{{- $gh_project_repo := cond ((isset .Site.Params "github_project_repo") | and (ne .Site.Params.github_project_repo "")) .Site.Params.github_project_repo "" -}}
+{{- $repo := cond (ne $gh_project_repo "") $gh_project_repo $gh_repo -}}
+{{- if $repo -}}
+  {{- $gh_branch := cond ((isset .Site.Params "github_branch") | and (ne .Site.Params.github_branch "")) .Site.Params.github_branch "master" -}}
+  {{- $repo := cond $raw (replace $repo "github.com" "raw.githubusercontent.com") (printf "%s/blob" $repo) -}}
+  {{- $repo_url := printf "%s/%s/%s" $repo $gh_branch $path -}}
+  {{- $repo_url -}}
+{{- else -}}
+  {{ errorf "value required for one of params 'github_repo' or 'github_project_repo': %s" .Position }}
+{{- end -}}
