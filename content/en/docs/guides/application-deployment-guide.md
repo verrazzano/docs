@@ -220,7 +220,7 @@ Steps similar to the `apply` steps would be used to deploy any application to Ve
 
    This step causes the validation and creation of the binding resource.
    The binding creation triggers the activation of a number of Verrazzano operators.
-   These operators create other Kubernetes objects (for example, deployments, replicasets, pods, services, ingresses)
+   These operators create other Kubernetes objects (for example, Deployments, ReplicaSets, Pods, Services, Ingresses)
    that collectively provide and support the application.
 
 1. Configure the application's DNS resolution.
@@ -374,7 +374,7 @@ If DNS was not configured, then use the alternative commands.
     If DNS has not been configured, then use this command.
     ```shell script
     $ curl -s -X GET "http://${ADDRESS}/greet/Robert" -H "Host: ${HOST}"
-    ````
+    ```
 
 1.  Update the default greeting.
     ```shell script
@@ -383,7 +383,7 @@ If DNS was not configured, then use the alternative commands.
     If DNS has not been configured, then use this command.
     ```shell script
     $ curl -s -X PUT "http://${ADDRESS}/greet/greeting" -H 'Content-Type: application/json' -d '{"greeting" : "Greetings"}' -H "Host: ${HOST}"
-    ````
+    ```
 
 1.  Get the new message for Robert.
     ```shell script
@@ -394,7 +394,7 @@ If DNS was not configured, then use the alternative commands.
     If DNS has not been configured, then use this command.
     ```shell script
     $ curl -s -X GET "http://${ADDRESS}/greet/Robert" -H "Host: ${HOST}"
-    ````
+    ```
 
 ### Access the application's logs
 

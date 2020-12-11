@@ -73,7 +73,7 @@ The following prerequisites must be met to install the Verrazzano Enterprise Con
 
 Additionally, on the machine where you will perform the installation:
 
-* Kubectl, the same version as your Kubernetes cluster.
+* kubectl, the same version as your Kubernetes cluster.
 * Helm 3.1 or later.
 
 

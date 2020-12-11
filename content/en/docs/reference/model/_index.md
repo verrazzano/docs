@@ -90,8 +90,8 @@ In this early release of Verrazzano:
 
 * Verrazzano uses WebLogic Server Kubernetes Operator version 3.0.2. Any features or values added in later versions of the operator are not valid.
 * ["Model in Image"](https://oracle.github.io/weblogic-kubernetes-operator/userguide/managing-domains/choosing-a-model/) is the only valid domain home source type that can be used.
-* Domain configuration overrides are not supported. If you use secrets or config maps to store configuration overrides, those overrides will not be applied and may cause other errors.
-* JRF domains are not supported. Restricted JRF _is_ supported.
+* Domain configuration overrides are not supported. If you use secrets or ConfigMaps to store configuration overrides, those overrides will not be applied and may cause other errors.
+* JRF domains are not supported. Restricted JRF *is* supported.
 * Use of Oracle Platform Security Services is not supported.
 
 {{< /alert >}}
