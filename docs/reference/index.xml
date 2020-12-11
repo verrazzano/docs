@@ -187,7 +187,7 @@ Both the model and binding are meant to be sparse; they contain only the informa
 &lt;ul&gt;
 &lt;li&gt;Verrazzano uses WebLogic Server Kubernetes Operator version 3.0.2. Any features or values added in later versions of the operator are not valid.&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://oracle.github.io/weblogic-kubernetes-operator/userguide/managing-domains/choosing-a-model/&#34;&gt;&amp;ldquo;Model in Image&amp;rdquo;&lt;/a&gt; is the only valid domain home source type that can be used.&lt;/li&gt;
-&lt;li&gt;Domain configuration overrides are not supported. If you use secrets or config maps to store configuration overrides, those overrides will not be applied and may cause other errors.&lt;/li&gt;
+&lt;li&gt;Domain configuration overrides are not supported. If you use secrets or ConfigMaps to store configuration overrides, those overrides will not be applied and may cause other errors.&lt;/li&gt;
 &lt;li&gt;JRF domains are not supported. Restricted JRF &lt;em&gt;is&lt;/em&gt; supported.&lt;/li&gt;
 &lt;li&gt;Use of Oracle Platform Security Services is not supported.&lt;/li&gt;
 &lt;/ul&gt;
@@ -1114,8 +1114,8 @@ database.  Bindings refer to (and extend) &lt;em&gt;models&lt;/em&gt; (for an ex
 &lt;p&gt;If a WebLogic component specifies a database connection that has a corresponding &lt;code&gt;databaseBinding&lt;/code&gt;, then the Verrazzano operators will:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Copy the secret specified in the &lt;code&gt;databaseBinding&lt;/code&gt; to the namespace of the WebLogic domain.&lt;/li&gt;
-&lt;li&gt;Create a config map in the namespace of the WebLogic domain to specify overrides for the URL and secret.  These configuration overrides (also called situational configuration) are used to customize the database configuration for the WebLogic domain.&lt;/li&gt;
-&lt;li&gt;Specify the override config map when the WebLogic domain is created.&lt;/li&gt;
+&lt;li&gt;Create a ConfigMap in the namespace of the WebLogic domain to specify overrides for the URL and secret.  These configuration overrides (also called situational configuration) are used to customize the database configuration for the WebLogic domain.&lt;/li&gt;
+&lt;li&gt;Specify the override ConfigMap when the WebLogic domain is created.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;For example, if a &lt;code&gt;weblogicDomain&lt;/code&gt; in the model has a database connection, as follows:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;connections:
@@ -1140,7 +1140,7 @@ metadata:
   name: mysqlsecret
   namespace: bob
 type: Opaque
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;A config map for override values will be created in the WebLogic domain namespace with values from the secret.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;A ConfigMap for override values will be created in the WebLogic domain namespace with values from the secret.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: v1
 data:
   jdbc-books.xml: |

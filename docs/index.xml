@@ -22,76 +22,176 @@
       <description>
         
         
-        &lt;p&gt;Verrazzano is an end-to-end enterprise container platform for deploying cloud-native and traditional applications in multi-cloud and hybrid environments. It is made up of a curated set of open source components – many that you may already use and trust, and some that were written specifically to pull together all of the pieces that make Verrazzano a cohesive and easy to use platform.&lt;/p&gt;
-&lt;p&gt;Verrazzano includes the following capabilities:&lt;/p&gt;
+        &lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
+&lt;p&gt;The Quick Start assumes that you have already installed a
+&lt;a href=&#34;https://kubernetes.io/&#34;&gt;Kubernetes&lt;/a&gt; cluster.  Verrazzano has been tested on
+&lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm&#34;&gt;Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE)&lt;/a&gt;  and
+&lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/&#34;&gt;Oracle Linux Cloud Native Environment (OLCNE)&lt;/a&gt;; it is possible that it can be configured to work on other Kubernetes
+environments.&lt;/p&gt;
+&lt;p&gt;Verrazzano requires the following:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Hybrid and multi-cluster workload management&lt;/li&gt;
-&lt;li&gt;Special handling for WebLogic, Coherence, and Helidon applications&lt;/li&gt;
-&lt;li&gt;Multi-cluster infrastructure management&lt;/li&gt;
-&lt;li&gt;Integrated and pre-wired application monitoring&lt;/li&gt;
-&lt;li&gt;Integrated security&lt;/li&gt;
-&lt;li&gt;DevOps and GitOps enablement&lt;/li&gt;
+&lt;li&gt;A Kubernetes cluster &lt;code&gt;v1.16&lt;/code&gt; or later and a compatible &lt;code&gt;kubectl&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.&lt;/li&gt;
 &lt;/ul&gt;
-
-
-&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
-&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
-This is a developer preview release of Verrazzano. It is intended for installation in a single cluster on
-&lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm&#34;&gt;Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE)&lt;/a&gt;
-or &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/&#34;&gt;Oracle Linux Cloud Native Environment (OLCNE)&lt;/a&gt;.
-You should install Verrazzano only in a cluster that can be safely deleted when your evaluation is complete.
-&lt;/div&gt;
-
+&lt;h2 id=&#34;install-the-verrazzano-platform-operator&#34;&gt;Install the Verrazzano Platform Operator&lt;/h2&gt;
+&lt;p&gt;Verrazzano provides a platform &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/operator/&#34;&gt;operator&lt;/a&gt;
+to manage the life cycle of Verrazzano installations.  You can install,
+uninstall, and update Verrazzano installations by updating the Verrazzano
+&lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/&#34;&gt;custom resource&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To install the Verrazzano platform operator, follow these steps:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Deploy the Verrazzano platform operator.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Wait for the deployment to complete.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
+deployment &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;verrazzano-platform-operator&amp;#34;&lt;/span&gt; successfully rolled out
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Confirm that the operator pod is correctly defined and running.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl -n verrazzano-install get pods
+NAME                                            READY   STATUS    RESTARTS   AGE
+verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;          114s
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
 &lt;h2 id=&#34;install-verrazzano&#34;&gt;Install Verrazzano&lt;/h2&gt;
+&lt;p&gt;You install Verrazzano by creating a Verrazzano custom resource in
+your Kubernetes cluster.  Verrazzano currently supports a default production
+profile and a development profile suitable for evaluation.&lt;/p&gt;
+&lt;p&gt;The development (dev) profile has the following characteristics:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Magic (xip.io) DNS&lt;/li&gt;
+&lt;li&gt;Self-signed certificates&lt;/li&gt;
+&lt;li&gt;Shared observability stack used by the system components and all applications&lt;/li&gt;
+&lt;li&gt;Ephemeral storage for the observability stack (if the pods are restarted, you lose all of your logs and metrics)&lt;/li&gt;
+&lt;li&gt;Single-node, reduced memory Elasticsearch cluster&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;To install Verrazzano, follow these steps:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;Create an &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm&#34;&gt;Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE)&lt;/a&gt; cluster.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Launch &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/cloudshellgettingstarted.htm&#34;&gt;OCI Cloud Shell&lt;/a&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Set up a &lt;a href=&#34;https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/&#34;&gt;kubeconfig&lt;/a&gt; file in the OCI Cloud Shell for the OKE cluster. See these detailed &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengdownloadkubeconfigfile.htm&#34;&gt;instructions&lt;/a&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Deploy the Verrazzano platform operator.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Install Verrazzano with its default configuration.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;kubectl apply -f - &amp;lt;&amp;lt;EOF
-apiVersion: install.verrazzano.io/v1alpha1
-kind: Verrazzano
-metadata:
-  name: example-verrazzano
-EOF
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;p&gt;Install Verrazzano with its dev profile.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: install.verrazzano.io/v1alpha1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Verrazzano
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: example-verrazzano
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  profile: dev
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the installation to complete.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;kubectl wait \
-    --timeout=20m \
-    --for=condition=InstallComplete \
-    verrazzano/example-verrazzano
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;20m &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;InstallComplete &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    verrazzano/example-verrazzano
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;View the installation logs (optional).&lt;/p&gt;
 &lt;p&gt;The Verrazzano operator launches a Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/workloads/controllers/job/&#34;&gt;job&lt;/a&gt; to install Verrazzano.  You can view the installation logs from that job with the following command:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;kubectl logs -f \
-    $( \
-      kubectl get pod  \
-          -l job-name=verrazzano-install-example-verrazzano \
-          -o jsonpath=&amp;quot;{.items[0].metadata.name}&amp;quot; \
-    )
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl logs -f &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;      kubectl get pod  &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;          -l job-name&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;verrazzano-install-example-verrazzano &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;          -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;{.items[0].metadata.name}&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;deploy-an-example-application&#34;&gt;Deploy an Example Application&lt;/h2&gt;
+&lt;p&gt;The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md&#34;&gt;Hello World Helidon&lt;/a&gt;
+example application provides a simple &lt;em&gt;Hello World&lt;/em&gt; REST service written with &lt;a href=&#34;https://helidon.io&#34;&gt;Helidon&lt;/a&gt;.
+For more information and the code of this application, see the &lt;a href=&#34;https://github.com/verrazzano/examples&#34;&gt;Verrazzano examples&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To deploy the Hello World Helidon example application, follow these steps:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Deploy the Verrazzano Application Model and Verrazzano Application Binding for the example application.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;   -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-world-model.yaml &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;   -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-world-binding.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This creates the Verrazzano Application Model and Verrazzano Application Binding, waits for the pods in the &lt;code&gt;greet&lt;/code&gt; namespace to be
+ready, and calls one of the endpoints provided by the REST service implemented by the example application.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Verify that the Verrazzano Application Model and Verrazzano Application Binding resources were created in the &lt;code&gt;default&lt;/code&gt; namespace.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt; $ kubectl get vm
+ NAME                AGE
+ hello-world-model   4m25s
+ $ kubectl get vb
+ NAME                  AGE
+ hello-world-binding   4m8s
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Verify that the &lt;code&gt;greet&lt;/code&gt; namespace has been created.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get ns greet
+NAME    STATUS   AGE
+greet   Active   5m44s
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Verify that all the objects have started in the &lt;code&gt;greet&lt;/code&gt; namespace.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;$kubectl&lt;/span&gt; get all -n greet
+NAME                                          READY   STATUS    RESTARTS   AGE
+pod/hello-world-application-868978f7b-fkcgg   3/3     Running   &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;          6m35s
+
+NAME                              TYPE        CLUSTER-IP      EXTERNAL-IP   PORT&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;(&lt;/span&gt;S&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;)&lt;/span&gt;    AGE
+service/hello-world-application   ClusterIP   10.96.240.190   &amp;lt;none&amp;gt;        8080/TCP   6m36s
+
+NAME                                      READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/hello-world-application   1/1     &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;1&lt;/span&gt;            &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;1&lt;/span&gt;           6m37s
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Get the IP address and port number for calling the REST service.&lt;/p&gt;
+&lt;p&gt;To get the EXTERNAL-IP address for the &lt;code&gt;istio-ingressgateway&lt;/code&gt; service:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;SERVER=$(kubectl get service -n istio-system istio-ingressgateway -o json | jq -r &#39;.status.loadBalancer.ingress[0].ip&#39;)
+PORT=80
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Use the IP address and port number to call the following endpoints of the greeting REST service:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# Get default message
+$ curl -s -X GET http://&amp;quot;${SERVER}&amp;quot;:&amp;quot;${PORT}&amp;quot;/greet
+{&amp;quot;message&amp;quot;:&amp;quot;Hello World!&amp;quot;}
+
+# Get message for Robert:
+$ curl -s -X GET http://&amp;quot;${SERVER}&amp;quot;:&amp;quot;${PORT}&amp;quot;/greet/Robert
+{&amp;quot;message&amp;quot;:&amp;quot;Hello Robert!&amp;quot;}
+
+# Change the message:
+$ curl -s -X PUT -H &amp;quot;Content-Type: application/json&amp;quot; -d &#39;{&amp;quot;greeting&amp;quot; : &amp;quot;Hallo&amp;quot;}&#39; http://&amp;quot;${SERVER}&amp;quot;:&amp;quot;${PORT}&amp;quot;/greet/greeting
+
+# Get message for Robert again:
+$ curl -s -X GET http://&amp;quot;${SERVER}&amp;quot;:&amp;quot;${PORT}&amp;quot;/greet/Robert
+{&amp;quot;message&amp;quot;:&amp;quot;Hallo Robert!&amp;quot;}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;uninstall-the-example-application&#34;&gt;Uninstall the Example Application&lt;/h2&gt;
+&lt;p&gt;To uninstall the Hello World Helidon example application, delete the Verrazzano Application Model and Verrazzano Application Binding
+for the example application.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Delete the Verrazzano Application Binding for the example application.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl delete &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;   -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-world-binding.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Delete the Verrazzano Application Model for the example application.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl delete &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;   -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-world-model.yaml &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;verrazzanobinding.verrazzano.io &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;hello-world-model&amp;#34;&lt;/span&gt; deleted
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Verify that the &lt;code&gt;greet&lt;/code&gt; namespace has been deleted.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get ns greet
+Error from server &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;(&lt;/span&gt;NotFound&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;)&lt;/span&gt;: namespaces &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;greet&amp;#34;&lt;/span&gt; not found
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;uninstall-verrazzano&#34;&gt;Uninstall Verrazzano&lt;/h2&gt;
 &lt;p&gt;To uninstall Verrazzano, follow these steps:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Delete the Verrazzano custom resource.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;kubectl delete verrazzano example-verrazzano
-&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl delete verrazzano example-verrazzano
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
@@ -105,22 +205,14 @@ you can view the uninstall logs.
 &lt;li&gt;
 &lt;p&gt;View the uninstall logs (optional).&lt;/p&gt;
 &lt;p&gt;The Verrazzano operator launches a Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/workloads/controllers/job/&#34;&gt;job&lt;/a&gt; to delete the Verrazzano installation.  You can view the uninstall logs from that job with the following command:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;kubectl logs -f \
-    $( \
-      kubectl get pod  \
-          -l job-name=verrazzano-uninstall-example-verrazzano \
-          -o jsonpath=&amp;quot;{.items[0].metadata.name}&amp;quot; \
-    )
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl logs -f &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;      kubectl get pod  &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;          -l job-name&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;verrazzano-uninstall-example-verrazzano &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;          -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;{.items[0].metadata.name}&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id=&#34;deploy-the-example-applications&#34;&gt;Deploy the Example Applications&lt;/h2&gt;
-&lt;p&gt;To deploy the example applications, please see the following instructions:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md&#34;&gt;Helidon Hello World&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/README.md&#34;&gt;Bob&amp;rsquo;s Books&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples/sock-shop/README.md&#34;&gt;Helidon Sock Shop&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/verrazzano/examples/blob/master/todo-list/README.md&#34;&gt;ToDo List&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
 
       </description>
     </item>
@@ -319,7 +411,7 @@ Bindings applied in the future may reference this model.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f ./hello-world-binding.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This step causes the validation and creation of the binding resource.
 The binding creation triggers the activation of a number of Verrazzano operators.
-These operators create other Kubernetes objects (for example, deployments, replicasets, pods, services, ingresses)
+These operators create other Kubernetes objects (for example, Deployments, ReplicaSets, Pods, Services, Ingresses)
 that collectively provide and support the application.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
