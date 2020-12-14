@@ -17,21 +17,12 @@ Verrazzano has been tested on [Oracle Cloud Infrastructure Container Engine for 
 
 Verrazzano requires the following:
 
-{{< tabs tabTotal="3" tabID="1" tabName1="OCI OKE" tabName2="OCLNE" tabName3="Other">}}
-{{< tab tabNum="1" >}}
-<br>
-
 - A Kubernetes cluster v1.16 or later and a compatible kubectl
 
 - At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.
 
-{{< /tab >}}
-{{< tab tabNum="2" >}}
-<br>
+For Oracle Linux Cloud Native Environment version 1.1 or later, there is additional required software:
 
-Oracle Linux Cloud Native Environment version 1.1 or later and a Kubernetes cluster v1.16 or later.
-
-Required Software:
 - kubectl
 - helm (version 3.0.x, 3.1.x or 3.2.x)
 - jq
@@ -39,7 +30,8 @@ Required Software:
 - curl
 
 
-If you are using Oracle Linux 7, then these requirements can be installed as shown:
+
+If you are using Oracle Linux 7, then these requirements for OCLNE can be installed as shown:
 
 - sudo yum install -y oracle-olcne-release-el7
 
@@ -47,16 +39,6 @@ If you are using Oracle Linux 7, then these requirements can be installed as sho
 
 - sudo yum install -y kubectl helm jq openssl curl
 
-{{< /tab >}}
-{{< tab tabNum="3" >}}
-<br>
-
-- A Kubernetes cluster v1.16 or later and a compatible kubectl
-
-- At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.
-
-{{< /tab >}}
-{{< /tabs >}}
 
 ## Prepare for the Install
 
