@@ -14,7 +14,9 @@ The Quick Start assumes that you have already installed a
 environments.
 
 Verrazzano requires the following:
-* A Kubernetes cluster `v1.16` or later and a compatible `kubectl`.
+* A Kubernetes cluster and a compatible `kubectl`.
+    * Verrazzano has been tested on the following versions of Kubernetes: 1.17.13 or later and 1.18.10 or later.
+    * Other versions, such as 1.19 and 1.20, have not been tested and are _not_ guaranteed to work.
 * At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.
 
 ## Install the Verrazzano Platform Operator
