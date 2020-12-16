@@ -5,15 +5,15 @@ weight: 9
 draft: false
 ---
 
-Upgrading an existing Verrazzano installation involves
+Upgrading an existing Verrazzano installation involves:
 
-* Updating the Verrazzano Platform Operator to the [Verrazzano release version](https://github.com/verrazzano/verrazzano/releases/) you wish to upgrade to
+* Updating the Verrazzano platform operator to the [Verrazzano release version](https://github.com/verrazzano/verrazzano/releases/) to which you want to upgrade
 * Updating your `Verrazzano` resource to the the same version 
 
 Performing an upgrade will upgrade only the Verrazzano components related to the existing installation.  Upgrading will 
 not have any impact on running applications.
 
-> **NOTE:** You may only update the version field during an upgrade; updates to other fields or component configurations are note supported at this time.
+> **NOTE:** You may only update the version field during an upgrade; updates to other fields or component configurations are not supported at this time.
 
 ## Upgrade the Verrazzano Platform Operator
 
@@ -21,7 +21,7 @@ In order to upgrade an existing Verrazzano installation, you must first upgrade 
 
 To upgrade the Verrazzano platform operator, follow these steps:
 
-1. Update the Verrazzano platform operator 
+1. Update the Verrazzano platform operator.
    
     To update to the latest version:
 
@@ -57,21 +57,21 @@ To upgrade the Verrazzano platform operator, follow these steps:
     verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
     ```
 
-## Perform the Upgrade
+## Upgrade Verrazzano
 
 To perform the upgrade, follow these steps:
 
-1. Update the install resource to the desired version
+1. Update the `Verrazzano` resource to the desired version.
 
       To upgrade the Verrazzano components, you must update the `version` field in your `Verrazzano` resource spec to
-      match the version supported by the platform operator you upgraded to and apply it to the cluster.
+      match the version supported by the platform operator to which you upgraded and apply it to the cluster.
       
       The `version` field of the resource spec must a [Semantic Versioning](https://semver.org/) value
-      corresponding to a valid in [Verrazzano release version](https://github.com/verrazzano/verrazzano/releases/).
+      corresponding to a valid [Verrazzano release version](https://github.com/verrazzano/verrazzano/releases/).
 
-      You can update the install resource by either
+      You can update the resource by either:
       
-      a) Editing the YAML file you used to install Verrazzano and setting the version field to the latest version, e.g., `v0.7.0`.
+      a) Editing the YAML file you used to install Verrazzano and setting the version field to the latest version, for example, `v0.7.0`.
          For example, to upgrade to `v0.7.0`, your YAML file should be edited to add or update the version field:
          
       ```yaml
@@ -84,11 +84,11 @@ To perform the upgrade, follow these steps:
         version: v0.7.0
       ```
 
-      b) Editing the `Verrazzano` resource directly using `kubectl`, e.g., `kubectl edit verrazzanos.install.verrazzano.io my-verrazzano` 
-         and setting the version field directly 
+      b) Editing the `Verrazzano` resource directly using `kubectl`, e.g., `kubectl edit verrazzano my-verrazzano` 
+         and setting the version field directly.
 
 
-1. Apply the resource to the cluster (if you have not edited the resource in-place via `kubectl edit`):
+1. Apply the resource to the cluster (if you have not edited the resource in-place using `kubectl edit`):
 
    ```shell
    kubectl apply -f my-verrazzano.yaml
