@@ -14,15 +14,19 @@ The Quick Start assumes that you have already installed a
 environments.
 
 Verrazzano requires the following:
-* A Kubernetes cluster `v1.16` or later and a compatible `kubectl`
+* A Kubernetes cluster and a compatible `kubectl`.
+    * Verrazzano has been tested on the following versions of Kubernetes: 1.17.13 or later and 1.18.10 or later.
+    * Other versions, such as 1.19 and 1.20, have not been tested and are _not_ guaranteed to work.
 * At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.
 
 ## Install the Verrazzano Platform Operator
 
-Verrazzano provides a platform [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
-to manage the life cycle of Verrazzano installations.  You can install,
-uninstall, and update Verrazzano installations by updating the Verrazzano
-[custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/).
+Verrazzano provides a Kubernetes [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
+to manage the life cycle of Verrazzano installations.  The operator works with a
+[custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) defined in the cluster.
+You can install, uninstall, and update Verrazzano installations by updating the
+[Verrazzano custom resource](https://github.com/verrazzano/verrazzano/blob/master/install.md#verrazzano-custom-resource).
+The [Verrazzano platform operator](https://github.com/verrazzano/verrazzano-platform-operator) controller will apply the configuration from the custom resource to the cluster for you.
 
 To install the Verrazzano platform operator, follow these steps:
 
