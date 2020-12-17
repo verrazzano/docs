@@ -84,8 +84,11 @@ To perform the upgrade, follow these steps:
         version: v0.7.0
       ```
 
-      b) Editing the `Verrazzano` resource directly using `kubectl`, e.g., `kubectl edit verrazzano my-verrazzano` 
-         and setting the version field directly.
+      b) Editing the `Verrazzano` resource directly using `kubectl` and setting the version field directly, for example:
+   
+      ```shell
+      kubectl edit verrazzano my-verrazzano
+      ```
 
 
 1. Apply the resource to the cluster (if you have not edited the resource in-place using `kubectl edit`):
