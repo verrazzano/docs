@@ -129,6 +129,10 @@ Examples for meeting these requirements follow.
 
 #### Prerequisites Detail
 
+{{< tabs tabTotal="3" tabID="1" tabName1="Storage" tabName2="Load Balancers" tabName3="DNS" >}}
+{{< tab tabNum="1" >}}
+<br>
+
 ##### Storage
 Verrazzano requires persistent storage for several components.
 This persistent storage is provided by a default storage class.
@@ -200,6 +204,9 @@ The value for `name` may be customized but will need to match the `PersistentVol
       persistentVolumeReclaimPolicy: Recycle
   EOF
   ```
+{{< /tab >}}
+{{< tab tabNum="2" >}}
+<br>
 
 #### Load Balancers
 Verrazzano on Oracle Linux Cloud Native Environment uses external load balancer services.
@@ -250,6 +257,10 @@ If load balancers are desired, then they should be created now even though the a
     * HTTPS Backend Sets
       * Health Check: Protocol TCP, Port 30443
       * Backends: Kubernetes Worker Nodes, Port 30443, Distribution Policy Weighted Round Robin
+
+{{< /tab >}}
+{{< tab tabNum="3" >}}
+<br>
 
 ##### DNS
 When using the `spec.dns.external` DNS type, the installer searches the DNS zone you provide for two specific A records.
@@ -306,5 +317,8 @@ The value for `<dns-suffix>` excludes the environment (for example, use the `myd
 
 DNS A records must be manually added to the zone and published using values described above.
 DNS CNAME records, in the same way.
+
+{{< /tab >}}
+{{< /tabs >}}
 
 

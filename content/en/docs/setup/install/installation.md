@@ -59,27 +59,29 @@ To install the Verrazzano platform operator, follow these steps:
 
 ## Perform the install
 
-According to your DNS choice, install Verrazzano using one of the following methods.
 For a complete description of Verrazzano configuration options, see [Verrazzano Custom Resource](README.md#verrazzano-custom-resource).
-
-{{< tabs tabTotal="3" tabID="2" tabName1="OCI OKE" tabName2="OLCNE" tabName3="Generic" >}}
-{{< tab tabNum="1" >}}
-<br>
 
 #### OCI OKE Install
 
-##### Install using xip.io
-The [install-default.yaml](operator/config/samples/install-default.yaml) file provides a template for a default xip.io installation.
+According to your DNS choice, install Verrazzano using one of the following methods.
 
-Run the following commands:
+{{< tabs tabTotal="2" tabID="2" tabName1="xip.io" tabName2="OCI DNS" >}}
+{{< tab tabNum="1" >}}
+<br>
+
+##### Install using xip.io
+The [install-default.yaml](https://github.com/verrazzano/verrazzano/blob/develop/operator/config/samples/install-default.yaml) file provides a template for a default xip.io installation.
+
 ```
-    kubectl apply -f operator/config/samples/install-default.yaml
-    kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
+apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: my-verrazzano
 ```
-Run the following command to monitor the console log output of the installation:
-```
-    kubectl logs -f $(kubectl get pod -l job-name=verrazzano-install-my-verrazzano -o jsonpath="{.items[0].metadata.name}")
-```
+
+{{< /tab >}}
+{{< tab tabNum="2" >}}
+<br>
 
 ##### Install using OCI DNS
 
@@ -113,6 +115,9 @@ ingresses.  For example, you could use `sales` as an `environmentName`, yielding
 `sales.us.v8o.example.com` as the sales-related domain (assuming the domain and zone names listed
 previously).
 
+{{< /tab >}}
+{{< /tabs >}}
+
 Run the following commands:
 ```
     kubectl apply -f operator/config/samples/install-oci.yaml
@@ -122,10 +127,6 @@ Run the following command if you want to monitor the console log output of the i
 ```
     kubectl logs -f $(kubectl get pod -l job-name=verrazzano-install-my-verrazzano -o jsonpath="{.items[0].metadata.name}")
 ```
-
-{{< /tab >}}
-{{< tab tabNum="2" >}}
-<br>
 
 #### OLCNE Install
 
@@ -167,16 +168,6 @@ Run the following command to monitor the console log output of the installation:
 ```
     kubectl logs -f $(kubectl get pod -l job-name=verrazzano-install-my-verrazzano -o jsonpath="{.items[0].metadata.name}")
 ```
-
-{{< /tab >}}
-{{< tab tabNum="3" >}}
-<br>
-Placeholder for Generic K8s install
-
-{{< /tab >}}
-{{< /tabs >}}
-
-
 
 ## Verify the install
 
