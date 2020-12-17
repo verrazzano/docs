@@ -8,7 +8,7 @@ draft: false
 Upgrading an existing Verrazzano installation involves:
 
 * Upgrading the Verrazzano platform operator to the [Verrazzano release version](https://github.com/verrazzano/verrazzano/releases/) to which you want to upgrade
-* Update the version of your installed `Verrazzano` resource to the the same version 
+* Update the version of your installed `Verrazzano` resource to the version supported by the upgraded operator 
 
 Performing an upgrade will upgrade only the Verrazzano components related to the existing installation.  Upgrading will 
 not have any impact on running applications.
