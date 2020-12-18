@@ -66,7 +66,7 @@ To perform the upgrade, follow these steps:
       To upgrade the Verrazzano components, you must update the `version` field in your `Verrazzano` resource spec to
       match the version supported by the platform operator to which you upgraded and apply it to the cluster.
       
-      The `version` field of the resource spec must a [Semantic Versioning](https://semver.org/) value
+      The value of the `version` field in the resource spec must be a [Semantic Versioning](https://semver.org/) value
       corresponding to a valid [Verrazzano release version](https://github.com/verrazzano/verrazzano/releases/).
 
       You can update the resource by doing one of the following:
