@@ -9,11 +9,6 @@ draft: false
 ### Prepare for the OCI install
 
 * Create the OKE cluster using the OCI Console or some other means.  
-* For `KUBERNETES VERSION`:
-
-    * Verrazzano has been tested on the following versions of Kubernetes: 1.17.13 or later and 1.18.10 or later.
-    * Other versions, such as 1.19 and 1.20, have not been tested and are not guaranteed to work.
-
 
 * For `SHAPE`, an OKE cluster with 3 nodes of `VM.Standard2.4` [OCI compute instance shape](https://www.oracle.com/cloud/compute/virtual-machines.html) has proven sufficient to install Verrazzano and deploy the Bob's Books example application.
 

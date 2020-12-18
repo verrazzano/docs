@@ -324,4 +324,21 @@ DNS CNAME records, in the same way.
 {{< /tab >}}
 {{< /tabs >}}
 
+During the Verrazzano install, these steps should be performed on the Oracle Linux Cloud Native Environment operator node.
+
+Edit the sample Verrazzano custom resource [install-olcne.yaml](https://github.com/verrazzano/verrazzano/blob/master/operator/config/samples/install-olcne.yaml) file and provide the configuration settings for your OLCNE environment as follows:
+
+- The value for `spec.environmentName` is a unique DNS subdomain for the cluster (for example, `myenv` in `myenv.mydomain.com`).
+- The value for `spec.dns.external.suffix` is the remainder of the DNS domain (for example, `mydomain.com` in `myenv.mydomain.com`).
+- Under `spec.ingress.verrazzano.nginxInstallArgs`, the value for `controller.service.externalIPs` is the IP address of `ingress-mgmt.<myenv>.<mydomain.com>` configured during DNS set up.
+- Under  `spec.ingress.application.istioInstallArgs`, the value for `gateways.istio-ingressgateway.externalIPs` is the IP address of `ingress-verrazzano.<myenv>.<mydomain.com>` configured during DNS set up.
+
+You will install Verrazzano using the `external` DNS type (the example custom resource for OLCNE is already configured to use `spec.dns.external`).
+
+Set the following environment variables:
+
+The value for `<path to valid Kubernetes config>` is typically `${HOME}/.kube/config`
+```
+export KUBECONFIG=$VERRAZZANO_KUBECONFIG
+```
 

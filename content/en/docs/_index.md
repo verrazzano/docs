@@ -11,7 +11,6 @@ no_list: true
 > **NOTE**: This is an early alpha release of Verrazzano. Some features are still in development.
 It is suitable for investigation and educational purposes only; it is not suitable for use in production.
 
-Pwd
 ## Introduction
 Verrazzano is an end-to-end enterprise container platform for deploying cloud-native and traditional applications in multi-cloud and hybrid environments. It is made up of a curated set of open source components – many that you may already use and trust, and some that were written specifically to pull together all of the pieces to make this a cohesive and easy to use platform.
 
