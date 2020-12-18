@@ -1,6 +1,6 @@
 ---
 title: Consoles
-description: "Verrazzano consoles"
-weight: 50
+weight: 5
 draft: false
 ---
+

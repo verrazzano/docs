@@ -1,8 +1,11 @@
 ---
+title: Oracle Linux Cloud Native Environment
+description: Instructions to setup an OLCNE cluster for Verrazzano
 linkTitle: OLCNE
-weight: 3
+weight: 7
 draft: false
 ---
+
 ### Prepare for the OCLNE install
 Oracle Linux Cloud Native Environment can be installed in several different types of environments.
 These range from physical, on-premises hardware to virtualized cloud infrastructure.
@@ -178,7 +181,7 @@ The value for `name` may be customized but will need to match the `PersistentVol
   ```
 * Create the required number of `PersistentVolume` resources.
   The Verrazzano system requires five persistent volumes for itself.
-  Each deployed Verrazzano binding requires an additional four persistent volumes.
+  Each deployed Verrazzano Binding requires an additional four persistent volumes.
   The following command creates nine persistent volumes, which is enough for one deployed binding.
   The value for `storageClassName` must match the above `StorageClass` name.
   The values for `name` may be customized.
@@ -280,7 +283,7 @@ For example:
 203.0.113.10                                    A       ingress-verrazzano.myenv.mydomain.com.
 ```
 
-Verrazzano installation will result in a number of management services that need to point to the ingress-mgmt address.
+Verrazzano installation will result in a number of management services that need to point to the `ingress-mgmt` address.
 ```
 keycloak.myenv.mydomain.com                      CNAME   ingress-mgmt.myenv.mydomain.com.
 rancher.myenv.mydomain.com                       CNAME   ingress-mgmt.myenv.mydomain.com.
@@ -291,7 +294,7 @@ kibana.vmi.system.myenv.mydomain.com             CNAME   ingress-mgmt.myenv.mydo
 elasticsearch.vmi.system.myenv.mydomain.com      CNAME   ingress-mgmt.myenv.mydomain.com.
 ```
 
-Deployment of applications as a VerrazzanoBinding will create four more services in the form:
+Deployment of applications as a Verrazzano Binding will create four more services in the form:
 * grafana.vmi.**mybinding**.myenv.mydomain.com
 * prometheus.vmi.**mybinding**.myenv.mydomain.com
 * kibana.vmi.**mybinding**.myenv.mydomain.com

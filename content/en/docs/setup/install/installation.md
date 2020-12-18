@@ -1,11 +1,15 @@
 ---
 title: "Installation Guide"
-linkTitle: "Install"
+linkTitle: Install
+description: "How to install Verrazzano"
 weight: 9
 draft: false
 ---
 
-Verrazzano has been tested on [Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE)](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm) and [Oracle Linux Cloud Native Environment (OCLNE)](https://docs.oracle.com/en/operating-systems/olcne/); it is possible that it can be configured to work on other Kubernetes environments.  
+You can install Verrazzano in a single [Oracle Cloud Infrastructure Container Engine for Kubernetes](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm) (OKE) cluster or
+an [Oracle Linux Cloud Native Environment](https://docs.oracle.com/en/operating-systems/olcne/) (OCLNE) deployment. For an Oracle OKE cluster, you have two DNS choices:
+[xip.io](http://xip.io/) or
+[Oracle OCI DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm). Oracle Linux Cloud Native Environment currently supports only a manual DNS.
 
 For an OCI OKE cluster, you have two DNS choices:
 [xip.io](http://xip.io/) or
@@ -59,7 +63,7 @@ To install the Verrazzano platform operator, follow these steps:
 
 ## Perform the install
 
-For a complete description of Verrazzano configuration options, see [Verrazzano Custom Resource](README.md#verrazzano-custom-resource).
+For a complete description of Verrazzano configuration options, see the [Verrazzano Custom Resource Definition](#verrazzano-custom-resource-definition).
 
 #### OCI OKE Install
 
@@ -123,7 +127,7 @@ Run the following commands:
     kubectl apply -f operator/config/samples/install-oci.yaml
     kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
 ```
-Run the following command if you want to monitor the console log output of the installation:
+To monitor the console log output of the installation, run the following command:
 ```
     kubectl logs -f $(kubectl get pod -l job-name=verrazzano-install-my-verrazzano -o jsonpath="{.items[0].metadata.name}")
 ```
@@ -164,14 +168,14 @@ kubectl apply -f operator/config/samples/install-olcne.yaml
 kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
 ```
 
-Run the following command to monitor the console log output of the installation:
+To monitor the console log output of the installation, run the following command:
 ```
     kubectl logs -f $(kubectl get pod -l job-name=verrazzano-install-my-verrazzano -o jsonpath="{.items[0].metadata.name}")
 ```
 
 ## Verify the install
 
-Verrazzano installs multiple objects in multiple namespaces. In the `verrazzano-system` namespaces, all the pods in the `Running` state does not guarantee, but likely indicates that Verrazzano is up and running.
+Verrazzano installs multiple objects in multiple namespaces. In the `verrazzano-system` namespaces, all the pods in the `Running` state, does not guarantee, but likely indicates that Verrazzano is up and running.
 ```
 kubectl get pods -n verrazzano-system
 verrazzano-admission-controller-84d6bc647c-7b8tl   1/1     Running   0          5m13s
@@ -192,13 +196,15 @@ vmi-system-prometheus-gw-7cb9df774-48g4b           1/1     Running   0          
 ```
 
 ## Get the console URLs
-Verrazzano installs several consoles.  You can get the ingress for the consoles with the following command:
+Verrazzano installs several consoles.  
+You can get the ingress for the consoles with the following command:
 
 `kubectl get ingress -A`
 
-Simply prefix `https://` to the host name to get the URL.  For example `https://rancher.myenv.mydomain.com`
+To get the URL, prefix `https://` to the host name returned.
+For example `https://rancher.myenv.mydomain.com`
 
-Following is an example of the ingresses:
+The following is an example of the ingresses:
 ```
    NAMESPACE           NAME                               HOSTS                                          ADDRESS          PORTS     AGE
    cattle-system       rancher                            rancher.myenv.mydomain.com                     128.234.33.198   80, 443   93m
@@ -225,7 +231,7 @@ You will need the credentials to access the various consoles installed by Verraz
 
 **User:**  `verrazzano`
 
-Run the following command to get the password:
+To get the password, run the following command:
 
 `kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo`
 
@@ -234,7 +240,7 @@ Run the following command to get the password:
 
 **User:** `keycloakadmin`
 
-Run the following command to get the password:  
+To get the password, run the following command:  
 
 `kubectl get secret --namespace keycloak keycloak-http -o jsonpath={.data.password} | base64 --decode; echo`
 
@@ -243,7 +249,7 @@ Run the following command to get the password:
 
 **User:** `admin`
 
-Run the following command to get the password:  
+To get the password, run the following command:  
 
 `kubectl get secret --namespace cattle-system rancher-admin-secret -o jsonpath={.data.password} | base64 --decode; echo`
 
@@ -277,21 +283,21 @@ The install scripts perform a check, which attempts access through the ingress p
 `ERROR: Port 443 is NOT accessible on ingress(132.145.66.80)!  Check that security lists include an ingress rule for the node port 31739.`
 
 On an OKE install, this may indicate that there is a missing ingress rule or rules.  To verify and fix the issue, do the following:
-  1. Get the ports for the LoadBalancer services.
+  1. Get the ports for the `LoadBalancer` services.
      * Run `kubectl get services -A`.
-     * Note the ports for the LoadBalancer type services.  For example `80:31541/TCP,443:31739/TCP`.
+     * Note the ports for the `LoadBalancer` type services.  For example `80:31541/TCP,443:31739/TCP`.
   2. Check the security lists in the OCI Console.
      * Go to `Networking/Virtual Cloud Networks`.
      * Select the related VCN.
      * Go to the `Security Lists` for the VCN.
      * Select the security list named `oke-wkr-...`.
-     * Check the ingress rules for the security list.  There should be one rule for each of the destination ports named in the LoadBalancer services.  In the above example, the destination ports are `31541` & `31739`. We would expect the ingress rule for `31739` to be missing because it was named in the ERROR output.
+     * Check the ingress rules for the security list.  There should be one rule for each of the destination ports named in the `LoadBalancer` services.  In the above example, the destination ports are `31541` & `31739`. We would expect the ingress rule for `31739` to be missing because it was named in the `ERROR` output.
      * If a rule is missing, then add it by clicking `Add Ingress Rules` and filling in the source CIDR and destination port range (missing port).  Use the existing rules as a guide.
 
 ## Verrazzano Custom Resource Definition
 
 The Verrazzano custom resource contains the configuration information for an installation.
-Here a sample Verrazzano custom resource file that uses OCI DNS.  See other examples in
+Here is a sample Verrazzano custom resource file that uses OCI DNS.  See other examples in
 `./operator/config/samples`.
 
 ```
@@ -319,90 +325,90 @@ spec:
 
 ```
 
-Following is a table that describes the `spec` portion of the Verrazzano custom resource:
+The following table describes the `spec` portion of the Verrazzano custom resource:
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `environmentName` | string | Name of the installation.  This name is part of the endpoint access URLs that are generated. The default value is `default`. | No  
 | `profile` | string | The installation profile to select.  Valid values are `prod` (production) and `dev` (development).  The default is `prod`. | No |
-| `components` | [Components](#Components) | The Verrazzano Components.  | No  |
+| `components` | [Components](#Components) | The Verrazzano components.  | No  |
 
 
 ### Components
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| certManager | [CertManagerComponent](#certmanager-component) | The cert-manager component config.  | No | 
-| dns | [DNSComponent](#dns-component) | The DNS component config.  | No | 
-| ingress | [IngressComponent](#ingress-component) | The ingress component config. | No | 
-| istio | [IstioComponent](#istio-component) | The Istio component config. | No | 
+| `certManager` | [CertManagerComponent](#certmanager-component) | The cert-manager component configuration.  | No |
+| `dns` | [DNSComponent](#dns-component) | The DNS component configuration.  | No |
+| `ingress` | [IngressComponent](#ingress-component) | The ingress component configuration. | No |
+| `istio` | [IstioComponent](#istio-component) | The Istio component configuration. | No |
 
 ### CertManager Component
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| certificate | [Certificate](#certificate) | The certificate config. | No |
+| `certificate` | [Certificate](#certificate) | The certificate configuration. | No |
 
-### Certificate
+#### Certificate
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| acme | [Acme](#acme) | The Acme config.  Either `acme` or `ca` must be specified. | No |
-| ca | [CertificateAuthority](#CertificateAuthority) | The certificate authority config.  Either `acme` or `ca` must be specified. | No |
+| `acme` | [Acme](#acme) | The Acme configuration.  Either `acme` or `ca` must be specified. | No |
+| `ca` | [CertificateAuthority](#CertificateAuthority) | The certificate authority configuration.  Either `acme` or `ca` must be specified. | No |
 
-### Acme
+#### Acme
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `provider` | string | Name of the Acme provider. |  Yes | 
-| `emailAddress` | string | Email address of the user. |  Yes | 
+| `provider` | string | Name of the Acme provider. |  Yes |
+| `emailAddress` | string | Email address of the user. |  Yes |
 
-### CertificateAuthority
+#### CertificateAuthority
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `secretName` | string | The secret name/ |  Yes | 
-| `clusterResourceNamespace` | string | The secrete namespace. |  Yes | 
+| `secretName` | string | The secret name. |  Yes |
+| `clusterResourceNamespace` | string | The secrete namespace. |  Yes |
 
 ### DNS Component
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| oci | [DNS-OCI](#dns-oci) | OCI DNS config.  Either `oci` or `external` must be specified. | No |
-| external | [DNS-External](#dns-external) | Extern DNS config. Either `oci` or `external` must be specified.   | No | 
+| `oci` | [DNS-OCI](#dns-oci) | OCI DNS configuration.  Either `oci` or `external` must be specified. | No |
+| `external` | [DNS-External](#dns-external) | External DNS configuration. Either `oci` or `external` must be specified.   | No |
 
-### DNS OCI
+#### DNS OCI
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `ociConfigSecret` | string | Name of the OCI configuration secret.  Generate a secret named "oci-config" based on the OCI configuration profile you want to use.  You can specify a profile other than DEFAULT and a different secret name.  See instructions by running `./install/create_oci_config_secret.sh`.| Yes | 
-| `dnsZoneCompartmentOCID` | string | The OCI DNS compartment OCID. |  Yes | 
-| `dnsZoneOCID` | string | The OCI DNS zone OCID. |  Yes | 
-| `dnsZoneName` | string | Name of OCI DNS zone. |  Yes | 
+| `ociConfigSecret` | string | Name of the OCI configuration secret.  Generate a secret named `oci-config` based on the OCI configuration profile you want to use.  You can specify a profile other than DEFAULT and a different secret name.  See instructions by running `./install/create_oci_config_secret.sh`.| Yes |
+| `dnsZoneCompartmentOCID` | string | The OCI DNS compartment OCID. |  Yes |
+| `dnsZoneOCID` | string | The OCI DNS zone OCID. |  Yes |
+| `dnsZoneName` | string | Name of OCI DNS zone. |  Yes |
 
-### DNS External
+#### DNS External
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `external.suffix` | string | The suffix for DNS names. |  Yes | 
+| `external.suffix` | string | The suffix for DNS names. |  Yes |
 
 ### Ingress Component
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `type` | string | The ingress type.  Valid values are `LoadBalancer` and `NodePort`.  The default value is `LoadBalancer`.  |  Yes | 
-| `ingressNginxArgs` |  [NameValue](#name-value) list | The list of arg names and values. | No |
-| `ports` | [PortConfig](#port-config) list | The list port configs used by the ingress. | No |
+| `type` | string | The ingress type.  Valid values are `LoadBalancer` and `NodePort`.  The default value is `LoadBalancer`.  |  Yes |
+| `ingressNginxArgs` |  [NameValue](#name-value) list | The list of argument names and values. | No |
+| `ports` | [PortConfig](#port-config) list | The list port configurations used by the ingress. | No |
 
-### Port Config
+#### Port Config
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `name` | string | The port name.|  No | 
-| `port` | string | The port value. |  Yes | 
-| `targetPort` | string | The target port value. The default is same as port value. |  Yes | 
-| `protocol` | string | The protocol used by the port.  TCP is default. |  No | 
-| `nodePort` | string | The nodePort value. |  No | 
-        
-### Name Value
+| `name` | string | The port name.|  No |
+| `port` | string | The port value. |  Yes |
+| `targetPort` | string | The target port value. The default is same as the port value. |  Yes |
+| `protocol` | string | The protocol used by the port.  TCP is the default. |  No |
+| `nodePort` | string | The `nodePort` value. |  No |
+
+#### Name Value
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `name` | string | The arg name. |  Yes | 
-| `value` | string | The arg value. Either `value` or `valueList` must be specifed. |  No | 
-| `valueList` | string list | The list of arg values. Either `value` or `valueList` must be specifed.   |  No | 
-| `setString` | boolean | Specifies if the value is a string |  No | 
+| `name` | string | The argument name. |  Yes |
+| `value` | string | The argument value. Either `value` or `valueList` must be specifed. |  No |
+| `valueList` | string list | The list of argument values. Either `value` or `valueList` must be specified.   |  No |
+| `setString` | Boolean | Specifies if the value is a string |  No |
 
 ### Istio Component
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| istioInstallArgs | [NameValue](#name-value) list | A list of Istio Helm chart arguments and values to apply during the installation of Istio.  Each argument is specified as either a `name/value` or `name/valueList` pair. | No |
+| `istioInstallArgs` | [NameValue](#name-value) list | A list of Istio Helm chart arguments and values to apply during the installation of Istio.  Each argument is specified as either a `name/value` or `name/valueList` pair. | No |
