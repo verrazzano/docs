@@ -40,6 +40,7 @@ The following table describes the `spec` portion of the Verrazzano custom resour
 | --- | --- | --- | --- |
 | `environmentName` | string | Name of the installation.  This name is part of the endpoint access URLs that are generated. The default value is `default`. | No  
 | `profile` | string | The installation profile to select.  Valid values are `prod` (production) and `dev` (development).  The default is `prod`. | No |
+| `version` | string | The version to install.  Valid versions can be found [here](https://github.com/verrazzano/verrazzano/releases/).  Defaults to the current version supported by the Verrazzano platform operator. | No |
 | `components` | [Components](#Components) | The Verrazzano components.  | No  |
 
 
