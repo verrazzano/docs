@@ -1,6 +1,6 @@
 ---
 title: "Verrazzano Application Binding"
-weight: 2
+weight: 4
 bookCollapseSection: true
 ---
 

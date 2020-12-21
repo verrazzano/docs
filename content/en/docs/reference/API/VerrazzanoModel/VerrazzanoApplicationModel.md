@@ -1,6 +1,6 @@
 ---
 title: "Verrazzano Application Model"
-weight: 1
+weight: 3
 bookCollapseSection: true
 ---
 
