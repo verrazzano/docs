@@ -1,6 +1,6 @@
 ---
-title: Oracle Cloud Infrastructure
-description: Instructions to setup an OKE cluster for Verrazzano
+title: Oracle Cloud Infrastructure (OCI)
+description: Instructions to set up an Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE) cluster for Verrazzano
 linkTitle: OCI
 Weight: 5
 draft: false
@@ -26,4 +26,3 @@ draft: false
     --docker-password=<password> \
     --docker-server=<docker server>
 ```
-

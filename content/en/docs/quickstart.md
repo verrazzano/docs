@@ -5,27 +5,27 @@ weight: 2
 ---
 
 
-## Prerequisites
+### Prerequisites
 
 The Quick Start assumes that you have already installed a
 [Kubernetes](https://kubernetes.io/) cluster.  Verrazzano has been tested on
-[Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE)](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm)  and
-[Oracle Linux Cloud Native Environment (OLCNE)](https://docs.oracle.com/en/operating-systems/olcne/); it is possible that it can be configured to work on other Kubernetes
+[Oracle Cloud Infrastructure Container Engine for Kubernetes](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm) (OKE) and
+[Oracle Linux Cloud Native Environment](https://docs.oracle.com/en/operating-systems/olcne/) (OLCNE); it is possible that it can be configured to work on other Kubernetes
 environments.
 
 Verrazzano requires the following:
 * A Kubernetes cluster and a compatible `kubectl`.
-    * Verrazzano has been tested on the following versions of Kubernetes: 1.17.13 or later and 1.18.10 or later.
-    * Other versions, such as 1.19 and 1.20, have not been tested and are _not_ guaranteed to work.
+    * Verrazzano has been tested only on the following versions of Kubernetes: 1.17.x and 1.18.x.
+    * Other versions have not been tested and are _not_ guaranteed to work.
 * At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.
 
-## Install the Verrazzano Platform Operator
+### Install the Verrazzano Platform Operator
 
 Verrazzano provides a Kubernetes [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
 to manage the life cycle of Verrazzano installations.  The operator works with a
 [custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) defined in the cluster.
 You can install, uninstall, and update Verrazzano installations by updating the
-[Verrazzano custom resource](https://github.com/verrazzano/verrazzano/blob/master/install.md#verrazzano-custom-resource).
+[Verrazzano custom resource]({{< relref "reference/api/verrazzano/verrazzano.md" >}}).
 The [Verrazzano platform operator](https://github.com/verrazzano/verrazzano-platform-operator) controller will apply the configuration from the custom resource to the cluster for you.
 
 To install the Verrazzano platform operator, follow these steps:
@@ -51,14 +51,14 @@ To install the Verrazzano platform operator, follow these steps:
     verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
     ```
 
-## Install Verrazzano
+### Install Verrazzano
 
 
 You install Verrazzano by creating a Verrazzano custom resource in
 your Kubernetes cluster.  Verrazzano currently supports a default production
-profile and a development profile suitable for evaluation.  
+profile and a development (dev) profile suitable for evaluation.  
 
-The development (dev) profile has the following characteristics:
+The development profile has the following characteristics:
 * Magic (xip.io) DNS
 * Self-signed certificates
 * Shared observability stack used by the system components and all applications
@@ -88,7 +88,7 @@ To install Verrazzano, follow these steps:
         verrazzano/example-verrazzano
     ```
 
-1. View the installation logs (optional).
+1. (Optional) View the installation logs.
 
     The Verrazzano operator launches a Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) to install Verrazzano.  You can view the installation logs from that job with the following command:
 
@@ -101,7 +101,7 @@ To install Verrazzano, follow these steps:
         )
     ```
 
-## Deploy an Example Application
+### Deploy an example application
 
 The [Hello World Helidon](https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md)
 example application provides a simple *Hello World* REST service written with [Helidon](https://helidon.io).
@@ -156,7 +156,7 @@ To deploy the Hello World Helidon example application, follow these steps:
 
 1. Get the IP address and port number for calling the REST service.
 
-   To get the EXTERNAL-IP address for the `istio-ingressgateway` service:
+   To get the `EXTERNAL-IP` address for the `istio-ingressgateway` service:
 
     ```
     SERVER=$(kubectl get service -n istio-system istio-ingressgateway -o json | jq -r '.status.loadBalancer.ingress[0].ip')
@@ -182,7 +182,7 @@ To deploy the Hello World Helidon example application, follow these steps:
     {"message":"Hallo Robert!"}
     ```
 
-## Uninstall the Example Application
+### Uninstall the example application
 
 To uninstall the Hello World Helidon example application, delete the Verrazzano Application Model and Verrazzano Application Binding
 for the example application.
@@ -209,7 +209,7 @@ for the example application.
    Error from server (NotFound): namespaces "greet" not found
    ```
 
-## Uninstall Verrazzano
+### Uninstall Verrazzano
 
 To uninstall Verrazzano, follow these steps:
 
@@ -220,11 +220,11 @@ To uninstall Verrazzano, follow these steps:
     ```
 
     {{< alert title="NOTE" color="info" >}}
-    This command blocks until the uninstall has completed.  To follow the progress
+    This command blocks until the uninstall has completed.  To follow the progress,
     you can view the uninstall logs.
     {{< /alert >}}
 
-1. View the uninstall logs (optional).
+1. (Optional) View the uninstall logs.
 
     The Verrazzano operator launches a Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) to delete the Verrazzano installation.  You can view the uninstall logs from that job with the following command:
 

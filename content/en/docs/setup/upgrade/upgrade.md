@@ -1,40 +1,39 @@
 ---
 title: "Upgrade Guide"
 linkTitle: "Upgrade"
+description: "How to upgrade Verrazzano"
 weight: 9
 draft: false
 ---
 
 Upgrading an existing Verrazzano installation involves:
 
-* Upgrading the Verrazzano platform operator to the [Verrazzano release version](https://github.com/verrazzano/verrazzano/releases/) to which you want to upgrade
-* Update the version of your installed `Verrazzano` resource to the version supported by the upgraded operator 
+* Upgrading the Verrazzano platform operator to the [Verrazzano release version](https://github.com/verrazzano/verrazzano/releases/) to which you want to upgrade.
+* Updating the version of your installed `Verrazzano` resource to the version supported by the upgraded operator.
 
-Performing an upgrade will upgrade only the Verrazzano components related to the existing installation.  Upgrading will 
+Performing an upgrade will upgrade only the Verrazzano components related to the existing installation.  Upgrading will
 not have any impact on running applications.
 
-> **NOTE:** You may only change the version field during an upgrade; changes to other fields or component configurations are not supported at this time.
+**NOTE:** You may only change the version field during an upgrade; changes to other fields or component configurations are not supported at this time.
 
-## Upgrade the Verrazzano Platform Operator
+### Upgrade the Verrazzano Platform Operator
 
-In order to upgrade an existing Verrazzano installation, you must first upgrade the Verrazzano platform [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/).
-
-To upgrade the Verrazzano platform operator, follow these steps:
+In order to upgrade an existing Verrazzano installation, you must first upgrade the [Verrazzano platform operator](https://github.com/verrazzano/verrazzano-platform-operator).
 
 1. Upgrade the Verrazzano platform operator.
-   
+
     To upgrade to the latest version:
 
     ```shell
     kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
     ```
-   
+
    To upgrade to a specific version:
 
     ```shell
     kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/<version>/operator.yaml
     ```
-    
+
     where `<version>` is the desired version.  For example:
 
     ```shell
@@ -57,23 +56,24 @@ To upgrade the Verrazzano platform operator, follow these steps:
     verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
     ```
 
-## Upgrade Verrazzano
+### Upgrade Verrazzano
 
-To perform the upgrade, follow these steps:
+To upgrade Verrazzano:
 
 1. Update the `Verrazzano` resource to the desired version.
 
       To upgrade the Verrazzano components, you must update the `version` field in your `Verrazzano` resource spec to
       match the version supported by the platform operator to which you upgraded and apply it to the cluster.
-      
+
       The value of the `version` field in the resource spec must be a [Semantic Versioning](https://semver.org/) value
       corresponding to a valid [Verrazzano release version](https://github.com/verrazzano/verrazzano/releases/).
 
       You can update the resource by doing one of the following:
-      
-      a) Editing the YAML file you used to install Verrazzano and setting the version field to the latest version, for example, `v0.7.0`.
-         For example, to upgrade to `v0.7.0`, your YAML file should be edited to add or update the version field:
-         
+
+      a. Editing the YAML file you used to install Verrazzano and setting the version field to the latest version.
+
+      For example, to upgrade to `v0.7.0`, your YAML file should be edited to add or update the version field:
+
       ```yaml
       apiVersion: install.verrazzano.io/v1alpha1
       kind: Verrazzano
@@ -83,29 +83,29 @@ To perform the upgrade, follow these steps:
         profile: dev
         version: v0.7.0
       ```
-   
+
       Then apply the resource to the cluster (if you have not edited the resource in-place using `kubectl edit`):
 
       ```shell
       kubectl apply -f my-verrazzano.yaml
       ```
 
-      b) Editing the `Verrazzano` resource directly using `kubectl` and setting the version field directly, for example:
-   
+      b. Editing the `Verrazzano` resource directly using `kubectl` and setting the version field directly, for example:
+
       ```shell
       kubectl edit verrazzano my-verrazzano
-      # Once in the resource editor, add or update the version field to "version: v0.7.0", then save
+      # Once in the resource editor, add or update the version field to "version: v0.7.0", then save.
       ```
-   
+
 1. Wait for the upgrade to complete:
 
    ```shell
    kubectl wait --timeout=20m --for=condition=UpgradeComplete verrazzano/my-verrazzano
    ```
 
-## Verify the Upgrade
+### Verify the upgrade
 
-Check that all pods in the `verrazzano-system` namespace are in the `Running` state.  While the upgrade is in progress, 
+Check that all the pods in the `verrazzano-system` namespace are in the `Running` state.  While the upgrade is in progress,
 you may see some pods terminating and restarting as newer versions of components are applied.
 
 For example:
@@ -128,6 +128,3 @@ vmi-system-kibana-649466fcf8-4n8ct                 1/1     Running   0          
 vmi-system-prometheus-0-7f97ff97dc-gfclv           3/3     Running   0          4m44s
 vmi-system-prometheus-gw-7cb9df774-48g4b           1/1     Running   0          4m44s
 ```
-
-
-## Known Issues

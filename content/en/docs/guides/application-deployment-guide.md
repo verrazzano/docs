@@ -466,7 +466,7 @@ Run the following commands to delete the application's binding and, optionally, 
    This includes objects created by Verrazzano on behalf of the application,
    such as monitoring components.
 
-1. Delete the application's model (optional).
+1. (Optional) Delete the application's model.
 
    ```shell script
    kubectl delete -f ./hello-world-model.yaml
