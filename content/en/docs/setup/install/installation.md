@@ -7,35 +7,38 @@ draft: false
 ---
 
 You can install Verrazzano in a single [Oracle Cloud Infrastructure Container Engine for Kubernetes](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm) (OKE) cluster or
-an [Oracle Linux Cloud Native Environment](https://docs.oracle.com/en/operating-systems/olcne/) (OLCNE) deployment. 
+an [Oracle Linux Cloud Native Environment](https://docs.oracle.com/en/operating-systems/olcne/) (OLCNE) deployment.
 
 For an OCI OKE cluster, you have two DNS choices:
 [xip.io](http://xip.io/) or
 [Oracle OCI DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm). OLCNE currently supports only a manual DNS.
 
-> **NOTE**: You should install this alpha release of Verrazzano only in a cluster that can be safely deleted when your evaluation is complete.
-
+{{< alert title="NOTE" color="warning" >}}
+You should install this alpha release of Verrazzano only in a cluster that can be safely deleted when your evaluation is complete.
+{{< /alert >}}
 
 Verrazzano requires the following:
 
-- A kubernetes cluster and a compatible kubectl. 
+- A kubernetes cluster and a compatible kubectl.
 - Other versions have not been tested and are not guaranteed to work
 - At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.
 
-> **NOTE**: Verrazzano has been tested on the following versions of Kubernetes: 1.17.x and 1.18.x.  Other versions have not been tested and are not guaranteed to work.
 
-## Prepare for the Install
+**NOTE**: Verrazzano has been tested only on the following versions of Kubernetes: 1.17.x and 1.18.x.  Other versions have not been tested and are not guaranteed to work.
 
-To prepare for installing on OCI OKE, see the [OCI Prep instructions](../../platforms/oci/oci).
 
-To prepare for installing on OLCNE, see the [OLCNE Prep instructions](../../platforms/olcne/olcne).
+### Prepare for the install
 
-## Install the Verrazzano Platform Operator
+To prepare for installing on OCI OKE, see [Prepare for the OCI install](../../platforms/oci/oci).
+
+To prepare for installing on OLCNE, see [Prepare for the OCLNE install](../../platforms/olcne/olcne).
+
+### Install the Verrazzano Platform Operator
 
 Verrazzano provides a platform [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
 to manage the life cycle of Verrazzano installations.  You can install,
-uninstall, and update Verrazzano installations by updating the Verrazzano
-[custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/).
+uninstall, and update Verrazzano installations by updating the
+[Verrazzano custom resource](../../../reference/api/verrazzano/verrazzano).
 
 To install the Verrazzano platform operator, follow these steps:
 
@@ -60,9 +63,9 @@ To install the Verrazzano platform operator, follow these steps:
     verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
     ```
 
-## Perform the install
+### Perform the install
 
-For a complete description of Verrazzano configuration options, see the [Verrazzano Custom Resource Definition](#verrazzano-custom-resource-definition).
+For a complete description of Verrazzano configuration options, see the [Verrazzano Custom Resource Definition](../../../reference/api/verrazzano/verrazzano).
 
 According to your DNS choice, install Verrazzano using one of the following methods.
 
@@ -131,7 +134,7 @@ To monitor the console log output of the installation, run the following command
     kubectl logs -f $(kubectl get pod -l job-name=verrazzano-install-my-verrazzano -o jsonpath="{.items[0].metadata.name}")
 ```
 
-## Verify the install
+### Verify the install
 
 Verrazzano installs multiple objects in multiple namespaces. In the `verrazzano-system` namespaces, all the pods in the `Running` state, does not guarantee, but likely indicates that Verrazzano is up and running.
 ```
@@ -153,14 +156,14 @@ vmi-system-prometheus-0-7f97ff97dc-gfclv           3/3     Running   0          
 vmi-system-prometheus-gw-7cb9df774-48g4b           1/1     Running   0          4m44s
 ```
 
-## (Optional) Install the example applications
-Example applications are located in the `examples` directory.
+#### (Optional) Install the example applications
+Example applications are located in the [`examples`](https://github.com/verrazzano/verrazzano/tree/master/examples) directory.
 
-### To get the consoles URLs and credentials see [Operations](../../../operations)
+##### To get the consoles URLs and credentials, see [Operations](../../../operations)
 
-## Uninstall Verrazzano
+### Uninstall Verrazzano
 
-Run the following commands to delete a Verrazzano installation:
+To delete a Verrazzano installation, run the following commands:
 
 ```
 # Get the name of the Verrazzano custom resource
@@ -170,7 +173,7 @@ kubectl get verrazzano
 kubectl delete verrazzano <name of custom resource>
 ```
 
-Run the following command to monitor the console log of the uninstall:
+To monitor the console log of the uninstall, run the following command:
 
 ```
 kubectl logs -f $(kubectl get pod -l job-name=verrazzano-uninstall-my-verrazzano -o jsonpath="{.items[0].metadata.name}")
@@ -194,4 +197,3 @@ On an OKE install, this may indicate that there is a missing ingress rule or rul
      * Select the security list named `oke-wkr-...`.
      * Check the ingress rules for the security list.  There should be one rule for each of the destination ports named in the `LoadBalancer` services.  In the above example, the destination ports are `31541` & `31739`. We would expect the ingress rule for `31739` to be missing because it was named in the `ERROR` output.
      * If a rule is missing, then add it by clicking `Add Ingress Rules` and filling in the source CIDR and destination port range (missing port).  Use the existing rules as a guide.
-

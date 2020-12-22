@@ -4,9 +4,8 @@ description: "Information and tools to support operating Verrazzano"
 weight: 70
 draft: false
 ---
-## Get the console URLs
-Verrazzano installs several consoles.  
-You can get the ingress for the consoles with the following command:
+### Get the consoles URLs
+Verrazzano installs several consoles. Get the ingress for the consoles with the following command:
 
 `kubectl get ingress -A`
 
@@ -27,7 +26,7 @@ The following is an example of the ingresses:
    verrazzano-system   vmi-system-prometheus-gw           prometheus-gw.vmi.system.myenv.mydomain.com    128.234.33.198   80, 443   80m
 ```
 
-## Get console credentials
+### Get console credentials
 
 
 You will need the credentials to access the various consoles installed by Verrazzano.
@@ -61,5 +60,3 @@ To get the password, run the following command:
 To get the password, run the following command:  
 
 `kubectl get secret --namespace cattle-system rancher-admin-secret -o jsonpath={.data.password} | base64 --decode; echo`
-
-

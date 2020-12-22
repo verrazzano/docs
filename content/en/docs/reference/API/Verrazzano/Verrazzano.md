@@ -60,7 +60,7 @@ The following table describes the `spec` portion of the Verrazzano custom resour
 #### Certificate
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `acme` | [Acme](#acme) | The Acme configuration.  Either `acme` or `ca` must be specified. | No |
+| `acme` | [ACME](#acme) | The ACME configuration.  Either `acme` or `ca` must be specified. | No |
 | `ca` | [CertificateAuthority](#CertificateAuthority) | The certificate authority configuration.  Either `acme` or `ca` must be specified. | No |
 
 #### Acme
@@ -122,4 +122,3 @@ The following table describes the `spec` portion of the Verrazzano custom resour
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `istioInstallArgs` | [NameValue](#name-value) list | A list of Istio Helm chart arguments and values to apply during the installation of Istio.  Each argument is specified as either a `name/value` or `name/valueList` pair. | No |
-
