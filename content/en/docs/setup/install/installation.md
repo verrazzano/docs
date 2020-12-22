@@ -14,7 +14,7 @@ For an OCI OKE cluster, you have two DNS choices:
 [Oracle OCI DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm). OLCNE currently supports only a manual DNS.
 
 {{< alert title="NOTE" color="warning" >}}
-You should install this alpha release of Verrazzano only in a cluster that can be safely deleted when your evaluation is complete.
+You should install this developer preview release of Verrazzano only in a cluster that can be safely deleted when your evaluation is complete.
 {{< /alert >}}
 
 Verrazzano requires the following:
@@ -29,7 +29,7 @@ Verrazzano requires the following:
 
 ### Prepare for the install
 
-To prepare for installing on OCI OKE, see [Prepare for the OCI install](../../platforms/oci/oci).
+To prepare for installing on OCI Container Engine for Kubernetes, see [Prepare for the OCI install](../../platforms/oci/oci).
 
 To prepare for installing on OLCNE, see [Prepare for the OCLNE install](../../platforms/olcne/olcne).
 

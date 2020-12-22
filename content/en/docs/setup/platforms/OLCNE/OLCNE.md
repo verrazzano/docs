@@ -1,5 +1,5 @@
 ---
-title: Oracle Linux Cloud Native Environment
+title: Oracle Linux Cloud Native Environment (OLCNE)
 description: Instructions to set up an OLCNE cluster for Verrazzano
 linkTitle: OLCNE
 weight: 7

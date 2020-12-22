@@ -69,7 +69,7 @@ To install Verrazzano, follow these steps:
 
 1. Install Verrazzano with its dev profile.
 
-    ```
+    ```shell
     kubectl apply -f - <<EOF
     apiVersion: install.verrazzano.io/v1alpha1
     kind: Verrazzano
@@ -101,7 +101,7 @@ To install Verrazzano, follow these steps:
         )
     ```
 
-## Deploy an example application
+### Deploy an example application
 
 The [Hello World Helidon](https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md)
 example application provides a simple *Hello World* REST service written with [Helidon](https://helidon.io).

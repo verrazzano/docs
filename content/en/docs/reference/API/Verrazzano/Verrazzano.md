@@ -60,7 +60,7 @@ The following table describes the `spec` portion of the Verrazzano custom resour
 #### Certificate
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `acme` | [ACME](#acme) | The ACME configuration.  Either `acme` or `ca` must be specified. | No |
+| `acme` | [Acme](#acme) | The ACME configuration.  Either `acme` or `ca` must be specified. | No |
 | `ca` | [CertificateAuthority](#CertificateAuthority) | The certificate authority configuration.  Either `acme` or `ca` must be specified. | No |
 
 #### Acme
