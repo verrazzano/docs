@@ -14,5 +14,5 @@ draft: false
 
 - Fixes
     - Fixed bug where the Verrazzano CR Certificate.`CA` fields were being ignored.
-    - Removed secret used for `hello-world`, `hello-world-application` image is now public in ghcr so `ImagePullSecrets` is no longer needed.
+    - Removed secret used for `hello-world`; `hello-world-application` image is now public in ghcr so `ImagePullSecrets` is no longer needed.
 
