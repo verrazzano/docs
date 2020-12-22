@@ -22,28 +22,28 @@
       <description>
         
         
-        &lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
+        &lt;h3 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h3&gt;
 &lt;p&gt;The Quick Start assumes that you have already installed a
 &lt;a href=&#34;https://kubernetes.io/&#34;&gt;Kubernetes&lt;/a&gt; cluster.  Verrazzano has been tested on
-&lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm&#34;&gt;Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE)&lt;/a&gt;  and
-&lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/&#34;&gt;Oracle Linux Cloud Native Environment (OLCNE)&lt;/a&gt;; it is possible that it can be configured to work on other Kubernetes
+&lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm&#34;&gt;Oracle Cloud Infrastructure Container Engine for Kubernetes&lt;/a&gt; (OKE) and
+&lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/&#34;&gt;Oracle Linux Cloud Native Environment&lt;/a&gt; (OLCNE); it is possible that it can be configured to work on other Kubernetes
 environments.&lt;/p&gt;
 &lt;p&gt;Verrazzano requires the following:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;A Kubernetes cluster and a compatible &lt;code&gt;kubectl&lt;/code&gt;.
 &lt;ul&gt;
-&lt;li&gt;Verrazzano has been tested on the following versions of Kubernetes: 1.17.13 or later and 1.18.10 or later.&lt;/li&gt;
-&lt;li&gt;Other versions, such as 1.19 and 1.20, have not been tested and are &lt;em&gt;not&lt;/em&gt; guaranteed to work.&lt;/li&gt;
+&lt;li&gt;Verrazzano has been tested only on the following versions of Kubernetes: 1.17.x and 1.18.x.&lt;/li&gt;
+&lt;li&gt;Other versions have not been tested and are &lt;em&gt;not&lt;/em&gt; guaranteed to work.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;install-the-verrazzano-platform-operator&#34;&gt;Install the Verrazzano Platform Operator&lt;/h2&gt;
+&lt;h3 id=&#34;install-the-verrazzano-platform-operator&#34;&gt;Install the Verrazzano Platform Operator&lt;/h3&gt;
 &lt;p&gt;Verrazzano provides a Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/operator/&#34;&gt;operator&lt;/a&gt;
 to manage the life cycle of Verrazzano installations.  The operator works with a
 &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/&#34;&gt;custom resource&lt;/a&gt; defined in the cluster.
 You can install, uninstall, and update Verrazzano installations by updating the
-&lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/install.md#verrazzano-custom-resource&#34;&gt;Verrazzano custom resource&lt;/a&gt;.
+&lt;a href=&#34;../docs/reference/api/verrazzano/verrazzano/&#34;&gt;Verrazzano custom resource&lt;/a&gt;.
 The &lt;a href=&#34;https://github.com/verrazzano/verrazzano-platform-operator&#34;&gt;Verrazzano platform operator&lt;/a&gt; controller will apply the configuration from the custom resource to the cluster for you.&lt;/p&gt;
 &lt;p&gt;To install the Verrazzano platform operator, follow these steps:&lt;/p&gt;
 &lt;ol&gt;
@@ -63,11 +63,11 @@ NAME                                            READY   STATUS    RESTARTS   AGE
 verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;          114s
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id=&#34;install-verrazzano&#34;&gt;Install Verrazzano&lt;/h2&gt;
+&lt;h3 id=&#34;install-verrazzano&#34;&gt;Install Verrazzano&lt;/h3&gt;
 &lt;p&gt;You install Verrazzano by creating a Verrazzano custom resource in
 your Kubernetes cluster.  Verrazzano currently supports a default production
-profile and a development profile suitable for evaluation.&lt;/p&gt;
-&lt;p&gt;The development (dev) profile has the following characteristics:&lt;/p&gt;
+profile and a development (dev) profile suitable for evaluation.&lt;/p&gt;
+&lt;p&gt;The development profile has the following characteristics:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Magic (xip.io) DNS&lt;/li&gt;
 &lt;li&gt;Self-signed certificates&lt;/li&gt;
@@ -96,7 +96,7 @@ profile and a development profile suitable for evaluation.&lt;/p&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    verrazzano/example-verrazzano
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;View the installation logs (optional).&lt;/p&gt;
+&lt;p&gt;(Optional) View the installation logs.&lt;/p&gt;
 &lt;p&gt;The Verrazzano operator launches a Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/workloads/controllers/job/&#34;&gt;job&lt;/a&gt; to install Verrazzano.  You can view the installation logs from that job with the following command:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl logs -f &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
@@ -106,7 +106,7 @@ profile and a development profile suitable for evaluation.&lt;/p&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id=&#34;deploy-an-example-application&#34;&gt;Deploy an Example Application&lt;/h2&gt;
+&lt;h3 id=&#34;deploy-an-example-application&#34;&gt;Deploy an example application&lt;/h3&gt;
 &lt;p&gt;The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md&#34;&gt;Hello World Helidon&lt;/a&gt;
 example application provides a simple &lt;em&gt;Hello World&lt;/em&gt; REST service written with &lt;a href=&#34;https://helidon.io&#34;&gt;Helidon&lt;/a&gt;.
 For more information and the code of this application, see the &lt;a href=&#34;https://github.com/verrazzano/examples&#34;&gt;Verrazzano examples&lt;/a&gt;.&lt;/p&gt;
@@ -149,7 +149,7 @@ deployment.apps/hello-world-application   1/1     &lt;span style=&#34;color:#000
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Get the IP address and port number for calling the REST service.&lt;/p&gt;
-&lt;p&gt;To get the EXTERNAL-IP address for the &lt;code&gt;istio-ingressgateway&lt;/code&gt; service:&lt;/p&gt;
+&lt;p&gt;To get the &lt;code&gt;EXTERNAL-IP&lt;/code&gt; address for the &lt;code&gt;istio-ingressgateway&lt;/code&gt; service:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;SERVER=$(kubectl get service -n istio-system istio-ingressgateway -o json | jq -r &#39;.status.loadBalancer.ingress[0].ip&#39;)
 PORT=80
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
@@ -171,7 +171,7 @@ $ curl -s -X GET http://&amp;quot;${SERVER}&amp;quot;:&amp;quot;${PORT}&amp;quot
 {&amp;quot;message&amp;quot;:&amp;quot;Hallo Robert!&amp;quot;}
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id=&#34;uninstall-the-example-application&#34;&gt;Uninstall the Example Application&lt;/h2&gt;
+&lt;h3 id=&#34;uninstall-the-example-application&#34;&gt;Uninstall the example application&lt;/h3&gt;
 &lt;p&gt;To uninstall the Hello World Helidon example application, delete the Verrazzano Application Model and Verrazzano Application Binding
 for the example application.&lt;/p&gt;
 &lt;ol&gt;
@@ -192,7 +192,7 @@ for the example application.&lt;/p&gt;
 Error from server &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;(&lt;/span&gt;NotFound&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;)&lt;/span&gt;: namespaces &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;greet&amp;#34;&lt;/span&gt; not found
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id=&#34;uninstall-verrazzano&#34;&gt;Uninstall Verrazzano&lt;/h2&gt;
+&lt;h3 id=&#34;uninstall-verrazzano&#34;&gt;Uninstall Verrazzano&lt;/h3&gt;
 &lt;p&gt;To uninstall Verrazzano, follow these steps:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
@@ -202,7 +202,7 @@ Error from server &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;(&l
 
 &lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt;This command blocks until the uninstall has completed.  To follow the progress
+&lt;pre&gt;&lt;code&gt;This command blocks until the uninstall has completed.  To follow the progress,
 you can view the uninstall logs.
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -210,7 +210,7 @@ you can view the uninstall logs.
 
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;View the uninstall logs (optional).&lt;/p&gt;
+&lt;p&gt;(Optional) View the uninstall logs.&lt;/p&gt;
 &lt;p&gt;The Verrazzano operator launches a Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/workloads/controllers/job/&#34;&gt;job&lt;/a&gt; to delete the Verrazzano installation.  You can view the uninstall logs from that job with the following command:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl logs -f &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
@@ -220,6 +220,1146 @@ you can view the uninstall logs.
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ol&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Verrazzano Custom Resource Definition</title>
+      <link>https://verrazzano.io/docs/reference/api/verrazzano/verrazzano/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/reference/api/verrazzano/verrazzano/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The Verrazzano custom resource contains the configuration information for an installation.
+Here is a sample Verrazzano custom resource file that uses OCI DNS.  See other examples in
+&lt;code&gt;./operator/config/samples&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: my-verrazzano
+spec:
+  environmentName: env
+  profile: prod
+  components:
+    certManager:
+      certificate:
+        acme:
+          provider: letsEncrypt
+          emailAddress: emailAddress@domain.com
+    dns:
+      oci:
+        ociConfigSecret: ociConfigSecret
+        dnsZoneCompartmentOCID: dnsZoneCompartmentOcid
+        dnsZoneOCID: dnsZoneOcid
+        dnsZoneName: my.dns.zone.name
+    ingress:
+      type: LoadBalancer
+
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The following table describes the &lt;code&gt;spec&lt;/code&gt; portion of the Verrazzano custom resource:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;environmentName&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;Name of the installation.  This name is part of the endpoint access URLs that are generated. The default value is &lt;code&gt;default&lt;/code&gt;.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;profile&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The installation profile to select.  Valid values are &lt;code&gt;prod&lt;/code&gt; (production) and &lt;code&gt;dev&lt;/code&gt; (development).  The default is &lt;code&gt;prod&lt;/code&gt;.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;version&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The version to install.  Valid versions can be found &lt;a href=&#34;https://github.com/verrazzano/verrazzano/releases/&#34;&gt;here&lt;/a&gt;.  Defaults to the current version supported by the Verrazzano platform operator.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;components&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#Components&#34;&gt;Components&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The Verrazzano components.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;components&#34;&gt;Components&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;certManager&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#certmanager-component&#34;&gt;CertManagerComponent&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The cert-manager component configuration.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;dns&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#dns-component&#34;&gt;DNSComponent&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The DNS component configuration.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;ingress&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#ingress-component&#34;&gt;IngressComponent&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The ingress component configuration.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;istio&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#istio-component&#34;&gt;IstioComponent&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The Istio component configuration.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;certmanager-component&#34;&gt;CertManager Component&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;certificate&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#certificate&#34;&gt;Certificate&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The certificate configuration.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;certificate&#34;&gt;Certificate&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;acme&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#acme&#34;&gt;Acme&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The ACME configuration.  Either &lt;code&gt;acme&lt;/code&gt; or &lt;code&gt;ca&lt;/code&gt; must be specified.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;ca&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#CertificateAuthority&#34;&gt;CertificateAuthority&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The certificate authority configuration.  Either &lt;code&gt;acme&lt;/code&gt; or &lt;code&gt;ca&lt;/code&gt; must be specified.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;acme&#34;&gt;Acme&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;provider&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;Name of the Acme provider.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;emailAddress&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;Email address of the user.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;certificateauthority&#34;&gt;CertificateAuthority&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;secretName&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The secret name.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;clusterResourceNamespace&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The secrete namespace.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;dns-component&#34;&gt;DNS Component&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;oci&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#dns-oci&#34;&gt;DNS-OCI&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;OCI DNS configuration.  Either &lt;code&gt;oci&lt;/code&gt; or &lt;code&gt;external&lt;/code&gt; must be specified.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;external&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#dns-external&#34;&gt;DNS-External&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;External DNS configuration. Either &lt;code&gt;oci&lt;/code&gt; or &lt;code&gt;external&lt;/code&gt; must be specified.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;dns-oci&#34;&gt;DNS OCI&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;ociConfigSecret&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;Name of the OCI configuration secret.  Generate a secret named &lt;code&gt;oci-config&lt;/code&gt; based on the OCI configuration profile you want to use.  You can specify a profile other than DEFAULT and a different secret name.  See instructions by running &lt;code&gt;./install/create_oci_config_secret.sh&lt;/code&gt;.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;dnsZoneCompartmentOCID&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The OCI DNS compartment OCID.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;dnsZoneOCID&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The OCI DNS zone OCID.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;dnsZoneName&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;Name of OCI DNS zone.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;dns-external&#34;&gt;DNS External&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;external.suffix&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The suffix for DNS names.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;ingress-component&#34;&gt;Ingress Component&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;type&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The ingress type.  Valid values are &lt;code&gt;LoadBalancer&lt;/code&gt; and &lt;code&gt;NodePort&lt;/code&gt;.  The default value is &lt;code&gt;LoadBalancer&lt;/code&gt;.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;ingressNginxArgs&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#name-value&#34;&gt;NameValue&lt;/a&gt; list&lt;/td&gt;
+&lt;td&gt;The list of argument names and values.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;ports&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#port-config&#34;&gt;PortConfig&lt;/a&gt; list&lt;/td&gt;
+&lt;td&gt;The list port configurations used by the ingress.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;port-config&#34;&gt;Port Config&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;name&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The port name.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;port&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The port value.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;targetPort&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The target port value. The default is same as the port value.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;protocol&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The protocol used by the port.  TCP is the default.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;nodePort&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The &lt;code&gt;nodePort&lt;/code&gt; value.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;name-value&#34;&gt;Name Value&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;name&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The argument name.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;value&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The argument value. Either &lt;code&gt;value&lt;/code&gt; or &lt;code&gt;valueList&lt;/code&gt; must be specifed.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;valueList&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string list&lt;/td&gt;
+&lt;td&gt;The list of argument values. Either &lt;code&gt;value&lt;/code&gt; or &lt;code&gt;valueList&lt;/code&gt; must be specified.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;setString&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Boolean&lt;/td&gt;
+&lt;td&gt;Specifies if the value is a string&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;istio-component&#34;&gt;Istio Component&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;istioInstallArgs&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#name-value&#34;&gt;NameValue&lt;/a&gt; list&lt;/td&gt;
+&lt;td&gt;A list of Istio Helm chart arguments and values to apply during the installation of Istio.  Each argument is specified as either a &lt;code&gt;name/value&lt;/code&gt; or &lt;code&gt;name/valueList&lt;/code&gt; pair.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Verrazzano Application Model</title>
+      <link>https://verrazzano.io/docs/reference/api/verrazzanomodel/verrazzanoapplicationmodel/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/reference/api/verrazzanomodel/verrazzanoapplicationmodel/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The Verrazzano Application Model (&lt;code&gt;vm&lt;/code&gt; kubectl resource) is a Kubernetes Custom Resource Definition (CRD) that is added to the Verrazzano management cluster. This CRD describes a &amp;ldquo;Verrazzano Application,&amp;rdquo; which is made up of one or more components.  Components can be WebLogic domains, Coherence clusters, Helidon microservices, or other generic container workloads.  The model also defines connections between components, ingresses to an application, and connections to external services, such as a database or a REST endpoint. Conceptually, the model captures information about the application which does not vary based on where the application is deployed.  Then a Verrazzano Application Binding (&lt;code&gt;vb&lt;/code&gt; kubectl resource) is used to map the Verrazzano Application defined in the model to the deployment environment. For example, the WebLogic domain X always talks to database Y, no matter how many times this application is deployed. In a particular instance or deployment of the application, for example, the &amp;ldquo;test&amp;rdquo; instance, there may be different credentials and a different URL to access the test version of Y database, but X always talks to Y. The application &lt;em&gt;&lt;strong&gt;model&lt;/strong&gt;&lt;/em&gt; must define a connection to the database, but the actual credentials and URL used when the application is deployed is defined in the &lt;em&gt;&lt;strong&gt;binding&lt;/strong&gt;&lt;/em&gt;. Bindings map the application to the environment.&lt;/p&gt;
+&lt;p&gt;The combination of a model and binding produces an instance of an application.
+Both the model and binding are meant to be sparse; they contain only the information that is needed to deploy the application.  Anything that Verrazzano can infer or use a default value for, can be omitted from these files.&lt;/p&gt;
+&lt;p&gt;For an example Verrazzano Application Model, see &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/bobs-books-model.yaml&#34;&gt;demo-model&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;top-level-attributes&#34;&gt;Top-Level Attributes&lt;/h3&gt;
+&lt;p&gt;The top-level attributes of a Verrazzano Application Model define its &lt;code&gt;version&lt;/code&gt;, &lt;code&gt;kind&lt;/code&gt;, &lt;code&gt;metadata&lt;/code&gt;, and &lt;code&gt;spec&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;verrazzano.io/v1beta1&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;VerrazzanoModel&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-world-model&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;namespace&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;default&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;...&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Attribute&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;apiVersion&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;A string that identifies the version of the schema the object should have. Must be &lt;code&gt;verrazzano.io/v1beta1&lt;/code&gt;.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;kind&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;Must be &lt;code&gt;VerrazzanoModel&lt;/code&gt;.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;metadata&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#objectmeta-v1-meta&#34;&gt;&lt;code&gt;ObjectMeta&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;Information about the model.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#spec&#34;&gt;&lt;code&gt;Spec&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;A specification for application model attributes.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;spec&#34;&gt;Spec&lt;/h3&gt;
+&lt;p&gt;The specification defines a Verrazzano Application Model.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;description&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;Hello&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;World&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;application&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;weblogicDomains&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-weblogic&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;...&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;coherenceClusters&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-coherence&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;...&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;helidonApplications&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-helidon&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;...&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;genericComponents&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-generic&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;...&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Attribute&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;description&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;Description of the model.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;weblogicDomains&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#weblogicdomain&#34;&gt;&lt;code&gt;WebLogicDomain&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;WebLogic Server domain components in the application.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;coherenceClusters&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#coherencecluster&#34;&gt;&lt;code&gt;CoherenceCluster&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;Coherence cluster components in the application.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;helidonApplications&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#helidonapplication&#34;&gt;&lt;code&gt;HelidonApplication&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;Helidon application components in the application.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;genericComponents&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#genericcomponent&#34;&gt;&lt;code&gt;GenericComponent&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;Generic components in the application.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;weblogicdomain&#34;&gt;WebLogicDomain&lt;/h3&gt;
+&lt;p&gt;WebLogic domain components in a Verrazzano Application Model represent the custom resource for the WebLogic domain that is managed by the WebLogic Server Kubernetes Operator. Because the operator is what manages the domain, custom resource options that the model can handle are acceptable as entries in the component within the model file.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;weblogicDomains&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-weblogic&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;domainCRValues&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;...&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Attribute&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;name&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;Name of the component within the Verrazzano Application Model.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;domainCRValues&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#domaincrvalue&#34;&gt;&lt;code&gt;DomainCRValue&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;Domain Custom Resource (CR) values; provide valid domain CR values accepted by the WebLogic Server Kubernetes Operator.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;adminPort&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Integer&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;External port number for the WebLogic Server Administration Console.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;connections&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#connection&#34;&gt;&lt;code&gt;Connection&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;List of connections used by this application component.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;t3Port&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Integer&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;External port number for T3.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;domaincrvalue&#34;&gt;DomainCRValue&lt;/h3&gt;
+&lt;p&gt;The domain CR value defines the desired state of the WebLogic domain.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-notice&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;Limitations&lt;/h4&gt;
+&lt;p&gt;In this early release of Verrazzano:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Verrazzano uses WebLogic Server Kubernetes Operator version 3.0.2. Any features or values added in later versions of the operator are not valid.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://oracle.github.io/weblogic-kubernetes-operator/userguide/managing-domains/choosing-a-model/&#34;&gt;&amp;ldquo;Model in Image&amp;rdquo;&lt;/a&gt; is the only valid domain home source type that can be used.&lt;/li&gt;
+&lt;li&gt;Domain configuration overrides are not supported. If you use secrets or ConfigMaps to store configuration overrides, those overrides will not be applied and may cause other errors.&lt;/li&gt;
+&lt;li&gt;JRF domains are not supported. Restricted JRF &lt;em&gt;is&lt;/em&gt; supported.&lt;/li&gt;
+&lt;li&gt;Use of Oracle Platform Security Services is not supported.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;/div&gt;
+
+&lt;p&gt;For a full list of valid domain CR values, see &lt;a href=&#34;https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md&#34;&gt;https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md&lt;/a&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;weblogicDomains&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-weblogic&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;domainCRValues&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;domainUID&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-weblogic&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;domainHome&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;/u01/oracle/user_projects/domains/hello-weblogic&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;image&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;example.registry/hello-weblogic&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;latest&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;replicas&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;webLogicCredentialsSecret&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-weblogic-credentials&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;imagePullSecrets&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;          &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-weblogic-secret&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;clusters&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;          &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;clusterName&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;cluster&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;-1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;serverPod&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;env&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;JAVA_OPTIONS&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;-Dweblogic.StdoutDebugEnabled=false&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;USER_MEM_ARGS&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;-Djava.security.egd=file:/dev/./urandom &amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;WL_HOME&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;/u01/oracle/wlserver&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;MW_HOME&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;/u01/oracle&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Attribute&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;th&gt;Default Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;domainUID&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;Value of &lt;code&gt;metadata.name&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Domain unique identifier. It is recommended that this value be unique to assist in future work to identify related domains in active-passive scenarios across data centers; however, it is only required that this value be unique within the namespace, similarly to the names of Kubernetes resources. This value is distinct and need not match the domain name from the WebLogic domain configuration. Defaults to the value of &lt;code&gt;metadata.name&lt;/code&gt;.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;domainHome&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;/u01/domains/&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Path to the WebLogic domain home in the image.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;image&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Docker image to use for pods in the WebLogic domain.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;replicas&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Integer&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;Default number of cluster member Managed Server instances to start for each WebLogic cluster in the domain configuration.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;webLogicCredentialsSecret&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#verrazzanosecret&#34;&gt;&lt;code&gt;VerrazzanoSecret&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Secret containing administrative credentials for the WebLogic domain.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;imagePullSecrets&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#verrazzanosecret&#34;&gt;&lt;code&gt;VerrazzanoSecret&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Name of the secret for pulling Docker images for the WebLogic domain.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;clusters&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Cluster&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;List of clusters for which additional configuration is needed. For more information, see &lt;a href=&#34;https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md&#34;&gt;https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md&lt;/a&gt;.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;serverPod&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#podspec-v1-core&#34;&gt;&lt;code&gt;ServerPod&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Desired behavior of a pod for a WebLogic Server.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;verrazzanosecret&#34;&gt;VerrazzanoSecret&lt;/h3&gt;
+&lt;p&gt;VerrazzanoSecret identifies a Kubernetes secret by name.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Attribute&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;name&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;The name of the secret.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;coherencecluster&#34;&gt;CoherenceCluster&lt;/h3&gt;
+&lt;p&gt;Verrazzano relies on version 2.1.1 of the &lt;a href=&#34;https://github.com/oracle/coherence-operator&#34;&gt;Coherence Operator&lt;/a&gt;.  For the Coherence clusters section of the Verrazzano Application Model, Coherence custom resource values are defined in Verrazzano and then converted to a custom resource that the Coherence Operator can interpret.&lt;/p&gt;
+&lt;p&gt;A Coherence cluster component must have the following items:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;name&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;image&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;cacheConfig&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pofConfig&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Attribute&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;cacheConfig&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;Name of the cache configuration file to use.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;connections&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#connection&#34;&gt;&lt;code&gt;Connection&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;List of connections used by this application component.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;image&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;The name of the image. For more information, see &lt;a href=&#34;https://kubernetes.io/docs/concepts/containers/images&#34;&gt;https://kubernetes.io/docs/concepts/containers/images&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;imagePullSecrets&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#verrazzanosecret&#34;&gt;&lt;code&gt;VerrazzanoSecret&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;List of Kubernetes secrets from which the credentials required to pull this container&amp;rsquo;s image can be loaded.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;name&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;Name of the component within the Verrazzano Application Model.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;pofConfig&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;Name of the Portable Object Format (POF) configuration file to use.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;ports&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;https://oracle.github.io/coherence-operator/docs/3.0.2/#/about/04_coherence_spec#_namedportspec&#34;&gt;&lt;code&gt;NamedPortSpec&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;Defines a named port for a Coherence cluster component.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;helidonapplication&#34;&gt;HelidonApplication&lt;/h3&gt;
+&lt;p&gt;Helidon applications must have the following items defined in the model file:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;name&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;image&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Helidon applications typically have connections defined as part of the components specification, including REST, database, Coherence, and ingress connections.&lt;/p&gt;
+&lt;p&gt;Helidon applications are managed by the Verrazzano Helidon Application Operator.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Attribute&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;th&gt;Default Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;connections&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#connection&#34;&gt;&lt;code&gt;Connection&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;List of connections used by this application component.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;env&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#envvar-v1-core&#34;&gt;&lt;code&gt;EnvVar&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;List of environment variables to set for container.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;fluentdEnabled&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Boolean&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;true&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Determines whether a Fluentd container is included for sending logs to Elasticsearch.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;image&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Container image that runs the application. Must be a path-like or URI-like representation of an OCI image. May be prefixed with a registry address and should be suffixed with a tag.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;imagePullSecrets&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#verrazzanosecret&#34;&gt;&lt;code&gt;VerrazzanoSecret&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;List of Kubernetes secrets from which the credentials required to pull this container&amp;rsquo;s image can be loaded.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;name&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Name of the component within the Verrazzano Application Model.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;port&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Integer&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;8080&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Port to be used for the service port.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;targetPort&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Integer&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;8080&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Target port to be used for the service target port.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;genericcomponent&#34;&gt;GenericComponent&lt;/h3&gt;
+&lt;p&gt;Generic components must have the following items defined in the model file:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;name&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;deployment&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Generic components are managed by the Verrazzano Operator and result in a single Kubernetes deployment and service being created.&lt;/p&gt;
+&lt;p&gt;Generic components typically have connections defined as part of the components specification, including REST and ingress connections.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;genericComponents&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;verrazzano-generic&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;replicas&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;fluentdEnabled&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;deployment&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;containers&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;          &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;image&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;generic-verrazzano&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0.0.1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;verrazzano-generic&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;ports&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;              &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;containerPort&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;8080&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;generic-port&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;connections&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;ingress&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;generic-ingress&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;match&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;uri&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;prefix&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;/&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Attribute&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;th&gt;Default Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;name&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Name of the component within the Verrazzano Application Model.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;replicas&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Integer&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;1&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Number of desired pods for a generic component.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;fluentdEnabled&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Boolean&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;true&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Determines whether a Fluentd container is included for sending logs to Elasticsearch.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;deployment&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#podspec-v1-core&#34;&gt;&lt;code&gt;PodSpec&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Desired behavior of a pod for a generic component.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;connections&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#connection&#34;&gt;&lt;code&gt;Connection&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;List of connections used by this application component.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;connection&#34;&gt;Connection&lt;/h3&gt;
+&lt;p&gt;Connection defines network connections and/or database connections needed by an application component.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Attribute&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;coherence&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#coherenceconnection&#34;&gt;&lt;code&gt;CoherenceConnection&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;Coherence type connections needed by a component.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;database&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#databaseconnection&#34;&gt;&lt;code&gt;DatabaseConnection&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;Database type connections needed by a component.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;ingress&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#ingressconnection&#34;&gt;&lt;code&gt;IngressConnection&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;Ingresses to associate with a component.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;rest&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#restconnection&#34;&gt;&lt;code&gt;RESTConnection&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;REST type connections needed by a component.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;coherenceconnection&#34;&gt;CoherenceConnection&lt;/h3&gt;
+&lt;p&gt;You can define a Coherence connection for a component that needs to communicate with a Coherence cluster. The Coherence cluster must also be defined in the same Verrazzano Application Model.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Attribute&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;target&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;Name of the target Coherence component.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;address&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;Coherence cluster services address.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;databaseconnection&#34;&gt;DatabaseConnection&lt;/h3&gt;
+&lt;p&gt;In the Verrazzano Application Model, you can define connections to external databases. These connections then become available to modify in the Verrazzano Application Binding.
+That is, you can identify a necessary database connection in the model, and then define credentials and the URL for the database in the binding. Verrazzano operators then handle the database connection accordingly.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Attribute&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;target&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;Name of the database to specify in a Verrazzano Application Binding. That is, in the binding, you will define a database entry to which the component will connect.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;datasourceName&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;Name of the data source within the WebLogic configuration that will map to the connected database.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;ingressconnection&#34;&gt;IngressConnection&lt;/h3&gt;
+&lt;p&gt;The Ingress connection defines an ingress associated with an application component.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Attribute&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;th&gt;Default Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;name&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Name of the ingress to connect to the application. Ingress details are defined in the binding.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;match&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#ingressconnectionmatch&#34;&gt;&lt;code&gt;IngressConnectionMatch&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;prefix &amp;quot;/&amp;quot;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Match rules associated with the ingress connection.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;restconnection&#34;&gt;RESTConnection&lt;/h3&gt;
+&lt;p&gt;You can define a REST connection from one component in the model to another component in the same model.
+When you define a REST connection between components, you can then define variable names that will be provided in the
+Verrazzano Application Binding. Verrazzano also sets up network policies that enable the components to communicate in the service mesh over TLS.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Attribute&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;target&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;Name of the target component in the Verrazzano application.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;environmentVariableForHost&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;Name of the environment variable that contains the DNS name of the Kubernetes service in the target component.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;environmentVariableForPort&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Integer&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;Name of the environment variable that contains the port number for the service in the target component.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;ingressconnectionmatch&#34;&gt;IngressConnectionMatch&lt;/h3&gt;
+&lt;p&gt;The match rule associated with the ingress connection.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Attribute&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;uri&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#stringmatch&#34;&gt;&lt;code&gt;StringMatch&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;Describes how to match a given string in HTTP headers. Match is case-sensitive.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;stringmatch&#34;&gt;StringMatch&lt;/h3&gt;
+&lt;p&gt;Describes how to match a given string in HTTP headers. Match is case-sensitive.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Attribute&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;exact&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt; &lt;code&gt;(oneOf)&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;Exact string match.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;prefix&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt; &lt;code&gt;(oneOf)&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;Prefix string match.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;regex&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt; &lt;code&gt;(oneOf)&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;RE2 style regex-based match.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;additional-information&#34;&gt;Additional Information&lt;/h2&gt;
+&lt;p&gt;See the following documentation:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;WebLogic Server Kubernetes Operator Reference: &lt;a href=&#34;https://oracle.github.io/weblogic-kubernetes-operator/userguide/managing-domains/domain-resource/#domain-resource-spec-elements&#34;&gt;https://oracle.github.io/weblogic-kubernetes-operator/userguide/managing-domains/domain-resource/#domain-resource-spec-elements&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Coherence Operator Reference: &lt;a href=&#34;https://oracle.github.io/coherence-operator/docs/2.1.1/#/clusters/010_introduction&#34;&gt;https://oracle.github.io/coherence-operator/docs/2.1.1/#/clusters/010_introduction&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
       </description>
     </item>
@@ -605,12 +1745,454 @@ This includes objects created by Verrazzano on behalf of the application,
 such as monitoring components.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Delete the application&amp;rsquo;s model (optional).&lt;/p&gt;
+&lt;p&gt;(Optional) Delete the application&amp;rsquo;s model.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl delete -f ./hello-world-model.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: This step is not required if other bindings for this model will be applied in the future.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Verrazzano Application Binding</title>
+      <link>https://verrazzano.io/docs/reference/api/verrazzanobinding/verrazzanoapplictionbinding/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/reference/api/verrazzanobinding/verrazzanoapplictionbinding/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The Verrazzano Application Binding (&lt;code&gt;vb&lt;/code&gt; Kubernetes object type) maps a Verrazzano Application Model to an environment. The binding defines placement of the components, environment-specific aspects of a component, and connection details for the connections defined in the model.&lt;/p&gt;
+&lt;p&gt;Adding a binding to the Verrazzano instance results in a running application: namespaces are created in the specified clusters, components are deployed in those namespaces, and ingresses, network policies, and routing rules are created in the service mesh. Behind the scenes, Verrazzano also copies secrets where necessary, creates custom resources, and deploys operators for the various component types in the application model.&lt;/p&gt;
+&lt;p&gt;There can be zero to many bindings to every model; a binding can refer to one model only.&lt;/p&gt;
+&lt;h3 id=&#34;verrazzanoapplicationbinding&#34;&gt;VerrazzanoApplicationBinding&lt;/h3&gt;
+&lt;p&gt;This CRD is used to describe a &lt;em&gt;binding&lt;/em&gt;.  A binding provides environment and instance-specific
+information about an application, for example, information that would be different in each
+deployment/instance.  A good example would be credentials and URLs used to connect to a
+database.  Bindings refer to (and extend) &lt;em&gt;models&lt;/em&gt; (for an example, see &lt;a href=&#34;#database-bindings&#34;&gt;Database Bindings&lt;/a&gt;).&lt;/p&gt;
+&lt;h3 id=&#34;top-level-attributes&#34;&gt;Top-Level Attributes&lt;/h3&gt;
+&lt;p&gt;The top-level attributes of a Verrazzano Application Binding define its &lt;code&gt;version&lt;/code&gt;, &lt;code&gt;kind&lt;/code&gt;, &lt;code&gt;metadata&lt;/code&gt;, and &lt;code&gt;spec&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;verrazzano.io/v1beta1&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;VerrazzanoBinding&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;bobs-books-binding&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;namespace&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;default&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;...&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Attribute&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;apiVersion&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;A string that identifies the version of the schema that the object should have. Must be &lt;code&gt;verrazzano.io/v1beta1&lt;/code&gt;.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;kind&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;Must be &lt;code&gt;VerrazzanoBinding&lt;/code&gt;.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;metadata&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;https://v1-16.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/#objectmeta-v1-meta&#34;&gt;&lt;code&gt;ObjectMeta&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;Information about the binding.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#spec&#34;&gt;&lt;code&gt;Spec&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;A specification for application binding attributes.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;spec&#34;&gt;Spec&lt;/h3&gt;
+&lt;p&gt;The specification defines a Verrazzano Application Binding.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;description&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Bob&amp;#39;s Books binding&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;modelName&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;bobs-books-model&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;coherenceBindings&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;bobbys-coherence&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;...&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;helidonBindings&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;roberts-helidon-stock-application&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;...&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;weblogicBindings&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;bobbys-front-end&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;...&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;databaseBindings&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;mysql&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;...&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;placement&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;local&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;...&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;ingressBindings&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;bobbys-ingress&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;...&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;          
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Attribute&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;description&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;Description of the binding.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;modelName&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Y&lt;/td&gt;
+&lt;td&gt;Reference to a Verrazzano Application Model.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;coherenceBindings&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#coherencebinding&#34;&gt;&lt;code&gt;CoherenceBinding&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;Coherence components to bind, as defined in the model.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;helidonBindings&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#helidonbinding&#34;&gt;&lt;code&gt;HelidonBinding&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;Helidon application components to bind, as defined in the model.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;weblogicBindings&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#weblogicbinding&#34;&gt;&lt;code&gt;WebLogicBinding&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;WebLogic components to bind, as defined in the model.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;databaseBindings&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#databasebinding&#34;&gt;&lt;code&gt;DatabaseBinding&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;Database component in the model, or the target in a database connection definition in the model, to bind.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;placement&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#placement&#34;&gt;&lt;code&gt;Placement&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;List of &amp;ldquo;placements&amp;rdquo; of model components.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;ingressBindings&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#ingressbinding&#34;&gt;&lt;code&gt;IngressBinding&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;Ingresses to bind, as defined in the model.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;coherencebinding&#34;&gt;CoherenceBinding&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;coherenceBindings&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;bobbys-coherence&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;replicas&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;roberts-coherence&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;replicas&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Attribute&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;name&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;Name of the Coherence component.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;replicas&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Integer&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;Initial number of members of the Coherence cluster.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;helidonbinding&#34;&gt;HelidonBinding&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;helidonBindings&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;roberts-helidon-stock-application&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;replicas&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;bobbys-helidon-stock-application&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;replicas&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Attribute&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;name&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;Name of the Helidon component.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;replicas&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Integer&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;Initial number of replicas for a Helidon application.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;weblogicbinding&#34;&gt;WebLogicBinding&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;weblogicBindings&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;bobbys-front-end&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;replicas&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;bobs-bookstore&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;replicas&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Attribute&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;name&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;Name of the WebLogic component.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;replicas&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Integer&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;Initial number of Managed Server instances to run.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;databasebinding&#34;&gt;DatabaseBinding&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;databaseBindings&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;mysql&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;credentials&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;mysql-credentials&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;url&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;jdbc:mysql://mysql.bob.svc.default.local:3306/books&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Attribute&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;name&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;Name of the database component in the model, or of the target in a database connection definition, in the model.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;credentials&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;Name of the Kubernetes secret that contains the database credentials.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;url&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;Database connect string (JDBC URL).&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;placement&#34;&gt;Placement&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;placement&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;local&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;namespaces&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;bobby&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;components&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;          &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;bobbys-coherence&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;          &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;bobbys-front-end&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;          &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;bobbys-helidon-stock-application&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;robert&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;components&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;          &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;roberts-helidon-stock-application&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;          &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;roberts-coherence&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;bob&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;components&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;          &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;bobs-bookstore&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Attribute&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;name&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;Name of the Kubernetes cluster as defined in the Verrazzano environment.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;namespaces&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#namespaces&#34;&gt;&lt;code&gt;Namespaces&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;Namespaces defined in the Verrazzano environment.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h5 id=&#34;namespaces&#34;&gt;Namespaces&lt;/h5&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Attribute&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;name&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;Name of the namespace in which to place the components.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;components&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;List of components to place in the namespace on that cluster.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;ingressbinding&#34;&gt;IngressBinding&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;ingressBindings&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;bobbys-ingress&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;dnsName&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;*&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;bobs-ingress&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;dnsName&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;*&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;roberts-ingress&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;dnsName&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;*&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Attribute&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;name&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;Name of the ingress connection as defined in the model.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;dnsName&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;N&lt;/td&gt;
+&lt;td&gt;DNS name for the ingress.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;database-bindings&#34;&gt;Database Bindings&lt;/h3&gt;
+&lt;p&gt;The Verrazzano Application Model lets you define connections to external databases.  You can then set the credentials and the URL for the database in the Verrazzano Application Binding.  The database binding has the following fields:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;name&lt;/code&gt;: The name of the database binding. A database connection in the model is linked by its &lt;code&gt;target&lt;/code&gt; field to the database binding &lt;code&gt;name&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;credentials&lt;/code&gt;: The credentials to be used to connect to the database.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;url&lt;/code&gt;: The URL for the database connection.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If a WebLogic component specifies a database connection that has a corresponding &lt;code&gt;databaseBinding&lt;/code&gt;, then the Verrazzano operators will:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Copy the secret specified in the &lt;code&gt;databaseBinding&lt;/code&gt; to the namespace of the WebLogic domain.&lt;/li&gt;
+&lt;li&gt;Create a ConfigMap in the namespace of the WebLogic domain to specify overrides for the URL and secret.  These configuration overrides (also called situational configuration) are used to customize the database configuration for the WebLogic domain.&lt;/li&gt;
+&lt;li&gt;Specify the override ConfigMap when the WebLogic domain is created.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;For example, if a &lt;code&gt;weblogicDomain&lt;/code&gt; in the model has a database connection, as follows:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;connections:
+    - database:
+      - target: mysql
+       datasourceName: books
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;And the binding has a database binding, as follows:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; databaseBindings:
+  - credentials: mysqlsecret
+   name: mysql
+   url: jdbc:mysql://mysql.default.svc.cluster.local:3306/books
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then the secret &lt;code&gt;mysqlsecret&lt;/code&gt; will be copied from the default namespace to the namespace specified in the binding placement for the WebLogic domain. The URL will be added to the secret with the value from the database binding.  Note that the secret specified in the binding must exist in the default namespace before the model and binding are applied.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: v1
+data:
+  password: xxxxxxxxx
+  url: amRiYzpteXNxbDovL215c3FsLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWw6MzMwNi9ib29rcw==
+  username: xxxxxxxx
+kind: Secret
+metadata:
+  labels:
+    weblogic.domainUID: bobs-bookstore
+  name: mysqlsecret
+  namespace: bob
+type: Opaque
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;A ConfigMap for override values will be created in the WebLogic domain namespace with values from the secret.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: v1
+data:
+  jdbc-books.xml: |
+  &amp;lt;?xml version=&#39;1.0&#39; encoding=&#39;UTF-8&#39;?&amp;gt;
+  &amp;lt;jdbc-data-source xmlns=&amp;quot;http://xmlns.oracle.com/weblogic/jdbc-data-source&amp;quot;
+                    xmlns:f=&amp;quot;http://xmlns.oracle.com/weblogic/jdbc-data-source-fragment&amp;quot;
+                    xmlns:s=&amp;quot;http://xmlns.oracle.com/weblogic/situational-config&amp;quot;&amp;gt;
+    &amp;lt;name&amp;gt;books&amp;lt;/name&amp;gt;
+    &amp;lt;jdbc-driver-params&amp;gt;
+      &amp;lt;url f:combine-mode=&amp;quot;replace&amp;quot;&amp;gt;jdbc:mysql://mysql:3306/books&amp;lt;/url&amp;gt;
+      &amp;lt;properties&amp;gt;
+         &amp;lt;property&amp;gt;
+            &amp;lt;name&amp;gt;user&amp;lt;/name&amp;gt;
+            &amp;lt;value f:combine-mode=&amp;quot;replace&amp;quot;&amp;gt;${secret:mysql-credentials.username}&amp;lt;/value&amp;gt;
+         &amp;lt;/property&amp;gt;
+      &amp;lt;/properties&amp;gt;
+      &amp;lt;password-encrypted f:combine-mode=&amp;quot;replace&amp;quot;&amp;gt;${secret:mysql-credentials.password:encrypt}&amp;lt;/password-encrypted&amp;gt;
+    &amp;lt;/jdbc-driver-params&amp;gt;
+  &amp;lt;/jdbc-data-source&amp;gt;
+  version.txt: &amp;quot;2.0&amp;quot;
+kind: ConfigMap
+metadata:
+  labels:
+    weblogic.domainUID: bobs-bookstore
+  name: jdbccm
+  namespace: bob
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The overrides and override secrets are set when the WebLogic domain is created.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: weblogic.oracle/v7
+kind: Domain
+...
+  configOverrideSecrets:
+  - mysqlsecret
+  configOverrides: jdbccm
+&lt;/code&gt;&lt;/pre&gt;
       </description>
     </item>
     
@@ -925,6 +2507,1178 @@ kubectl apply -f binding.yaml
 &lt;/li&gt;
 &lt;/ol&gt;
 
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Oracle Cloud Infrastructure (OCI)</title>
+      <link>https://verrazzano.io/docs/setup/platforms/oci/oci/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/setup/platforms/oci/oci/</guid>
+      <description>
+        
+        
+        &lt;h3 id=&#34;prepare-for-the-oci-install&#34;&gt;Prepare for the OCI install&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Create the OKE cluster using the OCI Console or some other means.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;For &lt;code&gt;SHAPE&lt;/code&gt;, an OKE cluster with 3 nodes of &lt;code&gt;VM.Standard2.4&lt;/code&gt; &lt;a href=&#34;https://www.oracle.com/cloud/compute/virtual-machines.html&#34;&gt;OCI compute instance shape&lt;/a&gt; has proven sufficient to install Verrazzano and deploy the Bob&amp;rsquo;s Books example application.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Set the following &lt;code&gt;ENV&lt;/code&gt; vars:&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;   export KUBECONFIG=&amp;lt;path to valid Kubernetes config&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;Create the optional &lt;code&gt;imagePullSecret&lt;/code&gt; named &lt;code&gt;verrazzano-container-registry&lt;/code&gt;.  This step is required when one or more of the Docker images installed by Verrazzano are private.  For example, while testing a change to the &lt;code&gt;verrazzano-operator&lt;/code&gt;, you may be using a Docker image that requires credentials to access it.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;    kubectl create secret docker-registry verrazzano-container-registry \
+    --docker-username=&amp;lt;username&amp;gt; \
+    --docker-password=&amp;lt;password&amp;gt; \
+    --docker-server=&amp;lt;docker server&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Oracle Linux Cloud Native Environment (OLCNE)</title>
+      <link>https://verrazzano.io/docs/setup/platforms/olcne/olcne/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/setup/platforms/olcne/olcne/</guid>
+      <description>
+        
+        
+        &lt;h3 id=&#34;prepare-for-the-oclne-install&#34;&gt;Prepare for the OCLNE install&lt;/h3&gt;
+&lt;p&gt;Oracle Linux Cloud Native Environment can be installed in several different types of environments.
+These range from physical, on-premises hardware to virtualized cloud infrastructure.
+The Oracle Linux Cloud Native Environment installation instructions assume that networking and compute resources already exist.
+The basic infrastructure requirements are a network with a public and private subnet
+and a set of hosts connected to those networks.&lt;/p&gt;
+&lt;h4 id=&#34;oci-example&#34;&gt;OCI example&lt;/h4&gt;
+&lt;p&gt;The following is an example of OCI infrastructure that can be used to evaluate Verrazzano installed on Oracle Linux Cloud Native Environment.
+If other environments are used, the capacity and configuration should be similar.&lt;/p&gt;
+&lt;p&gt;You can use the VCN Wizard of the OCI Console to automatically create most of the described network infrastructure.
+Additional security lists/rules, as detailed below, need to be added manually.
+All CIDR values provided are examples and can be customized as required.&lt;/p&gt;
+&lt;h4 id=&#34;virtual-cloud-network-for-example-cidr-1000016&#34;&gt;Virtual Cloud Network (for example, CIDR 10.0.0.0/16)&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;Public Subnet (for example, CIDR 10.0.0.0/24)&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Security List / Ingress Rules&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Stateless&lt;/th&gt;
+&lt;th&gt;Destination&lt;/th&gt;
+&lt;th&gt;Protocol&lt;/th&gt;
+&lt;th&gt;Source Ports&lt;/th&gt;
+&lt;th&gt;Destination Ports&lt;/th&gt;
+&lt;th&gt;Type &amp;amp; Code&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ICMP&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;3, 4&lt;/td&gt;
+&lt;td&gt;ICMP errors&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.0.0/16&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ICMP&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;ICMP errors&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;22&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;SSH&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;80&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;HTTP load balancer&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;443&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;HTTPS load balancer&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Security List / Egress Rules&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Stateless&lt;/th&gt;
+&lt;th&gt;Destination&lt;/th&gt;
+&lt;th&gt;Protocol&lt;/th&gt;
+&lt;th&gt;Source Ports&lt;/th&gt;
+&lt;th&gt;Destination Ports&lt;/th&gt;
+&lt;th&gt;Type &amp;amp; Code&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;22&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;SSH&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;30080&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;HTTP load balancer&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;30443&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;HTTPS load balancer&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;31380&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;HTTP load balancer&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;31390&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;HTTPS load balancer&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;Private Subnet (for example, CIDR 10.0.1.0/24)&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Security List / Ingress Rules&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Stateless&lt;/th&gt;
+&lt;th&gt;Destination&lt;/th&gt;
+&lt;th&gt;Protocol&lt;/th&gt;
+&lt;th&gt;Source Ports&lt;/th&gt;
+&lt;th&gt;Destination Ports&lt;/th&gt;
+&lt;th&gt;Type &amp;amp; Code&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ICMP&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;3, 4&lt;/td&gt;
+&lt;td&gt;ICMP errors&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.0.0/16&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ICMP&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;ICMP errors&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.0.0/16&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;22&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;SSH&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.0.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;30080&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;HTTP load balancer&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.0.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;30443&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;HTTPS load balancer&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.0.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;31380&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;HTTP load balancer&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.0.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;31390&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;HTTPS load balancer&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;UDP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;111&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;NFS&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;111&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;NFS&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;UDP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;2048&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;NFS&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;2048-2050&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;NFS&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;2379-2380&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Kubernetes etcd&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;6443&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Kubernetes API Server&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;6446&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;MySQL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;8090-8091&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;OLCNE Platform Agent&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;UDP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;8472&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Flannel&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;10250-10255&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Kubernetes Kublet&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Security List / Egress Rules&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Stateless&lt;/th&gt;
+&lt;th&gt;Destination&lt;/th&gt;
+&lt;th&gt;Protocol&lt;/th&gt;
+&lt;th&gt;Source Ports&lt;/th&gt;
+&lt;th&gt;Destination Ports&lt;/th&gt;
+&lt;th&gt;Type and Code&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.0.0/0&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;All egress traffic&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;DHCP Options&lt;/strong&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;DNS Type&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Internet and VCN Resolver&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;Route Tables&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Public Subnet Route Table Rules&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Destination&lt;/th&gt;
+&lt;th&gt;Target&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Internet Gateway&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Private Subnet Route Table Rules&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Destination&lt;/th&gt;
+&lt;th&gt;Target&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;NAT Gateway&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;All OCI Services&lt;/td&gt;
+&lt;td&gt;Service Gateway&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;Internet Gateway&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NAT Gateway&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Service Gateway&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The following compute resources adhere to the guidelines provided in the Oracle Linux Cloud Native Environment &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/start/deploy-kube.html&#34;&gt;Getting Started&lt;/a&gt; guide.
+The attributes indicated (for example, Subnet, RAM, Shape, and Image) are recommendations that have been tested.
+Other values can be used if required.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Compute Instances&lt;/strong&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Role&lt;/th&gt;
+&lt;th&gt;Subnet&lt;/th&gt;
+&lt;th&gt;Suggested RAM&lt;/th&gt;
+&lt;th&gt;Compatible VM Shape&lt;/th&gt;
+&lt;th&gt;Compatible VM Image&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;SSH Jump Host&lt;/td&gt;
+&lt;td&gt;Public&lt;/td&gt;
+&lt;td&gt;8GB&lt;/td&gt;
+&lt;td&gt;VM.Standard.E2.1&lt;/td&gt;
+&lt;td&gt;Oracle Linux 7.8&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;OLCNE Operator Host&lt;/td&gt;
+&lt;td&gt;Private&lt;/td&gt;
+&lt;td&gt;16GB&lt;/td&gt;
+&lt;td&gt;VM.Standard.E2.2&lt;/td&gt;
+&lt;td&gt;Oracle Linux 7.8&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Kubernetes Control Plane Node&lt;/td&gt;
+&lt;td&gt;Private&lt;/td&gt;
+&lt;td&gt;32GB&lt;/td&gt;
+&lt;td&gt;VM.Standard.E2.4&lt;/td&gt;
+&lt;td&gt;Oracle Linux 7.8&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Kubernetes Worker Node 1&lt;/td&gt;
+&lt;td&gt;Private&lt;/td&gt;
+&lt;td&gt;32GB&lt;/td&gt;
+&lt;td&gt;VM.Standard.E2.4&lt;/td&gt;
+&lt;td&gt;Oracle Linux 7.8&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Kubernetes Worker Node 2&lt;/td&gt;
+&lt;td&gt;Private&lt;/td&gt;
+&lt;td&gt;32GB&lt;/td&gt;
+&lt;td&gt;VM.Standard.E2.4&lt;/td&gt;
+&lt;td&gt;Oracle Linux 7.8&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Kubernetes Worker Node 3&lt;/td&gt;
+&lt;td&gt;Private&lt;/td&gt;
+&lt;td&gt;32GB&lt;/td&gt;
+&lt;td&gt;VM.Standard.E2.4&lt;/td&gt;
+&lt;td&gt;Oracle Linux 7.8&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;do-the-olcne-install&#34;&gt;Do the OLCNE install&lt;/h3&gt;
+&lt;p&gt;Deploy Oracle Linux Cloud Native Environment with the Kubernetes module, following instructions from the &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/start/deploy-kube.html&#34;&gt;Getting Started&lt;/a&gt; guide.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Use a single Kubernetes control plane node.&lt;/li&gt;
+&lt;li&gt;Skip the Kubernetes API load balancer (&lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/start/install-lb.html&#34;&gt;3.4.3&lt;/a&gt;).&lt;/li&gt;
+&lt;li&gt;Use private CA certificates (&lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/start/certs-private.html&#34;&gt;3.5.3&lt;/a&gt;).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;prepare-for-the-verrazzano-install&#34;&gt;Prepare for the Verrazzano install&lt;/h3&gt;
+&lt;p&gt;A Verrazzano Oracle Linux Cloud Native Environment deployment requires:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A default storage provider that supports &amp;ldquo;Multiple Read/Write&amp;rdquo; mounts. For example, an NFS service like:
+&lt;ul&gt;
+&lt;li&gt;Oracle Cloud Infrastructure File Storage Service.&lt;/li&gt;
+&lt;li&gt;A hardware-based storage system that provides NFS capabilities.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Load balancers in front of the worker nodes in the cluster.&lt;/li&gt;
+&lt;li&gt;DNS records that reference the load balancers.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Examples for meeting these requirements follow.&lt;/p&gt;
+&lt;h4 id=&#34;prerequisites-details&#34;&gt;Prerequisites Details&lt;/h4&gt;
+&lt;nav&gt;
+	&lt;div class=&#34;nav nav-tabs&#34; id=&#34;nav-tab&#34; role=&#34;tablist&#34;&gt;
+
+		
+		
+
+		
+		
+		
+
+		
+
+		&lt;a class=&#34;nav-item nav-link active&#34; id=&#34;nav-1&#34; data-toggle=&#34;tab&#34; href=&#34;#tab11&#34; role=&#34;tab&#34;
+		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Storage&lt;/a&gt;
+
+		
+		
+
+		
+		
+		
+
+		
+
+		&lt;a class=&#34;nav-item nav-link&#34; id=&#34;nav-1&#34; data-toggle=&#34;tab&#34; href=&#34;#tab12&#34; role=&#34;tab&#34;
+		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;false&#34;&gt;Load Balancers&lt;/a&gt;
+
+		
+		
+
+		
+		
+		
+
+		
+
+		&lt;a class=&#34;nav-item nav-link&#34; id=&#34;nav-1&#34; data-toggle=&#34;tab&#34; href=&#34;#tab13&#34; role=&#34;tab&#34;
+		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;false&#34;&gt;DNS&lt;/a&gt;
+
+		
+		
+
+	&lt;/div&gt;
+&lt;/nav&gt;
+
+&lt;div class=&#34;tab-content&#34; id=&#34;1&#34;&gt;
+
+
+
+
+
+
+
+
+&lt;div class=&#34;tab-pane fade show active&#34; id=&#34;tab11&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName1&#34;&gt;
+
+	&lt;br&gt;
+&lt;h5 id=&#34;storage&#34;&gt;Storage&lt;/h5&gt;
+&lt;p&gt;Verrazzano requires persistent storage for several components.
+This persistent storage is provided by a default storage class.
+A number of persistent storage providers exist for Kubernetes.
+This guide will focus on pre-allocated persistent volumes.
+In particular, the provided samples will illustrate the use of OCI&amp;rsquo;s NFS File System.&lt;/p&gt;
+&lt;h6 id=&#34;oci-example&#34;&gt;OCI example&lt;/h6&gt;
+&lt;p&gt;Before storage can be exposed to Kubernetes, it must be created.
+In OCI, this is done using File System resources.
+Using the OCI Console, create a new File System.
+Within the new File System, create an Export.
+Remember the value used for  &lt;code&gt;Export Path&lt;/code&gt; as it will be used later.
+Also note the Mount Target&amp;rsquo;s &lt;code&gt;IP Address&lt;/code&gt; for use later.&lt;/p&gt;
+&lt;p&gt;After the exports have been created, referenced persistent volume folders (for example, &lt;code&gt;/example/pv0001&lt;/code&gt;) will need to be created.
+In OCI, this can be done by mounting the export on one of the Kubernetes worker nodes and creating the folders.
+In the following example, the value &lt;code&gt;/example&lt;/code&gt; is the &lt;code&gt;Export Path&lt;/code&gt; and &lt;code&gt;10.0.1.8&lt;/code&gt; is the Mount Target&amp;rsquo;s &lt;code&gt;IP Address&lt;/code&gt;.
+The following command should be run on one of the Kubernetes worker nodes.
+This will result in the creation of nine persistent volume folders.
+The reason for nine persistent volume folders is covered in the next section.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;sudo mount 10.0.1.8:/example /mnt
+for x in {0001..0009}; do sudo mkdir -p /mnt/pv${x} &amp;amp;&amp;amp; sudo chmod 777 /mnt/pv${x}; done
+&lt;/code&gt;&lt;/pre&gt;&lt;h6 id=&#34;persistent-volumes&#34;&gt;Persistent Volumes&lt;/h6&gt;
+&lt;p&gt;A default Kubernetes storage class is required by Verrazzano.
+When using pre-allocated &lt;code&gt;PersistentVolumes&lt;/code&gt;, for example NFS, persistent volumes should be declared as following.
+The value for &lt;code&gt;name&lt;/code&gt; may be customized but will need to match the &lt;code&gt;PersistentVolume&lt;/code&gt; &lt;code&gt;storageClassName&lt;/code&gt; value later.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Create a default &lt;code&gt;StorageClass&lt;/code&gt;
+&lt;pre&gt;&lt;code&gt;cat &amp;lt;&amp;lt; EOF | kubectl apply -f -
+  apiVersion: storage.k8s.io/v1
+  kind: StorageClass
+  metadata:
+    name: example-nfs
+    annotations:
+      storageclass.kubernetes.io/is-default-class: &amp;quot;true&amp;quot;
+  provisioner: kubernetes.io/no-provisioner
+  volumeBindingMode: WaitForFirstConsumer
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;Create the required number of &lt;code&gt;PersistentVolume&lt;/code&gt; resources.
+The Verrazzano system requires five persistent volumes for itself.
+Each deployed Verrazzano Binding requires an additional four persistent volumes.
+The following command creates nine persistent volumes, which is enough for one deployed binding.
+The value for &lt;code&gt;storageClassName&lt;/code&gt; must match the above &lt;code&gt;StorageClass&lt;/code&gt; name.
+The values for &lt;code&gt;name&lt;/code&gt; may be customized.
+The value for &lt;code&gt;path&lt;/code&gt; must match the &lt;code&gt;Export Path&lt;/code&gt; of the Export from above, combined with the persistent volume folder from above.
+The value for &lt;code&gt;server&lt;/code&gt; must be changed to match the location of your file system server.
+&lt;pre&gt;&lt;code&gt;for n in {0001..0009}; do cat &amp;lt;&amp;lt; EOF | kubectl apply -f -
+  apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    name: pv${n}
+  spec:
+    storageClassName: example-nfs
+    accessModes:
+      - ReadWriteOnce
+      - ReadWriteMany
+    capacity:
+      storage: 50Gi
+    nfs:
+      path: /example/pv${n}
+      server: 10.0.1.8
+    volumeMode: Filesystem
+    persistentVolumeReclaimPolicy: Recycle
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;/div&gt;
+
+
+
+
+
+
+
+
+
+&lt;div class=&#34;tab-pane fade&#34; id=&#34;tab12&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName2&#34;&gt;
+
+	&lt;br&gt;
+&lt;h4 id=&#34;load-balancers&#34;&gt;Load Balancers&lt;/h4&gt;
+&lt;p&gt;Verrazzano on Oracle Linux Cloud Native Environment uses external load balancer services.
+These will not automatically be provided by Verrazzano or Kubernetes.
+Two load balancers must be deployed outside of the subnet used for the Kubernetes cluster.
+One load balancer is for management traffic and the other for application traffic.&lt;/p&gt;
+&lt;p&gt;Specific steps will differ for each load balancer provider, but a generic configuration and an OCI example follow.&lt;/p&gt;
+&lt;h5 id=&#34;generic-configuration&#34;&gt;Generic configuration:&lt;/h5&gt;
+&lt;ul&gt;
+&lt;li&gt;Target Host: Host names of Kubernetes worker nodes&lt;/li&gt;
+&lt;li&gt;Target Ports: See table&lt;/li&gt;
+&lt;li&gt;External Ports: See table&lt;/li&gt;
+&lt;li&gt;Distribution: Round Robin&lt;/li&gt;
+&lt;li&gt;Health Check: TCP&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Traffic Type&lt;/th&gt;
+&lt;th&gt;Service Name&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Suggested External Port&lt;/th&gt;
+&lt;th&gt;Target Port&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Application&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;istio-ingressgateway&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;80&lt;/td&gt;
+&lt;td&gt;31380&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Application&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;istio-ingressgateway&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;443&lt;/td&gt;
+&lt;td&gt;31390&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Management&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;ingress-controller-nginx-ingress-controller&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;80&lt;/td&gt;
+&lt;td&gt;30080&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Management&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;ingress-controller-nginx-ingress-controller&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;443&lt;/td&gt;
+&lt;td&gt;30443&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h5 id=&#34;oci-example&#34;&gt;OCI example&lt;/h5&gt;
+&lt;p&gt;The following details can be used to create OCI load balancers for accessing application and management user interfaces, respectively.
+These load balancers will route HTTP/HTTPS traffic from the Internet to the private subnet.
+If load balancers are desired, then they should be created now even though the application and management endpoints will be installed later.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Application Load Balancer: Public Subnet
+&lt;ul&gt;
+&lt;li&gt;Listeners
+&lt;ul&gt;
+&lt;li&gt;HTTP Listener: Protocol TCP, Port 80&lt;/li&gt;
+&lt;li&gt;HTTPS Listener: Protocol TCP, Port 443&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Backend Sets
+&lt;ul&gt;
+&lt;li&gt;HTTP Backend Sets:
+&lt;ul&gt;
+&lt;li&gt;Health Check: Protocol TCP, Port 31380&lt;/li&gt;
+&lt;li&gt;Backends: Kubernetes Worker Nodes, Port 31380, Distribution Policy Weighted Round Robin&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;HTTPS Backend Sets
+&lt;ul&gt;
+&lt;li&gt;Health Check: Protocol TCP, Port 31390&lt;/li&gt;
+&lt;li&gt;Backends: Kubernetes Worker Nodes, Port 31390, Distribution Policy Weighted Round Robin&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Management Load Balancer: Public Subnet
+&lt;ul&gt;
+&lt;li&gt;Listeners
+&lt;ul&gt;
+&lt;li&gt;HTTP Listener: Protocol TCP, Port 80&lt;/li&gt;
+&lt;li&gt;HTTPS Listener: Protocol TCP, Port 443&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Backend Sets
+&lt;ul&gt;
+&lt;li&gt;HTTP Backend Sets:
+&lt;ul&gt;
+&lt;li&gt;Health Check: Protocol TCP, Port 30080&lt;/li&gt;
+&lt;li&gt;Backends: Kubernetes Worker Nodes, Port 30080, Distribution Policy Weighted Round Robin&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;HTTPS Backend Sets
+&lt;ul&gt;
+&lt;li&gt;Health Check: Protocol TCP, Port 30443&lt;/li&gt;
+&lt;li&gt;Backends: Kubernetes Worker Nodes, Port 30443, Distribution Policy Weighted Round Robin&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;/div&gt;
+
+
+
+
+
+
+
+
+
+&lt;div class=&#34;tab-pane fade&#34; id=&#34;tab13&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName3&#34;&gt;
+
+	&lt;br&gt;
+&lt;h5 id=&#34;dns&#34;&gt;DNS&lt;/h5&gt;
+&lt;p&gt;When using the &lt;code&gt;spec.dns.external&lt;/code&gt; DNS type, the installer searches the DNS zone you provide for two specific A records.
+These are used to configure the cluster and should refer to external addresses of the load balancers in the previous step.
+The A records will need to be created manually.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; At this time, the only supported deployment for Oracle Linux Cloud Native Environment is the external DNS type.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Record&lt;/th&gt;
+&lt;th&gt;Use&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;ingress-mgmt&lt;/td&gt;
+&lt;td&gt;Set as the &lt;code&gt;.spec.externalIPs&lt;/code&gt; value of the &lt;code&gt;ingress-controller-nginx-ingress-controller&lt;/code&gt; service&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ingress-verrazzano&lt;/td&gt;
+&lt;td&gt;Set as the &lt;code&gt;.spec.externalIPs&lt;/code&gt; value of the &lt;code&gt;istio-ingressgateway&lt;/code&gt; service&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;For example:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;198.51.100.10                                   A       ingress-mgmt.myenv.mydomain.com.
+203.0.113.10                                    A       ingress-verrazzano.myenv.mydomain.com.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Verrazzano installation will result in a number of management services that need to point to the &lt;code&gt;ingress-mgmt&lt;/code&gt; address.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;keycloak.myenv.mydomain.com                      CNAME   ingress-mgmt.myenv.mydomain.com.
+rancher.myenv.mydomain.com                       CNAME   ingress-mgmt.myenv.mydomain.com.
+
+grafana.vmi.system.myenv.mydomain.com            CNAME   ingress-mgmt.myenv.mydomain.com.
+prometheus.vmi.system.myenv.mydomain.com         CNAME   ingress-mgmt.myenv.mydomain.com.
+kibana.vmi.system.myenv.mydomain.com             CNAME   ingress-mgmt.myenv.mydomain.com.
+elasticsearch.vmi.system.myenv.mydomain.com      CNAME   ingress-mgmt.myenv.mydomain.com.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Deployment of applications as a Verrazzano Binding will create four more services in the form:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;grafana.vmi.&lt;strong&gt;mybinding&lt;/strong&gt;.myenv.mydomain.com&lt;/li&gt;
+&lt;li&gt;prometheus.vmi.&lt;strong&gt;mybinding&lt;/strong&gt;.myenv.mydomain.com&lt;/li&gt;
+&lt;li&gt;kibana.vmi.&lt;strong&gt;mybinding&lt;/strong&gt;.myenv.mydomain.com&lt;/li&gt;
+&lt;li&gt;elasticsearch.vmi.&lt;strong&gt;mybinding&lt;/strong&gt;.myenv.mydomain.com&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For simplicity, an administrator may want to create &lt;a href=&#34;https://tools.ietf.org/html/rfc1034#section-4.3.3&#34;&gt;wildcard DNS records&lt;/a&gt; for the management addresses:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;*.system.myenv.mydomain.com                      CNAME   ingress-mgmt.myenv.mydomain.com.
+*.mybinding.myenv.mydomain.com                   CNAME   ingress-mgmt.myenv.mydomain.com.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;OR&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;*.myenv.mydomain.com                             CNAME   ingress-mgmt.myenv.mydomain.com.
+&lt;/code&gt;&lt;/pre&gt;&lt;h5 id=&#34;oci-example&#34;&gt;OCI example&lt;/h5&gt;
+&lt;p&gt;DNS is configured in OCI by creating DNS zones in the OCI Console.
+When creating a DNS zone, use these values.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Method: Manual&lt;/li&gt;
+&lt;li&gt;Zone Name: &lt;code&gt;&amp;lt;dns-suffix&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Zone Type: Primary&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The value for &lt;code&gt;&amp;lt;dns-suffix&amp;gt;&lt;/code&gt; excludes the environment (for example, use the &lt;code&gt;mydomain.com&lt;/code&gt; portion of &lt;code&gt;myenv.mydomain.com&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;DNS A records must be manually added to the zone and published using values described above.
+DNS CNAME records, in the same way.&lt;/p&gt;
+
+
+&lt;/div&gt;
+
+
+
+
+
+&lt;/div&gt;
+&lt;p&gt;During the Verrazzano install, these steps should be performed on the Oracle Linux Cloud Native Environment operator node.&lt;/p&gt;
+&lt;p&gt;Edit the sample Verrazzano custom resource &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/operator/config/samples/install-olcne.yaml&#34;&gt;install-olcne.yaml&lt;/a&gt; file and provide the configuration settings for your OLCNE environment as follows:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The value for &lt;code&gt;spec.environmentName&lt;/code&gt; is a unique DNS subdomain for the cluster (for example, &lt;code&gt;myenv&lt;/code&gt; in &lt;code&gt;myenv.mydomain.com&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;The value for &lt;code&gt;spec.dns.external.suffix&lt;/code&gt; is the remainder of the DNS domain (for example, &lt;code&gt;mydomain.com&lt;/code&gt; in &lt;code&gt;myenv.mydomain.com&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;Under &lt;code&gt;spec.ingress.verrazzano.nginxInstallArgs&lt;/code&gt;, the value for &lt;code&gt;controller.service.externalIPs&lt;/code&gt; is the IP address of &lt;code&gt;ingress-mgmt.&amp;lt;myenv&amp;gt;.&amp;lt;mydomain.com&amp;gt;&lt;/code&gt; configured during DNS set up.&lt;/li&gt;
+&lt;li&gt;Under  &lt;code&gt;spec.ingress.application.istioInstallArgs&lt;/code&gt;, the value for &lt;code&gt;gateways.istio-ingressgateway.externalIPs&lt;/code&gt; is the IP address of &lt;code&gt;ingress-verrazzano.&amp;lt;myenv&amp;gt;.&amp;lt;mydomain.com&amp;gt;&lt;/code&gt; configured during DNS set up.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You will install Verrazzano using the &lt;code&gt;external&lt;/code&gt; DNS type (the example custom resource for OLCNE is already configured to use &lt;code&gt;spec.dns.external&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;Set the following environment variables:&lt;/p&gt;
+&lt;p&gt;The value for &lt;code&gt;&amp;lt;path to valid Kubernetes config&amp;gt;&lt;/code&gt; is typically &lt;code&gt;${HOME}/.kube/config&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;export KUBECONFIG=$VERRAZZANO_KUBECONFIG
+&lt;/code&gt;&lt;/pre&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Installation Guide</title>
+      <link>https://verrazzano.io/docs/setup/install/installation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/setup/install/installation/</guid>
+      <description>
+        
+        
+        &lt;p&gt;You can install Verrazzano in a single &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm&#34;&gt;Oracle Cloud Infrastructure Container Engine for Kubernetes&lt;/a&gt; (OKE) cluster or
+an &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/&#34;&gt;Oracle Linux Cloud Native Environment&lt;/a&gt; (OLCNE) deployment.&lt;/p&gt;
+&lt;p&gt;For an OCI OKE cluster, you have two DNS choices:
+&lt;a href=&#34;http://xip.io/&#34;&gt;xip.io&lt;/a&gt; or
+&lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm&#34;&gt;Oracle OCI DNS&lt;/a&gt;. OLCNE currently supports only a manual DNS.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+You should install this developer preview release of Verrazzano only in a cluster that can be safely deleted when your evaluation is complete.
+&lt;/div&gt;
+
+&lt;p&gt;Verrazzano requires the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A kubernetes cluster and a compatible kubectl.&lt;/li&gt;
+&lt;li&gt;Other versions have not been tested and are not guaranteed to work&lt;/li&gt;
+&lt;li&gt;At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Verrazzano has been tested only on the following versions of Kubernetes: 1.17.x and 1.18.x.  Other versions have not been tested and are not guaranteed to work.&lt;/p&gt;
+&lt;h3 id=&#34;prepare-for-the-install&#34;&gt;Prepare for the install&lt;/h3&gt;
+&lt;p&gt;To prepare for installing on OCI Container Engine for Kubernetes, see &lt;a href=&#34;../../platforms/oci/oci&#34;&gt;Prepare for the OCI install&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To prepare for installing on OLCNE, see &lt;a href=&#34;../../platforms/olcne/olcne&#34;&gt;Prepare for the OCLNE install&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;install-the-verrazzano-platform-operator&#34;&gt;Install the Verrazzano Platform Operator&lt;/h3&gt;
+&lt;p&gt;Verrazzano provides a platform &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/operator/&#34;&gt;operator&lt;/a&gt;
+to manage the life cycle of Verrazzano installations.  You can install,
+uninstall, and update Verrazzano installations by updating the
+&lt;a href=&#34;../../../reference/api/verrazzano/verrazzano&#34;&gt;Verrazzano custom resource&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To install the Verrazzano platform operator, follow these steps:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Deploy the Verrazzano platform operator.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Wait for the deployment to complete.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
+deployment &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;verrazzano-platform-operator&amp;#34;&lt;/span&gt; successfully rolled out
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Confirm that the operator pod is correctly defined and running.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl -n verrazzano-install get pods
+NAME                                            READY   STATUS    RESTARTS   AGE
+verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;          114s
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;perform-the-install&#34;&gt;Perform the install&lt;/h3&gt;
+&lt;p&gt;For a complete description of Verrazzano configuration options, see the &lt;a href=&#34;../../../reference/api/verrazzano/verrazzano&#34;&gt;Verrazzano Custom Resource Definition&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;According to your DNS choice, install Verrazzano using one of the following methods.&lt;/p&gt;
+&lt;nav&gt;
+	&lt;div class=&#34;nav nav-tabs&#34; id=&#34;nav-tab&#34; role=&#34;tablist&#34;&gt;
+
+		
+		
+
+		
+		
+		
+
+		
+
+		&lt;a class=&#34;nav-item nav-link active&#34; id=&#34;nav-2&#34; data-toggle=&#34;tab&#34; href=&#34;#tab21&#34; role=&#34;tab&#34;
+		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;xip.io&lt;/a&gt;
+
+		
+		
+
+		
+		
+		
+
+		
+
+		&lt;a class=&#34;nav-item nav-link&#34; id=&#34;nav-2&#34; data-toggle=&#34;tab&#34; href=&#34;#tab22&#34; role=&#34;tab&#34;
+		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;false&#34;&gt;OCI DNS&lt;/a&gt;
+
+		
+		
+
+	&lt;/div&gt;
+&lt;/nav&gt;
+
+&lt;div class=&#34;tab-content&#34; id=&#34;2&#34;&gt;
+
+
+
+
+
+
+
+
+&lt;div class=&#34;tab-pane fade show active&#34; id=&#34;tab21&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName1&#34;&gt;
+
+	&lt;br&gt;
+&lt;h5 id=&#34;install-using-xipio&#34;&gt;Install using xip.io&lt;/h5&gt;
+&lt;p&gt;The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/develop/operator/config/samples/install-default.yaml&#34;&gt;install-default.yaml&lt;/a&gt; file provides a template for a default xip.io installation.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: my-verrazzano
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+
+
+
+
+
+
+
+
+&lt;div class=&#34;tab-pane fade&#34; id=&#34;tab22&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName2&#34;&gt;
+
+	&lt;br&gt;
+&lt;h5 id=&#34;install-using-oci-dns&#34;&gt;Install using OCI DNS&lt;/h5&gt;
+&lt;h6 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h6&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;A DNS zone is a distinct portion of a domain namespace. Therefore, ensure that the zone is appropriately associated with a parent domain.
+For example, an appropriate zone name for parent domain &lt;code&gt;v8o.example.com&lt;/code&gt; domain is &lt;code&gt;us.v8o.example.com&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create an OCI DNS zone using the OCI Console or the OCI CLI.&lt;/p&gt;
+&lt;p&gt;CLI example:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;oci dns zone create -c &amp;lt;compartment ocid&amp;gt; --name &amp;lt;zone-name-prefix&amp;gt;.v8o.oracledx.com --zone-type PRIMARY
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h6 id=&#34;installation&#34;&gt;Installation&lt;/h6&gt;
+&lt;p&gt;Installing Verrazzano on OCI DNS requires some configuration settings to create DNS records.
+The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/operator/config/samples/install-default.yaml&#34;&gt;install-oci.yaml&lt;/a&gt; file provides a template of a Verrazzano custom resource for an OCI DNS installation. Edit this custom resource and provide values for the following configuration settings:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;spec.environmentName&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;spec.certificate.acme.emailAddress&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;spec.dns.oci.ociConfigSecret&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;spec.dns.oci.dnsZoneCompartmentOCID&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;spec.dns.oci.dnsZoneOCID&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;spec.dns.oci.dnsZoneName&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For the full configuration information for an installation, see the &lt;a href=&#34;../../../reference/api/verrazzano/verrazzano/&#34;&gt;Verrazzano Custom Resource Definition&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;When you use the OCI DNS installation, you need to provide a Verrazzano name in the Verrazzano custom resource
+(&lt;code&gt;spec.environmentName&lt;/code&gt;) that will be used as part of the domain name used to access Verrazzano
+ingresses.  For example, you could use &lt;code&gt;sales&lt;/code&gt; as an &lt;code&gt;environmentName&lt;/code&gt;, yielding
+&lt;code&gt;sales.us.v8o.example.com&lt;/code&gt; as the sales-related domain (assuming the domain and zone names listed
+previously).&lt;/p&gt;
+
+
+&lt;/div&gt;
+
+
+
+
+
+&lt;/div&gt;
+&lt;p&gt;Run the following commands:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kubectl apply -f operator/deploy/operator.yaml
+kubectl apply -f operator/config/samples/install-olcne.yaml
+kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To monitor the console log output of the installation, run the following command:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;    kubectl logs -f $(kubectl get pod -l job-name=verrazzano-install-my-verrazzano -o jsonpath=&amp;quot;{.items[0].metadata.name}&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;verify-the-install&#34;&gt;Verify the install&lt;/h3&gt;
+&lt;p&gt;Verrazzano installs multiple objects in multiple namespaces. In the &lt;code&gt;verrazzano-system&lt;/code&gt; namespaces, all the pods in the &lt;code&gt;Running&lt;/code&gt; state, does not guarantee, but likely indicates that Verrazzano is up and running.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kubectl get pods -n verrazzano-system
+verrazzano-admission-controller-84d6bc647c-7b8tl   1/1     Running   0          5m13s
+verrazzano-cluster-operator-57fb95fc99-kqjll       1/1     Running   0          5m13s
+verrazzano-monitoring-operator-7cb5947f4c-x9kfc    1/1     Running   0          5m13s
+verrazzano-operator-b6d95b4c4-sxprv                1/1     Running   0          5m13s
+vmi-system-api-7c8654dc76-2bdll                    1/1     Running   0          4m44s
+vmi-system-es-data-0-6679cf99f4-9p25f              2/2     Running   0          4m44s
+vmi-system-es-data-1-8588867569-zlwwx              2/2     Running   0          4m44s
+vmi-system-es-ingest-78f6dfddfc-2v5nc              1/1     Running   0          4m44s
+vmi-system-es-master-0                             1/1     Running   0          4m44s
+vmi-system-es-master-1                             1/1     Running   0          4m44s
+vmi-system-es-master-2                             1/1     Running   0          4m44s
+vmi-system-grafana-5f7bc8b676-xx49f                1/1     Running   0          4m44s
+vmi-system-kibana-649466fcf8-4n8ct                 1/1     Running   0          4m44s
+vmi-system-prometheus-0-7f97ff97dc-gfclv           3/3     Running   0          4m44s
+vmi-system-prometheus-gw-7cb9df774-48g4b           1/1     Running   0          4m44s
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;optional-install-the-example-applications&#34;&gt;(Optional) Install the example applications&lt;/h4&gt;
+&lt;p&gt;Example applications are located in the &lt;a href=&#34;https://github.com/verrazzano/verrazzano/tree/master/examples&#34;&gt;&lt;code&gt;examples&lt;/code&gt;&lt;/a&gt; directory.&lt;/p&gt;
+&lt;h5 id=&#34;to-get-the-consoles-urls-and-credentials-see-operationsoperations&#34;&gt;To get the consoles URLs and credentials, see &lt;a href=&#34;../../../operations&#34;&gt;Operations&lt;/a&gt;&lt;/h5&gt;
+&lt;h3 id=&#34;uninstall-verrazzano&#34;&gt;Uninstall Verrazzano&lt;/h3&gt;
+&lt;p&gt;To delete a Verrazzano installation, run the following commands:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# Get the name of the Verrazzano custom resource
+kubectl get verrazzano
+
+# Delete the Verrazzano custom resource
+kubectl delete verrazzano &amp;lt;name of custom resource&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To monitor the console log of the uninstall, run the following command:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kubectl logs -f $(kubectl get pod -l job-name=verrazzano-uninstall-my-verrazzano -o jsonpath=&amp;quot;{.items[0].metadata.name}&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;known-issues&#34;&gt;Known Issues&lt;/h2&gt;
+&lt;h4 id=&#34;oke-missing-security-list-ingress-rules&#34;&gt;OKE Missing Security List Ingress Rules&lt;/h4&gt;
+&lt;p&gt;The install scripts perform a check, which attempts access through the ingress ports.  If the check fails, then the install will exit and you will see error messages like this:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ERROR: Port 443 is NOT accessible on ingress(132.145.66.80)!  Check that security lists include an ingress rule for the node port 31739.&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;On an OKE install, this may indicate that there is a missing ingress rule or rules.  To verify and fix the issue, do the following:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Get the ports for the &lt;code&gt;LoadBalancer&lt;/code&gt; services.
+&lt;ul&gt;
+&lt;li&gt;Run &lt;code&gt;kubectl get services -A&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Note the ports for the &lt;code&gt;LoadBalancer&lt;/code&gt; type services.  For example &lt;code&gt;80:31541/TCP,443:31739/TCP&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Check the security lists in the OCI Console.
+&lt;ul&gt;
+&lt;li&gt;Go to &lt;code&gt;Networking/Virtual Cloud Networks&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Select the related VCN.&lt;/li&gt;
+&lt;li&gt;Go to the &lt;code&gt;Security Lists&lt;/code&gt; for the VCN.&lt;/li&gt;
+&lt;li&gt;Select the security list named &lt;code&gt;oke-wkr-...&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Check the ingress rules for the security list.  There should be one rule for each of the destination ports named in the &lt;code&gt;LoadBalancer&lt;/code&gt; services.  In the above example, the destination ports are &lt;code&gt;31541&lt;/code&gt; &amp;amp; &lt;code&gt;31739&lt;/code&gt;. We would expect the ingress rule for &lt;code&gt;31739&lt;/code&gt; to be missing because it was named in the &lt;code&gt;ERROR&lt;/code&gt; output.&lt;/li&gt;
+&lt;li&gt;If a rule is missing, then add it by clicking &lt;code&gt;Add Ingress Rules&lt;/code&gt; and filling in the source CIDR and destination port range (missing port).  Use the existing rules as a guide.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Upgrade Guide</title>
+      <link>https://verrazzano.io/docs/setup/upgrade/upgrade/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/setup/upgrade/upgrade/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Upgrading an existing Verrazzano installation involves:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Upgrading the Verrazzano platform operator to the &lt;a href=&#34;https://github.com/verrazzano/verrazzano/releases/&#34;&gt;Verrazzano release version&lt;/a&gt; to which you want to upgrade.&lt;/li&gt;
+&lt;li&gt;Updating the version of your installed &lt;code&gt;Verrazzano&lt;/code&gt; resource to the version supported by the upgraded operator.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Performing an upgrade will upgrade only the Verrazzano components related to the existing installation.  Upgrading will
+not have any impact on running applications.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; You may only change the version field during an upgrade; changes to other fields or component configurations are not supported at this time.&lt;/p&gt;
+&lt;h3 id=&#34;upgrade-the-verrazzano-platform-operator&#34;&gt;Upgrade the Verrazzano Platform Operator&lt;/h3&gt;
+&lt;p&gt;In order to upgrade an existing Verrazzano installation, you must first upgrade the &lt;a href=&#34;https://github.com/verrazzano/verrazzano-platform-operator&#34;&gt;Verrazzano platform operator&lt;/a&gt;.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Upgrade the Verrazzano platform operator.&lt;/p&gt;
+&lt;p&gt;To upgrade to the latest version:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To upgrade to a specific version:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/&amp;lt;version&amp;gt;/operator.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;where &lt;code&gt;&amp;lt;version&amp;gt;&lt;/code&gt; is the desired version.  For example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v0.7.0/operator.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Wait for the deployment to complete.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
+deployment &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;verrazzano-platform-operator&amp;#34;&lt;/span&gt; successfully rolled out
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Confirm that the operator pod is correctly defined and running.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl -n verrazzano-install get pods
+NAME                                            READY   STATUS    RESTARTS   AGE
+verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;          114s
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;upgrade-verrazzano&#34;&gt;Upgrade Verrazzano&lt;/h3&gt;
+&lt;p&gt;To upgrade Verrazzano:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Update the &lt;code&gt;Verrazzano&lt;/code&gt; resource to the desired version.&lt;/p&gt;
+&lt;p&gt;To upgrade the Verrazzano components, you must update the &lt;code&gt;version&lt;/code&gt; field in your &lt;code&gt;Verrazzano&lt;/code&gt; resource spec to
+match the version supported by the platform operator to which you upgraded and apply it to the cluster.&lt;/p&gt;
+&lt;p&gt;The value of the &lt;code&gt;version&lt;/code&gt; field in the resource spec must be a &lt;a href=&#34;https://semver.org/&#34;&gt;Semantic Versioning&lt;/a&gt; value
+corresponding to a valid &lt;a href=&#34;https://github.com/verrazzano/verrazzano/releases/&#34;&gt;Verrazzano release version&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;You can update the resource by doing one of the following:&lt;/p&gt;
+&lt;p&gt;a. Editing the YAML file you used to install Verrazzano and setting the version field to the latest version.&lt;/p&gt;
+&lt;p&gt;For example, to upgrade to &lt;code&gt;v0.7.0&lt;/code&gt;, your YAML file should be edited to add or update the version field:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;install.verrazzano.io/v1alpha1&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;Verrazzano&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;my-verrazzano&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;profile&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;dev&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;version&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;v0&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;.7.0&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Then apply the resource to the cluster (if you have not edited the resource in-place using &lt;code&gt;kubectl edit&lt;/code&gt;):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f my-verrazzano.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;b. Editing the &lt;code&gt;Verrazzano&lt;/code&gt; resource directly using &lt;code&gt;kubectl&lt;/code&gt; and setting the version field directly, for example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl edit verrazzano my-verrazzano
+&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Once in the resource editor, add or update the version field to &amp;#34;version: v0.7.0&amp;#34;, then save.&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Wait for the upgrade to complete:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;20m --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;UpgradeComplete verrazzano/my-verrazzano
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;verify-the-upgrade&#34;&gt;Verify the upgrade&lt;/h3&gt;
+&lt;p&gt;Check that all the pods in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace are in the &lt;code&gt;Running&lt;/code&gt; state.  While the upgrade is in progress,
+you may see some pods terminating and restarting as newer versions of components are applied.&lt;/p&gt;
+&lt;p&gt;For example:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kubectl get pods -n verrazzano-system
+verrazzano-admission-controller-84d6bc647c-7b8tl   1/1     Running   0          5m13s
+verrazzano-cluster-operator-57fb95fc99-kqjll       1/1     Running   0          5m13s
+verrazzano-monitoring-operator-7cb5947f4c-x9kfc    1/1     Running   0          5m13s
+verrazzano-operator-b6d95b4c4-sxprv                1/1     Running   0          5m13s
+vmi-system-api-7c8654dc76-2bdll                    1/1     Running   0          4m44s
+vmi-system-es-data-0-6679cf99f4-9p25f              2/2     Running   0          4m44s
+vmi-system-es-data-1-8588867569-zlwwx              2/2     Running   0          4m44s
+vmi-system-es-ingest-78f6dfddfc-2v5nc              1/1     Running   0          4m44s
+vmi-system-es-master-0                             1/1     Running   0          4m44s
+vmi-system-es-master-1                             1/1     Running   0          4m44s
+vmi-system-es-master-2                             1/1     Running   0          4m44s
+vmi-system-grafana-5f7bc8b676-xx49f                1/1     Running   0          4m44s
+vmi-system-kibana-649466fcf8-4n8ct                 1/1     Running   0          4m44s
+vmi-system-prometheus-0-7f97ff97dc-gfclv           3/3     Running   0          4m44s
+vmi-system-prometheus-gw-7cb9df774-48g4b           1/1     Running   0          4m44s
+&lt;/code&gt;&lt;/pre&gt;
       </description>
     </item>
     
