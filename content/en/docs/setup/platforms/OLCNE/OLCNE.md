@@ -140,7 +140,7 @@ Examples for meeting these requirements follow.
 {{< tab tabNum="1" >}}
 <br>
 
-##### Storage
+#### Storage
 Verrazzano requires persistent storage for several components.
 This persistent storage is provided by a default storage class.
 A number of persistent storage providers exist for Kubernetes.
@@ -224,18 +224,19 @@ One load balancer is for management traffic and the other for application traffi
 Specific steps will differ for each load balancer provider, but a generic configuration and an OCI example follow.
 
 ##### Generic configuration:
+
 * Target Host: Host names of Kubernetes worker nodes
 * Target Ports: See table
 * External Ports: See table
 * Distribution: Round Robin
 * Health Check: TCP
 
-| Traffic Type | Service Name                                  | Type | Suggested External Port | Target Port |
-|--------------|-----------------------------------------------|------|-------------------------|-------------|
-| Application  | `istio-ingressgateway`                        | TCP  | 80                      | 31380       |
-| Application  | `istio-ingressgateway`                        | TCP  | 443                     | 31390       |
-| Management   | `ingress-controller-nginx-ingress-controller` | TCP  | 80                      | 30080       |
-| Management   | `ingress-controller-nginx-ingress-controller` | TCP  | 443                     | 30443       |
+| Traffic Type | Service Name                                  | Type  | Suggested External Port | Target Port |
+|--------------|-----------------------------------------------|-------|-------------------------|-------------|
+| Application  | `istio-ingressgateway`                        | TCP   | 80                      | 31380       |
+| Application  | `istio-ingressgateway`                        | TCP   | 443                     | 31390       |
+| Management   | `ingress-controller-nginx-ingress-controller` | TCP   | 80                      | 30080       |
+| Management   | `ingress-controller-nginx-ingress-controller` | TCP   | 443                     | 30443       |
 
 
 ##### OCI example
@@ -270,7 +271,7 @@ If load balancers are desired, then they should be created now even though the a
 {{< tab tabNum="3" >}}
 <br>
 
-##### DNS
+#### DNS
 When using the `spec.dns.external` DNS type, the installer searches the DNS zone you provide for two specific A records.
 These are used to configure the cluster and should refer to external addresses of the load balancers in the previous step.
 The A records will need to be created manually.
@@ -340,7 +341,7 @@ Edit the sample Verrazzano custom resource [install-olcne.yaml](https://github.c
 
 You will install Verrazzano using the `external` DNS type (the example custom resource for OLCNE is already configured to use `spec.dns.external`).
 
-Set the following environment variables:
+Set the following environment variable:
 
 The value for `<path to valid Kubernetes config>` is typically `${HOME}/.kube/config`
 ```
