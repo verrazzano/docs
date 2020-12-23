@@ -32,8 +32,8 @@ environments.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;A Kubernetes cluster and a compatible &lt;code&gt;kubectl&lt;/code&gt;.
 &lt;ul&gt;
-&lt;li&gt;Verrazzano has been tested only on the following versions of Kubernetes: 1.17.x and 1.18.x.&lt;/li&gt;
-&lt;li&gt;Other versions have not been tested and are &lt;em&gt;not&lt;/em&gt; guaranteed to work.&lt;/li&gt;
+&lt;li&gt;Verrazzano has been tested &lt;em&gt;only&lt;/em&gt; on the following versions of Kubernetes: 1.17.x and 1.18.x.&lt;/li&gt;
+&lt;li&gt;Other versions have not been tested and are not guaranteed to work.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.&lt;/li&gt;
@@ -198,17 +198,17 @@ Error from server &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;(&l
 &lt;li&gt;
 &lt;p&gt;Delete the Verrazzano custom resource.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl delete verrazzano example-verrazzano
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
 
-&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
+
+&lt;div class=&#34;alert alert-tip&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt;This command blocks until the uninstall has completed.  To follow the progress,
+This command blocks until the uninstall has completed.  To follow the progress,
 you can view the uninstall logs.
-&lt;/code&gt;&lt;/pre&gt;
-
 &lt;/div&gt;
 
-&lt;/li&gt;
+&lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;(Optional) View the uninstall logs.&lt;/p&gt;
 &lt;p&gt;The Verrazzano operator launches a Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/workloads/controllers/job/&#34;&gt;job&lt;/a&gt; to delete the Verrazzano installation.  You can view the uninstall logs from that job with the following command:&lt;/p&gt;
@@ -235,7 +235,7 @@ you can view the uninstall logs.
         
         &lt;p&gt;The Verrazzano custom resource contains the configuration information for an installation.
 Here is a sample Verrazzano custom resource file that uses OCI DNS.  See other examples in
-&lt;code&gt;./operator/config/samples&lt;/code&gt;.&lt;/p&gt;
+&lt;a href=&#34;https://github.com/verrazzano/verrazzano/tree/master/operator/config/samples&#34;&gt;&lt;code&gt;./operator/config/samples&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
@@ -1755,6 +1755,38 @@ such as monitoring components.&lt;/p&gt;
     </item>
     
     <item>
+      <title>Docs: Release Notes</title>
+      <link>https://verrazzano.io/docs/reference/releasenotes/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/reference/releasenotes/</guid>
+      <description>
+        
+        
+        &lt;h3 id=&#34;v070&#34;&gt;v.0.7.0&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Features&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Ability to upgrade an existing Verrazzano installation.&lt;/li&gt;
+&lt;li&gt;Added the Verrazzano Console.&lt;/li&gt;
+&lt;li&gt;Enhanced the structure of the Verrazzano custom resource to allow more configurability.&lt;/li&gt;
+&lt;li&gt;Streamlined the secret usage for OCI DNS installations.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Fixes&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Fixed bug where the Verrazzano CR Certificate.&lt;code&gt;CA&lt;/code&gt; fields were being ignored.&lt;/li&gt;
+&lt;li&gt;Removed secret used for &lt;code&gt;hello-world&lt;/code&gt;; &lt;code&gt;hello-world-application&lt;/code&gt; image is now public in ghcr so &lt;code&gt;ImagePullSecrets&lt;/code&gt; is no longer needed.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Verrazzano Application Binding</title>
       <link>https://verrazzano.io/docs/reference/api/verrazzanobinding/verrazzanoapplictionbinding/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -2528,7 +2560,7 @@ kubectl apply -f binding.yaml
 &lt;p&gt;For &lt;code&gt;SHAPE&lt;/code&gt;, an OKE cluster with 3 nodes of &lt;code&gt;VM.Standard2.4&lt;/code&gt; &lt;a href=&#34;https://www.oracle.com/cloud/compute/virtual-machines.html&#34;&gt;OCI compute instance shape&lt;/a&gt; has proven sufficient to install Verrazzano and deploy the Bob&amp;rsquo;s Books example application.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Set the following &lt;code&gt;ENV&lt;/code&gt; vars:&lt;/p&gt;
+&lt;p&gt;Set the following &lt;code&gt;ENV&lt;/code&gt; variable:&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;pre&gt;&lt;code&gt;   export KUBECONFIG=&amp;lt;path to valid Kubernetes config&amp;gt;
@@ -3071,7 +3103,7 @@ Other values can be used if required.&lt;/p&gt;
 &lt;div class=&#34;tab-pane fade show active&#34; id=&#34;tab11&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName1&#34;&gt;
 
 	&lt;br&gt;
-&lt;h5 id=&#34;storage&#34;&gt;Storage&lt;/h5&gt;
+&lt;h4 id=&#34;storage&#34;&gt;Storage&lt;/h4&gt;
 &lt;p&gt;Verrazzano requires persistent storage for several components.
 This persistent storage is provided by a default storage class.
 A number of persistent storage providers exist for Kubernetes.
@@ -3280,7 +3312,7 @@ If load balancers are desired, then they should be created now even though the a
 &lt;div class=&#34;tab-pane fade&#34; id=&#34;tab13&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName3&#34;&gt;
 
 	&lt;br&gt;
-&lt;h5 id=&#34;dns&#34;&gt;DNS&lt;/h5&gt;
+&lt;h4 id=&#34;dns&#34;&gt;DNS&lt;/h4&gt;
 &lt;p&gt;When using the &lt;code&gt;spec.dns.external&lt;/code&gt; DNS type, the installer searches the DNS zone you provide for two specific A records.
 These are used to configure the cluster and should refer to external addresses of the load balancers in the previous step.
 The A records will need to be created manually.&lt;/p&gt;
@@ -3355,7 +3387,7 @@ DNS CNAME records, in the same way.&lt;/p&gt;
 &lt;li&gt;Under  &lt;code&gt;spec.ingress.application.istioInstallArgs&lt;/code&gt;, the value for &lt;code&gt;gateways.istio-ingressgateway.externalIPs&lt;/code&gt; is the IP address of &lt;code&gt;ingress-verrazzano.&amp;lt;myenv&amp;gt;.&amp;lt;mydomain.com&amp;gt;&lt;/code&gt; configured during DNS set up.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;You will install Verrazzano using the &lt;code&gt;external&lt;/code&gt; DNS type (the example custom resource for OLCNE is already configured to use &lt;code&gt;spec.dns.external&lt;/code&gt;).&lt;/p&gt;
-&lt;p&gt;Set the following environment variables:&lt;/p&gt;
+&lt;p&gt;Set the following environment variable:&lt;/p&gt;
 &lt;p&gt;The value for &lt;code&gt;&amp;lt;path to valid Kubernetes config&amp;gt;&lt;/code&gt; is typically &lt;code&gt;${HOME}/.kube/config&lt;/code&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;export KUBECONFIG=$VERRAZZANO_KUBECONFIG
 &lt;/code&gt;&lt;/pre&gt;
@@ -3373,7 +3405,7 @@ DNS CNAME records, in the same way.&lt;/p&gt;
         
         &lt;p&gt;You can install Verrazzano in a single &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm&#34;&gt;Oracle Cloud Infrastructure Container Engine for Kubernetes&lt;/a&gt; (OKE) cluster or
 an &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/&#34;&gt;Oracle Linux Cloud Native Environment&lt;/a&gt; (OLCNE) deployment.&lt;/p&gt;
-&lt;p&gt;For an OCI OKE cluster, you have two DNS choices:
+&lt;p&gt;For an OKE cluster, you have two DNS choices:
 &lt;a href=&#34;http://xip.io/&#34;&gt;xip.io&lt;/a&gt; or
 &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm&#34;&gt;Oracle OCI DNS&lt;/a&gt;. OLCNE currently supports only a manual DNS.&lt;/p&gt;
 
@@ -3389,7 +3421,7 @@ You should install this developer preview release of Verrazzano only in a cluste
 &lt;li&gt;Other versions have not been tested and are not guaranteed to work&lt;/li&gt;
 &lt;li&gt;At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Verrazzano has been tested only on the following versions of Kubernetes: 1.17.x and 1.18.x.  Other versions have not been tested and are not guaranteed to work.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Verrazzano has been tested &lt;em&gt;only&lt;/em&gt; on the following versions of Kubernetes: 1.17.x and 1.18.x.  Other versions have not been tested and are not guaranteed to work.&lt;/p&gt;
 &lt;h3 id=&#34;prepare-for-the-install&#34;&gt;Prepare for the install&lt;/h3&gt;
 &lt;p&gt;To prepare for installing on OCI Container Engine for Kubernetes, see &lt;a href=&#34;../../platforms/oci/oci&#34;&gt;Prepare for the OCI install&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;To prepare for installing on OLCNE, see &lt;a href=&#34;../../platforms/olcne/olcne&#34;&gt;Prepare for the OCLNE install&lt;/a&gt;.&lt;/p&gt;
@@ -3500,7 +3532,7 @@ For example, an appropriate zone name for parent domain &lt;code&gt;v8o.example.
 &lt;/ul&gt;
 &lt;h6 id=&#34;installation&#34;&gt;Installation&lt;/h6&gt;
 &lt;p&gt;Installing Verrazzano on OCI DNS requires some configuration settings to create DNS records.
-The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/operator/config/samples/install-default.yaml&#34;&gt;install-oci.yaml&lt;/a&gt; file provides a template of a Verrazzano custom resource for an OCI DNS installation. Edit this custom resource and provide values for the following configuration settings:&lt;/p&gt;
+The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/operator/config/samples/install-oci.yaml&#34;&gt;install-oci.yaml&lt;/a&gt; file provides a template of a Verrazzano custom resource for an OCI DNS installation. Edit this custom resource and provide values for the following configuration settings:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;spec.environmentName&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;spec.certificate.acme.emailAddress&lt;/code&gt;&lt;/li&gt;
@@ -3550,7 +3582,7 @@ vmi-system-prometheus-0-7f97ff97dc-gfclv           3/3     Running   0          
 vmi-system-prometheus-gw-7cb9df774-48g4b           1/1     Running   0          4m44s
 &lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;optional-install-the-example-applications&#34;&gt;(Optional) Install the example applications&lt;/h4&gt;
 &lt;p&gt;Example applications are located in the &lt;a href=&#34;https://github.com/verrazzano/verrazzano/tree/master/examples&#34;&gt;&lt;code&gt;examples&lt;/code&gt;&lt;/a&gt; directory.&lt;/p&gt;
-&lt;h5 id=&#34;to-get-the-consoles-urls-and-credentials-see-operationsoperations&#34;&gt;To get the consoles URLs and credentials, see &lt;a href=&#34;../../../operations&#34;&gt;Operations&lt;/a&gt;&lt;/h5&gt;
+&lt;h5 id=&#34;to-get-the-consoles-urls-and-credentials-see-operationsoperations&#34;&gt;To get the consoles URLs and credentials, see &lt;a href=&#34;../../../operations&#34;&gt;Operations&lt;/a&gt;.&lt;/h5&gt;
 &lt;h3 id=&#34;uninstall-verrazzano&#34;&gt;Uninstall Verrazzano&lt;/h3&gt;
 &lt;p&gt;To delete a Verrazzano installation, run the following commands:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;# Get the name of the Verrazzano custom resource
