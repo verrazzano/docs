@@ -219,10 +219,10 @@ To uninstall Verrazzano, follow these steps:
     kubectl delete verrazzano example-verrazzano
     ```
 
-{{< alert title="NOTE" color="tip" >}}
-This command blocks until the uninstall has completed.  To follow the progress,
-you can view the uninstall logs.
-{{< /alert >}}
+   {{< alert title="NOTE" color="tip" >}}
+   This command blocks until the uninstall has completed.  To follow the progress,
+   you can view the uninstall logs.
+   {{< /alert >}}
 
 1. (Optional) View the uninstall logs.
 

@@ -157,7 +157,7 @@ vmi-system-prometheus-gw-7cb9df774-48g4b           1/1     Running   0          
 ```
 
 #### (Optional) Install the example applications
-Example applications are located in the [`examples`](https://github.com/verrazzano/verrazzano/tree/master/examples) directory.
+Example applications are located [here](https://github.com/verrazzano/verrazzano/tree/master/examples).
 
 ##### To get the consoles URLs and credentials, see [Operations](../../../operations).
 
