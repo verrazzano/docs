@@ -15,4 +15,13 @@ draft: false
 - Fixes
     - Fixed bug where the Verrazzano CR Certificate.`CA` fields were being ignored.
     - Removed secret used for `hello-world`; `hello-world-application` image is now public in ghcr so `ImagePullSecrets` is no longer needed.
+    - Fix for [issue #339](https://github.com/verrazzano/verrazzano/issues/339) (PRs [#208](https://github.com/verrazzano/verrazzano-operator/pull/208) & [#210](https://github.com/verrazzano/verrazzano-operator/pull/210).)
+
+### v0.6.0
+- Features
+    - In-cluster installer which replaces client side install scripts.
+    - Added Install profiles; in this release, there are two, prod and dev.
+    - Verrazzano system components now emit JSON structured logs.
+- Fixes
+    - Updated versions of Elasticsearch and Kibana (elasticsearch:7.6.1-20201130145440-5c76ab1) and (kibana:7.6.1-20201130145840-7717e73).
 
