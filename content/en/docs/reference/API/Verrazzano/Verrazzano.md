@@ -6,8 +6,8 @@ draft: false
 ---
 
 The Verrazzano custom resource contains the configuration information for an installation.
-Here is a sample Verrazzano custom resource file that uses OCI DNS.  See other examples in
-[`./operator/config/samples`](https://github.com/verrazzano/verrazzano/tree/master/operator/config/samples).
+Here is a sample Verrazzano custom resource file that uses OCI DNS.  See other examples
+[here](https://github.com/verrazzano/verrazzano/tree/master/operator/config/samples).
 
 ```
 apiVersion: install.verrazzano.io/v1alpha1
