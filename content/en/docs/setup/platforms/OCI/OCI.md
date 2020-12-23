@@ -12,7 +12,7 @@ draft: false
 
 * For `SHAPE`, an OKE cluster with 3 nodes of `VM.Standard2.4` [OCI compute instance shape](https://www.oracle.com/cloud/compute/virtual-machines.html) has proven sufficient to install Verrazzano and deploy the Bob's Books example application.
 
-* Set the following `ENV` vars:
+* Set the following `ENV` variable:
 
 ```
    export KUBECONFIG=<path to valid Kubernetes config>

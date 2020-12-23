@@ -15,8 +15,8 @@ environments.
 
 Verrazzano requires the following:
 * A Kubernetes cluster and a compatible `kubectl`.
-    * Verrazzano has been tested only on the following versions of Kubernetes: 1.17.x and 1.18.x.
-    * Other versions have not been tested and are _not_ guaranteed to work.
+    * Verrazzano has been tested _only_ on the following versions of Kubernetes: 1.17.x and 1.18.x.
+    * Other versions have not been tested and are not guaranteed to work.
 * At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.
 
 ### Install the Verrazzano Platform Operator
@@ -219,10 +219,10 @@ To uninstall Verrazzano, follow these steps:
     kubectl delete verrazzano example-verrazzano
     ```
 
-    {{< alert title="NOTE" color="info" >}}
-    This command blocks until the uninstall has completed.  To follow the progress,
-    you can view the uninstall logs.
-    {{< /alert >}}
+{{< alert title="NOTE" color="tip" >}}
+This command blocks until the uninstall has completed.  To follow the progress,
+you can view the uninstall logs.
+{{< /alert >}}
 
 1. (Optional) View the uninstall logs.
 

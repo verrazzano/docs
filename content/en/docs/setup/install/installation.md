@@ -9,7 +9,7 @@ draft: false
 You can install Verrazzano in a single [Oracle Cloud Infrastructure Container Engine for Kubernetes](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm) (OKE) cluster or
 an [Oracle Linux Cloud Native Environment](https://docs.oracle.com/en/operating-systems/olcne/) (OLCNE) deployment.
 
-For an OCI OKE cluster, you have two DNS choices:
+For an OKE cluster, you have two DNS choices:
 [xip.io](http://xip.io/) or
 [Oracle OCI DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm). OLCNE currently supports only a manual DNS.
 
@@ -24,7 +24,7 @@ Verrazzano requires the following:
 - At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.
 
 
-**NOTE**: Verrazzano has been tested only on the following versions of Kubernetes: 1.17.x and 1.18.x.  Other versions have not been tested and are not guaranteed to work.
+**NOTE**: Verrazzano has been tested _only_ on the following versions of Kubernetes: 1.17.x and 1.18.x.  Other versions have not been tested and are not guaranteed to work.
 
 
 ### Prepare for the install
@@ -102,7 +102,7 @@ For example, an appropriate zone name for parent domain `v8o.example.com` domain
 ###### Installation
 
 Installing Verrazzano on OCI DNS requires some configuration settings to create DNS records.
-The [install-oci.yaml](https://github.com/verrazzano/verrazzano/blob/master/operator/config/samples/install-default.yaml) file provides a template of a Verrazzano custom resource for an OCI DNS installation. Edit this custom resource and provide values for the following configuration settings:
+The [install-oci.yaml](https://github.com/verrazzano/verrazzano/blob/master/operator/config/samples/install-oci.yaml) file provides a template of a Verrazzano custom resource for an OCI DNS installation. Edit this custom resource and provide values for the following configuration settings:
 
 * `spec.environmentName`
 * `spec.certificate.acme.emailAddress`
@@ -159,7 +159,7 @@ vmi-system-prometheus-gw-7cb9df774-48g4b           1/1     Running   0          
 #### (Optional) Install the example applications
 Example applications are located in the [`examples`](https://github.com/verrazzano/verrazzano/tree/master/examples) directory.
 
-##### To get the consoles URLs and credentials, see [Operations](../../../operations)
+##### To get the consoles URLs and credentials, see [Operations](../../../operations).
 
 ### Uninstall Verrazzano
 
