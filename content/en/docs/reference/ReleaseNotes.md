@@ -23,6 +23,5 @@ draft: false
     - Added Install profiles, there are 2 in this release, prod and dev
     - All logs are now structured, written in JSON format with timestamps in RFC3339 format
 - Fixes
-    - Arbitrary and WLS domain secrets are now being copied from the model, fix for https://github.com/verrazzano/verrazzano/issues/339
     - Versions of Elasticsearch and Kibana were updated (elasticsearch:7.6.1-20201130145440-5c76ab1) and (kibana:7.6.1-20201130145840-7717e73) 
 
