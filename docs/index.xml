@@ -198,9 +198,7 @@ Error from server &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;(&l
 &lt;li&gt;
 &lt;p&gt;Delete the Verrazzano custom resource.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl delete verrazzano example-verrazzano
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;div class=&#34;alert alert-tip&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
@@ -208,7 +206,7 @@ This command blocks until the uninstall has completed.  To follow the progress,
 you can view the uninstall logs.
 &lt;/div&gt;
 
-&lt;ol&gt;
+&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;(Optional) View the uninstall logs.&lt;/p&gt;
 &lt;p&gt;The Verrazzano operator launches a Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/workloads/controllers/job/&#34;&gt;job&lt;/a&gt; to delete the Verrazzano installation.  You can view the uninstall logs from that job with the following command:&lt;/p&gt;
@@ -234,8 +232,8 @@ you can view the uninstall logs.
         
         
         &lt;p&gt;The Verrazzano custom resource contains the configuration information for an installation.
-Here is a sample Verrazzano custom resource file that uses OCI DNS.  See other examples in
-&lt;a href=&#34;https://github.com/verrazzano/verrazzano/tree/master/operator/config/samples&#34;&gt;&lt;code&gt;./operator/config/samples&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+Here is a sample Verrazzano custom resource file that uses OCI DNS.  See other examples
+&lt;a href=&#34;https://github.com/verrazzano/verrazzano/tree/master/operator/config/samples&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
@@ -1777,8 +1775,24 @@ such as monitoring components.&lt;/p&gt;
 &lt;li&gt;
 &lt;p&gt;Fixes&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Fixed bug where the Verrazzano CR Certificate.&lt;code&gt;CA&lt;/code&gt; fields were being ignored.&lt;/li&gt;
+&lt;li&gt;Fixed bug where the Verrazzano CR &lt;code&gt;Certificate.CA&lt;/code&gt; fields were being ignored.&lt;/li&gt;
 &lt;li&gt;Removed secret used for &lt;code&gt;hello-world&lt;/code&gt;; &lt;code&gt;hello-world-application&lt;/code&gt; image is now public in ghcr so &lt;code&gt;ImagePullSecrets&lt;/code&gt; is no longer needed.&lt;/li&gt;
+&lt;li&gt;Fix for &lt;a href=&#34;https://github.com/verrazzano/verrazzano/issues/339&#34;&gt;issue #339&lt;/a&gt; (PRs &lt;a href=&#34;https://github.com/verrazzano/verrazzano-operator/pull/208&#34;&gt;#208&lt;/a&gt; &amp;amp; &lt;a href=&#34;https://github.com/verrazzano/verrazzano-operator/pull/210&#34;&gt;#210&lt;/a&gt;.)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;v060&#34;&gt;v0.6.0&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Features
+&lt;ul&gt;
+&lt;li&gt;In-cluster installer which replaces client-side install scripts.&lt;/li&gt;
+&lt;li&gt;Added Install profiles; in this release, there are two, prod and dev.&lt;/li&gt;
+&lt;li&gt;Verrazzano system components now emit JSON structured logs.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Fixes
+&lt;ul&gt;
+&lt;li&gt;Updated Elasticsearch and Kibana versions (elasticsearch:7.6.1-20201130145440-5c76ab1) and (kibana:7.6.1-20201130145840-7717e73).&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
@@ -3581,7 +3595,7 @@ vmi-system-kibana-649466fcf8-4n8ct                 1/1     Running   0          
 vmi-system-prometheus-0-7f97ff97dc-gfclv           3/3     Running   0          4m44s
 vmi-system-prometheus-gw-7cb9df774-48g4b           1/1     Running   0          4m44s
 &lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;optional-install-the-example-applications&#34;&gt;(Optional) Install the example applications&lt;/h4&gt;
-&lt;p&gt;Example applications are located in the &lt;a href=&#34;https://github.com/verrazzano/verrazzano/tree/master/examples&#34;&gt;&lt;code&gt;examples&lt;/code&gt;&lt;/a&gt; directory.&lt;/p&gt;
+&lt;p&gt;Example applications are located &lt;a href=&#34;https://github.com/verrazzano/verrazzano/tree/master/examples&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;h5 id=&#34;to-get-the-consoles-urls-and-credentials-see-operationsoperations&#34;&gt;To get the consoles URLs and credentials, see &lt;a href=&#34;../../../operations&#34;&gt;Operations&lt;/a&gt;.&lt;/h5&gt;
 &lt;h3 id=&#34;uninstall-verrazzano&#34;&gt;Uninstall Verrazzano&lt;/h3&gt;
 &lt;p&gt;To delete a Verrazzano installation, run the following commands:&lt;/p&gt;
