@@ -10,7 +10,7 @@ weight: 2
 The Quick Start assumes that you have already installed a
 [Kubernetes](https://kubernetes.io/) cluster.  Verrazzano has been tested on
 [Oracle Cloud Infrastructure Container Engine for Kubernetes](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm) (OKE) and
-[Oracle Linux Cloud Native Environment](https://docs.oracle.com/en/operating-systems/olcne/) (OLCNE); it is possible that it can be configured to work on other Kubernetes
+[Oracle Linux Cloud Native Environment](https://docs.oracle.com/en/operating-systems/olcne/) (OLCNE); it is possible that it can be configured to work in other Kubernetes
 environments.
 
 Verrazzano requires the following:

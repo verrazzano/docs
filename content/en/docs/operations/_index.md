@@ -29,7 +29,7 @@ The following is an example of the ingresses:
 ### Get console credentials
 
 
-You will need the credentials to access the various consoles installed by Verrazzano.
+You will need the credentials to access the consoles installed by Verrazzano.
 
 #### Consoles accessed by the same user name/password
 - Grafana
@@ -39,7 +39,7 @@ You will need the credentials to access the various consoles installed by Verraz
 
 **User:**  `verrazzano`
 
-To get the password, run the following command:
+To get the password:
 
 `kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo`
 
@@ -48,7 +48,7 @@ To get the password, run the following command:
 
 **User:** `keycloakadmin`
 
-To get the password, run the following command:  
+To get the password:  
 
 `kubectl get secret --namespace keycloak keycloak-http -o jsonpath={.data.password} | base64 --decode; echo`
 
@@ -57,6 +57,6 @@ To get the password, run the following command:
 
 **User:** `admin`
 
-To get the password, run the following command:  
+To get the password:  
 
 `kubectl get secret --namespace cattle-system rancher-admin-secret -o jsonpath={.data.password} | base64 --decode; echo`

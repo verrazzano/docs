@@ -19,8 +19,7 @@ You should install this developer preview release of Verrazzano only in a cluste
 
 Verrazzano requires the following:
 
-- A kubernetes cluster and a compatible kubectl.
-- Other versions have not been tested and are not guaranteed to work
+- A Kubernetes cluster and a compatible `kubectl`.
 - At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.
 
 
