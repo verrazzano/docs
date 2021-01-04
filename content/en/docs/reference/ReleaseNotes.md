@@ -20,7 +20,7 @@ draft: false
 ### v0.6.0
 - Features
     - In-cluster installer which replaces client-side install scripts.
-    - Added Install profiles; in this release, there are two: prod and dev.
+    - Added installation profiles; in this release, there are two: production and development.
     - Verrazzano system components now emit JSON structured logs.
 - Fixes
     - Updated Elasticsearch and Kibana versions (elasticsearch:7.6.1-20201130145440-5c76ab1) and (kibana:7.6.1-20201130145840-7717e73).

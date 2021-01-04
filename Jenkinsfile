@@ -1,4 +1,4 @@
- // Copyright (c) 2020, Oracle Corporation and/or its affiliates. 
+ // Copyright (c) 2020, 2021 Oracle and/or its affiliates. 
 
 pipeline {
     options {
@@ -6,7 +6,7 @@ pipeline {
     }
 
     agent {
-    
+
         docker {
             image "${RUNNER_DOCKER_IMAGE}"
             args "${RUNNER_DOCKER_ARGS}"
@@ -65,7 +65,7 @@ pipeline {
                 sh """
                     npm -g install gh-pages@3.0.0
                     git config --global credential.helper "!f() { echo username=\\$GIT_AUTH_USR; echo password=\\$GIT_AUTH_PSW; }; f"
-                    git config --global user.name $GIT_AUTH_USR 
+                    git config --global user.name $GIT_AUTH_USR
                     git config --global user.email "70212020+verrazzanobot@users.noreply.github.com"
                     /home/opc/graalvm-ce-java8-20.1.0/jre/languages/js/bin/gh-pages -d production -b gh-pages
                 """
@@ -73,4 +73,3 @@ pipeline {
         }
     }
 }
-
