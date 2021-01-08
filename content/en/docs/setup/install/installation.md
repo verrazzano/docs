@@ -82,6 +82,14 @@ metadata:
   name: my-verrazzano
 ```
 
+
+Run the following commands:
+```
+kubectl apply -f operator/deploy/operator.yaml
+kubectl apply -f operator/config/samples/install-default.yaml
+kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
+```
+
 {{< /tab >}}
 {{< tab tabNum="2" >}}
 <br>
@@ -118,15 +126,15 @@ ingresses.  For example, you could use `sales` as an `environmentName`, yielding
 `sales.us.v8o.example.com` as the sales-related domain (assuming the domain and zone names listed
 previously).
 
-{{< /tab >}}
-{{< /tabs >}}
-
 Run the following commands:
 ```
 kubectl apply -f operator/deploy/operator.yaml
-kubectl apply -f operator/config/samples/install-olcne.yaml
+kubectl apply -f operator/config/samples/install-oci.yaml
 kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
 ```
+{{< /tab >}}
+{{< /tabs >}}
+
 
 To monitor the console log output of the installation, run the following command:
 ```
@@ -154,6 +162,19 @@ vmi-system-kibana-649466fcf8-4n8ct                 1/1     Running   0          
 vmi-system-prometheus-0-7f97ff97dc-gfclv           3/3     Running   0          4m44s
 vmi-system-prometheus-gw-7cb9df774-48g4b           1/1     Running   0          4m44s
 ```
+
+### Installation profiles
+
+Verrazzano supports two installation profiles:  development (dev) and production (prod). The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.   
+
+To use the development profile, specify the following in the config YAML file:
+
+```
+spec:
+  profile: dev
+```
+
+The [install-dev.yaml](https://github.com/verrazzano/verrazzano/blob/develop/operator/config/samples/install-dev.yaml) file provides a template for a dev profile installation.
 
 #### (Optional) Install the example applications
 Example applications are located [here](https://github.com/verrazzano/verrazzano/tree/master/examples).
