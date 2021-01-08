@@ -163,11 +163,11 @@ vmi-system-prometheus-0-7f97ff97dc-gfclv           3/3     Running   0          
 vmi-system-prometheus-gw-7cb9df774-48g4b           1/1     Running   0          4m44s
 ```
 
-### Installation Profiles
+### Installation profiles
 
-Verrazzano supports two installation profiles:  dev and prod. The production (prod) profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development (dev) profile provides a single node Elasticsearch and no persistent storage for the VMI.   
+Verrazzano supports two installation profiles:  development (dev) and production (prod). The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.   
 
-To use the development profile, specify the following in the config yaml file:
+To use the development profile, specify the following in the config YAML file:
 
 ```
 spec:
