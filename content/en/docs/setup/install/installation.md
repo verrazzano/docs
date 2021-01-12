@@ -85,8 +85,13 @@ metadata:
 
 Run the following commands:
 ```
-kubectl apply -f operator/deploy/operator.yaml
-kubectl apply -f operator/config/samples/install-default.yaml
+kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml 
+kubectl apply -f - <<EOF
+apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: my-verrazzano
+EOF
 kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
 ```
 
@@ -128,8 +133,31 @@ previously).
 
 Run the following commands:
 ```
-kubectl apply -f operator/deploy/operator.yaml
-kubectl apply -f operator/config/samples/install-oci.yaml
+kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml 
+kubectl apply -f - <<EOF
+apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: my-verrazzano
+spec:
+  environmentName: env
+  profile: prod
+  components:
+    certManager:
+      certificate:
+        acme:
+          provider: letsEncrypt
+          emailAddress: emailAddress@domain.com
+    dns:
+      oci:
+        ociConfigSecret: ociConfigSecret
+        dnsZoneCompartmentOCID: dnsZoneCompartmentOcid
+        dnsZoneOCID: dnsZoneOcid
+        dnsZoneName: my.dns.zone.name
+    ingress:
+      type: LoadBalancer
+EOF
+kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/operator/config/samples/install-oci.yaml
 kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
 ```
 {{< /tab >}}
@@ -167,7 +195,7 @@ vmi-system-prometheus-gw-7cb9df774-48g4b           1/1     Running   0          
 
 Verrazzano supports two installation profiles:  development (dev) and production (prod). The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.   
 
-To use the development profile, specify the following in the config YAML file:
+To use the development profile, specify the following in the Kubernetes manifest file for the Verrazzano custom resource:
 
 ```
 spec:
