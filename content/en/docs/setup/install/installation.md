@@ -32,6 +32,8 @@ To prepare for installing on OCI Container Engine for Kubernetes, see [Prepare f
 
 To prepare for installing on OLCNE, see [Prepare for the OCLNE install](../../platforms/olcne/olcne).
 
+To prepare for installing on kind, see [Prepare for the kind install](../../platforms/kind/kind).
+
 ### Install the Verrazzano Platform Operator
 
 Verrazzano provides a platform [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
@@ -92,6 +94,39 @@ apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
   name: my-verrazzano
+EOF
+kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
+```
+
+##### Install on kind using xip.io
+
+Run the following commands:
+
+```shell
+kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml 
+kubectl apply -f - <<EOF
+apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: my-verrazzano
+spec:
+  components:
+    ingress:
+      type: NodePort
+      nginxInstallArgs:
+        - name: controller.kind
+          value: DaemonSet
+        - name: controller.hostPort.enabled
+          value: "true"
+        - name: controller.nodeSelector.ingress-ready
+          value: "true"
+          setString: true
+        - name: controller.tolerations[0].key
+          value: node-role.kubernetes.io/master
+        - name: controller.tolerations[0].operator
+          value: Equal
+        - name: controller.tolerations[0].effect
+          value: NoSchedule
 EOF
 kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
 ```
