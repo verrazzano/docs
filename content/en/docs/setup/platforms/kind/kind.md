@@ -39,9 +39,9 @@ EOF
 
 #### Image caching to speed up install
 
-If you are experimenting with Verrazzano and expect that you may need to delete the KIND cluster and later, install Verrazzano again on a new KIND cluster, then you can follow these steps to ensure that the image cache used by containerd inside KIND is preserved across clusters. Subsequent installs will be faster than the first install, as they will not need to pull the images again.
+If you are experimenting with Verrazzano and expect that you may need to delete the KIND cluster and later, install Verrazzano again on a new KIND cluster, then you can follow these steps to ensure that the image cache used by `containerd` inside KIND is preserved across clusters. Subsequent installs will be faster than the first install, as they will not need to pull the images again.
 
-1. Create a named Docker volume that will be used for the image cache, and note its ```Mountpoint``` path. In this example, the volume is named ```containerd```.  
+1. Create a named Docker volume that will be used for the image cache, and note its `Mountpoint` path. In this example, the volume is named `containerd`.  
 
 ```shell
 docker volume create containerd
@@ -59,7 +59,7 @@ docker volume inspect containerd #Sample output is shown
     }
 ```
 
-2. Specify the ```Mountpoint``` path obtained, as the ```hostPath``` under ```extraMounts``` in your KIND configuration file, with a ```containerPath``` of ```/var/lib/containerd```, which is the default ```containerd``` image caching location inside the KIND container. An example of the modified KIND configuration is shown in the ```create cluster``` command below:
+2. Specify the `Mountpoint` path obtained, as the `hostPath` under `extraMounts` in your KIND configuration file, with a `containerPath` of `/var/lib/containerd`, which is the default `containerd` image caching location inside the KIND container. An example of the modified KIND configuration is shown in the `create cluster` command below:
 
 ```shell
 kind create cluster --config - <<EOF
