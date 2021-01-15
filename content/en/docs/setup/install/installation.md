@@ -28,11 +28,11 @@ Verrazzano requires the following:
 
 ### Prepare for the install
 
-To prepare for installing on OCI Container Engine for Kubernetes, see [Prepare for the OCI install](../../platforms/oci/oci).
+* OCI Container Engine for Kubernetes, see [Prepare for the OCI install](../../platforms/oci/oci).
 
-To prepare for installing on OLCNE, see [Prepare for the OCLNE install](../../platforms/olcne/olcne).
+* OLCNE, see [Prepare for the OCLNE install](../../platforms/olcne/olcne).
 
-To prepare for installing on kind, see [Prepare for the kind install](../../platforms/kind/kind).
+* KIND, see [Prepare for the KIND install](../../platforms/kind/kind).
 
 ### Install the Verrazzano Platform Operator
 
