@@ -28,9 +28,11 @@ Verrazzano requires the following:
 
 ### Prepare for the install
 
-To prepare for installing on OCI Container Engine for Kubernetes, see [Prepare for the OCI install](../../platforms/oci/oci).
+* OCI Container Engine for Kubernetes, see [Prepare for the OCI install](../../platforms/oci/oci).
 
-To prepare for installing on OLCNE, see [Prepare for the OCLNE install](../../platforms/olcne/olcne).
+* OLCNE, see [Prepare for the OCLNE install](../../platforms/olcne/olcne).
+
+* KIND, see [Prepare for the KIND install](../../platforms/kind/kind).
 
 ### Install the Verrazzano Platform Operator
 
@@ -75,7 +77,7 @@ According to your DNS choice, install Verrazzano using one of the following meth
 ##### Install using xip.io
 The [install-default.yaml](https://github.com/verrazzano/verrazzano/blob/develop/operator/config/samples/install-default.yaml) file provides a template for a default xip.io installation.
 
-```
+```shell
 apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
@@ -84,13 +86,47 @@ metadata:
 
 
 Run the following commands:
-```
+
+```shell
 kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml 
 kubectl apply -f - <<EOF
 apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
   name: my-verrazzano
+EOF
+kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
+```
+
+##### Install on kind using xip.io
+
+Run the following commands:
+
+```shell
+kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml 
+kubectl apply -f - <<EOF
+apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: my-verrazzano
+spec:
+  components:
+    ingress:
+      type: NodePort
+      nginxInstallArgs:
+        - name: controller.kind
+          value: DaemonSet
+        - name: controller.hostPort.enabled
+          value: "true"
+        - name: controller.nodeSelector.ingress-ready
+          value: "true"
+          setString: true
+        - name: controller.tolerations[0].key
+          value: node-role.kubernetes.io/master
+        - name: controller.tolerations[0].operator
+          value: Equal
+        - name: controller.tolerations[0].effect
+          value: NoSchedule
 EOF
 kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
 ```
@@ -132,7 +168,8 @@ ingresses.  For example, you could use `sales` as an `environmentName`, yielding
 previously).
 
 Run the following commands:
-```
+
+```shell
 kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml 
 kubectl apply -f - <<EOF
 apiVersion: install.verrazzano.io/v1alpha1
@@ -160,12 +197,13 @@ EOF
 kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/operator/config/samples/install-oci.yaml
 kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
 ```
+
 {{< /tab >}}
 {{< /tabs >}}
 
 
 To monitor the console log output of the installation, run the following command:
-```
+```shell
     kubectl logs -f $(kubectl get pod -l job-name=verrazzano-install-my-verrazzano -o jsonpath="{.items[0].metadata.name}")
 ```
 
