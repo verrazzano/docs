@@ -865,5 +865,89 @@ DNS CNAME records, in the same way.&lt;/p&gt;
       </description>
     </item>
     
+    <item>
+      <title>Docs: KIND</title>
+      <link>https://verrazzano.io/docs/setup/platforms/kind/kind/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/setup/platforms/kind/kind/</guid>
+      <description>
+        
+        
+        &lt;h3 id=&#34;prepare-for-the-kind-install&#34;&gt;Prepare for the KIND install&lt;/h3&gt;
+&lt;p&gt;Create the KIND cluster.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kind create cluster --config - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Cluster
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: kind.x-k8s.io/v1alpha4
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;nodes:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  - role: control-plane
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    image: kindest/node:v1.18.8@sha256:f4bcc97a0ad6e7abaf3f643d890add7efe6ee4ab90baeb374b4f41a4c95567eb
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    kubeadmConfigPatches:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - |
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      kind: InitConfiguration
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      nodeRegistration:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        kubeletExtraArgs:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          node-labels: &amp;#34;ingress-ready=true&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          authorization-mode: &amp;#34;AlwaysAllow&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    extraPortMappings:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      - containerPort: 80
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        hostPort: 80
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        listenAddress: &amp;#34;0.0.0.0&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        protocol: tcp
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      - containerPort: 443
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        hostPort: 443
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        listenAddress: &amp;#34;0.0.0.0&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        protocol: tcp
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;image-caching-to-speed-up-install&#34;&gt;Image caching to speed up install&lt;/h4&gt;
+&lt;p&gt;If you are experimenting with Verrazzano and expect that you may need to delete the KIND cluster and later, install Verrazzano again on a new KIND cluster, then you can follow these steps to ensure that the image cache used by &lt;code&gt;containerd&lt;/code&gt; inside KIND is preserved across clusters. Subsequent installs will be faster than the first install, as they will not need to pull the images again.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Create a named Docker volume that will be used for the image cache, and note its &lt;code&gt;Mountpoint&lt;/code&gt; path. In this example, the volume is named &lt;code&gt;containerd&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;docker volume create containerd
+ 
+docker volume inspect containerd &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#Sample output is shown&lt;/span&gt;
+ 
+    &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;
+        &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;CreatedAt&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;2021-01-11T16:27:47Z&amp;#34;&lt;/span&gt;,
+        &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Driver&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;local&amp;#34;&lt;/span&gt;,
+        &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Labels&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{}&lt;/span&gt;,
+        &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Mountpoint&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;/var/lib/docker/volumes/containerd/_data&amp;#34;&lt;/span&gt;,
+        &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Name&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;containerd&amp;#34;&lt;/span&gt;,
+        &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Options&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{}&lt;/span&gt;,
+        &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Scope&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;local&amp;#34;&lt;/span&gt;
+    &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;Specify the &lt;code&gt;Mountpoint&lt;/code&gt; path obtained, as the &lt;code&gt;hostPath&lt;/code&gt; under &lt;code&gt;extraMounts&lt;/code&gt; in your KIND configuration file, with a &lt;code&gt;containerPath&lt;/code&gt; of &lt;code&gt;/var/lib/containerd&lt;/code&gt;, which is the default &lt;code&gt;containerd&lt;/code&gt; image caching location inside the KIND container. An example of the modified KIND configuration is shown in the &lt;code&gt;create cluster&lt;/code&gt; command below:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kind create cluster --config - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Cluster
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: kind.x-k8s.io/v1alpha4
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;nodes:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  - role: control-plane
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    kubeadmConfigPatches:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - |
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      kind: InitConfiguration
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      nodeRegistration:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        kubeletE&lt;/span&gt;xtraArgs:
+          node-labels: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;ingress-ready=true&amp;#34;&lt;/span&gt;
+          authorization-mode: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;AlwaysAllow&amp;#34;&lt;/span&gt;
+    extraPortMappings:
+      - containerPort: &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;80&lt;/span&gt;
+        hostPort: &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;80&lt;/span&gt;
+        listenAddress: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;0.0.0.0&amp;#34;&lt;/span&gt;
+        protocol: tcp
+      - containerPort: &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;443&lt;/span&gt;
+        hostPort: &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;443&lt;/span&gt;
+        listenAddress: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;0.0.0.0&amp;#34;&lt;/span&gt;
+        protocol: tcp
+    extraMounts:
+      - hostPath: /var/lib/docker/volumes/containerd/_data
+        containerPath: /var/lib/containerd &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#this is the location of the image cache inside the KinD container&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+      </description>
+    </item>
+    
   </channel>
 </rss>

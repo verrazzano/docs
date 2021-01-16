@@ -21,11 +21,11 @@
 <meta property="og:description" content="How to install Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/setup/install/installation/" />
-<meta property="article:modified_time" content="2021-01-04T14:29:22-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-01-15T14:31:33-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Installation Guide">
 <meta itemprop="description" content="How to install Verrazzano">
-<meta itemprop="dateModified" content="2021-01-04T14:29:22-05:00" />
-<meta itemprop="wordCount" content="945">
+<meta itemprop="dateModified" content="2021-01-15T14:31:33-05:00" />
+<meta itemprop="wordCount" content="1155">
 
 
 
@@ -192,6 +192,14 @@ if (!doNotTrack) {
           
           
           <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupplatformsolcneolcne" href="../../../../docs/setup/platforms/olcne/olcne/">OLCNE</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupplatformskindkind" href="../../../../docs/setup/platforms/kind/kind/">KIND</a>
         
       
       
@@ -487,8 +495,17 @@ You should install this developer preview release of Verrazzano only in a cluste
 </ul>
 <p><strong>NOTE</strong>: Verrazzano has been tested <em>only</em> on the following versions of Kubernetes: 1.17.x and 1.18.x.  Other versions have not been tested and are not guaranteed to work.</p>
 <h3 id="prepare-for-the-install">Prepare for the install</h3>
-<p>To prepare for installing on OCI Container Engine for Kubernetes, see <a href="../../platforms/oci/oci">Prepare for the OCI install</a>.</p>
-<p>To prepare for installing on OLCNE, see <a href="../../platforms/olcne/olcne">Prepare for the OCLNE install</a>.</p>
+<ul>
+<li>
+<p>OCI Container Engine for Kubernetes, see <a href="../../platforms/oci/oci">Prepare for the OCI install</a>.</p>
+</li>
+<li>
+<p>OLCNE, see <a href="../../platforms/olcne/olcne">Prepare for the OCLNE install</a>.</p>
+</li>
+<li>
+<p>KIND, see <a href="../../platforms/kind/kind">Prepare for the KIND install</a>.</p>
+</li>
+</ul>
 <h3 id="install-the-verrazzano-platform-operator">Install the Verrazzano Platform Operator</h3>
 <p>Verrazzano provides a platform <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/operator/">operator</a>
 to manage the life cycle of Verrazzano installations.  You can install,
@@ -562,11 +579,48 @@ verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   <span style="c
 	<br>
 <h5 id="install-using-xipio">Install using xip.io</h5>
 <p>The <a href="https://github.com/verrazzano/verrazzano/blob/develop/operator/config/samples/install-default.yaml">install-default.yaml</a> file provides a template for a default xip.io installation.</p>
-<pre><code>apiVersion: install.verrazzano.io/v1alpha1
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
   name: my-verrazzano
-</code></pre>
+</code></pre></div><p>Run the following commands:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml 
+kubectl apply -f - <span style="color:#4e9a06">&lt;&lt;EOF
+</span><span style="color:#4e9a06">apiVersion: install.verrazzano.io/v1alpha1
+</span><span style="color:#4e9a06">kind: Verrazzano
+</span><span style="color:#4e9a06">metadata:
+</span><span style="color:#4e9a06">  name: my-verrazzano
+</span><span style="color:#4e9a06">EOF</span>
+kubectl <span style="color:#204a87">wait</span> --timeout<span style="color:#ce5c00;font-weight:bold">=</span>20m --for<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">condition</span><span style="color:#ce5c00;font-weight:bold">=</span>InstallComplete verrazzano/my-verrazzano
+</code></pre></div><h5 id="install-on-kind-using-xipio">Install on kind using xip.io</h5>
+<p>Run the following commands:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml 
+kubectl apply -f - <span style="color:#4e9a06">&lt;&lt;EOF
+</span><span style="color:#4e9a06">apiVersion: install.verrazzano.io/v1alpha1
+</span><span style="color:#4e9a06">kind: Verrazzano
+</span><span style="color:#4e9a06">metadata:
+</span><span style="color:#4e9a06">  name: my-verrazzano
+</span><span style="color:#4e9a06">spec:
+</span><span style="color:#4e9a06">  components:
+</span><span style="color:#4e9a06">    ingress:
+</span><span style="color:#4e9a06">      type: NodePort
+</span><span style="color:#4e9a06">      nginxInstallArgs:
+</span><span style="color:#4e9a06">        - name: controller.kind
+</span><span style="color:#4e9a06">          value: DaemonSet
+</span><span style="color:#4e9a06">        - name: controller.hostPort.enabled
+</span><span style="color:#4e9a06">          value: &#34;true&#34;
+</span><span style="color:#4e9a06">        - name: controller.nodeSelector.ingress-ready
+</span><span style="color:#4e9a06">          value: &#34;true&#34;
+</span><span style="color:#4e9a06">          setString: true
+</span><span style="color:#4e9a06">        - name: controller.tolerations[0].key
+</span><span style="color:#4e9a06">          value: node-role.kubernetes.io/master
+</span><span style="color:#4e9a06">        - name: controller.tolerations[0].operator
+</span><span style="color:#4e9a06">          value: Equal
+</span><span style="color:#4e9a06">        - name: controller.tolerations[0].effect
+</span><span style="color:#4e9a06">          value: NoSchedule
+</span><span style="color:#4e9a06">EOF</span>
+kubectl <span style="color:#204a87">wait</span> --timeout<span style="color:#ce5c00;font-weight:bold">=</span>20m --for<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">condition</span><span style="color:#ce5c00;font-weight:bold">=</span>InstallComplete verrazzano/my-verrazzano
+</code></pre></div>
 
 </div>
 
@@ -611,22 +665,45 @@ The <a href="https://github.com/verrazzano/verrazzano/blob/master/operator/confi
 ingresses.  For example, you could use <code>sales</code> as an <code>environmentName</code>, yielding
 <code>sales.us.v8o.example.com</code> as the sales-related domain (assuming the domain and zone names listed
 previously).</p>
-
-
-</div>
-
-
-
-
-
-</div>
 <p>Run the following commands:</p>
-<pre><code>kubectl apply -f operator/deploy/operator.yaml
-kubectl apply -f operator/config/samples/install-olcne.yaml
-kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
-</code></pre><p>To monitor the console log output of the installation, run the following command:</p>
-<pre><code>    kubectl logs -f $(kubectl get pod -l job-name=verrazzano-install-my-verrazzano -o jsonpath=&quot;{.items[0].metadata.name}&quot;)
-</code></pre><h3 id="verify-the-install">Verify the install</h3>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml 
+kubectl apply -f - <span style="color:#4e9a06">&lt;&lt;EOF
+</span><span style="color:#4e9a06">apiVersion: install.verrazzano.io/v1alpha1
+</span><span style="color:#4e9a06">kind: Verrazzano
+</span><span style="color:#4e9a06">metadata:
+</span><span style="color:#4e9a06">  name: my-verrazzano
+</span><span style="color:#4e9a06">spec:
+</span><span style="color:#4e9a06">  environmentName: env
+</span><span style="color:#4e9a06">  profile: prod
+</span><span style="color:#4e9a06">  components:
+</span><span style="color:#4e9a06">    certManager:
+</span><span style="color:#4e9a06">      certificate:
+</span><span style="color:#4e9a06">        acme:
+</span><span style="color:#4e9a06">          provider: letsEncrypt
+</span><span style="color:#4e9a06">          emailAddress: emailAddress@domain.com
+</span><span style="color:#4e9a06">    dns:
+</span><span style="color:#4e9a06">      oci:
+</span><span style="color:#4e9a06">        ociConfigSecret: ociConfigSecret
+</span><span style="color:#4e9a06">        dnsZoneCompartmentOCID: dnsZoneCompartmentOcid
+</span><span style="color:#4e9a06">        dnsZoneOCID: dnsZoneOcid
+</span><span style="color:#4e9a06">        dnsZoneName: my.dns.zone.name
+</span><span style="color:#4e9a06">    ingress:
+</span><span style="color:#4e9a06">      type: LoadBalancer
+</span><span style="color:#4e9a06">EOF</span>
+kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/operator/config/samples/install-oci.yaml
+kubectl <span style="color:#204a87">wait</span> --timeout<span style="color:#ce5c00;font-weight:bold">=</span>20m --for<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">condition</span><span style="color:#ce5c00;font-weight:bold">=</span>InstallComplete verrazzano/my-verrazzano
+</code></pre></div>
+
+</div>
+
+
+
+
+
+</div>
+<p>To monitor the console log output of the installation, run the following command:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">    kubectl logs -f <span style="color:#204a87;font-weight:bold">$(</span>kubectl get pod -l job-name<span style="color:#ce5c00;font-weight:bold">=</span>verrazzano-install-my-verrazzano -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;{.items[0].metadata.name}&#34;</span><span style="color:#204a87;font-weight:bold">)</span>
+</code></pre></div><h3 id="verify-the-install">Verify the install</h3>
 <p>Verrazzano installs multiple objects in multiple namespaces. In the <code>verrazzano-system</code> namespaces, all the pods in the <code>Running</code> state, does not guarantee, but likely indicates that Verrazzano is up and running.</p>
 <pre><code>kubectl get pods -n verrazzano-system
 verrazzano-admission-controller-84d6bc647c-7b8tl   1/1     Running   0          5m13s
@@ -644,7 +721,13 @@ vmi-system-grafana-5f7bc8b676-xx49f                1/1     Running   0          
 vmi-system-kibana-649466fcf8-4n8ct                 1/1     Running   0          4m44s
 vmi-system-prometheus-0-7f97ff97dc-gfclv           3/3     Running   0          4m44s
 vmi-system-prometheus-gw-7cb9df774-48g4b           1/1     Running   0          4m44s
-</code></pre><h4 id="optional-install-the-example-applications">(Optional) Install the example applications</h4>
+</code></pre><h3 id="installation-profiles">Installation profiles</h3>
+<p>Verrazzano supports two installation profiles:  development (dev) and production (prod). The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.</p>
+<p>To use the development profile, specify the following in the Kubernetes manifest file for the Verrazzano custom resource:</p>
+<pre><code>spec:
+  profile: dev
+</code></pre><p>The <a href="https://github.com/verrazzano/verrazzano/blob/develop/operator/config/samples/install-dev.yaml">install-dev.yaml</a> file provides a template for a dev profile installation.</p>
+<h4 id="optional-install-the-example-applications">(Optional) Install the example applications</h4>
 <p>Example applications are located <a href="https://github.com/verrazzano/verrazzano/tree/master/examples">here</a>.</p>
 <h5 id="to-get-the-consoles-urls-and-credentials-see-operationsoperations">To get the consoles URLs and credentials, see <a href="../../../operations">Operations</a>.</h5>
 <h3 id="uninstall-verrazzano">Uninstall Verrazzano</h3>
@@ -744,7 +827,7 @@ kubectl delete verrazzano &lt;name of custom resource&gt;
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified January 4, 2021: <a  href="https://github.com/verrazzano/docs/commit/00db795e0a8a84ab80495405200bbe4e5f19c4d6">minor edits (#58) (00db795)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified January 15, 2021: <a  href="https://github.com/verrazzano/docs/commit/68a85841d21ee0be385eb475c4282e330af98b5d">kind updates (68a8584)</a>
 </div>
 </div>
 
