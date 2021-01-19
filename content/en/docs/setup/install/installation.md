@@ -66,7 +66,7 @@ To install the Verrazzano platform operator, follow these steps:
 
 ### Perform the install
 
-For a complete description of Verrazzano configuration options, see the [Verrazzano Custom Resource](../../../reference/api/verrazzano/verrazzano).
+For a complete description of Verrazzano configuration options, see the [Verrazzano Custom Resource Definition](../../../reference/api/verrazzano/verrazzano).
 
 According to your DNS choice, install Verrazzano using one of the following methods.
 

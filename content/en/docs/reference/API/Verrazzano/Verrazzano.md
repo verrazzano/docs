@@ -1,6 +1,6 @@
 ---
-title: Verrazzano Custom Resource
-linkTitle: Verrazzano Custom Resource
+title: Verrazzano Custom Resource Definition
+linkTitle: Verrazzano Custom Resource Definition
 weight: 2
 draft: false
 ---
