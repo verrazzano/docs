@@ -56,9 +56,9 @@ To install the Verrazzano platform operator, follow these steps:
 
 You install Verrazzano by creating a Verrazzano custom resource in
 your Kubernetes cluster.  Verrazzano currently supports a default production
-profile and a development (dev) profile suitable for evaluation.  
+profile and a development profile suitable for evaluation.  
 
-The development profile has the following characteristics:
+The development (dev) profile has the following characteristics:
 * Magic (xip.io) DNS
 * Self-signed certificates
 * Shared observability stack used by the system components and all applications
