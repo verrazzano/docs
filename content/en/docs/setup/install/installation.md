@@ -232,16 +232,16 @@ vmi-system-prometheus-gw-7cb9df774-48g4b           1/1     Running   0          
 
 ### Installation profiles
 
-Verrazzano supports two installation profiles:  development and production. The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.   
+Verrazzano supports two installation profiles:  development (`dev`) and production (`prod`). The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.   
 
-To use the development (dev) profile, specify the following in the Kubernetes manifest file for the Verrazzano custom resource:
+To use the development profile, specify the following in the Kubernetes manifest file for the Verrazzano custom resource:
 
 ```
 spec:
   profile: dev
 ```
 
-The [install-dev.yaml](https://github.com/verrazzano/verrazzano/blob/develop/operator/config/samples/install-dev.yaml) file provides a template for a dev profile installation.
+The [install-dev.yaml](https://github.com/verrazzano/verrazzano/blob/develop/operator/config/samples/install-dev.yaml) file provides a template for a `dev` profile installation.
 
 #### (Optional) Install the example applications
 Example applications are located [here](https://github.com/verrazzano/verrazzano/tree/master/examples).
