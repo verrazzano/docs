@@ -66,8 +66,8 @@ verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   &lt;span style
 &lt;h3 id=&#34;install-verrazzano&#34;&gt;Install Verrazzano&lt;/h3&gt;
 &lt;p&gt;You install Verrazzano by creating a Verrazzano custom resource in
 your Kubernetes cluster.  Verrazzano currently supports a default production
-profile and a development (dev) profile suitable for evaluation.&lt;/p&gt;
-&lt;p&gt;The development profile has the following characteristics:&lt;/p&gt;
+profile and a development profile suitable for evaluation.&lt;/p&gt;
+&lt;p&gt;The development (dev) profile has the following characteristics:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Magic (xip.io) DNS&lt;/li&gt;
 &lt;li&gt;Self-signed certificates&lt;/li&gt;
@@ -3443,14 +3443,14 @@ DNS CNAME records, in the same way.&lt;/p&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        protocol: tcp
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;image-caching-to-speed-up-install&#34;&gt;Image caching to speed up install&lt;/h4&gt;
-&lt;p&gt;If you are experimenting with Verrazzano and expect that you may need to delete the KIND cluster and later, install Verrazzano again on a new KIND cluster, then you can follow these steps to ensure that the image cache used by &lt;code&gt;containerd&lt;/code&gt; inside KIND is preserved across clusters. Subsequent installs will be faster than the first install, as they will not need to pull the images again.&lt;/p&gt;
+&lt;p&gt;If you are experimenting with Verrazzano and expect that you may need to delete the KIND cluster and later, install Verrazzano again on a new KIND cluster, then you can follow these steps to ensure that the image cache used by containerd inside KIND is preserved across clusters. Subsequent installs will be faster than the first install, because they will not need to pull the images again.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Create a named Docker volume that will be used for the image cache, and note its &lt;code&gt;Mountpoint&lt;/code&gt; path. In this example, the volume is named &lt;code&gt;containerd&lt;/code&gt;.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;docker volume create containerd
- 
+
 docker volume inspect containerd &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#Sample output is shown&lt;/span&gt;
- 
+
     &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;
         &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;CreatedAt&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;2021-01-11T16:27:47Z&amp;#34;&lt;/span&gt;,
         &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Driver&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;local&amp;#34;&lt;/span&gt;,
@@ -3461,7 +3461,7 @@ docker volume inspect containerd &lt;span style=&#34;color:#8f5902;font-style:it
         &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Scope&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;local&amp;#34;&lt;/span&gt;
     &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
-&lt;li&gt;Specify the &lt;code&gt;Mountpoint&lt;/code&gt; path obtained, as the &lt;code&gt;hostPath&lt;/code&gt; under &lt;code&gt;extraMounts&lt;/code&gt; in your KIND configuration file, with a &lt;code&gt;containerPath&lt;/code&gt; of &lt;code&gt;/var/lib/containerd&lt;/code&gt;, which is the default &lt;code&gt;containerd&lt;/code&gt; image caching location inside the KIND container. An example of the modified KIND configuration is shown in the &lt;code&gt;create cluster&lt;/code&gt; command below:&lt;/li&gt;
+&lt;li&gt;Specify the &lt;code&gt;Mountpoint&lt;/code&gt; path obtained, as the &lt;code&gt;hostPath&lt;/code&gt; under &lt;code&gt;extraMounts&lt;/code&gt; in your KIND configuration file, with a &lt;code&gt;containerPath&lt;/code&gt; of &lt;code&gt;/var/lib/containerd&lt;/code&gt;, which is the default containerd image caching location inside the KIND container. An example of the modified KIND configuration is shown in the following &lt;code&gt;create cluster&lt;/code&gt; command:&lt;/li&gt;
 &lt;/ol&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kind create cluster --config - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Cluster
@@ -3486,7 +3486,7 @@ docker volume inspect containerd &lt;span style=&#34;color:#8f5902;font-style:it
         protocol: tcp
     extraMounts:
       - hostPath: /var/lib/docker/volumes/containerd/_data
-        containerPath: /var/lib/containerd &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#this is the location of the image cache inside the KinD container&lt;/span&gt;
+        containerPath: /var/lib/containerd &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#This is the location of the image cache inside the KIND container&lt;/span&gt;
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
       </description>
@@ -3602,14 +3602,14 @@ verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   &lt;span style
 &lt;div class=&#34;tab-pane fade show active&#34; id=&#34;tab21&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName1&#34;&gt;
 
 	&lt;br&gt;
-&lt;h5 id=&#34;install-using-xipio&#34;&gt;Install using xip.io&lt;/h5&gt;
+&lt;p&gt;&lt;strong&gt;Install using xip.io&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/develop/operator/config/samples/install-default.yaml&#34;&gt;install-default.yaml&lt;/a&gt; file provides a template for a default xip.io installation.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
   name: my-verrazzano
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Run the following commands:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml 
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
 kubectl apply -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: install.verrazzano.io/v1alpha1
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Verrazzano
@@ -3617,9 +3617,9 @@ kubectl apply -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: my-verrazzano
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
 kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;20m --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;InstallComplete verrazzano/my-verrazzano
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id=&#34;install-on-kind-using-xipio&#34;&gt;Install on kind using xip.io&lt;/h5&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Install on KIND using xip.io&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Run the following commands:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml 
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
 kubectl apply -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: install.verrazzano.io/v1alpha1
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Verrazzano
@@ -3691,7 +3691,7 @@ ingresses.  For example, you could use &lt;code&gt;sales&lt;/code&gt; as an &lt;
 &lt;code&gt;sales.us.v8o.example.com&lt;/code&gt; as the sales-related domain (assuming the domain and zone names listed
 previously).&lt;/p&gt;
 &lt;p&gt;Run the following commands:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml 
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
 kubectl apply -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: install.verrazzano.io/v1alpha1
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Verrazzano
@@ -3747,11 +3747,11 @@ vmi-system-kibana-649466fcf8-4n8ct                 1/1     Running   0          
 vmi-system-prometheus-0-7f97ff97dc-gfclv           3/3     Running   0          4m44s
 vmi-system-prometheus-gw-7cb9df774-48g4b           1/1     Running   0          4m44s
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;installation-profiles&#34;&gt;Installation profiles&lt;/h3&gt;
-&lt;p&gt;Verrazzano supports two installation profiles:  development (dev) and production (prod). The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.&lt;/p&gt;
+&lt;p&gt;Verrazzano supports two installation profiles:  development (&lt;code&gt;dev&lt;/code&gt;) and production (&lt;code&gt;prod&lt;/code&gt;). The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.&lt;/p&gt;
 &lt;p&gt;To use the development profile, specify the following in the Kubernetes manifest file for the Verrazzano custom resource:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;spec:
   profile: dev
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/develop/operator/config/samples/install-dev.yaml&#34;&gt;install-dev.yaml&lt;/a&gt; file provides a template for a dev profile installation.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/develop/operator/config/samples/install-dev.yaml&#34;&gt;install-dev.yaml&lt;/a&gt; file provides a template for a &lt;code&gt;dev&lt;/code&gt; profile installation.&lt;/p&gt;
 &lt;h4 id=&#34;optional-install-the-example-applications&#34;&gt;(Optional) Install the example applications&lt;/h4&gt;
 &lt;p&gt;Example applications are located &lt;a href=&#34;https://github.com/verrazzano/verrazzano/tree/master/examples&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;h5 id=&#34;to-get-the-consoles-urls-and-credentials-see-operationsoperations&#34;&gt;To get the consoles URLs and credentials, see &lt;a href=&#34;../../../operations&#34;&gt;Operations&lt;/a&gt;.&lt;/h5&gt;
