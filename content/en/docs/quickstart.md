@@ -10,7 +10,7 @@ weight: 2
 The Quick Start assumes that you have already installed a
 [Kubernetes](https://kubernetes.io/) cluster.  Verrazzano has been tested on
 [Oracle Cloud Infrastructure Container Engine for Kubernetes](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm) (OKE) and
-[Oracle Linux Cloud Native Environment](https://docs.oracle.com/en/operating-systems/olcne/) (OLCNE); it is possible that it can be configured to work on other Kubernetes
+[Oracle Linux Cloud Native Environment](https://docs.oracle.com/en/operating-systems/olcne/) (OLCNE); it is possible that it can be configured to work in other Kubernetes
 environments.
 
 Verrazzano requires the following:
@@ -55,8 +55,8 @@ To install the Verrazzano platform operator, follow these steps:
 
 
 You install Verrazzano by creating a Verrazzano custom resource in
-your Kubernetes cluster.  Verrazzano currently supports a default production
-profile and a development (dev) profile suitable for evaluation.  
+your Kubernetes cluster.  Verrazzano currently supports a default production (`prod`)
+profile and a development (`dev`) profile suitable for evaluation.  
 
 The development profile has the following characteristics:
 * Magic (xip.io) DNS
@@ -67,7 +67,7 @@ The development profile has the following characteristics:
 
 To install Verrazzano, follow these steps:
 
-1. Install Verrazzano with its dev profile.
+1. Install Verrazzano with its `dev` profile.
 
     ```shell
     kubectl apply -f - <<EOF
@@ -219,10 +219,10 @@ To uninstall Verrazzano, follow these steps:
     kubectl delete verrazzano example-verrazzano
     ```
 
-{{< alert title="NOTE" color="tip" >}}
-This command blocks until the uninstall has completed.  To follow the progress,
-you can view the uninstall logs.
-{{< /alert >}}
+   {{< alert title="NOTE" color="tip" >}}
+   This command blocks until the uninstall has completed.  To follow the progress,
+   you can view the uninstall logs.
+   {{< /alert >}}
 
 1. (Optional) View the uninstall logs.
 

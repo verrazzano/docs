@@ -19,8 +19,7 @@ You should install this developer preview release of Verrazzano only in a cluste
 
 Verrazzano requires the following:
 
-- A kubernetes cluster and a compatible kubectl.
-- Other versions have not been tested and are not guaranteed to work
+- A Kubernetes cluster and a compatible `kubectl`.
 - At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.
 
 
@@ -29,9 +28,11 @@ Verrazzano requires the following:
 
 ### Prepare for the install
 
-To prepare for installing on OCI Container Engine for Kubernetes, see [Prepare for the OCI install](../../platforms/oci/oci).
+* OCI Container Engine for Kubernetes, see [Prepare for the OCI install](../../platforms/oci/oci).
 
-To prepare for installing on OLCNE, see [Prepare for the OCLNE install](../../platforms/olcne/olcne).
+* OLCNE, see [Prepare for the OCLNE install](../../platforms/olcne/olcne).
+
+* KIND, see [Prepare for the KIND install](../../platforms/kind/kind).
 
 ### Install the Verrazzano Platform Operator
 
@@ -73,14 +74,62 @@ According to your DNS choice, install Verrazzano using one of the following meth
 {{< tab tabNum="1" >}}
 <br>
 
-##### Install using xip.io
+**Install using xip.io**
+
 The [install-default.yaml](https://github.com/verrazzano/verrazzano/blob/develop/operator/config/samples/install-default.yaml) file provides a template for a default xip.io installation.
 
-```
+```shell
 apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
   name: my-verrazzano
+```
+
+
+Run the following commands:
+
+```shell
+kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
+kubectl apply -f - <<EOF
+apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: my-verrazzano
+EOF
+kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
+```
+
+**Install on KIND using xip.io**
+
+Run the following commands:
+
+```shell
+kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
+kubectl apply -f - <<EOF
+apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: my-verrazzano
+spec:
+  components:
+    ingress:
+      type: NodePort
+      nginxInstallArgs:
+        - name: controller.kind
+          value: DaemonSet
+        - name: controller.hostPort.enabled
+          value: "true"
+        - name: controller.nodeSelector.ingress-ready
+          value: "true"
+          setString: true
+        - name: controller.tolerations[0].key
+          value: node-role.kubernetes.io/master
+        - name: controller.tolerations[0].operator
+          value: Equal
+        - name: controller.tolerations[0].effect
+          value: NoSchedule
+EOF
+kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
 ```
 
 {{< /tab >}}
@@ -119,18 +168,43 @@ ingresses.  For example, you could use `sales` as an `environmentName`, yielding
 `sales.us.v8o.example.com` as the sales-related domain (assuming the domain and zone names listed
 previously).
 
-{{< /tab >}}
-{{< /tabs >}}
-
 Run the following commands:
-```
-kubectl apply -f operator/deploy/operator.yaml
-kubectl apply -f operator/config/samples/install-olcne.yaml
+
+```shell
+kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
+kubectl apply -f - <<EOF
+apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: my-verrazzano
+spec:
+  environmentName: env
+  profile: prod
+  components:
+    certManager:
+      certificate:
+        acme:
+          provider: letsEncrypt
+          emailAddress: emailAddress@domain.com
+    dns:
+      oci:
+        ociConfigSecret: ociConfigSecret
+        dnsZoneCompartmentOCID: dnsZoneCompartmentOcid
+        dnsZoneOCID: dnsZoneOcid
+        dnsZoneName: my.dns.zone.name
+    ingress:
+      type: LoadBalancer
+EOF
+kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/operator/config/samples/install-oci.yaml
 kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
 ```
 
+{{< /tab >}}
+{{< /tabs >}}
+
+
 To monitor the console log output of the installation, run the following command:
-```
+```shell
     kubectl logs -f $(kubectl get pod -l job-name=verrazzano-install-my-verrazzano -o jsonpath="{.items[0].metadata.name}")
 ```
 
@@ -156,8 +230,21 @@ vmi-system-prometheus-0-7f97ff97dc-gfclv           3/3     Running   0          
 vmi-system-prometheus-gw-7cb9df774-48g4b           1/1     Running   0          4m44s
 ```
 
+### Installation profiles
+
+Verrazzano supports two installation profiles:  development (`dev`) and production (`prod`). The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.   
+
+To use the development profile, specify the following in the Kubernetes manifest file for the Verrazzano custom resource:
+
+```
+spec:
+  profile: dev
+```
+
+The [install-dev.yaml](https://github.com/verrazzano/verrazzano/blob/develop/operator/config/samples/install-dev.yaml) file provides a template for a `dev` profile installation.
+
 #### (Optional) Install the example applications
-Example applications are located in the [`examples`](https://github.com/verrazzano/verrazzano/tree/master/examples) directory.
+Example applications are located [here](https://github.com/verrazzano/verrazzano/tree/master/examples).
 
 ##### To get the consoles URLs and credentials, see [Operations](../../../operations).
 
