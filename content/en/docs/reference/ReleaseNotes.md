@@ -5,6 +5,14 @@ weight: 4
 draft: false
 ---
 
+### v0.8.0
+- Features
+    - Support for two installation profiles, development (dev) and production (prod).  The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.   
+    - The default behavior has been changed to use the system VMI for all monitoring (applications and Verrazzano components).  It is still possible to customize one of the profiles to enable the original non-shared VMI mode.
+    - Initial support for the Open Application Model (OAM), stay tuned for more updates.
+- Fixes
+    - Updated Axios NPM package to v0.21.1 to resolve CVE-2020-28168 in examples code.
+
 ### v.0.7.0
 - Features
     - Ability to upgrade an existing Verrazzano installation.
