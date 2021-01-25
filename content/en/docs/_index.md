@@ -28,5 +28,5 @@ You should install Verrazzano only in a cluster that can be safely deleted when 
 
 Select [Quick Start](quickstart) to get started.
 
-Source code is available at [https://github.com/verrazzano/verrazzano](https://github.com/verrazzano/verrazzano).
+Verrazzano [release versions](https://github.com/verrazzano/verrazzano/releases/) and source code are available at [https://github.com/verrazzano/verrazzano](https://github.com/verrazzano/verrazzano).
 This repository contains a Kubernetes operator for installing Verrazzano and example applications for use with Verrazzano.
