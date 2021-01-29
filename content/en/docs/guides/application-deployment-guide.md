@@ -106,7 +106,7 @@ A Verrazzano Application Model is a
 describing an application's general composition and environment requirements.
 The following code shows the model for the example application used in this guide.
 This model describes an application which is implemented by a single Docker image containing a Helidon application exposing a single endpoint.
-For more details about Verrazzano models, see the [Verrazzano Application Model](https://verrazzano.io/docs/reference/model/) documentation.
+For more details about Verrazzano models, see the [Verrazzano Application Model](https://verrazzano.io/docs/reference/api/verrazzanomodel/verrazzanoapplicationmodel/) documentation.
 
 ```yaml
 apiVersion: verrazzano.io/v1beta1
@@ -147,7 +147,7 @@ The following code shows the binding for the example application used in this gu
 This binding specifies that the application be placed in the `local` cluster
 within the `greet` namespace having an ingress endpoint bound to DNS name `www.example.com`.
 For more details about Verrazzano bindings, see the [Verrazzano
-Application Binding](https://verrazzano.io/docs/reference/binding/) documentation.
+Application Binding](https://verrazzano.io/docs/reference/api/verrazzanobinding/verrazzanoapplictionbinding/) documentation.
 
 ```yaml
 apiVersion: verrazzano.io/v1beta1
