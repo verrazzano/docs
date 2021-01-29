@@ -102,7 +102,7 @@ Private Subnet Route Table Rules
 
 **Service Gateway**
 
-The following compute resources adhere to the guidelines provided in the Oracle Linux Cloud Native Environment [Getting Started](https://docs.oracle.com/en/operating-systems/olcne/start/deploy-kube.html) guide.
+The following compute resources adhere to the guidelines provided in the Oracle Linux Cloud Native Environment [Getting Started](https://docs.oracle.com/en/operating-systems/olcne/1.1/start/) guide.
 The attributes indicated (for example, Subnet, RAM, Shape, and Image) are recommendations that have been tested.
 Other values can be used if required.
 
@@ -118,10 +118,10 @@ Other values can be used if required.
 | Kubernetes Worker Node 3      | Private | 32GB          | VM.Standard.E2.4    | Oracle Linux 7.8    |
 
 ### Do the OLCNE install
-Deploy Oracle Linux Cloud Native Environment with the Kubernetes module, following instructions from the [Getting Started](https://docs.oracle.com/en/operating-systems/olcne/start/deploy-kube.html) guide.
+Deploy Oracle Linux Cloud Native Environment with the Kubernetes module, following instructions from the [Getting Started](https://docs.oracle.com/en/operating-systems/olcne/1.1/start/install-module-deploy.html) guide.
 * Use a single Kubernetes control plane node.
-* Skip the Kubernetes API load balancer ([3.4.3](https://docs.oracle.com/en/operating-systems/olcne/start/install-lb.html)).
-* Use private CA certificates ([3.5.3](https://docs.oracle.com/en/operating-systems/olcne/start/certs-private.html)).
+* Skip the Kubernetes API load balancer ([3.4.3](https://docs.oracle.com/en/operating-systems/olcne/1.1/start/install-lb.html)).
+* Use private CA certificates ([3.5.3](https://docs.oracle.com/en/operating-systems/olcne/1.1/start/certs-private.html)).
 
 ### Prepare for the Verrazzano install
 
