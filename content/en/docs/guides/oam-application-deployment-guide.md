@@ -18,6 +18,11 @@ Developing and deploying an application to [Verrazzano](https://verrazzano.io/) 
 This guide does not provide the full details for the first two steps. An existing example application
 Docker image has been packaged and published for use.
 
+Verrazzano supports application definition using the [Open Application Model (OAM)](https://oam.dev/).  Verrrazzano applications are 
+composed of [components](https://github.com/oam-dev/spec/blob/master/3.component.md) and 
+[application configurations](https://github.com/oam-dev/spec/blob/master/7.application_configuration.md).  This document
+demonstrates creating the OAM resources that define an application as well as the steps required to deploy those resources.
+
 ## What you need
 
 - About 10 minutes.
@@ -96,10 +101,10 @@ EXPOSE 8080
 
 When you deploy applications with Verrazzano, the platform sets up connections, network policies, and
 ingresses in the service mesh, and wires up a monitoring stack to capture the metrics, logs, and traces.
-Verrazzano employs Open Application Model (OAM) Components to define the functional units of a system that are then
-assembled and configured by defining OAM Application Configurations.
+Verrazzano employs OAM Components to define the functional units of a system that are then
+assembled and configured by defining associated application configurations.
 
-### Verrazzano OAM Components
+### Verrazzano Components
 
 A Verrazzano OAM Component is a
 [Kubernetes Custom Resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
