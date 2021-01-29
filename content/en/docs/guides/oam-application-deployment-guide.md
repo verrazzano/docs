@@ -96,16 +96,16 @@ EXPOSE 8080
 
 When you deploy applications with Verrazzano, the platform sets up connections, network policies, and
 ingresses in the service mesh, and wires up a monitoring stack to capture the metrics, logs, and traces.
-Verrazzano employs Open Application Model [OAM] Components to define the functional units of a system that are then
-assembled together and configured by defining OAM Application Configurations.
+Verrazzano employs Open Application Model (OAM) Components to define the functional units of a system that are then
+assembled and configured by defining OAM Application Configurations.
 
-### Verrazzano OAM Component
+### Verrazzano OAM Components
 
 A Verrazzano OAM Component is a
 [Kubernetes Custom Resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 describing an application's general composition and environment requirements.
 The following code shows the component for the example application used in this guide.
-This model describes a component which is implemented by a single Docker image containing a Helidon application exposing a single endpoint.
+This resource describes a component which is implemented by a single Docker image containing a Helidon application exposing a single endpoint.
 For more details about Verrazzano Components, see TBD documentation.
 
 ```yaml
@@ -132,12 +132,12 @@ spec:
             name: http
 ```
 
-A brief description of each field in the model:
+A brief description of each field of the component:
 
-* `apiVersion` - Version of the model custom resource definition
-* `kind` - Standard name of the model custom resource definition
-* `metadata.name` - The name used to create the model's custom resource
-* `metadata.namespace` - The namespace used to create this model's custom resource
+* `apiVersion` - Version of the component custom resource definition
+* `kind` - Standard name of the component custom resource definition
+* `metadata.name` - The name used to create the component's custom resource
+* `metadata.namespace` - The namespace used to create this component's custom resource
 * `spec.workload.kind` - `ContainerizedWorkload` defines a stateless workload of Kubernetes
 * `spec.workload.spec.containers` - The implementation containers
 * `spec.workload.spec.containers.ports` - Ports exposed by the container
@@ -150,7 +150,7 @@ which provides environment specific customizations.
 The following code shows the application configuration for the example used in this guide.
 This resource specifies the deployment of the application to the `hello-helidon` namespace.  Additional runtime features are 
 specified using traits, or runtime overlays that augment the workload.  For example, the ingress trait specifies the 
-ingress host and path, while the metrics trait provides the runtime with the Prometheus scraper leveraged to obtain the 
+ingress host and path, while the metrics trait provides the Prometheus scraper leveraged to obtain the 
 application related metrics.
 For more details about Verrazzano application configurations, see TBD documentation.
 
@@ -186,16 +186,16 @@ spec:
                       pathType: Prefix
 ```
 
-A brief description of each field in the binding:
+A brief description of each field in the application configuration:
 
-* `apiVersion` - Version of the ApplicationConfiguration custom resource definition
+* `apiVersion` - Version of the `ApplicationConfiguration` custom resource definition
 * `kind` - Standard name of the application configuration custom resource definition
 * `metadata.name` - The name used to create this application configuration resource
 * `metadata.namespace` - The namespace used for this application configuration custom resource
 * `spec.components` - Reference to the application's components leveraged to specify runtime configuration
 * `spec.components[].traits` - The traits specified for the application's components
 
-To explore traits we can examine the fields of an ingress trait:
+To explore traits, we can examine the fields of an ingress trait:
 
 * `apiVersion` - Version of the OAM trait custom resource definition
 * `kind` - `IngressTrait` is the name of the OAM application ingress trait custom resource definition
@@ -230,7 +230,7 @@ Steps similar to the `apply` steps would be used to deploy any application to Ve
 
    This step causes the validation and creation of the component resource.
    No other resources or objects are created as a result.
-   Application configurations applied in the future may reference this component model.
+   Application configurations applied in the future may reference this component resource.
 
 1. Apply the application configuration.
 
