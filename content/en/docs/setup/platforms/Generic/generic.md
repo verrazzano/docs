@@ -6,15 +6,15 @@ Weight: 10
 draft: false
 ---
 
-### Prepare for the Generic install
+### Prepare for the generic install
 
-There are two main areas you can configure to use a generic Kubernetes implementation:
+To use a generic Kubernetes implementation, there are two main areas you can configure: ingress and storage.
 
 {{< tabs tabTotal="3" tabID="3" tabName1="Ingress" tabName2="Storage" >}}
 {{< tab tabNum="1" >}}
 <br>
 
-Ingress configuration can be achieved through helm overrides.  For example, to use the nginx-controller for ingress on KIND you can apply the following customization to the Verrazzano CRD.
+You can achieve ingress configuration using Helm overrides.  For example, to use the `nginx-controller` for ingress on KIND, apply the following customization to the Verrazzano CRD.
 
 ```shell
 spec: 
