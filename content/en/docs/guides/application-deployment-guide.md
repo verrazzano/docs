@@ -12,11 +12,16 @@ draft: false
 Developing and deploying an application to [Verrazzano](https://verrazzano.io/) consists of:
 1. Packaging the application as a Docker image.
 1. Publishing the application's Docker image to a container registry.
-1. Applying the application's Verrazzano Application Model to the cluster.
-1. Applying the application's Verrazzano Application Binding to the cluster.
+1. Applying the application's Verrazzano Components to the cluster.
+1. Applying the application's Verrazzano Applications to the cluster.
 
 This guide does not provide the full details for the first two steps. An existing example application
 Docker image has been packaged and published for use.
+
+Verrazzano supports application definition using the [Open Application Model (OAM)](https://oam.dev/).  Verrrazzano applications are 
+composed of [components](https://github.com/oam-dev/spec/blob/master/3.component.md) and 
+[application configurations](https://github.com/oam-dev/spec/blob/master/7.application_configuration.md).  This document
+demonstrates creating the OAM resources that define an application as well as the steps required to deploy those resources.
 
 ## What you need
 
@@ -96,91 +101,111 @@ EXPOSE 8080
 
 When you deploy applications with Verrazzano, the platform sets up connections, network policies, and
 ingresses in the service mesh, and wires up a monitoring stack to capture the metrics, logs, and traces.
-Verrazzano employs an "application model" that lets you assemble applications into a system that can be
-managed together and an "application binding" that you use to map the application model to an environment.
+Verrazzano employs OAM Components to define the functional units of a system that are then
+assembled and configured by defining associated application configurations.
 
-### Verrazzano Application Model
+### Verrazzano Components
 
-A Verrazzano Application Model is a
+A Verrazzano OAM Component is a
 [Kubernetes Custom Resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 describing an application's general composition and environment requirements.
-The following code shows the model for the example application used in this guide.
-This model describes an application which is implemented by a single Docker image containing a Helidon application exposing a single endpoint.
-For more details about Verrazzano models, see the [Verrazzano Application Model](https://verrazzano.io/docs/reference/api/verrazzanomodel/verrazzanoapplicationmodel/) documentation.
+The following code shows the component for the example application used in this guide.
+This resource describes a component which is implemented by a single Docker image containing a Helidon application exposing a single endpoint.
+For more details about Verrazzano Components, see TBD documentation.
 
 ```yaml
-apiVersion: verrazzano.io/v1beta1
-kind: VerrazzanoModel
+apiVersion: core.oam.dev/v1alpha2
+kind: Component
 metadata:
-  name: hello-world-model
-  namespace: default
+  name: hello-helidon-component
+  namespace: hello-helidon
 spec:
-  description: "Hello World application"
-  helidonApplications:
-    - name: "hello-world-application"
-      image: "container-registry.oracle.com/verrazzano/example-hello-world-helidon:0.1.10-3-e5ae893-124"
-      connections:
-        - ingress:
-            - name: "greet-ingress"
-              match:
-                - uri:
-                    prefix: "/greet"
+  workload:
+    apiVersion: core.oam.dev/v1alpha2
+    kind: ContainerizedWorkload
+    metadata:
+      name: hello-helidon-workload
+      namespace: hello-helidon
+      labels:
+        app: hello-helidon
+    spec:
+      containers:
+      - name: hello-helidon-container
+        image: "ghcr.io/verrazzano/example-helidon-greet-app-v1:0.1.10-3-20201016220428-56fb4d4"
+        ports:
+          - containerPort: 8080
+            name: http
 ```
 
-A brief description of each field in the model:
+A brief description of each field of the component:
 
-* `apiVersion` - Version of the model custom resource definition
-* `kind` - Standard name of the model custom resource definition
-* `metadata.name` - The name used to create the model's custom resource
-* `metadata.namespace` - The namespace used to create this model's custom resource
-* `spec.helidonApplications.name` - Name used to identify this application from the binding
-* `spec.helidonApplications.image` - Docker image used to implement the application
-* `spec.helidonApplications.connections.ingress.name` - Name used to identify this ingress from the binding
-* `spec.helidonApplications.connections.ingress.match.uri.prefix` - URI prefix for the application's ingress
+* `apiVersion` - Version of the component custom resource definition
+* `kind` - Standard name of the component custom resource definition
+* `metadata.name` - The name used to create the component's custom resource
+* `metadata.namespace` - The namespace used to create this component's custom resource
+* `spec.workload.kind` - `ContainerizedWorkload` defines a stateless workload of Kubernetes
+* `spec.workload.spec.containers` - The implementation containers
+* `spec.workload.spec.containers.ports` - Ports exposed by the container
 
-### Verrazzano Application Binding
+### Verrazzano Application Configurations
 
-A Verrazzano Application Binding is a
+A Verrazzano Application Configuration is a
 [Kubernetes Custom Resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 which provides environment specific customizations.
-The following code shows the binding for the example application used in this guide.
-This binding specifies that the application be placed in the `local` cluster
-within the `greet` namespace having an ingress endpoint bound to DNS name `www.example.com`.
-For more details about Verrazzano bindings, see the [Verrazzano
-Application Binding](https://verrazzano.io/docs/reference/api/verrazzanobinding/verrazzanoapplictionbinding/) documentation.
+The following code shows the application configuration for the example used in this guide.
+This resource specifies the deployment of the application to the `hello-helidon` namespace.  Additional runtime features are 
+specified using traits, or runtime overlays that augment the workload.  For example, the ingress trait specifies the 
+ingress host and path, while the metrics trait provides the Prometheus scraper used to obtain the 
+application related metrics.
+For more details about Verrazzano application configurations, see TBD documentation.
 
 ```yaml
-apiVersion: verrazzano.io/v1beta1
-kind: VerrazzanoBinding
+apiVersion: core.oam.dev/v1alpha2
+kind: ApplicationConfiguration
 metadata:
-  name: hello-world-binding
-  namespace: default
+  name: hello-helidon-appconf
+  namespace: hello-helidon
+  annotations:
+    version: v1.0.0
+    description: "Hello Helidon application"
 spec:
-  description: "Hello World Application binding"
-  modelName: hello-world-model
-  placement:
-    - name: local
-      namespaces:
-        - name: greet
-          components:
-            - name: hello-world-application
-  ingressBindings:
-    - name: "greet-ingress"
-      dnsName: "www.example.com"
+  components:
+    - componentName: hello-helidon-component
+      traits:
+        - trait:
+            apiVersion: oam.verrazzano.io/v1alpha1
+            kind: MetricsTrait
+            spec:
+                scraper: verrazzano-system/vmi-system-prometheus-0
+        - trait:
+            apiVersion: oam.verrazzano.io/v1alpha1
+            kind: IngressTrait
+            metadata:
+              name: hello-helidon-ingress
+            spec:
+              rules:
+                - hosts:
+                    - "hello-helidon.example.com"
+                  paths:
+                    - path: "/greet"
+                      pathType: Prefix
 ```
 
-A brief description of each field in the binding:
+A brief description of each field in the application configuration:
 
-* `apiVersion` - Version of the Verrazzano binding custom resource definition
-* `kind` - Standard name of the Verrazzano binding custom resource definition
-* `metadata.name` - The name used to create this binding's custom resource
-* `metadata.namespace` - The namespace used to create this binding's custom resource
-* `spec.modelName` - Reference to the application's model custom resource
-* `spec.placement.name` - Name of the Kubernetes cluster into which the application will be deployed
-* `spec.placement.namespaces.name` - Name of a namespace in which to place the application's deployed components
-* `spec.placement.namespaces.components.name` - Name of a model's component to deploy within the namespace
-* `spec.ingressBindings.name` - Reference to a model's ingress
-* `spec.ingressBindings.dnsName` - The DNS name to use for the ingress when created
+* `apiVersion` - Version of the `ApplicationConfiguration` custom resource definition
+* `kind` - Standard name of the application configuration custom resource definition
+* `metadata.name` - The name used to create this application configuration resource
+* `metadata.namespace` - The namespace used for this application configuration custom resource
+* `spec.components` - Reference to the application's components leveraged to specify runtime configuration
+* `spec.components[].traits` - The traits specified for the application's components
+
+To explore traits, we can examine the fields of an ingress trait:
+
+* `apiVersion` - Version of the OAM trait custom resource definition
+* `kind` - `IngressTrait` is the name of the OAM application ingress trait custom resource definition
+* `spec.rules.hosts` - The hosts specified for the ingress
+* `spec.rules.paths` - The context paths for accessing the application
 
 ### Deploy the application
 
@@ -202,24 +227,24 @@ Steps similar to the `apply` steps would be used to deploy any application to Ve
    The remainder of this guide uses file locations relative to this directory.
    {{< /alert >}}
 
-1. Apply the application's model.
+1. Apply the application's component.
 
    ```shell script
-   kubectl apply -f ./hello-world-model.yaml
+   kubectl apply -f ./hello-helidon-comp.yaml
    ```
 
-   This step causes the validation and creation of the model resource.
+   This step causes the validation and creation of the component resource.
    No other resources or objects are created as a result.
-   Bindings applied in the future may reference this model.
+   Application configurations applied in the future may reference this component resource.
 
-1. Apply the application's binding.
+1. Apply the application configuration.
 
    ```shell script
-   kubectl apply -f ./hello-world-binding.yaml
+   kubectl apply -f ./hello-helidon-app.yaml
    ```
 
-   This step causes the validation and creation of the binding resource.
-   The binding creation triggers the activation of a number of Verrazzano operators.
+   This step causes the validation and creation of the application configuration resource.
+   This operation triggers the activation of a number of Verrazzano operators.
    These operators create other Kubernetes objects (for example, Deployments, ReplicaSets, Pods, Services, Ingresses)
    that collectively provide and support the application.
 
@@ -227,10 +252,10 @@ Steps similar to the `apply` steps would be used to deploy any application to Ve
 
    After deploying the application, configure DNS to resolve the application's
    ingress DNS name to the application's load balancer IP address.
-   The application's DNS name is the value of the binding's
-   `spec.ingressBindings.dnsName` field.
+   The application's DNS host name is the value of the host specified in the application configuration's
+   ingress trait (see the `spec.rules.hosts` value provided in the application configuration's ingress trait).
    The load balancer IP is obtained by querying Kubernetes for the
-   Istio ingress gateway status.
+   Istio ingress gateway status:
 
    ```shell script
    kubectl get service -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}
@@ -243,7 +268,7 @@ Steps similar to the `apply` steps would be used to deploy any application to Ve
 
 ### Verify the deployment
 
-  Applying the binding initiates the creation of several Kubernetes objects.
+  Applying the application configuration initiates the creation of several Kubernetes objects.
   Actual creation and initialization of these objects occurs asynchronously.
   The following steps provide commands for determining when these objects are ready for use.
 
@@ -253,77 +278,66 @@ Steps similar to the `apply` steps would be used to deploy any application to Ve
 1. Verify the Helidon application pod is running.
 
    ```
-   $ kubectl get pods -n greet | grep '^NAME\|hello-world-application'
+   $ kubectl get pods -n hello-helidon | grep '^NAME\|hello-helidon-workload'
 
-   NAME                                       READY   STATUS    RESTARTS   AGE
-   hello-world-application-648f8f79d9-8xkhl   3/3     Running   0          2h
+   NAME                                     READY   STATUS    RESTARTS   AGE
+   hello-helidon-workload-9dfbbfb74-4jm9v   1/1     Running   0          94m
    ```
 
-   The parameter `greet` is from the model's
-   `spec.placement.namespaces.name` value.
-   The parameter `hello-world-application` is from the model's
-   `spec.placement.namespaces.components.name` value.
+   The parameter `hello-helidon-workload` is from the component's
+   `spec.workload.metadata.name` value.
 
-1. Verify the Verrazzano Helidon application operator pod is running.
+1. Verify the Verrazzano application operator pod is running.
 
    ```
-   $ kubectl get pods -n verrazzano-system | grep '^NAME\|verrazzano-helidon-app-operator'
+   $ kubectl get pods -n verrazzano-system | grep '^NAME\|verrazzano-application-operator'
 
    NAME                                                     READY   STATUS    RESTARTS   AGE
-   verrazzano-helidon-app-operator-d746d7bc6-67th8          1/1     Running   0          2h
+   verrazzano-application-operator-5485967588-lp6cw         1/1     Running   0          8d
    ```
 
    The namespace `verrazzano-system` is used by Verrazzano for
    non-application objects managed by Verrazzano.
-   A single `verrazzano-helidon-app-operator` manages the life cycle of
-   all Helidon-based applications within the cluster.
+   A single `verrazzano-application-operator` manages the life cycle of
+   all OAM based applications within the cluster.
 
 1. Verify the Verrazzano monitoring infrastructure is running.
 
    ```
-   $ kubectl get pods -n verrazzano-system | grep '^NAME\|vmi-hello-world-binding'
+   $ kubectl get pods -n verrazzano-system | grep '^NAME\|vmi-system'
 
    NAME                                                     READY   STATUS    RESTARTS   AGE
-   vmi-hello-world-binding-api-69987d6dbb-stpd4             1/1     Running   0          2h
-   vmi-hello-world-binding-es-data-0-55b679d6bb-5g2bf       2/2     Running   0          2h
-   vmi-hello-world-binding-es-data-1-7888dbdfcf-76ff9       2/2     Running   0          2h
-   vmi-hello-world-binding-es-ingest-b7d59fb69-6hbr4        1/1     Running   0          2h
-   vmi-hello-world-binding-es-master-0                      1/1     Running   0          2h
-   vmi-hello-world-binding-es-master-1                      1/1     Running   0          2h
-   vmi-hello-world-binding-es-master-2                      1/1     Running   0          2h
-   vmi-hello-world-binding-grafana-85b669cdbc-4rszf         1/1     Running   0          2h
-   vmi-hello-world-binding-kibana-64f958c7f-knxk4           1/1     Running   0          2h
-   vmi-hello-world-binding-prometheus-0-598f79557-ttzmz     3/3     Running   0          2h
-   vmi-hello-world-binding-prometheus-gw-6df8bf4689-dmfxh   1/1     Running   0          2h
+   vmi-system-api-6fb4fd57cb-95ttz                          1/1     Running   0          8d
+   vmi-system-es-master-0                                   1/1     Running   0          11h
+   vmi-system-grafana-674b4f5df7-f4f2p                      1/1     Running   0          8d
+   vmi-system-kibana-759b854fc6-4tsjv                       1/1     Running   0          8d
+   vmi-system-prometheus-0-f6f587664-pfm54                  3/3     Running   0          101m
+   vmi-system-prometheus-gw-68c45f84b8-jrxlt                1/1     Running   0          8d
    ```
 
    These pods in the `verrazzano-system` namespace constitute a
-   monitoring stack created by Verrazzano for each binding.
-   The `hello-world-binding` portion of the pod names are from the
-   binding's `metadata.name` value.
+   monitoring stack created by Verrazzano for the deployed applications.
 
    The monitoring infrastructure comprises several components:
-   * `vmi-hello-world-binding-api` - Internal API for configuring monitoring
-   * `vmi-hello-world-binding-es` - Elasticsearch for log collection
-   * `vmi-hello-world-binding-kibana` - Kibana for log visualization
-   * `vmi-hello-world-binding-grafana` - Grafana for metric visualization
-   * `vmi-hello-world-binding-prometheus` - Prometheus for metric collection
+   * `vmi-system-api` - Internal API for configuring monitoring
+   * `vmi-system-es` - Elasticsearch for log collection
+   * `vmi-system-kibana` - Kibana for log visualization
+   * `vmi-system-grafana` - Grafana for metric visualization
+   * `vmi-system-prometheus` - Prometheus for metric collection
    <p/>
 
 1. Verify the Verrazzano metrics collection infrastructure is running.
 
    ```
-   $ kubectl get pods -n monitoring | grep '^NAME\|prom-pusher-hello-world-binding'
+   $ kubectl get pods -n monitoring | grep '^NAME\|prom-pusher-system'
 
-   NAME                                               READY   STATUS    RESTARTS   AGE
-   prom-pusher-hello-world-binding-6648484f89-t8rf8   1/1     Running   0          2h  
+   NAME                                  READY   STATUS    RESTARTS   AGE
+   prom-pusher-system-65744b658f-tpkqj   1/1     Running   0          8d
    ```
 
-   These pods in the `monitoring` namespace are also part of the
-   monitoring stack created by Verrazzano for each binding.
-   The `hello-world-binding` portion of the pod names are from the
-   binding's `metadata.name` value.
-   These components push collected metrics to Prometheus.
+   This pod in the `monitoring` namespace is also part of the applications
+   monitoring stack provided by Verrazzano.
+   This process pushes collected metrics to Prometheus.
 
 1. Diagnose failures.
 
@@ -331,7 +345,7 @@ Steps similar to the `apply` steps would be used to deploy any application to Ve
    a reasonable length of time, such as five minutes.
 
    ```shell script
-   kubectl describe pod -n greet hello-world-application-648f8f79d9-8xkhl
+   kubectl describe pod -n hello-helidon hello-helidon-workload-9dfbbfb74-4jm9v
    ```
 
    Use the specific namespace and name for the pod being investigated.
@@ -343,7 +357,7 @@ If DNS was not configured, then use the alternative commands.
 
 1.  Save the host name and IP address of the load balancer exposing the application's REST service endpoints for later.
     ```shell script
-    HOST='www.example.com'
+    HOST='hello-helidon.example.com'
     ADDRESS=$(kubectl get service -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     ```
     **NOTE**:
@@ -398,9 +412,9 @@ If DNS was not configured, then use the alternative commands.
 
 ### Access the application's logs
 
-Applications deployed using bindings have log collection enabled.
+Deployed applications have log collection enabled.
 These logs are collected using Elasticsearch and can be accessed using Kibana.
-Elasticsearch and Kibana are examples of infrastructure Verrazzano creates in support of an application as a result of applying a binding.
+Elasticsearch and Kibana are examples of infrastructure Verrazzano creates in support of an application as a result of applying an application configuration.
 
 Determine the URL to access Kibana using the following commands.
  ```shell script
@@ -412,21 +426,21 @@ open "${KIBANA_URL}"
 
 The user name to access Kibana defaults to `verrazzano` during the Verrazzano installation.
 
-Determine the password to access Kibana using the following command.
+Determine the password to access Kibana using the following command:
 ```shell script
 echo $(kubectl get secret -n verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode)
 ```
 
 ### Access the application's metrics
 
-Applications deployed using bindings have metric collection enabled.
+Deployed applications have metric collection enabled.
 Grafana can be used to access these metrics collected by Prometheus.
-Prometheus and Grafana are additional components Verrazzano creates as a result of applying an application binding.
+Prometheus and Grafana are additional components Verrazzano creates as a result of applying an application configuration.
 
 Determine the URL to access Grafana using the following commands.
 
 ```shell script
-GRAFANA_HOST=$(kubectl get ingress -n verrazzano-system vmi-hello-world-binding-grafana -o jsonpath='{.spec.rules[0].host}')
+GRAFANA_HOST=$(kubectl get ingress -n verrazzano-system vmi-system-grafana -o jsonpath='{.spec.rules[0].host}')
 GRAFANA_URL="https://${GRAFANA_HOST}"
 echo "${GRAFANA_URL}"
 open "${GRAFANA_URL}"
@@ -443,32 +457,30 @@ Alternatively, metrics can be accessed directly using Prometheus.
 Determine the URL for this access using the following commands.
 
 ```shell script
-PROMETHEUS_HOST=$(kubectl get ingress -n verrazzano-system vmi-hello-world-binding-prometheus -o jsonpath='{.spec.rules[0].host}')
+PROMETHEUS_HOST=$(kubectl get ingress -n verrazzano-system vmi-system-prometheus -o jsonpath='{.spec.rules[0].host}')
 PROMETHEUS_URL="https://${PROMETHEUS_HOST}"
 echo "${PROMETHEUS_URL}"
 open "${PROMETHEUS_URL}"
 ```
 
-The user name and password for Prometheus access are the same as for Grafana.
+The user name and password for both Prometheus and Grafana are the same.
 
 ## Application Removal
 
-Run the following commands to delete the application's binding and, optionally, model.
+Run the following commands to delete the application configuration and, optionally, component.
 
-1. Delete the application's binding.
+1. Delete the application configuration.
 
    ```shell script
-   kubectl delete -f ./hello-world-binding.yaml
+   kubectl delete -f ./hello-helidon-app.yaml
    ```
 
-   The deletion of the application's binding will result in the destruction
+   The deletion of the application configuration will result in the destruction
    of all application-specific Kubernetes objects.
-   This includes objects created by Verrazzano on behalf of the application,
-   such as monitoring components.
 
-1. (Optional) Delete the application's model.
+1. (Optional) Delete the application's component.
 
    ```shell script
-   kubectl delete -f ./hello-world-model.yaml
+   kubectl delete -f ./hello-helidon-comp.yaml
    ```
-   **Note**: This step is not required if other bindings for this model will be applied in the future.
+   **Note**: This step is not required if other application configurations for this component will be applied in the future.
