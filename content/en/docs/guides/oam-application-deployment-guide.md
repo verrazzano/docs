@@ -155,7 +155,7 @@ which provides environment specific customizations.
 The following code shows the application configuration for the example used in this guide.
 This resource specifies the deployment of the application to the `hello-helidon` namespace.  Additional runtime features are 
 specified using traits, or runtime overlays that augment the workload.  For example, the ingress trait specifies the 
-ingress host and path, while the metrics trait provides the Prometheus scraper leveraged to obtain the 
+ingress host and path, while the metrics trait provides the Prometheus scraper used to obtain the 
 application related metrics.
 For more details about Verrazzano application configurations, see TBD documentation.
 
