@@ -34,6 +34,9 @@ Verrazzano requires the following:
 
 * KIND, see [Prepare for the KIND install](../../platforms/kind/kind).
 
+* Generic Kubernetes, see [Prepare for the generic install](../../generic/generic).
+
+
 ### Install the Verrazzano Platform Operator
 
 Verrazzano provides a platform [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
