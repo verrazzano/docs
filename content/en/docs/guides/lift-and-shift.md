@@ -182,8 +182,8 @@ To create a reusable model of the application and domain, use WDT to create a me
   ```
 
 You will find the following files in `./v8o`:
-- `binding.yaml` - Verrazzano Binding file
-- `model.yaml` - Verrazzano Model template
+- `application.yaml` - Verrazzano application configuration file
+- `component.yaml` - Verrazzano component template
 - `wdt-archive.zip` - The WDT archive file containing the ToDo List application WAR file
 - `wdt-model.yaml` - The WDT model of the WebLogic Server domain
 - `vz_variable.properties` - A set of properties extracted from the WDT domain model
@@ -271,7 +271,7 @@ create_paired_k8s_secret jdbc-todo-datasource derek welcome1
 ```
 
 Verrazzano will need a credential to pull the image that you just created, so you need to create one more secret.
-The name for this credential can be changed in the `model.yaml` file to anything you like, but it defaults to `ocir`.  
+The name for this credential can be changed in the `component.yaml` file to anything you like, but it defaults to `ocir`.  
 Assuming that you leave the name `ocir`, you will need to run a `kubectl create secret` command similar to the following:
 ```shell script
 kubectl create secret docker-registry ocir \
@@ -281,11 +281,11 @@ kubectl create secret docker-registry ocir \
   --docker-password='passwordForUsername'
 ```
 
-And finally, run `kubectl apply` to apply the Verrazzano Model and Verrazzano Binding files to start your domain.
+And finally, run `kubectl apply` to apply the Verrazzano component and Verrazzano application configuration files to start your domain.
 
 ```shell script
-kubectl apply -f model.yaml
-kubectl apply -f binding.yaml
+kubectl apply -f component.yaml
+kubectl apply -f application.yaml
 ```
 
 #### Verify the ToDo List application deployment
