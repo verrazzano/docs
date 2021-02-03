@@ -19,7 +19,7 @@ Verrazzano requires the following:
     * Other versions have not been tested and are not guaranteed to work.
 * At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.
 
-### Install the Verrazzano Platform Operator
+### Install the Verrazzano platform operator
 
 Verrazzano provides a Kubernetes [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
 to manage the life cycle of Verrazzano installations.  The operator works with a
