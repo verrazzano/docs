@@ -58,7 +58,7 @@ Configuring `emptyDir` for the `DefaultVolumeSource` forces all persistent volum
 
 You can use a [persistentVolumeClaim](https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimvolumesource-v1-core) to identify a `volumeClaimSpecTemplate` in the `volumeClaimSpecTemplates` section via the `claimSource` field.  A `volumeClaimSpecTemplate` is a named [PersistentVolumeClaimSpec](https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimspec-v1-core) configuration.  A `volumeClaimSpecTemplate` can be referenced from more than one component; it merely identifies  configuration settings, and does not result in a direct instantiation of a persistent volume.  The settings are used by referencing components when creating their [PersistentVolumeClaims](https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaim-v1-core) at install time.
 
-If the component supports it, then you can override the DefaultVolumeSource setting at the component level by defining a supported VolumeSource on that component.  At present, only the `keycloak/mysql` component supports a `volumeSource` field override.
+If the component supports it, then you can override the `DefaultVolumeSource` setting at the component level by defining a supported `VolumeSource` on that component.  At present, only the `keycloak/mysql` component supports a `volumeSource` field override.
 
 #### Examples
 
