@@ -21,11 +21,11 @@
 <meta property="og:description" content="A guide for deploying an example application on Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/guides/application-deployment-guide/" />
-<meta property="article:modified_time" content="2021-01-29T11:30:33-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-02-02T17:45:05-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Application Deployment Guide">
 <meta itemprop="description" content="A guide for deploying an example application on Verrazzano">
-<meta itemprop="dateModified" content="2021-01-29T11:30:33-05:00" />
-<meta itemprop="wordCount" content="1970">
+<meta itemprop="dateModified" content="2021-02-02T17:45:05-05:00" />
+<meta itemprop="wordCount" content="1946">
 
 
 
@@ -200,6 +200,14 @@ if (!doNotTrack) {
           
           
           <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupplatformskindkind" href="../../../docs/setup/platforms/kind/kind/">KIND</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupplatformsgenericgeneric" href="../../../docs/setup/platforms/generic/generic/">Generic</a>
         
       
       
@@ -495,11 +503,15 @@ if (!doNotTrack) {
 <ol>
 <li>Packaging the application as a Docker image.</li>
 <li>Publishing the application&rsquo;s Docker image to a container registry.</li>
-<li>Applying the application&rsquo;s Verrazzano Application Model to the cluster.</li>
-<li>Applying the application&rsquo;s Verrazzano Application Binding to the cluster.</li>
+<li>Applying the application&rsquo;s Verrazzano Components to the cluster.</li>
+<li>Applying the application&rsquo;s Verrazzano Applications to the cluster.</li>
 </ol>
 <p>This guide does not provide the full details for the first two steps. An existing example application
 Docker image has been packaged and published for use.</p>
+<p>Verrazzano supports application definition using the <a href="https://oam.dev/">Open Application Model (OAM)</a>.  Verrrazzano applications are
+composed of <a href="https://github.com/oam-dev/spec/blob/master/3.component.md">components</a> and
+<a href="https://github.com/oam-dev/spec/blob/master/7.application_configuration.md">application configurations</a>.  This document
+demonstrates creating the OAM resources that define an application as well as the steps required to deploy those resources.</p>
 <h2 id="what-you-need">What you need</h2>
 <ul>
 <li>
@@ -569,80 +581,100 @@ Note that the Docker container exposes a single port 8080.</p>
 </span></code></pre></div><h2 id="application-deployment">Application Deployment</h2>
 <p>When you deploy applications with Verrazzano, the platform sets up connections, network policies, and
 ingresses in the service mesh, and wires up a monitoring stack to capture the metrics, logs, and traces.
-Verrazzano employs an &ldquo;application model&rdquo; that lets you assemble applications into a system that can be
-managed together and an &ldquo;application binding&rdquo; that you use to map the application model to an environment.</p>
-<h3 id="verrazzano-application-model">Verrazzano Application Model</h3>
-<p>A Verrazzano Application Model is a
+Verrazzano employs OAM Components to define the functional units of a system that are then
+assembled and configured by defining associated application configurations.</p>
+<h3 id="verrazzano-components">Verrazzano Components</h3>
+<p>A Verrazzano OAM Component is a
 <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">Kubernetes Custom Resource</a>
 describing an application&rsquo;s general composition and environment requirements.
-The following code shows the model for the example application used in this guide.
-This model describes an application which is implemented by a single Docker image containing a Helidon application exposing a single endpoint.
-For more details about Verrazzano models, see the <a href="https://verrazzano.io/docs/reference/api/verrazzanomodel/verrazzanoapplicationmodel/">Verrazzano Application Model</a> documentation.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>verrazzano.io/v1beta1<span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>VerrazzanoModel<span style="color:#f8f8f8;text-decoration:underline">
+The following code shows the component for the example application used in this guide.
+This resource describes a component which is implemented by a single Docker image containing a Helidon application exposing a single endpoint.
+For more details about Verrazzano Components, see TBD documentation.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>core.oam.dev/v1alpha2<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>Component<span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-world-model<span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">namespace</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>default<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-helidon-component<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">namespace</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-helidon<span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">description</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;Hello World application&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">helidonApplications</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;hello-world-application&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">image</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;container-registry.oracle.com/verrazzano/example-hello-world-helidon:0.1.10-3-e5ae893-124&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">connections</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">        </span>- <span style="color:#204a87;font-weight:bold">ingress</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">            </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;greet-ingress&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">match</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">                </span>- <span style="color:#204a87;font-weight:bold">uri</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">                    </span><span style="color:#204a87;font-weight:bold">prefix</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;/greet&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></code></pre></div><p>A brief description of each field in the model:</p>
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">workload</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>core.oam.dev/v1alpha2<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>ContainerizedWorkload<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-helidon-workload<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">namespace</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-helidon<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">labels</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">app</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-helidon<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">containers</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">      </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-helidon-container<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">image</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;ghcr.io/verrazzano/example-helidon-greet-app-v1:0.1.10-3-20201016220428-56fb4d4&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">ports</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">          </span>- <span style="color:#204a87;font-weight:bold">containerPort</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">8080</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>http<span style="color:#f8f8f8;text-decoration:underline">
+</span></code></pre></div><p>A brief description of each field of the component:</p>
 <ul>
-<li><code>apiVersion</code> - Version of the model custom resource definition</li>
-<li><code>kind</code> - Standard name of the model custom resource definition</li>
-<li><code>metadata.name</code> - The name used to create the model&rsquo;s custom resource</li>
-<li><code>metadata.namespace</code> - The namespace used to create this model&rsquo;s custom resource</li>
-<li><code>spec.helidonApplications.name</code> - Name used to identify this application from the binding</li>
-<li><code>spec.helidonApplications.image</code> - Docker image used to implement the application</li>
-<li><code>spec.helidonApplications.connections.ingress.name</code> - Name used to identify this ingress from the binding</li>
-<li><code>spec.helidonApplications.connections.ingress.match.uri.prefix</code> - URI prefix for the application&rsquo;s ingress</li>
+<li><code>apiVersion</code> - Version of the component custom resource definition</li>
+<li><code>kind</code> - Standard name of the component custom resource definition</li>
+<li><code>metadata.name</code> - The name used to create the component&rsquo;s custom resource</li>
+<li><code>metadata.namespace</code> - The namespace used to create this component&rsquo;s custom resource</li>
+<li><code>spec.workload.kind</code> - <code>ContainerizedWorkload</code> defines a stateless workload of Kubernetes</li>
+<li><code>spec.workload.spec.containers</code> - The implementation containers</li>
+<li><code>spec.workload.spec.containers.ports</code> - Ports exposed by the container</li>
 </ul>
-<h3 id="verrazzano-application-binding">Verrazzano Application Binding</h3>
-<p>A Verrazzano Application Binding is a
+<h3 id="verrazzano-application-configurations">Verrazzano Application Configurations</h3>
+<p>A Verrazzano Application Configuration is a
 <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">Kubernetes Custom Resource</a>
 which provides environment specific customizations.
-The following code shows the binding for the example application used in this guide.
-This binding specifies that the application be placed in the <code>local</code> cluster
-within the <code>greet</code> namespace having an ingress endpoint bound to DNS name <code>www.example.com</code>.
-For more details about Verrazzano bindings, see the <a href="https://verrazzano.io/docs/reference/api/verrazzanobinding/verrazzanoapplictionbinding/">Verrazzano
-Application Binding</a> documentation.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>verrazzano.io/v1beta1<span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>VerrazzanoBinding<span style="color:#f8f8f8;text-decoration:underline">
+The following code shows the application configuration for the example used in this guide.
+This resource specifies the deployment of the application to the <code>hello-helidon</code> namespace.  Additional runtime features are
+specified using traits, or runtime overlays that augment the workload.  For example, the ingress trait specifies the
+ingress host and path, while the metrics trait provides the Prometheus scraper used to obtain the
+application related metrics.
+For more details about Verrazzano application configurations, see TBD documentation.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>core.oam.dev/v1alpha2<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>ApplicationConfiguration<span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-world-binding<span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">namespace</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>default<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-helidon-appconf<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">namespace</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-helidon<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">annotations</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">version</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>v1<span style="color:#0000cf;font-weight:bold">.0.0</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">description</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;Hello Helidon application&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">description</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;Hello World Application binding&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">modelName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-world-model<span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">placement</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>local<span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">namespaces</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">        </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>greet<span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">          </span><span style="color:#204a87;font-weight:bold">components</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">            </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-world-application<span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">ingressBindings</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;greet-ingress&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">dnsName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;www.example.com&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></code></pre></div><p>A brief description of each field in the binding:</p>
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">components</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">componentName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-helidon-component<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">traits</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span>- <span style="color:#204a87;font-weight:bold">trait</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>oam.verrazzano.io/v1alpha1<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>MetricsTrait<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">                </span><span style="color:#204a87;font-weight:bold">scraper</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>verrazzano-system/vmi-system-prometheus<span style="color:#0000cf;font-weight:bold">-0</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span>- <span style="color:#204a87;font-weight:bold">trait</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>oam.verrazzano.io/v1alpha1<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>IngressTrait<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-helidon-ingress<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">rules</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">                </span>- <span style="color:#204a87;font-weight:bold">hosts</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">                    </span>- <span style="color:#4e9a06">&#34;hello-helidon.example.com&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">                  </span><span style="color:#204a87;font-weight:bold">paths</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">                    </span>- <span style="color:#204a87;font-weight:bold">path</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;/greet&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">                      </span><span style="color:#204a87;font-weight:bold">pathType</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>Prefix<span style="color:#f8f8f8;text-decoration:underline">
+</span></code></pre></div><p>A brief description of each field in the application configuration:</p>
 <ul>
-<li><code>apiVersion</code> - Version of the Verrazzano binding custom resource definition</li>
-<li><code>kind</code> - Standard name of the Verrazzano binding custom resource definition</li>
-<li><code>metadata.name</code> - The name used to create this binding&rsquo;s custom resource</li>
-<li><code>metadata.namespace</code> - The namespace used to create this binding&rsquo;s custom resource</li>
-<li><code>spec.modelName</code> - Reference to the application&rsquo;s model custom resource</li>
-<li><code>spec.placement.name</code> - Name of the Kubernetes cluster into which the application will be deployed</li>
-<li><code>spec.placement.namespaces.name</code> - Name of a namespace in which to place the application&rsquo;s deployed components</li>
-<li><code>spec.placement.namespaces.components.name</code> - Name of a model&rsquo;s component to deploy within the namespace</li>
-<li><code>spec.ingressBindings.name</code> - Reference to a model&rsquo;s ingress</li>
-<li><code>spec.ingressBindings.dnsName</code> - The DNS name to use for the ingress when created</li>
+<li><code>apiVersion</code> - Version of the <code>ApplicationConfiguration</code> custom resource definition</li>
+<li><code>kind</code> - Standard name of the application configuration custom resource definition</li>
+<li><code>metadata.name</code> - The name used to create this application configuration resource</li>
+<li><code>metadata.namespace</code> - The namespace used for this application configuration custom resource</li>
+<li><code>spec.components</code> - Reference to the application&rsquo;s components leveraged to specify runtime configuration</li>
+<li><code>spec.components[].traits</code> - The traits specified for the application&rsquo;s components</li>
+</ul>
+<p>To explore traits, we can examine the fields of an ingress trait:</p>
+<ul>
+<li><code>apiVersion</code> - Version of the OAM trait custom resource definition</li>
+<li><code>kind</code> - <code>IngressTrait</code> is the name of the OAM application ingress trait custom resource definition</li>
+<li><code>spec.rules.hosts</code> - The hosts specified for the ingress</li>
+<li><code>spec.rules.paths</code> - The context paths for accessing the application</li>
 </ul>
 <h3 id="deploy-the-application">Deploy the application</h3>
 <p>The following steps are required to deploy the example application.
@@ -664,17 +696,17 @@ The remainder of this guide uses file locations relative to this directory.
 
 </li>
 <li>
-<p>Apply the application&rsquo;s model.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f ./hello-world-model.yaml
-</code></pre></div><p>This step causes the validation and creation of the model resource.
+<p>Apply the application&rsquo;s component.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f ./hello-helidon-comp.yaml
+</code></pre></div><p>This step causes the validation and creation of the component resource.
 No other resources or objects are created as a result.
-Bindings applied in the future may reference this model.</p>
+Application configurations applied in the future may reference this component resource.</p>
 </li>
 <li>
-<p>Apply the application&rsquo;s binding.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f ./hello-world-binding.yaml
-</code></pre></div><p>This step causes the validation and creation of the binding resource.
-The binding creation triggers the activation of a number of Verrazzano operators.
+<p>Apply the application configuration.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f ./hello-helidon-app.yaml
+</code></pre></div><p>This step causes the validation and creation of the application configuration resource.
+This operation triggers the activation of a number of Verrazzano operators.
 These operators create other Kubernetes objects (for example, Deployments, ReplicaSets, Pods, Services, Ingresses)
 that collectively provide and support the application.</p>
 </li>
@@ -682,10 +714,10 @@ that collectively provide and support the application.</p>
 <p>Configure the application&rsquo;s DNS resolution.</p>
 <p>After deploying the application, configure DNS to resolve the application&rsquo;s
 ingress DNS name to the application&rsquo;s load balancer IP address.
-The application&rsquo;s DNS name is the value of the binding&rsquo;s
-<code>spec.ingressBindings.dnsName</code> field.
+The application&rsquo;s DNS host name is the value of the host specified in the application configuration&rsquo;s
+ingress trait (see the <code>spec.rules.hosts</code> value provided in the application configuration&rsquo;s ingress trait).
 The load balancer IP is obtained by querying Kubernetes for the
-Istio ingress gateway status.</p>
+Istio ingress gateway status:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl get service -n istio-system istio-ingressgateway -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#a40000">&#39;</span><span style="color:#ce5c00;font-weight:bold">{</span>.status.loadBalancer.ingress<span style="color:#ce5c00;font-weight:bold">[</span>0<span style="color:#ce5c00;font-weight:bold">]</span>.ip<span style="color:#ce5c00;font-weight:bold">}</span>
 </code></pre></div><p>DNS configuration steps are outside the scope of this guide. For DNS infrastructure that can be configured and used, see
 the <a href="https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/gettingstarted.htm">Oracle Cloud Infrastructure DNS</a> documentation.
@@ -694,7 +726,7 @@ In some small non-production scenarios, DNS configuration using
 </li>
 </ol>
 <h3 id="verify-the-deployment">Verify the deployment</h3>
-<p>Applying the binding initiates the creation of several Kubernetes objects.
+<p>Applying the application configuration initiates the creation of several Kubernetes objects.
 Actual creation and initialization of these objects occurs asynchronously.
 The following steps provide commands for determining when these objects are ready for use.</p>
 <p><strong>Note</strong>: Many other Kubernetes objects unrelated to the example application may also exist.
@@ -702,73 +734,62 @@ Those have been omitted from the lists.</p>
 <ol>
 <li>
 <p>Verify the Helidon application pod is running.</p>
-<pre><code>$ kubectl get pods -n greet | grep '^NAME\|hello-world-application'
+<pre><code>$ kubectl get pods -n hello-helidon | grep '^NAME\|hello-helidon-workload'
 
-NAME                                       READY   STATUS    RESTARTS   AGE
-hello-world-application-648f8f79d9-8xkhl   3/3     Running   0          2h
-</code></pre><p>The parameter <code>greet</code> is from the model&rsquo;s
-<code>spec.placement.namespaces.name</code> value.
-The parameter <code>hello-world-application</code> is from the model&rsquo;s
-<code>spec.placement.namespaces.components.name</code> value.</p>
+NAME                                     READY   STATUS    RESTARTS   AGE
+hello-helidon-workload-9dfbbfb74-4jm9v   1/1     Running   0          94m
+</code></pre><p>The parameter <code>hello-helidon-workload</code> is from the component&rsquo;s
+<code>spec.workload.metadata.name</code> value.</p>
 </li>
 <li>
-<p>Verify the Verrazzano Helidon application operator pod is running.</p>
-<pre><code>$ kubectl get pods -n verrazzano-system | grep '^NAME\|verrazzano-helidon-app-operator'
+<p>Verify the Verrazzano application operator pod is running.</p>
+<pre><code>$ kubectl get pods -n verrazzano-system | grep '^NAME\|verrazzano-application-operator'
 
 NAME                                                     READY   STATUS    RESTARTS   AGE
-verrazzano-helidon-app-operator-d746d7bc6-67th8          1/1     Running   0          2h
+verrazzano-application-operator-5485967588-lp6cw         1/1     Running   0          8d
 </code></pre><p>The namespace <code>verrazzano-system</code> is used by Verrazzano for
 non-application objects managed by Verrazzano.
-A single <code>verrazzano-helidon-app-operator</code> manages the life cycle of
-all Helidon-based applications within the cluster.</p>
+A single <code>verrazzano-application-operator</code> manages the life cycle of
+all OAM based applications within the cluster.</p>
 </li>
 <li>
 <p>Verify the Verrazzano monitoring infrastructure is running.</p>
-<pre><code>$ kubectl get pods -n verrazzano-system | grep '^NAME\|vmi-hello-world-binding'
+<pre><code>$ kubectl get pods -n verrazzano-system | grep '^NAME\|vmi-system'
 
 NAME                                                     READY   STATUS    RESTARTS   AGE
-vmi-hello-world-binding-api-69987d6dbb-stpd4             1/1     Running   0          2h
-vmi-hello-world-binding-es-data-0-55b679d6bb-5g2bf       2/2     Running   0          2h
-vmi-hello-world-binding-es-data-1-7888dbdfcf-76ff9       2/2     Running   0          2h
-vmi-hello-world-binding-es-ingest-b7d59fb69-6hbr4        1/1     Running   0          2h
-vmi-hello-world-binding-es-master-0                      1/1     Running   0          2h
-vmi-hello-world-binding-es-master-1                      1/1     Running   0          2h
-vmi-hello-world-binding-es-master-2                      1/1     Running   0          2h
-vmi-hello-world-binding-grafana-85b669cdbc-4rszf         1/1     Running   0          2h
-vmi-hello-world-binding-kibana-64f958c7f-knxk4           1/1     Running   0          2h
-vmi-hello-world-binding-prometheus-0-598f79557-ttzmz     3/3     Running   0          2h
-vmi-hello-world-binding-prometheus-gw-6df8bf4689-dmfxh   1/1     Running   0          2h
+vmi-system-api-6fb4fd57cb-95ttz                          1/1     Running   0          8d
+vmi-system-es-master-0                                   1/1     Running   0          11h
+vmi-system-grafana-674b4f5df7-f4f2p                      1/1     Running   0          8d
+vmi-system-kibana-759b854fc6-4tsjv                       1/1     Running   0          8d
+vmi-system-prometheus-0-f6f587664-pfm54                  3/3     Running   0          101m
+vmi-system-prometheus-gw-68c45f84b8-jrxlt                1/1     Running   0          8d
 </code></pre><p>These pods in the <code>verrazzano-system</code> namespace constitute a
-monitoring stack created by Verrazzano for each binding.
-The <code>hello-world-binding</code> portion of the pod names are from the
-binding&rsquo;s <code>metadata.name</code> value.</p>
+monitoring stack created by Verrazzano for the deployed applications.</p>
 <p>The monitoring infrastructure comprises several components:</p>
 <ul>
-<li><code>vmi-hello-world-binding-api</code> - Internal API for configuring monitoring</li>
-<li><code>vmi-hello-world-binding-es</code> - Elasticsearch for log collection</li>
-<li><code>vmi-hello-world-binding-kibana</code> - Kibana for log visualization</li>
-<li><code>vmi-hello-world-binding-grafana</code> - Grafana for metric visualization</li>
-<li><code>vmi-hello-world-binding-prometheus</code> - Prometheus for metric collection</li>
+<li><code>vmi-system-api</code> - Internal API for configuring monitoring</li>
+<li><code>vmi-system-es</code> - Elasticsearch for log collection</li>
+<li><code>vmi-system-kibana</code> - Kibana for log visualization</li>
+<li><code>vmi-system-grafana</code> - Grafana for metric visualization</li>
+<li><code>vmi-system-prometheus</code> - Prometheus for metric collection</li>
 </ul>
 <p/>
 </li>
 <li>
 <p>Verify the Verrazzano metrics collection infrastructure is running.</p>
-<pre><code>$ kubectl get pods -n monitoring | grep '^NAME\|prom-pusher-hello-world-binding'
+<pre><code>$ kubectl get pods -n monitoring | grep '^NAME\|prom-pusher-system'
 
-NAME                                               READY   STATUS    RESTARTS   AGE
-prom-pusher-hello-world-binding-6648484f89-t8rf8   1/1     Running   0          2h  
-</code></pre><p>These pods in the <code>monitoring</code> namespace are also part of the
-monitoring stack created by Verrazzano for each binding.
-The <code>hello-world-binding</code> portion of the pod names are from the
-binding&rsquo;s <code>metadata.name</code> value.
-These components push collected metrics to Prometheus.</p>
+NAME                                  READY   STATUS    RESTARTS   AGE
+prom-pusher-system-65744b658f-tpkqj   1/1     Running   0          8d
+</code></pre><p>This pod in the <code>monitoring</code> namespace is also part of the applications
+monitoring stack provided by Verrazzano.
+This process pushes collected metrics to Prometheus.</p>
 </li>
 <li>
 <p>Diagnose failures.</p>
 <p>View the event logs of any pod not entering the <code>Running</code> state within
 a reasonable length of time, such as five minutes.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl describe pod -n greet hello-world-application-648f8f79d9-8xkhl
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl describe pod -n hello-helidon hello-helidon-workload-9dfbbfb74-4jm9v
 </code></pre></div><p>Use the specific namespace and name for the pod being investigated.</p>
 </li>
 </ol>
@@ -778,7 +799,7 @@ If DNS was not configured, then use the alternative commands.</p>
 <ol>
 <li>
 <p>Save the host name and IP address of the load balancer exposing the application&rsquo;s REST service endpoints for later.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000">HOST</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;www.example.com&#39;</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000">HOST</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;hello-helidon.example.com&#39;</span>
 <span style="color:#000">ADDRESS</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get service -n istio-system istio-ingressgateway -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.status.loadBalancer.ingress[0].ip}&#39;</span><span style="color:#204a87;font-weight:bold">)</span>
 </code></pre></div><p><strong>NOTE</strong>:</p>
 <ul>
@@ -820,23 +841,23 @@ with firewalls that validate <code>HTTP Host</code> headers.</li>
 </code></pre></div></li>
 </ol>
 <h3 id="access-the-applications-logs">Access the application&rsquo;s logs</h3>
-<p>Applications deployed using bindings have log collection enabled.
+<p>Deployed applications have log collection enabled.
 These logs are collected using Elasticsearch and can be accessed using Kibana.
-Elasticsearch and Kibana are examples of infrastructure Verrazzano creates in support of an application as a result of applying a binding.</p>
+Elasticsearch and Kibana are examples of infrastructure Verrazzano creates in support of an application as a result of applying an application configuration.</p>
 <p>Determine the URL to access Kibana using the following commands.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000">KIBANA_HOST</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get ingress -n verrazzano-system vmi-hello-world-binding-kibana -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.spec.rules[0].host}&#39;</span><span style="color:#204a87;font-weight:bold">)</span>
 <span style="color:#000">KIBANA_URL</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">KIBANA_HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 <span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">${</span><span style="color:#000">KIBANA_URL</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 open <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">${</span><span style="color:#000">KIBANA_URL</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 </code></pre></div><p>The user name to access Kibana defaults to <code>verrazzano</code> during the Verrazzano installation.</p>
-<p>Determine the password to access Kibana using the following command.</p>
+<p>Determine the password to access Kibana using the following command:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#204a87">echo</span> <span style="color:#204a87;font-weight:bold">$(</span>kubectl get secret -n verrazzano-system verrazzano -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">={</span>.data.password<span style="color:#ce5c00;font-weight:bold">}</span> <span style="color:#000;font-weight:bold">|</span> base64 --decode<span style="color:#204a87;font-weight:bold">)</span>
 </code></pre></div><h3 id="access-the-applications-metrics">Access the application&rsquo;s metrics</h3>
-<p>Applications deployed using bindings have metric collection enabled.
+<p>Deployed applications have metric collection enabled.
 Grafana can be used to access these metrics collected by Prometheus.
-Prometheus and Grafana are additional components Verrazzano creates as a result of applying an application binding.</p>
+Prometheus and Grafana are additional components Verrazzano creates as a result of applying an application configuration.</p>
 <p>Determine the URL to access Grafana using the following commands.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000">GRAFANA_HOST</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get ingress -n verrazzano-system vmi-hello-world-binding-grafana -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.spec.rules[0].host}&#39;</span><span style="color:#204a87;font-weight:bold">)</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000">GRAFANA_HOST</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get ingress -n verrazzano-system vmi-system-grafana -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.spec.rules[0].host}&#39;</span><span style="color:#204a87;font-weight:bold">)</span>
 <span style="color:#000">GRAFANA_URL</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">GRAFANA_HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 <span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">${</span><span style="color:#000">GRAFANA_URL</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 open <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">${</span><span style="color:#000">GRAFANA_URL</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
@@ -845,26 +866,24 @@ open <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">${</spa
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#204a87">echo</span> <span style="color:#204a87;font-weight:bold">$(</span>kubectl get secret -n verrazzano-system verrazzano -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">={</span>.data.password<span style="color:#ce5c00;font-weight:bold">}</span> <span style="color:#000;font-weight:bold">|</span> base64 --decode<span style="color:#204a87;font-weight:bold">)</span>
 </code></pre></div><p>Alternatively, metrics can be accessed directly using Prometheus.
 Determine the URL for this access using the following commands.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000">PROMETHEUS_HOST</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get ingress -n verrazzano-system vmi-hello-world-binding-prometheus -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.spec.rules[0].host}&#39;</span><span style="color:#204a87;font-weight:bold">)</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000">PROMETHEUS_HOST</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get ingress -n verrazzano-system vmi-system-prometheus -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.spec.rules[0].host}&#39;</span><span style="color:#204a87;font-weight:bold">)</span>
 <span style="color:#000">PROMETHEUS_URL</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">PROMETHEUS_HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 <span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">${</span><span style="color:#000">PROMETHEUS_URL</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 open <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">${</span><span style="color:#000">PROMETHEUS_URL</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
-</code></pre></div><p>The user name and password for Prometheus access are the same as for Grafana.</p>
+</code></pre></div><p>The user name and password for both Prometheus and Grafana are the same.</p>
 <h2 id="application-removal">Application Removal</h2>
-<p>Run the following commands to delete the application&rsquo;s binding and, optionally, model.</p>
+<p>Run the following commands to delete the application configuration and, optionally, component.</p>
 <ol>
 <li>
-<p>Delete the application&rsquo;s binding.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl delete -f ./hello-world-binding.yaml
-</code></pre></div><p>The deletion of the application&rsquo;s binding will result in the destruction
-of all application-specific Kubernetes objects.
-This includes objects created by Verrazzano on behalf of the application,
-such as monitoring components.</p>
+<p>Delete the application configuration.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl delete -f ./hello-helidon-app.yaml
+</code></pre></div><p>The deletion of the application configuration will result in the destruction
+of all application-specific Kubernetes objects.</p>
 </li>
 <li>
-<p>(Optional) Delete the application&rsquo;s model.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl delete -f ./hello-world-model.yaml
-</code></pre></div><p><strong>Note</strong>: This step is not required if other bindings for this model will be applied in the future.</p>
+<p>(Optional) Delete the application&rsquo;s component.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl delete -f ./hello-helidon-comp.yaml
+</code></pre></div><p><strong>Note</strong>: This step is not required if other application configurations for this component will be applied in the future.</p>
 </li>
 </ol>
 
@@ -932,7 +951,7 @@ such as monitoring components.</p>
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified January 29, 2021: <a  href="https://github.com/verrazzano/docs/commit/be49a24f9bcefe3a1d42d6535601f10764bebf87">fix broken links (#66) (be49a24)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified February 2, 2021: <a  href="https://github.com/verrazzano/docs/commit/37c637f4800bf6c3a6da90efcd5bba03d924758a">app deployment guide first cut (#67) (37c637f)</a>
 </div>
 </div>
 

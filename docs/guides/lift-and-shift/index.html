@@ -21,11 +21,11 @@
 <meta property="og:description" content="A guide for moving WebLogic Server domains to Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/guides/lift-and-shift/" />
-<meta property="article:modified_time" content="2020-11-10T13:38:14-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-02-03T08:33:20-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Lift-and-Shift Guide">
 <meta itemprop="description" content="A guide for moving WebLogic Server domains to Verrazzano">
-<meta itemprop="dateModified" content="2020-11-10T13:38:14-05:00" />
-<meta itemprop="wordCount" content="1818">
+<meta itemprop="dateModified" content="2021-02-03T08:33:20-05:00" />
+<meta itemprop="wordCount" content="1820">
 
 
 
@@ -200,6 +200,14 @@ if (!doNotTrack) {
           
           
           <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupplatformskindkind" href="../../../docs/setup/platforms/kind/kind/">KIND</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupplatformsgenericgeneric" href="../../../docs/setup/platforms/generic/generic/">Generic</a>
         
       
       
@@ -692,8 +700,8 @@ the <code>init</code> service also will load four sample items into the table.</
 </ul>
 <p>You will find the following files in <code>./v8o</code>:</p>
 <ul>
-<li><code>binding.yaml</code> - Verrazzano Binding file</li>
-<li><code>model.yaml</code> - Verrazzano Model template</li>
+<li><code>application.yaml</code> - Verrazzano application configuration file</li>
+<li><code>component.yaml</code> - Verrazzano component template</li>
 <li><code>wdt-archive.zip</code> - The WDT archive file containing the ToDo List application WAR file</li>
 <li><code>wdt-model.yaml</code> - The WDT model of the WebLogic Server domain</li>
 <li><code>vz_variable.properties</code> - A set of properties extracted from the WDT domain model</li>
@@ -765,16 +773,16 @@ create_paired_k8s_secret weblogic-credentials weblogic welcome1
 <span style="color:#8f5902;font-style:italic"># Update &lt;user&gt; and &lt;password&gt; for jdbc-todo-datasource</span>
 create_paired_k8s_secret jdbc-todo-datasource derek welcome1
 </code></pre></div><p>Verrazzano will need a credential to pull the image that you just created, so you need to create one more secret.
-The name for this credential can be changed in the <code>model.yaml</code> file to anything you like, but it defaults to <code>ocir</code>.<br>
+The name for this credential can be changed in the <code>component.yaml</code> file to anything you like, but it defaults to <code>ocir</code>.<br>
 Assuming that you leave the name <code>ocir</code>, you will need to run a <code>kubectl create secret</code> command similar to the following:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl create secret docker-registry ocir <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>  --docker-server<span style="color:#ce5c00;font-weight:bold">=</span>phx.ocir.io <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>  --docker-email<span style="color:#ce5c00;font-weight:bold">=</span>your.name@company.com <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>  --docker-username<span style="color:#ce5c00;font-weight:bold">=</span>tenancy/username <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>  --docker-password<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;passwordForUsername&#39;</span>
-</code></pre></div><p>And finally, run <code>kubectl apply</code> to apply the Verrazzano Model and Verrazzano Binding files to start your domain.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f model.yaml
-kubectl apply -f binding.yaml
+</code></pre></div><p>And finally, run <code>kubectl apply</code> to apply the Verrazzano component and Verrazzano application configuration files to start your domain.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f component.yaml
+kubectl apply -f application.yaml
 </code></pre></div><h4 id="verify-the-todo-list-application-deployment">Verify the ToDo List application deployment</h4>
 <p>Check that the WebLogic Server pods were created in the <code>todo</code> namespace; you will see a pod named <code>tododomain-admin-server</code>.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl get pods -n todo
@@ -855,7 +863,7 @@ kubectl apply -f binding.yaml
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified November 10, 2020: <a  href="https://github.com/verrazzano/docs/commit/2fcf0b81887cba39d144f3e7f34e25b264d8138c">update quick start (#44) (2fcf0b8)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified February 3, 2021: <a  href="https://github.com/verrazzano/docs/commit/79e5ef9dfa8405087b9aa93ee11f7a12f7d42a64">one lift and shift guide (#71) (79e5ef9)</a>
 </div>
 </div>
 

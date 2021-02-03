@@ -27,11 +27,15 @@
 &lt;ol&gt;
 &lt;li&gt;Packaging the application as a Docker image.&lt;/li&gt;
 &lt;li&gt;Publishing the application&amp;rsquo;s Docker image to a container registry.&lt;/li&gt;
-&lt;li&gt;Applying the application&amp;rsquo;s Verrazzano Application Model to the cluster.&lt;/li&gt;
-&lt;li&gt;Applying the application&amp;rsquo;s Verrazzano Application Binding to the cluster.&lt;/li&gt;
+&lt;li&gt;Applying the application&amp;rsquo;s Verrazzano Components to the cluster.&lt;/li&gt;
+&lt;li&gt;Applying the application&amp;rsquo;s Verrazzano Applications to the cluster.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;This guide does not provide the full details for the first two steps. An existing example application
 Docker image has been packaged and published for use.&lt;/p&gt;
+&lt;p&gt;Verrazzano supports application definition using the &lt;a href=&#34;https://oam.dev/&#34;&gt;Open Application Model (OAM)&lt;/a&gt;.  Verrrazzano applications are
+composed of &lt;a href=&#34;https://github.com/oam-dev/spec/blob/master/3.component.md&#34;&gt;components&lt;/a&gt; and
+&lt;a href=&#34;https://github.com/oam-dev/spec/blob/master/7.application_configuration.md&#34;&gt;application configurations&lt;/a&gt;.  This document
+demonstrates creating the OAM resources that define an application as well as the steps required to deploy those resources.&lt;/p&gt;
 &lt;h2 id=&#34;what-you-need&#34;&gt;What you need&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -101,80 +105,100 @@ Note that the Docker container exposes a single port 8080.&lt;/p&gt;
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;application-deployment&#34;&gt;Application Deployment&lt;/h2&gt;
 &lt;p&gt;When you deploy applications with Verrazzano, the platform sets up connections, network policies, and
 ingresses in the service mesh, and wires up a monitoring stack to capture the metrics, logs, and traces.
-Verrazzano employs an &amp;ldquo;application model&amp;rdquo; that lets you assemble applications into a system that can be
-managed together and an &amp;ldquo;application binding&amp;rdquo; that you use to map the application model to an environment.&lt;/p&gt;
-&lt;h3 id=&#34;verrazzano-application-model&#34;&gt;Verrazzano Application Model&lt;/h3&gt;
-&lt;p&gt;A Verrazzano Application Model is a
+Verrazzano employs OAM Components to define the functional units of a system that are then
+assembled and configured by defining associated application configurations.&lt;/p&gt;
+&lt;h3 id=&#34;verrazzano-components&#34;&gt;Verrazzano Components&lt;/h3&gt;
+&lt;p&gt;A Verrazzano OAM Component is a
 &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/&#34;&gt;Kubernetes Custom Resource&lt;/a&gt;
 describing an application&amp;rsquo;s general composition and environment requirements.
-The following code shows the model for the example application used in this guide.
-This model describes an application which is implemented by a single Docker image containing a Helidon application exposing a single endpoint.
-For more details about Verrazzano models, see the &lt;a href=&#34;https://verrazzano.io/docs/reference/api/verrazzanomodel/verrazzanoapplicationmodel/&#34;&gt;Verrazzano Application Model&lt;/a&gt; documentation.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;verrazzano.io/v1beta1&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;VerrazzanoModel&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+The following code shows the component for the example application used in this guide.
+This resource describes a component which is implemented by a single Docker image containing a Helidon application exposing a single endpoint.
+For more details about Verrazzano Components, see TBD documentation.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;core.oam.dev/v1alpha2&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;Component&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-world-model&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;namespace&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;default&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-helidon-component&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;namespace&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-helidon&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;description&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Hello World application&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;helidonApplications&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;hello-world-application&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;image&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;container-registry.oracle.com/verrazzano/example-hello-world-helidon:0.1.10-3-e5ae893-124&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;connections&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;ingress&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;greet-ingress&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;match&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;uri&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;prefix&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;/greet&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;A brief description of each field in the model:&lt;/p&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;workload&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;core.oam.dev/v1alpha2&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;ContainerizedWorkload&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-helidon-workload&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;namespace&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-helidon&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;labels&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;app&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-helidon&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;containers&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-helidon-container&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;image&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;ghcr.io/verrazzano/example-helidon-greet-app-v1:0.1.10-3-20201016220428-56fb4d4&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;ports&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;          &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;containerPort&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;8080&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;http&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;A brief description of each field of the component:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;apiVersion&lt;/code&gt; - Version of the model custom resource definition&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;kind&lt;/code&gt; - Standard name of the model custom resource definition&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;metadata.name&lt;/code&gt; - The name used to create the model&amp;rsquo;s custom resource&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;metadata.namespace&lt;/code&gt; - The namespace used to create this model&amp;rsquo;s custom resource&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;spec.helidonApplications.name&lt;/code&gt; - Name used to identify this application from the binding&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;spec.helidonApplications.image&lt;/code&gt; - Docker image used to implement the application&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;spec.helidonApplications.connections.ingress.name&lt;/code&gt; - Name used to identify this ingress from the binding&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;spec.helidonApplications.connections.ingress.match.uri.prefix&lt;/code&gt; - URI prefix for the application&amp;rsquo;s ingress&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;apiVersion&lt;/code&gt; - Version of the component custom resource definition&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;kind&lt;/code&gt; - Standard name of the component custom resource definition&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;metadata.name&lt;/code&gt; - The name used to create the component&amp;rsquo;s custom resource&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;metadata.namespace&lt;/code&gt; - The namespace used to create this component&amp;rsquo;s custom resource&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;spec.workload.kind&lt;/code&gt; - &lt;code&gt;ContainerizedWorkload&lt;/code&gt; defines a stateless workload of Kubernetes&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;spec.workload.spec.containers&lt;/code&gt; - The implementation containers&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;spec.workload.spec.containers.ports&lt;/code&gt; - Ports exposed by the container&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;verrazzano-application-binding&#34;&gt;Verrazzano Application Binding&lt;/h3&gt;
-&lt;p&gt;A Verrazzano Application Binding is a
+&lt;h3 id=&#34;verrazzano-application-configurations&#34;&gt;Verrazzano Application Configurations&lt;/h3&gt;
+&lt;p&gt;A Verrazzano Application Configuration is a
 &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/&#34;&gt;Kubernetes Custom Resource&lt;/a&gt;
 which provides environment specific customizations.
-The following code shows the binding for the example application used in this guide.
-This binding specifies that the application be placed in the &lt;code&gt;local&lt;/code&gt; cluster
-within the &lt;code&gt;greet&lt;/code&gt; namespace having an ingress endpoint bound to DNS name &lt;code&gt;www.example.com&lt;/code&gt;.
-For more details about Verrazzano bindings, see the &lt;a href=&#34;https://verrazzano.io/docs/reference/api/verrazzanobinding/verrazzanoapplictionbinding/&#34;&gt;Verrazzano
-Application Binding&lt;/a&gt; documentation.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;verrazzano.io/v1beta1&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;VerrazzanoBinding&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+The following code shows the application configuration for the example used in this guide.
+This resource specifies the deployment of the application to the &lt;code&gt;hello-helidon&lt;/code&gt; namespace.  Additional runtime features are
+specified using traits, or runtime overlays that augment the workload.  For example, the ingress trait specifies the
+ingress host and path, while the metrics trait provides the Prometheus scraper used to obtain the
+application related metrics.
+For more details about Verrazzano application configurations, see TBD documentation.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;core.oam.dev/v1alpha2&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;ApplicationConfiguration&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-world-binding&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;namespace&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;default&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-helidon-appconf&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;namespace&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-helidon&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;annotations&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;version&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;v1&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;.0.0&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;description&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Hello Helidon application&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;description&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Hello World Application binding&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;modelName&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-world-model&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;placement&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;local&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;namespaces&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;greet&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;components&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-world-application&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;ingressBindings&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;greet-ingress&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;dnsName&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;www.example.com&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;A brief description of each field in the binding:&lt;/p&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;components&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;componentName&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-helidon-component&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;traits&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;trait&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;oam.verrazzano.io/v1alpha1&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;MetricsTrait&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;scraper&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;verrazzano-system/vmi-system-prometheus&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;-0&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;trait&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;oam.verrazzano.io/v1alpha1&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;IngressTrait&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-helidon-ingress&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;rules&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;hosts&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                    &lt;/span&gt;- &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;hello-helidon.example.com&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;paths&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                    &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;path&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;/greet&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;pathType&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;Prefix&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;A brief description of each field in the application configuration:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;apiVersion&lt;/code&gt; - Version of the Verrazzano binding custom resource definition&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;kind&lt;/code&gt; - Standard name of the Verrazzano binding custom resource definition&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;metadata.name&lt;/code&gt; - The name used to create this binding&amp;rsquo;s custom resource&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;metadata.namespace&lt;/code&gt; - The namespace used to create this binding&amp;rsquo;s custom resource&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;spec.modelName&lt;/code&gt; - Reference to the application&amp;rsquo;s model custom resource&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;spec.placement.name&lt;/code&gt; - Name of the Kubernetes cluster into which the application will be deployed&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;spec.placement.namespaces.name&lt;/code&gt; - Name of a namespace in which to place the application&amp;rsquo;s deployed components&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;spec.placement.namespaces.components.name&lt;/code&gt; - Name of a model&amp;rsquo;s component to deploy within the namespace&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;spec.ingressBindings.name&lt;/code&gt; - Reference to a model&amp;rsquo;s ingress&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;spec.ingressBindings.dnsName&lt;/code&gt; - The DNS name to use for the ingress when created&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;apiVersion&lt;/code&gt; - Version of the &lt;code&gt;ApplicationConfiguration&lt;/code&gt; custom resource definition&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;kind&lt;/code&gt; - Standard name of the application configuration custom resource definition&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;metadata.name&lt;/code&gt; - The name used to create this application configuration resource&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;metadata.namespace&lt;/code&gt; - The namespace used for this application configuration custom resource&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;spec.components&lt;/code&gt; - Reference to the application&amp;rsquo;s components leveraged to specify runtime configuration&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;spec.components[].traits&lt;/code&gt; - The traits specified for the application&amp;rsquo;s components&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To explore traits, we can examine the fields of an ingress trait:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;apiVersion&lt;/code&gt; - Version of the OAM trait custom resource definition&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;kind&lt;/code&gt; - &lt;code&gt;IngressTrait&lt;/code&gt; is the name of the OAM application ingress trait custom resource definition&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;spec.rules.hosts&lt;/code&gt; - The hosts specified for the ingress&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;spec.rules.paths&lt;/code&gt; - The context paths for accessing the application&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;deploy-the-application&#34;&gt;Deploy the application&lt;/h3&gt;
 &lt;p&gt;The following steps are required to deploy the example application.
@@ -196,17 +220,17 @@ The remainder of this guide uses file locations relative to this directory.
 
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Apply the application&amp;rsquo;s model.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f ./hello-world-model.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This step causes the validation and creation of the model resource.
+&lt;p&gt;Apply the application&amp;rsquo;s component.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f ./hello-helidon-comp.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This step causes the validation and creation of the component resource.
 No other resources or objects are created as a result.
-Bindings applied in the future may reference this model.&lt;/p&gt;
+Application configurations applied in the future may reference this component resource.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Apply the application&amp;rsquo;s binding.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f ./hello-world-binding.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This step causes the validation and creation of the binding resource.
-The binding creation triggers the activation of a number of Verrazzano operators.
+&lt;p&gt;Apply the application configuration.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f ./hello-helidon-app.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This step causes the validation and creation of the application configuration resource.
+This operation triggers the activation of a number of Verrazzano operators.
 These operators create other Kubernetes objects (for example, Deployments, ReplicaSets, Pods, Services, Ingresses)
 that collectively provide and support the application.&lt;/p&gt;
 &lt;/li&gt;
@@ -214,10 +238,10 @@ that collectively provide and support the application.&lt;/p&gt;
 &lt;p&gt;Configure the application&amp;rsquo;s DNS resolution.&lt;/p&gt;
 &lt;p&gt;After deploying the application, configure DNS to resolve the application&amp;rsquo;s
 ingress DNS name to the application&amp;rsquo;s load balancer IP address.
-The application&amp;rsquo;s DNS name is the value of the binding&amp;rsquo;s
-&lt;code&gt;spec.ingressBindings.dnsName&lt;/code&gt; field.
+The application&amp;rsquo;s DNS host name is the value of the host specified in the application configuration&amp;rsquo;s
+ingress trait (see the &lt;code&gt;spec.rules.hosts&lt;/code&gt; value provided in the application configuration&amp;rsquo;s ingress trait).
 The load balancer IP is obtained by querying Kubernetes for the
-Istio ingress gateway status.&lt;/p&gt;
+Istio ingress gateway status:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl get service -n istio-system istio-ingressgateway -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#a40000&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;.status.loadBalancer.ingress&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;[&lt;/span&gt;0&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;]&lt;/span&gt;.ip&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;DNS configuration steps are outside the scope of this guide. For DNS infrastructure that can be configured and used, see
 the &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/gettingstarted.htm&#34;&gt;Oracle Cloud Infrastructure DNS&lt;/a&gt; documentation.
@@ -226,7 +250,7 @@ In some small non-production scenarios, DNS configuration using
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3 id=&#34;verify-the-deployment&#34;&gt;Verify the deployment&lt;/h3&gt;
-&lt;p&gt;Applying the binding initiates the creation of several Kubernetes objects.
+&lt;p&gt;Applying the application configuration initiates the creation of several Kubernetes objects.
 Actual creation and initialization of these objects occurs asynchronously.
 The following steps provide commands for determining when these objects are ready for use.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: Many other Kubernetes objects unrelated to the example application may also exist.
@@ -234,73 +258,62 @@ Those have been omitted from the lists.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Verify the Helidon application pod is running.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get pods -n greet | grep &#39;^NAME\|hello-world-application&#39;
+&lt;pre&gt;&lt;code&gt;$ kubectl get pods -n hello-helidon | grep &#39;^NAME\|hello-helidon-workload&#39;
 
-NAME                                       READY   STATUS    RESTARTS   AGE
-hello-world-application-648f8f79d9-8xkhl   3/3     Running   0          2h
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The parameter &lt;code&gt;greet&lt;/code&gt; is from the model&amp;rsquo;s
-&lt;code&gt;spec.placement.namespaces.name&lt;/code&gt; value.
-The parameter &lt;code&gt;hello-world-application&lt;/code&gt; is from the model&amp;rsquo;s
-&lt;code&gt;spec.placement.namespaces.components.name&lt;/code&gt; value.&lt;/p&gt;
+NAME                                     READY   STATUS    RESTARTS   AGE
+hello-helidon-workload-9dfbbfb74-4jm9v   1/1     Running   0          94m
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The parameter &lt;code&gt;hello-helidon-workload&lt;/code&gt; is from the component&amp;rsquo;s
+&lt;code&gt;spec.workload.metadata.name&lt;/code&gt; value.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Verify the Verrazzano Helidon application operator pod is running.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get pods -n verrazzano-system | grep &#39;^NAME\|verrazzano-helidon-app-operator&#39;
+&lt;p&gt;Verify the Verrazzano application operator pod is running.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl get pods -n verrazzano-system | grep &#39;^NAME\|verrazzano-application-operator&#39;
 
 NAME                                                     READY   STATUS    RESTARTS   AGE
-verrazzano-helidon-app-operator-d746d7bc6-67th8          1/1     Running   0          2h
+verrazzano-application-operator-5485967588-lp6cw         1/1     Running   0          8d
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The namespace &lt;code&gt;verrazzano-system&lt;/code&gt; is used by Verrazzano for
 non-application objects managed by Verrazzano.
-A single &lt;code&gt;verrazzano-helidon-app-operator&lt;/code&gt; manages the life cycle of
-all Helidon-based applications within the cluster.&lt;/p&gt;
+A single &lt;code&gt;verrazzano-application-operator&lt;/code&gt; manages the life cycle of
+all OAM based applications within the cluster.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Verify the Verrazzano monitoring infrastructure is running.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get pods -n verrazzano-system | grep &#39;^NAME\|vmi-hello-world-binding&#39;
+&lt;pre&gt;&lt;code&gt;$ kubectl get pods -n verrazzano-system | grep &#39;^NAME\|vmi-system&#39;
 
 NAME                                                     READY   STATUS    RESTARTS   AGE
-vmi-hello-world-binding-api-69987d6dbb-stpd4             1/1     Running   0          2h
-vmi-hello-world-binding-es-data-0-55b679d6bb-5g2bf       2/2     Running   0          2h
-vmi-hello-world-binding-es-data-1-7888dbdfcf-76ff9       2/2     Running   0          2h
-vmi-hello-world-binding-es-ingest-b7d59fb69-6hbr4        1/1     Running   0          2h
-vmi-hello-world-binding-es-master-0                      1/1     Running   0          2h
-vmi-hello-world-binding-es-master-1                      1/1     Running   0          2h
-vmi-hello-world-binding-es-master-2                      1/1     Running   0          2h
-vmi-hello-world-binding-grafana-85b669cdbc-4rszf         1/1     Running   0          2h
-vmi-hello-world-binding-kibana-64f958c7f-knxk4           1/1     Running   0          2h
-vmi-hello-world-binding-prometheus-0-598f79557-ttzmz     3/3     Running   0          2h
-vmi-hello-world-binding-prometheus-gw-6df8bf4689-dmfxh   1/1     Running   0          2h
+vmi-system-api-6fb4fd57cb-95ttz                          1/1     Running   0          8d
+vmi-system-es-master-0                                   1/1     Running   0          11h
+vmi-system-grafana-674b4f5df7-f4f2p                      1/1     Running   0          8d
+vmi-system-kibana-759b854fc6-4tsjv                       1/1     Running   0          8d
+vmi-system-prometheus-0-f6f587664-pfm54                  3/3     Running   0          101m
+vmi-system-prometheus-gw-68c45f84b8-jrxlt                1/1     Running   0          8d
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;These pods in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace constitute a
-monitoring stack created by Verrazzano for each binding.
-The &lt;code&gt;hello-world-binding&lt;/code&gt; portion of the pod names are from the
-binding&amp;rsquo;s &lt;code&gt;metadata.name&lt;/code&gt; value.&lt;/p&gt;
+monitoring stack created by Verrazzano for the deployed applications.&lt;/p&gt;
 &lt;p&gt;The monitoring infrastructure comprises several components:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;vmi-hello-world-binding-api&lt;/code&gt; - Internal API for configuring monitoring&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;vmi-hello-world-binding-es&lt;/code&gt; - Elasticsearch for log collection&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;vmi-hello-world-binding-kibana&lt;/code&gt; - Kibana for log visualization&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;vmi-hello-world-binding-grafana&lt;/code&gt; - Grafana for metric visualization&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;vmi-hello-world-binding-prometheus&lt;/code&gt; - Prometheus for metric collection&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;vmi-system-api&lt;/code&gt; - Internal API for configuring monitoring&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;vmi-system-es&lt;/code&gt; - Elasticsearch for log collection&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;vmi-system-kibana&lt;/code&gt; - Kibana for log visualization&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;vmi-system-grafana&lt;/code&gt; - Grafana for metric visualization&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;vmi-system-prometheus&lt;/code&gt; - Prometheus for metric collection&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p/&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Verify the Verrazzano metrics collection infrastructure is running.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get pods -n monitoring | grep &#39;^NAME\|prom-pusher-hello-world-binding&#39;
+&lt;pre&gt;&lt;code&gt;$ kubectl get pods -n monitoring | grep &#39;^NAME\|prom-pusher-system&#39;
 
-NAME                                               READY   STATUS    RESTARTS   AGE
-prom-pusher-hello-world-binding-6648484f89-t8rf8   1/1     Running   0          2h  
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;These pods in the &lt;code&gt;monitoring&lt;/code&gt; namespace are also part of the
-monitoring stack created by Verrazzano for each binding.
-The &lt;code&gt;hello-world-binding&lt;/code&gt; portion of the pod names are from the
-binding&amp;rsquo;s &lt;code&gt;metadata.name&lt;/code&gt; value.
-These components push collected metrics to Prometheus.&lt;/p&gt;
+NAME                                  READY   STATUS    RESTARTS   AGE
+prom-pusher-system-65744b658f-tpkqj   1/1     Running   0          8d
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This pod in the &lt;code&gt;monitoring&lt;/code&gt; namespace is also part of the applications
+monitoring stack provided by Verrazzano.
+This process pushes collected metrics to Prometheus.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Diagnose failures.&lt;/p&gt;
 &lt;p&gt;View the event logs of any pod not entering the &lt;code&gt;Running&lt;/code&gt; state within
 a reasonable length of time, such as five minutes.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl describe pod -n greet hello-world-application-648f8f79d9-8xkhl
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl describe pod -n hello-helidon hello-helidon-workload-9dfbbfb74-4jm9v
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Use the specific namespace and name for the pod being investigated.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
@@ -310,7 +323,7 @@ If DNS was not configured, then use the alternative commands.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Save the host name and IP address of the load balancer exposing the application&amp;rsquo;s REST service endpoints for later.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;HOST&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;www.example.com&amp;#39;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;HOST&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;hello-helidon.example.com&amp;#39;&lt;/span&gt;
 &lt;span style=&#34;color:#000&#34;&gt;ADDRESS&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl get service -n istio-system istio-ingressgateway -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;{.status.loadBalancer.ingress[0].ip}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;:&lt;/p&gt;
 &lt;ul&gt;
@@ -352,23 +365,23 @@ with firewalls that validate &lt;code&gt;HTTP Host&lt;/code&gt; headers.&lt;/li&
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3 id=&#34;access-the-applications-logs&#34;&gt;Access the application&amp;rsquo;s logs&lt;/h3&gt;
-&lt;p&gt;Applications deployed using bindings have log collection enabled.
+&lt;p&gt;Deployed applications have log collection enabled.
 These logs are collected using Elasticsearch and can be accessed using Kibana.
-Elasticsearch and Kibana are examples of infrastructure Verrazzano creates in support of an application as a result of applying a binding.&lt;/p&gt;
+Elasticsearch and Kibana are examples of infrastructure Verrazzano creates in support of an application as a result of applying an application configuration.&lt;/p&gt;
 &lt;p&gt;Determine the URL to access Kibana using the following commands.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;KIBANA_HOST&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl get ingress -n verrazzano-system vmi-hello-world-binding-kibana -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;{.spec.rules[0].host}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
 &lt;span style=&#34;color:#000&#34;&gt;KIBANA_URL&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;https://&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;KIBANA_HOST&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
 &lt;span style=&#34;color:#204a87&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;KIBANA_URL&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
 open &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;KIBANA_URL&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The user name to access Kibana defaults to &lt;code&gt;verrazzano&lt;/code&gt; during the Verrazzano installation.&lt;/p&gt;
-&lt;p&gt;Determine the password to access Kibana using the following command.&lt;/p&gt;
+&lt;p&gt;Determine the password to access Kibana using the following command:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#204a87&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl get secret -n verrazzano-system verrazzano -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;={&lt;/span&gt;.data.password&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt; base64 --decode&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;access-the-applications-metrics&#34;&gt;Access the application&amp;rsquo;s metrics&lt;/h3&gt;
-&lt;p&gt;Applications deployed using bindings have metric collection enabled.
+&lt;p&gt;Deployed applications have metric collection enabled.
 Grafana can be used to access these metrics collected by Prometheus.
-Prometheus and Grafana are additional components Verrazzano creates as a result of applying an application binding.&lt;/p&gt;
+Prometheus and Grafana are additional components Verrazzano creates as a result of applying an application configuration.&lt;/p&gt;
 &lt;p&gt;Determine the URL to access Grafana using the following commands.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;GRAFANA_HOST&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl get ingress -n verrazzano-system vmi-hello-world-binding-grafana -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;{.spec.rules[0].host}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;GRAFANA_HOST&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl get ingress -n verrazzano-system vmi-system-grafana -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;{.spec.rules[0].host}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
 &lt;span style=&#34;color:#000&#34;&gt;GRAFANA_URL&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;https://&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;GRAFANA_HOST&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
 &lt;span style=&#34;color:#204a87&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;GRAFANA_URL&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
 open &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;GRAFANA_URL&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
@@ -377,26 +390,24 @@ open &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span st
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#204a87&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl get secret -n verrazzano-system verrazzano -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;={&lt;/span&gt;.data.password&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt; base64 --decode&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Alternatively, metrics can be accessed directly using Prometheus.
 Determine the URL for this access using the following commands.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;PROMETHEUS_HOST&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl get ingress -n verrazzano-system vmi-hello-world-binding-prometheus -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;{.spec.rules[0].host}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;PROMETHEUS_HOST&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl get ingress -n verrazzano-system vmi-system-prometheus -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;{.spec.rules[0].host}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
 &lt;span style=&#34;color:#000&#34;&gt;PROMETHEUS_URL&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;https://&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;PROMETHEUS_HOST&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
 &lt;span style=&#34;color:#204a87&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;PROMETHEUS_URL&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
 open &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;PROMETHEUS_URL&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The user name and password for Prometheus access are the same as for Grafana.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The user name and password for both Prometheus and Grafana are the same.&lt;/p&gt;
 &lt;h2 id=&#34;application-removal&#34;&gt;Application Removal&lt;/h2&gt;
-&lt;p&gt;Run the following commands to delete the application&amp;rsquo;s binding and, optionally, model.&lt;/p&gt;
+&lt;p&gt;Run the following commands to delete the application configuration and, optionally, component.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;Delete the application&amp;rsquo;s binding.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl delete -f ./hello-world-binding.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The deletion of the application&amp;rsquo;s binding will result in the destruction
-of all application-specific Kubernetes objects.
-This includes objects created by Verrazzano on behalf of the application,
-such as monitoring components.&lt;/p&gt;
+&lt;p&gt;Delete the application configuration.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl delete -f ./hello-helidon-app.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The deletion of the application configuration will result in the destruction
+of all application-specific Kubernetes objects.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;(Optional) Delete the application&amp;rsquo;s model.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl delete -f ./hello-world-model.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: This step is not required if other bindings for this model will be applied in the future.&lt;/p&gt;
+&lt;p&gt;(Optional) Delete the application&amp;rsquo;s component.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl delete -f ./hello-helidon-comp.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: This step is not required if other application configurations for this component will be applied in the future.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 
@@ -615,8 +626,8 @@ the &lt;code&gt;init&lt;/code&gt; service also will load four sample items into 
 &lt;/ul&gt;
 &lt;p&gt;You will find the following files in &lt;code&gt;./v8o&lt;/code&gt;:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;binding.yaml&lt;/code&gt; - Verrazzano Binding file&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;model.yaml&lt;/code&gt; - Verrazzano Model template&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;application.yaml&lt;/code&gt; - Verrazzano application configuration file&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;component.yaml&lt;/code&gt; - Verrazzano component template&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;wdt-archive.zip&lt;/code&gt; - The WDT archive file containing the ToDo List application WAR file&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;wdt-model.yaml&lt;/code&gt; - The WDT model of the WebLogic Server domain&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;vz_variable.properties&lt;/code&gt; - A set of properties extracted from the WDT domain model&lt;/li&gt;
@@ -688,16 +699,16 @@ create_paired_k8s_secret weblogic-credentials weblogic welcome1
 &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Update &amp;lt;user&amp;gt; and &amp;lt;password&amp;gt; for jdbc-todo-datasource&lt;/span&gt;
 create_paired_k8s_secret jdbc-todo-datasource derek welcome1
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Verrazzano will need a credential to pull the image that you just created, so you need to create one more secret.
-The name for this credential can be changed in the &lt;code&gt;model.yaml&lt;/code&gt; file to anything you like, but it defaults to &lt;code&gt;ocir&lt;/code&gt;.&lt;br&gt;
+The name for this credential can be changed in the &lt;code&gt;component.yaml&lt;/code&gt; file to anything you like, but it defaults to &lt;code&gt;ocir&lt;/code&gt;.&lt;br&gt;
 Assuming that you leave the name &lt;code&gt;ocir&lt;/code&gt;, you will need to run a &lt;code&gt;kubectl create secret&lt;/code&gt; command similar to the following:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl create secret docker-registry ocir &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --docker-server&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;phx.ocir.io &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --docker-email&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;your.name@company.com &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --docker-username&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;tenancy/username &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --docker-password&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;passwordForUsername&amp;#39;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And finally, run &lt;code&gt;kubectl apply&lt;/code&gt; to apply the Verrazzano Model and Verrazzano Binding files to start your domain.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f model.yaml
-kubectl apply -f binding.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;And finally, run &lt;code&gt;kubectl apply&lt;/code&gt; to apply the Verrazzano component and Verrazzano application configuration files to start your domain.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f component.yaml
+kubectl apply -f application.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;verify-the-todo-list-application-deployment&#34;&gt;Verify the ToDo List application deployment&lt;/h4&gt;
 &lt;p&gt;Check that the WebLogic Server pods were created in the &lt;code&gt;todo&lt;/code&gt; namespace; you will see a pod named &lt;code&gt;tododomain-admin-server&lt;/code&gt;.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl get pods -n todo
