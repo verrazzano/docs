@@ -40,25 +40,25 @@ spec:
 {{< tab tabNum="2" >}}
 <br>
 
-Each Verrazzano install profile has different storage characteristics by default.  Some components have external storage requirements (expressed through `PersistentVolumeClaim` declarations in their resources/helm charts):
+By default, each Verrazzano install profile has different storage characteristics.  Some components have external storage requirements (expressed through `PersistentVolumeClaim` declarations in their `resources/helm` charts):
 
   - MySQL
   - ElasticSearch
   - Prometheus
   - Grafana
 
-By default, the prod  profile uses 50Gi persistent volumes for each of the above services, using the default storage class for the target Kubernetes platform.  The dev  profile uses ephemeral EmptyDir storage by default.  However, you can customize these storage settings within a profile as desired.
+By default, the prod  profile uses 50Gi persistent volumes for each of the above services, using the default storage class for the target Kubernetes platform.  The dev  profile uses ephemeral `emptyDir` storage by default.  However, you can customize these storage settings within a profile as desired.
 
-To override these settings, the Verrazzano install resource can be customized by defining a [VolumeSource](https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/) on the `DefaultVolumeSource` field in the install CR, which can be one of
+To override these settings, customize the Verrazzano install resource by defining a [VolumeSource](https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/) on the `DefaultVolumeSource` field in the install CR, which can be one of:
 
   - [emptyDir](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir) 
   - [persistentVolumeClaim](https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimvolumesource-v1-core) 
 
-Configuring emptyDir for the DefaultVolumeSource forces all persistent volumes created by Verrazzano components in an installation to use ephemeral storage unless otherwise overridden.  This can be useful for development or test scenarios. 
+Configuring `emptyDir` for the `DefaultVolumeSource` forces all persistent volumes created by Verrazzano components in an installation to use ephemeral storage unless otherwise overridden.  This can be useful for development or test scenarios. 
 
-A [persistentVolumeClaim](https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimvolumesource-v1-core) can be used to identify a that references a `volumeClaimSpecTemplate` in the `volumeClaimSpecTemplates` section via the `claimSource` field.  A `volumeClaimSpecTemplate` is a named [PersistentVolumeClaimSpec](https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimspec-v1-core) configuration.  A `volumeClaimSpecTemplate` can be referenced from more than one component; it merely identifies  configuration settings, and does not result in a direct instantiation of a persistent volume.  The settings are utilized by referencing components when creating their [PersistentVolumeClaims](https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaim-v1-core) at install time.
+You can use a [persistentVolumeClaim](https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimvolumesource-v1-core) to identify a `volumeClaimSpecTemplate` in the `volumeClaimSpecTemplates` section via the `claimSource` field.  A `volumeClaimSpecTemplate` is a named [PersistentVolumeClaimSpec](https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimspec-v1-core) configuration.  A `volumeClaimSpecTemplate` can be referenced from more than one component; it merely identifies  configuration settings, and does not result in a direct instantiation of a persistent volume.  The settings are used by referencing components when creating their [PersistentVolumeClaims](https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaim-v1-core) at install time.
 
-You can override the `DefaultVolumeSource` setting at the component level by defining a supported `VolumeSource` on that component, if the component supports it.  At present only the `keycloak/mysql` component supports a volumeSource field override.
+If the component supports it, then you can override the DefaultVolumeSource setting at the component level by defining a supported VolumeSource on that component.  At present, only the `keycloak/mysql` component supports a `volumeSource` field override.
 
 #### Examples
 
@@ -70,7 +70,6 @@ kind: Verrazzano
 metadata:
   name: kind-verrazzano-with-persistence
 spec:
-  environmentName: default
   profile: dev
   defaultVolumeSource:
     persistentVolumeClaim:
@@ -95,7 +94,7 @@ spec:
 
 ```
 
-The following example shows how to define a dev profile where all resources use emptyDir by default.
+The following example shows how to define a dev profile where all resources use `emptyDir` by default.
 
 
 ```shell
@@ -106,7 +105,7 @@ metadata:
 spec:
   profile: dev
   defaultVolumeSource:
-    emptyDir: {}  # Use emphemeral storage for dev mode for all Components
+    emptyDir: {}  # Use ephemeral storage for dev mode for all Components
 ```
 
 {{< /tab >}}
