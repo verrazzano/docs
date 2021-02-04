@@ -901,25 +901,21 @@ DNS CNAME records, in the same way.&lt;/p&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;image-caching-to-speed-up-install&#34;&gt;Image caching to speed up install&lt;/h4&gt;
 &lt;p&gt;If you are experimenting with Verrazzano and expect that you may need to delete the KIND cluster and later, install Verrazzano again on a new KIND cluster, then you can follow these steps to ensure that the image cache used by containerd inside KIND is preserved across clusters. Subsequent installs will be faster than the first install, because they will not need to pull the images again.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Create a named Docker volume that will be used for the image cache, and note its &lt;code&gt;Mountpoint&lt;/code&gt; path. In this example, the volume is named &lt;code&gt;containerd&lt;/code&gt;.&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;1. Create a named Docker volume that will be used for the image cache, and note its &lt;code&gt;Mountpoint&lt;/code&gt; path. In this example, the volume is named &lt;code&gt;containerd&lt;/code&gt;.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;docker volume create containerd
 
 docker volume inspect containerd &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#Sample output is shown&lt;/span&gt;
 
-    &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;
-        &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;CreatedAt&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;2021-01-11T16:27:47Z&amp;#34;&lt;/span&gt;,
-        &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Driver&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;local&amp;#34;&lt;/span&gt;,
-        &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Labels&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{}&lt;/span&gt;,
-        &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Mountpoint&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;/var/lib/docker/volumes/containerd/_data&amp;#34;&lt;/span&gt;,
-        &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Name&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;containerd&amp;#34;&lt;/span&gt;,
-        &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Options&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{}&lt;/span&gt;,
-        &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Scope&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;local&amp;#34;&lt;/span&gt;
-    &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
-&lt;li&gt;Specify the &lt;code&gt;Mountpoint&lt;/code&gt; path obtained, as the &lt;code&gt;hostPath&lt;/code&gt; under &lt;code&gt;extraMounts&lt;/code&gt; in your KIND configuration file, with a &lt;code&gt;containerPath&lt;/code&gt; of &lt;code&gt;/var/lib/containerd&lt;/code&gt;, which is the default containerd image caching location inside the KIND container. An example of the modified KIND configuration is shown in the following &lt;code&gt;create cluster&lt;/code&gt; command:&lt;/li&gt;
-&lt;/ol&gt;
+&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;
+    &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;CreatedAt&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;2021-01-11T16:27:47Z&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Driver&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;local&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Labels&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{}&lt;/span&gt;,
+    &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Mountpoint&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;/var/lib/docker/volumes/containerd/_data&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Name&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;containerd&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Options&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{}&lt;/span&gt;,
+    &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Scope&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;local&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;2. Specify the &lt;code&gt;Mountpoint&lt;/code&gt; path obtained, as the &lt;code&gt;hostPath&lt;/code&gt; under &lt;code&gt;extraMounts&lt;/code&gt; in your KIND configuration file, with a &lt;code&gt;containerPath&lt;/code&gt; of &lt;code&gt;/var/lib/containerd&lt;/code&gt;, which is the default containerd image caching location inside the KIND container. An example of the modified KIND configuration is shown in the following &lt;code&gt;create cluster&lt;/code&gt; command:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kind create cluster --config - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Cluster
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: kind.x-k8s.io/v1alpha4
@@ -929,22 +925,22 @@ docker volume inspect containerd &lt;span style=&#34;color:#8f5902;font-style:it
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - |
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      kind: InitConfiguration
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      nodeRegistration:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        kubeletE&lt;/span&gt;xtraArgs:
-          node-labels: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;ingress-ready=true&amp;#34;&lt;/span&gt;
-          authorization-mode: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;AlwaysAllow&amp;#34;&lt;/span&gt;
-    extraPortMappings:
-      - containerPort: &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;80&lt;/span&gt;
-        hostPort: &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;80&lt;/span&gt;
-        listenAddress: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;0.0.0.0&amp;#34;&lt;/span&gt;
-        protocol: tcp
-      - containerPort: &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;443&lt;/span&gt;
-        hostPort: &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;443&lt;/span&gt;
-        listenAddress: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;0.0.0.0&amp;#34;&lt;/span&gt;
-        protocol: tcp
-    extraMounts:
-      - hostPath: /var/lib/docker/volumes/containerd/_data
-        containerPath: /var/lib/containerd &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#This is the location of the image cache inside the KIND container&lt;/span&gt;
-
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        kubeletExtraArgs:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          node-labels: &amp;#34;ingress-ready=true&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          authorization-mode: &amp;#34;AlwaysAllow&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    extraPortMappings:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      - containerPort: 80
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        hostPort: 80
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        listenAddress: &amp;#34;0.0.0.0&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        protocol: tcp
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      - containerPort: 443
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        hostPort: 443
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        listenAddress: &amp;#34;0.0.0.0&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        protocol: tcp
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    extraMounts:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      - hostPath: /var/lib/docker/volumes/containerd/_data
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        containerPath: /var/lib/containerd #This is the location of the image cache inside the KIND container
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
       </description>
     </item>
@@ -1018,7 +1014,7 @@ docker volume inspect containerd &lt;span style=&#34;color:#8f5902;font-style:it
 
 	&lt;br&gt;
 &lt;p&gt;You can achieve ingress configuration using Helm overrides.  For example, to use the &lt;code&gt;nginx-controller&lt;/code&gt; for ingress on KIND, apply the following customization to the Verrazzano CRD.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;spec: 
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;spec:
  components:
   ingress:
    nginxInstallArgs:
@@ -1053,21 +1049,21 @@ docker volume inspect containerd &lt;span style=&#34;color:#8f5902;font-style:it
 &lt;p&gt;By default, each Verrazzano install profile has different storage characteristics.  Some components have external storage requirements (expressed through &lt;code&gt;PersistentVolumeClaim&lt;/code&gt; declarations in their &lt;code&gt;resources/helm&lt;/code&gt; charts):&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;MySQL&lt;/li&gt;
-&lt;li&gt;ElasticSearch&lt;/li&gt;
+&lt;li&gt;Elasticsearch&lt;/li&gt;
 &lt;li&gt;Prometheus&lt;/li&gt;
 &lt;li&gt;Grafana&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;By default, the prod  profile uses 50Gi persistent volumes for each of the above services, using the default storage class for the target Kubernetes platform.  The dev  profile uses ephemeral &lt;code&gt;emptyDir&lt;/code&gt; storage by default.  However, you can customize these storage settings within a profile as desired.&lt;/p&gt;
-&lt;p&gt;To override these settings, customize the Verrazzano install resource by defining a &lt;a href=&#34;https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/&#34;&gt;VolumeSource&lt;/a&gt; on the &lt;code&gt;DefaultVolumeSource&lt;/code&gt; field in the install CR, which can be one of:&lt;/p&gt;
+&lt;p&gt;By default, the &lt;code&gt;prod&lt;/code&gt; profile uses 50Gi persistent volumes for each of the above services, using the default storage class for the target Kubernetes platform.  The &lt;code&gt;dev&lt;/code&gt; profile uses ephemeral &lt;code&gt;emptyDir&lt;/code&gt; storage by default.  However, you can customize these storage settings within a profile as desired.&lt;/p&gt;
+&lt;p&gt;To override these settings, customize the Verrazzano install resource by defining a &lt;a href=&#34;https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/&#34;&gt;VolumeSource&lt;/a&gt; on the &lt;code&gt;defaultVolumeSource&lt;/code&gt; field in the install CR, which can be one of:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/concepts/storage/volumes/#emptydir&#34;&gt;emptyDir&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimvolumesource-v1-core&#34;&gt;persistentVolumeClaim&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Configuring &lt;code&gt;emptyDir&lt;/code&gt; for the &lt;code&gt;DefaultVolumeSource&lt;/code&gt; forces all persistent volumes created by Verrazzano components in an installation to use ephemeral storage unless otherwise overridden.  This can be useful for development or test scenarios.&lt;/p&gt;
-&lt;p&gt;You can use a &lt;a href=&#34;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimvolumesource-v1-core&#34;&gt;persistentVolumeClaim&lt;/a&gt; to identify a &lt;code&gt;volumeClaimSpecTemplate&lt;/code&gt; in the &lt;code&gt;volumeClaimSpecTemplates&lt;/code&gt; section via the &lt;code&gt;claimSource&lt;/code&gt; field.  A &lt;code&gt;volumeClaimSpecTemplate&lt;/code&gt; is a named &lt;a href=&#34;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimspec-v1-core&#34;&gt;PersistentVolumeClaimSpec&lt;/a&gt; configuration.  A &lt;code&gt;volumeClaimSpecTemplate&lt;/code&gt; can be referenced from more than one component; it merely identifies  configuration settings, and does not result in a direct instantiation of a persistent volume.  The settings are used by referencing components when creating their &lt;a href=&#34;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaim-v1-core&#34;&gt;PersistentVolumeClaims&lt;/a&gt; at install time.&lt;/p&gt;
-&lt;p&gt;If the component supports it, then you can override the &lt;code&gt;DefaultVolumeSource&lt;/code&gt; setting at the component level by defining a supported &lt;code&gt;VolumeSource&lt;/code&gt; on that component.  At present, only the &lt;code&gt;keycloak/mysql&lt;/code&gt; component supports a &lt;code&gt;volumeSource&lt;/code&gt; field override.&lt;/p&gt;
+&lt;p&gt;Configuring &lt;code&gt;emptyDir&lt;/code&gt; for the &lt;code&gt;defaultVolumeSource&lt;/code&gt; forces all persistent volumes created by Verrazzano components in an installation to use ephemeral storage unless otherwise overridden.  This can be useful for development or test scenarios.&lt;/p&gt;
+&lt;p&gt;You can use a &lt;a href=&#34;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimvolumesource-v1-core&#34;&gt;persistentVolumeClaim&lt;/a&gt; to identify a &lt;code&gt;volumeClaimSpecTemplate&lt;/code&gt; in the &lt;code&gt;volumeClaimSpecTemplates&lt;/code&gt; section via the &lt;code&gt;claimSource&lt;/code&gt; field.  A &lt;code&gt;volumeClaimSpecTemplate&lt;/code&gt; is a named &lt;a href=&#34;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimspec-v1-core&#34;&gt;PersistentVolumeClaimSpec&lt;/a&gt; configuration.  A &lt;code&gt;volumeClaimSpecTemplate&lt;/code&gt; can be referenced from more than one component; it merely identifies configuration settings and does not result in a direct instantiation of a persistent volume.  The settings are used by referencing components when creating their &lt;a href=&#34;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaim-v1-core&#34;&gt;PersistentVolumeClaims&lt;/a&gt; at install time.&lt;/p&gt;
+&lt;p&gt;If the component supports it, then you can override the &lt;code&gt;defaultVolumeSource&lt;/code&gt; setting at the component level by defining a supported &lt;code&gt;VolumeSource&lt;/code&gt; on that component.  At present, only the &lt;code&gt;keycloak/mysql&lt;/code&gt; component supports a &lt;code&gt;volumeSource&lt;/code&gt; field override.&lt;/p&gt;
 &lt;h4 id=&#34;examples&#34;&gt;Examples&lt;/h4&gt;
-&lt;p&gt;The following example shows how to define a dev  profile with different persistence settings for the monitoring components and the Keycloak/MySQL instance.&lt;/p&gt;
+&lt;p&gt;The following example shows how to define a &lt;code&gt;dev&lt;/code&gt; profile with different persistence settings for the monitoring components and the Keycloak/MySQL instance.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
@@ -1084,18 +1080,19 @@ spec:
           persistentVolumeClaim:
             claimName: mysql  &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Use the &amp;#34;mysql&amp;#34; PVC template for the MySQL volume configuration&lt;/span&gt;
   volumeClaimSpecTemplates:
-  - name: default      &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# &amp;#34;default&amp;#34; is a known template name, and will be used by Verrazzano components by default if no other template is referenced explicitly&lt;/span&gt;
+  - metadata:
+      name: default      &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# &amp;#34;default&amp;#34; is a known template name, and will be used by Verrazzano components by default if no other template is referenced explicitly&lt;/span&gt;
     spec:
       resources:
         requests:
           storage: 2Gi 
-  - name: mysql      &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# separate template to allow MySQL to define it&amp;#39;s own settings&lt;/span&gt;
+  - metadata:
     spec:
       resources:
         requests:
           storage: 5Gi  &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# default&lt;/span&gt;
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The following example shows how to define a dev profile where all resources use &lt;code&gt;emptyDir&lt;/code&gt; by default.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The following example shows how to define a &lt;code&gt;dev&lt;/code&gt; profile where all resources use &lt;code&gt;emptyDir&lt;/code&gt; by default.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:

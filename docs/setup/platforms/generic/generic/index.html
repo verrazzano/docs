@@ -21,11 +21,11 @@
 <meta property="og:description" content="Instructions for setting up a generic Kubernetes cluster for Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/setup/platforms/generic/generic/" />
-<meta property="article:modified_time" content="2021-02-03T13:24:01-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-02-04T13:19:50-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Generic Kubernetes">
 <meta itemprop="description" content="Instructions for setting up a generic Kubernetes cluster for Verrazzano">
-<meta itemprop="dateModified" content="2021-02-03T13:24:01-05:00" />
-<meta itemprop="wordCount" content="474">
+<meta itemprop="dateModified" content="2021-02-04T13:19:50-05:00" />
+<meta itemprop="wordCount" content="463">
 
 
 
@@ -554,7 +554,7 @@ if (!doNotTrack) {
 
 	<br>
 <p>You can achieve ingress configuration using Helm overrides.  For example, to use the <code>nginx-controller</code> for ingress on KIND, apply the following customization to the Verrazzano CRD.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">spec: 
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">spec:
  components:
   ingress:
    nginxInstallArgs:
@@ -589,21 +589,21 @@ if (!doNotTrack) {
 <p>By default, each Verrazzano install profile has different storage characteristics.  Some components have external storage requirements (expressed through <code>PersistentVolumeClaim</code> declarations in their <code>resources/helm</code> charts):</p>
 <ul>
 <li>MySQL</li>
-<li>ElasticSearch</li>
+<li>Elasticsearch</li>
 <li>Prometheus</li>
 <li>Grafana</li>
 </ul>
-<p>By default, the prod  profile uses 50Gi persistent volumes for each of the above services, using the default storage class for the target Kubernetes platform.  The dev  profile uses ephemeral <code>emptyDir</code> storage by default.  However, you can customize these storage settings within a profile as desired.</p>
-<p>To override these settings, customize the Verrazzano install resource by defining a <a href="https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/">VolumeSource</a> on the <code>DefaultVolumeSource</code> field in the install CR, which can be one of:</p>
+<p>By default, the <code>prod</code> profile uses 50Gi persistent volumes for each of the above services, using the default storage class for the target Kubernetes platform.  The <code>dev</code> profile uses ephemeral <code>emptyDir</code> storage by default.  However, you can customize these storage settings within a profile as desired.</p>
+<p>To override these settings, customize the Verrazzano install resource by defining a <a href="https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/">VolumeSource</a> on the <code>defaultVolumeSource</code> field in the install CR, which can be one of:</p>
 <ul>
 <li><a href="https://kubernetes.io/docs/concepts/storage/volumes/#emptydir">emptyDir</a></li>
 <li><a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimvolumesource-v1-core">persistentVolumeClaim</a></li>
 </ul>
-<p>Configuring <code>emptyDir</code> for the <code>DefaultVolumeSource</code> forces all persistent volumes created by Verrazzano components in an installation to use ephemeral storage unless otherwise overridden.  This can be useful for development or test scenarios.</p>
-<p>You can use a <a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimvolumesource-v1-core">persistentVolumeClaim</a> to identify a <code>volumeClaimSpecTemplate</code> in the <code>volumeClaimSpecTemplates</code> section via the <code>claimSource</code> field.  A <code>volumeClaimSpecTemplate</code> is a named <a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimspec-v1-core">PersistentVolumeClaimSpec</a> configuration.  A <code>volumeClaimSpecTemplate</code> can be referenced from more than one component; it merely identifies  configuration settings, and does not result in a direct instantiation of a persistent volume.  The settings are used by referencing components when creating their <a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaim-v1-core">PersistentVolumeClaims</a> at install time.</p>
-<p>If the component supports it, then you can override the <code>DefaultVolumeSource</code> setting at the component level by defining a supported <code>VolumeSource</code> on that component.  At present, only the <code>keycloak/mysql</code> component supports a <code>volumeSource</code> field override.</p>
+<p>Configuring <code>emptyDir</code> for the <code>defaultVolumeSource</code> forces all persistent volumes created by Verrazzano components in an installation to use ephemeral storage unless otherwise overridden.  This can be useful for development or test scenarios.</p>
+<p>You can use a <a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimvolumesource-v1-core">persistentVolumeClaim</a> to identify a <code>volumeClaimSpecTemplate</code> in the <code>volumeClaimSpecTemplates</code> section via the <code>claimSource</code> field.  A <code>volumeClaimSpecTemplate</code> is a named <a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimspec-v1-core">PersistentVolumeClaimSpec</a> configuration.  A <code>volumeClaimSpecTemplate</code> can be referenced from more than one component; it merely identifies configuration settings and does not result in a direct instantiation of a persistent volume.  The settings are used by referencing components when creating their <a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaim-v1-core">PersistentVolumeClaims</a> at install time.</p>
+<p>If the component supports it, then you can override the <code>defaultVolumeSource</code> setting at the component level by defining a supported <code>VolumeSource</code> on that component.  At present, only the <code>keycloak/mysql</code> component supports a <code>volumeSource</code> field override.</p>
 <h4 id="examples">Examples</h4>
-<p>The following example shows how to define a dev  profile with different persistence settings for the monitoring components and the Keycloak/MySQL instance.</p>
+<p>The following example shows how to define a <code>dev</code> profile with different persistence settings for the monitoring components and the Keycloak/MySQL instance.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
@@ -620,18 +620,19 @@ spec:
           persistentVolumeClaim:
             claimName: mysql  <span style="color:#8f5902;font-style:italic"># Use the &#34;mysql&#34; PVC template for the MySQL volume configuration</span>
   volumeClaimSpecTemplates:
-  - name: default      <span style="color:#8f5902;font-style:italic"># &#34;default&#34; is a known template name, and will be used by Verrazzano components by default if no other template is referenced explicitly</span>
+  - metadata:
+      name: default      <span style="color:#8f5902;font-style:italic"># &#34;default&#34; is a known template name, and will be used by Verrazzano components by default if no other template is referenced explicitly</span>
     spec:
       resources:
         requests:
           storage: 2Gi 
-  - name: mysql      <span style="color:#8f5902;font-style:italic"># separate template to allow MySQL to define it&#39;s own settings</span>
+  - metadata:
     spec:
       resources:
         requests:
           storage: 5Gi  <span style="color:#8f5902;font-style:italic"># default</span>
 
-</code></pre></div><p>The following example shows how to define a dev profile where all resources use <code>emptyDir</code> by default.</p>
+</code></pre></div><p>The following example shows how to define a <code>dev</code> profile where all resources use <code>emptyDir</code> by default.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
@@ -714,7 +715,7 @@ spec:
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified February 3, 2021: <a  href="https://github.com/verrazzano/docs/commit/1fd5c49f6d084b17d0e916ccd41b5eb3f3a971fe">Update storage options per review (1fd5c49)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified February 4, 2021: <a  href="https://github.com/verrazzano/docs/commit/0c5bc950bff025c96098588432dfd32d5a4f65bb">cleanup style (#74) (0c5bc95)</a>
 </div>
 </div>
 

@@ -38,7 +38,7 @@ environments.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;install-the-verrazzano-platform-operator&#34;&gt;Install the Verrazzano Platform Operator&lt;/h3&gt;
+&lt;h3 id=&#34;install-the-verrazzano-platform-operator&#34;&gt;Install the Verrazzano platform operator&lt;/h3&gt;
 &lt;p&gt;Verrazzano provides a Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/operator/&#34;&gt;operator&lt;/a&gt;
 to manage the life cycle of Verrazzano installations.  The operator works with a
 &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/&#34;&gt;custom resource&lt;/a&gt; defined in the cluster.
@@ -1376,15 +1376,15 @@ Verrazzano Application Binding. Verrazzano also sets up network policies that en
 &lt;ol&gt;
 &lt;li&gt;Packaging the application as a Docker image.&lt;/li&gt;
 &lt;li&gt;Publishing the application&amp;rsquo;s Docker image to a container registry.&lt;/li&gt;
-&lt;li&gt;Applying the application&amp;rsquo;s Verrazzano Components to the cluster.&lt;/li&gt;
-&lt;li&gt;Applying the application&amp;rsquo;s Verrazzano Applications to the cluster.&lt;/li&gt;
+&lt;li&gt;Applying the application&amp;rsquo;s Verrazzano components to the cluster.&lt;/li&gt;
+&lt;li&gt;Applying the application&amp;rsquo;s Verrazzano applications to the cluster.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;This guide does not provide the full details for the first two steps. An existing example application
 Docker image has been packaged and published for use.&lt;/p&gt;
-&lt;p&gt;Verrazzano supports application definition using the &lt;a href=&#34;https://oam.dev/&#34;&gt;Open Application Model (OAM)&lt;/a&gt;.  Verrrazzano applications are
+&lt;p&gt;Verrazzano supports application definition using &lt;a href=&#34;https://oam.dev/&#34;&gt;Open Application Model (OAM)&lt;/a&gt;.  Verrrazzano applications are
 composed of &lt;a href=&#34;https://github.com/oam-dev/spec/blob/master/3.component.md&#34;&gt;components&lt;/a&gt; and
 &lt;a href=&#34;https://github.com/oam-dev/spec/blob/master/7.application_configuration.md&#34;&gt;application configurations&lt;/a&gt;.  This document
-demonstrates creating the OAM resources that define an application as well as the steps required to deploy those resources.&lt;/p&gt;
+demonstrates creating OAM resources that define an application as well as the steps required to deploy those resources.&lt;/p&gt;
 &lt;h2 id=&#34;what-you-need&#34;&gt;What you need&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -1399,7 +1399,7 @@ demonstrates creating the OAM resources that define an application as well as th
 &lt;pre&gt;&lt;code&gt;docker pull container-registry.oracle.com/verrazzano/example-hello-world-helidon:0.1.10-3-e5ae893-124
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;application-development&#34;&gt;Application Development&lt;/h2&gt;
+&lt;h2 id=&#34;application-development&#34;&gt;Application development&lt;/h2&gt;
 &lt;p&gt;This guide uses an example application which was written with Java and &lt;a href=&#34;https://helidon.io&#34;&gt;Helidon&lt;/a&gt;.
 For the implementation details, see the &lt;a href=&#34;https://helidon.io/docs/latest/#/mp/guides/10_mp-tutorial&#34;&gt;Helidon MP tutorial&lt;/a&gt;.
 See the application &lt;a href=&#34;https://github.com/verrazzano/examples/tree/master/hello-helidon&#34;&gt;source code&lt;/a&gt; in the Verrazzano examples repository.&lt;/p&gt;
@@ -1451,18 +1451,18 @@ Note that the Docker container exposes a single port 8080.&lt;/p&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#a40000&#34;&gt;&lt;/span&gt;...&lt;span style=&#34;color:#a40000&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#a40000&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;CMD&lt;/span&gt; java -cp /app/helidon-quickstart-mp.jar:/app/* io.helidon.examples.quickstart.mp.Main&lt;span style=&#34;color:#a40000&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#a40000&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;EXPOSE&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt; 8080&lt;/span&gt;&lt;span style=&#34;color:#a40000&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;application-deployment&#34;&gt;Application Deployment&lt;/h2&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;application-deployment&#34;&gt;Application deployment&lt;/h2&gt;
 &lt;p&gt;When you deploy applications with Verrazzano, the platform sets up connections, network policies, and
 ingresses in the service mesh, and wires up a monitoring stack to capture the metrics, logs, and traces.
-Verrazzano employs OAM Components to define the functional units of a system that are then
+Verrazzano employs OAM components to define the functional units of a system that are then
 assembled and configured by defining associated application configurations.&lt;/p&gt;
-&lt;h3 id=&#34;verrazzano-components&#34;&gt;Verrazzano Components&lt;/h3&gt;
-&lt;p&gt;A Verrazzano OAM Component is a
+&lt;h3 id=&#34;verrazzano-components&#34;&gt;Verrazzano components&lt;/h3&gt;
+&lt;p&gt;A Verrazzano OAM component is a
 &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/&#34;&gt;Kubernetes Custom Resource&lt;/a&gt;
 describing an application&amp;rsquo;s general composition and environment requirements.
 The following code shows the component for the example application used in this guide.
 This resource describes a component which is implemented by a single Docker image containing a Helidon application exposing a single endpoint.
-For more details about Verrazzano Components, see TBD documentation.&lt;/p&gt;
+For more details about Verrazzano components, see TBD documentation.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;core.oam.dev/v1alpha2&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;Component&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
@@ -1494,8 +1494,8 @@ For more details about Verrazzano Components, see TBD documentation.&lt;/p&gt;
 &lt;li&gt;&lt;code&gt;spec.workload.spec.containers&lt;/code&gt; - The implementation containers&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;spec.workload.spec.containers.ports&lt;/code&gt; - Ports exposed by the container&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;verrazzano-application-configurations&#34;&gt;Verrazzano Application Configurations&lt;/h3&gt;
-&lt;p&gt;A Verrazzano Application Configuration is a
+&lt;h3 id=&#34;verrazzano-application-configurations&#34;&gt;Verrazzano application configurations&lt;/h3&gt;
+&lt;p&gt;A Verrazzano application configuration is a
 &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/&#34;&gt;Kubernetes Custom Resource&lt;/a&gt;
 which provides environment specific customizations.
 The following code shows the application configuration for the example used in this guide.
@@ -1744,7 +1744,7 @@ Determine the URL for this access using the following commands.&lt;/p&gt;
 &lt;span style=&#34;color:#204a87&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;PROMETHEUS_URL&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
 open &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;PROMETHEUS_URL&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The user name and password for both Prometheus and Grafana are the same.&lt;/p&gt;
-&lt;h2 id=&#34;application-removal&#34;&gt;Application Removal&lt;/h2&gt;
+&lt;h2 id=&#34;application-removal&#34;&gt;Application removal&lt;/h2&gt;
 &lt;p&gt;Run the following commands to delete the application configuration and, optionally, component.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
@@ -3470,25 +3470,21 @@ DNS CNAME records, in the same way.&lt;/p&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;image-caching-to-speed-up-install&#34;&gt;Image caching to speed up install&lt;/h4&gt;
 &lt;p&gt;If you are experimenting with Verrazzano and expect that you may need to delete the KIND cluster and later, install Verrazzano again on a new KIND cluster, then you can follow these steps to ensure that the image cache used by containerd inside KIND is preserved across clusters. Subsequent installs will be faster than the first install, because they will not need to pull the images again.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Create a named Docker volume that will be used for the image cache, and note its &lt;code&gt;Mountpoint&lt;/code&gt; path. In this example, the volume is named &lt;code&gt;containerd&lt;/code&gt;.&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;1. Create a named Docker volume that will be used for the image cache, and note its &lt;code&gt;Mountpoint&lt;/code&gt; path. In this example, the volume is named &lt;code&gt;containerd&lt;/code&gt;.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;docker volume create containerd
 
 docker volume inspect containerd &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#Sample output is shown&lt;/span&gt;
 
-    &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;
-        &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;CreatedAt&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;2021-01-11T16:27:47Z&amp;#34;&lt;/span&gt;,
-        &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Driver&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;local&amp;#34;&lt;/span&gt;,
-        &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Labels&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{}&lt;/span&gt;,
-        &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Mountpoint&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;/var/lib/docker/volumes/containerd/_data&amp;#34;&lt;/span&gt;,
-        &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Name&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;containerd&amp;#34;&lt;/span&gt;,
-        &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Options&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{}&lt;/span&gt;,
-        &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Scope&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;local&amp;#34;&lt;/span&gt;
-    &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
-&lt;li&gt;Specify the &lt;code&gt;Mountpoint&lt;/code&gt; path obtained, as the &lt;code&gt;hostPath&lt;/code&gt; under &lt;code&gt;extraMounts&lt;/code&gt; in your KIND configuration file, with a &lt;code&gt;containerPath&lt;/code&gt; of &lt;code&gt;/var/lib/containerd&lt;/code&gt;, which is the default containerd image caching location inside the KIND container. An example of the modified KIND configuration is shown in the following &lt;code&gt;create cluster&lt;/code&gt; command:&lt;/li&gt;
-&lt;/ol&gt;
+&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;
+    &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;CreatedAt&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;2021-01-11T16:27:47Z&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Driver&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;local&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Labels&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{}&lt;/span&gt;,
+    &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Mountpoint&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;/var/lib/docker/volumes/containerd/_data&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Name&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;containerd&amp;#34;&lt;/span&gt;,
+    &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Options&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{}&lt;/span&gt;,
+    &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Scope&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;local&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;2. Specify the &lt;code&gt;Mountpoint&lt;/code&gt; path obtained, as the &lt;code&gt;hostPath&lt;/code&gt; under &lt;code&gt;extraMounts&lt;/code&gt; in your KIND configuration file, with a &lt;code&gt;containerPath&lt;/code&gt; of &lt;code&gt;/var/lib/containerd&lt;/code&gt;, which is the default containerd image caching location inside the KIND container. An example of the modified KIND configuration is shown in the following &lt;code&gt;create cluster&lt;/code&gt; command:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kind create cluster --config - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Cluster
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: kind.x-k8s.io/v1alpha4
@@ -3498,22 +3494,22 @@ docker volume inspect containerd &lt;span style=&#34;color:#8f5902;font-style:it
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - |
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      kind: InitConfiguration
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      nodeRegistration:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        kubeletE&lt;/span&gt;xtraArgs:
-          node-labels: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;ingress-ready=true&amp;#34;&lt;/span&gt;
-          authorization-mode: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;AlwaysAllow&amp;#34;&lt;/span&gt;
-    extraPortMappings:
-      - containerPort: &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;80&lt;/span&gt;
-        hostPort: &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;80&lt;/span&gt;
-        listenAddress: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;0.0.0.0&amp;#34;&lt;/span&gt;
-        protocol: tcp
-      - containerPort: &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;443&lt;/span&gt;
-        hostPort: &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;443&lt;/span&gt;
-        listenAddress: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;0.0.0.0&amp;#34;&lt;/span&gt;
-        protocol: tcp
-    extraMounts:
-      - hostPath: /var/lib/docker/volumes/containerd/_data
-        containerPath: /var/lib/containerd &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#This is the location of the image cache inside the KIND container&lt;/span&gt;
-
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        kubeletExtraArgs:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          node-labels: &amp;#34;ingress-ready=true&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          authorization-mode: &amp;#34;AlwaysAllow&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    extraPortMappings:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      - containerPort: 80
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        hostPort: 80
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        listenAddress: &amp;#34;0.0.0.0&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        protocol: tcp
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      - containerPort: 443
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        hostPort: 443
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        listenAddress: &amp;#34;0.0.0.0&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        protocol: tcp
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    extraMounts:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      - hostPath: /var/lib/docker/volumes/containerd/_data
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        containerPath: /var/lib/containerd #This is the location of the image cache inside the KIND container
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
       </description>
     </item>
@@ -3546,21 +3542,22 @@ You should install this developer preview release of Verrazzano only in a cluste
 &lt;/ul&gt;
 &lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Verrazzano has been tested &lt;em&gt;only&lt;/em&gt; on the following versions of Kubernetes: 1.17.x and 1.18.x.  Other versions have not been tested and are not guaranteed to work.&lt;/p&gt;
 &lt;h3 id=&#34;prepare-for-the-install&#34;&gt;Prepare for the install&lt;/h3&gt;
+&lt;p&gt;Before installing Verrazzano, see instructions on preparing the following Kubernetes platforms:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;OCI Container Engine for Kubernetes, see &lt;a href=&#34;../../platforms/oci/oci&#34;&gt;Prepare for the OCI install&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;../../platforms/oci/oci&#34;&gt;OCI Container Engine for Kubernetes&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;OLCNE, see &lt;a href=&#34;../../platforms/olcne/olcne&#34;&gt;Prepare for the OCLNE install&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;../../platforms/olcne/olcne&#34;&gt;OLCNE&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;KIND, see &lt;a href=&#34;../../platforms/kind/kind&#34;&gt;Prepare for the KIND install&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;../../platforms/kind/kind&#34;&gt;KIND&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Generic Kubernetes, see &lt;a href=&#34;../../generic/generic&#34;&gt;Prepare for the generic install&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;../../platforms/generic/generic&#34;&gt;Generic Kubernetes&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;install-the-verrazzano-platform-operator&#34;&gt;Install the Verrazzano Platform Operator&lt;/h3&gt;
+&lt;h3 id=&#34;install-the-verrazzano-platform-operator&#34;&gt;Install the Verrazzano platform operator&lt;/h3&gt;
 &lt;p&gt;Verrazzano provides a platform &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/operator/&#34;&gt;operator&lt;/a&gt;
 to manage the life cycle of Verrazzano installations.  You can install,
 uninstall, and update Verrazzano installations by updating the
@@ -3689,8 +3686,8 @@ kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; --timeout&lt
 &lt;div class=&#34;tab-pane fade&#34; id=&#34;tab22&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName2&#34;&gt;
 
 	&lt;br&gt;
-&lt;h5 id=&#34;install-using-oci-dns&#34;&gt;Install using OCI DNS&lt;/h5&gt;
-&lt;h6 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h6&gt;
+&lt;p&gt;&lt;strong&gt;Install using OCI DNS&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Prerequisites&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;A DNS zone is a distinct portion of a domain namespace. Therefore, ensure that the zone is appropriately associated with a parent domain.
@@ -3702,7 +3699,7 @@ For example, an appropriate zone name for parent domain &lt;code&gt;v8o.example.
 &lt;pre&gt;&lt;code&gt;oci dns zone create -c &amp;lt;compartment ocid&amp;gt; --name &amp;lt;zone-name-prefix&amp;gt;.v8o.oracledx.com --zone-type PRIMARY
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h6 id=&#34;installation&#34;&gt;Installation&lt;/h6&gt;
+&lt;p&gt;Installation&lt;/p&gt;
 &lt;p&gt;Installing Verrazzano on OCI DNS requires some configuration settings to create DNS records.
 The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/operator/config/samples/install-oci.yaml&#34;&gt;install-oci.yaml&lt;/a&gt; file provides a template of a Verrazzano custom resource for an OCI DNS installation. Edit this custom resource and provide values for the following configuration settings:&lt;/p&gt;
 &lt;ul&gt;
@@ -3837,7 +3834,7 @@ kubectl delete verrazzano &amp;lt;name of custom resource&amp;gt;
 &lt;p&gt;Performing an upgrade will upgrade only the Verrazzano components related to the existing installation.  Upgrading will
 not have any impact on running applications.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; You may only change the version field during an upgrade; changes to other fields or component configurations are not supported at this time.&lt;/p&gt;
-&lt;h3 id=&#34;upgrade-the-verrazzano-platform-operator&#34;&gt;Upgrade the Verrazzano Platform Operator&lt;/h3&gt;
+&lt;h3 id=&#34;upgrade-the-verrazzano-platform-operator&#34;&gt;Upgrade the Verrazzano platform operator&lt;/h3&gt;
 &lt;p&gt;In order to upgrade an existing Verrazzano installation, you must first upgrade the &lt;a href=&#34;https://github.com/verrazzano/verrazzano-platform-operator&#34;&gt;Verrazzano platform operator&lt;/a&gt;.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
@@ -3984,7 +3981,7 @@ vmi-system-prometheus-gw-7cb9df774-48g4b           1/1     Running   0          
 
 	&lt;br&gt;
 &lt;p&gt;You can achieve ingress configuration using Helm overrides.  For example, to use the &lt;code&gt;nginx-controller&lt;/code&gt; for ingress on KIND, apply the following customization to the Verrazzano CRD.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;spec: 
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;spec:
  components:
   ingress:
    nginxInstallArgs:
@@ -4019,21 +4016,21 @@ vmi-system-prometheus-gw-7cb9df774-48g4b           1/1     Running   0          
 &lt;p&gt;By default, each Verrazzano install profile has different storage characteristics.  Some components have external storage requirements (expressed through &lt;code&gt;PersistentVolumeClaim&lt;/code&gt; declarations in their &lt;code&gt;resources/helm&lt;/code&gt; charts):&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;MySQL&lt;/li&gt;
-&lt;li&gt;ElasticSearch&lt;/li&gt;
+&lt;li&gt;Elasticsearch&lt;/li&gt;
 &lt;li&gt;Prometheus&lt;/li&gt;
 &lt;li&gt;Grafana&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;By default, the prod  profile uses 50Gi persistent volumes for each of the above services, using the default storage class for the target Kubernetes platform.  The dev  profile uses ephemeral &lt;code&gt;emptyDir&lt;/code&gt; storage by default.  However, you can customize these storage settings within a profile as desired.&lt;/p&gt;
-&lt;p&gt;To override these settings, customize the Verrazzano install resource by defining a &lt;a href=&#34;https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/&#34;&gt;VolumeSource&lt;/a&gt; on the &lt;code&gt;DefaultVolumeSource&lt;/code&gt; field in the install CR, which can be one of:&lt;/p&gt;
+&lt;p&gt;By default, the &lt;code&gt;prod&lt;/code&gt; profile uses 50Gi persistent volumes for each of the above services, using the default storage class for the target Kubernetes platform.  The &lt;code&gt;dev&lt;/code&gt; profile uses ephemeral &lt;code&gt;emptyDir&lt;/code&gt; storage by default.  However, you can customize these storage settings within a profile as desired.&lt;/p&gt;
+&lt;p&gt;To override these settings, customize the Verrazzano install resource by defining a &lt;a href=&#34;https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/&#34;&gt;VolumeSource&lt;/a&gt; on the &lt;code&gt;defaultVolumeSource&lt;/code&gt; field in the install CR, which can be one of:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/concepts/storage/volumes/#emptydir&#34;&gt;emptyDir&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimvolumesource-v1-core&#34;&gt;persistentVolumeClaim&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Configuring &lt;code&gt;emptyDir&lt;/code&gt; for the &lt;code&gt;DefaultVolumeSource&lt;/code&gt; forces all persistent volumes created by Verrazzano components in an installation to use ephemeral storage unless otherwise overridden.  This can be useful for development or test scenarios.&lt;/p&gt;
-&lt;p&gt;You can use a &lt;a href=&#34;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimvolumesource-v1-core&#34;&gt;persistentVolumeClaim&lt;/a&gt; to identify a &lt;code&gt;volumeClaimSpecTemplate&lt;/code&gt; in the &lt;code&gt;volumeClaimSpecTemplates&lt;/code&gt; section via the &lt;code&gt;claimSource&lt;/code&gt; field.  A &lt;code&gt;volumeClaimSpecTemplate&lt;/code&gt; is a named &lt;a href=&#34;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimspec-v1-core&#34;&gt;PersistentVolumeClaimSpec&lt;/a&gt; configuration.  A &lt;code&gt;volumeClaimSpecTemplate&lt;/code&gt; can be referenced from more than one component; it merely identifies  configuration settings, and does not result in a direct instantiation of a persistent volume.  The settings are used by referencing components when creating their &lt;a href=&#34;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaim-v1-core&#34;&gt;PersistentVolumeClaims&lt;/a&gt; at install time.&lt;/p&gt;
-&lt;p&gt;If the component supports it, then you can override the &lt;code&gt;DefaultVolumeSource&lt;/code&gt; setting at the component level by defining a supported &lt;code&gt;VolumeSource&lt;/code&gt; on that component.  At present, only the &lt;code&gt;keycloak/mysql&lt;/code&gt; component supports a &lt;code&gt;volumeSource&lt;/code&gt; field override.&lt;/p&gt;
+&lt;p&gt;Configuring &lt;code&gt;emptyDir&lt;/code&gt; for the &lt;code&gt;defaultVolumeSource&lt;/code&gt; forces all persistent volumes created by Verrazzano components in an installation to use ephemeral storage unless otherwise overridden.  This can be useful for development or test scenarios.&lt;/p&gt;
+&lt;p&gt;You can use a &lt;a href=&#34;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimvolumesource-v1-core&#34;&gt;persistentVolumeClaim&lt;/a&gt; to identify a &lt;code&gt;volumeClaimSpecTemplate&lt;/code&gt; in the &lt;code&gt;volumeClaimSpecTemplates&lt;/code&gt; section via the &lt;code&gt;claimSource&lt;/code&gt; field.  A &lt;code&gt;volumeClaimSpecTemplate&lt;/code&gt; is a named &lt;a href=&#34;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimspec-v1-core&#34;&gt;PersistentVolumeClaimSpec&lt;/a&gt; configuration.  A &lt;code&gt;volumeClaimSpecTemplate&lt;/code&gt; can be referenced from more than one component; it merely identifies configuration settings and does not result in a direct instantiation of a persistent volume.  The settings are used by referencing components when creating their &lt;a href=&#34;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaim-v1-core&#34;&gt;PersistentVolumeClaims&lt;/a&gt; at install time.&lt;/p&gt;
+&lt;p&gt;If the component supports it, then you can override the &lt;code&gt;defaultVolumeSource&lt;/code&gt; setting at the component level by defining a supported &lt;code&gt;VolumeSource&lt;/code&gt; on that component.  At present, only the &lt;code&gt;keycloak/mysql&lt;/code&gt; component supports a &lt;code&gt;volumeSource&lt;/code&gt; field override.&lt;/p&gt;
 &lt;h4 id=&#34;examples&#34;&gt;Examples&lt;/h4&gt;
-&lt;p&gt;The following example shows how to define a dev  profile with different persistence settings for the monitoring components and the Keycloak/MySQL instance.&lt;/p&gt;
+&lt;p&gt;The following example shows how to define a &lt;code&gt;dev&lt;/code&gt; profile with different persistence settings for the monitoring components and the Keycloak/MySQL instance.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
@@ -4050,18 +4047,19 @@ spec:
           persistentVolumeClaim:
             claimName: mysql  &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Use the &amp;#34;mysql&amp;#34; PVC template for the MySQL volume configuration&lt;/span&gt;
   volumeClaimSpecTemplates:
-  - name: default      &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# &amp;#34;default&amp;#34; is a known template name, and will be used by Verrazzano components by default if no other template is referenced explicitly&lt;/span&gt;
+  - metadata:
+      name: default      &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# &amp;#34;default&amp;#34; is a known template name, and will be used by Verrazzano components by default if no other template is referenced explicitly&lt;/span&gt;
     spec:
       resources:
         requests:
           storage: 2Gi 
-  - name: mysql      &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# separate template to allow MySQL to define it&amp;#39;s own settings&lt;/span&gt;
+  - metadata:
     spec:
       resources:
         requests:
           storage: 5Gi  &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# default&lt;/span&gt;
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The following example shows how to define a dev profile where all resources use &lt;code&gt;emptyDir&lt;/code&gt; by default.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The following example shows how to define a &lt;code&gt;dev&lt;/code&gt; profile where all resources use &lt;code&gt;emptyDir&lt;/code&gt; by default.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:

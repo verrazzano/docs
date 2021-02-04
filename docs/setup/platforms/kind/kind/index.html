@@ -21,11 +21,11 @@
 <meta property="og:description" content="Instructions for setting up a KIND cluster for Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/setup/platforms/kind/kind/" />
-<meta property="article:modified_time" content="2021-01-20T08:10:13-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-02-03T16:49:59-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="KIND">
 <meta itemprop="description" content="Instructions for setting up a KIND cluster for Verrazzano">
-<meta itemprop="dateModified" content="2021-01-20T08:10:13-05:00" />
-<meta itemprop="wordCount" content="292">
+<meta itemprop="dateModified" content="2021-02-03T16:49:59-05:00" />
+<meta itemprop="wordCount" content="295">
 
 
 
@@ -521,25 +521,21 @@ if (!doNotTrack) {
 </span><span style="color:#4e9a06">EOF</span>
 </code></pre></div><h4 id="image-caching-to-speed-up-install">Image caching to speed up install</h4>
 <p>If you are experimenting with Verrazzano and expect that you may need to delete the KIND cluster and later, install Verrazzano again on a new KIND cluster, then you can follow these steps to ensure that the image cache used by containerd inside KIND is preserved across clusters. Subsequent installs will be faster than the first install, because they will not need to pull the images again.</p>
-<ol>
-<li>Create a named Docker volume that will be used for the image cache, and note its <code>Mountpoint</code> path. In this example, the volume is named <code>containerd</code>.</li>
-</ol>
+<p>1. Create a named Docker volume that will be used for the image cache, and note its <code>Mountpoint</code> path. In this example, the volume is named <code>containerd</code>.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker volume create containerd
 
 docker volume inspect containerd <span style="color:#8f5902;font-style:italic">#Sample output is shown</span>
 
-    <span style="color:#ce5c00;font-weight:bold">{</span>
-        <span style="color:#4e9a06">&#34;CreatedAt&#34;</span>: <span style="color:#4e9a06">&#34;2021-01-11T16:27:47Z&#34;</span>,
-        <span style="color:#4e9a06">&#34;Driver&#34;</span>: <span style="color:#4e9a06">&#34;local&#34;</span>,
-        <span style="color:#4e9a06">&#34;Labels&#34;</span>: <span style="color:#ce5c00;font-weight:bold">{}</span>,
-        <span style="color:#4e9a06">&#34;Mountpoint&#34;</span>: <span style="color:#4e9a06">&#34;/var/lib/docker/volumes/containerd/_data&#34;</span>,
-        <span style="color:#4e9a06">&#34;Name&#34;</span>: <span style="color:#4e9a06">&#34;containerd&#34;</span>,
-        <span style="color:#4e9a06">&#34;Options&#34;</span>: <span style="color:#ce5c00;font-weight:bold">{}</span>,
-        <span style="color:#4e9a06">&#34;Scope&#34;</span>: <span style="color:#4e9a06">&#34;local&#34;</span>
-    <span style="color:#ce5c00;font-weight:bold">}</span>
-</code></pre></div><ol start="2">
-<li>Specify the <code>Mountpoint</code> path obtained, as the <code>hostPath</code> under <code>extraMounts</code> in your KIND configuration file, with a <code>containerPath</code> of <code>/var/lib/containerd</code>, which is the default containerd image caching location inside the KIND container. An example of the modified KIND configuration is shown in the following <code>create cluster</code> command:</li>
-</ol>
+<span style="color:#ce5c00;font-weight:bold">{</span>
+    <span style="color:#4e9a06">&#34;CreatedAt&#34;</span>: <span style="color:#4e9a06">&#34;2021-01-11T16:27:47Z&#34;</span>,
+    <span style="color:#4e9a06">&#34;Driver&#34;</span>: <span style="color:#4e9a06">&#34;local&#34;</span>,
+    <span style="color:#4e9a06">&#34;Labels&#34;</span>: <span style="color:#ce5c00;font-weight:bold">{}</span>,
+    <span style="color:#4e9a06">&#34;Mountpoint&#34;</span>: <span style="color:#4e9a06">&#34;/var/lib/docker/volumes/containerd/_data&#34;</span>,
+    <span style="color:#4e9a06">&#34;Name&#34;</span>: <span style="color:#4e9a06">&#34;containerd&#34;</span>,
+    <span style="color:#4e9a06">&#34;Options&#34;</span>: <span style="color:#ce5c00;font-weight:bold">{}</span>,
+    <span style="color:#4e9a06">&#34;Scope&#34;</span>: <span style="color:#4e9a06">&#34;local&#34;</span>
+<span style="color:#ce5c00;font-weight:bold">}</span>
+</code></pre></div><p>2. Specify the <code>Mountpoint</code> path obtained, as the <code>hostPath</code> under <code>extraMounts</code> in your KIND configuration file, with a <code>containerPath</code> of <code>/var/lib/containerd</code>, which is the default containerd image caching location inside the KIND container. An example of the modified KIND configuration is shown in the following <code>create cluster</code> command:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kind create cluster --config - <span style="color:#4e9a06">&lt;&lt;EOF
 </span><span style="color:#4e9a06">kind: Cluster
 </span><span style="color:#4e9a06">apiVersion: kind.x-k8s.io/v1alpha4
@@ -549,22 +545,22 @@ docker volume inspect containerd <span style="color:#8f5902;font-style:italic">#
 </span><span style="color:#4e9a06">    - |
 </span><span style="color:#4e9a06">      kind: InitConfiguration
 </span><span style="color:#4e9a06">      nodeRegistration:
-</span><span style="color:#4e9a06">        kubeletE</span>xtraArgs:
-          node-labels: <span style="color:#4e9a06">&#34;ingress-ready=true&#34;</span>
-          authorization-mode: <span style="color:#4e9a06">&#34;AlwaysAllow&#34;</span>
-    extraPortMappings:
-      - containerPort: <span style="color:#0000cf;font-weight:bold">80</span>
-        hostPort: <span style="color:#0000cf;font-weight:bold">80</span>
-        listenAddress: <span style="color:#4e9a06">&#34;0.0.0.0&#34;</span>
-        protocol: tcp
-      - containerPort: <span style="color:#0000cf;font-weight:bold">443</span>
-        hostPort: <span style="color:#0000cf;font-weight:bold">443</span>
-        listenAddress: <span style="color:#4e9a06">&#34;0.0.0.0&#34;</span>
-        protocol: tcp
-    extraMounts:
-      - hostPath: /var/lib/docker/volumes/containerd/_data
-        containerPath: /var/lib/containerd <span style="color:#8f5902;font-style:italic">#This is the location of the image cache inside the KIND container</span>
-
+</span><span style="color:#4e9a06">        kubeletExtraArgs:
+</span><span style="color:#4e9a06">          node-labels: &#34;ingress-ready=true&#34;
+</span><span style="color:#4e9a06">          authorization-mode: &#34;AlwaysAllow&#34;
+</span><span style="color:#4e9a06">    extraPortMappings:
+</span><span style="color:#4e9a06">      - containerPort: 80
+</span><span style="color:#4e9a06">        hostPort: 80
+</span><span style="color:#4e9a06">        listenAddress: &#34;0.0.0.0&#34;
+</span><span style="color:#4e9a06">        protocol: tcp
+</span><span style="color:#4e9a06">      - containerPort: 443
+</span><span style="color:#4e9a06">        hostPort: 443
+</span><span style="color:#4e9a06">        listenAddress: &#34;0.0.0.0&#34;
+</span><span style="color:#4e9a06">        protocol: tcp
+</span><span style="color:#4e9a06">    extraMounts:
+</span><span style="color:#4e9a06">      - hostPath: /var/lib/docker/volumes/containerd/_data
+</span><span style="color:#4e9a06">        containerPath: /var/lib/containerd #This is the location of the image cache inside the KIND container
+</span><span style="color:#4e9a06">EOF</span>
 </code></pre></div>
 	
 		<style>
@@ -630,7 +626,7 @@ docker volume inspect containerd <span style="color:#8f5902;font-style:italic">#
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified January 20, 2021: <a  href="https://github.com/verrazzano/docs/commit/f355b0fc058a5c6834060d58ad16cb648a2fb63f">minor cleanup (#62) (f355b0f)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified February 3, 2021: <a  href="https://github.com/verrazzano/docs/commit/053be06e63144d76a542b91503bca3eaa13ff7c1">Align numbered list and code blocks (053be06)</a>
 </div>
 </div>
 

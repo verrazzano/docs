@@ -21,11 +21,11 @@
 <meta property="og:description" content="A guide for deploying an example application on Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/guides/application-deployment-guide/" />
-<meta property="article:modified_time" content="2021-02-02T17:45:05-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-02-04T13:19:50-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Application Deployment Guide">
 <meta itemprop="description" content="A guide for deploying an example application on Verrazzano">
-<meta itemprop="dateModified" content="2021-02-02T17:45:05-05:00" />
-<meta itemprop="wordCount" content="1946">
+<meta itemprop="dateModified" content="2021-02-04T13:19:50-05:00" />
+<meta itemprop="wordCount" content="1944">
 
 
 
@@ -444,9 +444,9 @@ if (!doNotTrack) {
       <ul>
         <li><a href="#overview">Overview</a></li>
         <li><a href="#what-you-need">What you need</a></li>
-        <li><a href="#application-development">Application Development</a></li>
-        <li><a href="#application-deployment">Application Deployment</a></li>
-        <li><a href="#application-removal">Application Removal</a></li>
+        <li><a href="#application-development">Application development</a></li>
+        <li><a href="#application-deployment">Application deployment</a></li>
+        <li><a href="#application-removal">Application removal</a></li>
       </ul>
     </li>
   </ul>
@@ -503,15 +503,15 @@ if (!doNotTrack) {
 <ol>
 <li>Packaging the application as a Docker image.</li>
 <li>Publishing the application&rsquo;s Docker image to a container registry.</li>
-<li>Applying the application&rsquo;s Verrazzano Components to the cluster.</li>
-<li>Applying the application&rsquo;s Verrazzano Applications to the cluster.</li>
+<li>Applying the application&rsquo;s Verrazzano components to the cluster.</li>
+<li>Applying the application&rsquo;s Verrazzano applications to the cluster.</li>
 </ol>
 <p>This guide does not provide the full details for the first two steps. An existing example application
 Docker image has been packaged and published for use.</p>
-<p>Verrazzano supports application definition using the <a href="https://oam.dev/">Open Application Model (OAM)</a>.  Verrrazzano applications are
+<p>Verrazzano supports application definition using <a href="https://oam.dev/">Open Application Model (OAM)</a>.  Verrrazzano applications are
 composed of <a href="https://github.com/oam-dev/spec/blob/master/3.component.md">components</a> and
 <a href="https://github.com/oam-dev/spec/blob/master/7.application_configuration.md">application configurations</a>.  This document
-demonstrates creating the OAM resources that define an application as well as the steps required to deploy those resources.</p>
+demonstrates creating OAM resources that define an application as well as the steps required to deploy those resources.</p>
 <h2 id="what-you-need">What you need</h2>
 <ul>
 <li>
@@ -526,7 +526,7 @@ demonstrates creating the OAM resources that define an application as well as th
 <pre><code>docker pull container-registry.oracle.com/verrazzano/example-hello-world-helidon:0.1.10-3-e5ae893-124
 </code></pre></li>
 </ul>
-<h2 id="application-development">Application Development</h2>
+<h2 id="application-development">Application development</h2>
 <p>This guide uses an example application which was written with Java and <a href="https://helidon.io">Helidon</a>.
 For the implementation details, see the <a href="https://helidon.io/docs/latest/#/mp/guides/10_mp-tutorial">Helidon MP tutorial</a>.
 See the application <a href="https://github.com/verrazzano/examples/tree/master/hello-helidon">source code</a> in the Verrazzano examples repository.</p>
@@ -578,18 +578,18 @@ Note that the Docker container exposes a single port 8080.</p>
 </span><span style="color:#a40000"></span>...<span style="color:#a40000">
 </span><span style="color:#a40000"></span><span style="color:#204a87;font-weight:bold">CMD</span> java -cp /app/helidon-quickstart-mp.jar:/app/* io.helidon.examples.quickstart.mp.Main<span style="color:#a40000">
 </span><span style="color:#a40000"></span><span style="color:#204a87;font-weight:bold">EXPOSE</span><span style="color:#4e9a06"> 8080</span><span style="color:#a40000">
-</span></code></pre></div><h2 id="application-deployment">Application Deployment</h2>
+</span></code></pre></div><h2 id="application-deployment">Application deployment</h2>
 <p>When you deploy applications with Verrazzano, the platform sets up connections, network policies, and
 ingresses in the service mesh, and wires up a monitoring stack to capture the metrics, logs, and traces.
-Verrazzano employs OAM Components to define the functional units of a system that are then
+Verrazzano employs OAM components to define the functional units of a system that are then
 assembled and configured by defining associated application configurations.</p>
-<h3 id="verrazzano-components">Verrazzano Components</h3>
-<p>A Verrazzano OAM Component is a
+<h3 id="verrazzano-components">Verrazzano components</h3>
+<p>A Verrazzano OAM component is a
 <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">Kubernetes Custom Resource</a>
 describing an application&rsquo;s general composition and environment requirements.
 The following code shows the component for the example application used in this guide.
 This resource describes a component which is implemented by a single Docker image containing a Helidon application exposing a single endpoint.
-For more details about Verrazzano Components, see TBD documentation.</p>
+For more details about Verrazzano components, see TBD documentation.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>core.oam.dev/v1alpha2<span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>Component<span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
@@ -621,8 +621,8 @@ For more details about Verrazzano Components, see TBD documentation.</p>
 <li><code>spec.workload.spec.containers</code> - The implementation containers</li>
 <li><code>spec.workload.spec.containers.ports</code> - Ports exposed by the container</li>
 </ul>
-<h3 id="verrazzano-application-configurations">Verrazzano Application Configurations</h3>
-<p>A Verrazzano Application Configuration is a
+<h3 id="verrazzano-application-configurations">Verrazzano application configurations</h3>
+<p>A Verrazzano application configuration is a
 <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">Kubernetes Custom Resource</a>
 which provides environment specific customizations.
 The following code shows the application configuration for the example used in this guide.
@@ -871,7 +871,7 @@ Determine the URL for this access using the following commands.</p>
 <span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">${</span><span style="color:#000">PROMETHEUS_URL</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 open <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">${</span><span style="color:#000">PROMETHEUS_URL</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 </code></pre></div><p>The user name and password for both Prometheus and Grafana are the same.</p>
-<h2 id="application-removal">Application Removal</h2>
+<h2 id="application-removal">Application removal</h2>
 <p>Run the following commands to delete the application configuration and, optionally, component.</p>
 <ol>
 <li>
@@ -951,7 +951,7 @@ of all application-specific Kubernetes objects.</p>
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified February 2, 2021: <a  href="https://github.com/verrazzano/docs/commit/37c637f4800bf6c3a6da90efcd5bba03d924758a">app deployment guide first cut (#67) (37c637f)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified February 4, 2021: <a  href="https://github.com/verrazzano/docs/commit/0c5bc950bff025c96098588432dfd32d5a4f65bb">cleanup style (#74) (0c5bc95)</a>
 </div>
 </div>
 

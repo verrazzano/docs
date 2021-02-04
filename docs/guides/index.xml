@@ -27,15 +27,15 @@
 &lt;ol&gt;
 &lt;li&gt;Packaging the application as a Docker image.&lt;/li&gt;
 &lt;li&gt;Publishing the application&amp;rsquo;s Docker image to a container registry.&lt;/li&gt;
-&lt;li&gt;Applying the application&amp;rsquo;s Verrazzano Components to the cluster.&lt;/li&gt;
-&lt;li&gt;Applying the application&amp;rsquo;s Verrazzano Applications to the cluster.&lt;/li&gt;
+&lt;li&gt;Applying the application&amp;rsquo;s Verrazzano components to the cluster.&lt;/li&gt;
+&lt;li&gt;Applying the application&amp;rsquo;s Verrazzano applications to the cluster.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;This guide does not provide the full details for the first two steps. An existing example application
 Docker image has been packaged and published for use.&lt;/p&gt;
-&lt;p&gt;Verrazzano supports application definition using the &lt;a href=&#34;https://oam.dev/&#34;&gt;Open Application Model (OAM)&lt;/a&gt;.  Verrrazzano applications are
+&lt;p&gt;Verrazzano supports application definition using &lt;a href=&#34;https://oam.dev/&#34;&gt;Open Application Model (OAM)&lt;/a&gt;.  Verrrazzano applications are
 composed of &lt;a href=&#34;https://github.com/oam-dev/spec/blob/master/3.component.md&#34;&gt;components&lt;/a&gt; and
 &lt;a href=&#34;https://github.com/oam-dev/spec/blob/master/7.application_configuration.md&#34;&gt;application configurations&lt;/a&gt;.  This document
-demonstrates creating the OAM resources that define an application as well as the steps required to deploy those resources.&lt;/p&gt;
+demonstrates creating OAM resources that define an application as well as the steps required to deploy those resources.&lt;/p&gt;
 &lt;h2 id=&#34;what-you-need&#34;&gt;What you need&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -50,7 +50,7 @@ demonstrates creating the OAM resources that define an application as well as th
 &lt;pre&gt;&lt;code&gt;docker pull container-registry.oracle.com/verrazzano/example-hello-world-helidon:0.1.10-3-e5ae893-124
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;application-development&#34;&gt;Application Development&lt;/h2&gt;
+&lt;h2 id=&#34;application-development&#34;&gt;Application development&lt;/h2&gt;
 &lt;p&gt;This guide uses an example application which was written with Java and &lt;a href=&#34;https://helidon.io&#34;&gt;Helidon&lt;/a&gt;.
 For the implementation details, see the &lt;a href=&#34;https://helidon.io/docs/latest/#/mp/guides/10_mp-tutorial&#34;&gt;Helidon MP tutorial&lt;/a&gt;.
 See the application &lt;a href=&#34;https://github.com/verrazzano/examples/tree/master/hello-helidon&#34;&gt;source code&lt;/a&gt; in the Verrazzano examples repository.&lt;/p&gt;
@@ -102,18 +102,18 @@ Note that the Docker container exposes a single port 8080.&lt;/p&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#a40000&#34;&gt;&lt;/span&gt;...&lt;span style=&#34;color:#a40000&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#a40000&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;CMD&lt;/span&gt; java -cp /app/helidon-quickstart-mp.jar:/app/* io.helidon.examples.quickstart.mp.Main&lt;span style=&#34;color:#a40000&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#a40000&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;EXPOSE&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt; 8080&lt;/span&gt;&lt;span style=&#34;color:#a40000&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;application-deployment&#34;&gt;Application Deployment&lt;/h2&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;application-deployment&#34;&gt;Application deployment&lt;/h2&gt;
 &lt;p&gt;When you deploy applications with Verrazzano, the platform sets up connections, network policies, and
 ingresses in the service mesh, and wires up a monitoring stack to capture the metrics, logs, and traces.
-Verrazzano employs OAM Components to define the functional units of a system that are then
+Verrazzano employs OAM components to define the functional units of a system that are then
 assembled and configured by defining associated application configurations.&lt;/p&gt;
-&lt;h3 id=&#34;verrazzano-components&#34;&gt;Verrazzano Components&lt;/h3&gt;
-&lt;p&gt;A Verrazzano OAM Component is a
+&lt;h3 id=&#34;verrazzano-components&#34;&gt;Verrazzano components&lt;/h3&gt;
+&lt;p&gt;A Verrazzano OAM component is a
 &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/&#34;&gt;Kubernetes Custom Resource&lt;/a&gt;
 describing an application&amp;rsquo;s general composition and environment requirements.
 The following code shows the component for the example application used in this guide.
 This resource describes a component which is implemented by a single Docker image containing a Helidon application exposing a single endpoint.
-For more details about Verrazzano Components, see TBD documentation.&lt;/p&gt;
+For more details about Verrazzano components, see TBD documentation.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;core.oam.dev/v1alpha2&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;Component&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
@@ -145,8 +145,8 @@ For more details about Verrazzano Components, see TBD documentation.&lt;/p&gt;
 &lt;li&gt;&lt;code&gt;spec.workload.spec.containers&lt;/code&gt; - The implementation containers&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;spec.workload.spec.containers.ports&lt;/code&gt; - Ports exposed by the container&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;verrazzano-application-configurations&#34;&gt;Verrazzano Application Configurations&lt;/h3&gt;
-&lt;p&gt;A Verrazzano Application Configuration is a
+&lt;h3 id=&#34;verrazzano-application-configurations&#34;&gt;Verrazzano application configurations&lt;/h3&gt;
+&lt;p&gt;A Verrazzano application configuration is a
 &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/&#34;&gt;Kubernetes Custom Resource&lt;/a&gt;
 which provides environment specific customizations.
 The following code shows the application configuration for the example used in this guide.
@@ -395,7 +395,7 @@ Determine the URL for this access using the following commands.&lt;/p&gt;
 &lt;span style=&#34;color:#204a87&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;PROMETHEUS_URL&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
 open &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;PROMETHEUS_URL&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The user name and password for both Prometheus and Grafana are the same.&lt;/p&gt;
-&lt;h2 id=&#34;application-removal&#34;&gt;Application Removal&lt;/h2&gt;
+&lt;h2 id=&#34;application-removal&#34;&gt;Application removal&lt;/h2&gt;
 &lt;p&gt;Run the following commands to delete the application configuration and, optionally, component.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
