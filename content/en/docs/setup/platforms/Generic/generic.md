@@ -81,12 +81,13 @@ spec:
           persistentVolumeClaim:
             claimName: mysql  # Use the "mysql" PVC template for the MySQL volume configuration
   volumeClaimSpecTemplates:
-  - name: default      # "default" is a known template name, and will be used by Verrazzano components by default if no other template is referenced explicitly
+  - metadata:
+      name: default      # "default" is a known template name, and will be used by Verrazzano components by default if no other template is referenced explicitly
     spec:
       resources:
         requests:
-          storage: 2Gi
-  - name: mysql      # separate template to allow MySQL to define it's own settings
+          storage: 2Gi 
+  - metadata:
     spec:
       resources:
         requests:
