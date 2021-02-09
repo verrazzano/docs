@@ -21,11 +21,11 @@
 <meta property="og:description" content="Instructions for getting started with Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/quickstart/" />
-<meta property="article:modified_time" content="2021-02-04T13:19:50-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-02-09T11:54:16-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Quick Start">
 <meta itemprop="description" content="Instructions for getting started with Verrazzano">
-<meta itemprop="dateModified" content="2021-02-04T13:19:50-05:00" />
-<meta itemprop="wordCount" content="861">
+<meta itemprop="dateModified" content="2021-02-09T11:54:16-05:00" />
+<meta itemprop="wordCount" content="822">
 
 
 
@@ -359,22 +359,6 @@ if (!doNotTrack) {
         
       
       
-      
-        
-          
-          
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsreferenceapiverrazzanomodelverrazzanoapplicationmodel" href="../../docs/reference/api/verrazzanomodel/verrazzanoapplicationmodel/">Verrazzano Application Model</a>
-        
-      
-      
-      
-        
-          
-          
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsreferenceapiverrazzanobindingverrazzanoapplictionbinding" href="../../docs/reference/api/verrazzanobinding/verrazzanoapplictionbinding/">Verrazzano Application Binding</a>
-        
-      
-      
     </li>
   </ul>
 </ul>
@@ -565,83 +549,60 @@ For more information and the code of this application, see the <a href="https://
 <p>To deploy the Hello World Helidon example application, follow these steps:</p>
 <ol>
 <li>
-<p>Deploy the Verrazzano Application Model and Verrazzano Application Binding for the example application.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl apply <span style="color:#4e9a06">\
-</span><span style="color:#4e9a06"></span>   -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-world-model.yaml <span style="color:#4e9a06">\
-</span><span style="color:#4e9a06"></span>   -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-world-binding.yaml
-</code></pre></div><p>This creates the Verrazzano Application Model and Verrazzano Application Binding, waits for the pods in the <code>greet</code> namespace to be
-ready, and calls one of the endpoints provided by the REST service implemented by the example application.</p>
+<p>Create a namespace for the example application and add a label identifying the namespace as managed by Verrazzano.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl create namespace oam-hello-helidon
+$ kubectl label namespace oam-hello-helidon verrazzano-managed<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87">true</span>
+</code></pre></div></li>
+<li>
+<p>Apply the hello-helidon resources to deploy the application.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-comp.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-app.yaml
+</code></pre></div></li>
+<li>
+<p>Wait for the application to be ready.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl <span style="color:#204a87">wait</span> --for<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">condition</span><span style="color:#ce5c00;font-weight:bold">=</span>Ready pods --all -n oam-hello-helidon --timeout<span style="color:#ce5c00;font-weight:bold">=</span>300s
+pod/hello-helidon-workload-977cbbc94-z22ls condition met
+</code></pre></div><p>This creates the Verrazzano OAM component application resources for the example, waits for the pods in the <code>greet</code>
+namespace to be ready.</p>
 </li>
 <li>
-<p>Verify that the Verrazzano Application Model and Verrazzano Application Binding resources were created in the <code>default</code> namespace.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"> $ kubectl get vm
- NAME                AGE
- hello-world-model   4m25s
- $ kubectl get vb
- NAME                  AGE
- hello-world-binding   4m8s
-</code></pre></div></li>
+<p>Get the EXTERNAL_IP address of the istio-ingressgateway service.</p>
+<p><strong>NOTE:</strong> This following set of instructions assumes you are using a kubernetes environment such as OKE. Other
+environments or deployments may require alternate mechanisms for retrieving addresses, ports, etc.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"> kubectl get service istio-ingressgateway -n istio-system
+
+ NAME                   TYPE           CLUSTER-IP    EXTERNAL-IP   PORT<span style="color:#ce5c00;font-weight:bold">(</span>S<span style="color:#ce5c00;font-weight:bold">)</span>                      AGE
+ istio-ingressgateway   LoadBalancer   10.96.97.98   11.22.33.44   80:31380/TCP,443:31390/TCP   13d
+</code></pre></div><p>The application is deployed by default with a host value of hello-helidon.example.com.</p>
+</li>
 <li>
-<p>Verify that the <code>greet</code> namespace has been created.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get ns greet
-NAME    STATUS   AGE
-greet   Active   5m44s
-</code></pre></div></li>
-<li>
-<p>Verify that all the objects have started in the <code>greet</code> namespace.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000">$kubectl</span> get all -n greet
-NAME                                          READY   STATUS    RESTARTS   AGE
-pod/hello-world-application-868978f7b-fkcgg   3/3     Running   <span style="color:#0000cf;font-weight:bold">0</span>          6m35s
-
-NAME                              TYPE        CLUSTER-IP      EXTERNAL-IP   PORT<span style="color:#ce5c00;font-weight:bold">(</span>S<span style="color:#ce5c00;font-weight:bold">)</span>    AGE
-service/hello-world-application   ClusterIP   10.96.240.190   &lt;none&gt;        8080/TCP   6m36s
-
-NAME                                      READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/hello-world-application   1/1     <span style="color:#0000cf;font-weight:bold">1</span>            <span style="color:#0000cf;font-weight:bold">1</span>           6m37s
-</code></pre></div></li>
-<li>
-<p>Get the IP address and port number for calling the REST service.</p>
-<p>To get the <code>EXTERNAL-IP</code> address for the <code>istio-ingressgateway</code> service:</p>
-<pre><code>SERVER=$(kubectl get service -n istio-system istio-ingressgateway -o json | jq -r '.status.loadBalancer.ingress[0].ip')
-PORT=80
-</code></pre></li>
-<li>
-<p>Use the IP address and port number to call the following endpoints of the greeting REST service:</p>
-<pre><code># Get default message
-$ curl -s -X GET http://&quot;${SERVER}&quot;:&quot;${PORT}&quot;/greet
-{&quot;message&quot;:&quot;Hello World!&quot;}
-
-# Get message for Robert:
-$ curl -s -X GET http://&quot;${SERVER}&quot;:&quot;${PORT}&quot;/greet/Robert
-{&quot;message&quot;:&quot;Hello Robert!&quot;}
-
-# Change the message:
-$ curl -s -X PUT -H &quot;Content-Type: application/json&quot; -d '{&quot;greeting&quot; : &quot;Hallo&quot;}' http://&quot;${SERVER}&quot;:&quot;${PORT}&quot;/greet/greeting
-
-# Get message for Robert again:
-$ curl -s -X GET http://&quot;${SERVER}&quot;:&quot;${PORT}&quot;/greet/Robert
-{&quot;message&quot;:&quot;Hallo Robert!&quot;}
-</code></pre></li>
+<p>Access the application.</p>
+<p>Using the command line, use the external IP provided by the previous step to call the /greet endpoint:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -s -X GET -H <span style="color:#4e9a06">&#34;Host: hello-helidon.example.com&#34;</span> http://11.22.33.44/greet
+<span style="color:#ce5c00;font-weight:bold">{</span><span style="color:#4e9a06">&#34;message&#34;</span>:<span style="color:#4e9a06">&#34;Hello World!&#34;</span><span style="color:#ce5c00;font-weight:bold">}</span>
+</code></pre></div><p>Using a Browser, you can emporarily modify the /etc/hosts file (on Mac or Linux) or c:\Windows\System32\Drivers\etc\hosts file (on Windows 10), to add an entry mapping hello-helidon.example.com to the ingress gateway&rsquo;s EXTERNAL-IP address. For example:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">11.22.33.44 hello-helidon.example.com
+</code></pre></div><p>Then you can access the application in a browser at <a href="http://hello-helidon.example.com/greet">http://hello-helidon.example.com/greet</a></p>
+</li>
 </ol>
 <h3 id="uninstall-the-example-application">Uninstall the example application</h3>
 <p>To uninstall the Hello World Helidon example application, delete the Verrazzano Application Model and Verrazzano Application Binding
 for the example application.</p>
 <ol>
 <li>
-<p>Delete the Verrazzano Application Binding for the example application.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl delete <span style="color:#4e9a06">\
-</span><span style="color:#4e9a06"></span>   -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-world-binding.yaml
+<p>Delete the Verrazzano application resources.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-app.yaml
+$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-comp.yaml
 </code></pre></div></li>
 <li>
-<p>Delete the Verrazzano Application Model for the example application.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl delete <span style="color:#4e9a06">\
-</span><span style="color:#4e9a06"></span>   -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-world-model.yaml <span style="color:#4e9a06">\
-</span><span style="color:#4e9a06"></span>verrazzanobinding.verrazzano.io <span style="color:#4e9a06">&#34;hello-world-model&#34;</span> deleted
+<p>Delete the example namespace.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl delete namespace oam-hello-helidon
+namespace <span style="color:#4e9a06">&#34;oam-hello-helidon&#34;</span> deleted
 </code></pre></div></li>
 <li>
-<p>Verify that the <code>greet</code> namespace has been deleted.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get ns greet
-Error from server <span style="color:#ce5c00;font-weight:bold">(</span>NotFound<span style="color:#ce5c00;font-weight:bold">)</span>: namespaces <span style="color:#4e9a06">&#34;greet&#34;</span> not found
+<p>Verify that the <code>oam-hello-helidon</code> namespace has been deleted.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get ns oam-hello-helidon
+Error from server <span style="color:#ce5c00;font-weight:bold">(</span>NotFound<span style="color:#ce5c00;font-weight:bold">)</span>: namespaces <span style="color:#4e9a06">&#34;oam-hello-helidon&#34;</span> not found
 </code></pre></div></li>
 </ol>
 <h3 id="uninstall-verrazzano">Uninstall Verrazzano</h3>
@@ -735,7 +696,7 @@ you can view the uninstall logs.
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified February 4, 2021: <a  href="https://github.com/verrazzano/docs/commit/0c5bc950bff025c96098588432dfd32d5a4f65bb">cleanup style (#74) (0c5bc95)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified February 9, 2021: <a  href="https://github.com/verrazzano/docs/commit/d1202bfd40bd7281f09dd98a4228d3bda102aea5">Update the quickstart example, clean up references to app-specific VMIs (d1202bf)</a>
 </div>
 </div>
 

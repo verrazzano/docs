@@ -614,7 +614,6 @@ EOF
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;Create the required number of &lt;code&gt;PersistentVolume&lt;/code&gt; resources.
 The Verrazzano system requires five persistent volumes for itself.
-Each deployed Verrazzano Binding requires an additional four persistent volumes.
 The following command creates nine persistent volumes, which is enough for one deployed binding.
 The value for &lt;code&gt;storageClassName&lt;/code&gt; must match the above &lt;code&gt;StorageClass&lt;/code&gt; name.
 The values for &lt;code&gt;name&lt;/code&gt; may be customized.
@@ -817,16 +816,8 @@ grafana.vmi.system.myenv.mydomain.com            CNAME   ingress-mgmt.myenv.mydo
 prometheus.vmi.system.myenv.mydomain.com         CNAME   ingress-mgmt.myenv.mydomain.com.
 kibana.vmi.system.myenv.mydomain.com             CNAME   ingress-mgmt.myenv.mydomain.com.
 elasticsearch.vmi.system.myenv.mydomain.com      CNAME   ingress-mgmt.myenv.mydomain.com.
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Deployment of applications as a Verrazzano Binding will create four more services in the form:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;grafana.vmi.&lt;strong&gt;mybinding&lt;/strong&gt;.myenv.mydomain.com&lt;/li&gt;
-&lt;li&gt;prometheus.vmi.&lt;strong&gt;mybinding&lt;/strong&gt;.myenv.mydomain.com&lt;/li&gt;
-&lt;li&gt;kibana.vmi.&lt;strong&gt;mybinding&lt;/strong&gt;.myenv.mydomain.com&lt;/li&gt;
-&lt;li&gt;elasticsearch.vmi.&lt;strong&gt;mybinding&lt;/strong&gt;.myenv.mydomain.com&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;For simplicity, an administrator may want to create &lt;a href=&#34;https://tools.ietf.org/html/rfc1034#section-4.3.3&#34;&gt;wildcard DNS records&lt;/a&gt; for the management addresses:&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For simplicity, an administrator may want to create &lt;a href=&#34;https://tools.ietf.org/html/rfc1034#section-4.3.3&#34;&gt;wildcard DNS records&lt;/a&gt; for the management addresses:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;*.system.myenv.mydomain.com                      CNAME   ingress-mgmt.myenv.mydomain.com.
-*.mybinding.myenv.mydomain.com                   CNAME   ingress-mgmt.myenv.mydomain.com.
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;OR&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;*.myenv.mydomain.com                             CNAME   ingress-mgmt.myenv.mydomain.com.
 &lt;/code&gt;&lt;/pre&gt;&lt;h5 id=&#34;oci-example&#34;&gt;OCI example&lt;/h5&gt;

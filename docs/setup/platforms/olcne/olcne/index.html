@@ -21,11 +21,11 @@
 <meta property="og:description" content="Instructions for setting up an OLCNE cluster for Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/setup/platforms/olcne/olcne/" />
-<meta property="article:modified_time" content="2021-01-29T11:30:33-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-02-09T11:54:16-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Oracle Linux Cloud Native Environment (OLCNE)">
 <meta itemprop="description" content="Instructions for setting up an OLCNE cluster for Verrazzano">
-<meta itemprop="dateModified" content="2021-01-29T11:30:33-05:00" />
-<meta itemprop="wordCount" content="1811">
+<meta itemprop="dateModified" content="2021-02-09T11:54:16-05:00" />
+<meta itemprop="wordCount" content="1779">
 
 
 
@@ -356,22 +356,6 @@ if (!doNotTrack) {
           
           
           <a class="td-sidebar-link td-sidebar-link__page " id="m-docsreferenceapiverrazzanoverrazzano" href="../../../../../docs/reference/api/verrazzano/verrazzano/">Verrazzano Custom Resource Definition</a>
-        
-      
-      
-      
-        
-          
-          
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsreferenceapiverrazzanomodelverrazzanoapplicationmodel" href="../../../../../docs/reference/api/verrazzanomodel/verrazzanoapplicationmodel/">Verrazzano Application Model</a>
-        
-      
-      
-      
-        
-          
-          
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsreferenceapiverrazzanobindingverrazzanoapplictionbinding" href="../../../../../docs/reference/api/verrazzanobinding/verrazzanoapplictionbinding/">Verrazzano Application Binding</a>
         
       
       
@@ -1053,7 +1037,6 @@ EOF
 </code></pre></li>
 <li>Create the required number of <code>PersistentVolume</code> resources.
 The Verrazzano system requires five persistent volumes for itself.
-Each deployed Verrazzano Binding requires an additional four persistent volumes.
 The following command creates nine persistent volumes, which is enough for one deployed binding.
 The value for <code>storageClassName</code> must match the above <code>StorageClass</code> name.
 The values for <code>name</code> may be customized.
@@ -1256,16 +1239,8 @@ grafana.vmi.system.myenv.mydomain.com            CNAME   ingress-mgmt.myenv.mydo
 prometheus.vmi.system.myenv.mydomain.com         CNAME   ingress-mgmt.myenv.mydomain.com.
 kibana.vmi.system.myenv.mydomain.com             CNAME   ingress-mgmt.myenv.mydomain.com.
 elasticsearch.vmi.system.myenv.mydomain.com      CNAME   ingress-mgmt.myenv.mydomain.com.
-</code></pre><p>Deployment of applications as a Verrazzano Binding will create four more services in the form:</p>
-<ul>
-<li>grafana.vmi.<strong>mybinding</strong>.myenv.mydomain.com</li>
-<li>prometheus.vmi.<strong>mybinding</strong>.myenv.mydomain.com</li>
-<li>kibana.vmi.<strong>mybinding</strong>.myenv.mydomain.com</li>
-<li>elasticsearch.vmi.<strong>mybinding</strong>.myenv.mydomain.com</li>
-</ul>
-<p>For simplicity, an administrator may want to create <a href="https://tools.ietf.org/html/rfc1034#section-4.3.3">wildcard DNS records</a> for the management addresses:</p>
+</code></pre><p>For simplicity, an administrator may want to create <a href="https://tools.ietf.org/html/rfc1034#section-4.3.3">wildcard DNS records</a> for the management addresses:</p>
 <pre><code>*.system.myenv.mydomain.com                      CNAME   ingress-mgmt.myenv.mydomain.com.
-*.mybinding.myenv.mydomain.com                   CNAME   ingress-mgmt.myenv.mydomain.com.
 </code></pre><p>OR</p>
 <pre><code>*.myenv.mydomain.com                             CNAME   ingress-mgmt.myenv.mydomain.com.
 </code></pre><h5 id="oci-example">OCI example</h5>
@@ -1365,7 +1340,7 @@ DNS CNAME records, in the same way.</p>
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified January 29, 2021: <a  href="https://github.com/verrazzano/docs/commit/be49a24f9bcefe3a1d42d6535601f10764bebf87">fix broken links (#66) (be49a24)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified February 9, 2021: <a  href="https://github.com/verrazzano/docs/commit/d1202bfd40bd7281f09dd98a4228d3bda102aea5">Update the quickstart example, clean up references to app-specific VMIs (d1202bf)</a>
 </div>
 </div>
 
