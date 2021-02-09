@@ -7,10 +7,10 @@ draft: false
 
 ### v0.9.0:
 - Features
-    - More updates to Open Application Model (OAM) support. 
     - Added platform support for installing Verrazzano on Kind clusters.
     - Log records are indexed from the OAM `appconfig` and `component` definitions using the following pattern: `namespace-appconfig-component`.
     - All system and curated components are now patchable.
+    - More updates to Open Application Model (OAM) support. 
 
 To enable OAM, when you install Verrazzano, specify the following in the Kubernetes manifest file for the Verrazzano custom resource:
 
