@@ -5,6 +5,20 @@ weight: 4
 draft: false
 ---
 
+### v0.9.0:
+- Features
+    - Documented additional platform support for KIND and how to configure for a generic Kubernetes install.
+    - Filtering ES logs per application <placeholder>.
+    - All system and curated components are now patchable.
+
+    - More updates to Open Application Model (OAM) support. To enable OAM, specify the following in the Kubernetes manifest file for the Verrazzano custom resource when you install Verrazzano:
+
+```shell
+spec:
+  oam:
+    enabled: true 
+```
+
 ### v0.8.0
 - Features
     - Support for two installation profiles, development (`dev`) and production (`prod`).  The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.   
