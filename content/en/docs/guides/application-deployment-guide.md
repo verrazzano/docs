@@ -111,7 +111,7 @@ A Verrazzano OAM component is a
 describing an application's general composition and environment requirements.
 The following code shows the component for the example application used in this guide.
 This resource describes a component which is implemented by a single Docker image containing a Helidon application exposing a single endpoint.
-For more details about Verrazzano components, see TBD documentation.
+
 
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
@@ -157,7 +157,6 @@ This resource specifies the deployment of the application to the `hello-helidon`
 specified using traits, or runtime overlays that augment the workload.  For example, the ingress trait specifies the
 ingress host and path, while the metrics trait provides the Prometheus scraper used to obtain the
 application related metrics.
-For more details about Verrazzano application configurations, see TBD documentation.
 
 ```yaml
 apiVersion: core.oam.dev/v1alpha2

@@ -81,16 +81,6 @@ According to your DNS choice, install Verrazzano using one of the following meth
 
 **Install using xip.io**
 
-The [install-default.yaml](https://github.com/verrazzano/verrazzano/blob/develop/operator/config/samples/install-default.yaml) file provides a template for a default xip.io installation.
-
-```shell
-apiVersion: install.verrazzano.io/v1alpha1
-kind: Verrazzano
-metadata:
-  name: my-verrazzano
-```
-
-
 Run the following commands:
 
 ```shell
@@ -156,7 +146,7 @@ For example, an appropriate zone name for parent domain `v8o.example.com` domain
 Installation
 
 Installing Verrazzano on OCI DNS requires some configuration settings to create DNS records.
-The [install-oci.yaml](https://github.com/verrazzano/verrazzano/blob/master/operator/config/samples/install-oci.yaml) file provides a template of a Verrazzano custom resource for an OCI DNS installation. Edit this custom resource and provide values for the following configuration settings:
+Edit the Verrazzano custom resource and provide values for the following configuration settings:
 
 * `spec.environmentName`
 * `spec.certificate.acme.emailAddress`
