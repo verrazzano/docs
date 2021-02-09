@@ -418,7 +418,7 @@ Elasticsearch and Kibana are examples of infrastructure Verrazzano creates in su
 
 Determine the URL to access Kibana using the following commands.
  ```shell script
-KIBANA_HOST=$(kubectl get ingress -n verrazzano-system vmi-hello-world-binding-kibana -o jsonpath='{.spec.rules[0].host}')
+KIBANA_HOST=$(kubectl get ingress -n verrazzano-system vmi-system-kibana -o jsonpath='{.spec.rules[0].host}')
 KIBANA_URL="https://${KIBANA_HOST}"
 echo "${KIBANA_URL}"
 open "${KIBANA_URL}"
