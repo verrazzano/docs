@@ -102,7 +102,7 @@ Private Subnet Route Table Rules
 
 **Service Gateway**
 
-The following compute resources adhere to the guidelines provided in the Oracle Linux Cloud Native Environment [Getting Started](https://docs.oracle.com/en/operating-systems/olcne/start/deploy-kube.html) guide.
+The following compute resources adhere to the guidelines provided in the Oracle Linux Cloud Native Environment [Getting Started](https://docs.oracle.com/en/operating-systems/olcne/1.1/start/) guide.
 The attributes indicated (for example, Subnet, RAM, Shape, and Image) are recommendations that have been tested.
 Other values can be used if required.
 
@@ -118,10 +118,10 @@ Other values can be used if required.
 | Kubernetes Worker Node 3      | Private | 32GB          | VM.Standard.E2.4    | Oracle Linux 7.8    |
 
 ### Do the OLCNE install
-Deploy Oracle Linux Cloud Native Environment with the Kubernetes module, following instructions from the [Getting Started](https://docs.oracle.com/en/operating-systems/olcne/start/deploy-kube.html) guide.
+Deploy Oracle Linux Cloud Native Environment with the Kubernetes module, following instructions from the [Getting Started](https://docs.oracle.com/en/operating-systems/olcne/1.1/start/install-module-deploy.html) guide.
 * Use a single Kubernetes control plane node.
-* Skip the Kubernetes API load balancer ([3.4.3](https://docs.oracle.com/en/operating-systems/olcne/start/install-lb.html)).
-* Use private CA certificates ([3.5.3](https://docs.oracle.com/en/operating-systems/olcne/start/certs-private.html)).
+* Skip the Kubernetes API load balancer ([3.4.3](https://docs.oracle.com/en/operating-systems/olcne/1.1/start/install-lb.html)).
+* Use private CA certificates ([3.5.3](https://docs.oracle.com/en/operating-systems/olcne/1.1/start/certs-private.html)).
 
 ### Prepare for the Verrazzano install
 
@@ -185,7 +185,6 @@ The value for `name` may be customized but will need to match the `PersistentVol
   ```
 * Create the required number of `PersistentVolume` resources.
   The Verrazzano system requires five persistent volumes for itself.
-  Each deployed Verrazzano Binding requires an additional four persistent volumes.
   The following command creates nine persistent volumes, which is enough for one deployed binding.
   The value for `storageClassName` must match the above `StorageClass` name.
   The values for `name` may be customized.
@@ -300,16 +299,9 @@ kibana.vmi.system.myenv.mydomain.com             CNAME   ingress-mgmt.myenv.mydo
 elasticsearch.vmi.system.myenv.mydomain.com      CNAME   ingress-mgmt.myenv.mydomain.com.
 ```
 
-Deployment of applications as a Verrazzano Binding will create four more services in the form:
-* grafana.vmi.**mybinding**.myenv.mydomain.com
-* prometheus.vmi.**mybinding**.myenv.mydomain.com
-* kibana.vmi.**mybinding**.myenv.mydomain.com
-* elasticsearch.vmi.**mybinding**.myenv.mydomain.com
-
 For simplicity, an administrator may want to create [wildcard DNS records](https://tools.ietf.org/html/rfc1034#section-4.3.3) for the management addresses:
 ```
 *.system.myenv.mydomain.com                      CNAME   ingress-mgmt.myenv.mydomain.com.
-*.mybinding.myenv.mydomain.com                   CNAME   ingress-mgmt.myenv.mydomain.com.
 ```
 OR
 ```

@@ -25,7 +25,7 @@ spec:
     - The default behavior has been changed to use the system VMI for all monitoring (applications and Verrazzano components).  It is still possible to customize one of the profiles to enable the original, non-shared VMI mode.
     - Initial support for the Open Application Model (OAM).
 - Fixes
-    - Updated Axios NPM package to v0.21.1 to resolve security vulnerability in examples code.
+    - Updated Axios NPM package to v0.21.1 to resolve a security vulnerability in the examples code.
 
 ### v.0.7.0
 - Features

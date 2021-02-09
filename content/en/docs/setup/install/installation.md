@@ -28,13 +28,18 @@ Verrazzano requires the following:
 
 ### Prepare for the install
 
-* OCI Container Engine for Kubernetes, see [Prepare for the OCI install](../../platforms/oci/oci).
+Before installing Verrazzano, see instructions on preparing the following Kubernetes platforms:
 
-* OLCNE, see [Prepare for the OCLNE install](../../platforms/olcne/olcne).
+* [OCI Container Engine for Kubernetes](../../platforms/oci/oci)
 
-* KIND, see [Prepare for the KIND install](../../platforms/kind/kind).
+* [OLCNE](../../platforms/olcne/olcne)
 
-### Install the Verrazzano Platform Operator
+* [KIND](../../platforms/kind/kind)
+
+* [Generic Kubernetes](../../platforms/generic/generic)
+
+
+### Install the Verrazzano platform operator
 
 Verrazzano provides a platform [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
 to manage the life cycle of Verrazzano installations.  You can install,
@@ -136,9 +141,9 @@ kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazz
 {{< tab tabNum="2" >}}
 <br>
 
-##### Install using OCI DNS
+**Install using OCI DNS**
 
-###### Prerequisites
+Prerequisites
 * A DNS zone is a distinct portion of a domain namespace. Therefore, ensure that the zone is appropriately associated with a parent domain.
 For example, an appropriate zone name for parent domain `v8o.example.com` domain is `us.v8o.example.com`.
 * Create an OCI DNS zone using the OCI Console or the OCI CLI.  
@@ -148,7 +153,7 @@ For example, an appropriate zone name for parent domain `v8o.example.com` domain
   oci dns zone create -c <compartment ocid> --name <zone-name-prefix>.v8o.oracledx.com --zone-type PRIMARY
   ```
 
-###### Installation
+Installation
 
 Installing Verrazzano on OCI DNS requires some configuration settings to create DNS records.
 The [install-oci.yaml](https://github.com/verrazzano/verrazzano/blob/master/operator/config/samples/install-oci.yaml) file provides a template of a Verrazzano custom resource for an OCI DNS installation. Edit this custom resource and provide values for the following configuration settings:
