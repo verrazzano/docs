@@ -185,7 +185,6 @@ The value for `name` may be customized but will need to match the `PersistentVol
   ```
 * Create the required number of `PersistentVolume` resources.
   The Verrazzano system requires five persistent volumes for itself.
-  Each deployed Verrazzano Binding requires an additional four persistent volumes.
   The following command creates nine persistent volumes, which is enough for one deployed binding.
   The value for `storageClassName` must match the above `StorageClass` name.
   The values for `name` may be customized.
@@ -300,16 +299,9 @@ kibana.vmi.system.myenv.mydomain.com             CNAME   ingress-mgmt.myenv.mydo
 elasticsearch.vmi.system.myenv.mydomain.com      CNAME   ingress-mgmt.myenv.mydomain.com.
 ```
 
-Deployment of applications as a Verrazzano Binding will create four more services in the form:
-* grafana.vmi.**mybinding**.myenv.mydomain.com
-* prometheus.vmi.**mybinding**.myenv.mydomain.com
-* kibana.vmi.**mybinding**.myenv.mydomain.com
-* elasticsearch.vmi.**mybinding**.myenv.mydomain.com
-
 For simplicity, an administrator may want to create [wildcard DNS records](https://tools.ietf.org/html/rfc1034#section-4.3.3) for the management addresses:
 ```
 *.system.myenv.mydomain.com                      CNAME   ingress-mgmt.myenv.mydomain.com.
-*.mybinding.myenv.mydomain.com                   CNAME   ingress-mgmt.myenv.mydomain.com.
 ```
 OR
 ```
