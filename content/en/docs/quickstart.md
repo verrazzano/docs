@@ -19,7 +19,7 @@ Verrazzano requires the following:
     * Other versions have not been tested and are not guaranteed to work.
 * At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.
 
-### Install the Verrazzano Platform Operator
+### Install the Verrazzano platform operator
 
 Verrazzano provides a Kubernetes [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
 to manage the life cycle of Verrazzano installations.  The operator works with a
@@ -109,104 +109,86 @@ For more information and the code of this application, see the [Verrazzano examp
 
 To deploy the Hello World Helidon example application, follow these steps:
 
-1. Deploy the Verrazzano Application Model and Verrazzano Application Binding for the example application.
+
+
+1. Create a namespace for the example application and add a label identifying the namespace as managed by Verrazzano.
 
    ```shell
-   $ kubectl apply \
-      -f {{< ghlink raw=true path="examples/hello-helidon/hello-world-model.yaml" >}} \
-      -f {{< ghlink raw=true path="examples/hello-helidon/hello-world-binding.yaml" >}}
+   $ kubectl create namespace oam-hello-helidon
+   $ kubectl label namespace oam-hello-helidon verrazzano-managed=true
    ```
-
-
-   This creates the Verrazzano Application Model and Verrazzano Application Binding, waits for the pods in the `greet` namespace to be
-   ready, and calls one of the endpoints provided by the REST service implemented by the example application.
-
-1. Verify that the Verrazzano Application Model and Verrazzano Application Binding resources were created in the `default` namespace.
+   
+1. Apply the hello-helidon resources to deploy the application.
 
    ```shell
-    $ kubectl get vm
-    NAME                AGE
-    hello-world-model   4m25s
-    $ kubectl get vb
-    NAME                  AGE
-    hello-world-binding   4m8s
+   $ kubectl apply -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-comp.yaml" >}}
+   $ kubectl apply -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-app.yaml" >}}
    ```
 
-1. Verify that the `greet` namespace has been created.
+1. Wait for the application to be ready. 
+   
+   ```shell
+   $ kubectl wait --for=condition=Ready pods --all -n oam-hello-helidon --timeout=300s
+   pod/hello-helidon-workload-977cbbc94-z22ls condition met
+   ```
+   This creates the Verrazzano OAM component application resources for the example, waits for the pods in the `greet` 
+   namespace to be ready.
+
+1. Get the EXTERNAL_IP address of the istio-ingressgateway service.  
+
+   **NOTE:** This following set of instructions assumes you are using a kubernetes environment such as OKE. Other 
+   environments or deployments may require alternate mechanisms for retrieving addresses, ports, etc.
 
    ```shell
-   $ kubectl get ns greet
-   NAME    STATUS   AGE
-   greet   Active   5m44s
-   ```
+    kubectl get service istio-ingressgateway -n istio-system
 
-1. Verify that all the objects have started in the `greet` namespace.
-
-    ```shell
-    $kubectl get all -n greet
-    NAME                                          READY   STATUS    RESTARTS   AGE
-    pod/hello-world-application-868978f7b-fkcgg   3/3     Running   0          6m35s
-
-    NAME                              TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
-    service/hello-world-application   ClusterIP   10.96.240.190   <none>        8080/TCP   6m36s
-
-    NAME                                      READY   UP-TO-DATE   AVAILABLE   AGE
-    deployment.apps/hello-world-application   1/1     1            1           6m37s
+    NAME                   TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S)                      AGE
+    istio-ingressgateway   LoadBalancer   10.96.97.98   11.22.33.44   80:31380/TCP,443:31390/TCP   13d
     ```
+   
+    The application is deployed by default with a host value of hello-helidon.example.com.
 
-1. Get the IP address and port number for calling the REST service.
+1. Access the application.
 
-   To get the `EXTERNAL-IP` address for the `istio-ingressgateway` service:
+     Using the command line, use the external IP provided by the previous step to call the /greet endpoint:
 
-    ```
-    SERVER=$(kubectl get service -n istio-system istio-ingressgateway -o json | jq -r '.status.loadBalancer.ingress[0].ip')
-    PORT=80
-    ```
+     ```shell
+     $ curl -s -X GET -H "Host: hello-helidon.example.com" http://11.22.33.44/greet
+     {"message":"Hello World!"}
+     ```
 
-1. Use the IP address and port number to call the following endpoints of the greeting REST service:
+     Using a Browser, you can emporarily modify the /etc/hosts file (on Mac or Linux) or c:\Windows\System32\Drivers\etc\hosts file (on Windows 10), to add an entry mapping hello-helidon.example.com to the ingress gateway's EXTERNAL-IP address. For example:
 
-    ```
-    # Get default message
-    $ curl -s -X GET http://"${SERVER}":"${PORT}"/greet
-    {"message":"Hello World!"}
-
-    # Get message for Robert:
-    $ curl -s -X GET http://"${SERVER}":"${PORT}"/greet/Robert
-    {"message":"Hello Robert!"}
-
-    # Change the message:
-    $ curl -s -X PUT -H "Content-Type: application/json" -d '{"greeting" : "Hallo"}' http://"${SERVER}":"${PORT}"/greet/greeting
-
-    # Get message for Robert again:
-    $ curl -s -X GET http://"${SERVER}":"${PORT}"/greet/Robert
-    {"message":"Hallo Robert!"}
-    ```
+     ```text
+     11.22.33.44 hello-helidon.example.com
+     ```
+     
+     Then you can access the application in a browser at http://hello-helidon.example.com/greet
 
 ### Uninstall the example application
 
 To uninstall the Hello World Helidon example application, delete the Verrazzano Application Model and Verrazzano Application Binding
 for the example application.
 
-1. Delete the Verrazzano Application Binding for the example application.
+1. Delete the Verrazzano application resources.
 
    ```shell
-   $ kubectl delete \
-      -f {{< ghlink raw=true path="examples/hello-helidon/hello-world-binding.yaml" >}}
+   $ kubectl delete -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-app.yaml" >}}
+   $ kubectl delete -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-comp.yaml" >}}
     ```
 
-1. Delete the Verrazzano Application Model for the example application.
+1. Delete the example namespace.
 
    ```shell
-   $ kubectl delete \
-      -f {{< ghlink raw=true path="examples/hello-helidon/hello-world-model.yaml" >}} \
-   verrazzanobinding.verrazzano.io "hello-world-model" deleted
+   $ kubectl delete namespace oam-hello-helidon
+   namespace "oam-hello-helidon" deleted
     ```
 
-1. Verify that the `greet` namespace has been deleted.
+1. Verify that the `oam-hello-helidon` namespace has been deleted.
 
    ```shell
-   $ kubectl get ns greet
-   Error from server (NotFound): namespaces "greet" not found
+   $ kubectl get ns oam-hello-helidon
+   Error from server (NotFound): namespaces "oam-hello-helidon" not found
    ```
 
 ### Uninstall Verrazzano

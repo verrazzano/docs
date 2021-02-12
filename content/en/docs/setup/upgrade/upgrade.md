@@ -16,7 +16,7 @@ not have any impact on running applications.
 
 **NOTE:** You may only change the version field during an upgrade; changes to other fields or component configurations are not supported at this time.
 
-### Upgrade the Verrazzano Platform Operator
+### Upgrade the Verrazzano platform operator
 
 In order to upgrade an existing Verrazzano installation, you must first upgrade the [Verrazzano platform operator](https://github.com/verrazzano/verrazzano-platform-operator).
 

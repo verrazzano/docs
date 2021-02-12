@@ -12,16 +12,16 @@ draft: false
 Developing and deploying an application to [Verrazzano](https://verrazzano.io/) consists of:
 1. Packaging the application as a Docker image.
 1. Publishing the application's Docker image to a container registry.
-1. Applying the application's Verrazzano Components to the cluster.
-1. Applying the application's Verrazzano Applications to the cluster.
+1. Applying the application's Verrazzano components to the cluster.
+1. Applying the application's Verrazzano applications to the cluster.
 
 This guide does not provide the full details for the first two steps. An existing example application
 Docker image has been packaged and published for use.
 
-Verrazzano supports application definition using the [Open Application Model (OAM)](https://oam.dev/).  Verrrazzano applications are 
-composed of [components](https://github.com/oam-dev/spec/blob/master/3.component.md) and 
+Verrazzano supports application definition using [Open Application Model (OAM)](https://oam.dev/).  Verrrazzano applications are
+composed of [components](https://github.com/oam-dev/spec/blob/master/3.component.md) and
 [application configurations](https://github.com/oam-dev/spec/blob/master/7.application_configuration.md).  This document
-demonstrates creating the OAM resources that define an application as well as the steps required to deploy those resources.
+demonstrates creating OAM resources that define an application as well as the steps required to deploy those resources.
 
 ## What you need
 
@@ -37,7 +37,7 @@ demonstrates creating the OAM resources that define an application as well as th
    docker pull container-registry.oracle.com/verrazzano/example-hello-world-helidon:0.1.10-3-e5ae893-124
    ```
 
-## Application Development
+## Application development
 This guide uses an example application which was written with Java and [Helidon](https://helidon.io).
 For the implementation details, see the [Helidon MP tutorial](https://helidon.io/docs/latest/#/mp/guides/10_mp-tutorial).
 See the application [source code](https://github.com/verrazzano/examples/tree/master/hello-helidon) in the Verrazzano examples repository.
@@ -97,21 +97,21 @@ CMD java -cp /app/helidon-quickstart-mp.jar:/app/* io.helidon.examples.quickstar
 EXPOSE 8080
 ```
 
-## Application Deployment
+## Application deployment
 
 When you deploy applications with Verrazzano, the platform sets up connections, network policies, and
 ingresses in the service mesh, and wires up a monitoring stack to capture the metrics, logs, and traces.
-Verrazzano employs OAM Components to define the functional units of a system that are then
+Verrazzano employs OAM components to define the functional units of a system that are then
 assembled and configured by defining associated application configurations.
 
-### Verrazzano Components
+### Verrazzano components
 
-A Verrazzano OAM Component is a
+A Verrazzano OAM component is a
 [Kubernetes Custom Resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 describing an application's general composition and environment requirements.
 The following code shows the component for the example application used in this guide.
 This resource describes a component which is implemented by a single Docker image containing a Helidon application exposing a single endpoint.
-For more details about Verrazzano Components, see TBD documentation.
+
 
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
@@ -147,17 +147,16 @@ A brief description of each field of the component:
 * `spec.workload.spec.containers` - The implementation containers
 * `spec.workload.spec.containers.ports` - Ports exposed by the container
 
-### Verrazzano Application Configurations
+### Verrazzano application configurations
 
-A Verrazzano Application Configuration is a
+A Verrazzano application configuration is a
 [Kubernetes Custom Resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 which provides environment specific customizations.
 The following code shows the application configuration for the example used in this guide.
-This resource specifies the deployment of the application to the `hello-helidon` namespace.  Additional runtime features are 
-specified using traits, or runtime overlays that augment the workload.  For example, the ingress trait specifies the 
-ingress host and path, while the metrics trait provides the Prometheus scraper used to obtain the 
+This resource specifies the deployment of the application to the `hello-helidon` namespace.  Additional runtime features are
+specified using traits, or runtime overlays that augment the workload.  For example, the ingress trait specifies the
+ingress host and path, while the metrics trait provides the Prometheus scraper used to obtain the
 application related metrics.
-For more details about Verrazzano application configurations, see TBD documentation.
 
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
@@ -418,7 +417,7 @@ Elasticsearch and Kibana are examples of infrastructure Verrazzano creates in su
 
 Determine the URL to access Kibana using the following commands.
  ```shell script
-KIBANA_HOST=$(kubectl get ingress -n verrazzano-system vmi-hello-world-binding-kibana -o jsonpath='{.spec.rules[0].host}')
+KIBANA_HOST=$(kubectl get ingress -n verrazzano-system vmi-system-kibana -o jsonpath='{.spec.rules[0].host}')
 KIBANA_URL="https://${KIBANA_HOST}"
 echo "${KIBANA_URL}"
 open "${KIBANA_URL}"
@@ -465,7 +464,7 @@ open "${PROMETHEUS_URL}"
 
 The user name and password for both Prometheus and Grafana are the same.
 
-## Application Removal
+## Application removal
 
 Run the following commands to delete the application configuration and, optionally, component.
 
