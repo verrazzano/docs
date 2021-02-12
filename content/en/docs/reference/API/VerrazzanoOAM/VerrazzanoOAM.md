@@ -17,11 +17,4 @@ OAM has five core concepts
 - Scopes - Apply customization to several components.  
 - Traits - Apply customization to a single component.
 
-### Getting started with OAM
-
-#### What needs to be created
-
-#### Deploying to a remote cluster
-
-#### See reference section on `VerrazzanoApplication` and other component types
 
