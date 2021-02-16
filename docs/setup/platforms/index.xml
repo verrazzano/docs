@@ -614,7 +614,7 @@ EOF
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;Create the required number of &lt;code&gt;PersistentVolume&lt;/code&gt; resources.
 The Verrazzano system requires five persistent volumes for itself.
-The following command creates nine persistent volumes, which is enough for one deployed binding.
+The following command creates nine persistent volumes.
 The value for &lt;code&gt;storageClassName&lt;/code&gt; must match the above &lt;code&gt;StorageClass&lt;/code&gt; name.
 The values for &lt;code&gt;name&lt;/code&gt; may be customized.
 The value for &lt;code&gt;path&lt;/code&gt; must match the &lt;code&gt;Export Path&lt;/code&gt; of the Export from above, combined with the persistent volume folder from above.
@@ -865,8 +865,30 @@ DNS CNAME records, in the same way.&lt;/p&gt;
       <description>
         
         
-        &lt;h3 id=&#34;prepare-for-the-kind-install&#34;&gt;Prepare for the KIND install&lt;/h3&gt;
-&lt;p&gt;Create the KIND cluster.&lt;/p&gt;
+        &lt;p&gt;&lt;a href=&#34;https://kind.sigs.k8s.io/&#34;&gt;KIND&lt;/a&gt; is a tool for running local Kubernetes clusters using Docker container “nodes”.  Follow
+these instructions to prepare a KIND cluster for running Verrazzano.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+KIND is not recommended for use on macOS and Windows because the Docker network is not directly exposed
+to the host.
+&lt;/div&gt;
+
+&lt;h3 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Install &lt;a href=&#34;https://docs.docker.com/install/&#34;&gt;Docker&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Install &lt;a href=&#34;https://kind.sigs.k8s.io/docs/user/quick-start/#installation&#34;&gt;KIND&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;prepare-the-kind-cluster&#34;&gt;Prepare the KIND cluster&lt;/h3&gt;
+&lt;p&gt;To prepare the KIND cluster for use with Verrazzano, you must create the cluster and then install and configure
+&lt;a href=&#34;https://metallb.universe.tf/&#34;&gt;MetalLB&lt;/a&gt; in that cluster.&lt;/p&gt;
+&lt;h4 id=&#34;create-the-kind-cluster&#34;&gt;Create the KIND cluster&lt;/h4&gt;
+&lt;p&gt;KIND images are prebuilt for each release.  To find images suitable for a given release, check the
+&lt;a href=&#34;https://github.com/kubernetes-sigs/kind/releases&#34;&gt;release notes&lt;/a&gt; for your KIND version (check with &lt;code&gt;kind version&lt;/code&gt;)
+where you&amp;rsquo;ll find a complete listing of images created for a KIND release.&lt;/p&gt;
+&lt;p&gt;The following example references a Kubernetes v1.18.8-based image built for KIND v0.9.0.  Replace that image
+with one suitable for the KIND release you are using.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kind create cluster --config - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Cluster
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: kind.x-k8s.io/v1alpha4
@@ -874,23 +896,45 @@ DNS CNAME records, in the same way.&lt;/p&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  - role: control-plane
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    image: kindest/node:v1.18.8@sha256:f4bcc97a0ad6e7abaf3f643d890add7efe6ee4ab90baeb374b4f41a4c95567eb
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    kubeadmConfigPatches:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - |
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      kind: InitConfiguration
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      nodeRegistration:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        kubeletExtraArgs:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          node-labels: &amp;#34;ingress-ready=true&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          authorization-mode: &amp;#34;AlwaysAllow&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    extraPortMappings:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      - containerPort: 80
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        hostPort: 80
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        listenAddress: &amp;#34;0.0.0.0&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        protocol: tcp
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      - containerPort: 443
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        hostPort: 443
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        listenAddress: &amp;#34;0.0.0.0&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        protocol: tcp
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      - |
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        kind: ClusterConfiguration
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        apiServer:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          extraArgs:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            &amp;#34;service-account-issuer&amp;#34;: &amp;#34;kubernetes.default.svc&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            &amp;#34;service-account-signing-key-file&amp;#34;: &amp;#34;/etc/kubernetes/pki/sa.key&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;image-caching-to-speed-up-install&#34;&gt;Image caching to speed up install&lt;/h4&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;install-and-configure-metallb&#34;&gt;Install and configure MetalLB&lt;/h4&gt;
+&lt;p&gt;By default, KIND does not provide an implementation of network load balancers (&lt;a href=&#34;https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/&#34;&gt;Services of type LoadBalancer&lt;/a&gt;).
+&lt;a href=&#34;https://metallb.universe.tf/&#34;&gt;MetalLB&lt;/a&gt; offers a network load balancer implementation.&lt;/p&gt;
+&lt;p&gt;To install MetalLB:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml
+kubectl create secret generic -n metallb-system memberlist --from-literal&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;secretkey&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;openssl rand -base64 128&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For further details, see the MetalLB &lt;a href=&#34;https://metallb.universe.tf/installation/#installation-by-manifest&#34;&gt;installation guide&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;MetalLB is idle until configured.  Configure MetalLB in Layer 2 mode and give it control over a range of IP addresses in the &lt;code&gt;kind&lt;/code&gt; Docker network.
+In versions v0.7.0 and earlier, KIND uses Docker&amp;rsquo;s default bridge network; in versions v0.8.0 and later, it creates its own bridge network in KIND.&lt;/p&gt;
+&lt;p&gt;To determine the subnet of the &lt;code&gt;kind&lt;/code&gt; Docker network in KIND v0.8.0 and later:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&amp;gt; docker inspect kind &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt; jq &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;.[0].IPAM.Config[0].Subnet&amp;#39;&lt;/span&gt; -r
+172.18.0.0/16
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To determine the subnet of the &lt;code&gt;kind&lt;/code&gt; Docker network in KIND v0.7.0 and earlier:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&amp;gt; docker inspect bridge &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt; jq &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;.[0].IPAM.Config[0].Subnet&amp;#39;&lt;/span&gt; -r
+172.17.0.0/16
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For use by MetalLB, assign a range of IP addresses at the end of the &lt;code&gt;kind&lt;/code&gt; network&amp;rsquo;s subnet CIDR range.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;-EOF
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: v1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: ConfigMap
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  namespace: metallb-system
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: config
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;data:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  config: |
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    address-pools:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - name: my-ip-space
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      protocol: layer2
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      addresses:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      - 172.18.0.230-172.18.0.250
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;image-caching-to-speed-up-install&#34;&gt;Image caching to speed up install&lt;/h3&gt;
 &lt;p&gt;If you are experimenting with Verrazzano and expect that you may need to delete the KIND cluster and later, install Verrazzano again on a new KIND cluster, then you can follow these steps to ensure that the image cache used by containerd inside KIND is preserved across clusters. Subsequent installs will be faster than the first install, because they will not need to pull the images again.&lt;/p&gt;
 &lt;p&gt;1. Create a named Docker volume that will be used for the image cache, and note its &lt;code&gt;Mountpoint&lt;/code&gt; path. In this example, the volume is named &lt;code&gt;containerd&lt;/code&gt;.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;docker volume create containerd
@@ -912,22 +956,14 @@ docker volume inspect containerd &lt;span style=&#34;color:#8f5902;font-style:it
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: kind.x-k8s.io/v1alpha4
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;nodes:
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  - role: control-plane
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    image: kindest/node:v1.18.8@sha256:f4bcc97a0ad6e7abaf3f643d890add7efe6ee4ab90baeb374b4f41a4c95567eb
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    kubeadmConfigPatches:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - |
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      kind: InitConfiguration
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      nodeRegistration:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        kubeletExtraArgs:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          node-labels: &amp;#34;ingress-ready=true&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          authorization-mode: &amp;#34;AlwaysAllow&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    extraPortMappings:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      - containerPort: 80
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        hostPort: 80
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        listenAddress: &amp;#34;0.0.0.0&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        protocol: tcp
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      - containerPort: 443
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        hostPort: 443
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        listenAddress: &amp;#34;0.0.0.0&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        protocol: tcp
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      - |
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        kind: ClusterConfiguration
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        apiServer:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          extraArgs:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            &amp;#34;service-account-issuer&amp;#34;: &amp;#34;kubernetes.default.svc&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            &amp;#34;service-account-signing-key-file&amp;#34;: &amp;#34;/etc/kubernetes/pki/sa.key&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    extraMounts:
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      - hostPath: /var/lib/docker/volumes/containerd/_data
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        containerPath: /var/lib/containerd #This is the location of the image cache inside the KIND container
