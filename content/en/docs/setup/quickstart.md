@@ -10,8 +10,9 @@ weight: 2
 The Quick Start assumes that you have already installed a
 [Kubernetes](https://kubernetes.io/) cluster.  Verrazzano has been tested on
 [Oracle Cloud Infrastructure Container Engine for Kubernetes](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm) (OKE) and
-[Oracle Linux Cloud Native Environment](https://docs.oracle.com/en/operating-systems/olcne/) (OLCNE); it is possible that it can be configured to work in other Kubernetes
-environments.
+[Oracle Linux Cloud Native Environment](https://docs.oracle.com/en/operating-systems/olcne/) (OLCNE).
+For additional information, see instructions for preparing other [Kubernetes platforms]({{< relref "/docs/setup/platforms/_index.md" >}})
+for [installing Verrazzano]({{< relref "/docs/setup/install/installation.md" >}}).
 
 Verrazzano requires the following:
 * A Kubernetes cluster and a compatible `kubectl`.
@@ -117,7 +118,7 @@ To deploy the Hello World Helidon example application, follow these steps:
    $ kubectl create namespace oam-hello-helidon
    $ kubectl label namespace oam-hello-helidon verrazzano-managed=true
    ```
-   
+
 1. Apply the hello-helidon resources to deploy the application.
 
    ```shell
@@ -125,18 +126,18 @@ To deploy the Hello World Helidon example application, follow these steps:
    $ kubectl apply -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-app.yaml" >}}
    ```
 
-1. Wait for the application to be ready. 
-   
+1. Wait for the application to be ready.
+
    ```shell
    $ kubectl wait --for=condition=Ready pods --all -n oam-hello-helidon --timeout=300s
    pod/hello-helidon-workload-977cbbc94-z22ls condition met
    ```
-   This creates the Verrazzano OAM component application resources for the example, waits for the pods in the `greet` 
+   This creates the Verrazzano OAM component application resources for the example, waits for the pods in the `greet`
    namespace to be ready.
 
 1. Get the EXTERNAL_IP address of the istio-ingressgateway service.  
 
-   **NOTE:** This following set of instructions assumes you are using a kubernetes environment such as OKE. Other 
+   **NOTE:** This following set of instructions assumes you are using a kubernetes environment such as OKE. Other
    environments or deployments may require alternate mechanisms for retrieving addresses, ports, etc.
 
    ```shell
@@ -145,7 +146,7 @@ To deploy the Hello World Helidon example application, follow these steps:
     NAME                   TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S)                      AGE
     istio-ingressgateway   LoadBalancer   10.96.97.98   11.22.33.44   80:31380/TCP,443:31390/TCP   13d
     ```
-   
+
     The application is deployed by default with a host value of hello-helidon.example.com.
 
 1. Access the application.
@@ -162,7 +163,7 @@ To deploy the Hello World Helidon example application, follow these steps:
      ```text
      11.22.33.44 hello-helidon.example.com
      ```
-     
+
      Then you can access the application in a browser at http://hello-helidon.example.com/greet
 
 ### Uninstall the example application
