@@ -185,7 +185,7 @@ The value for `name` may be customized but will need to match the `PersistentVol
   ```
 * Create the required number of `PersistentVolume` resources.
   The Verrazzano system requires five persistent volumes for itself.
-  The following command creates nine persistent volumes, which is enough for one deployed binding.
+  The following command creates nine persistent volumes.
   The value for `storageClassName` must match the above `StorageClass` name.
   The values for `name` may be customized.
   The value for `path` must match the `Export Path` of the Export from above, combined with the persistent volume folder from above.
