@@ -6,30 +6,32 @@ Weight: 8
 draft: false
 ---
 
-[kind](https://kind.sigs.k8s.io/) is a tool for running local Kubernetes clusters using Docker container “nodes”.  Follow
-these instructions to prepare a kind cluster for running Verrazzano.
+[KIND](https://kind.sigs.k8s.io/) is a tool for running local Kubernetes clusters using Docker container “nodes”.  Follow
+these instructions to prepare a KIND cluster for running Verrazzano.
 
 {{% alert title="NOTE" color="warning" %}}
-KIND is not recommended for use on macOS and Windows due to the fact that the Docker network is not directly exposed
+KIND is not recommended for use on macOS and Windows because the Docker network is not directly exposed
 to the host.
 {{% /alert %}}
 
 ## Pre-requisites
 
 - Install [Docker](https://docs.docker.com/install/)
-- Install [KIND](https://kind.sigs.k8s.io/docs/user/quick-start/#installation) v0.8.0 or later
+- Install [KIND](https://kind.sigs.k8s.io/docs/user/quick-start/#installation)
 
 ## Prepare the KIND cluster
 
+To prepare the KIND cluster for use with Verrazzano you must create the cluster and then install and configure
+[MetalLB](https://metallb.universe.tf/) in that cluster.
 
 ### Create KIND cluster
 
-Prebuilt KIND images are built for each release.  To find images suitable for a given release you should check the
-[release notes](https://github.com/kubernetes-sigs/kind/releases) for your given kind version (check with `kind version`)
-where you'll find a complete listing of images created for a kind release.
+KIND images are prebuilt for each release.  To find images suitable for a given release, check the
+[release notes](https://github.com/kubernetes-sigs/kind/releases) for your KIND version (check with `kind version`)
+where you'll find a complete listing of images created for a KIND release.
 
-The example below references a Kubernetes 1.18.8 based image built for KIND v0.9.0.  Replace that image
-with one suitable for the kind release you are using.
+The following example references a Kubernetes 1.18.8 based image built for KIND v0.9.0.  Replace that image
+with one suitable for the KIND release you are using.
 
 ```shell
 kind create cluster --config - <<EOF
@@ -50,8 +52,10 @@ EOF
 
 ### Install and configure MetalLB
 
-By default, KIND does not provide an implementation of network load-balancers ([Services of type LoadBalancer](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/)).
-[MetalLB](https://metallb.universe.tf/)  offers a Network load-balancer implementation.  Follow these steps to install MetalLB.
+By default, KIND does not provide an implementation of network load balancers ([Services of type LoadBalancer](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/)).
+[MetalLB](https://metallb.universe.tf/) offers a network load balancer implementation.
+
+To install MetalLB:
 
 ```shell
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
@@ -62,11 +66,20 @@ kubectl create secret generic -n metallb-system memberlist --from-literal=secret
 For further details, see the MetalLB [installation guide](https://metallb.universe.tf/installation/#installation-by-manifest).
 
 MetalLB is idle until configured.  Configure MetalLB in Layer 2 mode and give it control over a range of IP addresses in the `kind` Docker network.
-To determine the subnet of the `kind` docker network, execute the following:
+In versions v0.7.0 and earlier, KIND uses Docker's default bridge network, in versions v0.8.0 and later it creates its own bridge network in KIND.
+
+To determine the subnet of the `kind` Docker network in KIND v0.8.0 and later, run the following:
 
 ```shell
 > docker inspect kind | jq '.[0].IPAM.Config[0].Subnet' -r
 172.18.0.0/16
+```
+
+To determine the subnet of the `kind` Docker network in KIND v0.7.0 and earlier, run the following:
+
+```shell
+> docker inspect bridge | jq '.[0].IPAM.Config[0].Subnet' -r
+172.17.0.0/16
 ```
 
 Assign a range of IP addresses at the end of the `kind` network's subnet CIDR range for use by MetalLB.
