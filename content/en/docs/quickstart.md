@@ -167,14 +167,14 @@ To deploy the Hello World Helidon example application, follow these steps:
 
 ### Uninstall the example application
 
-To uninstall the Hello World Helidon example application, delete the Verrazzano Application Model and Verrazzano Application Binding
+To uninstall the Hello World Helidon example application, delete the components and application configuration
 for the example application.
 
 1. Delete the Verrazzano application resources.
 
    ```shell
-   $ kubectl delete -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-app.yaml" >}}
    $ kubectl delete -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-comp.yaml" >}}
+   $ kubectl delete -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-app.yaml" >}}
     ```
 
 1. Delete the example namespace.
