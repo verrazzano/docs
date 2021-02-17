@@ -1,23 +1,23 @@
 ---
-title: Minikube
+title: minikube
 description: Instructions for setting up a minikube cluster for Verrazzano
-linkTitle: Minikube
+linkTitle: minikube
 Weight: 8
 draft: false
 ---
 
 [minikube](https://minikube.sigs.k8s.io/docs/) quickly sets up a local Kubernetes cluster on macOS, Linux, and Windows. Follow
-these instructions to prepare a KIND cluster for running Verrazzano.
+these instructions to prepare a minikube cluster for running Verrazzano.
 
-## Pre-requisites
+## Prerequisites
 
-- Install [minikube](https://minikube.sigs.k8s.io/docs/start/)
+- Install [minikube](https://minikube.sigs.k8s.io/docs/start/).
 - Install a [driver](https://minikube.sigs.k8s.io/docs/drivers/) (on macOS or Windows, select a VM based driver, not Docker).
 
 ## Prepare the minikube cluster
 
-To prepare the minikube cluster for use with Verrazzano you must create the cluster and then expose services
-of type `LoadBalancer` via the `minikube tunnel` command.
+To prepare the minikube cluster for use with Verrazzano, you must create the cluster and then expose services
+of type `LoadBalancer` by using the `minikube tunnel` command.
 
 ### Create minikube cluster
 
@@ -38,8 +38,8 @@ EOF
 
 ### Run `minikube tunnel`
 
-Minikube exposes Kubernetes services of type [`LoadBalancer`](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/) with the 
-[`minikube tunnel`](https://minikube.sigs.k8s.io/docs/commands/tunnel/) command.  Run a tunnel in a spearate temrinal from minikube:
+minikube exposes Kubernetes services of type [`LoadBalancer`](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/) with the 
+[`minikube tunnel`](https://minikube.sigs.k8s.io/docs/commands/tunnel/) command.  Run a tunnel in a separate temrinal from minikube:
 
 ```shell
 minikube tunnel
