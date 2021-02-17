@@ -151,6 +151,8 @@ After the application is deployed and running in WebLogic Server, access the `ht
 REST service to create the database table used by the application. In addition to creating the application table,
 the `init` service also will load four sample items into the table.
 
+If you get an error here, go back to the Select Targets page on the WebLogic Server Administration Console and make sure that you checked AdminServer as the datasource target.
+
 ### Access the application
 
 - Access the application at `http://localhost:7001/todo/index.html`.  
