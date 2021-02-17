@@ -11,7 +11,7 @@ these instructions to prepare a KIND cluster for running Verrazzano.
 
 {{% alert title="NOTE" color="warning" %}}
 KIND is not recommended for use on macOS and Windows because the Docker network is not directly exposed
-to the host.
+to the host.  On macOS and Windows, [minikube]({{< relref "../minikube/minikube.md" >}}) is recommended.
 {{% /alert %}}
 
 ### Prerequisites
