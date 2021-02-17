@@ -84,14 +84,17 @@ In the initial steps, you create a sample domain that represents your on-premise
      export ORACLE_HOME=/install/directory
      ```
 
-1. Using the Oracle WebLogic Server Configuration Wizard, create a domain called `tododomain`. Add the password for the administrative user and accept the defaults for everything else to create a simple domain with a single Administration Server.
+1. Using the Oracle WebLogic Server Configuration Wizard, create a domain called `tododomain` by specifying a `Domain Location` of `<oracle home>/user_projects/domains/tododomain`. Add the password for the administrative user and accept the defaults for everything else to create a simple domain with a single Administration Server.
 
     ```shell script
      $ORACLE_HOME/oracle_common/common/bin/config.sh
     ```
 
-1. To start the newly created domain, select **Start Admin Server** and click **Finish**.
+1. To start the newly created domain, run the domain's start script.
 
+    ```shell script
+     $ORACLE_HOME/user_projects/domains/tododomain/bin/startWebLogic.sh
+    ```
 1. Access the Console of the newly started domain with your browser, for example, [http://localhost:7001/console](http://localhost:7001/console).
 
 ### Add a data source configuration to access the database
@@ -104,6 +107,7 @@ Using the WebLogic Server Administration Console, log in and add a data source c
 
 1. On the JDBC Data Sources page, enter or select the following information:
 
+    - Name: `tododb`
     - JNDI Name: `jdbc/ToDoDB`
     - Database Type: `MySQL`
 
@@ -117,6 +121,8 @@ Using the WebLogic Server Administration Console, log in and add a data source c
     - Database User Name: `derek`
     - Password: `welcome1` (or whatever password you used)
     - Confirm Password: `welcome1`
+
+1. Click **Next** two more times.
 
 1. On the Select Targets page, select `AdminServer`.
 
