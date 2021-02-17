@@ -243,7 +243,7 @@ $WIT_HOME/bin/imagetool.sh create \
   --wdtModel ./wdt-model.yaml \
   --wdtArchive ./wdt-archive.zip \
   --wdtVariables ./vz_variable.properties \
-  --vzModel ./model.yaml \
+  --resourceTemplates=./application.yaml \
   --wdtModelOnly
 ```
 
