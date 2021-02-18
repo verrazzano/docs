@@ -22,9 +22,9 @@ The [Initial steps](#initial-steps) create a very simple on-premises domain that
 
 - [Maven](https://maven.apache.org/download.cgi) - to build the application
 
-- [WebLogic Deploy Tooling](https://github.com/oracle/weblogic-deploy-tooling/releases) (WDT) - to convert the WebLogic Server domain to and from metadata
+- [WebLogic Deploy Tooling](https://github.com/oracle/weblogic-deploy-tooling/releases) (WDT) - v1.9.9 or higher, to convert the WebLogic Server domain to and from metadata
 
-- [WebLogic Image Tool](https://github.com/oracle/weblogic-image-tool/releases) (WIT) - to build the Docker image
+- [WebLogic Image Tool](https://github.com/oracle/weblogic-image-tool/releases) (WIT) - v1.9.8 or higher, to build the Docker image
 
 ## Initial steps
 
@@ -183,7 +183,7 @@ The following steps will move the sample domain to Kubernetes with Verrazzano.
 
 ### Create a WDT Model
 
-- If you have not already done so, download [WebLogic Deploy Tooling](https://github.com/oracle/weblogic-deploy-tooling/releases) (WDT) from GitHub.
+- If you have not already done so, download v1.9.9 or higher of [WebLogic Deploy Tooling](https://github.com/oracle/weblogic-deploy-tooling/releases) (WDT) from GitHub.
 - Unzip the installer `weblogic-deploy.zip` file so that you can access `bin/discoverDomain.sh`.
 - To make copying commands easier, define an environment variable for `WDT_HOME` that points to the directory where you installed WebLogic Deploy Tooling.
    ```shell script
