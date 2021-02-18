@@ -307,8 +307,10 @@ $ kubectl label namespace tododomain verrazzano-managed=true
 If you haven't already done so, edit and run the `create_k8s_secrets.sh` script to generate the Kubernetes secrets.
 WDT does not discover passwords from your existing domain.  Before running the create secrets script, you will need to
 edit `create_k8s_secrets.sh` to set the passwords for the WebLogic Server domain and the data source.  In this domain,
-there are only two passwords that you need to enter: administrator credentials (like `weblogic/welcome1`) and the
-ToDo database credentials (like `derek/welcome1`).
+there are a few passwords that you need to enter: 
+* administrator credentials (i.e. `weblogic/welcome1`)
+* ToDo database credentials (i.e. `derek/welcome1`)
+* runtime encryption secret (i.e. 'welcome') 
 
 For example:
 ```shell script
@@ -318,8 +320,7 @@ create_paired_k8s_secret weblogic-credentials weblogic welcome1
 # Update <user> and <password> for tododomain-jdbc-tododb
 create_paired_k8s_secret tododomain-jdbc-tododb derek welcome1
 
-# Update <password> used to encrypt model and domain hashes
-# This secret is only required for model-in-image deployments
+# Update <password> used to encrypt hashes
 create_k8s_secret runtime-encryption-secret welcome1
 ```
 
