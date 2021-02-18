@@ -309,21 +309,17 @@ Push the image to your repo.
 docker push your/repo/todo:1
 ```
 
-Once pushed to the Docker registry that Verrazzano will pull from you will have 2 options to allow it to be pulled successfully
-* Make the image repository public
-* Add a `docker-registry` secret to the Kubernetes namespace where the application will be deployed (to be covered in the next section)
-
 ### Deploy to Verrazzano
 
 Once the application image has been created, there are several steps required to deploy a 
 the application into a Verrazzano environment.
 
 These include
-* Creating and label the `tododomain` namespace
-* Creating the necessary secrets required by the ToDo applicatiom
-* Adding OAM components to deploy MySQL to the ToDo application configuration
-* Updating the `application.yaml` file to utilize the new MySQL components
-* Apply the `application.yaml` file to the cluster
+1. Creating and label the `tododomain` namespace
+1. Creating the necessary secrets required by the ToDo applicatiom
+1. Deploying MySQL to the `tododomain` namespace
+1. Updating the `application.yaml` file to utilize the Verrazzano MySQL deployment and (optionally) expose the WLS Console
+1. Apply the `application.yaml` file
   
 The following steps assume that you have a Kubernetes cluster and that [Verrazzano]({{< relref "/quickstart.md#install-verrazzano" >}}) is already installed in that cluster.
 
@@ -344,7 +340,7 @@ edit `create_k8s_secrets.sh` to set the passwords for the WebLogic Server domain
 there are a few passwords that you need to enter: 
 * administrator credentials (i.e. `weblogic/welcome1`)
 * ToDo database credentials (i.e. `derek/welcome1`)
-* runtime encryption secret (i.e. 'welcome') 
+* runtime encryption secret (i.e. `welcome1`) 
 
 For example:
 ```shell script
@@ -352,7 +348,7 @@ For example:
 create_paired_k8s_secret weblogic-credentials weblogic welcome1
 
 # Update <user> and <password> for tododomain-jdbc-tododb
-create_paired_k8s_secret tododomain-jdbc-tododb derek welcome1
+create_paired_k8s_secret jdbc-tododb derek welcome1
 
 # Update <password> used to encrypt hashes
 create_k8s_secret runtime-encryption-secret welcome1
@@ -364,8 +360,9 @@ Then execute the script:
 sh ./create_k8s_secrets.sh
 ```
 
-If the Docker image was pushed to a repo that is not public, Verrazzano will need a credential to pull the image that you just created, so you need to create one more secret.
-The name for this credential can be changed in the `component.yaml` file to anything you like, but it defaults to `tododomain-registry-credentials`.  
+Verrazzano will need a credential to pull the image that you just created, so you need to create one more secret.
+The name for this credential can be changed in the `component.yaml` file to anything you like, but it defaults to `tododomain-registry-credentials`. 
+
 Assuming that you leave the name `tododomain-registry-credentials`, you will need to run a `kubectl create secret` command similar to the following:
 ```shell script
 kubectl create secret docker-registry tododomain-registry-credentials \
@@ -376,43 +373,13 @@ kubectl create secret docker-registry tododomain-registry-credentials \
   --namespace=tododomain
 ```
 
-#### Add MySQL to the Application Config
+#### Update the Application Config
 
-As noted previously, moving a production environment to Verrazzano would require migrating the
-data as well.  While data migration is beyond the scope of this guide, we will still need to
-include a MySQL instance to be deployed with the application in the Verrazzano environment.
+Update the generated `application.yaml` file for the `todo` application to
 
-To do so, download the [mysql-oam.yaml](mysql-oam.yaml) file.
-
-Then, update the generated `application.yaml` file for the `todo` application to
-
-* Add references to the MySQL components as shown
-```yaml
-  components:
-    # ...
-    - componentName: tododomain-configmap
-    # Added mysql components to the application topology
-    - componentName: todo-mysql-service
-    - componentName: todo-mysql-deployment
-    - componentName: todo-mysql-configmap
-```
 * Update the `tododomain-configmap` component to use the in-cluster MySQL service URL `jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb` to access the database
 
 ```yaml
-  ---
-  apiVersion: core.oam.dev/v1alpha2
-  kind: Component
-  metadata:
-    name: tododomain-configmap
-    namespace: tododomain
-  spec:
-    workload:
-      apiVersion: v1
-      kind: ConfigMap
-      metadata:
-        name: tododomain-configmap
-        namespace: tododomain
-      data:
         wdt_jdbc.yaml: |
           resources:
             JDBCSystemResource:
@@ -434,26 +401,45 @@ two sample files is shown below.
 
 ```shell
 $ diff application.yaml application-modified.yaml
-30a31,33
+27a28,30
 >                     # WLS console
 >                     - path: "/console"
 >                       pathType: Prefix
-31a35,37
->     - componentName: todo-mysql-service
->     - componentName: todo-mysql-deployment
->     - componentName: todo-mysql-configmap
-105c111
+105c108
 <                   URL: "jdbc:mysql://localhost:3306/tododb"
 ---
 >                   URL: "jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb"
 ```
 
+#### Deploy MySQL
+
+As noted previously, moving a production environment to Verrazzano would require migrating the
+data as well.  While data migration is beyond the scope of this guide, we will still need to
+include a MySQL instance to be deployed with the application in the Verrazzano environment.
+
+To do so, download the [mysql-oam.yaml](mysql-oam.yaml) file.
+
+Then, apply the YAML file:
+
+```shell
+kubectl apply -f mysql-oam.yaml
+```
+
+Wait for the MySQL pod to reach the `Ready` state:
+
+```shell
+$ kubectl get pod -n tododomain -w
+NAME                     READY   STATUS    RESTARTS   AGE
+mysql-5cfd58477b-mg5c7          0/1     Pending             0          0s
+mysql-5cfd58477b-mg5c7          0/1     Pending             0          0s
+mysql-5cfd58477b-mg5c7          0/1     ContainerCreating   0          0s
+mysql-5cfd58477b-mg5c7          1/1     Running             0          2s
+```
 #### Deploy the ToDo Application
 
 Finally, run `kubectl apply` to apply the Verrazzano component and Verrazzano application configuration files to start your domain.
 
 ```shell script
-kubectl apply -f mysql-oam.yaml
 kubectl apply -f application.yaml
 ```
 
@@ -499,13 +485,12 @@ tododomain-adminserver   2/2     Running   0          5m
      ```
      11.22.33.44 tododomain-appconf.tododomain.example.com
      ```
-   Then, you can access the application in a browser at `http://todo.example.com/todo`.
 
 1. Intialize the database by accessing the init URL
    ```shell
    $ curl http://tododomain-appconf.tododomain.example.com/todo/rest/items/init
    ToDos table initialized.
    ```
-1. Access the application in a browser at `http://tododomain-appconf.tododomain.example.com/todo`
+1. Access the application in a browser at http://tododomain-appconf.tododomain.example.com/todo.
 
-1. (Optional) Access the WebLogic Server administration console at `http://tododomain-appconf.tododomain.example.com/console`
+1. (Optional) Access the WebLogic Server administration console at http://tododomain-appconf.tododomain.example.com/console.
