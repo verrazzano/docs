@@ -267,8 +267,13 @@ CLI.  If everything worked correctly, it is time to push that image to the conta
 the image from Kubernetes. You can use the Oracle Cloud Infrastructure Registry (OCIR) as your repository for this
 example, but most Docker compliant registries should work.
 
-**NOTE:** The image name must be the same as what is in the Verrazzano `model.yaml` file under
-`spec > weblogicDomains > domainCRValues > image`.
+The variables in the `application.yaml` resource template should be resolved with information from the image tool build.  
+Verify this by looking in `$WDT_HOME/v8o/application.yaml` to make sure that the `image: {{{imageName}}}` value has been set with the given `--tag` value.
+
+Push the image to your repo.
+
+**NOTE:** The image name must be the same as what is in the `application.yaml` file under
+`spec > workload > spec > image` for the `tododomain-domain` component.
 
 ```shell script
 docker push your/repo/todo:1
