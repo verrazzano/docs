@@ -453,6 +453,7 @@ $ diff application.yaml application-modified.yaml
 Finally, run `kubectl apply` to apply the Verrazzano component and Verrazzano application configuration files to start your domain.
 
 ```shell script
+kubectl apply -f mysql-oam.yaml
 kubectl apply -f application.yaml
 ```
 
