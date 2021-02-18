@@ -13,6 +13,9 @@ This guide describes how to move ("Lift-and-Shift") an on-premises WebLogic Serv
 The [Initial steps](#initial-steps) create a very simple on-premises domain that you will move to Kubernetes.  The sample domain is the starting point for the lift and shift process; it contains one application (ToDo List) and one data source.  First, you'll configure the database and the WebLogic Server domain.  Then, in [Lift and Shift](#lift-and-shift-steps), you will move the domain to Kubernetes with Verrazzano.  This guide does not include the setup of the networking that would be needed to access an on-premises database, nor does it document how to migrate a database to the cloud.  
 
 ## What you need
+
+- The [Git](https://git-scm.com/downloads) command line tool and access to [GitHub](https://github.com)
+  
 - [MySQL Database 8.x](https://hub.docker.com/_/mysql) - a database server
 
 - [WebLogic Server 12.2.1.4.0](https://www.oracle.com/middleware/technologies/weblogic-server-downloads.html) - an application server; Note that all WebLogic Server installers are supported _except_ the Quick Installer.
@@ -152,8 +155,9 @@ Using the WebLogic Server Administration Console, log in and add a data source c
 2. Using the WebLogic Server Administration Console, deploy the ToDo List application.  
 
    - In the left pane in the Console, select **Deployments** and click **Install**.
-   - Provide the file path to `todo.war`.
-   - Accepting all the default options is fine.
+   - Use the navigation links or provide the file path to `todo.war` typically `<repo>/todo-list/target`.  For example if you cloned the examples
+     repository in your `$HOME` directory, the location should be `$HOME/examples/examples/todo-list/target/todo.war`
+   - Click **Next** twice, then **Finish**.
 
    **NOTE**: The remaining steps assume that the application context is `todo`.
 
