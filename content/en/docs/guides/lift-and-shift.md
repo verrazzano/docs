@@ -91,7 +91,7 @@ In the initial steps, you create a sample domain that represents your on-premise
    * Launch `$ORACLE_HOME/oracle_common/common/bin/config.sh`
    * Choose the **Create a new domain** button 
    * Specify a `Domain Location` of `<oracle home>/user_projects/domains/tododomain` and click **Next**
-   * Choose the **Basic WebLogic Server Domain [wlserver]** template   
+   * Choose the **Basic WebLogic Server Domain [wlserver]** template and click **Next**  
    * Add the password for the administrative user (the examples here assume a password of "welcome1") and click **Next**
    * Accept the defaults for Domain Mode and JDK and click **Next**
    * Check the "Administration Server" checkbox and click **Next**  
@@ -138,7 +138,7 @@ Using the WebLogic Server Administration Console, log in and add a data source c
 
 ![Connection test](../../images/jdbc-connection-test.png)
 
-1. Click **Next** On the Select Targets page, select `AdminServer`.
+1. Click **Next**. On the Select Targets page, select `AdminServer`.
 
 1. Click **Finish** to complete the configuration.
 
@@ -205,8 +205,7 @@ To create a reusable model of the application and domain, use WDT to create a me
   ```
 
 You will find the following files in `./v8o`:
-- `application.yaml` - Verrazzano application configuration file; you can view a sample generated file [here](application.yaml)
-- `component.yaml` - Verrazzano component template
+- `application.yaml` - Verrazzano application configuration and component file; you can view a sample generated file [here](application.yaml)
 - `wdt-archive.zip` - The WDT archive file containing the ToDo List application WAR file
 - `wdt-model.yaml` - The WDT model of the WebLogic Server domain
 - `vz_variable.properties` - A set of properties extracted from the WDT domain model
