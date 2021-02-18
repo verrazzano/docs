@@ -266,7 +266,7 @@ Once the application image has been created, there are several steps required to
 the application into a Verrazzano environment.
 
 These include
-* Create and label the `tododomain` namespace
+* Creating and label the `tododomain` namespace
 * Creating the necessary secrets required by the TODO applicatiom
 * Adding OAM components to deploy MySQL 
 * Apply the `application.yaml` file to the cluster
@@ -299,8 +299,8 @@ For example:
 # Update <admin-user> and <admin-password> for weblogic-credentials
 create_paired_k8s_secret weblogic-credentials weblogic welcome1
 
-# Update <user> and <password> for jdbc-todo-datasource
-create_paired_k8s_secret jdbc-todo-datasource derek welcome1
+# Update <user> and <password> for tododomain-jdbc-tododb
+create_paired_k8s_secret tododomain-jdbc-tododb derek welcome1
 ```
 
 If the Docker image was pushed to a repo that is not public, Verrazzano will need a credential to pull the image that you just created, so you need to create one more secret.
@@ -314,13 +314,7 @@ kubectl create secret docker-registry tododomain-registry-credentials \
   --docker-password='passwordForUsername' \
   --namespace=tododomain
 ```
-And, lastly, create the JDBC secret for `tododb`:
 
-```shell
-$ kubectl create secret generic tododomain-jdbc-tododb \
-  --from-literal=password=welcome1 \
-  --from-literal=username=derek -n tododomain
-```
 #### Add the MySQL Components to the Application Config
 
 Download the [mysql-oam.yaml](mysql-oam.yaml) file.
