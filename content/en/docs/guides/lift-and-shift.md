@@ -190,7 +190,7 @@ To create a reusable model of the application and domain, use WDT to create a me
   ```
 
 You will find the following files in `./v8o`:
-- `application.yaml` - Verrazzano application configuration file
+- `application.yaml` - Verrazzano application configuration file; you can view a sample generated file [here](application.yaml)
 - `component.yaml` - Verrazzano component template
 - `wdt-archive.zip` - The WDT archive file containing the ToDo List application WAR file
 - `wdt-model.yaml` - The WDT model of the WebLogic Server domain
@@ -268,13 +268,10 @@ the application into a Verrazzano environment.
 These include
 * Creating and label the `tododomain` namespace
 * Creating the necessary secrets required by the ToDo applicatiom
-* Adding OAM components to deploy MySQL 
+* Adding OAM components to deploy MySQL to the ToDo application configuration
+* Updating the `application.yaml` file to utilize the new MySQL components
 * Apply the `application.yaml` file to the cluster
   
-As noted previously, moving a production environment to Verrazzano would require migrating the
-data as well.  While data migratiom is beyond the scope of this guide, we will still need to 
-include a MySQL instance to be deployed with the application in the Verrazzano environment.
-
 The following steps assume that you have a Kubernetes cluster and that [Verrazzano]({{< relref "/quickstart.md#install-verrazzano" >}}) is already installed in that cluster.
 
 #### Label the Namespace
@@ -315,11 +312,15 @@ kubectl create secret docker-registry tododomain-registry-credentials \
   --namespace=tododomain
 ```
 
-#### Add the MySQL Components to the Application Config
+#### Add MySQL to the Application Config
 
-Download the [mysql-oam.yaml](mysql-oam.yaml) file.
+As noted previously, moving a production environment to Verrazzano would require migrating the
+data as well.  While data migration is beyond the scope of this guide, we will still need to
+include a MySQL instance to be deployed with the application in the Verrazzano environment.
 
-Then, update the the `application.yaml` file for the `todo` application to
+To do so, download the [mysql-oam.yaml](mysql-oam.yaml) file.
+
+Then, update the generated `application.yaml` file for the `todo` application to
 
 * Add references to the MySQL components as shown
 ```yaml
@@ -356,6 +357,31 @@ Then, update the the `application.yaml` file for the `todo` application to
                   JDBCDriverParams:
                     # This is the URL of the database used by the WebLogic Server application
                     URL: "jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb"
+```
+* (Optional) Add a path in the `tododomain-domain` `IngressTrait` to allow access to the WebLogic Server administration console 
+```yaml
+                    # WLS console
+                    - path: "/console"
+                      pathType: Prefix
+```
+
+The file  [application-modified.yaml](application-modified.yaml) is an example of a modified [application.yaml](application.yaml).  A diff of these
+two sample files is shown below.
+
+```shell
+$ diff application.yaml application-modified.yaml
+30a31,33
+>                     # WLS console
+>                     - path: "/console"
+>                       pathType: Prefix
+31a35,37
+>     - componentName: todo-mysql-service
+>     - componentName: todo-mysql-deployment
+>     - componentName: todo-mysql-configmap
+105c111
+<                   URL: "jdbc:mysql://localhost:3306/tododb"
+---
+>                   URL: "jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb"
 ```
 
 #### Deploy the ToDo Application
@@ -416,3 +442,5 @@ tododomain-adminserver   2/2     Running   0          5m
    ToDos table initialized.
    ```
 1. Access the application in a browser at `http://tododomain-appconf.tododomain.example.com/todo`
+
+1. (Optional) Access the WebLogic Server administration console at `http://tododomain-appconf.tododomain.example.com/console`
