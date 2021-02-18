@@ -261,7 +261,32 @@ docker push your/repo/todo:1
 ```
 
 ### Deploy to Verrazzano
+
+Once the application image has been created, there are several steps required to deploy a 
+the application into a Verrazzano environment.
+
+These include
+* Create and label the `tododomain` namespace
+* Creating the necessary secrets required by the TODO applicatiom
+* Adding OAM components to deploy MySQL 
+* Apply the `application.yaml` file to the cluster
+  
+As noted previously, moving a production environment to Verrazzano would require migrating the
+data as well.  While data migratiom is beyond the scope of this guide, we will still need to 
+include a MySQL instance to be deployed with the application in the Verrazzano environment.
+
 The following steps assume that you have a Kubernetes cluster and that [Verrazzano]({{< relref "/quickstart.md#install-verrazzano" >}}) is already installed in that cluster.
+
+#### Label the Namespace
+
+Create the `tododomain` namespace, and add a label to allow the WebLogic Operator to manage it.
+
+```shell
+$ kubectl create namespace tododomain
+$ kubectl label namespace tododomain verrazzano-managed=true
+```
+
+#### Create the Necessary Secrets
 
 If you haven't already done so, edit and run the `create_k8s_secrets.sh` script to generate the Kubernetes secrets.
 WDT does not discover passwords from your existing domain.  Before running the create secrets script, you will need to
@@ -278,41 +303,122 @@ create_paired_k8s_secret weblogic-credentials weblogic welcome1
 create_paired_k8s_secret jdbc-todo-datasource derek welcome1
 ```
 
-Verrazzano will need a credential to pull the image that you just created, so you need to create one more secret.
-The name for this credential can be changed in the `component.yaml` file to anything you like, but it defaults to `ocir`.  
-Assuming that you leave the name `ocir`, you will need to run a `kubectl create secret` command similar to the following:
+If the Docker image was pushed to a repo that is not public, Verrazzano will need a credential to pull the image that you just created, so you need to create one more secret.
+The name for this credential can be changed in the `component.yaml` file to anything you like, but it defaults to `tododomain-registry-credentials`.  
+Assuming that you leave the name `tododomain-registry-credentials`, you will need to run a `kubectl create secret` command similar to the following:
 ```shell script
-kubectl create secret docker-registry ocir \
+kubectl create secret docker-registry tododomain-registry-credentials \
   --docker-server=phx.ocir.io \
   --docker-email=your.name@company.com \
   --docker-username=tenancy/username \
-  --docker-password='passwordForUsername'
+  --docker-password='passwordForUsername' \
+  --namespace=tododomain
+```
+And, lastly, create the JDBC secret for `tododb`:
+
+```shell
+$ kubectl create secret generic tododomain-jdbc-tododb \
+  --from-literal=password=welcome1 \
+  --from-literal=username=derek -n tododomain
+```
+#### Add the MySQL Components to the Application Config
+
+Download the [mysql-oam.yaml](mysql-oam.yaml) file.
+
+Then, update the the `application.yaml` file for the `todo` application to
+
+* Add references to the MySQL components as shown
+```yaml
+  components:
+    # ...
+    - componentName: tododomain-configmap
+    # Added mysql components to the application topology
+    - componentName: todo-mysql-service
+    - componentName: todo-mysql-deployment
+    - componentName: todo-mysql-configmap
+```
+* Update the `tododomain-configmap` component to use the in-cluster MySQL service URL `jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb` to access the database
+
+```yaml
+  ---
+  apiVersion: core.oam.dev/v1alpha2
+  kind: Component
+  metadata:
+    name: tododomain-configmap
+    namespace: tododomain
+  spec:
+    workload:
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: tododomain-configmap
+        namespace: tododomain
+      data:
+        wdt_jdbc.yaml: |
+          resources:
+            JDBCSystemResource:
+              'todo-ds':
+                JdbcResource:
+                  JDBCDriverParams:
+                    # This is the URL of the database used by the WebLogic Server application
+                    URL: "jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb"
 ```
 
-And finally, run `kubectl apply` to apply the Verrazzano component and Verrazzano application configuration files to start your domain.
+#### Deploy the TODO Application
+
+Finally, run `kubectl apply` to apply the Verrazzano component and Verrazzano application configuration files to start your domain.
 
 ```shell script
-kubectl apply -f component.yaml
 kubectl apply -f application.yaml
 ```
 
-#### Verify the ToDo List application deployment
-Check that the WebLogic Server pods were created in the `todo` namespace; you will see a pod named `tododomain-admin-server`.
+This will
+* Create the application Component resources for the TODO application
+* Create the application ApplicationConfiguration resources that create the instance of the TODO application in the Verrazzano cluster
 
-```shell script
-kubectl get pods -n todo
+#### Verify the ToDo List Application Deployment
+
+Wait for the ToDo List example application to be ready. 
+
+```shell
+$ kubectl wait pod --for=condition=Ready tododomain-adminserver -n tododomain
+pod/tododomain-adminserver condition met
 ```
 
-#### Verify that you can access the application from your browser
+Verify the pods are in the `Running` state:
+```shell
+$ kubectl get pod -n tododomain 
+NAME                     READY   STATUS    RESTARTS   AGE
+mysql-55bb4c4565-c8zf5   1/1     Running   0          8m
+tododomain-adminserver   2/2     Running   0          5m
+```
 
-1. Obtain the external IP address for application access.
+#### Access the Application From Your Browser
 
-    ```shell script
-    kubectl get svc -n istio-system istio-ingressgateway
-    ```
+1. Get the `EXTERNAL_IP` address of the `istio-ingressgateway` service.
+   ```
+   kubectl get service istio-ingressgateway -n istio-system
 
+   NAME                   TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S)                      AGE
+   istio-ingressgateway   LoadBalancer   10.96.97.98   11.22.33.44   80:31380/TCP,443:31390/TCP   13d
+   ```
+   
     The IP address is listed in the `EXTERNAL-IP` column.
 
-1. Open a browser to that IP address with the path `/todo`, for example, if the IP address is 1.2.3.4, then open your browser to `http://1.2.3.4/todo`.
+1. Add an Entry to /etc/hosts for the application hostname for the ingress gateway external IP
 
-    You will see the same application as in the [Access the application](#access-the-application) step.
+   Temporarily modify the `/etc/hosts` file (on Mac or Linux)
+   or `c:\Windows\System32\Drivers\etc\hosts` file (on Windows 10),
+   to add an entry mapping `todo.example.com` to the ingress gateway's `EXTERNAL-IP` address.
+   For example:
+     ```
+     11.22.33.44 tododomain-appconf.tododomain.example.com
+     ```
+   Then, you can access the application in a browser at `http://todo.example.com/todo`.
+
+1. Intialize the database by accessing the init URL
+   ```shell
+   $ curl http://tododomain-appconf.tododomain.example.com/todo/rest/items/init
+   ToDos table initialized.
+   ```
+1. Access the application in a browser at `http://tododomain-appconf.tododomain.example.com/todo`
