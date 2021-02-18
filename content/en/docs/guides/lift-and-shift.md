@@ -267,7 +267,7 @@ the application into a Verrazzano environment.
 
 These include
 * Creating and label the `tododomain` namespace
-* Creating the necessary secrets required by the TODO applicatiom
+* Creating the necessary secrets required by the ToDo applicatiom
 * Adding OAM components to deploy MySQL 
 * Apply the `application.yaml` file to the cluster
   
@@ -358,7 +358,7 @@ Then, update the the `application.yaml` file for the `todo` application to
                     URL: "jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb"
 ```
 
-#### Deploy the TODO Application
+#### Deploy the ToDo Application
 
 Finally, run `kubectl apply` to apply the Verrazzano component and Verrazzano application configuration files to start your domain.
 
@@ -367,8 +367,8 @@ kubectl apply -f application.yaml
 ```
 
 This will
-* Create the application Component resources for the TODO application
-* Create the application ApplicationConfiguration resources that create the instance of the TODO application in the Verrazzano cluster
+* Create the application Component resources for the ToDo application
+* Create the application ApplicationConfiguration resources that create the instance of the ToDo application in the Verrazzano cluster
 
 #### Verify the ToDo List Application Deployment
 
