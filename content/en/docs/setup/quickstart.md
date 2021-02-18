@@ -78,6 +78,9 @@ To install Verrazzano, follow these steps:
       name: example-verrazzano
     spec:
       profile: dev
+      components:
+        oam:
+          enabled: true
     EOF
     ```
 

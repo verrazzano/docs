@@ -145,7 +145,8 @@ Using the WebLogic Server Administration Console, log in and add a data source c
 
 ### Build and deploy the application
 
-1. Using Maven, build this project to produce `todo.war`.
+1. Using Maven, build this project to produce `todo.war`.  (**NOTE**: You should clone this repo outside of `$ORACLE_HOME`
+   or copy the WAR file to another location, as WDT may ignore it during the model creation phase)
    ```shell script
     git clone https://github.com/verrazzano/examples.git
     cd examples/todo-list/
@@ -190,6 +191,15 @@ The following steps will move the sample domain to Kubernetes with Verrazzano.
     export WDT_HOME=/install/directory
    ```
 
+For example, to get the latest version,
+
+```shell
+curl -OL https://github.com/oracle/weblogic-deploy-tooling/releases/latest/download/weblogic-deploy.zip
+unzip  weblogic-deploy.zip
+cd weblogic-deploy
+export WDT_HOME=$(pwd)
+```
+
 To create a reusable model of the application and domain, use WDT to create a metadata model of the domain.  
 - First, create an output directory to hold the generated scripts and models.  
 - Then, run WDT `discoverDomain`.
@@ -211,6 +221,16 @@ You will find the following files in `./v8o`:
 - `vz_variable.properties` - A set of properties extracted from the WDT domain model
 - `create_k8s_secrets.sh` - A helper script with `kubectl` commands to apply the Kubernetes secrets needed for this domain
 
+**NOTE:** Due to a bug in WDT v1.9.9, you need to make the following edits (preferably using an editor like `vi`) to the generated `application.yaml` file:
+* Delete the line between the copyright headers and the first `apiVersion`
+
+   ![edit1](../../images/application-edit-1.png?thumbnail)
+
+* Delete the empty `clusters` field from the `tododomain` Domain component
+
+   ![edit2](../../images/application-edit-2.png#thumbnail)
+
+
 If you chose to skip the [Access the application](#access-the-application) step and did not verify that the ToDo List application was deployed, then you should verify that you see the `todo.war` file inside the `wdt-archive.zip` file.  If you do not see the WAR file, there was something wrong in your deployment of the application on WebLogic Server that will require additional troubleshooting in your domain.
 
 ### Create a Docker image
@@ -224,6 +244,14 @@ fill in the placeholders for you, or you can edit the model manually to set the 
     export WIT_HOME=/install/directory
    ```
 
+For example, to get the latest WIT tool,
+
+```shell
+curl -OL https://github.com/oracle/weblogic-image-tool/releases/latest/download/imagetool.zip 
+unzip imagetool.zip
+cd imagetool
+export export WIT_HOME=$(pwd)
+```
 You will need a Docker image to run your WebLogic Server domain in Kubernetes.  To use WIT to
 create the Docker image, run `imagetool create`.  Although WIT will download patches and PSUs for you, it does not yet download installers.  Until then, you must download the [WebLogic Server](https://www.oracle.com/middleware/technologies/weblogic-server-downloads.html) and [Java Development Kit](https://www.oracle.com/java/technologies/javase/javase8u211-later-archive-downloads.html) installer manually and provide their location to the `imagetool cache addInstaller` command.
 
@@ -263,7 +291,9 @@ $WIT_HOME/bin/imagetool.sh create \
 
 The `imagetool create` command will have created a local Docker image and updated the Verrazzano model with the domain home
 and image name.  Check your Docker images for the tag that you used in the `create` command using `docker images` from the Docker
-CLI.  If everything worked correctly, it is time to push that image to the container registry that Verrazzano will use to access
+CLI.  
+
+If everything worked correctly, it is time to push that image to the container registry that Verrazzano will use to access
 the image from Kubernetes. You can use the Oracle Cloud Infrastructure Registry (OCIR) as your repository for this
 example, but most Docker compliant registries should work.
 
@@ -278,6 +308,10 @@ Push the image to your repo.
 ```shell script
 docker push your/repo/todo:1
 ```
+
+Once pushed to the Docker registry that Verrazzano will pull from you will have 2 options to allow it to be pulled successfully
+* Make the image repository public
+* Add a `docker-registry` secret to the Kubernetes namespace where the application will be deployed (to be covered in the next section)
 
 ### Deploy to Verrazzano
 
@@ -298,8 +332,8 @@ The following steps assume that you have a Kubernetes cluster and that [Verrazza
 Create the `tododomain` namespace, and add a label to allow the WebLogic Operator to manage it.
 
 ```shell
-$ kubectl create namespace tododomain
-$ kubectl label namespace tododomain verrazzano-managed=true
+kubectl create namespace tododomain
+kubectl label namespace tododomain verrazzano-managed=true
 ```
 
 #### Create the Necessary Secrets
@@ -322,6 +356,12 @@ create_paired_k8s_secret tododomain-jdbc-tododb derek welcome1
 
 # Update <password> used to encrypt hashes
 create_k8s_secret runtime-encryption-secret welcome1
+```
+
+Then execute the script:
+
+```shell
+sh ./create_k8s_secrets.sh
 ```
 
 If the Docker image was pushed to a repo that is not public, Verrazzano will need a credential to pull the image that you just created, so you need to create one more secret.
