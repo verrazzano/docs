@@ -78,24 +78,31 @@ In the initial steps, you create a sample domain that represents your on-premise
 
    - Save the installer after you have finished; you will need it to build the Docker image.  
 
-   - To make copying commands easier, define an environment variable for `ORACLE_HOME` that points to the directory where you installed WebLogic Server 12.2.1.4.0.
+   - To make copying commands easier, define an environment variable for `ORACLE_HOME` that points to the directory where you installed WebLogic Server 12.2.1.4.0.  For example,
 
      ```shell script
-     export ORACLE_HOME=/install/directory
+     export ORACLE_HOME=$HOME/Oracle/Middleware/Oracle_Home
      ```
 
-1. Using the Oracle WebLogic Server Configuration Wizard, create a domain called `tododomain` by specifying a `Domain Location` of `<oracle home>/user_projects/domains/tododomain`. Add the password for the administrative user and accept the defaults for everything else to create a simple domain with a single Administration Server.
-
-    ```shell script
-     $ORACLE_HOME/oracle_common/common/bin/config.sh
-    ```
-
+1. Use the Oracle WebLogic Server Configuration Wizard to create a domain called `tododomain`
+   * Launch `$ORACLE_HOME/oracle_common/common/bin/config.sh`
+   * Choose the **Create a new domain** button 
+   * Specify a `Domain Location` of `<oracle home>/user_projects/domains/tododomain` and click **Next**
+   * Choose the **Basic WebLogic Server Domain [wlserver]** template   
+   * Add the password for the administrative user (the examples here assume a password of "welcome1") and click **Next**
+   * Accept the defaults for Domain Mode and JDK and click **Next**
+   * Check the "Administration Server" checkbox and click **Next**  
+   * Ensure that the server name is `AdminServer` and click **Next** 
+   * Click **Create**
+   * Once finished, click **Next**, then **Finish**
+    
 1. To start the newly created domain, run the domain's start script.
 
     ```shell script
      $ORACLE_HOME/user_projects/domains/tododomain/bin/startWebLogic.sh
     ```
-1. Access the Console of the newly started domain with your browser, for example, [http://localhost:7001/console](http://localhost:7001/console).
+1. Access the Console of the newly started domain with your browser, for example, [http://localhost:7001/console](http://localhost:7001/console), and 
+   log in using the administrator credentials you specified.
 
 ### Add a data source configuration to access the database
 
@@ -122,11 +129,15 @@ Using the WebLogic Server Administration Console, log in and add a data source c
     - Password: `welcome1` (or whatever password you used)
     - Confirm Password: `welcome1`
 
-1. Click **Next** two more times.
+1. Click **Next**
 
-1. On the Select Targets page, select `AdminServer`.
+1. Select "Test Configuration", and make sure you see "Connection Test Succeeded" in the "Messages" field of the console
 
-1. Click **Next** and then **Finish** to complete the configuration.
+![Connection test](../../images/jdbc-connection-test.png)
+
+1. Click **Next** On the Select Targets page, select `AdminServer`.
+
+1. Click **Finish** to complete the configuration.
 
 
 ### Build and deploy the application
