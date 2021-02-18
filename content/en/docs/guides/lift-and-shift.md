@@ -312,6 +312,10 @@ create_paired_k8s_secret weblogic-credentials weblogic welcome1
 
 # Update <user> and <password> for tododomain-jdbc-tododb
 create_paired_k8s_secret tododomain-jdbc-tododb derek welcome1
+
+# Update <password> used to encrypt model and domain hashes
+# This secret is only required for model-in-image deployments
+create_k8s_secret runtime-encryption-secret welcome1
 ```
 
 If the Docker image was pushed to a repo that is not public, Verrazzano will need a credential to pull the image that you just created, so you need to create one more secret.
