@@ -330,24 +330,24 @@ These include:
   
 The following steps assume that you have a Kubernetes cluster and that [Verrazzano]({{< relref "/quickstart.md#install-verrazzano" >}}) is already installed in that cluster.
 
-#### Label the Namespace
+#### Label the namespace
 
-Create the `tododomain` namespace, and add a label to allow the WebLogic Operator to manage it.
+Create the `tododomain` namespace, and add a label to allow the WebLogic Server Kubernetes Operator to manage it.
 
 ```shell
 kubectl create namespace tododomain
 kubectl label namespace tododomain verrazzano-managed=true
 ```
 
-#### Create the Necessary Secrets
+#### Create the required secrets
 
 If you haven't already done so, edit and run the `create_k8s_secrets.sh` script to generate the Kubernetes secrets.
 WDT does not discover passwords from your existing domain.  Before running the create secrets script, you will need to
 edit `create_k8s_secrets.sh` to set the passwords for the WebLogic Server domain and the data source.  In this domain,
 there are a few passwords that you need to enter: 
-* administrator credentials (i.e. `weblogic/welcome1`)
-* ToDo database credentials (i.e. `derek/welcome1`)
-* runtime encryption secret (i.e. `welcome1`) 
+* administrator credentials (for example, `weblogic/welcome1`)
+* ToDo database credentials (for example, `derek/welcome1`)
+* runtime encryption secret (for example, `welcome1`) 
 
 For example:
 ```shell script
@@ -361,7 +361,7 @@ create_paired_k8s_secret jdbc-tododb derek welcome1
 create_k8s_secret runtime-encryption-secret welcome1
 ```
 
-Then execute the script:
+Then run the script:
 
 ```shell
 sh ./create_k8s_secrets.sh
@@ -380,9 +380,9 @@ kubectl create secret docker-registry tododomain-registry-credentials \
   --namespace=tododomain
 ```
 
-#### Update the Application Config
+#### Update the application configuration
 
-Update the generated `application.yaml` file for the `todo` application to
+Update the generated `application.yaml` file for the `todo` application to:
 
 * Update the `tododomain-configmap` component to use the in-cluster MySQL service URL `jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb` to access the database.
 
@@ -396,15 +396,15 @@ Update the generated `application.yaml` file for the `todo` application to
                     # This is the URL of the database used by the WebLogic Server application
                     URL: "jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb"
 ```
-* (Optional) Add a path in the `tododomain-domain` `IngressTrait` to allow access to the WebLogic Server administration console.
+* (Optional) Add a path in the `tododomain-domain` `IngressTrait` to allow access to the WebLogic Server Administration Console.
 ```yaml
                     # WLS console
                     - path: "/console"
                       pathType: Prefix
 ```
 
-The file  [application-modified.yaml](application-modified.yaml) is an example of a modified [application.yaml](application.yaml).  A diff of these
-two sample files is shown below.
+The file  [application-modified.yaml](application-modified.yaml) is an example of a modified [application.yaml](application.yaml) file.  A diff of these
+two sample files is shown:
 
 ```shell
 $ diff application.yaml application-modified.yaml
@@ -442,7 +442,7 @@ mysql-5cfd58477b-mg5c7          0/1     Pending             0          0s
 mysql-5cfd58477b-mg5c7          0/1     ContainerCreating   0          0s
 mysql-5cfd58477b-mg5c7          1/1     Running             0          2s
 ```
-#### Deploy the ToDo Application
+#### Deploy the ToDo application
 
 Finally, run `kubectl apply` to apply the Verrazzano component and Verrazzano application configuration files to start your domain.
 
@@ -450,7 +450,7 @@ Finally, run `kubectl apply` to apply the Verrazzano component and Verrazzano ap
 kubectl apply -f application.yaml
 ```
 
-This will
+This will:
 * Create the application Component resources for the ToDo application.
 * Create the application ApplicationConfiguration resources that create the instance of the ToDo application in the Verrazzano cluster.
 
