@@ -481,7 +481,7 @@ tododomain-adminserver   2/2     Running   0          5m
    
     The IP address is listed in the `EXTERNAL-IP` column.
 
-1. Add an Entry to `/etc/hosts` for the application hostname for the ingress gateway external IP.
+1. Add an entry to `/etc/hosts` for the application hostname for the ingress gateway external IP.
 
    Temporarily modify the `/etc/hosts` file (on Mac or Linux)
    or `c:\Windows\System32\Drivers\etc\hosts` file (on Windows 10),
