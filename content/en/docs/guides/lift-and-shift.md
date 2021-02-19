@@ -14,7 +14,7 @@ The [Initial steps](#initial-steps) create a very simple on-premises domain that
 
 ## What you need
 
-- The [Git](https://git-scm.com/downloads) command line tool and access to [GitHub](https://github.com)
+- The [Git](https://git-scm.com/downloads) command-line tool and access to [GitHub](https://github.com)
   
 - [MySQL Database 8.x](https://hub.docker.com/_/mysql) - a database server
 
@@ -81,23 +81,23 @@ In the initial steps, you create a sample domain that represents your on-premise
 
    - Save the installer after you have finished; you will need it to build the Docker image.  
 
-   - To make copying commands easier, define an environment variable for `ORACLE_HOME` that points to the directory where you installed WebLogic Server 12.2.1.4.0.  For example,
+   - To make copying commands easier, define an environment variable for `ORACLE_HOME` that points to the directory where you installed WebLogic Server 12.2.1.4.0.  For example:
 
      ```shell script
      export ORACLE_HOME=$HOME/Oracle/Middleware/Oracle_Home
      ```
 
-1. Use the Oracle WebLogic Server Configuration Wizard to create a domain called `tododomain`
-   * Launch `$ORACLE_HOME/oracle_common/common/bin/config.sh`
-   * Choose the **Create a new domain** button 
-   * Specify a `Domain Location` of `<oracle home>/user_projects/domains/tododomain` and click **Next**
-   * Choose the **Basic WebLogic Server Domain [wlserver]** template and click **Next**  
-   * Add the password for the administrative user (the examples here assume a password of "welcome1") and click **Next**
-   * Accept the defaults for Domain Mode and JDK and click **Next**
-   * Check the "Administration Server" checkbox and click **Next**  
-   * Ensure that the server name is `AdminServer` and click **Next** 
-   * Click **Create**
-   * Once finished, click **Next**, then **Finish**
+1. Use the Oracle WebLogic Server Configuration Wizard to create a domain called `tododomain`.
+   * Launch `$ORACLE_HOME/oracle_common/common/bin/config.sh`.
+   * Select **Create a new domain**. 
+   * Specify a `Domain Location` of `<oracle home>/user_projects/domains/tododomain` and click **Next**.
+   * Select the **Basic WebLogic Server Domain [wlserver]** template and click **Next**.
+   * Enter the password for the administrative user (the examples here assume a password of "welcome1") and click **Next**.
+   * Accept the defaults for `Domain Mode` and `JDK`, and click **Next**.
+   * Select **Administration Server** and click **Next**.
+   * Ensure that the server name is `AdminServer` and click **Next**. 
+   * Click **Create**.
+   * After it has completed, click **Next**, then **Finish**.
     
 1. To start the newly created domain, run the domain's start script.
 
@@ -132,13 +132,15 @@ Using the WebLogic Server Administration Console, log in and add a data source c
     - Password: `welcome1` (or whatever password you used)
     - Confirm Password: `welcome1`
 
-1. Click **Next**
+1. Click **Next**.
 
-1. Select "Test Configuration", and make sure you see "Connection Test Succeeded" in the "Messages" field of the console
+1. Select **Test Configuration**, and make sure you see "Connection Test Succeeded" in the `Messages` field of the Console.
 
-![Connection test](../../images/jdbc-connection-test.png)
+    ![Connection test](../../images/jdbc-connection-test.png)
 
-1. Click **Next**. On the Select Targets page, select `AdminServer`.
+1. Click **Next**. 
+   
+1. On the Select Targets page, select `AdminServer`.
 
 1. Click **Finish** to complete the configuration.
 
@@ -146,7 +148,7 @@ Using the WebLogic Server Administration Console, log in and add a data source c
 ### Build and deploy the application
 
 1. Using Maven, build this project to produce `todo.war`.  (**NOTE**: You should clone this repo outside of `$ORACLE_HOME`
-   or copy the WAR file to another location, as WDT may ignore it during the model creation phase)
+   or copy the WAR file to another location, as WDT may ignore it during the model creation phase).
    ```shell script
     git clone https://github.com/verrazzano/examples.git
     cd examples/todo-list/
@@ -156,8 +158,8 @@ Using the WebLogic Server Administration Console, log in and add a data source c
 2. Using the WebLogic Server Administration Console, deploy the ToDo List application.  
 
    - In the left pane in the Console, select **Deployments** and click **Install**.
-   - Use the navigation links or provide the file path to `todo.war` typically `<repo>/todo-list/target`.  For example if you cloned the examples
-     repository in your `$HOME` directory, the location should be `$HOME/examples/examples/todo-list/target/todo.war`
+   - Use the navigation links or provide the file path to `todo.war` typically `<repo>/todo-list/target`.  For example, if you cloned the examples
+     repository in your `$HOME` directory, the location should be `$HOME/examples/examples/todo-list/target/todo.war`.
    - Click **Next** twice, then **Finish**.
 
    **NOTE**: The remaining steps assume that the application context is `todo`.
@@ -167,7 +169,8 @@ After the application is deployed and running in WebLogic Server, access the `ht
 REST service to create the database table used by the application. In addition to creating the application table,
 the `init` service also will load four sample items into the table.
 
-If you get an error here, go back to the Select Targets page on the WebLogic Server Administration Console and make sure that you checked AdminServer as the datasource target.
+If you get an error here, go back to the Select Targets page in the WebLogic Server Administration Console and make sure 
+that you checked `AdminServer` as the data source target.
 
 ### Access the application
 
@@ -191,7 +194,7 @@ The following steps will move the sample domain to Kubernetes with Verrazzano.
     export WDT_HOME=/install/directory
    ```
 
-For example, to get the latest version,
+For example, to get the latest version:
 
 ```shell
 curl -OL https://github.com/oracle/weblogic-deploy-tooling/releases/latest/download/weblogic-deploy.zip
@@ -222,11 +225,11 @@ You will find the following files in `./v8o`:
 - `create_k8s_secrets.sh` - A helper script with `kubectl` commands to apply the Kubernetes secrets needed for this domain
 
 **NOTE:** Due to a bug in WDT v1.9.9, you need to make the following edits (preferably using an editor like `vi`) to the generated `application.yaml` file:
-* Delete the line between the copyright headers and the first `apiVersion`
+* Delete the line between the copyright headers and the first `apiVersion`.
 
    ![edit1](../../images/application-edit-1.png?thumbnail)
 
-* Delete the empty `clusters` field from the `tododomain` Domain component
+* Delete the empty `clusters` field from the `tododomain` Domain component.
 
    ![edit2](../../images/application-edit-2.png#thumbnail)
 
@@ -244,7 +247,7 @@ fill in the placeholders for you, or you can edit the model manually to set the 
     export WIT_HOME=/install/directory
    ```
 
-For example, to get the latest WIT tool,
+For example, to get the latest WIT tool:
 
 ```shell
 curl -OL https://github.com/oracle/weblogic-image-tool/releases/latest/download/imagetool.zip 
@@ -253,7 +256,10 @@ cd imagetool
 export export WIT_HOME=$(pwd)
 ```
 You will need a Docker image to run your WebLogic Server domain in Kubernetes.  To use WIT to
-create the Docker image, run `imagetool create`.  Although WIT will download patches and PSUs for you, it does not yet download installers.  Until then, you must download the [WebLogic Server](https://www.oracle.com/middleware/technologies/weblogic-server-downloads.html) and [Java Development Kit](https://www.oracle.com/java/technologies/javase/javase8u211-later-archive-downloads.html) installer manually and provide their location to the `imagetool cache addInstaller` command.
+create the Docker image, run `imagetool create`.  Although WIT will download patches and PSUs for you, it does not yet 
+download installers.  Until then, you must download the [WebLogic Server](https://www.oracle.com/middleware/technologies/weblogic-server-downloads.html) 
+and [Java Development Kit](https://www.oracle.com/java/technologies/javase/javase8u211-later-archive-downloads.html) installer 
+manually and provide their location to the `imagetool cache addInstaller` command.
 
 ```shell script
 # The directory created previously to hold the generated scripts and models.
@@ -298,7 +304,8 @@ the image from Kubernetes. You can use the Oracle Cloud Infrastructure Registry 
 example, but most Docker compliant registries should work.
 
 The variables in the `application.yaml` resource template should be resolved with information from the image tool build.  
-Verify this by looking in `$WDT_HOME/v8o/application.yaml` to make sure that the `image: {{{imageName}}}` value has been set with the given `--tag` value.
+Verify this by looking in the `v8o/application.yaml` file to make sure that the `image: {{{imageName}}}` value has been 
+set with the given `--tag` value.
 
 Push the image to your repo.
 
@@ -311,15 +318,15 @@ docker push your/repo/todo:1
 
 ### Deploy to Verrazzano
 
-Once the application image has been created, there are several steps required to deploy a 
+After the application image has been created, there are several steps required to deploy a 
 the application into a Verrazzano environment.
 
-These include
-1. Creating and label the `tododomain` namespace
-1. Creating the necessary secrets required by the ToDo applicatiom
-1. Deploying MySQL to the `tododomain` namespace
-1. Updating the `application.yaml` file to utilize the Verrazzano MySQL deployment and (optionally) expose the WLS Console
-1. Apply the `application.yaml` file
+These include:
+1. Creating and labeling the `tododomain` namespace.
+1. Creating the necessary secrets required by the ToDo application.
+1. Deploying MySQL to the `tododomain` namespace.
+1. Updating the `application.yaml` file to use the Verrazzano MySQL deployment and (optionally) expose the WLS Console.
+1. Applying the `application.yaml` file.
   
 The following steps assume that you have a Kubernetes cluster and that [Verrazzano]({{< relref "/quickstart.md#install-verrazzano" >}}) is already installed in that cluster.
 
@@ -377,7 +384,7 @@ kubectl create secret docker-registry tododomain-registry-credentials \
 
 Update the generated `application.yaml` file for the `todo` application to
 
-* Update the `tododomain-configmap` component to use the in-cluster MySQL service URL `jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb` to access the database
+* Update the `tododomain-configmap` component to use the in-cluster MySQL service URL `jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb` to access the database.
 
 ```yaml
         wdt_jdbc.yaml: |
@@ -389,7 +396,7 @@ Update the generated `application.yaml` file for the `todo` application to
                     # This is the URL of the database used by the WebLogic Server application
                     URL: "jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb"
 ```
-* (Optional) Add a path in the `tododomain-domain` `IngressTrait` to allow access to the WebLogic Server administration console 
+* (Optional) Add a path in the `tododomain-domain` `IngressTrait` to allow access to the WebLogic Server administration console.
 ```yaml
                     # WLS console
                     - path: "/console"
@@ -425,7 +432,7 @@ Then, apply the YAML file:
 kubectl apply -f mysql-oam.yaml
 ```
 
-Wait for the MySQL pod to reach the `Ready` state:
+Wait for the MySQL pod to reach the `Ready` state.
 
 ```shell
 $ kubectl get pod -n tododomain -w
@@ -444,10 +451,8 @@ kubectl apply -f application.yaml
 ```
 
 This will
-* Create the application Component resources for the ToDo application
-* Create the application ApplicationConfiguration resources that create the instance of the ToDo application in the Verrazzano cluster
-
-#### Verify the ToDo List Application Deployment
+* Create the application Component resources for the ToDo application.
+* Create the application ApplicationConfiguration resources that create the instance of the ToDo application in the Verrazzano cluster.
 
 Wait for the ToDo List example application to be ready. 
 
@@ -464,7 +469,7 @@ mysql-55bb4c4565-c8zf5   1/1     Running   0          8m
 tododomain-adminserver   2/2     Running   0          5m
 ```
 
-#### Access the Application From Your Browser
+#### Access the application from your browser
 
 1. Get the `EXTERNAL_IP` address of the `istio-ingressgateway` service.
    ```
@@ -476,21 +481,23 @@ tododomain-adminserver   2/2     Running   0          5m
    
     The IP address is listed in the `EXTERNAL-IP` column.
 
-1. Add an Entry to /etc/hosts for the application hostname for the ingress gateway external IP
+1. Add an Entry to `/etc/hosts` for the application hostname for the ingress gateway external IP.
 
    Temporarily modify the `/etc/hosts` file (on Mac or Linux)
    or `c:\Windows\System32\Drivers\etc\hosts` file (on Windows 10),
    to add an entry mapping `todo.example.com` to the ingress gateway's `EXTERNAL-IP` address.
-   For example:
+   
+    
+    For example:
      ```
      11.22.33.44 tododomain-appconf.tododomain.example.com
      ```
 
-1. Intialize the database by accessing the init URL
+1. Intialize the database by accessing the init URL.
    ```shell
    $ curl http://tododomain-appconf.tododomain.example.com/todo/rest/items/init
    ToDos table initialized.
    ```
 1. Access the application in a browser at http://tododomain-appconf.tododomain.example.com/todo.
 
-1. (Optional) Access the WebLogic Server administration console at http://tododomain-appconf.tododomain.example.com/console.
+1. (Optional) Access the WebLogic Server Administration Console at http://tododomain-appconf.tododomain.example.com/console.
