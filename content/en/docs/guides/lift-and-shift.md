@@ -148,7 +148,7 @@ Using the WebLogic Server Administration Console, log in and add a data source c
 ### Build and deploy the application
 
 1. Using Maven, build this project to produce `todo.war`.  (**NOTE**: You should clone this repo outside of `$ORACLE_HOME`
-   or copy the WAR file to another location, as WDT may ignore it during the model creation phase).
+   or copy the WAR file to another location, as WDT may ignore it during the model creation phase.)
    ```shell script
     git clone https://github.com/verrazzano/examples.git
     cd examples/todo-list/
@@ -170,7 +170,7 @@ REST service to create the database table used by the application. In addition t
 the `init` service also will load four sample items into the table.
 
 If you get an error here, go back to the Select Targets page in the WebLogic Server Administration Console and make sure 
-that you checked `AdminServer` as the data source target.
+that you selected `AdminServer` as the data source target.
 
 ### Access the application
 
