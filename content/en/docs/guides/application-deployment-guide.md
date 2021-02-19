@@ -29,7 +29,7 @@ demonstrates creating OAM resources that define an application as well as the st
 
 - Access to an existing Kubernetes cluster with Verrazzano [installed]({{< relref "/quickstart.md#install-verrazzano" >}}).
 
-- Access to the application's image in GitHub Packages.
+- Access to the application's image in GitHub Container Registry.
 
    Confirm access using this command to pull the example's Docker image.
 
