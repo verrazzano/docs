@@ -242,7 +242,7 @@ Steps similar to the `apply` steps would be used to deploy any application to Ve
    ingress DNS name to the application's load balancer IP address.
    The generated host name is obtained by querying Kubernetes for the gateway:
    ```shell script
-   $ kubectl get gateway hello-helidon-ingress-rule-0-gw -n hello-helidon -o jsonpath='{.spec.servers[0].hosts[0]}'
+   $ kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath='{.spec.servers[0].hosts[0]}'
    ```
    The load balancer IP is obtained by querying Kubernetes for the
    Istio ingress gateway status:
@@ -334,7 +334,7 @@ If DNS was not configured, then use the alternative commands.
 
 1.  Save the host name and IP address of the load balancer exposing the application's REST service endpoints for later.
     ```shell script
-    $ HOST=$(kubectl get gateway hello-helidon-ingress-rule-0-gw -n hello-helidon -o jsonpath='{.spec.servers[0].hosts[0]}')
+    $ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath='{.spec.servers[0].hosts[0]}')
     $ ADDRESS=$(kubectl get service -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     ```
     **NOTE**:
