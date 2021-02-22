@@ -111,3 +111,5 @@ spec:
 
 {{< /tab >}}
 {{< /tabs >}}
+
+Continue with [install guide](../../../install/installation/#prepare-for-the-install)

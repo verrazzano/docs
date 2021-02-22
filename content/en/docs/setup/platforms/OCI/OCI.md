@@ -26,3 +26,5 @@ draft: false
     --docker-password=<password> \
     --docker-server=<docker server>
 ```
+
+Continue with [install guide](../../../install/installation/#prepare-for-the-install)
