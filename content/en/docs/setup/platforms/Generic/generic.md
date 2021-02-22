@@ -112,4 +112,5 @@ spec:
 {{< /tab >}}
 {{< /tabs >}}
 
-Continue with [install guide](../../../install/installation/#prepare-for-the-install)
+To continue, see the [Installation Guide](../../../install/installation/#prepare-for-the-install).
+
