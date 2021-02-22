@@ -29,12 +29,12 @@ demonstrates creating OAM resources that define an application as well as the st
 
 - Access to an existing Kubernetes cluster with Verrazzano [installed]({{< relref "/quickstart.md#install-verrazzano" >}}).
 
-- Access to the application's image in the Oracle Container Registry.
+- Access to the application's image in GitHub Container Registry.
 
    Confirm access using this command to pull the example's Docker image.
 
    ```
-   docker pull container-registry.oracle.com/verrazzano/example-hello-world-helidon:0.1.10-3-e5ae893-124
+   docker pull ghcr.io/verrazzano/example-helidon-greet-app-v1:0.1.12-1-20210218160249-d8db8f3
    ```
 
 ## Application development
@@ -91,7 +91,7 @@ The Verrazzano examples repository contains the complete [Dockerfile](https://gi
 Note that the Docker container exposes a single port 8080.
 
 ```dockerfile
-FROM container-registry.oracle.com/os/oraclelinux:7-slim@sha256:9b86d1332a883ee8f68dd44ba42133de518b2e0ec1cc70257e59fb4da86b1ad3
+FROM ghcr.io/oracle/oraclelinux:7-slim
 ...
 CMD java -cp /app/helidon-quickstart-mp.jar:/app/* io.helidon.examples.quickstart.mp.Main
 EXPOSE 8080
@@ -131,7 +131,7 @@ spec:
     spec:
       containers:
       - name: hello-helidon-container
-        image: "ghcr.io/verrazzano/example-helidon-greet-app-v1:0.1.10-3-20201016220428-56fb4d4"
+        image: "ghcr.io/verrazzano/example-helidon-greet-app-v1:0.1.12-1-20210218160249-d8db8f3"
         ports:
           - containerPort: 8080
             name: http
@@ -183,9 +183,7 @@ spec:
               name: hello-helidon-ingress
             spec:
               rules:
-                - hosts:
-                    - "hello-helidon.example.com"
-                  paths:
+                - paths:
                     - path: "/greet"
                       pathType: Prefix
 ```
@@ -203,7 +201,6 @@ To explore traits, we can examine the fields of an ingress trait:
 
 * `apiVersion` - Version of the OAM trait custom resource definition
 * `kind` - `IngressTrait` is the name of the OAM application ingress trait custom resource definition
-* `spec.rules.hosts` - The hosts specified for the ingress
 * `spec.rules.paths` - The context paths for accessing the application
 
 ### Deploy the application
@@ -211,25 +208,17 @@ To explore traits, we can examine the fields of an ingress trait:
 The following steps are required to deploy the example application.
 Steps similar to the `apply` steps would be used to deploy any application to Verrazzano.
 
-1. Clone the Verrazzano [repository](https://github.com/verrazzano/verrazzano).
+1. Create a namespace for the example application and add a label identifying the namespace as managed by Verrazzano.
 
    ```shell script
-   git clone https://github.com/verrazzano/verrazzano.git
+   $ kubectl create namespace hello-helidon
+   $ kubectl label namespace hello-helidon verrazzano-managed=true
    ```
-
-1. Change the current directory to the example `hello-helidon` directory.
-
-   ```shell script
-   cd verrazzano/examples/hello-helidon
-   ```
-   {{< alert title="NOTE" color="tip" >}}
-   The remainder of this guide uses file locations relative to this directory.
-   {{< /alert >}}
 
 1. Apply the application's component.
 
    ```shell script
-   kubectl apply -f ./hello-helidon-comp.yaml
+   $ kubectl apply -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-comp.yaml" >}}
    ```
 
    This step causes the validation and creation of the component resource.
@@ -239,7 +228,7 @@ Steps similar to the `apply` steps would be used to deploy any application to Ve
 1. Apply the application configuration.
 
    ```shell script
-   kubectl apply -f ./hello-helidon-app.yaml
+   $ kubectl apply -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-app.yaml" >}}
    ```
 
    This step causes the validation and creation of the application configuration resource.
@@ -251,13 +240,15 @@ Steps similar to the `apply` steps would be used to deploy any application to Ve
 
    After deploying the application, configure DNS to resolve the application's
    ingress DNS name to the application's load balancer IP address.
-   The application's DNS host name is the value of the host specified in the application configuration's
-   ingress trait (see the `spec.rules.hosts` value provided in the application configuration's ingress trait).
+   The generated host name is obtained by querying Kubernetes for the gateway:
+   ```shell script
+   $ kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath='{.spec.servers[0].hosts[0]}'
+   ```
    The load balancer IP is obtained by querying Kubernetes for the
    Istio ingress gateway status:
 
    ```shell script
-   kubectl get service -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}
+   $ kubectl get service -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
    ```
 
    DNS configuration steps are outside the scope of this guide. For DNS infrastructure that can be configured and used, see
@@ -325,26 +316,13 @@ Steps similar to the `apply` steps would be used to deploy any application to Ve
    * `vmi-system-prometheus` - Prometheus for metric collection
    <p/>
 
-1. Verify the Verrazzano metrics collection infrastructure is running.
-
-   ```
-   $ kubectl get pods -n monitoring | grep '^NAME\|prom-pusher-system'
-
-   NAME                                  READY   STATUS    RESTARTS   AGE
-   prom-pusher-system-65744b658f-tpkqj   1/1     Running   0          8d
-   ```
-
-   This pod in the `monitoring` namespace is also part of the applications
-   monitoring stack provided by Verrazzano.
-   This process pushes collected metrics to Prometheus.
-
 1. Diagnose failures.
 
    View the event logs of any pod not entering the `Running` state within
    a reasonable length of time, such as five minutes.
 
    ```shell script
-   kubectl describe pod -n hello-helidon hello-helidon-workload-9dfbbfb74-4jm9v
+   $ kubectl describe pod -n hello-helidon hello-helidon-workload-9dfbbfb74-4jm9v
    ```
 
    Use the specific namespace and name for the pod being investigated.
@@ -356,8 +334,8 @@ If DNS was not configured, then use the alternative commands.
 
 1.  Save the host name and IP address of the load balancer exposing the application's REST service endpoints for later.
     ```shell script
-    HOST='hello-helidon.example.com'
-    ADDRESS=$(kubectl get service -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    $ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath='{.spec.servers[0].hosts[0]}')
+    $ ADDRESS=$(kubectl get service -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     ```
     **NOTE**:
 
@@ -369,44 +347,44 @@ If DNS was not configured, then use the alternative commands.
 
 1.  Get the default message.
     ```shell script
-    $ curl -s -X GET "http://${HOST}/greet"
+    $ curl -sk -X GET "https://${HOST}/greet"
 
     {"message":"Hello World!"}
     ```
     If DNS has not been configured, then use this command.
     ```shell script
-    $ curl -s -X GET "http://${ADDRESS}/greet" -H "Host: ${HOST}"
+    $ curl -sk -X GET "https://${HOST}/greet" --resolve ${HOST}:443:${ADDRESS}
     ```
 
 1.  Get a message for Robert.
     ```shell script
-    $ curl -s -X GET "http://${HOST}/greet/Robert"
+    $ curl -sk -X GET "https://${HOST}/greet/Robert"
 
     {"message":"Hello Robert!"}
     ```
     If DNS has not been configured, then use this command.
     ```shell script
-    $ curl -s -X GET "http://${ADDRESS}/greet/Robert" -H "Host: ${HOST}"
+    $ curl -sk -X GET "https://${HOST}/greet/Robert" --resolve ${HOST}:443:${ADDRESS}
     ```
 
 1.  Update the default greeting.
     ```shell script
-    $ curl -s -X PUT "http://${HOST}/greet/greeting" -H 'Content-Type: application/json' -d '{"greeting" : "Greetings"}'
+    $ curl -sk -X PUT "https://${HOST}/greet/greeting" -H 'Content-Type: application/json' -d '{"greeting" : "Greetings"}'
     ```
     If DNS has not been configured, then use this command.
     ```shell script
-    $ curl -s -X PUT "http://${ADDRESS}/greet/greeting" -H 'Content-Type: application/json' -d '{"greeting" : "Greetings"}' -H "Host: ${HOST}"
+    $ curl -sk -X PUT "https://${HOST}/greet/greeting" -H 'Content-Type: application/json' -d '{"greeting" : "Greetings"}' --resolve ${HOST}:443:${ADDRESS}
     ```
 
 1.  Get the new message for Robert.
     ```shell script
-    $ curl -s -X GET "http://${HOST}/greet/Robert"
+    $ curl -sk -X GET "https://${HOST}/greet/Robert"
 
-    {"message":"Welcome Robert!"}
+    {"message":"Greetings Robert!"}
     ```
     If DNS has not been configured, then use this command.
     ```shell script
-    $ curl -s -X GET "http://${ADDRESS}/greet/Robert" -H "Host: ${HOST}"
+    $ curl -sk -X GET "https://${HOST}/greet/Robert" --resolve ${HOST}:443:${ADDRESS}
     ```
 
 ### Access the application's logs
@@ -417,17 +395,17 @@ Elasticsearch and Kibana are examples of infrastructure Verrazzano creates in su
 
 Determine the URL to access Kibana using the following commands.
  ```shell script
-KIBANA_HOST=$(kubectl get ingress -n verrazzano-system vmi-system-kibana -o jsonpath='{.spec.rules[0].host}')
-KIBANA_URL="https://${KIBANA_HOST}"
-echo "${KIBANA_URL}"
-open "${KIBANA_URL}"
+$ KIBANA_HOST=$(kubectl get ingress -n verrazzano-system vmi-system-kibana -o jsonpath='{.spec.rules[0].host}')
+$ KIBANA_URL="https://${KIBANA_HOST}"
+$ echo "${KIBANA_URL}"
+$ open "${KIBANA_URL}"
 ```
 
 The user name to access Kibana defaults to `verrazzano` during the Verrazzano installation.
 
 Determine the password to access Kibana using the following command:
 ```shell script
-echo $(kubectl get secret -n verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode)
+$ echo $(kubectl get secret -n verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode)
 ```
 
 ### Access the application's metrics
@@ -439,39 +417,39 @@ Prometheus and Grafana are additional components Verrazzano creates as a result 
 Determine the URL to access Grafana using the following commands.
 
 ```shell script
-GRAFANA_HOST=$(kubectl get ingress -n verrazzano-system vmi-system-grafana -o jsonpath='{.spec.rules[0].host}')
-GRAFANA_URL="https://${GRAFANA_HOST}"
-echo "${GRAFANA_URL}"
-open "${GRAFANA_URL}"
+$ GRAFANA_HOST=$(kubectl get ingress -n verrazzano-system vmi-system-grafana -o jsonpath='{.spec.rules[0].host}')
+$ GRAFANA_URL="https://${GRAFANA_HOST}"
+$ echo "${GRAFANA_URL}"
+$ open "${GRAFANA_URL}"
 ```
 The user name to access Grafana is set to the default value `verrazzano` during the Verrazzano installation.
 
 Determine the password to access Grafana using the following command.
 
 ```shell script
-echo $(kubectl get secret -n verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode)
+$ echo $(kubectl get secret -n verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode)
 ```
 
 Alternatively, metrics can be accessed directly using Prometheus.
 Determine the URL for this access using the following commands.
 
 ```shell script
-PROMETHEUS_HOST=$(kubectl get ingress -n verrazzano-system vmi-system-prometheus -o jsonpath='{.spec.rules[0].host}')
-PROMETHEUS_URL="https://${PROMETHEUS_HOST}"
-echo "${PROMETHEUS_URL}"
-open "${PROMETHEUS_URL}"
+$ PROMETHEUS_HOST=$(kubectl get ingress -n verrazzano-system vmi-system-prometheus -o jsonpath='{.spec.rules[0].host}')
+$ PROMETHEUS_URL="https://${PROMETHEUS_HOST}"
+$ echo "${PROMETHEUS_URL}"
+$ open "${PROMETHEUS_URL}"
 ```
 
 The user name and password for both Prometheus and Grafana are the same.
 
 ## Application removal
 
-Run the following commands to delete the application configuration and, optionally, component.
+Run the following commands to delete the application configuration, and optionally the component and namespace.
 
 1. Delete the application configuration.
 
    ```shell script
-   kubectl delete -f ./hello-helidon-app.yaml
+   $ kubectl delete -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-app.yaml" >}}
    ```
 
    The deletion of the application configuration will result in the destruction
@@ -480,6 +458,12 @@ Run the following commands to delete the application configuration and, optional
 1. (Optional) Delete the application's component.
 
    ```shell script
-   kubectl delete -f ./hello-helidon-comp.yaml
+   $ kubectl delete -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-comp.yaml" >}}
    ```
    **Note**: This step is not required if other application configurations for this component will be applied in the future.
+
+1. (Optional) Delete the namespace.
+
+   ```shell script
+   $ kubectl delete namespace hello-helidon
+   ```

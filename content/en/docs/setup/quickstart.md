@@ -115,8 +115,8 @@ To deploy the Hello World Helidon example application, follow these steps:
 1. Create a namespace for the example application and add a label identifying the namespace as managed by Verrazzano.
 
    ```shell
-   $ kubectl create namespace oam-hello-helidon
-   $ kubectl label namespace oam-hello-helidon verrazzano-managed=true
+   $ kubectl create namespace hello-helidon
+   $ kubectl label namespace hello-helidon verrazzano-managed=true
    ```
 
 1. Apply the hello-helidon resources to deploy the application.
@@ -129,7 +129,7 @@ To deploy the Hello World Helidon example application, follow these steps:
 1. Wait for the application to be ready.
 
    ```shell
-   $ kubectl wait --for=condition=Ready pods --all -n oam-hello-helidon --timeout=300s
+   $ kubectl wait --for=condition=Ready pods --all -n hello-helidon --timeout=300s
    pod/hello-helidon-workload-977cbbc94-z22ls condition met
    ```
    This creates the Verrazzano OAM component application resources for the example, waits for the pods in the `greet`
@@ -180,15 +180,15 @@ To uninstall the Hello World Helidon example application, follow these steps.
 1. Delete the example namespace.
 
    ```shell
-   $ kubectl delete namespace oam-hello-helidon
-   namespace "oam-hello-helidon" deleted
+   $ kubectl delete namespace hello-helidon
+   namespace "hello-helidon" deleted
     ```
 
-1. Verify that the `oam-hello-helidon` namespace has been deleted.
+1. Verify that the `hello-helidon` namespace has been deleted.
 
    ```shell
-   $ kubectl get ns oam-hello-helidon
-   Error from server (NotFound): namespaces "oam-hello-helidon" not found
+   $ kubectl get ns hello-helidon
+   Error from server (NotFound): namespaces "hello-helidon" not found
    ```
 
 ### Uninstall Verrazzano
