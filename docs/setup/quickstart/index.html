@@ -21,10 +21,10 @@
 <meta property="og:description" content="Instructions for getting started with Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/setup/quickstart/" />
-<meta property="article:modified_time" content="2021-02-16T17:10:22-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-02-22T13:53:48-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Quick Start">
 <meta itemprop="description" content="Instructions for getting started with Verrazzano">
-<meta itemprop="dateModified" content="2021-02-16T17:10:22-05:00" />
+<meta itemprop="dateModified" content="2021-02-22T13:53:48-05:00" />
 <meta itemprop="wordCount" content="811">
 
 
@@ -105,7 +105,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.73595f2ad74de44c54fa92e9670a24f4.json"
+  data-offline-search-index-json-src="../../../offline-search-index.9298e258d0be2072bcb82c8ce4000dab.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -137,7 +137,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.73595f2ad74de44c54fa92e9670a24f4.json"
+  data-offline-search-index-json-src="../../../offline-search-index.9298e258d0be2072bcb82c8ce4000dab.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -633,8 +633,8 @@ For more information and the code of this application, see the <a href="https://
 <ol>
 <li>
 <p>Create a namespace for the example application and add a label identifying the namespace as managed by Verrazzano.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl create namespace oam-hello-helidon
-$ kubectl label namespace oam-hello-helidon verrazzano-managed<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87">true</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl create namespace hello-helidon
+$ kubectl label namespace hello-helidon verrazzano-managed<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87">true</span>
 </code></pre></div></li>
 <li>
 <p>Apply the hello-helidon resources to deploy the application.</p>
@@ -643,7 +643,7 @@ $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/maste
 </code></pre></div></li>
 <li>
 <p>Wait for the application to be ready.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl <span style="color:#204a87">wait</span> --for<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">condition</span><span style="color:#ce5c00;font-weight:bold">=</span>Ready pods --all -n oam-hello-helidon --timeout<span style="color:#ce5c00;font-weight:bold">=</span>300s
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl <span style="color:#204a87">wait</span> --for<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">condition</span><span style="color:#ce5c00;font-weight:bold">=</span>Ready pods --all -n hello-helidon --timeout<span style="color:#ce5c00;font-weight:bold">=</span>300s
 pod/hello-helidon-workload-977cbbc94-z22ls condition met
 </code></pre></div><p>This creates the Verrazzano OAM component application resources for the example, waits for the pods in the <code>greet</code>
 namespace to be ready.</p>
@@ -678,13 +678,13 @@ $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/mast
 </code></pre></div></li>
 <li>
 <p>Delete the example namespace.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl delete namespace oam-hello-helidon
-namespace <span style="color:#4e9a06">&#34;oam-hello-helidon&#34;</span> deleted
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl delete namespace hello-helidon
+namespace <span style="color:#4e9a06">&#34;hello-helidon&#34;</span> deleted
 </code></pre></div></li>
 <li>
-<p>Verify that the <code>oam-hello-helidon</code> namespace has been deleted.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get ns oam-hello-helidon
-Error from server <span style="color:#ce5c00;font-weight:bold">(</span>NotFound<span style="color:#ce5c00;font-weight:bold">)</span>: namespaces <span style="color:#4e9a06">&#34;oam-hello-helidon&#34;</span> not found
+<p>Verify that the <code>hello-helidon</code> namespace has been deleted.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get ns hello-helidon
+Error from server <span style="color:#ce5c00;font-weight:bold">(</span>NotFound<span style="color:#ce5c00;font-weight:bold">)</span>: namespaces <span style="color:#4e9a06">&#34;hello-helidon&#34;</span> not found
 </code></pre></div></li>
 </ol>
 <h3 id="uninstall-verrazzano">Uninstall Verrazzano</h3>
@@ -778,7 +778,7 @@ you can view the uninstall logs.
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified February 16, 2021: <a  href="https://github.com/verrazzano/docs/commit/8ca1ba4fbfa797fa4c1709bdff654188d94f8aad">doc updates (#84) (8ca1ba4)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified February 22, 2021: <a  href="https://github.com/verrazzano/docs/commit/2ac372892ed3b5fa064b5abb95cfaff407c927a8">VZ-2198: Several doc updates (#87) (2ac3728)</a>
 </div>
 </div>
 
