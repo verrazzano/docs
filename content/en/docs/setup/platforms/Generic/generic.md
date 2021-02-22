@@ -111,3 +111,6 @@ spec:
 
 {{< /tab >}}
 {{< /tabs >}}
+
+To continue, see the [Installation Guide](../../../install/installation/#prepare-for-the-install).
+

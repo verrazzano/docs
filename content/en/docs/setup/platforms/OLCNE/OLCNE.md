@@ -339,3 +339,5 @@ The value for `<path to valid Kubernetes config>` is typically `${HOME}/.kube/co
 ```
 export KUBECONFIG=$VERRAZZANO_KUBECONFIG
 ```
+
+To continue, see the [Installation Guide](../../../install/installation/#prepare-for-the-install).

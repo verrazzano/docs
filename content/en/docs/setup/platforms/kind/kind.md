@@ -144,3 +144,6 @@ nodes:
         containerPath: /var/lib/containerd #This is the location of the image cache inside the KIND container
 EOF
 ```
+
+To continue, see the [Installation Guide](../../../install/installation/#prepare-for-the-install).
+
