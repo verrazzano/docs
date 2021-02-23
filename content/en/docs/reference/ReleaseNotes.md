@@ -9,8 +9,8 @@ draft: false
 
 **Breaking Changes**
 - Model/binding removed, application deployment now exclusively done via Open Application Model (OAM).
-- Syntax changes for WebLogic and Coherence OAM workloads, now defined using VerrazzanoWebLogicWorkload
-  and VerrazzanoWebLogicWorkload types.
+- Syntax changes for WebLogic and Coherence OAM workloads, now defined using `VerrazzanoCoherenceWorkload`
+  and `VerrazzanoWebLogicWorkload` types.
 
 Features
   - Application endpoints now use HTTPs by default - when using magic DNS, certificates are issued by cluster issuer, when using
