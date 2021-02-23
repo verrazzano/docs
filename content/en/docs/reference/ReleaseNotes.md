@@ -5,6 +5,25 @@ weight: 4
 draft: false
 ---
 
+### v0.10.0:
+
+**Breaking Changes**
+- Model/binding removed, application deployment now exclusively done via Open Application Model (OAM).
+- Syntax changes for WebLogic and Coherence OAM workloads, now defined using VerrazzanoWebLogicWorkload
+  and VerrazzanoWebLogicWorkload types.
+
+Features
+  - Application endpoints now use HTTPs by default - when using magic DNS, certificates are issued by cluster issuer, when using
+    OCI DNS certificaters are issued using Let's Encrypt, or the end user can provide certificates.
+  - Update Coherence operator to 3.1.3.
+  - Updates to make it possible to run Verrazzano on Kubernetes 1.19 and 1.20.
+  - RBAC roles and role bindings created at install time.
+  - Add instance information to status of Verrazzano custom resource, can be used to obtain instance URLs.
+  - Upgrade Istio to v1.7.3.
+
+Fixes
+  - Reduce log level of Elasticsearch, excessive logging could have resulted in filling up disks.
+
 ### v0.9.0:
 - Features
     - Added platform support for installing Verrazzano on Kind clusters.
