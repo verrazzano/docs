@@ -127,28 +127,19 @@ $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/maste
 &lt;p&gt;Wait for the application to be ready.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;Ready pods --all -n hello-helidon --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;300s
 pod/hello-helidon-workload-977cbbc94-z22ls condition met
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This creates the Verrazzano OAM component application resources for the example, waits for the pods in the &lt;code&gt;greet&lt;/code&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This creates the Verrazzano OAM component application resources for the example, waits for the pods in the &lt;code&gt;hello-helidon&lt;/code&gt;
 namespace to be ready.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Get the EXTERNAL_IP address of the istio-ingressgateway service.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; This following set of instructions assumes you are using a kubernetes environment such as OKE. Other
-environments or deployments may require alternate mechanisms for retrieving addresses, ports, etc.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt; kubectl get service istio-ingressgateway -n istio-system
-
- NAME                   TYPE           CLUSTER-IP    EXTERNAL-IP   PORT&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;(&lt;/span&gt;S&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;)&lt;/span&gt;                      AGE
- istio-ingressgateway   LoadBalancer   10.96.97.98   11.22.33.44   80:31380/TCP,443:31390/TCP   13d
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The application is deployed by default with a host value of hello-helidon.example.com.&lt;/p&gt;
-&lt;/li&gt;
+&lt;p&gt;Save the host name of the load balancer exposing the application&amp;rsquo;s REST service endpoints.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;HOST&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;{.spec.servers[0].hosts[0]}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Access the application.&lt;/p&gt;
-&lt;p&gt;Using the command line, use the external IP provided by the previous step to call the /greet endpoint:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ curl -s -X GET -H &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Host: hello-helidon.example.com&amp;#34;&lt;/span&gt; http://11.22.33.44/greet
+&lt;p&gt;Get the default message.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ curl -sk -X GET &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;https://&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;HOST&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;/greet&amp;#34;&lt;/span&gt;
+
 &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;message&amp;#34;&lt;/span&gt;:&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Hello World!&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Using a Browser, you can emporarily modify the /etc/hosts file (on Mac or Linux) or c:\Windows\System32\Drivers\etc\hosts file (on Windows 10), to add an entry mapping hello-helidon.example.com to the ingress gateway&amp;rsquo;s EXTERNAL-IP address. For example:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;11.22.33.44 hello-helidon.example.com
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Then you can access the application in a browser at &lt;a href=&#34;http://hello-helidon.example.com/greet&#34;&gt;http://hello-helidon.example.com/greet&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3 id=&#34;uninstall-the-example-application&#34;&gt;Uninstall the example application&lt;/h3&gt;
 &lt;p&gt;To uninstall the Hello World Helidon example application, follow these steps.&lt;/p&gt;
@@ -2748,34 +2739,6 @@ kubectl apply -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Verrazzano
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: my-verrazzano
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
-kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;20m --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;InstallComplete verrazzano/my-verrazzano
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Install on KIND using xip.io&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Run the following commands:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
-kubectl apply -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: install.verrazzano.io/v1alpha1
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Verrazzano
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: my-verrazzano
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  components:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    ingress:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      type: NodePort
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      nginxInstallArgs:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        - name: controller.kind
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          value: DaemonSet
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        - name: controller.hostPort.enabled
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          value: &amp;#34;true&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        - name: controller.nodeSelector.ingress-ready
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          value: &amp;#34;true&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          setString: true
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        - name: controller.tolerations[0].key
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          value: node-role.kubernetes.io/master
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        - name: controller.tolerations[0].operator
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          value: Equal
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        - name: controller.tolerations[0].effect
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          value: NoSchedule
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
 kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;20m --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;InstallComplete verrazzano/my-verrazzano
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;

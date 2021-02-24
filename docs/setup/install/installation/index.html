@@ -21,11 +21,11 @@
 <meta property="og:description" content="How to install Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/setup/install/installation/" />
-<meta property="article:modified_time" content="2021-02-16T17:10:22-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-02-23T19:49:02-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Installation Guide">
 <meta itemprop="description" content="How to install Verrazzano">
-<meta itemprop="dateModified" content="2021-02-16T17:10:22-05:00" />
-<meta itemprop="wordCount" content="893">
+<meta itemprop="dateModified" content="2021-02-23T19:49:02-05:00" />
+<meta itemprop="wordCount" content="824">
 
 
 
@@ -105,7 +105,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.1f17dab2f9aa78529ea1a8fe652aa4c2.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.9ba1ba452faa17055a132d6304f10c77.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -137,7 +137,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.1f17dab2f9aa78529ea1a8fe652aa4c2.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.9ba1ba452faa17055a132d6304f10c77.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -663,34 +663,6 @@ kubectl apply -f - <span style="color:#4e9a06">&lt;&lt;EOF
 </span><span style="color:#4e9a06">  name: my-verrazzano
 </span><span style="color:#4e9a06">EOF</span>
 kubectl <span style="color:#204a87">wait</span> --timeout<span style="color:#ce5c00;font-weight:bold">=</span>20m --for<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">condition</span><span style="color:#ce5c00;font-weight:bold">=</span>InstallComplete verrazzano/my-verrazzano
-</code></pre></div><p><strong>Install on KIND using xip.io</strong></p>
-<p>Run the following commands:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
-kubectl apply -f - <span style="color:#4e9a06">&lt;&lt;EOF
-</span><span style="color:#4e9a06">apiVersion: install.verrazzano.io/v1alpha1
-</span><span style="color:#4e9a06">kind: Verrazzano
-</span><span style="color:#4e9a06">metadata:
-</span><span style="color:#4e9a06">  name: my-verrazzano
-</span><span style="color:#4e9a06">spec:
-</span><span style="color:#4e9a06">  components:
-</span><span style="color:#4e9a06">    ingress:
-</span><span style="color:#4e9a06">      type: NodePort
-</span><span style="color:#4e9a06">      nginxInstallArgs:
-</span><span style="color:#4e9a06">        - name: controller.kind
-</span><span style="color:#4e9a06">          value: DaemonSet
-</span><span style="color:#4e9a06">        - name: controller.hostPort.enabled
-</span><span style="color:#4e9a06">          value: &#34;true&#34;
-</span><span style="color:#4e9a06">        - name: controller.nodeSelector.ingress-ready
-</span><span style="color:#4e9a06">          value: &#34;true&#34;
-</span><span style="color:#4e9a06">          setString: true
-</span><span style="color:#4e9a06">        - name: controller.tolerations[0].key
-</span><span style="color:#4e9a06">          value: node-role.kubernetes.io/master
-</span><span style="color:#4e9a06">        - name: controller.tolerations[0].operator
-</span><span style="color:#4e9a06">          value: Equal
-</span><span style="color:#4e9a06">        - name: controller.tolerations[0].effect
-</span><span style="color:#4e9a06">          value: NoSchedule
-</span><span style="color:#4e9a06">EOF</span>
-kubectl <span style="color:#204a87">wait</span> --timeout<span style="color:#ce5c00;font-weight:bold">=</span>20m --for<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">condition</span><span style="color:#ce5c00;font-weight:bold">=</span>InstallComplete verrazzano/my-verrazzano
 </code></pre></div>
 
 </div>
@@ -875,7 +847,7 @@ kubectl delete verrazzano &lt;name of custom resource&gt;
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified February 16, 2021: <a  href="https://github.com/verrazzano/docs/commit/8ca1ba4fbfa797fa4c1709bdff654188d94f8aad">doc updates (#84) (8ca1ba4)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified February 23, 2021: <a  href="https://github.com/verrazzano/docs/commit/82d8ce6a5aa9c9b3c196e9a90e07e95510415529">Fix issues for Verrazzano install and quick start. (82d8ce6)</a>
 </div>
 </div>
 

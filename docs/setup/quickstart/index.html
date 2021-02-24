@@ -21,11 +21,11 @@
 <meta property="og:description" content="Instructions for getting started with Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/setup/quickstart/" />
-<meta property="article:modified_time" content="2021-02-22T13:53:48-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-02-23T19:49:02-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Quick Start">
 <meta itemprop="description" content="Instructions for getting started with Verrazzano">
-<meta itemprop="dateModified" content="2021-02-22T13:53:48-05:00" />
-<meta itemprop="wordCount" content="811">
+<meta itemprop="dateModified" content="2021-02-23T19:49:02-05:00" />
+<meta itemprop="wordCount" content="700">
 
 
 
@@ -105,7 +105,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.1f17dab2f9aa78529ea1a8fe652aa4c2.json"
+  data-offline-search-index-json-src="../../../offline-search-index.9ba1ba452faa17055a132d6304f10c77.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -137,7 +137,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.1f17dab2f9aa78529ea1a8fe652aa4c2.json"
+  data-offline-search-index-json-src="../../../offline-search-index.9ba1ba452faa17055a132d6304f10c77.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -653,28 +653,19 @@ $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/maste
 <p>Wait for the application to be ready.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl <span style="color:#204a87">wait</span> --for<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">condition</span><span style="color:#ce5c00;font-weight:bold">=</span>Ready pods --all -n hello-helidon --timeout<span style="color:#ce5c00;font-weight:bold">=</span>300s
 pod/hello-helidon-workload-977cbbc94-z22ls condition met
-</code></pre></div><p>This creates the Verrazzano OAM component application resources for the example, waits for the pods in the <code>greet</code>
+</code></pre></div><p>This creates the Verrazzano OAM component application resources for the example, waits for the pods in the <code>hello-helidon</code>
 namespace to be ready.</p>
 </li>
 <li>
-<p>Get the EXTERNAL_IP address of the istio-ingressgateway service.</p>
-<p><strong>NOTE:</strong> This following set of instructions assumes you are using a kubernetes environment such as OKE. Other
-environments or deployments may require alternate mechanisms for retrieving addresses, ports, etc.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"> kubectl get service istio-ingressgateway -n istio-system
-
- NAME                   TYPE           CLUSTER-IP    EXTERNAL-IP   PORT<span style="color:#ce5c00;font-weight:bold">(</span>S<span style="color:#ce5c00;font-weight:bold">)</span>                      AGE
- istio-ingressgateway   LoadBalancer   10.96.97.98   11.22.33.44   80:31380/TCP,443:31390/TCP   13d
-</code></pre></div><p>The application is deployed by default with a host value of hello-helidon.example.com.</p>
-</li>
+<p>Save the host name of the load balancer exposing the application&rsquo;s REST service endpoints.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#000">HOST</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.spec.servers[0].hosts[0]}&#39;</span><span style="color:#204a87;font-weight:bold">)</span>
+</code></pre></div></li>
 <li>
-<p>Access the application.</p>
-<p>Using the command line, use the external IP provided by the previous step to call the /greet endpoint:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -s -X GET -H <span style="color:#4e9a06">&#34;Host: hello-helidon.example.com&#34;</span> http://11.22.33.44/greet
+<p>Get the default message.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -sk -X GET <span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet&#34;</span>
+
 <span style="color:#ce5c00;font-weight:bold">{</span><span style="color:#4e9a06">&#34;message&#34;</span>:<span style="color:#4e9a06">&#34;Hello World!&#34;</span><span style="color:#ce5c00;font-weight:bold">}</span>
-</code></pre></div><p>Using a Browser, you can emporarily modify the /etc/hosts file (on Mac or Linux) or c:\Windows\System32\Drivers\etc\hosts file (on Windows 10), to add an entry mapping hello-helidon.example.com to the ingress gateway&rsquo;s EXTERNAL-IP address. For example:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">11.22.33.44 hello-helidon.example.com
-</code></pre></div><p>Then you can access the application in a browser at <a href="http://hello-helidon.example.com/greet">http://hello-helidon.example.com/greet</a></p>
-</li>
+</code></pre></div></li>
 </ol>
 <h3 id="uninstall-the-example-application">Uninstall the example application</h3>
 <p>To uninstall the Hello World Helidon example application, follow these steps.</p>
@@ -786,7 +777,7 @@ you can view the uninstall logs.
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified February 22, 2021: <a  href="https://github.com/verrazzano/docs/commit/2ac372892ed3b5fa064b5abb95cfaff407c927a8">VZ-2198: Several doc updates (#87) (2ac3728)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified February 23, 2021: <a  href="https://github.com/verrazzano/docs/commit/82d8ce6a5aa9c9b3c196e9a90e07e95510415529">Fix issues for Verrazzano install and quick start. (82d8ce6)</a>
 </div>
 </div>
 
