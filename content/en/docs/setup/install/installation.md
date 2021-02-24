@@ -36,6 +36,8 @@ Before installing Verrazzano, see instructions on preparing the following Kubern
 
 * [KIND](../../platforms/kind/kind)
 
+* [minikube](../../platforms/minikube/minikube)
+
 * [Generic Kubernetes](../../platforms/generic/generic)
 
 
@@ -84,7 +86,6 @@ According to your DNS choice, install Verrazzano using one of the following meth
 Run the following commands:
 
 ```shell
-kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
 kubectl apply -f - <<EOF
 apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
@@ -107,7 +108,7 @@ For example, an appropriate zone name for parent domain `v8o.example.com` domain
 
   CLI example:
   ```
-  oci dns zone create -c <compartment ocid> --name <zone-name-prefix>.v8o.oracledx.com --zone-type PRIMARY
+  oci dns zone create -c <compartment ocid> --name <zone-name-prefix>.v8o.example.com --zone-type PRIMARY
   ```
 
 Installation
@@ -133,7 +134,6 @@ previously).
 Run the following commands:
 
 ```shell
-kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
 kubectl apply -f - <<EOF
 apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
