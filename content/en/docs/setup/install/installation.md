@@ -6,16 +6,11 @@ weight: 9
 draft: false
 ---
 
-You can install Verrazzano in a single [Oracle Cloud Infrastructure Container Engine for Kubernetes](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm) (OKE) cluster or
-an [Oracle Linux Cloud Native Environment](https://docs.oracle.com/en/operating-systems/olcne/) (OLCNE) deployment.
-
-For an OKE cluster, you have two DNS choices:
-[xip.io](http://xip.io/) or
-[Oracle OCI DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm). OLCNE currently supports only a manual DNS.
-
 {{< alert title="NOTE" color="warning" >}}
 You should install this developer preview release of Verrazzano only in a cluster that can be safely deleted when your evaluation is complete.
 {{< /alert >}}
+
+### Prerequisites
 
 Verrazzano requires the following:
 
@@ -39,6 +34,9 @@ Before installing Verrazzano, see instructions on preparing the following Kubern
 * [minikube](../../platforms/minikube/minikube)
 
 * [Generic Kubernetes](../../platforms/generic/generic)
+
+The following instructions show you how to install Verrazzano in a
+single [Oracle Cloud Infrastructure Container Engine for Kubernetes](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm) (OKE) cluster.
 
 
 ### Install the Verrazzano platform operator
@@ -75,7 +73,9 @@ To install the Verrazzano platform operator, follow these steps:
 
 For a complete description of Verrazzano configuration options, see the [Verrazzano Custom Resource Definition](../../../reference/api/verrazzano/verrazzano).
 
-According to your DNS choice, install Verrazzano using one of the following methods.
+According to your DNS choice, [xip.io](http://xip.io/) or
+[Oracle OCI DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm),
+install Verrazzano using one of the following methods.
 
 {{< tabs tabTotal="2" tabID="2" tabName1="xip.io" tabName2="OCI DNS" >}}
 {{< tab tabNum="1" >}}
