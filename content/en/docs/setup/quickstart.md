@@ -200,3 +200,7 @@ To uninstall Verrazzano, follow these steps:
               -o jsonpath="{.items[0].metadata.name}" \
         )
     ```
+### Next steps
+
+* For detailed installation information, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}}).
+* For more example applications, see [Verrazzano Examples](https://github.com/verrazzano/verrazzano/tree/master/examples).
