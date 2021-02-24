@@ -132,39 +132,21 @@ To deploy the Hello World Helidon example application, follow these steps:
    $ kubectl wait --for=condition=Ready pods --all -n hello-helidon --timeout=300s
    pod/hello-helidon-workload-977cbbc94-z22ls condition met
    ```
-   This creates the Verrazzano OAM component application resources for the example, waits for the pods in the `greet`
+   This creates the Verrazzano OAM component application resources for the example, waits for the pods in the `hello-helidon`
    namespace to be ready.
 
-1. Get the EXTERNAL_IP address of the istio-ingressgateway service.  
-
-   **NOTE:** This following set of instructions assumes you are using a kubernetes environment such as OKE. Other
-   environments or deployments may require alternate mechanisms for retrieving addresses, ports, etc.
-
-   ```shell
-    kubectl get service istio-ingressgateway -n istio-system
-
-    NAME                   TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S)                      AGE
-    istio-ingressgateway   LoadBalancer   10.96.97.98   11.22.33.44   80:31380/TCP,443:31390/TCP   13d
+1.  Save the host name of the load balancer exposing the application's REST service endpoints.
+    ```shell script
+    $ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath='{.spec.servers[0].hosts[0]}')
     ```
 
-    The application is deployed by default with a host value of hello-helidon.example.com.
+1.  Get the default message.
+    ```shell script
+    $ curl -sk -X GET "https://${HOST}/greet"
 
-1. Access the application.
+    {"message":"Hello World!"}
+    ```
 
-     Using the command line, use the external IP provided by the previous step to call the /greet endpoint:
-
-     ```shell
-     $ curl -s -X GET -H "Host: hello-helidon.example.com" http://11.22.33.44/greet
-     {"message":"Hello World!"}
-     ```
-
-     Using a Browser, you can emporarily modify the /etc/hosts file (on Mac or Linux) or c:\Windows\System32\Drivers\etc\hosts file (on Windows 10), to add an entry mapping hello-helidon.example.com to the ingress gateway's EXTERNAL-IP address. For example:
-
-     ```text
-     11.22.33.44 hello-helidon.example.com
-     ```
-
-     Then you can access the application in a browser at http://hello-helidon.example.com/greet
 
 ### Uninstall the example application
 
