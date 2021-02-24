@@ -94,39 +94,6 @@ EOF
 kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
 ```
 
-**Install on KIND using xip.io**
-
-Run the following commands:
-
-```shell
-kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
-kubectl apply -f - <<EOF
-apiVersion: install.verrazzano.io/v1alpha1
-kind: Verrazzano
-metadata:
-  name: my-verrazzano
-spec:
-  components:
-    ingress:
-      type: NodePort
-      nginxInstallArgs:
-        - name: controller.kind
-          value: DaemonSet
-        - name: controller.hostPort.enabled
-          value: "true"
-        - name: controller.nodeSelector.ingress-ready
-          value: "true"
-          setString: true
-        - name: controller.tolerations[0].key
-          value: node-role.kubernetes.io/master
-        - name: controller.tolerations[0].operator
-          value: Equal
-        - name: controller.tolerations[0].effect
-          value: NoSchedule
-EOF
-kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
-```
-
 {{< /tab >}}
 {{< tab tabNum="2" >}}
 <br>
