@@ -8,11 +8,9 @@ weight: 2
 ### Prerequisites
 
 The Quick Start assumes that you have already installed a
-[Kubernetes](https://kubernetes.io/) cluster.  Verrazzano has been tested on
-[Oracle Cloud Infrastructure Container Engine for Kubernetes](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm) (OKE) and
-[Oracle Linux Cloud Native Environment](https://docs.oracle.com/en/operating-systems/olcne/) (OLCNE).
-For additional information, see instructions for preparing other [Kubernetes platforms]({{< relref "/docs/setup/platforms/_index.md" >}})
-for [installing Verrazzano]({{< relref "/docs/setup/install/installation.md" >}}).
+[Kubernetes](https://kubernetes.io/) cluster. For instructions on preparing Kubernetes
+platforms for installing Verrazzano, see [Platform Setup]({{< relref "/docs/setup/platforms/_index.md" >}}). For
+detailed installation instructions, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}}).
 
 Verrazzano requires the following:
 * A Kubernetes cluster and a compatible `kubectl`.
@@ -202,5 +200,4 @@ To uninstall Verrazzano, follow these steps:
     ```
 ### Next steps
 
-* For detailed installation information, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}}).
-* For more example applications, see [Verrazzano Examples](https://github.com/verrazzano/verrazzano/tree/master/examples).
+For more example applications, see [Verrazzano Examples](https://github.com/verrazzano/verrazzano/tree/master/examples).
