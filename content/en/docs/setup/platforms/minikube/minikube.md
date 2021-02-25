@@ -33,13 +33,12 @@ minikube start \
     --extra-config=apiserver.service-account-signing-key-file=/var/lib/minikube/certs/sa.key \
     --extra-config=apiserver.service-account-issuer=kubernetes/serviceaccount \
     --extra-config=apiserver.service-account-api-audiences=api
-EOF
 ```
 
 ### Run `minikube tunnel`
 
 minikube exposes Kubernetes services of type [`LoadBalancer`](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/) with the 
-[`minikube tunnel`](https://minikube.sigs.k8s.io/docs/commands/tunnel/) command.  Run a tunnel in a separate temrinal from minikube:
+[`minikube tunnel`](https://minikube.sigs.k8s.io/docs/commands/tunnel/) command.  Run a tunnel in a separate terminal from minikube:
 
 ```shell
 minikube tunnel
