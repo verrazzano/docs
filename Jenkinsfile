@@ -23,6 +23,7 @@ pipeline {
 
     environment {
         GIT_AUTH = credentials('github-packages-credentials-rw')
+        EMAIL = credentials('github-packages-email')
     }
 
     stages {
@@ -63,11 +64,12 @@ pipeline {
             when { equals expected: true, actual: params.PUBLISH_TO_GH_PAGES }
             steps {
                 sh """
-                    npm -g install gh-pages@3.0.0
+                    sudo npm -g install gh-pages@3.0.0
                     git config --global credential.helper "!f() { echo username=\\$GIT_AUTH_USR; echo password=\\$GIT_AUTH_PSW; }; f"
                     git config --global user.name $GIT_AUTH_USR
-                    git config --global user.email "70212020+verrazzanobot@users.noreply.github.com"
-                    /home/opc/graalvm-ce-java8-20.1.0/jre/languages/js/bin/gh-pages -d production -b gh-pages
+                    git config --global user.email "${EMAIL}"
+                    sudo chmod -R o+wx /usr/lib/node_modules
+                    /usr/bin/gh-pages -d production -b gh-pages
                 """
             }
         }
