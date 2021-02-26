@@ -86,7 +86,7 @@ spec:
     spec:
       resources:
         requests:
-          storage: 2Gi 
+          storage: 2Gi
   - metadata:
     spec:
       resources:
@@ -112,5 +112,6 @@ spec:
 {{< /tab >}}
 {{< /tabs >}}
 
-To continue, see the [Installation Guide](../../../install/installation/#prepare-for-the-install).
+### Next steps
 
+To continue, see the [Installation Guide](../../../install/installation/#prepare-for-the-install).

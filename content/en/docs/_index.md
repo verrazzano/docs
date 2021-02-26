@@ -20,10 +20,8 @@ Verrazzano includes the following capabilities:
 * DevOps and GitOps enablement
 
 {{< alert title="NOTE" color="warning" >}}
-This is a developer preview release of Verrazzano. It is intended for installation in a single
-[Oracle Cloud Infrastructure Container Engine for Kubernetes](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm) (OKE)
-or [Oracle Linux Cloud Native Environment](https://docs.oracle.com/en/operating-systems/olcne/) (OLCNE) cluster.
-You should install Verrazzano only in a cluster that can be safely deleted when your evaluation is complete.
+This is a developer preview release of Verrazzano. You should install Verrazzano only
+in a Kubernetes cluster that can be safely deleted when your evaluation is complete.
 {{< /alert >}}
 
 Select [Quick Start]({{< relref "/docs/setup/quickstart.md" >}}) to get started.
