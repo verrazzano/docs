@@ -202,11 +202,12 @@ you can view the uninstall logs.
         &lt;p&gt;Open Application Model (OAM) is a runtime-agnostic specification for defining cloud native applications; it allows developers to focus on the application instead of the complexities of a particular runtime infrastructure.  OAM provides the &lt;a href=&#34;https://github.com/oam-dev/spec&#34;&gt;specification&lt;/a&gt; for several file formats and rules for a runtime to interpret.  Verrazzano uses OAM to enable the definition of a composite application abstraction and makes OAM constructs available within a &lt;code&gt;VerrazzanoApplication&lt;/code&gt; YAML file.  Verrazzano provides the flexibility to combine what you want into a multi-cloud enablement. It uses the &lt;code&gt;VerrazzanoApplication&lt;/code&gt; as a means to encapsulate a set of components, scopes, and traits, and deploy them on a selected cluster.&lt;/p&gt;
 &lt;p&gt;OAM&amp;rsquo;s workload concept makes it easy to use many different workload types.  Verrazzano includes specific workload types with special handling to deploy and manage those types, such as WebLogic, Coherence, and Helidon.  OAM&amp;rsquo;s flexibility lets you create a grouping that is managed as a unit, although each component can be scaled or updated independently.&lt;/p&gt;
 &lt;h3 id=&#34;how-does-oam-work&#34;&gt;How does OAM work?&lt;/h3&gt;
-&lt;p&gt;OAM has five core concepts&lt;/p&gt;
+&lt;p&gt;OAM has five core concepts:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Workloads - Declarations of the kinds of resources supported by the platform and the OpenAPI schema for that resource.  Most Kubernetes CRDs can be exposed as workloads.  Standard Kubernetes resource types can also be used (e.g. Deployment, Service, Pod, ConfigMap).&lt;/li&gt;
+&lt;li&gt;Workloads - Declarations of the kinds of resources supported by the platform and the OpenAPI schema for that resource.  Most Kubernetes CRDs can be exposed as workloads.  Standard Kubernetes resource types can also be used
+(for example, Deployment, Service, Pod, ConfigMap).&lt;/li&gt;
 &lt;li&gt;Components - Wrap a workload resource&amp;rsquo;s spec data within OAM specific metadata.&lt;/li&gt;
-&lt;li&gt;ApplicationConfigurations - Describe a collection of components that comprise an application.  This is also where customization (such as environmental) of each component is done.  Customization is achieved using scopes and traits.&lt;/li&gt;
+&lt;li&gt;Application Configurations - Describe a collection of components that comprise an application.  This is also where customization (such as environmental) of each component is done.  Customization is achieved using scopes and traits.&lt;/li&gt;
 &lt;li&gt;Scopes - Apply customization to several components.&lt;/li&gt;
 &lt;li&gt;Traits - Apply customization to a single component.&lt;/li&gt;
 &lt;/ul&gt;
@@ -1137,10 +1138,10 @@ OCI DNS certificates are issued using Let&amp;rsquo;s Encrypt, or the end user c
 &lt;p&gt;&lt;a href=&#34;https://maven.apache.org/download.cgi&#34;&gt;Maven&lt;/a&gt; - to build the application&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/oracle/weblogic-deploy-tooling/releases&#34;&gt;WebLogic Deploy Tooling&lt;/a&gt; (WDT) - v1.9.9 or higher, to convert the WebLogic Server domain to and from metadata&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/oracle/weblogic-deploy-tooling/releases&#34;&gt;WebLogic Deploy Tooling&lt;/a&gt; (WDT) - v1.9.9 or later, to convert the WebLogic Server domain to and from metadata&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/oracle/weblogic-image-tool/releases&#34;&gt;WebLogic Image Tool&lt;/a&gt; (WIT) - v1.9.8 or higher, to build the Docker image&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/oracle/weblogic-image-tool/releases&#34;&gt;WebLogic Image Tool&lt;/a&gt; (WIT) - v1.9.8 or later, to build the Docker image&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;initial-steps&#34;&gt;Initial steps&lt;/h2&gt;
@@ -1295,8 +1296,9 @@ log in using the administrator credentials you specified.&lt;/p&gt;
 &lt;h3 id=&#34;build-and-deploy-the-application&#34;&gt;Build and deploy the application&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;Using Maven, build this project to produce &lt;code&gt;todo.war&lt;/code&gt;.  (&lt;strong&gt;NOTE&lt;/strong&gt;: You should clone this repo outside of &lt;code&gt;$ORACLE_HOME&lt;/code&gt;
-or copy the WAR file to another location, as WDT may ignore it during the model creation phase.)&lt;/p&gt;
+&lt;p&gt;Using Maven, build this project to produce &lt;code&gt;todo.war&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: You should clone this repo outside of &lt;code&gt;$ORACLE_HOME&lt;/code&gt; or copy the WAR
+file to another location, as WDT may ignore it during the model creation phase.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt; git clone https://github.com/verrazzano/examples.git
  &lt;span style=&#34;color:#204a87&#34;&gt;cd&lt;/span&gt; examples/todo-list/
  mvn clean package
@@ -1331,7 +1333,7 @@ that you selected &lt;code&gt;AdminServer&lt;/code&gt; as the data source target
 &lt;p&gt;The following steps will move the sample domain to Kubernetes with Verrazzano.&lt;/p&gt;
 &lt;h3 id=&#34;create-a-wdt-model&#34;&gt;Create a WDT Model&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;If you have not already done so, download v1.9.9 or higher of &lt;a href=&#34;https://github.com/oracle/weblogic-deploy-tooling/releases&#34;&gt;WebLogic Deploy Tooling&lt;/a&gt; (WDT) from GitHub.&lt;/li&gt;
+&lt;li&gt;If you have not already done so, download v1.9.9 or later of &lt;a href=&#34;https://github.com/oracle/weblogic-deploy-tooling/releases&#34;&gt;WebLogic Deploy Tooling&lt;/a&gt; (WDT) from GitHub.&lt;/li&gt;
 &lt;li&gt;Unzip the installer &lt;code&gt;weblogic-deploy.zip&lt;/code&gt; file so that you can access &lt;code&gt;bin/discoverDomain.sh&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;To make copying commands easier, define an environment variable for &lt;code&gt;WDT_HOME&lt;/code&gt; that points to the directory where you installed WebLogic Deploy Tooling.
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt; &lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;WDT_HOME&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;/install/directory
@@ -1387,7 +1389,7 @@ fill in the placeholders for you, or you can edit the model manually to set the 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;For example, to get the latest WIT tool:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;curl -OL https://github.com/oracle/weblogic-image-tool/releases/latest/download/imagetool.zip 
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;curl -OL https://github.com/oracle/weblogic-image-tool/releases/latest/download/imagetool.zip
 unzip imagetool.zip
 &lt;span style=&#34;color:#204a87&#34;&gt;cd&lt;/span&gt; imagetool
 &lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;WIT_HOME&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;&lt;span style=&#34;color:#204a87&#34;&gt;pwd&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
@@ -1446,7 +1448,7 @@ the application into a Verrazzano environment.&lt;/p&gt;
 &lt;p&gt;These include:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Creating and labeling the &lt;code&gt;tododomain&lt;/code&gt; namespace.&lt;/li&gt;
-&lt;li&gt;Creating the necessary secrets required by the ToDo application.&lt;/li&gt;
+&lt;li&gt;Creating the necessary secrets required by the ToDo List application.&lt;/li&gt;
 &lt;li&gt;Deploying MySQL to the &lt;code&gt;tododomain&lt;/code&gt; namespace.&lt;/li&gt;
 &lt;li&gt;Updating the &lt;code&gt;application.yaml&lt;/code&gt; file to use the Verrazzano MySQL deployment and (optionally) expose the WLS Console.&lt;/li&gt;
 &lt;li&gt;Applying the &lt;code&gt;application.yaml&lt;/code&gt; file.&lt;/li&gt;
@@ -1462,9 +1464,9 @@ WDT does not discover passwords from your existing domain.  Before running the c
 edit &lt;code&gt;create_k8s_secrets.sh&lt;/code&gt; to set the passwords for the WebLogic Server domain and the data source.  In this domain,
 there are a few passwords that you need to enter:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;administrator credentials (for example, &lt;code&gt;weblogic/welcome1&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;Administrator credentials (for example, &lt;code&gt;weblogic/welcome1&lt;/code&gt;)&lt;/li&gt;
 &lt;li&gt;ToDo database credentials (for example, &lt;code&gt;derek/welcome1&lt;/code&gt;)&lt;/li&gt;
-&lt;li&gt;runtime encryption secret (for example, &lt;code&gt;welcome1&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;Runtime encryption secret (for example, &lt;code&gt;welcome1&lt;/code&gt;)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;For example:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Update &amp;lt;admin-user&amp;gt; and &amp;lt;admin-password&amp;gt; for weblogic-credentials&lt;/span&gt;
@@ -1530,19 +1532,19 @@ mysql-5cfd58477b-mg5c7          0/1     Pending             &lt;span style=&#34;
 mysql-5cfd58477b-mg5c7          0/1     Pending             &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;          0s
 mysql-5cfd58477b-mg5c7          0/1     ContainerCreating   &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;          0s
 mysql-5cfd58477b-mg5c7          1/1     Running             &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;          2s
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;deploy-the-todo-application&#34;&gt;Deploy the ToDo application&lt;/h4&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;deploy-the-todo-list-application&#34;&gt;Deploy the ToDo List application&lt;/h4&gt;
 &lt;p&gt;Finally, run &lt;code&gt;kubectl apply&lt;/code&gt; to apply the Verrazzano component and Verrazzano application configuration files to start your domain.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f application.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This will:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Create the application Component resources for the ToDo application.&lt;/li&gt;
-&lt;li&gt;Create the application ApplicationConfiguration resources that create the instance of the ToDo application in the Verrazzano cluster.&lt;/li&gt;
+&lt;li&gt;Create the application component resources for the ToDo List application.&lt;/li&gt;
+&lt;li&gt;Create the application configuration resources that create the instance of the ToDo List application in the Verrazzano cluster.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Wait for the ToDo List example application to be ready.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; pod --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;Ready tododomain-adminserver -n tododomain
 pod/tododomain-adminserver condition met
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Verify the pods are in the &lt;code&gt;Running&lt;/code&gt; state:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get pod -n tododomain 
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get pod -n tododomain
 NAME                     READY   STATUS    RESTARTS   AGE
 mysql-55bb4c4565-c8zf5   1/1     Running   &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;          8m
 tododomain-adminserver   2/2     Running   &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;          5m
@@ -1609,7 +1611,8 @@ ToDos table initialized.
     --docker-username=&amp;lt;username&amp;gt; \
     --docker-password=&amp;lt;password&amp;gt; \
     --docker-server=&amp;lt;docker server&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To continue, see the &lt;a href=&#34;../../../install/installation/#prepare-for-the-install&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;next-steps&#34;&gt;Next steps&lt;/h3&gt;
+&lt;p&gt;To continue, see the &lt;a href=&#34;../../../install/installation/#prepare-for-the-install&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
 
       </description>
     </item>
@@ -1660,7 +1663,7 @@ ToDos table initialized.
         
         
         &lt;h3 id=&#34;prepare-for-the-oclne-install&#34;&gt;Prepare for the OCLNE install&lt;/h3&gt;
-&lt;p&gt;Oracle Linux Cloud Native Environment can be installed in several different types of environments.
+&lt;p&gt;&lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/&#34;&gt;Oracle Linux Cloud Native Environment&lt;/a&gt; can be installed in several different types of environments.
 These range from physical, on-premises hardware to virtualized cloud infrastructure.
 The Oracle Linux Cloud Native Environment installation instructions assume that networking and compute resources already exist.
 The basic infrastructure requirements are a network with a public and private subnet
@@ -2456,7 +2459,8 @@ DNS CNAME records, in the same way.&lt;/p&gt;
 &lt;p&gt;Set the following environment variable:&lt;/p&gt;
 &lt;p&gt;The value for &lt;code&gt;&amp;lt;path to valid Kubernetes config&amp;gt;&lt;/code&gt; is typically &lt;code&gt;${HOME}/.kube/config&lt;/code&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;export KUBECONFIG=$VERRAZZANO_KUBECONFIG
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To continue, see the &lt;a href=&#34;../../../install/installation/#prepare-for-the-install&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;next-steps&#34;&gt;Next steps&lt;/h3&gt;
+&lt;p&gt;To continue, see the &lt;a href=&#34;../../../install/installation/#prepare-for-the-install&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
 
       </description>
     </item>
@@ -2573,7 +2577,8 @@ docker volume inspect containerd &lt;span style=&#34;color:#8f5902;font-style:it
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      - hostPath: /var/lib/docker/volumes/containerd/_data
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        containerPath: /var/lib/containerd #This is the location of the image cache inside the KIND container
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To continue, see the &lt;a href=&#34;../../../install/installation/#prepare-for-the-install&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;next-steps&#34;&gt;Next steps&lt;/h3&gt;
+&lt;p&gt;To continue, see the &lt;a href=&#34;../../../install/installation/#prepare-for-the-install&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
 
       </description>
     </item>
@@ -2612,7 +2617,9 @@ driver is acceptable, on macOS, hyperkit is recommended.&lt;/p&gt;
 &lt;p&gt;minikube exposes Kubernetes services of type &lt;a href=&#34;https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/&#34;&gt;&lt;code&gt;LoadBalancer&lt;/code&gt;&lt;/a&gt; with the
 &lt;a href=&#34;https://minikube.sigs.k8s.io/docs/commands/tunnel/&#34;&gt;&lt;code&gt;minikube tunnel&lt;/code&gt;&lt;/a&gt; command.  Run a tunnel in a separate terminal from minikube:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;minikube tunnel
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;next-steps&#34;&gt;Next steps&lt;/h3&gt;
+&lt;p&gt;To continue, see the &lt;a href=&#34;../../../install/installation/#prepare-for-the-install&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
+
       </description>
     </item>
     
@@ -3099,7 +3106,7 @@ spec:
     spec:
       resources:
         requests:
-          storage: 2Gi 
+          storage: 2Gi
   - metadata:
     spec:
       resources:
@@ -3124,6 +3131,7 @@ spec:
 
 
 &lt;/div&gt;
+&lt;h3 id=&#34;next-steps&#34;&gt;Next steps&lt;/h3&gt;
 &lt;p&gt;To continue, see the &lt;a href=&#34;../../../install/installation/#prepare-for-the-install&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
 
       </description>

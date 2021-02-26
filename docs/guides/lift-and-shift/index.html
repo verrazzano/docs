@@ -21,11 +21,11 @@
 <meta property="og:description" content="A guide for moving WebLogic Server domains to Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/guides/lift-and-shift/" />
-<meta property="article:modified_time" content="2021-02-19T13:19:58-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-02-26T13:16:18-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Lift-and-Shift Guide">
 <meta itemprop="description" content="A guide for moving WebLogic Server domains to Verrazzano">
-<meta itemprop="dateModified" content="2021-02-19T13:19:58-05:00" />
-<meta itemprop="wordCount" content="2573">
+<meta itemprop="dateModified" content="2021-02-26T13:16:18-05:00" />
+<meta itemprop="wordCount" content="2577">
 
 
 
@@ -105,7 +105,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.84d5a552527ac1314cd51c92135570cd.json"
+  data-offline-search-index-json-src="../../../offline-search-index.8768f4513eaa3044aaf21368975926ef.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -137,7 +137,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.84d5a552527ac1314cd51c92135570cd.json"
+  data-offline-search-index-json-src="../../../offline-search-index.8768f4513eaa3044aaf21368975926ef.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -579,10 +579,10 @@ if (!doNotTrack) {
 <p><a href="https://maven.apache.org/download.cgi">Maven</a> - to build the application</p>
 </li>
 <li>
-<p><a href="https://github.com/oracle/weblogic-deploy-tooling/releases">WebLogic Deploy Tooling</a> (WDT) - v1.9.9 or higher, to convert the WebLogic Server domain to and from metadata</p>
+<p><a href="https://github.com/oracle/weblogic-deploy-tooling/releases">WebLogic Deploy Tooling</a> (WDT) - v1.9.9 or later, to convert the WebLogic Server domain to and from metadata</p>
 </li>
 <li>
-<p><a href="https://github.com/oracle/weblogic-image-tool/releases">WebLogic Image Tool</a> (WIT) - v1.9.8 or higher, to build the Docker image</p>
+<p><a href="https://github.com/oracle/weblogic-image-tool/releases">WebLogic Image Tool</a> (WIT) - v1.9.8 or later, to build the Docker image</p>
 </li>
 </ul>
 <h2 id="initial-steps">Initial steps</h2>
@@ -737,8 +737,9 @@ log in using the administrator credentials you specified.</p>
 <h3 id="build-and-deploy-the-application">Build and deploy the application</h3>
 <ol>
 <li>
-<p>Using Maven, build this project to produce <code>todo.war</code>.  (<strong>NOTE</strong>: You should clone this repo outside of <code>$ORACLE_HOME</code>
-or copy the WAR file to another location, as WDT may ignore it during the model creation phase.)</p>
+<p>Using Maven, build this project to produce <code>todo.war</code>.</p>
+<p><strong>NOTE</strong>: You should clone this repo outside of <code>$ORACLE_HOME</code> or copy the WAR
+file to another location, as WDT may ignore it during the model creation phase.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"> git clone https://github.com/verrazzano/examples.git
  <span style="color:#204a87">cd</span> examples/todo-list/
  mvn clean package
@@ -773,7 +774,7 @@ that you selected <code>AdminServer</code> as the data source target.</p>
 <p>The following steps will move the sample domain to Kubernetes with Verrazzano.</p>
 <h3 id="create-a-wdt-model">Create a WDT Model</h3>
 <ul>
-<li>If you have not already done so, download v1.9.9 or higher of <a href="https://github.com/oracle/weblogic-deploy-tooling/releases">WebLogic Deploy Tooling</a> (WDT) from GitHub.</li>
+<li>If you have not already done so, download v1.9.9 or later of <a href="https://github.com/oracle/weblogic-deploy-tooling/releases">WebLogic Deploy Tooling</a> (WDT) from GitHub.</li>
 <li>Unzip the installer <code>weblogic-deploy.zip</code> file so that you can access <code>bin/discoverDomain.sh</code>.</li>
 <li>To make copying commands easier, define an environment variable for <code>WDT_HOME</code> that points to the directory where you installed WebLogic Deploy Tooling.
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"> <span style="color:#204a87">export</span> <span style="color:#000">WDT_HOME</span><span style="color:#ce5c00;font-weight:bold">=</span>/install/directory
@@ -829,7 +830,7 @@ fill in the placeholders for you, or you can edit the model manually to set the 
 </code></pre></div></li>
 </ul>
 <p>For example, to get the latest WIT tool:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl -OL https://github.com/oracle/weblogic-image-tool/releases/latest/download/imagetool.zip 
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl -OL https://github.com/oracle/weblogic-image-tool/releases/latest/download/imagetool.zip
 unzip imagetool.zip
 <span style="color:#204a87">cd</span> imagetool
 <span style="color:#204a87">export</span> <span style="color:#204a87">export</span> <span style="color:#000">WIT_HOME</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span><span style="color:#204a87">pwd</span><span style="color:#204a87;font-weight:bold">)</span>
@@ -888,7 +889,7 @@ the application into a Verrazzano environment.</p>
 <p>These include:</p>
 <ol>
 <li>Creating and labeling the <code>tododomain</code> namespace.</li>
-<li>Creating the necessary secrets required by the ToDo application.</li>
+<li>Creating the necessary secrets required by the ToDo List application.</li>
 <li>Deploying MySQL to the <code>tododomain</code> namespace.</li>
 <li>Updating the <code>application.yaml</code> file to use the Verrazzano MySQL deployment and (optionally) expose the WLS Console.</li>
 <li>Applying the <code>application.yaml</code> file.</li>
@@ -904,9 +905,9 @@ WDT does not discover passwords from your existing domain.  Before running the c
 edit <code>create_k8s_secrets.sh</code> to set the passwords for the WebLogic Server domain and the data source.  In this domain,
 there are a few passwords that you need to enter:</p>
 <ul>
-<li>administrator credentials (for example, <code>weblogic/welcome1</code>)</li>
+<li>Administrator credentials (for example, <code>weblogic/welcome1</code>)</li>
 <li>ToDo database credentials (for example, <code>derek/welcome1</code>)</li>
-<li>runtime encryption secret (for example, <code>welcome1</code>)</li>
+<li>Runtime encryption secret (for example, <code>welcome1</code>)</li>
 </ul>
 <p>For example:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8f5902;font-style:italic"># Update &lt;admin-user&gt; and &lt;admin-password&gt; for weblogic-credentials</span>
@@ -972,19 +973,19 @@ mysql-5cfd58477b-mg5c7          0/1     Pending             <span style="color:#
 mysql-5cfd58477b-mg5c7          0/1     Pending             <span style="color:#0000cf;font-weight:bold">0</span>          0s
 mysql-5cfd58477b-mg5c7          0/1     ContainerCreating   <span style="color:#0000cf;font-weight:bold">0</span>          0s
 mysql-5cfd58477b-mg5c7          1/1     Running             <span style="color:#0000cf;font-weight:bold">0</span>          2s
-</code></pre></div><h4 id="deploy-the-todo-application">Deploy the ToDo application</h4>
+</code></pre></div><h4 id="deploy-the-todo-list-application">Deploy the ToDo List application</h4>
 <p>Finally, run <code>kubectl apply</code> to apply the Verrazzano component and Verrazzano application configuration files to start your domain.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f application.yaml
 </code></pre></div><p>This will:</p>
 <ul>
-<li>Create the application Component resources for the ToDo application.</li>
-<li>Create the application ApplicationConfiguration resources that create the instance of the ToDo application in the Verrazzano cluster.</li>
+<li>Create the application component resources for the ToDo List application.</li>
+<li>Create the application configuration resources that create the instance of the ToDo List application in the Verrazzano cluster.</li>
 </ul>
 <p>Wait for the ToDo List example application to be ready.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl <span style="color:#204a87">wait</span> pod --for<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">condition</span><span style="color:#ce5c00;font-weight:bold">=</span>Ready tododomain-adminserver -n tododomain
 pod/tododomain-adminserver condition met
 </code></pre></div><p>Verify the pods are in the <code>Running</code> state:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get pod -n tododomain 
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get pod -n tododomain
 NAME                     READY   STATUS    RESTARTS   AGE
 mysql-55bb4c4565-c8zf5   1/1     Running   <span style="color:#0000cf;font-weight:bold">0</span>          8m
 tododomain-adminserver   2/2     Running   <span style="color:#0000cf;font-weight:bold">0</span>          5m
@@ -1083,7 +1084,7 @@ ToDos table initialized.
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified February 19, 2021: <a  href="https://github.com/verrazzano/docs/commit/89ac0b8457bb5cc831b909a10109c52ae3ef3eb4">VZ-2159, VZ-2199.  Update the Lift and Shift guide (#86) (89ac0b8)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified February 26, 2021: <a  href="https://github.com/verrazzano/docs/commit/c242a62d3d4cf4e19ed612489f559084f414e7b3">clean up docs (#95) (c242a62)</a>
 </div>
 </div>
 
