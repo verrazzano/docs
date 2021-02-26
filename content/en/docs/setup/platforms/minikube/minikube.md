@@ -37,9 +37,12 @@ minikube start \
 
 ### Run `minikube tunnel`
 
-minikube exposes Kubernetes services of type [`LoadBalancer`](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/) with the 
+minikube exposes Kubernetes services of type [`LoadBalancer`](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/) with the
 [`minikube tunnel`](https://minikube.sigs.k8s.io/docs/commands/tunnel/) command.  Run a tunnel in a separate terminal from minikube:
 
 ```shell
 minikube tunnel
 ```
+### Next steps
+
+To continue, see the [Installation Guide](../../../install/installation/#prepare-for-the-install).

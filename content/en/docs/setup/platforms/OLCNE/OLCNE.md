@@ -7,7 +7,7 @@ draft: false
 ---
 
 ### Prepare for the OCLNE install
-Oracle Linux Cloud Native Environment can be installed in several different types of environments.
+[Oracle Linux Cloud Native Environment](https://docs.oracle.com/en/operating-systems/olcne/) can be installed in several different types of environments.
 These range from physical, on-premises hardware to virtualized cloud infrastructure.
 The Oracle Linux Cloud Native Environment installation instructions assume that networking and compute resources already exist.
 The basic infrastructure requirements are a network with a public and private subnet
@@ -339,5 +339,6 @@ The value for `<path to valid Kubernetes config>` is typically `${HOME}/.kube/co
 ```
 export KUBECONFIG=$VERRAZZANO_KUBECONFIG
 ```
+### Next steps
 
 To continue, see the [Installation Guide](../../../install/installation/#prepare-for-the-install).
