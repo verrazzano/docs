@@ -12,8 +12,8 @@ Features
 - Incremental improvements to user-facing roles.
 
 Fixes
-- Fix issue with logging when an application has multiple workload types.
-- Fix metrics configuration in Spring Boot example application.
+- Fixed issue with logging when an application has multiple workload types.
+- Fixed metrics configuration in Spring Boot example application.
 
 ### v0.10.0:
 
@@ -39,17 +39,17 @@ Fixes
     - Added platform support for installing Verrazzano on Kind clusters.
     - Log records are indexed from the OAM `appconfig` and `component` definitions using the following pattern: `namespace-appconfig-component`.
     - All system and curated components are now patchable.
-    - More updates to Open Application Model (OAM) support. 
+    - More updates to Open Application Model (OAM) support.
 
 To enable OAM, when you install Verrazzano, specify the following in the Kubernetes manifest file for the Verrazzano custom resource:
 
 ```shell
 spec:
   oam:
-    enabled: true 
+    enabled: true
 ```
 
-    
+
 ### v0.8.0
 - Features
     - Support for two installation profiles, development (`dev`) and production (`prod`).  The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.   
