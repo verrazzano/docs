@@ -5,6 +5,16 @@ weight: 4
 draft: false
 ---
 
+### v0.11.0:
+
+Features
+- OAM applications are optionally deployed into an Istio service mesh.
+- Incremental improvements to user-facing roles.
+
+Fixes
+- Fix issue with logging when an application has multiple workload types.
+- Fix metrics configuration in Spring Boot example application.
+
 ### v0.10.0:
 
 **Breaking Changes**
