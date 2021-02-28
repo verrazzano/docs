@@ -38,7 +38,7 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
 &lt;li&gt;Create the optional &lt;code&gt;imagePullSecret&lt;/code&gt; named &lt;code&gt;verrazzano-container-registry&lt;/code&gt;.  This step is required when one or more of the Docker images installed by Verrazzano are private.  For example, while testing a change to the &lt;code&gt;verrazzano-operator&lt;/code&gt;, you may be using a Docker image that requires credentials to access it.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;    kubectl create secret docker-registry verrazzano-container-registry \
+&lt;pre&gt;&lt;code&gt;    $ kubectl create secret docker-registry verrazzano-container-registry \
     --docker-username=&amp;lt;username&amp;gt; \
     --docker-password=&amp;lt;password&amp;gt; \
     --docker-server=&amp;lt;docker server&amp;gt;
@@ -595,7 +595,7 @@ In the following example, the value &lt;code&gt;/example&lt;/code&gt; is the &lt
 The following command should be run on one of the Kubernetes worker nodes.
 This will result in the creation of nine persistent volume folders.
 The reason for nine persistent volume folders is covered in the next section.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;sudo mount 10.0.1.8:/example /mnt
+&lt;pre&gt;&lt;code&gt;$ sudo mount 10.0.1.8:/example /mnt
 for x in {0001..0009}; do sudo mkdir -p /mnt/pv${x} &amp;amp;&amp;amp; sudo chmod 777 /mnt/pv${x}; done
 &lt;/code&gt;&lt;/pre&gt;&lt;h6 id=&#34;persistent-volumes&#34;&gt;Persistent Volumes&lt;/h6&gt;
 &lt;p&gt;A default Kubernetes storage class is required by Verrazzano.
@@ -603,7 +603,7 @@ When using pre-allocated &lt;code&gt;PersistentVolumes&lt;/code&gt;, for example
 The value for &lt;code&gt;name&lt;/code&gt; may be customized but will need to match the &lt;code&gt;PersistentVolume&lt;/code&gt; &lt;code&gt;storageClassName&lt;/code&gt; value later.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Create a default &lt;code&gt;StorageClass&lt;/code&gt;
-&lt;pre&gt;&lt;code&gt;cat &amp;lt;&amp;lt; EOF | kubectl apply -f -
+&lt;pre&gt;&lt;code&gt;$ cat &amp;lt;&amp;lt; EOF | kubectl apply -f -
   apiVersion: storage.k8s.io/v1
   kind: StorageClass
   metadata:
@@ -621,7 +621,7 @@ The value for &lt;code&gt;storageClassName&lt;/code&gt; must match the above &lt
 The values for &lt;code&gt;name&lt;/code&gt; may be customized.
 The value for &lt;code&gt;path&lt;/code&gt; must match the &lt;code&gt;Export Path&lt;/code&gt; of the Export from above, combined with the persistent volume folder from above.
 The value for &lt;code&gt;server&lt;/code&gt; must be changed to match the location of your file system server.
-&lt;pre&gt;&lt;code&gt;for n in {0001..0009}; do cat &amp;lt;&amp;lt; EOF | kubectl apply -f -
+&lt;pre&gt;&lt;code&gt;$ for n in {0001..0009}; do cat &amp;lt;&amp;lt; EOF | kubectl apply -f -
   apiVersion: v1
   kind: PersistentVolume
   metadata:
@@ -853,7 +853,7 @@ DNS CNAME records, in the same way.&lt;/p&gt;
 &lt;p&gt;You will install Verrazzano using the &lt;code&gt;external&lt;/code&gt; DNS type (the example custom resource for OLCNE is already configured to use &lt;code&gt;spec.dns.external&lt;/code&gt;).&lt;/p&gt;
 &lt;p&gt;Set the following environment variable:&lt;/p&gt;
 &lt;p&gt;The value for &lt;code&gt;&amp;lt;path to valid Kubernetes config&amp;gt;&lt;/code&gt; is typically &lt;code&gt;${HOME}/.kube/config&lt;/code&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;export KUBECONFIG=$VERRAZZANO_KUBECONFIG
+&lt;pre&gt;&lt;code&gt;$ export KUBECONFIG=$VERRAZZANO_KUBECONFIG
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;next-steps&#34;&gt;Next steps&lt;/h3&gt;
 &lt;p&gt;To continue, see the &lt;a href=&#34;../../../install/installation/#prepare-for-the-install&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
 
@@ -893,7 +893,7 @@ to the host.  On macOS and Windows, &lt;a href=&#34;../../../docs/setup/platform
 where you&amp;rsquo;ll find a complete listing of images created for a KIND release.&lt;/p&gt;
 &lt;p&gt;The following example references a Kubernetes v1.18.8-based image built for KIND v0.9.0.  Replace that image
 with one suitable for the KIND release you are using.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kind create cluster --config - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kind create cluster --config - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Cluster
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: kind.x-k8s.io/v1alpha4
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;nodes:
@@ -911,20 +911,20 @@ with one suitable for the KIND release you are using.&lt;/p&gt;
 &lt;p&gt;By default, KIND does not provide an implementation of network load balancers (&lt;a href=&#34;https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/&#34;&gt;Services of type LoadBalancer&lt;/a&gt;).
 &lt;a href=&#34;https://metallb.universe.tf/&#34;&gt;MetalLB&lt;/a&gt; offers a network load balancer implementation.&lt;/p&gt;
 &lt;p&gt;To install MetalLB:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
-kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml
-kubectl create secret generic -n metallb-system memberlist --from-literal&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;secretkey&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;openssl rand -base64 128&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml
+$ kubectl create secret generic -n metallb-system memberlist --from-literal&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;secretkey&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;openssl rand -base64 128&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For further details, see the MetalLB &lt;a href=&#34;https://metallb.universe.tf/installation/#installation-by-manifest&#34;&gt;installation guide&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;MetalLB is idle until configured.  Configure MetalLB in Layer 2 mode and give it control over a range of IP addresses in the &lt;code&gt;kind&lt;/code&gt; Docker network.
 In versions v0.7.0 and earlier, KIND uses Docker&amp;rsquo;s default bridge network; in versions v0.8.0 and later, it creates its own bridge network in KIND.&lt;/p&gt;
 &lt;p&gt;To determine the subnet of the &lt;code&gt;kind&lt;/code&gt; Docker network in KIND v0.8.0 and later:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&amp;gt; docker inspect kind &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt; jq &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;.[0].IPAM.Config[0].Subnet&amp;#39;&lt;/span&gt; -r
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ docker inspect kind &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt; jq &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;.[0].IPAM.Config[0].Subnet&amp;#39;&lt;/span&gt; -r
 172.18.0.0/16
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To determine the subnet of the &lt;code&gt;kind&lt;/code&gt; Docker network in KIND v0.7.0 and earlier:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&amp;gt; docker inspect bridge &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt; jq &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;.[0].IPAM.Config[0].Subnet&amp;#39;&lt;/span&gt; -r
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ docker inspect bridge &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt; jq &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;.[0].IPAM.Config[0].Subnet&amp;#39;&lt;/span&gt; -r
 172.17.0.0/16
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For use by MetalLB, assign a range of IP addresses at the end of the &lt;code&gt;kind&lt;/code&gt; network&amp;rsquo;s subnet CIDR range.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kubectl apply -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;-EOF
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;-EOF
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: v1
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: ConfigMap
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
@@ -941,9 +941,9 @@ In versions v0.7.0 and earlier, KIND uses Docker&amp;rsquo;s default bridge netw
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;image-caching-to-speed-up-install&#34;&gt;Image caching to speed up install&lt;/h3&gt;
 &lt;p&gt;If you are experimenting with Verrazzano and expect that you may need to delete the KIND cluster and later, install Verrazzano again on a new KIND cluster, then you can follow these steps to ensure that the image cache used by containerd inside KIND is preserved across clusters. Subsequent installs will be faster than the first install, because they will not need to pull the images again.&lt;/p&gt;
 &lt;p&gt;1. Create a named Docker volume that will be used for the image cache, and note its &lt;code&gt;Mountpoint&lt;/code&gt; path. In this example, the volume is named &lt;code&gt;containerd&lt;/code&gt;.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;docker volume create containerd
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ docker volume create containerd
 
-docker volume inspect containerd &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#Sample output is shown&lt;/span&gt;
+$ docker volume inspect containerd &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#Sample output is shown&lt;/span&gt;
 
 &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;
     &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;CreatedAt&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;2021-01-11T16:27:47Z&amp;#34;&lt;/span&gt;,
@@ -955,7 +955,7 @@ docker volume inspect containerd &lt;span style=&#34;color:#8f5902;font-style:it
     &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Scope&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;local&amp;#34;&lt;/span&gt;
 &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;2. Specify the &lt;code&gt;Mountpoint&lt;/code&gt; path obtained, as the &lt;code&gt;hostPath&lt;/code&gt; under &lt;code&gt;extraMounts&lt;/code&gt; in your KIND configuration file, with a &lt;code&gt;containerPath&lt;/code&gt; of &lt;code&gt;/var/lib/containerd&lt;/code&gt;, which is the default containerd image caching location inside the KIND container. An example of the modified KIND configuration is shown in the following &lt;code&gt;create cluster&lt;/code&gt; command:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;kind create cluster --config - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kind create cluster --config - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Cluster
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: kind.x-k8s.io/v1alpha4
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;nodes:
@@ -1000,7 +1000,7 @@ of type &lt;code&gt;LoadBalancer&lt;/code&gt; by using the &lt;code&gt;minikube 
 &lt;h3 id=&#34;create-minikube-cluster&#34;&gt;Create minikube cluster&lt;/h3&gt;
 &lt;p&gt;Create a minikube cluster using a supported Kubernetes version and appropriate driver.  On Linux hosts, the default
 driver is acceptable, on macOS, hyperkit is recommended.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;minikube start &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ minikube start &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --kubernetes-version&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;v1.18.8 &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --driver&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;hyperkit &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --memory&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;16384&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
@@ -1011,7 +1011,7 @@ driver is acceptable, on macOS, hyperkit is recommended.&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;run-minikube-tunnel&#34;&gt;Run &lt;code&gt;minikube tunnel&lt;/code&gt;&lt;/h3&gt;
 &lt;p&gt;minikube exposes Kubernetes services of type &lt;a href=&#34;https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/&#34;&gt;&lt;code&gt;LoadBalancer&lt;/code&gt;&lt;/a&gt; with the
 &lt;a href=&#34;https://minikube.sigs.k8s.io/docs/commands/tunnel/&#34;&gt;&lt;code&gt;minikube tunnel&lt;/code&gt;&lt;/a&gt; command.  Run a tunnel in a separate terminal from minikube:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;minikube tunnel
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ minikube tunnel
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;next-steps&#34;&gt;Next steps&lt;/h3&gt;
 &lt;p&gt;To continue, see the &lt;a href=&#34;../../../install/installation/#prepare-for-the-install&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
 
