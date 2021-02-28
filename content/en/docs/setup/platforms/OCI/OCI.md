@@ -21,7 +21,7 @@ draft: false
 * Create the optional `imagePullSecret` named `verrazzano-container-registry`.  This step is required when one or more of the Docker images installed by Verrazzano are private.  For example, while testing a change to the `verrazzano-operator`, you may be using a Docker image that requires credentials to access it.
 
 ```
-    kubectl create secret docker-registry verrazzano-container-registry \
+    $ kubectl create secret docker-registry verrazzano-container-registry \
     --docker-username=<username> \
     --docker-password=<password> \
     --docker-server=<docker server>

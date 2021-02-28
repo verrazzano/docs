@@ -32,7 +32,7 @@ To install the Verrazzano platform operator, follow these steps:
 1. Deploy the Verrazzano platform operator.
 
     ```shell
-    kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
+    $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
     ```
 
 1. Wait for the deployment to complete.
@@ -69,7 +69,7 @@ To install Verrazzano, follow these steps:
 1. Install Verrazzano with its `dev` profile.
 
     ```shell
-    kubectl apply -f - <<EOF
+    $ kubectl apply -f - <<EOF
     apiVersion: install.verrazzano.io/v1alpha1
     kind: Verrazzano
     metadata:
@@ -81,7 +81,7 @@ To install Verrazzano, follow these steps:
 
 1. Wait for the installation to complete.
     ```shell
-    kubectl wait \
+    $ kubectl wait \
         --timeout=20m \
         --for=condition=InstallComplete \
         verrazzano/example-verrazzano
@@ -92,7 +92,7 @@ To install Verrazzano, follow these steps:
     The Verrazzano operator launches a Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) to install Verrazzano.  You can view the installation logs from that job with the following command:
 
     ```shell
-    kubectl logs -f \
+    $ kubectl logs -f \
         $( \
           kubectl get pod  \
               -l job-name=verrazzano-install-example-verrazzano \
@@ -178,7 +178,7 @@ To uninstall Verrazzano, follow these steps:
 1. Delete the Verrazzano custom resource.
 
     ```shell
-    kubectl delete verrazzano example-verrazzano
+    $ kubectl delete verrazzano example-verrazzano
     ```
 
    {{< alert title="NOTE" color="tip" >}}
@@ -191,7 +191,7 @@ To uninstall Verrazzano, follow these steps:
     The Verrazzano operator launches a Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) to delete the Verrazzano installation.  You can view the uninstall logs from that job with the following command:
 
     ```shell
-    kubectl logs -f \
+    $ kubectl logs -f \
         $( \
           kubectl get pod  \
               -l job-name=verrazzano-uninstall-example-verrazzano \
