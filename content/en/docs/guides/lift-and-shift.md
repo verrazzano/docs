@@ -102,7 +102,7 @@ In the initial steps, you create a sample domain that represents your on-premise
 1. To start the newly created domain, run the domain's start script.
 
     ```shell script
-     $ORACLE_HOME/user_projects/domains/tododomain/bin/startWebLogic.sh
+     $ $ORACLE_HOME/user_projects/domains/tododomain/bin/startWebLogic.sh
     ```
 1. Access the Console of the newly started domain with your browser, for example, [http://localhost:7001/console](http://localhost:7001/console), and
    log in using the administrator credentials you specified.
@@ -211,7 +211,7 @@ To create a reusable model of the application and domain, use WDT to create a me
 - Then, run WDT `discoverDomain`.
   ```shell script
   $ mkdir v8o
-  $WDT_HOME/bin/discoverDomain.sh \
+  $ $WDT_HOME/bin/discoverDomain.sh \
     -oracle_home $ORACLE_HOME \
     -domain_home /path/to/domain/dir \
     -model_file ./v8o/wdt-model.yaml \
@@ -268,26 +268,26 @@ manually and provide their location to the `imagetool cache addInstaller` comman
 # The directory created previously to hold the generated scripts and models.
 $ cd v8o
 
-$WIT_HOME/bin/imagetool.sh cache addInstaller \
+$ $WIT_HOME/bin/imagetool.sh cache addInstaller \
   --path /path/to/installer/jdk-8u231-linux-x64.tar.gz \
   --type jdk \
   --version 8u231
 
 # The installer file name may be slightly different depending on
 # which version of the 12.2.1.4.0 installer that you downloaded, slim or generic.
-$WIT_HOME/bin/imagetool.sh cache addInstaller \
+$ $WIT_HOME/bin/imagetool.sh cache addInstaller \
   --path /path/to/installer/fmw_12.2.1.4.0_wls_Disk1_1of1.zip \
   --type wls \
   --version 12.2.1.4.0
 
-$WIT_HOME/bin/imagetool.sh cache addInstaller \
+$ $WIT_HOME/bin/imagetool.sh cache addInstaller \
   --path /path/to/installer/weblogic-deploy.zip \
   --type wdt \
   --version latest
 
 # Paths for the files in this command assume that you are running it from the
 # v8o directory created during the `discoverDomain` step.
-$WIT_HOME/bin/imagetool.sh create \
+$ $WIT_HOME/bin/imagetool.sh create \
   --tag your/repo/todo:1 \
   --version 12.2.1.4.0 \
   --jdkVersion 8u231 \
