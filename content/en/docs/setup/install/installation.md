@@ -157,7 +157,7 @@ spec:
     ingress:
       type: LoadBalancer
 EOF
-kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/operator/config/samples/install-oci.yaml
+kubectl apply -f https://github.com/verrazzano/verrazzano/blob/master/platform-operator/config/samples/install-oci.yaml
 kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
 ```
 
