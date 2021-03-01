@@ -10,6 +10,9 @@ draft: false
 You should install this developer preview release of Verrazzano only in a cluster that can be safely deleted when your evaluation is complete.
 {{< /alert >}}
 
+The following instructions show you how to install Verrazzano in a
+single Kubernetes cluster.
+
 ### Prerequisites
 
 Verrazzano requires the following:
@@ -34,9 +37,6 @@ Before installing Verrazzano, see instructions on preparing the following Kubern
 * [minikube](../../platforms/minikube/minikube)
 
 * [Generic Kubernetes](../../platforms/generic/generic)
-
-The following instructions show you how to install Verrazzano in a
-single [Oracle Cloud Infrastructure Container Engine for Kubernetes](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm) (OKE) cluster.
 
 
 ### Install the Verrazzano platform operator
@@ -75,7 +75,7 @@ For a complete description of Verrazzano configuration options, see the [Verrazz
 
 According to your DNS choice, [xip.io](http://xip.io/) or
 [Oracle OCI DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm),
-install Verrazzano using one of the following methods.
+install Verrazzano using one of the following methods:
 
 {{< tabs tabTotal="2" tabID="2" tabName1="xip.io" tabName2="OCI DNS" >}}
 {{< tab tabNum="1" >}}

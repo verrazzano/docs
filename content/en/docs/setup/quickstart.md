@@ -117,7 +117,7 @@ To deploy the Hello World Helidon example application, follow these steps:
    $ kubectl label namespace hello-helidon verrazzano-managed=true
    ```
 
-1. Apply the hello-helidon resources to deploy the application.
+1. Apply the `hello-helidon` resources to deploy the application.
 
    ```shell
    $ kubectl apply -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-comp.yaml" >}}
@@ -148,7 +148,7 @@ To deploy the Hello World Helidon example application, follow these steps:
 
 ### Uninstall the example application
 
-To uninstall the Hello World Helidon example application, follow these steps.
+To uninstall the Hello World Helidon example application, follow these steps:
 
 1. Delete the Verrazzano application resources.
 

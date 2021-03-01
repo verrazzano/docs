@@ -34,7 +34,7 @@ demonstrates creating OAM resources that define an application as well as the st
    Confirm access using this command to pull the example's Docker image.
 
    ```
-   docker pull ghcr.io/verrazzano/example-helidon-greet-app-v1:0.1.12-1-20210218160249-d8db8f3
+   $ docker pull ghcr.io/verrazzano/example-helidon-greet-app-v1:0.1.12-1-20210218160249-d8db8f3
    ```
 
 ## Application development

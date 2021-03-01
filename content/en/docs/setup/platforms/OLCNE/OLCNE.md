@@ -163,7 +163,7 @@ This will result in the creation of nine persistent volume folders.
 The reason for nine persistent volume folders is covered in the next section.
 ```
 $ sudo mount 10.0.1.8:/example /mnt
-for x in {0001..0009}; do sudo mkdir -p /mnt/pv${x} && sudo chmod 777 /mnt/pv${x}; done
+$ for x in {0001..0009}; do sudo mkdir -p /mnt/pv${x} && sudo chmod 777 /mnt/pv${x}; done
 ```
 
 ###### Persistent Volumes
@@ -341,4 +341,4 @@ $ export KUBECONFIG=$VERRAZZANO_KUBECONFIG
 ```
 ### Next steps
 
-To continue, see the [Installation Guide](../../../install/installation/#prepare-for-the-install).
+To continue, see the [Installation Guide](../../../install/installation/#install-the-verrazzano-platform-operator).
