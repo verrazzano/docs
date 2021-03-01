@@ -21,11 +21,11 @@
 <meta property="og:description" content="How to upgrade Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/setup/upgrade/upgrade/" />
-<meta property="article:modified_time" content="2021-02-28T16:51:30-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-03-01T15:34:44-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Upgrade Guide">
 <meta itemprop="description" content="How to upgrade Verrazzano">
-<meta itemprop="dateModified" content="2021-02-28T16:51:30-05:00" />
-<meta itemprop="wordCount" content="504">
+<meta itemprop="dateModified" content="2021-03-01T15:34:44-05:00" />
+<meta itemprop="wordCount" content="495">
 
 
 
@@ -105,7 +105,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.be8bdd8468ab8c99e9da2e03046ab385.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.fe4ff50cd1ca2e616efa0c7c4b162593.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -137,7 +137,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.be8bdd8468ab8c99e9da2e03046ab385.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.fe4ff50cd1ca2e616efa0c7c4b162593.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -562,20 +562,20 @@ not have any impact on running applications.</p>
 <li>
 <p>Upgrade the Verrazzano platform operator.</p>
 <p>To upgrade to the latest version:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
-</code></pre></div><p>To upgrade to a specific version:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/&lt;version&gt;/operator.yaml
-</code></pre></div><p>where <code>&lt;version&gt;</code> is the desired version.  For example:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v0.7.0/operator.yaml
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
+</code></pre></div><p>To upgrade to a specific version, where <code>&lt;version&gt;</code> is the desired version:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/&lt;version&gt;/operator.yaml
+</code></pre></div><p>For example:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v0.7.0/operator.yaml
 </code></pre></div></li>
 <li>
 <p>Wait for the deployment to complete.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
 deployment <span style="color:#4e9a06">&#34;verrazzano-platform-operator&#34;</span> successfully rolled out
 </code></pre></div></li>
 <li>
 <p>Confirm that the operator pod is correctly defined and running.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl -n verrazzano-install get pods
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl -n verrazzano-install get pods
 NAME                                            READY   STATUS    RESTARTS   AGE
 verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   <span style="color:#0000cf;font-weight:bold">0</span>          114s
 </code></pre></div></li>
@@ -600,21 +600,21 @@ corresponding to a valid <a href="https://github.com/verrazzano/verrazzano/relea
 </span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">profile</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>dev<span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">version</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>v0<span style="color:#0000cf;font-weight:bold">.7.0</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></code></pre></div><p>Then apply the resource to the cluster (if you have not edited the resource in-place using <code>kubectl edit</code>):</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl apply -f my-verrazzano.yaml
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f my-verrazzano.yaml
 </code></pre></div><p>b. Editing the <code>Verrazzano</code> resource directly using <code>kubectl</code> and setting the version field directly, for example:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl edit verrazzano my-verrazzano
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl edit verrazzano my-verrazzano
 <span style="color:#8f5902;font-style:italic"># Once in the resource editor, add or update the version field to &#34;version: v0.7.0&#34;, then save.</span>
 </code></pre></div></li>
 <li>
 <p>Wait for the upgrade to complete:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl <span style="color:#204a87">wait</span> --timeout<span style="color:#ce5c00;font-weight:bold">=</span>20m --for<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">condition</span><span style="color:#ce5c00;font-weight:bold">=</span>UpgradeComplete verrazzano/my-verrazzano
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl <span style="color:#204a87">wait</span> --timeout<span style="color:#ce5c00;font-weight:bold">=</span>20m --for<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">condition</span><span style="color:#ce5c00;font-weight:bold">=</span>UpgradeComplete verrazzano/my-verrazzano
 </code></pre></div></li>
 </ol>
 <h3 id="verify-the-upgrade">Verify the upgrade</h3>
 <p>Check that all the pods in the <code>verrazzano-system</code> namespace are in the <code>Running</code> state.  While the upgrade is in progress,
 you may see some pods terminating and restarting as newer versions of components are applied.</p>
 <p>For example:</p>
-<pre><code>$ kubectl get pods -n verrazzano-system
+<pre><code>kubectl get pods -n verrazzano-system
 verrazzano-admission-controller-84d6bc647c-7b8tl   1/1     Running   0          5m13s
 verrazzano-cluster-operator-57fb95fc99-kqjll       1/1     Running   0          5m13s
 verrazzano-monitoring-operator-7cb5947f4c-x9kfc    1/1     Running   0          5m13s
@@ -695,7 +695,7 @@ vmi-system-prometheus-gw-7cb9df774-48g4b           1/1     Running   0          
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified February 28, 2021: <a  href="https://github.com/verrazzano/docs/commit/df56c68a5d26354cdaaa40b94836b84ffc5d697f">fix code examples format (#98) (df56c68)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified March 1, 2021: <a  href="https://github.com/verrazzano/docs/commit/7aaeedeef861b69cfb5fbb893bfa30902574318b">doc edits (#99) (7aaeede)</a>
 </div>
 </div>
 

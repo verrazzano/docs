@@ -21,11 +21,11 @@
 <meta property="og:description" content="Instructions for setting up an OLCNE cluster for Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/setup/platforms/olcne/olcne/" />
-<meta property="article:modified_time" content="2021-02-28T16:51:30-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-03-01T15:34:44-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Oracle Linux Cloud Native Environment (OLCNE)">
 <meta itemprop="description" content="Instructions for setting up an OLCNE cluster for Verrazzano">
-<meta itemprop="dateModified" content="2021-02-28T16:51:30-05:00" />
-<meta itemprop="wordCount" content="1784">
+<meta itemprop="dateModified" content="2021-03-01T15:34:44-05:00" />
+<meta itemprop="wordCount" content="1780">
 
 
 
@@ -105,7 +105,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.be8bdd8468ab8c99e9da2e03046ab385.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.fe4ff50cd1ca2e616efa0c7c4b162593.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -137,7 +137,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.be8bdd8468ab8c99e9da2e03046ab385.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.fe4ff50cd1ca2e616efa0c7c4b162593.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -1096,7 +1096,7 @@ In the following example, the value <code>/example</code> is the <code>Export Pa
 The following command should be run on one of the Kubernetes worker nodes.
 This will result in the creation of nine persistent volume folders.
 The reason for nine persistent volume folders is covered in the next section.</p>
-<pre><code>$ sudo mount 10.0.1.8:/example /mnt
+<pre><code>sudo mount 10.0.1.8:/example /mnt
 for x in {0001..0009}; do sudo mkdir -p /mnt/pv${x} &amp;&amp; sudo chmod 777 /mnt/pv${x}; done
 </code></pre><h6 id="persistent-volumes">Persistent Volumes</h6>
 <p>A default Kubernetes storage class is required by Verrazzano.
@@ -1104,7 +1104,7 @@ When using pre-allocated <code>PersistentVolumes</code>, for example NFS, persis
 The value for <code>name</code> may be customized but will need to match the <code>PersistentVolume</code> <code>storageClassName</code> value later.</p>
 <ul>
 <li>Create a default <code>StorageClass</code>
-<pre><code>$ cat &lt;&lt; EOF | kubectl apply -f -
+<pre><code>cat &lt;&lt; EOF | kubectl apply -f -
   apiVersion: storage.k8s.io/v1
   kind: StorageClass
   metadata:
@@ -1122,7 +1122,7 @@ The value for <code>storageClassName</code> must match the above <code>StorageCl
 The values for <code>name</code> may be customized.
 The value for <code>path</code> must match the <code>Export Path</code> of the Export from above, combined with the persistent volume folder from above.
 The value for <code>server</code> must be changed to match the location of your file system server.
-<pre><code>$ for n in {0001..0009}; do cat &lt;&lt; EOF | kubectl apply -f -
+<pre><code>for n in {0001..0009}; do cat &lt;&lt; EOF | kubectl apply -f -
   apiVersion: v1
   kind: PersistentVolume
   metadata:
@@ -1344,7 +1344,7 @@ DNS CNAME records, in the same way.</p>
 
 </div>
 <p>During the Verrazzano install, these steps should be performed on the Oracle Linux Cloud Native Environment operator node.</p>
-<p>Edit the sample Verrazzano custom resource <a href="https://github.com/verrazzano/verrazzano/blob/master/operator/config/samples/install-olcne.yaml">install-olcne.yaml</a> file and provide the configuration settings for your OLCNE environment as follows:</p>
+<p>Edit the sample Verrazzano custom resource <a href="https://github.com/verrazzano/verrazzano/blob/master/platform-operator/config/samples/install-olcne.yaml">install-olcne.yaml</a> file and provide the configuration settings for your OLCNE environment as follows:</p>
 <ul>
 <li>The value for <code>spec.environmentName</code> is a unique DNS subdomain for the cluster (for example, <code>myenv</code> in <code>myenv.mydomain.com</code>).</li>
 <li>The value for <code>spec.dns.external.suffix</code> is the remainder of the DNS domain (for example, <code>mydomain.com</code> in <code>myenv.mydomain.com</code>).</li>
@@ -1354,9 +1354,9 @@ DNS CNAME records, in the same way.</p>
 <p>You will install Verrazzano using the <code>external</code> DNS type (the example custom resource for OLCNE is already configured to use <code>spec.dns.external</code>).</p>
 <p>Set the following environment variable:</p>
 <p>The value for <code>&lt;path to valid Kubernetes config&gt;</code> is typically <code>${HOME}/.kube/config</code></p>
-<pre><code>$ export KUBECONFIG=$VERRAZZANO_KUBECONFIG
+<pre><code>export KUBECONFIG=$VERRAZZANO_KUBECONFIG
 </code></pre><h3 id="next-steps">Next steps</h3>
-<p>To continue, see the <a href="../../../install/installation/#prepare-for-the-install">Installation Guide</a>.</p>
+<p>To continue, see the <a href="../../../install/installation/#install-the-verrazzano-platform-operator">Installation Guide</a>.</p>
 
 	
 		<style>
@@ -1422,7 +1422,7 @@ DNS CNAME records, in the same way.</p>
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified February 28, 2021: <a  href="https://github.com/verrazzano/docs/commit/df56c68a5d26354cdaaa40b94836b84ffc5d697f">fix code examples format (#98) (df56c68)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified March 1, 2021: <a  href="https://github.com/verrazzano/docs/commit/7aaeedeef861b69cfb5fbb893bfa30902574318b">doc edits (#99) (7aaeede)</a>
 </div>
 </div>
 
