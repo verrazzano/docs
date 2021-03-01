@@ -324,7 +324,7 @@ DNS CNAME records, in the same way.
 
 During the Verrazzano install, these steps should be performed on the Oracle Linux Cloud Native Environment operator node.
 
-Edit the sample Verrazzano custom resource [install-olcne.yaml](https://github.com/verrazzano/verrazzano/blob/master/operator/config/samples/install-olcne.yaml) file and provide the configuration settings for your OLCNE environment as follows:
+Edit the sample Verrazzano custom resource [install-olcne.yaml](https://github.com/verrazzano/verrazzano/blob/master/platform-operator/config/samples/install-olcne.yaml) file and provide the configuration settings for your OLCNE environment as follows:
 
 - The value for `spec.environmentName` is a unique DNS subdomain for the cluster (for example, `myenv` in `myenv.mydomain.com`).
 - The value for `spec.dns.external.suffix` is the remainder of the DNS domain (for example, `mydomain.com` in `myenv.mydomain.com`).

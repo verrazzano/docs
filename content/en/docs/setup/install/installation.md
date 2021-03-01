@@ -203,7 +203,7 @@ spec:
   profile: dev
 ```
 
-The [install-dev.yaml](https://github.com/verrazzano/verrazzano/blob/develop/operator/config/samples/install-dev.yaml) file provides a template for a `dev` profile installation.
+The [install-dev.yaml](https://github.com/verrazzano/verrazzano/blob/master/platform-operator/config/samples/install-dev.yaml) file provides a template for a `dev` profile installation.
 
 #### (Optional) Install the example applications
 Example applications are located [here](https://github.com/verrazzano/verrazzano/tree/master/examples).

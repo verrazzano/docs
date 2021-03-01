@@ -221,7 +221,7 @@ To create a reusable model of the application and domain, use WDT to create a me
   ```
 
 You will find the following files in `./v8o`:
-- `application.yaml` - Verrazzano application configuration and component file; you can view a sample generated file [here](application.yaml)
+- `application.yaml` - Verrazzano application configuration and component file; you can view a sample generated file [here](../application.yaml)
 - `wdt-archive.zip` - The WDT archive file containing the ToDo List application WAR file
 - `wdt-model.yaml` - The WDT model of the WebLogic Server domain
 - `vz_variable.properties` - A set of properties extracted from the WDT domain model
@@ -406,7 +406,7 @@ Update the generated `application.yaml` file for the `todo` application to:
                       pathType: Prefix
 ```
 
-The file  [application-modified.yaml](application-modified.yaml) is an example of a modified [application.yaml](application.yaml) file.  A diff of these
+The file  [application-modified.yaml](../application-modified.yaml) is an example of a modified [application.yaml](../application.yaml) file.  A diff of these
 two sample files is shown:
 
 ```shell
@@ -427,7 +427,7 @@ As noted previously, moving a production environment to Verrazzano would require
 data as well.  While data migration is beyond the scope of this guide, we will still need to
 include a MySQL instance to be deployed with the application in the Verrazzano environment.
 
-To do so, download the [mysql-oam.yaml](mysql-oam.yaml) file.
+To do so, download the [mysql-oam.yaml](../mysql-oam.yaml) file.
 
 Then, apply the YAML file:
 
