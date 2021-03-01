@@ -34,7 +34,7 @@ The following example references a Kubernetes v1.18.8-based image built for KIND
 with one suitable for the KIND release you are using.
 
 ```shell
-$ kind create cluster --config - <<EOF
+kind create cluster --config - <<EOF
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
@@ -58,9 +58,9 @@ By default, KIND does not provide an implementation of network load balancers ([
 To install MetalLB:
 
 ```shell
-$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
-$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml
-$ kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml
+kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
 ```
 
 For further details, see the MetalLB [installation guide](https://metallb.universe.tf/installation/#installation-by-manifest).
@@ -71,21 +71,21 @@ In versions v0.7.0 and earlier, KIND uses Docker's default bridge network; in ve
 To determine the subnet of the `kind` Docker network in KIND v0.8.0 and later:
 
 ```shell
-$ docker inspect kind | jq '.[0].IPAM.Config[0].Subnet' -r
+docker inspect kind | jq '.[0].IPAM.Config[0].Subnet' -r
 172.18.0.0/16
 ```
 
 To determine the subnet of the `kind` Docker network in KIND v0.7.0 and earlier:
 
 ```shell
-$ docker inspect bridge | jq '.[0].IPAM.Config[0].Subnet' -r
+docker inspect bridge | jq '.[0].IPAM.Config[0].Subnet' -r
 172.17.0.0/16
 ```
 
 For use by MetalLB, assign a range of IP addresses at the end of the `kind` network's subnet CIDR range.
 
 ```shell
-$ kubectl apply -f - <<-EOF
+kubectl apply -f - <<-EOF
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -108,9 +108,9 @@ If you are experimenting with Verrazzano and expect that you may need to delete 
 1\. Create a named Docker volume that will be used for the image cache, and note its `Mountpoint` path. In this example, the volume is named `containerd`.  
 
 ```shell
-$ docker volume create containerd
+docker volume create containerd
 
-$ docker volume inspect containerd #Sample output is shown
+docker volume inspect containerd #Sample output is shown
 
 {
     "CreatedAt": "2021-01-11T16:27:47Z",
@@ -126,7 +126,7 @@ $ docker volume inspect containerd #Sample output is shown
 2\. Specify the `Mountpoint` path obtained, as the `hostPath` under `extraMounts` in your KIND configuration file, with a `containerPath` of `/var/lib/containerd`, which is the default containerd image caching location inside the KIND container. An example of the modified KIND configuration is shown in the following `create cluster` command:
 
 ```shell
-$ kind create cluster --config - <<EOF
+kind create cluster --config - <<EOF
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
@@ -146,4 +146,4 @@ EOF
 ```
 ### Next steps
 
-To continue, see the [Installation Guide](../../../install/installation/#prepare-for-the-install).
+To continue, see the [Installation Guide](../../../install/installation/#install-the-verrazzano-platform-operator).

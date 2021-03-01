@@ -162,7 +162,7 @@ The following command should be run on one of the Kubernetes worker nodes.
 This will result in the creation of nine persistent volume folders.
 The reason for nine persistent volume folders is covered in the next section.
 ```
-$ sudo mount 10.0.1.8:/example /mnt
+sudo mount 10.0.1.8:/example /mnt
 for x in {0001..0009}; do sudo mkdir -p /mnt/pv${x} && sudo chmod 777 /mnt/pv${x}; done
 ```
 
@@ -172,7 +172,7 @@ When using pre-allocated `PersistentVolumes`, for example NFS, persistent volume
 The value for `name` may be customized but will need to match the `PersistentVolume` `storageClassName` value later.
 * Create a default `StorageClass`
   ```
-  $ cat << EOF | kubectl apply -f -
+  cat << EOF | kubectl apply -f -
     apiVersion: storage.k8s.io/v1
     kind: StorageClass
     metadata:
@@ -191,7 +191,7 @@ The value for `name` may be customized but will need to match the `PersistentVol
   The value for `path` must match the `Export Path` of the Export from above, combined with the persistent volume folder from above.
   The value for `server` must be changed to match the location of your file system server.  
   ```
-  $ for n in {0001..0009}; do cat << EOF | kubectl apply -f -
+  for n in {0001..0009}; do cat << EOF | kubectl apply -f -
     apiVersion: v1
     kind: PersistentVolume
     metadata:
@@ -324,7 +324,7 @@ DNS CNAME records, in the same way.
 
 During the Verrazzano install, these steps should be performed on the Oracle Linux Cloud Native Environment operator node.
 
-Edit the sample Verrazzano custom resource [install-olcne.yaml](https://github.com/verrazzano/verrazzano/blob/master/operator/config/samples/install-olcne.yaml) file and provide the configuration settings for your OLCNE environment as follows:
+Edit the sample Verrazzano custom resource [install-olcne.yaml](https://github.com/verrazzano/verrazzano/blob/master/platform-operator/config/samples/install-olcne.yaml) file and provide the configuration settings for your OLCNE environment as follows:
 
 - The value for `spec.environmentName` is a unique DNS subdomain for the cluster (for example, `myenv` in `myenv.mydomain.com`).
 - The value for `spec.dns.external.suffix` is the remainder of the DNS domain (for example, `mydomain.com` in `myenv.mydomain.com`).
@@ -337,8 +337,8 @@ Set the following environment variable:
 
 The value for `<path to valid Kubernetes config>` is typically `${HOME}/.kube/config`
 ```
-$ export KUBECONFIG=$VERRAZZANO_KUBECONFIG
+export KUBECONFIG=$VERRAZZANO_KUBECONFIG
 ```
 ### Next steps
 
-To continue, see the [Installation Guide](../../../install/installation/#prepare-for-the-install).
+To continue, see the [Installation Guide](../../../install/installation/#install-the-verrazzano-platform-operator).

@@ -25,33 +25,33 @@ In order to upgrade an existing Verrazzano installation, you must first upgrade 
     To upgrade to the latest version:
 
     ```shell
-    $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
+    kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
     ```
 
-   To upgrade to a specific version:
+   To upgrade to a specific version, where `<version>` is the desired version:
 
     ```shell
-    $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/<version>/operator.yaml
+    kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/<version>/operator.yaml
     ```
 
-    where `<version>` is the desired version.  For example:
+    For example:
 
     ```shell
-    $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v0.7.0/operator.yaml
+    kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v0.7.0/operator.yaml
     ```
 
 
 1. Wait for the deployment to complete.
 
     ```shell
-    $ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
+    kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
     deployment "verrazzano-platform-operator" successfully rolled out
     ```
 
 1. Confirm that the operator pod is correctly defined and running.
 
     ```shell
-    $ kubectl -n verrazzano-install get pods
+    kubectl -n verrazzano-install get pods
     NAME                                            READY   STATUS    RESTARTS   AGE
     verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
     ```
@@ -87,20 +87,20 @@ To upgrade Verrazzano:
       Then apply the resource to the cluster (if you have not edited the resource in-place using `kubectl edit`):
 
       ```shell
-      $ kubectl apply -f my-verrazzano.yaml
+      kubectl apply -f my-verrazzano.yaml
       ```
 
       b. Editing the `Verrazzano` resource directly using `kubectl` and setting the version field directly, for example:
 
       ```shell
-      $ kubectl edit verrazzano my-verrazzano
+      kubectl edit verrazzano my-verrazzano
       # Once in the resource editor, add or update the version field to "version: v0.7.0", then save.
       ```
 
 1. Wait for the upgrade to complete:
 
    ```shell
-   $ kubectl wait --timeout=20m --for=condition=UpgradeComplete verrazzano/my-verrazzano
+   kubectl wait --timeout=20m --for=condition=UpgradeComplete verrazzano/my-verrazzano
    ```
 
 ### Verify the upgrade
@@ -111,7 +111,7 @@ you may see some pods terminating and restarting as newer versions of components
 For example:
 
 ```
-$ kubectl get pods -n verrazzano-system
+kubectl get pods -n verrazzano-system
 verrazzano-admission-controller-84d6bc647c-7b8tl   1/1     Running   0          5m13s
 verrazzano-cluster-operator-57fb95fc99-kqjll       1/1     Running   0          5m13s
 verrazzano-monitoring-operator-7cb5947f4c-x9kfc    1/1     Running   0          5m13s
