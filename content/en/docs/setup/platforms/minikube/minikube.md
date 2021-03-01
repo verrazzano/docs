@@ -25,7 +25,7 @@ Create a minikube cluster using a supported Kubernetes version and appropriate d
 driver is acceptable, on macOS, hyperkit is recommended.
 
 ```shell
-$ minikube start \
+minikube start \
     --kubernetes-version=v1.18.8 \
     --driver=hyperkit \
     --memory=16384 \
@@ -41,7 +41,7 @@ minikube exposes Kubernetes services of type [`LoadBalancer`](https://kubernetes
 [`minikube tunnel`](https://minikube.sigs.k8s.io/docs/commands/tunnel/) command.  Run a tunnel in a separate terminal from minikube:
 
 ```shell
-$ minikube tunnel
+minikube tunnel
 ```
 ### Next steps
 
