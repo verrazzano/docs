@@ -21,11 +21,11 @@
 <meta property="og:description" content="How to install Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/setup/install/installation/" />
-<meta property="article:modified_time" content="2021-03-02T08:36:20-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-03-02T17:31:19-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Installation Guide">
 <meta itemprop="description" content="How to install Verrazzano">
-<meta itemprop="dateModified" content="2021-03-02T08:36:20-05:00" />
-<meta itemprop="wordCount" content="785">
+<meta itemprop="dateModified" content="2021-03-02T17:31:19-05:00" />
+<meta itemprop="wordCount" content="811">
 
 
 
@@ -105,7 +105,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.6e616cf16c03186faf77474756b184ee.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.4b026e9d26ec2b0adcc40607bc6843bf.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -137,7 +137,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.6e616cf16c03186faf77474756b184ee.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.4b026e9d26ec2b0adcc40607bc6843bf.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -561,7 +561,9 @@ single Kubernetes cluster.</p>
 <p>Verrazzano requires the following:</p>
 <ul>
 <li>A Kubernetes cluster and a compatible <code>kubectl</code>.</li>
-<li>At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.</li>
+<li>At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.  This is sufficient to install the development profile
+of Verrazzano.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient for deploying your
+applications.</li>
 </ul>
 <p><strong>NOTE</strong>: Verrazzano has been tested <em>only</em> on the following versions of Kubernetes: 1.17.x and 1.18.x.  Other versions have not been tested and are not guaranteed to work.</p>
 <h3 id="prepare-for-the-install">Prepare for the install</h3>
@@ -608,6 +610,7 @@ verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   <span style="c
 </ol>
 <h3 id="perform-the-install">Perform the install</h3>
 <p>For a complete description of Verrazzano configuration options, see the <a href="../../../reference/api/verrazzano/verrazzano">Verrazzano Custom Resource Definition</a>.</p>
+<p>Verrazzano supports two installation profiles:  development (<code>dev</code>) and production (<code>prod</code>). The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.   To change profiles in any of the following commands, you can set the <code>VZ_PROFILE</code> environment variable to the name of the profile you wish to install.</p>
 <p>According to your DNS choice, <a href="http://xip.io/">xip.io</a> or
 <a href="https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm">Oracle OCI DNS</a>,
 install Verrazzano using one of the following methods:</p>
@@ -663,6 +666,8 @@ install Verrazzano using one of the following methods:</p>
 </span><span style="color:#4e9a06">kind: Verrazzano
 </span><span style="color:#4e9a06">metadata:
 </span><span style="color:#4e9a06">  name: my-verrazzano
+</span><span style="color:#4e9a06">spec:
+</span><span style="color:#4e9a06">  profile: ${VZ_PROFILE:-dev}
 </span><span style="color:#4e9a06">EOF</span>
 kubectl <span style="color:#204a87">wait</span> --timeout<span style="color:#ce5c00;font-weight:bold">=</span>20m --for<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">condition</span><span style="color:#ce5c00;font-weight:bold">=</span>InstallComplete verrazzano/my-verrazzano
 </code></pre></div>
@@ -718,7 +723,7 @@ previously).</p>
 </span><span style="color:#4e9a06">  name: my-verrazzano
 </span><span style="color:#4e9a06">spec:
 </span><span style="color:#4e9a06">  environmentName: env
-</span><span style="color:#4e9a06">  profile: prod
+</span><span style="color:#4e9a06">  profile: ${VZ_PROFILE:-dev}
 </span><span style="color:#4e9a06">  components:
 </span><span style="color:#4e9a06">    certManager:
 </span><span style="color:#4e9a06">      certificate:
@@ -765,14 +770,8 @@ vmi-system-grafana-5f7bc8b676-xx49f                1/1     Running   0          
 vmi-system-kibana-649466fcf8-4n8ct                 1/1     Running   0          4m44s
 vmi-system-prometheus-0-7f97ff97dc-gfclv           3/3     Running   0          4m44s
 vmi-system-prometheus-gw-7cb9df774-48g4b           1/1     Running   0          4m44s
-</code></pre><h3 id="installation-profiles">Installation profiles</h3>
-<p>Verrazzano supports two installation profiles:  development (<code>dev</code>) and production (<code>prod</code>). The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.</p>
-<p>To use the development profile, specify the following in the Kubernetes manifest file for the Verrazzano custom resource:</p>
-<pre><code>spec:
-  profile: dev
-</code></pre><p>The <a href="https://github.com/verrazzano/verrazzano/blob/master/platform-operator/config/samples/install-dev.yaml">install-dev.yaml</a> file provides a template for a <code>dev</code> profile installation.</p>
-<h4 id="optional-install-the-example-applications">(Optional) Install the example applications</h4>
-<p>Example applications are located <a href="https://github.com/verrazzano/verrazzano/tree/master/examples">here</a>.</p>
+</code></pre><h4 id="optional-install-the-example-applications">(Optional) Install the example applications</h4>
+<p>Example applications are located <a href="https://github.com/verrazzano/verrazzano/blob/master/examples">here</a></p>
 <h5 id="to-get-the-consoles-urls-and-credentials-see-operationsoperations">To get the consoles URLs and credentials, see <a href="../../../operations">Operations</a>.</h5>
 <h3 id="uninstall-verrazzano">Uninstall Verrazzano</h3>
 <p>To delete a Verrazzano installation, run the following commands:</p>
@@ -848,7 +847,7 @@ kubectl delete verrazzano &lt;name of custom resource&gt;
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified March 2, 2021: <a  href="https://github.com/verrazzano/docs/commit/aea66344a2d8d760a5c42b80f1db040c25197578">fix command (#101) (aea6634)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified March 2, 2021: <a  href="https://github.com/verrazzano/docs/commit/d4c62825e136385c8134d96f377cbb3607ead014">Move profiles in the install doc earlier &amp; make it clear you can install (#102) (d4c6282)</a>
 </div>
 </div>
 

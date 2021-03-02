@@ -2656,7 +2656,9 @@ single Kubernetes cluster.&lt;/p&gt;
 &lt;p&gt;Verrazzano requires the following:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;A Kubernetes cluster and a compatible &lt;code&gt;kubectl&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.&lt;/li&gt;
+&lt;li&gt;At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.  This is sufficient to install the development profile
+of Verrazzano.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient for deploying your
+applications.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Verrazzano has been tested &lt;em&gt;only&lt;/em&gt; on the following versions of Kubernetes: 1.17.x and 1.18.x.  Other versions have not been tested and are not guaranteed to work.&lt;/p&gt;
 &lt;h3 id=&#34;prepare-for-the-install&#34;&gt;Prepare for the install&lt;/h3&gt;
@@ -2703,6 +2705,7 @@ verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   &lt;span style
 &lt;/ol&gt;
 &lt;h3 id=&#34;perform-the-install&#34;&gt;Perform the install&lt;/h3&gt;
 &lt;p&gt;For a complete description of Verrazzano configuration options, see the &lt;a href=&#34;../../../reference/api/verrazzano/verrazzano&#34;&gt;Verrazzano Custom Resource Definition&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Verrazzano supports two installation profiles:  development (&lt;code&gt;dev&lt;/code&gt;) and production (&lt;code&gt;prod&lt;/code&gt;). The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.   To change profiles in any of the following commands, you can set the &lt;code&gt;VZ_PROFILE&lt;/code&gt; environment variable to the name of the profile you wish to install.&lt;/p&gt;
 &lt;p&gt;According to your DNS choice, &lt;a href=&#34;http://xip.io/&#34;&gt;xip.io&lt;/a&gt; or
 &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm&#34;&gt;Oracle OCI DNS&lt;/a&gt;,
 install Verrazzano using one of the following methods:&lt;/p&gt;
@@ -2758,6 +2761,8 @@ install Verrazzano using one of the following methods:&lt;/p&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Verrazzano
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: my-verrazzano
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  profile: ${VZ_PROFILE:-dev}
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
 kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;20m --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;InstallComplete verrazzano/my-verrazzano
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -2813,7 +2818,7 @@ previously).&lt;/p&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: my-verrazzano
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  environmentName: env
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  profile: prod
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  profile: ${VZ_PROFILE:-dev}
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  components:
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    certManager:
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      certificate:
@@ -2860,14 +2865,8 @@ vmi-system-grafana-5f7bc8b676-xx49f                1/1     Running   0          
 vmi-system-kibana-649466fcf8-4n8ct                 1/1     Running   0          4m44s
 vmi-system-prometheus-0-7f97ff97dc-gfclv           3/3     Running   0          4m44s
 vmi-system-prometheus-gw-7cb9df774-48g4b           1/1     Running   0          4m44s
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;installation-profiles&#34;&gt;Installation profiles&lt;/h3&gt;
-&lt;p&gt;Verrazzano supports two installation profiles:  development (&lt;code&gt;dev&lt;/code&gt;) and production (&lt;code&gt;prod&lt;/code&gt;). The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.&lt;/p&gt;
-&lt;p&gt;To use the development profile, specify the following in the Kubernetes manifest file for the Verrazzano custom resource:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;spec:
-  profile: dev
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/platform-operator/config/samples/install-dev.yaml&#34;&gt;install-dev.yaml&lt;/a&gt; file provides a template for a &lt;code&gt;dev&lt;/code&gt; profile installation.&lt;/p&gt;
-&lt;h4 id=&#34;optional-install-the-example-applications&#34;&gt;(Optional) Install the example applications&lt;/h4&gt;
-&lt;p&gt;Example applications are located &lt;a href=&#34;https://github.com/verrazzano/verrazzano/tree/master/examples&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;optional-install-the-example-applications&#34;&gt;(Optional) Install the example applications&lt;/h4&gt;
+&lt;p&gt;Example applications are located &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
 &lt;h5 id=&#34;to-get-the-consoles-urls-and-credentials-see-operationsoperations&#34;&gt;To get the consoles URLs and credentials, see &lt;a href=&#34;../../../operations&#34;&gt;Operations&lt;/a&gt;.&lt;/h5&gt;
 &lt;h3 id=&#34;uninstall-verrazzano&#34;&gt;Uninstall Verrazzano&lt;/h3&gt;
 &lt;p&gt;To delete a Verrazzano installation, run the following commands:&lt;/p&gt;
