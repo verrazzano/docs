@@ -18,7 +18,9 @@ single Kubernetes cluster.
 Verrazzano requires the following:
 
 - A Kubernetes cluster and a compatible `kubectl`.
-- At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.
+- At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.  This is sufficient to install the development profile
+  of Verrazzano.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient for deploying your
+  applications.
 
 
 **NOTE**: Verrazzano has been tested _only_ on the following versions of Kubernetes: 1.17.x and 1.18.x.  Other versions have not been tested and are not guaranteed to work.
@@ -73,6 +75,8 @@ To install the Verrazzano platform operator, follow these steps:
 
 For a complete description of Verrazzano configuration options, see the [Verrazzano Custom Resource Definition](../../../reference/api/verrazzano/verrazzano).
 
+Verrazzano supports two installation profiles:  development (`dev`) and production (`prod`). The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.   To change profiles in any of the following commands, you can set the `VZ_PROFILE` environment variable to the name of the profile you wish to install.
+
 According to your DNS choice, [xip.io](http://xip.io/) or
 [Oracle OCI DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm),
 install Verrazzano using one of the following methods:
@@ -91,6 +95,8 @@ apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
   name: my-verrazzano
+spec:
+  profile: ${VZ_PROFILE:-dev}
 EOF
 kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
 ```
@@ -141,7 +147,7 @@ metadata:
   name: my-verrazzano
 spec:
   environmentName: env
-  profile: prod
+  profile: ${VZ_PROFILE:-dev}
   components:
     certManager:
       certificate:
@@ -192,21 +198,8 @@ vmi-system-prometheus-0-7f97ff97dc-gfclv           3/3     Running   0          
 vmi-system-prometheus-gw-7cb9df774-48g4b           1/1     Running   0          4m44s
 ```
 
-### Installation profiles
-
-Verrazzano supports two installation profiles:  development (`dev`) and production (`prod`). The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.   
-
-To use the development profile, specify the following in the Kubernetes manifest file for the Verrazzano custom resource:
-
-```
-spec:
-  profile: dev
-```
-
-The [install-dev.yaml](https://github.com/verrazzano/verrazzano/blob/master/platform-operator/config/samples/install-dev.yaml) file provides a template for a `dev` profile installation.
-
 #### (Optional) Install the example applications
-Example applications are located [here](https://github.com/verrazzano/verrazzano/tree/master/examples).
+Example applications are located [here]({{< ghlink raw=false path="examples" >}})
 
 ##### To get the consoles URLs and credentials, see [Operations](../../../operations).
 
