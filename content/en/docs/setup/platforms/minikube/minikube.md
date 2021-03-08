@@ -12,20 +12,20 @@ these instructions to prepare a minikube cluster for running Verrazzano.
 ## Prerequisites
 
 - Install [minikube](https://minikube.sigs.k8s.io/docs/start/).
-- Install a [driver](https://minikube.sigs.k8s.io/docs/drivers/) (on macOS or Windows, select a VM based driver, not Docker).
+- Install a [driver](https://minikube.sigs.k8s.io/docs/drivers/) (on macOS or Windows, select a VM-based driver, not Docker).
 
 ## Prepare the minikube cluster
 
 To prepare the minikube cluster for use with Verrazzano, you must create the cluster and then expose services
 of type `LoadBalancer` by using the `minikube tunnel` command.
 
-### Create minikube cluster
+### Create the minikube cluster
 
 Create a minikube cluster using a supported Kubernetes version and appropriate driver.  On Linux hosts, the default
-driver is acceptable, on macOS, hyperkit is recommended.
+driver is acceptable; on macOS, hyperkit is recommended.
 
 ```shell
-minikube start \
+$ minikube start \
     --kubernetes-version=v1.18.8 \
     --driver=hyperkit \
     --memory=16384 \
@@ -41,8 +41,8 @@ minikube exposes Kubernetes services of type [`LoadBalancer`](https://kubernetes
 [`minikube tunnel`](https://minikube.sigs.k8s.io/docs/commands/tunnel/) command.  Run a tunnel in a separate terminal from minikube:
 
 ```shell
-minikube tunnel
+$ minikube tunnel
 ```
 ### Next steps
 
-To continue, see the [Installation Guide](../../../install/installation/#install-the-verrazzano-platform-operator).
+To continue, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md#install-the-verrazzano-platform-operator" >}}).
