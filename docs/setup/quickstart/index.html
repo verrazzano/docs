@@ -21,11 +21,11 @@
 <meta property="og:description" content="Instructions for getting started with Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/setup/quickstart/" />
-<meta property="article:modified_time" content="2021-03-01T15:34:44-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-03-08T16:11:32-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Quick Start">
 <meta itemprop="description" content="Instructions for getting started with Verrazzano">
-<meta itemprop="dateModified" content="2021-03-01T15:34:44-05:00" />
-<meta itemprop="wordCount" content="683">
+<meta itemprop="dateModified" content="2021-03-08T16:11:32-05:00" />
+<meta itemprop="wordCount" content="685">
 
 
 
@@ -105,7 +105,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.7b12fe3ad6e64555f01f5ec6a5e4d768.json"
+  data-offline-search-index-json-src="../../../offline-search-index.faa8f77b4f95c29d0857050edbee1416.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -137,7 +137,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.7b12fe3ad6e64555f01f5ec6a5e4d768.json"
+  data-offline-search-index-json-src="../../../offline-search-index.faa8f77b4f95c29d0857050edbee1416.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -570,20 +570,20 @@ to manage the life cycle of Verrazzano installations.  The operator works with a
 You can install, uninstall, and update Verrazzano installations by updating the
 <a href="../../../docs/reference/api/verrazzano/verrazzano/">Verrazzano custom resource</a>.
 The <a href="https://github.com/verrazzano/verrazzano-platform-operator">Verrazzano platform operator</a> controller will apply the configuration from the custom resource to the cluster for you.</p>
-<p>To install the Verrazzano platform operator, follow these steps:</p>
+<p>To install the Verrazzano platform operator:</p>
 <ol>
 <li>
 <p>Deploy the Verrazzano platform operator.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
 </code></pre></div></li>
 <li>
 <p>Wait for the deployment to complete.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
 deployment <span style="color:#4e9a06">&#34;verrazzano-platform-operator&#34;</span> successfully rolled out
 </code></pre></div></li>
 <li>
 <p>Confirm that the operator pod is correctly defined and running.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl -n verrazzano-install get pods
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl -n verrazzano-install get pods
 NAME                                            READY   STATUS    RESTARTS   AGE
 verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   <span style="color:#0000cf;font-weight:bold">0</span>          114s
 </code></pre></div></li>
@@ -600,11 +600,11 @@ profile and a development (<code>dev</code>) profile suitable for evaluation.</p
 <li>Ephemeral storage for the observability stack (if the pods are restarted, you lose all of your logs and metrics)</li>
 <li>Single-node, reduced memory Elasticsearch cluster</li>
 </ul>
-<p>To install Verrazzano, follow these steps:</p>
+<p>To install Verrazzano:</p>
 <ol>
 <li>
 <p>Install Verrazzano with its <code>dev</code> profile.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f - <span style="color:#4e9a06">&lt;&lt;EOF
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl apply -f - <span style="color:#4e9a06">&lt;&lt;EOF
 </span><span style="color:#4e9a06">apiVersion: install.verrazzano.io/v1alpha1
 </span><span style="color:#4e9a06">kind: Verrazzano
 </span><span style="color:#4e9a06">metadata:
@@ -615,7 +615,7 @@ profile and a development (<code>dev</code>) profile suitable for evaluation.</p
 </code></pre></div></li>
 <li>
 <p>Wait for the installation to complete.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl <span style="color:#204a87">wait</span> <span style="color:#4e9a06">\
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl <span style="color:#204a87">wait</span> <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>    --timeout<span style="color:#ce5c00;font-weight:bold">=</span>20m <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>    --for<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">condition</span><span style="color:#ce5c00;font-weight:bold">=</span>InstallComplete <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>    verrazzano/example-verrazzano
@@ -623,7 +623,7 @@ profile and a development (<code>dev</code>) profile suitable for evaluation.</p
 <li>
 <p>(Optional) View the installation logs.</p>
 <p>The Verrazzano operator launches a Kubernetes <a href="https://kubernetes.io/docs/concepts/workloads/controllers/job/">job</a> to install Verrazzano.  You can view the installation logs from that job with the following command:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl logs -f <span style="color:#4e9a06">\
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl logs -f <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>    <span style="color:#204a87;font-weight:bold">$(</span> <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>      kubectl get pod  <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>          -l job-name<span style="color:#ce5c00;font-weight:bold">=</span>verrazzano-install-example-verrazzano <span style="color:#4e9a06">\
@@ -634,62 +634,62 @@ profile and a development (<code>dev</code>) profile suitable for evaluation.</p
 <h3 id="deploy-an-example-application">Deploy an example application</h3>
 <p>The <a href="https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md">Hello World Helidon</a>
 example application provides a simple <em>Hello World</em> REST service written with <a href="https://helidon.io">Helidon</a>.
-For more information and the code of this application, see the <a href="https://github.com/verrazzano/examples">Verrazzano examples</a>.</p>
-<p>To deploy the Hello World Helidon example application, follow these steps:</p>
+For more information and the code of this application, see the <a href="https://github.com/verrazzano/examples">Verrazzano Examples</a>.</p>
+<p>To deploy the Hello World Helidon example application:</p>
 <ol>
 <li>
 <p>Create a namespace for the example application and add a label identifying the namespace as managed by Verrazzano.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl create namespace hello-helidon
-kubectl label namespace hello-helidon verrazzano-managed<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87">true</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl create namespace hello-helidon
+$ kubectl label namespace hello-helidon verrazzano-managed<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87">true</span>
 </code></pre></div></li>
 <li>
 <p>Apply the <code>hello-helidon</code> resources to deploy the application.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-comp.yaml
-kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-app.yaml
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-comp.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-app.yaml
 </code></pre></div></li>
 <li>
 <p>Wait for the application to be ready.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl <span style="color:#204a87">wait</span> --for<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">condition</span><span style="color:#ce5c00;font-weight:bold">=</span>Ready pods --all -n hello-helidon --timeout<span style="color:#ce5c00;font-weight:bold">=</span>300s
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl <span style="color:#204a87">wait</span> --for<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">condition</span><span style="color:#ce5c00;font-weight:bold">=</span>Ready pods --all -n hello-helidon --timeout<span style="color:#ce5c00;font-weight:bold">=</span>300s
 pod/hello-helidon-workload-977cbbc94-z22ls condition met
 </code></pre></div><p>This creates the Verrazzano OAM component application resources for the example, waits for the pods in the <code>hello-helidon</code>
 namespace to be ready.</p>
 </li>
 <li>
 <p>Save the host name of the load balancer exposing the application&rsquo;s REST service endpoints.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#000">HOST</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.spec.servers[0].hosts[0]}&#39;</span><span style="color:#204a87;font-weight:bold">)</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#000">HOST</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.spec.servers[0].hosts[0]}&#39;</span><span style="color:#204a87;font-weight:bold">)</span>
 </code></pre></div></li>
 <li>
 <p>Get the default message.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">curl -sk -X GET <span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet&#34;</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -sk -X GET <span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet&#34;</span>
 
 <span style="color:#ce5c00;font-weight:bold">{</span><span style="color:#4e9a06">&#34;message&#34;</span>:<span style="color:#4e9a06">&#34;Hello World!&#34;</span><span style="color:#ce5c00;font-weight:bold">}</span>
 </code></pre></div></li>
 </ol>
 <h3 id="uninstall-the-example-application">Uninstall the example application</h3>
-<p>To uninstall the Hello World Helidon example application, follow these steps:</p>
+<p>To uninstall the Hello World Helidon example application:</p>
 <ol>
 <li>
 <p>Delete the Verrazzano application resources.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-comp.yaml
-kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-app.yaml
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-comp.yaml
+$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-app.yaml
 </code></pre></div></li>
 <li>
 <p>Delete the example namespace.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl delete namespace hello-helidon
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl delete namespace hello-helidon
 namespace <span style="color:#4e9a06">&#34;hello-helidon&#34;</span> deleted
 </code></pre></div></li>
 <li>
 <p>Verify that the <code>hello-helidon</code> namespace has been deleted.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl get ns hello-helidon
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get ns hello-helidon
 Error from server <span style="color:#ce5c00;font-weight:bold">(</span>NotFound<span style="color:#ce5c00;font-weight:bold">)</span>: namespaces <span style="color:#4e9a06">&#34;hello-helidon&#34;</span> not found
 </code></pre></div></li>
 </ol>
 <h3 id="uninstall-verrazzano">Uninstall Verrazzano</h3>
-<p>To uninstall Verrazzano, follow these steps:</p>
+<p>To uninstall Verrazzano:</p>
 <ol>
 <li>
 <p>Delete the Verrazzano custom resource.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl delete verrazzano example-verrazzano
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl delete verrazzano example-verrazzano
 </code></pre></div>
 
 <div class="alert alert-tip" role="alert">
@@ -702,7 +702,7 @@ you can view the uninstall logs.
 <li>
 <p>(Optional) View the uninstall logs.</p>
 <p>The Verrazzano operator launches a Kubernetes <a href="https://kubernetes.io/docs/concepts/workloads/controllers/job/">job</a> to delete the Verrazzano installation.  You can view the uninstall logs from that job with the following command:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kubectl logs -f <span style="color:#4e9a06">\
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl logs -f <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>    <span style="color:#204a87;font-weight:bold">$(</span> <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>      kubectl get pod  <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>          -l job-name<span style="color:#ce5c00;font-weight:bold">=</span>verrazzano-uninstall-example-verrazzano <span style="color:#4e9a06">\
@@ -711,7 +711,7 @@ you can view the uninstall logs.
 </code></pre></div></li>
 </ol>
 <h3 id="next-steps">Next steps</h3>
-<p>For more example applications, see <a href="https://github.com/verrazzano/verrazzano/tree/master/examples">Verrazzano Examples</a>.</p>
+<p>See the <a href="https://github.com/verrazzano/verrazzano/blob/master/examples">Verrazzano Example Applications</a>.</p>
 
 	
 		<style>
@@ -777,7 +777,7 @@ you can view the uninstall logs.
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified March 1, 2021: <a  href="https://github.com/verrazzano/docs/commit/7aaeedeef861b69cfb5fbb893bfa30902574318b">doc edits (#99) (7aaeede)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified March 8, 2021: <a  href="https://github.com/verrazzano/docs/commit/85b1d536fb12ba35f71d3828cf5f5761b559ff5d">fix up docs (#104) (85b1d53)</a>
 </div>
 </div>
 
