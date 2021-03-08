@@ -30,15 +30,15 @@ Verrazzano requires the following:
 
 Before installing Verrazzano, see instructions on preparing the following Kubernetes platforms:
 
-* [OCI Container Engine for Kubernetes](../../platforms/oci/oci)
+* [OCI Container Engine for Kubernetes]({{< relref "/docs/setup/platforms/oci/oci.md" >}})
 
-* [OLCNE](../../platforms/olcne/olcne)
+* [OLCNE]({{< relref "/docs/setup/platforms/olcne/olcne.md" >}})
 
-* [KIND](../../platforms/kind/kind)
+* [KIND]({{< relref "/docs/setup/platforms/kind/kind.md" >}})
 
-* [minikube](../../platforms/minikube/minikube)
+* [minikube]({{< relref "/docs/setup/platforms/minikube/minikube.md" >}})
 
-* [Generic Kubernetes](../../platforms/generic/generic)
+* [Generic Kubernetes]({{< relref "/docs/setup/platforms/generic/generic.md" >}})
 
 
 ### Install the Verrazzano platform operator
@@ -46,27 +46,27 @@ Before installing Verrazzano, see instructions on preparing the following Kubern
 Verrazzano provides a platform [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
 to manage the life cycle of Verrazzano installations.  You can install,
 uninstall, and update Verrazzano installations by updating the
-[Verrazzano custom resource](../../../reference/api/verrazzano/verrazzano).
+[Verrazzano custom resource]({{< relref "docs/reference/api/verrazzano/verrazzano.md" >}}).
 
-To install the Verrazzano platform operator, follow these steps:
+To install the Verrazzano platform operator:
 
 1. Deploy the Verrazzano platform operator.
 
     ```shell
-    kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
+    $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
     ```
 
 1. Wait for the deployment to complete.
 
     ```shell
-    kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
+    $ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
     deployment "verrazzano-platform-operator" successfully rolled out
     ```
 
 1. Confirm that the operator pod is correctly defined and running.
 
     ```shell
-    kubectl -n verrazzano-install get pods
+    $ kubectl -n verrazzano-install get pods
     NAME                                            READY   STATUS    RESTARTS   AGE
     verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
     ```
@@ -75,7 +75,7 @@ To install the Verrazzano platform operator, follow these steps:
 
 Verrazzano supports two installation profiles:  development (`dev`) and production (`prod`). The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.   To change profiles in any of the following commands, set the `VZ_PROFILE` environment variable to the name of the profile you want to install.
 
-For a complete description of Verrazzano configuration options, see the [Verrazzano Custom Resource Definition](../../../reference/api/verrazzano/verrazzano).
+For a complete description of Verrazzano configuration options, see the [Verrazzano Custom Resource Definition]({{< relref "docs/reference/api/verrazzano/verrazzano.md" >}}).
 
 According to your DNS choice, [xip.io](http://xip.io/) or
 [Oracle OCI DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm),
@@ -90,7 +90,7 @@ install Verrazzano using one of the following methods:
 Run the following commands:
 
 ```shell
-kubectl apply -f - <<EOF
+$ kubectl apply -f - <<EOF
 apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
@@ -98,7 +98,7 @@ metadata:
 spec:
   profile: ${VZ_PROFILE:-dev}
 EOF
-kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
+$ kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
 ```
 
 {{< /tab >}}
@@ -114,7 +114,7 @@ For example, an appropriate zone name for parent domain `v8o.example.com` domain
 
   CLI example:
   ```
-  oci dns zone create -c <compartment ocid> --name <zone-name-prefix>.v8o.example.com --zone-type PRIMARY
+  $ oci dns zone create -c <compartment ocid> --name <zone-name-prefix>.v8o.example.com --zone-type PRIMARY
   ```
 
 Installation
@@ -129,7 +129,7 @@ Edit the Verrazzano custom resource and provide values for the following configu
 * `spec.dns.oci.dnsZoneOCID`
 * `spec.dns.oci.dnsZoneName`
 
-For the full configuration information for an installation, see the [Verrazzano Custom Resource Definition](../../../reference/api/verrazzano/verrazzano/).
+For the full configuration information for an installation, see the [Verrazzano Custom Resource Definition]({{< relref "docs/reference/api/verrazzano/verrazzano.md" >}}).
 
 When you use the OCI DNS installation, you need to provide a Verrazzano name in the Verrazzano custom resource
  (`spec.environmentName`) that will be used as part of the domain name used to access Verrazzano
@@ -140,7 +140,7 @@ previously).
 Run the following commands:
 
 ```shell
-kubectl apply -f - <<EOF
+$ kubectl apply -f - <<EOF
 apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
@@ -164,23 +164,23 @@ spec:
       type: LoadBalancer
 EOF
 
-kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
+$ kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
 ```
 
 {{< /tab >}}
 {{< /tabs >}}
 
 
-To monitor the console log output of the installation, run the following command:
+To monitor the console log output of the installation:
 ```shell
-    kubectl logs -f $(kubectl get pod -l job-name=verrazzano-install-my-verrazzano -o jsonpath="{.items[0].metadata.name}")
+$ kubectl logs -f $(kubectl get pod -l job-name=verrazzano-install-my-verrazzano -o jsonpath="{.items[0].metadata.name}")
 ```
 
 ### Verify the install
 
 Verrazzano installs multiple objects in multiple namespaces. In the `verrazzano-system` namespaces, all the pods in the `Running` state, does not guarantee, but likely indicates that Verrazzano is up and running.
 ```
-kubectl get pods -n verrazzano-system
+$ kubectl get pods -n verrazzano-system
 verrazzano-admission-controller-84d6bc647c-7b8tl   1/1     Running   0          5m13s
 verrazzano-cluster-operator-57fb95fc99-kqjll       1/1     Running   0          5m13s
 verrazzano-monitoring-operator-7cb5947f4c-x9kfc    1/1     Running   0          5m13s
@@ -199,24 +199,24 @@ vmi-system-prometheus-gw-7cb9df774-48g4b           1/1     Running   0          
 ```
 
 #### (Optional) Install the example applications
-Example applications are located [here]({{< ghlink raw=false path="examples" >}})
+Example applications are located [here]({{< ghlink raw=false path="examples" >}}).
 
-##### To get the consoles URLs and credentials, see [Operations](../../../operations).
+##### To get the consoles URLs and credentials, see [Operations]({{< relref "/docs/operations/_index.md" >}}).
 
 ### Uninstall Verrazzano
 
-To delete a Verrazzano installation, run the following commands:
+To delete a Verrazzano installations:
 
 ```
 # Get the name of the Verrazzano custom resource
-kubectl get verrazzano
+$ kubectl get verrazzano
 
 # Delete the Verrazzano custom resource
-kubectl delete verrazzano <name of custom resource>
+$ kubectl delete verrazzano <name of custom resource>
 ```
 
-To monitor the console log of the uninstall, run the following command:
+To monitor the console log of the uninstall:
 
 ```
-kubectl logs -f $(kubectl get pod -l job-name=verrazzano-uninstall-my-verrazzano -o jsonpath="{.items[0].metadata.name}")
+$ kubectl logs -f $(kubectl get pod -l job-name=verrazzano-uninstall-my-verrazzano -o jsonpath="{.items[0].metadata.name}")
 ```

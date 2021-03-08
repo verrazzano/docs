@@ -34,11 +34,11 @@ In the initial steps, you create a sample domain that represents your on-premise
 
 1. Download the [MySQL image](https://hub.docker.com/_/mysql) from Docker Hub.
     ```
-    docker pull mysql:latest
+    $ docker pull mysql:latest
     ```
 1. Start the container database (and optionally mount a volume for data).
     ```
-    docker run --name tododb \
+    $ docker run --name tododb \
       -p 3306:3306 \
       -e MYSQL_USER=derek \
       -e MYSQL_PASSWORD=welcome1 \
@@ -52,15 +52,15 @@ In the initial steps, you create a sample domain that represents your on-premise
    {{< /alert >}}
 
 1. Start a MySQL client to change the password algorithm to `mysql_native_password`.
-    - Assuming the database server is running, start a database CLI client:
+    - Assuming the database server is running, start a database CLI client.
         ```shell script
-        docker exec -it tododb mysql -uroot -p
+        $ docker exec -it tododb mysql -uroot -p
         ```
     - When prompted for the password, enter the password for the root user, `welcome1` or
     whatever password you set when starting the container in the previous step.  
     - After being connected, run the `ALTER` command at the MySQL prompt.
         ```mysql
-        ALTER USER 'derek'@'%' IDENTIFIED WITH mysql_native_password BY 'welcome1';
+        $ ALTER USER 'derek'@'%' IDENTIFIED WITH mysql_native_password BY 'welcome1';
         ```
 
    {{< alert title="NOTE" color="tip" >}}
@@ -84,7 +84,7 @@ In the initial steps, you create a sample domain that represents your on-premise
    - To make copying commands easier, define an environment variable for `ORACLE_HOME` that points to the directory where you installed WebLogic Server 12.2.1.4.0.  For example:
 
      ```shell script
-     export ORACLE_HOME=$HOME/Oracle/Middleware/Oracle_Home
+     $ export ORACLE_HOME=$HOME/Oracle/Middleware/Oracle_Home
      ```
 
 1. Use the Oracle WebLogic Server Configuration Wizard to create a domain called `tododomain`.
@@ -102,7 +102,7 @@ In the initial steps, you create a sample domain that represents your on-premise
 1. To start the newly created domain, run the domain's start script.
 
     ```shell script
-     $ORACLE_HOME/user_projects/domains/tododomain/bin/startWebLogic.sh
+     $ $ORACLE_HOME/user_projects/domains/tododomain/bin/startWebLogic.sh
     ```
 1. Access the Console of the newly started domain with your browser, for example, [http://localhost:7001/console](http://localhost:7001/console), and
    log in using the administrator credentials you specified.
@@ -153,9 +153,9 @@ Using the WebLogic Server Administration Console, log in and add a data source c
    file to another location, as WDT may ignore it during the model creation phase.
 
    ```shell script
-    git clone https://github.com/verrazzano/examples.git
-    cd examples/todo-list/
-    mvn clean package
+    $ git clone https://github.com/verrazzano/examples.git
+    $ cd examples/todo-list/
+    $ mvn clean package
    ```
 
 2. Using the WebLogic Server Administration Console, deploy the ToDo List application.  
@@ -194,24 +194,24 @@ The following steps will move the sample domain to Kubernetes with Verrazzano.
 - Unzip the installer `weblogic-deploy.zip` file so that you can access `bin/discoverDomain.sh`.
 - To make copying commands easier, define an environment variable for `WDT_HOME` that points to the directory where you installed WebLogic Deploy Tooling.
    ```shell script
-    export WDT_HOME=/install/directory
+    $ export WDT_HOME=/install/directory
    ```
 
 For example, to get the latest version:
 
 ```shell
-curl -OL https://github.com/oracle/weblogic-deploy-tooling/releases/latest/download/weblogic-deploy.zip
-unzip  weblogic-deploy.zip
-cd weblogic-deploy
-export WDT_HOME=$(pwd)
+$ curl -OL https://github.com/oracle/weblogic-deploy-tooling/releases/latest/download/weblogic-deploy.zip
+$ unzip  weblogic-deploy.zip
+$ cd weblogic-deploy
+$ export WDT_HOME=$(pwd)
 ```
 
 To create a reusable model of the application and domain, use WDT to create a metadata model of the domain.  
 - First, create an output directory to hold the generated scripts and models.  
 - Then, run WDT `discoverDomain`.
   ```shell script
-  mkdir v8o
-  $WDT_HOME/bin/discoverDomain.sh \
+  $ mkdir v8o
+  $ $WDT_HOME/bin/discoverDomain.sh \
     -oracle_home $ORACLE_HOME \
     -domain_home /path/to/domain/dir \
     -model_file ./v8o/wdt-model.yaml \
@@ -247,16 +247,16 @@ fill in the placeholders for you, or you can edit the model manually to set the 
 - Unzip the installer `imagetool.zip` file so that you can access `bin/imagetool.sh`.
 - To make copying commands easier, define an environment variable for `WIT_HOME` that points to the directory where you installed WebLogic Image Tool.
    ```shell script
-    export WIT_HOME=/install/directory
+    $ export WIT_HOME=/install/directory
    ```
 
 For example, to get the latest WIT tool:
 
 ```shell
-curl -OL https://github.com/oracle/weblogic-image-tool/releases/latest/download/imagetool.zip
-unzip imagetool.zip
-cd imagetool
-export WIT_HOME=$(pwd)
+$ curl -OL https://github.com/oracle/weblogic-image-tool/releases/latest/download/imagetool.zip
+$ unzip imagetool.zip
+$ cd imagetool
+$ export WIT_HOME=$(pwd)
 ```
 You will need a Docker image to run your WebLogic Server domain in Kubernetes.  To use WIT to
 create the Docker image, run `imagetool create`.  Although WIT will download patches and PSUs for you, it does not yet
@@ -266,28 +266,28 @@ manually and provide their location to the `imagetool cache addInstaller` comman
 
 ```shell script
 # The directory created previously to hold the generated scripts and models.
-cd v8o
+$ cd v8o
 
-$WIT_HOME/bin/imagetool.sh cache addInstaller \
+$ $WIT_HOME/bin/imagetool.sh cache addInstaller \
   --path /path/to/installer/jdk-8u231-linux-x64.tar.gz \
   --type jdk \
   --version 8u231
 
 # The installer file name may be slightly different depending on
 # which version of the 12.2.1.4.0 installer that you downloaded, slim or generic.
-$WIT_HOME/bin/imagetool.sh cache addInstaller \
+$ $WIT_HOME/bin/imagetool.sh cache addInstaller \
   --path /path/to/installer/fmw_12.2.1.4.0_wls_Disk1_1of1.zip \
   --type wls \
   --version 12.2.1.4.0
 
-$WIT_HOME/bin/imagetool.sh cache addInstaller \
+$ $WIT_HOME/bin/imagetool.sh cache addInstaller \
   --path /path/to/installer/weblogic-deploy.zip \
   --type wdt \
   --version latest
 
 # Paths for the files in this command assume that you are running it from the
 # v8o directory created during the `discoverDomain` step.
-$WIT_HOME/bin/imagetool.sh create \
+$ $WIT_HOME/bin/imagetool.sh create \
   --tag your/repo/todo:1 \
   --version 12.2.1.4.0 \
   --jdkVersion 8u231 \
@@ -316,7 +316,7 @@ Push the image to your repo.
 `spec > workload > spec > image` for the `tododomain-domain` component.
 
 ```shell script
-docker push your/repo/todo:1
+$ docker push your/repo/todo:1
 ```
 
 ### Deploy to Verrazzano
@@ -338,8 +338,8 @@ The following steps assume that you have a Kubernetes cluster and that [Verrazza
 Create the `tododomain` namespace, and add a label to allow the WebLogic Server Kubernetes Operator to manage it.
 
 ```shell
-kubectl create namespace tododomain
-kubectl label namespace tododomain verrazzano-managed=true
+$ kubectl create namespace tododomain
+$ kubectl label namespace tododomain verrazzano-managed=true
 ```
 
 #### Create the required secrets
@@ -355,19 +355,19 @@ there are a few passwords that you need to enter:
 For example:
 ```shell script
 # Update <admin-user> and <admin-password> for weblogic-credentials
-create_paired_k8s_secret weblogic-credentials weblogic welcome1
+$ create_paired_k8s_secret weblogic-credentials weblogic welcome1
 
 # Update <user> and <password> for tododomain-jdbc-tododb
-create_paired_k8s_secret jdbc-tododb derek welcome1
+$ create_paired_k8s_secret jdbc-tododb derek welcome1
 
 # Update <password> used to encrypt hashes
-create_k8s_secret runtime-encryption-secret welcome1
+$ create_k8s_secret runtime-encryption-secret welcome1
 ```
 
 Then run the script:
 
 ```shell
-sh ./create_k8s_secrets.sh
+$ sh ./create_k8s_secrets.sh
 ```
 
 Verrazzano will need a credential to pull the image that you just created, so you need to create one more secret.
@@ -375,7 +375,7 @@ The name for this credential can be changed in the `component.yaml` file to anyt
 
 Assuming that you leave the name `tododomain-registry-credentials`, you will need to run a `kubectl create secret` command similar to the following:
 ```shell script
-kubectl create secret docker-registry tododomain-registry-credentials \
+$ kubectl create secret docker-registry tododomain-registry-credentials \
   --docker-server=phx.ocir.io \
   --docker-email=your.name@company.com \
   --docker-username=tenancy/username \
@@ -410,7 +410,7 @@ The file  [application-modified.yaml](../application-modified.yaml) is an exampl
 two sample files is shown:
 
 ```shell
-diff application.yaml application-modified.yaml
+$ diff application.yaml application-modified.yaml
 27a28,30
 >                     # WLS console
 >                     - path: "/console"
@@ -432,13 +432,13 @@ To do so, download the [mysql-oam.yaml](../mysql-oam.yaml) file.
 Then, apply the YAML file:
 
 ```shell
-kubectl apply -f mysql-oam.yaml
+$ kubectl apply -f mysql-oam.yaml
 ```
 
 Wait for the MySQL pod to reach the `Ready` state.
 
 ```shell
-kubectl get pod -n tododomain -w
+$ kubectl get pod -n tododomain -w
 NAME                     READY   STATUS    RESTARTS   AGE
 mysql-5cfd58477b-mg5c7          0/1     Pending             0          0s
 mysql-5cfd58477b-mg5c7          0/1     Pending             0          0s
@@ -450,7 +450,7 @@ mysql-5cfd58477b-mg5c7          1/1     Running             0          2s
 Finally, run `kubectl apply` to apply the Verrazzano component and Verrazzano application configuration files to start your domain.
 
 ```shell script
-kubectl apply -f application.yaml
+$ kubectl apply -f application.yaml
 ```
 
 This will:
@@ -460,13 +460,13 @@ This will:
 Wait for the ToDo List example application to be ready.
 
 ```shell
-kubectl wait pod --for=condition=Ready tododomain-adminserver -n tododomain
+$ kubectl wait pod --for=condition=Ready tododomain-adminserver -n tododomain
 pod/tododomain-adminserver condition met
 ```
 
 Verify the pods are in the `Running` state:
 ```shell
-kubectl get pod -n tododomain
+$ kubectl get pod -n tododomain
 NAME                     READY   STATUS    RESTARTS   AGE
 mysql-55bb4c4565-c8zf5   1/1     Running   0          8m
 tododomain-adminserver   2/2     Running   0          5m
@@ -476,7 +476,7 @@ tododomain-adminserver   2/2     Running   0          5m
 
 1. Get the `EXTERNAL_IP` address of the `istio-ingressgateway` service.
    ```
-   kubectl get service istio-ingressgateway -n istio-system
+   $ kubectl get service istio-ingressgateway -n istio-system
 
    NAME                   TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S)                      AGE
    istio-ingressgateway   LoadBalancer   10.96.97.98   11.22.33.44   80:31380/TCP,443:31390/TCP   13d
@@ -496,9 +496,9 @@ tododomain-adminserver   2/2     Running   0          5m
      11.22.33.44 tododomain-appconf.tododomain.example.com
      ```
 
-1. Intialize the database by accessing the init URL.
+1. Initialize the database by accessing the `init` URL.
    ```shell
-   curl http://tododomain-appconf.tododomain.example.com/todo/rest/items/init
+   $ curl http://tododomain-appconf.tododomain.example.com/todo/rest/items/init
    ToDos table initialized.
    ```
 1. Access the application in a browser at http://tododomain-appconf.tododomain.example.com/todo.

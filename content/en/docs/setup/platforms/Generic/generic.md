@@ -51,8 +51,8 @@ By default, the `prod` profile uses 50Gi persistent volumes for each of the abov
 
 To override these settings, customize the Verrazzano install resource by defining a [VolumeSource](https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/) on the `defaultVolumeSource` field in the install CR, which can be one of:
 
-  - [emptyDir](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir)
-  - [persistentVolumeClaim](https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimvolumesource-v1-core)
+  - [`emptyDir`](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir)
+  - [`persistentVolumeClaim`](https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimvolumesource-v1-core)
 
 Configuring `emptyDir` for the `defaultVolumeSource` forces all persistent volumes created by Verrazzano components in an installation to use ephemeral storage unless otherwise overridden.  This can be useful for development or test scenarios.
 
@@ -114,4 +114,4 @@ spec:
 
 ### Next steps
 
-To continue, see the [Installation Guide](../../../install/installation/#install-the-verrazzano-platform-operator).
+To continue, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md#install-the-verrazzano-platform-operator" >}}).

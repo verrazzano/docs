@@ -7,10 +7,10 @@ draft: false
 ### Get the consoles URLs
 Verrazzano installs several consoles. Get the ingress for the consoles with the following command:
 
-`kubectl get ingress -A`
+`$ kubectl get ingress -A`
 
 To get the URL, prefix `https://` to the host name returned.
-For example `https://rancher.myenv.mydomain.com`
+For example, `https://rancher.myenv.mydomain.com`.
 
 The following is an example of the ingresses:
 ```
@@ -41,7 +41,7 @@ You will need the credentials to access the consoles installed by Verrazzano.
 
 To get the password:
 
-`kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo`
+`$ kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo`
 
 
 #### The Keycloak admin console
@@ -50,7 +50,7 @@ To get the password:
 
 To get the password:  
 
-`kubectl get secret --namespace keycloak keycloak-http -o jsonpath={.data.password} | base64 --decode; echo`
+`$ kubectl get secret --namespace keycloak keycloak-http -o jsonpath={.data.password} | base64 --decode; echo`
 
 
 #### The Rancher console
@@ -59,4 +59,4 @@ To get the password:
 
 To get the password:  
 
-`kubectl get secret --namespace cattle-system rancher-admin-secret -o jsonpath={.data.password} | base64 --decode; echo`
+`$ kubectl get secret --namespace cattle-system rancher-admin-secret -o jsonpath={.data.password} | base64 --decode; echo`
