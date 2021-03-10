@@ -335,11 +335,12 @@ The following steps assume that you have a Kubernetes cluster and that [Verrazza
 
 #### Label the namespace
 
-Create the `tododomain` namespace, and add a label to allow the WebLogic Server Kubernetes Operator to manage it.
+Create the `tododomain` namespace, and add labels to allow the WebLogic Server Kubernetes Operator to manage it and
+enabled for Istio.
 
 ```shell
 $ kubectl create namespace tododomain
-$ kubectl label namespace tododomain verrazzano-managed=true
+$ kubectl label namespace tododomain verrazzano-managed=true istio-injection=enabled
 ```
 
 #### Create the required secrets

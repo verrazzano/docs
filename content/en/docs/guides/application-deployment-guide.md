@@ -208,11 +208,12 @@ To explore traits, we can examine the fields of an ingress trait:
 The following steps are required to deploy the example application.
 Steps similar to the `apply` steps would be used to deploy any application to Verrazzano.
 
-1. Create a namespace for the example application and add a label identifying the namespace as managed by Verrazzano.
+1. Create a namespace for the example application and add labels identifying the namespace as managed by Verrazzano
+and enabled for Istio.
 
    ```shell script
    $ kubectl create namespace hello-helidon
-   $ kubectl label namespace hello-helidon verrazzano-managed=true
+   $ kubectl label namespace hello-helidon verrazzano-managed=true istio-injection=enabled
    ```
 
 1. Apply the application's component.
