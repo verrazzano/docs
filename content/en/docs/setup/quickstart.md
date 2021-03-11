@@ -110,11 +110,12 @@ To deploy the Hello World Helidon example application:
 
 
 
-1. Create a namespace for the example application and add a label identifying the namespace as managed by Verrazzano.
+1. Create a namespace for the example application and add labels identifying the namespace as managed by Verrazzano and
+enabled for Istio.
 
    ```shell
    $ kubectl create namespace hello-helidon
-   $ kubectl label namespace hello-helidon verrazzano-managed=true
+   $ kubectl label namespace hello-helidon verrazzano-managed=true istio-injection=enabled
    ```
 
 1. Apply the `hello-helidon` resources to deploy the application.
