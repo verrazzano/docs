@@ -112,9 +112,10 @@ For more information and the code of this application, see the &lt;a href=&#34;h
 &lt;p&gt;To deploy the Hello World Helidon example application:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;Create a namespace for the example application and add a label identifying the namespace as managed by Verrazzano.&lt;/p&gt;
+&lt;p&gt;Create a namespace for the example application and add labels identifying the namespace as managed by Verrazzano and
+enabled for Istio.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl create namespace hello-helidon
-$ kubectl label namespace hello-helidon verrazzano-managed&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87&#34;&gt;true&lt;/span&gt;
+$ kubectl label namespace hello-helidon verrazzano-managed&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87&#34;&gt;true&lt;/span&gt; istio-injection&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;enabled
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Apply the &lt;code&gt;hello-helidon&lt;/code&gt; resources to deploy the application.&lt;/p&gt;
@@ -819,9 +820,10 @@ application related metrics.&lt;/p&gt;
 Steps similar to the &lt;code&gt;apply&lt;/code&gt; steps would be used to deploy any application to Verrazzano.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;Create a namespace for the example application and add a label identifying the namespace as managed by Verrazzano.&lt;/p&gt;
+&lt;p&gt;Create a namespace for the example application and add labels identifying the namespace as managed by Verrazzano
+and enabled for Istio.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl create namespace hello-helidon
-$ kubectl label namespace hello-helidon verrazzano-managed&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87&#34;&gt;true&lt;/span&gt;
+$ kubectl label namespace hello-helidon verrazzano-managed&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87&#34;&gt;true&lt;/span&gt; istio-injection&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;enabled
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Apply the application&amp;rsquo;s component.&lt;/p&gt;
@@ -1021,7 +1023,18 @@ of all application-specific Kubernetes objects.&lt;/p&gt;
       <description>
         
         
-        &lt;h3 id=&#34;v0110&#34;&gt;v0.11.0:&lt;/h3&gt;
+        &lt;h3 id=&#34;v0120&#34;&gt;v0.12.0:&lt;/h3&gt;
+&lt;p&gt;Features&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Observability stack now uses Keycloak SSO for authentication.&lt;/li&gt;
+&lt;li&gt;Istio sidecars now automatically injected when namespaces labeled &lt;code&gt;istio-injection=enabled&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Fixes&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Fixed issues where logs were not captured from all containers in workloads with multiple containers.&lt;/li&gt;
+&lt;li&gt;Fixed issue where some resources were not cleaned up during uninstall.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;v0110&#34;&gt;v0.11.0:&lt;/h3&gt;
 &lt;p&gt;Features&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;OAM applications are optionally deployed into an Istio service mesh.&lt;/li&gt;
@@ -1466,9 +1479,10 @@ the application into a Verrazzano environment.&lt;/p&gt;
 &lt;/ol&gt;
 &lt;p&gt;The following steps assume that you have a Kubernetes cluster and that &lt;a href=&#34;../docs/setup/quickstart/#install-verrazzano&#34;&gt;Verrazzano&lt;/a&gt; is already installed in that cluster.&lt;/p&gt;
 &lt;h4 id=&#34;label-the-namespace&#34;&gt;Label the namespace&lt;/h4&gt;
-&lt;p&gt;Create the &lt;code&gt;tododomain&lt;/code&gt; namespace, and add a label to allow the WebLogic Server Kubernetes Operator to manage it.&lt;/p&gt;
+&lt;p&gt;Create the &lt;code&gt;tododomain&lt;/code&gt; namespace, and add labels to allow the WebLogic Server Kubernetes Operator to manage it and
+enabled for Istio.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl create namespace tododomain
-$ kubectl label namespace tododomain verrazzano-managed&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87&#34;&gt;true&lt;/span&gt;
+$ kubectl label namespace tododomain verrazzano-managed&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87&#34;&gt;true&lt;/span&gt; istio-injection&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;enabled
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;create-the-required-secrets&#34;&gt;Create the required secrets&lt;/h4&gt;
 &lt;p&gt;If you haven&amp;rsquo;t already done so, edit and run the &lt;code&gt;create_k8s_secrets.sh&lt;/code&gt; script to generate the Kubernetes secrets.
 WDT does not discover passwords from your existing domain.  Before running the create secrets script, you will need to

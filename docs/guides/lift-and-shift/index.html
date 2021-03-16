@@ -21,11 +21,11 @@
 <meta property="og:description" content="A guide for moving WebLogic Server domains to Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/guides/lift-and-shift/" />
-<meta property="article:modified_time" content="2021-03-08T16:11:32-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-03-11T08:52:11-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Lift-and-Shift Guide">
 <meta itemprop="description" content="A guide for moving WebLogic Server domains to Verrazzano">
-<meta itemprop="dateModified" content="2021-03-08T16:11:32-05:00" />
-<meta itemprop="wordCount" content="2613">
+<meta itemprop="dateModified" content="2021-03-11T08:52:11-05:00" />
+<meta itemprop="wordCount" content="2617">
 
 
 
@@ -105,7 +105,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.faa8f77b4f95c29d0857050edbee1416.json"
+  data-offline-search-index-json-src="../../../offline-search-index.37432ff35f5a4e4b932b9c2655d826f0.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -137,7 +137,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.faa8f77b4f95c29d0857050edbee1416.json"
+  data-offline-search-index-json-src="../../../offline-search-index.37432ff35f5a4e4b932b9c2655d826f0.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -896,9 +896,10 @@ the application into a Verrazzano environment.</p>
 </ol>
 <p>The following steps assume that you have a Kubernetes cluster and that <a href="../../../docs/setup/quickstart/#install-verrazzano">Verrazzano</a> is already installed in that cluster.</p>
 <h4 id="label-the-namespace">Label the namespace</h4>
-<p>Create the <code>tododomain</code> namespace, and add a label to allow the WebLogic Server Kubernetes Operator to manage it.</p>
+<p>Create the <code>tododomain</code> namespace, and add labels to allow the WebLogic Server Kubernetes Operator to manage it and
+enabled for Istio.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl create namespace tododomain
-$ kubectl label namespace tododomain verrazzano-managed<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87">true</span>
+$ kubectl label namespace tododomain verrazzano-managed<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87">true</span> istio-injection<span style="color:#ce5c00;font-weight:bold">=</span>enabled
 </code></pre></div><h4 id="create-the-required-secrets">Create the required secrets</h4>
 <p>If you haven&rsquo;t already done so, edit and run the <code>create_k8s_secrets.sh</code> script to generate the Kubernetes secrets.
 WDT does not discover passwords from your existing domain.  Before running the create secrets script, you will need to
@@ -1084,7 +1085,7 @@ ToDos table initialized.
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified March 8, 2021: <a  href="https://github.com/verrazzano/docs/commit/85b1d536fb12ba35f71d3828cf5f5761b559ff5d">fix up docs (#104) (85b1d53)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified March 11, 2021: <a  href="https://github.com/verrazzano/docs/commit/ee154dd6d74699a0ab5d63c8e85201794e6c0c4c">add label for istio-injection=enabled (#105) (ee154dd)</a>
 </div>
 </div>
 
