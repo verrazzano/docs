@@ -5,6 +5,15 @@ weight: 4
 draft: false
 ---
 
+### v0.12.0:
+Features
+- Observability stack now uses Keycloak SSO for authentication.
+- Istio sidecars now automatically injected when namespaces labeled `istio-injection=enabled`.
+
+Fixes
+- Fixed issues where logs were not captured from all containers in workloads with multiple containers.
+- Fixed issue where some resources were not cleaned up during uninstall.
+
 ### v0.11.0:
 
 Features
