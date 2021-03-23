@@ -116,11 +116,33 @@ For example, an appropriate zone name for parent domain `v8o.example.com` domain
   ```
   $ oci dns zone create -c <compartment ocid> --name <zone-name-prefix>.v8o.example.com --zone-type PRIMARY
   ```
+* Create a secret called in the default namespace. The secret is created using the script `create_oci_config_secret.sh` which
+reads an OCI configuration file to create the secret.
+
+  Download the `create_oci_config_secret.sh` script:
+  ```
+  $ curl -o ./create_oci_config_secret.sh https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/scripts/install/create_oci_config_secret.sh
+  ```
+
+  Run the `create_oci_config_secret.sh` script:
+  ```
+  $ ./create_oci_config_secret.sh -o <oci_config_file> -s <config_file_section> -k <secret-name>
+
+  -o defaults to ~/.oci/config
+  -s defaults to the DEFAULT properties section within the OCI configuration file
+  -k defaults to a secret named oci
+  ```
 
 Installation
 
-Installing Verrazzano on OCI DNS requires some configuration settings to create DNS records.
-Edit the Verrazzano custom resource and provide values for the following configuration settings:
+Installing Verrazzano using OCI DNS requires some configuration settings to create DNS records.
+
+Download the sample Verrazzano custom resource `install-oci.yaml` for OCI DNS:
+```
+$ curl -o ./install-oci.yaml https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/config/samples/install-oci.yaml
+```
+
+Edit the downloaded `install-oci.yaml` file and provide values for the following configuration settings:
 
 * `spec.environmentName`
 * `spec.certificate.acme.emailAddress`
@@ -140,30 +162,7 @@ previously).
 Run the following commands:
 
 ```shell
-$ kubectl apply -f - <<EOF
-apiVersion: install.verrazzano.io/v1alpha1
-kind: Verrazzano
-metadata:
-  name: my-verrazzano
-spec:
-  environmentName: env
-  profile: ${VZ_PROFILE:-dev}
-  components:
-    certManager:
-      certificate:
-        acme:
-          provider: letsEncrypt
-          emailAddress: emailAddress@domain.com
-    dns:
-      oci:
-        ociConfigSecret: ociConfigSecret
-        dnsZoneCompartmentOCID: dnsZoneCompartmentOcid
-        dnsZoneOCID: dnsZoneOcid
-        dnsZoneName: my.dns.zone.name
-    ingress:
-      type: LoadBalancer
-EOF
-
+$ kubectl apply ./install-oci.yaml
 $ kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
 ```
 
