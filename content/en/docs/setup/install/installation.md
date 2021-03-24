@@ -110,13 +110,16 @@ $ kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verra
 Prerequisites
 * A DNS zone is a distinct portion of a domain namespace. Therefore, ensure that the zone is appropriately associated with a parent domain.
 For example, an appropriate zone name for parent domain `v8o.example.com` domain is `us.v8o.example.com`.
-* Create an OCI DNS zone using the OCI Console or the OCI CLI.  
+* Create a public OCI DNS zone using the OCI CLI or the OCI Console.
 
-  CLI example:
+  To create an OCI DNS zone using the OCI CLI:
   ```
   $ oci dns zone create -c <compartment ocid> --name <zone-name-prefix>.v8o.example.com --zone-type PRIMARY
   ```
-* Create a secret called in the default namespace. The secret is created using the script `create_oci_config_secret.sh` which
+
+  To create an OCI DNS zone using the OCI console, see [Managing DNS Zones](https://docs.oracle.com/en-us/iaas/Content/DNS/Tasks/managingdnszones.htm)
+
+* Create a secret in the default namespace. The secret is created using the script `create_oci_config_secret.sh` which
 reads an OCI configuration file to create the secret.
 
   Download the `create_oci_config_secret.sh` script:
@@ -126,12 +129,21 @@ reads an OCI configuration file to create the secret.
 
   Run the `create_oci_config_secret.sh` script:
   ```
+  $ chmod +x create_oci_config_secret.sh
+  $ export KUBECONFIG=<kubeconfig-file>
   $ ./create_oci_config_secret.sh -o <oci_config_file> -s <config_file_section> -k <secret-name>
 
-  -o defaults to ~/.oci/config
+  -o defaults to the OCI configuration file in ~/.oci/config
   -s defaults to the DEFAULT properties section within the OCI configuration file
   -k defaults to a secret named oci
   ```
+  {{< alert title="NOTE" color="warning" >}}
+  The `key_file` value within the OCI configuration file must reference a .pem file that contains a RSA private key.
+  The contents of a RSA private key file starts with `-----BEGIN RSA PRIVATE KEY-----`.  If your OCI configuration file
+  references a .pem file that is not of this form then you can generate a RSA private key file with the command
+  `openssl rsa -check -in oci_api_key.pem -noout`.  After generating the correct form of the .pem file make sure to change
+  the reference within the OCI configuration file.
+  {{< /alert >}}
 
 Installation
 
@@ -161,8 +173,8 @@ previously).
 
 Run the following commands:
 
-```shell
-$ kubectl apply ./install-oci.yaml
+```
+$ kubectl apply -f ./install-oci.yaml
 $ kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
 ```
 
@@ -180,21 +192,20 @@ $ kubectl logs -f $(kubectl get pod -l job-name=verrazzano-install-my-verrazzano
 Verrazzano installs multiple objects in multiple namespaces. In the `verrazzano-system` namespaces, all the pods in the `Running` state, does not guarantee, but likely indicates that Verrazzano is up and running.
 ```
 $ kubectl get pods -n verrazzano-system
-verrazzano-admission-controller-84d6bc647c-7b8tl   1/1     Running   0          5m13s
-verrazzano-cluster-operator-57fb95fc99-kqjll       1/1     Running   0          5m13s
-verrazzano-monitoring-operator-7cb5947f4c-x9kfc    1/1     Running   0          5m13s
-verrazzano-operator-b6d95b4c4-sxprv                1/1     Running   0          5m13s
-vmi-system-api-7c8654dc76-2bdll                    1/1     Running   0          4m44s
-vmi-system-es-data-0-6679cf99f4-9p25f              2/2     Running   0          4m44s
-vmi-system-es-data-1-8588867569-zlwwx              2/2     Running   0          4m44s
-vmi-system-es-ingest-78f6dfddfc-2v5nc              1/1     Running   0          4m44s
-vmi-system-es-master-0                             1/1     Running   0          4m44s
-vmi-system-es-master-1                             1/1     Running   0          4m44s
-vmi-system-es-master-2                             1/1     Running   0          4m44s
-vmi-system-grafana-5f7bc8b676-xx49f                1/1     Running   0          4m44s
-vmi-system-kibana-649466fcf8-4n8ct                 1/1     Running   0          4m44s
-vmi-system-prometheus-0-7f97ff97dc-gfclv           3/3     Running   0          4m44s
-vmi-system-prometheus-gw-7cb9df774-48g4b           1/1     Running   0          4m44s
+coherence-operator-controller-manager-684d7bddf6-8l9s2   1/1     Running   0          52m
+oam-kubernetes-runtime-76cbbb969f-97lhm                  1/1     Running   0          52m
+verrazzano-api-f89cdd678-lfr2t                           1/1     Running   0          52m
+verrazzano-application-operator-7b554ff955-ms9pp         1/1     Running   0          51m
+verrazzano-console-6488fbfd45-8csm2                      1/1     Running   0          52m
+verrazzano-monitoring-operator-74c6c956fb-r4zw5          1/1     Running   0          52m
+verrazzano-operator-84b8c677ff-2pz2k                     1/1     Running   0          52m
+vmi-system-api-f7577d8-c7zmq                             1/1     Running   0          52m
+vmi-system-es-master-0                                   2/2     Running   0          52m
+vmi-system-grafana-6f4bd5d964-74q2z                      2/2     Running   0          52m
+vmi-system-kibana-8687b8f754-hr7kt                       2/2     Running   0          52m
+vmi-system-prometheus-0-649b67bd8c-dm97k                 5/5     Running   0          52m
+vmi-system-prometheus-gw-6bb6b68b98-xpk65                1/1     Running   0          52m
+weblogic-operator-5d7579db46-qlxds                       1/1     Running   0          52m
 ```
 
 #### (Optional) Install the example applications
