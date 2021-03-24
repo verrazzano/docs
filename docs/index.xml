@@ -243,7 +243,7 @@ spec:
           emailAddress: emailAddress@domain.com
     dns:
       oci:
-        ociConfigSecret: ociConfigSecret
+        ociConfigSecret: oci
         dnsZoneCompartmentOCID: dnsZoneCompartmentOcid
         dnsZoneOCID: dnsZoneOcid
         dnsZoneName: my.dns.zone.name
@@ -457,7 +457,7 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;ociConfigSecret&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;Name of the OCI configuration secret.  Generate a secret named &lt;code&gt;oci-config&lt;/code&gt; based on the OCI configuration profile you want to use.  You can specify a profile other than DEFAULT and a different secret name.  See instructions by running &lt;code&gt;./install/create_oci_config_secret.sh&lt;/code&gt;.&lt;/td&gt;
+&lt;td&gt;Name of the OCI configuration secret.  Generate a secret based on the OCI configuration profile you want to use.  You can specify a profile other than DEFAULT and specify the secret name.  See instructions by running &lt;code&gt;./install/create_oci_config_secret.sh&lt;/code&gt;.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2802,14 +2802,38 @@ $ kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; --timeout&
 For example, an appropriate zone name for parent domain &lt;code&gt;v8o.example.com&lt;/code&gt; domain is &lt;code&gt;us.v8o.example.com&lt;/code&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Create an OCI DNS zone using the OCI Console or the OCI CLI.&lt;/p&gt;
-&lt;p&gt;CLI example:&lt;/p&gt;
+&lt;p&gt;Create a public OCI DNS zone using the OCI CLI or the OCI Console.&lt;/p&gt;
+&lt;p&gt;To create an OCI DNS zone using the OCI CLI:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ oci dns zone create -c &amp;lt;compartment ocid&amp;gt; --name &amp;lt;zone-name-prefix&amp;gt;.v8o.example.com --zone-type PRIMARY
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To create an OCI DNS zone using the OCI console, see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/DNS/Tasks/managingdnszones.htm&#34;&gt;Managing DNS Service Zones&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create a secret in the default namespace. The secret is created using the script &lt;code&gt;create_oci_config_secret.sh&lt;/code&gt; which
+reads an OCI configuration file to create the secret.&lt;/p&gt;
+&lt;p&gt;Download the &lt;code&gt;create_oci_config_secret.sh&lt;/code&gt; script:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ curl -o ./create_oci_config_secret.sh https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/scripts/install/create_oci_config_secret.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Run the &lt;code&gt;create_oci_config_secret.sh&lt;/code&gt; script:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ chmod +x create_oci_config_secret.sh
+$ export KUBECONFIG=&amp;lt;kubeconfig-file&amp;gt;
+$ ./create_oci_config_secret.sh -o &amp;lt;oci-config-file&amp;gt; -s &amp;lt;config-file-section&amp;gt; -k &amp;lt;secret-name&amp;gt;
+
+-o defaults to the OCI configuration file in ~/.oci/config
+-s defaults to the DEFAULT properties section within the OCI configuration file
+-k defaults to a secret named oci
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+The &lt;code&gt;key_file&lt;/code&gt; value within the OCI configuration file must reference a &lt;code&gt;.pem&lt;/code&gt; file that contains a RSA private key.
+The contents of a RSA private key file starts with &lt;code&gt;-----BEGIN RSA PRIVATE KEY-----&lt;/code&gt;.  If your OCI configuration file
+references a &lt;code&gt;.pem&lt;/code&gt; file that is not of this form, then you must generate a RSA private key file.  See &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm&#34;&gt;Generating a RSA Private Key&lt;/a&gt;.
+After generating the correct form of the &lt;code&gt;.pem&lt;/code&gt; file, make sure to change the reference within the OCI configuration file.
+&lt;/div&gt;
 &lt;p&gt;Installation&lt;/p&gt;
-&lt;p&gt;Installing Verrazzano on OCI DNS requires some configuration settings to create DNS records.
-Edit the Verrazzano custom resource and provide values for the following configuration settings:&lt;/p&gt;
+&lt;p&gt;Installing Verrazzano using OCI DNS requires some configuration settings to create DNS records.&lt;/p&gt;
+&lt;p&gt;Download the sample Verrazzano custom resource &lt;code&gt;install-oci.yaml&lt;/code&gt; for OCI DNS:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ curl -o ./install-oci.yaml https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/config/samples/install-oci.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Edit the downloaded &lt;code&gt;install-oci.yaml&lt;/code&gt; file and provide values for the following configuration settings:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;spec.environmentName&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;spec.certificate.acme.emailAddress&lt;/code&gt;&lt;/li&gt;
@@ -2825,32 +2849,9 @@ ingresses.  For example, you could use &lt;code&gt;sales&lt;/code&gt; as an &lt;
 &lt;code&gt;sales.us.v8o.example.com&lt;/code&gt; as the sales-related domain (assuming the domain and zone names listed
 previously).&lt;/p&gt;
 &lt;p&gt;Run the following commands:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: install.verrazzano.io/v1alpha1
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Verrazzano
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: my-verrazzano
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  environmentName: env
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  profile: ${VZ_PROFILE:-dev}
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  components:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    certManager:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      certificate:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        acme:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          provider: letsEncrypt
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          emailAddress: emailAddress@domain.com
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    dns:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      oci:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        ociConfigSecret: ociConfigSecret
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        dnsZoneCompartmentOCID: dnsZoneCompartmentOcid
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        dnsZoneOCID: dnsZoneOcid
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        dnsZoneName: my.dns.zone.name
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    ingress:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      type: LoadBalancer
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
-
-$ kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;20m --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;InstallComplete verrazzano/my-verrazzano
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f ./install-oci.yaml
+$ kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;/div&gt;
 
@@ -2864,21 +2865,20 @@ $ kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; --timeout&
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;verify-the-install&#34;&gt;Verify the install&lt;/h3&gt;
 &lt;p&gt;Verrazzano installs multiple objects in multiple namespaces. In the &lt;code&gt;verrazzano-system&lt;/code&gt; namespaces, all the pods in the &lt;code&gt;Running&lt;/code&gt; state, does not guarantee, but likely indicates that Verrazzano is up and running.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ kubectl get pods -n verrazzano-system
-verrazzano-admission-controller-84d6bc647c-7b8tl   1/1     Running   0          5m13s
-verrazzano-cluster-operator-57fb95fc99-kqjll       1/1     Running   0          5m13s
-verrazzano-monitoring-operator-7cb5947f4c-x9kfc    1/1     Running   0          5m13s
-verrazzano-operator-b6d95b4c4-sxprv                1/1     Running   0          5m13s
-vmi-system-api-7c8654dc76-2bdll                    1/1     Running   0          4m44s
-vmi-system-es-data-0-6679cf99f4-9p25f              2/2     Running   0          4m44s
-vmi-system-es-data-1-8588867569-zlwwx              2/2     Running   0          4m44s
-vmi-system-es-ingest-78f6dfddfc-2v5nc              1/1     Running   0          4m44s
-vmi-system-es-master-0                             1/1     Running   0          4m44s
-vmi-system-es-master-1                             1/1     Running   0          4m44s
-vmi-system-es-master-2                             1/1     Running   0          4m44s
-vmi-system-grafana-5f7bc8b676-xx49f                1/1     Running   0          4m44s
-vmi-system-kibana-649466fcf8-4n8ct                 1/1     Running   0          4m44s
-vmi-system-prometheus-0-7f97ff97dc-gfclv           3/3     Running   0          4m44s
-vmi-system-prometheus-gw-7cb9df774-48g4b           1/1     Running   0          4m44s
+coherence-operator-controller-manager-684d7bddf6-8l9s2   1/1     Running   0          52m
+oam-kubernetes-runtime-76cbbb969f-97lhm                  1/1     Running   0          52m
+verrazzano-api-f89cdd678-lfr2t                           1/1     Running   0          52m
+verrazzano-application-operator-7b554ff955-ms9pp         1/1     Running   0          51m
+verrazzano-console-6488fbfd45-8csm2                      1/1     Running   0          52m
+verrazzano-monitoring-operator-74c6c956fb-r4zw5          1/1     Running   0          52m
+verrazzano-operator-84b8c677ff-2pz2k                     1/1     Running   0          52m
+vmi-system-api-f7577d8-c7zmq                             1/1     Running   0          52m
+vmi-system-es-master-0                                   2/2     Running   0          52m
+vmi-system-grafana-6f4bd5d964-74q2z                      2/2     Running   0          52m
+vmi-system-kibana-8687b8f754-hr7kt                       2/2     Running   0          52m
+vmi-system-prometheus-0-649b67bd8c-dm97k                 5/5     Running   0          52m
+vmi-system-prometheus-gw-6bb6b68b98-xpk65                1/1     Running   0          52m
+weblogic-operator-5d7579db46-qlxds                       1/1     Running   0          52m
 &lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;optional-install-the-example-applications&#34;&gt;(Optional) Install the example applications&lt;/h4&gt;
 &lt;p&gt;Example applications are located &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;h5 id=&#34;to-get-the-consoles-urls-and-credentials-see-operationshahahugoshortcode-s10-hbhb&#34;&gt;To get the consoles URLs and credentials, see &lt;a href=&#34;../docs/operations/&#34;&gt;Operations&lt;/a&gt;.&lt;/h5&gt;
