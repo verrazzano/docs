@@ -117,7 +117,7 @@ For example, an appropriate zone name for parent domain `v8o.example.com` domain
   $ oci dns zone create -c <compartment ocid> --name <zone-name-prefix>.v8o.example.com --zone-type PRIMARY
   ```
 
-  To create an OCI DNS zone using the OCI console, see [Managing DNS Zones](https://docs.oracle.com/en-us/iaas/Content/DNS/Tasks/managingdnszones.htm)
+  To create an OCI DNS zone using the OCI console, see [Managing DNS Zones](https://docs.oracle.com/en-us/iaas/Content/DNS/Tasks/managingdnszones.htm).
 
 * Create a secret in the default namespace. The secret is created using the script `create_oci_config_secret.sh` which
 reads an OCI configuration file to create the secret.
@@ -138,10 +138,10 @@ reads an OCI configuration file to create the secret.
   -k defaults to a secret named oci
   ```
   {{< alert title="NOTE" color="warning" >}}
-  The `key_file` value within the OCI configuration file must reference a .pem file that contains a RSA private key.
+  The `key_file` value within the OCI configuration file must reference a `.pem` file that contains a RSA private key.
   The contents of a RSA private key file starts with `-----BEGIN RSA PRIVATE KEY-----`.  If your OCI configuration file
-  references a .pem file that is not of this form then you must generate a RSA private key file.  See [Generating a RSA Private Key](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm).
-  After generating the correct form of the .pem file make sure to change the reference within the OCI configuration file.
+  references a `.pem` file that is not of this form, then you must generate a RSA private key file.  See [Generating a RSA Private Key](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm).
+  After generating the correct form of the `.pem` file, make sure to change the reference within the OCI configuration file.
   {{< /alert >}}
 
 Installation
