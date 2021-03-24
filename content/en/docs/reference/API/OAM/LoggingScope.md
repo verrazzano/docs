@@ -87,3 +87,4 @@ LoggingScopeSpec specifies the desired state of a logging scope.
 | `fluentdImage` | string | The fluentd image. | No |
 | `elasticSearchURL` | string | The URL for Elasticsearch. | No |
 | `secretName` | string | The name of secret with Elasticsearch credentials. | No |
+| `workloadRefs` | [TypedReference](https://crossplane.io/docs/v0.9/api/crossplane/crossplane-runtime/core-crossplane-io-v1alpha1.html#typedreference) array | `workloadRefs: []` <br><br> The references to the workloads to which this trait applies. This value is populated by the OAM runtime when a ApplicationConfiguration resource is processed. | Yes |
