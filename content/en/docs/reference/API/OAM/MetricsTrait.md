@@ -67,5 +67,5 @@ MetricsTraitSpec specifies the desired state of a metrics trait.
 | --- | --- | --- | --- |
 | `port` | integer | The HTTP port for the related metrics endpoint. Defaults to 8080. | No |
 | `path` | string | The HTTP path for the related metrics endpoint. Defaults to `/metrics`. | No |
-| `secret` | string | The name of an opaque secret (for example, username and password) within the workload’s namespace for metrics endpoint access. | No |
+| `secret` | string | The name of an opaque secret (for example, user name and password) within the workload’s namespace for metrics endpoint access. | No |
 | `scraper` | string | The prometheus deployment used to scrape the related metrics endpoints. Defaults to `verrazzano-system/vmi-system-prometheus-0`. | No |
