@@ -5,8 +5,8 @@ weight: 2
 draft: false
 ---
 
-###VerrazzanoCoherenceWorkload
-The VerrazzanoCoherenceWorkload custom resource contains the configuration information for a [Coherence](https://oracle.github.io/coherence-operator/docs/3.1.1/#/about/04_coherence_spec) workload within Verrazzano.  Here is a sample Component that specifies a VerrazzanoCoherenceWorkload (to deploy this application, see [Sock Shop](https://github.com/verrazzano/verrazzano/blob/master/examples/sock-shop/README.md)).
+### VerrazzanoCoherenceWorkload
+The VerrazzanoCoherenceWorkload custom resource contains the configuration information for a [Coherence](https://oracle.github.io/coherence-operator/docs/3.1.1/#/about/04_coherence_spec) workload within Verrazzano.  Here is a sample component that specifies a VerrazzanoCoherenceWorkload.  To deploy this application, see [Sock Shop](https://github.com/verrazzano/verrazzano/blob/master/examples/sock-shop/README.md).
 ```
 apiVersion: core.oam.dev/v1alpha2
 kind: Component
@@ -70,9 +70,9 @@ VerrazzanoCoherenceWorkloadSpec specifies the desired state of a Verrazzano Cohe
 
 
 
-###VerrazzanoHelidonWorkload
+### VerrazzanoHelidonWorkload
 
-The VerrazzanoHelidonWorkload custom resource contains the configuration information for a [Helidon](https://helidon.io) workload within Verrazzano. Here is a sample Component that specifies a VerrazzanoHelidonWorkload (to deploy this application, see [Hello World Helidon](https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md)).
+The VerrazzanoHelidonWorkload custom resource contains the configuration information for a [Helidon](https://helidon.io) workload within Verrazzano. Here is a sample component that specifies a VerrazzanoHelidonWorkload.  To deploy this application, see [Hello World Helidon](https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md).
 ```
 apiVersion: core.oam.dev/v1alpha2
 kind: Component
@@ -131,8 +131,8 @@ DeploymentTemplate specifies the metadata and pod spec of the underlying Deploym
 
 
 
-###VerrazzanoWebLogicWorkload
-The VerrazzanoWebLogicWorkload custom resource contains the configuration information for a WebLogic [Domain](https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md) workload within Verrazzano.  Here is a sample Component that specifies a VerrazzanoWebLogicWorkload (to deploy this application, application, see the instructions [here](https://github.com/verrazzano/examples/blob/master/todo-list/README.md)).
+### VerrazzanoWebLogicWorkload
+The VerrazzanoWebLogicWorkload custom resource contains the configuration information for a WebLogic [Domain](https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md) workload within Verrazzano.  Here is a sample component that specifies a VerrazzanoWebLogicWorkload.  To deploy this application, application, see the instructions [here](https://github.com/verrazzano/examples/blob/master/todo-list/README.md).
 
 ```
 apiVersion: core.oam.dev/v1alpha2

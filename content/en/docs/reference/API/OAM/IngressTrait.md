@@ -4,7 +4,7 @@ linkTitle: IngressTrait Custom Resource Definition
 weight: 2
 draft: false
 ---
-The IngressTrait custom resource contains the configuration of host and path rules for traffic routing to an application.  Here is a sample ApplicationConfiguration that specifies an IngressTrait (to deploy this application, see [Hello World Helidon](https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md)).
+The IngressTrait custom resource contains the configuration of host and path rules for traffic routing to an application.  Here is a sample ApplicationConfiguration that specifies an IngressTrait.  To deploy this application, see [Hello World Helidon](https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md).
 
 ```
 apiVersion: core.oam.dev/v1alpha2
@@ -35,9 +35,9 @@ spec:
                     - path: "/greet"
                       pathType: Prefix
 ```
-In the above example, the IngressTrait `hello-helidon-ingress` is set on the `hello-helidon-component` application component and defines an ingress rule that configures a path and path type.  This exposes a route for external access to the application.  Note that since no `hosts` list is given for the [IngressRule](#IngressRule), a DNS host name is automatically generated.  The host can be obtained from the generated gateway.  
+In the above example, the IngressTrait `hello-helidon-ingress` is set on the `hello-helidon-component` application component and defines an ingress rule that configures a path and path type.  This exposes a route for external access to the application.  Note that because no `hosts` list is given for the [IngressRule](#IngressRule), a DNS host name is automatically generated.  
 
-For example, with the above application configuration successfully deployed, the application should be accessible with the `HOST` and `path` specified in the IngressTrait. 
+For example, with the above application configuration successfully deployed, the application will be accessible with the `path` specified in the IngressTrait and the generated host name. 
 ```
 $ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath={.spec.servers[0].hosts[0]})
 $ echo $HOST
@@ -45,7 +45,7 @@ hello-helidon-appconf.hello-helidon.11.22.33.44.xip.io
 
 $ curl -sk -X GET https://${HOST}/greet
 ```
-Alternately, specific host names can be given in an [IngressRule](#IngressRule).  Doing this implies that a secret and certificate have been created for the specific hosts and the secret name has been specified in the associated [IngressSecurity](#IngressSecurity) `secretName` field. 
+Alternatively, specific host names can be given in an [IngressRule](#IngressRule).  Doing this implies that a secret and certificate have been created for the specific hosts and the secret name has been specified in the associated [IngressSecurity](#IngressSecurity) `secretName` field. 
 
 #### IngressTrait
 
@@ -62,7 +62,7 @@ IngressTraitSpec specifies the desired state of an ingress trait.
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `rules` | [IngressRule](#IngressRule) array | A list of ingress rules to for an ingress trait. | Yes |
-| `tls` | [IngressSecurity](#IngressSecurity) | The security parameters for an ingress trait. This is only required if specific hosts are given in an [IngressRule](#IngressRule). | No |
+| `tls` | [IngressSecurity](#IngressSecurity) | The security parameters for an ingress trait. This is required only if specific hosts are given in an [IngressRule](#IngressRule). | No |
 
 #### IngressRule
 IngressRule specifies a rule for an ingress trait.
@@ -77,8 +77,8 @@ IngressPath specifies a specific path to be exposed for an ingress trait.
 	
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `path` | string | If no path is provided, it defaults to `/` |  No |
-| `pathType` | string | Path type values are case-sensitive and formatted as follows: <ul><li>`exact`: exact string match</li><li>`prefix`: prefix-based match</li><li>`regex`: regex-based match</li></ul>If the provided ingress path doesn't contain a `pathType`, it is defaulted to `prefix` if path is `/` and `exact` otherwise. | No |
+| `path` | string | If no path is provided, it defaults to `/`. |  No |
+| `pathType` | string | Path type values are case-sensitive and formatted as follows: <ul><li>`exact`: exact string match</li><li>`prefix`: prefix-based match</li><li>`regex`: regex-based match</li></ul>If the provided ingress path doesn't contain a `pathType`, it defaults to `prefix` if the path is `/` and `exact` otherwise. | No |
 
 
 #### IngressSecurity
@@ -86,5 +86,5 @@ IngressSecurity specifies the secret containing the certificate securing the tra
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `secretName` | string | The name of a secret containing the certificate securing the transport.  The specification of a secret here implies that a certificate was created for specific hosts as specified in an in an [IngressRule](#IngressRule). |  Yes |
+| `secretName` | string | The name of a secret containing the certificate securing the transport.  The specification of a secret here implies that a certificate was created for specific hosts as specified in an [IngressRule](#IngressRule). |  Yes |
 

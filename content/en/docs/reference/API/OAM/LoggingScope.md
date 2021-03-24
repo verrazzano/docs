@@ -5,7 +5,7 @@ weight: 2
 draft: false
 ---
 
-The LoggingScope custom resource contains the configuration information needed to enable logging for an application component. .  Here is a sample LoggingScope.
+The LoggingScope custom resource contains the configuration information needed to enable logging for an application component.  Here is a sample LoggingScope.
 ```
 apiVersion: oam.verrazzano.io/v1alpha1
 kind: LoggingScope
@@ -13,15 +13,14 @@ metadata:
   name: logging-scope
   namespace: todo-list
 spec:
-  fluentdImage: ghcr.io/verrazzano/fluentd-kubernetes-daemonset:v1.10.4-20201016214205-7f37ac6
   elasticSearchURL: http://vmi-system-es-ingest.verrazzano-system.svc.cluster.local:9200
   secretName: verrazzano
   workloadRefs: []
 ```
 
-Here is a sample ApplicationConfiguration that specifies a LoggingScope  (to deploy this application, see the instructions [here](https://github.com/verrazzano/examples/blob/master/todo-list/README.md)).
+Here is a sample ApplicationConfiguration that specifies a LoggingScope.  To deploy this application, see the instructions [here](https://github.com/verrazzano/examples/blob/master/todo-list/README.md).
 
-Note that if an ApplicationConfiguration does not specify a LoggingScope then a default LoggingScope will be generated.
+Note that if an ApplicationConfiguration does not specify a LoggingScope, then a default LoggingScope will be generated.
 ```
 apiVersion: core.oam.dev/v1alpha2
 kind: ApplicationConfiguration
@@ -59,7 +58,7 @@ spec:
     - componentName: todo-mysql-deployment
 
 ```
-In the above example, the logs for the `todo-domain` component will be written to the ElasticSearch instance specified in the LoggingScope.
+In the above example, the logs for the `todo-domain` component will be written to the Elasticsearch instance specified in the LoggingScope.
 
 With the above application configuration successfully deployed, you can get the log messages for the index `todo-list-todo-appconf-todo-domain`.
 ```
