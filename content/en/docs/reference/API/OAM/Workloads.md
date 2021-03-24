@@ -117,11 +117,11 @@ VerrazzanoHelidonWorkloadSpec specifies the desired state of a Verrazzano Helido
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `deploymentTemplate` |  [DeploymentTemplate](#DeploymentTemplate) | The embedded Deployment. |  Yes |
+| `deploymentTemplate` |  [DeploymentTemplate](#DeploymentTemplate) | The embedded deployment. |  Yes |
 
 
 #### DeploymentTemplate
-DeploymentTemplate specifies the metadata and pod spec of the underlying Deployment.
+DeploymentTemplate specifies the metadata and pod spec of the underlying deployment.
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
