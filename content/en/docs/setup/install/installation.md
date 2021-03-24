@@ -117,7 +117,7 @@ For example, an appropriate zone name for parent domain `v8o.example.com` domain
   $ oci dns zone create -c <compartment ocid> --name <zone-name-prefix>.v8o.example.com --zone-type PRIMARY
   ```
 
-  To create an OCI DNS zone using the OCI console, see [Managing DNS Zones](https://docs.oracle.com/en-us/iaas/Content/DNS/Tasks/managingdnszones.htm).
+  To create an OCI DNS zone using the OCI console, see [Managing DNS Service Zones](https://docs.oracle.com/en-us/iaas/Content/DNS/Tasks/managingdnszones.htm).
 
 * Create a secret in the default namespace. The secret is created using the script `create_oci_config_secret.sh` which
 reads an OCI configuration file to create the secret.
