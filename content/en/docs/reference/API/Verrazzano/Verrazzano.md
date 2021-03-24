@@ -25,7 +25,7 @@ spec:
           emailAddress: emailAddress@domain.com
     dns:
       oci:
-        ociConfigSecret: ociConfigSecret
+        ociConfigSecret: oci
         dnsZoneCompartmentOCID: dnsZoneCompartmentOcid
         dnsZoneOCID: dnsZoneOcid
         dnsZoneName: my.dns.zone.name
@@ -84,7 +84,7 @@ The following table describes the `spec` portion of the Verrazzano custom resour
 #### DNS OCI
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `ociConfigSecret` | string | Name of the OCI configuration secret.  Generate a secret named `oci-config` based on the OCI configuration profile you want to use.  You can specify a profile other than DEFAULT and a different secret name.  See instructions by running `./install/create_oci_config_secret.sh`.| Yes |
+| `ociConfigSecret` | string | Name of the OCI configuration secret.  Generate a secret based on the OCI configuration profile you want to use.  You can specify a profile other than DEFAULT and specify the secret name.  See instructions by running `./install/create_oci_config_secret.sh`.| Yes |
 | `dnsZoneCompartmentOCID` | string | The OCI DNS compartment OCID. |  Yes |
 | `dnsZoneOCID` | string | The OCI DNS zone OCID. |  Yes |
 | `dnsZoneName` | string | Name of OCI DNS zone. |  Yes |
