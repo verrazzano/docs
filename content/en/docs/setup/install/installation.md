@@ -131,7 +131,7 @@ reads an OCI configuration file to create the secret.
   ```
   $ chmod +x create_oci_config_secret.sh
   $ export KUBECONFIG=<kubeconfig-file>
-  $ ./create_oci_config_secret.sh -o <oci_config_file> -s <config_file_section> -k <secret-name>
+  $ ./create_oci_config_secret.sh -o <oci-config-file> -s <config-file-section> -k <secret-name>
 
   -o defaults to the OCI configuration file in ~/.oci/config
   -s defaults to the DEFAULT properties section within the OCI configuration file
