@@ -129,7 +129,7 @@ enabled for Istio.
 
    ```shell
    $ kubectl wait --for=condition=Ready pods --all -n hello-helidon --timeout=300s
-   pod/hello-helidon-workload-977cbbc94-z22ls condition met
+   pod/hello-helidon-deployment-78468f5f9c-czmp4 condition met
    ```
    This creates the Verrazzano OAM component application resources for the example, waits for the pods in the `hello-helidon`
    namespace to be ready.

@@ -121,20 +121,25 @@ metadata:
   namespace: hello-helidon
 spec:
   workload:
-    apiVersion: core.oam.dev/v1alpha2
-    kind: ContainerizedWorkload
+    apiVersion: oam.verrazzano.io/v1alpha1
+    kind: VerrazzanoHelidonWorkload
     metadata:
       name: hello-helidon-workload
       namespace: hello-helidon
       labels:
         app: hello-helidon
     spec:
-      containers:
-      - name: hello-helidon-container
-        image: "ghcr.io/verrazzano/example-helidon-greet-app-v1:0.1.12-1-20210218160249-d8db8f3"
-        ports:
-          - containerPort: 8080
-            name: http
+      deploymentTemplate:
+        metadata:
+          name: hello-helidon-deployment
+        podSpec:
+          containers:
+            - name: hello-helidon-container
+              image: "ghcr.io/verrazzano/example-helidon-greet-app-v1:0.1.10-3-20201016220428-56fb4d4"
+              ports:
+                - containerPort: 8080
+                  name: http
+
 ```
 
 A brief description of each field of the component:
@@ -143,9 +148,10 @@ A brief description of each field of the component:
 * `kind` - Standard name of the component custom resource definition
 * `metadata.name` - The name used to create the component's custom resource
 * `metadata.namespace` - The namespace used to create this component's custom resource
-* `spec.workload.kind` - `ContainerizedWorkload` defines a stateless workload of Kubernetes
-* `spec.workload.spec.containers` - The implementation containers
-* `spec.workload.spec.containers.ports` - Ports exposed by the container
+* `spec.workload.kind` - `VerrazzanoHelidonWorkload` defines a stateless workload of Kubernetes
+* `spec.workload.spec.deploymentTemplate.podSpec.metadata.name` -  The name used to create the stateless workload of Kubernetes  
+* `spec.workload.spec.deploymentTemplate.podSpec.containers` - The implementation containers
+* `spec.workload.spec.deploymentTemplate.podSpec.containers.ports` - Ports exposed by the container
 
 ### Verrazzano application configurations
 
@@ -269,14 +275,14 @@ and enabled for Istio.
 1. Verify the Helidon application pod is running.
 
    ```
-   $ kubectl get pods -n hello-helidon | grep '^NAME\|hello-helidon-workload'
+   $ kubectl get pods -n hello-helidon | grep '^NAME\|hello-helidon-deployment'
 
-   NAME                                     READY   STATUS    RESTARTS   AGE
-   hello-helidon-workload-9dfbbfb74-4jm9v   1/1     Running   0          94m
+   NAME                                        READY   STATUS    RESTARTS   AGE
+   hello-helidon-deployment-78468f5f9c-czmp4   3/3     Running   0          22h
    ```
 
-   The parameter `hello-helidon-workload` is from the component's
-   `spec.workload.metadata.name` value.
+   The parameter `hello-helidon-deployment` is from the component's
+   `spec.workload.spec.deploymentTemplate.podSpec.metadata.name` value.
 
 1. Verify the Verrazzano application operator pod is running.
 
@@ -323,7 +329,7 @@ and enabled for Istio.
    a reasonable length of time, such as five minutes.
 
    ```shell script
-   $ kubectl describe pod -n hello-helidon hello-helidon-workload-9dfbbfb74-4jm9v
+   $ kubectl describe pod -n hello-helidon hello-helidon-deployment-78468f5f9c-czmp4
    ```
 
    Use the specific namespace and name for the pod being investigated.

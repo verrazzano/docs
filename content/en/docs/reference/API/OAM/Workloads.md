@@ -85,7 +85,6 @@ spec:
     kind: VerrazzanoHelidonWorkload
     metadata:
       name: hello-helidon-workload
-      namespace: hello-helidon
       labels:
         app: hello-helidon
     spec:
@@ -126,7 +125,6 @@ DeploymentTemplate specifies the metadata and pod spec of the underlying deploym
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `metadata` | ObjectMeta | Refer to Kubernetes API documentation for fields of metadata. |  No |
-| `replicas` | integer | Number of desired pods. Defaults to 1. | No |
 | `podSpec` | [PodSpec](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#podspec-v1-core) | The pod spec of the underlying deployment. | Yes |
 
 
