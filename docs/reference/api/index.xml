@@ -14,6 +14,460 @@
     
     
     <item>
+      <title>Docs: IngressTrait Custom Resource Definition</title>
+      <link>https://verrazzano.io/docs/reference/api/oam/ingresstrait/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/reference/api/oam/ingresstrait/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The IngressTrait custom resource contains the configuration of host and path rules for traffic routing to an application.  Here is a sample ApplicationConfiguration that specifies an IngressTrait.  To deploy this application, see &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md&#34;&gt;Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
+kind: ApplicationConfiguration
+metadata:
+  name: hello-helidon-appconf
+  namespace: hello-helidon
+  annotations:
+    version: v1.0.0
+    description: &amp;quot;Hello Helidon application&amp;quot;
+spec:
+  components:
+    - componentName: hello-helidon-component
+      traits:
+        - trait:
+            apiVersion: oam.verrazzano.io/v1alpha1
+            kind: MetricsTrait
+            spec:
+                scraper: verrazzano-system/vmi-system-prometheus-0
+        - trait:
+            apiVersion: oam.verrazzano.io/v1alpha1
+            kind: IngressTrait
+            metadata:
+              name: hello-helidon-ingress
+            spec:
+              rules:
+                - paths:
+                    - path: &amp;quot;/greet&amp;quot;
+                      pathType: Prefix
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the above example, the IngressTrait &lt;code&gt;hello-helidon-ingress&lt;/code&gt; is set on the &lt;code&gt;hello-helidon-component&lt;/code&gt; application component and defines an ingress rule that configures a path and path type.  This exposes a route for external access to the application.  Note that because no &lt;code&gt;hosts&lt;/code&gt; list is given for the &lt;a href=&#34;#IngressRule&#34;&gt;IngressRule&lt;/a&gt;, a DNS host name is automatically generated.&lt;/p&gt;
+&lt;p&gt;For example, with the above application configuration successfully deployed, the application will be accessible with the &lt;code&gt;path&lt;/code&gt; specified in the IngressTrait and the generated host name.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath={.spec.servers[0].hosts[0]})
+$ echo $HOST
+hello-helidon-appconf.hello-helidon.11.22.33.44.xip.io
+
+$ curl -sk -X GET https://${HOST}/greet
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Alternatively, specific host names can be given in an &lt;a href=&#34;#IngressRule&#34;&gt;IngressRule&lt;/a&gt;.  Doing this implies that a secret and certificate have been created for the specific hosts and the secret name has been specified in the associated &lt;a href=&#34;#IngressSecurity&#34;&gt;IngressSecurity&lt;/a&gt; &lt;code&gt;secretName&lt;/code&gt; field.&lt;/p&gt;
+&lt;h4 id=&#34;ingresstrait&#34;&gt;IngressTrait&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;apiVersion&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;oam.verrazzano.io/v1alpha1&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;kind&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;IngressTrait&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;metadata&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ObjectMeta&lt;/td&gt;
+&lt;td&gt;Refer to Kubernetes API documentation for fields of metadata.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#IngressTraitSpec&#34;&gt;IngressTraitSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The desired state of an ingress trait.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;ingresstraitspec&#34;&gt;IngressTraitSpec&lt;/h4&gt;
+&lt;p&gt;IngressTraitSpec specifies the desired state of an ingress trait.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;rules&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#IngressRule&#34;&gt;IngressRule&lt;/a&gt; array&lt;/td&gt;
+&lt;td&gt;A list of ingress rules to for an ingress trait.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;tls&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#IngressSecurity&#34;&gt;IngressSecurity&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The security parameters for an ingress trait. This is required only if specific hosts are given in an &lt;a href=&#34;#IngressRule&#34;&gt;IngressRule&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;ingressrule&#34;&gt;IngressRule&lt;/h4&gt;
+&lt;p&gt;IngressRule specifies a rule for an ingress trait.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;hosts&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string array&lt;/td&gt;
+&lt;td&gt;One or more hosts exposed by the ingress trait.  Wildcard hosts or hosts that are empty are filtered out. If there are no valid hosts provided, then a DNS host name is automatically generated and used.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;paths&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#IngressPath&#34;&gt;IngressPath&lt;/a&gt; array&lt;/td&gt;
+&lt;td&gt;The paths to be exposed for an ingress trait.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;ingresspath&#34;&gt;IngressPath&lt;/h4&gt;
+&lt;p&gt;IngressPath specifies a specific path to be exposed for an ingress trait.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;path&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;If no path is provided, it defaults to &lt;code&gt;/&lt;/code&gt;.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;pathType&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;Path type values are case-sensitive and formatted as follows: &lt;ul&gt;&lt;li&gt;&lt;code&gt;exact&lt;/code&gt;: exact string match&lt;/li&gt;&lt;li&gt;&lt;code&gt;prefix&lt;/code&gt;: prefix-based match&lt;/li&gt;&lt;li&gt;&lt;code&gt;regex&lt;/code&gt;: regex-based match&lt;/li&gt;&lt;/ul&gt;If the provided ingress path doesn&amp;rsquo;t contain a &lt;code&gt;pathType&lt;/code&gt;, it defaults to &lt;code&gt;prefix&lt;/code&gt; if the path is &lt;code&gt;/&lt;/code&gt; and &lt;code&gt;exact&lt;/code&gt; otherwise.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;ingresssecurity&#34;&gt;IngressSecurity&lt;/h4&gt;
+&lt;p&gt;IngressSecurity specifies the secret containing the certificate securing the transport for an ingress trait.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;secretName&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The name of a secret containing the certificate securing the transport.  The specification of a secret here implies that a certificate was created for specific hosts as specified in an &lt;a href=&#34;#IngressRule&#34;&gt;IngressRule&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: LoggingScope Custom Resource Definition</title>
+      <link>https://verrazzano.io/docs/reference/api/oam/loggingscope/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/reference/api/oam/loggingscope/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The LoggingScope custom resource contains the configuration information needed to enable logging for an application component.  Here is a sample LoggingScope.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: oam.verrazzano.io/v1alpha1
+kind: LoggingScope
+metadata:
+  name: logging-scope
+  namespace: todo-list
+spec:
+  elasticSearchURL: http://vmi-system-es-ingest.verrazzano-system.svc.cluster.local:9200
+  secretName: verrazzano
+  workloadRefs: []
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Here is a sample ApplicationConfiguration that specifies a LoggingScope.  To deploy this application, see the instructions &lt;a href=&#34;https://github.com/verrazzano/examples/blob/master/todo-list/README.md&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Note that if an ApplicationConfiguration does not specify a LoggingScope, then a default LoggingScope will be generated.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
+kind: ApplicationConfiguration
+metadata:
+  name: todo-appconf
+  namespace: todo-list
+  annotations:
+    version: v1.0.0
+    description: &amp;quot;ToDo List example application&amp;quot;
+spec:
+  components:
+    - componentName: todo-domain
+      traits:
+        - trait:
+            apiVersion: oam.verrazzano.io/v1alpha1
+            kind: MetricsTrait
+            spec:
+              scraper: verrazzano-system/vmi-system-prometheus-0
+        - trait:
+            apiVersion: oam.verrazzano.io/v1alpha1
+            kind: IngressTrait
+            spec:
+              rules:
+                - paths:
+                    - path: &amp;quot;/todo&amp;quot;
+                      pathType: Prefix
+      scopes:
+        - scopeRef:
+            apiVersion: oam.verrazzano.io/v1alpha1
+            kind: LoggingScope
+            name: logging-scope
+    - componentName: todo-jdbc-configmap
+    - componentName: todo-mysql-configmap
+    - componentName: todo-mysql-service
+    - componentName: todo-mysql-deployment
+
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the above example, the logs for the &lt;code&gt;todo-domain&lt;/code&gt; component will be written to the Elasticsearch instance specified in the LoggingScope.&lt;/p&gt;
+&lt;p&gt;With the above application configuration successfully deployed, you can get the log messages for the index &lt;code&gt;todo-list-todo-appconf-todo-domain&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get ingress -n verrazzano-system vmi-system-es-ingest -o jsonpath={.spec.rules[0].host})
+$ VZPASS=$(kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo)
+$ curl -ik --user verrazzano:$VZPASS https://$HOST/todo-list-todo-appconf-todo-domain/_doc/_search?q=message:*
+
+{&amp;quot;took&amp;quot;:883,&amp;quot;timed_out&amp;quot;:false,&amp;quot;_shards&amp;quot;:{&amp;quot;total&amp;quot;:1,&amp;quot;successful&amp;quot;:1,&amp;quot;skipped&amp;quot;:0,&amp;quot;failed&amp;quot;:0},&amp;quot;hits&amp;quot;:{&amp;quot;total&amp;quot;:{&amp;quot;value&amp;quot;:235,&amp;quot;relation&amp;quot;:&amp;quot;eq&amp;quot;},&amp;quot;max_score&amp;quot;:1.0,&amp;quot;hits&amp;quot;:[{&amp;quot;_index&amp;quot;:&amp;quot;todo-list-todo-appconf-todo-domain&amp;quot;,&amp;quot;_type&amp;quot;:&amp;quot;_doc&amp;quot;,&amp;quot;_id&amp;quot;:&amp;quot;AWV8YXgB5tCoQIDeiWXB&amp;quot;,&amp;quot;_score&amp;quot;:1.0,&amp;quot;_source&amp;quot;:{&amp;quot;timestamp&amp;quot;:&amp;quot;Mar 23, 2021 11:46:22,784 PM GMT&amp;quot;,&amp;quot;level&amp;quot;:&amp;quot;Info&amp;quot;,&amp;quot;subSystem&amp;quot;:&amp;quot;Security&amp;quot;,&amp;quot;serverName&amp;quot;:&amp;quot;tododomain-adminserver&amp;quot;,&amp;quot;serverName2&amp;quot;:&amp;quot;&amp;quot;,&amp;quot;threadName&amp;quot;:&amp;quot;main&amp;quot;,&amp;quot;info1&amp;quot;:&amp;quot;&amp;quot;,&amp;quot;info2&amp;quot;:&amp;quot;&amp;quot;,&amp;quot;info3&amp;quot;:&amp;quot;&amp;quot;,&amp;quot;sequenceNumber&amp;quot;:&amp;quot;1616543182784&amp;quot;,&amp;quot;severity&amp;quot;:&amp;quot;[severity-value: 64] [partition-id: 0] [partition-name: DOMAIN] &amp;quot;,&amp;quot;messageID&amp;quot;:&amp;quot;BEA-090905&amp;quot;...
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;loggingscope&#34;&gt;LoggingScope&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;apiVersion&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;oam.verrazzano.io/v1alpha1&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;kind&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;LoggingScope&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;metadata&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ObjectMeta&lt;/td&gt;
+&lt;td&gt;Refer to Kubernetes API documentation for fields of metadata.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#LoggingScopeSpec&#34;&gt;LoggingScopeSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The desired state of a logging scope.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;loggingscopespec&#34;&gt;LoggingScopeSpec&lt;/h4&gt;
+&lt;p&gt;LoggingScopeSpec specifies the desired state of a logging scope.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;fluentdImage&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The fluentd image.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;elasticSearchURL&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The URL for Elasticsearch.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;secretName&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The name of secret with Elasticsearch credentials.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;workloadRefs&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;https://crossplane.io/docs/v0.9/api/crossplane/crossplane-runtime/core-crossplane-io-v1alpha1.html#typedreference&#34;&gt;TypedReference&lt;/a&gt; array&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;workloadRefs: []&lt;/code&gt; &lt;br&gt;&lt;br&gt; The references to the workloads to which this trait applies. This value is populated by the OAM runtime when a ApplicationConfiguration resource is processed.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: MetricsTrait Custom Resource Definition</title>
+      <link>https://verrazzano.io/docs/reference/api/oam/metricstrait/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/reference/api/oam/metricstrait/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The MetricsTrait custom resource contains the configuration information needed to enable metrics for an application component.  Component workloads configured with a MetricsTrait are setup to emit metrics through an endpoint that are scraped by a given Prometheus deployment.  Here is a sample ApplicationConfiguration that specifies a MetricsTrait.  To deploy this application, see &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md&#34;&gt;Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Note that if an ApplicationConfiguration does not specify a MetricsTrait, then a default MetricsTrait will be generated with values appropriate for the workload type.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
+kind: ApplicationConfiguration
+metadata:
+  name: hello-helidon-appconf
+  namespace: hello-helidon
+  annotations:
+    version: v1.0.0
+    description: &amp;quot;Hello Helidon application&amp;quot;
+spec:
+  components:
+    - componentName: hello-helidon-component
+      traits:
+        - trait:
+            apiVersion: oam.verrazzano.io/v1alpha1
+            kind: MetricsTrait
+            spec:
+                scraper: verrazzano-system/vmi-system-prometheus-0
+        - trait:
+            apiVersion: oam.verrazzano.io/v1alpha1
+            kind: IngressTrait
+            metadata:
+              name: hello-helidon-ingress
+            spec:
+              rules:
+                - paths:
+                    - path: &amp;quot;/greet&amp;quot;
+                      pathType: Prefix
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the above example, a MetricsTrait is specified for the &lt;code&gt;hello-helidon-component&lt;/code&gt; application component.&lt;/p&gt;
+&lt;p&gt;With the above application configuration successfully deployed, you can query for metrics from the application component.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get ingress -n verrazzano-system vmi-system-prometheus -o jsonpath={.spec.rules[0].host})
+$ echo $HOST
+
+prometheus.vmi.system.default.&amp;lt;ip&amp;gt;.xip.io
+
+$ VZPASS=$(kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo)
+$ curl -sk --user verrazzano:${VZPASS} -X GET https://${HOST}/api/v1/query?query=vendor_requests_count_total
+
+{&amp;quot;status&amp;quot;:&amp;quot;success&amp;quot;,&amp;quot;data&amp;quot;:{&amp;quot;resultType&amp;quot;:&amp;quot;vector&amp;quot;,&amp;quot;result&amp;quot;:[{&amp;quot;metric&amp;quot;:{&amp;quot;__name__&amp;quot;:&amp;quot;vendor_requests_count_total&amp;quot;,&amp;quot;app&amp;quot;:&amp;quot;hello-helidon&amp;quot;,&amp;quot;app_oam_dev_component&amp;quot;:&amp;quot;hello-helidon-component&amp;quot;,&amp;quot;app_oam_dev_name&amp;quot;:&amp;quot;hello-helidon-appconf&amp;quot;,&amp;quot;app_oam_dev_resourceType&amp;quot;:&amp;quot;WORKLOAD&amp;quot;,&amp;quot;app_oam_dev_revision&amp;quot;:&amp;quot;hello-helidon-component-v1&amp;quot;,&amp;quot;containerizedworkload_oam_crossplane_io&amp;quot;:&amp;quot;496df78f-ef8b-4753-97fd-d9218d2f38f1&amp;quot;,&amp;quot;job&amp;quot;:&amp;quot;hello-helidon-appconf_default_helidon-logging_hello-helidon-component&amp;quot;,&amp;quot;namespace&amp;quot;:&amp;quot;helidon-logging&amp;quot;,&amp;quot;pod_name&amp;quot;:&amp;quot;hello-helidon-workload-b7d9d95d8-ht7gb&amp;quot;,&amp;quot;pod_template_hash&amp;quot;:&amp;quot;b7d9d95d8&amp;quot;},&amp;quot;value&amp;quot;:[1616535232.487,&amp;quot;4800&amp;quot;]}]}}
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;metricstrait&#34;&gt;MetricsTrait&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;apiVersion&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;oam.verrazzano.io/v1alpha1&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;kind&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;MetricsTrait&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;metadata&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ObjectMeta&lt;/td&gt;
+&lt;td&gt;Refer to Kubernetes API documentation for fields of metadata.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#MetricsTraitSpec&#34;&gt;MetricsTraitSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The desired state of a metrics trait.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;metricstraitspec&#34;&gt;MetricsTraitSpec&lt;/h4&gt;
+&lt;p&gt;MetricsTraitSpec specifies the desired state of a metrics trait.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;port&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;integer&lt;/td&gt;
+&lt;td&gt;The HTTP port for the related metrics endpoint. Defaults to 8080.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;path&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The HTTP path for the related metrics endpoint. Defaults to &lt;code&gt;/metrics&lt;/code&gt;.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;secret&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The name of an opaque secret (for example, user name and password) within the workload’s namespace for metrics endpoint access.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;scraper&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The prometheus deployment used to scrape the related metrics endpoints. Defaults to &lt;code&gt;verrazzano-system/vmi-system-prometheus-0&lt;/code&gt;.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Verrazzano Custom Resource Definition</title>
       <link>https://verrazzano.io/docs/reference/api/verrazzano/verrazzano/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -423,6 +877,339 @@ spec:
 &lt;td&gt;&lt;a href=&#34;#name-value&#34;&gt;NameValue&lt;/a&gt; list&lt;/td&gt;
 &lt;td&gt;A list of Istio Helm chart arguments and values to apply during the installation of Istio.  Each argument is specified as either a &lt;code&gt;name/value&lt;/code&gt; or &lt;code&gt;name/valueList&lt;/code&gt; pair.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Verrazzano Workload Custom Resource Definitions</title>
+      <link>https://verrazzano.io/docs/reference/api/oam/workloads/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/reference/api/oam/workloads/</guid>
+      <description>
+        
+        
+        &lt;h3 id=&#34;verrazzanocoherenceworkload&#34;&gt;VerrazzanoCoherenceWorkload&lt;/h3&gt;
+&lt;p&gt;The VerrazzanoCoherenceWorkload custom resource contains the configuration information for a &lt;a href=&#34;https://oracle.github.io/coherence-operator/docs/3.1.1/#/about/04_coherence_spec&#34;&gt;Coherence&lt;/a&gt; workload within Verrazzano.  Here is a sample component that specifies a VerrazzanoCoherenceWorkload.  To deploy this application, see &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples/sock-shop/README.md&#34;&gt;Sock Shop&lt;/a&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
+kind: Component
+metadata:
+  name: carts
+  namespace: sockshop
+spec:
+  workload:
+    apiVersion: oam.verrazzano.io/v1alpha1
+    kind: VerrazzanoCoherenceWorkload
+    spec:
+      template:
+        metadata:
+          name: carts-coh
+        spec:
+          cluster: SockShop
+          role: Carts
+          replicas: 1
+          image: ghcr.io/helidon-sockshop/carts-coherence:2.2.0
+          imagePullPolicy: Always
+          application:
+            type: helidon
+          jvm:
+            args:
+              - &amp;quot;-Dcoherence.k8s.operator.health.wait.dcs=false&amp;quot;
+              - &amp;quot;-Dcoherence.metrics.legacy.names=false&amp;quot;
+            memory:
+              heapSize: 2g
+          coherence:
+            logLevel: 9
+          ports:
+            - name: http
+              port: 7001
+              service:
+                name: carts
+                port: 80
+              serviceMonitor:
+                enabled: true
+            - name: metrics
+              port: 7001
+              serviceMonitor:
+                enabled: true
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;verrazzanocoherenceworkload-1&#34;&gt;VerrazzanoCoherenceWorkload&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;apiVersion&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;oam.verrazzano.io/v1alpha1&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;kind&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;VerrazzanoCoherenceWorkload&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;metadata&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ObjectMeta&lt;/td&gt;
+&lt;td&gt;Refer to Kubernetes API documentation for fields of metadata.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#VerrazzanoCoherenceWorkloadSpec&#34;&gt;VerrazzanoCoherenceWorkloadSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The desired state of a Verrazzano Coherence workload.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;verrazzanocoherenceworkloadspec&#34;&gt;VerrazzanoCoherenceWorkloadSpec&lt;/h4&gt;
+&lt;p&gt;VerrazzanoCoherenceWorkloadSpec specifies the desired state of a Verrazzano Coherence workload.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;template&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;https://pkg.go.dev/k8s.io/apimachinery/pkg/runtime#RawExtension&#34;&gt;RawExtension&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The metadata and spec for the underlying &lt;a href=&#34;https://oracle.github.io/coherence-operator/docs/3.1.1/#/about/04_coherence_spec&#34;&gt;Coherence&lt;/a&gt; resource.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;verrazzanohelidonworkload&#34;&gt;VerrazzanoHelidonWorkload&lt;/h3&gt;
+&lt;p&gt;The VerrazzanoHelidonWorkload custom resource contains the configuration information for a &lt;a href=&#34;https://helidon.io&#34;&gt;Helidon&lt;/a&gt; workload within Verrazzano. Here is a sample component that specifies a VerrazzanoHelidonWorkload.  To deploy this application, see &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md&#34;&gt;Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
+kind: Component
+metadata:
+  name: hello-helidon-component
+  namespace: hello-helidon
+spec:
+  workload:
+    apiVersion: oam.verrazzano.io/v1alpha1
+    kind: VerrazzanoHelidonWorkload
+    metadata:
+      name: hello-helidon-workload
+      namespace: hello-helidon
+      labels:
+        app: hello-helidon
+    spec:
+      deploymentTemplate:
+        metadata:
+          name: hello-helidon-deployment
+        podSpec:
+          containers:
+            - name: hello-helidon-container
+              image: &amp;quot;ghcr.io/verrazzano/example-helidon-greet-app-v1:0.1.10-3-20201016220428-56fb4d4&amp;quot;
+              ports:
+                - containerPort: 8080
+                  name: http
+
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;verrazzanohelidonworkload-1&#34;&gt;VerrazzanoHelidonWorkload&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;apiVersion&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;oam.verrazzano.io/v1alpha1&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;kind&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;VerrazzanoHelidonWorkload&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;metadata&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ObjectMeta&lt;/td&gt;
+&lt;td&gt;Refer to Kubernetes API documentation for fields of metadata.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#VerrazzanoHelidonWorkloadSpec&#34;&gt;VerrazzanoHelidonWorkloadSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The desired state of a Verrazzano Helidon workload.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;verrazzanohelidonworkloadspec&#34;&gt;VerrazzanoHelidonWorkloadSpec&lt;/h4&gt;
+&lt;p&gt;VerrazzanoHelidonWorkloadSpec specifies the desired state of a Verrazzano Helidon workload.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;deploymentTemplate&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#DeploymentTemplate&#34;&gt;DeploymentTemplate&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The embedded deployment.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;deploymenttemplate&#34;&gt;DeploymentTemplate&lt;/h4&gt;
+&lt;p&gt;DeploymentTemplate specifies the metadata and pod spec of the underlying deployment.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;metadata&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ObjectMeta&lt;/td&gt;
+&lt;td&gt;Refer to Kubernetes API documentation for fields of metadata.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;replicas&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;integer&lt;/td&gt;
+&lt;td&gt;Number of desired pods. Defaults to 1.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;podSpec&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#podspec-v1-core&#34;&gt;PodSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The pod spec of the underlying deployment.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;verrazzanoweblogicworkload&#34;&gt;VerrazzanoWebLogicWorkload&lt;/h3&gt;
+&lt;p&gt;The VerrazzanoWebLogicWorkload custom resource contains the configuration information for a WebLogic &lt;a href=&#34;https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md&#34;&gt;Domain&lt;/a&gt; workload within Verrazzano.  Here is a sample component that specifies a VerrazzanoWebLogicWorkload.  To deploy this application, application, see the instructions &lt;a href=&#34;https://github.com/verrazzano/examples/blob/master/todo-list/README.md&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
+kind: Component
+metadata:
+  name: todo-domain
+  namespace: todo-list
+spec:
+  workload:
+    apiVersion: oam.verrazzano.io/v1alpha1
+    kind: VerrazzanoWebLogicWorkload
+    spec:
+      template:
+        metadata:
+          name: todo-domain
+          namespace: todo-list
+        spec:
+          domainUID: tododomain
+          domainHome: /u01/domains/tododomain
+          image: container-registry.oracle.com/verrazzano/example-todo:0.8.0
+          imagePullSecrets:
+            - name: tododomain-repo-credentials
+          domainHomeSourceType: &amp;quot;FromModel&amp;quot;
+          includeServerOutInPodLog: true
+          replicas: 1
+          webLogicCredentialsSecret:
+            name: tododomain-weblogic-credentials
+          configuration:
+            introspectorJobActiveDeadlineSeconds: 900
+            model:
+              configMap: tododomain-jdbc-config
+              domainType: WLS
+              modelHome: /u01/wdt/models
+              runtimeEncryptionSecret: tododomain-runtime-encrypt-secret
+            secrets:
+              - tododomain-jdbc-tododb
+          serverPod:
+            env:
+              - name: JAVA_OPTIONS
+                value: &amp;quot;-Dweblogic.StdoutDebugEnabled=false&amp;quot;
+              - name: USER_MEM_ARGS
+                value: &amp;quot;-Djava.security.egd=file:/dev/./urandom -Xms64m -Xmx256m &amp;quot;
+              - name: WL_HOME
+                value: /u01/oracle/wlserver
+              - name: MW_HOME
+                value: /u01/oracle
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;verrazzanoweblogicworkload-1&#34;&gt;VerrazzanoWebLogicWorkload&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;apiVersion&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;oam.verrazzano.io/v1alpha1&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;kind&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;VerrazzanoWebLogicWorkload&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;metadata&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ObjectMeta&lt;/td&gt;
+&lt;td&gt;Refer to Kubernetes API documentation for fields of metadata.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#VerrazzanoWebLogicWorkloadSpec&#34;&gt;VerrazzanoWebLogicWorkloadSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The desired state of a Verrazzano WebLogic workload.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;verrazzanoweblogicworkloadspec&#34;&gt;VerrazzanoWebLogicWorkloadSpec&lt;/h4&gt;
+&lt;p&gt;VerrazzanoWebLogicWorkloadSpec specifies the desired state of a Verrazzano WebLogic workload.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;template&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;https://pkg.go.dev/k8s.io/apimachinery/pkg/runtime#RawExtension&#34;&gt;RawExtension&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The metadata and spec for the underlying WebLogic &lt;a href=&#34;https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md&#34;&gt;Domain&lt;/a&gt; resource.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
