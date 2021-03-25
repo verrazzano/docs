@@ -125,7 +125,6 @@ spec:
     kind: VerrazzanoHelidonWorkload
     metadata:
       name: hello-helidon-workload
-      namespace: hello-helidon
       labels:
         app: hello-helidon
     spec:
