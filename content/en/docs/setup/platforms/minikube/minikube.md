@@ -12,7 +12,7 @@ these instructions to prepare a minikube cluster for running Verrazzano.
 ## Prerequisites
 
 - Install [minikube](https://minikube.sigs.k8s.io/docs/start/).
-- Install a [driver](https://minikube.sigs.k8s.io/docs/drivers/) 
+- Install a [driver](https://minikube.sigs.k8s.io/docs/drivers/):
   - On macOS or Windows, select a VM-based driver, not Docker.
   - Oracle Linux 7, deploying WebLogic or Coherence applications requires the kvm2 driver because the Docker driver [requires a kernel patch](https://github.com/kubernetes/kubernetes/issues/72878).
 
