@@ -24,6 +24,6 @@ component with its version and a brief description.
 | NGINX Ingress Controller | 0.32.0 | Traffic management solution for cloud‑native apps in Kubernetes.
 | Node Exporter | 0.18.1 | Prometheus exporter for hardware and OS metrics.
 | OAM Kubernetes Runtime | 0.3.0 | Plug-in for implementing Open Application Model (OAM) control plane with Kubernetes.
-| Prometheus | 2.13.1 | Tooling used for event monitoring and alerting.
-| Rancher | 2.4.3 | Tooling for managing multiple Kubernetes clusters.
+| Prometheus | 2.13.1 | Tool used for event monitoring and alerting.
+| Rancher | 2.4.3 | Tool for managing multiple Kubernetes clusters.
 | WebLogic Operator | 3.1.0 | Assists with deploying and managing WebLogic domains.
