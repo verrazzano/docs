@@ -4,7 +4,7 @@ linkTitle: IngressTrait Custom Resource Definition
 weight: 2
 draft: false
 ---
-The IngressTrait custom resource contains the configuration of host and path rules for traffic routing to an application.  Here is a sample ApplicationConfiguration that specifies an IngressTrait.  To deploy this application, see [Hello World Helidon](https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md).
+The IngressTrait custom resource contains the configuration of host and path rules for traffic routing to an application.  Here is a sample ApplicationConfiguration that specifies an IngressTrait.  To deploy an example application that demonstrates this IngressTrait, see [Hello World Helidon](https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md).
 
 ```
 apiVersion: core.oam.dev/v1alpha2
@@ -37,7 +37,7 @@ spec:
 ```
 In the above example, the IngressTrait `hello-helidon-ingress` is set on the `hello-helidon-component` application component and defines an ingress rule that configures a path and path type.  This exposes a route for external access to the application.  Note that because no `hosts` list is given for the [IngressRule](#IngressRule), a DNS host name is automatically generated.  
 
-For example, with the above application configuration successfully deployed, the application will be accessible with the `path` specified in the IngressTrait and the generated host name. 
+For example, with the above application configuration successfully deployed, the application will be accessible with the `path` specified in the IngressTrait and the generated host name.
 ```
 $ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath={.spec.servers[0].hosts[0]})
 $ echo $HOST
@@ -45,7 +45,7 @@ hello-helidon-appconf.hello-helidon.11.22.33.44.xip.io
 
 $ curl -sk -X GET https://${HOST}/greet
 ```
-Alternatively, specific host names can be given in an [IngressRule](#IngressRule).  Doing this implies that a secret and certificate have been created for the specific hosts and the secret name has been specified in the associated [IngressSecurity](#IngressSecurity) `secretName` field. 
+Alternatively, specific host names can be given in an [IngressRule](#IngressRule).  Doing this implies that a secret and certificate have been created for the specific hosts and the secret name has been specified in the associated [IngressSecurity](#IngressSecurity) `secretName` field.
 
 #### IngressTrait
 
@@ -66,7 +66,7 @@ IngressTraitSpec specifies the desired state of an ingress trait.
 
 #### IngressRule
 IngressRule specifies a rule for an ingress trait.
-	
+
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `hosts` | string array | One or more hosts exposed by the ingress trait.  Wildcard hosts or hosts that are empty are filtered out. If there are no valid hosts provided, then a DNS host name is automatically generated and used. | No |
@@ -74,7 +74,7 @@ IngressRule specifies a rule for an ingress trait.
 
 #### IngressPath
 IngressPath specifies a specific path to be exposed for an ingress trait.
-	
+
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `path` | string | If no path is provided, it defaults to `/`. |  No |
@@ -86,5 +86,4 @@ IngressSecurity specifies the secret containing the certificate securing the tra
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `secretName` | string | The name of a secret containing the certificate securing the transport.  The specification of a secret here implies that a certificate was created for specific hosts as specified in an [IngressRule](#IngressRule). |  Yes |
-
+| `secretName` | string | The name of a secret containing the certificate securing the transport.  The specification of a secret here implies that a certificate was created for specific hosts, as specified in an [IngressRule](#IngressRule). |  Yes |
