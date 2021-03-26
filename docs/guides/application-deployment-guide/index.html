@@ -21,11 +21,11 @@
 <meta property="og:description" content="A guide for deploying an example application on Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/guides/application-deployment-guide/" />
-<meta property="article:modified_time" content="2021-03-11T08:52:11-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-03-25T20:12:50-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Application Deployment Guide">
 <meta itemprop="description" content="A guide for deploying an example application on Verrazzano">
-<meta itemprop="dateModified" content="2021-03-11T08:52:11-05:00" />
-<meta itemprop="wordCount" content="1876">
+<meta itemprop="dateModified" content="2021-03-25T20:12:50-05:00" />
+<meta itemprop="wordCount" content="1889">
 
 
 
@@ -105,7 +105,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.666b2f69ab3ddf2344d277d4e6d50502.json"
+  data-offline-search-index-json-src="../../../offline-search-index.dac7c79d7aeb09c4ffb8903fe4adb63d.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -137,7 +137,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.666b2f69ab3ddf2344d277d4e6d50502.json"
+  data-offline-search-index-json-src="../../../offline-search-index.dac7c79d7aeb09c4ffb8903fe4adb63d.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -542,7 +542,7 @@ if (!doNotTrack) {
         <li><a href="#what-you-need">What you need</a></li>
         <li><a href="#application-development">Application development</a></li>
         <li><a href="#application-deployment">Application deployment</a></li>
-        <li><a href="#application-removal">Application removal</a></li>
+        <li><a href="#remove-the-application">Remove the application</a></li>
       </ul>
     </li>
   </ul>
@@ -692,29 +692,34 @@ This resource describes a component which is implemented by a single Docker imag
 </span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">namespace</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-helidon<span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">workload</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>core.oam.dev/v1alpha2<span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>ContainerizedWorkload<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>oam.verrazzano.io/v1alpha1<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>VerrazzanoHelidonWorkload<span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-helidon-workload<span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">namespace</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-helidon<span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">labels</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">app</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-helidon<span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">containers</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">      </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-helidon-container<span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">image</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;ghcr.io/verrazzano/example-helidon-greet-app-v1:0.1.12-1-20210218160249-d8db8f3&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">ports</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">          </span>- <span style="color:#204a87;font-weight:bold">containerPort</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">8080</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>http<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">deploymentTemplate</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">          </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-helidon-deployment<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">podSpec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">          </span><span style="color:#204a87;font-weight:bold">containers</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">            </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>hello-helidon-container<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">image</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;ghcr.io/verrazzano/example-helidon-greet-app-v1:0.1.10-3-20201016220428-56fb4d4&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">ports</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">                </span>- <span style="color:#204a87;font-weight:bold">containerPort</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">8080</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">                  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>http<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></code></pre></div><p>A brief description of each field of the component:</p>
 <ul>
 <li><code>apiVersion</code> - Version of the component custom resource definition</li>
 <li><code>kind</code> - Standard name of the component custom resource definition</li>
 <li><code>metadata.name</code> - The name used to create the component&rsquo;s custom resource</li>
 <li><code>metadata.namespace</code> - The namespace used to create this component&rsquo;s custom resource</li>
-<li><code>spec.workload.kind</code> - <code>ContainerizedWorkload</code> defines a stateless workload of Kubernetes</li>
-<li><code>spec.workload.spec.containers</code> - The implementation containers</li>
-<li><code>spec.workload.spec.containers.ports</code> - Ports exposed by the container</li>
+<li><code>spec.workload.kind</code> - <code>VerrazzanoHelidonWorkload</code> defines a stateless workload of Kubernetes</li>
+<li><code>spec.workload.spec.deploymentTemplate.podSpec.metadata.name</code> -  The name used to create the stateless workload of Kubernetes</li>
+<li><code>spec.workload.spec.deploymentTemplate.podSpec.containers</code> - The implementation containers</li>
+<li><code>spec.workload.spec.deploymentTemplate.podSpec.containers.ports</code> - Ports exposed by the container</li>
 </ul>
 <h3 id="verrazzano-application-configurations">Verrazzano application configurations</h3>
 <p>A Verrazzano application configuration is a
@@ -816,12 +821,12 @@ Those have been omitted from the lists.</p>
 <ol>
 <li>
 <p>Verify the Helidon application pod is running.</p>
-<pre><code>$ kubectl get pods -n hello-helidon | grep '^NAME\|hello-helidon-workload'
+<pre><code>$ kubectl get pods -n hello-helidon | grep '^NAME\|hello-helidon-deployment'
 
-NAME                                     READY   STATUS    RESTARTS   AGE
-hello-helidon-workload-9dfbbfb74-4jm9v   1/1     Running   0          94m
-</code></pre><p>The parameter <code>hello-helidon-workload</code> is from the component&rsquo;s
-<code>spec.workload.metadata.name</code> value.</p>
+NAME                                        READY   STATUS    RESTARTS   AGE
+hello-helidon-deployment-78468f5f9c-czmp4   3/3     Running   0          22h
+</code></pre><p>The parameter <code>hello-helidon-deployment</code> is from the component&rsquo;s
+<code>spec.workload.spec.deploymentTemplate.podSpec.metadata.name</code> value.</p>
 </li>
 <li>
 <p>Verify the Verrazzano application operator pod is running.</p>
@@ -861,7 +866,7 @@ monitoring stack created by Verrazzano for the deployed applications.</p>
 <p>Diagnose failures.</p>
 <p>View the event logs of any pod not entering the <code>Running</code> state within
 a reasonable length of time, such as five minutes.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl describe pod -n hello-helidon hello-helidon-workload-9dfbbfb74-4jm9v
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl describe pod -n hello-helidon hello-helidon-deployment-78468f5f9c-czmp4
 </code></pre></div><p>Use the specific namespace and name for the pod being investigated.</p>
 </li>
 </ol>
@@ -943,7 +948,7 @@ $ <span style="color:#000">PROMETHEUS_URL</span><span style="color:#ce5c00;font-
 $ <span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">${</span><span style="color:#000">PROMETHEUS_URL</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 $ open <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">${</span><span style="color:#000">PROMETHEUS_URL</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 </code></pre></div><p>The user name and password for both Prometheus and Grafana are the same.</p>
-<h2 id="application-removal">Application removal</h2>
+<h2 id="remove-the-application">Remove the application</h2>
 <p>Run the following commands to delete the application configuration, and optionally the component and namespace.</p>
 <ol>
 <li>
@@ -1027,7 +1032,7 @@ of all application-specific Kubernetes objects.</p>
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified March 11, 2021: <a  href="https://github.com/verrazzano/docs/commit/ee154dd6d74699a0ab5d63c8e85201794e6c0c4c">add label for istio-injection=enabled (#105) (ee154dd)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified March 25, 2021: <a  href="https://github.com/verrazzano/docs/commit/8c196c6121c88e5d2b6ce7e862caa3a4455f61e0">Review comments fix (8c196c6)</a>
 </div>
 </div>
 
