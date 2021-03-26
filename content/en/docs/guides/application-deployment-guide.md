@@ -448,7 +448,7 @@ $ open "${PROMETHEUS_URL}"
 
 The user name and password for both Prometheus and Grafana are the same.
 
-## Application removal
+## Remove the application
 
 Run the following commands to delete the application configuration, and optionally the component and namespace.
 

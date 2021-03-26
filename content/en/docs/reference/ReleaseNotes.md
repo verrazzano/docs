@@ -9,7 +9,7 @@ draft: false
 Features
 - Observability stack now uses Keycloak SSO for authentication.
 - Istio sidecars now automatically injected when namespaces labeled `istio-injection=enabled`.
-- Support for Helidon applications, now defined using `VerrazzanoHelidonWorkload` type.
+- Support for Helidon applications now defined using `VerrazzanoHelidonWorkload` type.
 
 Fixes
 - Fixed issues where logs were not captured from all containers in workloads with multiple containers.
