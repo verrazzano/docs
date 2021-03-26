@@ -6,7 +6,7 @@ draft: false
 ---
 
 ### VerrazzanoCoherenceWorkload
-The VerrazzanoCoherenceWorkload custom resource contains the configuration information for a [Coherence](https://oracle.github.io/coherence-operator/docs/3.1.1/#/about/04_coherence_spec) workload within Verrazzano.  Here is a sample component that specifies a VerrazzanoCoherenceWorkload.  To deploy this application, see [Sock Shop](https://github.com/verrazzano/verrazzano/blob/master/examples/sock-shop/README.md).
+The VerrazzanoCoherenceWorkload custom resource contains the configuration information for a [Coherence](https://oracle.github.io/coherence-operator/docs/3.1.1/#/about/04_coherence_spec) workload within Verrazzano.  Here is a sample component that specifies a VerrazzanoCoherenceWorkload.  To deploy an example application that demonstrates this workload type, see [Sock Shop](https://github.com/verrazzano/verrazzano/blob/master/examples/sock-shop/README.md).
 ```
 apiVersion: core.oam.dev/v1alpha2
 kind: Component
@@ -72,7 +72,7 @@ VerrazzanoCoherenceWorkloadSpec specifies the desired state of a Verrazzano Cohe
 
 ### VerrazzanoHelidonWorkload
 
-The VerrazzanoHelidonWorkload custom resource contains the configuration information for a [Helidon](https://helidon.io) workload within Verrazzano. Here is a sample component that specifies a VerrazzanoHelidonWorkload.  To deploy this application, see [Hello World Helidon](https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md).
+The VerrazzanoHelidonWorkload custom resource contains the configuration information for a [Helidon](https://helidon.io) workload within Verrazzano. Here is a sample component that specifies a VerrazzanoHelidonWorkload.  To deploy an example application that demonstrates this workload type, see [Hello World Helidon](https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md).
 ```
 apiVersion: core.oam.dev/v1alpha2
 kind: Component
@@ -85,7 +85,6 @@ spec:
     kind: VerrazzanoHelidonWorkload
     metadata:
       name: hello-helidon-workload
-      namespace: hello-helidon
       labels:
         app: hello-helidon
     spec:
@@ -126,13 +125,12 @@ DeploymentTemplate specifies the metadata and pod spec of the underlying deploym
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `metadata` | ObjectMeta | Refer to Kubernetes API documentation for fields of metadata. |  No |
-| `replicas` | integer | Number of desired pods. Defaults to 1. | No |
 | `podSpec` | [PodSpec](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#podspec-v1-core) | The pod spec of the underlying deployment. | Yes |
 
 
 
 ### VerrazzanoWebLogicWorkload
-The VerrazzanoWebLogicWorkload custom resource contains the configuration information for a WebLogic [Domain](https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md) workload within Verrazzano.  Here is a sample component that specifies a VerrazzanoWebLogicWorkload.  To deploy this application, application, see the instructions [here](https://github.com/verrazzano/examples/blob/master/todo-list/README.md).
+The VerrazzanoWebLogicWorkload custom resource contains the configuration information for a WebLogic [Domain](https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md) workload within Verrazzano.  Here is a sample component that specifies a VerrazzanoWebLogicWorkload.  To deploy an example application that demonstrates this workload type, see the [ToDo List Lift-and-Shift](https://github.com/verrazzano/examples/blob/master/todo-list/README.md) application.
 
 ```
 apiVersion: core.oam.dev/v1alpha2
