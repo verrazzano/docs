@@ -31,7 +31,7 @@ driver is acceptable; on macOS, hyperkit is recommended.
 $ minikube start \
     --kubernetes-version=v1.18.8 \
     --driver=hyperkit \
-    --memory=16384 \
+    --memory=16G \
     --disk-size=30G \
     --cpus=4 \
     --extra-config=apiserver.service-account-signing-key-file=/var/lib/minikube/certs/sa.key \

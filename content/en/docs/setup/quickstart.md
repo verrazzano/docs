@@ -13,10 +13,14 @@ platforms for installing Verrazzano, see [Platform Setup]({{< relref "/docs/setu
 detailed installation instructions, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}}).
 
 Verrazzano requires the following:
-* A Kubernetes cluster and a compatible `kubectl`.
-    * Verrazzano has been tested _only_ on the following versions of Kubernetes: 1.17.x and 1.18.x.
-    * Other versions have not been tested and are not guaranteed to work.
-* At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.
+- A Kubernetes cluster and a compatible `kubectl`.
+- At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.  This is sufficient to install the development profile
+  of Verrazzano.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient for deploying your
+  applications.
+
+{{< alert title="NOTE" color="warning" >}}
+Verrazzano has been tested _only_ on the following versions of Kubernetes: 1.17.x and 1.18.x.  Other versions have not been tested and are not guaranteed to work.
+{{< /alert >}}
 
 ### Install the Verrazzano platform operator
 
