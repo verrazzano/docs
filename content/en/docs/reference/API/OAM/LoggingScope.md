@@ -18,7 +18,7 @@ spec:
   workloadRefs: []
 ```
 
-Here is a sample ApplicationConfiguration that specifies a LoggingScope.  To deploy this application, see the instructions [here](https://github.com/verrazzano/examples/blob/master/todo-list/README.md).
+Here is a sample ApplicationConfiguration that specifies a LoggingScope.  To deploy an example application that demonstrates a LoggingScope, see the [ToDo List Lift-and-Shift](https://github.com/verrazzano/examples/blob/master/todo-list/README.md) application.
 
 Note that if an ApplicationConfiguration does not specify a LoggingScope, then a default LoggingScope will be generated.
 ```
