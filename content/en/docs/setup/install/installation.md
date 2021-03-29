@@ -76,7 +76,7 @@ To install the Verrazzano platform operator:
 Verrazzano supports two installation profiles:  development (`dev`) and production (`prod`). The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.   To change profiles in any of the following commands, set the `VZ_PROFILE` environment variable to the name of the profile you want to install.
 
 {{< alert title="NOTE" color="warning" >}}
-For Verrazzano installations on the minikube platform, only the development profile should be used.
+For Verrazzano installations on the minikube platform, use only the development profile.
 {{< /alert >}}
 
 For a complete description of Verrazzano configuration options, see the [Verrazzano Custom Resource Definition]({{< relref "docs/reference/api/verrazzano/verrazzano.md" >}}).
