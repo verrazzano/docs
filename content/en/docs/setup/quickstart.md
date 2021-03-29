@@ -18,9 +18,12 @@ Verrazzano requires the following:
   of Verrazzano.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient for deploying your
   applications.
 
+For a list of the open source components and versions installed with Verrazzano, see [Software Versions]({{< relref "/docs/concepts/versions.md" >}}).
+
 {{< alert title="NOTE" color="warning" >}}
 Verrazzano has been tested _only_ on the following versions of Kubernetes: 1.17.x and 1.18.x.  Other versions have not been tested and are not guaranteed to work.
 {{< /alert >}}
+
 
 ### Install the Verrazzano platform operator
 
