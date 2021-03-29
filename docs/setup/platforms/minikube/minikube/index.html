@@ -21,11 +21,11 @@
 <meta property="og:description" content="Instructions for setting up a minikube cluster for Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/setup/platforms/minikube/minikube/" />
-<meta property="article:modified_time" content="2021-03-08T16:11:32-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-03-29T08:52:42-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="minikube">
 <meta itemprop="description" content="Instructions for setting up a minikube cluster for Verrazzano">
-<meta itemprop="dateModified" content="2021-03-08T16:11:32-05:00" />
-<meta itemprop="wordCount" content="152">
+<meta itemprop="dateModified" content="2021-03-29T08:52:42-04:00" />
+<meta itemprop="wordCount" content="195">
 
 
 
@@ -105,7 +105,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.dac7c79d7aeb09c4ffb8903fe4adb63d.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.43b523f43a8bd3e7b9d6330d21f41dcf.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -137,7 +137,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.dac7c79d7aeb09c4ffb8903fe4adb63d.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.43b523f43a8bd3e7b9d6330d21f41dcf.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -182,6 +182,14 @@ if (!doNotTrack) {
   <ul>
     <li class="collapse " id="docsconcepts">
       
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsconceptsversions" href="../../../../../docs/concepts/versions/">Software Versions</a>
+        
       
       
       
@@ -606,7 +614,12 @@ these instructions to prepare a minikube cluster for running Verrazzano.</p>
 <h2 id="prerequisites">Prerequisites</h2>
 <ul>
 <li>Install <a href="https://minikube.sigs.k8s.io/docs/start/">minikube</a>.</li>
-<li>Install a <a href="https://minikube.sigs.k8s.io/docs/drivers/">driver</a> (on macOS or Windows, select a VM-based driver, not Docker).</li>
+<li>Install a <a href="https://minikube.sigs.k8s.io/docs/drivers/">driver</a>:
+<ul>
+<li>On macOS or Windows, select a VM-based driver, not Docker.</li>
+<li>Oracle Linux 7, deploying WebLogic or Coherence applications requires the kvm2 driver because the Docker driver <a href="https://github.com/kubernetes/kubernetes/issues/72878">requires a kernel patch</a>.</li>
+</ul>
+</li>
 </ul>
 <h2 id="prepare-the-minikube-cluster">Prepare the minikube cluster</h2>
 <p>To prepare the minikube cluster for use with Verrazzano, you must create the cluster and then expose services
@@ -617,14 +630,17 @@ driver is acceptable; on macOS, hyperkit is recommended.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ minikube start <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>    --kubernetes-version<span style="color:#ce5c00;font-weight:bold">=</span>v1.18.8 <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>    --driver<span style="color:#ce5c00;font-weight:bold">=</span>hyperkit <span style="color:#4e9a06">\
-</span><span style="color:#4e9a06"></span>    --memory<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#0000cf;font-weight:bold">16384</span> <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    --memory<span style="color:#ce5c00;font-weight:bold">=</span>16G <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    --disk-size<span style="color:#ce5c00;font-weight:bold">=</span>30G <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>    --cpus<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#0000cf;font-weight:bold">4</span> <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>    --extra-config<span style="color:#ce5c00;font-weight:bold">=</span>apiserver.service-account-signing-key-file<span style="color:#ce5c00;font-weight:bold">=</span>/var/lib/minikube/certs/sa.key <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>    --extra-config<span style="color:#ce5c00;font-weight:bold">=</span>apiserver.service-account-issuer<span style="color:#ce5c00;font-weight:bold">=</span>kubernetes/serviceaccount <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>    --extra-config<span style="color:#ce5c00;font-weight:bold">=</span>apiserver.service-account-api-audiences<span style="color:#ce5c00;font-weight:bold">=</span>api
 </code></pre></div><h3 id="run-minikube-tunnel">Run <code>minikube tunnel</code></h3>
 <p>minikube exposes Kubernetes services of type <a href="https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/"><code>LoadBalancer</code></a> with the
-<a href="https://minikube.sigs.k8s.io/docs/commands/tunnel/"><code>minikube tunnel</code></a> command.  Run a tunnel in a separate terminal from minikube:</p>
+<a href="https://minikube.sigs.k8s.io/docs/commands/tunnel/"><code>minikube tunnel</code></a> command.</p>
+<p>Note that the <code>ip</code> command is required by <code>minikube tunnel</code>.  You may need to add <code>/sbin</code> to your <code>PATH</code> environment variable.</p>
+<p>Run a tunnel in a separate terminal from minikube:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ minikube tunnel
 </code></pre></div><h3 id="next-steps">Next steps</h3>
 <p>To continue, see the <a href="../../../../../docs/setup/install/installation/#install-the-verrazzano-platform-operator">Installation Guide</a>.</p>
@@ -693,7 +709,7 @@ driver is acceptable; on macOS, hyperkit is recommended.</p>
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified March 8, 2021: <a  href="https://github.com/verrazzano/docs/commit/85b1d536fb12ba35f71d3828cf5f5761b559ff5d">fix up docs (#104) (85b1d53)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified March 29, 2021: <a  href="https://github.com/verrazzano/docs/commit/b121c064bf88d842039931916d050f74e21f1ea1">Hackathon doc updates (#113) (b121c06)</a>
 </div>
 </div>
 

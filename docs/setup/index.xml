@@ -29,14 +29,18 @@ platforms for installing Verrazzano, see &lt;a href=&#34;../../docs/setup/platfo
 detailed installation instructions, see the &lt;a href=&#34;../../docs/setup/install/installation/&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Verrazzano requires the following:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;A Kubernetes cluster and a compatible &lt;code&gt;kubectl&lt;/code&gt;.
-&lt;ul&gt;
-&lt;li&gt;Verrazzano has been tested &lt;em&gt;only&lt;/em&gt; on the following versions of Kubernetes: 1.17.x and 1.18.x.&lt;/li&gt;
-&lt;li&gt;Other versions have not been tested and are not guaranteed to work.&lt;/li&gt;
+&lt;li&gt;A Kubernetes cluster and a compatible &lt;code&gt;kubectl&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.  This is sufficient to install the development profile
+of Verrazzano.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient for deploying your
+applications.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.&lt;/li&gt;
-&lt;/ul&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+Verrazzano has been tested &lt;em&gt;only&lt;/em&gt; on the following versions of Kubernetes: 1.17.x and 1.18.x.  Other versions have not been tested and are not guaranteed to work.
+&lt;/div&gt;
+
 &lt;h3 id=&#34;install-the-verrazzano-platform-operator&#34;&gt;Install the Verrazzano platform operator&lt;/h3&gt;
 &lt;p&gt;Verrazzano provides a Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/operator/&#34;&gt;operator&lt;/a&gt;
 to manage the life cycle of Verrazzano installations.  The operator works with a
@@ -230,7 +234,13 @@ single Kubernetes cluster.&lt;/p&gt;
 of Verrazzano.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient for deploying your
 applications.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Verrazzano has been tested &lt;em&gt;only&lt;/em&gt; on the following versions of Kubernetes: 1.17.x and 1.18.x.  Other versions have not been tested and are not guaranteed to work.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+Verrazzano has been tested &lt;em&gt;only&lt;/em&gt; on the following versions of Kubernetes: 1.17.x and 1.18.x.  Other versions have not been tested and are not guaranteed to work.
+&lt;/div&gt;
+
 &lt;h3 id=&#34;prepare-for-the-install&#34;&gt;Prepare for the install&lt;/h3&gt;
 &lt;p&gt;Before installing Verrazzano, see instructions on preparing the following Kubernetes platforms:&lt;/p&gt;
 &lt;ul&gt;
@@ -275,6 +285,13 @@ verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   &lt;span style
 &lt;/ol&gt;
 &lt;h3 id=&#34;perform-the-install&#34;&gt;Perform the install&lt;/h3&gt;
 &lt;p&gt;Verrazzano supports two installation profiles:  development (&lt;code&gt;dev&lt;/code&gt;) and production (&lt;code&gt;prod&lt;/code&gt;). The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.   To change profiles in any of the following commands, set the &lt;code&gt;VZ_PROFILE&lt;/code&gt; environment variable to the name of the profile you want to install.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+For Verrazzano installations on the minikube platform, use only the development profile.
+&lt;/div&gt;
+
 &lt;p&gt;For a complete description of Verrazzano configuration options, see the &lt;a href=&#34;../../docs/reference/api/verrazzano/verrazzano/&#34;&gt;Verrazzano Custom Resource Definition&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;According to your DNS choice, &lt;a href=&#34;http://xip.io/&#34;&gt;xip.io&lt;/a&gt; or
 &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm&#34;&gt;Oracle OCI DNS&lt;/a&gt;,
@@ -437,7 +454,7 @@ vmi-system-prometheus-gw-6bb6b68b98-xpk65                1/1     Running   0    
 weblogic-operator-5d7579db46-qlxds                       1/1     Running   0          52m
 &lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;optional-install-the-example-applications&#34;&gt;(Optional) Install the example applications&lt;/h4&gt;
 &lt;p&gt;Example applications are located &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;h5 id=&#34;to-get-the-consoles-urls-and-credentials-see-operationshahahugoshortcode-s10-hbhb&#34;&gt;To get the consoles URLs and credentials, see &lt;a href=&#34;../../docs/operations/&#34;&gt;Operations&lt;/a&gt;.&lt;/h5&gt;
+&lt;h5 id=&#34;to-get-the-consoles-urls-and-credentials-see-operationshahahugoshortcode-s12-hbhb&#34;&gt;To get the consoles URLs and credentials, see &lt;a href=&#34;../../docs/operations/&#34;&gt;Operations&lt;/a&gt;.&lt;/h5&gt;
 &lt;h3 id=&#34;uninstall-verrazzano&#34;&gt;Uninstall Verrazzano&lt;/h3&gt;
 &lt;p&gt;To delete a Verrazzano installations:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;# Get the name of the Verrazzano custom resource
