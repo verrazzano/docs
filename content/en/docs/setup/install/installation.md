@@ -16,14 +16,14 @@ single Kubernetes cluster.
 ### Prerequisites
 
 Verrazzano requires the following:
-
 - A Kubernetes cluster and a compatible `kubectl`.
 - At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.  This is sufficient to install the development profile
   of Verrazzano.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient for deploying your
   applications.
 
-
-**NOTE**: Verrazzano has been tested _only_ on the following versions of Kubernetes: 1.17.x and 1.18.x.  Other versions have not been tested and are not guaranteed to work.
+{{< alert title="NOTE" color="warning" >}}
+Verrazzano has been tested _only_ on the following versions of Kubernetes: 1.17.x and 1.18.x.  Other versions have not been tested and are not guaranteed to work.
+{{< /alert >}}
 
 
 ### Prepare for the install
@@ -74,6 +74,10 @@ To install the Verrazzano platform operator:
 ### Perform the install
 
 Verrazzano supports two installation profiles:  development (`dev`) and production (`prod`). The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.   To change profiles in any of the following commands, set the `VZ_PROFILE` environment variable to the name of the profile you want to install.
+
+{{< alert title="NOTE" color="warning" >}}
+For Verrazzano installations on the minikube platform, use only the development profile.
+{{< /alert >}}
 
 For a complete description of Verrazzano configuration options, see the [Verrazzano Custom Resource Definition]({{< relref "docs/reference/api/verrazzano/verrazzano.md" >}}).
 
