@@ -7,10 +7,6 @@ draft: false
 
 ### v0.13.0:
 Features
-- Added initial multi-cluster support for registration and deregistration of managed cluster including Rancher updates.
-- Added support for deploying applications to specific managed clusters and moving applications between clusters.
-- Added status information to Verrazzano managed cluster resources.
-- Added status information to Verrazzano project resource.
 - Added IngressTrait support for explicit destination host and port.
 - Added experimental cluster diagnostic tooling.
 - Added Grafana dashboards for VerrazzanoHelidonWorkload.
@@ -21,7 +17,6 @@ Features
 Fixes
 - Fixed VerrazzanoWebLogicWorkload and VerrazzanoCoherenceWorkload resources to handle update.
 - Fixed VerrazzanoHelidonWorkload to allow the use of the ManualScalarTrait.
-- Fixed multi-cluster logging when using OCI DNS.
 - Fixed inability to delete a Namespace containing an ApplicationConfiguration resource.
 - Fixed frequent restarts of Prometheus during application deployment.
 - Fixed verrazzano-application-operator logging to be more useful and use structured logging.
