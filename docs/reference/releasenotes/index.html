@@ -18,30 +18,27 @@
 <link rel="icon" type="image/png" href="../../../favicons/android-192x192.png" sizes="192x192">
 
 <title>Release Notes | Verrazzano Enterprise Container Platform</title><meta property="og:title" content="Release Notes" />
-<meta property="og:description" content="v0.12.0: Features
- Observability stack now uses Keycloak SSO for authentication. Istio sidecars now automatically injected when namespaces labeled istio-injection=enabled. Support for Helidon applications now defined using VerrazzanoHelidonWorkload type.  Fixes
- Fixed issues where logs were not captured from all containers in workloads with multiple containers. Fixed issue where some resources were not cleaned up during uninstall.  v0.11.0: Features
- OAM applications are optionally deployed into an Istio service mesh." />
+<meta property="og:description" content="v0.13.0: Features
+ IngressTrait support for explicit destination host and port. Experimental cluster diagnostic tooling. Grafana dashboards for VerrazzanoHelidonWorkload. Now you can update application Fluentd sidecar images following a Verrazzano update. Documented Verrazzano specific OAM workload resources. Documented Verrazzano hardware requirements and installed software versions.  Fixes
+ Now VerrazzanoWebLogicWorkload and VerrazzanoCoherenceWorkload resources handle updates. Now VerrazzanoHelidonWorkload supports the use of the ManualScalarTrait. Now you can delete a Namespace containing an ApplicationConfiguration resource." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/reference/releasenotes/" />
-<meta property="article:modified_time" content="2021-03-25T20:12:50-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-04-02T11:36:11-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Release Notes">
-<meta itemprop="description" content="v0.12.0: Features
- Observability stack now uses Keycloak SSO for authentication. Istio sidecars now automatically injected when namespaces labeled istio-injection=enabled. Support for Helidon applications now defined using VerrazzanoHelidonWorkload type.  Fixes
- Fixed issues where logs were not captured from all containers in workloads with multiple containers. Fixed issue where some resources were not cleaned up during uninstall.  v0.11.0: Features
- OAM applications are optionally deployed into an Istio service mesh.">
-<meta itemprop="dateModified" content="2021-03-25T20:12:50-05:00" />
-<meta itemprop="wordCount" content="499">
+<meta itemprop="description" content="v0.13.0: Features
+ IngressTrait support for explicit destination host and port. Experimental cluster diagnostic tooling. Grafana dashboards for VerrazzanoHelidonWorkload. Now you can update application Fluentd sidecar images following a Verrazzano update. Documented Verrazzano specific OAM workload resources. Documented Verrazzano hardware requirements and installed software versions.  Fixes
+ Now VerrazzanoWebLogicWorkload and VerrazzanoCoherenceWorkload resources handle updates. Now VerrazzanoHelidonWorkload supports the use of the ManualScalarTrait. Now you can delete a Namespace containing an ApplicationConfiguration resource.">
+<meta itemprop="dateModified" content="2021-04-02T11:36:11-04:00" />
+<meta itemprop="wordCount" content="590">
 
 
 
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Release Notes"/>
-<meta name="twitter:description" content="v0.12.0: Features
- Observability stack now uses Keycloak SSO for authentication. Istio sidecars now automatically injected when namespaces labeled istio-injection=enabled. Support for Helidon applications now defined using VerrazzanoHelidonWorkload type.  Fixes
- Fixed issues where logs were not captured from all containers in workloads with multiple containers. Fixed issue where some resources were not cleaned up during uninstall.  v0.11.0: Features
- OAM applications are optionally deployed into an Istio service mesh."/>
+<meta name="twitter:description" content="v0.13.0: Features
+ IngressTrait support for explicit destination host and port. Experimental cluster diagnostic tooling. Grafana dashboards for VerrazzanoHelidonWorkload. Now you can update application Fluentd sidecar images following a Verrazzano update. Documented Verrazzano specific OAM workload resources. Documented Verrazzano hardware requirements and installed software versions.  Fixes
+ Now VerrazzanoWebLogicWorkload and VerrazzanoCoherenceWorkload resources handle updates. Now VerrazzanoHelidonWorkload supports the use of the ManualScalarTrait. Now you can delete a Namespace containing an ApplicationConfiguration resource."/>
 
 
 <script type="application/javascript">
@@ -114,7 +111,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.b3ba561d580e4e4a568ad64c17ee8fb3.json"
+  data-offline-search-index-json-src="../../../offline-search-index.cd96f50e6f4453dafdf6b1dd5b1aa638.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -146,7 +143,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.b3ba561d580e4e4a568ad64c17ee8fb3.json"
+  data-offline-search-index-json-src="../../../offline-search-index.cd96f50e6f4453dafdf6b1dd5b1aa638.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -597,7 +594,26 @@ if (!doNotTrack) {
 	<h1>Release Notes</h1>
     
 	       
-	<h3 id="v0120">v0.12.0:</h3>
+	<h3 id="v0130">v0.13.0:</h3>
+<p>Features</p>
+<ul>
+<li><code>IngressTrait</code> support for explicit destination host and port.</li>
+<li>Experimental cluster diagnostic tooling.</li>
+<li>Grafana dashboards for <code>VerrazzanoHelidonWorkload</code>.</li>
+<li>Now you can update application Fluentd sidecar images following a Verrazzano update.</li>
+<li>Documented Verrazzano specific OAM workload resources.</li>
+<li>Documented Verrazzano hardware requirements and installed software versions.</li>
+</ul>
+<p>Fixes</p>
+<ul>
+<li>Now <code>VerrazzanoWebLogicWorkload</code> and <code>VerrazzanoCoherenceWorkload</code> resources handle updates.</li>
+<li>Now <code>VerrazzanoHelidonWorkload</code> supports the use of the <code>ManualScalarTrait</code>.</li>
+<li>Now you can delete a <code>Namespace</code> containing an <code>ApplicationConfiguration</code> resource.</li>
+<li>Fixed frequent restarts of Prometheus during application deployment.</li>
+<li>Made <code>verrazzano-application-operator</code> logging more useful and use structured logging.</li>
+<li>Fixed Verrazzano uninstall issues.</li>
+</ul>
+<h3 id="v0120">v0.12.0:</h3>
 <p>Features</p>
 <ul>
 <li>Observability stack now uses Keycloak SSO for authentication.</li>
@@ -771,7 +787,7 @@ OCI DNS certificates are issued using Let&rsquo;s Encrypt, or the end user can p
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified March 25, 2021: <a  href="https://github.com/verrazzano/docs/commit/8c196c6121c88e5d2b6ce7e862caa3a4455f61e0">Review comments fix (8c196c6)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified April 2, 2021: <a  href="https://github.com/verrazzano/docs/commit/81f96ce120cf0fbf49af6d79de1a401985525fed">VZ-2466: Verrazzano 0.13.0 Release (#115) (81f96ce)</a>
 </div>
 </div>
 
