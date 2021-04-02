@@ -5,6 +5,23 @@ weight: 4
 draft: false
 ---
 
+### v0.13.0:
+Features
+- `IngressTrait` support for explicit destination host and port.
+- Experimental cluster diagnostic tooling.
+- Grafana dashboards for `VerrazzanoHelidonWorkload`.
+- Now you can update application Fluentd sidecar images following a Verrazzano update.
+- Documented Verrazzano specific OAM workload resources.
+- Documented Verrazzano hardware requirements and installed software versions.
+
+Fixes
+- Now `VerrazzanoWebLogicWorkload` and `VerrazzanoCoherenceWorkload` resources handle updates.
+- Now `VerrazzanoHelidonWorkload` supports the use of the `ManualScalarTrait`.
+- Now you can delete a `Namespace` containing an `ApplicationConfiguration` resource.
+- Fixed frequent restarts of Prometheus during application deployment.
+- Made `verrazzano-application-operator` logging more useful and use structured logging.
+- Fixed Verrazzano uninstall issues.
+
 ### v0.12.0:
 Features
 - Observability stack now uses Keycloak SSO for authentication.
