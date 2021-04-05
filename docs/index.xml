@@ -75,14 +75,14 @@ spec:
                 - paths:
                     - path: &amp;quot;/greet&amp;quot;
                       pathType: Prefix
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the above example, the IngressTrait &lt;code&gt;hello-helidon-ingress&lt;/code&gt; is set on the &lt;code&gt;hello-helidon-component&lt;/code&gt; application component and defines an ingress rule that configures a path and path type.  This exposes a route for external access to the application.  Note that because no &lt;code&gt;hosts&lt;/code&gt; list is given for the &lt;a href=&#34;#IngressRule&#34;&gt;IngressRule&lt;/a&gt;, a DNS host name is automatically generated.&lt;/p&gt;
-&lt;p&gt;For example, with the above application configuration successfully deployed, the application will be accessible with the &lt;code&gt;path&lt;/code&gt; specified in the IngressTrait and the generated host name.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the sample configuration, the IngressTrait &lt;code&gt;hello-helidon-ingress&lt;/code&gt; is set on the &lt;code&gt;hello-helidon-component&lt;/code&gt; application component and defines an ingress rule that configures a path and path type.  This exposes a route for external access to the application.  Note that because no &lt;code&gt;hosts&lt;/code&gt; list is given for the &lt;a href=&#34;#ingressrule&#34;&gt;IngressRule&lt;/a&gt;, a DNS host name is automatically generated.&lt;/p&gt;
+&lt;p&gt;For example, with the sample application configuration successfully deployed, the application will be accessible with the &lt;code&gt;path&lt;/code&gt; specified in the IngressTrait and the generated host name.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath={.spec.servers[0].hosts[0]})
 $ echo $HOST
 hello-helidon-appconf.hello-helidon.11.22.33.44.xip.io
 
 $ curl -sk -X GET https://${HOST}/greet
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Alternatively, specific host names can be given in an &lt;a href=&#34;#IngressRule&#34;&gt;IngressRule&lt;/a&gt;.  Doing this implies that a secret and certificate have been created for the specific hosts and the secret name has been specified in the associated &lt;a href=&#34;#IngressSecurity&#34;&gt;IngressSecurity&lt;/a&gt; &lt;code&gt;secretName&lt;/code&gt; field.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Alternatively, specific host names can be given in an &lt;a href=&#34;#ingressrule&#34;&gt;IngressRule&lt;/a&gt;.  Doing this implies that a secret and certificate have been created for the specific hosts and the secret name has been specified in the associated &lt;a href=&#34;#ingresssecurity&#34;&gt;IngressSecurity&lt;/a&gt; &lt;code&gt;secretName&lt;/code&gt; field.&lt;/p&gt;
 &lt;h4 id=&#34;ingresstrait&#34;&gt;IngressTrait&lt;/h4&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -114,7 +114,7 @@ $ curl -sk -X GET https://${HOST}/greet
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#IngressTraitSpec&#34;&gt;IngressTraitSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#ingresstraitspec&#34;&gt;IngressTraitSpec&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The desired state of an ingress trait.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
@@ -134,14 +134,14 @@ $ curl -sk -X GET https://${HOST}/greet
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;rules&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#IngressRule&#34;&gt;IngressRule&lt;/a&gt; array&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#ingressrule&#34;&gt;IngressRule&lt;/a&gt; array&lt;/td&gt;
 &lt;td&gt;A list of ingress rules to for an ingress trait.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;tls&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#IngressSecurity&#34;&gt;IngressSecurity&lt;/a&gt;&lt;/td&gt;
-&lt;td&gt;The security parameters for an ingress trait. This is required only if specific hosts are given in an &lt;a href=&#34;#IngressRule&#34;&gt;IngressRule&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#ingresssecurity&#34;&gt;IngressSecurity&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The security parameters for an ingress trait. This is required only if specific hosts are given in an &lt;a href=&#34;#ingressrule&#34;&gt;IngressRule&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -166,7 +166,7 @@ $ curl -sk -X GET https://${HOST}/greet
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;paths&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#IngressPath&#34;&gt;IngressPath&lt;/a&gt; array&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#ingresspath&#34;&gt;IngressPath&lt;/a&gt; array&lt;/td&gt;
 &lt;td&gt;The paths to be exposed for an ingress trait.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
@@ -213,7 +213,7 @@ $ curl -sk -X GET https://${HOST}/greet
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;secretName&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;The name of a secret containing the certificate securing the transport.  The specification of a secret here implies that a certificate was created for specific hosts, as specified in an &lt;a href=&#34;#IngressRule&#34;&gt;IngressRule&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;The name of a secret containing the certificate securing the transport.  The specification of a secret here implies that a certificate was created for specific hosts, as specified in an &lt;a href=&#34;#ingressrule&#34;&gt;IngressRule&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -316,7 +316,7 @@ $ curl -ik --user verrazzano:$VZPASS https://$HOST/todo-list-todo-appconf-todo-d
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#LoggingScopeSpec&#34;&gt;LoggingScopeSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#loggingscopespec&#34;&gt;LoggingScopeSpec&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The desired state of a logging scope.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
@@ -402,8 +402,8 @@ spec:
                 - paths:
                     - path: &amp;quot;/greet&amp;quot;
                       pathType: Prefix
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the above example, a MetricsTrait is specified for the &lt;code&gt;hello-helidon-component&lt;/code&gt; application component.&lt;/p&gt;
-&lt;p&gt;With the above application configuration successfully deployed, you can query for metrics from the application component.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the sample configuration, a MetricsTrait is specified for the &lt;code&gt;hello-helidon-component&lt;/code&gt; application component.&lt;/p&gt;
+&lt;p&gt;With the sample application configuration successfully deployed, you can query for metrics from the application component.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get ingress -n verrazzano-system vmi-system-prometheus -o jsonpath={.spec.rules[0].host})
 $ echo $HOST
 
@@ -444,7 +444,7 @@ $ curl -sk --user verrazzano:${VZPASS} -X GET https://${HOST}/api/v1/query?query
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#MetricsTraitSpec&#34;&gt;MetricsTraitSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#metricstraitspec&#34;&gt;MetricsTraitSpec&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The desired state of a metrics trait.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
@@ -483,7 +483,7 @@ $ curl -sk --user verrazzano:${VZPASS} -X GET https://${HOST}/api/v1/query?query
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;scraper&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;The prometheus deployment used to scrape the related metrics endpoints. Defaults to &lt;code&gt;verrazzano-system/vmi-system-prometheus-0&lt;/code&gt;.&lt;/td&gt;
+&lt;td&gt;The Prometheus deployment used to scrape the related metrics endpoints. Defaults to &lt;code&gt;verrazzano-system/vmi-system-prometheus-0&lt;/code&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -1286,7 +1286,7 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#VerrazzanoCoherenceWorkloadSpec&#34;&gt;VerrazzanoCoherenceWorkloadSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#verrazzanocoherenceworkloadspec&#34;&gt;VerrazzanoCoherenceWorkloadSpec&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The desired state of a Verrazzano Coherence workload.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
@@ -1370,7 +1370,7 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#VerrazzanoHelidonWorkloadSpec&#34;&gt;VerrazzanoHelidonWorkloadSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#verrazzanohelidonworkloadspec&#34;&gt;VerrazzanoHelidonWorkloadSpec&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The desired state of a Verrazzano Helidon workload.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
@@ -1390,7 +1390,7 @@ spec:
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;deploymentTemplate&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#DeploymentTemplate&#34;&gt;DeploymentTemplate&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#deploymenttemplate&#34;&gt;DeploymentTemplate&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The embedded deployment.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
@@ -1499,7 +1499,7 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#VerrazzanoWebLogicWorkloadSpec&#34;&gt;VerrazzanoWebLogicWorkloadSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#verrazzanoweblogicworkloadspec&#34;&gt;VerrazzanoWebLogicWorkloadSpec&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The desired state of a Verrazzano WebLogic workload.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
@@ -1924,8 +1924,8 @@ of all application-specific Kubernetes objects.&lt;/p&gt;
       <description>
         
         
-        &lt;h3 id=&#34;v0130&#34;&gt;v0.13.0:&lt;/h3&gt;
-&lt;p&gt;Features&lt;/p&gt;
+        &lt;h3 id=&#34;v0130&#34;&gt;v0.13.0&lt;/h3&gt;
+&lt;p&gt;Features:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;IngressTrait&lt;/code&gt; support for explicit destination host and port.&lt;/li&gt;
 &lt;li&gt;Experimental cluster diagnostic tooling.&lt;/li&gt;
@@ -1934,46 +1934,46 @@ of all application-specific Kubernetes objects.&lt;/p&gt;
 &lt;li&gt;Documented Verrazzano specific OAM workload resources.&lt;/li&gt;
 &lt;li&gt;Documented Verrazzano hardware requirements and installed software versions.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Fixes&lt;/p&gt;
+&lt;p&gt;Fixes:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Now &lt;code&gt;VerrazzanoWebLogicWorkload&lt;/code&gt; and &lt;code&gt;VerrazzanoCoherenceWorkload&lt;/code&gt; resources handle updates.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;VerrazzanoWebLogicWorkload&lt;/code&gt; and &lt;code&gt;VerrazzanoCoherenceWorkload&lt;/code&gt; resources now handle updates.&lt;/li&gt;
 &lt;li&gt;Now &lt;code&gt;VerrazzanoHelidonWorkload&lt;/code&gt; supports the use of the &lt;code&gt;ManualScalarTrait&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;Now you can delete a &lt;code&gt;Namespace&lt;/code&gt; containing an &lt;code&gt;ApplicationConfiguration&lt;/code&gt; resource.&lt;/li&gt;
 &lt;li&gt;Fixed frequent restarts of Prometheus during application deployment.&lt;/li&gt;
 &lt;li&gt;Made &lt;code&gt;verrazzano-application-operator&lt;/code&gt; logging more useful and use structured logging.&lt;/li&gt;
 &lt;li&gt;Fixed Verrazzano uninstall issues.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;v0120&#34;&gt;v0.12.0:&lt;/h3&gt;
-&lt;p&gt;Features&lt;/p&gt;
+&lt;h3 id=&#34;v0120&#34;&gt;v0.12.0&lt;/h3&gt;
+&lt;p&gt;Features:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Observability stack now uses Keycloak SSO for authentication.&lt;/li&gt;
 &lt;li&gt;Istio sidecars now automatically injected when namespaces labeled &lt;code&gt;istio-injection=enabled&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;Support for Helidon applications now defined using &lt;code&gt;VerrazzanoHelidonWorkload&lt;/code&gt; type.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Fixes&lt;/p&gt;
+&lt;p&gt;Fixes:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Fixed issues where logs were not captured from all containers in workloads with multiple containers.&lt;/li&gt;
 &lt;li&gt;Fixed issue where some resources were not cleaned up during uninstall.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;v0110&#34;&gt;v0.11.0:&lt;/h3&gt;
-&lt;p&gt;Features&lt;/p&gt;
+&lt;h3 id=&#34;v0110&#34;&gt;v0.11.0&lt;/h3&gt;
+&lt;p&gt;Features:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;OAM applications are optionally deployed into an Istio service mesh.&lt;/li&gt;
 &lt;li&gt;Incremental improvements to user-facing roles.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Fixes&lt;/p&gt;
+&lt;p&gt;Fixes:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Fixed issue with logging when an application has multiple workload types.&lt;/li&gt;
 &lt;li&gt;Fixed metrics configuration in Spring Boot example application.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;v0100&#34;&gt;v0.10.0:&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;Breaking Changes&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;v0100&#34;&gt;v0.10.0&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Breaking Changes&lt;/strong&gt;:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Model/binding files removed; now application deployment done exclusively by using Open Application Model (OAM).&lt;/li&gt;
 &lt;li&gt;Syntax changes for WebLogic and Coherence OAM workloads, now defined using &lt;code&gt;VerrazzanoCoherenceWorkload&lt;/code&gt;
 and &lt;code&gt;VerrazzanoWebLogicWorkload&lt;/code&gt; types.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Features&lt;/p&gt;
+&lt;p&gt;Features:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;By default, application endpoints now use HTTPs - when using magic DNS, certificates are issued by cluster issuer, when using
 OCI DNS certificates are issued using Let&amp;rsquo;s Encrypt, or the end user can provide certificates.&lt;/li&gt;
@@ -1983,13 +1983,13 @@ OCI DNS certificates are issued using Let&amp;rsquo;s Encrypt, or the end user c
 &lt;li&gt;Added instance information to status of Verrazzano custom resource; can be used to obtain instance URLs.&lt;/li&gt;
 &lt;li&gt;Upgraded Istio to v1.7.3.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Fixes&lt;/p&gt;
+&lt;p&gt;Fixes:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Reduced log level of Elasticsearch; excessive logging could have resulted in filling up disks.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;v090&#34;&gt;v0.9.0:&lt;/h3&gt;
+&lt;h3 id=&#34;v090&#34;&gt;v0.9.0&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;Features
+&lt;li&gt;Features:
 &lt;ul&gt;
 &lt;li&gt;Added platform support for installing Verrazzano on Kind clusters.&lt;/li&gt;
 &lt;li&gt;Log records are indexed from the OAM &lt;code&gt;appconfig&lt;/code&gt; and &lt;code&gt;component&lt;/code&gt; definitions using the following pattern: &lt;code&gt;namespace-appconfig-component&lt;/code&gt;.&lt;/li&gt;
@@ -2004,14 +2004,14 @@ OCI DNS certificates are issued using Let&amp;rsquo;s Encrypt, or the end user c
     enabled: &lt;span style=&#34;color:#204a87&#34;&gt;true&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;v080&#34;&gt;v0.8.0&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;Features
+&lt;li&gt;Features:
 &lt;ul&gt;
 &lt;li&gt;Support for two installation profiles, development (&lt;code&gt;dev&lt;/code&gt;) and production (&lt;code&gt;prod&lt;/code&gt;).  The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.&lt;/li&gt;
 &lt;li&gt;The default behavior has been changed to use the system VMI for all monitoring (applications and Verrazzano components).  It is still possible to customize one of the profiles to enable the original, non-shared VMI mode.&lt;/li&gt;
 &lt;li&gt;Initial support for the Open Application Model (OAM).&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;Fixes
+&lt;li&gt;Fixes:
 &lt;ul&gt;
 &lt;li&gt;Updated Axios NPM package to v0.21.1 to resolve a security vulnerability in the examples code.&lt;/li&gt;
 &lt;/ul&gt;
@@ -2020,7 +2020,7 @@ OCI DNS certificates are issued using Let&amp;rsquo;s Encrypt, or the end user c
 &lt;h3 id=&#34;v070&#34;&gt;v.0.7.0&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;Features&lt;/p&gt;
+&lt;p&gt;Features:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Ability to upgrade an existing Verrazzano installation.&lt;/li&gt;
 &lt;li&gt;Added the Verrazzano Console.&lt;/li&gt;
@@ -2029,7 +2029,7 @@ OCI DNS certificates are issued using Let&amp;rsquo;s Encrypt, or the end user c
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Fixes&lt;/p&gt;
+&lt;p&gt;Fixes:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Fixed bug where the Verrazzano CR &lt;code&gt;Certificate.CA&lt;/code&gt; fields were being ignored.&lt;/li&gt;
 &lt;li&gt;Removed secret used for &lt;code&gt;hello-world&lt;/code&gt;; &lt;code&gt;hello-world-application&lt;/code&gt; image is now public in ghcr so &lt;code&gt;ImagePullSecrets&lt;/code&gt; is no longer needed.&lt;/li&gt;
@@ -2039,14 +2039,14 @@ OCI DNS certificates are issued using Let&amp;rsquo;s Encrypt, or the end user c
 &lt;/ul&gt;
 &lt;h3 id=&#34;v060&#34;&gt;v0.6.0&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;Features
+&lt;li&gt;Features:
 &lt;ul&gt;
 &lt;li&gt;In-cluster installer which replaces client-side install scripts.&lt;/li&gt;
 &lt;li&gt;Added installation profiles; in this release, there are two: production and development.&lt;/li&gt;
 &lt;li&gt;Verrazzano system components now emit JSON structured logs.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;Fixes
+&lt;li&gt;Fixes:
 &lt;ul&gt;
 &lt;li&gt;Updated Elasticsearch and Kibana versions (elasticsearch:7.6.1-20201130145440-5c76ab1) and (kibana:7.6.1-20201130145840-7717e73).&lt;/li&gt;
 &lt;/ul&gt;

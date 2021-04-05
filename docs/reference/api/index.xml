@@ -50,14 +50,14 @@ spec:
                 - paths:
                     - path: &amp;quot;/greet&amp;quot;
                       pathType: Prefix
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the above example, the IngressTrait &lt;code&gt;hello-helidon-ingress&lt;/code&gt; is set on the &lt;code&gt;hello-helidon-component&lt;/code&gt; application component and defines an ingress rule that configures a path and path type.  This exposes a route for external access to the application.  Note that because no &lt;code&gt;hosts&lt;/code&gt; list is given for the &lt;a href=&#34;#IngressRule&#34;&gt;IngressRule&lt;/a&gt;, a DNS host name is automatically generated.&lt;/p&gt;
-&lt;p&gt;For example, with the above application configuration successfully deployed, the application will be accessible with the &lt;code&gt;path&lt;/code&gt; specified in the IngressTrait and the generated host name.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the sample configuration, the IngressTrait &lt;code&gt;hello-helidon-ingress&lt;/code&gt; is set on the &lt;code&gt;hello-helidon-component&lt;/code&gt; application component and defines an ingress rule that configures a path and path type.  This exposes a route for external access to the application.  Note that because no &lt;code&gt;hosts&lt;/code&gt; list is given for the &lt;a href=&#34;#ingressrule&#34;&gt;IngressRule&lt;/a&gt;, a DNS host name is automatically generated.&lt;/p&gt;
+&lt;p&gt;For example, with the sample application configuration successfully deployed, the application will be accessible with the &lt;code&gt;path&lt;/code&gt; specified in the IngressTrait and the generated host name.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath={.spec.servers[0].hosts[0]})
 $ echo $HOST
 hello-helidon-appconf.hello-helidon.11.22.33.44.xip.io
 
 $ curl -sk -X GET https://${HOST}/greet
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Alternatively, specific host names can be given in an &lt;a href=&#34;#IngressRule&#34;&gt;IngressRule&lt;/a&gt;.  Doing this implies that a secret and certificate have been created for the specific hosts and the secret name has been specified in the associated &lt;a href=&#34;#IngressSecurity&#34;&gt;IngressSecurity&lt;/a&gt; &lt;code&gt;secretName&lt;/code&gt; field.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Alternatively, specific host names can be given in an &lt;a href=&#34;#ingressrule&#34;&gt;IngressRule&lt;/a&gt;.  Doing this implies that a secret and certificate have been created for the specific hosts and the secret name has been specified in the associated &lt;a href=&#34;#ingresssecurity&#34;&gt;IngressSecurity&lt;/a&gt; &lt;code&gt;secretName&lt;/code&gt; field.&lt;/p&gt;
 &lt;h4 id=&#34;ingresstrait&#34;&gt;IngressTrait&lt;/h4&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -89,7 +89,7 @@ $ curl -sk -X GET https://${HOST}/greet
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#IngressTraitSpec&#34;&gt;IngressTraitSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#ingresstraitspec&#34;&gt;IngressTraitSpec&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The desired state of an ingress trait.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
@@ -109,14 +109,14 @@ $ curl -sk -X GET https://${HOST}/greet
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;rules&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#IngressRule&#34;&gt;IngressRule&lt;/a&gt; array&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#ingressrule&#34;&gt;IngressRule&lt;/a&gt; array&lt;/td&gt;
 &lt;td&gt;A list of ingress rules to for an ingress trait.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;tls&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#IngressSecurity&#34;&gt;IngressSecurity&lt;/a&gt;&lt;/td&gt;
-&lt;td&gt;The security parameters for an ingress trait. This is required only if specific hosts are given in an &lt;a href=&#34;#IngressRule&#34;&gt;IngressRule&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#ingresssecurity&#34;&gt;IngressSecurity&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The security parameters for an ingress trait. This is required only if specific hosts are given in an &lt;a href=&#34;#ingressrule&#34;&gt;IngressRule&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -141,7 +141,7 @@ $ curl -sk -X GET https://${HOST}/greet
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;paths&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#IngressPath&#34;&gt;IngressPath&lt;/a&gt; array&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#ingresspath&#34;&gt;IngressPath&lt;/a&gt; array&lt;/td&gt;
 &lt;td&gt;The paths to be exposed for an ingress trait.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
@@ -188,7 +188,7 @@ $ curl -sk -X GET https://${HOST}/greet
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;secretName&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;The name of a secret containing the certificate securing the transport.  The specification of a secret here implies that a certificate was created for specific hosts, as specified in an &lt;a href=&#34;#IngressRule&#34;&gt;IngressRule&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;The name of a secret containing the certificate securing the transport.  The specification of a secret here implies that a certificate was created for specific hosts, as specified in an &lt;a href=&#34;#ingressrule&#34;&gt;IngressRule&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -291,7 +291,7 @@ $ curl -ik --user verrazzano:$VZPASS https://$HOST/todo-list-todo-appconf-todo-d
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#LoggingScopeSpec&#34;&gt;LoggingScopeSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#loggingscopespec&#34;&gt;LoggingScopeSpec&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The desired state of a logging scope.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
@@ -377,8 +377,8 @@ spec:
                 - paths:
                     - path: &amp;quot;/greet&amp;quot;
                       pathType: Prefix
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the above example, a MetricsTrait is specified for the &lt;code&gt;hello-helidon-component&lt;/code&gt; application component.&lt;/p&gt;
-&lt;p&gt;With the above application configuration successfully deployed, you can query for metrics from the application component.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the sample configuration, a MetricsTrait is specified for the &lt;code&gt;hello-helidon-component&lt;/code&gt; application component.&lt;/p&gt;
+&lt;p&gt;With the sample application configuration successfully deployed, you can query for metrics from the application component.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get ingress -n verrazzano-system vmi-system-prometheus -o jsonpath={.spec.rules[0].host})
 $ echo $HOST
 
@@ -419,7 +419,7 @@ $ curl -sk --user verrazzano:${VZPASS} -X GET https://${HOST}/api/v1/query?query
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#MetricsTraitSpec&#34;&gt;MetricsTraitSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#metricstraitspec&#34;&gt;MetricsTraitSpec&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The desired state of a metrics trait.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
@@ -458,7 +458,7 @@ $ curl -sk --user verrazzano:${VZPASS} -X GET https://${HOST}/api/v1/query?query
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;scraper&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;The prometheus deployment used to scrape the related metrics endpoints. Defaults to &lt;code&gt;verrazzano-system/vmi-system-prometheus-0&lt;/code&gt;.&lt;/td&gt;
+&lt;td&gt;The Prometheus deployment used to scrape the related metrics endpoints. Defaults to &lt;code&gt;verrazzano-system/vmi-system-prometheus-0&lt;/code&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -967,7 +967,7 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#VerrazzanoCoherenceWorkloadSpec&#34;&gt;VerrazzanoCoherenceWorkloadSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#verrazzanocoherenceworkloadspec&#34;&gt;VerrazzanoCoherenceWorkloadSpec&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The desired state of a Verrazzano Coherence workload.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
@@ -1051,7 +1051,7 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#VerrazzanoHelidonWorkloadSpec&#34;&gt;VerrazzanoHelidonWorkloadSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#verrazzanohelidonworkloadspec&#34;&gt;VerrazzanoHelidonWorkloadSpec&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The desired state of a Verrazzano Helidon workload.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
@@ -1071,7 +1071,7 @@ spec:
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;deploymentTemplate&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#DeploymentTemplate&#34;&gt;DeploymentTemplate&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#deploymenttemplate&#34;&gt;DeploymentTemplate&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The embedded deployment.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
@@ -1180,7 +1180,7 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#VerrazzanoWebLogicWorkloadSpec&#34;&gt;VerrazzanoWebLogicWorkloadSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#verrazzanoweblogicworkloadspec&#34;&gt;VerrazzanoWebLogicWorkloadSpec&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The desired state of a Verrazzano WebLogic workload.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
