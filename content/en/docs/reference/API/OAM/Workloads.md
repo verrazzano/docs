@@ -58,7 +58,7 @@ spec:
 | `apiVersion` | string | `oam.verrazzano.io/v1alpha1` | Yes |
 | `kind` | string | `VerrazzanoCoherenceWorkload` |  Yes |
 | `metadata` | ObjectMeta | Refer to Kubernetes API documentation for fields of metadata. |  No |
-| `spec` |  [VerrazzanoCoherenceWorkloadSpec](#VerrazzanoCoherenceWorkloadSpec) | The desired state of a Verrazzano Coherence workload. |  Yes |
+| `spec` |  [VerrazzanoCoherenceWorkloadSpec](#verrazzanocoherenceworkloadspec) | The desired state of a Verrazzano Coherence workload. |  Yes |
 
 
 #### VerrazzanoCoherenceWorkloadSpec
@@ -108,7 +108,7 @@ spec:
 | `apiVersion` | string | `oam.verrazzano.io/v1alpha1` | Yes |
 | `kind` | string | `VerrazzanoHelidonWorkload` |  Yes |
 | `metadata` | ObjectMeta | Refer to Kubernetes API documentation for fields of metadata. |  No |
-| `spec` |  [VerrazzanoHelidonWorkloadSpec](#VerrazzanoHelidonWorkloadSpec) | The desired state of a Verrazzano Helidon workload. |  Yes |
+| `spec` |  [VerrazzanoHelidonWorkloadSpec](#verrazzanohelidonworkloadspec) | The desired state of a Verrazzano Helidon workload. |  Yes |
 
 
 #### VerrazzanoHelidonWorkloadSpec
@@ -116,7 +116,7 @@ VerrazzanoHelidonWorkloadSpec specifies the desired state of a Verrazzano Helido
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `deploymentTemplate` |  [DeploymentTemplate](#DeploymentTemplate) | The embedded deployment. |  Yes |
+| `deploymentTemplate` |  [DeploymentTemplate](#deploymenttemplate) | The embedded deployment. |  Yes |
 
 
 #### DeploymentTemplate
@@ -186,7 +186,7 @@ spec:
 | `apiVersion` | string | `oam.verrazzano.io/v1alpha1` | Yes |
 | `kind` | string | `VerrazzanoWebLogicWorkload` |  Yes |
 | `metadata` | ObjectMeta | Refer to Kubernetes API documentation for fields of metadata. |  No |
-| `spec` |  [VerrazzanoWebLogicWorkloadSpec](#VerrazzanoWebLogicWorkloadSpec) | The desired state of a Verrazzano WebLogic workload. |  Yes |
+| `spec` |  [VerrazzanoWebLogicWorkloadSpec](#verrazzanoweblogicworkloadspec) | The desired state of a Verrazzano WebLogic workload. |  Yes |
 
 #### VerrazzanoWebLogicWorkloadSpec
 VerrazzanoWebLogicWorkloadSpec specifies the desired state of a Verrazzano WebLogic workload.

@@ -77,7 +77,7 @@ $ curl -ik --user verrazzano:$VZPASS https://$HOST/todo-list-todo-appconf-todo-d
 | `apiVersion` | string | `oam.verrazzano.io/v1alpha1` | Yes |
 | `kind` | string | `LoggingScope` |  Yes |
 | `metadata` | ObjectMeta | Refer to Kubernetes API documentation for fields of metadata. |  Yes |
-| `spec` |  [LoggingScopeSpec](#LoggingScopeSpec) | The desired state of a logging scope. |  Yes |
+| `spec` |  [LoggingScopeSpec](#loggingscopespec) | The desired state of a logging scope. |  Yes |
 
 #### LoggingScopeSpec
 LoggingScopeSpec specifies the desired state of a logging scope.
