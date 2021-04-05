@@ -36,9 +36,9 @@ spec:
                     - path: "/greet"
                       pathType: Prefix
 ```
-In the above example, a MetricsTrait is specified for the `hello-helidon-component` application component.
+In the sample configuration, a MetricsTrait is specified for the `hello-helidon-component` application component.
 
-With the above application configuration successfully deployed, you can query for metrics from the application component.
+With the sample application configuration successfully deployed, you can query for metrics from the application component.
 ```
 $ HOST=$(kubectl get ingress -n verrazzano-system vmi-system-prometheus -o jsonpath={.spec.rules[0].host})
 $ echo $HOST
@@ -58,7 +58,7 @@ $ curl -sk --user verrazzano:${VZPASS} -X GET https://${HOST}/api/v1/query?query
 | `apiVersion` | string | `oam.verrazzano.io/v1alpha1` | Yes |
 | `kind` | string | `MetricsTrait` |  Yes |
 | `metadata` | ObjectMeta | Refer to Kubernetes API documentation for fields of metadata. |  No |
-| `spec` |  [MetricsTraitSpec](#MetricsTraitSpec) | The desired state of a metrics trait. |  Yes |
+| `spec` |  [MetricsTraitSpec](#metricstraitspec) | The desired state of a metrics trait. |  Yes |
 
 #### MetricsTraitSpec
 MetricsTraitSpec specifies the desired state of a metrics trait.
@@ -68,4 +68,4 @@ MetricsTraitSpec specifies the desired state of a metrics trait.
 | `port` | integer | The HTTP port for the related metrics endpoint. Defaults to 8080. | No |
 | `path` | string | The HTTP path for the related metrics endpoint. Defaults to `/metrics`. | No |
 | `secret` | string | The name of an opaque secret (for example, user name and password) within the workload’s namespace for metrics endpoint access. | No |
-| `scraper` | string | The prometheus deployment used to scrape the related metrics endpoints. Defaults to `verrazzano-system/vmi-system-prometheus-0`. | No |
+| `scraper` | string | The Prometheus deployment used to scrape the related metrics endpoints. Defaults to `verrazzano-system/vmi-system-prometheus-0`. | No |
