@@ -2,7 +2,7 @@
 title: minikube
 description: Instructions for setting up a minikube cluster for Verrazzano
 linkTitle: minikube
-Weight: 8
+Weight: 9
 draft: false
 ---
 

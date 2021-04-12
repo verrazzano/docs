@@ -2,7 +2,7 @@
 title: "Upgrade Guide"
 linkTitle: "Upgrade"
 description: "How to upgrade Verrazzano"
-weight: 9
+weight: 7
 draft: false
 ---
 
