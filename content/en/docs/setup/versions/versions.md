@@ -1,7 +1,8 @@
 ---
 title: "Software Versions"
 linkTitle: Software Versions
-weight: 2
+description: "Software versions installed with Verrazzano"
+weight: 6
 draft: false
 ---
 

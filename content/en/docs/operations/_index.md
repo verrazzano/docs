@@ -1,7 +1,7 @@
 ---
 title: Operations
 description: "Information and tools to support operating Verrazzano"
-weight: 70
+weight: 3
 draft: false
 ---
 ### Get the consoles URLs

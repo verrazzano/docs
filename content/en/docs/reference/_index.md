@@ -1,5 +1,5 @@
 ---
 title: "Reference"
 description: "Verrazzano reference information"
-weight: 90
+weight: 5
 ---
