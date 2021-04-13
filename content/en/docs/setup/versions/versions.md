@@ -26,5 +26,5 @@ component with its version and a brief description.
 | Node Exporter | 0.18.1 | Prometheus exporter for hardware and OS metrics.
 | OAM Kubernetes Runtime | 0.3.0 | Plug-in for implementing Open Application Model (OAM) control plane with Kubernetes.
 | Prometheus | 2.13.1 | Provides event monitoring and alerting.
-| Rancher | 2.4.3 | Manages multiple Kubernetes clusters.
+| Rancher | 2.5.7 | Manages multiple Kubernetes clusters.
 | WebLogic Server Kubernetes Operator | 3.1.0 | Assists with deploying and managing WebLogic domains.
