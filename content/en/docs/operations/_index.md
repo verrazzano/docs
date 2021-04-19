@@ -60,3 +60,28 @@ To get the password:
 To get the password:  
 
 `$ kubectl get secret --namespace cattle-system rancher-admin-secret -o jsonpath={.data.password} | base64 --decode; echo`
+
+#### Change the Verrazzano password
+
+**Change the user in Keycloak**
+- Navigate to the Keycloak admin console using directions in this document
+- In the left pane, select `Users` which is under `Manage`
+- In the `Users` pane, search for `verrazzano` or click the `View all users` button
+- For the `verrazzano` user, click the `Edit` action
+- Select the `Credentials` tab at the top
+- Specify the new password and confirm
+- Specify whether the new password is a temporary password. A temporary password must be reset on next login
+- Click the `Reset Password` button
+- Confirm the password reset by clicking the `Reset password` button in the confirmation popup
+
+**Update the Verrazzano secret**
+
+Get the base64 encoding for your new password:
+
+`echo -n 'MyNewPwd' | base64`
+
+Update the password in the secret:
+
+`kubectl edit secret verrazzano -n verrazzano-system`
+
+Replace the existing password value with the new base64 encoded value
