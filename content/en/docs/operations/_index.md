@@ -84,6 +84,6 @@ Get the base64 encoding for your new password:
 
 Update the password in the secret:
 
-`kubectl edit secret verrazzano -n verrazzano-system`
+`$ kubectl edit secret verrazzano -n verrazzano-system`
 
-Replace the existing password value with the new base64 encoded value
+Replace the existing password value with the new base64 encoded value.
