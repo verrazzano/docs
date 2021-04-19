@@ -63,22 +63,24 @@ To get the password:
 
 #### Change the Verrazzano password
 
+ To change the Verrazzano password, first change the user password in Keycloak and then update the Verrazzano secret.
+ 
 **Change the user in Keycloak**
-- Navigate to the Keycloak admin console using directions in this document
-- In the left pane, select `Users` which is under `Manage`
-- In the `Users` pane, search for `verrazzano` or click the `View all users` button
-- For the `verrazzano` user, click the `Edit` action
-- Select the `Credentials` tab at the top
-- Specify the new password and confirm
-- Specify whether the new password is a temporary password. A temporary password must be reset on next login
-- Click the `Reset Password` button
-- Confirm the password reset by clicking the `Reset password` button in the confirmation popup
+1. Navigate to the Keycloak admin console. Obtaining the Keycloak admin console URL is described [here](#get-the-consoles-urls). Obtaining the Keycloak admin console credentials is described [here](#the-keycloak-admin-console).
+2. In the left pane, under `Manage`, select `Users`.
+3. In the `Users` pane, search for `verrazzano` or click `View all users`.
+4. For the `verrazzano` user, click the `Edit` action.
+5. At the top, select the `Credentials` tab.
+6. Specify the new password and confirm.
+7. Specify whether the new password is a temporary password. A temporary password must be reset on next login.
+8. Click `Reset Password`.
+9. Confirm the password reset by clicking `Reset password` in the confirmation dialog.
 
 **Update the Verrazzano secret**
 
 Get the base64 encoding for your new password:
 
-`echo -n 'MyNewPwd' | base64`
+`$ echo -n 'MyNewPwd' | base64`
 
 Update the password in the secret:
 
