@@ -24,6 +24,7 @@ spec:
 ```
 
 #### MultiClusterSecret
+A MultiClusterSecret is an envelope for create Kubernetes `Secret` resources on the clusters specified in the `placement` section.
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
