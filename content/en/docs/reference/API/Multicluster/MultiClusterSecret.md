@@ -32,7 +32,7 @@ A MultiClusterSecret is an envelope to create Kubernetes `Secret` resources on t
 | `kind` | string | `MultiClusterSecret` |  Yes |
 | `metadata` | ObjectMeta | Refer to Kubernetes API documentation for fields of metadata. |  Yes |
 | `spec` |  [MultiClusterSecretSpec](#multiclustersecretspec) | The desired state of a Kubernetes secret. |  Yes |
-| `status` | [MultiClusterResourceStatus](../MultiClusterResourceStatus.md) | The runtime status of a multicluster resource. | No |
+| `status` | [MultiClusterResourceStatus](../multiclusterresourcestatus) | The runtime status of a multicluster resource. | No |
 
 #### MultiClusterSecretSpec
 MultiClusterSecretSpec specifies the desired state of a Kubernetes secret.
