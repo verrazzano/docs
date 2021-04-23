@@ -50,7 +50,7 @@ A MultiClusterApplicationConfiguration is an envelope to create `core.oam.dev/v1
 | `apiVersion` | string | `clusters.verrazzano.io/v1alpha1` | Yes |
 | `kind` | string | `MultiClusterApplicationConfiguration` |  Yes |
 | `metadata` | ObjectMeta | Refer to Kubernetes API documentation for fields of metadata. |  Yes |
-| `spec` |  [MultiClusterApplicationConfigurationSpec](#multiclusterapplicationconfigurationspec) | The desired state of the `core.oam.dev/v1alpha2/ApplicationConfiguration` resource. |  Yes |
+| `spec` |  [MultiClusterApplicationConfigurationSpec](#multiclusterapplicationconfigurationspec) | The desired state of a `core.oam.dev/v1alpha2/ApplicationConfiguration` resource. |  Yes |
 | `status` | [MultiClusterResourceStatus](../multiclusterresourcestatus) | The runtime status of a multicluster resource. | No |
 
 #### MultiClusterApplicationConfigurationSpec

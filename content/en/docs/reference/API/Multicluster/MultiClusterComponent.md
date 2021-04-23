@@ -4,7 +4,7 @@ linkTitle: MultiClusterComponent Custom Resource Definition
 weight: 2
 draft: false
 ---
-The MultiClusterComponent custom resource is used to distribute `core.oam.dev/v1alpha2/ComponentSpec` resources in a multicluster environment. Here is a sample MultiClusterComponent that specifies a ComponentSpec resource to create on the cluster named `managed1`.  To deploy an example application that demonstrates this MultiClusterComponent, see [Multicluster Hello World Helidon](https://github.com/verrazzano/verrazzano/blob/master/examples/multicluster/hello-helidon/README.md).
+The MultiClusterComponent custom resource is used to distribute `core.oam.dev/v1alpha2/Component` resources in a multicluster environment. Here is a sample MultiClusterComponent that specifies a Component resource to create on the cluster named `managed1`.  To deploy an example application that demonstrates this MultiClusterComponent, see [Multicluster Hello World Helidon](https://github.com/verrazzano/verrazzano/blob/master/examples/multicluster/hello-helidon/README.md).
 
 ```
 apiVersion: clusters.verrazzano.io/v1alpha1
@@ -40,26 +40,26 @@ spec:
 ```
 
 #### MultiClusterComponent
-A MultiClusterComponent is an envelope to create `core.oam.dev/v1alpha2/ComponentSpec` resources on the clusters specified in the `placement` section.
+A MultiClusterComponent is an envelope to create `core.oam.dev/v1alpha2/Component` resources on the clusters specified in the `placement` section.
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `apiVersion` | string | `clusters.verrazzano.io/v1alpha1` | Yes |
 | `kind` | string | `MultiClusterComponent` |  Yes |
 | `metadata` | ObjectMeta | Refer to Kubernetes API documentation for fields of metadata. |  Yes |
-| `spec` |  [MultiClusterComponentSpec](#multiclustercomponentspec) | The desired state of `core.oam.dev/v1alpha2/ComponentSpec` resource. |  Yes |
+| `spec` |  [MultiClusterComponentSpec](#multiclustercomponentspec) | The desired state of a `core.oam.dev/v1alpha2/Component` resource. |  Yes |
 | `status` | [MultiClusterResourceStatus](../multiclusterresourcestatus) | The runtime status of a multicluster resource. | No |
 
 #### MultiClusterComponentSpec
-MultiClusterComponentSpec specifies the desired state of a `core.oam.dev/v1alpha2/ComponentSpec` resource.
+MultiClusterComponentSpec specifies the desired state of a `core.oam.dev/v1alpha2/Component` resource.
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `template` | [ComponentTemplate](#componenttemplate) | The embedded `core.oam.dev/v1alpha2/ComponentSpec` resource. | Yes |
+| `template` | [ComponentTemplate](#componenttemplate) | The embedded `core.oam.dev/v1alpha2/Component` resource. | Yes |
 | `placement` | [Placement](#placement) | Clusters in which the resource is to be placed. | Yes |
 
 #### ComponentTemplate
-ComponentTemplate has the metadata and spec of the `core.oam.dev/v1alpha2/ComponentSpec` resource.
+ComponentTemplate has the metadata and spec of the `core.oam.dev/v1alpha2/Component` resource.
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
