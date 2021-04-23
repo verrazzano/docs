@@ -1,0 +1,49 @@
+---
+title: VerrazzanoManagedCluster Custom Resource Definition
+linkTitle: VerrazzanoManagedCluster Custom Resource Definition
+weight: 2
+draft: false
+---
+The VerrazzanoManagedCluster custom resource is used to register a managed cluster with an admin cluster.  Here is a sample VerrazzanoManagedCluster that registers the cluster named `managed1`.  To deploy an example application that demonstrates this VerrazzanoManagedCluster, see [Multicluster Hello World Helidon](https://github.com/verrazzano/verrazzano/blob/master/examples/multicluster/hello-helidon/README.md).
+
+```
+apiVersion: clusters.verrazzano.io/v1alpha1
+kind: VerrazzanoManagedCluster
+metadata:
+  name: managed1
+  namespace: verrazzano-mc
+spec:
+  description: "Managed Cluster 1"
+  prometheusSecret: prometheus-managed1
+```
+
+#### VerrazzanoManagedCluster
+
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `apiVersion` | string | `clusters.verrazzano.io/v1alpha1` | Yes |
+| `kind` | string | `VerrazzanoManagedCluster` |  Yes |
+| `metadata` | ObjectMeta | Refer to Kubernetes API documentation for fields of metadata. |  Yes |
+| `spec` |  [VerrazzanoManagedClusterSpec](#verrazzanomanagedclusterspec) | The managed cluster specification. |  Yes |
+| `status` | [VerrazzanoManagedClusterStatus](../multiclusterresourcestatus) | The runtime status of a multicluster resource. | No |
+
+#### VerrazzanoManagedClusterSpec
+VerrazzanoManagedClusterSpec specifies a managed cluster to associate with an admin cluster.
+
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `description` | string | The description of the managed cluster. | No |
+| `prometheusSecret` | string | The name of a secret that contains the credentials for scraping from the prometheus endpoint on the managed cluster.  The secret contains the endpoint, username and password. | Yes |
+| `serviceAccount` | string | The name of the ServiceAccount that was generated for the managed cluster. This field is managed by a Verrazzano Kubernetes operator. | No |
+| `managedClusterManifestSecret` | string | The name of the secret containing generated YAML manifest to be applied by the user to the managed cluster. This field is managed by a Verrazzano Kubernetes operator. | No |
+
+#### ProjectTemplate
+ProjectTemplate contains the list of namespaces to create and the optional security configuration for each namespace.
+
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `namespaces` | [NamespaceTemplate](#namespacetemplate) array | The Kubernetes namespaces to create for this project. | Yes |
+| `security` | [SecuritySpec](#securityspec) | The project security configuration. | No |
+
+
+#### VerrazzanoManagedClusterStatus
