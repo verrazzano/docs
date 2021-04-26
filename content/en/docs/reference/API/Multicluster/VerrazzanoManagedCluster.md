@@ -4,7 +4,7 @@ linkTitle: VerrazzanoManagedCluster Custom Resource Definition
 weight: 2
 draft: false
 ---
-The VerrazzanoManagedCluster custom resource is used to register a managed cluster with an admin cluster.  Here is a sample VerrazzanoManagedCluster that registers the cluster named `managed1`.  To deploy an example application that demonstrates this VerrazzanoManagedCluster, see [Multicluster Hello World Helidon](https://github.com/verrazzano/verrazzano/blob/master/examples/multicluster/hello-helidon/README.md).
+The VerrazzanoManagedCluster custom resource is used to register a managed cluster with an admin cluster.  Here is a sample VerrazzanoManagedCluster that registers the cluster named `managed1`.  To deploy an example application that demonstrates a VerrazzanoManagedCluster, see [Multicluster Hello World Helidon](https://github.com/verrazzano/verrazzano/blob/master/examples/multicluster/hello-helidon/README.md).
 
 ```
 apiVersion: clusters.verrazzano.io/v1alpha1
@@ -25,7 +25,7 @@ spec:
 | `kind` | string | `VerrazzanoManagedCluster` |  Yes |
 | `metadata` | ObjectMeta | Refer to Kubernetes API documentation for fields of metadata. |  Yes |
 | `spec` |  [VerrazzanoManagedClusterSpec](#verrazzanomanagedclusterspec) | The managed cluster specification. |  Yes |
-| `status` | [VerrazzanoManagedClusterStatus](../multiclusterresourcestatus) | The runtime status of a multicluster resource. | No |
+| `status` | [VerrazzanoManagedClusterStatus](#verrazzanomanagedclusterstatus) | The runtime status this resource. | No |
 
 #### VerrazzanoManagedClusterSpec
 VerrazzanoManagedClusterSpec specifies a managed cluster to associate with an admin cluster.
@@ -37,13 +37,20 @@ VerrazzanoManagedClusterSpec specifies a managed cluster to associate with an ad
 | `serviceAccount` | string | The name of the ServiceAccount that was generated for the managed cluster. This field is managed by a Verrazzano Kubernetes operator. | No |
 | `managedClusterManifestSecret` | string | The name of the secret containing generated YAML manifest to be applied by the user to the managed cluster. This field is managed by a Verrazzano Kubernetes operator. | No |
 
-#### ProjectTemplate
-ProjectTemplate contains the list of namespaces to create and the optional security configuration for each namespace.
+#### VerrazzanoManagedClusterStatus
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `namespaces` | [NamespaceTemplate](#namespacetemplate) array | The Kubernetes namespaces to create for this project. | Yes |
-| `security` | [SecuritySpec](#securityspec) | The project security configuration. | No |
+| `conditions` | [Condition](#condition) array | The current state of this resource. | No |
+| `lastAgentConnectTime` | string | The last time the agent from this managed cluster connected to the admin cluster. | No |
+| `apiUrl` | string | The Verrazzano API Server URL for the managed cluster. | No |
 
+#### Condition
+Condition describes current state of this resource.
 
-#### VerrazzanoManagedClusterStatus
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `type` | string | The condition of the multicluster resource which can be checked with a `kubectl wait` command. Condition values are case-sensitive and formatted as follows: <ul><li>`Ready`: the VerrazzanoManagedCluster is ready to be used and all resources needed have been generated</li></ul> | Yes |
+| `status` | ConditionStatus | An instance of the type `ConditionStatus` that is defined in [types.go](https://github.com/kubernetes/api/blob/master/core/v1/types.go). | Yes |
+| `lastTransitionTime` | string | The last time the condition transitioned from one status to another. | No |
+| `message` | string | A message with details about the last transition. | No |
