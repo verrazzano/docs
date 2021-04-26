@@ -1,10 +1,10 @@
 ---
-title: MultiClusterResourceStatus Struct
-linkTitle: MultiClusterResourceStatus Struct
+title: MultiClusterResourceStatus Subresource
+linkTitle: MultiClusterResourceStatus Subresource
 weight: 2
 draft: false
 ---
-The MultiClusterResourceStatus is a struct that is shared by all multicluster custom resources.
+The MultiClusterResourceStatus subresource is shared by multicluster custom resources.
 
 #### MultiClusterResourceStatus
 MultiClusterResourceStatus specifies the status portion of a multicluster resource.

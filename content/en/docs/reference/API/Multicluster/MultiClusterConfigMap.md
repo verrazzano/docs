@@ -41,7 +41,7 @@ MultiClusterConfigMapSpec specifies the desired state of a Kubernetes configmap.
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `template` | [ConfigMapTemplate](#configmaptemplate) | The embedded Kubernetes configmap. | Yes |
-| `placement` | [Placement](#placement) | Clusters in which the secret is to be placed. | Yes |
+| `placement` | [Placement](../placement) | Clusters in which the secret is to be placed. | Yes |
 
 #### ConfigMapTemplate
 ConfigMapTemplate has the metadata and spec of the Kubernetes configmap.
@@ -52,17 +52,3 @@ ConfigMapTemplate has the metadata and spec of the Kubernetes configmap.
 | `immutable` | *bool | Corresponds to the `immutable` field of the struct `ConfigMap` defined in [types.go](https://github.com/kubernetes/api/blob/master/core/v1/types.go). | No |
 | `data` | map[string]string | Corresponds to the `data` field of the struct `ConfigMap` defined in [types.go](https://github.com/kubernetes/api/blob/master/core/v1/types.go). | No |
 | `binaryData` | map[string][]byte | Corresponds to the `binaryData` field of the struct `ConfigMap`  defined in [types.go](https://github.com/kubernetes/api/blob/master/core/v1/types.go). | No |
-
-#### Placement
-Placement contains the name of each cluster where this resource will be located.
-
-| Field | Type | Description | Required
-| --- | --- | --- | --- |
-| `clusters` | [Cluster](#cluster) array | An array of cluster locations. | Yes |
-
-#### Cluster
-Cluster contains the name of a single cluster.
-
-Field | Type | Description | Required
-| --- | --- | --- | --- |
-| `cluster` | string | The name of a cluster. | Yes |

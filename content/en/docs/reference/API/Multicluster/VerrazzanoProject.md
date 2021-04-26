@@ -4,7 +4,7 @@ linkTitle: VerrazzanoProject Custom Resource Definition
 weight: 2
 draft: false
 ---
-The VerrazzanoProject custom resource is used to create Kubernetes namespaces and their associated security settings on one or more clusters.  Here is a sample VerrazzanoProject that specifies a namespace to create on the cluster named `managed1`.  The namespaces are always created on the admin cluster.
+The VerrazzanoProject custom resource is used to the create application namespaces and their associated security settings on one or more clusters.  Here is a sample VerrazzanoProject that specifies a namespace to create on the cluster named `managed1`.  The namespaces are always created on the admin cluster.
 
 ```
 apiVersion: clusters.verrazzano.io/v1alpha1
@@ -38,14 +38,14 @@ VerrazzanoProjectSpec specifies the namespaces to create and which clusters to c
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `template` | [ProjectTemplate](#projecttemplate) | The project template. | Yes |
-| `placement` | [Placement](#placement) | Clusters in which the namespaces are to be created. | Yes |
+| `placement` | [Placement](../placement) | Clusters on which the namespaces are to be created. | Yes |
 
 #### ProjectTemplate
 ProjectTemplate contains the list of namespaces to create and the optional security configuration for each namespace.
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `namespaces` | [NamespaceTemplate](#namespacetemplate) array | The Kubernetes namespaces to create for this project. | Yes |
+| `namespaces` | [NamespaceTemplate](#namespacetemplate) array | The list of application namespaces to create for this project. | Yes |
 | `security` | [SecuritySpec](#securityspec) | The project security configuration. | No |
 
 #### NamespaceTemplate
@@ -64,17 +64,3 @@ SecuritySpec defines the security configuration for a project.
 | `projectAdminSubjects` | Subject | The subject to bind to the `verrazzano-project-admin` role. Encoded as an instance of the struct `Subject` defined in [types.go](https://github.com/kubernetes/api/blob/master/rbac/v1/types.go). | No |
 | `projectMonitorSubjects` | Subject | The subject to bind to the `verrazzano-project-monitoring` role. Encoded as an instance of the struct `Subject` defined in [types.go](https://github.com/kubernetes/api/blob/master/rbac/v1/types.go). | No |
 
-
-#### Placement
-Placement contains the name of each cluster where this resource will be located.
-
-| Field | Type | Description | Required
-| --- | --- | --- | --- |
-| `clusters` | [Cluster](#cluster) array | An array of cluster locations. | Yes |
-
-#### Cluster
-Cluster contains the name of a single cluster.
-
-Field | Type | Description | Required
-| --- | --- | --- | --- |
-| `cluster` | string | The name of a cluster. | Yes |
