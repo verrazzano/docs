@@ -4,7 +4,7 @@ linkTitle: MultiClusterApplicationConfiguration Custom Resource Definition
 weight: 2
 draft: false
 ---
-The MultiClusterApplicationConfiguration custom resource is used to distribute `core.oam.dev/v1alpha2/ApplicationConfiguration` resources in a multicluster environment. Here is a sample MultiClusterApplicationConfiguration that specifies a ApplicationConfiguration resource to create on the cluster named `managed1`.  To deploy an example application that demonstrates this MultiClusterApplicationConfiguration, see [Multicluster Hello World Helidon](https://github.com/verrazzano/verrazzano/blob/master/examples/multicluster/hello-helidon/README.md).
+The MultiClusterApplicationConfiguration custom resource is used to distribute `core.oam.dev/v1alpha2/ApplicationConfiguration` resources in a multicluster environment. Here is a sample MultiClusterApplicationConfiguration that specifies a ApplicationConfiguration resource to create on the cluster named `managed1`.  To deploy an example application that demonstrates a MultiClusterApplicationConfiguration, see [Multicluster Hello World Helidon](https://github.com/verrazzano/verrazzano/blob/master/examples/multicluster/hello-helidon/README.md).
 
 ```
 apiVersion: clusters.verrazzano.io/v1alpha1

@@ -4,7 +4,7 @@ linkTitle: MultiClusterComponent Custom Resource Definition
 weight: 2
 draft: false
 ---
-The MultiClusterComponent custom resource is used to distribute `core.oam.dev/v1alpha2/Component` resources in a multicluster environment. Here is a sample MultiClusterComponent that specifies a Component resource to create on the cluster named `managed1`.  To deploy an example application that demonstrates this MultiClusterComponent, see [Multicluster Hello World Helidon](https://github.com/verrazzano/verrazzano/blob/master/examples/multicluster/hello-helidon/README.md).
+The MultiClusterComponent custom resource is used to distribute `core.oam.dev/v1alpha2/Component` resources in a multicluster environment. Here is a sample MultiClusterComponent that specifies a Component resource to create on the cluster named `managed1`.  To deploy an example application that demonstrates a MultiClusterComponent, see [Multicluster Hello World Helidon](https://github.com/verrazzano/verrazzano/blob/master/examples/multicluster/hello-helidon/README.md).
 
 ```
 apiVersion: clusters.verrazzano.io/v1alpha1

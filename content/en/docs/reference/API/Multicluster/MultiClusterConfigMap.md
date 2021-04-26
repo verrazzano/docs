@@ -40,8 +40,8 @@ MultiClusterConfigMapSpec specifies the desired state of a Kubernetes configmap.
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `template` | [ConfigMapTemplate](#configmaptemplate) | The embedded Kubernetes configmap. | Yes |
-| `placement` | [Placement](../placement) | Clusters in which the secret is to be placed. | Yes |
+| `template` | [ConfigMapTemplate](#configmaptemplate) | The embedded Kubernetes ConfigMap. | Yes |
+| `placement` | [Placement](../placement) | Clusters in which the ConfigMap is to be placed. | Yes |
 
 #### ConfigMapTemplate
 ConfigMapTemplate has the metadata and spec of the Kubernetes configmap.
