@@ -33,7 +33,7 @@ spec:
 | `status` | [MultiClusterResourceStatus](../multiclusterresourcestatus) | The runtime status of a multicluster resource. | No |
 
 #### VerrazzanoProjectSpec
-VerrazzanoProjectSpec specifies the namespaces to create and on which clusters to create them on.
+VerrazzanoProjectSpec specifies the namespaces to create and on which clusters to create them.
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
