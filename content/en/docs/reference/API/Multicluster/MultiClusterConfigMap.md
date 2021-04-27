@@ -4,7 +4,7 @@ linkTitle: MultiClusterConfigMap Custom Resource Definition
 weight: 2
 draft: false
 ---
-The MultiClusterConfigMap custom resource is used to distribute Kubernetes configmap resources in a multicluster environment.  Here is a sample MultiClusterConfigMap that specifies a Kubernetes configmap to create on the cluster named `managed1`.
+The MultiClusterConfigMap custom resource is used to distribute Kubernetes ConfigMap resources in a multicluster environment.  Here is a sample MultiClusterConfigMap that specifies a Kubernetes ConfigMap to create on the cluster named `managed1`.
 
 ```
 apiVersion: clusters.verrazzano.io/v1alpha1
@@ -32,11 +32,11 @@ A MultiClusterConfigMap is an envelope to create Kubernetes `ConfigMap` resource
 | `apiVersion` | string | `clusters.verrazzano.io/v1alpha1` | Yes |
 | `kind` | string | `MultiClusterConfigMap` |  Yes |
 | `metadata` | ObjectMeta | Refer to Kubernetes API documentation for fields of metadata. |  Yes |
-| `spec` |  [MultiClusterConfigMapSpec](#multiclusterconfigmapspec) | The desired state of a Kubernetes configmap. |  Yes |
+| `spec` |  [MultiClusterConfigMapSpec](#multiclusterconfigmapspec) | The desired state of a Kubernetes ConfigMap. |  Yes |
 | `status` | [MultiClusterResourceStatus](../multiclusterresourcestatus) | The runtime status of a multicluster resource. | No |
 
 #### MultiClusterConfigMapSpec
-MultiClusterConfigMapSpec specifies the desired state of a Kubernetes configmap.
+MultiClusterConfigMapSpec specifies the desired state of a Kubernetes ConfigMap.
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
@@ -44,11 +44,11 @@ MultiClusterConfigMapSpec specifies the desired state of a Kubernetes configmap.
 | `placement` | [Placement](../placement) | Clusters in which the ConfigMap is to be placed. | Yes |
 
 #### ConfigMapTemplate
-ConfigMapTemplate has the metadata and spec of the Kubernetes configmap.
+ConfigMapTemplate has the metadata and spec of the Kubernetes ConfigMap.
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `metadata` | ObjectMeta | Refer to Kubernetes API documentation for fields of metadata. |  No |
-| `immutable` | *bool | Corresponds to the `immutable` field of the struct `ConfigMap` defined in [types.go](https://github.com/kubernetes/api/blob/master/core/v1/types.go). | No |
-| `data` | map[string]string | Corresponds to the `data` field of the struct `ConfigMap` defined in [types.go](https://github.com/kubernetes/api/blob/master/core/v1/types.go). | No |
-| `binaryData` | map[string][]byte | Corresponds to the `binaryData` field of the struct `ConfigMap`  defined in [types.go](https://github.com/kubernetes/api/blob/master/core/v1/types.go). | No |
+| `immutable` | *bool | Corresponds to the `immutable` field of the `struct` `ConfigMap` defined in [types.go](https://github.com/kubernetes/api/blob/master/core/v1/types.go). | No |
+| `data` | map[string]string | Corresponds to the `data` field of the `struct` `ConfigMap` defined in [types.go](https://github.com/kubernetes/api/blob/master/core/v1/types.go). | No |
+| `binaryData` | map[string][]byte | Corresponds to the `binaryData` field of the `struct` `ConfigMap`  defined in [types.go](https://github.com/kubernetes/api/blob/master/core/v1/types.go). | No |

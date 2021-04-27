@@ -33,9 +33,9 @@ VerrazzanoManagedClusterSpec specifies a managed cluster to associate with an ad
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `description` | string | The description of the managed cluster. | No |
-| `prometheusSecret` | string | The name of a secret that contains the credentials for scraping from the prometheus endpoint on the managed cluster.  The secret contains the endpoint, username and password. | Yes |
+| `prometheusSecret` | string | The name of a Secret that contains the credentials for scraping from the Prometheus endpoint on the managed cluster.  The secret contains the endpoint, user name, and password. | Yes |
 | `serviceAccount` | string | The name of the ServiceAccount that was generated for the managed cluster. This field is managed by a Verrazzano Kubernetes operator. | No |
-| `managedClusterManifestSecret` | string | The name of the secret containing generated YAML manifest to be applied by the user to the managed cluster. This field is managed by a Verrazzano Kubernetes operator. | No |
+| `managedClusterManifestSecret` | string | The name of the Secret containing generated YAML manifest file to be applied by the user to the managed cluster. This field is managed by a Verrazzano Kubernetes operator. | No |
 
 #### VerrazzanoManagedClusterStatus
 
@@ -43,14 +43,14 @@ VerrazzanoManagedClusterSpec specifies a managed cluster to associate with an ad
 | --- | --- | --- | --- |
 | `conditions` | [Condition](#condition) array | The current state of this resource. | No |
 | `lastAgentConnectTime` | string | The last time the agent from this managed cluster connected to the admin cluster. | No |
-| `apiUrl` | string | The Verrazzano API Server URL for the managed cluster. | No |
+| `apiUrl` | string | The Verrazzano API server URL for the managed cluster. | No |
 
 #### Condition
 Condition describes current state of this resource.
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `type` | string | The condition of the multicluster resource which can be checked with a `kubectl wait` command. Condition values are case-sensitive and formatted as follows: <ul><li>`Ready`: the VerrazzanoManagedCluster is ready to be used and all resources needed have been generated</li></ul> | Yes |
+| `type` | string | The condition of the multicluster resource which can be checked with a `kubectl wait` command. Condition values are case-sensitive and formatted as follows: `Ready`: the VerrazzanoManagedCluster is ready to be used and all resources needed have been generated. | Yes |
 | `status` | ConditionStatus | An instance of the type `ConditionStatus` that is defined in [types.go](https://github.com/kubernetes/api/blob/master/core/v1/types.go). | Yes |
 | `lastTransitionTime` | string | The last time the condition transitioned from one status to another. | No |
 | `message` | string | A message with details about the last transition. | No |

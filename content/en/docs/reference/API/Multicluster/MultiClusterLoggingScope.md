@@ -51,5 +51,5 @@ LoggingScopeTemplate has the metadata and spec of the `core.oam.dev/v1alpha2/Log
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `metadata` | ObjectMeta | Refer to Kubernetes API documentation for fields of metadata. |  No |
-| `spec` | ComponentSpec | An instance of the struct `LoggingScopeSpec` defined in [core_types.go](https://github.com/crossplane/oam-kubernetes-runtime/blob/master/apis/core/v1alpha2/core_types.go). | No |
+| `spec` | ComponentSpec | An instance of the `struct` `LoggingScopeSpec` defined in [core_types.go](https://github.com/crossplane/oam-kubernetes-runtime/blob/master/apis/core/v1alpha2/core_types.go). | No |
 
