@@ -33,7 +33,7 @@ VerrazzanoManagedClusterSpec specifies a managed cluster to associate with an ad
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `description` | string | The description of the managed cluster. | No |
-| `prometheusSecret` | string | The name of a Secret that contains the credentials for scraping from the Prometheus endpoint on the managed cluster. See the [instructions](#instructions-to-create-prometheussecret) for how to create this Secret.| Yes |
+| `prometheusSecret` | string | The name of a Secret that is used to configure the admin cluster to scrape metrics from the Prometheus endpoint on the managed cluster. See the [instructions](#instructions-to-create-prometheussecret) for how to create this Secret.| Yes |
 | `serviceAccount` | string | The name of the ServiceAccount that was generated for the managed cluster. This field is managed by a Verrazzano Kubernetes operator. | No |
 | `managedClusterManifestSecret` | string | The name of the Secret containing generated YAML manifest file to be applied by the user to the managed cluster. This field is managed by a Verrazzano Kubernetes operator. | No |
 
