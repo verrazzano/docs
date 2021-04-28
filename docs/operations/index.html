@@ -100,7 +100,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../offline-search-index.89ed55d0a84adb65588e819607d77be0.json"
+  data-offline-search-index-json-src="../../offline-search-index.7cd7a91e4eb8c5abdc0584b68bb305fc.json"
   data-offline-search-base-href="../../"
   data-offline-search-max-results="10"
 >
@@ -132,7 +132,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../offline-search-index.89ed55d0a84adb65588e819607d77be0.json"
+  data-offline-search-index-json-src="../../offline-search-index.7cd7a91e4eb8c5abdc0584b68bb305fc.json"
   data-offline-search-base-href="../../"
   data-offline-search-max-results="10"
 >
@@ -446,6 +446,62 @@ if (!doNotTrack) {
         
           
           
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsreferenceapimulticlustermulticlusterapplicationconfiguration" href="../../docs/reference/api/multicluster/multiclusterapplicationconfiguration/">MultiClusterApplicationConfiguration Custom Resource Definition</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsreferenceapimulticlustermulticlustercomponent" href="../../docs/reference/api/multicluster/multiclustercomponent/">MultiClusterComponent Custom Resource Definition</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsreferenceapimulticlustermulticlusterconfigmap" href="../../docs/reference/api/multicluster/multiclusterconfigmap/">MultiClusterConfigMap Custom Resource Definition</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsreferenceapimulticlustermulticlusterloggingscope" href="../../docs/reference/api/multicluster/multiclusterloggingscope/">MultiClusterLoggingScope Custom Resource Definition</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsreferenceapimulticlustermulticlusterresourcestatus" href="../../docs/reference/api/multicluster/multiclusterresourcestatus/">MultiClusterResourceStatus Subresource</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsreferenceapimulticlustermulticlustersecret" href="../../docs/reference/api/multicluster/multiclustersecret/">MultiClusterSecret Custom Resource Definition</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsreferenceapimulticlusterplacement" href="../../docs/reference/api/multicluster/placement/">Placement Subresource</a>
+        
+      
+      
+      
+        
+          
+          
           <a class="td-sidebar-link td-sidebar-link__page " id="m-docsreferenceapiverrazzanoverrazzano" href="../../docs/reference/api/verrazzano/verrazzano/">Verrazzano Custom Resource Definition</a>
         
       
@@ -455,6 +511,22 @@ if (!doNotTrack) {
           
           
           <a class="td-sidebar-link td-sidebar-link__page " id="m-docsreferenceapioamworkloads" href="../../docs/reference/api/oam/workloads/">Verrazzano Workload Custom Resource Definitions</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsreferenceapimulticlusterverrazzanomanagedcluster" href="../../docs/reference/api/multicluster/verrazzanomanagedcluster/">VerrazzanoManagedCluster Custom Resource Definition</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsreferenceapimulticlusterverrazzanoproject" href="../../docs/reference/api/multicluster/verrazzanoproject/">VerrazzanoProject Custom Resource Definition</a>
         
       
       
@@ -626,6 +698,26 @@ For example, <code>https://rancher.myenv.mydomain.com</code>.</p>
 <p><strong>User:</strong> <code>admin</code></p>
 <p>To get the password:</p>
 <p><code>$ kubectl get secret --namespace cattle-system rancher-admin-secret -o jsonpath={.data.password} | base64 --decode; echo</code></p>
+<h4 id="change-the-verrazzano-password">Change the Verrazzano password</h4>
+<p>To change the Verrazzano password, first change the user password in Keycloak and then update the Verrazzano secret.</p>
+<p><strong>Change the user in Keycloak</strong></p>
+<ol>
+<li>Navigate to the Keycloak admin console. Obtaining the Keycloak admin console URL is described <a href="#get-the-consoles-urls">here</a>. Obtaining the Keycloak admin console credentials is described <a href="#the-keycloak-admin-console">here</a>.</li>
+<li>In the left pane, under <code>Manage</code>, select <code>Users</code>.</li>
+<li>In the <code>Users</code> pane, search for <code>verrazzano</code> or click <code>View all users</code>.</li>
+<li>For the <code>verrazzano</code> user, click the <code>Edit</code> action.</li>
+<li>At the top, select the <code>Credentials</code> tab.</li>
+<li>Specify the new password and confirm.</li>
+<li>Specify whether the new password is a temporary password. A temporary password must be reset on next login.</li>
+<li>Click <code>Reset Password</code>.</li>
+<li>Confirm the password reset by clicking <code>Reset password</code> in the confirmation dialog.</li>
+</ol>
+<p><strong>Update the Verrazzano secret</strong></p>
+<p>Get the base64 encoding for your new password:</p>
+<p><code>$ echo -n 'MyNewPwd' | base64</code></p>
+<p>Update the password in the secret:</p>
+<p><code>$ kubectl edit secret verrazzano -n verrazzano-system</code></p>
+<p>Replace the existing password value with the new base64 encoded value.</p>
 
         <div class="section-index">
     
@@ -634,6 +726,24 @@ For example, <code>https://rancher.myenv.mydomain.com</code>.</p>
     
     
     <hr class="panel-line">
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
         
             
         
@@ -756,7 +866,7 @@ For example, <code>https://rancher.myenv.mydomain.com</code>.</p>
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified April 12, 2021: <a  href="https://github.com/verrazzano/docs/commit/d00db5672b731ddcfffb923be47bd5324ba00e3a">re-org TOC/docs (#118) (d00db56)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified April 19, 2021: <a  href="https://github.com/verrazzano/docs/commit/cc61b6b90f9f3cdf2356d3caad7a45deee136fe7">Document changing of password for verrazzano user (cc61b6b)</a>
 </div>
 </div>
 

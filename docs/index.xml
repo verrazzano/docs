@@ -493,6 +493,865 @@ $ curl -sk --user verrazzano:${VZPASS} -X GET https://${HOST}/api/v1/query?query
     </item>
     
     <item>
+      <title>Docs: MultiClusterApplicationConfiguration Custom Resource Definition</title>
+      <link>https://verrazzano.io/docs/reference/api/multicluster/multiclusterapplicationconfiguration/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/reference/api/multicluster/multiclusterapplicationconfiguration/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The MultiClusterApplicationConfiguration custom resource is used to distribute &lt;code&gt;core.oam.dev/v1alpha2/ApplicationConfiguration&lt;/code&gt; resources in a multicluster environment. Here is a sample MultiClusterApplicationConfiguration that specifies an ApplicationConfiguration resource to create on the cluster named &lt;code&gt;managed1&lt;/code&gt;.  To deploy an example application that demonstrates a MultiClusterApplicationConfiguration, see &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples/multicluster/hello-helidon/README.md&#34;&gt;Multicluster Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: clusters.verrazzano.io/v1alpha1
+kind: MultiClusterApplicationConfiguration
+metadata:
+  name: hello-helidon-appconf
+  namespace: hello-helidon
+spec:
+  template:
+    metadata:
+      annotations:
+        version: v1.0.0
+        description: &amp;quot;Hello Helidon application&amp;quot;
+    spec:
+      components:
+        - componentName: hello-helidon-component
+          traits:
+            - trait:
+                apiVersion: oam.verrazzano.io/v1alpha1
+                kind: MetricsTrait
+                spec:
+                  scraper: verrazzano-system/vmi-system-prometheus-0
+            - trait:
+                apiVersion: oam.verrazzano.io/v1alpha1
+                kind: IngressTrait
+                metadata:
+                  name: hello-helidon-ingress
+                spec:
+                  rules:
+                    - paths:
+                        - path: &amp;quot;/greet&amp;quot;
+                          pathType: Prefix
+  placement:
+    clusters:
+      - name: managed1
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;multiclusterapplicationconfiguration&#34;&gt;MultiClusterApplicationConfiguration&lt;/h4&gt;
+&lt;p&gt;A MultiClusterApplicationConfiguration is an envelope to create &lt;code&gt;core.oam.dev/v1alpha2/ApplicationConfiguration&lt;/code&gt; resources on the clusters specified in the &lt;code&gt;placement&lt;/code&gt; section.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;apiVersion&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;clusters.verrazzano.io/v1alpha1&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;kind&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;MultiClusterApplicationConfiguration&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;metadata&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ObjectMeta&lt;/td&gt;
+&lt;td&gt;Refer to Kubernetes API documentation for fields of metadata.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#multiclusterapplicationconfigurationspec&#34;&gt;MultiClusterApplicationConfigurationSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The desired state of a &lt;code&gt;core.oam.dev/v1alpha2/ApplicationConfiguration&lt;/code&gt; resource.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;status&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;../multiclusterresourcestatus&#34;&gt;MultiClusterResourceStatus&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The runtime status of a multicluster resource.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;multiclusterapplicationconfigurationspec&#34;&gt;MultiClusterApplicationConfigurationSpec&lt;/h4&gt;
+&lt;p&gt;MultiClusterApplicationConfigurationSpec specifies the desired state of a &lt;code&gt;core.oam.dev/v1alpha2/ApplicationConfiguration&lt;/code&gt; resource.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;template&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#applicationconfigurationtemplate&#34;&gt;ApplicationConfigurationTemplate&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The embedded &lt;code&gt;core.oam.dev/v1alpha2/ApplicationConfiguration&lt;/code&gt; resource.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;placement&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;../placement&#34;&gt;Placement&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Clusters in which the resource is to be placed.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;applicationconfigurationtemplate&#34;&gt;ApplicationConfigurationTemplate&lt;/h4&gt;
+&lt;p&gt;ApplicationConfigurationTemplate has the metadata and spec of the &lt;code&gt;core.oam.dev/v1alpha2/ApplicationConfiguration&lt;/code&gt; resource.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;metadata&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ObjectMeta&lt;/td&gt;
+&lt;td&gt;Refer to Kubernetes API documentation for fields of metadata.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ApplicationConfigurationSpec&lt;/td&gt;
+&lt;td&gt;An instance of the &lt;code&gt;struct&lt;/code&gt; &lt;code&gt;ApplicationConfigurationSpec&lt;/code&gt; defined in &lt;a href=&#34;https://github.com/crossplane/oam-kubernetes-runtime/blob/master/apis/core/v1alpha2/core_types.go&#34;&gt;core_types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: MultiClusterComponent Custom Resource Definition</title>
+      <link>https://verrazzano.io/docs/reference/api/multicluster/multiclustercomponent/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/reference/api/multicluster/multiclustercomponent/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The MultiClusterComponent custom resource is used to distribute &lt;code&gt;core.oam.dev/v1alpha2/Component&lt;/code&gt; resources in a multicluster environment. Here is a sample MultiClusterComponent that specifies a OAM component resource to create on the cluster named &lt;code&gt;managed1&lt;/code&gt;.  To deploy an example application that demonstrates a MultiClusterComponent, see &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples/multicluster/hello-helidon/README.md&#34;&gt;Multicluster Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: clusters.verrazzano.io/v1alpha1
+kind: MultiClusterComponent
+metadata:
+  name: hello-helidon-component
+  namespace: hello-helidon
+spec:
+  template:
+    spec:
+      workload:
+        apiVersion: oam.verrazzano.io/v1alpha1
+        kind: VerrazzanoHelidonWorkload
+        metadata:
+          name: hello-helidon-workload
+          namespace: hello-helidon
+          labels:
+            app: hello-helidon
+        spec:
+          deploymentTemplate:
+            metadata:
+              name: hello-helidon-deployment
+            podSpec:
+              containers:
+                - name: hello-helidon-container
+                  image: &amp;quot;ghcr.io/verrazzano/example-helidon-greet-app-v1:0.1.12-1-20210409130027-707ecc4&amp;quot;
+                  ports:
+                    - containerPort: 8080
+                      name: http
+  placement:
+    clusters:
+      - name: managed1
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;multiclustercomponent&#34;&gt;MultiClusterComponent&lt;/h4&gt;
+&lt;p&gt;A MultiClusterComponent is an envelope to create &lt;code&gt;core.oam.dev/v1alpha2/Component&lt;/code&gt; resources on the clusters specified in the &lt;code&gt;placement&lt;/code&gt; section.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;apiVersion&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;clusters.verrazzano.io/v1alpha1&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;kind&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;MultiClusterComponent&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;metadata&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ObjectMeta&lt;/td&gt;
+&lt;td&gt;Refer to Kubernetes API documentation for fields of metadata.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#multiclustercomponentspec&#34;&gt;MultiClusterComponentSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The desired state of a &lt;code&gt;core.oam.dev/v1alpha2/Component&lt;/code&gt; resource.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;status&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;../multiclusterresourcestatus&#34;&gt;MultiClusterResourceStatus&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The runtime status of a multicluster resource.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;multiclustercomponentspec&#34;&gt;MultiClusterComponentSpec&lt;/h4&gt;
+&lt;p&gt;MultiClusterComponentSpec specifies the desired state of a &lt;code&gt;core.oam.dev/v1alpha2/Component&lt;/code&gt; resource.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;template&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#componenttemplate&#34;&gt;ComponentTemplate&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The embedded &lt;code&gt;core.oam.dev/v1alpha2/Component&lt;/code&gt; resource.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;placement&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;../placement&#34;&gt;Placement&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Clusters in which the resource is to be placed.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;componenttemplate&#34;&gt;ComponentTemplate&lt;/h4&gt;
+&lt;p&gt;ComponentTemplate has the metadata and spec of the &lt;code&gt;core.oam.dev/v1alpha2/Component&lt;/code&gt; resource.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;metadata&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ObjectMeta&lt;/td&gt;
+&lt;td&gt;Refer to Kubernetes API documentation for fields of metadata.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ComponentSpec&lt;/td&gt;
+&lt;td&gt;An instance of the &lt;code&gt;struct&lt;/code&gt; &lt;code&gt;ComponentSpec&lt;/code&gt; defined in &lt;a href=&#34;https://github.com/crossplane/oam-kubernetes-runtime/blob/master/apis/core/v1alpha2/core_types.go&#34;&gt;core_types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: MultiClusterConfigMap Custom Resource Definition</title>
+      <link>https://verrazzano.io/docs/reference/api/multicluster/multiclusterconfigmap/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/reference/api/multicluster/multiclusterconfigmap/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The MultiClusterConfigMap custom resource is used to distribute Kubernetes ConfigMap resources in a multicluster environment.  Here is a sample MultiClusterConfigMap that specifies a Kubernetes ConfigMap to create on the cluster named &lt;code&gt;managed1&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: clusters.verrazzano.io/v1alpha1
+kind: MultiClusterConfigMap
+metadata:
+  name: mymcconfigmap
+  namespace: multiclustertest
+spec:
+  template:
+    metadata:
+      name: myconfigmap
+      namespace: myns
+    data:
+      simple.key: &amp;quot;simplevalue&amp;quot;
+  placement:
+    clusters:
+      - name: managed1
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;multiclusterconfigmap&#34;&gt;MultiClusterConfigMap&lt;/h4&gt;
+&lt;p&gt;A MultiClusterConfigMap is an envelope to create Kubernetes &lt;code&gt;ConfigMap&lt;/code&gt; resources on the clusters specified in the &lt;code&gt;placement&lt;/code&gt; section.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;apiVersion&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;clusters.verrazzano.io/v1alpha1&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;kind&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;MultiClusterConfigMap&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;metadata&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ObjectMeta&lt;/td&gt;
+&lt;td&gt;Refer to Kubernetes API documentation for fields of metadata.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#multiclusterconfigmapspec&#34;&gt;MultiClusterConfigMapSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The desired state of a Kubernetes ConfigMap.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;status&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;../multiclusterresourcestatus&#34;&gt;MultiClusterResourceStatus&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The runtime status of a multicluster resource.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;multiclusterconfigmapspec&#34;&gt;MultiClusterConfigMapSpec&lt;/h4&gt;
+&lt;p&gt;MultiClusterConfigMapSpec specifies the desired state of a Kubernetes ConfigMap.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;template&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#configmaptemplate&#34;&gt;ConfigMapTemplate&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The embedded Kubernetes ConfigMap.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;placement&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;../placement&#34;&gt;Placement&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Clusters in which the ConfigMap is to be placed.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;configmaptemplate&#34;&gt;ConfigMapTemplate&lt;/h4&gt;
+&lt;p&gt;ConfigMapTemplate has the metadata and spec of the Kubernetes ConfigMap.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;metadata&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ObjectMeta&lt;/td&gt;
+&lt;td&gt;Refer to Kubernetes API documentation for fields of metadata.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;immutable&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;*bool&lt;/td&gt;
+&lt;td&gt;Corresponds to the &lt;code&gt;immutable&lt;/code&gt; field of the &lt;code&gt;struct&lt;/code&gt; &lt;code&gt;ConfigMap&lt;/code&gt; defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/core/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;data&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;map[string]string&lt;/td&gt;
+&lt;td&gt;Corresponds to the &lt;code&gt;data&lt;/code&gt; field of the &lt;code&gt;struct&lt;/code&gt; &lt;code&gt;ConfigMap&lt;/code&gt; defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/core/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;binaryData&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;map[string][]byte&lt;/td&gt;
+&lt;td&gt;Corresponds to the &lt;code&gt;binaryData&lt;/code&gt; field of the &lt;code&gt;struct&lt;/code&gt; &lt;code&gt;ConfigMap&lt;/code&gt;  defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/core/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: MultiClusterLoggingScope Custom Resource Definition</title>
+      <link>https://verrazzano.io/docs/reference/api/multicluster/multiclusterloggingscope/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/reference/api/multicluster/multiclusterloggingscope/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The MultiClusterLoggingScope custom resource is used to distribute &lt;code&gt;core.oam.dev/v1alpha2/LoggingScope&lt;/code&gt; resources in a multicluster environment. Here is a sample MultiClusterLoggingScope that specifies a LoggingScope resource to create on the cluster named &lt;code&gt;managed1&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: clusters.verrazzano.io/v1alpha1
+kind: MultiClusterLoggingScope
+metadata:
+  name: unit-mclogscope
+  namespace: unit-mclogscope-namespace
+  labels:
+    label1: test1
+spec:
+  template:
+    spec:
+      fluentdImage: myFluentdImage:v123
+      elasticSearchURL: http://myLocalEsHost:9200
+      secretName: logScopeSecret
+      workloadRefs: []
+  placement:
+    clusters:
+      - name: managed1
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;multiclusterloggingscope&#34;&gt;MultiClusterLoggingScope&lt;/h4&gt;
+&lt;p&gt;A MultiClusterLoggingScope is an envelope to create &lt;code&gt;core.oam.dev/v1alpha2/LoggingScope&lt;/code&gt; resources on the clusters specified in the &lt;code&gt;placement&lt;/code&gt; section.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;apiVersion&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;clusters.verrazzano.io/v1alpha1&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;kind&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;MultiClusterLoggingScope&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;metadata&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ObjectMeta&lt;/td&gt;
+&lt;td&gt;Refer to Kubernetes API documentation for fields of metadata.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#multiclusterloggingscopespec&#34;&gt;MultiClusterLoggingScopeSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The desired state of a &lt;code&gt;core.oam.dev/v1alpha2/LoggingScope&lt;/code&gt; resource.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;status&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;../multiclusterresourcestatus&#34;&gt;MultiClusterResourceStatus&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The runtime status of a multicluster resource.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;multiclusterloggingscopespec&#34;&gt;MultiClusterLoggingScopeSpec&lt;/h4&gt;
+&lt;p&gt;MultiClusterLoggingScopeSpec specifies the desired state of a &lt;code&gt;core.oam.dev/v1alpha2/LoggingScope&lt;/code&gt; resource.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;template&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#loggingscopetemplate&#34;&gt;LoggingScopeTemplate&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The embedded &lt;code&gt;core.oam.dev/v1alpha2/LoggingScope&lt;/code&gt; resource.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;placement&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;../placement&#34;&gt;Placement&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Clusters in which the resource is to be placed.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;loggingscopetemplate&#34;&gt;LoggingScopeTemplate&lt;/h4&gt;
+&lt;p&gt;LoggingScopeTemplate has the metadata and spec of the &lt;code&gt;core.oam.dev/v1alpha2/LoggingScope&lt;/code&gt; resource.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;metadata&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ObjectMeta&lt;/td&gt;
+&lt;td&gt;Refer to Kubernetes API documentation for fields of metadata.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ComponentSpec&lt;/td&gt;
+&lt;td&gt;An instance of the &lt;code&gt;struct&lt;/code&gt; &lt;code&gt;LoggingScopeSpec&lt;/code&gt; defined in &lt;a href=&#34;https://github.com/crossplane/oam-kubernetes-runtime/blob/master/apis/core/v1alpha2/core_types.go&#34;&gt;core_types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: MultiClusterResourceStatus Subresource</title>
+      <link>https://verrazzano.io/docs/reference/api/multicluster/multiclusterresourcestatus/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/reference/api/multicluster/multiclusterresourcestatus/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The MultiClusterResourceStatus subresource is shared by multicluster custom resources.&lt;/p&gt;
+&lt;h4 id=&#34;multiclusterresourcestatus&#34;&gt;MultiClusterResourceStatus&lt;/h4&gt;
+&lt;p&gt;MultiClusterResourceStatus specifies the status portion of a multicluster resource.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;conditions&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#condition&#34;&gt;Condition&lt;/a&gt; array&lt;/td&gt;
+&lt;td&gt;The current state of a multicluster resource.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;state&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The state of the multicluster resource.  State values are case-sensitive and formatted as follows: &lt;ul&gt;&lt;li&gt;&lt;code&gt;Pending&lt;/code&gt;: deployment to cluster is in progress&lt;/li&gt;&lt;li&gt;&lt;code&gt;Succeeded&lt;/code&gt;: deployment to cluster successfully completed&lt;/li&gt;&lt;li&gt;&lt;code&gt;Failed&lt;/code&gt;: deployment to cluster failed&lt;/li&gt;&lt;/ul&gt;&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;clusters&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#clusterlevelstatus&#34;&gt;ClusterLevelStatus&lt;/a&gt; array&lt;/td&gt;
+&lt;td&gt;Array of status information for each cluster.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;condition&#34;&gt;Condition&lt;/h4&gt;
+&lt;p&gt;Condition describes current state of a multicluster resource across all clusters.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;type&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The condition of the multicluster resource which can be checked with a &lt;code&gt;kubectl wait&lt;/code&gt; command. Condition values are case-sensitive and formatted as follows: &lt;ul&gt;&lt;li&gt;&lt;code&gt;DeployComplete&lt;/code&gt;: deployment to all clusters completed successfully&lt;/li&gt;&lt;li&gt;&lt;code&gt;DeployFailed&lt;/code&gt;: deployment to all clusters failed&lt;/li&gt;&lt;/ul&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;status&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ConditionStatus&lt;/td&gt;
+&lt;td&gt;An instance of the type &lt;code&gt;ConditionStatus&lt;/code&gt; that is defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/core/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;lastTransitionTime&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The last time the condition transitioned from one status to another.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;message&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;A message with details about the last transition.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;clusterlevelstatus&#34;&gt;ClusterLevelStatus&lt;/h4&gt;
+&lt;p&gt;ClusterLevelStatus describes the status of the multicluster resource on an individual cluster.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;name&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;Name of the cluster.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;state&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The state of the multicluster resource.  State values are case-sensitive and formatted as follows: &lt;ul&gt;&lt;li&gt;&lt;code&gt;Pending&lt;/code&gt;: deployment is in progress&lt;/li&gt;&lt;li&gt;&lt;code&gt;Succeeded&lt;/code&gt;: deployment successfully completed&lt;/li&gt;&lt;li&gt;&lt;code&gt;Failed&lt;/code&gt;: deployment failed&lt;/li&gt;&lt;/ul&gt;&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;message&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;Message with details about the status in this cluster.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;lastUpdateTime&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The last time the resource state was updated.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: MultiClusterSecret Custom Resource Definition</title>
+      <link>https://verrazzano.io/docs/reference/api/multicluster/multiclustersecret/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/reference/api/multicluster/multiclustersecret/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The MultiClusterSecret custom resource is used to distribute Kubernetes Secret resources in a multicluster environment.  Here is a sample MultiClusterSecret that specifies a Kubernetes secret to create on the cluster named &lt;code&gt;managed1&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: clusters.verrazzano.io/v1alpha1
+kind: MultiClusterSecret
+metadata:
+  name: mymcsecret
+  namespace: multiclustertest
+spec:
+  template:
+    data:
+      username: dmVycmF6emFubw==
+      password: dmVycmF6emFubw==
+  spec:
+  placement:
+    clusters:
+      - name: managed1
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;multiclustersecret&#34;&gt;MultiClusterSecret&lt;/h4&gt;
+&lt;p&gt;A MultiClusterSecret is an envelope to create Kubernetes &lt;code&gt;Secret&lt;/code&gt; resources on the clusters specified in the &lt;code&gt;placement&lt;/code&gt; section.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;apiVersion&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;clusters.verrazzano.io/v1alpha1&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;kind&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;MultiClusterSecret&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;metadata&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ObjectMeta&lt;/td&gt;
+&lt;td&gt;Refer to Kubernetes API documentation for fields of metadata.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#multiclustersecretspec&#34;&gt;MultiClusterSecretSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The desired state of a Kubernetes Secret.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;status&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;../multiclusterresourcestatus&#34;&gt;MultiClusterResourceStatus&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The runtime status of a multicluster resource.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;multiclustersecretspec&#34;&gt;MultiClusterSecretSpec&lt;/h4&gt;
+&lt;p&gt;MultiClusterSecretSpec specifies the desired state of a Kubernetes Secret.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;template&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#secrettemplate&#34;&gt;SecretTemplate&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The embedded Kubernetes Secret.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;placement&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;../placement&#34;&gt;Placement&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Clusters in which the Secret is to be placed.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;secrettemplate&#34;&gt;SecretTemplate&lt;/h4&gt;
+&lt;p&gt;SecretTemplate has the metadata and spec of the Kubernetes Secret.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;metadata&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ObjectMeta&lt;/td&gt;
+&lt;td&gt;Refer to Kubernetes API documentation for fields of metadata.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;data&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;map[string][]byte&lt;/td&gt;
+&lt;td&gt;Corresponds to the &lt;code&gt;data&lt;/code&gt; field of the &lt;code&gt;struct&lt;/code&gt; &lt;code&gt;Secret&lt;/code&gt; defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/core/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;stringData&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;map[string]string&lt;/td&gt;
+&lt;td&gt;Corresponds to the &lt;code&gt;stringData&lt;/code&gt; field of the &lt;code&gt;struct&lt;/code&gt; &lt;code&gt;Secret&lt;/code&gt;  defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/core/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;type&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;Corresponds to the &lt;code&gt;type&lt;/code&gt; field of the &lt;code&gt;struct&lt;/code&gt; &lt;code&gt;Secret&lt;/code&gt; defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/core/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Placement Subresource</title>
+      <link>https://verrazzano.io/docs/reference/api/multicluster/placement/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/reference/api/multicluster/placement/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The Placement subresource is shared by multicluster custom resources.&lt;/p&gt;
+&lt;h4 id=&#34;placement&#34;&gt;Placement&lt;/h4&gt;
+&lt;p&gt;Placement contains the name of each cluster where this resource will be located.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;clusters&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#cluster&#34;&gt;Cluster&lt;/a&gt; array&lt;/td&gt;
+&lt;td&gt;An array of cluster locations.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;cluster&#34;&gt;Cluster&lt;/h4&gt;
+&lt;p&gt;Cluster contains the name of a single cluster.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;cluster&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The name of a cluster.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Quick Start</title>
       <link>https://verrazzano.io/docs/setup/quickstart/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -1304,6 +2163,12 @@ spec:
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
+&lt;td&gt;&lt;code&gt;strategy&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#deploymentstrategy-v1-apps&#34;&gt;DeploymentStrategy&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The replacement strategy of the underlying deployment.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
 &lt;td&gt;&lt;code&gt;podSpec&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#podspec-v1-core&#34;&gt;PodSpec&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The pod spec of the underlying deployment.&lt;/td&gt;
@@ -1411,6 +2276,393 @@ spec:
 &lt;td&gt;&lt;a href=&#34;https://pkg.go.dev/k8s.io/apimachinery/pkg/runtime#RawExtension&#34;&gt;RawExtension&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The metadata and spec for the underlying WebLogic &lt;a href=&#34;https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md&#34;&gt;Domain&lt;/a&gt; resource.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: VerrazzanoManagedCluster Custom Resource Definition</title>
+      <link>https://verrazzano.io/docs/reference/api/multicluster/verrazzanomanagedcluster/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/reference/api/multicluster/verrazzanomanagedcluster/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The VerrazzanoManagedCluster custom resource is used to register a managed cluster with an admin cluster.  Here is a sample VerrazzanoManagedCluster that registers the cluster named &lt;code&gt;managed1&lt;/code&gt;.  To deploy an example application that demonstrates a VerrazzanoManagedCluster, see &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples/multicluster/hello-helidon/README.md&#34;&gt;Multicluster Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: clusters.verrazzano.io/v1alpha1
+kind: VerrazzanoManagedCluster
+metadata:
+  name: managed1
+  namespace: verrazzano-mc
+spec:
+  description: &amp;quot;Managed Cluster 1&amp;quot;
+  prometheusSecret: prometheus-managed1
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;verrazzanomanagedcluster&#34;&gt;VerrazzanoManagedCluster&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;apiVersion&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;clusters.verrazzano.io/v1alpha1&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;kind&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;VerrazzanoManagedCluster&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;metadata&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ObjectMeta&lt;/td&gt;
+&lt;td&gt;Refer to Kubernetes API documentation for fields of metadata.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#verrazzanomanagedclusterspec&#34;&gt;VerrazzanoManagedClusterSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The managed cluster specification.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;status&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#verrazzanomanagedclusterstatus&#34;&gt;VerrazzanoManagedClusterStatus&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The runtime status this resource.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;verrazzanomanagedclusterspec&#34;&gt;VerrazzanoManagedClusterSpec&lt;/h4&gt;
+&lt;p&gt;VerrazzanoManagedClusterSpec specifies a managed cluster to associate with an admin cluster.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;description&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The description of the managed cluster.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;prometheusSecret&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The name of a Secret that is used to configure the admin cluster to scrape metrics from the Prometheus endpoint on the managed cluster. See the &lt;a href=&#34;#instructions-to-create-prometheussecret&#34;&gt;instructions&lt;/a&gt; for how to create this Secret.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;serviceAccount&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The name of the ServiceAccount that was generated for the managed cluster. This field is managed by a Verrazzano Kubernetes operator.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;managedClusterManifestSecret&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The name of the Secret containing generated YAML manifest file to be applied by the user to the managed cluster. This field is managed by a Verrazzano Kubernetes operator.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;verrazzanomanagedclusterstatus&#34;&gt;VerrazzanoManagedClusterStatus&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;conditions&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#condition&#34;&gt;Condition&lt;/a&gt; array&lt;/td&gt;
+&lt;td&gt;The current state of this resource.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;lastAgentConnectTime&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The last time the agent from this managed cluster connected to the admin cluster.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;apiUrl&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The Verrazzano API server URL for the managed cluster.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;condition&#34;&gt;Condition&lt;/h4&gt;
+&lt;p&gt;Condition describes current state of this resource.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;type&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The condition of the multicluster resource which can be checked with a &lt;code&gt;kubectl wait&lt;/code&gt; command. Condition values are case-sensitive and formatted as follows: &lt;code&gt;Ready&lt;/code&gt;: the VerrazzanoManagedCluster is ready to be used and all resources needed have been generated.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;status&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ConditionStatus&lt;/td&gt;
+&lt;td&gt;An instance of the type &lt;code&gt;ConditionStatus&lt;/code&gt; that is defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/core/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;lastTransitionTime&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The last time the condition transitioned from one status to another.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;message&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;A message with details about the last transition.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;instructions-to-create-prometheussecret&#34;&gt;Instructions to create prometheusSecret&lt;/h4&gt;
+&lt;p&gt;Instructions to create the Secret that is referenced in the field &lt;code&gt;prometheusSecret&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ CLUSTER_NAME=managed2
+$ echo &amp;quot;prometheus:&amp;quot; &amp;gt; ${CLUSTER_NAME}.yaml
+$ echo &amp;quot;  host: $(kubectl get ing vmi-system-prometheus -n verrazzano-system -o jsonpath=&#39;{.spec.tls[0].hosts[0]}&#39;)&amp;quot; &amp;gt;&amp;gt; ${CLUSTER_NAME}.yaml
+$ CA_CERT=$(kubectl -n verrazzano-system get secret system-tls -o json | jq -r &#39;.data.&amp;quot;ca.crt&amp;quot;&#39; | base64 --decode)
+$ echo &amp;quot;  cacrt: |&amp;quot; &amp;gt;&amp;gt; ${CLUSTER_NAME}.yaml
+$ echo -e &amp;quot;$CA_CERT&amp;quot; | sed &#39;s/^/    /&#39; &amp;gt;&amp;gt; ${CLUSTER_NAME}.yaml
+$ kubectl create secret generic prometheus-${CLUSTER_NAME} -n verrazzano-mc --from-file=${CLUSTER_NAME}.yaml
+&lt;/code&gt;&lt;/pre&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: VerrazzanoProject Custom Resource Definition</title>
+      <link>https://verrazzano.io/docs/reference/api/multicluster/verrazzanoproject/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/reference/api/multicluster/verrazzanoproject/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The VerrazzanoProject custom resource is used to create the application namespaces and their associated security settings on one or more clusters.  The namespaces are always created on the admin cluster.  Here is a sample VerrazzanoProject that specifies a namespace to create on the cluster named &lt;code&gt;managed1&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: clusters.verrazzano.io/v1alpha1
+kind: VerrazzanoProject
+metadata:
+  name: hello-helidon
+  namespace: verrazzano-mc
+spec:
+  template:
+    namespaces:
+      - metadata:
+          name: hello-helidon
+  placement:
+    clusters:
+      - name: managed1
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;verrazzanoproject&#34;&gt;VerrazzanoProject&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;apiVersion&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;clusters.verrazzano.io/v1alpha1&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;kind&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;VerrazzanoProject&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;metadata&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ObjectMeta&lt;/td&gt;
+&lt;td&gt;Refer to Kubernetes API documentation for fields of metadata.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#verrazzanoprojectspec&#34;&gt;VerrazzanoProjectSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The project specification.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;status&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;../multiclusterresourcestatus&#34;&gt;MultiClusterResourceStatus&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The runtime status of a multicluster resource.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;verrazzanoprojectspec&#34;&gt;VerrazzanoProjectSpec&lt;/h4&gt;
+&lt;p&gt;VerrazzanoProjectSpec specifies the namespaces to create and on which clusters to create them.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;template&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#projecttemplate&#34;&gt;ProjectTemplate&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The project template.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;placement&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;../placement&#34;&gt;Placement&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Clusters on which the namespaces are to be created.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;projecttemplate&#34;&gt;ProjectTemplate&lt;/h4&gt;
+&lt;p&gt;ProjectTemplate contains the list of namespaces to create and the optional security configuration for each namespace.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;namespaces&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#namespacetemplate&#34;&gt;NamespaceTemplate&lt;/a&gt; array&lt;/td&gt;
+&lt;td&gt;The list of application namespaces to create for this project.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;security&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#securityspec&#34;&gt;SecuritySpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The project security configuration.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;networkPolicies&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#networkpolicytemplate&#34;&gt;NetworkPolicyTemplate&lt;/a&gt; array&lt;/td&gt;
+&lt;td&gt;The network policies applied to namespaces in the project.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;namespacetemplate&#34;&gt;NamespaceTemplate&lt;/h4&gt;
+&lt;p&gt;NamespaceTemplate contains the metadata and specification of a Kubernetes namespace.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;metadata&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ObjectMeta&lt;/td&gt;
+&lt;td&gt;Refer to Kubernetes API documentation for fields of metadata.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;NamespaceSpec&lt;/td&gt;
+&lt;td&gt;An instance of the &lt;code&gt;struct&lt;/code&gt; &lt;code&gt;NamespaceSpec&lt;/code&gt; defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/core/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;securityspec&#34;&gt;SecuritySpec&lt;/h4&gt;
+&lt;p&gt;SecuritySpec defines the security configuration for a project.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;projectAdminSubjects&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Subject&lt;/td&gt;
+&lt;td&gt;The subject to bind to the &lt;code&gt;verrazzano-project-admin&lt;/code&gt; role. Encoded as an instance of the &lt;code&gt;struct&lt;/code&gt; &lt;code&gt;Subject&lt;/code&gt; defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/rbac/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;projectMonitorSubjects&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Subject&lt;/td&gt;
+&lt;td&gt;The subject to bind to the &lt;code&gt;verrazzano-project-monitoring&lt;/code&gt; role. Encoded as an instance of the &lt;code&gt;struct&lt;/code&gt; &lt;code&gt;Subject&lt;/code&gt; defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/rbac/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;networkpolicytemplate&#34;&gt;NetworkPolicyTemplate&lt;/h4&gt;
+&lt;p&gt;NetworkPolicyTemplate contains the metadata and specification of the underlying NetworkPolicy.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;metadata&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ObjectMeta&lt;/td&gt;
+&lt;td&gt;Refer to Kubernetes API documentation for fields of metadata.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;NetworkPolicySpec&lt;/td&gt;
+&lt;td&gt;An instance of the &lt;code&gt;struct&lt;/code&gt; &lt;code&gt;NetworkPolicySpec&lt;/code&gt; defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/networking/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -2669,7 +3921,7 @@ component with its version and a brief description.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Rancher&lt;/td&gt;
-&lt;td&gt;2.4.3&lt;/td&gt;
+&lt;td&gt;2.5.7&lt;/td&gt;
 &lt;td&gt;Manages multiple Kubernetes clusters.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
