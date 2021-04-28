@@ -33,7 +33,7 @@ VerrazzanoManagedClusterSpec specifies a managed cluster to associate with an ad
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `description` | string | The description of the managed cluster. | No |
-| `prometheusSecret` | string | The name of a Secret that contains the credentials for scraping from the Prometheus endpoint on the managed cluster.  The secret contains the endpoint, user name, and password. | Yes |
+| `prometheusSecret` | string | The name of a Secret that contains the credentials for scraping from the Prometheus endpoint on the managed cluster. See the [instructions](#instructions-to-create-prometheussecret) for how to create this Secret.| Yes |
 | `serviceAccount` | string | The name of the ServiceAccount that was generated for the managed cluster. This field is managed by a Verrazzano Kubernetes operator. | No |
 | `managedClusterManifestSecret` | string | The name of the Secret containing generated YAML manifest file to be applied by the user to the managed cluster. This field is managed by a Verrazzano Kubernetes operator. | No |
 
@@ -54,3 +54,16 @@ Condition describes current state of this resource.
 | `status` | ConditionStatus | An instance of the type `ConditionStatus` that is defined in [types.go](https://github.com/kubernetes/api/blob/master/core/v1/types.go). | Yes |
 | `lastTransitionTime` | string | The last time the condition transitioned from one status to another. | No |
 | `message` | string | A message with details about the last transition. | No |
+
+#### Instructions to create prometheusSecret
+Instructions to create the Secret that is referenced in the field `prometheusSecret`.
+```
+$ CLUSTER_NAME=managed2
+$ echo "prometheus:" > ${CLUSTER_NAME}.yaml
+$ echo "  host: $(kubectl get ing vmi-system-prometheus -n verrazzano-system -o jsonpath='{.spec.tls[0].hosts[0]}')" >> ${CLUSTER_NAME}.yaml
+$ CA_CERT=$(kubectl -n verrazzano-system get secret system-tls -o json | jq -r '.data."ca.crt"' | base64 --decode)
+$ echo "  cacrt: |" >> ${CLUSTER_NAME}.yaml
+$ echo -e "$CA_CERT" | sed 's/^/    /' >> ${CLUSTER_NAME}.yaml
+$ kubectl create secret generic prometheus-${CLUSTER_NAME} -n verrazzano-mc --from-file=${CLUSTER_NAME}.yaml
+```
+
