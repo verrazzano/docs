@@ -12,8 +12,11 @@ The following are key concepts for understanding MultiCluster Verrazzano
 1. [Managed Kubernetes Clusters](#managed-kubernetes-clusters)
 1. [The VerrazzanoProject Resource](#the-verrazzanoproject-resource)
 1. [Verrazzano MultiCluster resources](#verrazzano-multicluster-resources)
+1. [Managed Cluster Registration](#managed-cluster-registration)
+1. [Trying out MultiCluster Verrazzano](#trying-out-multicluster-verrazzano)
 
 The diagram below shows an overview of how MultiCluster Verrazzano works
+
 
 ![](../../images/VerrazzanoMultiCluster.png)
 
@@ -40,7 +43,7 @@ installation profile). A managed cluster has the following additional characteri
   - The resource itself has a a `placement` in this managed cluster
 
 ### The VerrazzanoProject Resource
-A `VerrazzanoProject` provides a way to group application namespaces that are owned or administered by the
+A [`VerrazzanoProject`](../../reference/api/multicluster/verrazzanoproject "api docs") provides a way to group application namespaces that are owned or administered by the
 same user or group of users. 
 - For multicluster applications to work correctly, a VerrazzanoProject containing the application's namespace MUST
   first be created
@@ -59,11 +62,11 @@ same user or group of users.
 Verrazzano includes several `MultiCluster` resource definitions, for resources that may be targeted for placement in a
 specified cluster.
 
-1. MultiClusterApplicationConfiguration
-1. MultiClusterComponent
-1. MultiClusterConfigMap
-1. MultiClusterLoggingScope
-1. MultiClusterSecret
+1. [MultiClusterApplicationConfiguration](../../reference/api/multicluster/multiclusterapplicationconfiguration "api docs")
+1. [MultiClusterComponent](../../reference/api/multicluster/multiclustercomponent "api docs")
+1. [MultiClusterConfigMap](../../reference/api/multicluster/multiclusterconfigmap "api docs")
+1. [MultiClusterLoggingScope](../../reference/api/multicluster/multiclusterloggingscope "api docs")
+1. [MultiClusterSecret](../../reference/api/multicluster/multiclustersecret "api docs")
 
 - Each `MultiCluster` resource type serves as a wrapper for an underlying resource type
 - A `MultiCluster` resource additionally allows the `placement` of the underlying resource to be specified as a list of
@@ -76,7 +79,7 @@ specified cluster.
 ### Managed Cluster Registration
 A `managed` cluster may be registered with an `admin` cluster using a 2-step process.
 
-**Step 1:** Creating a `VerrazzanoManagedCluster` resource in the `verrazzano-mc` namespace of the `admin` cluster and
+**Step 1:** Creating a [`VerrazzanoManagedCluster`](../../reference/api/multicluster/verrazzanomanagedcluster "api docs") resource in the `verrazzano-mc` namespace of the `admin` cluster and
 
 **Step 2:** Retrieving the Kubernetes manifest generated in the `VerrazzanoManagedCluster` resource and applying it on 
    the `managed` cluster to complete the registration.
@@ -98,3 +101,9 @@ When a managed cluster is registered, the following things will start happening.
    be sent to Elasticsearch on the `admin` cluster, and may be viewed from the Verrazzano-installed Kibana on the 
    admin cluster. Likewise, application metrics will be scraped by the admin cluster and visible in the 
    Verrazzano-installed Prometheus on the admin cluster.
+
+### Trying Out Multicluster Verrazzano
+For more information, and to try out multicluster Verrazzano, please refer to the
+[API Documentation](../../reference/api/) for the resources described in this page, as well as the
+[Hello World Helidon multicluster example application](https://github.com/verrazzano/verrazzano/tree/master/examples/multicluster/hello-helidon)
+available in the Verrazzano Github repository.
