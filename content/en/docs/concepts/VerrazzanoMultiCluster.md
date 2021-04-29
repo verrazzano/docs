@@ -39,8 +39,9 @@ installation profile). A managed cluster has the following additional characteri
   Elasticsearch running on the admin cluster, and viewable from that cluster.
 - A Verrazzano multicluster Kubernetes resource created on the admin cluster will be retrieved and deployed to a
   managed cluster if all of the following are true:
-  - The resource is part of a `VerrazzanoProject` that has a `placement` in this managed cluster. 
-  - The resource itself has a `placement` in this managed cluster.
+  - The resource is in a namespace governed by a `VerrazzanoProject`.
+  - The `VerrazzanoProject` is placed in this managed cluster.
+  - The resource itself is placed in this managed cluster.
 
 ### The VerrazzanoProject resource
 A [`VerrazzanoProject`](../../reference/api/multicluster/verrazzanoproject "api docs") provides a way to group application namespaces that are owned or administered by the
