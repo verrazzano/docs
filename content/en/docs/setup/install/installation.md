@@ -75,7 +75,7 @@ To install the Verrazzano platform operator:
 
 ### Perform the install
 
-Verrazzano supports the following installation profiles:  development (`dev`), production (`prod`) and 
+Verrazzano supports the following installation profiles:  development (`dev`), production (`prod`), and 
 managed cluster (`managed-cluster`).
 - The production profile, which is the default, provides a 3-node Elasticsearch and
 persistent storage for the Verrazzano Monitoring Instance (VMI).

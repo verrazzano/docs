@@ -1,6 +1,6 @@
 ---
-title: "Verrazzano in a Multicluster Environment"
-linkTitle: Verrazzano in a Multicluster Environment
+title: "Verrazzano in a multicluster environment"
+linkTitle: Verrazzano in a multicluster environment
 weight: 1
 draft: false
 ---
@@ -15,7 +15,7 @@ Review the following key concepts to understand multicluster Verrazzano:
 - [Managed cluster registration](#managed-cluster-registration)
 - [Try out multicluster Verrazzano](#try-out-multicluster-verrazzano)
 
-The diagram below shows an overview of how multicluster Verrazzano works.
+The following diagram shows an overview of how multicluster Verrazzano works:
 
 
 ![](../../images/VerrazzanoMultiCluster.png)
@@ -26,7 +26,7 @@ A Verrazzano admin cluster is a central management point for:
 - Viewing logs and metrics for both Verrazzano components and applications that reside in the managed clusters.
 
 By creating a `VerrazzanoManagedCluster` resource in the `verrazzano-mc` namespace of an admin cluster, you may
-register one or more managed clusters with the admin cluster
+register one or more managed clusters with the admin cluster.
 
 **Note:** The admin cluster has a fully functional Verrazzano installation. You can place applications on the admin
 cluster as well as on managed clusters.
@@ -74,7 +74,7 @@ or more clusters.
 - Each multicluster resource type serves as a wrapper for an underlying resource type.
 - A multicluster resource additionally allows the `placement` of the underlying resource to be specified as a list of
   names of the clusters in which the resource must be placed.
-- multicluster resources are created in the admin cluster, in a namespace that is part of a `VerrazzanoProject`
+- Multicluster resources are created in the admin cluster, in a namespace that is part of a `VerrazzanoProject`
   and targeted for `placement` in either the local admin cluster, or a remote managed cluster.
 - A multicluster resource is said to be part of a `VerrazzanoProject`, if it is in a namespace that is governed 
   by that `VerrazzanoProject`.
@@ -90,7 +90,7 @@ A managed cluster may be registered with an admin cluster using a 2-step process
 When a managed cluster is registered, the following will happen:
 
 - Immediately after the first registration step, the admin cluster begins scraping Prometheus metrics from the newly
-   registered managed cluster
+   registered managed cluster.
 - After both steps of the registration are complete, the managed cluster begins polling the admin cluster for
    `VerrazzanoProject` resources and multicluster resources which specify a `placement` in this managed cluster.
     -  Any `VerrazzanoProject` resources placed in this managed cluster are retrieved, and the corresponding namespaces 
