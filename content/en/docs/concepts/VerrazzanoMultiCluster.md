@@ -57,7 +57,7 @@ same user or group of users.
 - If those namespaces do not already exist, then the creation of a `VerrazzanoProject` results in the creation of the
   specified namespaces in the project.
 - It also results in the creation of a Kubernetes `RoleBinding` in each of the namespaces, to set up the appropriate
-  permissions for the Project Admins and Project Monitors of the project.
+  permissions for the project admins and project monitors of the project.
   
 ### Verrazzano multicluster resources
 Verrazzano includes several multicluster resource definitions, for resources that may be targeted for placement in one
