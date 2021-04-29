@@ -63,11 +63,12 @@ same user or group of users.
 Verrazzano includes several multicluster resource definitions, for resources that may be targeted for placement in one
 or more clusters.
 
-1. [MultiClusterApplicationConfiguration](../../reference/api/multicluster/multiclusterapplicationconfiguration "api docs")
-1. [MultiClusterComponent](../../reference/api/multicluster/multiclustercomponent "api docs")
-1. [MultiClusterConfigMap](../../reference/api/multicluster/multiclusterconfigmap "api docs")
-1. [MultiClusterLoggingScope](../../reference/api/multicluster/multiclusterloggingscope "api docs")
-1. [MultiClusterSecret](../../reference/api/multicluster/multiclustersecret "api docs")
+- [MultiClusterApplicationConfiguration](../../reference/api/multicluster/multiclusterapplicationconfiguration "api docs")
+- [MultiClusterComponent](../../reference/api/multicluster/multiclustercomponent "api docs")
+- [MultiClusterConfigMap](../../reference/api/multicluster/multiclusterconfigmap "api docs")
+- [MultiClusterLoggingScope](../../reference/api/multicluster/multiclusterloggingscope "api docs")
+- [MultiClusterSecret](../../reference/api/multicluster/multiclustersecret "api docs")
+
 
 - Each multicluster resource type serves as a wrapper for an underlying resource type.
 - A multicluster resource additionally allows the `placement` of the underlying resource to be specified as a list of
@@ -87,18 +88,18 @@ A managed cluster may be registered with an admin cluster using a 2-step process
    
 When a managed cluster is registered, the following will happen:
 
-1. Immediately after the first registration step, the admin cluster begins scraping Prometheus metrics from the newly
+- Immediately after the first registration step, the admin cluster begins scraping Prometheus metrics from the newly
    registered managed cluster
-1. After both steps of the registration are complete, the managed cluster begins polling the admin cluster for
+- After both steps of the registration are complete, the managed cluster begins polling the admin cluster for
    `VerrazzanoProject` resources and multicluster resources which specify a `placement` in this managed cluster.
-    1. Any `VerrazzanoProject` resources placed in this managed cluster are retrieved, and the corresponding namespaces 
+    -  Any `VerrazzanoProject` resources placed in this managed cluster are retrieved, and the corresponding namespaces 
    and security permissions (`RoleBindings`) are created in the managed cluster.
-    1. Any multicluster resources that are placed in this managed cluster, and are in a `VerrazzanoProject` that is 
+    - Any multicluster resources that are placed in this managed cluster, and are in a `VerrazzanoProject` that is 
        also placed in this managed cluster, are retrieved, and created or updated on the managed cluster. The 
        underlying resource represented by the multicluster resource is unwrapped and created or updated on the managed
        cluster. The managed cluster namespace of the multicluster resource and its underlying resource matches 
        the admin cluster namespace of the multicluster resource.
-1. For `MultiClusterApplicationConfigurations` retrieved and unwrapped on a managed cluster, the application logs will
+- For `MultiClusterApplicationConfigurations` retrieved and unwrapped on a managed cluster, the application logs will
    be sent to Elasticsearch on the admin cluster, and may be viewed from the Verrazzano-installed Kibana on the 
    admin cluster. Likewise, application metrics will be scraped by the admin cluster and visible in the 
    Verrazzano-installed Prometheus on the admin cluster.
