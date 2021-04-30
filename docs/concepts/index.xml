@@ -38,5 +38,141 @@
       </description>
     </item>
     
+    <item>
+      <title>Docs: Verrazzano in a multicluster environment</title>
+      <link>https://verrazzano.io/docs/concepts/verrazzanomulticluster/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/concepts/verrazzanomulticluster/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Multicluster Verrazzano consists of an &lt;strong&gt;admin&lt;/strong&gt; Kubernetes cluster and optionally, one or more &lt;strong&gt;managed&lt;/strong&gt; clusters.&lt;/p&gt;
+&lt;p&gt;Review the following key concepts to understand multicluster Verrazzano:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#admin-kubernetes-cluster&#34;&gt;Admin Kubernetes cluster&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#managed-kubernetes-clusters&#34;&gt;Managed Kubernetes clusters&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#the-verrazzanoproject-resource&#34;&gt;The VerrazzanoProject resource&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#verrazzano-multicluster-resources&#34;&gt;Verrazzano multicluster resources&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#managed-cluster-registration&#34;&gt;Managed cluster registration&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#try-out-multicluster-verrazzano&#34;&gt;Try out multicluster Verrazzano&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The following diagram shows an overview of how multicluster Verrazzano works:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../images/VerrazzanoMultiCluster.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;admin-kubernetes-cluster&#34;&gt;Admin Kubernetes cluster&lt;/h3&gt;
+&lt;p&gt;A Verrazzano admin cluster is a central management point for:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Deploying and undeploying applications to the managed clusters registered with this admin cluster.&lt;/li&gt;
+&lt;li&gt;Viewing logs and metrics for both Verrazzano components and applications that reside in the managed clusters.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;By creating a &lt;code&gt;VerrazzanoManagedCluster&lt;/code&gt; resource in the &lt;code&gt;verrazzano-mc&lt;/code&gt; namespace of an admin cluster, you may
+register one or more managed clusters with the admin cluster.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; The admin cluster has a fully functional Verrazzano installation. You can place applications on the admin
+cluster as well as on managed clusters.&lt;/p&gt;
+&lt;h3 id=&#34;managed-kubernetes-clusters&#34;&gt;Managed Kubernetes clusters&lt;/h3&gt;
+&lt;p&gt;A Verrazzano managed cluster has a minimal footprint of Verrazzano installed (using the &lt;code&gt;managed-cluster&lt;/code&gt;
+installation profile). A managed cluster has the following additional characteristics:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;It is registered with an admin cluster with a unique name.&lt;/li&gt;
+&lt;li&gt;Logs for Verrazzano system components and Verrazzano multicluster applications will be sent to
+Elasticsearch running on the admin cluster, and viewable from that cluster.&lt;/li&gt;
+&lt;li&gt;A Verrazzano multicluster Kubernetes resource created on the admin cluster will be retrieved and deployed to a
+managed cluster if all of the following are true:
+&lt;ul&gt;
+&lt;li&gt;The resource is in a namespace governed by a &lt;code&gt;VerrazzanoProject&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;VerrazzanoProject&lt;/code&gt; is placed in this managed cluster.&lt;/li&gt;
+&lt;li&gt;The resource itself is placed in this managed cluster.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;the-verrazzanoproject-resource&#34;&gt;The VerrazzanoProject resource&lt;/h3&gt;
+&lt;p&gt;A &lt;a href=&#34;../../reference/api/multicluster/verrazzanoproject&#34; title=&#34;api docs&#34;&gt;&lt;code&gt;VerrazzanoProject&lt;/code&gt;&lt;/a&gt; provides a way to group application namespaces that are owned or administered by the
+same user or group of users.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;For multicluster applications to work correctly, a VerrazzanoProject containing the application&amp;rsquo;s namespace &lt;em&gt;must&lt;/em&gt;
+first be created.&lt;/li&gt;
+&lt;li&gt;A &lt;code&gt;VerrazzanoProject&lt;/code&gt; resource is created by a Verrazzano administrator user, and specifies the following:
+&lt;ul&gt;
+&lt;li&gt;A list of namespaces that the project governs.&lt;/li&gt;
+&lt;li&gt;A user or group that is designated as the &lt;code&gt;Project Admin&lt;/code&gt; of the VerrazzanoProject. Project admins may deploy
+or delete applications and related resources in the namespaces in the project.&lt;/li&gt;
+&lt;li&gt;A user or group that is designated as &lt;code&gt;Project Monitor&lt;/code&gt; of the VerrazzanoProject. Project monitors may view
+the resources in the namespaces in the project, but not modify or delete them.&lt;/li&gt;
+&lt;li&gt;A list of network policies to apply to the namespaces in the project.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;If those namespaces do not already exist, then the creation of a &lt;code&gt;VerrazzanoProject&lt;/code&gt; results in the creation of the
+specified namespaces in the project.&lt;/li&gt;
+&lt;li&gt;It also results in the creation of a Kubernetes &lt;code&gt;RoleBinding&lt;/code&gt; in each of the namespaces, to set up the appropriate
+permissions for the project admins and project monitors of the project.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;verrazzano-multicluster-resources&#34;&gt;Verrazzano multicluster resources&lt;/h3&gt;
+&lt;p&gt;Verrazzano includes several multicluster resource definitions, for resources that may be targeted for placement in one
+or more clusters.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;../../reference/api/multicluster/multiclusterapplicationconfiguration&#34; title=&#34;api docs&#34;&gt;MultiClusterApplicationConfiguration&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;../../reference/api/multicluster/multiclustercomponent&#34; title=&#34;api docs&#34;&gt;MultiClusterComponent&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;../../reference/api/multicluster/multiclusterconfigmap&#34; title=&#34;api docs&#34;&gt;MultiClusterConfigMap&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;../../reference/api/multicluster/multiclusterloggingscope&#34; title=&#34;api docs&#34;&gt;MultiClusterLoggingScope&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;../../reference/api/multicluster/multiclustersecret&#34; title=&#34;api docs&#34;&gt;MultiClusterSecret&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Each multicluster resource type serves as a wrapper for an underlying resource type.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;A multicluster resource additionally allows the &lt;code&gt;placement&lt;/code&gt; of the underlying resource to be specified as a list of
+names of the clusters in which the resource must be placed.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Multicluster resources are created in the admin cluster, in a namespace that is part of a &lt;code&gt;VerrazzanoProject&lt;/code&gt;
+and targeted for &lt;code&gt;placement&lt;/code&gt; in either the local admin cluster, or a remote managed cluster.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;A multicluster resource is said to be part of a &lt;code&gt;VerrazzanoProject&lt;/code&gt;, if it is in a namespace that is governed
+by that &lt;code&gt;VerrazzanoProject&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;managed-cluster-registration&#34;&gt;Managed cluster registration&lt;/h3&gt;
+&lt;p&gt;A managed cluster may be registered with an admin cluster using a 2-step process:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Step 1:&lt;/strong&gt; Creating a &lt;a href=&#34;../../reference/api/multicluster/verrazzanomanagedcluster&#34; title=&#34;api docs&#34;&gt;&lt;code&gt;VerrazzanoManagedCluster&lt;/code&gt;&lt;/a&gt; resource in the &lt;code&gt;verrazzano-mc&lt;/code&gt; namespace of the admin cluster.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Step 2:&lt;/strong&gt; Retrieving the Kubernetes manifest generated in the &lt;code&gt;VerrazzanoManagedCluster&lt;/code&gt; resource and applying it on
+the managed cluster to complete the registration.&lt;/p&gt;
+&lt;p&gt;When a managed cluster is registered, the following will happen:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Immediately after the first registration step, the admin cluster begins scraping Prometheus metrics from the newly
+registered managed cluster.&lt;/li&gt;
+&lt;li&gt;After both steps of the registration are complete, the managed cluster begins polling the admin cluster for
+&lt;code&gt;VerrazzanoProject&lt;/code&gt; resources and multicluster resources which specify a &lt;code&gt;placement&lt;/code&gt; in this managed cluster.
+&lt;ul&gt;
+&lt;li&gt;Any &lt;code&gt;VerrazzanoProject&lt;/code&gt; resources placed in this managed cluster are retrieved, and the corresponding namespaces
+and security permissions (&lt;code&gt;RoleBindings&lt;/code&gt;) are created in the managed cluster.&lt;/li&gt;
+&lt;li&gt;Any multicluster resources that are placed in this managed cluster, and are in a &lt;code&gt;VerrazzanoProject&lt;/code&gt; that is
+also placed in this managed cluster, are retrieved, and created or updated on the managed cluster. The
+underlying resource represented by the multicluster resource is unwrapped and created or updated on the managed
+cluster. The managed cluster namespace of the multicluster resource and its underlying resource matches
+the admin cluster namespace of the multicluster resource.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;For &lt;code&gt;MultiClusterApplicationConfigurations&lt;/code&gt; retrieved and unwrapped on a managed cluster, the application logs will
+be sent to Elasticsearch on the admin cluster, and may be viewed from the Verrazzano-installed Kibana on the
+admin cluster. Likewise, application metrics will be scraped by the admin cluster and visible in the
+Verrazzano-installed Prometheus on the admin cluster.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;try-out-multicluster-verrazzano&#34;&gt;Try out multicluster Verrazzano&lt;/h3&gt;
+&lt;p&gt;For more information, see the &lt;a href=&#34;../../reference/api/&#34;&gt;API Documentation&lt;/a&gt; for the resources described here.
+To try out multicluster Verrazzano, see the &lt;a href=&#34;https://github.com/verrazzano/verrazzano/tree/master/examples/multicluster/hello-helidon&#34;&gt;Hello World Helidon multicluster example application&lt;/a&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
   </channel>
 </rss>
