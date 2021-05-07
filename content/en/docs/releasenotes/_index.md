@@ -5,6 +5,35 @@ weight: 6
 draft: false
 ---
 
+### v0.14.0
+Features:
+- Multicluster support for Verrazzano
+    - Register participating clusters as VerrazzanoManagedClusters
+    - Deploy MutiClusterComponents and MultiClusterApplicationConfigurations
+    - Organize Multicluster namespaces as VerrazzanoProjects
+    - Access MultiCluster Components, ApplicationConfigurations in Console UI
+- Change default wildcard DNS from xip.io to nip.io (#1073)
+- Support for OKE clusters With Private Endpoints (#971)
+- Support for Network Policies:
+    - Add ingress-nginx network policies (#1045)
+    - Add Rancher network policies (#1042)
+    - Add NetworkPolicy support to Verrazzano Projects (#1007)
+    - Add network policies for Keycloak (#982)
+    - Platform operator network policies (#995)
+    - Network policies for Elasticsearch and Kibana (#955)
+    - Set network policies for Verrazzano operators, console, and API proxy (#925)
+    - Add network policies for WebLogic operator (#913)
+- Changes to allow magic DNS provider to be specified (xip.io, nip.io, sslip.io) (#1028)
+- Support service setup for multiple container (#1069)
+- Enable use of self-signed certs with OCI DNS (#1006)
+
+Fixes:
+
+- Several stability improvements for the platform, tests and examples
+- Add retries around lookup of Rancher admin user (#983)
+- Grant specific privileges instead of 'ALL' for keycloak user in MySQL (#939)
+- Do not install console UI on managed clusters (#898)
+  
 ### v0.13.0
 Features:
 - `IngressTrait` support for explicit destination host and port.
