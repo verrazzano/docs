@@ -24,7 +24,7 @@ Verrazzano requires the following:
 For a list of the open source components and versions installed with Verrazzano, see [Software Versions]({{< relref "/docs/setup/versions/versions.md" >}}).
 
 {{< alert title="NOTE" color="warning" >}}
-Verrazzano has been tested _only_ on the following versions of Kubernetes: 1.17.x and 1.18.x.  Other versions have not been tested and are not guaranteed to work.
+Verrazzano has been tested _only_ on the following versions of Kubernetes: 1.17.x, 1.18.x, 1.19.x, and 1.20x.  Other versions have not been tested and are not guaranteed to work.
 {{< /alert >}}
 
 
@@ -92,15 +92,15 @@ For Verrazzano installations on the minikube platform, use only the development 
 
 For a complete description of Verrazzano configuration options, see the [Verrazzano Custom Resource Definition]({{< relref "docs/reference/api/verrazzano/verrazzano.md" >}}).
 
-According to your DNS choice, [xip.io](http://xip.io/) or
+According to your DNS choice, [nip.io](https://nip.io/) (wildcard DNS) or
 [Oracle OCI DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm),
 install Verrazzano using one of the following methods:
 
-{{< tabs tabTotal="2" tabID="2" tabName1="xip.io" tabName2="OCI DNS" >}}
+{{< tabs tabTotal="2" tabID="2" tabName1="nip.io" tabName2="OCI DNS" >}}
 {{< tab tabNum="1" >}}
 <br>
 
-**Install using xip.io**
+**Install using nip.io**
 
 Run the following commands:
 

@@ -41,7 +41,7 @@ For example, with the sample application configuration successfully deployed, th
 ```
 $ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath={.spec.servers[0].hosts[0]})
 $ echo $HOST
-hello-helidon-appconf.hello-helidon.11.22.33.44.xip.io
+hello-helidon-appconf.hello-helidon.11.22.33.44.nip.io
 
 $ curl -sk -X GET https://${HOST}/greet
 ```
