@@ -43,7 +43,7 @@ With the sample application configuration successfully deployed, you can query f
 $ HOST=$(kubectl get ingress -n verrazzano-system vmi-system-prometheus -o jsonpath={.spec.rules[0].host})
 $ echo $HOST
 
-prometheus.vmi.system.default.<ip>.xip.io
+prometheus.vmi.system.default.<ip>.nip.io
 
 $ VZPASS=$(kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo)
 $ curl -sk --user verrazzano:${VZPASS} -X GET https://${HOST}/api/v1/query?query=vendor_requests_count_total

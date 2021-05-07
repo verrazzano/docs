@@ -21,7 +21,7 @@ Verrazzano requires the following:
 For a list of the open source components and versions installed with Verrazzano, see [Software Versions]({{< relref "/docs/setup/versions/versions.md" >}}).
 
 {{< alert title="NOTE" color="warning" >}}
-Verrazzano has been tested _only_ on the following versions of Kubernetes: 1.17.x and 1.18.x.  Other versions have not been tested and are not guaranteed to work.
+Verrazzano has been tested _only_ on the following versions of Kubernetes: 1.17.x, 1.18.x, 1.19.x and 1.20x.  Other versions have not been tested and are not guaranteed to work.
 {{< /alert >}}
 
 
@@ -65,7 +65,7 @@ your Kubernetes cluster.  Verrazzano currently supports a default production (`p
 profile and a development (`dev`) profile suitable for evaluation.  
 
 The development profile has the following characteristics:
-* Magic (xip.io) DNS
+* Wildcard (nip.io) DNS
 * Self-signed certificates
 * Shared observability stack used by the system components and all applications
 * Ephemeral storage for the observability stack (if the pods are restarted, you lose all of your logs and metrics)

@@ -78,8 +78,14 @@ The following table describes the `spec` portion of the Verrazzano custom resour
 ### DNS Component
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
+| `wildcard` | [DNS-Wilcard](#dns-wildcard) | Wildcard DNS configuration. Default is `nip.io`. | No |
 | `oci` | [DNS-OCI](#dns-oci) | OCI DNS configuration.  Either `oci` or `external` must be specified. | No |
 | `external` | [DNS-External](#dns-external) | External DNS configuration. Either `oci` or `external` must be specified.   | No |
+
+#### DNS Wildcard
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `domain` | string | The type of wildcard DNS domain. For example, `nip.io`, `sslip.io`, etc. |  Yes |
 
 #### DNS OCI
 | Field | Type | Description | Required
@@ -92,7 +98,7 @@ The following table describes the `spec` portion of the Verrazzano custom resour
 #### DNS External
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `external.suffix` | string | The suffix for DNS names. |  Yes |
+| `suffix` | string | The suffix for DNS names. |  Yes |
 
 ### Ingress Component
 | Field | Type | Description | Required
