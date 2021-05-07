@@ -54,7 +54,7 @@ spec:
 &lt;p&gt;For example, with the sample application configuration successfully deployed, the application will be accessible with the &lt;code&gt;path&lt;/code&gt; specified in the IngressTrait and the generated host name.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath={.spec.servers[0].hosts[0]})
 $ echo $HOST
-hello-helidon-appconf.hello-helidon.11.22.33.44.xip.io
+hello-helidon-appconf.hello-helidon.11.22.33.44.nip.io
 
 $ curl -sk -X GET https://${HOST}/greet
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Alternatively, specific host names can be given in an &lt;a href=&#34;#ingressrule&#34;&gt;IngressRule&lt;/a&gt;.  Doing this implies that a secret and certificate have been created for the specific hosts and the secret name has been specified in the associated &lt;a href=&#34;#ingresssecurity&#34;&gt;IngressSecurity&lt;/a&gt; &lt;code&gt;secretName&lt;/code&gt; field.&lt;/p&gt;
@@ -382,7 +382,7 @@ spec:
 &lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get ingress -n verrazzano-system vmi-system-prometheus -o jsonpath={.spec.rules[0].host})
 $ echo $HOST
 
-prometheus.vmi.system.default.&amp;lt;ip&amp;gt;.xip.io
+prometheus.vmi.system.default.&amp;lt;ip&amp;gt;.nip.io
 
 $ VZPASS=$(kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo)
 $ curl -sk --user verrazzano:${VZPASS} -X GET https://${HOST}/api/v1/query?query=vendor_requests_count_total
@@ -1540,16 +1540,41 @@ spec:
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
+&lt;td&gt;&lt;code&gt;wildcard&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#dns-wildcard&#34;&gt;DNS-Wilcard&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Wildcard DNS configuration. This is the default with a domain of &lt;code&gt;nip.io&lt;/code&gt;.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
 &lt;td&gt;&lt;code&gt;oci&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;#dns-oci&#34;&gt;DNS-OCI&lt;/a&gt;&lt;/td&gt;
-&lt;td&gt;OCI DNS configuration.  Either &lt;code&gt;oci&lt;/code&gt; or &lt;code&gt;external&lt;/code&gt; must be specified.&lt;/td&gt;
+&lt;td&gt;OCI DNS configuration.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;external&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;#dns-external&#34;&gt;DNS-External&lt;/a&gt;&lt;/td&gt;
-&lt;td&gt;External DNS configuration. Either &lt;code&gt;oci&lt;/code&gt; or &lt;code&gt;external&lt;/code&gt; must be specified.&lt;/td&gt;
+&lt;td&gt;External DNS configuration.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;dns-wildcard&#34;&gt;DNS Wildcard&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;domain&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The type of wildcard DNS domain. For example, &lt;code&gt;nip.io&lt;/code&gt;, &lt;code&gt;sslip.io&lt;/code&gt;, etc.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -1602,7 +1627,7 @@ spec:
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;code&gt;external.suffix&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;suffix&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
 &lt;td&gt;The suffix for DNS names.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;

@@ -215,7 +215,7 @@ spec:
 &lt;p&gt;For example, with the sample application configuration successfully deployed, the application will be accessible with the &lt;code&gt;path&lt;/code&gt; specified in the IngressTrait and the generated host name.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath={.spec.servers[0].hosts[0]})
 $ echo $HOST
-hello-helidon-appconf.hello-helidon.11.22.33.44.xip.io
+hello-helidon-appconf.hello-helidon.11.22.33.44.nip.io
 
 $ curl -sk -X GET https://${HOST}/greet
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Alternatively, specific host names can be given in an &lt;a href=&#34;#ingressrule&#34;&gt;IngressRule&lt;/a&gt;.  Doing this implies that a secret and certificate have been created for the specific hosts and the secret name has been specified in the associated &lt;a href=&#34;#ingresssecurity&#34;&gt;IngressSecurity&lt;/a&gt; &lt;code&gt;secretName&lt;/code&gt; field.&lt;/p&gt;
@@ -543,7 +543,7 @@ spec:
 &lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get ingress -n verrazzano-system vmi-system-prometheus -o jsonpath={.spec.rules[0].host})
 $ echo $HOST
 
-prometheus.vmi.system.default.&amp;lt;ip&amp;gt;.xip.io
+prometheus.vmi.system.default.&amp;lt;ip&amp;gt;.nip.io
 
 $ VZPASS=$(kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo)
 $ curl -sk --user verrazzano:${VZPASS} -X GET https://${HOST}/api/v1/query?query=vendor_requests_count_total
@@ -1513,7 +1513,7 @@ applications.&lt;/li&gt;
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
-Verrazzano has been tested &lt;em&gt;only&lt;/em&gt; on the following versions of Kubernetes: 1.17.x and 1.18.x.  Other versions have not been tested and are not guaranteed to work.
+Verrazzano has been tested &lt;em&gt;only&lt;/em&gt; on the following versions of Kubernetes: 1.17.x, 1.18.x, 1.19.x, and 1.20x.  Other versions have not been tested and are not guaranteed to work.
 &lt;/div&gt;
 
 &lt;h3 id=&#34;install-the-verrazzano-platform-operator&#34;&gt;Install the Verrazzano platform operator&lt;/h3&gt;
@@ -1547,7 +1547,7 @@ your Kubernetes cluster.  Verrazzano currently supports a default production (&l
 profile and a development (&lt;code&gt;dev&lt;/code&gt;) profile suitable for evaluation.&lt;/p&gt;
 &lt;p&gt;The development profile has the following characteristics:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Magic (xip.io) DNS&lt;/li&gt;
+&lt;li&gt;Wildcard (nip.io) DNS&lt;/li&gt;
 &lt;li&gt;Self-signed certificates&lt;/li&gt;
 &lt;li&gt;Shared observability stack used by the system components and all applications&lt;/li&gt;
 &lt;li&gt;Ephemeral storage for the observability stack (if the pods are restarted, you lose all of your logs and metrics)&lt;/li&gt;
@@ -1884,16 +1884,41 @@ spec:
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
+&lt;td&gt;&lt;code&gt;wildcard&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#dns-wildcard&#34;&gt;DNS-Wilcard&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Wildcard DNS configuration. This is the default with a domain of &lt;code&gt;nip.io&lt;/code&gt;.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
 &lt;td&gt;&lt;code&gt;oci&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;#dns-oci&#34;&gt;DNS-OCI&lt;/a&gt;&lt;/td&gt;
-&lt;td&gt;OCI DNS configuration.  Either &lt;code&gt;oci&lt;/code&gt; or &lt;code&gt;external&lt;/code&gt; must be specified.&lt;/td&gt;
+&lt;td&gt;OCI DNS configuration.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;external&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;#dns-external&#34;&gt;DNS-External&lt;/a&gt;&lt;/td&gt;
-&lt;td&gt;External DNS configuration. Either &lt;code&gt;oci&lt;/code&gt; or &lt;code&gt;external&lt;/code&gt; must be specified.&lt;/td&gt;
+&lt;td&gt;External DNS configuration.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;dns-wildcard&#34;&gt;DNS Wildcard&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;domain&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The type of wildcard DNS domain. For example, &lt;code&gt;nip.io&lt;/code&gt;, &lt;code&gt;sslip.io&lt;/code&gt;, etc.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -1946,7 +1971,7 @@ spec:
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;code&gt;external.suffix&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;suffix&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
 &lt;td&gt;The suffix for DNS names.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
@@ -3223,7 +3248,7 @@ applications.&lt;/li&gt;
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
-Verrazzano has been tested &lt;em&gt;only&lt;/em&gt; on the following versions of Kubernetes: 1.17.x and 1.18.x.  Other versions have not been tested and are not guaranteed to work.
+Verrazzano has been tested &lt;em&gt;only&lt;/em&gt; on the following versions of Kubernetes: 1.17.x, 1.18.x, 1.19.x, and 1.20x.  Other versions have not been tested and are not guaranteed to work.
 &lt;/div&gt;
 
 &lt;h3 id=&#34;prepare-for-the-install&#34;&gt;Prepare for the install&lt;/h3&gt;
@@ -3288,7 +3313,7 @@ For Verrazzano installations on the minikube platform, use only the development 
 &lt;/div&gt;
 
 &lt;p&gt;For a complete description of Verrazzano configuration options, see the &lt;a href=&#34;../docs/reference/api/verrazzano/verrazzano/&#34;&gt;Verrazzano Custom Resource Definition&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;According to your DNS choice, &lt;a href=&#34;http://xip.io/&#34;&gt;xip.io&lt;/a&gt; or
+&lt;p&gt;According to your DNS choice, &lt;a href=&#34;https://nip.io/&#34;&gt;nip.io&lt;/a&gt; (wildcard DNS) or
 &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm&#34;&gt;Oracle OCI DNS&lt;/a&gt;,
 install Verrazzano using one of the following methods:&lt;/p&gt;
 &lt;nav&gt;
@@ -3304,7 +3329,7 @@ install Verrazzano using one of the following methods:&lt;/p&gt;
 		
 
 		&lt;a class=&#34;nav-item nav-link active&#34; id=&#34;nav-2&#34; data-toggle=&#34;tab&#34; href=&#34;#tab21&#34; role=&#34;tab&#34;
-		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;xip.io&lt;/a&gt;
+		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;nip.io&lt;/a&gt;
 
 		
 		
@@ -3336,7 +3361,7 @@ install Verrazzano using one of the following methods:&lt;/p&gt;
 &lt;div class=&#34;tab-pane fade show active&#34; id=&#34;tab21&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName1&#34;&gt;
 
 	&lt;br&gt;
-&lt;p&gt;&lt;strong&gt;Install using xip.io&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Install using nip.io&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Run the following commands:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: install.verrazzano.io/v1alpha1
