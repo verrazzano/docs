@@ -14,17 +14,17 @@ Features
     - Access MultiCluster Components, ApplicationConfigurations in the Console UI.
 - Changed default wildcard DNS from xip.io to nip.io (#1073).
 - Support for OKE clusters with private endpoints (#971).
-- Support for Network Policies:
+- Support for Network Policies. Now you can:
     - Add ingress-nginx network policies (#1045).
     - Add Rancher network policies (#1042).
     - Add NetworkPolicy support to Verrazzano Projects (#1007).
     - Add network policies for Keycloak (#982).
-    - Platform operator network policies (#995).
-    - Network policies for Elasticsearch and Kibana (#955).
+    - Add Platform operator network policies (#995).
+    - Add network policies for Elasticsearch and Kibana (#955).
     - Set network policies for Verrazzano operators, console, and API proxy (#925).
     - Add network policies for WebLogic operator (#913).
 - Changes to allow magic DNS provider to be specified (xip.io, nip.io, sslip.io) (#1028).
-- Support service setup for multiple container (#1069).
+- Support service setup for multiple containers (#1069).
 - Enabled use of self-signed certs with OCI DNS (#1006).
 - Support for setting Deployment Strategy for VerrazzanoHelidonWorkload (#917).
 
