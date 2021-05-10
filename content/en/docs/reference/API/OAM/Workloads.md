@@ -6,7 +6,7 @@ draft: false
 ---
 
 ### VerrazzanoCoherenceWorkload
-The VerrazzanoCoherenceWorkload custom resource contains the configuration information for a [Coherence](https://oracle.github.io/coherence-operator/docs/3.1.1/#/about/04_coherence_spec) workload within Verrazzano.  Here is a sample component that specifies a VerrazzanoCoherenceWorkload.  To deploy an example application that demonstrates this workload type, see [Sock Shop](https://github.com/verrazzano/verrazzano/blob/master/examples/sock-shop/README.md).
+The VerrazzanoCoherenceWorkload custom resource contains the configuration information for a [Coherence](https://oracle.github.io/coherence-operator/docs/3.1.3/#/about/04_coherence_spec) workload within Verrazzano.  Here is a sample component that specifies a VerrazzanoCoherenceWorkload.  To deploy an example application that demonstrates this workload type, see [Sock Shop](https://github.com/verrazzano/verrazzano/blob/master/examples/sock-shop/README.md).
 ```
 apiVersion: core.oam.dev/v1alpha2
 kind: Component
@@ -66,7 +66,7 @@ VerrazzanoCoherenceWorkloadSpec specifies the desired state of a Verrazzano Cohe
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `template` |  [RawExtension](https://pkg.go.dev/k8s.io/apimachinery/pkg/runtime#RawExtension) | The metadata and spec for the underlying [Coherence](https://oracle.github.io/coherence-operator/docs/3.1.1/#/about/04_coherence_spec) resource. |  Yes |
+| `template` |  [RawExtension](https://pkg.go.dev/k8s.io/apimachinery/pkg/runtime#RawExtension) | The metadata and spec for the underlying [Coherence](https://oracle.github.io/coherence-operator/docs/3.1.3/#/about/04_coherence_spec) resource. |  Yes |
 
 
 

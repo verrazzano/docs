@@ -303,12 +303,10 @@ and enabled for Istio.
    $ kubectl get pods -n verrazzano-system | grep '^NAME\|vmi-system'
 
    NAME                                                     READY   STATUS    RESTARTS   AGE
-   vmi-system-api-6fb4fd57cb-95ttz                          1/1     Running   0          8d
-   vmi-system-es-master-0                                   1/1     Running   0          11h
-   vmi-system-grafana-674b4f5df7-f4f2p                      1/1     Running   0          8d
-   vmi-system-kibana-759b854fc6-4tsjv                       1/1     Running   0          8d
-   vmi-system-prometheus-0-f6f587664-pfm54                  3/3     Running   0          101m
-   vmi-system-prometheus-gw-68c45f84b8-jrxlt                1/1     Running   0          8d
+   vmi-system-es-master-0                                   2/2     Running   0          26h
+   vmi-system-grafana-74bb7cdf65-k97pb                      2/2     Running   0          26h
+   vmi-system-kibana-85565975b5-7hfdf                       2/2     Running   0          26h
+   vmi-system-prometheus-0-7bf464d898-czq8r                 4/4     Running   0          26h
    ```
 
    These pods in the `verrazzano-system` namespace constitute a
