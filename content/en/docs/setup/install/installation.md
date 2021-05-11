@@ -206,20 +206,21 @@ $ kubectl logs -f $(kubectl get pod -l job-name=verrazzano-install-my-verrazzano
 Verrazzano installs multiple objects in multiple namespaces. In the `verrazzano-system` namespaces, all the pods in the `Running` state, does not guarantee, but likely indicates that Verrazzano is up and running.
 ```
 $ kubectl get pods -n verrazzano-system
-coherence-operator-controller-manager-684d7bddf6-8l9s2   1/1     Running   0          52m
-oam-kubernetes-runtime-76cbbb969f-97lhm                  1/1     Running   0          52m
-verrazzano-api-f89cdd678-lfr2t                           1/1     Running   0          52m
-verrazzano-application-operator-7b554ff955-ms9pp         1/1     Running   0          51m
-verrazzano-console-6488fbfd45-8csm2                      1/1     Running   0          52m
-verrazzano-monitoring-operator-74c6c956fb-r4zw5          1/1     Running   0          52m
-verrazzano-operator-84b8c677ff-2pz2k                     1/1     Running   0          52m
-vmi-system-api-f7577d8-c7zmq                             1/1     Running   0          52m
-vmi-system-es-master-0                                   2/2     Running   0          52m
-vmi-system-grafana-6f4bd5d964-74q2z                      2/2     Running   0          52m
-vmi-system-kibana-8687b8f754-hr7kt                       2/2     Running   0          52m
-vmi-system-prometheus-0-649b67bd8c-dm97k                 5/5     Running   0          52m
-vmi-system-prometheus-gw-6bb6b68b98-xpk65                1/1     Running   0          52m
-weblogic-operator-5d7579db46-qlxds                       1/1     Running   0          52m
+coherence-operator-controller-manager-7557bc4c49-7w55p   1/1     Running   0          27h
+fluentd-fzmsl                                            1/1     Running   0          27h
+fluentd-r9wwf                                            1/1     Running   0          27h
+fluentd-zp2r2                                            1/1     Running   0          27h
+oam-kubernetes-runtime-6ff589f66f-r95qv                  1/1     Running   0          27h
+verrazzano-api-669c7d7f66-rcnl8                          1/1     Running   0          27h
+verrazzano-application-operator-b5b77d676-7w95p          1/1     Running   0          27h
+verrazzano-console-6b469dff9c-b2jwk                      1/1     Running   0          27h
+verrazzano-monitoring-operator-54cb658774-f6jjm          1/1     Running   0          27h
+verrazzano-operator-7f4b99d7d-wg7qm                      1/1     Running   0          27h
+vmi-system-es-master-0                                   2/2     Running   0          27h
+vmi-system-grafana-74bb7cdf65-k97pb                      2/2     Running   0          27h
+vmi-system-kibana-85565975b5-7hfdf                       2/2     Running   0          27h
+vmi-system-prometheus-0-7bf464d898-czq8r                 4/4     Running   0          27h
+weblogic-operator-7db5cdcf59-qxsr9                       1/1     Running   0          27h
 ```
 
 #### (Optional) Install the example applications
