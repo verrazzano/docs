@@ -6,7 +6,7 @@ weight: 6
 draft: false
 ---
 
-Verrazzano installs a curated set of open source components.  This section lists each open source
+Verrazzano installs a curated set of open source components.  The following table lists each open source
 component with its version and a brief description.
 
 | Component | Version | Description |
