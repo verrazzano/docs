@@ -450,20 +450,21 @@ $ kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verra
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;verify-the-install&#34;&gt;Verify the install&lt;/h3&gt;
 &lt;p&gt;Verrazzano installs multiple objects in multiple namespaces. In the &lt;code&gt;verrazzano-system&lt;/code&gt; namespaces, all the pods in the &lt;code&gt;Running&lt;/code&gt; state, does not guarantee, but likely indicates that Verrazzano is up and running.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ kubectl get pods -n verrazzano-system
-coherence-operator-controller-manager-684d7bddf6-8l9s2   1/1     Running   0          52m
-oam-kubernetes-runtime-76cbbb969f-97lhm                  1/1     Running   0          52m
-verrazzano-api-f89cdd678-lfr2t                           1/1     Running   0          52m
-verrazzano-application-operator-7b554ff955-ms9pp         1/1     Running   0          51m
-verrazzano-console-6488fbfd45-8csm2                      1/1     Running   0          52m
-verrazzano-monitoring-operator-74c6c956fb-r4zw5          1/1     Running   0          52m
-verrazzano-operator-84b8c677ff-2pz2k                     1/1     Running   0          52m
-vmi-system-api-f7577d8-c7zmq                             1/1     Running   0          52m
-vmi-system-es-master-0                                   2/2     Running   0          52m
-vmi-system-grafana-6f4bd5d964-74q2z                      2/2     Running   0          52m
-vmi-system-kibana-8687b8f754-hr7kt                       2/2     Running   0          52m
-vmi-system-prometheus-0-649b67bd8c-dm97k                 5/5     Running   0          52m
-vmi-system-prometheus-gw-6bb6b68b98-xpk65                1/1     Running   0          52m
-weblogic-operator-5d7579db46-qlxds                       1/1     Running   0          52m
+coherence-operator-controller-manager-7557bc4c49-7w55p   1/1     Running   0          27h
+fluentd-fzmsl                                            1/1     Running   0          27h
+fluentd-r9wwf                                            1/1     Running   0          27h
+fluentd-zp2r2                                            1/1     Running   0          27h
+oam-kubernetes-runtime-6ff589f66f-r95qv                  1/1     Running   0          27h
+verrazzano-api-669c7d7f66-rcnl8                          1/1     Running   0          27h
+verrazzano-application-operator-b5b77d676-7w95p          1/1     Running   0          27h
+verrazzano-console-6b469dff9c-b2jwk                      1/1     Running   0          27h
+verrazzano-monitoring-operator-54cb658774-f6jjm          1/1     Running   0          27h
+verrazzano-operator-7f4b99d7d-wg7qm                      1/1     Running   0          27h
+vmi-system-es-master-0                                   2/2     Running   0          27h
+vmi-system-grafana-74bb7cdf65-k97pb                      2/2     Running   0          27h
+vmi-system-kibana-85565975b5-7hfdf                       2/2     Running   0          27h
+vmi-system-prometheus-0-7bf464d898-czq8r                 4/4     Running   0          27h
+weblogic-operator-7db5cdcf59-qxsr9                       1/1     Running   0          27h
 &lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;optional-install-the-example-applications&#34;&gt;(Optional) Install the example applications&lt;/h4&gt;
 &lt;p&gt;Example applications are located &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;h5 id=&#34;to-get-the-consoles-urls-and-credentials-see-operationshahahugoshortcode-s13-hbhb&#34;&gt;To get the consoles URLs and credentials, see &lt;a href=&#34;../../docs/operations/&#34;&gt;Operations&lt;/a&gt;.&lt;/h5&gt;
@@ -521,11 +522,6 @@ component with its version and a brief description.&lt;/p&gt;
 &lt;td&gt;Synchronizes exposed Kubernetes Services and Ingresses with DNS providers.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;Filebeat&lt;/td&gt;
-&lt;td&gt;6.8.3&lt;/td&gt;
-&lt;td&gt;Collects container log events and forwards them to Elasticsearch.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
 &lt;td&gt;Grafana&lt;/td&gt;
 &lt;td&gt;6.4.4&lt;/td&gt;
 &lt;td&gt;Tool to help you study, analyze, and monitor metrics.&lt;/td&gt;
@@ -534,11 +530,6 @@ component with its version and a brief description.&lt;/p&gt;
 &lt;td&gt;Istio&lt;/td&gt;
 &lt;td&gt;1.7.3&lt;/td&gt;
 &lt;td&gt;Service mesh that layers transparently onto existing distributed applications.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Journalbeat&lt;/td&gt;
-&lt;td&gt;6.8.3&lt;/td&gt;
-&lt;td&gt;Collects systemd log events and forwards them to Elasticsearch.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Keycloak&lt;/td&gt;
@@ -582,7 +573,7 @@ component with its version and a brief description.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;WebLogic Server Kubernetes Operator&lt;/td&gt;
-&lt;td&gt;3.1.0&lt;/td&gt;
+&lt;td&gt;3.2.2&lt;/td&gt;
 &lt;td&gt;Assists with deploying and managing WebLogic domains.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -667,21 +658,21 @@ corresponding to a valid &lt;a href=&#34;https://github.com/verrazzano/verrazzan
 you may see some pods terminating and restarting as newer versions of components are applied.&lt;/p&gt;
 &lt;p&gt;For example:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ kubectl get pods -n verrazzano-system
-verrazzano-admission-controller-84d6bc647c-7b8tl   1/1     Running   0          5m13s
-verrazzano-cluster-operator-57fb95fc99-kqjll       1/1     Running   0          5m13s
-verrazzano-monitoring-operator-7cb5947f4c-x9kfc    1/1     Running   0          5m13s
-verrazzano-operator-b6d95b4c4-sxprv                1/1     Running   0          5m13s
-vmi-system-api-7c8654dc76-2bdll                    1/1     Running   0          4m44s
-vmi-system-es-data-0-6679cf99f4-9p25f              2/2     Running   0          4m44s
-vmi-system-es-data-1-8588867569-zlwwx              2/2     Running   0          4m44s
-vmi-system-es-ingest-78f6dfddfc-2v5nc              1/1     Running   0          4m44s
-vmi-system-es-master-0                             1/1     Running   0          4m44s
-vmi-system-es-master-1                             1/1     Running   0          4m44s
-vmi-system-es-master-2                             1/1     Running   0          4m44s
-vmi-system-grafana-5f7bc8b676-xx49f                1/1     Running   0          4m44s
-vmi-system-kibana-649466fcf8-4n8ct                 1/1     Running   0          4m44s
-vmi-system-prometheus-0-7f97ff97dc-gfclv           3/3     Running   0          4m44s
-vmi-system-prometheus-gw-7cb9df774-48g4b           1/1     Running   0          4m44s
+coherence-operator-controller-manager-7557bc4c49-7w55p   1/1     Running   0          27h
+fluentd-fzmsl                                            1/1     Running   0          27h
+fluentd-r9wwf                                            1/1     Running   0          27h
+fluentd-zp2r2                                            1/1     Running   0          27h
+oam-kubernetes-runtime-6ff589f66f-r95qv                  1/1     Running   0          27h
+verrazzano-api-669c7d7f66-rcnl8                          1/1     Running   0          27h
+verrazzano-application-operator-b5b77d676-7w95p          1/1     Running   0          27h
+verrazzano-console-6b469dff9c-b2jwk                      1/1     Running   0          27h
+verrazzano-monitoring-operator-54cb658774-f6jjm          1/1     Running   0          27h
+verrazzano-operator-7f4b99d7d-wg7qm                      1/1     Running   0          27h
+vmi-system-es-master-0                                   2/2     Running   0          27h
+vmi-system-grafana-74bb7cdf65-k97pb                      2/2     Running   0          27h
+vmi-system-kibana-85565975b5-7hfdf                       2/2     Running   0          27h
+vmi-system-prometheus-0-7bf464d898-czq8r                 4/4     Running   0          27h
+weblogic-operator-7db5cdcf59-qxsr9                       1/1     Running   0          27h
 &lt;/code&gt;&lt;/pre&gt;
       </description>
     </item>
