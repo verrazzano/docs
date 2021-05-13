@@ -6,35 +6,35 @@ draft: false
 ---
 
 ### v0.14.0
-Features
+Features:
 - Multicluster support for Verrazzano. Now you can:
     - Register participating clusters as VerrazzanoManagedClusters.
     - Deploy MutiClusterComponents and MultiClusterApplicationConfigurations.
-    - Organize Multicluster namespaces as VerrazzanoProjects.
-    - Access MultiCluster Components, ApplicationConfigurations in the Console UI.
-- Changed default wildcard DNS from xip.io to nip.io (#1073).
-- Support for OKE clusters with private endpoints (#971).
-- Support for Network Policies. Now you can:
-    - Add ingress-nginx network policies (#1045).
-    - Add Rancher network policies (#1042).
-    - Add NetworkPolicy support to Verrazzano Projects (#1007).
-    - Add network policies for Keycloak (#982).
-    - Add Platform operator network policies (#995).
-    - Add network policies for Elasticsearch and Kibana (#955).
-    - Set network policies for Verrazzano operators, console, and API proxy (#925).
-    - Add network policies for WebLogic operator (#913).
-- Changes to allow magic DNS provider to be specified (xip.io, nip.io, sslip.io) (#1028).
-- Support service setup for multiple containers (#1069).
-- Enabled use of self-signed certs with OCI DNS (#1006).
-- Support for setting Deployment Strategy for VerrazzanoHelidonWorkload (#917).
+    - Organize multicluster namespaces as VerrazzanoProjects.
+    - Access MultiCluster Components and ApplicationConfigurations in the Verrazzano Console UI.
+- Changed default wildcard DNS from xip.io to nip.io.
+- Support for OKE clusters with private endpoints.
+- Support for network policies. Now you can:
+    - Add ingress-NGINX network policies.
+    - Add Rancher network policies.
+    - Add NetworkPolicy support to Verrazzano projects.
+    - Add network policies for Keycloak.
+    - Add platform operator network policies.
+    - Add network policies for Elasticsearch and Kibana.
+    - Set network policies for Verrazzano operators, console, and API proxy.
+    - Add network policies for WebLogic Kubernetes Operator.
+- Changes to allow magic DNS provider to be specified (xip.io, nip.io, sslip.io).
+- Support service setup for multiple containers.
+- Enabled use of self-signed certs with OCI DNS.
+- Support for setting DeploymentStrategy for VerrazzanoHelidonWorkload.
 
 Fixes:
 
 - Several stability improvements for the platform, tests, and examples.
-- Added retries around lookup of Rancher admin user (#983).
-- Granted specific privileges instead of `ALL` for Keycloak user in MySQL (#939).
-- Disabled the installation of console UI on managed clusters (#898).
-  
+- Added retries around lookup of Rancher admin user.
+- Granted specific privileges instead of `ALL` for Keycloak user in MySQL.
+- Disabled the installation of the Verrazzano Console UI on managed clusters.
+
 ### v0.13.0
 Features:
 - `IngressTrait` support for explicit destination host and port.
