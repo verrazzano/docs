@@ -65,7 +65,6 @@ Verrazzano includes several multicluster resource definitions, for resources tha
 or more clusters: [MultiClusterApplicationConfiguration](../../reference/api/multicluster/multiclusterapplicationconfiguration "api docs"),
 [MultiClusterComponent](../../reference/api/multicluster/multiclustercomponent "api docs"),
 [MultiClusterConfigMap](../../reference/api/multicluster/multiclusterconfigmap "api docs"),
-[MultiClusterLoggingScope](../../reference/api/multicluster/multiclusterloggingscope "api docs"),
 and [MultiClusterSecret](../../reference/api/multicluster/multiclustersecret "api docs").
 
 
