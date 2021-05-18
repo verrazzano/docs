@@ -18,7 +18,7 @@ Review the following key concepts to understand multicluster Verrazzano:
 The following diagram shows an overview of how multicluster Verrazzano works:
 
 
-![](../../images/VerrazzanoMultiCluster.png)
+![](../../images/multicluster/MCConcepts.png)
 
 ### Admin Kubernetes cluster
 A Verrazzano admin cluster is a central management point for:
