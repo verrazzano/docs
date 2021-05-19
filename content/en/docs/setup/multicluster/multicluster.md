@@ -10,7 +10,7 @@ This page covers the following topics.
 
 - [Set up a multicluster Verrazzano environment](#set-up-a-multicluster-verrazzano-environment)
 - [Run applications in multicluster Verrazzano](#run-applications-in-multicluster-verrazzano)
-- [View clusters and applications in the admin cluster UI](#view-clusters-and-applications-in-the-admin-cluster-ui)
+- [Admin cluster UI](#admin-cluster-ui)
 
 ## Set up a multicluster Verrazzano environment
 
@@ -123,21 +123,12 @@ The steps for this setup are shown below.
 
 The Verrazzano multicluster set up is now completed, and you can deploy an application by following the [Hello World Helidon multicluster example application](https://github.com/verrazzano/verrazzano/tree/master/examples/multicluster/hello-helidon).
 
-## View clusters and applications in the admin cluster UI
+## Admin cluster UI
 
 The admin cluster serves as a central point from which to register and deploy applications to managed clusters.
-In the Verrazzano UI on the admin cluster, you can view the list of managed clusters registered with this admin cluster,
-as well as applications deployed to those managed clusters. 
 
-### Managed clusters in the Verrazzano UI
+In the Verrazzano UI on the admin cluster, you can view the following.
 
-Registered managed clusters can be viewed in the admin cluster's Verrazzano UI as shown in the screenshot below.
-
-![](../../../images/multicluster/MCClustersScreenshot.png)
-
-### Multicluster applications in the admin Verrazzano UI
-
-Multicluster applications deployed to various managed clusters can be viewed in the admin cluster's Verrazzano UI as
-shown in the screenshot below.
-
-![](../../../images/multicluster/MCAppScreenshot.png)
+- The managed clusters registered with this admin cluster
+- VerrazzanoProjects placed in this admin cluster and/or any of its registered managed clusters.
+- Applications placed in this admin cluster and/or any of its registered managed clusters.
