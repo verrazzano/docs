@@ -14,12 +14,12 @@ Review the following key concepts to understand multicluster Verrazzano:
 - [Verrazzano multicluster resources](#verrazzano-multicluster-resources)
 - [Managed cluster registration](#managed-cluster-registration)
 
-More information is available in these sections:
-- [Try out multicluster Verrazzano](#try-out-multicluster-verrazzano)
+For more information, see:
 - [Detailed view of multicluster Verrazzano](#detailed-view-of-multicluster-verrazzano)
+- [Try out multicluster Verrazzano](#try-out-multicluster-verrazzano)
 
-The following diagram shows a high-level overview of how multicluster Verrazzano works. A more
-[detailed view](#detailed-view-of-multicluster-verrazzano) is shown after the key concepts have been defined. 
+The following diagram shows a high-level overview of how multicluster Verrazzano works. For a more
+detailed view, see [here](#detailed-view-of-multicluster-verrazzano).
 
 ![](../../images/multicluster/MCConceptsHighLevel.png)
 
@@ -105,12 +105,13 @@ When a managed cluster is registered, the following will happen:
    admin cluster. Likewise, application metrics will be scraped by the admin cluster and available from
    Verrazzano-installed Prometheus on the admin cluster.
 
-### Try out multicluster Verrazzano
-For more information, see the [API Documentation](../../reference/api/) for the resources described here.
-To try out multicluster Verrazzano, see the [Hello World Helidon multicluster example application](https://github.com/verrazzano/verrazzano/tree/master/examples/multicluster/hello-helidon).
-
 ### Detailed view of multicluster Verrazzano
 
 This diagram shows a more detailed view of how multicluster Verrazzano works.
 
 ![](../../images/multicluster/MCConcepts.png)
+
+### Try out multicluster Verrazzano
+
+For more information, see the [API Documentation](../../reference/api/) for the resources described here.
+To try out multicluster Verrazzano, see the [Hello World Helidon multicluster example application](https://github.com/verrazzano/verrazzano/tree/master/examples/multicluster/hello-helidon).

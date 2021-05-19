@@ -1,7 +1,7 @@
 ---
-title: "Multicluster Verrazzano setup"
+title: "Multicluster Verrazzano Setup"
 linkTitle: Multicluster Setup
-description: "How to setup a multicluster Verrazzano environment"
+description: "How to set up a multicluster Verrazzano environment"
 weight: 6
 draft: false
 ---
@@ -127,8 +127,8 @@ The Verrazzano multicluster set up is now completed, and you can deploy an appli
 
 The admin cluster serves as a central point from which to register and deploy applications to managed clusters.
 
-In the Verrazzano UI on the admin cluster, you can view the following.
+In the Verrazzano UI on the admin cluster, you can view the following:
 
-- The managed clusters registered with this admin cluster
-- VerrazzanoProjects placed in this admin cluster and/or any of its registered managed clusters.
-- Applications placed in this admin cluster and/or any of its registered managed clusters.
+- The managed clusters registered with this admin cluster.
+- VerrazzanoProjects located on this admin cluster and/or any of its registered managed clusters.
+- Applications located on this admin cluster and/or any of its registered managed clusters.
