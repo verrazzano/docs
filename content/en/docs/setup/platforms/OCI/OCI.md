@@ -18,8 +18,8 @@ draft: false
    $ export KUBECONFIG=<path to valid Kubernetes config>
 ```
 
-* Optional step, only needed if your organization requires the use of a private registry to host one or more of the Docker images installed by
-  Verrazzano, and those images have been loaded into the private registry. Create the optional `imagePullSecret` named `verrazzano-container-registry`.
+* Optional step, needed only if your organization requires the use of a private registry to host one or more of the Docker images installed by
+  Verrazzano and those images have been loaded into the private registry. Create the optional `imagePullSecret` named `verrazzano-container-registry`.
 
 ```
    $ kubectl create secret docker-registry verrazzano-container-registry \
