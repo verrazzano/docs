@@ -6,51 +6,53 @@ weight: 6
 draft: false
 ---
 
-This page covers the following topics.
+## Contents
 
 - [Set up a multicluster Verrazzano environment](#set-up-a-multicluster-verrazzano-environment)
 - [Run applications in multicluster Verrazzano](#run-applications-in-multicluster-verrazzano)
-- [Admin cluster UI](#admin-cluster-ui)
+- [Admin cluster UI](#admin-cluster-user-interface-ui)
+
+## Prerequisites
+
+Before you begin, read this document, [multicluster concepts](../../../concepts/verrazzanomulticluster "multicluster concepts").
 
 ## Set up a multicluster Verrazzano environment
 
 To set up a multicluster Verrazzano environment, you will need two or more Kubernetes clusters. One of these clusters
-will be used as the **admin** cluster and the others will be used as **managed** clusters.
+will the *admin* cluster; the others will be *managed* clusters.
 
-The instructions here assume that you are using an admin cluster and a single managed cluster. For each additional managed
-cluster you are using, simply repeat the managed cluster instructions.
-
-### Required Reading
-
-Before setting up a multicluster Verrazzano environment, please read the 
-[multicluster concepts](../../../concepts/verrazzanomulticluster "multicluster concepts") document.
+The instructions here assume an admin cluster and a single managed cluster. For each additional managed
+cluster, simply repeat the managed cluster instructions.
 
 ### Install Verrazzano
 
-Install Verrazzano on each Kubernetes cluster individually.
+Install Verrazzano on each Kubernetes cluster.
 
-- On one cluster, install Verrazzano using the **dev** profile; this will be used as the *admin* cluster.
-- On the other cluster, install Verrazzano using the **managed-cluster** profile; this will be used as a
-  managed cluster. The managed-cluster profile contains only the components that are required on a managed cluster.
-- Create the environment variables, KUBECONFIG_ADMIN and KUBECONFIG_MANAGED1, and point them to the kubeconfig file for 
-  the admin and managed cluster, respectively. These environment variables will be used in subsequent steps when
-  registering the managed cluster.  
+- On one cluster, install Verrazzano using the `dev` profile; this will be the *admin* cluster.
+- On the other cluster, install Verrazzano using the `managed-cluster` profile; this will be a
+  managed cluster. The `managed-cluster` profile contains only the components that are required for a managed cluster.
+- Create the environment variables, `KUBECONFIG_ADMIN` and `KUBECONFIG_MANAGED1`, and point them to the `kubeconfig`
+  files for the admin and managed cluster, respectively. These environment variables will be used in subsequent steps
+  when registering the managed cluster.
 
-The [installation guide](../../install/installation) has detailed instructions on how to install Verrazzano on a
-Kubernetes cluster using a specific profile. 
+For detailed instructions on how to install Verrazzano on a Kubernetes cluster using a specific profile, see the
+[installation guide](../../install/installation).
 
 ### Register the managed cluster with the admin cluster
 
-#### Pre-registration setup
-We will need to first set up the following items before we can register the managed cluster.
-- A config map containing the externally reachable address of the admin cluster. This will be provided to the managed
-  cluster during registration, so that it can connect to the admin cluster.
-- A secret containing the managed cluster's Prometheus endpoint. This will be used by the admin cluster to scrape
+The following sections show you how to register the managed cluster with the admin cluster.
+
+#### Preregistration setup
+
+Before registering the managed cluster, you'll first need to set up the following items.
+- A ConfigMap containing the externally reachable address of the admin cluster. This will be provided to the managed
+  cluster during registration so that it can connect to the admin cluster.
+- A Secret containing the managed cluster's Prometheus endpoint. This will be used by the admin cluster to scrape
   metrics from the managed cluster, for both applications and Verrazzano components.
 
-The steps for this setup are shown below.
+Follow these preregistration setup steps:
 
-1. Obtain the Kubernetes server address for the admin cluster, from its kubeconfig file.
+1. Obtain the Kubernetes server address for the admin cluster from its `kubeconfig` file.
     ```
     # If your kubeconfig has only a single context, or has the admin cluster's context set as the current-context
     $ ADMIN_K8S_SERVER_ADDRESS="$(kubectl config view --minify | grep server | cut -f2- -d: | tr -d ' ')"
@@ -62,7 +64,7 @@ The steps for this setup are shown below.
     $ ADMIN_K8S_SERVER_ADDRESS="$(kubectl --context admin-server-context-name config view --minify | grep server | cut -f2- -d: | tr -d ' ')"
     ```
 
-1. Create a ConfigMap that contains the Kubernetes server address of the admin cluster.
+1. Create a ConfigMap that contains the Kubernetes server address for the admin cluster.
     ```
     $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f <<EOF -
     apiVersion: v1
@@ -91,7 +93,7 @@ The steps for this setup are shown below.
    ```
 
 #### Registration steps
-1. Apply the VerrazzanoManagedCluster object on the admin cluster to begin the registration process for a managed cluster named `managed1`.
+1. To begin the registration process for a managed cluster named `managed1`, apply the VerrazzanoManagedCluster object on the admin cluster.
    ```
    $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f <<EOF -
    apiVersion: clusters.verrazzano.io/v1alpha1
@@ -104,8 +106,8 @@ The steps for this setup are shown below.
      prometheusSecret: prometheus-managed1
    EOF
    ```
-1. Wait for the VerrazzanoManagedCluster resource to reach ready status. At that point, it will have generated a YAML
-   file that is to be applied on the managed cluster to complete the registration process.
+1. Wait for the VerrazzanoManagedCluster resource to reach the `Ready` status. At that point, it will have generated a YAML
+   file that must be applied on the managed cluster to complete the registration process.
    ```
    $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl wait --for=condition=Ready vmc managed1 -n verrazzano-mc
    ```
@@ -121,9 +123,9 @@ The steps for this setup are shown below.
 
 ## Run applications in multicluster Verrazzano
 
-The Verrazzano multicluster set up is now completed, and you can deploy an application by following the [Hello World Helidon multicluster example application](https://github.com/verrazzano/verrazzano/tree/master/examples/multicluster/hello-helidon).
+The Verrazzano multicluster setup is now completed and you can deploy an application by following the [Hello World Helidon multicluster example application](https://github.com/verrazzano/verrazzano/tree/master/examples/multicluster/hello-helidon).
 
-## Admin cluster UI
+## Admin cluster user interface (UI)
 
 The admin cluster serves as a central point from which to register and deploy applications to managed clusters.
 
