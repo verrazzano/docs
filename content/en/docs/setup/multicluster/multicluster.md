@@ -2,7 +2,7 @@
 title: "Multicluster Verrazzano setup"
 linkTitle: Multicluster Setup
 description: "How to setup a multicluster Verrazzano environment"
-weight: 8
+weight: 6
 draft: false
 ---
 
@@ -53,13 +53,13 @@ The steps for this setup are shown below.
 1. Obtain the Kubernetes server address for the admin cluster, from its kubeconfig file.
     ```
     # If your kubeconfig has only a single context, or has the admin cluster's context set as the current-context
-    $ ADMIN_K8S_SERVER_ADDRESS="$(kubectl config view --minify | grep server | cut -f2- -d: | tr -d " ")
+    $ ADMIN_K8S_SERVER_ADDRESS="$(kubectl config view --minify | grep server | cut -f2- -d: | tr -d ' ')"
 
     # If your kubeconfig has multiple contexts, list the kubeconfig contexts and find the name of context corresponding
     # to the admin cluster
     $ kubectl config get-contexts
     # Replace "admin-server-context-name" with the name of the context corresponding to your admin cluster.
-    $ ADMIN_K8S_SERVER_ADDRESS="$(kubectl --context admin-server-context-name config view --minify | grep server | cut -f2- -d: | tr -d " ")
+    $ ADMIN_K8S_SERVER_ADDRESS="$(kubectl --context admin-server-context-name config view --minify | grep server | cut -f2- -d: | tr -d ' ')"
     ```
 
 1. Create a ConfigMap that contains the Kubernetes server address of the admin cluster.
