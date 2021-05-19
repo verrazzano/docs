@@ -55,10 +55,15 @@
 &lt;li&gt;&lt;a href=&#34;#the-verrazzanoproject-resource&#34;&gt;The VerrazzanoProject resource&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#verrazzano-multicluster-resources&#34;&gt;Verrazzano multicluster resources&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#managed-cluster-registration&#34;&gt;Managed cluster registration&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For more information, see:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#detailed-view-of-multicluster-verrazzano&#34;&gt;Detailed view of multicluster Verrazzano&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#try-out-multicluster-verrazzano&#34;&gt;Try out multicluster Verrazzano&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;The following diagram shows an overview of how multicluster Verrazzano works:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;../../images/VerrazzanoMultiCluster.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The following diagram shows a high-level overview of how multicluster Verrazzano works. For a more
+detailed view, see &lt;a href=&#34;#detailed-view-of-multicluster-verrazzano&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../images/multicluster/MCConceptsHighLevel.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;admin-kubernetes-cluster&#34;&gt;Admin Kubernetes cluster&lt;/h3&gt;
 &lt;p&gt;A Verrazzano admin cluster is a central management point for:&lt;/p&gt;
 &lt;ul&gt;
@@ -147,6 +152,9 @@ sent to Elasticsearch on the admin cluster, and may be viewed from the Verrazzan
 admin cluster. Likewise, application metrics will be scraped by the admin cluster and available from
 Verrazzano-installed Prometheus on the admin cluster.&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h3 id=&#34;detailed-view-of-multicluster-verrazzano&#34;&gt;Detailed view of multicluster Verrazzano&lt;/h3&gt;
+&lt;p&gt;This diagram shows a more detailed view of how multicluster Verrazzano works.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../images/multicluster/MCConcepts.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;try-out-multicluster-verrazzano&#34;&gt;Try out multicluster Verrazzano&lt;/h3&gt;
 &lt;p&gt;For more information, see the &lt;a href=&#34;../../reference/api/&#34;&gt;API Documentation&lt;/a&gt; for the resources described here.
 To try out multicluster Verrazzano, see the &lt;a href=&#34;https://github.com/verrazzano/verrazzano/tree/master/examples/multicluster/hello-helidon&#34;&gt;Hello World Helidon multicluster example application&lt;/a&gt;.&lt;/p&gt;
@@ -3693,12 +3701,13 @@ ToDos table initialized.
 &lt;/ul&gt;
 &lt;pre&gt;&lt;code&gt;   $ export KUBECONFIG=&amp;lt;path to valid Kubernetes config&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
-&lt;li&gt;Create the optional &lt;code&gt;imagePullSecret&lt;/code&gt; named &lt;code&gt;verrazzano-container-registry&lt;/code&gt;.  This step is required when one or more of the Docker images installed by Verrazzano are private.  For example, while testing a change to the &lt;code&gt;verrazzano-operator&lt;/code&gt;, you may be using a Docker image that requires credentials to access it.&lt;/li&gt;
+&lt;li&gt;Optional step, needed only if your organization requires the use of a private registry to host one or more of the Docker images installed by
+Verrazzano and those images have been loaded into the private registry. Create the optional &lt;code&gt;imagePullSecret&lt;/code&gt; named &lt;code&gt;verrazzano-container-registry&lt;/code&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;pre&gt;&lt;code&gt;   $ kubectl create secret docker-registry verrazzano-container-registry \
     --docker-username=&amp;lt;username&amp;gt; \
     --docker-password=&amp;lt;password&amp;gt; \
-    --docker-server=&amp;lt;docker server&amp;gt;
+    --docker-server=&amp;lt;docker server of private registry&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;next-steps&#34;&gt;Next steps&lt;/h3&gt;
 &lt;p&gt;To continue, see the &lt;a href=&#34;../docs/setup/install/installation/#install-the-verrazzano-platform-operator&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
 
@@ -3706,102 +3715,127 @@ ToDos table initialized.
     </item>
     
     <item>
-      <title>Docs: Software Versions</title>
-      <link>https://verrazzano.io/docs/setup/versions/versions/</link>
+      <title>Docs: Multicluster Verrazzano Setup</title>
+      <link>https://verrazzano.io/docs/setup/multicluster/multicluster/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://verrazzano.io/docs/setup/versions/versions/</guid>
+      <guid>https://verrazzano.io/docs/setup/multicluster/multicluster/</guid>
       <description>
         
         
-        &lt;p&gt;Verrazzano installs a curated set of open source components.  The following table lists each open source
-component with its version and a brief description.&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Component&lt;/th&gt;
-&lt;th&gt;Version&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;cert-manager&lt;/td&gt;
-&lt;td&gt;0.13.1&lt;/td&gt;
-&lt;td&gt;Automates the management and issuance of TLS certificates.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Coherence Operator&lt;/td&gt;
-&lt;td&gt;3.1.3&lt;/td&gt;
-&lt;td&gt;Assists with deploying and managing Coherence clusters.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Elasticsearch&lt;/td&gt;
-&lt;td&gt;7.6.1&lt;/td&gt;
-&lt;td&gt;Provides a distributed, multitenant-capable full-text search engine.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;ExternalDNS&lt;/td&gt;
-&lt;td&gt;0.7.1&lt;/td&gt;
-&lt;td&gt;Synchronizes exposed Kubernetes Services and Ingresses with DNS providers.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Grafana&lt;/td&gt;
-&lt;td&gt;6.4.4&lt;/td&gt;
-&lt;td&gt;Tool to help you study, analyze, and monitor metrics.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Istio&lt;/td&gt;
-&lt;td&gt;1.7.3&lt;/td&gt;
-&lt;td&gt;Service mesh that layers transparently onto existing distributed applications.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Keycloak&lt;/td&gt;
-&lt;td&gt;10.0.1&lt;/td&gt;
-&lt;td&gt;Provides single sign-on with Identity and Access Management.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Kibana&lt;/td&gt;
-&lt;td&gt;7.6.1&lt;/td&gt;
-&lt;td&gt;Provides search and data visualization capabilities for data indexed in Elasticsearch.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;MySQL&lt;/td&gt;
-&lt;td&gt;8.0.20&lt;/td&gt;
-&lt;td&gt;Open source relational database management system used by Keycloak.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;NGINX Ingress Controller&lt;/td&gt;
-&lt;td&gt;0.32.0&lt;/td&gt;
-&lt;td&gt;Traffic management solution for cloud‑native applications in Kubernetes.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Node Exporter&lt;/td&gt;
-&lt;td&gt;0.18.1&lt;/td&gt;
-&lt;td&gt;Prometheus exporter for hardware and OS metrics.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;OAM Kubernetes Runtime&lt;/td&gt;
-&lt;td&gt;0.3.0&lt;/td&gt;
-&lt;td&gt;Plug-in for implementing Open Application Model (OAM) control plane with Kubernetes.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Prometheus&lt;/td&gt;
-&lt;td&gt;2.13.1&lt;/td&gt;
-&lt;td&gt;Provides event monitoring and alerting.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Rancher&lt;/td&gt;
-&lt;td&gt;2.5.7&lt;/td&gt;
-&lt;td&gt;Manages multiple Kubernetes clusters.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;WebLogic Server Kubernetes Operator&lt;/td&gt;
-&lt;td&gt;3.2.2&lt;/td&gt;
-&lt;td&gt;Assists with deploying and managing WebLogic domains.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
+        &lt;h2 id=&#34;contents&#34;&gt;Contents&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#set-up-a-multicluster-verrazzano-environment&#34;&gt;Set up a multicluster Verrazzano environment&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#run-applications-in-multicluster-verrazzano&#34;&gt;Run applications in multicluster Verrazzano&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#admin-cluster-user-interface-ui&#34;&gt;Admin cluster UI&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
+&lt;p&gt;Before you begin, read this document, &lt;a href=&#34;../../../concepts/verrazzanomulticluster&#34; title=&#34;multicluster concepts&#34;&gt;multicluster concepts&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;set-up-a-multicluster-verrazzano-environment&#34;&gt;Set up a multicluster Verrazzano environment&lt;/h2&gt;
+&lt;p&gt;To set up a multicluster Verrazzano environment, you will need two or more Kubernetes clusters. One of these clusters
+will the &lt;em&gt;admin&lt;/em&gt; cluster; the others will be &lt;em&gt;managed&lt;/em&gt; clusters.&lt;/p&gt;
+&lt;p&gt;The instructions here assume an admin cluster and a single managed cluster. For each additional managed
+cluster, simply repeat the managed cluster instructions.&lt;/p&gt;
+&lt;h3 id=&#34;install-verrazzano&#34;&gt;Install Verrazzano&lt;/h3&gt;
+&lt;p&gt;Install Verrazzano on each Kubernetes cluster.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;On one cluster, install Verrazzano using the &lt;code&gt;dev&lt;/code&gt; profile; this will be the &lt;em&gt;admin&lt;/em&gt; cluster.&lt;/li&gt;
+&lt;li&gt;On the other cluster, install Verrazzano using the &lt;code&gt;managed-cluster&lt;/code&gt; profile; this will be a
+managed cluster. The &lt;code&gt;managed-cluster&lt;/code&gt; profile contains only the components that are required for a managed cluster.&lt;/li&gt;
+&lt;li&gt;Create the environment variables, &lt;code&gt;KUBECONFIG_ADMIN&lt;/code&gt; and &lt;code&gt;KUBECONFIG_MANAGED1&lt;/code&gt;, and point them to the &lt;code&gt;kubeconfig&lt;/code&gt;
+files for the admin and managed cluster, respectively. These environment variables will be used in subsequent steps
+when registering the managed cluster.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For detailed instructions on how to install Verrazzano on a Kubernetes cluster using a specific profile, see the
+&lt;a href=&#34;../../install/installation&#34;&gt;installation guide&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;register-the-managed-cluster-with-the-admin-cluster&#34;&gt;Register the managed cluster with the admin cluster&lt;/h3&gt;
+&lt;p&gt;The following sections show you how to register the managed cluster with the admin cluster.&lt;/p&gt;
+&lt;h4 id=&#34;preregistration-setup&#34;&gt;Preregistration setup&lt;/h4&gt;
+&lt;p&gt;Before registering the managed cluster, you&amp;rsquo;ll first need to set up the following items.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A ConfigMap containing the externally reachable address of the admin cluster. This will be provided to the managed
+cluster during registration so that it can connect to the admin cluster.&lt;/li&gt;
+&lt;li&gt;A Secret containing the managed cluster&amp;rsquo;s Prometheus endpoint. This will be used by the admin cluster to scrape
+metrics from the managed cluster, for both applications and Verrazzano components.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Follow these preregistration setup steps:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Obtain the Kubernetes server address for the admin cluster from its &lt;code&gt;kubeconfig&lt;/code&gt; file.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# If your kubeconfig has only a single context, or has the admin cluster&#39;s context set as the current-context
+$ ADMIN_K8S_SERVER_ADDRESS=&amp;quot;$(kubectl config view --minify | grep server | cut -f2- -d: | tr -d &#39; &#39;)&amp;quot;
+
+# If your kubeconfig has multiple contexts, list the kubeconfig contexts and find the name of context corresponding
+# to the admin cluster
+$ kubectl config get-contexts
+# Replace &amp;quot;admin-server-context-name&amp;quot; with the name of the context corresponding to your admin cluster.
+$ ADMIN_K8S_SERVER_ADDRESS=&amp;quot;$(kubectl --context admin-server-context-name config view --minify | grep server | cut -f2- -d: | tr -d &#39; &#39;)&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create a ConfigMap that contains the Kubernetes server address for the admin cluster.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f &amp;lt;&amp;lt;EOF -
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: verrazzano-admin-cluster
+  namespace: verrazzano-mc
+data:
+  server: &amp;quot;${ADMIN_K8S_SERVER_ADDRESS}&amp;quot;
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Obtain the credentials for scraping metrics from the managed cluster.  Use the following instructions to output the credentials to a file named &lt;code&gt;managed1.yaml&lt;/code&gt; in the current folder.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ export KUBECONFIG=$KUBECONFIG_MANAGED1
+$ echo &amp;quot;prometheus:&amp;quot; &amp;gt; managed1.yaml
+$ echo &amp;quot;  host: $(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get ing vmi-system-prometheus -n verrazzano-system -o jsonpath=&#39;{.spec.tls[0].hosts[0]}&#39;)&amp;quot; &amp;gt;&amp;gt; managed1.yaml
+$ echo &amp;quot;  cacrt: |&amp;quot; &amp;gt;&amp;gt; managed1.yaml
+$ echo -e &amp;quot;$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl -n verrazzano-system get secret system-tls -o jsonpath=&#39;{.data.ca\.crt}&#39; | base64 --decode)&amp;quot; | sed &#39;s/^/    /&#39; &amp;gt;&amp;gt; managed1.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create a secret on the admin cluster that contains the credentials for scraping metrics from the managed cluster.
+The file &lt;code&gt;managed1.yaml&lt;/code&gt; that was created in the previous step provides input to this step.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl create secret generic prometheus-managed1 -n verrazzano-mc --from-file=managed1.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;registration-steps&#34;&gt;Registration steps&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;To begin the registration process for a managed cluster named &lt;code&gt;managed1&lt;/code&gt;, apply the VerrazzanoManagedCluster object on the admin cluster.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f &amp;lt;&amp;lt;EOF -
+apiVersion: clusters.verrazzano.io/v1alpha1
+kind: VerrazzanoManagedCluster
+metadata:
+  name: managed1
+  namespace: verrazzano-mc
+spec:
+  description: &amp;quot;Test VerrazzanoManagedCluster object&amp;quot;
+  prometheusSecret: prometheus-managed1
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Wait for the VerrazzanoManagedCluster resource to reach the &lt;code&gt;Ready&lt;/code&gt; status. At that point, it will have generated a YAML
+file that must be applied on the managed cluster to complete the registration process.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl wait --for=condition=Ready vmc managed1 -n verrazzano-mc
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Export the YAML file created to register the managed cluster.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl get secret verrazzano-cluster-managed1-manifest -n verrazzano-mc -o jsonpath={.data.yaml} | base64 --decode &amp;gt; register.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Apply the registration file on the managed cluster.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl apply -f register.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;run-applications-in-multicluster-verrazzano&#34;&gt;Run applications in multicluster Verrazzano&lt;/h2&gt;
+&lt;p&gt;The Verrazzano multicluster setup is now completed and you can deploy an application by following the &lt;a href=&#34;https://github.com/verrazzano/verrazzano/tree/master/examples/multicluster/hello-helidon&#34;&gt;Hello World Helidon multicluster example application&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;admin-cluster-user-interface-ui&#34;&gt;Admin cluster user interface (UI)&lt;/h2&gt;
+&lt;p&gt;The admin cluster serves as a central point from which to register and deploy applications to managed clusters.&lt;/p&gt;
+&lt;p&gt;In the Verrazzano UI on the admin cluster, you can view the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The managed clusters registered with this admin cluster.&lt;/li&gt;
+&lt;li&gt;VerrazzanoProjects located on this admin cluster and/or any of its registered managed clusters.&lt;/li&gt;
+&lt;li&gt;Applications located on this admin cluster and/or any of its registered managed clusters.&lt;/li&gt;
+&lt;/ul&gt;
 
       </description>
     </item>
@@ -4619,6 +4653,107 @@ DNS CNAME records, in the same way.&lt;/p&gt;
     </item>
     
     <item>
+      <title>Docs: Software Versions</title>
+      <link>https://verrazzano.io/docs/setup/versions/versions/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/setup/versions/versions/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano installs a curated set of open source components.  The following table lists each open source
+component with its version and a brief description.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Component&lt;/th&gt;
+&lt;th&gt;Version&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;cert-manager&lt;/td&gt;
+&lt;td&gt;0.13.1&lt;/td&gt;
+&lt;td&gt;Automates the management and issuance of TLS certificates.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Coherence Operator&lt;/td&gt;
+&lt;td&gt;3.1.3&lt;/td&gt;
+&lt;td&gt;Assists with deploying and managing Coherence clusters.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Elasticsearch&lt;/td&gt;
+&lt;td&gt;7.6.1&lt;/td&gt;
+&lt;td&gt;Provides a distributed, multitenant-capable full-text search engine.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ExternalDNS&lt;/td&gt;
+&lt;td&gt;0.7.1&lt;/td&gt;
+&lt;td&gt;Synchronizes exposed Kubernetes Services and Ingresses with DNS providers.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Grafana&lt;/td&gt;
+&lt;td&gt;6.4.4&lt;/td&gt;
+&lt;td&gt;Tool to help you study, analyze, and monitor metrics.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Istio&lt;/td&gt;
+&lt;td&gt;1.7.3&lt;/td&gt;
+&lt;td&gt;Service mesh that layers transparently onto existing distributed applications.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Keycloak&lt;/td&gt;
+&lt;td&gt;10.0.1&lt;/td&gt;
+&lt;td&gt;Provides single sign-on with Identity and Access Management.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Kibana&lt;/td&gt;
+&lt;td&gt;7.6.1&lt;/td&gt;
+&lt;td&gt;Provides search and data visualization capabilities for data indexed in Elasticsearch.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;MySQL&lt;/td&gt;
+&lt;td&gt;8.0.20&lt;/td&gt;
+&lt;td&gt;Open source relational database management system used by Keycloak.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;NGINX Ingress Controller&lt;/td&gt;
+&lt;td&gt;0.32.0&lt;/td&gt;
+&lt;td&gt;Traffic management solution for cloud‑native applications in Kubernetes.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Node Exporter&lt;/td&gt;
+&lt;td&gt;0.18.1&lt;/td&gt;
+&lt;td&gt;Prometheus exporter for hardware and OS metrics.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;OAM Kubernetes Runtime&lt;/td&gt;
+&lt;td&gt;0.3.0&lt;/td&gt;
+&lt;td&gt;Plug-in for implementing Open Application Model (OAM) control plane with Kubernetes.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Prometheus&lt;/td&gt;
+&lt;td&gt;2.13.1&lt;/td&gt;
+&lt;td&gt;Provides event monitoring and alerting.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Rancher&lt;/td&gt;
+&lt;td&gt;2.5.7&lt;/td&gt;
+&lt;td&gt;Manages multiple Kubernetes clusters.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;WebLogic Server Kubernetes Operator&lt;/td&gt;
+&lt;td&gt;3.2.2&lt;/td&gt;
+&lt;td&gt;Assists with deploying and managing WebLogic domains.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Troubleshooting</title>
       <link>https://verrazzano.io/docs/releasenotes/troubleshooting/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -4651,101 +4786,6 @@ DNS CNAME records, in the same way.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 
-      </description>
-    </item>
-    
-    <item>
-      <title>Docs: Upgrade Guide</title>
-      <link>https://verrazzano.io/docs/setup/upgrade/upgrade/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://verrazzano.io/docs/setup/upgrade/upgrade/</guid>
-      <description>
-        
-        
-        &lt;p&gt;Upgrading an existing Verrazzano installation involves:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Upgrading the Verrazzano platform operator to the &lt;a href=&#34;https://github.com/verrazzano/verrazzano/releases/&#34;&gt;Verrazzano release version&lt;/a&gt; to which you want to upgrade.&lt;/li&gt;
-&lt;li&gt;Updating the version of your installed &lt;code&gt;Verrazzano&lt;/code&gt; resource to the version supported by the upgraded operator.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Performing an upgrade will upgrade only the Verrazzano components related to the existing installation.  Upgrading will
-not have any impact on running applications.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; You may only change the version field during an upgrade; changes to other fields or component configurations are not supported at this time.&lt;/p&gt;
-&lt;h3 id=&#34;upgrade-the-verrazzano-platform-operator&#34;&gt;Upgrade the Verrazzano platform operator&lt;/h3&gt;
-&lt;p&gt;In order to upgrade an existing Verrazzano installation, you must first upgrade the &lt;a href=&#34;https://github.com/verrazzano/verrazzano-platform-operator&#34;&gt;Verrazzano platform operator&lt;/a&gt;.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Upgrade the Verrazzano platform operator.&lt;/p&gt;
-&lt;p&gt;To upgrade to the latest version:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To upgrade to a specific version, where &lt;code&gt;&amp;lt;version&amp;gt;&lt;/code&gt; is the desired version:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/&amp;lt;version&amp;gt;/operator.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For example:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v0.7.0/operator.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Wait for the deployment to complete.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
-deployment &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;verrazzano-platform-operator&amp;#34;&lt;/span&gt; successfully rolled out
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Confirm that the operator pod is correctly defined and running.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl -n verrazzano-install get pods
-NAME                                            READY   STATUS    RESTARTS   AGE
-verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;          114s
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&#34;upgrade-verrazzano&#34;&gt;Upgrade Verrazzano&lt;/h3&gt;
-&lt;p&gt;To upgrade Verrazzano:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Update the &lt;code&gt;Verrazzano&lt;/code&gt; resource to the desired version.&lt;/p&gt;
-&lt;p&gt;To upgrade the Verrazzano components, you must update the &lt;code&gt;version&lt;/code&gt; field in your &lt;code&gt;Verrazzano&lt;/code&gt; resource spec to
-match the version supported by the platform operator to which you upgraded and apply it to the cluster.&lt;/p&gt;
-&lt;p&gt;The value of the &lt;code&gt;version&lt;/code&gt; field in the resource spec must be a &lt;a href=&#34;https://semver.org/&#34;&gt;Semantic Versioning&lt;/a&gt; value
-corresponding to a valid &lt;a href=&#34;https://github.com/verrazzano/verrazzano/releases/&#34;&gt;Verrazzano release version&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;You can update the resource by doing one of the following:&lt;/p&gt;
-&lt;p&gt;a. Editing the YAML file you used to install Verrazzano and setting the version field to the latest version.&lt;/p&gt;
-&lt;p&gt;For example, to upgrade to &lt;code&gt;v0.7.0&lt;/code&gt;, your YAML file should be edited to add or update the version field:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;install.verrazzano.io/v1alpha1&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;Verrazzano&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;my-verrazzano&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;profile&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;dev&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;version&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;v0&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;.7.0&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Then apply the resource to the cluster (if you have not edited the resource in-place using &lt;code&gt;kubectl edit&lt;/code&gt;):&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f my-verrazzano.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;b. Editing the &lt;code&gt;Verrazzano&lt;/code&gt; resource directly using &lt;code&gt;kubectl&lt;/code&gt; and setting the version field directly, for example:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl edit verrazzano my-verrazzano
-&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# In the resource editor, add or update the version field to &amp;#34;version: v0.7.0&amp;#34;, then save.&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Wait for the upgrade to complete:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;20m --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;UpgradeComplete verrazzano/my-verrazzano
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&#34;verify-the-upgrade&#34;&gt;Verify the upgrade&lt;/h3&gt;
-&lt;p&gt;Check that all the pods in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace are in the &lt;code&gt;Running&lt;/code&gt; state.  While the upgrade is in progress,
-you may see some pods terminating and restarting as newer versions of components are applied.&lt;/p&gt;
-&lt;p&gt;For example:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get pods -n verrazzano-system
-coherence-operator-controller-manager-7557bc4c49-7w55p   1/1     Running   0          27h
-fluentd-fzmsl                                            1/1     Running   0          27h
-fluentd-r9wwf                                            1/1     Running   0          27h
-fluentd-zp2r2                                            1/1     Running   0          27h
-oam-kubernetes-runtime-6ff589f66f-r95qv                  1/1     Running   0          27h
-verrazzano-api-669c7d7f66-rcnl8                          1/1     Running   0          27h
-verrazzano-application-operator-b5b77d676-7w95p          1/1     Running   0          27h
-verrazzano-console-6b469dff9c-b2jwk                      1/1     Running   0          27h
-verrazzano-monitoring-operator-54cb658774-f6jjm          1/1     Running   0          27h
-verrazzano-operator-7f4b99d7d-wg7qm                      1/1     Running   0          27h
-vmi-system-es-master-0                                   2/2     Running   0          27h
-vmi-system-grafana-74bb7cdf65-k97pb                      2/2     Running   0          27h
-vmi-system-kibana-85565975b5-7hfdf                       2/2     Running   0          27h
-vmi-system-prometheus-0-7bf464d898-czq8r                 4/4     Running   0          27h
-weblogic-operator-7db5cdcf59-qxsr9                       1/1     Running   0          27h
-&lt;/code&gt;&lt;/pre&gt;
       </description>
     </item>
     
@@ -4864,6 +4904,101 @@ $ docker volume inspect containerd &lt;span style=&#34;color:#8f5902;font-style:
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;next-steps&#34;&gt;Next steps&lt;/h3&gt;
 &lt;p&gt;To continue, see the &lt;a href=&#34;../docs/setup/install/installation/#install-the-verrazzano-platform-operator&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
 
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Upgrade Guide</title>
+      <link>https://verrazzano.io/docs/setup/upgrade/upgrade/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/setup/upgrade/upgrade/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Upgrading an existing Verrazzano installation involves:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Upgrading the Verrazzano platform operator to the &lt;a href=&#34;https://github.com/verrazzano/verrazzano/releases/&#34;&gt;Verrazzano release version&lt;/a&gt; to which you want to upgrade.&lt;/li&gt;
+&lt;li&gt;Updating the version of your installed &lt;code&gt;Verrazzano&lt;/code&gt; resource to the version supported by the upgraded operator.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Performing an upgrade will upgrade only the Verrazzano components related to the existing installation.  Upgrading will
+not have any impact on running applications.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; You may only change the version field during an upgrade; changes to other fields or component configurations are not supported at this time.&lt;/p&gt;
+&lt;h3 id=&#34;upgrade-the-verrazzano-platform-operator&#34;&gt;Upgrade the Verrazzano platform operator&lt;/h3&gt;
+&lt;p&gt;In order to upgrade an existing Verrazzano installation, you must first upgrade the &lt;a href=&#34;https://github.com/verrazzano/verrazzano-platform-operator&#34;&gt;Verrazzano platform operator&lt;/a&gt;.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Upgrade the Verrazzano platform operator.&lt;/p&gt;
+&lt;p&gt;To upgrade to the latest version:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To upgrade to a specific version, where &lt;code&gt;&amp;lt;version&amp;gt;&lt;/code&gt; is the desired version:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/&amp;lt;version&amp;gt;/operator.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v0.7.0/operator.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Wait for the deployment to complete.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
+deployment &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;verrazzano-platform-operator&amp;#34;&lt;/span&gt; successfully rolled out
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Confirm that the operator pod is correctly defined and running.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl -n verrazzano-install get pods
+NAME                                            READY   STATUS    RESTARTS   AGE
+verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;          114s
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;upgrade-verrazzano&#34;&gt;Upgrade Verrazzano&lt;/h3&gt;
+&lt;p&gt;To upgrade Verrazzano:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Update the &lt;code&gt;Verrazzano&lt;/code&gt; resource to the desired version.&lt;/p&gt;
+&lt;p&gt;To upgrade the Verrazzano components, you must update the &lt;code&gt;version&lt;/code&gt; field in your &lt;code&gt;Verrazzano&lt;/code&gt; resource spec to
+match the version supported by the platform operator to which you upgraded and apply it to the cluster.&lt;/p&gt;
+&lt;p&gt;The value of the &lt;code&gt;version&lt;/code&gt; field in the resource spec must be a &lt;a href=&#34;https://semver.org/&#34;&gt;Semantic Versioning&lt;/a&gt; value
+corresponding to a valid &lt;a href=&#34;https://github.com/verrazzano/verrazzano/releases/&#34;&gt;Verrazzano release version&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;You can update the resource by doing one of the following:&lt;/p&gt;
+&lt;p&gt;a. Editing the YAML file you used to install Verrazzano and setting the version field to the latest version.&lt;/p&gt;
+&lt;p&gt;For example, to upgrade to &lt;code&gt;v0.7.0&lt;/code&gt;, your YAML file should be edited to add or update the version field:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;install.verrazzano.io/v1alpha1&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;Verrazzano&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;my-verrazzano&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;profile&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;dev&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;version&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;v0&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;.7.0&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Then apply the resource to the cluster (if you have not edited the resource in-place using &lt;code&gt;kubectl edit&lt;/code&gt;):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f my-verrazzano.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;b. Editing the &lt;code&gt;Verrazzano&lt;/code&gt; resource directly using &lt;code&gt;kubectl&lt;/code&gt; and setting the version field directly, for example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl edit verrazzano my-verrazzano
+&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# In the resource editor, add or update the version field to &amp;#34;version: v0.7.0&amp;#34;, then save.&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Wait for the upgrade to complete:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;20m --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;UpgradeComplete verrazzano/my-verrazzano
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;verify-the-upgrade&#34;&gt;Verify the upgrade&lt;/h3&gt;
+&lt;p&gt;Check that all the pods in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace are in the &lt;code&gt;Running&lt;/code&gt; state.  While the upgrade is in progress,
+you may see some pods terminating and restarting as newer versions of components are applied.&lt;/p&gt;
+&lt;p&gt;For example:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl get pods -n verrazzano-system
+coherence-operator-controller-manager-7557bc4c49-7w55p   1/1     Running   0          27h
+fluentd-fzmsl                                            1/1     Running   0          27h
+fluentd-r9wwf                                            1/1     Running   0          27h
+fluentd-zp2r2                                            1/1     Running   0          27h
+oam-kubernetes-runtime-6ff589f66f-r95qv                  1/1     Running   0          27h
+verrazzano-api-669c7d7f66-rcnl8                          1/1     Running   0          27h
+verrazzano-application-operator-b5b77d676-7w95p          1/1     Running   0          27h
+verrazzano-console-6b469dff9c-b2jwk                      1/1     Running   0          27h
+verrazzano-monitoring-operator-54cb658774-f6jjm          1/1     Running   0          27h
+verrazzano-operator-7f4b99d7d-wg7qm                      1/1     Running   0          27h
+vmi-system-es-master-0                                   2/2     Running   0          27h
+vmi-system-grafana-74bb7cdf65-k97pb                      2/2     Running   0          27h
+vmi-system-kibana-85565975b5-7hfdf                       2/2     Running   0          27h
+vmi-system-prometheus-0-7bf464d898-czq8r                 4/4     Running   0          27h
+weblogic-operator-7db5cdcf59-qxsr9                       1/1     Running   0          27h
+&lt;/code&gt;&lt;/pre&gt;
       </description>
     </item>
     
