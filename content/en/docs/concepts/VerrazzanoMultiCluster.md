@@ -19,7 +19,7 @@ For more information, see:
 - [Try out multicluster Verrazzano](#try-out-multicluster-verrazzano)
 
 The following diagram shows a high-level overview of how multicluster Verrazzano works. For a more
-detailed view, see [here](#detailed-view-of-multicluster-verrazzano).
+detailed view, see the diagram [here](#detailed-view-of-multicluster-verrazzano).
 
 ![](../../images/multicluster/MCConceptsHighLevel.png)
 
@@ -40,7 +40,7 @@ installation profile. A managed cluster has the following additional characteris
 - It is registered with an admin cluster with a unique name.
 - Logs for Verrazzano system components and Verrazzano multicluster applications are sent to
   Elasticsearch running on the admin cluster, and viewable from that cluster.
-- A Verrazzano multicluster Kubernetes resource created on the admin cluster will be retrieved and deployed to a
+- A Verrazzano multicluster Kubernetes resource, created on the admin cluster, will be retrieved and deployed to a
   managed cluster if all of the following are true:
   - The resource is in a namespace governed by a `VerrazzanoProject`.
   - The `VerrazzanoProject` is located in this managed cluster.
@@ -49,8 +49,7 @@ installation profile. A managed cluster has the following additional characteris
 ### The VerrazzanoProject resource
 A [`VerrazzanoProject`](../../reference/api/multicluster/verrazzanoproject "api docs") provides a way to group application namespaces that are owned or administered by the
 same user or group of users.
-- For multicluster applications to work correctly, a VerrazzanoProject containing the application's namespace must
-  _first_ be created.
+- For multicluster applications to work correctly, _first_ a VerrazzanoProject containing the application's namespace must be created.
 - A `VerrazzanoProject` resource is created by a Verrazzano administrative user, and specifies the following:
   - A list of namespaces that the project governs.
   - A user or group that is designated as the `Project Admin` of the VerrazzanoProject. Project admins may deploy
@@ -64,7 +63,7 @@ same user or group of users.
   permissions for the project admins and project monitors of the project.
 
 ### Verrazzano multicluster resources
-Verrazzano includes several multicluster resource definitions, for resources that may be targeted for placement in one
+Verrazzano includes several multicluster resource definitions for resources that may be targeted for placement in one
 or more clusters: [MultiClusterApplicationConfiguration](../../reference/api/multicluster/multiclusterapplicationconfiguration "api docs"),
 [MultiClusterComponent](../../reference/api/multicluster/multiclustercomponent "api docs"),
 [MultiClusterConfigMap](../../reference/api/multicluster/multiclusterconfigmap "api docs"),
