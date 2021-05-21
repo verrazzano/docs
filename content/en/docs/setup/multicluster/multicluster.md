@@ -135,5 +135,5 @@ The admin cluster serves as a central point from which to register and deploy ap
 In the Verrazzano UI on the admin cluster, you can view the following:
 
 - The managed clusters registered with this admin cluster.
-- VerrazzanoProjects located on this admin cluster and any of its registered managed clusters.
-- Applications located on this admin cluster and any of its registered managed clusters.
+- VerrazzanoProjects located on this admin cluster, or any of its registered managed clusters, or both.
+- Applications located on this admin cluster, or any of its registered managed clusters, or both.
