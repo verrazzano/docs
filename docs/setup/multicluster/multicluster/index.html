@@ -21,11 +21,11 @@
 <meta property="og:description" content="How to set up a multicluster Verrazzano environment" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/setup/multicluster/multicluster/" />
-<meta property="article:modified_time" content="2021-05-19T16:24:48-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-05-21T13:42:32-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Multicluster Verrazzano Setup">
 <meta itemprop="description" content="How to set up a multicluster Verrazzano environment">
-<meta itemprop="dateModified" content="2021-05-19T16:24:48-04:00" />
-<meta itemprop="wordCount" content="779">
+<meta itemprop="dateModified" content="2021-05-21T13:42:32-04:00" />
+<meta itemprop="wordCount" content="793">
 
 
 
@@ -105,7 +105,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.a511cabb30ec655c79faed5336cd0ef4.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.c762b5baf5ffdd651876490bfcc23724.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -137,7 +137,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.a511cabb30ec655c79faed5336cd0ef4.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.c762b5baf5ffdd651876490bfcc23724.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -639,7 +639,7 @@ if (!doNotTrack) {
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#set-up-a-multicluster-verrazzano-environment">Set up a multicluster Verrazzano environment</a></li>
         <li><a href="#run-applications-in-multicluster-verrazzano">Run applications in multicluster Verrazzano</a></li>
-        <li><a href="#admin-cluster-user-interface-ui">Admin cluster user interface (UI)</a></li>
+        <li><a href="#use-the-admin-cluster-user-interface-ui">Use the admin cluster user interface (UI)</a></li>
       </ul>
     </li>
   </ul>
@@ -693,9 +693,15 @@ if (!doNotTrack) {
 	       
 	<h2 id="contents">Contents</h2>
 <ul>
-<li><a href="#set-up-a-multicluster-verrazzano-environment">Set up a multicluster Verrazzano environment</a></li>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#set-up-a-multicluster-verrazzano-environment">Set up a multicluster Verrazzano environment</a>
+<ul>
+<li><a href="#install-verrazzano">Install Verrazzano</a></li>
+<li><a href="#register-the-managed-cluster-with-the-admin-cluster">Register the managed cluster with the admin cluster</a></li>
+</ul>
+</li>
 <li><a href="#run-applications-in-multicluster-verrazzano">Run applications in multicluster Verrazzano</a></li>
-<li><a href="#admin-cluster-user-interface-ui">Admin cluster UI</a></li>
+<li><a href="#use-the-admin-cluster-user-interface-ui">Use the admin cluster UI</a></li>
 </ul>
 <h2 id="prerequisites">Prerequisites</h2>
 <p>Before you begin, read this document, <a href="../../../concepts/verrazzanomulticluster" title="multicluster concepts">multicluster concepts</a>.</p>
@@ -715,11 +721,11 @@ files for the admin and managed cluster, respectively. These environment variabl
 when registering the managed cluster.</li>
 </ul>
 <p>For detailed instructions on how to install Verrazzano on a Kubernetes cluster using a specific profile, see the
-<a href="../../install/installation">installation guide</a>.</p>
+<a href="../../install/installation">Installation Guide</a>.</p>
 <h3 id="register-the-managed-cluster-with-the-admin-cluster">Register the managed cluster with the admin cluster</h3>
 <p>The following sections show you how to register the managed cluster with the admin cluster.</p>
 <h4 id="preregistration-setup">Preregistration setup</h4>
-<p>Before registering the managed cluster, you&rsquo;ll first need to set up the following items.</p>
+<p>Before registering the managed cluster, first you&rsquo;ll need to set up the following items:</p>
 <ul>
 <li>A ConfigMap containing the externally reachable address of the admin cluster. This will be provided to the managed
 cluster during registration so that it can connect to the admin cluster.</li>
@@ -752,7 +758,7 @@ data:
 EOF
 </code></pre></li>
 <li>
-<p>Obtain the credentials for scraping metrics from the managed cluster.  Use the following instructions to output the credentials to a file named <code>managed1.yaml</code> in the current folder.</p>
+<p>Obtain the credentials for scraping metrics from the managed cluster.  Use the following instructions to write the credentials to a file named <code>managed1.yaml</code> in the current folder.</p>
 <pre><code>$ export KUBECONFIG=$KUBECONFIG_MANAGED1
 $ echo &quot;prometheus:&quot; &gt; managed1.yaml
 $ echo &quot;  host: $(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get ing vmi-system-prometheus -n verrazzano-system -o jsonpath='{.spec.tls[0].hosts[0]}')&quot; &gt;&gt; managed1.yaml
@@ -760,7 +766,7 @@ $ echo &quot;  cacrt: |&quot; &gt;&gt; managed1.yaml
 $ echo -e &quot;$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl -n verrazzano-system get secret system-tls -o jsonpath='{.data.ca\.crt}' | base64 --decode)&quot; | sed 's/^/    /' &gt;&gt; managed1.yaml
 </code></pre></li>
 <li>
-<p>Create a secret on the admin cluster that contains the credentials for scraping metrics from the managed cluster.
+<p>Create a Secret on the admin cluster that contains the credentials for scraping metrics from the managed cluster.
 The file <code>managed1.yaml</code> that was created in the previous step provides input to this step.</p>
 <pre><code>$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl create secret generic prometheus-managed1 -n verrazzano-mc --from-file=managed1.yaml
 </code></pre></li>
@@ -795,14 +801,14 @@ file that must be applied on the managed cluster to complete the registration pr
 </code></pre></li>
 </ol>
 <h2 id="run-applications-in-multicluster-verrazzano">Run applications in multicluster Verrazzano</h2>
-<p>The Verrazzano multicluster setup is now completed and you can deploy an application by following the <a href="https://github.com/verrazzano/verrazzano/tree/master/examples/multicluster/hello-helidon">Hello World Helidon multicluster example application</a>.</p>
-<h2 id="admin-cluster-user-interface-ui">Admin cluster user interface (UI)</h2>
+<p>The Verrazzano multicluster setup is now complete and you can deploy applications by following the <a href="https://github.com/verrazzano/verrazzano/tree/master/examples/multicluster/hello-helidon">Multicluster Hello World Helidon</a> example application.</p>
+<h2 id="use-the-admin-cluster-user-interface-ui">Use the admin cluster user interface (UI)</h2>
 <p>The admin cluster serves as a central point from which to register and deploy applications to managed clusters.</p>
 <p>In the Verrazzano UI on the admin cluster, you can view the following:</p>
 <ul>
 <li>The managed clusters registered with this admin cluster.</li>
-<li>VerrazzanoProjects located on this admin cluster and/or any of its registered managed clusters.</li>
-<li>Applications located on this admin cluster and/or any of its registered managed clusters.</li>
+<li>VerrazzanoProjects located on this admin cluster and any of its registered managed clusters.</li>
+<li>Applications located on this admin cluster and any of its registered managed clusters.</li>
 </ul>
 
 	
@@ -869,7 +875,7 @@ file that must be applied on the managed cluster to complete the registration pr
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified May 19, 2021: <a  href="https://github.com/verrazzano/docs/commit/c8050a1a1d1f95c35d79c2c324442fd9fc219bde">Add step-by-step guide for multicluster setup (#129) (c8050a1)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified May 21, 2021: <a  href="https://github.com/verrazzano/docs/commit/e218638ad24a38a5198a7ee81494244fe20c53d5">text edits (#130) (e218638)</a>
 </div>
 </div>
 

@@ -62,7 +62,7 @@
 &lt;li&gt;&lt;a href=&#34;#try-out-multicluster-verrazzano&#34;&gt;Try out multicluster Verrazzano&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;The following diagram shows a high-level overview of how multicluster Verrazzano works. For a more
-detailed view, see &lt;a href=&#34;#detailed-view-of-multicluster-verrazzano&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+detailed view, see the diagram &lt;a href=&#34;#detailed-view-of-multicluster-verrazzano&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;../../images/multicluster/MCConceptsHighLevel.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;admin-kubernetes-cluster&#34;&gt;Admin Kubernetes cluster&lt;/h3&gt;
 &lt;p&gt;A Verrazzano admin cluster is a central management point for:&lt;/p&gt;
@@ -81,7 +81,7 @@ installation profile. A managed cluster has the following additional characteris
 &lt;li&gt;It is registered with an admin cluster with a unique name.&lt;/li&gt;
 &lt;li&gt;Logs for Verrazzano system components and Verrazzano multicluster applications are sent to
 Elasticsearch running on the admin cluster, and viewable from that cluster.&lt;/li&gt;
-&lt;li&gt;A Verrazzano multicluster Kubernetes resource created on the admin cluster will be retrieved and deployed to a
+&lt;li&gt;A Verrazzano multicluster Kubernetes resource, created on the admin cluster, will be retrieved and deployed to a
 managed cluster if all of the following are true:
 &lt;ul&gt;
 &lt;li&gt;The resource is in a namespace governed by a &lt;code&gt;VerrazzanoProject&lt;/code&gt;.&lt;/li&gt;
@@ -94,8 +94,7 @@ managed cluster if all of the following are true:
 &lt;p&gt;A &lt;a href=&#34;../../reference/api/multicluster/verrazzanoproject&#34; title=&#34;api docs&#34;&gt;&lt;code&gt;VerrazzanoProject&lt;/code&gt;&lt;/a&gt; provides a way to group application namespaces that are owned or administered by the
 same user or group of users.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;For multicluster applications to work correctly, a VerrazzanoProject containing the application&amp;rsquo;s namespace must
-&lt;em&gt;first&lt;/em&gt; be created.&lt;/li&gt;
+&lt;li&gt;For multicluster applications to work correctly, &lt;em&gt;first&lt;/em&gt; a VerrazzanoProject containing the application&amp;rsquo;s namespace must be created.&lt;/li&gt;
 &lt;li&gt;A &lt;code&gt;VerrazzanoProject&lt;/code&gt; resource is created by a Verrazzano administrative user, and specifies the following:
 &lt;ul&gt;
 &lt;li&gt;A list of namespaces that the project governs.&lt;/li&gt;
@@ -112,7 +111,7 @@ specified namespaces in the project.&lt;/li&gt;
 permissions for the project admins and project monitors of the project.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;verrazzano-multicluster-resources&#34;&gt;Verrazzano multicluster resources&lt;/h3&gt;
-&lt;p&gt;Verrazzano includes several multicluster resource definitions, for resources that may be targeted for placement in one
+&lt;p&gt;Verrazzano includes several multicluster resource definitions for resources that may be targeted for placement in one
 or more clusters: &lt;a href=&#34;../../reference/api/multicluster/multiclusterapplicationconfiguration&#34; title=&#34;api docs&#34;&gt;MultiClusterApplicationConfiguration&lt;/a&gt;,
 &lt;a href=&#34;../../reference/api/multicluster/multiclustercomponent&#34; title=&#34;api docs&#34;&gt;MultiClusterComponent&lt;/a&gt;,
 &lt;a href=&#34;../../reference/api/multicluster/multiclusterconfigmap&#34; title=&#34;api docs&#34;&gt;MultiClusterConfigMap&lt;/a&gt;,
@@ -3725,9 +3724,15 @@ Verrazzano and those images have been loaded into the private registry. Create t
         
         &lt;h2 id=&#34;contents&#34;&gt;Contents&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#set-up-a-multicluster-verrazzano-environment&#34;&gt;Set up a multicluster Verrazzano environment&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#prerequisites&#34;&gt;Prerequisites&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#set-up-a-multicluster-verrazzano-environment&#34;&gt;Set up a multicluster Verrazzano environment&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#install-verrazzano&#34;&gt;Install Verrazzano&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#register-the-managed-cluster-with-the-admin-cluster&#34;&gt;Register the managed cluster with the admin cluster&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#run-applications-in-multicluster-verrazzano&#34;&gt;Run applications in multicluster Verrazzano&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#admin-cluster-user-interface-ui&#34;&gt;Admin cluster UI&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#use-the-admin-cluster-user-interface-ui&#34;&gt;Use the admin cluster UI&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
 &lt;p&gt;Before you begin, read this document, &lt;a href=&#34;../../../concepts/verrazzanomulticluster&#34; title=&#34;multicluster concepts&#34;&gt;multicluster concepts&lt;/a&gt;.&lt;/p&gt;
@@ -3747,11 +3752,11 @@ files for the admin and managed cluster, respectively. These environment variabl
 when registering the managed cluster.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;For detailed instructions on how to install Verrazzano on a Kubernetes cluster using a specific profile, see the
-&lt;a href=&#34;../../install/installation&#34;&gt;installation guide&lt;/a&gt;.&lt;/p&gt;
+&lt;a href=&#34;../../install/installation&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
 &lt;h3 id=&#34;register-the-managed-cluster-with-the-admin-cluster&#34;&gt;Register the managed cluster with the admin cluster&lt;/h3&gt;
 &lt;p&gt;The following sections show you how to register the managed cluster with the admin cluster.&lt;/p&gt;
 &lt;h4 id=&#34;preregistration-setup&#34;&gt;Preregistration setup&lt;/h4&gt;
-&lt;p&gt;Before registering the managed cluster, you&amp;rsquo;ll first need to set up the following items.&lt;/p&gt;
+&lt;p&gt;Before registering the managed cluster, first you&amp;rsquo;ll need to set up the following items:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;A ConfigMap containing the externally reachable address of the admin cluster. This will be provided to the managed
 cluster during registration so that it can connect to the admin cluster.&lt;/li&gt;
@@ -3784,7 +3789,7 @@ data:
 EOF
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Obtain the credentials for scraping metrics from the managed cluster.  Use the following instructions to output the credentials to a file named &lt;code&gt;managed1.yaml&lt;/code&gt; in the current folder.&lt;/p&gt;
+&lt;p&gt;Obtain the credentials for scraping metrics from the managed cluster.  Use the following instructions to write the credentials to a file named &lt;code&gt;managed1.yaml&lt;/code&gt; in the current folder.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ export KUBECONFIG=$KUBECONFIG_MANAGED1
 $ echo &amp;quot;prometheus:&amp;quot; &amp;gt; managed1.yaml
 $ echo &amp;quot;  host: $(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get ing vmi-system-prometheus -n verrazzano-system -o jsonpath=&#39;{.spec.tls[0].hosts[0]}&#39;)&amp;quot; &amp;gt;&amp;gt; managed1.yaml
@@ -3792,7 +3797,7 @@ $ echo &amp;quot;  cacrt: |&amp;quot; &amp;gt;&amp;gt; managed1.yaml
 $ echo -e &amp;quot;$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl -n verrazzano-system get secret system-tls -o jsonpath=&#39;{.data.ca\.crt}&#39; | base64 --decode)&amp;quot; | sed &#39;s/^/    /&#39; &amp;gt;&amp;gt; managed1.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Create a secret on the admin cluster that contains the credentials for scraping metrics from the managed cluster.
+&lt;p&gt;Create a Secret on the admin cluster that contains the credentials for scraping metrics from the managed cluster.
 The file &lt;code&gt;managed1.yaml&lt;/code&gt; that was created in the previous step provides input to this step.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl create secret generic prometheus-managed1 -n verrazzano-mc --from-file=managed1.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
@@ -3827,14 +3832,14 @@ file that must be applied on the managed cluster to complete the registration pr
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;run-applications-in-multicluster-verrazzano&#34;&gt;Run applications in multicluster Verrazzano&lt;/h2&gt;
-&lt;p&gt;The Verrazzano multicluster setup is now completed and you can deploy an application by following the &lt;a href=&#34;https://github.com/verrazzano/verrazzano/tree/master/examples/multicluster/hello-helidon&#34;&gt;Hello World Helidon multicluster example application&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;admin-cluster-user-interface-ui&#34;&gt;Admin cluster user interface (UI)&lt;/h2&gt;
+&lt;p&gt;The Verrazzano multicluster setup is now complete and you can deploy applications by following the &lt;a href=&#34;https://github.com/verrazzano/verrazzano/tree/master/examples/multicluster/hello-helidon&#34;&gt;Multicluster Hello World Helidon&lt;/a&gt; example application.&lt;/p&gt;
+&lt;h2 id=&#34;use-the-admin-cluster-user-interface-ui&#34;&gt;Use the admin cluster user interface (UI)&lt;/h2&gt;
 &lt;p&gt;The admin cluster serves as a central point from which to register and deploy applications to managed clusters.&lt;/p&gt;
 &lt;p&gt;In the Verrazzano UI on the admin cluster, you can view the following:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;The managed clusters registered with this admin cluster.&lt;/li&gt;
-&lt;li&gt;VerrazzanoProjects located on this admin cluster and/or any of its registered managed clusters.&lt;/li&gt;
-&lt;li&gt;Applications located on this admin cluster and/or any of its registered managed clusters.&lt;/li&gt;
+&lt;li&gt;VerrazzanoProjects located on this admin cluster and any of its registered managed clusters.&lt;/li&gt;
+&lt;li&gt;Applications located on this admin cluster and any of its registered managed clusters.&lt;/li&gt;
 &lt;/ul&gt;
 
       </description>
