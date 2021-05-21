@@ -8,9 +8,12 @@ draft: false
 
 ## Contents
 
+- [Prerequisites](#prerequisites)
 - [Set up a multicluster Verrazzano environment](#set-up-a-multicluster-verrazzano-environment)
+   - [Install Verrazzano](#install-verrazzano)
+   - [Register the managed cluster with the admin cluster](#register-the-managed-cluster-with-the-admin-cluster)
 - [Run applications in multicluster Verrazzano](#run-applications-in-multicluster-verrazzano)
-- [Admin cluster UI](#admin-cluster-user-interface-ui)
+- [Use the admin cluster UI](#use-the-admin-cluster-user-interface-ui)
 
 ## Prerequisites
 
@@ -36,7 +39,7 @@ Install Verrazzano on each Kubernetes cluster.
   when registering the managed cluster.
 
 For detailed instructions on how to install Verrazzano on a Kubernetes cluster using a specific profile, see the
-[installation guide](../../install/installation).
+[Installation Guide](../../install/installation).
 
 ### Register the managed cluster with the admin cluster
 
@@ -44,7 +47,7 @@ The following sections show you how to register the managed cluster with the adm
 
 #### Preregistration setup
 
-Before registering the managed cluster, you'll first need to set up the following items.
+Before registering the managed cluster, first you'll need to set up the following items:
 - A ConfigMap containing the externally reachable address of the admin cluster. This will be provided to the managed
   cluster during registration so that it can connect to the admin cluster.
 - A Secret containing the managed cluster's Prometheus endpoint. This will be used by the admin cluster to scrape
@@ -77,7 +80,7 @@ Follow these preregistration setup steps:
     EOF
     ```
 
-1. Obtain the credentials for scraping metrics from the managed cluster.  Use the following instructions to output the credentials to a file named `managed1.yaml` in the current folder.
+1. Obtain the credentials for scraping metrics from the managed cluster.  Use the following instructions to write the credentials to a file named `managed1.yaml` in the current folder.
    ```
    $ export KUBECONFIG=$KUBECONFIG_MANAGED1
    $ echo "prometheus:" > managed1.yaml
@@ -86,7 +89,7 @@ Follow these preregistration setup steps:
    $ echo -e "$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl -n verrazzano-system get secret system-tls -o jsonpath='{.data.ca\.crt}' | base64 --decode)" | sed 's/^/    /' >> managed1.yaml
    ```
 
-1. Create a secret on the admin cluster that contains the credentials for scraping metrics from the managed cluster.
+1. Create a Secret on the admin cluster that contains the credentials for scraping metrics from the managed cluster.
    The file `managed1.yaml` that was created in the previous step provides input to this step.
    ```
    $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl create secret generic prometheus-managed1 -n verrazzano-mc --from-file=managed1.yaml
@@ -123,14 +126,14 @@ Follow these preregistration setup steps:
 
 ## Run applications in multicluster Verrazzano
 
-The Verrazzano multicluster setup is now completed and you can deploy an application by following the [Hello World Helidon multicluster example application](https://github.com/verrazzano/verrazzano/tree/master/examples/multicluster/hello-helidon).
+The Verrazzano multicluster setup is now complete and you can deploy applications by following the [Multicluster Hello World Helidon](https://github.com/verrazzano/verrazzano/tree/master/examples/multicluster/hello-helidon) example application.
 
-## Admin cluster user interface (UI)
+## Use the admin cluster user interface (UI)
 
 The admin cluster serves as a central point from which to register and deploy applications to managed clusters.
 
 In the Verrazzano UI on the admin cluster, you can view the following:
 
 - The managed clusters registered with this admin cluster.
-- VerrazzanoProjects located on this admin cluster and/or any of its registered managed clusters.
-- Applications located on this admin cluster and/or any of its registered managed clusters.
+- VerrazzanoProjects located on this admin cluster and any of its registered managed clusters.
+- Applications located on this admin cluster and any of its registered managed clusters.
