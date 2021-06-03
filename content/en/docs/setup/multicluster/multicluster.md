@@ -6,8 +6,6 @@ weight: 6
 draft: false
 ---
 
-## Contents
-
 - [Prerequisites](#prerequisites)
 - [Set up a multicluster Verrazzano environment](#set-up-a-multicluster-verrazzano-environment)
    - [Install Verrazzano](#install-verrazzano)

@@ -42,6 +42,7 @@ Before installing Verrazzano, see instructions on preparing the following Kubern
 
 * [Generic Kubernetes]({{< relref "/docs/setup/platforms/generic/generic.md" >}})
 
+**NOTE**: Verrazzano can create network policies that can be used to limit the ports and protocols that pods use for network communication. Network policies provide additional security but they are enforced only if you install a Kubernetes Container Network Interface (CNI) plug-in that enforces them, such as Calico. For instructions on how to install a CNI plug-in, see the documentation for your Kubernetes cluster.
 
 ### Install the Verrazzano platform operator
 
@@ -75,13 +76,13 @@ To install the Verrazzano platform operator:
 
 ### Perform the install
 
-Verrazzano supports the following installation profiles:  development (`dev`), production (`prod`), and 
+Verrazzano supports the following installation profiles:  development (`dev`), production (`prod`), and
 managed cluster (`managed-cluster`).
 - The production profile, which is the default, provides a 3-node Elasticsearch and
 persistent storage for the Verrazzano Monitoring Instance (VMI).
 - The development profile provides a single node Elasticsearch and no persistent storage for the VMI.
 - The managed cluster profile installs only managed cluster
-components of Verrazzano. In order to take full advantage of [multicluster](../../../concepts/verrazzanomulticluster) 
+components of Verrazzano. In order to take full advantage of [multicluster](../../../concepts/verrazzanomulticluster)
 features, the managed cluster should be registered with an admin cluster.
 
 To change profiles in any of the following commands, set the `VZ_PROFILE` environment variable to the name of the profile you want to install.
