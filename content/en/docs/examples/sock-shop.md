@@ -1,6 +1,7 @@
 ---
-title: "Helidon Sock Shop Example Application"
-weight: 3
+title: "Helidon Sock Shop"
+weight: 2
+description: "A Helidon implementation of the Sock Shop Microservices Demo Application"
 ---
 
 This example application provides a Helidon implementation of the

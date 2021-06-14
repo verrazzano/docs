@@ -1,8 +1,8 @@
 ---
 title: "Examples"
-weight: 60
+weight: 5
 bookCollapseSection: true
-draft: true
+draft: false
 ---
 
-This section provides information about the example applications.
+Example applications that demonstrate Verrazzano scenarios.

@@ -1,6 +1,7 @@
 ---
-title: "Bob's Books Example Application"
-weight: 2
+title: "Bob's Books"
+weight: 5
+description: "An example application based on WebLogic, Helidon, and Coherence"
 ---
 
 Bob's Books consists of three main parts:
