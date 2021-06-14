@@ -3,16 +3,28 @@ title: "Upgrade Guide"
 linkTitle: "Upgrade"
 description: "How to upgrade Verrazzano"
 weight: 8
-draft: false
+draft: true
 ---
+
+A Verrazzano installation consists of a stack of components, such as cert-manager, where each component has a
+specific release version that may be different from the overall Verrazzano version.  The Verrazzano platform operator
+knows the versions of each component associated with the Verrazzano version.  When you perform the initial Verrazzano
+installation, the appropriate version of each component is installed by the platform operator.
+Post installation, it may be necessary to update one or more of the component images or Helm charts.  This update is also
+handled by the platform operator and is called an `upgrade`.  Currently, Verrazzano does only patch-level upgrade,
+where a `helm upgrade` command can be issued for the component.  Typically, patch-level upgrades simply replace component
+images with newer versions.
+
+It is important to distinguish between updating the Verrazzano platform operator versus upgrading the Verrazzano installation.
+The platform operator contains the newer component chart and image versions, so it must be updated prior to upgrading the installation.
+Updating the platform operator has no effect on an existing installation until you initiate the Verrazzano installation upgrade.
+Currently, there is no way to roll back either the platform operator update or the Verrazzano installation upgrade.  Upgrading
+will not have any impact on running applications.
 
 Upgrading an existing Verrazzano installation involves:
 
 * Upgrading the Verrazzano platform operator to the [Verrazzano release version](https://github.com/verrazzano/verrazzano/releases/) to which you want to upgrade.
 * Updating the version of your installed `Verrazzano` resource to the version supported by the upgraded operator.
-
-Performing an upgrade will upgrade only the Verrazzano components related to the existing installation.  Upgrading will
-not have any impact on running applications.
 
 **NOTE:** You may only change the version field during an upgrade; changes to other fields or component configurations are not supported at this time.
 
@@ -72,7 +84,7 @@ To upgrade Verrazzano:
 
       a. Editing the YAML file you used to install Verrazzano and setting the version field to the latest version.
 
-      For example, to upgrade to `v0.7.0`, your YAML file should be edited to add or update the version field:
+      For example, to upgrade to `v0.17.0`, your YAML file should be edited to add or update the version field:
 
       ```yaml
       apiVersion: install.verrazzano.io/v1alpha1
@@ -81,7 +93,7 @@ To upgrade Verrazzano:
         name: my-verrazzano
       spec:
         profile: dev
-        version: v0.7.0
+        version: v0.17.0
       ```
 
       Then apply the resource to the cluster (if you have not edited the resource in-place using `kubectl edit`):
@@ -94,13 +106,13 @@ To upgrade Verrazzano:
 
       ```shell
       $ kubectl edit verrazzano my-verrazzano
-      # In the resource editor, add or update the version field to "version: v0.7.0", then save.
+      # In the resource editor, add or update the version field to "version: v0.17.0", then save.
       ```
 
 1. Wait for the upgrade to complete:
 
    ```shell
-   $ kubectl wait --timeout=20m --for=condition=UpgradeComplete verrazzano/my-verrazzano
+   $ kubectl wait --timeout=10m --for=condition=UpgradeComplete verrazzano/my-verrazzano
    ```
 
 ### Verify the upgrade
