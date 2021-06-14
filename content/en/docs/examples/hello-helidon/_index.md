@@ -1,7 +1,4 @@
----
-title: ""
-weight: 1
----
+
 
 ## Before you begin
 
@@ -30,7 +27,7 @@ This example is a Helidon-based service that returns a “Hello World” respons
    $ kubectl wait --for=condition=Ready pods --all -n hello-helidon --timeout=300s
    ```
 
-## Test the example application
+## Explore the application
 
 The Hello World Helidon microservices application implements a single REST API endpoint `/greet`, which returns a message `{"message":"Hello World!"}` when invoked.
 
@@ -79,9 +76,43 @@ Follow these steps to test the endpoints:
      * In this case, you would need to edit the `hello-helidon-app.yaml` file
        to use the appropriate value under the `hosts` section (such as `yourhost.your.domain`),
        before deploying the `hello-helidon` application.
-     * Then, you can use a browser to access the application at `https://<yourhost.your.domain>/greet`.
+     * Then, you can use a browser to access the application at `https://<yourhost.your.domain>/greet`.     
 
-## Explore the application
+1. A variety of endpoints associated with the deployed application, are available to further explore the logs, metrics, and such.  
+
+     Accessing them may require the following:
+
+    - Run this command to get the password that was generated for the telemetry components:
+
+      ```
+      $ kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo
+      ```
+      The associated user name is `verrazzano`.
+
+    - You will have to accept the certificates associated with the endpoints.
+
+      You can retrieve the list of available ingresses with following command:
+
+         ```
+         $ kubectl get ing -n verrazzano-system
+         NAME                         CLASS    HOSTS                                                    ADDRESS          PORTS     AGE
+         verrazzano-ingress           <none>   verrazzano.default.140.238.94.217.nip.io                 140.238.94.217   80, 443   7d2h
+         vmi-system-es-ingest         <none>   elasticsearch.vmi.system.default.140.238.94.217.nip.io   140.238.94.217   80, 443   7d2h
+         vmi-system-grafana           <none>   grafana.vmi.system.default.140.238.94.217.nip.io         140.238.94.217   80, 443   7d2h
+         vmi-system-kibana            <none>   kibana.vmi.system.default.140.238.94.217.nip.io          140.238.94.217   80, 443   7d2h
+         vmi-system-prometheus        <none>   prometheus.vmi.system.default.140.238.94.217.nip.io      140.238.94.217   80, 443   7d2h
+         ```  
+
+         Using the ingress host information, some of the endpoints available are:
+
+         | Description| Address | Credentials |
+         | --- | --- | --- |
+         | Kibana | `https://[vmi-system-kibana ingress host]` | `verrazzano`/`telemetry-password` |
+         | Grafana | `https://[vmi-system-grafana ingress host]` | `verrazzano`/`telemetry-password` |
+         | Prometheus | `https://[vmi-system-prometheus ingress host]` | `verrazzano`/`telemetry-password` |    
+
+
+## Troubleshooting
 
 1. Verify that the application configuration, domain, and ingress trait all exist.
    ```
@@ -97,33 +128,3 @@ Follow these steps to test the endpoints:
     NAME                                      READY   STATUS    RESTARTS   AGE
     hello-helidon-workload-676d97c7d4-wkrj2   2/2     Running   0          5m39s
    ```
-1. A variety of endpoints are available to further explore the logs, metrics, and such, associated with
-the deployed Hello World Helidon application.  Accessing them may require the following:
-
-    - Run this command to get the password that was generated for the telemetry components:
-        ```
-        $ kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo
-        ```
-        The associated user name is `verrazzano`.
-
-    - You will have to accept the certificates associated with the endpoints.
-
-    You can retrieve the list of available ingresses with following command:
-
-    ```
-    $ kubectl get ing -n verrazzano-system
-    NAME                         CLASS    HOSTS                                                    ADDRESS          PORTS     AGE
-    verrazzano-ingress           <none>   verrazzano.default.140.238.94.217.nip.io                 140.238.94.217   80, 443   7d2h
-    vmi-system-es-ingest         <none>   elasticsearch.vmi.system.default.140.238.94.217.nip.io   140.238.94.217   80, 443   7d2h
-    vmi-system-grafana           <none>   grafana.vmi.system.default.140.238.94.217.nip.io         140.238.94.217   80, 443   7d2h
-    vmi-system-kibana            <none>   kibana.vmi.system.default.140.238.94.217.nip.io          140.238.94.217   80, 443   7d2h
-    vmi-system-prometheus        <none>   prometheus.vmi.system.default.140.238.94.217.nip.io      140.238.94.217   80, 443   7d2h
-    ```  
-
-    Using the ingress host information, some of the endpoints available are:
-
-    | Description| Address | Credentials |
-    | --- | --- | --- |
-    | Kibana | `https://[vmi-system-kibana ingress host]` | `verrazzano`/`telemetry-password` |
-    | Grafana | `https://[vmi-system-grafana ingress host]` | `verrazzano`/`telemetry-password` |
-    | Prometheus | `https://[vmi-system-prometheus ingress host]` | `verrazzano`/`telemetry-password` |    
