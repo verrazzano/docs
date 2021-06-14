@@ -8,17 +8,17 @@ draft: true
 
 A Verrazzano installation consists of a stack of components, such as cert-manager, where each component has a
 specific release version that may be different from the overall Verrazzano version.  The Verrazzano platform operator
-knows the versions of each components associated with the Verrazzano version.  When you perform the initial Verrazzano
+knows the versions of each component associated with the Verrazzano version.  When you perform the initial Verrazzano
 installation, the appropriate version of each component is installed by the platform operator.
-Post-install, it maybe necessary to update one or more of the component images or helm charts.  This update is also
-handled by the platform operator and is called an `upgrade`.  Currently, Verrazzano only does patch-level upgrade,
-where a helm upgrade command can be issued for the component.  Typically, patch-level upgrades simply replace component
+Post installation, it may be necessary to update one or more of the component images or Helm charts.  This update is also
+handled by the platform operator and is called an `upgrade`.  Currently, Verrazzano does only patch-level upgrade,
+where a Helm `upgrade` command can be issued for the component.  Typically, patch-level upgrades simply replace component
 images with newer versions.
 
 It is important to distinguish between updating the Verrazzano platform operator versus upgrading the Verrazzano installation.
 The platform operator contains the newer component chart and image versions, so it must be updated prior to upgrading the installation.
-Updating the platform operator has no effect on an existing installation until you actually initiate the Verrazzano installation upgrade.
-Currently, there is no way to rollback either the platform operator update or the Verrazzano installation upgrade.  Upgrading
+Updating the platform operator has no effect on an existing installation until you initiate the Verrazzano installation upgrade.
+Currently, there is no way to roll back either the platform operator update or the Verrazzano installation upgrade.  Upgrading
 will not have any impact on running applications.
 
 Upgrading an existing Verrazzano installation involves:
