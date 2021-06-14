@@ -16,7 +16,7 @@ where a `helm upgrade` command can be issued for the component.  Typically, patc
 images with newer versions.
 
 It is important to distinguish between updating the Verrazzano platform operator versus upgrading the Verrazzano installation.
-The platform operator contains the newer component chart and image versions, so it must be updated prior to upgrading the installation.
+The platform operator contains the newer component charts and image versions, so it must be updated prior to upgrading the installation.
 Updating the platform operator has no effect on an existing installation until you initiate the Verrazzano installation upgrade.
 Currently, there is no way to roll back either the platform operator update or the Verrazzano installation upgrade.  Upgrading
 will not have any impact on running applications.
@@ -33,6 +33,8 @@ Upgrading an existing Verrazzano installation involves:
 In order to upgrade an existing Verrazzano installation, you must first upgrade the [Verrazzano platform operator](https://github.com/verrazzano/verrazzano-platform-operator).
 
 1. Upgrade the Verrazzano platform operator.
+
+**NOTE:** If you are using a private container registry, follow the instructions at [Using a Private Registry](../../private-registry/private-registry) to update the platform operator.
 
     To upgrade to the latest version:
 
