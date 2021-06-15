@@ -92,21 +92,20 @@ Do not delete the Coherence component if the application is still using it.
 
 ## Logging
 When a Coherence cluster is provisioned, Verrazzano automatically configures it to send logs to Elasticsearch.  This is done by
-injecting Fluentd sidecar into each Coherence cluster pod.  The sidecar periodically copies the Coherence logs from 
-/logs to stdout, enabling the Fluend daemonset in the `verrazzano-system` namespace to ship the logs to Elasticsearch.
-This is a standard feature and there is no way to disable it.
+injecting Fluentd sidecar configuration into the Coherence resource. The Coherence operator will then create the pod with the
+Fluentd sidecar.  The sidecar periodically copies the Coherence logs from /logs to stdout, enabling the Fluend daemonset 
+in the `verrazzano-system` namespace to ship the logs to Elasticsearch.  
 
-Each log record has the following fields, along with the log message itself:
+The logs are placed in a per-namespace index named `verrazzano-namespace-<namespace>`, for example: `verrazzano-namespace-sockshop`.
+All logs from Coherence pods in the same namespace will go into the same index, even for different applications.  
+This is standard behavior and there is no way to disable or change it.
+
+Each log record has some Coherence and application fields, along with the log message itself.  For example:
 ```
- coherence.cluster.name
- role
- host
- pod-uid
- oam.applicationconfiguration.namespace
- oam.applicationconfiguration.name
- oam.component.namespace
- oam.component.name
- verrazzano.cluster.name
+ kubernetes.labels.coherenceCluster        SockShop
+ kubernetes.labels.app_oam_dev/name        sockshop-appconf
+ kubernetes.labels.app_oam_dev/component   orders
+ ...
 ```
 
 ## Metrics
