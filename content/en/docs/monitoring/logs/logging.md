@@ -10,7 +10,7 @@ draft: true
 
 The Verrazzano logging stack consists of the Fluentd, Elasticsearch, and Kibana components.
 
-* Fluentd - log aggregator that collects, processes and formats logs from Kubernetes clusters
+* Fluentd - log aggregator that collects, processes, and formats logs from Kubernetes clusters
 * Elasticsearch – scalable search and analytics engine for storing Kubernetes logs
 * Kibana – visualization layer that provides a user interface to query and visualize collected logs
 
@@ -21,7 +21,7 @@ Logs written to stdout by a container running on Kubernetes are picked up by the
 ### Fluentd Sidecar
 For components with multiple log streams or that cannot log to stdout, Verrazzano deploys a Fluentd sidecar which parses and translates the log stream.  The resulting log is sent to stdout of the sidecar container and then written to `/var/log/containers` by the kubelet service.
 
-For example, in a WebLogic deployment, `AdminServer.log` is consumed, translated and written to stdout by the Fluentd sidecar.  You can view these logs using `kubectl` on the container named `fluentd-stdout-sidecar`. 
+For example, in a WebLogic deployment, `AdminServer.log` is consumed, translated, and written to stdout by the Fluentd sidecar.  You can view these logs using `kubectl` on the container named `fluentd-stdout-sidecar`. 
  ```shell
 $ kubectl logs tododomain-adminserver -n todo-list -c fluentd-stdout-sidecar
 ```
