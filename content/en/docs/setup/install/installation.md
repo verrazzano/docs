@@ -225,7 +225,7 @@ weblogic-operator-7db5cdcf59-qxsr9                       1/1     Running   0    
 ```
 
 #### (Optional) Install the example applications
-Example applications are located [here]({{< ghlink raw=false path="examples" >}}).
+Example applications are located [here]({{< relref "/docs/examples/_index.md" >}}).
 
 ##### To get the consoles URLs and credentials, see [Operations]({{< relref "/docs/operations/_index.md" >}}).
 

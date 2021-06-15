@@ -15,7 +15,7 @@ draft: false
 
 ## Prerequisites
 
-Before you begin, read this document, [multicluster concepts](../../../concepts/verrazzanomulticluster "multicluster concepts").
+Before you begin, read this document, [Verrazzano in a multicluster environment]({{< relref "/docs/concepts/VerrazzanoMultiCluster.md" >}}).
 
 ## Set up a multicluster Verrazzano environment
 
@@ -37,7 +37,7 @@ Install Verrazzano on each Kubernetes cluster.
   when registering the managed cluster.
 
 For detailed instructions on how to install Verrazzano on a Kubernetes cluster using a specific profile, see the
-[Installation Guide](../../install/installation).
+[Installation Guide]({{< relref "/docs/setup/install/installation.md" >}}).
 
 ### Register the managed cluster with the admin cluster
 
@@ -124,7 +124,7 @@ Follow these preregistration setup steps:
 
 ## Run applications in multicluster Verrazzano
 
-The Verrazzano multicluster setup is now complete and you can deploy applications by following the [Multicluster Hello World Helidon](https://github.com/verrazzano/verrazzano/tree/master/examples/multicluster/hello-helidon) example application.
+The Verrazzano multicluster setup is now complete and you can deploy applications by following the [Multicluster Hello World Helidon]({{< relref "/docs/examples/multicluster/hello-helidon/_index.md" >}}) example application.
 
 ## Use the admin cluster user interface (UI)
 
