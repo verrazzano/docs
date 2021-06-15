@@ -47,7 +47,7 @@ This endpoint accepts the `GET` HTTP request method.
   "password":"***",
   "email":"foo@example.com",
   "firstName":"foo",
-  "lastName":"coo"
+  "lastName":"bar"
 }` to create a user. This
 endpoint accepts the `POST` HTTP request method.
 
