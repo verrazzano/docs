@@ -4,19 +4,21 @@
 
 Install Verrazzano by following the [installation]({{< relref "/docs/setup/install/installation.md" >}}) instructions.
 
-**NOTE:** The Hello World Helidon configuration example deployment files are contained in the Verrazzano project located at `<VERRAZZANO_HOME>/examples/helidon-config`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project. All files and paths in this document are relative to `<VERRAZZANO_HOME>/examples/helidon-config`.
+**NOTE:** The Hello World Helidon configuration example application deployment files are contained in the Verrazzano project located at `<VERRAZZANO_HOME>/examples/helidon-config`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
+
+All files and paths in this document are relative to `<VERRAZZANO_HOME>/examples/helidon-config`.
 
 ## Deploy the Hello Config World Helidon application
 
-This example is a Helidon-based service that returns a "HelloConfig World" response when invoked. The application configuration uses a Kubernetes ConfigMap, instead of the default microprofile properties file.
+This example is a Helidon-based service that returns a "HelloConfig World" response when invoked. The application configuration uses a Kubernetes ConfigMap, instead of the default, microprofile properties file.
 
-1. Create a namespace for the example application and add a label identifying the namespace as managed by Verrazzano.
+1. Create a namespace for the application and add a label identifying the namespace as managed by Verrazzano.
    ```
    $ kubectl create namespace helidon-config
    $ kubectl label namespace helidon-config verrazzano-managed=true istio-injection=enabled
    ```
 
-1. Apply the `helidon-config` OAM resources to deploy the application.
+1. To deploy the application, apply the `helidon-config` OAM resources.
    ```
    $ kubectl apply -f helidon-config-comp.yaml
    $ kubectl apply -f helidon-config-app.yaml
@@ -29,7 +31,7 @@ This example is a Helidon-based service that returns a "HelloConfig World" respo
 
 ## Explore the application
 
-The Hello World Helidon configuration example implements a single REST API endpoint `/config`, which returns a message `{"message":"HelloConfig World!"}` when invoked.
+The Hello World Helidon configuration example implements a REST API endpoint, `/config`, which returns a message `{"message":"HelloConfig World!"}` when invoked.
 
 **NOTE**:  The following instructions assume that you are using a Kubernetes
 environment such as OKE.  Other environments or deployments may require alternative mechanisms for retrieving addresses,
@@ -52,7 +54,7 @@ Follow these steps to test the endpoints:
    11.22.33.44
    ```   
 
-1. Access the application; there are several methods:
+1. Access the application:
 
    * **Using the command line**
      ```

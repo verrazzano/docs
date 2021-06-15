@@ -8,12 +8,14 @@ description: "A Spring Boot-based simple web application"
 
 Install Verrazzano by following the [installation]({{< relref "/docs/setup/install/installation.md" >}}) instructions.
 
-**NOTE:** The Spring Boot example application deployment artifacts are contained in the Verrazzano project located at `<VERRAZZANO_HOME>/examples/springboot-app`, where `VERRAZZANO_HOME` is the root of the Verrazzano project. All files and paths in this document are relative to `<VERRAZZANO_HOME>/examples/springboot-app`.
+**NOTE:** The Spring Boot example application deployment artifacts are contained in the Verrazzano project located at `<VERRAZZANO_HOME>/examples/springboot-app`, where `VERRAZZANO_HOME` is the root of the Verrazzano project.
+
+All files and paths in this document are relative to `<VERRAZZANO_HOME>/examples/springboot-app`.
 
 
 ## Deploy the Spring Boot application
 
-This example provides a simple web application developed using Spring Boot. For more information and the source code of this application, see the [Verrazzano Examples](https://github.com/verrazzano/examples).
+This example provides a simple web application developed using [Spring Boot](https://spring.io/guides/gs/spring-boot/). For more information and the source code of this application, see the [Verrazzano Examples](https://github.com/verrazzano/examples).
 
 1. Create a namespace for the Spring Boot application and add a label identifying the namespace as managed by Verrazzano.
    ```
@@ -21,7 +23,7 @@ This example provides a simple web application developed using Spring Boot. For 
    $ kubectl label namespace springboot verrazzano-managed=true istio-injection=enabled
    ```
 
-1. Apply the Spring Boot OAM resources to deploy the application.
+1. To deploy the application, apply the Spring Boot OAM resources.
    ```
    $ kubectl apply -f springboot-comp.yaml
    $ kubectl apply -f springboot-app.yaml
@@ -48,7 +50,7 @@ This example provides a simple web application developed using Spring Boot. For 
    11.22.33.44
    ```   
 
-1. Access the application; there are several methods:
+1. Access the application:
 
    * **Using the command line**
      ```

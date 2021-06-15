@@ -8,14 +8,16 @@ description: "A Helidon implementation of the Sock Shop Microservices Demo Appli
 
 Install Verrazzano by following the [installation]({{< relref "/docs/setup/install/installation.md" >}}) instructions.
 
-**NOTE:** The Sock Shop application deployment files are contained in the Verrazzano project located at
-`<VERRAZZANO_HOME>/examples/sockshop`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project. All files and paths in this document are relative to
+**NOTE:** The Sock Shop example application deployment files are contained in the Verrazzano project located at
+`<VERRAZZANO_HOME>/examples/sockshop`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
+
+All files and paths in this document are relative to
 `<VERRAZZANO_HOME>/examples/sockshop`.
 
 ## Deploy the Sock Shop application
 
 This example application provides a [Helidon](https://helidon.io) implementation of the [Sock Shop Microservices Demo Application](https://microservices-demo.github.io/).
-It uses OAM resources to define the application deployment. 
+It uses OAM resources to define the application deployment.
 
 1. Create a namespace for the Sock Shop application and add a label identifying the namespace as managed by Verrazzano.
    ```
@@ -23,7 +25,7 @@ It uses OAM resources to define the application deployment.
    $ kubectl label namespace sockshop verrazzano-managed=true
    ```
 
-1. Apply the Sock Shop OAM resources to deploy the application.
+1. To deploy the application, apply the Sock Shop OAM resources.
    ```
    $ kubectl apply -f sock-shop-comp.yaml
    $ kubectl apply -f sock-shop-app.yaml
@@ -69,7 +71,7 @@ Follow these steps to test the endpoints:
    11.22.33.44
    ```   
 
-1. Access the Sock Shop example application; there are several methods:
+1. Access the Sock Shop application:
 
    * **Using the command line**
 

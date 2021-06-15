@@ -5,4 +5,4 @@ bookCollapseSection: true
 draft: false
 ---
 
-Example applications that demonstrate Verrazzano scenarios.
+Example applications that demonstrate Verrazzano use case scenarios.
