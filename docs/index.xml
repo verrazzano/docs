@@ -14,6 +14,26 @@
     
     
     <item>
+      <title>Docs: Hello World Helidon</title>
+      <link>https://verrazzano.io/docs/examples/hello-world/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/examples/hello-world/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The Hello World Helidon example is a &lt;a href=&#34;https://helidon.io&#34;&gt;Helidon&lt;/a&gt;-based service that returns a &amp;ldquo;Hello World&amp;rdquo; response when invoked. The example application is specified using Open Application Model (OAM) component and application configuration YAML files, and then deployed by applying those files.&lt;/p&gt;
+&lt;p&gt;The example application has two endpoints, which differ in configuration source:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;/greet&lt;/code&gt;- uses a microprofile properties file. Deploy this application by using the instructions &lt;a href=&#34;../docs/examples/hello-helidon/&#34;&gt;here&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/config&lt;/code&gt;- uses a Kubernetes ConfigMap. Deploy this application by using the instructions &lt;a href=&#34;../docs/examples/helidon-config/&#34;&gt;here&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For more information and the code of this application, see the &lt;a href=&#34;https://github.com/verrazzano/examples&#34;&gt;Verrazzano examples&lt;/a&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Verrazzano and the Open Application Model</title>
       <link>https://verrazzano.io/docs/concepts/verrazzanooam/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -155,8 +175,183 @@ Verrazzano-installed Prometheus on the admin cluster.&lt;/li&gt;
 &lt;p&gt;This diagram shows a more detailed view of how multicluster Verrazzano works.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;../../images/multicluster/MCConcepts.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;try-out-multicluster-verrazzano&#34;&gt;Try out multicluster Verrazzano&lt;/h3&gt;
-&lt;p&gt;For more information, see the &lt;a href=&#34;../../reference/api/&#34;&gt;API Documentation&lt;/a&gt; for the resources described here.
-To try out multicluster Verrazzano, see the &lt;a href=&#34;https://github.com/verrazzano/verrazzano/tree/master/examples/multicluster/hello-helidon&#34;&gt;Hello World Helidon multicluster example application&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;For more information, see the &lt;a href=&#34;../../reference/api/&#34;&gt;API Documentation&lt;/a&gt; for the resources described here.&lt;/p&gt;
+&lt;p&gt;To try out multicluster Verrazzano, see the &lt;a href=&#34;../docs/examples/multicluster/&#34;&gt;multicluster&lt;/a&gt; examples.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Helidon Sock Shop</title>
+      <link>https://verrazzano.io/docs/examples/sock-shop/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/examples/sock-shop/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h2&gt;
+&lt;p&gt;Install Verrazzano by following the &lt;a href=&#34;../docs/setup/install/installation/&#34;&gt;installation&lt;/a&gt; instructions.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The Sock Shop example application deployment files are contained in the Verrazzano project located at
+&lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/sockshop&lt;/code&gt;, where &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
+&lt;p&gt;All files and paths in this document are relative to
+&lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/sockshop&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;deploy-the-sock-shop-application&#34;&gt;Deploy the Sock Shop application&lt;/h2&gt;
+&lt;p&gt;This example application provides a &lt;a href=&#34;https://helidon.io&#34;&gt;Helidon&lt;/a&gt; implementation of the &lt;a href=&#34;https://microservices-demo.github.io/&#34;&gt;Sock Shop Microservices Demo Application&lt;/a&gt;.
+It uses OAM resources to define the application deployment.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Create a namespace for the Sock Shop application and add a label identifying the namespace as managed by Verrazzano.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl create namespace sockshop
+$ kubectl label namespace sockshop verrazzano-managed=true
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;To deploy the application, apply the Sock Shop OAM resources.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f sock-shop-comp.yaml
+$ kubectl apply -f sock-shop-app.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Wait for the Sock Shop application to be ready.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl wait --for=condition=Ready pods --all -n sockshop --timeout=300s
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;explore-the-application&#34;&gt;Explore the application&lt;/h2&gt;
+&lt;p&gt;The Sock Shop microservices application implements REST API endpoints including:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;/catalogue&lt;/code&gt; - Returns the Sock Shop catalog.
+This endpoint accepts the &lt;code&gt;GET&lt;/code&gt; HTTP request method.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/register&lt;/code&gt; - POST &lt;code&gt;{ &amp;quot;username&amp;quot;:&amp;quot;xxx&amp;quot;, &amp;quot;password&amp;quot;:&amp;quot;***&amp;quot;, &amp;quot;email&amp;quot;:&amp;quot;foo@example.com&amp;quot;, &amp;quot;firstName&amp;quot;:&amp;quot;foo&amp;quot;, &amp;quot;lastName&amp;quot;:&amp;quot;bar&amp;quot; }&lt;/code&gt; to create a user. This
+endpoint accepts the &lt;code&gt;POST&lt;/code&gt; HTTP request method.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;:  The following instructions assume that you are using a Kubernetes
+environment, such as OKE.  Other environments or deployments may require alternative mechanisms for retrieving addresses,
+ports, and such.&lt;/p&gt;
+&lt;p&gt;Follow these steps to test the endpoints:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Get the generated host name for the application.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateway -n sockshop -o jsonpath={.items[0].spec.servers[0].hosts[0]})
+$ echo $HOST
+sockshop-appconf.sockshop.11.22.33.44.nip.io
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Get the &lt;code&gt;EXTERNAL_IP&lt;/code&gt; address of the &lt;code&gt;istio-ingressgateway&lt;/code&gt; service.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ ADDRESS=$(kubectl get service -n istio-system istio-ingressgateway -o jsonpath=&#39;{.status.loadBalancer.ingress[0].ip}&#39;)
+$ echo $ADDRESS
+11.22.33.44
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Access the Sock Shop application:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Using the command line&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# Get catalogue
+$ curl -sk -X GET https://${HOST}/catalogue --resolve ${HOST}:443:${ADDRESS}
+[{&amp;quot;count&amp;quot;:115,&amp;quot;description&amp;quot;:&amp;quot;For all those leg lovers out there....&amp;quot;, ...}]
+
+# Add a new user (replace values of username and password)
+$ curl -i --header &amp;quot;Content-Type: application/json&amp;quot; --request POST --data &#39;{&amp;quot;username&amp;quot;:&amp;quot;foo&amp;quot;,&amp;quot;password&amp;quot;:&amp;quot;****&amp;quot;,&amp;quot;email&amp;quot;:&amp;quot;foo@example.com&amp;quot;,&amp;quot;firstName&amp;quot;:&amp;quot;foo&amp;quot;,&amp;quot;lastName&amp;quot;:&amp;quot;foo&amp;quot;}&#39; -k https://${HOST}/register --resolve ${HOST}:443:${ADDRESS}
+
+# Add an item to the user&#39;s cart
+$ curl -i --header &amp;quot;Content-Type: application/json&amp;quot; --request POST --data &#39;{&amp;quot;itemId&amp;quot;: &amp;quot;a0a4f044-b040-410d-8ead-4de0446aec7e&amp;quot;,&amp;quot;unitPrice&amp;quot;: &amp;quot;7.99&amp;quot;}&#39; -k https://${HOST}/carts/{username}/items --resolve ${HOST}:443:${ADDRESS}
+
+# Get cart items
+$ curl -i -k https://${HOST}/carts/{username}/items --resolve ${HOST}:443:${ADDRESS}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you are using &lt;code&gt;nip.io&lt;/code&gt;, then you do not need to include &lt;code&gt;--resolve&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Local testing with a browser&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Temporarily, modify the &lt;code&gt;/etc/hosts&lt;/code&gt; file (on Mac or Linux)
+or &lt;code&gt;c:\Windows\System32\Drivers\etc\hosts&lt;/code&gt; file (on Windows 10),
+to add an entry mapping the host name to the ingress gateway&amp;rsquo;s &lt;code&gt;EXTERNAL-IP&lt;/code&gt; address.
+For example:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;11.22.33.44 sockshop.example.com
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then, you can access the application in a browser at &lt;code&gt;https://sockshop.example.com/catalogue&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;If you are using &lt;code&gt;nip.io&lt;/code&gt;, then you can access the application in a browser using the &lt;code&gt;HOST&lt;/code&gt; variable (for example, &lt;code&gt;https://${HOST}/catalogue&lt;/code&gt;).  If you are going through a proxy, you may need to add &lt;code&gt;*.nip.io&lt;/code&gt; to the &lt;code&gt;NO_PROXY&lt;/code&gt; list.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Using your own DNS name&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Point your own DNS name to the ingress gateway&amp;rsquo;s &lt;code&gt;EXTERNAL-IP&lt;/code&gt; address.&lt;/li&gt;
+&lt;li&gt;In this case, you would need to edit the &lt;code&gt;sock-shop-app.yaml&lt;/code&gt; file
+to use the appropriate value under the &lt;code&gt;hosts&lt;/code&gt; section (such as &lt;code&gt;yourhost.your.domain&lt;/code&gt;),
+before deploying the Sock Shop application.&lt;/li&gt;
+&lt;li&gt;Then, you can use a browser to access the application at &lt;code&gt;https://&amp;lt;yourhost.your.domain&amp;gt;/catalogue&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;A variety of endpoints associated with the deployed application, are available to further explore the logs, metrics, and such.&lt;/p&gt;
+&lt;p&gt;Accessing them may require the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Run this command to get the password that was generated for the telemetry components:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The associated user name is &lt;code&gt;verrazzano&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;You will have to accept the certificates associated with the endpoints.&lt;/p&gt;
+&lt;p&gt;You can retrieve the list of available ingresses with following command:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; $ kubectl get ing -n verrazzano-system
+ NAME                         CLASS    HOSTS                                                    ADDRESS          PORTS     AGE
+ verrazzano-ingress           &amp;lt;none&amp;gt;   verrazzano.default.140.238.94.217.nip.io                 140.238.94.217   80, 443   7d2h
+ vmi-system-es-ingest         &amp;lt;none&amp;gt;   elasticsearch.vmi.system.default.140.238.94.217.nip.io   140.238.94.217   80, 443   7d2h
+ vmi-system-grafana           &amp;lt;none&amp;gt;   grafana.vmi.system.default.140.238.94.217.nip.io         140.238.94.217   80, 443   7d2h
+ vmi-system-kibana            &amp;lt;none&amp;gt;   kibana.vmi.system.default.140.238.94.217.nip.io          140.238.94.217   80, 443   7d2h
+ vmi-system-prometheus        &amp;lt;none&amp;gt;   prometheus.vmi.system.default.140.238.94.217.nip.io      140.238.94.217   80, 443   7d2h
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Using the ingress host information, some of the endpoints available are:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Address&lt;/th&gt;
+&lt;th&gt;Credentials&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Kibana&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;https://[vmi-system-kibana ingress host]&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Grafana&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;https://[vmi-system-grafana ingress host]&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Prometheus&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;https://[vmi-system-prometheus ingress host]&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Verify that the application configuration, domain, and ingress trait all exist.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl get ApplicationConfiguration -n sockshop
+$ kubectl get Domain -n sockshop
+$ kubectl get IngressTrait -n sockshop
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Verify that the Sock Shop service pods are successfully created and transition to the &lt;code&gt;READY&lt;/code&gt; state. Note that this may take a few minutes and that you may see some of the services terminate and restart.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; $ kubectl get pods -n sockshop
+
+ NAME             READY   STATUS        RESTARTS   AGE
+ carts-coh-0      1/1     Running       0          41s
+ catalog-coh-0    1/1     Running       0          40s
+ orders-coh-0     1/1     Running       0          39s
+ payment-coh-0    1/1     Running       0          37s
+ shipping-coh-0   1/1     Running       0          36s
+ users-coh-0      1/1     Running       0          35s
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
 
       </description>
     </item>
@@ -1303,7 +1498,7 @@ profile and a development (&lt;code&gt;dev&lt;/code&gt;) profile suitable for ev
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3 id=&#34;deploy-an-example-application&#34;&gt;Deploy an example application&lt;/h3&gt;
-&lt;p&gt;The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md&#34;&gt;Hello World Helidon&lt;/a&gt;
+&lt;p&gt;The &lt;a href=&#34;../docs/examples/hello-helidon/&#34;&gt;Hello World Helidon&lt;/a&gt;
 example application provides a simple &lt;em&gt;Hello World&lt;/em&gt; REST service written with &lt;a href=&#34;https://helidon.io&#34;&gt;Helidon&lt;/a&gt;.
 For more information and the code of this application, see the &lt;a href=&#34;https://github.com/verrazzano/examples&#34;&gt;Verrazzano Examples&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;To deploy the Hello World Helidon example application:&lt;/p&gt;
@@ -1383,7 +1578,7 @@ you can view the uninstall logs.
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3 id=&#34;next-steps&#34;&gt;Next steps&lt;/h3&gt;
-&lt;p&gt;See the &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples&#34;&gt;Verrazzano Example Applications&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;See the &lt;a href=&#34;../docs/examples/&#34;&gt;Verrazzano Example Applications&lt;/a&gt;.&lt;/p&gt;
 
       </description>
     </item>
@@ -2550,6 +2745,156 @@ spec:
     </item>
     
     <item>
+      <title>Docs: Spring Boot</title>
+      <link>https://verrazzano.io/docs/examples/spring-boot/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/examples/spring-boot/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h2&gt;
+&lt;p&gt;Install Verrazzano by following the &lt;a href=&#34;../docs/setup/install/installation/&#34;&gt;installation&lt;/a&gt; instructions.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The Spring Boot example application deployment artifacts are contained in the Verrazzano project located at &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/springboot-app&lt;/code&gt;, where &lt;code&gt;VERRAZZANO_HOME&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
+&lt;p&gt;All files and paths in this document are relative to &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/springboot-app&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;deploy-the-spring-boot-application&#34;&gt;Deploy the Spring Boot application&lt;/h2&gt;
+&lt;p&gt;This example provides a simple web application developed using &lt;a href=&#34;https://spring.io/guides/gs/spring-boot/&#34;&gt;Spring Boot&lt;/a&gt;. For more information and the source code of this application, see the &lt;a href=&#34;https://github.com/verrazzano/examples&#34;&gt;Verrazzano Examples&lt;/a&gt;.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Create a namespace for the Spring Boot application and add a label identifying the namespace as managed by Verrazzano.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl create namespace springboot
+$ kubectl label namespace springboot verrazzano-managed=true istio-injection=enabled
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;To deploy the application, apply the Spring Boot OAM resources.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f springboot-comp.yaml
+$ kubectl apply -f springboot-app.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Wait for the Spring Boot application to be ready.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl wait --for=condition=Ready pods --all -n springboot --timeout=300s
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;explore-the-application&#34;&gt;Explore the application&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Get the generated host name for the application.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateway -n springboot -o jsonpath={.items[0].spec.servers[0].hosts[0]})
+$ echo $HOST
+springboot-appconf.springboot.11.22.33.44.nip.io
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Get the &lt;code&gt;EXTERNAL_IP&lt;/code&gt; address of the &lt;code&gt;istio-ingressgateway&lt;/code&gt; service.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ ADDRESS=$(kubectl get service -n istio-system istio-ingressgateway -o jsonpath=&#39;{.status.loadBalancer.ingress[0].ip}&#39;)
+$ echo $ADDRESS
+11.22.33.44
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Access the application:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Using the command line&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ curl -sk https://${HOST} --resolve ${HOST}:443:${ADDRESS}
+$ curl -sk https://${HOST}/facts --resolve ${HOST}:443:${ADDRESS}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you are using &lt;code&gt;nip.io&lt;/code&gt;, then you do not need to include &lt;code&gt;--resolve&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Local testing with a browser&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Temporarily, modify the &lt;code&gt;/etc/hosts&lt;/code&gt; file (on Mac or Linux)
+or &lt;code&gt;c:\Windows\System32\Drivers\etc\hosts&lt;/code&gt; file (on Windows 10),
+to add an entry mapping the host name to the ingress gateway&amp;rsquo;s &lt;code&gt;EXTERNAL-IP&lt;/code&gt; address.
+For example:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;11.22.33.44 springboot.example.com
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then, you can access the application in a browser at &lt;code&gt;https://springboot.example.com/&lt;/code&gt; and &lt;code&gt;https://springboot.example.com/facts&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;If you are using &lt;code&gt;nip.io&lt;/code&gt;, then you can access the application in a browser using the &lt;code&gt;HOST&lt;/code&gt; variable (for example, &lt;code&gt;https://${HOST}/facts&lt;/code&gt;).  If you are going through a proxy, you may need to add &lt;code&gt;*.nip.io&lt;/code&gt; to the &lt;code&gt;NO_PROXY&lt;/code&gt; list.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Using your own DNS name&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Point your own DNS name to the ingress gateway&amp;rsquo;s &lt;code&gt;EXTERNAL-IP&lt;/code&gt; address.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;In this case, you would need to have edited the &lt;code&gt;springboot-app.yaml&lt;/code&gt; file
+to use the appropriate value under the &lt;code&gt;hosts&lt;/code&gt; section (such as &lt;code&gt;yourhost.your.domain&lt;/code&gt;),
+before deploying the Spring Boot application.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Then, you can use a browser to access the application at &lt;code&gt;https://&amp;lt;yourhost.your.domain&amp;gt;/&lt;/code&gt; and &lt;code&gt;https://&amp;lt;yourhost.your.domain&amp;gt;/facts&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The actuator endpoint is accessible under the path &lt;code&gt;/actuator&lt;/code&gt; and the Prometheus endpoint exposing metrics data in a format that can be scraped by a Prometheus server is accessible under the path &lt;code&gt;/actuator/prometheus&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;A variety of endpoints associated with the deployed application, are available to further explore the logs, metrics, and such.&lt;/p&gt;
+&lt;p&gt;Accessing them may require the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Run this command to get the password that was generated for the telemetry components:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The associated user name is &lt;code&gt;verrazzano&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;You will have to accept the certificates associated with the endpoints.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You can retrieve the list of available ingresses with following command:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl get ingress -n verrazzano-system
+NAME                         CLASS    HOSTS                                                     ADDRESS           PORTS     AGE
+verrazzano-ingress           &amp;lt;none&amp;gt;   verrazzano.default.140.141.142.143.nip.io                 140.141.142.143   80, 443   7d2h
+vmi-system-es-ingest         &amp;lt;none&amp;gt;   elasticsearch.vmi.system.default.140.141.142.143.nip.io   140.141.142.143   80, 443   7d2h
+vmi-system-grafana           &amp;lt;none&amp;gt;   grafana.vmi.system.default.140.141.142.143.nip.io         140.141.142.143   80, 443   7d2h
+vmi-system-kibana            &amp;lt;none&amp;gt;   kibana.vmi.system.default.140.141.142.143.nip.io          140.141.142.143   80, 443   7d2h
+vmi-system-prometheus        &amp;lt;none&amp;gt;   prometheus.vmi.system.default.140.141.142.143.nip.io      140.141.142.143   80, 443   7d2h
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Using the ingress host information, some of the endpoints available are:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Address&lt;/th&gt;
+&lt;th&gt;Credentials&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Kibana&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;https://[vmi-system-kibana ingress host]&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Grafana&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;https://[vmi-system-grafana ingress host]&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Prometheus&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;https://[vmi-system-prometheus ingress host]&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;undeploy-the-application&#34;&gt;Undeploy the application&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;To undeploy the application, delete the Spring Boot OAM resources.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl delete -f springboot-app.yaml
+$ kubectl delete -f springboot-comp.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Delete the namespace &lt;code&gt;springboot&lt;/code&gt; after the application pod is terminated.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl get pods -n springboot
+$ kubectl delete namespace springboot
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Application Deployment Guide</title>
       <link>https://verrazzano.io/docs/guides/application-deployment-guide/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -2589,7 +2934,7 @@ demonstrates creating OAM resources that define an application as well as the st
 &lt;h2 id=&#34;application-development&#34;&gt;Application development&lt;/h2&gt;
 &lt;p&gt;This guide uses an example application which was written with Java and &lt;a href=&#34;https://helidon.io&#34;&gt;Helidon&lt;/a&gt;.
 For the implementation details, see the &lt;a href=&#34;https://helidon.io/docs/latest/#/mp/guides/10_mp-tutorial&#34;&gt;Helidon MP tutorial&lt;/a&gt;.
-See the application &lt;a href=&#34;https://github.com/verrazzano/examples/tree/master/hello-helidon&#34;&gt;source code&lt;/a&gt; in the Verrazzano examples repository.&lt;/p&gt;
+See the application &lt;a href=&#34;https://github.com/verrazzano/examples&#34;&gt;source code&lt;/a&gt; in the Verrazzano examples repository.&lt;/p&gt;
 &lt;p&gt;The example application is a JAX-RS service and implements the following REST endpoints:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;/greet&lt;/code&gt; - Returns a default greeting message that is stored in memory.
@@ -2934,6 +3279,398 @@ of all application-specific Kubernetes objects.&lt;/p&gt;
     </item>
     
     <item>
+      <title>Docs: ToDo List</title>
+      <link>https://verrazzano.io/docs/examples/todo-list/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/examples/todo-list/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Install Verrazzano by following the &lt;a href=&#34;../docs/setup/install/installation/&#34;&gt;installation&lt;/a&gt; instructions.&lt;/li&gt;
+&lt;li&gt;To download the example image, you must first accept the license agreement.
+&lt;ul&gt;
+&lt;li&gt;In a browser, navigate to &lt;a href=&#34;https://container-registry.oracle.com/&#34;&gt;https://container-registry.oracle.com/&lt;/a&gt; and sign in.&lt;/li&gt;
+&lt;li&gt;Search for &lt;code&gt;example-todo&lt;/code&gt; and select the image name in the results.&lt;/li&gt;
+&lt;li&gt;Click Continue, then read and accept the license agreement.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The ToDo List example application deployment files are contained in the Verrazzano project located at
+&lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/todo-list&lt;/code&gt;, where &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
+&lt;p&gt;All files and paths in this document are relative to &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/todo-list&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;deploy-the-todo-list-application&#34;&gt;Deploy the ToDo List application&lt;/h2&gt;
+&lt;p&gt;ToDo List is an example application containing a WebLogic component.
+For more information and the source code of this application, see the &lt;a href=&#34;https://github.com/verrazzano/examples&#34;&gt;Verrazzano Examples&lt;/a&gt;.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Create a namespace for the ToDo List example and add a label identifying the namespace as managed by Verrazzano.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl create namespace todo-list
+$ kubectl label namespace todo-list verrazzano-managed=true istio-injection=enabled
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create a &lt;code&gt;docker-registry&lt;/code&gt; secret to enable pulling the ToDo List example image from the registry.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl create secret docker-registry tododomain-repo-credentials \
+        --docker-server=container-registry.oracle.com \
+        --docker-username=YOUR_REGISTRY_USERNAME \
+        --docker-password=YOUR_REGISTRY_PASSWORD \
+        --docker-email=YOUR_REGISTRY_EMAIL \
+        -n todo-list
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Replace &lt;code&gt;YOUR_REGISTRY_USERNAME&lt;/code&gt;, &lt;code&gt;YOUR_REGISTRY_PASSWORD&lt;/code&gt;, and &lt;code&gt;YOUR_REGISTRY_EMAIL&lt;/code&gt;
+with the values you use to access the registry.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create and label secrets for the WebLogic domain:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl create secret generic tododomain-weblogic-credentials \
+  --from-literal=password=welcome1 \
+  --from-literal=username=weblogic -n todo-list
+
+$ kubectl create secret generic tododomain-jdbc-tododb \
+  --from-literal=password=welcome1 \
+  --from-literal=username=derek -n todo-list
+
+$ kubectl -n todo-list label secret tododomain-jdbc-tododb weblogic.domainUID=tododomain
+
+$ kubectl create secret generic tododomain-runtime-encrypt-secret \
+  --from-literal=password=welcome1 -n todo-list
+
+$ kubectl -n todo-list label secret tododomain-runtime-encrypt-secret weblogic.domainUID=tododomain
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that the ToDo List example application is preconfigured to use these credentials.
+If you want to use different credentials, you will need to rebuild the Docker images for the example application.
+For the source code of this application, see the &lt;a href=&#34;https://github.com/verrazzano/examples&#34;&gt;Verrazzano Examples&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;To deploy the application, apply the example resources.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f .
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Wait for the ToDo List application to be ready.
+You may need to repeat this command several times before it is successful.
+The &lt;code&gt;tododomain-adminserver&lt;/code&gt; pod may take a while to be created and &lt;code&gt;Ready&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl wait pod --for=condition=Ready tododomain-adminserver -n todo-list
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Get the generated host name for the application.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateway -n todo-list -o jsonpath={.items[0].spec.servers[0].hosts[0]})
+$ echo $HOST
+todo-appconf.todo-list.11.22.33.44.nip.io
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Get the &lt;code&gt;EXTERNAL_IP&lt;/code&gt; address of the &lt;code&gt;istio-ingressgateway&lt;/code&gt; service.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ ADDRESS=$(kubectl get service -n istio-system istio-ingressgateway -o jsonpath=&#39;{.status.loadBalancer.ingress[0].ip}&#39;)
+$ echo $ADDRESS
+11.22.33.44
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Access the ToDo List application:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Using the command line&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ curl -sk https://${HOST}/todo/ --resolve ${HOST}:443:${ADDRESS}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you are using &lt;code&gt;nip.io&lt;/code&gt;, then you do not need to include &lt;code&gt;--resolve&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Local testing with a browser&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Temporarily, modify the &lt;code&gt;/etc/hosts&lt;/code&gt; file (on Mac or Linux)
+or &lt;code&gt;c:\Windows\System32\Drivers\etc\hosts&lt;/code&gt; file (on Windows 10),
+to add an entry mapping the host name to the ingress gateway&amp;rsquo;s &lt;code&gt;EXTERNAL-IP&lt;/code&gt; address.
+For example:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;11.22.33.44 todo.example.com
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then, you can access the application in a browser at &lt;code&gt;https://todo.example.com/todo&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Using your own DNS name&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Point your own DNS name to the ingress gateway&amp;rsquo;s &lt;code&gt;EXTERNAL-IP&lt;/code&gt; address.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;In this case, you would need to have edited the &lt;code&gt;todo-list-application.yaml&lt;/code&gt; file
+to use the appropriate value under the &lt;code&gt;hosts&lt;/code&gt; section (such as &lt;code&gt;yourhost.your.domain&lt;/code&gt;),
+before deploying the ToDo List application.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Then, you can use a browser to access the application at &lt;code&gt;https://&amp;lt;yourhost.your.domain&amp;gt;/todo/&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Accessing the application in a browser opens the page, &amp;ldquo;Derek&amp;rsquo;s ToDo List&amp;rdquo;,
+with an edit field and an &lt;strong&gt;Add&lt;/strong&gt; button that lets you add tasks.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;A variety of endpoints associated with the deployed ToDo List application, are available to further explore the logs, metrics, and such.
+Accessing them may require the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Run this command to get the password that was generated for the telemetry components:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The associated user name is &lt;code&gt;verrazzano&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;You will have to accept the certificates associated with the endpoints.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You can retrieve the list of available ingresses with following command:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl get ingress -n verrazzano-system
+NAME                         CLASS    HOSTS                                                     ADDRESS           PORTS     AGE
+verrazzano-ingress           &amp;lt;none&amp;gt;   verrazzano.default.140.141.142.143.nip.io                 140.141.142.143   80, 443   7d2h
+vmi-system-es-ingest         &amp;lt;none&amp;gt;   elasticsearch.vmi.system.default.140.141.142.143.nip.io   140.141.142.143   80, 443   7d2h
+vmi-system-grafana           &amp;lt;none&amp;gt;   grafana.vmi.system.default.140.141.142.143.nip.io         140.141.142.143   80, 443   7d2h
+vmi-system-kibana            &amp;lt;none&amp;gt;   kibana.vmi.system.default.140.141.142.143.nip.io          140.141.142.143   80, 443   7d2h
+vmi-system-prometheus        &amp;lt;none&amp;gt;   prometheus.vmi.system.default.140.141.142.143.nip.io      140.141.142.143   80, 443   7d2h
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Using the ingress host information, some of the endpoints available are:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Address&lt;/th&gt;
+&lt;th&gt;Credentials&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Kibana&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;https://[vmi-system-kibana ingress host]&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Grafana&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;https://[vmi-system-grafana ingress host]&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Prometheus&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;https://[vmi-system-prometheus ingress host]&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Verify that the application configuration, domain, and ingress trait all exist.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl get ApplicationConfiguration -n todo-list
+NAME           AGE
+todo-appconf   19h
+
+$ kubectl get Domain -n todo-list
+NAME          AGE
+todo-domain   19h
+
+$ kubectl get IngressTrait -n todo-list
+NAME                           AGE
+todo-domain-trait-7cbd798c96   19h
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Verify that the WebLogic Administration Server and MySQL pods have been created and are running.
+Note that this will take several minutes.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl get pods -n todo-list
+
+NAME                     READY   STATUS    RESTARTS   AGE
+mysql-5c75c8b7f-vlhck    1/1     Running   0          19h
+tododomain-adminserver   2/2     Running   0          19h
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Bob&#39;s Books</title>
+      <link>https://verrazzano.io/docs/examples/bobs-books/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/examples/bobs-books/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Install Verrazzano by following the &lt;a href=&#34;../docs/setup/install/installation/&#34;&gt;installation&lt;/a&gt; instructions.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;To download the example image, you must first accept the license agreement.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;In a browser, navigate to &lt;a href=&#34;https://container-registry.oracle.com/&#34;&gt;https://container-registry.oracle.com/&lt;/a&gt; and sign in.&lt;/li&gt;
+&lt;li&gt;Search for &lt;code&gt;example-bobbys-coherence&lt;/code&gt;, &lt;code&gt;example-bobbys-front-end&lt;/code&gt;, &lt;code&gt;example-bobs-books-order-manager&lt;/code&gt;, and &lt;code&gt;example-roberts-coherence&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;For each, select the image name in the results, click Continue, then read and accept the license agreement.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The Bob&amp;rsquo;s Books example application deployment files are contained in the Verrazzano project located at
+&lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/bobs-books&lt;/code&gt;, where &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
+&lt;p&gt;All files and paths in this document are relative to &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/bobs-books&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;
+&lt;p&gt;Bob&amp;rsquo;s Books consists of three main parts:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A back-end &amp;ldquo;order processing&amp;rdquo; application, which is a Java EE
+application with REST services and a very simple JSP UI, which
+stores data in a MySQL database.  This application runs on WebLogic
+Server.&lt;/li&gt;
+&lt;li&gt;A front-end web store &amp;ldquo;Robert&amp;rsquo;s Books&amp;rdquo;, which is a general book
+seller.  This is implemented as a Helidon microservice, which
+gets book data from Coherence, uses a Coherence cache store to persist
+data for the order manager, and has a React web UI.&lt;/li&gt;
+&lt;li&gt;A front-end web store &amp;ldquo;Bobby&amp;rsquo;s Books&amp;rdquo;, which is a specialty
+children&amp;rsquo;s book store.  This is implemented as a Helidon
+microservice, which gets book data from a (different) Coherence cache store,
+interfaces directly with the order manager,
+and has a JSF web UI running on WebLogic Server.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For more information and the source code of this application, see the &lt;a href=&#34;https://github.com/verrazzano/examples&#34;&gt;Verrazzano Examples&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;deploy-the-example-application&#34;&gt;Deploy the example application&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Create a namespace for the example and add a label identifying the namespace as managed by Verrazzano.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl create namespace bobs-books
+$ kubectl label namespace bobs-books verrazzano-managed=true istio-injection=enabled
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create a &lt;code&gt;docker-registry&lt;/code&gt; secret to enable pulling the example image from the registry.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl create secret docker-registry bobs-books-repo-credentials \
+        --docker-server=container-registry.oracle.com \
+        --docker-username=YOUR_REGISTRY_USERNAME \
+        --docker-password=YOUR_REGISTRY_PASSWORD \
+        --docker-email=YOUR_REGISTRY_EMAIL \
+        -n bobs-books
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Replace &lt;code&gt;YOUR_REGISTRY_USERNAME&lt;/code&gt;, &lt;code&gt;YOUR_REGISTRY_PASSWORD&lt;/code&gt;, and &lt;code&gt;YOUR_REGISTRY_EMAIL&lt;/code&gt;
+with the values you use to access the registry.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create and label secrets for the WebLogic domains:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# Replace the values of the WLS_USERNAME and WLS_PASSWORD environment variables as appropriate.
+$ export WLS_USERNAME=&amp;lt;username&amp;gt;
+$ export WLS_PASSWORD=&amp;lt;password&amp;gt;
+$ kubectl create secret generic bobbys-front-end-weblogic-credentials --from-literal=password=$WLS_PASSWORD --from-literal=username=$WLS_USERNAME -n bobs-books
+
+$ kubectl create secret generic bobbys-front-end-runtime-encrypt-secret --from-literal=password=$WLS_PASSWORD -n bobs-books
+$ kubectl label secret bobbys-front-end-runtime-encrypt-secret weblogic.domainUID=bobbys-front-end -n bobs-books
+
+$ kubectl create secret generic bobs-bookstore-weblogic-credentials --from-literal=password=$WLS_PASSWORD --from-literal=username=$WLS_USERNAME -n bobs-books
+
+$ kubectl create secret generic bobs-bookstore-runtime-encrypt-secret --from-literal=password=$WLS_PASSWORD -n bobs-books
+$ kubectl label secret bobs-bookstore-runtime-encrypt-secret weblogic.domainUID=bobs-bookstore -n bobs-books
+
+$ kubectl create secret generic mysql-credentials \
+    --from-literal=username=$WLS_USERNAME \
+    --from-literal=password=$WLS_PASSWORD \
+    --from-literal=url=jdbc:mysql://mysql.bobs-books.svc.cluster.local:3306/books \
+    -n bobs-books
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that the example application is preconfigured to use specific secret names.
+For the source code of this application, see the &lt;a href=&#34;https://github.com/verrazzano/examples&#34;&gt;Verrazzano Examples&lt;/a&gt;.
+If you want to use secret names that are different from what is specified in the source code, you will need to update the corresponding YAML file and rebuild the Docker images for the example application.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;To deploy the application, apply the example resources.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f .
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Wait for all of the pods in the Bob&amp;rsquo;s Books example application to be ready.
+You may need to repeat this command several times before it is successful.
+The WebLogic Server and Coherence pods may take a while to be created and &lt;code&gt;Ready&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl wait --for=condition=Ready pods --all -n bobs-books --timeout=600s
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Get the &lt;code&gt;EXTERNAL_IP&lt;/code&gt; address of the &lt;code&gt;istio-ingressgateway&lt;/code&gt; service.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl get service -n &amp;quot;istio-system&amp;quot; &amp;quot;istio-ingressgateway&amp;quot; -o jsonpath={.status.loadBalancer.ingress[0].ip}
+
+11.22.33.44
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Get the generated host name for the application.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl get gateway bobs-books-bobs-books-gw -n bobs-books -o jsonpath={.spec.servers[0].hosts[0]}
+bobs-books.bobs-books.11.22.33.44.nip.io
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Access the application. To access the application in a browser, you will need to do one of the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Option 1:&lt;/strong&gt; If you are using &lt;code&gt;nip.io&lt;/code&gt;, then you can access the application using the generated host name. For example:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Robert&amp;rsquo;s Books UI at &lt;code&gt;https://bobs-books.bobs-books.11.22.33.44.nip.io/&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Bobby&amp;rsquo;s Books UI at &lt;code&gt;https://bobs-books.bobs-books.11.22.33.44.nip.io/bobbys-front-end/&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Bob&amp;rsquo;s order manager  UI at &lt;code&gt;https://bobs-books.bobs-books.11.22.33.44.nip.io/bobs-bookstore-order-manager/orders&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Option 2:&lt;/strong&gt; Temporarily, modify the &lt;code&gt;/etc/hosts&lt;/code&gt; file (on Mac or Linux) or &lt;code&gt;c:\Windows\System32\Drivers\etc\hosts&lt;/code&gt; file (on Windows 10), to add an entry mapping the host used by the application to the external IP address assigned to your gateway. For example:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;11.22.33.44 bobs-books.example.com
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then, you can use a browser to access the application, as shown:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Robert&amp;rsquo;s Books UI at &lt;code&gt;https://bobs-books.example.com/&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Bobby&amp;rsquo;s Books UI at &lt;code&gt;https://bobs-books.example.com/bobbys-front-end/&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Bob&amp;rsquo;s order manager  UI at &lt;code&gt;https://bobs-books.example.com/bobs-bookstore-order-manager/orders&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Option 3:&lt;/strong&gt; Alternatively, point your own DNS name to the load balancer&amp;rsquo;s external IP address. In this case, you would need to have edited the &lt;code&gt;bobs-books-app.yaml&lt;/code&gt; file to use the appropriate values under the &lt;code&gt;hosts&lt;/code&gt; section for the application (such as &lt;code&gt;your-roberts-books-host.your.domain&lt;/code&gt;), before deploying the application.
+Then, you can use a browser to access the application, as shown:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Robert&amp;rsquo;s Books UI at &lt;code&gt;https://&amp;lt;your-roberts-books-host.your.domain&amp;gt;/&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Bobby&amp;rsquo;s Books UI at &lt;code&gt;https://&amp;lt;your-bobbys-books-host.your.domain&amp;gt;/bobbys-front-end/&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Bob&amp;rsquo;s order manager UI at &lt;code&gt;https://&amp;lt;your-bobs-orders-host.your.domain&amp;gt;/&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Verify that the application configuration, domains, Coherence resources, and ingress trait all exist.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl get ApplicationConfiguration -n bobs-books
+$ kubectl get Domain -n bobs-books
+$ kubectl get Coherence -n bobs-books
+$ kubectl get IngressTrait -n bobs-books
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Verify that the service pods are successfully created and transition to the &lt;code&gt;READY&lt;/code&gt; state.
+Note that this may take a few minutes and that you may see some of the services terminate and restart.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl get pods -n bobs-books
+
+NAME                                                READY   STATUS    RESTARTS   AGE
+bobbys-helidon-stock-application-868b5965c8-dk2xb   3/3     Running   0          19h
+bobbys-coherence-0                                  2/2     Running   0          19h
+bobbys-front-end-adminserver                        3/3     Running   0          19h
+bobbys-front-end-managed-server1                    3/3     Running   0          19h
+bobs-bookstore-adminserver                          3/3     Running   0          19h
+bobs-bookstore-managed-server1                      3/3     Running   0          19h
+mysql-669665fb54-9m8wq                              2/2     Running   0          19h
+robert-helidon-96997fcd5-kzjkf                      3/3     Running   0          19h
+robert-helidon-96997fcd5-nlswm                      3/3     Running   0          19h
+roberts-coherence-0                                 2/2     Running   0          17h
+roberts-coherence-1                                 2/2     Running   0          17h
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Installation Guide</title>
       <link>https://verrazzano.io/docs/setup/install/installation/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -3190,8 +3927,8 @@ vmi-system-grafana-74bb7cdf65-k97pb                      2/2     Running   0    
 vmi-system-kibana-85565975b5-7hfdf                       2/2     Running   0          27h
 vmi-system-prometheus-0-7bf464d898-czq8r                 4/4     Running   0          27h
 weblogic-operator-7db5cdcf59-qxsr9                       1/1     Running   0          27h
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;optional-install-the-example-applications&#34;&gt;(Optional) Install the example applications&lt;/h4&gt;
-&lt;p&gt;Example applications are located &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;optional-run-the-example-applications&#34;&gt;(Optional) Run the example applications&lt;/h4&gt;
+&lt;p&gt;Example applications are located &lt;a href=&#34;../docs/examples/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;h5 id=&#34;to-get-the-consoles-urls-and-credentials-see-operationshahahugoshortcode-s13-hbhb&#34;&gt;To get the consoles URLs and credentials, see &lt;a href=&#34;../docs/operations/&#34;&gt;Operations&lt;/a&gt;.&lt;/h5&gt;
 &lt;h3 id=&#34;uninstall-verrazzano&#34;&gt;Uninstall Verrazzano&lt;/h3&gt;
 &lt;p&gt;To delete a Verrazzano installations:&lt;/p&gt;
@@ -3736,7 +4473,7 @@ Verrazzano and those images have been loaded into the private registry. Create t
 &lt;li&gt;&lt;a href=&#34;#use-the-admin-cluster-user-interface-ui&#34;&gt;Use the admin cluster UI&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
-&lt;p&gt;Before you begin, read this document, &lt;a href=&#34;../../../concepts/verrazzanomulticluster&#34; title=&#34;multicluster concepts&#34;&gt;multicluster concepts&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Before you begin, read this document, &lt;a href=&#34;../docs/concepts/verrazzanomulticluster/&#34;&gt;Verrazzano in a multicluster environment&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;set-up-a-multicluster-verrazzano-environment&#34;&gt;Set up a multicluster Verrazzano environment&lt;/h2&gt;
 &lt;p&gt;To set up a multicluster Verrazzano environment, you will need two or more Kubernetes clusters. One of these clusters
 will the &lt;em&gt;admin&lt;/em&gt; cluster; the others will be &lt;em&gt;managed&lt;/em&gt; clusters.&lt;/p&gt;
@@ -3753,7 +4490,7 @@ files for the admin and managed cluster, respectively. These environment variabl
 when registering the managed cluster.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;For detailed instructions on how to install Verrazzano on a Kubernetes cluster using a specific profile, see the
-&lt;a href=&#34;../../install/installation&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
+&lt;a href=&#34;../docs/setup/install/installation/&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
 &lt;h3 id=&#34;register-the-managed-cluster-with-the-admin-cluster&#34;&gt;Register the managed cluster with the admin cluster&lt;/h3&gt;
 &lt;p&gt;The following sections show you how to register the managed cluster with the admin cluster.&lt;/p&gt;
 &lt;h4 id=&#34;preregistration-setup&#34;&gt;Preregistration setup&lt;/h4&gt;
@@ -3833,7 +4570,7 @@ file that must be applied on the managed cluster to complete the registration pr
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;run-applications-in-multicluster-verrazzano&#34;&gt;Run applications in multicluster Verrazzano&lt;/h2&gt;
-&lt;p&gt;The Verrazzano multicluster setup is now complete and you can deploy applications by following the &lt;a href=&#34;https://github.com/verrazzano/verrazzano/tree/master/examples/multicluster/hello-helidon&#34;&gt;Multicluster Hello World Helidon&lt;/a&gt; example application.&lt;/p&gt;
+&lt;p&gt;The Verrazzano multicluster setup is now complete and you can deploy applications by following the &lt;a href=&#34;../docs/examples/multicluster/hello-helidon/&#34;&gt;Multicluster Hello World Helidon&lt;/a&gt; example application.&lt;/p&gt;
 &lt;h2 id=&#34;use-the-admin-cluster-user-interface-ui&#34;&gt;Use the admin cluster user interface (UI)&lt;/h2&gt;
 &lt;p&gt;The admin cluster serves as a central point from which to register and deploy applications to managed clusters.&lt;/p&gt;
 &lt;p&gt;In the Verrazzano UI on the admin cluster, you can view the following:&lt;/p&gt;
@@ -4910,101 +5647,6 @@ $ docker volume inspect containerd &lt;span style=&#34;color:#8f5902;font-style:
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;next-steps&#34;&gt;Next steps&lt;/h3&gt;
 &lt;p&gt;To continue, see the &lt;a href=&#34;../docs/setup/install/installation/#install-the-verrazzano-platform-operator&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
 
-      </description>
-    </item>
-    
-    <item>
-      <title>Docs: Upgrade Guide</title>
-      <link>https://verrazzano.io/docs/setup/upgrade/upgrade/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://verrazzano.io/docs/setup/upgrade/upgrade/</guid>
-      <description>
-        
-        
-        &lt;p&gt;Upgrading an existing Verrazzano installation involves:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Upgrading the Verrazzano platform operator to the &lt;a href=&#34;https://github.com/verrazzano/verrazzano/releases/&#34;&gt;Verrazzano release version&lt;/a&gt; to which you want to upgrade.&lt;/li&gt;
-&lt;li&gt;Updating the version of your installed &lt;code&gt;Verrazzano&lt;/code&gt; resource to the version supported by the upgraded operator.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Performing an upgrade will upgrade only the Verrazzano components related to the existing installation.  Upgrading will
-not have any impact on running applications.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; You may only change the version field during an upgrade; changes to other fields or component configurations are not supported at this time.&lt;/p&gt;
-&lt;h3 id=&#34;upgrade-the-verrazzano-platform-operator&#34;&gt;Upgrade the Verrazzano platform operator&lt;/h3&gt;
-&lt;p&gt;In order to upgrade an existing Verrazzano installation, you must first upgrade the &lt;a href=&#34;https://github.com/verrazzano/verrazzano-platform-operator&#34;&gt;Verrazzano platform operator&lt;/a&gt;.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Upgrade the Verrazzano platform operator.&lt;/p&gt;
-&lt;p&gt;To upgrade to the latest version:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To upgrade to a specific version, where &lt;code&gt;&amp;lt;version&amp;gt;&lt;/code&gt; is the desired version:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/&amp;lt;version&amp;gt;/operator.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For example:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v0.7.0/operator.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Wait for the deployment to complete.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
-deployment &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;verrazzano-platform-operator&amp;#34;&lt;/span&gt; successfully rolled out
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Confirm that the operator pod is correctly defined and running.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl -n verrazzano-install get pods
-NAME                                            READY   STATUS    RESTARTS   AGE
-verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;          114s
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&#34;upgrade-verrazzano&#34;&gt;Upgrade Verrazzano&lt;/h3&gt;
-&lt;p&gt;To upgrade Verrazzano:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Update the &lt;code&gt;Verrazzano&lt;/code&gt; resource to the desired version.&lt;/p&gt;
-&lt;p&gt;To upgrade the Verrazzano components, you must update the &lt;code&gt;version&lt;/code&gt; field in your &lt;code&gt;Verrazzano&lt;/code&gt; resource spec to
-match the version supported by the platform operator to which you upgraded and apply it to the cluster.&lt;/p&gt;
-&lt;p&gt;The value of the &lt;code&gt;version&lt;/code&gt; field in the resource spec must be a &lt;a href=&#34;https://semver.org/&#34;&gt;Semantic Versioning&lt;/a&gt; value
-corresponding to a valid &lt;a href=&#34;https://github.com/verrazzano/verrazzano/releases/&#34;&gt;Verrazzano release version&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;You can update the resource by doing one of the following:&lt;/p&gt;
-&lt;p&gt;a. Editing the YAML file you used to install Verrazzano and setting the version field to the latest version.&lt;/p&gt;
-&lt;p&gt;For example, to upgrade to &lt;code&gt;v0.7.0&lt;/code&gt;, your YAML file should be edited to add or update the version field:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;install.verrazzano.io/v1alpha1&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;Verrazzano&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;my-verrazzano&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;profile&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;dev&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;version&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;v0&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;.7.0&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Then apply the resource to the cluster (if you have not edited the resource in-place using &lt;code&gt;kubectl edit&lt;/code&gt;):&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f my-verrazzano.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;b. Editing the &lt;code&gt;Verrazzano&lt;/code&gt; resource directly using &lt;code&gt;kubectl&lt;/code&gt; and setting the version field directly, for example:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl edit verrazzano my-verrazzano
-&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# In the resource editor, add or update the version field to &amp;#34;version: v0.7.0&amp;#34;, then save.&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Wait for the upgrade to complete:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;20m --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;UpgradeComplete verrazzano/my-verrazzano
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&#34;verify-the-upgrade&#34;&gt;Verify the upgrade&lt;/h3&gt;
-&lt;p&gt;Check that all the pods in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace are in the &lt;code&gt;Running&lt;/code&gt; state.  While the upgrade is in progress,
-you may see some pods terminating and restarting as newer versions of components are applied.&lt;/p&gt;
-&lt;p&gt;For example:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get pods -n verrazzano-system
-coherence-operator-controller-manager-7557bc4c49-7w55p   1/1     Running   0          27h
-fluentd-fzmsl                                            1/1     Running   0          27h
-fluentd-r9wwf                                            1/1     Running   0          27h
-fluentd-zp2r2                                            1/1     Running   0          27h
-oam-kubernetes-runtime-6ff589f66f-r95qv                  1/1     Running   0          27h
-verrazzano-api-669c7d7f66-rcnl8                          1/1     Running   0          27h
-verrazzano-application-operator-b5b77d676-7w95p          1/1     Running   0          27h
-verrazzano-console-6b469dff9c-b2jwk                      1/1     Running   0          27h
-verrazzano-monitoring-operator-54cb658774-f6jjm          1/1     Running   0          27h
-verrazzano-operator-7f4b99d7d-wg7qm                      1/1     Running   0          27h
-vmi-system-es-master-0                                   2/2     Running   0          27h
-vmi-system-grafana-74bb7cdf65-k97pb                      2/2     Running   0          27h
-vmi-system-kibana-85565975b5-7hfdf                       2/2     Running   0          27h
-vmi-system-prometheus-0-7bf464d898-czq8r                 4/4     Running   0          27h
-weblogic-operator-7db5cdcf59-qxsr9                       1/1     Running   0          27h
-&lt;/code&gt;&lt;/pre&gt;
       </description>
     </item>
     
