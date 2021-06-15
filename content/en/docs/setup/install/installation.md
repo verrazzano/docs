@@ -224,8 +224,8 @@ vmi-system-prometheus-0-7bf464d898-czq8r                 4/4     Running   0    
 weblogic-operator-7db5cdcf59-qxsr9                       1/1     Running   0          27h
 ```
 
-#### (Optional) Install the example applications
-Example applications are located [here]({{< ghlink raw=false path="examples" >}}).
+#### (Optional) Run the example applications
+Example applications are located [here]({{< relref "/docs/examples/_index.md" >}}).
 
 ##### To get the consoles URLs and credentials, see [Operations]({{< relref "/docs/operations/_index.md" >}}).
 
