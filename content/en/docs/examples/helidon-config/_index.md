@@ -1,6 +1,8 @@
 
 # Hello Config World Helidon
 
+This example is a Helidon-based service that returns a "HelloConfig World" response when invoked. The application configuration uses a Kubernetes ConfigMap, instead of the default, microprofile properties file.
+
 ## Before you begin
 
 Install Verrazzano by following the [installation]({{< relref "/docs/setup/install/installation.md" >}}) instructions.
@@ -11,7 +13,6 @@ All files and paths in this document are relative to `<VERRAZZANO_HOME>/examples
 
 ## Deploy the Hello Config World Helidon application
 
-This example is a Helidon-based service that returns a "HelloConfig World" response when invoked. The application configuration uses a Kubernetes ConfigMap, instead of the default, microprofile properties file.
 
 1. Create a namespace for the application and add a label identifying the namespace as managed by Verrazzano.
    ```
