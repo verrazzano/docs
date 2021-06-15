@@ -8,7 +8,7 @@ draft: true
 
 ### Overview
 
-The Verrazzano logging stack consists of the Fluentd, Elasticsearch and Kibana components.
+The Verrazzano logging stack consists of the Fluentd, Elasticsearch, and Kibana components.
 
 * Fluentd - log aggregator that collects, processes and formats logs from Kubernetes clusters
 * Elasticsearch – scalable search and analytics engine for storing Kubernetes logs
@@ -23,32 +23,32 @@ For components with multiple log streams or that cannot log to stdout, Verrazzan
 
 For example, in a WebLogic deployment, `AdminServer.log` is consumed, translated and written to stdout by the Fluentd sidecar.  You can view these logs using `kubectl` on the container named `fluentd-stdout-sidecar`. 
  ```shell
-kubectl logs tododomain-adminserver -n todo-list -c fluentd-stdout-sidecar
+$ kubectl logs tododomain-adminserver -n todo-list -c fluentd-stdout-sidecar
 ```
 
 ### Fluentd Daemonset
-Verrazzano deploys a Fluentd daemonset which runs one Fluentd replica per node in the verrazzano-system namespace.
+Verrazzano deploys a Fluentd daemonset which runs one Fluentd replica per node in the `verrazzano-system` namespace.
 Each instance pulls logs from the node's `/var/log/containers` directory and writes them to the target Elasticsearch index.  The index name is based on the namespace associated with the record, using this format: `verrazzano-namespace-<record namespace>`.
 
-For example, `vmi-system-kibana` logs written to `/var/log/containers` will be pulled by Fluentd and written to Elasticsearch.  The index used is named `verrazzano-namespace-verrazzano-system` since the VMI runs in the `verrazzano-system` namespace.
+For example, `vmi-system-kibana` logs written to `/var/log/containers` will be pulled by Fluentd and written to Elasticsearch.  The index used is named `verrazzano-namespace-verrazzano-system` because the VMI runs in the `verrazzano-system` namespace.
 
 The same approach is used for both system and application logs.
 ### Elasticsearch
 Verrazzano creates an Elasticsearch deployment as the store and search engine for the logs processed by Fluentd.  Records written by Fluentd can be queried using the Elasticsearch REST API. 
 
-For example, you can use `curl` to get all of the Elasticsearch indexes. You first need to get the password for the `verrazzano` user and the host for the Elasticsearch VMI.
+For example, you can use `curl` to get all of the Elasticsearch indexes. First, you must get the password for the `verrazzano` user and the host for the Elasticsearch VMI.
 ```shell
-PASS=$(kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo)
-HOST=$(kubectl get ingress -n verrazzano-system vmi-system-es-ingest -o jsonpath={.spec.rules[0].host})
+$ PASS=$(kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo)
+$ HOST=$(kubectl get ingress -n verrazzano-system vmi-system-es-ingest -o jsonpath={.spec.rules[0].host})
 
-curl -ik --user verrazzano:$PASS https://$HOST/_all
+$ curl -ik --user verrazzano:$PASS https://$HOST//_cat/indices
 ```
 
 To see all of the records for a specific index, you can do the following.
 ```shell
-INDEX=verrazzano-namespace-todo-list
+$ INDEX=verrazzano-namespace-todo-list
 
-curl -ik --user verrazzano:$PASS https://$HOST/$INDEX/_doc/_search?q=message:*
+$ curl -ik --user verrazzano:$PASS https://$HOST/$INDEX/_doc/_search?q=message:*
 ```
 
 Verrazzano provides support for two installation profiles, development (`dev`) and production (`prod`). The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.
