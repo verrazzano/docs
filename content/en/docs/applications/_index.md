@@ -73,6 +73,9 @@ However, some situations may require application resources beyond those provided
 In this case other existing Kubernetes resources can be used within the applications.
 The todo-list example takes advantage of this capability in several Components to support unique Service and ConfigMap requirements. 
 
+Most Kubernetes resources can be embedded as a workload within a Component.
+The example below shows how a Deployment can be embedded as a workload within a Component.
+The oam-kubernetes operator will process the Component and extract the Deployment to a separate resource during deployment.
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
 kind: Component
@@ -89,6 +92,10 @@ spec:
         ...
 ```
 
+Most Kubernetes resources can also be embedded as a trait within an ApplicationConfiguration.
+The example below shows how an Ingress can be embedded as a trait within an ApplicationConfiguration.
+The oam-kubernetes operator will process the ApplicationConfiguration and extract the Ingress to a separate resource during deployment.
+Note that the Ingress in the example below is `networking.k8s.io/v1beta1` `Ingress` not the `IngressTrait` provided by Verrazzano.
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
 kind: ApplicationConfiguration
@@ -106,8 +113,10 @@ spec:
                 ...
 ```
 
+The `oam-kubernetes-runtime` operator is not installed with roles that allow it to create arbitrary resource.
+Your cluster admin may need to create additional roles and role bindings for the specific resources to be embedded as workloads or traits. 
+The `ClusterRole` and `ClusterRoleBinding` show how oam-kubernetes-runtime could be granted privileges to manage Ingress resources.
 ```yaml
-kubectl apply -f - <<EOF
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
