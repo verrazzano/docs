@@ -1,18 +1,23 @@
 @startuml
 
 file "Application Configuration" as a
+rectangle "Trait" as t
 file "Components" as c
 file "Scopes" as s
+rectangle "Workload" as w
 file "Workload Definitions" as wd
 file "Trait Definitions" as td
 file "Scope Definitions" as sd
 
 c -d-> wd: references
+c -r-> w: contains
 s -d-> sd: references
 
+a --> t: contains
 a -d-> c: references
-a -d-> td: references
 a -d-> s: references
+
+t -d-> td: references
 
 wd -[hidden]r-> td
 td -[hidden]r-> sd

@@ -122,7 +122,34 @@ kubectl label namespace oam-kube verrazzano-managed=true istio-injection=enabled
 # Temporary fix to allow oam-kubernetes-runtime to create arbitrary resources
 # Need to evaluate if ever allowing this is acceptable as it may allow anyone that can create
 # a component and/or applicationconfiguration to create arbitrary resources, 
-kubectl create clusterrolebinding oam-kubernetes-runtime-cluster-admin --clusterrole=cluster-admin --serviceaccount=verrazzano-system:oam-kubernetes-runtime
+# kubectl create clusterrolebinding oam-kubernetes-runtime-cluster-admin --clusterrole=cluster-admin --serviceaccount=verrazzano-system:oam-kubernetes-runtime
+kubectl apply -f - <<EOF
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: oam-kubernetes-runtime-ingresses
+rules:
+  - apiGroups:
+    - networking.k8s.io
+    - extensions
+    resources:
+    - ingresses
+    verbs:
+    - "*"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: oam-kubernetes-runtime-ingresses
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: oam-kubernetes-runtime-ingresses
+subjects:
+  - kind: ServiceAccount
+    name: oam-kubernetes-runtime
+    namespace: verrazzano-system
+EOF
 
 kubectl apply -f - <<EOF
 apiVersion: core.oam.dev/v1alpha2
@@ -203,5 +230,5 @@ EOF
 export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}') ; printf "INGRESS_HOST=${INGRESS_HOST}\n"
 curl -H'Host:oam-kube-app.example.com' http://${INGRESS_HOST}/example
 
-kuberctl delete namespace oam-kube
+kubectl delete namespace oam-kube
 ```
