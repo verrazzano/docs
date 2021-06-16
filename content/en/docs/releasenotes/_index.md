@@ -7,23 +7,24 @@ draft: false
 
 ### v0.15.0
 Features:
-- Support for private container registries
-- Secured communication between Verrazzano resources using Istio
-- Updated cert-manager to 1.2.0
-- Updated Coherence Operator to 3.1.5
-- Updated WebLogic Operator to 3.2.3
-- Updated Node Exporter to 1.0.0
-- Updated NGINX Ingress Controller to 0.46
-- Updated Fluentd to 1.12.3
-- Added network policies for Istio
+- Support for private container registries.
+- Secured communication between Verrazzano resources using Istio.
+- Updated to the following versions:
+    - cert-manager to 1.2.0.
+    - Coherence Operator to 3.1.5.
+    - WebLogic Kubernetes Operator to 3.2.3.
+    - Node Exporter to 1.0.0.
+    - NGINX Ingress Controller to 0.46.
+    - Fluentd to 1.12.3.
+- Added network policies for Istio.
 
 Fixes:
-- Stability improvements for the platform, tests, and examples
-- Several fixes for scraping Prometheus metrics
-- Several fixes for logging and Elasticsearch
-- Replaced keycloak.json with dynamic realm creation
-- Removed the LoggingScope CRD from the Verrazzano API
-- Fixed issues related to multicluster resources being orphaned
+- Stability improvements for the platform, tests, and examples.
+- Several fixes for scraping Prometheus metrics.
+- Several fixes for logging and Elasticsearch.
+- Replaced `keycloak.json` with dynamic realm creation.
+- Removed the LoggingScope CRD from the Verrazzano API.
+- Fixed issues related to multicluster resources being orphaned.
 
 ### v0.14.0
 Features:

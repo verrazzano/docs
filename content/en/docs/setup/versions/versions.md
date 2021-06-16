@@ -25,4 +25,4 @@ component with its version and a brief description.
 | OAM Kubernetes Runtime | 0.3.0 | Plug-in for implementing Open Application Model (OAM) control plane with Kubernetes.
 | Prometheus | 2.13.1 | Provides event monitoring and alerting.
 | Rancher | 2.5.7 | Manages multiple Kubernetes clusters.
-| WebLogic Server Kubernetes Operator | 3.2.3 | Assists with deploying and managing WebLogic domains.
+| WebLogic Kubernetes Operator | 3.2.3 | Assists with deploying and managing WebLogic domains.
