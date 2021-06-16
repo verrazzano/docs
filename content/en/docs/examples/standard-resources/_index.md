@@ -2,6 +2,7 @@
 title: "Standard Kubernetes Resources"
 weight: 6
 description: "Example of using standard Kubernetes resources"
+draft: true
 ---
 # Standard Kubernetes Resources
 

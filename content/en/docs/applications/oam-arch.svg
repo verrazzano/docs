@@ -17,7 +17,39 @@ link t to td--><path d="M80.08,155.2 C80.26,195.27 80.7,294.79 80.9,339.56 " fil
 link w to wd--><path d="M263,268.34 C263,287.57 263,318.63 263,339.66 " fill="none" id="w-to-wd" style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#A80036" points="263,344.78,267,335.78,263,339.78,259,335.78,263,344.78" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="66" x="264" y="311.5684">defined by</text><!--MD5=[c42cfdfc49c763897d0c6872bf50590e]
 link s to sd--><path d="M450.92,155.2 C450.74,195.27 450.3,294.79 450.1,339.56 " fill="none" id="s-to-sd" style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:7.0,7.0;"/><polygon fill="#A80036" points="450.08,344.74,454.1057,335.7515,450.0943,339.74,446.1057,335.7286,450.08,344.74" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="66" x="451" y="255.0684">defined by</text><!--MD5=[49d278b7aa260bf36ceba78ba77a6a93]
 link td to wd--><!--MD5=[0048fc2a0e370a439425a9d61ae465a8]
-link wd to sd--><!--MD5=[9975dead9295f1a8f7bd153a976ebcae]
+link wd to sd--><!--MD5=[fb45bc35bb3885f59620a70fb38fe8a1]
+@startuml
+' Copyright (c) 2020, 2021, Oracle and/or its affiliates.
+' Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
+
+file "Application Configurations" as a
+rectangle "Traits" as t
+file "Components" as c
+file "Scopes" as s
+rectangle "Workloads" as w
+
+file "Workload Definitions" as wd
+file "Trait Definitions" as td
+file "Scope Definitions" as sd
+
+a - -> t: contains
+a -d-> c: references
+a -d-> s: references
+
+c -d-> w: contains
+
+t -r-> c: applied to
+s -l-> c: applied to
+
+t .d..> td: defined by
+w .d.> wd: defined by
+s .d..> sd: defined by
+
+td -[hidden]r- wd
+wd -[hidden]r- sd
+
+@enduml
+
 @startuml
 
 file "Application Configurations" as a
