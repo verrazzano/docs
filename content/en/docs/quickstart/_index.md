@@ -10,7 +10,7 @@ weight: 2
 The Quick Start assumes that you have already installed a
 [Kubernetes](https://kubernetes.io/) cluster. For instructions on preparing Kubernetes
 platforms for installing Verrazzano, see [Platform Setup]({{< relref "docs/userguide/setup/platforms/_index.md" >}}). For
-detailed installation instructions, see the [Installation Guide]({{< relref "/docs/userguide/setup/install/installation.md" >}}).
+detailed installation instructions, see the [Installation Guide]({{< relref "/docs/userguide/install/installation.md" >}}).
 
 Verrazzano requires the following:
 - A Kubernetes cluster and a compatible `kubectl`.

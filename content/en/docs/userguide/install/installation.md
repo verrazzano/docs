@@ -1,8 +1,7 @@
 ---
 title: "Installation Guide"
-linkTitle: Install
-description: "How to install Verrazzano"
-weight: 5
+description: "How to install and uninstall Verrazzano"
+weight: 1
 draft: false
 ---
 

@@ -6,7 +6,7 @@ description: "An example application based on WebLogic, Helidon, and Coherence"
 
 ## Before you begin
 
-* Install Verrazzano by following the [installation]({{< relref "/docs/userguide/setup/install/installation.md" >}}) instructions.
+* Install Verrazzano by following the [installation]({{< relref "/docs/userguide/install/installation.md" >}}) instructions.
 * To download the example image, you must first accept the license agreement.
   * In a browser, navigate to https://container-registry.oracle.com/ and sign in.
   * Search for `example-bobbys-coherence`, `example-bobbys-front-end`, `example-bobs-books-order-manager`, and `example-roberts-coherence`.

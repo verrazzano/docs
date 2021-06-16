@@ -341,4 +341,4 @@ $ export KUBECONFIG=$VERRAZZANO_KUBECONFIG
 ```
 ### Next steps
 
-To continue, see the [Installation Guide]({{< relref "/docs/userguide/setup/install/installation.md#install-the-verrazzano-platform-operator" >}}).
+To continue, see the [Installation Guide]({{< relref "/docs/userguide/install/installation.md#install-the-verrazzano-platform-operator" >}}).

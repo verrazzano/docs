@@ -1,8 +1,7 @@
 ---
-title: "Multicluster Verrazzano Setup"
-linkTitle: Multicluster Setup
+title: "Install Multicluster Verrazzano"
 description: "How to set up a multicluster Verrazzano environment"
-weight: 6
+weight: 2
 draft: false
 ---
 
@@ -37,7 +36,7 @@ Install Verrazzano on each Kubernetes cluster.
   when registering the managed cluster.
 
 For detailed instructions on how to install Verrazzano on a Kubernetes cluster using a specific profile, see the
-[Installation Guide]({{< relref "/docs/userguide/setup/install/installation.md" >}}).
+[Installation Guide]({{< relref "/docs/userguide/install/installation.md" >}}).
 
 ### Register the managed cluster with the admin cluster
 

@@ -19,4 +19,4 @@ description: "Examples of using Verrazzano in a multicluster environment"
 ## Prerequisites
 
 Prior to running the multicluster examples, complete the multicluster installation and managed cluster registration documented
-[here](https://verrazzano.io/docs/userguide/setup/multicluster/multicluster/).
+[here]({{< relref "/docs/userguide/install/multicluster/_index.md" >}}).

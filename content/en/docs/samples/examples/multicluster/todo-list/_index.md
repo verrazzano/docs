@@ -5,7 +5,7 @@ For more information and the source code of this application, see the [Verrazzan
 
 ## Before you begin
 
-* Set up a multicluster Verrazzano environment following the [installation instructions](https://verrazzano.io/docs/userguide/setup/multicluster/multicluster/).
+* Set up a multicluster Verrazzano environment following the [installation instructions]({{< relref "/docs/userguide/install/multicluster/_index.md" >}}).
 * The example assumes that there is a managed cluster named `managed1` associated with the multicluster environment.
 If your environment does not have a cluster of that name, then you should edit the deployment files and change the cluster name
 listed in the `placement` section.
