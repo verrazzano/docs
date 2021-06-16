@@ -30,16 +30,16 @@ Verrazzano supports application definition using [Open Application Model (OAM)](
 are composed of [components](https://github.com/oam-dev/spec/blob/master/3.component.md) and
 [application configurations](https://github.com/oam-dev/spec/blob/master/7.application_configuration.md).
 
-Helidon applications are first class citizen in Verrazzano with specialized Helidon Workload support i.e. 
-`VerrazzanoHelidonWorkload`. `VerrazzanoHelidonWorkload` is supported as part of `verrazzano-application-operator` in 
-Verrazzano install and no additional operator setup or install is required. `VerrazzanoHelidonWorkload` also supports all 
-the traits and scopes defined by Verrazzano along with core ones defined by OAM specification.
+Helidon applications are first class citizen in Verrazzano with specialized Helidon Workload support, for example, 
+`VerrazzanoHelidonWorkload`. `VerrazzanoHelidonWorkload` is supported as part of `verrazzano-application-operator` in the
+Verrazzano installation and no additional operator setup or installation is required. `VerrazzanoHelidonWorkload` also supports all 
+the traits and scopes defined by Verrazzano along with core ones defined by the OAM specification.
 
-`VerrazzanoHelidonWorkload` is modeled after [`ContainerizedWorkload`](https://github.com/oam-dev/spec/blob/v0.2.1/core/workloads/containerized_workload/containerized_workload.md)  
-i.e. is used for long-running workloads in containers. However, `VerrazzanoHelidonWorkload` closely resembles and directly refers to
+`VerrazzanoHelidonWorkload` is modeled after [`ContainerizedWorkload`](https://github.com/oam-dev/spec/blob/v0.2.1/core/workloads/containerized_workload/containerized_workload.md), 
+for example, is used for long-running workloads in containers. However, `VerrazzanoHelidonWorkload` closely resembles and directly refers to
 Kubernetes [`Deployment`](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/deployment-v1/) schema. This
 enables easy `Lift and Shift` of existing Containerized Helidon applications. Full `VerrazzanoHelidonWorkload` API 
-definition and description is available at [`VerrazzanoHelidonWorkload`](content/en/docs/reference/API/OAM/Workloads.md "VerrazzanoHelidonWorkload")
+definition and description is available at [`VerrazzanoHelidonWorkload`](content/en/docs/reference/API/OAM/Workloads.md "VerrazzanoHelidonWorkload").
 
 ## Verrazzano Helidon Application Development 
 [Application Development Guide](content/en/docs/guides/application-deployment-guide.md) describes end-to-end steps for 
