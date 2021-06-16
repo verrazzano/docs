@@ -155,7 +155,7 @@ to the ApplicationConfiguration for each component, specifying the metrics port 
               port: 7001
 ```
 
-### Prometheus configuration and pod annotations
+### Prometheus configuration
 Prometheus is configured to scrape targets using the configmaps in the `verrazzano-system` namespace.  During applications deployment, 
 Verrazzano updates the `vmi-system-prometheus-config` configmap and adds targets for the application pods.  Verrazzano also annotates
 those pods to match the expected annotations in the configmap. When the application is deleted, Verrazzano removes the targets from
