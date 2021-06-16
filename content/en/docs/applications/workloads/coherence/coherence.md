@@ -1,6 +1,6 @@
 ---
 title: "Coherence Workload"
-linkTitle: "Coherence Workload"
+linkTitle: "Coherence"
 description: "Using a Coherence Workload in an application"
 weight: 4
 draft: true
@@ -50,7 +50,7 @@ the Coherence resource as needed.
 #### Provisioning
 When you apply the component YAML above, Kubernetes will create a `component.oam.verrazzano.io` resource, but 
 the Coherence cluster will not be created until you create the ApplicationConfiguration resource, which references
-this component.  When the application is created, Verrazzano creates a Coherence resource for each cluster,
+the Coherence component.  When the application is created, Verrazzano creates a Coherence resource for each cluster,
 which is subsequently processed by the Coherence operator, resulting in a new cluster.  Once a cluster is created,
 the Coherence operator will watch the Coherence resource to reconcile the state of the cluster.  
 You can add a new Coherence workload to a running application, or remove an existing workload, simply be modifying
@@ -94,7 +94,8 @@ Do not delete the Coherence component if the application is still using it.
 When a Coherence cluster is provisioned, Verrazzano automatically configures it to send logs to Elasticsearch.  This is done by
 injecting Fluentd sidecar configuration into the Coherence resource. The Coherence operator will then create the pod with the
 Fluentd sidecar.  The sidecar periodically copies the Coherence logs from /logs to stdout, enabling the Fluend daemonset 
-in the `verrazzano-system` namespace to ship the logs to Elasticsearch.  
+in the `verrazzano-system` namespace to ship the logs to Elasticsearch.  Note that the Fluend sidecar running in the Coherence
+pod never communicates with Elasticsearch or any other network endpoint.
 
 The logs are placed in a per-namespace index named `verrazzano-namespace-<namespace>`, for example: `verrazzano-namespace-sockshop`.
 All logs from Coherence pods in the same namespace will go into the same index, even for different applications.  
@@ -109,6 +110,87 @@ Each log record has some Coherence and application fields, along with the log me
 ```
 
 ## Metrics
+Verrazzano uses Prometheus to scrape metrics from Coherence cluster pods.  Like logging, metrics scraping is also automatically
+enabled during provisioning, however the Coherence resource YAML must have proper metrics configuration.  For details see 
+[Coherence Metrics](https://oracle.github.io/coherence-operator/docs/latest/#/metrics/020_metrics).  The short summary is that
+there are two different ways to configure the Coherence metrics endpoint.  If your application serves metrics from an endpoint, for
+example a Helidon application, then you do not use the native Coherence metrics endpoint, otherwise you do.  To see the difference,
+lets examine the `socks-shop` and `bobs-books` examples.
+
+### Bobs Books
+The [bobs-books](https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books) example uses the default 
+Coherence metrics endpoint, so the configuration must enable this feature as shown below by the metrics section of the 
+`roberts-coherence` component in the YAML in [bobs-books-comp.yaml](https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/bobs-books-comp.yaml).
+```          ...
+          coherence:
+            metrics:
+              enabled: true
+```
+
+### Socks Shop
+The [sock-shop](https://github.com/verrazzano/verrazzano/blob/master/examples/sock-shop) example, which is a helidon application with embedded Coherence, explicitly specifies
+the metrics port, but doesn't enable Coherence metrics.
+```
+          ports:
+            ...
+            - name: metrics
+              port: 7001
+              serviceMonitor:
+                enabled: true
+```
+
+Because `sock-shop` components are  not using the default Coherence metrics port, you must add a `MetricsTrait` section to the ApplicationConfiguration for each component
+specifying the listening port as follows:
+
+```
+        - trait:
+            apiVersion: oam.verrazzano.io/v1alpha1
+            kind: MetricsTrait
+            metadata:
+              name: carts-metrics
+            spec:
+              port: 7001
+```
+
+### Prometheus configuration and pod annotations
+Prometheus is configured to scrape targets using the configmaps in `verrazzano-system` namespace.  During applications deployment, 
+Verrazzano updates the `vmi-system-prometheus-config` configmap and adds targets for the application pods.  Verrazzano also annotates
+those pods to match the expected annotations in the configmap.  
+
+Here is an example of sockshop Prometheus configmap section for catalog.  Notice that pods in the `sockshop` namespace with labels `app_oam_dev_name`
+and `app_oam_dev_component` are targeted and that the annotations `verrazzano_io/metricsEnabled`, `verrazzano_io/metricsPath` and  
+`verrazzano_io/metricsPort` are expected.
+```
+- job_name: sockshop-appconf_default_sockshop_catalog
+  ...
+  kubernetes_sd_configs:
+  - role: pod
+    namespaces:
+      names:
+      - sockshop
+  relabel_configs:
+  - source_labels: [__meta_kubernetes_pod_annotation_verrazzano_io_metricsEnabled,
+      __meta_kubernetes_pod_label_app_oam_dev_name, __meta_kubernetes_pod_label_app_oam_dev_component]
+  ...  
+  - source_labels: [__meta_kubernetes_pod_annotation_verrazzano_io_metricsPath]
+  ...
+  - source_labels: [__address__, __meta_kubernetes_pod_annotation_verrazzano_io_metricsPort]
+```
+
+Here is the corresponding catalog pod annotations.  
+```
+kind: Pod
+metadata:
+  labels:
+    ...
+    app.oam.dev/component: catalog
+    app.oam.dev/name: sockshop-appconf
+  annotations:
+    ...
+    verrazzano.io/metricsEnabled: "true"
+    verrazzano.io/metricsPath: /metrics
+    verrazzano.io/metricsPort: "7001"
+```
 
 ## Scaling
 
