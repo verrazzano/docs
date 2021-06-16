@@ -1,6 +1,7 @@
 ---
 title: "Troubleshooting"
-description: ""
+linkTitle: "Troubleshooting"
+description: "Troubleshooting problems with Verrazzano"
 weight: 10
 draft: false
 ---

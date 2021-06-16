@@ -1,8 +1,7 @@
 @startuml
 
-file "Workload Definition" as cd
-file "Trait Definition" as td
-file "Scope Definition" as sd
+rectangle "Workload" as w #lightgrey
+rectangle "Trait" as t #lightgrey
 file "Component" as c
 file "Application Configuration" as a
 file "Scope" as s
@@ -14,22 +13,22 @@ file "Scope Runtime Resources" as sr
 
 'Using storage for the oval shape
 storage "ApplicationConfiguration Controller" as ac #lightgreen
+
 storage "Workload Controller" as wc #lightgreen
 storage "Trait Controller" as tc #lightgreen
 storage "Scope Controller" as sc #lightgreen
 
-c -u-> cd: references
-s -u-> sd: references
+c -u-> w: contains
+a -u-> t: contains
 
-a -u-> c: references
-a -u-> td: references
-a -u-> s: references
+a -l-> c: references
+a -r-> s: references
 
 ac -u-> a: reads
 ac -u-> c: reads
 ac -d-> wi: writes
 ac -d-> ti: writes
-ac --> s: updates
+ac -u-> s: updates
 
 wc -u-> wi: reads
 wc -d-> wr: writes
@@ -41,8 +40,6 @@ sc -u-> s: reads
 sc -d-> sr: writes
 
 'Hidden lines to adjust layout
-cd -[hidden]r- td
-td -[hidden]r- sd
 wi -[hidden]r- ti
 tc -[hidden]r- sc
 
