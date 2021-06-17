@@ -89,7 +89,7 @@ This provides the platform with information about the schema of the workload.
 A `WorkloadDefintion` is typically provided by the platform not an end user.
 
 ### Traits
-Traits customize component workloads during deployment.
+Traits customize component workloads and generate related resources during deployment.
 Verrazzano provides several traits, for example `IngressTrait` and `MetricsTrait`.
 The platform extracts traits contained within an `ApplicationConfiguration` during deployment.
 This processing is similar to the extraction of `workload` content from `Component` resources.
@@ -119,7 +119,12 @@ This provides the platform with additional information about the trait's schema 
 A `TraitDefintion` is typically provided by the platform not an end user.
 
 ### Scopes
-TODO
+Scopes customize component workloads and generate related resources during deployment.
+Scopes are referenced by name instead of being embedded within an `ApplicationConfiguration`.
+The platform will update the referenced scopes with a reference to each applied component.
+This update triggers the related operator to process the scope.
+
+The sample below shows a reference to a `HealthScope` named `example-health-scope`.
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
 kind: ApplicationConfiguration
@@ -135,6 +140,7 @@ spec:
         ...
 ```
 
+The sample below shows the configuration details of the referenced `HealthScope`
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
 kind: HealthScope
@@ -179,9 +185,50 @@ The Verrazzano platform provides several trait definitions and implementations.
 
 ### IngressTrait
 The `IngressTrait` provides a simplified integration with the Istio ingress gateway provided by the Verrazzano platform.
+The `verrazzano-application-operator` processes each `IngressTrait` and generates related `Gateway`, `VirtualService` and `Certificate` related resources when processed.
+The `Certificate` is created in the `istio-system` namespace.
+The values used to create are either explicitly provided in the trait or are derived from the environment or associated component.
+
+The example below shows an `IngressTrait` that results in ingress to for the path `/greet`.
+```yaml
+apiVersion: core.oam.dev/v1alpha2
+kind: ApplicationConfiguration
+...
+spec:
+  components:
+    - componentName: example-component
+      traits:
+        - trait:
+            apiVersion: oam.verrazzano.io/v1alpha1
+            kind: IngressTrait
+            spec:
+              rules:
+                - paths:
+                    - path: "/greet"
+```
+See the [API documentation](https://verrazzano.io/docs/reference/api/oam/ingresstrait/) for details.
 
 ### MetricsTrait
 The `MetricsTrait` provides a simplified integration with the Prometheus instance provided by the Verrazzano platform.
+The `verrazzano-application-operator` processes each `MetricsTrait` and does two things.
+1. Updates the workload's annotations to provide metrics source information.
+2. Updates the Prometheus' metrics scrape config with metrics scrape targets.
+The Verrazzano platform will automatically apply a `MetricsTrait` to every component with a supported workload.
+
+The example below shows the a `MetricsTrait` that was automatically applied.
+```yaml
+apiVersion: core.oam.dev/v1alpha2
+kind: ApplicationConfiguration
+...
+spec:
+  components:
+    - componentName: example-component
+      traits:
+        - trait:
+            apiVersion: oam.verrazzano.io/v1alpha1
+            kind: MetricsTrait
+```
+See the [API documentation](https://verrazzano.io/docs/reference/api/oam/metricstrait/) for details.
 
 ## Kubernetes Resources
 Verrazzano and OAM provide workloads and traits to define and customize applications.
