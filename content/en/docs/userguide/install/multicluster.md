@@ -123,7 +123,7 @@ Follow these preregistration setup steps:
 
 ## Run applications in multicluster Verrazzano
 
-The Verrazzano multicluster setup is now complete and you can deploy applications by following the [Multicluster Hello World Helidon]({{< relref "/docs/samples/examples/multicluster/hello-helidon/_index.md" >}}) example application.
+The Verrazzano multicluster setup is now complete and you can deploy applications by following the [Multicluster Hello World Helidon]({{< relref "/docs/samples/multicluster/hello-helidon/_index.md" >}}) example application.
 
 ## Use the admin cluster user interface (UI)
 

@@ -20,7 +20,7 @@ Verrazzano requires the following:
   of Verrazzano.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient for deploying your
   applications.
 
-For a list of the open source components and versions installed with Verrazzano, see [Software Versions]({{< relref "docs/userguide/setup/versions/versions.md" >}}).
+For a list of the open source components and versions installed with Verrazzano, see [Software Versions]({{< relref "/docs/reference/versions.md" >}}).
 
 {{< alert title="NOTE" color="warning" >}}
 Verrazzano has been tested _only_ on the following versions of Kubernetes: 1.17.x, 1.18.x, 1.19.x, and 1.20x.  Other versions have not been tested and are not guaranteed to work.
@@ -31,15 +31,15 @@ Verrazzano has been tested _only_ on the following versions of Kubernetes: 1.17.
 
 Before installing Verrazzano, see instructions on preparing the following Kubernetes platforms:
 
-* [OCI Container Engine for Kubernetes]({{< relref "docs/userguide/setup/platforms/oci/oci.md" >}})
+* [OCI Container Engine for Kubernetes]({{< relref "/docs/userguide/setup/platforms/oci/oci.md" >}})
 
-* [OLCNE]({{< relref "docs/userguide/setup/platforms/olcne/olcne.md" >}})
+* [OLCNE]({{< relref "/docs/userguide/setup/platforms/olcne/olcne.md" >}})
 
-* [KIND]({{< relref "docs/userguide/setup/platforms/kind/kind.md" >}})
+* [KIND]({{< relref "/docs/userguide/setup/platforms/kind/kind.md" >}})
 
-* [minikube]({{< relref "docs/userguide/setup/platforms/minikube/minikube.md" >}})
+* [minikube]({{< relref "/docs/userguide/setup/platforms/minikube/minikube.md" >}})
 
-* [Generic Kubernetes]({{< relref "docs/userguide/setup/platforms/generic/generic.md" >}})
+* [Generic Kubernetes]({{< relref "/docs/userguide/setup/platforms/generic/generic.md" >}})
 
 **NOTE**: Verrazzano can create network policies that can be used to limit the ports and protocols that pods use for network communication. Network policies provide additional security but they are enforced only if you install a Kubernetes Container Network Interface (CNI) plug-in that enforces them, such as Calico. For instructions on how to install a CNI plug-in, see the documentation for your Kubernetes cluster.
 
@@ -48,7 +48,7 @@ Before installing Verrazzano, see instructions on preparing the following Kubern
 Verrazzano provides a platform [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
 to manage the life cycle of Verrazzano installations.  You can install,
 uninstall, and update Verrazzano installations by updating the
-[Verrazzano custom resource]({{< relref "docs/reference/api/verrazzano/verrazzano.md" >}}).
+[Verrazzano custom resource]({{< relref "/docs/reference/api/verrazzano/verrazzano.md" >}}).
 
 To install the Verrazzano platform operator:
 
@@ -90,7 +90,7 @@ To change profiles in any of the following commands, set the `VZ_PROFILE` enviro
 For Verrazzano installations on the minikube platform, use only the development profile.
 {{< /alert >}}
 
-For a complete description of Verrazzano configuration options, see the [Verrazzano Custom Resource Definition]({{< relref "docs/reference/api/verrazzano/verrazzano.md" >}}).
+For a complete description of Verrazzano configuration options, see the [Verrazzano Custom Resource Definition]({{< relref "/docs/reference/api/verrazzano/verrazzano.md" >}}).
 
 According to your DNS choice, [nip.io](https://nip.io/) (wildcard DNS) or
 [Oracle OCI DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm),
@@ -177,7 +177,7 @@ Edit the downloaded `install-oci.yaml` file and provide values for the following
 * `spec.dns.oci.dnsZoneOCID`
 * `spec.dns.oci.dnsZoneName`
 
-For the full configuration information for an installation, see the [Verrazzano Custom Resource Definition]({{< relref "docs/reference/api/verrazzano/verrazzano.md" >}}).
+For the full configuration information for an installation, see the [Verrazzano Custom Resource Definition]({{< relref "/docs/reference/api/verrazzano/verrazzano.md" >}}).
 
 When you use the OCI DNS installation, you need to provide a Verrazzano name in the Verrazzano custom resource
  (`spec.environmentName`) that will be used as part of the domain name used to access Verrazzano
@@ -224,9 +224,9 @@ weblogic-operator-7db5cdcf59-qxsr9                       1/1     Running   0    
 ```
 
 #### (Optional) Run the example applications
-Example applications are located [here]({{< relref "docs/samples/examples/_index.md" >}}).
+Example applications are located [here]({{< relref "/docs/samples/_index.md" >}}).
 
-##### To get the consoles URLs and credentials, see [Operations]({{< relref "docs/userguide/operations/_index.md" >}}).
+##### To get the consoles URLs and credentials, see [Operations]({{< relref "/docs/userguide/operations/_index.md" >}}).
 
 ### Uninstall Verrazzano
 

@@ -1,6 +1,6 @@
 ---
 title: "Helidon Sock Shop"
-weight: 2
+weight: 4
 description: "A Helidon implementation of the Sock Shop Microservices Demo Application"
 ---
 

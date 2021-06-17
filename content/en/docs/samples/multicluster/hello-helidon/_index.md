@@ -34,11 +34,11 @@ Apply the `VerrazzanoProject` resource on the admin cluster that defines the nam
 
 ## Explore the example application
 
-Follow the instructions for [exploring]({{< relref "docs/samples/examples/hello-helidon/#explore-the-application" >}}) the Hello World Helidon application in a single cluster use case. Use the managed cluster `kubeconfig` for testing the example application.
+Follow the instructions for [exploring]({{< relref "/docs/samples/hello-helidon/#explore-the-application" >}}) the Hello World Helidon application in a single cluster use case. Use the managed cluster `kubeconfig` for testing the example application.
 
 ## Troubleshooting
 
-Follow the instructions for [troubleshooting]({{< relref "docs/samples/examples/hello-helidon/#troubleshooting" >}}) the Hello World Helidon application in a single cluster use case. Use the managed cluster `kubeconfig` for troubleshooting the example application.
+Follow the instructions for [troubleshooting]({{< relref "/docs/samples/hello-helidon/#troubleshooting" >}}) the Hello World Helidon application in a single cluster use case. Use the managed cluster `kubeconfig` for troubleshooting the example application.
 
 1. Verify that the application namespace exists on the managed cluster.
    ```shell

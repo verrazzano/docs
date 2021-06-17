@@ -114,4 +114,4 @@ This diagram shows a more detailed view of how multicluster Verrazzano works.
 
 For more information, see the [API Documentation](../../reference/api/) for the resources described here.
 
-To try out multicluster Verrazzano, see the [multicluster]({{< relref "/docs/samples/examples/multicluster/_index.md" >}}) examples.
+To try out multicluster Verrazzano, see the [multicluster]({{< relref "/docs/samples/multicluster/_index.md" >}}) examples.

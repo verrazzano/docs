@@ -56,7 +56,7 @@ Verrazzano provides support for two installation profiles, development (`dev`) a
 ### Kibana
 Kibana is a visualization dashboard for the content indexed on an Elasticsearch cluster.  Verrazzano creates a Kibana deployment to provide a user interface for querying and visualizing the log data collected in Elasticsearch.
 
-To access the Kibana console, read [Operations]({{< relref "docs/userguide/operations/_index.md" >}}).
+To access the Kibana console, read [Operations]({{< relref "/docs/userguide/operations/_index.md" >}}).
 
 To see the records of an Elasticsearch index through Kibana, create an index pattern to filter for records under the desired index.  
 

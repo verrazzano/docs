@@ -1,6 +1,6 @@
 ---
 title: "ToDo List"
-weight: 4
+weight: 6
 description: "An example application containing a WebLogic component"
 ---
 
