@@ -113,4 +113,5 @@ This diagram shows a more detailed view of how multicluster Verrazzano works.
 ### Try out multicluster Verrazzano
 
 For more information, see the [API Documentation](../../reference/api/) for the resources described here.
-To try out multicluster Verrazzano, see the [Hello World Helidon multicluster example application](https://github.com/verrazzano/verrazzano/tree/master/examples/multicluster/hello-helidon).
+
+To try out multicluster Verrazzano, see the [multicluster]({{< relref "/docs/examples/multicluster/_index.md" >}}) examples.

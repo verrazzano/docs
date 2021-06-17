@@ -109,7 +109,7 @@ To install Verrazzano:
 
 ### Deploy an example application
 
-The [Hello World Helidon](https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md)
+The [Hello World Helidon]({{< relref "/docs/examples/hello-helidon/_index.md" >}})
 example application provides a simple *Hello World* REST service written with [Helidon](https://helidon.io).
 For more information and the code of this application, see the [Verrazzano Examples](https://github.com/verrazzano/examples).
 
@@ -208,4 +208,4 @@ To uninstall Verrazzano:
     ```
 ### Next steps
 
-See the [Verrazzano Example Applications]({{< ghlink raw=false path="examples" >}}).
+See the [Verrazzano Example Applications]({{< relref "/docs/examples/_index.md" >}}).

@@ -40,7 +40,7 @@ demonstrates creating OAM resources that define an application as well as the st
 ## Application development
 This guide uses an example application which was written with Java and [Helidon](https://helidon.io).
 For the implementation details, see the [Helidon MP tutorial](https://helidon.io/docs/latest/#/mp/guides/10_mp-tutorial).
-See the application [source code](https://github.com/verrazzano/examples/tree/master/hello-helidon) in the Verrazzano examples repository.
+See the application [source code](https://github.com/verrazzano/examples) in the Verrazzano examples repository.
 
 The example application is a JAX-RS service and implements the following REST endpoints:
 - `/greet` - Returns a default greeting message that is stored in memory.
