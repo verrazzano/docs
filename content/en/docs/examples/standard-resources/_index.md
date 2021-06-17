@@ -6,19 +6,19 @@ draft: true
 ---
 # Standard Kubernetes Resources
 
-This example demonstrates the use of standard Kubernetes resources within OAM resources to define and deploy an application.
+This example demonstrates the use of standard Kubernetes resources in conjunction with OAM resources to define and deploy an application.
 Several standard Kubernetes resources are used in this example both as workloads and traits.  
-- Deployment used as a workload within a Component
-- Service used as a workload within a Component
-- Ingress used as a trait within an ApplicationConfiguration
+- `Deployment` used as a workload within a `Component`.
+- `Service` used as a workload within a `Component`.
+- `Ingress` used as a trait within an `ApplicationConfiguration`.
 
 ## Before you begin
 Install Verrazzano by following the [installation]({{< relref "/docs/setup/install/installation.md" >}}) instructions.
 
 ### Grant permissions 
-The oam-kubernetes-runtime is not installed with roles that allow it to create the Ingress resource used in this example.
-The steps below create a role that allows Ingress resource creation and binds that role to the oam-kubernetes-runtime service account.
-Your cluster admin will need to execute the steps below to create the ClusterRole and ClusterRoleBinding.
+The `oam-kubernetes-runtime` is not installed with privileges that allow it to create the Kubernetes `Ingress` resource used in this example.
+The steps below create a role that allows `Ingress` resource creation and binds that role to the `oam-kubernetes-runtime` service account.
+Your cluster admin will need to execute the steps below to create the `ClusterRole` and `ClusterRoleBinding` for this example to work.
 ```shell
 $ kubectl apply -f - <<EOF
 apiVersion: rbac.authorization.k8s.io/v1
@@ -32,7 +32,12 @@ rules:
     resources:
     - ingresses
     verbs:
-    - "*"
+    - create
+    - delete
+    - get
+    - list
+    - patch
+    - update
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -50,7 +55,7 @@ EOF
 ```
 
 ## Deploy the application
-This example provides an example web application using a common example image.
+This example provides an web application using a common example application image.
 The application returns the configured text when accessed.
 
 1. Create the application namespace and add a label identifying the namespace as managed by Verrazzano.
@@ -59,7 +64,7 @@ The application returns the configured text when accessed.
     $ kubectl label namespace oam-kube verrazzano-managed=true istio-injection=enabled
     ```
 
-1. Create a Component with a Deployment workload.
+1. Create a `Component` containing a `Deployment` workload.
     ```shell
     $ kubectl apply -f - <<EOF
     apiVersion: core.oam.dev/v1alpha2
@@ -90,7 +95,7 @@ The application returns the configured text when accessed.
     EOF
     ```
 
-1. Create a Component with a Service workload.
+1. Create a `Component` containing a `Service` workload.
     ```shell
     $ kubectl apply -f - <<EOF
     apiVersion: core.oam.dev/v1alpha2
@@ -112,7 +117,7 @@ The application returns the configured text when accessed.
     EOF
     ```
    
-1. Create an ApplicationConfiguration with an Ingress trait.
+1. Create an `ApplicationConfiguration` referencing both `Components` and configuring an Ingress trait.
     ```shell
     $ kubectl apply -f - <<EOF
     apiVersion: core.oam.dev/v1alpha2
@@ -165,5 +170,11 @@ Delete the namespace created to undeploy the application.
 This will result in the deletion of all explicitly and implicitly created resources in the namespace.
 ```shell
 $ kubectl delete namespace oam-kube
+```
+
+The cluster admin can also remove the created `ClusterRole` and `ClusterRoleBinding` if desired.
+```shell
+$ kubectl delete oam-kubernetes-runtime-ingresses am-kubernetes-runtime-ingresses 
+$ kubectl delete ClusterRole oam-kubernetes-runtime-ingresses
 ```
 

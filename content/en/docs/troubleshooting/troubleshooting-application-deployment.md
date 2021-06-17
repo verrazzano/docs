@@ -7,8 +7,8 @@ draft: true
 ---
 ## Troubleshooting Application Deployment
 During application deployment the `oam-kubernetes-runtime` and `verrazzano-application-operator` cooperate through the generation and update of Kubernetes resources.
-The `oam-kubernetes-runtime` processes the `ApplicationConfiguration` and `Component` resources provided by the user and generates workload and trait instance resources.
-The verrazzano-application-operator processes Verrazzano specific workload and trait instance resources.
+The `oam-kubernetes-runtime` processes the `ApplicationConfiguration` and `Component` resources provided by the user and generates workload and trait resources.
+The `verrazzano-application-operator` processes Verrazzano specific workload and trait resources.
 These are then used to generate additional child and related resources.
 
 Troubleshooting application deployments should follow three general steps.
@@ -33,7 +33,7 @@ $ kubectl get pods -n verrazzano-system -l app=verrazzano-application-operator
 If the pod status is not `Running`, see the instructions below for reviewing the `verrazzano-application-operator` logs.
 
 ### Review oam-kubernetes-runtime operator logs
-Review the `oam-kubernetes-runtime` pod logs for any indication that pod startup or the generation of workload or trait instances has failed.
+Review the `oam-kubernetes-runtime` pod logs for any indication that pod startup or the generation of workloads or traits has failed.
 The command to get the logs is below.
 ```shell
 $ kubectl logs -n verrazzano-system -l app.kubernetes.io/name=oam-kubernetes-runtime
@@ -47,9 +47,9 @@ $ kubectl logs -n verrazzano-system -l app=verrazzano-application-operator
 ```
 
 ### Review generated workload resources
-The processing of `Component` reference within an `ApplicationConfiguration` results in the generation of workload instances.
-For example, a referenced `Component` component will result in the generation of a `VerrazzanoHelidonWorkload` workload instance.
-In turn the `VerrazzanoHelidonWorkload` workload instance will be processed and result in the generation of related `Deployment` and `Service` resources.
+The processing of a `Component` reference within an `ApplicationConfiguration` results in the generation of workloads.
+For example, a referenced `Component` might result in the generation of a `VerrazzanoHelidonWorkload` workload resource.
+In turn the `VerrazzanoHelidonWorkload` workload resource will be processed and result in the generation of related `Deployment` and `Service` resources.
 
 If the expected workload resource, for example `VerrazzanoHelidonWorkload` is missing review the `oam-kubernetes-runtime` logs.
 If the expected related resources, for example `Deployment` or `Service` is missing review the `verrazzano-application-operator` logs.
@@ -62,9 +62,9 @@ $ kubectl get -n hello-helidon service hello-helidon-deployment
 ```
 
 ### Review generated trait resources
-The processing of `traits` embedded with an `ApplicationConfiguration` results in the generation of trait instances.
-For example, an `IngressTrait` embedded within an `ApplicationConfiguration` will result in the generation of an `IngressTrait`.
-In turn the `IngressTrait` trait instance will be processed and result in the generation of related `Certificate`, `Gateway` and `VirtualService` resources.
+The processing of traits embedded with an `ApplicationConfiguration` results in the generation of trait resources.
+For example, an `IngressTrait` embedded within an `ApplicationConfiguration` will result in the generation of an `IngressTrait` resource.
+In turn the `IngressTrait` resource will be processed and result in the generation of related `Certificate`, `Gateway` and `VirtualService` resources.
 
 If the expected trait resource, for example `IngressTrait` is missing review the `oam-kubernetes-runtime` logs.
 If the expected related resources, for example `Certificate`, `Gateway` and `VirtualService`, is missing review the `verrazzano-application-operator` logs.
@@ -86,11 +86,12 @@ $ kubectl logs -n verrazzano-system -l app.kubernetes.io/name=oam-kubernetes-run
 ```
 
 ### Check resource owners
-Use the command below to determine the parent resource of given resource.
-The example below returns the parent of the `hello-helidon-ingress` `IngressTrait` in the `hello-helidon` namespace.
+Kubernetes maintains the child to parent relationship within metadata fields.
+The example below returns the parent of the `IngressTrait` named `hello-helidon-ingress` in the `hello-helidon` namespace.
 ```shell
 $ kubectl get IngressTrait -n hello-helidon hello-helidon-ingress -o jsonpath='{range .metadata.ownerReferences[*]}{.name}{"\n"}{end}'
 ```
+The results of this command can help identify the lineage of a given resource.
 
 ### Check related resources
 Some resources also record the related resources affected during their processing.
@@ -99,4 +100,4 @@ The command below is an example of how to obtain the related resources of an `In
 ```shell
 $ kubectl get IngressTrait -n hello-helidon hello-helidon-ingress -o jsonpath='{range .status.resources[*]}{.kind}: {.name}{"\n"}{end}'
 ```
-
+The results of this command can help identify which other resources the given resource affected.

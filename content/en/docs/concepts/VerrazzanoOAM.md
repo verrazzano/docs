@@ -19,4 +19,4 @@ OAM has five core concepts:
 - Traits - Apply customization to a single component.
 - Scopes - Apply customization to several components.
 
-![](oam-app.svg)
+![](/docs/concepts/oam-app.svg)
