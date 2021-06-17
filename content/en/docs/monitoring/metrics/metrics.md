@@ -15,10 +15,10 @@ visualize your metrics.
 
 ![Metrics](../../images/metrics.png)
 
-### Metrics Sources
+### Metrics sources
 
-Metrics sources produce metrics and expose them to the k8s Prometheus system via annotations in the pods. 
-Below is an example of the prometheus related configuration specified in the todo-list application pod:
+Metrics sources produce metrics and expose them to the Kubernetes Prometheus system using annotations in the pods. 
+The following is an example of the Prometheus related configuration specified in the `todo-list` application pod:
 
 `kubectl describe pod tododomain-adminserver -n todo-list`
 
@@ -29,49 +29,49 @@ Annotations:  prometheus.io/path: /wls-exporter/metrics
 ```
 
 To look directly at the metrics that are being made available by the metric source, map the port and then access the path.
-For example, for the above metric source:
+For example, for the previous metric source:
 
 `kubectl port-forward tododomain-adminserver 7001:7001 -n todo-list`
 
 `curl - u USERNAME:PASSWORD localhost:7001/wls-exporter/metrics`
 
-### Metrics Scraper
+### Metrics scraper
 
-- single pod per cluster
-- named `prometheus-*` in `istio-system` namespace
-- discovers exposed metrics endpoints
-- stores the scraped metrics in memory
+- Single pod per cluster
+- Named `prometheus-*` in `istio-system` namespace
+- Discovers exposed metrics endpoints
+- Stores the scraped metrics in memory
 
-### Metrics Pusher
+### Metrics pusher
 
-- single pod per cluster
-- named `prom-pusher-system-*` in `monitoring` namespace
-- pulls metrics from the Metrics Scraper
-- pushes metrics to the Metrics Gateway
+- Single pod per cluster
+- Named `prom-pusher-system-*` in `monitoring` namespace
+- Pulls metrics from the Metrics Scraper
+- Pushes metrics to the Metrics Gateway
 
-### Metrics Gateway
+### Metrics gateway
 
-- single pod per cluster
-- named `vmi-system-prometheus-gw-*` in `verrazzano-system` namespace
+- Single pod per cluster
+- Named `vmi-system-prometheus-gw-*` in `verrazzano-system` namespace
 
-### Metrics Server
+### Metrics server
 
-- single pod per cluster
-- named `vmi-system-prometheus-*` in `verrazzano-system` namespace
-- pulls metrics from the Metrics Gateway
-- responsible for exposing all metrics
+- Single pod per cluster
+- Named `vmi-system-prometheus-*` in `verrazzano-system` namespace
+- Pulls metrics from the Metrics Gateway
+- Responsible for exposing all metrics
 
 ## Grafana
 
-Grafana provides visualizations for your Prometheus metric data.
+Grafana provides visualization for your Prometheus metric data.
 
-- single pod per cluster
-- named `vmi-system-grafana-*` in `verrazzano-system` namespace
-- provides dashboards for metrics visualization
+- Single pod per cluster
+- Named `vmi-system-grafana-*` in `verrazzano-system` namespace
+- Provides dashboards for metrics visualization
 
 To access Grafana
 
-- get the hostname from the Grafana ingress
+- Get the hostname from the Grafana ingress
 
 `kubectl get ingress vmi-system-grafana -n verrazzano-system`
 
@@ -80,11 +80,11 @@ NAME                 CLASS    HOSTS                                             
 vmi-system-grafana   <none>   grafana.vmi.system.default.152.70.134.91.nip.io   152.70.134.91   80, 443   26h
 ```
 
-- get the password for the user `verrazzano`
+- Get the password for the user `verrazzano`
 
 `kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo`
-- access Grafana in a browser using the above hostname 
-- login using the `verrazzano` user and the above password
+- Access Grafana in a browser using the above hostname 
+- Log in using the `verrazzano` user and the above password
 
 ![Grafana](../../images/grafana-initial-page.png)
 
