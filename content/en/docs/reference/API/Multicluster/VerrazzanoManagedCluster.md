@@ -14,7 +14,7 @@ metadata:
   namespace: verrazzano-mc
 spec:
   description: "Managed Cluster 1"
-  prometheusSecret: prometheus-managed1
+  caSecret: ca-secret-managed1
 ```
 
 #### VerrazzanoManagedCluster
@@ -33,7 +33,7 @@ VerrazzanoManagedClusterSpec specifies a managed cluster to associate with an ad
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `description` | string | The description of the managed cluster. | No |
-| `prometheusSecret` | string | The name of a Secret that is used to configure the admin cluster to scrape metrics from the Prometheus endpoint on the managed cluster. See the [instructions](#instructions-to-create-prometheussecret) for how to create this Secret.| Yes |
+| `caSecret` | string | The name of a Secret that contains the CA certificate of managed cluster. This is used to configure the admin cluster to scrape metrics from the Prometheus endpoint on the managed cluster. See the [instructions](#instructions-to-create-casecret) for how to create this Secret.| Yes |
 | `serviceAccount` | string | The name of the ServiceAccount that was generated for the managed cluster. This field is managed by a Verrazzano Kubernetes operator. | No |
 | `managedClusterManifestSecret` | string | The name of the Secret containing generated YAML manifest file to be applied by the user to the managed cluster. This field is managed by a Verrazzano Kubernetes operator. | No |
 
@@ -55,15 +55,19 @@ Condition describes current state of this resource.
 | `lastTransitionTime` | string | The last time the condition transitioned from one status to another. | No |
 | `message` | string | A message with details about the last transition. | No |
 
-#### Instructions to create prometheusSecret
-Instructions to create the Secret that is referenced in the field `prometheusSecret`.
+#### Instructions to create caSecret
+Instructions to create the Secret that is referenced in the field `caSecret`.
 ```
 $ CLUSTER_NAME=managed2
-$ echo "prometheus:" > ${CLUSTER_NAME}.yaml
-$ echo "  host: $(kubectl get ing vmi-system-prometheus -n verrazzano-system -o jsonpath='{.spec.tls[0].hosts[0]}')" >> ${CLUSTER_NAME}.yaml
-$ CA_CERT=$(kubectl -n verrazzano-system get secret system-tls -o json | jq -r '.data."ca.crt"' | base64 --decode)
-$ echo "  cacrt: |" >> ${CLUSTER_NAME}.yaml
-$ echo -e "$CA_CERT" | sed 's/^/    /' >> ${CLUSTER_NAME}.yaml
-$ kubectl create secret generic prometheus-${CLUSTER_NAME} -n verrazzano-mc --from-file=${CLUSTER_NAME}.yaml
+$ CA_SECRET_FILE=${CLUSTER_NAME}.yaml
+$ TLS_SECRET=$(kubectl -n verrazzano-system get secret system-tls -o json | jq -r '.data."ca.crt"')
+$ if [ ! -z "${TLS_SECRET%%*( )}" ] && [ "null" != "${TLS_SECRET}" ] ; then \
+    CA_CERT=$(kubectl -n verrazzano-system get secret system-tls -o json | jq -r '.data."ca.crt"' | base64 --decode); \
+  fi
+$ if [ ! -z "${CA_CERT}" ] ; then \
+    kubectl create secret generic "ca-secret-${CLUSTER_NAM}E" -n verrazzano-mc --from-literal=cacrt="$CA_CERT" --dry-run=client -o yaml > ${CA_SECRET_FILE}; \
+  fi
+$ # Create the secret on admin cluster using this file  
+$ kubectl apply -f ${CLUSTER_NAME}.yaml
 ```
 
