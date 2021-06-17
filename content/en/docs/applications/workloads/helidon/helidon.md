@@ -78,10 +78,10 @@ spec:
               ...
 ```
 
-[Application Development Guide](content/en/docs/guides/application-deployment-guide.md) describes end-to-end steps for
+[Application Development Guide](content/en/docs/samples/application-deployment-guide.md) describes end-to-end steps for
 developing and deploying Verrazzano Helidon Application.
 
-For more Verrazzano Helidon Application development examples, please refer to [examples](content/en/docs/examples) section.
+For more Verrazzano Helidon Application development examples, please refer to [examples](content/en/docs/samples) section.
 
 ### Provisioning
 
@@ -146,5 +146,5 @@ Verrazzano allows user to configure traffic routing to Containerized Helidon app
 
 ### Troubleshooting
 Whenever you have a problem with your Verrazzano Helidon Application, there are some basic techniques you 
-can use to troubleshoot. [Troubleshooting Guide](content/en/docs/releasenotes/Troubleshooting.md) shows you some simple 
+can use to troubleshoot. [Troubleshooting Guide](content/en/docs/troubleshooting/Troubleshooting.md) shows you some simple 
 things to try when troubleshooting, as well as how to solve common problems you may encounter.
