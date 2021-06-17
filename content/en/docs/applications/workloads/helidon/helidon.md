@@ -120,7 +120,14 @@ configuration shows the `replicaCount` field that specifies the number of replic
 ...
 ```
 
-Verrazzano will modify the `Deployment` resource `replicas` field and the Containerized Helidon application replicas will be scaled accordingly.
+Verrazzano will modify the `Deployment` resource `replicas` field and the Containerized Helidon application replicas will 
+be scaled accordingly.
+
+{{< alert title="NOTE" color="warning" >}}
+Make sure the `replicas` defined on `VerrazzanoHelidonWorkload` component and that `replicaCount` defined on `ManualScalerTrait` 
+for that component matches, else `DeploymentController` in Kubernetes and OAM runtime in `verrazzano-application-operator` 
+will compete to create different number of Pods for same Containerized Helidon application.
+{{< /alert >}}
 
 ### Logging
 
