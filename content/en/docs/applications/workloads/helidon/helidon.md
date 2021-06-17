@@ -1,5 +1,5 @@
 ---
-title: Helidon workloads
+title: "Helidon Workload"
 description: Developing Helidon applications on Verrazzano
 linkTitle: "Helidon"
 Weight: 4
