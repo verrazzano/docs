@@ -1,7 +1,7 @@
 ---
-title: Operations
+title: Access Verrazzano
 description: "Information and tools to support operating Verrazzano"
-weight: 3
+weight: 5
 draft: false
 ---
 ### Get the consoles URLs
@@ -64,7 +64,7 @@ To get the password:
 #### Change the Verrazzano password
 
  To change the Verrazzano password, first change the user password in Keycloak and then update the Verrazzano secret.
- 
+
 **Change the user in Keycloak**
 1. Navigate to the Keycloak admin console. Obtaining the Keycloak admin console URL is described [here](#get-the-consoles-urls). Obtaining the Keycloak admin console credentials is described [here](#the-keycloak-admin-console).
 2. In the left pane, under `Manage`, select `Users`.

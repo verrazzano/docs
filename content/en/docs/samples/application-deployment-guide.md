@@ -2,7 +2,7 @@
 title: "Application Deployment Guide"
 linkTitle: "Application Deployment"
 description: "A guide for deploying an example application on Verrazzano"
-weight: 4
+weight: 1
 draft: false
 ---
 

@@ -1,9 +1,9 @@
 ---
-title: Troubleshooting
-weight: 7
+title: Known Issues
+weight: 1
 draft: false
 ---
-### Known Issues
+
 
 #### OKE Missing Security List Ingress Rules
 
