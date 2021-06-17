@@ -5,7 +5,7 @@ It uses OAM resources to define the application deployment in a multicluster env
 
 ## Before you begin
 
-* Set up a multicluster Verrazzano environment following the [installation instructions]({{< relref "/docs/userguide/install/multicluster/_index.md" >}}).
+* Set up a multicluster Verrazzano environment following the [installation instructions]({{< relref "/docs/install/multicluster/_index.md" >}}).
 * The example assumes that there is a managed cluster named `managed1` associated with the multicluster environment.
 If your environment does not have a cluster of that name, then you should edit the deployment files and change the cluster name
 listed in the `placement` section.

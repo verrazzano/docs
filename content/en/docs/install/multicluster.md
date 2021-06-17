@@ -36,7 +36,7 @@ Install Verrazzano on each Kubernetes cluster.
   when registering the managed cluster.
 
 For detailed instructions on how to install Verrazzano on a Kubernetes cluster using a specific profile, see the
-[Installation Guide]({{< relref "/docs/userguide/install/installation.md" >}}).
+[Installation Guide]({{< relref "/docs/install/installation.md" >}}).
 
 ### Register the managed cluster with the admin cluster
 

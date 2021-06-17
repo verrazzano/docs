@@ -1,7 +1,7 @@
 ---
 title: Access Verrazzano
 description: "Information and tools to support operating Verrazzano"
-weight: 3
+weight: 5
 draft: false
 ---
 ### Get the consoles URLs

@@ -1,6 +1,6 @@
 ---
 title: "Monitoring"
 description: "View monitoring and diagnostic metrics"
-weight: 7
+weight: 9
 draft: false
 ---

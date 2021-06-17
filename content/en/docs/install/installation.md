@@ -31,15 +31,15 @@ Verrazzano has been tested _only_ on the following versions of Kubernetes: 1.17.
 
 Before installing Verrazzano, see instructions on preparing the following Kubernetes platforms:
 
-* [OCI Container Engine for Kubernetes]({{< relref "/docs/userguide/setup/platforms/oci/oci.md" >}})
+* [OCI Container Engine for Kubernetes]({{< relref "/docs/setup/platforms/oci/oci.md" >}})
 
-* [OLCNE]({{< relref "/docs/userguide/setup/platforms/olcne/olcne.md" >}})
+* [OLCNE]({{< relref "/docs/setup/platforms/olcne/olcne.md" >}})
 
-* [KIND]({{< relref "/docs/userguide/setup/platforms/kind/kind.md" >}})
+* [KIND]({{< relref "/docs/setup/platforms/kind/kind.md" >}})
 
-* [minikube]({{< relref "/docs/userguide/setup/platforms/minikube/minikube.md" >}})
+* [minikube]({{< relref "/docs/setup/platforms/minikube/minikube.md" >}})
 
-* [Generic Kubernetes]({{< relref "/docs/userguide/setup/platforms/generic/generic.md" >}})
+* [Generic Kubernetes]({{< relref "/docs/setup/platforms/generic/generic.md" >}})
 
 **NOTE**: Verrazzano can create network policies that can be used to limit the ports and protocols that pods use for network communication. Network policies provide additional security but they are enforced only if you install a Kubernetes Container Network Interface (CNI) plug-in that enforces them, such as Calico. For instructions on how to install a CNI plug-in, see the documentation for your Kubernetes cluster.
 
@@ -226,7 +226,7 @@ weblogic-operator-7db5cdcf59-qxsr9                       1/1     Running   0    
 #### (Optional) Run the example applications
 Example applications are located [here]({{< relref "/docs/samples/_index.md" >}}).
 
-##### To get the consoles URLs and credentials, see [Operations]({{< relref "/docs/userguide/operations/_index.md" >}}).
+##### To get the consoles URLs and credentials, see [Operations]({{< relref "/docs/operations/_index.md" >}}).
 
 ### Uninstall Verrazzano
 
