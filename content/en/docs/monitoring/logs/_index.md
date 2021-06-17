@@ -27,8 +27,8 @@ For example, in a WebLogic deployment, `AdminServer.log` is consumed, translated
 $ kubectl logs tododomain-adminserver -n todo-list -c fluentd-stdout-sidecar
 ```
 
-### Fluentd daemonset
-Verrazzano deploys a Fluentd daemonset which runs one Fluentd replica per node in the `verrazzano-system` namespace.
+### Fluentd DaemonSet
+Verrazzano deploys a Fluentd DaemonSet which runs one Fluentd replica per node in the `verrazzano-system` namespace.
 Each instance pulls logs from the node's `/var/log/containers` directory and writes them to the target Elasticsearch index.  The index name is based on the namespace associated with the record, using this format: `verrazzano-namespace-<record namespace>`.
 
 For example, `vmi-system-kibana` logs written to `/var/log/containers` will be pulled by Fluentd and written to Elasticsearch.  The index used is named `verrazzano-namespace-verrazzano-system` because the VMI runs in the `verrazzano-system` namespace.

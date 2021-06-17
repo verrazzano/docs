@@ -2,8 +2,8 @@
 title: "Upgrade Guide"
 linkTitle: "Upgrade"
 description: "How to upgrade Verrazzano"
-weight: 8
-draft: true
+weight: 3
+draft: false
 ---
 
 A Verrazzano installation consists of a stack of components, such as cert-manager, where each component has a
