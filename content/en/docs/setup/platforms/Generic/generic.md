@@ -8,32 +8,31 @@ draft: false
 
 ### Prepare for the generic install
 
-To use a generic Kubernetes implementation, there are two main areas you can configure: ingress and storage.
+If your generic Kubernetes implementation provides a load balancer implementation, you can use a default configuration of the
+Verrazzano custom resource with no customizations, and follow the [Installation Guide]({{< relref "/docs/setup/install/installation.md#install-the-verrazzano-platform-operator" >}}).
+
+Otherwise, you can install a load balancer such as [MetalLB](https://metallb.universe.tf/). The platform set up page for
+KIND clusters has more details on setting up MetalLB [here]({{< relref "/docs/setup/platforms/kind/kind.md#install-and-configure-metallb" >}}).
+
+#### Customizations
+If your Kubernetes implementation requires custom configuration, there are two main areas you can configure: ingress and storage.
 
 {{< tabs tabTotal="3" tabID="3" tabName1="Ingress" tabName2="Storage" >}}
 {{< tab tabNum="1" >}}
 <br>
 
-You can achieve ingress configuration using Helm overrides.  For example, to use the `nginx-controller` for ingress on KIND, apply the following customization to the Verrazzano CRD.
+You can achieve ingress configuration using Helm overrides.  For example, to override the configuration of the
+`nginx-controller`,  apply the following customization to the Verrazzano CRD.
 
 ```shell
 spec:
  components:
   ingress:
    nginxInstallArgs:
-   - name: controller.kind
-     value: DaemonSet
-   - name: controller.hostPort.enabled
-     value: "true"
-   - name: controller.nodeSelector.ingress-ready
-     value: "true"
+   # nginx Helm overrides can be specified here
+   - name: <name of the nginx Helm override e.g. controller.nodeSelector.ingress-ready>
+     value: <value of the nginx Helm override e.g. "true">
      setString: true
-   - name: controller.tolerations[0].key
-     value: node-role.kubernetes.io/master
-   - name: controller.tolerations[0].operator
-     value: Equal
-   - name: controller.tolerations[0].effect
-     value: NoSchedule
 ```
 
 {{< /tab >}}
