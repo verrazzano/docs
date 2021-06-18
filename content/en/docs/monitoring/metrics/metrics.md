@@ -18,7 +18,8 @@ visualize your metrics.
 ### Metrics sources
 
 Metrics sources produce metrics and expose them to the Kubernetes Prometheus system using annotations in the pods. 
-The following is an example of the Prometheus related configuration specified in the `todo-list` application pod:
+The metrics annotations may differ slightly depending on the resource type. 
+The following is an example of the WebLogic Prometheus related configuration specified in the `todo-list` application pod:
 
 `kubectl describe pod tododomain-adminserver -n todo-list`
 
@@ -28,12 +29,31 @@ Annotations:  prometheus.io/path: /wls-exporter/metrics
               prometheus.io/scrape: true
 ```
 
-To look directly at the metrics that are being made available by the metric source, map the port and then access the path.
+For other resource types such as Coherence or Helidon, the annotations would look similar to this:
+
+```
+Annotations:  verrazzano.io/metricsEnabled: true
+              verrazzano.io/metricsPath: /metrics
+              verrazzano.io/metricsPort: 8080
+```
+
+To look directly at the metrics that are being made available by the metric source map the port and then access the path.
 For example, for the previous metric source:
+
+- Map the port being used to expose the metrics
 
 `kubectl port-forward tododomain-adminserver 7001:7001 -n todo-list`
 
-`curl - u USERNAME:PASSWORD localhost:7001/wls-exporter/metrics`
+- Get the username and password used to access the metrics source from the corresponding secret
+
+```
+get secret --namespace todo-list tododomain-weblogic-credentials  -o jsonpath={.data.username} | base64 --decode; echo
+get secret --namespace todo-list tododomain-weblogic-credentials  -o jsonpath={.data.password} | base64 --decode; echo
+```
+
+- Access the metrics at the exported path using the username and password retrieved in the previous step
+
+`curl -u USERNAME:PASSWORD localhost:7001/wls-exporter/metrics`
 
 ### Metrics scraper
 
@@ -76,8 +96,8 @@ To access Grafana
 `kubectl get ingress vmi-system-grafana -n verrazzano-system`
 
 ```
-NAME                 CLASS    HOSTS                                             ADDRESS         PORTS     AGE
-vmi-system-grafana   <none>   grafana.vmi.system.default.152.70.134.91.nip.io   152.70.134.91   80, 443   26h
+NAME                 CLASS    HOSTS                                              ADDRESS          PORTS     AGE
+vmi-system-grafana   <none>   grafana.vmi.system.default.123.456.789.10.nip.io   123.456.789.10   80, 443   26h
 ```
 
 - Get the password for the user `verrazzano`
