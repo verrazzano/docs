@@ -5,7 +5,7 @@ weight: 6
 draft: true
 ---
 ## Overview
-Verrazzano utilizes The OAM specification to provide a layered approach to describing and deploying applications.
+Verrazzano uses the OAM specification to provide a layered approach to describing and deploying applications.
 The [Open Application Model](https://oam.dev/) (OAM) is a specification developed within the [Cloud Native Computing Foundation](https://www.cncf.io/) (CNCF).
 Verrazzano is compliant with the [OAM specification version 0.2.1](https://github.com/oam-dev/spec/tree/v0.2.1).
 
@@ -23,10 +23,10 @@ These definitions can be referenced by components and application configurations
 ## ApplicationConfigurations
 An `ApplicationConfiguration` is a collection of references to `Components`.
 A set of `Traits` and `Scopes` can be applied to each `Component` reference.
-The platform uses these `Components`, `Traits` and `Scopes` to generate the final application
+The platform uses these `Components`, `Traits`, and `Scopes` to generate the final application
 resources during deployment.
 
-The sample below show the high level structure of an `ApplicationConfiguration`.
+The following sample shows the high level structure of an `ApplicationConfiguration`.
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
 kind: ApplicationConfiguration
@@ -47,13 +47,13 @@ A `Component` wraps the content of a workload.
 The platform extracts the workload during deployment and creates new resources that result from the application of `Traits` and `Scopes`. 
 Verrazzano and the OAM specification provide several workloads, for example `VerrazzanoHelidonWorkload` and `ContainerizedWorkload`.
 The workloads can also be any Kubernetes resource.
-For some Kubernetes resource the `oam-kubernetes-runtime` operator may need to be granted additional permission. 
+For some Kubernetes resources, the `oam-kubernetes-runtime` operator may need to be granted additional permission. 
 
 A `Component` can also be parameterized.
 This allows for the workload content to be customized when referenced within an `ApplicationConfiguration`.
 See the [OAM specification](https://github.com/oam-dev/spec/blob/v0.2.1/4.component.md#spec) for details.
 
-The sample below shows the high level structure of a `Component`. 
+The following sample shows the high level structure of a `Component`. 
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
 kind: Component
@@ -70,7 +70,7 @@ spec:
 Verrazzano and the OAM specification provide several workloads, for example `VerrazzanoWebLogicWorkload` and `ContainerizedWorkload`.
 Workloads can also be any Kubernetes resource.
 
-The sample below shows a `VerrazzanoHelidonWorkload` workload embedded within a `Component`.
+The following sample shows a `VerrazzanoHelidonWorkload` workload embedded within a `Component`.
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
 kind: Component
@@ -90,7 +90,7 @@ spec:
 
 A workload can optionally have an associated `WorkloadDefinition`.
 This provides the platform with information about the schema of the workload.
-A `WorkloadDefintion` is typically provided by the platform not an end user.
+A `WorkloadDefintion` is typically provided by the platform, not an end user.
 
 ### Traits
 Traits customize component workloads and generate related resources during deployment.
@@ -102,7 +102,7 @@ Note that for some Kubernetes resources the oam-kubernetes-runtime operator may 
 A Kubernetes operator, for example `verrazzano-application-operator`, processes these extracted traits and may create additional related resources or may alter related workloads.
 Each trait implementation will behave differently.
 
-The sample below shows an `IngressTrait` applied to a referenced `Component`.
+The following sample shows an `IngressTrait` applied to a referenced `Component`.
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
 kind: ApplicationConfiguration
@@ -122,7 +122,7 @@ spec:
 
 Each trait type can optionally have an associated `TraitDefinition`.
 This provides the platform with additional information about the trait's schema and workloads to which the trait can be applied.
-A `TraitDefintion` is typically provided by the platform not an end user.
+A `TraitDefintion` is typically provided by the platform, not an end user.
 
 ### Scopes
 Scopes customize component workloads and generate related resources during deployment.
@@ -130,7 +130,7 @@ An `ApplicationConfiguration` contains scope references instead of the scope's c
 The platform will update the scopes with a reference to each applied component.
 This update triggers the related operator to process the scope.
 
-The sample below shows a reference to a `HealthScope` named `example-health-scope`.
+The following sample shows a reference to a `HealthScope` named `example-health-scope`.
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
 kind: ApplicationConfiguration
@@ -146,7 +146,7 @@ spec:
         ...
 ```
 
-The sample below shows the configuration details of the referenced `HealthScope`
+The following sample shows the configuration details of the referenced `HealthScope`
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
 kind: HealthScope
@@ -163,7 +163,7 @@ This provides the platform with additional information about processing the scop
 - The workload types to which the scope can be applied.
 - The field within the scope used to record related component references.
 
-A `ScopeDefintion` is typically provided by the platform not an end user.
+A `ScopeDefintion` is typically provided by the platform, not an end user.
   
 ## Verrazzano Workloads
 The Verrazzano platform provides several workload definitions and implementations.
@@ -194,11 +194,11 @@ The Verrazzano platform provides several trait definitions and implementations.
 
 ### IngressTrait
 The `IngressTrait` provides a simplified integration with the Istio ingress gateway included in the Verrazzano platform.
-The `verrazzano-application-operator` processes each `IngressTrait` and generates related `Gateway`, `VirtualService` and `Certificate` resources when processed.
+The `verrazzano-application-operator` processes each `IngressTrait` and generates related `Gateway`, `VirtualService`, and `Certificate` resources when processed.
 The `Certificate` is created in the `istio-system` namespace.
 The values used to create are either explicitly provided in the trait or are derived from the environment or associated component.
 
-The example below shows an `IngressTrait` that results in ingress to for the path `/greet`.
+The following sample shows an `IngressTrait` that results in ingress to for the path `/greet`.
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
 kind: ApplicationConfiguration
@@ -221,10 +221,10 @@ See the [API documentation](https://verrazzano.io/docs/reference/api/oam/ingress
 The `MetricsTrait` provides a simplified integration with the Prometheus service included in the Verrazzano platform.
 The `verrazzano-application-operator` processes each `MetricsTrait` and does two things.
 1. Updates the workload's annotations to provide metrics source information.
-2. Updates the Prometheus' metrics scrape config with metrics scrape targets.
+2. Updates the Prometheus' metrics scrape configuration with metrics scrape targets.
 The Verrazzano platform will automatically apply a `MetricsTrait` to every component with a supported workload.
 
-The example below shows the a `MetricsTrait` that was automatically applied.
+The following sample shows the a `MetricsTrait` that was automatically applied.
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
 kind: ApplicationConfiguration
@@ -246,7 +246,7 @@ In this case other existing Kubernetes resources can also be used.
 The todo-list example takes advantage of this capability in several Components to support unique Service and ConfigMap requirements. 
 
 Most Kubernetes resources can be embedded as a workload within a `Component`.
-The example below shows how a Deployment can be embedded as a workload within a `Component`.
+The following sample shows how a Deployment can be embedded as a workload within a `Component`.
 The `oam-kubernetes-runtime` operator will process the `Component` and extract the `Deployment` to a separate resource during deployment.
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
@@ -265,9 +265,9 @@ spec:
 ```
 
 Most Kubernetes resources can also be embedded as a trait within an `ApplicationConfiguration`.
-The example below shows how an `Ingress` can be embedded as a trait within an `ApplicationConfiguration`.
+The following sample shows how an `Ingress` can be embedded as a trait within an `ApplicationConfiguration`.
 The `oam-kubernetes-runtime` operator will process the `ApplicationConfiguration` and extract the `Ingress` to a separate resource during deployment.
-Note that the `Ingress` in the example below is the Kubernetes `Ingress` not the `IngressTrait` provided by Verrazzano.
+Note that the `Ingress` in the following sample is the Kubernetes `Ingress` not the `IngressTrait` provided by Verrazzano.
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
 kind: ApplicationConfiguration
@@ -286,9 +286,9 @@ spec:
 ```
 
 The `oam-kubernetes-runtime` operator has a limited set of privileges by default.
-Your cluster admin may need to grant the `oam-kubernetes-runtime` operator additional privileges to enable the use of some Kubernetes resources as workloads or traits.
+Your cluster administrator may need to grant the `oam-kubernetes-runtime` operator additional privileges to enable the use of some Kubernetes resources as workloads or traits.
 Create additional roles and role bindings for the specific resources to be embedded as workloads or traits. 
-The `ClusterRole` and `ClusterRoleBinding` examples below show how `oam-kubernetes-runtime` could be granted privileges to manage `Ingress` resources.
+The `ClusterRole` and `ClusterRoleBinding` following examples show how `oam-kubernetes-runtime` could be granted privileges to manage `Ingress` resources.
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -352,11 +352,11 @@ The same operator contains a `MetricsTrait` controller which processes `MetricsT
 Scope controllers read scope resources updated by the `ApplicationConfiguration` controller during deployment.
 The `ApplicationConfiguration` controller updates the scope resources with references to each Component to which the scope is applied.
 
-The diagram below shows the relationships between the different resources and controllers discussed above.
+The following diagram shows the relationships between the different resources and controllers discussed above.
 ![](oam-flow.svg)
 
-The diagram below, based on the hello-helidon example, shows the processing of resources from a Kubernetes operator perspective.
+The following diagram, based on the hello-helidon example, shows the processing of resources from a Kubernetes operator perspective.
 Controllers within the `oam-kubernetes-runtime` process the `ApplicationConfiguration` and `Component` resources and generates `VerrazzanoHelidonWorkload` and `IngressTrait`. 
-Controllers within the `verrazzano-application-operator` then process the `VerrazzanoHelidonWorkload` and `IngressTrait` resources to generates `Deployment`, `VirtualService` and other resources. 
+Controllers within the `verrazzano-application-operator` then process the `VerrazzanoHelidonWorkload` and `IngressTrait` resources to generates `Deployment`, `VirtualService`, and other resources. 
 
 ![](hello-helidon.svg)
