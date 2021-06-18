@@ -128,3 +128,15 @@ The following table describes the `spec` portion of the Verrazzano custom resour
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `istioInstallArgs` | [NameValue](#name-value) list | A list of Istio Helm chart arguments and values to apply during the installation of Istio.  Each argument is specified as either a `name/value` or `name/valueList` pair. | No |
+
+### Fluentd Component
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `extraVolumeMounts` | [ExtraVolumeMount](#extra-volume-mount) list | A list of host path volume mounts in addition to `/var/log` into the Fluentd DaemonSet. Each log file in `/var/log` directory could be a symbolic link to a file outside of `/var/log`. The Fluentd DaemonSet must have the volume mount of the host path directory containing the log files to collect the logs. | No |
+
+#### Extra Volume Mount
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `source` | string | The source host path. |  Yes |
+| `destination` | string | The destination path on the Fluentd Container, defaults to the `source` host path. |  No |
+| `readOnly` | Boolean | Specifies if the volume mount is read-only, defaults to `true`. |  No |

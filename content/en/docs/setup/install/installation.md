@@ -92,6 +92,19 @@ For Verrazzano installations on the minikube platform, use only the development 
 
 For a complete description of Verrazzano configuration options, see the [Verrazzano Custom Resource Definition]({{< relref "/docs/reference/api/verrazzano/verrazzano.md" >}}).
 
+The Fluentd component collects log files in `/var/log` directory of Kubernetes worker nodes. `/var/log` directory may contain symbolic links to files located outside `/var/log` directory, for example: `/u01/data`. You will need to configure Fluentd component with `extraVolumeMounts` in Verrazzano custom resource as:
+```
+apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: my-verrazzano
+spec:
+  components:
+    fluentd:
+      extraVolumeMounts:
+        - source: /u01/data
+```
+
 According to your DNS choice, [nip.io](https://nip.io/) (wildcard DNS) or
 [Oracle OCI DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm),
 install Verrazzano using one of the following methods:
