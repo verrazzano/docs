@@ -14,7 +14,7 @@ draft: false
 
 ## Prerequisites
 
-Before you begin, read this document, [Verrazzano in a multicluster environment]({{< relref "../..//concepts/VerrazzanoMultiCluster.md" >}}).
+Before you begin, read this document, [Verrazzano in a multicluster environment]({{< relref "../../concepts/VerrazzanoMultiCluster.md" >}}).
 
 ## Set up a multicluster Verrazzano environment
 
