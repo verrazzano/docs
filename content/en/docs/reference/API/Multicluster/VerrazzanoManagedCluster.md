@@ -33,7 +33,7 @@ VerrazzanoManagedClusterSpec specifies a managed cluster to associate with an ad
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `description` | string | The description of the managed cluster. | No |
-| `caSecret` | string | The name of a Secret that contains the CA certificate of managed cluster. This is used to configure the admin cluster to scrape metrics from the Prometheus endpoint on the managed cluster. See the [instructions](#instructions-to-create-casecret) for how to create this Secret.| Yes |
+| `caSecret` | string | The name of a Secret that contains the CA certificate of the managed cluster. This is used to configure the admin cluster to scrape metrics from the Prometheus endpoint on the managed cluster. See the steps 3 and 4 in [instructions]({{< relref "../../../setup/multicluster/multicluster/#preregistration-setup" >}}) for how to create this Secret.| Yes |
 | `serviceAccount` | string | The name of the ServiceAccount that was generated for the managed cluster. This field is managed by a Verrazzano Kubernetes operator. | No |
 | `managedClusterManifestSecret` | string | The name of the Secret containing generated YAML manifest file to be applied by the user to the managed cluster. This field is managed by a Verrazzano Kubernetes operator. | No |
 
@@ -54,20 +54,4 @@ Condition describes current state of this resource.
 | `status` | ConditionStatus | An instance of the type `ConditionStatus` that is defined in [types.go](https://github.com/kubernetes/api/blob/master/core/v1/types.go). | Yes |
 | `lastTransitionTime` | string | The last time the condition transitioned from one status to another. | No |
 | `message` | string | A message with details about the last transition. | No |
-
-#### Instructions to create caSecret
-Instructions to create the Secret that is referenced in the field `caSecret`.
-```
-$ CLUSTER_NAME=managed2
-$ CA_SECRET_FILE=${CLUSTER_NAME}.yaml
-$ TLS_SECRET=$(kubectl -n verrazzano-system get secret system-tls -o json | jq -r '.data."ca.crt"')
-$ if [ ! -z "${TLS_SECRET%%*( )}" ] && [ "null" != "${TLS_SECRET}" ] ; then \
-    CA_CERT=$(kubectl -n verrazzano-system get secret system-tls -o json | jq -r '.data."ca.crt"' | base64 --decode); \
-  fi
-$ if [ ! -z "${CA_CERT}" ] ; then \
-    kubectl create secret generic "ca-secret-${CLUSTER_NAM}E" -n verrazzano-mc --from-literal=cacrt="$CA_CERT" --dry-run=client -o yaml > ${CA_SECRET_FILE}; \
-  fi
-$ # Create the secret on admin cluster using this file  
-$ kubectl apply -f ${CLUSTER_NAME}.yaml
-```
 

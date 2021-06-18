@@ -50,7 +50,7 @@ The following sections show you how to register the managed cluster with the adm
 Before registering the managed cluster, first you'll need to set up the following items:
 - A ConfigMap containing the externally reachable address of the admin cluster. This will be provided to the managed
   cluster during registration so that it can connect to the admin cluster.
-- A Secret containing the managed cluster's CA certificate. Upon registration of managed cluster, the host address of Prometheus instance running on      managed cluster is populated as `prometheusHost` in the `Status` field of the `VerrazzanoManagedCluster` resource created in the admin cluster. This CA certificate and the value of  `prometheusHost` is used by the admin cluster to scrape metrics from the managed cluster, for both applications and Verrazzano components.
+- A Secret containing the managed cluster's CA certificate. Upon registration of the managed cluster, the host address of the Prometheus instance running on  the managed cluster is populated as `prometheusHost` in the `Status` field of the `VerrazzanoManagedCluster` resource created in the admin cluster. This CA certificate and the value of  `prometheusHost` is used by the admin cluster to scrape metrics from the managed cluster, for both applications and Verrazzano components.
 
 Follow these preregistration setup steps:
 
@@ -66,7 +66,7 @@ Follow these preregistration setup steps:
     $ ADMIN_K8S_SERVER_ADDRESS="$(kubectl --context admin-server-context-name config view --minify | grep server | cut -f2- -d: | tr -d ' ')"
     ```
 
-2. Create a ConfigMap that contains the Kubernetes server address for the admin cluster.
+1. Create a ConfigMap that contains the Kubernetes server address for the admin cluster.
     ```
     $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f <<EOF -
     apiVersion: v1
@@ -78,8 +78,8 @@ Follow these preregistration setup steps:
       server: "${ADMIN_K8S_SERVER_ADDRESS}"
     EOF
     ```
-
-3. Obtain the credentials for scraping metrics from the managed cluster.  Use the following instructions to write the credentials to a file named `managed1.yaml` in the current folder.
+    
+1. Obtain the CA certificate used by the managed cluster.  Use the following instructions to write the CA certificate as part of a secret to a file named `managed1.yaml` in the current folder.
    ```
    $ export KUBECONFIG=$KUBECONFIG_MANAGED1
    $ CA_SECRET_FILE=managed1.yaml
@@ -92,7 +92,7 @@ Follow these preregistration setup steps:
      fi
    ```
 
-4. Create a Secret on the admin cluster that contains the credentials for scraping metrics from the managed cluster.
+1. Create a Secret on the admin cluster that contains the CA certificate for the managed cluster. This secret will be used for scraping metrics from the managed cluster.
    The file `managed1.yaml` that was created in the previous step provides input to this step.
    ```
    $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f managed1.yaml
