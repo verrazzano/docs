@@ -18,7 +18,7 @@ Verrazzano requires the following:
   of Verrazzano.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient for deploying your
   applications.
 
-For a list of the open source components and versions installed with Verrazzano, see [Software Versions]({{< relref "/docs/setup/versions/versions.md" >}}).
+For a list of the open source components and versions installed with Verrazzano, see [Software Versions]({{< relref "/docs/reference/versions.md" >}}).
 
 {{< alert title="NOTE" color="warning" >}}
 Verrazzano has been tested _only_ on the following versions of Kubernetes: 1.17.x, 1.18.x, 1.19.x, and 1.20x.  Other versions have not been tested and are not guaranteed to work.
@@ -109,7 +109,7 @@ To install Verrazzano:
 
 ### Deploy an example application
 
-The [Hello World Helidon]({{< relref "/docs/examples/hello-helidon/_index.md" >}})
+The [Hello World Helidon]({{< relref "/docs/samples/hello-helidon/_index.md" >}})
 example application provides a simple *Hello World* REST service written with [Helidon](https://helidon.io).
 For more information and the code of this application, see the [Verrazzano Examples](https://github.com/verrazzano/examples).
 
@@ -208,4 +208,4 @@ To uninstall Verrazzano:
     ```
 ### Next steps
 
-See the [Verrazzano Example Applications]({{< relref "/docs/examples/_index.md" >}}).
+See the [Verrazzano Example Applications]({{< relref "/docs/samples/_index.md" >}}).

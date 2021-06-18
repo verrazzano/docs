@@ -1,8 +1,7 @@
 ---
-title: "Multicluster Verrazzano Setup"
-linkTitle: Multicluster Setup
+title: "Install Multicluster Verrazzano"
 description: "How to set up a multicluster Verrazzano environment"
-weight: 6
+weight: 2
 draft: false
 ---
 
@@ -129,7 +128,7 @@ Follow these preregistration setup steps:
 
 ## Run applications in multicluster Verrazzano
 
-The Verrazzano multicluster setup is now complete and you can deploy applications by following the [Multicluster Hello World Helidon]({{< relref "/docs/examples/multicluster/hello-helidon/_index.md" >}}) example application.
+The Verrazzano multicluster setup is now complete and you can deploy applications by following the [Multicluster Hello World Helidon]({{< relref "/docs/samples/multicluster/hello-helidon/_index.md" >}}) example application.
 
 ## Use the admin cluster user interface (UI)
 

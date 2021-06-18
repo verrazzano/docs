@@ -4,7 +4,7 @@ The Hello World Helidon example is a Helidon-based service that returns a "Hello
 
 ## Before you begin
 
-Create a multicluster Verrazzano installation with one admin and one managed cluster, and register the managed cluster, by following the instructions [here]({{< relref "/docs/setup/multicluster/multicluster.md" >}}).
+Create a multicluster Verrazzano installation with one admin and one managed cluster, and register the managed cluster, by following the instructions [here]({{< relref "/docs/setup/install/multicluster/_index.md" >}}).
 
 **NOTE:**  The Hello World Helidon application deployment files are contained in the Verrazzano project located at
 `<VERRAZZANO_HOME>/examples/multicluster/hello-helidon`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
@@ -34,11 +34,11 @@ Apply the `VerrazzanoProject` resource on the admin cluster that defines the nam
 
 ## Explore the example application
 
-Follow the instructions for [exploring]({{< relref "/docs/examples/hello-helidon/#explore-the-application" >}}) the Hello World Helidon application in a single cluster use case. Use the managed cluster `kubeconfig` for testing the example application.
+Follow the instructions for [exploring]({{< relref "/docs/samples/hello-helidon/#explore-the-application" >}}) the Hello World Helidon application in a single cluster use case. Use the managed cluster `kubeconfig` for testing the example application.
 
 ## Troubleshooting
 
-Follow the instructions for [troubleshooting]({{< relref "/docs/examples/hello-helidon/#troubleshooting" >}}) the Hello World Helidon application in a single cluster use case. Use the managed cluster `kubeconfig` for troubleshooting the example application.
+Follow the instructions for [troubleshooting]({{< relref "/docs/samples/hello-helidon/#troubleshooting" >}}) the Hello World Helidon application in a single cluster use case. Use the managed cluster `kubeconfig` for troubleshooting the example application.
 
 1. Verify that the application namespace exists on the managed cluster.
    ```shell

@@ -24,7 +24,7 @@ This is a developer preview release of Verrazzano. You should install Verrazzano
 in a Kubernetes cluster that can be safely deleted when your evaluation is complete.
 {{< /alert >}}
 
-Select [Quick Start]({{< relref "/docs/setup/quickstart.md" >}}) to get started.
+Select [Quick Start]({{< relref "/docs/quickstart/_index.md" >}}) to get started.
 
 Verrazzano [release versions](https://github.com/verrazzano/verrazzano/releases/) and source code are available at [https://github.com/verrazzano/verrazzano](https://github.com/verrazzano/verrazzano).
 This repository contains a Kubernetes operator for installing Verrazzano and example applications for use with Verrazzano.

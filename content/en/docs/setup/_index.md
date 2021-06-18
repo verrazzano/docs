@@ -1,6 +1,6 @@
 ---
 title: "Setup"
 description: "Supported Kubernetes platforms and installation guide for Verrazzano"
-weight: 2
+weight: 3
 draft: false
 ---

@@ -1,87 +1,95 @@
-# ToDo List
-
-ToDo List is an example application containing a WebLogic component.
-For more information and the source code of this application, see the [Verrazzano Examples](https://github.com/verrazzano/examples).
+---
+title: "ToDo List"
+weight: 6
+description: "An example application containing a WebLogic component"
+---
 
 ## Before you begin
 
-* Set up a multicluster Verrazzano environment following the [installation instructions](https://verrazzano.io/docs/setup/multicluster/multicluster/).
-* The example assumes that there is a managed cluster named `managed1` associated with the multicluster environment.
-If your environment does not have a cluster of that name, then you should edit the deployment files and change the cluster name
-listed in the `placement` section.
-* To download the example application image, you must first accept the license agreement.
+* Install Verrazzano by following the [installation]({{< relref "/docs/setup/install/installation.md" >}}) instructions.
+* To download the example image, you must first accept the license agreement.
   * In a browser, navigate to https://container-registry.oracle.com/ and sign in.
   * Search for `example-todo` and select the image name in the results.
   * Click Continue, then read and accept the license agreement.
 
-**NOTE:** The ToDo List application deployment files are contained in the Verrazzano project located at
+**NOTE:** The ToDo List example application deployment files are contained in the Verrazzano project located at
 `<VERRAZZANO_HOME>/examples/todo-list`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
 
-**All files and paths in this document are relative to
-`<VERRAZZANO_HOME>/examples/todo-list`.
+All files and paths in this document are relative to `<VERRAZZANO_HOME>/examples/todo-list`.
 
-## Deploy the example application
+## Deploy the ToDo List application
 
-1. Create a namespace for the multicluster ToDo List example by applying the Verrazzano project file.
+ToDo List is an example application containing a WebLogic component.
+For more information and the source code of this application, see the [Verrazzano Examples](https://github.com/verrazzano/examples).
+
+1. Create a namespace for the ToDo List example and add a label identifying the namespace as managed by Verrazzano.
    ```
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f verrazzano-project.yaml
+   $ kubectl create namespace todo-list
+   $ kubectl label namespace todo-list verrazzano-managed=true istio-injection=enabled
    ```
 
-1. Log in to the `container-registry.oracle.com` Docker registry in which the Todo List application image is deployed.  You
-will need the updated Docker `config.json`, containing your authentication token, for the next step.
+1. Create a `docker-registry` secret to enable pulling the ToDo List example image from the registry.
    ```
-   $ docker login container-registry.oracle.com
+   $ kubectl create secret docker-registry tododomain-repo-credentials \
+           --docker-server=container-registry.oracle.com \
+           --docker-username=YOUR_REGISTRY_USERNAME \
+           --docker-password=YOUR_REGISTRY_PASSWORD \
+           --docker-email=YOUR_REGISTRY_EMAIL \
+           -n todo-list
    ```
-1. Update the `mc-docker-registry-secret.yaml` file with the your registry authentication info.  Edit the file and replace the
-`<BASE 64 ENCODED DOCKER CONFIG JSON>` with the value generated from the following command.
-   ```
-   $ cat ~/.docker/config.json | base64
-   ```
-1. Create a `docker-registry` secret to enable pulling the ToDo List example image from the registry by applying the
-`mc-docker-registry-secret.yaml` file.  The multicluster secret resource will generate the required secret in the `mc-todo-list`
-namespace.
-   ```
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f mc-docker-registry-secret.yaml
-   ```
-1. Create the secrets for the WebLogic domain by applying the `mc-weblogic-domain-secret.yaml` and `mc-runtime-encrypt-secret.yaml` files:
-   ```
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f mc-weblogic-domain-secret.yaml
 
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f mc-runtime-encrypt-secret.yaml
+   Replace `YOUR_REGISTRY_USERNAME`, `YOUR_REGISTRY_PASSWORD`, and `YOUR_REGISTRY_EMAIL`
+   with the values you use to access the registry.  
+
+1. Create and label secrets for the WebLogic domain:
+   ```
+   $ kubectl create secret generic tododomain-weblogic-credentials \
+     --from-literal=password=welcome1 \
+     --from-literal=username=weblogic -n todo-list
+
+   $ kubectl create secret generic tododomain-jdbc-tododb \
+     --from-literal=password=welcome1 \
+     --from-literal=username=derek -n todo-list
+
+   $ kubectl -n todo-list label secret tododomain-jdbc-tododb weblogic.domainUID=tododomain
+
+   $ kubectl create secret generic tododomain-runtime-encrypt-secret \
+     --from-literal=password=welcome1 -n todo-list
+
+   $ kubectl -n todo-list label secret tododomain-runtime-encrypt-secret weblogic.domainUID=tododomain
    ```
 
    Note that the ToDo List example application is preconfigured to use these credentials.
    If you want to use different credentials, you will need to rebuild the Docker images for the example application.
-   For the source code of this application, see the [Verrazzano examples](https://github.com/verrazzano/examples).  
+   For the source code of this application, see the [Verrazzano Examples](https://github.com/verrazzano/examples).  
 
-1. Apply the ToDo List example multicluster application resources to deploy the application.
+1. To deploy the application, apply the example resources.
    ```
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f todo-list-components.yaml
-
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f todo-list-application.yaml
+   $ kubectl apply -f .
    ```
 
-1. Wait for the ToDo List example application to be ready.
+1. Wait for the ToDo List application to be ready.
    You may need to repeat this command several times before it is successful.
    The `tododomain-adminserver` pod may take a while to be created and `Ready`.
    ```
-   $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl wait pod --for=condition=Ready tododomain-adminserver -n mc-todo-list
+   $ kubectl wait pod --for=condition=Ready tododomain-adminserver -n todo-list
    ```
+
 1. Get the generated host name for the application.
    ```
-   $ HOST=$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get gateway -n mc-todo-list -o jsonpath={.items[0].spec.servers[0].hosts[0]})
+   $ HOST=$(kubectl get gateway -n todo-list -o jsonpath={.items[0].spec.servers[0].hosts[0]})
    $ echo $HOST
-   todo-appconf.mc-todo-list.11.22.33.44.nip.io
+   todo-appconf.todo-list.11.22.33.44.nip.io
    ```
 
 1. Get the `EXTERNAL_IP` address of the `istio-ingressgateway` service.
    ```
-   $ ADDRESS=$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get service -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+   $ ADDRESS=$(kubectl get service -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
    $ echo $ADDRESS
    11.22.33.44
    ```   
 
-1. Access the ToDo List example application:
+1. Access the ToDo List application:
 
    * **Using the command line**
      ```
@@ -105,16 +113,15 @@ namespace.
        before deploying the ToDo List application.
      * Then, you can use a browser to access the application at `https://<yourhost.your.domain>/todo/`.
 
-      Accessing the application in a browser will open a page, "Derek's ToDo List",
-      with an edit field and an **Add** button that lets add tasks.
+       Accessing the application in a browser opens the page, "Derek's ToDo List",
+       with an edit field and an **Add** button that lets you add tasks.
 
-1. A variety of endpoints associated with
-   the deployed ToDo List application, are available to further explore the logs, metrics, and such.
+1. A variety of endpoints associated with the deployed ToDo List application, are available to further explore the logs, metrics, and such.
    Accessing them may require the following:
 
    * Run this command to get the password that was generated for the telemetry components:
      ```
-     $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo
+     $ kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo
      ```
      The associated user name is `verrazzano`.
 
@@ -123,7 +130,7 @@ namespace.
    You can retrieve the list of available ingresses with following command:
 
    ```
-   $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get ingress -n verrazzano-system
+   $ kubectl get ingress -n verrazzano-system
    NAME                         CLASS    HOSTS                                                     ADDRESS           PORTS     AGE
    verrazzano-ingress           <none>   verrazzano.default.140.141.142.143.nip.io                 140.141.142.143   80, 443   7d2h
    vmi-system-es-ingest         <none>   elasticsearch.vmi.system.default.140.141.142.143.nip.io   140.141.142.143   80, 443   7d2h
@@ -144,15 +151,15 @@ namespace.
 
 1. Verify that the application configuration, domain, and ingress trait all exist.
    ```
-   $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get ApplicationConfiguration -n mc-todo-list
+   $ kubectl get ApplicationConfiguration -n todo-list
    NAME           AGE
    todo-appconf   19h
 
-   $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get Domain -n mc-todo-list
+   $ kubectl get Domain -n todo-list
    NAME          AGE
    todo-domain   19h
 
-   $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get IngressTrait -n mc-todo-list
+   $ kubectl get IngressTrait -n todo-list
    NAME                           AGE
    todo-domain-trait-7cbd798c96   19h
    ```
@@ -160,7 +167,7 @@ namespace.
 1. Verify that the WebLogic Administration Server and MySQL pods have been created and are running.
    Note that this will take several minutes.
    ```
-   $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get pods -n mc-todo-list
+   $ kubectl get pods -n todo-list
 
    NAME                     READY   STATUS    RESTARTS   AGE
    mysql-5c75c8b7f-vlhck    1/1     Running   0          19h

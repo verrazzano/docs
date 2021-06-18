@@ -1,7 +1,7 @@
 ---
 title: Release Notes
 linkTitle: Release Notes
-weight: 7
+weight: 13
 draft: false
 ---
 
