@@ -184,7 +184,7 @@ The `VerrazzanoHelidonWorkload` is used for Helidon workloads.
 TODO - Details to be provided by different author.
 
 ### OAM ContainerizedWorkload
-The `ContainerizedWorkload` should be used for long-running container workloads which are not covered by the workload types above.
+The `ContainerizedWorkload` should be used for long-running container workloads which are not covered by the workload types described previously.
 This workload type is similar to the `Deployment` workload.
 It is provided to ensure that OAM can be used for non-Kubernetes deployment environments.
 See the [OAM specification](https://github.com/oam-dev/spec/blob/v0.2.1/core/workloads/containerized_workload/containerized_workload.md).
@@ -352,7 +352,7 @@ The same operator contains a `MetricsTrait` controller which processes `MetricsT
 Scope controllers read scope resources updated by the `ApplicationConfiguration` controller during deployment.
 The `ApplicationConfiguration` controller updates the scope resources with references to each Component to which the scope is applied.
 
-The following diagram shows the relationships between the different resources and controllers discussed above.
+The following diagram shows the relationships between the different resources and controllers described previously.
 ![](oam-flow.svg)
 
 The following diagram, based on the hello-helidon example, shows the processing of resources from a Kubernetes operator perspective.
