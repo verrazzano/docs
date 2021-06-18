@@ -9,14 +9,12 @@ draft: false
 - [Set up a multicluster Verrazzano environment](#set-up-a-multicluster-verrazzano-environment)
   - [Install Verrazzano](#install-verrazzano)
   - [Register the managed cluster with the admin cluster](#register-the-managed-cluster-with-the-admin-cluster)
-    - [Preregistration setup](#preregistration-setup)
-    - [Registration steps](#registration-steps)
 - [Run applications in multicluster Verrazzano](#run-applications-in-multicluster-verrazzano)
-- [Use the admin cluster user interface (UI)](#use-the-admin-cluster-user-interface-ui)
+- [Use the admin cluster UI](#use-the-admin-cluster-ui)
 
 ## Prerequisites
 
-Before you begin, read this document, [Verrazzano in a multicluster environment]({{< relref "/docs/concepts/VerrazzanoMultiCluster.md" >}}).
+Before you begin, read this document, [Verrazzano in a multicluster environment]({{< relref "../..//concepts/VerrazzanoMultiCluster.md" >}}).
 
 ## Set up a multicluster Verrazzano environment
 
@@ -44,6 +42,7 @@ For detailed instructions on how to install Verrazzano on a Kubernetes cluster u
 
 The following sections show you how to register the managed cluster with the admin cluster.
 
+<!-- omit in toc -->
 #### Preregistration setup
 
 Before registering the managed cluster, first you'll need to set up the following items:
@@ -97,6 +96,7 @@ Follow these preregistration setup steps:
    $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f managed1.yaml
    ```
 
+<!-- omit in toc -->
 #### Registration steps
 1. To begin the registration process for a managed cluster named `managed1`, apply the VerrazzanoManagedCluster object on the admin cluster.
    ```
@@ -130,7 +130,7 @@ Follow these preregistration setup steps:
 
 The Verrazzano multicluster setup is now complete and you can deploy applications by following the [Multicluster Hello World Helidon]({{< relref "/docs/samples/multicluster/hello-helidon/_index.md" >}}) example application.
 
-## Use the admin cluster user interface (UI)
+## Use the admin cluster UI
 
 The admin cluster serves as a central point from which to register and deploy applications to managed clusters.
 
