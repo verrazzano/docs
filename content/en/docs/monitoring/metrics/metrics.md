@@ -48,8 +48,8 @@ For example, for the previous metric source:
 - Get the user name and password used to access the metrics source from the corresponding secret
 
   ```
-  $ get secret --namespace todo-list tododomain-weblogic-credentials  -o jsonpath={.data.username} | base64 --decode; echo
-  $ get secret --namespace todo-list tododomain-weblogic-credentials  -o jsonpath={.data.password} | base64 --decode; echo
+  $ kubectl get secret --namespace todo-list tododomain-weblogic-credentials  -o jsonpath={.data.username} | base64 --decode; echo
+  $ kubectl get secret --namespace todo-list tododomain-weblogic-credentials  -o jsonpath={.data.password} | base64 --decode; echo
   ```
 
 - Access the metrics at the exported path, using the user name and password retrieved in the previous step
