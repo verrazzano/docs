@@ -38,7 +38,7 @@ the traits and scopes defined by Verrazzano along with core ones defined by the 
 `VerrazzanoHelidonWorkload` is modeled after [`ContainerizedWorkload`](https://github.com/oam-dev/spec/blob/v0.2.1/core/workloads/containerized_workload/containerized_workload.md),
 for example, it is used for long-running workloads in containers. However, `VerrazzanoHelidonWorkload` closely resembles and directly refers to
 Kubernetes [`Deployment`](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/deployment-v1/) schema. This
-enables easy `Lift and Shift` of existing containerized Helidon applications.
+enables an easy lift and shift of existing containerized Helidon applications.
 
 Full `VerrazzanoHelidonWorkload` API
 definition and description is available at [`VerrazzanoHelidonWorkload`](content/en/docs/reference/API/OAM/Workloads.md "VerrazzanoHelidonWorkload").
@@ -97,7 +97,7 @@ you need to manage the application configuration by modifying the `VerrazzanoHel
 either by `kubectl edit` or applying new YAML file. Verrazzano will notice that the component resource change and will update
 the `Deployment` and `Service` resource as needed.
 
-You can add a new `VerrazzanoHelidonWorkload` to a running application, or remove an existing workload, simply be modifying
+You can add a new `VerrazzanoHelidonWorkload` to a running application, or remove an existing workload, by modifying
 the ApplicationConfiguration resource and adding or removing the `VerrazzanoHelidonWorkload` component.
 
 ### Scaling
