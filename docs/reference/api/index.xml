@@ -1848,7 +1848,7 @@ metadata:
   namespace: verrazzano-mc
 spec:
   description: &amp;quot;Managed Cluster 1&amp;quot;
-  prometheusSecret: prometheus-managed1
+  caSecret: ca-secret-managed1
 &lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;verrazzanomanagedcluster&#34;&gt;VerrazzanoManagedCluster&lt;/h4&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -1911,9 +1911,9 @@ spec:
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;code&gt;prometheusSecret&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;caSecret&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;The name of a Secret that is used to configure the admin cluster to scrape metrics from the Prometheus endpoint on the managed cluster. See the &lt;a href=&#34;#instructions-to-create-prometheussecret&#34;&gt;instructions&lt;/a&gt; for how to create this Secret.&lt;/td&gt;
+&lt;td&gt;The name of a Secret that contains the CA certificate of the managed cluster. This is used to configure the admin cluster to scrape metrics from the Prometheus endpoint on the managed cluster. See the steps 3 and 4 in &lt;a href=&#34;../../../docs/setup/install/multicluster/#preregistration-setup&#34;&gt;instructions&lt;/a&gt; for how to create this Secret.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1999,16 +1999,7 @@ spec:
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;instructions-to-create-prometheussecret&#34;&gt;Instructions to create prometheusSecret&lt;/h4&gt;
-&lt;p&gt;Instructions to create the Secret that is referenced in the field &lt;code&gt;prometheusSecret&lt;/code&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ CLUSTER_NAME=managed2
-$ echo &amp;quot;prometheus:&amp;quot; &amp;gt; ${CLUSTER_NAME}.yaml
-$ echo &amp;quot;  host: $(kubectl get ing vmi-system-prometheus -n verrazzano-system -o jsonpath=&#39;{.spec.tls[0].hosts[0]}&#39;)&amp;quot; &amp;gt;&amp;gt; ${CLUSTER_NAME}.yaml
-$ CA_CERT=$(kubectl -n verrazzano-system get secret system-tls -o json | jq -r &#39;.data.&amp;quot;ca.crt&amp;quot;&#39; | base64 --decode)
-$ echo &amp;quot;  cacrt: |&amp;quot; &amp;gt;&amp;gt; ${CLUSTER_NAME}.yaml
-$ echo -e &amp;quot;$CA_CERT&amp;quot; | sed &#39;s/^/    /&#39; &amp;gt;&amp;gt; ${CLUSTER_NAME}.yaml
-$ kubectl create secret generic prometheus-${CLUSTER_NAME} -n verrazzano-mc --from-file=${CLUSTER_NAME}.yaml
-&lt;/code&gt;&lt;/pre&gt;
+
       </description>
     </item>
     

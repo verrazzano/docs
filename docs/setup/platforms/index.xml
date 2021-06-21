@@ -1038,7 +1038,12 @@ driver is acceptable; on macOS, hyperkit is recommended.&lt;/p&gt;
         
         
         &lt;h3 id=&#34;prepare-for-the-generic-install&#34;&gt;Prepare for the generic install&lt;/h3&gt;
-&lt;p&gt;To use a generic Kubernetes implementation, there are two main areas you can configure: ingress and storage.&lt;/p&gt;
+&lt;p&gt;If your generic Kubernetes implementation provides a load balancer implementation, then you can use a default configuration of the
+Verrazzano custom resource with no customizations, and follow the &lt;a href=&#34;../../../docs/setup/install/installation/#install-the-verrazzano-platform-operator&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Otherwise, you can install a load balancer, such as &lt;a href=&#34;https://metallb.universe.tf/&#34;&gt;MetalLB&lt;/a&gt;. The platform setup page for
+KIND clusters has more details on setting up MetalLB &lt;a href=&#34;../../../docs/setup/platforms/kind/kind/#install-and-configure-metallb&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;h4 id=&#34;customizations&#34;&gt;Customizations&lt;/h4&gt;
+&lt;p&gt;If your Kubernetes implementation requires custom configuration, then there are two main areas you can configure: ingress and storage.&lt;/p&gt;
 &lt;nav&gt;
 	&lt;div class=&#34;nav nav-tabs&#34; id=&#34;nav-tab&#34; role=&#34;tablist&#34;&gt;
 
@@ -1096,24 +1101,16 @@ driver is acceptable; on macOS, hyperkit is recommended.&lt;/p&gt;
 &lt;div class=&#34;tab-pane fade show active&#34; id=&#34;tab31&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName1&#34;&gt;
 
 	&lt;br&gt;
-&lt;p&gt;You can achieve ingress configuration using Helm overrides.  For example, to use the &lt;code&gt;nginx-controller&lt;/code&gt; for ingress on KIND, apply the following customization to the Verrazzano CRD.&lt;/p&gt;
+&lt;p&gt;You can achieve ingress configuration using Helm overrides.  For example, to override the configuration of the
+&lt;code&gt;nginx-controller&lt;/code&gt;,  apply the following customization to the Verrazzano CRD.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;spec:
  components:
   ingress:
    nginxInstallArgs:
-   - name: controller.kind
-     value: DaemonSet
-   - name: controller.hostPort.enabled
-     value: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt;
-   - name: controller.nodeSelector.ingress-ready
-     value: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt;
+   &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# nginx Helm overrides can be specified here&lt;/span&gt;
+   - name: &amp;lt;name of the nginx Helm override e.g. controller.nodeSelector.ingress-ready&amp;gt;
+     value: &amp;lt;value of the nginx Helm override e.g. &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt;&amp;gt;
      setString: &lt;span style=&#34;color:#204a87&#34;&gt;true&lt;/span&gt;
-   - name: controller.tolerations&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;[&lt;/span&gt;0&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;]&lt;/span&gt;.key
-     value: node-role.kubernetes.io/master
-   - name: controller.tolerations&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;[&lt;/span&gt;0&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;]&lt;/span&gt;.operator
-     value: Equal
-   - name: controller.tolerations&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;[&lt;/span&gt;0&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;]&lt;/span&gt;.effect
-     value: NoSchedule
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
