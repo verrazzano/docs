@@ -8,14 +8,14 @@ draft: false
 
 ### Prepare for the generic install
 
-If your generic Kubernetes implementation provides a load balancer implementation, you can use a default configuration of the
+If your generic Kubernetes implementation provides a load balancer implementation, then you can use a default configuration of the
 Verrazzano custom resource with no customizations, and follow the [Installation Guide]({{< relref "/docs/setup/install/installation.md#install-the-verrazzano-platform-operator" >}}).
 
-Otherwise, you can install a load balancer such as [MetalLB](https://metallb.universe.tf/). The platform set up page for
+Otherwise, you can install a load balancer, such as [MetalLB](https://metallb.universe.tf/). The platform setup page for
 KIND clusters has more details on setting up MetalLB [here]({{< relref "/docs/setup/platforms/kind/kind.md#install-and-configure-metallb" >}}).
 
 #### Customizations
-If your Kubernetes implementation requires custom configuration, there are two main areas you can configure: ingress and storage.
+If your Kubernetes implementation requires custom configuration, then there are two main areas you can configure: ingress and storage.
 
 {{< tabs tabTotal="3" tabID="3" tabName1="Ingress" tabName2="Storage" >}}
 {{< tab tabNum="1" >}}
