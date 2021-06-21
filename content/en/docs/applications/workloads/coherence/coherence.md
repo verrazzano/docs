@@ -3,18 +3,19 @@ title: "Coherence Workload"
 linkTitle: "Coherence"
 description: "Using a Coherence workload in an application"
 weight: 4
-draft: true
+draft: false
 ---
 
-## Overview
+
 A Verrazzano application can contain any number of Coherence component workloads, where each workload
-is a standalone Coherence cluster, independent from any other Coherence cluster in the application.  
-Verrazzano uses the standard Coherence operator to provision and manage clusters as documented
+is a standalone Coherence cluster, independent from any other Coherence cluster in the application.
+
+Verrazzano uses the standard Coherence operator to provision and manage clusters, as documented
 at [Coherence Operator](https://oracle.github.io/coherence-operator/docs/latest).  The Coherence operator
-uses a CRD, coherence.oracle.com (Coherence resource), to represent a Coherence cluster.  When a Verrazzano
+uses a CRD, `coherence.oracle.com` (Coherence resource), to represent a Coherence cluster.  When a Verrazzano
 application with Coherence is provisioned, Verrazzano will configure the default logging and
 metrics for the Coherence cluster.  Logs will be sent to Elasticsearch and metrics to Prometheus.  
-You can view this telemetry data using Kibana and Grafana consoles.
+You can view this telemetry data using the Kibana and Grafana consoles.
 
 ## OAM component
 The custom resource YAML file for the Coherence cluster is specified as a VerrazzanoCoherenceWorkload custom resource.
