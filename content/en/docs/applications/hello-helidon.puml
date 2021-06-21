@@ -1,0 +1,32 @@
+@startuml
+' Copyright (c) 2020, 2021, Oracle and/or its affiliates.
+' Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
+
+file "hello-helidon-appconf" <<applicationconfiguration>> as a
+file "hello-helidon-component" <<component>> as c
+file "hello-helidon-ingress" <<ingresstrait>> as t
+file "hello-helidon-ingress-rule-0-v" <<virtualservice>> as v
+file "hello-helidon-workload" <<verrazzanohelidonworkload>> as w
+file "hello-helidon-deployment" <<deployment>> as d
+
+'Using storage for the oval shape
+storage "oam-kubernetes-runtime" <<operator>> as oam #lightgreen
+storage "verrazzano-application-operator" <<operator>> as vao #lightgreen
+
+a -r-> c: references
+
+oam -u-> a: reads
+oam -u-> c: reads
+oam -d-> w: writes
+oam -d-> t: writes
+
+vao -u-> w: reads
+vao -u-> t: reads
+vao -d-> d: writes
+vao -d-> v: writes
+
+'Hidden lines to adjust layout
+w -[hidden]r- t
+d -[hidden]r- v
+
+@enduml

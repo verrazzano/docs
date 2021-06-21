@@ -18,3 +18,5 @@ OAM has five core concepts:
 - Application Configurations - Describe a collection of components that comprise an application.  This is also where customization (such as environmental) of each component is done.  Customization is achieved using scopes and traits.
 - Scopes - Apply customization to several components.  
 - Traits - Apply customization to a single component.
+
+![](/docs/concepts/oam-app.svg)
