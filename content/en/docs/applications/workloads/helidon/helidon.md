@@ -124,9 +124,10 @@ Verrazzano will modify the `Deployment` resource `replicas` field and the contai
 be scaled accordingly.
 
 {{< alert title="NOTE" color="warning" >}}
-Make sure the `replicas` defined on `VerrazzanoHelidonWorkload` component and that `replicaCount` defined on `ManualScalerTrait`
+Make sure the `replicas` defined on the `VerrazzanoHelidonWorkload` component and that `replicaCount` defined on `ManualScalerTrait`
 for that component matches, else `DeploymentController` in Kubernetes and OAM runtime in `verrazzano-application-operator`
-will compete to create different number of Pods for same containerized Helidon application.
+will compete to create a different number of Pods for same containerized Helidon application. To avoid confusion,
+we recommend that you specify `replicaCount` defined on `ManualScalerTrait` and leave `replicas` undefined on `VerrazzanoHelidonWorkload` (as it is optional).
 {{< /alert >}}
 
 ### Logging
