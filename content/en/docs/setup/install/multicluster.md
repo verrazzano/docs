@@ -7,14 +7,14 @@ draft: false
 
 - [Prerequisites](#prerequisites)
 - [Set up a multicluster Verrazzano environment](#set-up-a-multicluster-verrazzano-environment)
-   - [Install Verrazzano](#install-verrazzano)
-   - [Register the managed cluster with the admin cluster](#register-the-managed-cluster-with-the-admin-cluster)
+  - [Install Verrazzano](#install-verrazzano)
+  - [Register the managed cluster with the admin cluster](#register-the-managed-cluster-with-the-admin-cluster)
 - [Run applications in multicluster Verrazzano](#run-applications-in-multicluster-verrazzano)
-- [Use the admin cluster UI](#use-the-admin-cluster-user-interface-ui)
+- [Use the admin cluster UI](#use-the-admin-cluster-ui)
 
 ## Prerequisites
 
-Before you begin, read this document, [Verrazzano in a multicluster environment]({{< relref "/docs/concepts/VerrazzanoMultiCluster.md" >}}).
+Before you begin, read this document, [Verrazzano in a multicluster environment]({{< relref "../../concepts/VerrazzanoMultiCluster.md" >}}).
 
 ## Set up a multicluster Verrazzano environment
 
@@ -42,13 +42,13 @@ For detailed instructions on how to install Verrazzano on a Kubernetes cluster u
 
 The following sections show you how to register the managed cluster with the admin cluster.
 
+<!-- omit in toc -->
 #### Preregistration setup
 
 Before registering the managed cluster, first you'll need to set up the following items:
 - A ConfigMap containing the externally reachable address of the admin cluster. This will be provided to the managed
   cluster during registration so that it can connect to the admin cluster.
-- A Secret containing the managed cluster's Prometheus endpoint. This will be used by the admin cluster to scrape
-  metrics from the managed cluster, for both applications and Verrazzano components.
+- A Secret containing the managed cluster's CA certificate. Upon registration of the managed cluster, the host address of the Prometheus instance running on  the managed cluster is populated as `prometheusHost` in the `Status` field of the `VerrazzanoManagedCluster` resource created in the admin cluster. This CA certificate and the value of  `prometheusHost` is used by the admin cluster to scrape metrics from the managed cluster, for both applications and Verrazzano components.
 
 Follow these preregistration setup steps:
 
@@ -76,22 +76,27 @@ Follow these preregistration setup steps:
       server: "${ADMIN_K8S_SERVER_ADDRESS}"
     EOF
     ```
-
-1. Obtain the credentials for scraping metrics from the managed cluster.  Use the following instructions to write the credentials to a file named `managed1.yaml` in the current folder.
+    
+1. Obtain the CA certificate used by the managed cluster.  Use the following instructions to write the CA certificate as part of a secret to a file named `managed1.yaml` in the current folder.
    ```
    $ export KUBECONFIG=$KUBECONFIG_MANAGED1
-   $ echo "prometheus:" > managed1.yaml
-   $ echo "  host: $(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get ing vmi-system-prometheus -n verrazzano-system -o jsonpath='{.spec.tls[0].hosts[0]}')" >> managed1.yaml
-   $ echo "  cacrt: |" >> managed1.yaml
-   $ echo -e "$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl -n verrazzano-system get secret system-tls -o jsonpath='{.data.ca\.crt}' | base64 --decode)" | sed 's/^/    /' >> managed1.yaml
+   $ CA_SECRET_FILE=managed1.yaml
+   $ TLS_SECRET=$(kubectl -n verrazzano-system get secret system-tls -o json | jq -r '.data."ca.crt"')
+   $ if [ ! -z "${TLS_SECRET%%*( )}" ] && [ "null" != "${TLS_SECRET}" ] ; then \
+      CA_CERT=$(kubectl -n verrazzano-system get secret system-tls -o json | jq -r '.data."ca.crt"' | base64 --decode); \
+     fi
+   $ if [ ! -z "${CA_CERT}" ] ; then \
+      kubectl create secret generic "ca-secret-managed1" -n verrazzano-mc --from-literal=cacrt="$CA_CERT" --dry-run=client -o yaml > ${CA_SECRET_FILE}; \
+     fi
    ```
 
-1. Create a Secret on the admin cluster that contains the credentials for scraping metrics from the managed cluster.
+1. Create a Secret on the admin cluster that contains the CA certificate for the managed cluster. This secret will be used for scraping metrics from the managed cluster.
    The file `managed1.yaml` that was created in the previous step provides input to this step.
    ```
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl create secret generic prometheus-managed1 -n verrazzano-mc --from-file=managed1.yaml
+   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f managed1.yaml
    ```
 
+<!-- omit in toc -->
 #### Registration steps
 1. To begin the registration process for a managed cluster named `managed1`, apply the VerrazzanoManagedCluster object on the admin cluster.
    ```
@@ -103,7 +108,7 @@ Follow these preregistration setup steps:
      namespace: verrazzano-mc
    spec:
      description: "Test VerrazzanoManagedCluster object"
-     prometheusSecret: prometheus-managed1
+     caSecret: ca-secret-managed1
    EOF
    ```
 1. Wait for the VerrazzanoManagedCluster resource to reach the `Ready` status. At that point, it will have generated a YAML
@@ -125,7 +130,7 @@ Follow these preregistration setup steps:
 
 The Verrazzano multicluster setup is now complete and you can deploy applications by following the [Multicluster Hello World Helidon]({{< relref "/docs/samples/multicluster/hello-helidon/_index.md" >}}) example application.
 
-## Use the admin cluster user interface (UI)
+## Use the admin cluster UI
 
 The admin cluster serves as a central point from which to register and deploy applications to managed clusters.
 
