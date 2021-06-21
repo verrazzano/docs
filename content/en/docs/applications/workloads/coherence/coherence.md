@@ -12,7 +12,7 @@ is a standalone Coherence cluster, independent from any other Coherence cluster 
 
 Verrazzano uses the standard Coherence operator to provision and manage clusters, as documented
 at [Coherence Operator](https://oracle.github.io/coherence-operator/docs/latest).  The Coherence operator
-uses a CRD, `coherence.oracle.com` (Coherence resource), to represent a Coherence cluster.  When a Verrazzano
+uses a CRD, coherence.oracle.com (Coherence resource), to represent a Coherence cluster.  When a Verrazzano
 application with Coherence is provisioned, Verrazzano will configure the default logging and
 metrics for the Coherence cluster.  Logs will be sent to Elasticsearch and metrics to Prometheus.  
 You can view this telemetry data using the Kibana and Grafana consoles.
