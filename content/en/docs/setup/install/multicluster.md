@@ -4,19 +4,11 @@ description: "How to set up a multicluster Verrazzano environment"
 weight: 2
 draft: false
 ---
-
-- [Prerequisites](#prerequisites)
-- [Set up a multicluster Verrazzano environment](#set-up-a-multicluster-verrazzano-environment)
-  - [Install Verrazzano](#install-verrazzano)
-  - [Register the managed cluster with the admin cluster](#register-the-managed-cluster-with-the-admin-cluster)
-- [Run applications in multicluster Verrazzano](#run-applications-in-multicluster-verrazzano)
-- [Use the admin cluster UI](#use-the-admin-cluster-ui)
-
 ## Prerequisites
 
 Before you begin, read this document, [Verrazzano in a multicluster environment]({{< relref "../../concepts/VerrazzanoMultiCluster.md" >}}).
 
-## Set up a multicluster Verrazzano environment
+## Overview
 
 To set up a multicluster Verrazzano environment, you will need two or more Kubernetes clusters. One of these clusters
 will the *admin* cluster; the others will be *managed* clusters.
@@ -24,7 +16,7 @@ will the *admin* cluster; the others will be *managed* clusters.
 The instructions here assume an admin cluster and a single managed cluster. For each additional managed
 cluster, simply repeat the managed cluster instructions.
 
-### Install Verrazzano
+## Install Verrazzano
 
 Install Verrazzano on each Kubernetes cluster.
 
@@ -38,12 +30,12 @@ Install Verrazzano on each Kubernetes cluster.
 For detailed instructions on how to install Verrazzano on a Kubernetes cluster using a specific profile, see the
 [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}}).
 
-### Register the managed cluster with the admin cluster
+## Register the managed cluster with the admin cluster
 
 The following sections show you how to register the managed cluster with the admin cluster.
 
 <!-- omit in toc -->
-#### Preregistration setup
+### Preregistration setup
 
 Before registering the managed cluster, first you'll need to set up the following items:
 - A ConfigMap containing the externally reachable address of the admin cluster. This will be provided to the managed
@@ -97,7 +89,7 @@ Follow these preregistration setup steps:
    ```
 
 <!-- omit in toc -->
-#### Registration steps
+### Registration steps
 1. To begin the registration process for a managed cluster named `managed1`, apply the VerrazzanoManagedCluster object on the admin cluster.
    ```
    $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f <<EOF -
