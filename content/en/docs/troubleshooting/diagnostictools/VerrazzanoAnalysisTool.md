@@ -39,7 +39,7 @@ Use these instructions to obtain the analysis tools on Linux machines.
 
 #### Unpack the `verrazzano-analysis` binary:
   ```
-   $ tar xvf verrazzano-analysis-darwin-amd64.tar.gz
+   $ tar xvf verrazzano-analysis-linux-amd64.tar.gz
   ```
 {{< /tab >}}
 {{< tab tabNum="2" >}}
@@ -140,6 +140,10 @@ The directory structure created by the `k8s-dump-cluster.sh` tool, for a specifi
         virtualservices.json
 
 The script shows the `kubectl` and `helm` commands which are run. The basic structure, shown previously, is formed by running the command, `$ kubectl cluster-info dump --all-namespaces`, with additional data captured into that directory structure.
+
+To perform a dump of a cluster into a directory named `my-cluster-dump`:
+
+`$ sh k8s-dump-cluster.sh -d my-cluster-dump`
 
 ## Use the `verrazzano-analysis` tool
 
