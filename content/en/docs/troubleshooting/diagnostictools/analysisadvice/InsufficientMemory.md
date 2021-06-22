@@ -6,7 +6,7 @@ weight: 5
 draft: true
 ---
 
-## Summary
+### Summary
 Analysis detected that there were nodes reporting insufficient memory.
 
 ### Steps
@@ -21,5 +21,5 @@ Analysis detected that there were nodes reporting insufficient memory.
    b. Is something unexpected running on the nodes or consuming more memory than expected?
 
 ### Related information
-* [Installation Guide](https://verrazzano.io/docs/setup/install/installation/)
+* [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}})
 * [Kubernetes Troubleshooting](https://kubernetes.io/docs/tasks/debug-application-cluster/troubleshooting/)

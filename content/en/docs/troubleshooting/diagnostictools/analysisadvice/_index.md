@@ -1,6 +1,7 @@
 ---
 title: "Analysis Advice"
 description: ""
-weight: 10
+weight: 2
+description: Read advice based on Analysis Tools findings and reports
 draft: true
 ---

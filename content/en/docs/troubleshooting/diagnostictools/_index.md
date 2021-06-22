@@ -1,6 +1,7 @@
 ---
 title: "Diagnostic Tools"
 description: ""
-weight: 10
+weight: 2
+description: "Use Verrazzano analysis tooling"
 draft: true
 ---

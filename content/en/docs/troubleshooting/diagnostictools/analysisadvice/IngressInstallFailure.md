@@ -6,7 +6,7 @@ weight: 5
 draft: true
 ---
 
-## Summary
+### Summary
 Analysis detected that the Verrazzano installation has failed related to the NGINX Ingress Controller, however, it was unable to isolate the specific root cause.
 
 ### Steps
@@ -14,6 +14,6 @@ Analysis detected that the Verrazzano installation has failed related to the NGI
 Review the analysis data, which might help identify the issue.
 
 ### Related information
-* [Installation Guide](https://verrazzano.io/docs/setup/install/installation/)
-* [Platform Setup](https://verrazzano.io/docs/setup/platforms/)
+* [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}})
+* [Platform Setup]({{< relref "/docs/setup/platforms/_index.md" >}})
 * [Kubernetes Troubleshooting](https://kubernetes.io/docs/tasks/debug-application-cluster/troubleshooting/)
