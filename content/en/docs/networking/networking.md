@@ -6,11 +6,11 @@ weight: 4
 draft: true
 ---
 
-
-
 ## Overview
 Before discussing the specifics of networking in the context of Verrazzano, it is important 
-to first explain a few basic Kubernetes networking concepts.
+to first explain a few basic Kubernetes networking concepts.  This is a brief summary, 
+with many details purposely omitted, so refer to the Kubernetes documentation for a more
+in-depth discussion.
 
 ### Pods
 The Kubernetes network model is a flat network where each pod has its own
@@ -29,8 +29,8 @@ of the service.  A service can be configured to load balance across a set of pod
 traffic sent to the service IP will reach a corresponding back-end pod.   When pods are restarted, 
 Kubernetes will update the set of back-end pod IPs used by the Service. This virtual IP is called 
 a `ClusterIP`, since it exposes the service on an internal cluster IP.  Some services are `headless` 
-and do not have a ClusterIP.  Headless services can be used for stateful sets and they are not 
-something an application would typically use directly.
+and do not have a ClusterIP.  Headless services can be used for stateful workloads, like WebLogic domains
+and Coherence clusters. 
 
 ### Discovering Services
 A pod can discover servics within the cluster using ENV vars set by Kubernetes or by DNS name
@@ -43,20 +43,37 @@ together using service names.  In the case of a headless services discussed prev
 name would translate into the set of available pod IPs mapped to that service.
 
 ### External access to pods
-So far, we have only discussed networking within a Kubernetes cluster.  To reach pods within a cluster,
+So far, we have only discussed networking within a Kubernetes cluster.  To reach pods from outside a cluster,
 an external IP must be exposed using a service or type LoadBalancer or NodePort. For a full discussion,
 see [Exposing the Service](https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/).
-When once of these services is created, it will have a `ExternalIP` field set with the IP that can be used 
+When one of these services is created, it will have a `ExternalIP` field set with the IP that can be used 
 to reach the backend-pods.  The service will still load balance pods using a label selector, just like 
-the ClusterIP service.  However, the service DNS name cannot be used outside the cluster.  The specifics of
-how the service gets traffic into the cluster depends on the underlying Kubernetes platform.  For OKE, an
-OCI load balancer is created during service creation and traffic is routed through the OCI loadbalancer to
-the 
+the ClusterIP service.  However, the service DNS name cannot be used outside the cluster.  
+
+The specifics of how the service gets traffic into the cluster depends on the underlying Kubernetes platform.  
+For OKE, creating a LoadBalancer type service will result in an OCI load balancer being created and configured to
+load balance to a set of pods.  For example, assume you have a simple hello world application on OKE with just a pod
+ and no service.  If you use the `kubectl expose` command to create a LoadBalancer service for that pod, 
+ then a Kubernetes service of type LoadBalancer will get created with label selectors for that pod, along 
+ with an OCI load balancer configured to route traffic to the pod.  The end result is that you will have an
+ external IP that can then be used to access the pod from outside the cluster.
+ 
+ There is one more important point regarding external services and load balancers.  The simple hello world case above
+ just connected an OCI load balancer to a pod.  If you were to use a Kubernetes load balancer, like NGINX, then the OCI
+ load balancer would be routing requests to the NGINX pod, which in turn, would be routing the requests to a hello world 
+ CluserIP service as we describe next.
+
 
 ### Ingress
-So far we have only discussed networking within a Kubernetes cluster.  To reach pods within a cluster,
-an `ingress` into the cluster is needed.  Exposing pods externally is yet another feature of a service,
-and there are two types of services: LoadBalancer and NodePort. 
+Ingress is an overloaded term that has a few meanings in the context of Kubernetes.  Sometimes the term is used to
+mean external access to the cluster, as in "ingress to the cluster".  It might also be used to mean network ingress
+to a container in a pod.  Both of those meanings are valid, but this discussion is focused on ingress to the cluster.
+There is actually a Kubernetes Ingress resource and its purpose is to specify http and https routes to services. An
+Ingress by itself doesn't do anything, it is just data. An Ingress controller is needed to watch ingress resources and
+and reconcile them, configuring the underlying Kubernetes load balancer, such as NGINX, to handle the service routing.  
+This will be discussed in later sections, suffice it to say that there is a difference between services that provide
+external access to the cluster, and an ingress, which contains routing rules to services withing the cluster.
+
 
 Because of this Service IPs or 
 names are typically used by clients to connect to pods.
