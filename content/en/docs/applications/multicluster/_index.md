@@ -37,8 +37,8 @@ installation profile. A managed cluster has the following additional characteris
 - A Verrazzano multicluster Kubernetes resource, created on the admin cluster, will be retrieved and deployed to a
   managed cluster if all of the following are true:
     - The resource is in a namespace governed by a `VerrazzanoProject`.
-    - The `VerrazzanoProject` is located in this managed cluster.
-    - The resource itself is located in this managed cluster.
+    - The `VerrazzanoProject` has a `placement` value that includes this managed cluster.
+    - The resource itself has a `placement` value that includes this managed cluster.
 
 ## Verrazzano multicluster resources
 Verrazzano includes several multicluster resource definitions for resources that may be targeted for placement in one
@@ -66,8 +66,6 @@ the managed cluster to complete the registration.
 
 When a managed cluster is registered, the following will happen:
 
-- Immediately after the first registration step, the admin cluster begins scraping Prometheus metrics from the newly
-  registered managed cluster.
 - After both steps of the registration are complete, the managed cluster begins polling the admin cluster for
   `VerrazzanoProject` resources and multicluster resources, which specify a `placement` in this managed cluster.
     -  Any `VerrazzanoProject` resources placed in this managed cluster are retrieved, and the corresponding namespaces
@@ -77,6 +75,10 @@ When a managed cluster is registered, the following will happen:
       underlying resource represented by the multicluster resource is unwrapped, and created or updated on the managed
       cluster. The managed cluster namespace of the multicluster resource and its underlying resource matches
       the admin cluster namespace of the multicluster resource.
+- When the managed cluster connects to the admin cluster, it updates the `VerrazzanoManagedCluster` resource for this
+  managed cluster with:
+  - The endpoint URL that the admin cluster should use to scrape Prometheus metrics from the managed cluster.
+  - The date and time of the most recent successful connection from the managed cluster to the admin cluster.
 - For `MultiClusterApplicationConfigurations` retrieved and unwrapped on a managed cluster, the application logs are
   sent to Elasticsearch on the admin cluster, and may be viewed from the Verrazzano-installed Kibana UI on the
   admin cluster. Likewise, application metrics will be scraped by the admin cluster and available from
