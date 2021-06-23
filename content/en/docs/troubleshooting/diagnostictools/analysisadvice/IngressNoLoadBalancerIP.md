@@ -1,0 +1,20 @@
+---
+title: Ingress Controller No Load Balancer IP
+linkTitle: Ingress Controller No Load Balancer IP
+description: Analysis detected load balancer missing ingress IP
+weight: 5
+draft: true
+---
+
+### Summary
+Analysis detected that the Verrazzano installation failed while installing the NGINX Ingress Controller.
+
+The root cause appears to be that the load balancer is either missing or unable to set the ingress IP address on the NGINX Ingress service.
+
+### Steps
+
+Refer to the platform-specific environment setup for your platform [here](https://verrazzano.io/docs/setup/platforms/).
+
+### Related information
+* [Platform Setup]({{< relref "/docs/setup/platforms/_index.md" >}})
+* [Kubernetes Troubleshooting](https://kubernetes.io/docs/tasks/debug-application-cluster/troubleshooting/)
