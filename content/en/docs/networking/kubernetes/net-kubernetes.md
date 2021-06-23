@@ -12,15 +12,36 @@ to first explain a few basic Kubernetes networking concepts.  This is a brief su
 with many details purposely omitted, so refer to the Kubernetes documentation for a more
 in-depth discussion.
 
-## Pods
+## Pods and Containers
 The Kubernetes network model is a flat network where each pod has its own
 IP address. By default, any pod can send IP traffic to any other pod in the cluster and
 receive traffic, regardless of the node hosting the pod. All containers within a pod share
 the same network namespace and can reach each other using `localhost`.  As a result, containers
-within a pod must be aware of port conflicts.  In the context of this document, when we say
-pod A is sending data to pod B, it really means that some container in pod A is sending data to 
-some container in pod B.  Containers in the pods actually contain the runtime code that listens
-on the ports.  Think of a pod as a VM and a container as a process.
+within a pod must be aware of port conflicts.  Containers in the pods have the runtime code 
+that optionaly listen on ports.  The IP is at the pod level and set by Kubernetes, whereas ports 
+are at the container level and set by the user.  Note that pod ports can have a name and protocol, 
+which is used when port discovery is needed. Containers can listen on ports even if they don't 
+specify them in the pod, like the Coherence cluster port. 
+
+Following is a pod fragment showing both container ports and pod IP.
+```
+  spec:
+    containers:
+    ...
+      ports:
+      - containerPort: 8080
+        name: http
+        protocol: TCP
+    ...
+    podIP: 10.244.0.93
+```
+
+There is a type of container called an `init container` that runs during pod startup in sequence, the first init container
+runs, then the next, and so forth until they have finished, then the main pod containers start concurrently.  Init containers
+don't usually listen on ports, though they sometimes establish connections to other services.  Finally, for pods with multiple
+containers, there is typically a single application container, with other containers providing secondary functions and are 
+called `sidecars`.  Sometimes these sidecars are injected into the pod at runtime, and the application container might have
+no knowledge of the sidecar. 
 
 ## Services
 The Kubernetes Service resource is an abstraction over a set of back-end pods, where the service 
@@ -68,9 +89,10 @@ pod via a ClusterIP service as we describe in the following section.
 Ingress is an overloaded term that has a few meanings in the context of Kubernetes.  Sometimes the term is used to
 mean external access to the cluster, as in "ingress to the cluster".  It might also be used to mean network ingress
 to a container in a pod.  Both of those meanings are valid, but this discussion is focused on ingress to the cluster.
-There is actually a Kubernetes Ingress resource and its purpose is to specify HTTP/HTTPS routes to Kubernetes services. 
-An Ingress by itself doesn't do anything, it is just data. An Ingress controller is needed to watch Ingress resources and
-and reconcile them, configuring the underlying Kubernetes load balancer, such as NGINX, to handle the service routing.
-Verrazzano installs the NGINX Ingress Controller, which acts as both the Ingress controller and the load balancer.  
-This will be discussed in later sections, suffice it to say that there is a difference between services that provide
-external access to the cluster, and an Ingress, which contains HTTP/HTTPS routing rules to services within the cluster.
+There is actually a Kubernetes Ingress resource and its purpose is to specify HTTP/HTTPS routes to Kubernetes 
+services, along with an endpoint hostname and optional certificate. An Ingress by itself doesn't do anything, it is 
+just a resource. An Ingress controller is needed to watch Ingress resources and and reconcile them, configuring the underlying 
+Kubernetes load balancer, such as NGINX, to handle the service routing. Verrazzano installs the NGINX Ingress Controller, 
+which acts as both the Ingress controller and the load balancer.  This will be discussed in later sections, suffice it 
+to say that there is a difference between services that provide external access to the cluster, and an Ingress, which 
+contains HTTP/HTTPS routing rules to services within the cluster.
