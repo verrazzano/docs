@@ -96,3 +96,22 @@ Kubernetes load balancer, such as NGINX, to handle the service routing. Verrazza
 which acts as both the Ingress controller and the load balancer.  This will be discussed in later sections, suffice it 
 to say that there is a difference between services that provide external access to the cluster, and an Ingress, which 
 contains HTTP/HTTPS routing rules to services within the cluster.
+
+## CNI
+Kubernetes depends on network plugins to implement common networking functionality, using the [CNI](https://github.com/containernetworking/cni)
+Some of the Kubernetes networking features are not supported or implemented by all CNIs.  For example, NetworkPolices are not
+supported by Flannel, which is the default CNI for OKE.  Because of this, the user is required to install a CNI that supports 
+NetworkPolicies if that security feature is desired.
+
+## Summary
+This wraps up the brief introduction to Kubernetes.  In summary, here are the main points:
+
+1. Pods have containers that can send and receive network traffic
+2. There is no restriction on inter-pod network traffic by default
+3. There no restriction on egress traffic from the Kubernetes cluster
+4. Egress might be restricted at the platform level (security list rules, etc.)  
+5. Kubernetes provides a DNS server for pods to do name resolution
+6. Services have a DNS name and provide a virtual IP to access a set of pods
+7. Traffic can be allowed into a cluster using a service of type LoadBalancer or NodePort  
+8. Traffic can also be routed to services using an Ingress resource or equivalent
+9. CNI plugins provide various levels of networking functionality.
