@@ -20,7 +20,7 @@ cluster, simply repeat the managed cluster instructions.
 
 Install Verrazzano on each Kubernetes cluster.
 
-- On one cluster, install Verrazzano using the `dev` profile; this will be the *admin* cluster.
+- On one cluster, install Verrazzano using the `dev` or `prod` profile; this will be the *admin* cluster.
 - On the other cluster, install Verrazzano using the `managed-cluster` profile; this will be a
   managed cluster. The `managed-cluster` profile contains only the components that are required for a managed cluster.
 - Create the environment variables, `KUBECONFIG_ADMIN` and `KUBECONFIG_MANAGED1`, and point them to the `kubeconfig`
