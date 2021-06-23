@@ -2,44 +2,37 @@
 title: "Network Traffic"
 linkTitle: "Network Traffic"
 description: "Verrazzano Network Traffic"
-weight: 3
+weight: 2
 draft: true
 ---
 
-The following table shows all of the pod ports that allow ingress into
-Verrazzano components.
 
-| Component  | Pod Port           | From  | Description |
-| ------------- |:------------- |:------------- |:----- |:-------------:|
-| Verrazzano Application Operator | 9443 | Kubernetes API Server  | Webhook entrypoint 
-| Verrazzano Platform Operator | 9443 | Kubernetes API Server  | Webhook entrypoint 
-| Verrazzano Console | 8000 | NGINX Ingress |  Access from external client  
-| Verrazzano Console | 15090 | Prometheus | Prometheus scraping
-| Verrazzano Proxy | 8775 | NGINX Ingress |  Access from external client 
-| Verrazzano Proxy | 15090 | Prometheus | Prometheus scraping
-| cert-manager| 9402 | Prometheus | Prometheus scraping
-| Coherence Operator | 9443 | Prometheus | Webhook entrypoint 
-| Elasticsearch | 8775 | NGINX Ingress | Access from external client  
-| Elasticsearch | 8775 | Fluentd | Access from Fluentd 
-| Elasticsearch | 9200 | Kibana, Internal | Elasticsearch data port  
-| Elasticsearch | 9300 | Internal | Elasticsearch cluster port  
-| Elasticsearch | 15090 | Prometheus | Envoy metrics scraping 
-| Istio control plane | 15012 | Envoy | Envoy access to istiod
-| Istio control plane | 15014 | Prometheus | Prometheus scraping
-| Istio control plane | 15017 | Kubernetes API Server  | Webhook entrypoint 
-| Istio ingress gateway | 8443 | External | Application ingress
-| Istio ingress gateway| 15090 | Prometheus | Prometheus scraping
-| Istio egress gateway | 8443 | Mesh services | Application egress
-| Istio egress gateway| 15090 | Prometheus | Prometheus scraping
-| Keycloak| 8080 | NGINX Ingress | Access from external client 
-| Keycloak| 15090 | Prometheus | Prometheus scraping
-| MySql| 15090 | Prometheus | Prometheus scraping
-| MySql| 3306 | Keycloak | Keycloak datastore
-| Node exporter| 9100 | Prometheus | Prometheus scraping
-| Rancher | 80 | NGINX Ingress | Access from external client
-| Rancher | 9443 |  Kubernetes API Server  | Webhook entrypoint 
-| Prometheus | 8775 | NGINX Ingress | Access from external client 
-| Prometheus | 9090 | Grafana | Acccess for Grafana UI 
+## Verrazzano network traffic
+Istio provides traffic management for both north-south traffic, which enters and leaves the mesh, and east-west traffic,
+which stays within the mesh.  Before discussing the traffic pattern details, a few core concepts need to be explained.  
 
+First, there is an Istio `Gateway` resource that provides host and certificate information for traffic coming into the mesh. 
+In the same way an Ingress needs a corresponding Ingress controller, the same is true for the Gateway resource, where there 
+is a corresponding Ingress gateway controller.  However, unlike the Ingress, the Gateway resource doesn't have service routing 
+information.  That is handled by the Istio `VirtualService` resource.  So the combination of Gateway and VirtualService is 
+basically a superset of Ingress, since VirtualService provides more routing features than Ingress.  So Gateway provides ingress
+into the mesh, and VirtualService provides routing rules to services in the mesh.  Once traffic reaches a given service, there is 
+an additional resource, `DestinationRule`, that is applied to the service after the routing has occurred.  The DestinationRule 
+allows you to do fine tuning at the target service, such as additional load balancing or disabling mTLS ports.
 
+### North-South traffic
+North-south traffic at the minimum requires a Gateway and VirtualService. The Gateway resource is reconciled by a service, 
+like the istio-ingressgateway, which in turn is backed by an Envoy proxy pod.  This is not a sidecar and not considered 
+to be part of the mesh.  What is does really, is provide ingress into the cluster, just like NGINX. In fact, strictly 
+speaking traffic is not necessarily routed into the mesh, it is routed to services which may or may not be in the mesh. 
+For example, you can use an Istio Gateway and VirtualService to provide ingress to the hello-world application discussed earlier, 
+where the mesh is not in the picture.  Traffic leaving the mesh goes through another Envoy proxy called the istio-egressgateway.
+Note that there is no Gateway resource needed for egress.
+ 
+### East-West traffic
+East-west traffic is traffic between services in the mesh.  Again, this is one of those areas where technically, you 
+can have east-west traffic for services outside the mesh, but then Envoy is not involved and VirtualServices and DestinationRules
+have no affect.  To use east-west traffic management, each service in the mesh should have be routed to using a VirtualService
+and, optional DestinationRules.  You can still send east-west traffic without either of these resources, but you wont't get any
+custom routing or load balancing.
 
