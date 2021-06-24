@@ -24,7 +24,7 @@ and another for application traffic. The specifics of how the service gets traff
 depends on the underlying Kubernetes platform.  With Oracle OKE, creating a LoadBalancer type service will
 result in an OCI load balancer being created and configured to load balance to a set of pods.
 
-### Ingress into system components
+### Ingress for system components
 To provide ingress to system components, Verrazzano creates an NGINX Ingress controller, 
 which includes an NGINX load balancer.  Verrazzano also creates Kubernetes 
 Ingress resource to configure ingress for each system component that requires ingress, like Kibana.
@@ -38,11 +38,16 @@ the NGINX load balancer with the Ingress route information.
 Using the OKE example, traffic entering the OCI load balancer is routed to the NGINX load 
 balancer, then routed from there to the pods belonging to the services described in the Ingress. 
 
+### Ingress for applications
+Verrazzano also provides Ingress into applications but uses an Istio gateway instead of NGINX.
+Istio has a `Gateway` resource that provides host and certificate information for traffic coming 
+into the mesh. In the way an Ingress needs a corresponding Ingress controller, the same is true 
+for the Gateway resource, where there is a corresponding Ingress gateway controller.  However, 
+unlike the Ingress, the Gateway resource doesn't have service routing information.  That is 
+handled by the Istio `VirtualService` resource.  So the combination of Gateway and VirtualService is 
+basically a superset of Ingress, since VirtualService provides more routing features than Ingress.  
+So Gateway provides ingress into the cluster, and VirtualService provides routing rules to services.  
 
-
- System components such as Elasticsearch are accessible through the NGINX ingress controller, 
- whereas application ingress into the cluster is provided
-by an Istio ingress gateway.
 
 Istio provides traffic management for both north-south traffic, which enters and leaves the mesh, and east-west traffic,
 which stays within the mesh.  Before discussing the traffic pattern details, a few core concepts need to be explained.  
