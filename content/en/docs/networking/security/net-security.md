@@ -100,20 +100,15 @@ The ports shown are pod ports, which is what NetworkPolicies require.
 | Prometheus | 8775 | NGINX Ingress | Access from external client 
 | Prometheus | 9090 | Grafana | Acccess for Grafana UI 
 
-## TLS
-TLS is used by external clients access the cluster, both through NGINX and the Istio ingress gateway.
-The certificate used by these TLS connections vary, see the Security section for details.  All TLS
-connections are terminated at the ingress and traffic between the proxy and the internal cluster pods
-always uses mTLS.
-
 ## mTLS
 Istio can be enabled to use mTLS between services in the mesh, and also between the Istio gateways and Envoy sidecar proxies.
 There are various options to customize mTLS usage, for example it can be disabled on a per port level.  The Istio 
 control plane, Istiod, is a CA and provides key and certificate rotation for the Envoy proxies, both gateways and sidecars. 
 
 Verrazzano configures Istio to have strict mTLS for the mesh.  All components and applications put into the mesh
-will use mTLS, with the exception of Coherence clusters which are not in the mesh.  All traffic between the Istio
-ingress gateway and mesh sidecars also use mTLS, and the same is true between the proxy sidecars and the egress gateway.
+will use mTLS, with the exception of Coherence clusters which are not in the mesh. Also, all traffic between the Istio
+ingress gateway and mesh sidecars use mTLS, and the same is true between the proxy sidecars and the egress gateway.   
+
 Verrazzano sets up mTLS during installation with the PeerAuthentication resource as follows:
 ```
 apiVersion: v1
@@ -125,6 +120,11 @@ items:
     mtls:
       mode: STRICT
 ```
+## TLS
+TLS is used by external clients to access the cluster, both through NGINX and the Istio ingress gateway.
+The certificate used by these TLS connections vary, see the Security section for details.  All TLS
+connections are terminated at the ingress proxy. Traffic between the two proxies and the internal cluster pods
+always uses mTLS, since those pods are all in the Istio mesh.
 
 ## Istio Mesh
 Istio provides extensive security protection for both authentication and authorization as described here 
@@ -133,8 +133,7 @@ features that Verrazzano configures.  These security features are available in t
 
 A service mesh is an infrastructure layer that provides certain capabilities like security, observability, load balancing,
 etc. for services.  Istio defines a service mesh here [Istio Service Mesh](https://istio.io/latest/about/service-mesh/).
-There are two requirements for a service to be in the mesh. First, Istio needs to know discover the service which it can
-easily do for Kubernetes services. Second, there is an Envoy proxy in front of the service intercepting inbound and 
+Services in the mesh have an Envoy proxy in front of the their pods, intercepting inbound and 
 outbound network traffic for that service.  In Kubernetes, that proxy happens to be a sidecar running in the 
 each pod used by the service.  There are various ways to put a service in the mesh, Verrazzano uses the
 namespace label, `istio-injection: enabled`, to designate that all pods in a given namespace are in mesh.  When a pod is 
@@ -169,8 +168,8 @@ configured to do TLS termination of client connections.  All traffic from NGIX t
 use mTLS, which means that traffic is fully encrypted from the client to the target back-end services.
 
 ### Keycloak and MySQL
-Keycloak and MySQL are also in the mesh and use mTLS full network communication.  Since all of the components that use
-Keycloak are in the mesh, there is end to end mTLS security for all identity and access management.  The following components
+Keycloak and MySQL are also in the mesh and use mTLS for network traffic.  Since all of the components that use
+Keycloak are in the mesh, there is end to end mTLS security for all identity management handled by Keycloak.  The following components
 access Keycloak:
 - Verrazzano API proxy
 - Verrazzano API console
@@ -181,18 +180,18 @@ access Keycloak:
 
 ### Prometheus
 Although Prometheus is in the mesh, it is configured to only use the Envoy sidecar and mTLS when communicating to 
-Keycloak for authentication.  All the traffic related to scraping metrics bypasses the sidecar proxy, doesn't use 
+Keycloak.  All the traffic related to scraping metrics bypasses the sidecar proxy, doesn't use 
 the service IP, but rather connects to the scrape target using the pod IP.  If the scrape target is in the mesh,
 then https is used, otherwise http is used.  For Verrazzano multi-cluster, Prometheus also connects from the admin cluster
-to the Prometheus server in the managed cluster via the managed cluster NGINX Ingress.  Prometheus in the managed 
-cluster never establishes connections to targets outside the cluster.
+to the Prometheus server in the managed cluster via the managed cluster NGINX Ingress, using HTTPS.  Prometheus 
+in the managed cluster never establishes connections to targets outside the cluster.
  
 Since Prometheus is in the mesh, additional configuration is done to allow the Envoy sidecar to be bypassed when scraping pods.
-This is done with the annotation `traffic.sidecar.istio.io/includeOutboundIPRanges: <keycloak-service-ip>`.  This causes traffic
-bound for Keycloak to go through the Envoy sidecar, and all other traffic to bypass the sidecar.
+This is done with the Prometheus pod annotation `traffic.sidecar.istio.io/includeOutboundIPRanges: <keycloak-service-ip>`.  This 
+causes traffic bound for Keycloak to go through the Envoy sidecar, and all other traffic to bypass the sidecar.
 
 ### WebLogic Operator
-When a WebLogic operator creates a domain, it needs to communicate to the pods in the domain. We put the WebLogic operator
+When a WebLogic operator creates a domain, it needs to communicate to the pods in the domain. Verrazzano puts the WebLogic operator
 in the mesh so that it can communicate with the domain pods using mTLS.  The alternative would have been to disable mTLS and 
 access control for certain domain ports.  As a result, the WebLogic domain must be created in the mesh.  If you do not want 
 domains in the mesh then you should take the operator out of the mesh by adding the following label to the WebLogic 
@@ -203,12 +202,15 @@ sidecar.istio.io/inject="false"
 
 ## Applications in the Mesh
 Before you create a Verrazzano application, you should decide if it should be in the mesh.  You control sidecar injection,
-i.e., mesh inclusion, by labeling the application namespace with `istio-injection=enabled` or `istio-injection=disabled`.  
-If the application is in the mesh, then mTLS will be used, and you will need to manually modify Istio resources to change
-the mTLS mode or add port exceptions.
+i.e., mesh inclusion, by labeling the application namespace with `istio-injection=enabled` or `istio-injection=disabled`.
+By default applications will not be put in the mesh if that label is missing.  If your application uses a Verrazzano
+project, then Verrazzano will label the namespaces in the project to enable injection. If the application is in the mesh, 
+then mTLS will be used.  You can change the PeerAuthentication mTLS mode as desired if you don't want strict mTLS.
+Also if you need to add mTLS port exceptions, you can do this with DestinationRules or by creating another PeerAuthentication
+resource in the application namespace.  Consult the Istio documentation for more information.
 
 ### WebLogic
-When a WebLogic operator creates a domain, it needs to communicate to the pods in the domain. We put the WebLogic operator
+When the WebLogic operator creates a domain, it needs to communicate to the pods in the domain. We put the WebLogic operator
 in the mesh so that it can communicate with the domain pods using mTLS.  The alternative would have been to disable mTLS and 
 access control for certain domain ports.  As a result, the WebLogic domain must be created in the mesh.  If you do not want 
 domains in the mesh then you should take the operator out of the mesh by adding the following label to the WebLogic 
@@ -219,7 +221,7 @@ sidecar.istio.io/inject="false"
 
 ### Coherence
 Coherence clusters are represented by the `Coherence` resource, and are not in the mesh.  When Verrazzano creates a Coherence
-cluster in a namespace that is annotated to do sidecar injection, then it disables injection the Coherence resource using the
+cluster in a namespace that is annotated to do sidecar injection, it disables injection the Coherence resource using the
 `sidecar.istio.io/inject="false"` label shown previously.  Furthermore, Verrazzano will create a DestinationRule in the application
 namespace to disable mTLS for the Coherence extend port `9000`.  This allows a service in the mesh to call the Coherence 
 extend proxy.  See bob's books for an example at [bobs-books](https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books).
@@ -240,16 +242,16 @@ Spec:
 ```
 
 ## Istio Access Control
-Istio allows you to control access to your workload in the mesh, using the ` `AuthorizationPolicy` resource. This allows you
+Istio allows you to control access to your workload in the mesh, using the AuthorizationPolicy resource. This allows you
 to control what services or pods can access your workloads.  Some of these options require mTLS, see 
 [Authorization Policy](https://istio.io/latest/docs/reference/config/security/authorization-policy/) for more information.
 
-Verrazzano creates AuthorizationPolicies for applications, never for system components.  During application deployment, 
-Verrazzano creates the policy in the application namespace and configures it to allow access traffic from the following:
+Verrazzano always creates AuthorizationPolicies for applications, but never for system components.  During application deployment, 
+Verrazzano creates the policy in the application namespace and configures it to allow access from the following:
 
-- Other pods in the namespace
-- Prometheus scraper
+- Other pods in the application
 - Istio ingress gateway
+- Prometheus scraper
 
 This prevents any other pods in the cluster from gaining network access to the application pods.  
 Istio uses a service identity to determine the identity of the request's origin, for Kubernetes, 
@@ -260,13 +262,13 @@ apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 ...
 spec:
-rules:
-- from:
-- source:
-principals:
-- cluster.local/ns/sales/sa/greeter
-- cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account
-- cluster.local/ns/verrazzano-system/sa/verrazzano-monitoring-operator
+  rules:
+    - from:
+    - source:
+  principals:
+    - cluster.local/ns/sales/sa/greeter
+    - cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account
+    - cluster.local/ns/verrazzano-system/sa/verrazzano-monitoring-operator
 ```
 
 ### WebLogic domain access

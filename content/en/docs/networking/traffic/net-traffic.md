@@ -13,14 +13,16 @@ Traffic direction is either north-south traffic, which enters and leaves the clu
 or east-west traffic, which stays within the cluster. 
 
 First, we will discuss getting traffic into the cluster, then how traffic flows once
-it is in the cluster. Ingress is an overloaded term that has a few meanings so it needs
+it is in the cluster. 
+
+## Ingress
+Ingress is an overloaded term that has a few meanings so it needs
 to be understood in context.  Sometimes the term is used to mean external access into the 
 cluster, as in "ingress to the cluster".  The term is also used for the Kubernetes 
 `Ingress` resource. It might also be used to mean network ingress to a container in a pod. 
 Presently, it is used to refer to both general ingress into the cluster and the Kubernetes 
 Ingress resource.
 
-## Ingress
 During installation, Verrazzano creates the necessary network resources to access both
 system components and applications.  The following ingress and load balancers discussion
 is in the context of a Verrazzano installation.
@@ -33,14 +35,15 @@ depends on the underlying Kubernetes platform.  With Oracle OKE, creating a Load
 result in an OCI load balancer being created and configured to load balance to a set of pods.
 
 ### Ingress for system components
-To provide ingress to system components, Verrazzano creates a NGINX Ingress Controller, 
+To provide ingress to system components, Verrazzano installs a NGINX Ingress Controller, 
 which includes a NGINX load balancer.  Verrazzano also creates Kubernetes 
-Ingress resource to configure ingress for each system component that requires ingress, like Kibana.
+Ingress resources to configure ingress for each system component that requires ingress.
 An Ingress resource is used is to specify HTTP/HTTPS routes to Kubernetes services, along 
 with an endpoint hostname and a TLS certificate. An Ingress by itself doesn't do anything, 
 it is just a resource. An Ingress controller is needed to watch Ingress resources and
 reconcile them, configuring the underlying Kubernetes load balancer to handle the service 
-routing. The NGINX Ingress Controller watches the Ingress resources and configures NGINX with the Ingress route information.
+routing. The NGINX Ingress Controller processes Ingress resources and configures NGINX with 
+the Ingress route information, etc.
 
 The NGINX Ingress Controller is a LoadBalancer service as seen here:
 ```
@@ -53,29 +56,32 @@ Using the OKE example, traffic entering the OCI load balancer is routed to the N
 balancer, then routed from there to the pods belonging to the services described in the Ingress. 
 
 ### Ingress for applications
-Verrazzano also provides Ingress into applications but uses an Istio gateway instead of NGINX.
-Istio has a `Gateway` resource that provides host and certificate information for traffic coming 
-into the mesh. Just like an Ingress needs a corresponding Ingress controller, the same is true 
-for the Gateway resource, where there is a corresponding Istio ingress gateway controller.  
-However, unlike the Ingress, the Gateway resource doesn't have service routing information.  That is 
+Verrazzano also provides Ingress into applications, but uses an Istio ingress gateway, which is
+an Envoy proxy, instead of NGINX.  Istio has a `Gateway` resource that provides load balancer information
+such as hosts, ports, and certificates for traffic coming into the mesh. 
+See [Istio Gateway](https://istio.io/latest/docs/reference/config/networking/gateway/) for more information.  Just as an 
+Ingress needs a corresponding Ingress controller, the same is true for the Gateway resource, where there is a 
+corresponding Istio ingress gateway controller. However, unlike the Ingress, the Gateway 
+resource doesn't have service routing information.  That is 
 handled by the Istio `VirtualService` resource.  The combination of Gateway and VirtualService is 
-basically a superset of Ingress, since VirtualService provides more routing features than Ingress.  
-The Gateway provides ingress into the cluster, and VirtualService provides routing rules to services.  
+basically a superset of Ingress, since the combination provides more features than Ingress. 
+In summary, the Istio ingress gateway provides ingress to the cluster using information from both
+the Gateway and VirtualService resources.
 
-Because Verrazzano doesn't create any applications during installations, there is no need for 
-the Gateway and VirtualService at that time.  However, during installation, Verrazzano does 
-create the Istio ingress gateway service, which is a LoadBalancer service, along with the 
-Istio egress gateway service, which is a ClusterIP service.  
+Because Verrazzano doesn't create any applications during installations, there is no need to
+create a Gateway and VirtualService at that time.  However, during installation, Verrazzano does 
+create the Istio ingress gateway, which is a LoadBalancer service, along with the 
+Istio egress gateway, which is a ClusterIP service.  
 ```
 kubectl get service -n istio-system
 ...
 istio-ingressgateway   LoadBalancer 
 ```
 Again referring to the OKE use case, this means there will another OCI load balancer created, 
-routing traffic to the Istio ingress gateway pod.
+routing traffic to the Istio ingress gateway pod, i.e., the Envoy proxy.
 
 ### External DNS
-When you install Verrazzano, you can optionally use an external DNS for your domain.  If you do that,
+When you install Verrazzano, you can optionally specify an external DNS for your domain.  If you do that,
 Verrazzano will not only create the DNS records, using ExternalDNS, but also it will configure your host
 name in the Ingress resources. You can then use that host name to access the system components through the 
 NGINX Ingress Controller.
@@ -165,15 +171,20 @@ TBD
 Application traffic includes all traffic to and from Verrazzano applications. 
 
 ### North-South Application Traffic
-The preceding section discussed network configuration during installation.  Once Verrazzano
-is installed, you can deploy applications into the Istio mesh.  When doing so, you will
+Once Verrazzano is installed, you can deploy applications into the Istio mesh.  When doing so, you will
 likely need ingress into the application.  As previously mentioned, this can be done with
 Istio using the Gateway and VirtualService resources.  Verrazzano will create those resources
 for you when you use an IngressTrait in your ApplicationConfiguration.  The Istio
 ingress gateway created during installation will be shared by all applications in the mesh,
-and the Gateway resource refers to that common ingress gateway.  There is a Gateway/VirtualService
-pair created for each IngressTrait. Following is an example of those two resources created by
-Verrazzano.
+and the Gateway resource is bound to the Istio ingress gateway that was created
+during installation.  This is done by the selector field in the Gateway:
+```
+   selector:
+     istio: ingressgateway
+```
+
+Verrazzano creates a Gateway/VirtualService pair for each IngressTrait. 
+Following is an example of those two resources created by Verrazzano.
 
 Here is the Gateway, in this case both the host name and certificate were generated
 by Verrazzano.
@@ -192,7 +203,7 @@ items:
       istio: ingressgateway
     servers:
     - hosts:
-      - hello-helidon-appconf.hello-helidon.152.67.146.88.nip.io
+      - hello-helidon-appconf.hello-helidon.1.2.3.4.nip.io
       port:
         name: https
         number: 443
@@ -217,7 +228,7 @@ items:
     gateways:
     - hello-helidon-hello-helidon-appconf-gw
     hosts:
-    - hello-helidon-appconf.hello-helidon.152.67.146.88.nip.io
+    - hello-helidon-appconf.hello-helidon.1.2.3.4.nip.io
     http:
     - match:
       - uri:
@@ -230,16 +241,16 @@ items:
 ```
 
 ### East-West Application Traffic
-To use east-west traffic management, each service in the mesh should be routed using a VirtualService and an optional 
+To manage east-west traffic, each service in the mesh should be routed using a VirtualService and an optional 
 DestinationRule.  You can still send east-west traffic without either of these resources, but you won’t get any custom 
 routing or load balancing.  Verrazzano doesn't configure east-west traffic.  Consider bobbys-front-end in the bob's books example at
-[bobs-books-comp.yaml](https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/bobs-books-comp.yaml).  
+[bobs-books-comp.yaml](https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/bobs-books-comp.yaml). 
 When deploying bob's books, a VirtualService is created for bobby's front-end, because of the IngressTrait, but there are 
 no VirtualServices for the other services in the application.  When bobbys-front-end sends requests to 
-bobbys-helidon-stock-application, east-west traffic, the traffic still goes through the Envoy sidecar proxies in 
-the source and destination pods, but there is no VirtualService representing bobbys-helidon-stock-application, 
-where you could specify a canary deployment or custom load balancing.  This is something you could manually configure, 
-but it is not configured by Verrazzano.
+bobbys-helidon-stock-application, east-west traffic, the traffic still goes to bobbys-helidon-stock-application through 
+the Envoy sidecar proxies in the source and destination pods, but there is no VirtualService representing 
+bobbys-helidon-stock-application, where you could specify a canary deployment or custom load balancing.  This 
+is something you could manually configure, but it is not configured by Verrazzano.
 
 ## Proxies
 Verrazzano uses network proxies in multiple places.  The two proxies products used are Envoy and NGINX.
