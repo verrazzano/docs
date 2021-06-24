@@ -53,7 +53,7 @@ ingress-controller-ingress-nginx-controller           LoadBalancer
 Using the OKE example, traffic entering the OCI load balancer is routed to the NGINX load 
 balancer, then routed from there to the pods belonging to the services described in the Ingress. 
 
-### Istio Gateway for applications
+### Ingress for applications
 Verrazzano also provides Ingress into applications but uses an Istio gateway instead of NGINX.
 Istio has a `Gateway` resource that provides host and certificate information for traffic coming 
 into the mesh. Just like an Ingress needs a corresponding Ingress controller, the same is true 
@@ -72,8 +72,8 @@ kubectl get service -n istio-system
 ...
 istio-ingressgateway   LoadBalancer 
 ```
-Again referring to the OKE use case,
-that means there will another OCI load balancer created, routing traffic to the Istio ingress gateway pod.
+Again referring to the OKE use case, this means there will another OCI load balancer created, 
+routing traffic to the Istio ingress gateway pod.
 
 ### External DNS
 When you install Verrazzano, you can optionally use an external DNS for your domain.  If you do that,
@@ -147,8 +147,8 @@ items:
 ```
 
 ### East-West Application Traffic
-To use east-west traffic management, each service in the mesh should be routed to using a VirtualService and optional 
-DestinationRules.  You can still send east-west traffic without either of these resources, but you wont't get any custom 
+To use east-west traffic management, each service in the mesh should be routed using a VirtualService and an optional 
+DestinationRule.  You can still send east-west traffic without either of these resources, but you wont't get any custom 
 routing or load balancing.  Verrazzano doesn't configure east-west traffic.  Consider bobbys-front-end in the bob's books example at
 [bobs-books-comp.yaml](https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/bobs-books-comp.yaml).  
 When deploying bob's books, a VirtualService is created for bobby's front-end, because of the IngressTrait, but there are 
@@ -157,3 +157,5 @@ bobbys-helidon-stock-application, east-west traffic, the traffic still goes thro
 the source and destination pods, but there is no VirtualService representing bobbys-helidon-stock-application, 
 where you could specify a canary deployment or custom load balancing.  This is something you could manually configure, 
 but it is not configured by Verrazzano.
+
+### Traffic between components
