@@ -17,22 +17,22 @@
 <link rel="icon" type="image/png" href="../../../favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="../../../favicons/android-192x192.png" sizes="192x192">
 
-<title>Helidon Sock Shop | Verrazzano Enterprise Container Platform</title><meta property="og:title" content="Helidon Sock Shop" />
-<meta property="og:description" content="A Helidon implementation of the Sock Shop Microservices Demo Application" />
+<title>Troubleshooting Multicluster Verrazzano | Verrazzano Enterprise Container Platform</title><meta property="og:title" content="Troubleshooting Multicluster Verrazzano" />
+<meta property="og:description" content="Troubleshooting problems with multicluster setup and applications" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://verrazzano.io/docs/samples/sock-shop/" />
-<meta property="article:modified_time" content="2021-06-17T16:38:35-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
-<meta itemprop="name" content="Helidon Sock Shop">
-<meta itemprop="description" content="A Helidon implementation of the Sock Shop Microservices Demo Application">
-<meta itemprop="dateModified" content="2021-06-17T16:38:35-04:00" />
-<meta itemprop="wordCount" content="778">
+<meta property="og:url" content="https://verrazzano.io/docs/troubleshooting/troubleshooting-multicluster/" />
+<meta property="article:modified_time" content="2021-06-23T17:48:00-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta itemprop="name" content="Troubleshooting Multicluster Verrazzano">
+<meta itemprop="description" content="Troubleshooting problems with multicluster setup and applications">
+<meta itemprop="dateModified" content="2021-06-23T17:48:00-04:00" />
+<meta itemprop="wordCount" content="657">
 
 
 
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Helidon Sock Shop"/>
-<meta name="twitter:description" content="A Helidon implementation of the Sock Shop Microservices Demo Application"/>
+<meta name="twitter:title" content="Troubleshooting Multicluster Verrazzano"/>
+<meta name="twitter:description" content="Troubleshooting problems with multicluster setup and applications"/>
 
 
 <script type="application/javascript">
@@ -639,10 +639,10 @@ if (!doNotTrack) {
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="../../../docs/troubleshooting/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Troubleshooting</a>
+    <a  href="../../../docs/troubleshooting/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Troubleshooting</a>
   </li>
   <ul>
-    <li class="collapse " id="docstroubleshooting">
+    <li class="collapse show" id="docstroubleshooting">
       
       
       
@@ -658,7 +658,7 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docstroubleshootingtroubleshooting-multicluster" href="../../../docs/troubleshooting/troubleshooting-multicluster/">Multicluster</a>
+          <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docstroubleshootingtroubleshooting-multicluster" href="../../../docs/troubleshooting/troubleshooting-multicluster/">Multicluster</a>
         
       
       
@@ -688,10 +688,10 @@ if (!doNotTrack) {
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="../../../docs/samples/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Examples</a>
+    <a  href="../../../docs/samples/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Examples</a>
   </li>
   <ul>
-    <li class="collapse show" id="docssamples">
+    <li class="collapse " id="docssamples">
       
       
       
@@ -723,7 +723,7 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docssamplessock-shop" href="../../../docs/samples/sock-shop/">Helidon Sock Shop</a>
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssamplessock-shop" href="../../../docs/samples/sock-shop/">Helidon Sock Shop</a>
         
       
       
@@ -1123,10 +1123,9 @@ if (!doNotTrack) {
   <ul>
     <li>
       <ul>
-        <li><a href="#before-you-begin">Before you begin</a></li>
-        <li><a href="#deploy-the-sock-shop-application">Deploy the Sock Shop application</a></li>
-        <li><a href="#explore-the-application">Explore the application</a></li>
-        <li><a href="#troubleshooting">Troubleshooting</a></li>
+        <li><a href="#verifying-managed-cluster-registration-and-connectivity">Verifying managed cluster registration and connectivity</a></li>
+        <li><a href="#verifying-verrazzanoproject-placement">Verifying VerrazzanoProject placement</a></li>
+        <li><a href="#checking-the-multicluster-resource-status">Checking the multicluster resource status</a></li>
       </ul>
     </li>
   </ul>
@@ -1160,14 +1159,14 @@ if (!doNotTrack) {
 
 
 <li class="breadcrumb-item" >
-	<a href="https://verrazzano.io/docs/samples/">Examples</a>
+	<a href="https://verrazzano.io/docs/troubleshooting/">Troubleshooting</a>
 </li>
 
 
 
 
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="https://verrazzano.io/docs/samples/sock-shop/">Helidon Sock Shop</a>
+	<a href="https://verrazzano.io/docs/troubleshooting/troubleshooting-multicluster/">Multicluster</a>
 </li>
 
 	</ol>
@@ -1175,171 +1174,97 @@ if (!doNotTrack) {
 
             
 <div class="td-content">
-	<h1>Helidon Sock Shop</h1>
-    <div class="lead">A Helidon implementation of the Sock Shop Microservices Demo Application</div>
+	<h1>Troubleshooting Multicluster Verrazzano</h1>
+    <div class="lead">Troubleshooting problems with multicluster setup and applications</div>
 	       
-	<h2 id="before-you-begin">Before you begin</h2>
-<p>Install Verrazzano by following the <a href="../../../docs/setup/install/installation/">installation</a> instructions.</p>
-<p><strong>NOTE:</strong> The Sock Shop example application deployment files are contained in the Verrazzano project located at
-<code>&lt;VERRAZZANO_HOME&gt;/examples/sockshop</code>, where <code>&lt;VERRAZZANO_HOME&gt;</code> is the root of the Verrazzano project.</p>
-<p>All files and paths in this document are relative to
-<code>&lt;VERRAZZANO_HOME&gt;/examples/sockshop</code>.</p>
-<h2 id="deploy-the-sock-shop-application">Deploy the Sock Shop application</h2>
-<p>This example application provides a <a href="https://helidon.io">Helidon</a> implementation of the <a href="https://microservices-demo.github.io/">Sock Shop Microservices Demo Application</a>.
-It uses OAM resources to define the application deployment.</p>
+	<p>This document describes some common problems you may encounter when using multicluster Verrazzano, and how to troubleshoot them.</p>
+<p>If you created multicluster resources in the admin cluster, and specified a <code>placement</code> value in a managed cluster,
+then those resources will get created in that managed cluster. If they do not get created in the managed cluster, then
+use the following steps to troubleshoot:</p>
+<ul>
+<li>Verify that the managed cluster is registered correctly and can connect to the admin cluster.</li>
+<li>Verify that the <code>VerrazzanoProject</code> for the resource&rsquo;s namespace, also has a <code>placement</code> in that managed cluster.</li>
+<li>Check the multicluster resource&rsquo;s status field on the admin cluster to know what the status of that resource is
+on each managed cluster to which it is targeted.</li>
+</ul>
+<h2 id="verifying-managed-cluster-registration-and-connectivity">Verifying managed cluster registration and connectivity</h2>
+<p>You can verify that a managed cluster was successfully registered with an admin cluster by viewing the
+corresponding <code>VerrazzanoManagedCluster</code> (VMC) resource on the admin cluster. For example, to verify that a managed cluster
+named <code>managed1</code> was successfully registered:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8f5902;font-style:italic"># on the admin cluster</span>
+$ kubectl get verrazzanomanagedcluster managed1 -n verrazzano-mc -o yaml
+</code></pre></div><p>Partial sample output from the previous command is shown, as follows:</p>
+<pre><code>  status:
+    conditions:
+    - lastTransitionTime: &quot;2021-06-22T21:03:27Z&quot;
+      message: Ready
+      status: &quot;True&quot;
+      type: Ready
+    lastAgentConnectTime: &quot;2021-06-22T21:06:04Z&quot;
+    ... other fields ...
+</code></pre><p>Check the <code>lastAgentConnectTime</code> in the status of the VMC resource. This is the last time at which the
+managed cluster connected to the admin cluster. If this value is not present, then the managed cluster named <code>managed1</code>
+never successfully connected to the admin cluster. This could be due to several reasons:</p>
 <ol>
 <li>
-<p>Create a namespace for the Sock Shop application and add a label identifying the namespace as managed by Verrazzano.</p>
-<pre><code>$ kubectl create namespace sockshop
-$ kubectl label namespace sockshop verrazzano-managed=true
-</code></pre></li>
+<p>The managed cluster registration process step of applying the registration YAML on the managed cluster,
+was not completed. For the complete setup instructions, see <a href="../../../docs/setup/install/multicluster/">here</a>.</p>
+</li>
 <li>
-<p>To deploy the application, apply the Sock Shop OAM resources.</p>
-<pre><code>$ kubectl apply -f sock-shop-comp.yaml
-$ kubectl apply -f sock-shop-app.yaml
-</code></pre></li>
-<li>
-<p>Wait for the Sock Shop application to be ready.</p>
-<pre><code>$ kubectl wait --for=condition=Ready pods --all -n sockshop --timeout=300s
-</code></pre></li>
+<p>The managed cluster does not have network connectivity to the admin cluster. The managed cluster will attempt to
+connect to the admin cluster at regular intervals, and any errors will be reported in the
+<code>verrazzano-application-operator</code> pod&rsquo;s log on the <em>managed</em> cluster. View the logs using the following command.</p>
+</li>
 </ol>
-<h2 id="explore-the-application">Explore the application</h2>
-<p>The Sock Shop microservices application implements REST API endpoints including:</p>
-<ul>
-<li><code>/catalogue</code> - Returns the Sock Shop catalog.
-This endpoint accepts the <code>GET</code> HTTP request method.</li>
-<li><code>/register</code> - POST <code>{ &quot;username&quot;:&quot;xxx&quot;, &quot;password&quot;:&quot;***&quot;, &quot;email&quot;:&quot;foo@example.com&quot;, &quot;firstName&quot;:&quot;foo&quot;, &quot;lastName&quot;:&quot;bar&quot; }</code> to create a user. This
-endpoint accepts the <code>POST</code> HTTP request method.</li>
-</ul>
-<p><strong>NOTE</strong>:  The following instructions assume that you are using a Kubernetes
-environment, such as OKE.  Other environments or deployments may require alternative mechanisms for retrieving addresses,
-ports, and such.</p>
-<p>Follow these steps to test the endpoints:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8f5902;font-style:italic"># on the managed cluster</span>
+$ kubectl logs -n verrazzano-system -l <span style="color:#000">app</span><span style="color:#ce5c00;font-weight:bold">=</span>verrazzano-application-operator
+</code></pre></div><p>If these logs reveal that there is a connectivity issue, check the admin cluster Kubernetes server address that
+you provided during registration and ensure that it is correct, and that it is reachable from the managed cluster. If it
+is incorrect, you will need to repeat the managed cluster registration process described in the setup instructions
+<a href="../../../docs/setup/install/multicluster/">here</a>.</p>
+<h2 id="verifying-verrazzanoproject-placement">Verifying VerrazzanoProject placement</h2>
+<p>For Verrazzano to create an application namespace in a managed cluster, that namespace must be part of a <code>VerrazzanoProject</code>
+that:</p>
 <ol>
-<li>
-<p>Get the generated host name for the application.</p>
-<pre><code>$ HOST=$(kubectl get gateway -n sockshop -o jsonpath={.items[0].spec.servers[0].hosts[0]})
-$ echo $HOST
-sockshop-appconf.sockshop.11.22.33.44.nip.io
-</code></pre></li>
-<li>
-<p>Get the <code>EXTERNAL_IP</code> address of the <code>istio-ingressgateway</code> service.</p>
-<pre><code>$ ADDRESS=$(kubectl get service -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-$ echo $ADDRESS
-11.22.33.44
-</code></pre></li>
-<li>
-<p>Access the Sock Shop application:</p>
-<ul>
-<li>
-<p><strong>Using the command line</strong></p>
-<pre><code># Get catalogue
-$ curl -sk -X GET https://${HOST}/catalogue --resolve ${HOST}:443:${ADDRESS}
-[{&quot;count&quot;:115,&quot;description&quot;:&quot;For all those leg lovers out there....&quot;, ...}]
-
-# Add a new user (replace values of username and password)
-$ curl -i --header &quot;Content-Type: application/json&quot; --request POST --data '{&quot;username&quot;:&quot;foo&quot;,&quot;password&quot;:&quot;****&quot;,&quot;email&quot;:&quot;foo@example.com&quot;,&quot;firstName&quot;:&quot;foo&quot;,&quot;lastName&quot;:&quot;foo&quot;}' -k https://${HOST}/register --resolve ${HOST}:443:${ADDRESS}
-
-# Add an item to the user's cart
-$ curl -i --header &quot;Content-Type: application/json&quot; --request POST --data '{&quot;itemId&quot;: &quot;a0a4f044-b040-410d-8ead-4de0446aec7e&quot;,&quot;unitPrice&quot;: &quot;7.99&quot;}' -k https://${HOST}/carts/{username}/items --resolve ${HOST}:443:${ADDRESS}
-
-# Get cart items
-$ curl -i -k https://${HOST}/carts/{username}/items --resolve ${HOST}:443:${ADDRESS}
-</code></pre><p>If you are using <code>nip.io</code>, then you do not need to include <code>--resolve</code>.</p>
-</li>
-<li>
-<p><strong>Local testing with a browser</strong></p>
-<p>Temporarily, modify the <code>/etc/hosts</code> file (on Mac or Linux)
-or <code>c:\Windows\System32\Drivers\etc\hosts</code> file (on Windows 10),
-to add an entry mapping the host name to the ingress gateway&rsquo;s <code>EXTERNAL-IP</code> address.
-For example:</p>
-<pre><code>11.22.33.44 sockshop.example.com
-</code></pre><p>Then, you can access the application in a browser at <code>https://sockshop.example.com/catalogue</code>.</p>
-<p>If you are using <code>nip.io</code>, then you can access the application in a browser using the <code>HOST</code> variable (for example, <code>https://${HOST}/catalogue</code>).  If you are going through a proxy, you may need to add <code>*.nip.io</code> to the <code>NO_PROXY</code> list.</p>
-</li>
-<li>
-<p><strong>Using your own DNS name</strong></p>
-<ul>
-<li>Point your own DNS name to the ingress gateway&rsquo;s <code>EXTERNAL-IP</code> address.</li>
-<li>In this case, you would need to edit the <code>sock-shop-app.yaml</code> file
-to use the appropriate value under the <code>hosts</code> section (such as <code>yourhost.your.domain</code>),
-before deploying the Sock Shop application.</li>
-<li>Then, you can use a browser to access the application at <code>https://&lt;yourhost.your.domain&gt;/catalogue</code>.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p>A variety of endpoints associated with the deployed application, are available to further explore the logs, metrics, and such.</p>
-<p>Accessing them may require the following:</p>
-<ul>
-<li>
-<p>Run this command to get the password that was generated for the telemetry components:</p>
-<pre><code>$ kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo
-</code></pre><p>The associated user name is <code>verrazzano</code>.</p>
-</li>
-<li>
-<p>You will have to accept the certificates associated with the endpoints.</p>
-<p>You can retrieve the list of available ingresses with following command:</p>
-<pre><code> $ kubectl get ing -n verrazzano-system
- NAME                         CLASS    HOSTS                                                    ADDRESS          PORTS     AGE
- verrazzano-ingress           &lt;none&gt;   verrazzano.default.140.238.94.217.nip.io                 140.238.94.217   80, 443   7d2h
- vmi-system-es-ingest         &lt;none&gt;   elasticsearch.vmi.system.default.140.238.94.217.nip.io   140.238.94.217   80, 443   7d2h
- vmi-system-grafana           &lt;none&gt;   grafana.vmi.system.default.140.238.94.217.nip.io         140.238.94.217   80, 443   7d2h
- vmi-system-kibana            &lt;none&gt;   kibana.vmi.system.default.140.238.94.217.nip.io          140.238.94.217   80, 443   7d2h
- vmi-system-prometheus        &lt;none&gt;   prometheus.vmi.system.default.140.238.94.217.nip.io      140.238.94.217   80, 443   7d2h
-</code></pre><p>Using the ingress host information, some of the endpoints available are:</p>
-<table>
-<thead>
-<tr>
-<th>Description</th>
-<th>Address</th>
-<th>Credentials</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Kibana</td>
-<td><code>https://[vmi-system-kibana ingress host]</code></td>
-<td><code>verrazzano</code>/<code>telemetry-password</code></td>
-</tr>
-<tr>
-<td>Grafana</td>
-<td><code>https://[vmi-system-grafana ingress host]</code></td>
-<td><code>verrazzano</code>/<code>telemetry-password</code></td>
-</tr>
-<tr>
-<td>Prometheus</td>
-<td><code>https://[vmi-system-prometheus ingress host]</code></td>
-<td><code>verrazzano</code>/<code>telemetry-password</code></td>
-</tr>
-</tbody>
-</table>
-</li>
-</ul>
-</li>
+<li>Includes that namespace.</li>
+<li>Has a <code>placement</code> value that includes that managed cluster.</li>
 </ol>
-<h2 id="troubleshooting">Troubleshooting</h2>
-<ol>
-<li>
-<p>Verify that the application configuration, domain, and ingress trait all exist.</p>
-<pre><code>$ kubectl get ApplicationConfiguration -n sockshop
-$ kubectl get Domain -n sockshop
-$ kubectl get IngressTrait -n sockshop
-</code></pre></li>
-<li>
-<p>Verify that the Sock Shop service pods are successfully created and transition to the <code>READY</code> state. Note that this may take a few minutes and that you may see some of the services terminate and restart.</p>
-<pre><code> $ kubectl get pods -n sockshop
-
- NAME             READY   STATUS        RESTARTS   AGE
- carts-coh-0      1/1     Running       0          41s
- catalog-coh-0    1/1     Running       0          40s
- orders-coh-0     1/1     Running       0          39s
- payment-coh-0    1/1     Running       0          37s
- shipping-coh-0   1/1     Running       0          36s
- users-coh-0      1/1     Running       0          35s
-</code></pre></li>
-</ol>
+<p>View the details of the project that corresponds to your application&rsquo;s namespace. In the example command that follows, the
+project name is assumed to be <code>myproject</code>. All projects are expected to be created in the <code>verrazzano-mc</code> namespace.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8f5902;font-style:italic"># on the admin cluster</span>
+$ kubectl get verrazzanoproject myproject -n verrazzano-mc -o yaml 
+</code></pre></div><p>The following partial sample output is for a project that will result in the namespace <code>mynamespace</code> being created on the managed
+cluster <code>managed1</code>.</p>
+<pre><code>spec:
+  placement:
+    clusters:
+    - name: managed1
+  template:
+    namespaces:
+    - metadata:
+        name: mynamespace
+....other fields....
+</code></pre><h2 id="checking-the-multicluster-resource-status">Checking the multicluster resource status</h2>
+<p>On the admin cluster, each multicluster resource&rsquo;s status field is updated with the status of the underlying resource
+on each managed cluster in which it is placed.</p>
+<p>The following example command shows how to view the status of a <code>MultiClusterApplicationConfiguration</code> named <code>myapp</code>, in
+the namespace <code>mynamespace</code>, that has a <code>placement</code> value that includes the managed cluster <code>managed1</code></p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get multiclusterapplicationconfiguration myapp -n mynamespace -o yaml
+</code></pre></div><p>The status of the underlying resource in each cluster specified in the placement is shown in the following partial sample
+output:</p>
+<pre><code>  status:
+    clusters:
+    - lastUpdateTime: &quot;2021-06-22T21:05:04Z&quot;
+      message: OAM Application Configuration created
+      name: managed1
+      state: Succeeded
+    conditions:
+    - lastTransitionTime: &quot;2021-06-22T21:03:58Z&quot;
+      message: OAM Application Configuration created
+      status: &quot;True&quot;
+      type: DeployComplete
+    state: Succeeded
+</code></pre><p>The status message contains additional information on the operation&rsquo;s success or failure.</p>
 
 	
 		<style>
@@ -1405,7 +1330,7 @@ $ kubectl get IngressTrait -n sockshop
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified June 17, 2021: <a  href="../../../commit/830e6c79141eaa5e6f72ed8c43254cdf8f0bd192">docs re-org (#141) (830e6c7)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified June 23, 2021: <a  href="../../../commit/8942c789e527cf1f754deb1bbad17c0fd13af206">Multicluster reorg and troubleshooting, VerrazzanoProject docs (#156) (8942c78)</a>
 </div>
 </div>
 

@@ -295,28 +295,17 @@ $ kubectl delete verrazzano &amp;lt;name of custom resource&amp;gt;
       <description>
         
         
-        &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#prerequisites&#34;&gt;Prerequisites&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#set-up-a-multicluster-verrazzano-environment&#34;&gt;Set up a multicluster Verrazzano environment&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#install-verrazzano&#34;&gt;Install Verrazzano&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#register-the-managed-cluster-with-the-admin-cluster&#34;&gt;Register the managed cluster with the admin cluster&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#run-applications-in-multicluster-verrazzano&#34;&gt;Run applications in multicluster Verrazzano&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#use-the-admin-cluster-ui&#34;&gt;Use the admin cluster UI&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
+        &lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
 &lt;p&gt;Before you begin, read this document, &lt;a href=&#34;../../../docs/concepts/verrazzanomulticluster/&#34;&gt;Verrazzano in a multicluster environment&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;set-up-a-multicluster-verrazzano-environment&#34;&gt;Set up a multicluster Verrazzano environment&lt;/h2&gt;
+&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;
 &lt;p&gt;To set up a multicluster Verrazzano environment, you will need two or more Kubernetes clusters. One of these clusters
 will the &lt;em&gt;admin&lt;/em&gt; cluster; the others will be &lt;em&gt;managed&lt;/em&gt; clusters.&lt;/p&gt;
 &lt;p&gt;The instructions here assume an admin cluster and a single managed cluster. For each additional managed
 cluster, simply repeat the managed cluster instructions.&lt;/p&gt;
-&lt;h3 id=&#34;install-verrazzano&#34;&gt;Install Verrazzano&lt;/h3&gt;
+&lt;h2 id=&#34;install-verrazzano&#34;&gt;Install Verrazzano&lt;/h2&gt;
 &lt;p&gt;Install Verrazzano on each Kubernetes cluster.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;On one cluster, install Verrazzano using the &lt;code&gt;dev&lt;/code&gt; profile; this will be the &lt;em&gt;admin&lt;/em&gt; cluster.&lt;/li&gt;
+&lt;li&gt;On one cluster, install Verrazzano using the &lt;code&gt;dev&lt;/code&gt; or &lt;code&gt;prod&lt;/code&gt; profile; this will be the &lt;em&gt;admin&lt;/em&gt; cluster.&lt;/li&gt;
 &lt;li&gt;On the other cluster, install Verrazzano using the &lt;code&gt;managed-cluster&lt;/code&gt; profile; this will be a
 managed cluster. The &lt;code&gt;managed-cluster&lt;/code&gt; profile contains only the components that are required for a managed cluster.&lt;/li&gt;
 &lt;li&gt;Create the environment variables, &lt;code&gt;KUBECONFIG_ADMIN&lt;/code&gt; and &lt;code&gt;KUBECONFIG_MANAGED1&lt;/code&gt;, and point them to the &lt;code&gt;kubeconfig&lt;/code&gt;
@@ -325,10 +314,10 @@ when registering the managed cluster.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;For detailed instructions on how to install Verrazzano on a Kubernetes cluster using a specific profile, see the
 &lt;a href=&#34;../../../docs/setup/install/installation/&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
-&lt;h3 id=&#34;register-the-managed-cluster-with-the-admin-cluster&#34;&gt;Register the managed cluster with the admin cluster&lt;/h3&gt;
+&lt;h2 id=&#34;register-the-managed-cluster-with-the-admin-cluster&#34;&gt;Register the managed cluster with the admin cluster&lt;/h2&gt;
 &lt;p&gt;The following sections show you how to register the managed cluster with the admin cluster.&lt;/p&gt;
 &lt;!-- omit in toc --&gt;
-&lt;h4 id=&#34;preregistration-setup&#34;&gt;Preregistration setup&lt;/h4&gt;
+&lt;h3 id=&#34;preregistration-setup&#34;&gt;Preregistration setup&lt;/h3&gt;
 &lt;p&gt;Before registering the managed cluster, first you&amp;rsquo;ll need to set up the following items:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;A ConfigMap containing the externally reachable address of the admin cluster. This will be provided to the managed
@@ -379,7 +368,7 @@ The file &lt;code&gt;managed1.yaml&lt;/code&gt; that was created in the previous
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;!-- omit in toc --&gt;
-&lt;h4 id=&#34;registration-steps&#34;&gt;Registration steps&lt;/h4&gt;
+&lt;h3 id=&#34;registration-steps&#34;&gt;Registration steps&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;To begin the registration process for a managed cluster named &lt;code&gt;managed1&lt;/code&gt;, apply the VerrazzanoManagedCluster object on the admin cluster.&lt;/p&gt;

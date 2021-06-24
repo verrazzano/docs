@@ -749,6 +749,107 @@ $ kubectl delete verrazzano &amp;lt;name of custom resource&amp;gt;
     </item>
     
     <item>
+      <title>Docs: Troubleshooting Multicluster Verrazzano</title>
+      <link>https://verrazzano.io/docs/troubleshooting/troubleshooting-multicluster/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/troubleshooting/troubleshooting-multicluster/</guid>
+      <description>
+        
+        
+        &lt;p&gt;This document describes some common problems you may encounter when using multicluster Verrazzano, and how to troubleshoot them.&lt;/p&gt;
+&lt;p&gt;If you created multicluster resources in the admin cluster, and specified a &lt;code&gt;placement&lt;/code&gt; value in a managed cluster,
+then those resources will get created in that managed cluster. If they do not get created in the managed cluster, then
+use the following steps to troubleshoot:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Verify that the managed cluster is registered correctly and can connect to the admin cluster.&lt;/li&gt;
+&lt;li&gt;Verify that the &lt;code&gt;VerrazzanoProject&lt;/code&gt; for the resource&amp;rsquo;s namespace, also has a &lt;code&gt;placement&lt;/code&gt; in that managed cluster.&lt;/li&gt;
+&lt;li&gt;Check the multicluster resource&amp;rsquo;s status field on the admin cluster to know what the status of that resource is
+on each managed cluster to which it is targeted.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;verifying-managed-cluster-registration-and-connectivity&#34;&gt;Verifying managed cluster registration and connectivity&lt;/h2&gt;
+&lt;p&gt;You can verify that a managed cluster was successfully registered with an admin cluster by viewing the
+corresponding &lt;code&gt;VerrazzanoManagedCluster&lt;/code&gt; (VMC) resource on the admin cluster. For example, to verify that a managed cluster
+named &lt;code&gt;managed1&lt;/code&gt; was successfully registered:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# on the admin cluster&lt;/span&gt;
+$ kubectl get verrazzanomanagedcluster managed1 -n verrazzano-mc -o yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Partial sample output from the previous command is shown, as follows:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;  status:
+    conditions:
+    - lastTransitionTime: &amp;quot;2021-06-22T21:03:27Z&amp;quot;
+      message: Ready
+      status: &amp;quot;True&amp;quot;
+      type: Ready
+    lastAgentConnectTime: &amp;quot;2021-06-22T21:06:04Z&amp;quot;
+    ... other fields ...
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Check the &lt;code&gt;lastAgentConnectTime&lt;/code&gt; in the status of the VMC resource. This is the last time at which the
+managed cluster connected to the admin cluster. If this value is not present, then the managed cluster named &lt;code&gt;managed1&lt;/code&gt;
+never successfully connected to the admin cluster. This could be due to several reasons:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;The managed cluster registration process step of applying the registration YAML on the managed cluster,
+was not completed. For the complete setup instructions, see &lt;a href=&#34;../docs/setup/install/multicluster/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The managed cluster does not have network connectivity to the admin cluster. The managed cluster will attempt to
+connect to the admin cluster at regular intervals, and any errors will be reported in the
+&lt;code&gt;verrazzano-application-operator&lt;/code&gt; pod&amp;rsquo;s log on the &lt;em&gt;managed&lt;/em&gt; cluster. View the logs using the following command.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# on the managed cluster&lt;/span&gt;
+$ kubectl logs -n verrazzano-system -l &lt;span style=&#34;color:#000&#34;&gt;app&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;verrazzano-application-operator
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;If these logs reveal that there is a connectivity issue, check the admin cluster Kubernetes server address that
+you provided during registration and ensure that it is correct, and that it is reachable from the managed cluster. If it
+is incorrect, you will need to repeat the managed cluster registration process described in the setup instructions
+&lt;a href=&#34;../docs/setup/install/multicluster/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;verifying-verrazzanoproject-placement&#34;&gt;Verifying VerrazzanoProject placement&lt;/h2&gt;
+&lt;p&gt;For Verrazzano to create an application namespace in a managed cluster, that namespace must be part of a &lt;code&gt;VerrazzanoProject&lt;/code&gt;
+that:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Includes that namespace.&lt;/li&gt;
+&lt;li&gt;Has a &lt;code&gt;placement&lt;/code&gt; value that includes that managed cluster.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;View the details of the project that corresponds to your application&amp;rsquo;s namespace. In the example command that follows, the
+project name is assumed to be &lt;code&gt;myproject&lt;/code&gt;. All projects are expected to be created in the &lt;code&gt;verrazzano-mc&lt;/code&gt; namespace.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# on the admin cluster&lt;/span&gt;
+$ kubectl get verrazzanoproject myproject -n verrazzano-mc -o yaml 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The following partial sample output is for a project that will result in the namespace &lt;code&gt;mynamespace&lt;/code&gt; being created on the managed
+cluster &lt;code&gt;managed1&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;spec:
+  placement:
+    clusters:
+    - name: managed1
+  template:
+    namespaces:
+    - metadata:
+        name: mynamespace
+....other fields....
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;checking-the-multicluster-resource-status&#34;&gt;Checking the multicluster resource status&lt;/h2&gt;
+&lt;p&gt;On the admin cluster, each multicluster resource&amp;rsquo;s status field is updated with the status of the underlying resource
+on each managed cluster in which it is placed.&lt;/p&gt;
+&lt;p&gt;The following example command shows how to view the status of a &lt;code&gt;MultiClusterApplicationConfiguration&lt;/code&gt; named &lt;code&gt;myapp&lt;/code&gt;, in
+the namespace &lt;code&gt;mynamespace&lt;/code&gt;, that has a &lt;code&gt;placement&lt;/code&gt; value that includes the managed cluster &lt;code&gt;managed1&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get multiclusterapplicationconfiguration myapp -n mynamespace -o yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The status of the underlying resource in each cluster specified in the placement is shown in the following partial sample
+output:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;  status:
+    clusters:
+    - lastUpdateTime: &amp;quot;2021-06-22T21:05:04Z&amp;quot;
+      message: OAM Application Configuration created
+      name: managed1
+      state: Succeeded
+    conditions:
+    - lastTransitionTime: &amp;quot;2021-06-22T21:03:58Z&amp;quot;
+      message: OAM Application Configuration created
+      status: &amp;quot;True&amp;quot;
+      type: DeployComplete
+    state: Succeeded
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The status message contains additional information on the operation&amp;rsquo;s success or failure.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Verrazzano and the Open Application Model</title>
       <link>https://verrazzano.io/docs/concepts/verrazzanooam/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -783,116 +884,48 @@ $ kubectl delete verrazzano &amp;lt;name of custom resource&amp;gt;
       <description>
         
         
-        &lt;p&gt;Multicluster Verrazzano consists of an &lt;em&gt;admin&lt;/em&gt; Kubernetes cluster and optionally, one or more &lt;em&gt;managed&lt;/em&gt; clusters.&lt;/p&gt;
-&lt;p&gt;Review the following key concepts to understand multicluster Verrazzano:&lt;/p&gt;
+        &lt;p&gt;Review the following key concepts to understand multicluster Verrazzano:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#admin-kubernetes-cluster&#34;&gt;Admin Kubernetes cluster&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#managed-kubernetes-clusters&#34;&gt;Managed Kubernetes clusters&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#the-verrazzanoproject-resource&#34;&gt;The VerrazzanoProject resource&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#verrazzano-multicluster-resources&#34;&gt;Verrazzano multicluster resources&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#managed-cluster-registration&#34;&gt;Managed cluster registration&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;For more information, see:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#detailed-view-of-multicluster-verrazzano&#34;&gt;Detailed view of multicluster Verrazzano&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#try-out-multicluster-verrazzano&#34;&gt;Try out multicluster Verrazzano&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;The following diagram shows a high-level overview of how multicluster Verrazzano works. For a more
-detailed view, see the diagram &lt;a href=&#34;#detailed-view-of-multicluster-verrazzano&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;../../images/multicluster/MCConceptsHighLevel.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;admin-kubernetes-cluster&#34;&gt;Admin Kubernetes cluster&lt;/h3&gt;
-&lt;p&gt;A Verrazzano admin cluster is a central management point for:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Deploying and undeploying applications to the managed clusters registered with the admin cluster.&lt;/li&gt;
-&lt;li&gt;Viewing logs and metrics for both Verrazzano components and applications that reside in the managed clusters.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;You may register one or more managed clusters with the admin cluster by creating a &lt;code&gt;VerrazzanoManagedCluster&lt;/code&gt;
-resource in the &lt;code&gt;verrazzano-mc&lt;/code&gt; namespace of an admin cluster.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; The admin cluster has a fully functional Verrazzano installation. You can locate applications on the admin
-cluster as well as on managed clusters.&lt;/p&gt;
-&lt;h3 id=&#34;managed-kubernetes-clusters&#34;&gt;Managed Kubernetes clusters&lt;/h3&gt;
-&lt;p&gt;A Verrazzano managed cluster has a minimal footprint of Verrazzano, installed using the &lt;code&gt;managed-cluster&lt;/code&gt;
-installation profile. A managed cluster has the following additional characteristics:&lt;/p&gt;
+&lt;li&gt;Admin cluster - A Kubernetes cluster that serves as the central management point for deploying and monitoring applications
+in the managed clusters.&lt;/li&gt;
+&lt;li&gt;Managed clusters - A Kubernetes cluster that has the following characteristics:
 &lt;ul&gt;
 &lt;li&gt;It is registered with an admin cluster with a unique name.&lt;/li&gt;
-&lt;li&gt;Logs for Verrazzano system components and Verrazzano multicluster applications are sent to
-Elasticsearch running on the admin cluster, and viewable from that cluster.&lt;/li&gt;
-&lt;li&gt;A Verrazzano multicluster Kubernetes resource, created on the admin cluster, will be retrieved and deployed to a
-managed cluster if all of the following are true:
-&lt;ul&gt;
-&lt;li&gt;The resource is in a namespace governed by a &lt;code&gt;VerrazzanoProject&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;The &lt;code&gt;VerrazzanoProject&lt;/code&gt; is located in this managed cluster.&lt;/li&gt;
-&lt;li&gt;The resource itself is located in this managed cluster.&lt;/li&gt;
+&lt;li&gt;Verrazzano multicluster applications may be deployed to the managed cluster from the admin cluster.&lt;/li&gt;
+&lt;li&gt;Logs and metrics for Verrazzano system components and Verrazzano multicluster applications deployed on the
+managed cluster are viewable from the admin cluster.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;the-verrazzanoproject-resource&#34;&gt;The VerrazzanoProject resource&lt;/h3&gt;
-&lt;p&gt;A &lt;a href=&#34;../../reference/api/multicluster/verrazzanoproject&#34; title=&#34;api docs&#34;&gt;&lt;code&gt;VerrazzanoProject&lt;/code&gt;&lt;/a&gt; provides a way to group application namespaces that are owned or administered by the
-same user or group of users.&lt;/p&gt;
+&lt;li&gt;Verrazzano multicluster resources - Custom Kubernetes resources defined by Verrazzano.
 &lt;ul&gt;
-&lt;li&gt;For multicluster applications to work correctly, &lt;em&gt;first&lt;/em&gt; a VerrazzanoProject containing the application&amp;rsquo;s namespace must be created.&lt;/li&gt;
-&lt;li&gt;A &lt;code&gt;VerrazzanoProject&lt;/code&gt; resource is created by a Verrazzano administrative user, and specifies the following:
-&lt;ul&gt;
-&lt;li&gt;A list of namespaces that the project governs.&lt;/li&gt;
-&lt;li&gt;A user or group that is designated as the &lt;code&gt;Project Admin&lt;/code&gt; of the VerrazzanoProject. Project admins may deploy
-or delete applications and related resources in the namespaces in the project.&lt;/li&gt;
-&lt;li&gt;A user or group that is designated as &lt;code&gt;Project Monitor&lt;/code&gt; of the VerrazzanoProject. Project monitors may view
-the resources in the namespaces in the project, but not modify or delete them.&lt;/li&gt;
-&lt;li&gt;A list of network policies to apply to the namespaces in the project.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;If those namespaces do not already exist, then the creation of a &lt;code&gt;VerrazzanoProject&lt;/code&gt; results in the creation of the
-specified namespaces in the project.&lt;/li&gt;
-&lt;li&gt;It also results in the creation of a Kubernetes &lt;code&gt;RoleBinding&lt;/code&gt; in each of the namespaces, to set up the appropriate
-permissions for the project admins and project monitors of the project.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;verrazzano-multicluster-resources&#34;&gt;Verrazzano multicluster resources&lt;/h3&gt;
-&lt;p&gt;Verrazzano includes several multicluster resource definitions for resources that may be targeted for placement in one
-or more clusters: &lt;a href=&#34;../../reference/api/multicluster/multiclusterapplicationconfiguration&#34; title=&#34;api docs&#34;&gt;MultiClusterApplicationConfiguration&lt;/a&gt;,
-&lt;a href=&#34;../../reference/api/multicluster/multiclustercomponent&#34; title=&#34;api docs&#34;&gt;MultiClusterComponent&lt;/a&gt;,
-&lt;a href=&#34;../../reference/api/multicluster/multiclusterconfigmap&#34; title=&#34;api docs&#34;&gt;MultiClusterConfigMap&lt;/a&gt;,
-and &lt;a href=&#34;../../reference/api/multicluster/multiclustersecret&#34; title=&#34;api docs&#34;&gt;MultiClusterSecret&lt;/a&gt;.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Each multicluster resource type serves as a wrapper for an underlying resource type.&lt;/li&gt;
-&lt;li&gt;A multicluster resource additionally allows the &lt;code&gt;placement&lt;/code&gt; of the underlying resource to be specified as a list of
+&lt;li&gt;Each multicluster resource serves as a wrapper for an underlying resource type.&lt;/li&gt;
+&lt;li&gt;A multicluster resource allows the &lt;code&gt;placement&lt;/code&gt; of the underlying resource to be specified as a list of
 names of the clusters in which the resource must be placed.&lt;/li&gt;
-&lt;li&gt;Multicluster resources are created in the admin cluster, in a namespace that is part of a &lt;code&gt;VerrazzanoProject&lt;/code&gt;,
-and targeted for &lt;code&gt;placement&lt;/code&gt; in either the local admin cluster or a remote managed cluster.&lt;/li&gt;
-&lt;li&gt;A multicluster resource is said to be part of a &lt;code&gt;VerrazzanoProject&lt;/code&gt; if it is in a namespace that is governed
-by that &lt;code&gt;VerrazzanoProject&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;managed-cluster-registration&#34;&gt;Managed cluster registration&lt;/h3&gt;
-&lt;p&gt;A managed cluster may be registered with an admin cluster using a two-step process:&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Step 1:&lt;/strong&gt; Create a &lt;a href=&#34;../../reference/api/multicluster/verrazzanomanagedcluster&#34; title=&#34;api docs&#34;&gt;&lt;code&gt;VerrazzanoManagedCluster&lt;/code&gt;&lt;/a&gt; resource in the &lt;code&gt;verrazzano-mc&lt;/code&gt; namespace of the admin cluster.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Step 2:&lt;/strong&gt; Retrieve the Kubernetes manifest file generated in the &lt;code&gt;VerrazzanoManagedCluster&lt;/code&gt; resource and apply it on
-the managed cluster to complete the registration.&lt;/p&gt;
-&lt;p&gt;When a managed cluster is registered, the following will happen:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Immediately after the first registration step, the admin cluster begins scraping Prometheus metrics from the newly
-registered managed cluster.&lt;/li&gt;
-&lt;li&gt;After both steps of the registration are complete, the managed cluster begins polling the admin cluster for
-&lt;code&gt;VerrazzanoProject&lt;/code&gt; resources and multicluster resources, which specify a &lt;code&gt;placement&lt;/code&gt; in this managed cluster.
-&lt;ul&gt;
-&lt;li&gt;Any &lt;code&gt;VerrazzanoProject&lt;/code&gt; resources placed in this managed cluster are retrieved, and the corresponding namespaces
-and security permissions (&lt;code&gt;RoleBindings&lt;/code&gt;) are created in the managed cluster.&lt;/li&gt;
-&lt;li&gt;Any multicluster resources that are placed in this managed cluster, and are in a &lt;code&gt;VerrazzanoProject&lt;/code&gt; that is
-also placed in this managed cluster, are retrieved, and created or updated on the managed cluster. The
-underlying resource represented by the multicluster resource is unwrapped, and created or updated on the managed
-cluster. The managed cluster namespace of the multicluster resource and its underlying resource matches
-the admin cluster namespace of the multicluster resource.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;For &lt;code&gt;MultiClusterApplicationConfigurations&lt;/code&gt; retrieved and unwrapped on a managed cluster, the application logs are
-sent to Elasticsearch on the admin cluster, and may be viewed from the Verrazzano-installed Kibana UI on the
-admin cluster. Likewise, application metrics will be scraped by the admin cluster and available from
-Verrazzano-installed Prometheus on the admin cluster.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;detailed-view-of-multicluster-verrazzano&#34;&gt;Detailed view of multicluster Verrazzano&lt;/h3&gt;
-&lt;p&gt;This diagram shows a more detailed view of how multicluster Verrazzano works.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;../../images/multicluster/MCConcepts.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;try-out-multicluster-verrazzano&#34;&gt;Try out multicluster Verrazzano&lt;/h3&gt;
-&lt;p&gt;For more information, see the &lt;a href=&#34;../../reference/api/&#34;&gt;API Documentation&lt;/a&gt; for the resources described here.&lt;/p&gt;
-&lt;p&gt;To try out multicluster Verrazzano, see the &lt;a href=&#34;../docs/samples/multicluster/&#34;&gt;multicluster&lt;/a&gt; examples.&lt;/p&gt;
+&lt;p&gt;For more details, see &lt;a href=&#34;../docs/applications/multicluster/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../docs/images/multicluster/MCIntro.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Verrazzano Project</title>
+      <link>https://verrazzano.io/docs/concepts/verrazzanoproject/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/concepts/verrazzanoproject/</guid>
+      <description>
+        
+        
+        &lt;p&gt;A &lt;em&gt;project&lt;/em&gt; provides a way to group application namespaces that are owned or administered by the same user or
+group of users. When creating a project, you can specify the &lt;em&gt;subjects,&lt;/em&gt; users, groups and/or service accounts, that are
+to be granted access to the namespaces governed by the project. Two kinds of subjects may be specified:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Project admins, who have both read and write access to the project&amp;rsquo;s namespaces.&lt;/li&gt;
+&lt;li&gt;Project monitors, who have read-only access to the project&amp;rsquo;s namespaces.&lt;/li&gt;
+&lt;/ul&gt;
 
       </description>
     </item>
@@ -1090,28 +1123,17 @@ $ curl -sk -X GET https://${HOST}/greet
       <description>
         
         
-        &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#prerequisites&#34;&gt;Prerequisites&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#set-up-a-multicluster-verrazzano-environment&#34;&gt;Set up a multicluster Verrazzano environment&lt;/a&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#install-verrazzano&#34;&gt;Install Verrazzano&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#register-the-managed-cluster-with-the-admin-cluster&#34;&gt;Register the managed cluster with the admin cluster&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#run-applications-in-multicluster-verrazzano&#34;&gt;Run applications in multicluster Verrazzano&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#use-the-admin-cluster-ui&#34;&gt;Use the admin cluster UI&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
+        &lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
 &lt;p&gt;Before you begin, read this document, &lt;a href=&#34;../docs/concepts/verrazzanomulticluster/&#34;&gt;Verrazzano in a multicluster environment&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;set-up-a-multicluster-verrazzano-environment&#34;&gt;Set up a multicluster Verrazzano environment&lt;/h2&gt;
+&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;
 &lt;p&gt;To set up a multicluster Verrazzano environment, you will need two or more Kubernetes clusters. One of these clusters
 will the &lt;em&gt;admin&lt;/em&gt; cluster; the others will be &lt;em&gt;managed&lt;/em&gt; clusters.&lt;/p&gt;
 &lt;p&gt;The instructions here assume an admin cluster and a single managed cluster. For each additional managed
 cluster, simply repeat the managed cluster instructions.&lt;/p&gt;
-&lt;h3 id=&#34;install-verrazzano&#34;&gt;Install Verrazzano&lt;/h3&gt;
+&lt;h2 id=&#34;install-verrazzano&#34;&gt;Install Verrazzano&lt;/h2&gt;
 &lt;p&gt;Install Verrazzano on each Kubernetes cluster.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;On one cluster, install Verrazzano using the &lt;code&gt;dev&lt;/code&gt; profile; this will be the &lt;em&gt;admin&lt;/em&gt; cluster.&lt;/li&gt;
+&lt;li&gt;On one cluster, install Verrazzano using the &lt;code&gt;dev&lt;/code&gt; or &lt;code&gt;prod&lt;/code&gt; profile; this will be the &lt;em&gt;admin&lt;/em&gt; cluster.&lt;/li&gt;
 &lt;li&gt;On the other cluster, install Verrazzano using the &lt;code&gt;managed-cluster&lt;/code&gt; profile; this will be a
 managed cluster. The &lt;code&gt;managed-cluster&lt;/code&gt; profile contains only the components that are required for a managed cluster.&lt;/li&gt;
 &lt;li&gt;Create the environment variables, &lt;code&gt;KUBECONFIG_ADMIN&lt;/code&gt; and &lt;code&gt;KUBECONFIG_MANAGED1&lt;/code&gt;, and point them to the &lt;code&gt;kubeconfig&lt;/code&gt;
@@ -1120,10 +1142,10 @@ when registering the managed cluster.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;For detailed instructions on how to install Verrazzano on a Kubernetes cluster using a specific profile, see the
 &lt;a href=&#34;../docs/setup/install/installation/&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
-&lt;h3 id=&#34;register-the-managed-cluster-with-the-admin-cluster&#34;&gt;Register the managed cluster with the admin cluster&lt;/h3&gt;
+&lt;h2 id=&#34;register-the-managed-cluster-with-the-admin-cluster&#34;&gt;Register the managed cluster with the admin cluster&lt;/h2&gt;
 &lt;p&gt;The following sections show you how to register the managed cluster with the admin cluster.&lt;/p&gt;
 &lt;!-- omit in toc --&gt;
-&lt;h4 id=&#34;preregistration-setup&#34;&gt;Preregistration setup&lt;/h4&gt;
+&lt;h3 id=&#34;preregistration-setup&#34;&gt;Preregistration setup&lt;/h3&gt;
 &lt;p&gt;Before registering the managed cluster, first you&amp;rsquo;ll need to set up the following items:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;A ConfigMap containing the externally reachable address of the admin cluster. This will be provided to the managed
@@ -1174,7 +1196,7 @@ The file &lt;code&gt;managed1.yaml&lt;/code&gt; that was created in the previous
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;!-- omit in toc --&gt;
-&lt;h4 id=&#34;registration-steps&#34;&gt;Registration steps&lt;/h4&gt;
+&lt;h3 id=&#34;registration-steps&#34;&gt;Registration steps&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;To begin the registration process for a managed cluster named &lt;code&gt;managed1&lt;/code&gt;, apply the VerrazzanoManagedCluster object on the admin cluster.&lt;/p&gt;
@@ -1213,41 +1235,6 @@ file that must be applied on the managed cluster to complete the registration pr
 &lt;li&gt;VerrazzanoProjects located on this admin cluster, or any of its registered managed clusters, or both.&lt;/li&gt;
 &lt;li&gt;Applications located on this admin cluster, or any of its registered managed clusters, or both.&lt;/li&gt;
 &lt;/ul&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Docs: Known Issues</title>
-      <link>https://verrazzano.io/docs/troubleshooting/troubleshooting/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://verrazzano.io/docs/troubleshooting/troubleshooting/</guid>
-      <description>
-        
-        
-        &lt;h4 id=&#34;oke-missing-security-list-ingress-rules&#34;&gt;OKE Missing Security List Ingress Rules&lt;/h4&gt;
-&lt;p&gt;The install scripts perform a check, which attempts access through the ingress ports.  If the check fails, then the install will exit and you will see error messages like this:&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;ERROR: Port 443 is NOT accessible on ingress(132.145.66.80)!  Check that security lists include an ingress rule for the node port 31739.&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;On an OKE install, this may indicate that there is a missing ingress rule or rules.  To verify and fix the issue, do the following:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Get the ports for the &lt;code&gt;LoadBalancer&lt;/code&gt; services.
-&lt;ul&gt;
-&lt;li&gt;Run &lt;code&gt;kubectl get services -A&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Note the ports for the &lt;code&gt;LoadBalancer&lt;/code&gt; type services.  For example &lt;code&gt;80:31541/TCP,443:31739/TCP&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Check the security lists in the OCI Console.
-&lt;ul&gt;
-&lt;li&gt;Go to &lt;code&gt;Networking/Virtual Cloud Networks&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Select the related VCN.&lt;/li&gt;
-&lt;li&gt;Go to the &lt;code&gt;Security Lists&lt;/code&gt; for the VCN.&lt;/li&gt;
-&lt;li&gt;Select the security list named &lt;code&gt;oke-wkr-...&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Check the ingress rules for the security list.  There should be one rule for each of the destination ports named in the &lt;code&gt;LoadBalancer&lt;/code&gt; services.  In the above example, the destination ports are &lt;code&gt;31541&lt;/code&gt; &amp;amp; &lt;code&gt;31739&lt;/code&gt;. We would expect the ingress rule for &lt;code&gt;31739&lt;/code&gt; to be missing because it was named in the &lt;code&gt;ERROR&lt;/code&gt; output.&lt;/li&gt;
-&lt;li&gt;If a rule is missing, then add it by clicking &lt;code&gt;Add Ingress Rules&lt;/code&gt; and filling in the source CIDR and destination port range (missing port).  Use the existing rules as a guide.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
 
       </description>
     </item>
@@ -3757,6 +3744,41 @@ spec:
     </item>
     
     <item>
+      <title>Docs: Known Issues</title>
+      <link>https://verrazzano.io/docs/troubleshooting/troubleshooting/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/troubleshooting/troubleshooting/</guid>
+      <description>
+        
+        
+        &lt;h4 id=&#34;oke-missing-security-list-ingress-rules&#34;&gt;OKE Missing Security List Ingress Rules&lt;/h4&gt;
+&lt;p&gt;The install scripts perform a check, which attempts access through the ingress ports.  If the check fails, then the install will exit and you will see error messages like this:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ERROR: Port 443 is NOT accessible on ingress(132.145.66.80)!  Check that security lists include an ingress rule for the node port 31739.&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;On an OKE install, this may indicate that there is a missing ingress rule or rules.  To verify and fix the issue, do the following:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Get the ports for the &lt;code&gt;LoadBalancer&lt;/code&gt; services.
+&lt;ul&gt;
+&lt;li&gt;Run &lt;code&gt;kubectl get services -A&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Note the ports for the &lt;code&gt;LoadBalancer&lt;/code&gt; type services.  For example &lt;code&gt;80:31541/TCP,443:31739/TCP&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Check the security lists in the OCI Console.
+&lt;ul&gt;
+&lt;li&gt;Go to &lt;code&gt;Networking/Virtual Cloud Networks&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Select the related VCN.&lt;/li&gt;
+&lt;li&gt;Go to the &lt;code&gt;Security Lists&lt;/code&gt; for the VCN.&lt;/li&gt;
+&lt;li&gt;Select the security list named &lt;code&gt;oke-wkr-...&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Check the ingress rules for the security list.  There should be one rule for each of the destination ports named in the &lt;code&gt;LoadBalancer&lt;/code&gt; services.  In the above example, the destination ports are &lt;code&gt;31541&lt;/code&gt; &amp;amp; &lt;code&gt;31739&lt;/code&gt;. We would expect the ingress rule for &lt;code&gt;31739&lt;/code&gt; to be missing because it was named in the &lt;code&gt;ERROR&lt;/code&gt; output.&lt;/li&gt;
+&lt;li&gt;If a rule is missing, then add it by clicking &lt;code&gt;Add Ingress Rules&lt;/code&gt; and filling in the source CIDR and destination port range (missing port).  Use the existing rules as a guide.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Upgrade Guide</title>
       <link>https://verrazzano.io/docs/setup/upgrade/upgrade/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -6023,7 +6045,7 @@ component with its version and a brief description.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;WebLogic Kubernetes Operator&lt;/td&gt;
-&lt;td&gt;3.2.3&lt;/td&gt;
+&lt;td&gt;3.2.4&lt;/td&gt;
 &lt;td&gt;Assists with deploying and managing WebLogic domains.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
