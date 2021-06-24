@@ -33,7 +33,7 @@ depends on the underlying Kubernetes platform.  With Oracle OKE, creating a Load
 result in an OCI load balancer being created and configured to load balance to a set of pods.
 
 ### Ingress for system components
-To provide ingress to system components, Verrazzano creates an NGINX Ingress controller, 
+To provide ingress to system components, Verrazzano creates an NGINX Ingress Controller, 
 which includes an NGINX load balancer.  Verrazzano also creates Kubernetes 
 Ingress resource to configure ingress for each system component that requires ingress, like Kibana.
 An Ingress resource is used is to specify HTTP/HTTPS routes to Kubernetes services, along 
@@ -43,7 +43,7 @@ reconcile them, configuring the underlying Kubernetes load balancer to handle th
 routing. The NGINX Ingress Controller watches the Ingress resourced and configures
 the NGINX load balancer with the Ingress route information.
 
-The NGINX Ingress controller is a LoadBalancer service as seen here:
+The NGINX Ingress Controller is a LoadBalancer service as seen here:
 ```
 kubectl get service -n ingress-nginx
 ...
@@ -79,7 +79,7 @@ routing traffic to the Istio ingress gateway pod.
 When you install Verrazzano, you can optionally use an external DNS for your domain.  If you do that,
 Verrazzano will not only create the DNS records, using ExternalDNS, but also it will configure your host
 name in the Ingress resources. You can then use that host name to access the system components through the 
-NGINX Ingress controller.
+NGINX Ingress Controller.
 
 ## System Traffic
 System traffic includes all traffic that enters and leaves system pods.
@@ -101,52 +101,69 @@ from a client external to the cluster.
 - Verrazzano API
 
 #### Egress
-The following tables shows Verrazzano system components that send traffic to a destination
+The following tables shows Verrazzano system components that initiate requests to a destination
 outside the cluster.
 
 | Component  | Destination | Description |
 | ------------- |:------------- |:------------- 
+| cert-manager | Let's Encrypt | Get signed certficate
+| Elasticsearch | Keycloak | OIDC sidecar calls Keycloak for authentication which includes redirects
+| ExternalDNS | OCI | Create and Delete DNS entries in OCI DNS
+| Fluentd | Elasticsearch | Fluentd on the managed cluster calls Elasticsearch on the admin cluster
+| Grafana | Keycloak | OIDC sidecar calls Keycloak for authentication which includes redirects
+| Kibana | Keycloak | OIDC sidecar calls Keycloak for authentication which includes redirects
 | Prometheus | Prometheus | Prometheus on admin cluster scrapes metrics from Prometheus on managed clsuter
+| Rancher Agent | Rancher | Rancher agent on managed cluster sends requests to Rancher on admin cluster
 | Verrazzano API Proxy | Keycloak | API proxy on the managed clsuter calls Keycloak on the admin cluster
 | Verrazzano Console | Verazzano API proxy | Console on admin cluster calls API proxy on managed cluster
 | Verrazzano Console | Verazzano API proxy | Console on admin cluster calls API proxy on managed cluster
-| Fluentd | Elasticsearch | Fluentd on the managed cluster calls Elasticsearch on the admin cluster
-| Elasticsearch | Keycloak | OIDC sidecar calls Keycloak for authentication which includes redirects
-| Grafana | Keycloak | OIDC sidecar calls Keycloak for authentication which includes redirects
-| Kibana | Keycloak | OIDC sidecar calls Keycloak for authentication which includes redirects
-| Prometheus | Keycloak | OIDC sidecar calls Keycloak for authentication which includes redirects
+| Verrazzano Platform Operator | Kubernetes API server | MC agent on managed cluster calls API server on admin cluster
 
 ### East-West System Traffic
 The following tables shows Verrazzano system components that send traffic to a destination
-inside the cluster.  The destinations include any Verrazzano applications.  Two things are not shown:
+inside the cluster.  The destinations include any Verrazzano applications, with the following exceptions:
 - Usage of CoreDNS: It can be assumed that any pod in the cluster can access CoreDNS for name resolution.
 - Envoy to Istiod : The Envoy proxies all make requests to the Istio control plane to get dynamic configuration, etc.
 This includes both the gateways and the mesh sidecar proxies. That traffic is not shown. 
-Traffic between pods in the mesh (proxy to proxy) are shown.
+- Traffic within a component is not shown, for example, traffic between
+Elasticsearch pods.
+- Prometheus scraping traffic is shown in the second table
 
 | Component  | Destination | Description |
-| ------------- |:------------- |:------------- 
-| Prometheus | Prometheus | Prometheus on admin cluster scrapes metrics from Prometheus on managed clsuter
-| Verrazzano API Proxy | Keycloak | API proxy on the managed clsuter calls Keycloak on the admin cluster
-| Verrazzano Console | Verazzano API proxy | Console on admin cluster calls API proxy on managed cluster
-| Verrazzano Console | Verazzano API proxy | Console on admin cluster calls API proxy on managed cluster
-| Fluentd | Elasticsearch | Fluentd on the managed cluster calls Elasticsearch on the admin cluster
-| Elasticsearch | Keycloak | OIDC sidecar calls Keycloak for authentication which includes redirects
-| Grafana | Keycloak | OIDC sidecar calls Keycloak for authentication which includes redirects
-| Kibana | Keycloak | OIDC sidecar calls Keycloak for authentication which includes redirects
-| Prometheus | Keycloak | OIDC sidecar calls Keycloak for authentication which includes redirects
+| ------------- |:------------- |:-------------
+| cert-manager | Kubernetes API server | Perform CRUD operations on Kubernetes resources
+| Elasticsearch | Keycloak | OIDC sidecar calls Keycloak for token authentication
+| Fluentd | Elasticsearch | Fluentd sends data to Elasticsearch 
+| Grafana | Prometheus | UI for Prometheus data
+| Grafana | Keycloak | OIDC sidecar calls Keycloak for token authentication
+| Kibana | Elasticsearch | UI for Elasticsearch
+| Kibana | Keycloak | OIDC sidecar calls Keycloak for token authentication
+| NGINX Ingress Controller | Kubernetes API server | Perform CRUD operations on Kubernetes resources
+| Istio | Kubernetes API server | Perform CRUD operations on Kubernetes resources
+| Prometheus | Keycloak | OIDC sidecar calls Keycloak for token authentication
+| Rancher | Kubernetes API server | Perform CRUD operations on Kubernetes resources
 | Verrazzano API Proxy | Kubernetes API server | Perform CRUD operations on Kubernetes resources
 | Verrazzano Application Operator | Kubernetes API server | Perform CRUD operations on Kubernetes resources
 | Verrazzano Monitoring Operator | Kubernetes API server | Perform CRUD operations on Kubernetes resources
-| Verrazzano Platform Operator | Kubernetes API server | Perform CRUD operations on Kubernetes resources
 | Verrazzano Operator | Kubernetes API server | Perform CRUD operations on Kubernetes resources
-| Verrazzano Application Operator | Kubernetes API server | Perform CRUD operations on Kubernetes resources
-| Verrazzano Application Operator | Kubernetes API server | Perform CRUD operations on Kubernetes resources
-| Verrazzano Application Operator | Kubernetes API server | Perform CRUD operations on Kubernetes resources
+| Verrazzano Platform Operator | Kubernetes API server | Perform CRUD operations on Kubernetes resources
+| Verrazzano Platform Operator | Rancher| Register managed cluster with Rancher
+
+
+#### Prometheus scraping traffic
+This table shows all prometheus traffic.
+
+| Component  | Destination | Description |
+| ------------- |:------------- |:------------- 
+| Prometheus | Istiod | Metrics scraping of Istio metrics and Envoy metrics for all sidecars
+| Prometheus | Node exporter | Metrics scraping of node metrics
+| Prometheus  | ? | Add remaining scrape targets
+
 
 #### Webhooks
-
+TBD
 ## Application Traffic
+Application traffic includes all traffic to and from Verrazzano applications. 
 
 ### North-South Application Traffic
 The preceding section discussed network configuration during installation.  Once Verrazzano
@@ -239,7 +256,7 @@ The following table shows which proxies are used and what pod they run in.
 | OIDC proxy sidecar | NGINX | verrazzano-api-* | verrazzano-system | Verrazzano API server that proxies to Kubernetes API server
 | Application ingress | Envoy | istio-ingressgateway-* | istio-system | Provides external access to Verrazzano applications
 | Application egress | Envoy | istio-egressgateway-* | istio-system | Provides control of application egress traffic
-| Istio mesh sidecar | Envoy  | ingress-controller-ingress-nginx-controller-* | ingress-nginx | NGINX Ingress controller in the Istio mesh
+| Istio mesh sidecar | Envoy  | ingress-controller-ingress-nginx-controller-* | ingress-nginx | NGINX Ingress Controller in the Istio mesh
 | Istio mesh sidecar | Envoy  | ingress-controller-ingress-nginx-defaultbackend-* | ingress-nginx | NGINX default backend in the Istio mesh
 | Istio mesh sidecar | Envoy  | fluentd-* | verrazzano-system | Fluentd in the Istio mesh
 | Istio mesh sidecar | Envoy  | keycloak-* | keycloak | Keycloak in the Istio mesh

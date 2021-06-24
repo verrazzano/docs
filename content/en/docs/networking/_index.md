@@ -23,7 +23,7 @@ This is just a summary of the network related configuration.
 
 Verrazzano does the following as it relates to networking:
 
-1. installs and configures NGINX Ingress controller
+1. installs and configures NGINX Ingress Controller
 1. creates Ingress resources for system components
 1. installs and configures Istio
 1. enables strict mTLS for the mesh by creating an Istio PeerAuthentication resource

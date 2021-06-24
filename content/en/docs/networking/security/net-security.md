@@ -29,7 +29,7 @@ the user before installing Verrazzano.
 Verrazzano installs a set of NetworkPolicies for system components to control ingress into the pods.
 A policy is scoped to a namespace and uses selectors to specify the pods that the policy applies to, along
 with the ingress and egress rules.  For example, the following policy applies to the Verrazzano API pod in the 
-`verrazzano-system` namespace.  This policy allows network traffic from NGINX Ingress controller on
+`verrazzano-system` namespace.  This policy allows network traffic from NGINX Ingress Controller on
 port 8775, and from Prometheus on port 15090.  No other pods can reach those ports or any other ports of the
 Verrazzano API pod.
 ```
@@ -99,6 +99,32 @@ The ports shown are pod ports, which is what NetworkPolices require.
 | Prometheus | 8775 | NGINX Ingress | Access from external client 
 | Prometheus | 9090 | Grafana | Acccess for Grafana UI 
 
+## TLS
+TLS is used by external clients access the cluster, both through NGINX and the Istio ingress gateway.
+The certificate used by these TLS connections vary, see the Security section for details.  All TLS
+connections are terminated at the ingress and traffic between the proxy and the internal cluster pods
+always uses mTLS.
+
+## mTLS
+Istio can be enabled to use mTLS between services in the mesh, and also between the Istio gateways and Envoy sidecar proxies.
+There are various options to customize mTLS usage, for example it can be disabled on a per port level.  The Istio 
+control plane, istiod, is a CA and provides key and certificate rotation for the Envoy proxies, both gateways and sidecars. 
+
+Verrazzano configures Istio to have strict mTLS for the mesh.  All components and applications put into the mesh
+will use mTLS, with the exception of Coherence clusters which are not in the mesh.  All traffic between the Istio
+ingress gateway and mesh sidecars also use mTLS, and the same is true between the proxy sidecars and the engress gateway.
+Verrazzano sets up mTLS during installation with the PeerAuthorization resource as follows:
+```
+apiVersion: v1
+items:
+- apiVersion: security.istio.io/v1beta1
+  kind: PeerAuthentication
+  ...
+  spec:
+    mtls:
+      mode: STRICT
+```
+
 ## Istio Mesh
 Istio provides extensive security protection for both authentication and authorization as described here 
 [Istio Security](https://istio.io/latest/docs/concepts/security). Access control and mTLS are two security 
@@ -120,26 +146,6 @@ first, during installation, Verrazzano modifies the `istio-sidecar-injector` con
 chart.  This excludes several components from the mesh, such as the Verrazzano Application Operator.  Second, certain pods, such 
 as Coherence pods, are labeled at runtime with `sidecar.istio.io/inject="false"` to exclude them from the mesh.  
 
-## mTLS
-Istio can be enabled to use mTLS between services in the mesh, and also between the gateways and sidecar proxies.
-There are various options to customize mTLS usage, for example it can be disabled on a per port level.  The Istio 
-control plane, istiod, is a CA and provides key and certificate rotation for the Envoy proxies, both gateways and sidecars. 
-
-Verrazzano configures Istio to have strict mTLS for the mesh.  All components and applications put into the mesh
-will use mTLS, with the exception of Coherence clusters which are not in the mesh.  All traffic between the Istio
-ingress gateway and mesh sidecars also use mTLS, and the same is true between the proxy sidecars and the engress gateway.
-Verrazzano sets up mTLS during installation with the PeerAuthorization resource as follows:
-```
-apiVersion: v1
-items:
-- apiVersion: security.istio.io/v1beta1
-  kind: PeerAuthentication
-  ...
-  spec:
-    mtls:
-      mode: STRICT
-```
-
 ## Components in the Mesh
 The following Verrazzano components are in the mesh and use mTLS for all service to service communication.
 - Elasticsearch
@@ -157,7 +163,7 @@ The following Verrazzano components are in the mesh and use mTLS for all service
 Some of these components, have mesh related details that are worth noting.
 
 ### NGINX
-The NGINX ingress controller listens for HTTPS traffic, and provides ingress into the cluster.  NGINX is
+The NGINX Ingress Controller listens for HTTPS traffic, and provides ingress into the cluster.  NGINX is
 configured to do TLS termination of client connnections.  All traffic from NGIX to the mesh services
 use mTLS, which means that traffic is fully encrypted from the client to the target back-end services.
 
@@ -194,6 +200,22 @@ operator deployment to disable sidecar injection:
 sidecar.istio.io/inject="false"
 ```
 
+## Applications in the Mesh
+Before you create a Verrazzano application, you should decide if it should be in the mesh.  You control sidecar injection,
+i.e. mesh inclusion,  by labeling the application namespace with `istio-injection=enabled` or `istio-injection=disabled`.  
+If the application is in the mesh then mTLS will be used, and you will need to manually modify Istio resources to change
+the mTLS mode or add port exceptions.
+
+### WebLogic
+When a WebLogic operator creates a domain, it needs to communicate to the pods in the domain. We put the WebLogic operator
+in the mesh so that it can communicate with the domain pods using mTLS.  The alternative would have been to disable mTLS and 
+access control for certain domain ports.  As a result, the WebLogic domain must be created in the mesh.  If you do not want 
+domains in the mesh then you should take the operator out of the mesh by adding the following label to the WebLogic 
+operator deployment to disable sidecar injection:
+```
+sidecar.istio.io/inject="false"
+```
+
 ### Coherence
 Coherence clusters are represented by the `Coherence` resource, and are not in the mesh.  When Verrazzano creates a Coherence
 cluster in a namespace that is annotated to do sidecar injection, then it disables injection the Coherence resource using the
@@ -215,31 +237,6 @@ Spec:
     Tls:
       Mode:  ISTIO_MUTUAL
 ```
-
-
-## Applications in the Mesh
-Before you create a Verrazzano application, you should decide if it should be in the mesh.  You control sidecar injection,
-i.e. mesh inclusion,  by labeling the application namespace with `istio-injection=enabled` or `istio-injection=disabled`.  
-If the application is in the mesh then mTLS will be used, and you will need to manually modify Istio resources to change
-the mTLS mode or add port exceptions.
-
-### WebLogic
-When a WebLogic operator creates a domain, it needs to communicate to the pods in the domain. We put the WebLogic operator
-in the mesh so that it can communicate with the domain pods using mTLS.  The alternative would have been to disable mTLS and 
-access control for certain domain ports.  As a result, the WebLogic domain must be created in the mesh.  If you do not want 
-domains in the mesh then you should take the operator out of the mesh by adding the following label to the WebLogic 
-operator deployment to disable sidecar injection:
-```
-sidecar.istio.io/inject="false"
-```
-
-### Coherence
-Coherence clusters are represented by the `Coherence` resource, and are not in the mesh.  When Verrazzano creates a Coherence
-cluster in a namespace that is annotated to do sidecar injection, then it disables injection the Coherence resource using the
-`sidecar.istio.io/inject="false"` shown previously.  Furthermore, Verrazzano will create a DestinationRule in the application
-namespace to disable mTLS for the the Coherence extend port `9000`.  This allows a service in the mesh to call the Coherence 
-extend proxy.  See bob's books for an example at [bobs-books](https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books).
-
 
 ## Istio Access Control
 Istio allows you to control access to your workload in the mesh, using the `AuthorizationPolicy` resource. This allows you
