@@ -156,17 +156,49 @@ Elasticsearch pods.
 
 
 #### Prometheus scraping traffic
-This table shows all Prometheus traffic.
+This table shows Prometheus traffic for each system component scrape target. 
 
-| Component  | Destination | Description |
-| ------------- |:------------- |:------------- 
-| Prometheus | Istiod | Metrics scraping of Istio metrics and Envoy metrics for all sidecars
-| Prometheus | Node exporter | Metrics scraping of node metrics
-| Prometheus  | ? | Add remaining scrape targets
-
+ Target | Description |
+|:------------- |:------------- 
+| cadvisor | Kubernetes metrics
+| Elasticsearch | Envoy metrics
+| Grafana | Envoy metrics
+| Istiod | Istio control plane metrics
+| Istiod | Envoy metrics
+| Istio egress gateway | Envoy metrics
+| Istio ingress gateway | Envoy metrics
+| Keycloak |Envoy metrics
+| Kibana | Envoy metrics
+| MySQL | Envoy metrics
+| NGINX Ingress Controller | Envoy metrics
+| NGINX Ingress Controller | NGINX metrics
+| NGINX default back-end | Envoy metrics
+| Node exporter | Node metrics
+| Prometheus | Envoy metrics
+| Prometheus | Prometheus metrics
+| Verrazzano console | Envoy metrics
+| Verrazzano API | Envoy metrics
+| WebLogic operator | Envoy metrics
 
 #### Webhooks
-TBD
+Several of the system components are controllers, and some of those have webhooks.
+Webhooks are called by the Kubernetes API server on a component HTTPS port
+to validate or mutate API payloads before they reach the API server.
+
+The following components use webhooks:
+- cert-manager
+- Coherence Operator
+- Istio
+- Rancher
+- Verrazzano Application Operator
+- Verrazzano Platform Operator
+
+#### Health Checks
+Each Kubernetes node has a kubelet that does health checks on pods using probes, such
+as liveness probes.  This is something that you should be aware of, but no action
+is required on your part.  Verrazzano has no involvement with Kubelet health checks,
+and they are not affected by NetworkPolices.
+
 ## Application Traffic
 Application traffic includes all traffic to and from Verrazzano applications. 
 
