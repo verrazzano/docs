@@ -5,8 +5,6 @@ weight: 7
 draft: true
 ---
 
-## Overview
- 
 A Verrazzano instance is comprised of both Verrazzano components and several 
 third party products. Collectively, these components are called the Verrazzano 
 system components.  In addition, a Verrazzano instance can include applications 
@@ -18,9 +16,39 @@ configures networking to provide network security and traffic management.  Netwo
 settings are configured both at installation and during runtime as applications as are 
 deployed into the Kubernetes cluster.
 
-A summary of the network related configuration follows.
+### High Level Overview
+The diagram below shows the high level overview of Verrrazzano networking for a sample
+deployment on an OKE cluster using OCI DNS and Let's Encrypt for certificates.  This
+diagram does not show Prometheus scraping. 
+
+Verrazzano system traffic enters an OCI load balancer over TLS and is routed to the
+NGINX Ingress Controller, where TLS is terminated.  From there, the traffic is routed 
+to one of several destinations, all in the Istio mesh over mTLS. All of the traffic 
+in the mesh uses mTLS, with the following exceptions:
+- traffic from the NGINX Ingress Controller to Rancher
+- traffic from Verrazzano platform operator to Rancher
+- traffic from Coherence operator to the Coherence cluster
+- Prometheus traffic, which uses HTTP or HTTPS (not shown)
+
+ExternalDNS runs outside the mesh and uses TLS.  The same is true for
+cert-manager.
+
+Application enters a second OCI load balancer over TLS and is routed to the
+Istion Ingress Gateway, where TLS is terminated. From there, the traffic is routed 
+to one of several applications using mTLS, all in the mesh for this example.
+
+With the exception of Prometheus scraping, and interaction with Kubernetes servers, that
+is all of the network traffic patterns used by Verrazzano.  Applications may introduce
+new traffic patterns as would be expected. 
+
+#### High Level Network Diagram
+
+![](network-high-level.png)
+
 
 ### Network configuration during installation
+A summary of the network related configuration follows.
+
 Verrazzano does the following as it relates to networking:
 1. installs and configures NGINX Ingress Controller
 1. creates Ingress resources for system components
