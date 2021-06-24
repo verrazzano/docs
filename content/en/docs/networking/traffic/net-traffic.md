@@ -6,16 +6,24 @@ weight: 2
 draft: true
 ---
 
-In the context of this discussion, there are two types of network traffic: north-south traffic, 
-which enters and leaves the cluster, and east-west traffic, which stays within the cluster.
-Verrazzano has different levels of network security based on the type of traffic.  
-For example. NetworkPolicies are only applicable to traffic within the cluster.  This
-section discusses all of the concepts of network traffic used by Verrazzano.
+Network traffic refers to the data flowing across the network.  In the context of this
+discussion it is useful to think of network traffic from two perspectives, traffic 
+based on direction and traffic related to component types, system or applications. 
+Traffic direction is either north-south traffic, which enters and leaves the cluster, 
+or east-west traffic, which stays within the cluster. 
 
-## Network Configuration during installation
+First we will discuss getting traffic into the cluster, then how traffic flows once
+it is in the cluster. Ingress is an overloaded term that has a few meanings so it needs
+to be understood in context.  Sometimes the term is used to mean external access into the 
+cluster, as in "ingress to the cluster".  The term is also used for the Kubernetes 
+`Ingress` resource. It might also be used to mean network ingress to a container in a pod. 
+Presently, it is used to refer to both general ingress into the cluster and the Kubernetes 
+Ingress resource.
+
+## Ingress Configuration
 During installation, Verrazzano creates the necessary network resources to access both
-system components and applications.  The following discussion is in the context of a 
-Verazzano installation.
+system components and applications.  The following ingress and load balancers discussion
+is in the context of a Verazzano installation.
 
 ### LoadBalancer Services
 To reach pods from outside a cluster, an external IP must be exposed using a LoadBalancer or NodePort 
@@ -35,33 +43,42 @@ reconcile them, configuring the underlying Kubernetes load balancer to handle th
 routing. The NGINX Ingress Controller watches the Ingress resourced and configures
 the NGINX load balancer with the Ingress route information.
 
+The NGINX Ingress controller is a LoadBalancer service as seen here:
+```
+kubectl get service -n ingress-nginx
+...
+ingress-controller-ingress-nginx-controller           LoadBalancer 
+```
+
 Using the OKE example, traffic entering the OCI load balancer is routed to the NGINX load 
 balancer, then routed from there to the pods belonging to the services described in the Ingress. 
 
 ### Ingress for applications
 Verrazzano also provides Ingress into applications but uses an Istio gateway instead of NGINX.
 Istio has a `Gateway` resource that provides host and certificate information for traffic coming 
-into the mesh. In the way an Ingress needs a corresponding Ingress controller, the same is true 
-for the Gateway resource, where there is a corresponding Ingress gateway controller.  However, 
-unlike the Ingress, the Gateway resource doesn't have service routing information.  That is 
+into the mesh. Just like an Ingress needs a corresponding Ingress controller, the same is true 
+for the Gateway resource, where there is a corresponding Istio ingress gateway controller.  
+However, unlike the Ingress, the Gateway resource doesn't have service routing information.  That is 
 handled by the Istio `VirtualService` resource.  So the combination of Gateway and VirtualService is 
 basically a superset of Ingress, since VirtualService provides more routing features than Ingress.  
-So Gateway provides ingress into the cluster, and VirtualService provides routing rules to services.  
+The Gateway provides ingress into the cluster, and VirtualService provides routing rules to services.  
+
+Because Verrazzano doesn't create any applications during installations, there is no need for 
+the Gateway and VirtualServices at that time.  However, during installation, Verrazzano does 
+create the Istio ingress gateway service, which is a LoadBalancer service, along with the 
+Istio egress gateway service, which is a ClusterIP service.  
+```
+kubectl get service -n istio-system
+...
+istio-ingressgateway   LoadBalancer 
+```
+Again referring to the OKE use case,
+that means there will another OCI load balancer created, routing traffic to the Istio ingress gateway pod.
+
+### External DNS for System components
 
 
-Istio provides traffic management for both north-south traffic, which enters and leaves the mesh, and east-west traffic,
-which stays within the mesh.  Before discussing the traffic pattern details, a few core concepts need to be explained.  
 
-
-
-First, there is an Istio `Gateway` resource that provides host and certificate information for traffic coming into the mesh. 
-In the same way an Ingress needs a corresponding Ingress controller, the same is true for the Gateway resource, where there 
-is a corresponding Ingress gateway controller.  However, unlike the Ingress, the Gateway resource doesn't have service routing 
-information.  That is handled by the Istio `VirtualService` resource.  So the combination of Gateway and VirtualService is 
-basically a superset of Ingress, since VirtualService provides more routing features than Ingress.  So Gateway provides ingress
-into the mesh, and VirtualService provides routing rules to services in the mesh.  Once traffic reaches a given service, there is 
-an additional resource, `DestinationRule`, that is applied to the service after the routing has occurred.  The DestinationRule 
-allows you to do fine tuning at the target service, such as additional load balancing or disabling mTLS ports.
 
 ### North-South traffic
 North-south traffic at the minimum requires a Gateway and VirtualService. The Gateway resource is reconciled by a service, 
@@ -71,6 +88,8 @@ speaking traffic is not necessarily routed into the mesh, it is routed to servic
 For example, you can use an Istio Gateway and VirtualService to provide ingress to the hello-world application discussed earlier, 
 where the mesh is not in the picture.  Traffic leaving the mesh goes through another Envoy proxy called the istio-egressgateway.
 Note that there is no Gateway resource needed for egress.
+
+
  
 ### East-West traffic
 East-west traffic is traffic between services in the mesh.  Again, this is one of those areas where technically, you 
