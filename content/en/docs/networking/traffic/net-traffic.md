@@ -20,7 +20,7 @@ cluster, as in "ingress to the cluster".  The term is also used for the Kubernet
 Presently, it is used to refer to both general ingress into the cluster and the Kubernetes 
 Ingress resource.
 
-## Ingress Configuration
+## Ingress
 During installation, Verrazzano creates the necessary network resources to access both
 system components and applications.  The following ingress and load balancers discussion
 is in the context of a Verazzano installation.
@@ -82,8 +82,35 @@ name in the Ingress resources. You can then use that host name to access the sys
 NGINX Ingress controller.
 
 ## System Traffic
+System traffic includes all traffic that enters and leaves system pods.
 
 ### North-South System Traffic
+
+#### Ingress
+The following list shows which Verrazzano system components are accessed through the NGINX igress
+from a client external to the cluster.
+
+- Elasticsearch
+- Keycloak
+- Kibana
+- Grafana
+- Prometheus
+- Rancher
+- Verrazzano Console 
+- Verrazzano API
+
+#### Egress
+The following tables shows Verrazzano system components that send traffic to a destination
+outside the cluster.
+
+| Component  | Destination | Description |
+| ------------- |:------------- |:------------- 
+| Prometheus | Prometheus | Prometheus on admin cluster scrapes metrics from Prometheus on managed clsuter
+| Verrazzano Console | Keycloak | Console calls Keycloak for OAuth2 PCKE protocol which includes redirects
+| Elasticsearch | Keycloak | OIDC sidecar calls Keycloak for authenticaion which includes redirects
+| Grafana | Keycloak | OIDC sidecar calls Keycloak for authenticaion which includes redirects
+| Kibana | Keycloak | OIDC sidecar calls Keycloak for authenticaion which includes redirects
+| Prometheus | Keycloak | OIDC sidecar calls Keycloak for authenticaion which includes redirects
 
 ### East-West System Traffic
 
@@ -166,3 +193,31 @@ the source and destination pods, but there is no VirtualService representing bob
 where you could specify a canary deployment or custom load balancing.  This is something you could manually configure, 
 but it is not configured by Verrazzano.
 
+## Proxies
+Verrazzano uses network proxies in multiple places.  The two proxies products used are Envoy and NGINX.
+The following table shows which proxies are used and what pod they run in.
+
+| Usage  | Proxy | Pod | Namespace | Description |
+| ------------- |:------------- |:------------- |:------------- |:-------------
+| System ingress | NGINX | ingress-controller-ingress-nginx-controller-* | ingress-nginx | Provides external access to Verrazzano system components
+| OIDC proxy sidecar | NGINX | vmi-system-es-ingest-* | verrazzano-system | Elasticsearch authentication 
+| OIDC proxy sidecar | NGINX | vmi-system-kibana--* | verrazzano-system | Elasticsearch authentication 
+| OIDC proxy sidecar | NGINX | vmi-system-prometheus-* | verrazzano-system | Elasticsearch authentication 
+| OIDC proxy sidecar | NGINX | vmi-system-grafana-* | verrazzano-system | Elasticsearch authentication 
+| OIDC proxy sidecar | NGINX | verrazzano-api-* | verrazzano-system | Verrazzano API server that proxies to Kubernetes API server
+| Application ingress | Envoy | istio-ingressgateway-* | istio-system | Provides external access to Verrazzano applications
+| Application egress | Envoy | istio-egressgateway-* | istio-system | Provides control of application egress traffic
+| Istio mesh sidecar | Envoy  | ingress-controller-ingress-nginx-controller-* | ingress-nginx | NGINX Ingress controller in the Istio mesh
+| Istio mesh sidecar | Envoy  | ingress-controller-ingress-nginx-defaultbackend-* | ingress-nginx | NGINX default backend in the Istio mesh
+| Istio mesh sidecar | Envoy  | fluentd-* | verrazzano-system | Fluentd in the Istio mesh
+| Istio mesh sidecar | Envoy  | keycloak-* | keycloak | Keycloak in the Istio mesh
+| Istio mesh sidecar | Envoy  | mysql-* | keycloak | MySQL used by Keycloak in the Istio mesh
+| Istio mesh sidecar | Envoy | verrazzano-api-* | verrazzano-system | Verrazzano API in the Istio mesh
+| Istio mesh sidecar | Envoy | verrazzano-console-* | verrazzano-system | Verrazzano console in the Istio mesh
+| Istio mesh sidecar | Envoy  | vmi-system-es-master-* | verrazzano-system | Elasticsearch in the Istio mesh 
+| Istio mesh sidecar | Envoy  | vmi-system-es-data-* | verrazzano-system | Elasticsearch in the Istio mesh 
+| Istio mesh sidecar | Envoy  | vmi-system-es-ingest-* | verrazzano-system | Elasticsearch in the Istio mesh 
+| Istio mesh sidecar | Envoy  | vmi-system-kibana--* | verrazzano-system | Kibana in the Istio mesh 
+| Istio mesh sidecar | Envoy  | vmi-system-prometheus-* | verrazzano-system | Prometheus in the Istio mesh  
+| Istio mesh sidecar | Envoy  | vmi-system-grafana-* | verrazzano-system | Grafana in the Istio mesh
+| Istio mesh sidecar | Envoy  | weblogic-operator-* | verrazzano-system | WebLogic operator in the Istio mesh
