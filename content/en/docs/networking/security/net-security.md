@@ -106,11 +106,12 @@ features that Verrazzano configures.  These security features are available in t
 
 A service mesh is an infrastructure layer that provides certain capabilities like security, observabilty, load balancing,
 etc. for services.  Istio defines a service mesh here [Istio Service Mesh](https://istio.io/latest/about/service-mesh/).
-What does it mean for a service to be in the mesh?  Basically, it means that there is an Envoy proxy in front of every 
-service intercepting inbound and outbound network traffic for that service.  In Kubernetes, that proxy happens to be a sidecar 
-running in the all the pods used by the service. There are various ways to put a service in the mesh, Verrazzano uses the
+There are two requirements for a service to be in the mesh. First, Istio needs to know discover the service which it can
+easily do for Kubernetes services. Second, there is an Envoy proxy in front of the service intercepting inbound and 
+outbound network traffic for that service.  In Kubernetes, that proxy happens to be a sidecar running in the 
+each pod used by the service.  There are various ways to put a service in the mesh, Verrazzano uses the
 namespace label, `istio-injection: enabled`,  to designate that all pods in a given namespace are in mesh.  When a pod is 
-created in that namespace, an Istio control plane mutating webhook changes the pod spec to add the Envoy proxy sidecar container,
+created in that namespace, the Istio control plane mutating webhook changes the pod spec to add the Envoy proxy sidecar container,
 causing the pod to be in the mesh. 
 
 #### Disabling sidecar injection
@@ -122,7 +123,7 @@ as Coherence pods, are labeled at runtime with `sidecar.istio.io/inject="false"`
 ## mTLS
 Istio can be enabled to use mTLS between services in the mesh, and also between the gateways and sidecar proxies.
 There are various options to customize mTLS usage, for example it can be disabled on a per port level.  The Istio 
-control plane, istiod, is a CA and provides key and certificate rotation for the Envoy proxies, both gateways and sidecar. 
+control plane, istiod, is a CA and provides key and certificate rotation for the Envoy proxies, both gateways and sidecars. 
 
 Verrazzano configures Istio to have strict mTLS for the mesh.  All components and applications put into the mesh
 will use mTLS, with the exception of Coherence clusters which are not in the mesh.  All traffic between the Istio

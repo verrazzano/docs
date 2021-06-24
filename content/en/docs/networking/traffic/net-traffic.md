@@ -53,7 +53,7 @@ ingress-controller-ingress-nginx-controller           LoadBalancer
 Using the OKE example, traffic entering the OCI load balancer is routed to the NGINX load 
 balancer, then routed from there to the pods belonging to the services described in the Ingress. 
 
-### Ingress for applications
+### Istio Gateway for applications
 Verrazzano also provides Ingress into applications but uses an Istio gateway instead of NGINX.
 Istio has a `Gateway` resource that provides host and certificate information for traffic coming 
 into the mesh. Just like an Ingress needs a corresponding Ingress controller, the same is true 
@@ -75,26 +75,85 @@ istio-ingressgateway   LoadBalancer
 Again referring to the OKE use case,
 that means there will another OCI load balancer created, routing traffic to the Istio ingress gateway pod.
 
-### External DNS for System components
+### External DNS
+When you install Verrazzano, you can optionally use an external DNS for your domain.  If you do that,
+Verrazzano will not only create the DNS records, using ExternalDNS, but also it will configure your host
+name in the Ingress resources. You can then use that host name to access the system components through the 
+NGINX Ingress controller.
 
+## North-South Application Traffic
+The preceding section discussed network configuration during installation.  Once Verrazzano
+is installed, you can deploy applications into the Istio mesh.  When doing so, you will
+likely need ingress into the application.  As previously mentioned, this can be done with
+Istio using the Gateway and VirtualService resources.  Verrazzano will create those resources
+for you when you use an IngressTrait in your ApplicationConfiguration.  The Istio
+ingress gateway created during installation will be shared by all applications in the mesh,
+and the Gateway resource refers to that common ingress gateway.  There is a Gateway/VirtualService
+pair created for each IngressTrait. Following is an example of those two resources created by
+Verrazzano.
 
+Here is the Gateway, in this case both the host name and certificate were generated
+by Verrazzano.
+```
+apiVersion: v1
+items:
+- apiVersion: networking.istio.io/v1beta1
+  kind: Gateway
+  metadata:
+   ...
+    name: hello-helidon-hello-helidon-appconf-gw
+    namespace: hello-helidon
+  ...
+  spec:
+    selector:
+      istio: ingressgateway
+    servers:
+    - hosts:
+      - hello-helidon-appconf.hello-helidon.152.67.146.88.nip.io
+      port:
+        name: https
+        number: 443
+        protocol: HTTPS
+      tls:
+        credentialName: hello-helidon-hello-helidon-appconf-cert-secret
+        mode: SIMPLE
+```
 
+Here is the VirtualService, notice that it refers back to the Gateway, and
+that is contains the service routing information.
+```
+apiVersion: v1
+items:
+- apiVersion: networking.istio.io/v1beta1
+  kind: VirtualService
+  metadata:
+  ...
+    name: hello-helidon-ingress-rule-0-vs
+    namespace: hello-helidon
+  spec:
+    gateways:
+    - hello-helidon-hello-helidon-appconf-gw
+    hosts:
+    - hello-helidon-appconf.hello-helidon.152.67.146.88.nip.io
+    http:
+    - match:
+      - uri:
+          prefix: /greet
+      route:
+      - destination:
+          host: hello-helidon
+          port:
+            number: 8080
+```
 
-### North-South traffic
-North-south traffic at the minimum requires a Gateway and VirtualService. The Gateway resource is reconciled by a service, 
-like the istio-ingressgateway, which in turn is backed by an Envoy proxy pod.  This is not a sidecar and not considered 
-to be part of the mesh.  What is does really, is provide ingress into the cluster, just like NGINX. In fact, strictly 
-speaking traffic is not necessarily routed into the mesh, it is routed to services which may or may not be in the mesh. 
-For example, you can use an Istio Gateway and VirtualService to provide ingress to the hello-world application discussed earlier, 
-where the mesh is not in the picture.  Traffic leaving the mesh goes through another Envoy proxy called the istio-egressgateway.
-Note that there is no Gateway resource needed for egress.
-
-
- 
-### East-West traffic
-East-west traffic is traffic between services in the mesh.  Again, this is one of those areas where technically, you 
-can have east-west traffic for services outside the mesh, but then Envoy is not involved and VirtualServices and DestinationRules
-have no affect.  To use east-west traffic management, each service in the mesh should have be routed to using a VirtualService
-and, optional DestinationRules.  You can still send east-west traffic without either of these resources, but you wont't get any
-custom routing or load balancing.
-
+### East-West Application Traffic
+To use east-west traffic management, each service in the mesh should be routed to using a VirtualService and optional 
+DestinationRules.  You can still send east-west traffic without either of these resources, but you wont't get any custom 
+routing or load balancing.  Verrazzano doesn't configure east-west traffic.  Consider bobbys-front-end in the bob's books example at
+[bobs-books-comp.yaml](https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/bobs-books-comp.yaml).  
+When deploying bob's books, a VirtualService is created for bobby's front-end, because of the IngressTrait, but there are 
+no VirtualServices for the other services in the application.  So when bobbys-front-end sends requests to 
+bobbys-helidon-stock-application, east-west traffic, the traffic still goes through the Envoy sidecar proxies in 
+the source and destination pods, but there is no VirtualService representing bobbys-helidon-stock-application, 
+where you could specify a canary deployment or custom load balancing.  This is something you could manually configure, 
+but it is not configured by Verrazzano.
