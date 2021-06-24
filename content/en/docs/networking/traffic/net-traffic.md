@@ -81,7 +81,15 @@ Verrazzano will not only create the DNS records, using ExternalDNS, but also it 
 name in the Ingress resources. You can then use that host name to access the system components through the 
 NGINX Ingress controller.
 
-## North-South Application Traffic
+## System Traffic
+
+### North-South System Traffic
+
+### East-West System Traffic
+
+## Application Traffic
+
+### North-South Application Traffic
 The preceding section discussed network configuration during installation.  Once Verrazzano
 is installed, you can deploy applications into the Istio mesh.  When doing so, you will
 likely need ingress into the application.  As previously mentioned, this can be done with
@@ -158,4 +166,3 @@ the source and destination pods, but there is no VirtualService representing bob
 where you could specify a canary deployment or custom load balancing.  This is something you could manually configure, 
 but it is not configured by Verrazzano.
 
-### Traffic between components
