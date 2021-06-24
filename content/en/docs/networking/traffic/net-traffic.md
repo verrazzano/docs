@@ -85,6 +85,7 @@ NGINX Ingress controller.
 System traffic includes all traffic that enters and leaves system pods.
 
 ### North-South System Traffic
+North-south traffic includes all system traffic that enters or leaves a Kubernetes cluster.
 
 #### Ingress
 The following list shows which Verrazzano system components are accessed through the NGINX igress
@@ -106,13 +107,44 @@ outside the cluster.
 | Component  | Destination | Description |
 | ------------- |:------------- |:------------- 
 | Prometheus | Prometheus | Prometheus on admin cluster scrapes metrics from Prometheus on managed clsuter
-| Verrazzano Console | Keycloak | Console calls Keycloak for OAuth2 PCKE protocol which includes redirects
-| Elasticsearch | Keycloak | OIDC sidecar calls Keycloak for authenticaion which includes redirects
-| Grafana | Keycloak | OIDC sidecar calls Keycloak for authenticaion which includes redirects
-| Kibana | Keycloak | OIDC sidecar calls Keycloak for authenticaion which includes redirects
-| Prometheus | Keycloak | OIDC sidecar calls Keycloak for authenticaion which includes redirects
+| Verrazzano API Proxy | Keycloak | API proxy on the managed clsuter calls Keycloak on the admin cluster
+| Verrazzano Console | Verazzano API proxy | Console on admin cluster calls API proxy on managed cluster
+| Verrazzano Console | Verazzano API proxy | Console on admin cluster calls API proxy on managed cluster
+| Fluentd | Elasticsearch | Fluentd on the managed cluster calls Elasticsearch on the admin cluster
+| Elasticsearch | Keycloak | OIDC sidecar calls Keycloak for authentication which includes redirects
+| Grafana | Keycloak | OIDC sidecar calls Keycloak for authentication which includes redirects
+| Kibana | Keycloak | OIDC sidecar calls Keycloak for authentication which includes redirects
+| Prometheus | Keycloak | OIDC sidecar calls Keycloak for authentication which includes redirects
 
 ### East-West System Traffic
+The following tables shows Verrazzano system components that send traffic to a destination
+inside the cluster.  The destinations include any Verrazzano applications.  Two things are not shown:
+- Usage of CoreDNS: It can be assumed that any pod in the cluster can access CoreDNS for name resolution.
+- Envoy to Istiod : The Envoy proxies all make requests to the Istio control plane to get dynamic configuration, etc.
+This includes both the gateways and the mesh sidecar proxies. That traffic is not shown. 
+Traffic between pods in the mesh (proxy to proxy) are shown.
+
+| Component  | Destination | Description |
+| ------------- |:------------- |:------------- 
+| Prometheus | Prometheus | Prometheus on admin cluster scrapes metrics from Prometheus on managed clsuter
+| Verrazzano API Proxy | Keycloak | API proxy on the managed clsuter calls Keycloak on the admin cluster
+| Verrazzano Console | Verazzano API proxy | Console on admin cluster calls API proxy on managed cluster
+| Verrazzano Console | Verazzano API proxy | Console on admin cluster calls API proxy on managed cluster
+| Fluentd | Elasticsearch | Fluentd on the managed cluster calls Elasticsearch on the admin cluster
+| Elasticsearch | Keycloak | OIDC sidecar calls Keycloak for authentication which includes redirects
+| Grafana | Keycloak | OIDC sidecar calls Keycloak for authentication which includes redirects
+| Kibana | Keycloak | OIDC sidecar calls Keycloak for authentication which includes redirects
+| Prometheus | Keycloak | OIDC sidecar calls Keycloak for authentication which includes redirects
+| Verrazzano API Proxy | Kubernetes API server | Perform CRUD operations on Kubernetes resources
+| Verrazzano Application Operator | Kubernetes API server | Perform CRUD operations on Kubernetes resources
+| Verrazzano Monitoring Operator | Kubernetes API server | Perform CRUD operations on Kubernetes resources
+| Verrazzano Platform Operator | Kubernetes API server | Perform CRUD operations on Kubernetes resources
+| Verrazzano Operator | Kubernetes API server | Perform CRUD operations on Kubernetes resources
+| Verrazzano Application Operator | Kubernetes API server | Perform CRUD operations on Kubernetes resources
+| Verrazzano Application Operator | Kubernetes API server | Perform CRUD operations on Kubernetes resources
+| Verrazzano Application Operator | Kubernetes API server | Perform CRUD operations on Kubernetes resources
+
+#### Webhooks
 
 ## Application Traffic
 
