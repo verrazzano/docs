@@ -57,30 +57,12 @@ For example, for the previous metric source:
    $ curl -u USERNAME:PASSWORD localhost:7001/wls-exporter/metrics
    ```
 
-### Metrics scraper
-
-- Single pod per cluster
-- Named `prometheus-*` in `istio-system` namespace
-- Discovers exposed metrics endpoints
-- Stores the scraped metrics in memory
-
-### Metrics pusher
-
-- Single pod per cluster
-- Named `prom-pusher-system-*` in `monitoring` namespace
-- Pulls metrics from the metrics scraper
-- Pushes metrics to the metrics gateway
-
-### Metrics gateway
-
-- Single pod per cluster
-- Named `vmi-system-prometheus-gw-*` in `verrazzano-system` namespace
-
 ### Metrics server
 
 - Single pod per cluster
 - Named `vmi-system-prometheus-*` in `verrazzano-system` namespace
-- Pulls metrics from the metrics gateway
+- Discovers exposed metrics source endpoints
+- Scrapes metrics from metrics sources
 - Responsible for exposing all metrics
 
 ## Grafana
