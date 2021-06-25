@@ -32,7 +32,8 @@ A policy is scoped to a namespace and uses selectors to specify the pods that th
 with the ingress and egress rules.  For example, the following policy applies to the Verrazzano API pod in the 
 `verrazzano-system` namespace.  This policy allows network traffic from NGINX Ingress Controller on
 port 8775, and from Prometheus on port 15090.  No other pods can reach those ports or any other ports of the
-Verrazzano API pod.
+Verrazzano API pod.  Notice that namespace selectors need to be used, NetworkPolicy resource does not support
+specifying the namespace name.
 ```
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy

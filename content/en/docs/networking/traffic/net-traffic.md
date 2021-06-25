@@ -121,7 +121,6 @@ outside the cluster.
 | Rancher Agent | Rancher | Rancher agent on managed cluster sends requests to Rancher on admin cluster
 | Verrazzano API Proxy | Keycloak | API proxy on the managed cluster calls Keycloak on the admin cluster
 | Verrazzano Console | Verrazzano API proxy | Console on admin cluster calls API proxy on managed cluster
-| Verrazzano Console | Verrazzano API proxy | Console on admin cluster calls API proxy on managed cluster
 | Verrazzano Platform Operator | Kubernetes API server | MC agent on managed cluster calls API server on admin cluster
 
 ### East-West System Traffic
@@ -313,10 +312,36 @@ The following table shows which proxies are used and what pod they run in.
 | Istio mesh sidecar | Envoy  | vmi-system-grafana-* | verrazzano-system | Grafana in the Istio mesh
 | Istio mesh sidecar | Envoy  | weblogic-operator-* | verrazzano-system | WebLogic operator in the Istio mesh
 
-## Hybrid Traffic
-Some Verrazzano components have mixed traffic accross the aforementioned categories and traffic directions. Those
-components are the Verrazzano API proxy, the OIDC proxy, Prometheus, WebLogic, and Prometheus.  Some of this 
-information is also discussed in other sections of the document, but summarized here.
+## Multi-cluster and Hybrid Traffic
+Some Verrazzano components have mixed traffic across the aforementioned categories and traffic directions. Those
+components are the Verrazzano agent, Verrazzano API proxy, the OIDC proxy, Prometheus, and WebLogic.
+Some of this information is also discussed in other sections of the document, but summarized here.
+
+### Verrazzano Agent
+In the multi-cluster topology, the Verrazzano platform operator has an agent thread running on the managed cluster
+that sends requests to the Kubernetes API server on the admin cluster. The URL for the admin cluster Kubernetes 
+API server is registered on the managed cluster by the user.
 
 ### Verrazzano API proxy
+In a multi-cluster topology, the Verrazzano API proxy runs on both the admin and managed clusters.  
+On the admin cluster, the API proxy connects to in-cluster Keycloak, using the Keycloak Service.
+On the managed cluster, the API proxy connects to Keycloak on admin cluster through the NGINX Ingress 
+Controller running on the admin cluster.
 
+### Verrazzano OIDC proxy
+The OIDC proxy runs as a sidecar in the Elasticsearch, Kibana, Prometheus, Grafana pods.  This proxy
+also needs to send requests to Keycloak, either in-cluster or through the cluster ingress.  When a 
+request comes into the ODIC proxy without an authentication header, the proxy sends a request to Keycloak
+through the NGINX Ingress Controller, so the request exits the cluster.  Otherwise, the request is
+sent directly to Keycloak withing the cluster if OIDC is on the admin cluster.  If OIDC is on the managed
+cluster then it needs to send requests to Keycloak on the admin cluster.
+
+### Prometheus
+A single Prometheus service in the cluster scrapes metrics from pods in system components and applications.
+It also scrapes pods in the Istio mesh using HTTPS and outside the mesh using HTTP. In the multi-cluster case,
+the Prometheus on the admin cluster scrapes metrics from the Prometheus on the managed cluster, through 
+the NGINX Ingress Controller on the managed cluster.
+
+### WebLogic
+The WebLogic operator, a system component, sends request to the application's WebLogic domain.  Since the
+operator is in the Istio mesh, the domain must also be in the mesh, or those requests will fail.
