@@ -19,8 +19,7 @@ and integrity for connections within the cluster, and for external connections.
 By default, all pods in a Kubernetes cluster have network access all other pods over the network. 
 Kubernetes has a NetworkPolicy resource that provides network level 3 and 4 security for pods, 
 restricting both ingress and egress IP traffic for a set of pods in a namespace.  Verrazzano configures all
-system components with NetworkPolicies to control ingress.  Egress is not restricted. By default, 
-applications do not have NetworkPolicies, but you can configure them using a Verrazzano project.
+system components with NetworkPolicies to control ingress.  Egress is not restricted. 
 
 **NOTE:** A NetworkPolicy resource needs a NetworkPolicy controller to implement the policy, otherwise the 
 policy has no effect.  A Kubernetes CNI plugin that provides a NetworkPolicy controller, such as Calico, must be installed by 
@@ -100,6 +99,16 @@ The ports shown are pod ports, which is what NetworkPolicies require.
 | Rancher | 9443 |  Kubernetes API Server  | Webhook entrypoint 
 | Prometheus | 8775 | NGINX Ingress | Access from external client 
 | Prometheus | 9090 | Grafana | Acccess for Grafana UI 
+
+### NetworkPolicies for applications
+Verrazzano creates a network policy in the Istio system namespace for each application.  This
+gives the Envoy proxy sidecar in the application pods ingress into the Istiod control plane pod.  It
+is needed since Envoy sends requests the Istio control plane for a variety for reasons.  The
+policy name will be the name of the application.  When the application is deleted, Verrazzano will
+delete the policy.
+
+By default, applications do not have NetworkPolicies that restrict ingress into the application or egress from it.
+You can configure them using a Verrazzano projects.
 
 ## mTLS
 Istio can be enabled to use mTLS between services in the mesh, and also between the Istio gateways and Envoy sidecar proxies.
@@ -211,15 +220,11 @@ Also if you need to add mTLS port exceptions, you can do this with DestinationRu
 resource in the application namespace.  Consult the Istio documentation for more information.
 
 ### WebLogic
-When the WebLogic operator creates a domain, it needs to communicate to the pods in the domain. We put the WebLogic operator
-in the mesh so that it can communicate with the domain pods using mTLS.  The alternative would have been to disable mTLS and 
-access control for certain domain ports.  As a result, the WebLogic domain must be created in the mesh.  If you do not want 
-domains in the mesh then you should take the operator out of the mesh by adding the following label to the WebLogic 
-operator deployment to disable sidecar injection:
-```
-sidecar.istio.io/inject="false"
-```
-
+When the WebLogic operator creates a domain, it needs to communicate to the pods in the domain. Verrazzano puts the WebLogic operator
+in the mesh so that it can communicate with the domain pods using mTLS.  Because of that, the WebLogic domain must be created in the mesh.
+Also, since mTLS is used, do not configure WebLogic to use TLS.  If you want to use a custom certificate for your application,
+you can specify that in the ApplicationConfiguration, but that TLS connection will be terminated at the Istio ingress gateway.
+  
 ### Coherence
 Coherence clusters are represented by the `Coherence` resource, and are not in the mesh.  When Verrazzano creates a Coherence
 cluster in a namespace that is annotated to do sidecar injection, it disables injection the Coherence resource using the
