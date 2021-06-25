@@ -11,34 +11,34 @@ Verrazzano manages and secures network traffic between Verrazzano system compone
 Verrazzano does not manage or secure traffic for the Kubernetes cluster itself, or for 
 non-Verrazzano services or applications running in the cluster. Traffic is secured at two levels in the network stack:
 
-- ISO Layer 3/4: Using NetworkPolicies to control IP access to pods
+- ISO Layer 3/4: Using NetworkPolicies to control IP access to Pods
 - ISO Layer 6: Using TLS and mTLS to provide authentication, confidentiality, 
-and integrity for connections within the cluster, and for external connections.
+and integrity for connections within the cluster, and for external connections
 
 ## NetworkPolicies
-By default, all pods in a Kubernetes cluster have network access all other pods over the network. 
-Kubernetes has a NetworkPolicy resource that provides network level 3 and 4 security for pods, 
-restricting both ingress and egress IP traffic for a set of pods in a namespace.  Verrazzano configures all
+By default, all Pods in a Kubernetes cluster have network access to all other Pods in the cluster. 
+Kubernetes has a NetworkPolicy resource that provides network level 3 and 4 security for Pods, 
+restricting both ingress and egress IP traffic for a set of Pods in a namespace.  Verrazzano configures all
 system components with NetworkPolicies to control ingress.  Egress is not restricted. 
 
 **NOTE:** A NetworkPolicy resource needs a NetworkPolicy controller to implement the policy, otherwise the 
-policy has no effect.  A Kubernetes CNI plugin that provides a NetworkPolicy controller, such as Calico, must be installed by 
-the user before installing Verrazzano.  
+policy has no effect.  You must install a Kubernetes CNI plug-in that provides a NetworkPolicy controller, 
+such as Calico, before installing Verrazzano, or else the policies are ignored.
 
 ### NetworkPolicies for system components
-Verrazzano installs a set of NetworkPolicies for system components to control ingress into the pods.
-A policy is scoped to a namespace and uses selectors to specify the pods that the policy applies to, along
-with the ingress and egress rules.  For example, the following policy applies to the Verrazzano API pod in the 
+Verrazzano installs a set of NetworkPolicies for system components to control ingress into the Pods.
+A policy is scoped to a namespace and uses selectors to specify the Pods that the policy applies to, along
+with the ingress and egress rules.  For example, the following policy applies to the Verrazzano API Pod in the 
 `verrazzano-system` namespace.  This policy allows network traffic from NGINX Ingress Controller on
-port 8775, and from Prometheus on port 15090.  No other pods can reach those ports or any other ports of the
-Verrazzano API pod.  Notice that namespace selectors need to be used, NetworkPolicy resource does not support
+port 8775, and from Prometheus on port 15090.  No other Pods can reach those ports or any other ports of the
+Verrazzano API Pod.  Notice that namespace selectors need to be used; the NetworkPolicy resource does not support
 specifying the namespace name.
 ```
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 ...
 spec:
-  podSelector:
+  PodSelector:
     matchLabels:
       app: verrazzano-api
   ingress:
@@ -46,7 +46,7 @@ spec:
     - namespaceSelector:
         matchLabels:
           verrazzano.io/namespace: ingress-nginx
-      podSelector:
+      PodSelector:
         matchLabels:
           app.kubernetes.io/instance: ingress-controller
     ports:
@@ -56,7 +56,7 @@ spec:
     - namespaceSelector:
         matchLabels:
           verrazzano.io/namespace: verrazzano-system
-      podSelector:
+      PodSelector:
         matchLabels:
           app: system-prometheus
     ports:
@@ -64,8 +64,8 @@ spec:
       protocol: TCP
 ```
 
-The following table shows all of the ingresses allowed into system components.
-The ports shown are pod ports, which is what NetworkPolicies require.
+The following table shows all of the ingresses that allow network traffic into system components.
+The ports shown are Pod ports, which is what NetworkPolicies require.
 
 
 | Component  | Pod Port           | From  | Description |
@@ -102,8 +102,8 @@ The ports shown are pod ports, which is what NetworkPolicies require.
 
 ### NetworkPolicies for applications
 Verrazzano creates a network policy in the Istio system namespace for each application.  This
-gives the Envoy proxy sidecar in the application pods ingress into the Istiod control plane pod.  It
-is needed since Envoy sends requests the Istio control plane for a variety for reasons.  The
+gives the Envoy proxy sidecar in the application Pods ingress into the Istiod control plane Pod.  It
+is needed because Envoy sends requests the Istio control plane for a variety for reasons.  The
 policy name will be the name of the application.  When the application is deleted, Verrazzano will
 delete the policy.
 
@@ -132,29 +132,29 @@ items:
 ```
 ## TLS
 TLS is used by external clients to access the cluster, both through NGINX and the Istio ingress gateway.
-The certificate used by these TLS connections vary, see the Security section for details.  All TLS
-connections are terminated at the ingress proxy. Traffic between the two proxies and the internal cluster pods
-always uses mTLS, since those pods are all in the Istio mesh.
+The certificate used by these TLS connections vary; see [Verrazzano Security]({{< relref "/docs/security" >}}) for details.
+All TLS connections are terminated at the ingress proxy. Traffic between the two proxies and the internal cluster Pods
+always uses mTLS, since those Pods are all in the Istio mesh.
 
 ## Istio Mesh
-Istio provides extensive security protection for both authentication and authorization as described here 
-[Istio Security](https://istio.io/latest/docs/concepts/security). Access control and mTLS are two security 
+Istio provides extensive security protection for both authentication and authorization, as described in 
+[Istio Security](HTTPS://istio.io/latest/docs/concepts/security). Access control and mTLS are two security 
 features that Verrazzano configures.  These security features are available in the context of a service mesh.
 
 A service mesh is an infrastructure layer that provides certain capabilities like security, observability, load balancing,
-etc. for services.  Istio defines a service mesh here [Istio Service Mesh](https://istio.io/latest/about/service-mesh/).
-Services in the mesh have an Envoy proxy in front of the their pods, intercepting inbound and 
-outbound network traffic for that service.  In Kubernetes, that proxy happens to be a sidecar running in the 
-each pod used by the service.  There are various ways to put a service in the mesh, Verrazzano uses the
-namespace label, `istio-injection: enabled`, to designate that all pods in a given namespace are in mesh.  When a pod is 
-created in that namespace, the Istio control plane mutating webhook changes the pod spec to add the Envoy proxy sidecar container,
-causing the pod to be in the mesh. 
+and such for services.  Istio defines a service mesh here [Istio Service Mesh](HTTPS://istio.io/latest/about/service-mesh/).
+Services in the mesh have an Envoy proxy in front of the their Pods, intercepting inbound and 
+outbound network traffic for that service.  In Kubernetes, that proxy happens to be a sidecar running in 
+each Pod used by the service.  There are various ways to put a service in the mesh. Verrazzano uses the
+namespace label, `istio-injection: enabled`, to designate that all Pods in a given namespace are in mesh.  When a Pod is 
+created in that namespace, the Istio control plane mutating webhook changes the Pod spec to add the Envoy proxy sidecar container,
+causing the Pod to be in the mesh. 
 
 #### Disabling sidecar injection
-In certain cases, Verrazzano needs to disable sidecar injection for specific pods in a namespace.  This is done in two ways:
-first, during installation, Verrazzano modifies the `istio-sidecar-injector` Configmap using a helm override file for the Istio
-chart.  This excludes several components from the mesh, such as the Verrazzano Application Operator.  Second, certain pods, such 
-as Coherence pods, are labeled at runtime with `sidecar.istio.io/inject="false"` to exclude them from the mesh.  
+In certain cases, Verrazzano needs to disable sidecar injection for specific Pods in a namespace.  This is done in two ways:
+first, during installation, Verrazzano modifies the `istio-sidecar-injector` ConfigMap using a helm override file for the Istio
+chart.  This excludes several components from the mesh, such as the Verrazzano Application Operator.  Second, certain Pods, such 
+as Coherence Pods, are labeled at runtime with `sidecar.istio.io/inject="false"` to exclude them from the mesh.  
 
 ## Components in the Mesh
 The following Verrazzano components are in the mesh and use mTLS for all service to service communication.
@@ -178,7 +178,7 @@ configured to do TLS termination of client connections.  All traffic from NGIX t
 use mTLS, which means that traffic is fully encrypted from the client to the target back-end services.
 
 ### Keycloak and MySQL
-Keycloak and MySQL are also in the mesh and use mTLS for network traffic.  Since all of the components that use
+Keycloak and MySQL are also in the mesh and use mTLS for network traffic.  Because all of the components that use
 Keycloak are in the mesh, there is end to end mTLS security for all identity management handled by Keycloak.  The following components
 access Keycloak:
 - Verrazzano API proxy
@@ -189,20 +189,20 @@ access Keycloak:
 - Kibana
 
 ### Prometheus
-Although Prometheus is in the mesh, it is configured to only use the Envoy sidecar and mTLS when communicating to 
+Although Prometheus is in the mesh, it is configured to use the Envoy sidecar and mTLS only when communicating to 
 Keycloak.  All the traffic related to scraping metrics bypasses the sidecar proxy, doesn't use 
-the service IP, but rather connects to the scrape target using the pod IP.  If the scrape target is in the mesh,
-then https is used, otherwise http is used.  For Verrazzano multi-cluster, Prometheus also connects from the admin cluster
-to the Prometheus server in the managed cluster via the managed cluster NGINX Ingress, using HTTPS.  Prometheus 
+the service IP, but rather connects to the scrape target using the Pod IP.  If the scrape target is in the mesh,
+then HTTPS is used, otherwise HTTP is used.  For Verrazzano multicluster, Prometheus also connects from the admin cluster
+to the Prometheus server in the managed cluster by using the managed cluster NGINX Ingress, using HTTPS.  Prometheus 
 in the managed cluster never establishes connections to targets outside the cluster.
  
-Since Prometheus is in the mesh, additional configuration is done to allow the Envoy sidecar to be bypassed when scraping pods.
-This is done with the Prometheus pod annotation `traffic.sidecar.istio.io/includeOutboundIPRanges: <keycloak-service-ip>`.  This 
+Because Prometheus is in the mesh, additional configuration is done to allow the Envoy sidecar to be bypassed when scraping Pods.
+This is done with the Prometheus Pod annotation `traffic.sidecar.istio.io/includeOutboundIPRanges: <keycloak-service-ip>`.  This 
 causes traffic bound for Keycloak to go through the Envoy sidecar, and all other traffic to bypass the sidecar.
 
 ### WebLogic Operator
-When a WebLogic operator creates a domain, it needs to communicate to the pods in the domain. Verrazzano puts the WebLogic operator
-in the mesh so that it can communicate with the domain pods using mTLS.  The alternative would have been to disable mTLS and 
+When a WebLogic operator creates a domain, it needs to communicate to the Pods in the domain. Verrazzano puts the WebLogic operator
+in the mesh so that it can communicate with the domain Pods using mTLS.  The alternative would have been to disable mTLS and 
 access control for certain domain ports.  As a result, the WebLogic domain must be created in the mesh.  If you do not want 
 domains in the mesh then you should take the operator out of the mesh by adding the following label to the WebLogic 
 operator deployment to disable sidecar injection:
@@ -220,9 +220,9 @@ Also if you need to add mTLS port exceptions, you can do this with DestinationRu
 resource in the application namespace.  Consult the Istio documentation for more information.
 
 ### WebLogic
-When the WebLogic operator creates a domain, it needs to communicate to the pods in the domain. Verrazzano puts the WebLogic operator
-in the mesh so that it can communicate with the domain pods using mTLS.  Because of that, the WebLogic domain must be created in the mesh.
-Also, since mTLS is used, do not configure WebLogic to use TLS.  If you want to use a custom certificate for your application,
+When the WebLogic operator creates a domain, it needs to communicate to the Pods in the domain. Verrazzano puts the WebLogic operator
+in the mesh so that it can communicate with the domain Pods using mTLS.  Because of that, the WebLogic domain must be created in the mesh.
+Also, because mTLS is used, do not configure WebLogic to use TLS.  If you want to use a custom certificate for your application,
 you can specify that in the ApplicationConfiguration, but that TLS connection will be terminated at the Istio ingress gateway.
   
 ### Coherence
@@ -230,7 +230,7 @@ Coherence clusters are represented by the `Coherence` resource, and are not in t
 cluster in a namespace that is annotated to do sidecar injection, it disables injection the Coherence resource using the
 `sidecar.istio.io/inject="false"` label shown previously.  Furthermore, Verrazzano will create a DestinationRule in the application
 namespace to disable mTLS for the Coherence extend port `9000`.  This allows a service in the mesh to call the Coherence 
-extend proxy.  See bob's books for an example at [bobs-books](https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books).
+extend proxy.  See bob's books for an example at [bobs-books](HTTPS://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books).
 Here is an example of DestinationRule created for the bob's books application which is in the mesh and includes a Coherence cluster.
 ```
 API Version:  networking.istio.io/v1beta1
@@ -249,17 +249,17 @@ Spec:
 
 ## Istio Access Control
 Istio allows you to control access to your workload in the mesh, using the AuthorizationPolicy resource. This allows you
-to control what services or pods can access your workloads.  Some of these options require mTLS, see 
-[Authorization Policy](https://istio.io/latest/docs/reference/config/security/authorization-policy/) for more information.
+to control what services or Pods can access your workloads.  Some of these options require mTLS, see 
+[Authorization Policy](HTTPS://istio.io/latest/docs/reference/config/security/authorization-policy/) for more information.
 
 Verrazzano always creates AuthorizationPolicies for applications, but never for system components.  During application deployment, 
 Verrazzano creates the policy in the application namespace and configures it to allow access from the following:
 
-- Other pods in the application
+- Other Pods in the application
 - Istio ingress gateway
 - Prometheus scraper
 
-This prevents any other pods in the cluster from gaining network access to the application pods.  
+This prevents any other Pods in the cluster from gaining network access to the application Pods.  
 Istio uses a service identity to determine the identity of the request's origin, for Kubernetes, 
 this identity is a service account.  Verrazzano configures this as shown below:
 ```
@@ -278,7 +278,7 @@ spec:
 ```
 
 ### WebLogic domain access
-For WebLogic applications, the WebLogic operator must have access to the domain pods for two reasons.
+For WebLogic applications, the WebLogic operator must have access to the domain Pods for two reasons.
 First it must access the domain servers to get health status, second it must inject configuration into
-the Monitoring Exporter sidecar running in the domain server pods. When a WebLogic domain is created, 
+the Monitoring Exporter sidecar running in the domain server Pods. When a WebLogic domain is created, 
 adds an additional source in the `principals` section to permit that access. 

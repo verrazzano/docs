@@ -19,7 +19,7 @@ it is in the cluster.
 Ingress is an overloaded term that has a few meanings so it needs
 to be understood in context.  Sometimes the term is used to mean external access into the 
 cluster, as in "ingress to the cluster".  The term is also used for the Kubernetes 
-`Ingress` resource. It might also be used to mean network ingress to a container in a pod. 
+`Ingress` resource. It might also be used to mean network ingress to a container in a Pod. 
 Presently, it is used to refer to both general ingress into the cluster and the Kubernetes 
 Ingress resource.
 
@@ -28,11 +28,11 @@ system components and applications.  The following ingress and load balancers di
 is in the context of a Verrazzano installation.
 
 ### LoadBalancer Services
-To reach pods from outside a cluster, an external IP must be exposed using a LoadBalancer or NodePort 
+To reach Pods from outside a cluster, an external IP must be exposed using a LoadBalancer or NodePort 
 service.  Verrazzano creates two LoadBalancer services, one for system component traffic
 and another for application traffic. The specifics of how the service gets traffic into the cluster 
 depends on the underlying Kubernetes platform.  With Oracle OKE, creating a LoadBalancer type service will
-result in an OCI load balancer being created and configured to load balance to a set of pods.
+result in an OCI load balancer being created and configured to load balance to a set of Pods.
 
 ### Ingress for system components
 To provide ingress to system components, Verrazzano installs a NGINX Ingress Controller, 
@@ -53,13 +53,13 @@ ingress-controller-ingress-nginx-controller           LoadBalancer
 ```
 
 Using the OKE example, traffic entering the OCI load balancer is routed to the NGINX load 
-balancer, then routed from there to the pods belonging to the services described in the Ingress. 
+balancer, then routed from there to the Pods belonging to the services described in the Ingress. 
 
 ### Ingress for applications
 Verrazzano also provides Ingress into applications, but uses an Istio ingress gateway, which is
 an Envoy proxy, instead of NGINX.  Istio has a `Gateway` resource that provides load balancer information
 such as hosts, ports, and certificates for traffic coming into the mesh. 
-See [Istio Gateway](https://istio.io/latest/docs/reference/config/networking/gateway/) for more information.  Just as an 
+See [Istio Gateway](HTTPS://istio.io/latest/docs/reference/config/networking/gateway/) for more information.  Just as an 
 Ingress needs a corresponding Ingress controller, the same is true for the Gateway resource, where there is a 
 corresponding Istio ingress gateway controller. However, unlike the Ingress, the Gateway 
 resource doesn't have service routing information.  That is 
@@ -78,7 +78,7 @@ kubectl get service -n istio-system
 istio-ingressgateway   LoadBalancer 
 ```
 Again referring to the OKE use case, this means there will another OCI load balancer created, 
-routing traffic to the Istio ingress gateway pod, i.e., the Envoy proxy.
+routing traffic to the Istio ingress gateway Pod, i.e., the Envoy proxy.
 
 ### External DNS
 When you install Verrazzano, you can optionally specify an external DNS for your domain.  If you do that,
@@ -87,7 +87,7 @@ name in the Ingress resources. You can then use that host name to access the sys
 NGINX Ingress Controller.
 
 ## System Traffic
-System traffic includes all traffic that enters and leaves system pods.
+System traffic includes all traffic that enters and leaves system Pods.
 
 ### North-South System Traffic
 North-south traffic includes all system traffic that enters or leaves a Kubernetes cluster.
@@ -126,11 +126,11 @@ outside the cluster.
 ### East-West System Traffic
 The following tables shows Verrazzano system components that send traffic to a destination
 inside the cluster.  The destinations include any Verrazzano applications, with the following exceptions:
-- Usage of CoreDNS: It can be assumed that any pod in the cluster can access CoreDNS for name resolution.
+- Usage of CoreDNS: It can be assumed that any Pod in the cluster can access CoreDNS for name resolution.
 - Envoy to Istiod: The Envoy proxies all make requests to the Istio control plane to get dynamic configuration, etc.
 This includes both the gateways and the mesh sidecar proxies. That traffic is not shown. 
 - Traffic within a component is not shown, for example, traffic between
-Elasticsearch pods.
+Elasticsearch Pods.
 - Prometheus scraping traffic is shown in the second table
 
 | Component  | Destination | Description |
@@ -193,7 +193,7 @@ The following components use webhooks:
 - Verrazzano Platform Operator
 
 #### Health Checks
-Each Kubernetes node has a kubelet that does health checks on pods using probes, such
+Each Kubernetes node has a kubelet that does health checks on Pods using probes, such
 as liveness probes.  This is something that you should be aware of, but no action
 is required on your part.  Verrazzano has no involvement with Kubelet health checks,
 and they are not affected by NetworkPolices.
@@ -236,7 +236,7 @@ items:
     - hosts:
       - hello-helidon-appconf.hello-helidon.1.2.3.4.nip.io
       port:
-        name: https
+        name: HTTPS
         number: 443
         protocol: HTTPS
       tls:
@@ -260,7 +260,7 @@ items:
     - hello-helidon-hello-helidon-appconf-gw
     hosts:
     - hello-helidon-appconf.hello-helidon.1.2.3.4.nip.io
-    http:
+    HTTP:
     - match:
       - uri:
           prefix: /greet
@@ -275,17 +275,17 @@ items:
 To manage east-west traffic, each service in the mesh should be routed using a VirtualService and an optional 
 DestinationRule.  You can still send east-west traffic without either of these resources, but you won’t get any custom 
 routing or load balancing.  Verrazzano doesn't configure east-west traffic.  Consider bobbys-front-end in the bob's books example at
-[bobs-books-comp.yaml](https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/bobs-books-comp.yaml). 
+[bobs-books-comp.yaml](HTTPS://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/bobs-books-comp.yaml). 
 When deploying bob's books, a VirtualService is created for bobby's front-end, because of the IngressTrait, but there are 
 no VirtualServices for the other services in the application.  When bobbys-front-end sends requests to 
 bobbys-helidon-stock-application, east-west traffic, the traffic still goes to bobbys-helidon-stock-application through 
-the Envoy sidecar proxies in the source and destination pods, but there is no VirtualService representing 
+the Envoy sidecar proxies in the source and destination Pods, but there is no VirtualService representing 
 bobbys-helidon-stock-application, where you could specify a canary deployment or custom load balancing.  This 
 is something you could manually configure, but it is not configured by Verrazzano.
 
 ## Proxies
 Verrazzano uses network proxies in multiple places.  The two proxies products used are Envoy and NGINX.
-The following table shows which proxies are used and what pod they run in.
+The following table shows which proxies are used and what Pod they run in.
 
 | Usage  | Proxy | Pod | Namespace | Description |
 | ------------- |:------------- |:------------- |:------------- |:-------------
@@ -312,12 +312,12 @@ The following table shows which proxies are used and what pod they run in.
 | Istio mesh sidecar | Envoy  | vmi-system-grafana-* | verrazzano-system | Grafana in the Istio mesh
 | Istio mesh sidecar | Envoy  | weblogic-operator-* | verrazzano-system | WebLogic operator in the Istio mesh
 
-## Multi-cluster and Hybrid Traffic
+## Multicluster and Hybrid Traffic
 Some Verrazzano components have mixed traffic across the aforementioned categories and traffic directions. Those
 components are the Verrazzano agent, Verrazzano API proxy, the OIDC proxy, Prometheus, and WebLogic.
 Some of this information is also discussed in other sections of the document, but summarized here.
 
-#### Multi-cluster Egress
+#### Multicluster Egress
 The following tables shows Verrazzano system components that initiate requests between the admin and managed clusters.
 All of these requests go through the NGINX Ingress Controller on the respective destination cluster.
 
@@ -335,18 +335,18 @@ All of these requests go through the NGINX Ingress Controller on the respective 
 | Managed | Verrazzano Platform Operator | Admin | Kubernetes API server | Agent sends requests Kubernetes API server 
 
 ### Verrazzano Agent
-In the multi-cluster topology, the Verrazzano platform operator has an agent thread running on the managed cluster
+In the multicluster topology, the Verrazzano platform operator has an agent thread running on the managed cluster
 that sends requests to the Kubernetes API server on the admin cluster. The URL for the admin cluster Kubernetes 
 API server is registered on the managed cluster by the user.
 
 ### Verrazzano API proxy
-In a multi-cluster topology, the Verrazzano API proxy runs on both the admin and managed clusters.  
+In a multicluster topology, the Verrazzano API proxy runs on both the admin and managed clusters.  
 On the admin cluster, the API proxy connects to in-cluster Keycloak, using the Keycloak Service.
 On the managed cluster, the API proxy connects to Keycloak on admin cluster through the NGINX Ingress 
 Controller running on the admin cluster.
 
 ### Verrazzano OIDC proxy
-The OIDC proxy runs as a sidecar in the Elasticsearch, Kibana, Prometheus, Grafana pods.  This proxy
+The OIDC proxy runs as a sidecar in the Elasticsearch, Kibana, Prometheus, Grafana Pods.  This proxy
 also needs to send requests to Keycloak, either in-cluster or through the cluster ingress.  When a 
 request comes into the ODIC proxy without an authentication header, the proxy sends a request to Keycloak
 through the NGINX Ingress Controller, so the request exits the cluster.  Otherwise, the request is
@@ -354,11 +354,11 @@ sent directly to Keycloak withing the cluster if OIDC is on the admin cluster.  
 cluster then it needs to send requests to Keycloak on the admin cluster.
 
 ### Prometheus
-A single Prometheus service in the cluster scrapes metrics from pods in system components and applications.
-It also scrapes pods in the Istio mesh using HTTPS and outside the mesh using HTTP. In the multi-cluster case,
+A single Prometheus service in the cluster scrapes metrics from Pods in system components and applications.
+It also scrapes Pods in the Istio mesh using HTTPS and outside the mesh using HTTP. In the multicluster case,
 the Prometheus on the admin cluster scrapes metrics from the Prometheus on the managed cluster, through 
 the NGINX Ingress Controller on the managed cluster.
 
 ### WebLogic
-The WebLogic operator, a system component, sends request to the application's WebLogic domain.  Since the
+The WebLogic operator, a system component, sends request to the application's WebLogic domain.  Because the
 operator is in the Istio mesh, the domain must also be in the mesh, or those requests will fail.
