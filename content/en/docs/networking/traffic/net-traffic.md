@@ -123,6 +123,23 @@ outside the cluster.
 | Verrazzano Console | Verrazzano API proxy | Console on admin cluster calls API proxy on managed cluster
 | Verrazzano Platform Operator | Kubernetes API server | MC agent on managed cluster calls API server on admin cluster
 
+#### Multi-cluster Egress
+The following tables shows Verrazzano system components that initiate requests between the admin and managed clusters.
+All of these requests go through the NGINX Ingress Controller on the respective destination cluster.
+
+| Source Cluster | Source Component | Destination Cluster | Destination Component | Description 
+| ------------- |:------------- |:------------- |:------------- |:------------- 
+| Admin | Prometheus | Managed | Prometheus | Scape metrics on managed clusters
+| Admin | Verrazzano Console | Managed | Verrazzano API proxy  | Console proxy sends requests to  API proxy 
+| Managed | Fluentd | Admin | Elasticsearch | Fluentd sends logs to Elasticsearch 
+| Managed | Elasticsearch | Admin | Keycloak | OIDC sidecar sends requests to  Keycloak
+| Managed | Kibana | Admin | Keycloak | OIDC sidecar sends requests to  Keycloak
+| Managed | Grafana | Admin | Keycloak | OIDC sidecar sends requests to  Keycloak
+| Managed | Prometheus | Admin | Keycloak | OIDC sidecar sends requests to  Keycloak
+| Managed | Rancher Agent | Admin | Rancher | Rancher Agent sends requests Rancher 
+| Managed | Verrazzano API proxy | Admin | Keycloak | API proxy sends requests to  Keycloak 
+| Managed | Verrazzano Platform Operator | Admin | Kubernetes API server | Agent sends requests Kubernetes API server 
+
 ### East-West System Traffic
 The following tables shows Verrazzano system components that send traffic to a destination
 inside the cluster.  The destinations include any Verrazzano applications, with the following exceptions:
