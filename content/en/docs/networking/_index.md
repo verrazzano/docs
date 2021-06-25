@@ -47,7 +47,7 @@ Applications may introduce new traffic patterns as might be expected.
 
 #### High Level Network Diagram
 
-![](network-high-level.png)
+![](content/en/docs/images/networking/network-high-level.png)
 
 ### Platform Network Connectivity
 A Kubernetes cluster is installed on some platform, such as Oracle OKE,
