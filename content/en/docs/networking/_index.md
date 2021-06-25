@@ -49,6 +49,17 @@ Applications may introduce new traffic patterns as might be expected.
 
 ![](network-high-level.png)
 
+### Platform Network Connectivity
+A Kubernetes cluster is installed on some platform, such as Oracle OKE,
+an on premise installation, a hybrid cloud topology, etc.  Verrazzano only interfaces
+with Kubernetes, it has no knowledge of platform topology or network security.  It is
+your responsibility to ensure that there is network connectivity.  For example, the
+ingresses might use a platform load balancer which will provide the entry point into the
+cluster for Verrazzano consoles and applications.  These load balancer IPs must be
+accessible for your users.  Also, in the multi-cluster case, clusters might be on
+different platform technologies with firewalls between them. Again, you need to 
+ensure that the two clusters have network connectivity.
+
 
 ### Network configuration during installation
 A summary of the network related configuration follows.

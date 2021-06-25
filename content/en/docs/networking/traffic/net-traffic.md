@@ -313,3 +313,10 @@ The following table shows which proxies are used and what pod they run in.
 | Istio mesh sidecar | Envoy  | vmi-system-grafana-* | verrazzano-system | Grafana in the Istio mesh
 | Istio mesh sidecar | Envoy  | weblogic-operator-* | verrazzano-system | WebLogic operator in the Istio mesh
 
+## Hybrid Traffic
+Some Verrazzano components have mixed traffic accross the aforementioned categories and traffic directions. Those
+components are the Verrazzano API proxy, the OIDC proxy, Prometheus, WebLogic, and Prometheus.  Some of this 
+information is also discussed in other sections of the document, but summarized here.
+
+### Verrazzano API proxy
+
