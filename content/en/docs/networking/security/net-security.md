@@ -200,11 +200,11 @@ Because Prometheus is in the mesh, additional configuration is done to allow the
 This is done with the Prometheus Pod annotation `traffic.sidecar.istio.io/includeOutboundIPRanges: <keycloak-service-ip>`.  This 
 causes traffic bound for Keycloak to go through the Envoy sidecar, and all other traffic to bypass the sidecar.
 
-### WebLogic Operator
-When a WebLogic operator creates a domain, it needs to communicate to the Pods in the domain. Verrazzano puts the WebLogic operator
+### WebLogic Kubernetes Operator
+When the WebLogic operator creates a domain, it needs to communicate to the Pods in the domain. Verrazzano puts the WebLogic operator
 in the mesh so that it can communicate with the domain Pods using mTLS.  The alternative would have been to disable mTLS and 
 access control for certain domain ports.  As a result, the WebLogic domain must be created in the mesh.  If you do not want 
-domains in the mesh then you should take the operator out of the mesh by adding the following label to the WebLogic 
+domains in the mesh, then you should take the operator out of the mesh by adding the following label to the WebLogic 
 operator deployment to disable sidecar injection:
 ```
 sidecar.istio.io/inject="false"
@@ -230,8 +230,8 @@ Coherence clusters are represented by the `Coherence` resource, and are not in t
 cluster in a namespace that is annotated to do sidecar injection, it disables injection the Coherence resource using the
 `sidecar.istio.io/inject="false"` label shown previously.  Furthermore, Verrazzano will create a DestinationRule in the application
 namespace to disable mTLS for the Coherence extend port `9000`.  This allows a service in the mesh to call the Coherence 
-extend proxy.  See bob's books for an example at [bobs-books](HTTPS://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books).
-Here is an example of DestinationRule created for the bob's books application which is in the mesh and includes a Coherence cluster.
+extend proxy.  For an example, see [Bobs Books](HTTPS://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books).
+Here is an example of DestinationRule created for the Bob's Books application which is in the mesh and includes a Coherence cluster.
 ```
 API Version:  networking.istio.io/v1beta1
 Kind:         DestinationRule
@@ -249,7 +249,7 @@ Spec:
 
 ## Istio Access Control
 Istio allows you to control access to your workload in the mesh, using the AuthorizationPolicy resource. This allows you
-to control what services or Pods can access your workloads.  Some of these options require mTLS, see 
+to control what services or Pods can access your workloads.  Some of these options require mTLS; see 
 [Authorization Policy](HTTPS://istio.io/latest/docs/reference/config/security/authorization-policy/) for more information.
 
 Verrazzano always creates AuthorizationPolicies for applications, but never for system components.  During application deployment, 
@@ -260,8 +260,8 @@ Verrazzano creates the policy in the application namespace and configures it to 
 - Prometheus scraper
 
 This prevents any other Pods in the cluster from gaining network access to the application Pods.  
-Istio uses a service identity to determine the identity of the request's origin, for Kubernetes, 
-this identity is a service account.  Verrazzano configures this as shown below:
+Istio uses a service identity to determine the identity of the request's origin; for Kubernetes
+this identity is a service account.  Verrazzano configures as follows:
 ```
 AuthorizationPolicy
 apiVersion: security.istio.io/v1beta1
@@ -279,6 +279,6 @@ spec:
 
 ### WebLogic domain access
 For WebLogic applications, the WebLogic operator must have access to the domain Pods for two reasons.
-First it must access the domain servers to get health status, second it must inject configuration into
+First, it must access the domain servers to get health status, second it must inject configuration into
 the Monitoring Exporter sidecar running in the domain server Pods. When a WebLogic domain is created, 
 adds an additional source in the `principals` section to permit that access. 

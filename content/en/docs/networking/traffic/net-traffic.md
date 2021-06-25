@@ -7,12 +7,12 @@ draft: true
 ---
 
 Network traffic refers to the data flowing across the network.  In the context of this
-discussion, it is useful to think of network traffic from two perspectives, traffic 
+document, it is useful to think of network traffic from two perspectives; traffic 
 based on direction and traffic related to component types, system or applications. 
 Traffic direction is either north-south traffic, which enters and leaves the cluster, 
 or east-west traffic, which stays within the cluster. 
 
-First, we will discuss getting traffic into the cluster, then how traffic flows once
+First, we will discuss getting traffic into the cluster, then how traffic flows after
 it is in the cluster. 
 
 ## Ingress
@@ -24,7 +24,7 @@ Presently, it is used to refer to both general ingress into the cluster and the 
 Ingress resource.
 
 During installation, Verrazzano creates the necessary network resources to access both
-system components and applications.  The following ingress and load balancers discussion
+system components and applications.  The following ingress and load balancers description
 is in the context of a Verrazzano installation.
 
 ### LoadBalancer Services
@@ -120,7 +120,6 @@ outside the cluster.
 | Prometheus | Prometheus | Prometheus on admin cluster scrapes metrics from Prometheus on managed cluster
 | Rancher Agent | Rancher | Rancher agent on managed cluster sends requests to Rancher on admin cluster
 | Verrazzano API Proxy | Keycloak | API proxy on the managed cluster calls Keycloak on the admin cluster
-| Verrazzano Console | Verrazzano API proxy | Console on admin cluster calls API proxy on managed cluster
 | Verrazzano Platform Operator | Kubernetes API server | MC agent on managed cluster calls API server on admin cluster
 
 ### East-West System Traffic
@@ -274,9 +273,9 @@ items:
 ### East-West Application Traffic
 To manage east-west traffic, each service in the mesh should be routed using a VirtualService and an optional 
 DestinationRule.  You can still send east-west traffic without either of these resources, but you won’t get any custom 
-routing or load balancing.  Verrazzano doesn't configure east-west traffic.  Consider bobbys-front-end in the bob's books example at
+routing or load balancing.  Verrazzano doesn't configure east-west traffic.  Consider `bobbys-front-end` in the Bob's Books example at
 [bobs-books-comp.yaml](HTTPS://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/bobs-books-comp.yaml). 
-When deploying bob's books, a VirtualService is created for bobby's front-end, because of the IngressTrait, but there are 
+When deploying Bob's Books, a VirtualService is created for bobby's front-end, because of the IngressTrait, but there are 
 no VirtualServices for the other services in the application.  When bobbys-front-end sends requests to 
 bobbys-helidon-stock-application, east-west traffic, the traffic still goes to bobbys-helidon-stock-application through 
 the Envoy sidecar proxies in the source and destination Pods, but there is no VirtualService representing 
@@ -315,7 +314,7 @@ The following table shows which proxies are used and what Pod they run in.
 ## Multicluster and Hybrid Traffic
 Some Verrazzano components have mixed traffic across the aforementioned categories and traffic directions. Those
 components are the Verrazzano agent, Verrazzano API proxy, the OIDC proxy, Prometheus, and WebLogic.
-Some of this information is also discussed in other sections of the document, but summarized here.
+Some of this information is described in other sections of the document, but summarized here.
 
 #### Multicluster Egress
 The following tables shows Verrazzano system components that initiate requests between the admin and managed clusters.
