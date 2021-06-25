@@ -5,7 +5,7 @@ weight: 2
 ---
 
 
-### Prerequisites
+## Prerequisites
 
 The Quick Start assumes that you have already installed a
 [Kubernetes](https://kubernetes.io/) cluster. For instructions on preparing Kubernetes
@@ -18,14 +18,14 @@ Verrazzano requires the following:
   of Verrazzano.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient for deploying your
   applications.
 
-For a list of the open source components and versions installed with Verrazzano, see [Software Versions]({{< relref "/docs/reference/versions.md" >}}).
+For a list of the open source components and versions installed with Verrazzano, see [Software versions]({{< relref "/docs/reference/versions.md" >}}).
 
 {{< alert title="NOTE" color="warning" >}}
 Verrazzano has been tested _only_ on the following versions of Kubernetes: 1.17.x, 1.18.x, 1.19.x, and 1.20x.  Other versions have not been tested and are not guaranteed to work.
 {{< /alert >}}
 
 
-### Install the Verrazzano platform operator
+## Install the Verrazzano platform operator
 
 Verrazzano provides a Kubernetes [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
 to manage the life cycle of Verrazzano installations.  The operator works with a
@@ -57,7 +57,7 @@ To install the Verrazzano platform operator:
     verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
     ```
 
-### Install Verrazzano
+## Install Verrazzano
 
 
 You install Verrazzano by creating a Verrazzano custom resource in
@@ -107,7 +107,7 @@ To install Verrazzano:
         )
     ```
 
-### Deploy an example application
+## Deploy an example application
 
 The [Hello World Helidon]({{< relref "/docs/samples/hello-helidon/_index.md" >}})
 example application provides a simple *Hello World* REST service written with [Helidon](https://helidon.io).
@@ -154,7 +154,7 @@ enabled for Istio.
     ```
 
 
-### Uninstall the example application
+## Uninstall the example application
 
 To uninstall the Hello World Helidon example application:
 
@@ -179,7 +179,7 @@ To uninstall the Hello World Helidon example application:
    Error from server (NotFound): namespaces "hello-helidon" not found
    ```
 
-### Uninstall Verrazzano
+## Uninstall Verrazzano
 
 To uninstall Verrazzano:
 
@@ -206,6 +206,6 @@ To uninstall Verrazzano:
               -o jsonpath="{.items[0].metadata.name}" \
         )
     ```
-### Next steps
+## Next steps
 
 See the [Verrazzano Example Applications]({{< relref "/docs/samples/_index.md" >}}).

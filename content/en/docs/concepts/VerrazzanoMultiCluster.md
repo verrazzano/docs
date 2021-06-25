@@ -6,10 +6,10 @@ draft: false
 ---
 Review the following key concepts to understand multicluster Verrazzano:
 - Admin cluster - A Kubernetes cluster that serves as the central management point for deploying and monitoring applications
-  in the managed clusters.
+  in managed clusters.
 - Managed clusters - A Kubernetes cluster that has the following characteristics:
   - It is registered with an admin cluster with a unique name.
-  - Verrazzano multicluster applications may be deployed to the managed cluster from the admin cluster. 
+  - Verrazzano multicluster applications may be deployed to the managed cluster from the admin cluster.
   - Logs and metrics for Verrazzano system components and Verrazzano multicluster applications deployed on the
     managed cluster are viewable from the admin cluster.
 - Verrazzano multicluster resources - Custom Kubernetes resources defined by Verrazzano.
@@ -20,5 +20,3 @@ Review the following key concepts to understand multicluster Verrazzano:
 For more details, see [here]({{< relref "/docs/applications/multicluster" >}}).
 
 ![](/docs/images/multicluster/MCIntro.png)
-
-

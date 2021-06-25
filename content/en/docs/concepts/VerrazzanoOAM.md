@@ -9,13 +9,13 @@ Open Application Model (OAM) is a runtime-agnostic specification for defining cl
 
 OAM's workload concept makes it easy to use many different workload types.  Verrazzano includes specific workload types with special handling to deploy and manage those types, such as WebLogic, Coherence, and Helidon.  OAM's flexibility lets you create a grouping that is managed as a unit, although each component can be scaled or updated independently.
 
-### How does OAM work?
+## How does OAM work?
 OAM has five core concepts:
 
 - Workloads - Declarations of the kinds of resources supported by the platform and the OpenAPI schema for that resource.  Most Kubernetes CRDs can be exposed as workloads.  Standard Kubernetes resource types can also be used
   (for example, Deployment, Service, Pod, ConfigMap).
 - Components - Wrap a workload resource's spec data within OAM specific metadata.  
-- Application Configurations - Describe a collection of components that comprise an application.  This is also where customization (such as environmental) of each component is done.  Customization is achieved using scopes and traits.
+- Application Configurations - Describe a collection of components that comprise an application.  This is also where customization (such as, environmental) of each component is done.  Customization is achieved using scopes and traits.
 - Scopes - Apply customization to several components.  
 - Traits - Apply customization to a single component.
 

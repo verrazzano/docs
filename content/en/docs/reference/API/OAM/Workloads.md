@@ -5,8 +5,8 @@ weight: 2
 draft: false
 ---
 
-### VerrazzanoCoherenceWorkload
-The VerrazzanoCoherenceWorkload custom resource contains the configuration information for a [Coherence](https://oracle.github.io/coherence-operator/docs/3.1.3/#/about/04_coherence_spec) workload within Verrazzano.  Here is a sample component that specifies a VerrazzanoCoherenceWorkload.  To deploy an example application that demonstrates this workload type, see [Sock Shop](https://github.com/verrazzano/verrazzano/blob/master/examples/sock-shop/README.md).
+### `VerrazzanoCoherenceWorkload`
+The `VerrazzanoCoherenceWorkload` custom resource contains the configuration information for a [Coherence](https://oracle.github.io/coherence-operator/docs/3.1.3/#/about/04_coherence_spec) workload within Verrazzano.  Here is a sample component that specifies a `VerrazzanoCoherenceWorkload`.  To deploy an example application that demonstrates this workload type, see [Sock Shop]({{< relref "docs/samples/sock-shop.md" >}}).
 ```
 apiVersion: core.oam.dev/v1alpha2
 kind: Component
@@ -51,18 +51,18 @@ spec:
                 enabled: true
 ```
 
-#### VerrazzanoCoherenceWorkload
+#### `VerrazzanoCoherenceWorkload`
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `apiVersion` | string | `oam.verrazzano.io/v1alpha1` | Yes |
 | `kind` | string | `VerrazzanoCoherenceWorkload` |  Yes |
 | `metadata` | ObjectMeta | Refer to Kubernetes API documentation for fields of metadata. |  No |
-| `spec` |  [VerrazzanoCoherenceWorkloadSpec](#verrazzanocoherenceworkloadspec) | The desired state of a Verrazzano Coherence workload. |  Yes |
+| `spec` |  [`VerrazzanoCoherenceWorkloadSpec`](#verrazzanocoherenceworkloadspec) | The desired state of a Verrazzano Coherence workload. |  Yes |
 
 
-#### VerrazzanoCoherenceWorkloadSpec
-VerrazzanoCoherenceWorkloadSpec specifies the desired state of a Verrazzano Coherence workload.
+#### `VerrazzanoCoherenceWorkloadSpec`
+`VerrazzanoCoherenceWorkloadSpec` specifies the desired state of a Verrazzano Coherence workload.
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
@@ -70,9 +70,9 @@ VerrazzanoCoherenceWorkloadSpec specifies the desired state of a Verrazzano Cohe
 
 
 
-### VerrazzanoHelidonWorkload
+### `VerrazzanoHelidonWorkload`
 
-The VerrazzanoHelidonWorkload custom resource contains the configuration information for a [Helidon](https://helidon.io) workload within Verrazzano. Here is a sample component that specifies a VerrazzanoHelidonWorkload.  To deploy an example application that demonstrates this workload type, see [Hello World Helidon](https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md).
+The `VerrazzanoHelidonWorkload` custom resource contains the configuration information for a [Helidon](https://helidon.io) workload within Verrazzano. Here is a sample component that specifies a `VerrazzanoHelidonWorkload`.  To deploy an example application that demonstrates this workload type, see [Hello World Helidon]({{< relref "/docs/samples/hello-world.md" >}}).
 ```
 apiVersion: core.oam.dev/v1alpha2
 kind: Component
@@ -101,36 +101,36 @@ spec:
 
 ```
 
-#### VerrazzanoHelidonWorkload
+#### `VerrazzanoHelidonWorkload`
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `apiVersion` | string | `oam.verrazzano.io/v1alpha1` | Yes |
 | `kind` | string | `VerrazzanoHelidonWorkload` |  Yes |
 | `metadata` | ObjectMeta | Refer to Kubernetes API documentation for fields of metadata. |  No |
-| `spec` |  [VerrazzanoHelidonWorkloadSpec](#verrazzanohelidonworkloadspec) | The desired state of a Verrazzano Helidon workload. |  Yes |
+| `spec` |  [`VerrazzanoHelidonWorkloadSpec`](#verrazzanohelidonworkloadspec) | The desired state of a Verrazzano Helidon workload. |  Yes |
 
 
-#### VerrazzanoHelidonWorkloadSpec
-VerrazzanoHelidonWorkloadSpec specifies the desired state of a Verrazzano Helidon workload.
+#### `VerrazzanoHelidonWorkloadSpec`
+`VerrazzanoHelidonWorkloadSpec` specifies the desired state of a Verrazzano Helidon workload.
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `deploymentTemplate` |  [DeploymentTemplate](#deploymenttemplate) | The embedded deployment. |  Yes |
+| `deploymentTemplate` |  [`DeploymentTemplate`](#deploymenttemplate) | The embedded deployment. |  Yes |
 
 
-#### DeploymentTemplate
-DeploymentTemplate specifies the metadata and pod spec of the underlying deployment.
+#### `DeploymentTemplate`
+`DeploymentTemplate` specifies the metadata and pod spec of the underlying deployment.
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `metadata` | ObjectMeta | Refer to Kubernetes API documentation for fields of metadata. |  No |
-| `strategy` | [DeploymentStrategy](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#deploymentstrategy-v1-apps) | The replacement strategy of the underlying deployment. | No |
-| `podSpec` | [PodSpec](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#podspec-v1-core) | The pod spec of the underlying deployment. | Yes |
+| `strategy` | [`DeploymentStrategy`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#deploymentstrategy-v1-apps) | The replacement strategy of the underlying deployment. | No |
+| `podSpec` | [`PodSpec`](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#podspec-v1-core) | The pod spec of the underlying deployment. | Yes |
 
 
-### VerrazzanoWebLogicWorkload
-The VerrazzanoWebLogicWorkload custom resource contains the configuration information for a WebLogic [Domain](https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md) workload within Verrazzano.  Here is a sample component that specifies a VerrazzanoWebLogicWorkload.  To deploy an example application that demonstrates this workload type, see the [ToDo List Lift-and-Shift](https://github.com/verrazzano/examples/blob/master/todo-list/README.md) application.
+### `VerrazzanoWebLogicWorkload`
+The `VerrazzanoWebLogicWorkload` custom resource contains the configuration information for a WebLogic [Domain](https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md) workload within Verrazzano.  Here is a sample component that specifies a `VerrazzanoWebLogicWorkload`.  To deploy an example application that demonstrates this workload type, see the ToDo List [Lift-and-Shift]({{< relref "/docs/samples/lift-and-shift.md" >}}) application.
 
 ```
 apiVersion: core.oam.dev/v1alpha2
@@ -179,17 +179,17 @@ spec:
                 value: /u01/oracle
 ```
 
-#### VerrazzanoWebLogicWorkload
+#### `VerrazzanoWebLogicWorkload`
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `apiVersion` | string | `oam.verrazzano.io/v1alpha1` | Yes |
 | `kind` | string | `VerrazzanoWebLogicWorkload` |  Yes |
 | `metadata` | ObjectMeta | Refer to Kubernetes API documentation for fields of metadata. |  No |
-| `spec` |  [VerrazzanoWebLogicWorkloadSpec](#verrazzanoweblogicworkloadspec) | The desired state of a Verrazzano WebLogic workload. |  Yes |
+| `spec` |  [`VerrazzanoWebLogicWorkloadSpec`](#verrazzanoweblogicworkloadspec) | The desired state of a Verrazzano WebLogic workload. |  Yes |
 
-#### VerrazzanoWebLogicWorkloadSpec
-VerrazzanoWebLogicWorkloadSpec specifies the desired state of a Verrazzano WebLogic workload.
+#### `VerrazzanoWebLogicWorkloadSpec`
+`VerrazzanoWebLogicWorkloadSpec` specifies the desired state of a Verrazzano WebLogic workload.
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |

@@ -5,7 +5,6 @@ weight: 1
 draft: false
 ---
 
-## Overview
 Verrazzano may be installed in a multicluster environment, consisting of an _admin_ cluster and optionally, one or more
 _managed_ clusters.
 - The admin cluster is a central point from which Verrazzano applications in managed clusters can be deployed and monitored.
@@ -33,7 +32,7 @@ A Verrazzano managed cluster has a minimal footprint of Verrazzano, installed us
 installation profile. A managed cluster has the following additional characteristics:
 - It is registered with an admin cluster with a unique name.
 - Logs for Verrazzano system components and Verrazzano multicluster applications are sent to
-  Elasticsearch running on the admin cluster, and viewable from that cluster.
+  Elasticsearch running on the admin cluster, and are viewable from that cluster.
 - A Verrazzano multicluster Kubernetes resource, created on the admin cluster, will be retrieved and deployed to a
   managed cluster if all of the following are true:
     - The resource is in a namespace governed by a `VerrazzanoProject`.
@@ -86,7 +85,7 @@ When a managed cluster is registered, the following will happen:
 
 ## Detailed view of multicluster Verrazzano
 
-This diagram shows a more detailed view of how multicluster Verrazzano works.
+This diagram shows a detailed view of how multicluster Verrazzano works.
 
 ![](/docs/images/multicluster/MCConcepts.png)
 
@@ -94,4 +93,4 @@ This diagram shows a more detailed view of how multicluster Verrazzano works.
 
 For more information, see the [API Documentation]({{< relref "/docs/reference/api/" >}}) for the resources described here.
 
-To try out multicluster Verrazzano, see the [multicluster]({{< relref "/docs/samples/multicluster/" >}}) examples.
+To try out multicluster Verrazzano, see the [Multicluster]({{< relref "/docs/samples/multicluster/" >}}) examples.

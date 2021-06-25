@@ -6,7 +6,7 @@ Weight: 10
 draft: false
 ---
 
-### Prepare for the generic install
+## Prepare for the generic install
 
 If your generic Kubernetes implementation provides a load balancer implementation, then you can use a default configuration of the
 Verrazzano custom resource with no customizations, and follow the [Installation Guide]({{< relref "/docs/setup/install/installation.md#install-the-verrazzano-platform-operator" >}}).
@@ -14,7 +14,7 @@ Verrazzano custom resource with no customizations, and follow the [Installation 
 Otherwise, you can install a load balancer, such as [MetalLB](https://metallb.universe.tf/). The platform setup page for
 KIND clusters has more details on setting up MetalLB [here]({{< relref "/docs/setup/platforms/kind/kind.md#install-and-configure-metallb" >}}).
 
-#### Customizations
+### Customizations
 If your Kubernetes implementation requires custom configuration, then there are two main areas you can configure: ingress and storage.
 
 {{< tabs tabTotal="3" tabID="3" tabName1="Ingress" tabName2="Storage" >}}
@@ -59,7 +59,7 @@ You can use a [persistentVolumeClaim](https://v1-18.docs.kubernetes.io/docs/refe
 
 If the component supports it, then you can override the `defaultVolumeSource` setting at the component level by defining a supported `VolumeSource` on that component.  At present, only the `keycloak/mysql` component supports a `volumeSource` field override.
 
-#### Examples
+### Examples
 
 The following example shows how to define a `dev` profile with different persistence settings for the monitoring components and the Keycloak/MySQL instance.
 
@@ -111,6 +111,6 @@ spec:
 {{< /tab >}}
 {{< /tabs >}}
 
-### Next steps
+## Next steps
 
 To continue, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md#install-the-verrazzano-platform-operator" >}}).

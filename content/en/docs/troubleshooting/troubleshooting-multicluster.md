@@ -16,7 +16,7 @@ use the following steps to troubleshoot:
 - Check the multicluster resource's status field on the admin cluster to know what the status of that resource is
   on each managed cluster to which it is targeted.
 
-## Verifying managed cluster registration and connectivity
+## Verify managed cluster registration and connectivity
 You can verify that a managed cluster was successfully registered with an admin cluster by viewing the
 corresponding `VerrazzanoManagedCluster` (VMC) resource on the admin cluster. For example, to verify that a managed cluster
 named `managed1` was successfully registered:
@@ -25,7 +25,7 @@ named `managed1` was successfully registered:
 $ kubectl get verrazzanomanagedcluster managed1 -n verrazzano-mc -o yaml
 ```
 
-Partial sample output from the previous command is shown, as follows:
+Partial sample output from the previous command:
 ```
   status:
     conditions:
@@ -54,10 +54,10 @@ $ kubectl logs -n verrazzano-system -l app=verrazzano-application-operator
 ```
 If these logs reveal that there is a connectivity issue, check the admin cluster Kubernetes server address that
 you provided during registration and ensure that it is correct, and that it is reachable from the managed cluster. If it
-is incorrect, you will need to repeat the managed cluster registration process described in the setup instructions
+is incorrect, then you will need to repeat the managed cluster registration process described in the setup instructions
 [here]({{< relref "/docs/setup/install/multicluster" >}}).
 
-## Verifying VerrazzanoProject placement
+## Verify VerrazzanoProject placement
 For Verrazzano to create an application namespace in a managed cluster, that namespace must be part of a `VerrazzanoProject`
 that:
 
@@ -69,7 +69,7 @@ project name is assumed to be `myproject`. All projects are expected to be creat
 
 ```shell
 # on the admin cluster
-$ kubectl get verrazzanoproject myproject -n verrazzano-mc -o yaml 
+$ kubectl get verrazzanoproject myproject -n verrazzano-mc -o yaml
 ```
 
 The following partial sample output is for a project that will result in the namespace `mynamespace` being created on the managed
@@ -87,7 +87,7 @@ spec:
 ....other fields....
 ```
 
-## Checking the multicluster resource status
+## Check the multicluster resource status
 On the admin cluster, each multicluster resource's status field is updated with the status of the underlying resource
 on each managed cluster in which it is placed.
 

@@ -51,6 +51,6 @@ Run a tunnel in a separate terminal from minikube:
 ```shell
 $ minikube tunnel
 ```
-### Next steps
+## Next steps
 
 To continue, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md#install-the-verrazzano-platform-operator" >}}).

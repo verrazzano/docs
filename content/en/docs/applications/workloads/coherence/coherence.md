@@ -18,9 +18,9 @@ metrics for the Coherence cluster.  Logs will be sent to Elasticsearch and metri
 You can view this telemetry data using the Kibana and Grafana consoles.
 
 ## OAM component
-The custom resource YAML file for the Coherence cluster is specified as a VerrazzanoCoherenceWorkload custom resource.
+The custom resource YAML file for the Coherence cluster is specified as a `VerrazzanoCoherenceWorkload` custom resource.
 In the following example, everything under the `spec:` section is standard Coherence resource YAML that you would typically use
-to provision a Coherence cluster.  Including this component reference in your ApplicationConfiguration will result
+to provision a Coherence cluster.  Including this component reference in your `ApplicationConfiguration` will result
 in a new Coherence cluster being provisioned.  You can have multiple clusters in the same application with no conflict.
 ```
 apiVersion: core.oam.dev/v1alpha2
@@ -42,24 +42,24 @@ spec:
 ```
 
 ### Life cycle
-With Verrazzano, you manage the lifecycle of applications using Component and ApplicationConfiguration resources.
+With Verrazzano, you manage the life cycle of applications using `Component` and `ApplicationConfiguration` resources.
 Typically, you would modify the Coherence cluster resource to make changes or to do lifecycle operations,
 like scale in and scale out.  However, in the Verrazzano environment, the Cluster resource is owned by the
 Verrazzano application operator and will be reconciled to match the component workload resource.  Therefore,
-you need to manage the cluster configuration by modifying the resource, either by `kubectl edit` or applying a new YAML file.  
-Verrazzano will notice that the component resource changed and will update the Coherence resource as needed.
+you need to manage the cluster configuration by modifying the resource, either by `kubectl edit` or applying a new YAML file. Verrazzano
+will notice that the `Component` resource changed and will update the Coherence resource as needed.
 
 #### Provisioning
-When you apply the component YAML  file shown previously, Kubernetes will create a component.oam.verrazzano.io resource, but
-the Coherence cluster will not be created until you create the ApplicationConfiguration resource, which references
+When you apply the component YAML  file shown previously, Kubernetes will create a `component.oam.verrazzano.io` resource, but
+the Coherence cluster will not be created until you create the `ApplicationConfiguration` resource, which references
 the Coherence component.  When the application is created, Verrazzano creates a Coherence custom resource for each
 cluster, which is subsequently processed by the Coherence operator, resulting in a new cluster.  After a cluster
-is created, the Coherence operator will monitor the Coherence resource to reconcile the state of the cluster.  
-You can add a new Coherence workload to a running application, or remove an existing workload, simply be modifying
-the ApplicationConfiguration resource and adding or removing the Coherence component.
+is created, the Coherence operator will monitor the Coherence resource to reconcile the state of the cluster. You can
+add a new Coherence workload to a running application, or remove an existing workload, by modifying
+the `ApplicationConfiguration` resource and adding or removing the Coherence component.
 
 #### Scaling
-Scaling a Coherence cluster is easily done by modifying the replicas field in the component resource.  Verrazzano
+Scaling a Coherence cluster is done by modifying the replicas field in the `Component` resource.  Verrazzano
 will modify the Coherence resource replicas field and the cluster will be scaled accordingly.  The following example
 configuration shows the `replicas` field that specifies the number of pods in the cluster.
 ```
@@ -85,8 +85,8 @@ spec:
 **NOTE:** A Coherence cluster provisioned with Verrazzano does not support autoscaling with a Horizontal Pod Autoscaler.
 
 #### Termination
-You can terminate the Coherence cluster by removing the component from the ApplicationConfiguration or by
-deleting the ApplicationConfiguration resource entirely.
+You can terminate the Coherence cluster by removing the component from the `ApplicationConfiguration` or by
+deleting the `ApplicationConfiguration` resource entirely.
 
 {{< alert title="NOTE" color="warning" >}}
 Do not delete the Coherence component if the application is still using it.
@@ -114,9 +114,9 @@ Each log record has some Coherence and application fields, along with the log me
 
 ## Metrics
 Verrazzano uses Prometheus to scrape metrics from Coherence cluster pods.  Like logging, metrics scraping is also
-enabled during provisioning, however, the Coherence resource YAML file must have proper metrics configuration.  For details see
+enabled during provisioning, however, the Coherence resource YAML file must have proper metrics configuration.  For details, see
 [Coherence Metrics](https://oracle.github.io/coherence-operator/docs/latest/#/metrics/020_metrics).  In summary,
-there are two different ways to configure the Coherence metrics endpoint.  Coherence has a default metrics endpoint that you can
+there are two ways to configure the Coherence metrics endpoint.  Coherence has a default metrics endpoint that you can
 enable.  If your application serves metrics from its own endpoint, such as a Helidon application, then do not use the native
 Coherence metrics endpoint.  To see the difference, examine the `socks-shop` and `bobs-books` examples.
 
@@ -143,8 +143,8 @@ metrics will still be scraped, but not at the default endpoint.
                 enabled: true
 ```
 
-Because `sock-shop` components are  not using the default Coherence metrics port, you must add a MetricsTrait section
-to the ApplicationConfiguration for each component, specifying the metrics port as follows:
+Because `sock-shop` components are  not using the default Coherence metrics port, you must add a `MetricsTrait` section
+to the `ApplicationConfiguration` for each component, specifying the metrics port as follows:
 ```
         - trait:
             apiVersion: oam.verrazzano.io/v1alpha1
@@ -156,13 +156,13 @@ to the ApplicationConfiguration for each component, specifying the metrics port 
 ```
 
 ### Prometheus configuration
-Prometheus is configured to scrape targets using the ConfigMaps in the `verrazzano-system` namespace.  During applications deployment,
+Prometheus is configured to scrape targets using the ConfigMaps in the `verrazzano-system` namespace.  During application deployments,
 Verrazzano updates the `vmi-system-prometheus-config` ConfigMap and adds targets for the application pods.  Verrazzano also annotates
 those pods to match the expected annotations in the ConfigMap. When the application is deleted, Verrazzano removes the targets from
 the ConfigMap.  You do not need to manually modify the ConfigMap or annotate the application pods.
 
-Here is an example of the`sock-shop` Prometheus ConfigMap section for catalog.  Notice that pods in the `sock-shop` namespace with labels `app_oam_dev_name`
-and `app_oam_dev_component` are targeted.  Prometheus will find those pods then look at the pod annotations `verrazzano_io/metricsEnabled`, `verrazzano_io/metricsPath`
+Here is an example of the`sock-shop` Prometheus ConfigMap section for `catalog`.  Notice that pods in the `sock-shop` namespace with labels `app_oam_dev_name`
+and `app_oam_dev_component` are targeted.  Prometheus will find those pods and then look at the pod annotations, `verrazzano_io/metricsEnabled`, `verrazzano_io/metricsPath`,
 and  `verrazzano_io/metricsPort` for scrape configuration.
 ```
 - job_name: sockshop-appconf_default_sockshop_catalog
@@ -181,7 +181,7 @@ and  `verrazzano_io/metricsPort` for scrape configuration.
   - source_labels: [__address__, __meta_kubernetes_pod_annotation_verrazzano_io_metricsPort]
 ```
 
-Here is the corresponding catalog pod labels and annotations.  
+Here is the corresponding `catalog` pod labels and annotations.  
 ```
 kind: Pod
 metadata:
@@ -199,9 +199,9 @@ metadata:
 ## Istio Integration
 Verrazzano ensures that Coherence clusters are not included in an Istio mesh, even if the namespace has the `istio-injection: enabled` label.
 This is done by adding the `sidecar.istio.io/inject: "false"` annotation to the Coherence resource, resulting in Coherence pods being
-created with that label.  However, other application components in the mesh using mTLS may need to communicate with Coherence.  To handle this case,
+created with that label.  However, other application components in the mesh using mutual TLS authentication (mTLS)  may need to communicate with Coherence.  To handle this case,
 Verrazzano automatically creates an Istio DestinationRule to disable TLS for the Coherence port.  This policy disables mTLS for port
-9000, which happens to be used as a Coherence `extend` port for Bob's books.
+9000, which happens to be used as a Coherence `extend` port for Bob's Books.
 ```
   trafficPolicy:
     portLevelSettings:

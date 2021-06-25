@@ -1,6 +1,6 @@
 ---
-title: "Software Versions"
-linkTitle: Software Versions
+title: "Software versions"
+linkTitle: Software versions
 description: "Software versions installed with Verrazzano"
 weight: 7
 draft: false
@@ -14,7 +14,7 @@ component with its version and a brief description.
 | cert-manager | 1.2.0 | Automates the management and issuance of TLS certificates.
 | Coherence Operator | 3.1.5 | Assists with deploying and managing Coherence clusters.
 | Elasticsearch | 7.6.1 | Provides a distributed, multitenant-capable full-text search engine.
-| ExternalDNS | 0.7.1 | Synchronizes exposed Kubernetes Services and Ingresses with DNS providers.
+| ExternalDNS | 0.7.1 | Synchronizes exposed Kubernetes Services and ingresses with DNS providers.
 | Grafana | 6.4.4 | Tool to help you study, analyze, and monitor metrics.
 | Istio | 1.7.3 | Service mesh that layers transparently onto existing distributed applications.
 | Keycloak | 10.0.1 | Provides single sign-on with Identity and Access Management.

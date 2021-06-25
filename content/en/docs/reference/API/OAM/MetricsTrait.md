@@ -4,9 +4,9 @@ linkTitle: MetricsTrait Custom Resource Definition
 weight: 2
 draft: false
 ---
-The MetricsTrait custom resource contains the configuration information needed to enable metrics for an application component.  Component workloads configured with a MetricsTrait are setup to emit metrics through an endpoint that are scraped by a given Prometheus deployment.  Here is a sample ApplicationConfiguration that specifies a MetricsTrait.  To deploy an example application that demonstrates a MetricsTrait, see [Hello World Helidon](https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md).
+The `MetricsTrait` custom resource contains the configuration information needed to enable metrics for an application component.  Component workloads configured with a `MetricsTrait` are setup to emit metrics through an endpoint that are scraped by a given Prometheus deployment.  Here is a sample `ApplicationConfiguration` that specifies a `MetricsTrait`.  To deploy an example application that demonstrates a `MetricsTrait`, see [Hello World Helidon]({{< relref "/docs/samples/hello-helidon/" >}}).
 
-Note that if an ApplicationConfiguration does not specify a MetricsTrait, then a default MetricsTrait will be generated with values appropriate for the workload type.
+Note that if an `ApplicationConfiguration` does not specify a `MetricsTrait`, then a default `MetricsTrait` will be generated with values appropriate for the workload type.
 ```
 apiVersion: core.oam.dev/v1alpha2
 kind: ApplicationConfiguration
@@ -36,7 +36,7 @@ spec:
                     - path: "/greet"
                       pathType: Prefix
 ```
-In the sample configuration, a MetricsTrait is specified for the `hello-helidon-component` application component.
+In the sample configuration, a `MetricsTrait` is specified for the `hello-helidon-component` application component.
 
 With the sample application configuration successfully deployed, you can query for metrics from the application component.
 ```
@@ -51,17 +51,17 @@ $ curl -sk --user verrazzano:${VZPASS} -X GET https://${HOST}/api/v1/query?query
 {"status":"success","data":{"resultType":"vector","result":[{"metric":{"__name__":"vendor_requests_count_total","app":"hello-helidon","app_oam_dev_component":"hello-helidon-component","app_oam_dev_name":"hello-helidon-appconf","app_oam_dev_resourceType":"WORKLOAD","app_oam_dev_revision":"hello-helidon-component-v1","containerizedworkload_oam_crossplane_io":"496df78f-ef8b-4753-97fd-d9218d2f38f1","job":"hello-helidon-appconf_default_helidon-logging_hello-helidon-component","namespace":"helidon-logging","pod_name":"hello-helidon-workload-b7d9d95d8-ht7gb","pod_template_hash":"b7d9d95d8"},"value":[1616535232.487,"4800"]}]}}
 ```
 
-#### MetricsTrait
+#### `MetricsTrait`
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `apiVersion` | string | `oam.verrazzano.io/v1alpha1` | Yes |
 | `kind` | string | `MetricsTrait` |  Yes |
 | `metadata` | ObjectMeta | Refer to Kubernetes API documentation for fields of metadata. |  No |
-| `spec` |  [MetricsTraitSpec](#metricstraitspec) | The desired state of a metrics trait. |  Yes |
+| `spec` |  [`MetricsTraitSpec`](#metricstraitspec) | The desired state of a metrics trait. |  Yes |
 
-#### MetricsTraitSpec
-MetricsTraitSpec specifies the desired state of a metrics trait.
+#### `MetricsTraitSpec`
+`MetricsTraitSpec` specifies the desired state of a metrics trait.
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
