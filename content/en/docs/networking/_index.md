@@ -17,7 +17,7 @@ settings are configured both at installation and during runtime as applications 
 deployed into the Kubernetes cluster.
 
 ### High Level Overview
-The diagram below shows the high level overview of Verrrazzano networking for a sample
+The diagram below shows the high-level overview of Verrazzano networking for a sample
 deployment on an OKE cluster using OCI DNS and Let's Encrypt for certificates.  This
 diagram does not show Prometheus scraping. 
 
@@ -38,12 +38,12 @@ ExternalDNS runs outside the mesh and uses TLS.  The same is true for
 cert-manager.
 
 Application traffic enters a second OCI load balancer over TLS and is routed to the
-Istion Ingress Gateway, where TLS is terminated. From there, the traffic is routed 
+Istio Ingress Gateway, where TLS is terminated. From there, the traffic is routed 
 to one of several applications using mTLS, all in the mesh for this example.
 
-With the exception of Prometheus scraping, and interaction with Kubernetes servers, that
-is all of the network traffic patterns used by Verrazzano.  Applications may introduce
-new traffic patterns as would be expected. 
+With the exception of Prometheus scraping, and interaction with Kubernetes servers, these
+are all of the network traffic patterns used by Verrazzano in a single cluster topology.
+Applications may introduce new traffic patterns as might be expected. 
 
 #### High Level Network Diagram
 
