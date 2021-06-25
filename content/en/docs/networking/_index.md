@@ -26,14 +26,18 @@ NGINX Ingress Controller, where TLS is terminated.  From there, the traffic is r
 to one of several destinations, all in the Istio mesh over mTLS. All of the traffic 
 in the mesh uses mTLS, with the following exceptions:
 - traffic from the NGINX Ingress Controller to Rancher
-- traffic from Verrazzano platform operator to Rancher
 - traffic from Coherence operator to the Coherence cluster
 - Prometheus traffic, which uses HTTP or HTTPS (not shown)
+
+***NOTE*** Several components inside the cluster send requests to Keycloak and will
+always go outside the cluster, back through the load balancer if a Keycloak redirect
+is needed.  If some cases, where no redirect is needed, they will send requests directly 
+to Keycloak within the cluster.
 
 ExternalDNS runs outside the mesh and uses TLS.  The same is true for
 cert-manager.
 
-Application enters a second OCI load balancer over TLS and is routed to the
+Application traffic enters a second OCI load balancer over TLS and is routed to the
 Istion Ingress Gateway, where TLS is terminated. From there, the traffic is routed 
 to one of several applications using mTLS, all in the mesh for this example.
 
