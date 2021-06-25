@@ -65,22 +65,22 @@ ensure that the two clusters have network connectivity.
 A summary of the network-related configuration follows.
 
 Verrazzano does the following as it relates to networking:
-1. installs and configures NGINX Ingress Controller.
-1. creates Ingress resources for system components.
-1. installs and configures Istio.
-1. enables strict mTLS for the mesh by creating an Istio PeerAuthentication resource.
-1. creates an Istio egress gateway service.
-1. creates an Istio ingress gateway service.
-1. configures several Verrazzano system components to be in the mesh.  
-1. optionally, installs ExternalDNS and creates DNS records.
-1. creates certificates required by TLS used by system components.
-1. creates certificates required by Kubernetes API server to call webhook.
-1. creates NetworkPolicies for all of the system components.
+1. Installs and configures NGINX Ingress Controller.
+1. Creates Ingress resources for system components.
+1. Installs and configures Istio.
+1. Enables strict mTLS for the mesh by creating an Istio PeerAuthentication resource.
+1. Creates an Istio egress gateway service.
+1. Creates an Istio ingress gateway service.
+1. Configures several Verrazzano system components to be in the mesh.  
+1. Optionally, installs ExternalDNS and creates DNS records.
+1. Creates certificates required by TLS used by system components.
+1. Creates certificates required by Kubernetes API server to call webhook.
+1. Creates NetworkPolicies for all of the system components.
 
 ### Network configuration during application lifecycle
 Verrazzano does the following as it relates to applications being deployed and terminated:
-1. optionally, creates an Istio Gateway and VirtualService resources.
-1. creates Istio AuthorizationPolicies as needed.
-1. creates Istio DestinationRules as needed.
-1. optionally, creates a self-signed certificate for the application.
-1. optionally, creates DNS records using ExternalDNS.
+1. Optionally, creates an Istio Gateway and VirtualService resources.
+1. Creates Istio AuthorizationPolicies as needed.
+1. Creates Istio DestinationRules as needed.
+1. Optionally, creates a self-signed certificate for the application.
+1. Optionally, creates DNS records using ExternalDNS.
