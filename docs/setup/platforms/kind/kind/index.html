@@ -21,10 +21,10 @@
 <meta property="og:description" content="Instructions for setting up a KIND cluster for Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/setup/platforms/kind/kind/" />
-<meta property="article:modified_time" content="2021-03-08T16:11:32-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-06-28T13:08:56-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="KIND">
 <meta itemprop="description" content="Instructions for setting up a KIND cluster for Verrazzano">
-<meta itemprop="dateModified" content="2021-03-08T16:11:32-05:00" />
+<meta itemprop="dateModified" content="2021-06-28T13:08:56-04:00" />
 <meta itemprop="wordCount" content="620">
 
 
@@ -105,7 +105,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.01bb62f2817f619c88b9910cb8db76ef.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.8235a1fec1920441d6ac0eff8b826341.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -137,7 +137,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.01bb62f2817f619c88b9910cb8db76ef.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.8235a1fec1920441d6ac0eff8b826341.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -204,7 +204,7 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsconceptsverrazzanoproject" href="../../../../../docs/concepts/verrazzanoproject/">Verrazzano Project</a>
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsconceptsverrazzanoproject" href="../../../../../docs/concepts/verrazzanoproject/">Verrazzano project</a>
         
       
       
@@ -1059,7 +1059,7 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsreferenceversions" href="../../../../../docs/reference/versions/">Software Versions</a>
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsreferenceversions" href="../../../../../docs/reference/versions/">Software versions</a>
         
       
       
@@ -1118,6 +1118,19 @@ if (!doNotTrack) {
 
 
 
+
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#prepare-the-kind-cluster">Prepare the KIND cluster</a></li>
+        <li><a href="#image-caching-to-speed-up-install">Image caching to speed up install</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
 
 
 
@@ -1185,15 +1198,15 @@ KIND is not recommended for use on macOS and Windows because the Docker network 
 to the host.  On macOS and Windows, <a href="../../../../../docs/setup/platforms/minikube/minikube/">minikube</a> is recommended.
 </div>
 
-<h3 id="prerequisites">Prerequisites</h3>
+<h2 id="prerequisites">Prerequisites</h2>
 <ul>
 <li>Install <a href="https://docs.docker.com/install/">Docker</a>.</li>
 <li>Install <a href="https://kind.sigs.k8s.io/docs/user/quick-start/#installation">KIND</a>.</li>
 </ul>
-<h3 id="prepare-the-kind-cluster">Prepare the KIND cluster</h3>
+<h2 id="prepare-the-kind-cluster">Prepare the KIND cluster</h2>
 <p>To prepare the KIND cluster for use with Verrazzano, you must create the cluster and then install and configure
 <a href="https://metallb.universe.tf/">MetalLB</a> in that cluster.</p>
-<h4 id="create-the-kind-cluster">Create the KIND cluster</h4>
+<h3 id="create-the-kind-cluster">Create the KIND cluster</h3>
 <p>KIND images are prebuilt for each release.  To find images suitable for a given release, check the
 <a href="https://github.com/kubernetes-sigs/kind/releases">release notes</a> for your KIND version (check with <code>kind version</code>)
 where you&rsquo;ll find a complete listing of images created for a KIND release.</p>
@@ -1213,7 +1226,7 @@ with one suitable for the KIND release you are using.</p>
 </span><span style="color:#4e9a06">            &#34;service-account-issuer&#34;: &#34;kubernetes.default.svc&#34;
 </span><span style="color:#4e9a06">            &#34;service-account-signing-key-file&#34;: &#34;/etc/kubernetes/pki/sa.key&#34;
 </span><span style="color:#4e9a06">EOF</span>
-</code></pre></div><h4 id="install-and-configure-metallb">Install and configure MetalLB</h4>
+</code></pre></div><h3 id="install-and-configure-metallb">Install and configure MetalLB</h3>
 <p>By default, KIND does not provide an implementation of network load balancers (<a href="https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/">Services of type LoadBalancer</a>).
 <a href="https://metallb.universe.tf/">MetalLB</a> offers a network load balancer implementation.</p>
 <p>To install MetalLB:</p>
@@ -1244,7 +1257,7 @@ In versions v0.7.0 and earlier, KIND uses Docker&rsquo;s default bridge network;
 </span><span style="color:#4e9a06">      addresses:
 </span><span style="color:#4e9a06">      - 172.18.0.230-172.18.0.250
 </span><span style="color:#4e9a06">EOF</span>
-</code></pre></div><h3 id="image-caching-to-speed-up-install">Image caching to speed up install</h3>
+</code></pre></div><h2 id="image-caching-to-speed-up-install">Image caching to speed up install</h2>
 <p>If you are experimenting with Verrazzano and expect that you may need to delete the KIND cluster and later, install Verrazzano again on a new KIND cluster, then you can follow these steps to ensure that the image cache used by containerd inside KIND is preserved across clusters. Subsequent installs will be faster than the first install, because they will not need to pull the images again.</p>
 <p>1. Create a named Docker volume that will be used for the image cache, and note its <code>Mountpoint</code> path. In this example, the volume is named <code>containerd</code>.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ docker volume create containerd
@@ -1278,7 +1291,7 @@ $ docker volume inspect containerd <span style="color:#8f5902;font-style:italic"
 </span><span style="color:#4e9a06">      - hostPath: /var/lib/docker/volumes/containerd/_data
 </span><span style="color:#4e9a06">        containerPath: /var/lib/containerd #This is the location of the image cache inside the KIND container
 </span><span style="color:#4e9a06">EOF</span>
-</code></pre></div><h3 id="next-steps">Next steps</h3>
+</code></pre></div><h2 id="next-steps">Next steps</h2>
 <p>To continue, see the <a href="../../../../../docs/setup/install/installation/#install-the-verrazzano-platform-operator">Installation Guide</a>.</p>
 
 	
@@ -1345,7 +1358,7 @@ $ docker volume inspect containerd <span style="color:#8f5902;font-style:italic"
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified March 8, 2021: <a  href="../../../../../commit/85b1d536fb12ba35f71d3828cf5f5761b559ff5d">fix up docs (#104) (85b1d53)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified June 28, 2021: <a  href="../../../../../commit/99209860dde4097e66508f1dbd3aba1e4e27f76c">overall edit (#159) (9920986)</a>
 </div>
 </div>
 

@@ -23,17 +23,17 @@
         
         
         &lt;p&gt;A Verrazzano application can contain any number of Coherence component workloads, where each workload
-is a standalone Coherence cluster, independent from any other Coherence cluster in the application.&lt;/p&gt;
+is a standalone Coherence cluster, independent from other Coherence clusters in the application.&lt;/p&gt;
 &lt;p&gt;Verrazzano uses the standard Coherence operator to provision and manage clusters, as documented
 at &lt;a href=&#34;https://oracle.github.io/coherence-operator/docs/latest&#34;&gt;Coherence Operator&lt;/a&gt;.  The Coherence operator
 uses a CRD, coherence.oracle.com (Coherence resource), to represent a Coherence cluster.  When a Verrazzano
-application with Coherence is provisioned, Verrazzano will configure the default logging and
-metrics for the Coherence cluster.  Logs will be sent to Elasticsearch and metrics to Prometheus.&lt;br&gt;
+application with Coherence is provisioned, Verrazzano configures the default logging and
+metrics for the Coherence cluster.  Logs are sent to Elasticsearch and metrics to Prometheus.&lt;br&gt;
 You can view this telemetry data using the Kibana and Grafana consoles.&lt;/p&gt;
 &lt;h2 id=&#34;oam-component&#34;&gt;OAM component&lt;/h2&gt;
-&lt;p&gt;The custom resource YAML file for the Coherence cluster is specified as a VerrazzanoCoherenceWorkload custom resource.
+&lt;p&gt;The custom resource YAML file for the Coherence cluster is specified as a &lt;code&gt;VerrazzanoCoherenceWorkload&lt;/code&gt; custom resource.
 In the following example, everything under the &lt;code&gt;spec:&lt;/code&gt; section is standard Coherence resource YAML that you would typically use
-to provision a Coherence cluster.  Including this component reference in your ApplicationConfiguration will result
+to provision a Coherence cluster.  Including this component reference in your &lt;code&gt;ApplicationConfiguration&lt;/code&gt; will result
 in a new Coherence cluster being provisioned.  You can have multiple clusters in the same application with no conflict.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
 kind: Component
@@ -52,22 +52,22 @@ spec:
           cluster: SockShop
           ...
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;life-cycle&#34;&gt;Life cycle&lt;/h3&gt;
-&lt;p&gt;With Verrazzano, you manage the lifecycle of applications using Component and ApplicationConfiguration resources.
+&lt;p&gt;With Verrazzano, you manage the life cycle of applications using &lt;code&gt;Component&lt;/code&gt; and &lt;code&gt;ApplicationConfiguration&lt;/code&gt; resources.
 Typically, you would modify the Coherence cluster resource to make changes or to do lifecycle operations,
-like scale in and scale out.  However, in the Verrazzano environment, the Cluster resource is owned by the
+like scale in and scale out.  However, in the Verrazzano environment, the cluster resource is owned by the
 Verrazzano application operator and will be reconciled to match the component workload resource.  Therefore,
-you need to manage the cluster configuration by modifying the resource, either by &lt;code&gt;kubectl edit&lt;/code&gt; or applying a new YAML file.&lt;br&gt;
-Verrazzano will notice that the component resource changed and will update the Coherence resource as needed.&lt;/p&gt;
+you need to manage the cluster configuration by modifying the resource, either by &lt;code&gt;kubectl edit&lt;/code&gt; or applying a new YAML file. Verrazzano
+will notice that the &lt;code&gt;Component&lt;/code&gt; resource changed and will update the Coherence resource as needed.&lt;/p&gt;
 &lt;h4 id=&#34;provisioning&#34;&gt;Provisioning&lt;/h4&gt;
-&lt;p&gt;When you apply the component YAML  file shown previously, Kubernetes will create a component.oam.verrazzano.io resource, but
-the Coherence cluster will not be created until you create the ApplicationConfiguration resource, which references
+&lt;p&gt;When you apply the component YAML  file shown previously, Kubernetes will create a &lt;code&gt;component.oam.verrazzano.io&lt;/code&gt; resource, but
+the Coherence cluster will not be created until you create the &lt;code&gt;ApplicationConfiguration&lt;/code&gt; resource, which references
 the Coherence component.  When the application is created, Verrazzano creates a Coherence custom resource for each
 cluster, which is subsequently processed by the Coherence operator, resulting in a new cluster.  After a cluster
-is created, the Coherence operator will monitor the Coherence resource to reconcile the state of the cluster.&lt;br&gt;
-You can add a new Coherence workload to a running application, or remove an existing workload, simply be modifying
-the ApplicationConfiguration resource and adding or removing the Coherence component.&lt;/p&gt;
+is created, the Coherence operator will monitor the Coherence resource to reconcile the state of the cluster. You can
+add a new Coherence workload to a running application, or remove an existing workload, by modifying
+the &lt;code&gt;ApplicationConfiguration&lt;/code&gt; resource, and adding or removing the Coherence component.&lt;/p&gt;
 &lt;h4 id=&#34;scaling&#34;&gt;Scaling&lt;/h4&gt;
-&lt;p&gt;Scaling a Coherence cluster is easily done by modifying the replicas field in the component resource.  Verrazzano
+&lt;p&gt;Scaling a Coherence cluster is done by modifying the replicas field in the &lt;code&gt;Component&lt;/code&gt; resource.  Verrazzano
 will modify the Coherence resource replicas field and the cluster will be scaled accordingly.  The following example
 configuration shows the &lt;code&gt;replicas&lt;/code&gt; field that specifies the number of pods in the cluster.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
@@ -89,8 +89,8 @@ spec:
           ...
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; A Coherence cluster provisioned with Verrazzano does not support autoscaling with a Horizontal Pod Autoscaler.&lt;/p&gt;
 &lt;h4 id=&#34;termination&#34;&gt;Termination&lt;/h4&gt;
-&lt;p&gt;You can terminate the Coherence cluster by removing the component from the ApplicationConfiguration or by
-deleting the ApplicationConfiguration resource entirely.&lt;/p&gt;
+&lt;p&gt;You can terminate the Coherence cluster by removing the component from the &lt;code&gt;ApplicationConfiguration&lt;/code&gt; or by
+deleting the &lt;code&gt;ApplicationConfiguration&lt;/code&gt; resource entirely.&lt;/p&gt;
 
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
@@ -114,9 +114,9 @@ go into the same index, even for different applications.  This is standard behav
  ...
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;metrics&#34;&gt;Metrics&lt;/h2&gt;
 &lt;p&gt;Verrazzano uses Prometheus to scrape metrics from Coherence cluster pods.  Like logging, metrics scraping is also
-enabled during provisioning, however, the Coherence resource YAML file must have proper metrics configuration.  For details see
+enabled during provisioning, however, the Coherence resource YAML file must have proper metrics configuration.  For details, see
 &lt;a href=&#34;https://oracle.github.io/coherence-operator/docs/latest/#/metrics/020_metrics&#34;&gt;Coherence Metrics&lt;/a&gt;.  In summary,
-there are two different ways to configure the Coherence metrics endpoint.  Coherence has a default metrics endpoint that you can
+there are two ways to configure the Coherence metrics endpoint.  Coherence has a default metrics endpoint that you can
 enable.  If your application serves metrics from its own endpoint, such as a Helidon application, then do not use the native
 Coherence metrics endpoint.  To see the difference, examine the &lt;code&gt;socks-shop&lt;/code&gt; and &lt;code&gt;bobs-books&lt;/code&gt; examples.&lt;/p&gt;
 &lt;h3 id=&#34;bobs-books&#34;&gt;Bobs Books&lt;/h3&gt;
@@ -136,8 +136,8 @@ metrics will still be scraped, but not at the default endpoint.&lt;/p&gt;
               port: 7001
               serviceMonitor:
                 enabled: true
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Because &lt;code&gt;sock-shop&lt;/code&gt; components are  not using the default Coherence metrics port, you must add a MetricsTrait section
-to the ApplicationConfiguration for each component, specifying the metrics port as follows:&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Because &lt;code&gt;sock-shop&lt;/code&gt; components are  not using the default Coherence metrics port, you must add a &lt;code&gt;MetricsTrait&lt;/code&gt; section
+to the &lt;code&gt;ApplicationConfiguration&lt;/code&gt; for each component, specifying the metrics port as follows:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;        - trait:
             apiVersion: oam.verrazzano.io/v1alpha1
             kind: MetricsTrait
@@ -146,12 +146,12 @@ to the ApplicationConfiguration for each component, specifying the metrics port 
             spec:
               port: 7001
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;prometheus-configuration&#34;&gt;Prometheus configuration&lt;/h3&gt;
-&lt;p&gt;Prometheus is configured to scrape targets using the ConfigMaps in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace.  During applications deployment,
+&lt;p&gt;Prometheus is configured to scrape targets using the ConfigMaps in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace.  During application deployments,
 Verrazzano updates the &lt;code&gt;vmi-system-prometheus-config&lt;/code&gt; ConfigMap and adds targets for the application pods.  Verrazzano also annotates
 those pods to match the expected annotations in the ConfigMap. When the application is deleted, Verrazzano removes the targets from
 the ConfigMap.  You do not need to manually modify the ConfigMap or annotate the application pods.&lt;/p&gt;
-&lt;p&gt;Here is an example of the&lt;code&gt;sock-shop&lt;/code&gt; Prometheus ConfigMap section for catalog.  Notice that pods in the &lt;code&gt;sock-shop&lt;/code&gt; namespace with labels &lt;code&gt;app_oam_dev_name&lt;/code&gt;
-and &lt;code&gt;app_oam_dev_component&lt;/code&gt; are targeted.  Prometheus will find those pods then look at the pod annotations &lt;code&gt;verrazzano_io/metricsEnabled&lt;/code&gt;, &lt;code&gt;verrazzano_io/metricsPath&lt;/code&gt;
+&lt;p&gt;Here is an example of the&lt;code&gt;sock-shop&lt;/code&gt; Prometheus ConfigMap section for &lt;code&gt;catalog&lt;/code&gt;.  Notice that pods in the &lt;code&gt;sock-shop&lt;/code&gt; namespace with labels &lt;code&gt;app_oam_dev_name&lt;/code&gt;
+and &lt;code&gt;app_oam_dev_component&lt;/code&gt; are targeted.  Prometheus will find those pods and then look at the pod annotations, &lt;code&gt;verrazzano_io/metricsEnabled&lt;/code&gt;, &lt;code&gt;verrazzano_io/metricsPath&lt;/code&gt;,
 and  &lt;code&gt;verrazzano_io/metricsPort&lt;/code&gt; for scrape configuration.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;- job_name: sockshop-appconf_default_sockshop_catalog
   ...
@@ -167,7 +167,7 @@ and  &lt;code&gt;verrazzano_io/metricsPort&lt;/code&gt; for scrape configuration
   - source_labels: [__meta_kubernetes_pod_annotation_verrazzano_io_metricsPath]
   ...
   - source_labels: [__address__, __meta_kubernetes_pod_annotation_verrazzano_io_metricsPort]
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Here is the corresponding catalog pod labels and annotations.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Here is the corresponding &lt;code&gt;catalog&lt;/code&gt; pod labels and annotations.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;kind: Pod
 metadata:
   labels:
@@ -182,9 +182,9 @@ metadata:
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;istio-integration&#34;&gt;Istio Integration&lt;/h2&gt;
 &lt;p&gt;Verrazzano ensures that Coherence clusters are not included in an Istio mesh, even if the namespace has the &lt;code&gt;istio-injection: enabled&lt;/code&gt; label.
 This is done by adding the &lt;code&gt;sidecar.istio.io/inject: &amp;quot;false&amp;quot;&lt;/code&gt; annotation to the Coherence resource, resulting in Coherence pods being
-created with that label.  However, other application components in the mesh using mTLS may need to communicate with Coherence.  To handle this case,
+created with that label.  However, other application components in the mesh using mutual TLS authentication (mTLS)  may need to communicate with Coherence.  To handle this case,
 Verrazzano automatically creates an Istio DestinationRule to disable TLS for the Coherence port.  This policy disables mTLS for port
-9000, which happens to be used as a Coherence &lt;code&gt;extend&lt;/code&gt; port for Bob&amp;rsquo;s books.&lt;/p&gt;
+9000, which happens to be used as a Coherence &lt;code&gt;extend&lt;/code&gt; port for Bob&amp;rsquo;s Books.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;  trafficPolicy:
     portLevelSettings:
     - port:
@@ -225,7 +225,7 @@ portability across multiple runtimes.&lt;/li&gt;
 &lt;li&gt;Provides readiness, liveness and customizable health information for container schedulers like &lt;a href=&#34;https://kubernetes.io/&#34;&gt;Kubernetes&lt;/a&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Containerized Helidon applications are generally deployed as &lt;a href=&#34;https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/deployment-v1/&#34;&gt;&lt;code&gt;Deployment&lt;/code&gt;&lt;/a&gt; in Kubernetes.&lt;/p&gt;
-&lt;h2 id=&#34;verrazzano-integration&#34;&gt;Verrazzano Integration&lt;/h2&gt;
+&lt;h2 id=&#34;verrazzano-integration&#34;&gt;Verrazzano integration&lt;/h2&gt;
 &lt;p&gt;Verrazzano supports application definition using &lt;a href=&#34;https://oam.dev/&#34;&gt;Open Application Model (OAM)&lt;/a&gt;. Verrrazzano applications
 are composed of &lt;a href=&#34;https://github.com/oam-dev/spec/blob/master/3.component.md&#34;&gt;components&lt;/a&gt; and
 &lt;a href=&#34;https://github.com/oam-dev/spec/blob/master/7.application_configuration.md&#34;&gt;application configurations&lt;/a&gt;.&lt;/p&gt;
@@ -237,14 +237,14 @@ the traits and scopes defined by Verrazzano along with core ones defined by the 
 for example, it is used for long-running workloads in containers. However, &lt;code&gt;VerrazzanoHelidonWorkload&lt;/code&gt; closely resembles and directly refers to
 Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/deployment-v1/&#34;&gt;&lt;code&gt;Deployment&lt;/code&gt;&lt;/a&gt; schema. This
 enables an easy lift and shift of existing containerized Helidon applications.&lt;/p&gt;
-&lt;p&gt;Full &lt;code&gt;VerrazzanoHelidonWorkload&lt;/code&gt; API
-definition and description is available at &lt;a href=&#34;content/en/docs/reference/API/OAM/Workloads.md&#34; title=&#34;VerrazzanoHelidonWorkload&#34;&gt;&lt;code&gt;VerrazzanoHelidonWorkload&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;verrazzano-helidon-application-development&#34;&gt;Verrazzano Helidon Application Development&lt;/h2&gt;
-&lt;p&gt;With Verrazzano, you manage the life cycle of applications using Component and ApplicationConfiguration resources. A Verrazzano
+&lt;p&gt;The complete &lt;code&gt;VerrazzanoHelidonWorkload&lt;/code&gt; API
+definition and description is available at &lt;a href=&#34;../../../docs/reference/api/oam/workloads/#verrazzanohelidonworkload&#34;&gt;&lt;code&gt;VerrazzanoHelidonWorkload&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;verrazzano-helidon-application-development&#34;&gt;Verrazzano Helidon application development&lt;/h2&gt;
+&lt;p&gt;With Verrazzano, you manage the life cycle of applications using &lt;code&gt;Component&lt;/code&gt; and &lt;code&gt;ApplicationConfiguration&lt;/code&gt; resources. A Verrazzano
 application can contain any number of &lt;code&gt;VerrazzanoHelidonWorkload&lt;/code&gt; components, where each workload is a standalone
 containerized Helidon application, independent of any other in the application.&lt;/p&gt;
-&lt;p&gt;In the following example, everything under the &lt;code&gt;spec:&lt;/code&gt; section is the custom resource YAML file for the containerized Helidon application
-as defined by &lt;code&gt;VerrazzanoHelidonWorkload&lt;/code&gt; custom resource. Including this component reference in your ApplicationConfiguration
+&lt;p&gt;In the following example, everything under the &lt;code&gt;spec:&lt;/code&gt; section is the custom resource YAML file for the containerized Helidon application,
+as defined by &lt;code&gt;VerrazzanoHelidonWorkload&lt;/code&gt; custom resource. Including this component reference in your &lt;code&gt;ApplicationConfiguration&lt;/code&gt;
 will result in a new containerized Helidon application being provisioned.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;core.oam.dev/v1alpha2&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;Component&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
@@ -268,25 +268,25 @@ will result in a new containerized Helidon application being provisioned.&lt;/p&
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-helidon-container&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;              &lt;/span&gt;...&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;              &lt;/span&gt;...&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;a href=&#34;../../../docs/samples/application-deployment-guide/&#34;&gt;Application Development Guide&lt;/a&gt; describes end-to-end steps for
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;a href=&#34;../../../docs/samples/application-deployment-guide/&#34;&gt;Application Development Guide&lt;/a&gt; provides end-to-end instructions for
 developing and deploying the Verrazzano Helidon application.&lt;/p&gt;
-&lt;p&gt;For more Verrazzano Helidon application development examples, see the &lt;a href=&#34;../../../docs/samples/&#34;&gt;examples&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;For more Verrazzano Helidon application examples, see &lt;a href=&#34;../../../docs/samples/&#34;&gt;Examples&lt;/a&gt;.&lt;/p&gt;
 &lt;h3 id=&#34;provisioning&#34;&gt;Provisioning&lt;/h3&gt;
 &lt;p&gt;When you apply the previous component YAML file, Kubernetes will create a &lt;code&gt;component.oam.verrazzano.io&lt;/code&gt; resource, but
-the containerized Helidon application will not be created until you create the ApplicationConfiguration resource,
+the containerized Helidon application will not be created until you create the &lt;code&gt;ApplicationConfiguration&lt;/code&gt; resource,
 which references the &lt;code&gt;VerrazzanoHelidonWorkload&lt;/code&gt; component. When the application is created, Verrazzano creates a
 &lt;code&gt;Deployment&lt;/code&gt; and &lt;code&gt;Service&lt;/code&gt; resource for each containerized Helidon application.&lt;/p&gt;
 &lt;p&gt;Typically, you would modify the &lt;code&gt;Deployment&lt;/code&gt; and &lt;code&gt;Service&lt;/code&gt; resource to make changes or to do lifecycle operations,
 like scale in and scale out.  However, in the Verrazzano environment, the containerized Helidon application resource is owned
 by the &lt;code&gt;verrazzano-application-operator&lt;/code&gt; and will be reconciled to match the component workload resource. Therefore,
-you need to manage the application configuration by modifying the &lt;code&gt;VerrazzanoHelidonWorkload&lt;/code&gt; or ApplicationConfiguration resource,
+you need to manage the application configuration by modifying the &lt;code&gt;VerrazzanoHelidonWorkload&lt;/code&gt; or &lt;code&gt;ApplicationConfiguration&lt;/code&gt; resource,
 either by &lt;code&gt;kubectl edit&lt;/code&gt; or applying new YAML file. Verrazzano will notice that the component resource change and will update
 the &lt;code&gt;Deployment&lt;/code&gt; and &lt;code&gt;Service&lt;/code&gt; resource as needed.&lt;/p&gt;
 &lt;p&gt;You can add a new &lt;code&gt;VerrazzanoHelidonWorkload&lt;/code&gt; to a running application, or remove an existing workload, by modifying
-the ApplicationConfiguration resource and adding or removing the &lt;code&gt;VerrazzanoHelidonWorkload&lt;/code&gt; component.&lt;/p&gt;
+the &lt;code&gt;ApplicationConfiguration&lt;/code&gt; resource and adding or removing the &lt;code&gt;VerrazzanoHelidonWorkload&lt;/code&gt; component.&lt;/p&gt;
 &lt;h3 id=&#34;scaling&#34;&gt;Scaling&lt;/h3&gt;
 &lt;p&gt;The recommended way to scale containerized Helidon application replicas is to specify &lt;a href=&#34;https://github.com/oam-dev/spec/blob/v0.2.1/core/traits/manual_scaler_trait.md&#34;&gt;&lt;code&gt;ManualScalerTrait&lt;/code&gt;&lt;/a&gt;
-with &lt;code&gt;VerrazzanoHelidonWorkload&lt;/code&gt; in ApplicationConfiguration. The following example
+with &lt;code&gt;VerrazzanoHelidonWorkload&lt;/code&gt; in &lt;code&gt;ApplicationConfiguration&lt;/code&gt;. The following example
 configuration shows the &lt;code&gt;replicaCount&lt;/code&gt; field that specifies the number of replicas for the application.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;...&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
@@ -306,26 +306,26 @@ be scaled accordingly.&lt;/p&gt;
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
 Make sure the &lt;code&gt;replicas&lt;/code&gt; defined on the &lt;code&gt;VerrazzanoHelidonWorkload&lt;/code&gt; component and that &lt;code&gt;replicaCount&lt;/code&gt; defined on &lt;code&gt;ManualScalerTrait&lt;/code&gt;
-for that component matches, else &lt;code&gt;DeploymentController&lt;/code&gt; in Kubernetes and OAM runtime in &lt;code&gt;verrazzano-application-operator&lt;/code&gt;
+for that component matches, or else the &lt;code&gt;DeploymentController&lt;/code&gt; in Kubernetes and OAM runtime in &lt;code&gt;verrazzano-application-operator&lt;/code&gt;
 will compete to create a different number of Pods for same containerized Helidon application. To avoid confusion,
 we recommend that you specify &lt;code&gt;replicaCount&lt;/code&gt; defined on &lt;code&gt;ManualScalerTrait&lt;/code&gt; and leave &lt;code&gt;replicas&lt;/code&gt; undefined on &lt;code&gt;VerrazzanoHelidonWorkload&lt;/code&gt; (as it is optional).
 &lt;/div&gt;
 
 &lt;h3 id=&#34;logging&#34;&gt;Logging&lt;/h3&gt;
 &lt;p&gt;When a containerized Helidon application is provisioned on Verrazzano, Verrazzano will configure the default logging
-and send logs to Elasticsearch. Logs can be viewed using Kibana console.&lt;/p&gt;
+and send logs to Elasticsearch. Logs can be viewed using the Kibana console.&lt;/p&gt;
 &lt;p&gt;The logs are placed in a per-namespace Elasticsearch index named &lt;code&gt;verrazzano-namespace-&amp;lt;namespace&amp;gt;&lt;/code&gt;,
 for example: &lt;code&gt;verrazzano-namespace-hello-helidon&lt;/code&gt;.  All logs from containerized Helidon application pods in the same namespace will
 go into the same index, even for different applications.  This is standard behavior and there is no way to disable or change it.&lt;/p&gt;
 &lt;h3 id=&#34;metrics&#34;&gt;Metrics&lt;/h3&gt;
 &lt;p&gt;Verrazzano uses Prometheus to scrape metrics from containerized Helidon application pods. Like logging, metrics scraping is also
-enabled during provisioning. Metrics can be viewed using Grafana console.&lt;/p&gt;
+enabled during provisioning. Metrics can be viewed using the Grafana console.&lt;/p&gt;
 &lt;p&gt;Verrazzano lets you to customize configuration information needed to enable metrics using &lt;a href=&#34;../../../docs/reference/api/oam/metricstrait/&#34;&gt;&lt;code&gt;MetricsTrait&lt;/code&gt;&lt;/a&gt;
 for an application component.&lt;/p&gt;
 &lt;h3 id=&#34;ingress&#34;&gt;Ingress&lt;/h3&gt;
 &lt;p&gt;Verrazzano lets you to configure traffic routing to a containerized Helidon application, using
 &lt;a href=&#34;../../../docs/reference/api/oam/ingresstrait/&#34;&gt;&lt;code&gt;IngressTrait&lt;/code&gt;&lt;/a&gt; for an application component.&lt;/p&gt;
-&lt;h3 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h3&gt;
+&lt;h2 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h2&gt;
 &lt;p&gt;Whenever you have a problem with your Verrazzano Helidon application, there are some basic techniques you
 can use to troubleshoot. &lt;a href=&#34;../../../docs/troubleshooting/&#34;&gt;Troubleshooting&lt;/a&gt; shows you some simple
 things to try when troubleshooting, as well as how to solve common problems you may encounter.&lt;/p&gt;

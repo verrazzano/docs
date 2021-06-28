@@ -110,13 +110,13 @@ use the following steps to troubleshoot:&lt;/p&gt;
 &lt;li&gt;Check the multicluster resource&amp;rsquo;s status field on the admin cluster to know what the status of that resource is
 on each managed cluster to which it is targeted.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;verifying-managed-cluster-registration-and-connectivity&#34;&gt;Verifying managed cluster registration and connectivity&lt;/h2&gt;
+&lt;h2 id=&#34;verify-managed-cluster-registration-and-connectivity&#34;&gt;Verify managed cluster registration and connectivity&lt;/h2&gt;
 &lt;p&gt;You can verify that a managed cluster was successfully registered with an admin cluster by viewing the
 corresponding &lt;code&gt;VerrazzanoManagedCluster&lt;/code&gt; (VMC) resource on the admin cluster. For example, to verify that a managed cluster
 named &lt;code&gt;managed1&lt;/code&gt; was successfully registered:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# on the admin cluster&lt;/span&gt;
 $ kubectl get verrazzanomanagedcluster managed1 -n verrazzano-mc -o yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Partial sample output from the previous command is shown, as follows:&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Partial sample output from the previous command:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;  status:
     conditions:
     - lastTransitionTime: &amp;quot;2021-06-22T21:03:27Z&amp;quot;
@@ -143,9 +143,9 @@ connect to the admin cluster at regular intervals, and any errors will be report
 $ kubectl logs -n verrazzano-system -l &lt;span style=&#34;color:#000&#34;&gt;app&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;verrazzano-application-operator
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;If these logs reveal that there is a connectivity issue, check the admin cluster Kubernetes server address that
 you provided during registration and ensure that it is correct, and that it is reachable from the managed cluster. If it
-is incorrect, you will need to repeat the managed cluster registration process described in the setup instructions
+is incorrect, then you will need to repeat the managed cluster registration process described in the setup instructions
 &lt;a href=&#34;../../docs/setup/install/multicluster/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;verifying-verrazzanoproject-placement&#34;&gt;Verifying VerrazzanoProject placement&lt;/h2&gt;
+&lt;h2 id=&#34;verify-verrazzanoproject-placement&#34;&gt;Verify &lt;code&gt;VerrazzanoProject&lt;/code&gt; placement&lt;/h2&gt;
 &lt;p&gt;For Verrazzano to create an application namespace in a managed cluster, that namespace must be part of a &lt;code&gt;VerrazzanoProject&lt;/code&gt;
 that:&lt;/p&gt;
 &lt;ol&gt;
@@ -155,7 +155,7 @@ that:&lt;/p&gt;
 &lt;p&gt;View the details of the project that corresponds to your application&amp;rsquo;s namespace. In the example command that follows, the
 project name is assumed to be &lt;code&gt;myproject&lt;/code&gt;. All projects are expected to be created in the &lt;code&gt;verrazzano-mc&lt;/code&gt; namespace.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# on the admin cluster&lt;/span&gt;
-$ kubectl get verrazzanoproject myproject -n verrazzano-mc -o yaml 
+$ kubectl get verrazzanoproject myproject -n verrazzano-mc -o yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The following partial sample output is for a project that will result in the namespace &lt;code&gt;mynamespace&lt;/code&gt; being created on the managed
 cluster &lt;code&gt;managed1&lt;/code&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;spec:
@@ -167,7 +167,7 @@ cluster &lt;code&gt;managed1&lt;/code&gt;.&lt;/p&gt;
     - metadata:
         name: mynamespace
 ....other fields....
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;checking-the-multicluster-resource-status&#34;&gt;Checking the multicluster resource status&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;check-the-multicluster-resource-status&#34;&gt;Check the multicluster resource status&lt;/h2&gt;
 &lt;p&gt;On the admin cluster, each multicluster resource&amp;rsquo;s status field is updated with the status of the underlying resource
 on each managed cluster in which it is placed.&lt;/p&gt;
 &lt;p&gt;The following example command shows how to view the status of a &lt;code&gt;MultiClusterApplicationConfiguration&lt;/code&gt; named &lt;code&gt;myapp&lt;/code&gt;, in

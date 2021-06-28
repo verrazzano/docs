@@ -22,11 +22,11 @@
 apiVersion: core.oam.dev/v1alpha2 kind: ApplicationConfiguration metadata: name: hello-helidon-appconf namespace: hello-helidon annotations: version: v1.0.0 description: &quot;Hello Helidon application&quot; spec: components: - componentName: hello-helidon-component traits: - trait: apiVersion: oam.verrazzano.io/v1alpha1 kind: MetricsTrait spec: scraper: verrazzano-system/vmi-system-prometheus-0 - trait: apiVersion: oam." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/reference/api/oam/ingresstrait/" />
-<meta property="article:modified_time" content="2021-05-07T13:12:30-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-06-28T13:08:56-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="IngressTrait Custom Resource Definition">
 <meta itemprop="description" content="The IngressTrait custom resource contains the configuration of host and path rules for traffic routing to an application. Here is a sample ApplicationConfiguration that specifies an IngressTrait. To deploy an example application that demonstrates this IngressTrait, see Hello World Helidon.
 apiVersion: core.oam.dev/v1alpha2 kind: ApplicationConfiguration metadata: name: hello-helidon-appconf namespace: hello-helidon annotations: version: v1.0.0 description: &quot;Hello Helidon application&quot; spec: components: - componentName: hello-helidon-component traits: - trait: apiVersion: oam.verrazzano.io/v1alpha1 kind: MetricsTrait spec: scraper: verrazzano-system/vmi-system-prometheus-0 - trait: apiVersion: oam.">
-<meta itemprop="dateModified" content="2021-05-07T13:12:30-04:00" />
+<meta itemprop="dateModified" content="2021-06-28T13:08:56-04:00" />
 <meta itemprop="wordCount" content="499">
 
 
@@ -108,7 +108,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.01bb62f2817f619c88b9910cb8db76ef.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.8235a1fec1920441d6ac0eff8b826341.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -140,7 +140,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.01bb62f2817f619c88b9910cb8db76ef.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.8235a1fec1920441d6ac0eff8b826341.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -207,7 +207,7 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsconceptsverrazzanoproject" href="../../../../../docs/concepts/verrazzanoproject/">Verrazzano Project</a>
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsconceptsverrazzanoproject" href="../../../../../docs/concepts/verrazzanoproject/">Verrazzano project</a>
         
       
       
@@ -1062,7 +1062,7 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsreferenceversions" href="../../../../../docs/reference/versions/">Software Versions</a>
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsreferenceversions" href="../../../../../docs/reference/versions/">Software versions</a>
         
       
       
@@ -1178,7 +1178,7 @@ if (!doNotTrack) {
 	<h1>IngressTrait Custom Resource Definition</h1>
     
 	       
-	<p>The IngressTrait custom resource contains the configuration of host and path rules for traffic routing to an application.  Here is a sample ApplicationConfiguration that specifies an IngressTrait.  To deploy an example application that demonstrates this IngressTrait, see <a href="https://github.com/verrazzano/verrazzano/blob/master/examples/hello-helidon/README.md">Hello World Helidon</a>.</p>
+	<p>The <code>IngressTrait</code> custom resource contains the configuration of host and path rules for traffic routing to an application.  Here is a sample <code>ApplicationConfiguration</code> that specifies an <code>IngressTrait</code>.  To deploy an example application that demonstrates this <code>IngressTrait</code>, see <a href="../../../../../docs/samples/hello-helidon/">Hello World Helidon</a>.</p>
 <pre><code>apiVersion: core.oam.dev/v1alpha2
 kind: ApplicationConfiguration
 metadata:
@@ -1206,15 +1206,15 @@ spec:
                 - paths:
                     - path: &quot;/greet&quot;
                       pathType: Prefix
-</code></pre><p>In the sample configuration, the IngressTrait <code>hello-helidon-ingress</code> is set on the <code>hello-helidon-component</code> application component and defines an ingress rule that configures a path and path type.  This exposes a route for external access to the application.  Note that because no <code>hosts</code> list is given for the <a href="#ingressrule">IngressRule</a>, a DNS host name is automatically generated.</p>
-<p>For example, with the sample application configuration successfully deployed, the application will be accessible with the <code>path</code> specified in the IngressTrait and the generated host name.</p>
+</code></pre><p>In the sample configuration, the <code>IngressTrait</code> <code>hello-helidon-ingress</code> is set on the <code>hello-helidon-component</code> application component and defines an ingress rule that configures a path and path type.  This exposes a route for external access to the application.  Note that because no <code>hosts</code> list is given for the <a href="#ingressrule"><code>IngressRule</code></a>, a DNS host name is automatically generated.</p>
+<p>For example, with the sample application configuration successfully deployed, the application will be accessible with the <code>path</code> specified in the <code>IngressTrait</code> and the generated host name.</p>
 <pre><code>$ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath={.spec.servers[0].hosts[0]})
 $ echo $HOST
 hello-helidon-appconf.hello-helidon.11.22.33.44.nip.io
 
 $ curl -sk -X GET https://${HOST}/greet
-</code></pre><p>Alternatively, specific host names can be given in an <a href="#ingressrule">IngressRule</a>.  Doing this implies that a secret and certificate have been created for the specific hosts and the secret name has been specified in the associated <a href="#ingresssecurity">IngressSecurity</a> <code>secretName</code> field.</p>
-<h4 id="ingresstrait">IngressTrait</h4>
+</code></pre><p>Alternatively, specific host names can be given in an <a href="#ingressrule"><code>IngressRule</code></a>.  Doing this implies that a secret and certificate have been created for the specific hosts and the secret name has been specified in the associated <a href="#ingresssecurity"><code>IngressSecurity</code></a> <code>secretName</code> field.</p>
+<h4 id="ingresstrait"><code>IngressTrait</code></h4>
 <table>
 <thead>
 <tr>
@@ -1245,14 +1245,14 @@ $ curl -sk -X GET https://${HOST}/greet
 </tr>
 <tr>
 <td><code>spec</code></td>
-<td><a href="#ingresstraitspec">IngressTraitSpec</a></td>
+<td><a href="#ingresstraitspec"><code>IngressTraitSpec</code></a></td>
 <td>The desired state of an ingress trait.</td>
 <td>Yes</td>
 </tr>
 </tbody>
 </table>
-<h4 id="ingresstraitspec">IngressTraitSpec</h4>
-<p>IngressTraitSpec specifies the desired state of an ingress trait.</p>
+<h4 id="ingresstraitspec"><code>IngressTraitSpec</code></h4>
+<p><code>IngressTraitSpec</code> specifies the desired state of an ingress trait.</p>
 <table>
 <thead>
 <tr>
@@ -1265,20 +1265,20 @@ $ curl -sk -X GET https://${HOST}/greet
 <tbody>
 <tr>
 <td><code>rules</code></td>
-<td><a href="#ingressrule">IngressRule</a> array</td>
+<td><a href="#ingressrule"><code>IngressRule</code></a> array</td>
 <td>A list of ingress rules to for an ingress trait.</td>
 <td>Yes</td>
 </tr>
 <tr>
 <td><code>tls</code></td>
-<td><a href="#ingresssecurity">IngressSecurity</a></td>
-<td>The security parameters for an ingress trait. This is required only if specific hosts are given in an <a href="#ingressrule">IngressRule</a>.</td>
+<td><a href="#ingresssecurity"><code>IngressSecurity</code></a></td>
+<td>The security parameters for an ingress trait. This is required only if specific hosts are given in an <a href="#ingressrule"><code>IngressRule</code></a>.</td>
 <td>No</td>
 </tr>
 </tbody>
 </table>
-<h4 id="ingressrule">IngressRule</h4>
-<p>IngressRule specifies a rule for an ingress trait.</p>
+<h4 id="ingressrule"><code>IngressRule</code></h4>
+<p><code>IngressRule</code> specifies a rule for an ingress trait.</p>
 <table>
 <thead>
 <tr>
@@ -1297,14 +1297,14 @@ $ curl -sk -X GET https://${HOST}/greet
 </tr>
 <tr>
 <td><code>paths</code></td>
-<td><a href="#ingresspath">IngressPath</a> array</td>
+<td><a href="#ingresspath"><code>IngressPath</code></a> array</td>
 <td>The paths to be exposed for an ingress trait.</td>
 <td>Yes</td>
 </tr>
 </tbody>
 </table>
-<h4 id="ingresspath">IngressPath</h4>
-<p>IngressPath specifies a specific path to be exposed for an ingress trait.</p>
+<h4 id="ingresspath"><code>IngressPath</code></h4>
+<p><code>IngressPath</code> specifies a specific path to be exposed for an ingress trait.</p>
 <table>
 <thead>
 <tr>
@@ -1329,8 +1329,8 @@ $ curl -sk -X GET https://${HOST}/greet
 </tr>
 </tbody>
 </table>
-<h4 id="ingresssecurity">IngressSecurity</h4>
-<p>IngressSecurity specifies the secret containing the certificate securing the transport for an ingress trait.</p>
+<h4 id="ingresssecurity"><code>IngressSecurity</code></h4>
+<p><code>IngressSecurity</code> specifies the secret containing the certificate securing the transport for an ingress trait.</p>
 <table>
 <thead>
 <tr>
@@ -1344,7 +1344,7 @@ $ curl -sk -X GET https://${HOST}/greet
 <tr>
 <td><code>secretName</code></td>
 <td>string</td>
-<td>The name of a secret containing the certificate securing the transport.  The specification of a secret here implies that a certificate was created for specific hosts, as specified in an <a href="#ingressrule">IngressRule</a>.</td>
+<td>The name of a secret containing the certificate securing the transport.  The specification of a secret here implies that a certificate was created for specific hosts, as specified in an <a href="#ingressrule"><code>IngressRule</code></a>.</td>
 <td>Yes</td>
 </tr>
 </tbody>
@@ -1414,7 +1414,7 @@ $ curl -sk -X GET https://${HOST}/greet
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified May 7, 2021: <a  href="../../../../../commit/e402442bc98aea82fdc24409b89889f4f44ce585">Rdonat/vz 2634 (#124) (e402442)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified June 28, 2021: <a  href="../../../../../commit/99209860dde4097e66508f1dbd3aba1e4e27f76c">overall edit (#159) (9920986)</a>
 </div>
 </div>
 

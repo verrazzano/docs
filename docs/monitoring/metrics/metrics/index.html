@@ -21,11 +21,11 @@
 <meta property="og:description" content="Verrazzano metrics" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/monitoring/metrics/metrics/" />
-<meta property="article:modified_time" content="2021-06-21T16:28:26-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-06-28T13:08:56-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Metrics">
 <meta itemprop="description" content="Verrazzano metrics">
-<meta itemprop="dateModified" content="2021-06-21T16:28:26-04:00" />
-<meta itemprop="wordCount" content="477">
+<meta itemprop="dateModified" content="2021-06-28T13:08:56-04:00" />
+<meta itemprop="wordCount" content="426">
 
 
 
@@ -105,7 +105,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.01bb62f2817f619c88b9910cb8db76ef.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.8235a1fec1920441d6ac0eff8b826341.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -137,7 +137,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.01bb62f2817f619c88b9910cb8db76ef.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.8235a1fec1920441d6ac0eff8b826341.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -204,7 +204,7 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsconceptsverrazzanoproject" href="../../../../docs/concepts/verrazzanoproject/">Verrazzano Project</a>
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsconceptsverrazzanoproject" href="../../../../docs/concepts/verrazzanoproject/">Verrazzano project</a>
         
       
       
@@ -1059,7 +1059,7 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsreferenceversions" href="../../../../docs/reference/versions/">Software Versions</a>
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsreferenceversions" href="../../../../docs/reference/versions/">Software versions</a>
         
       
       
@@ -1186,43 +1186,25 @@ The following is an example of the WebLogic Prometheus-related configuration spe
 <p>For example, for the previous metric source:</p>
 <ul>
 <li>
-<p>Map the port being used to expose the metrics</p>
+<p>Map the port being used to expose the metrics.</p>
 <pre><code>$ kubectl port-forward tododomain-adminserver 7001:7001 -n todo-list
 </code></pre></li>
 <li>
-<p>Get the user name and password used to access the metrics source from the corresponding secret</p>
+<p>Get the user name and password used to access the metrics source from the corresponding secret.</p>
 <pre><code>$ kubectl get secret --namespace todo-list tododomain-weblogic-credentials  -o jsonpath={.data.username} | base64 --decode; echo
 $ kubectl get secret --namespace todo-list tododomain-weblogic-credentials  -o jsonpath={.data.password} | base64 --decode; echo
 </code></pre></li>
 <li>
-<p>Access the metrics at the exported path, using the user name and password retrieved in the previous step</p>
+<p>Access the metrics at the exported path, using the user name and password retrieved in the previous step.</p>
 <pre><code>$ curl -u USERNAME:PASSWORD localhost:7001/wls-exporter/metrics
 </code></pre></li>
-</ul>
-<h3 id="metrics-scraper">Metrics scraper</h3>
-<ul>
-<li>Single pod per cluster</li>
-<li>Named <code>prometheus-*</code> in <code>istio-system</code> namespace</li>
-<li>Discovers exposed metrics endpoints</li>
-<li>Stores the scraped metrics in memory</li>
-</ul>
-<h3 id="metrics-pusher">Metrics pusher</h3>
-<ul>
-<li>Single pod per cluster</li>
-<li>Named <code>prom-pusher-system-*</code> in <code>monitoring</code> namespace</li>
-<li>Pulls metrics from the metrics scraper</li>
-<li>Pushes metrics to the metrics gateway</li>
-</ul>
-<h3 id="metrics-gateway">Metrics gateway</h3>
-<ul>
-<li>Single pod per cluster</li>
-<li>Named <code>vmi-system-prometheus-gw-*</code> in <code>verrazzano-system</code> namespace</li>
 </ul>
 <h3 id="metrics-server">Metrics server</h3>
 <ul>
 <li>Single pod per cluster</li>
 <li>Named <code>vmi-system-prometheus-*</code> in <code>verrazzano-system</code> namespace</li>
-<li>Pulls metrics from the metrics gateway</li>
+<li>Discovers exposed metrics source endpoints</li>
+<li>Scrapes metrics from metrics sources</li>
 <li>Responsible for exposing all metrics</li>
 </ul>
 <h2 id="grafana">Grafana</h2>
@@ -1235,20 +1217,20 @@ $ kubectl get secret --namespace todo-list tododomain-weblogic-credentials  -o j
 <p>To access Grafana:</p>
 <ul>
 <li>
-<p>Get the hostname from the Grafana ingress</p>
+<p>Get the hostname from the Grafana ingress.</p>
 <pre><code>$ kubectl get ingress vmi-system-grafana -n verrazzano-system
 </code></pre><pre><code>NAME                 CLASS    HOSTS                                              ADDRESS          PORTS     AGE
 vmi-system-grafana   &lt;none&gt;   grafana.vmi.system.default.123.456.789.10.nip.io   123.456.789.10   80, 443   26h
 </code></pre></li>
 <li>
-<p>Get the password for the user <code>verrazzano</code></p>
+<p>Get the password for the user <code>verrazzano</code>.</p>
 <pre><code>$ kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo
 </code></pre></li>
 <li>
-<p>Access Grafana in a browser using the previous hostname</p>
+<p>Access Grafana in a browser using the previous hostname.</p>
 </li>
 <li>
-<p>Log in using the <code>verrazzano</code> user and the previous password</p>
+<p>Log in using the <code>verrazzano</code> user and the previous password.</p>
 </li>
 </ul>
 <p><img src="../../../images/grafana-initial-page.png" alt="Grafana"></p>
@@ -1325,7 +1307,7 @@ because the <code>todo-list</code> application is a WebLogic application.</p>
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified June 21, 2021: <a  href="../../../../commit/0b559697f5ba6ec2813fb61acbe97f38676604fd">review edits (#152) (0b55969)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified June 28, 2021: <a  href="../../../../commit/99209860dde4097e66508f1dbd3aba1e4e27f76c">overall edit (#159) (9920986)</a>
 </div>
 </div>
 
