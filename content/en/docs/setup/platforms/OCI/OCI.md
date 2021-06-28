@@ -1,7 +1,7 @@
 ---
-title: Oracle Cloud Infrastructure (OCI)
+title: OCI Container Engine for Kubernetes (OKE)
 description: Instructions for setting up an Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE) cluster for Verrazzano
-linkTitle: OCI
+linkTitle: OKE
 Weight: 5
 draft: false
 ---
@@ -20,6 +20,8 @@ draft: false
 
 * Optional step, needed only if your organization requires the use of a private registry to host one or more of the Docker images installed by
   Verrazzano and those images have been loaded into the private registry. Create the optional `imagePullSecret` named `verrazzano-container-registry`.
+  See [Using a Private Registry]({{< relref "/docs/setup/private-registry/private-registry.md" >}}) for 
+  more details.
 
 ```
    $ kubectl create secret docker-registry verrazzano-container-registry \

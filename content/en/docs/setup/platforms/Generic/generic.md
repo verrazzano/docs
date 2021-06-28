@@ -45,6 +45,7 @@ By default, each Verrazzano install profile has different storage characteristic
   - Elasticsearch
   - Prometheus
   - Grafana
+  - Keycloak
 
 By default, the `prod` profile uses 50Gi persistent volumes for each of the above services, using the default storage class for the target Kubernetes platform.  The `dev` profile uses ephemeral `emptyDir` storage by default.  However, you can customize these storage settings within a profile as desired.
 
