@@ -57,7 +57,7 @@ you provided during registration and ensure that it is correct, and that it is r
 is incorrect, then you will need to repeat the managed cluster registration process described in the setup instructions
 [here]({{< relref "/docs/setup/install/multicluster" >}}).
 
-## Verify VerrazzanoProject placement
+## Verify `VerrazzanoProject` placement
 For Verrazzano to create an application namespace in a managed cluster, that namespace must be part of a `VerrazzanoProject`
 that:
 

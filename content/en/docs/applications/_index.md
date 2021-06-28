@@ -20,7 +20,7 @@ These definitions can be referenced by components and application configurations
 
 ![](oam-arch.svg)
 
-## `ApplicationConfigurations`
+## Application Configurations
 An `ApplicationConfiguration` is a collection of references to `Components`.
 A set of `Traits` and `Scopes` can be applied to each `Component` reference.
 The platform uses these `Components`, `Traits`, and `Scopes` to generate the final application
@@ -164,7 +164,7 @@ This provides the platform with additional information about processing the scop
 
 A `ScopeDefintion` is typically provided by the platform, not an end user.
 
-## Verrazzano Workloads
+## Verrazzano workloads
 The Verrazzano platform provides several workload definitions and implementations.
 
 ### `VerrazzanoWebLogicWorkload`
@@ -189,7 +189,7 @@ This workload type is similar to the `Deployment` workload.
 It is provided to ensure that OAM can be used for non-Kubernetes deployment environments.
 See the [OAM specification](https://github.com/oam-dev/spec/blob/v0.2.1/core/workloads/containerized_workload/containerized_workload.md).
 
-## Verrazzano Traits
+## Verrazzano traits
 The Verrazzano platform provides several trait definitions and implementations.
 
 ### `IngressTrait`
@@ -239,7 +239,7 @@ spec:
 ```
 See the [API documentation](https://verrazzano.io/docs/reference/api/oam/metricstrait/) for details.
 
-## Kubernetes Resources
+## Kubernetes resources
 Verrazzano and OAM provide workloads and traits to define and customize applications.
 However, some situations may require resources beyond those provided.
 In this case, other existing Kubernetes resources can also be used.

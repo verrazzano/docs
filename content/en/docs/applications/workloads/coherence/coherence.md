@@ -8,13 +8,13 @@ draft: false
 
 
 A Verrazzano application can contain any number of Coherence component workloads, where each workload
-is a standalone Coherence cluster, independent from any other Coherence cluster in the application.
+is a standalone Coherence cluster, independent from other Coherence clusters in the application.
 
 Verrazzano uses the standard Coherence operator to provision and manage clusters, as documented
 at [Coherence Operator](https://oracle.github.io/coherence-operator/docs/latest).  The Coherence operator
 uses a CRD, coherence.oracle.com (Coherence resource), to represent a Coherence cluster.  When a Verrazzano
-application with Coherence is provisioned, Verrazzano will configure the default logging and
-metrics for the Coherence cluster.  Logs will be sent to Elasticsearch and metrics to Prometheus.  
+application with Coherence is provisioned, Verrazzano configures the default logging and
+metrics for the Coherence cluster.  Logs are sent to Elasticsearch and metrics to Prometheus.  
 You can view this telemetry data using the Kibana and Grafana consoles.
 
 ## OAM component
@@ -44,7 +44,7 @@ spec:
 ### Life cycle
 With Verrazzano, you manage the life cycle of applications using `Component` and `ApplicationConfiguration` resources.
 Typically, you would modify the Coherence cluster resource to make changes or to do lifecycle operations,
-like scale in and scale out.  However, in the Verrazzano environment, the Cluster resource is owned by the
+like scale in and scale out.  However, in the Verrazzano environment, the cluster resource is owned by the
 Verrazzano application operator and will be reconciled to match the component workload resource.  Therefore,
 you need to manage the cluster configuration by modifying the resource, either by `kubectl edit` or applying a new YAML file. Verrazzano
 will notice that the `Component` resource changed and will update the Coherence resource as needed.
@@ -56,7 +56,7 @@ the Coherence component.  When the application is created, Verrazzano creates a 
 cluster, which is subsequently processed by the Coherence operator, resulting in a new cluster.  After a cluster
 is created, the Coherence operator will monitor the Coherence resource to reconcile the state of the cluster. You can
 add a new Coherence workload to a running application, or remove an existing workload, by modifying
-the `ApplicationConfiguration` resource and adding or removing the Coherence component.
+the `ApplicationConfiguration` resource, and adding or removing the Coherence component.
 
 #### Scaling
 Scaling a Coherence cluster is done by modifying the replicas field in the `Component` resource.  Verrazzano

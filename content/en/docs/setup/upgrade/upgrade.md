@@ -34,41 +34,41 @@ In order to upgrade an existing Verrazzano installation, you must first upgrade 
 
 1. Upgrade the Verrazzano platform operator.
 
-**NOTE:** If you are using a private container registry, follow the instructions at [Using a Private Registry](../../private-registry/private-registry) to update the platform operator.
+   **NOTE:** If you are using a private container registry, follow the instructions at [Using a Private Registry](../../private-registry/private-registry) to update the platform operator.
 
-    To upgrade to the latest version:
+   To upgrade to the latest version:
 
-    ```shell
-    $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
-    ```
+   ```shell
+   $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
+   ```
 
    To upgrade to a specific version, where `<version>` is the desired version:
 
-    ```shell
-    $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/<version>/operator.yaml
-    ```
+   ```shell
+   $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/<version>/operator.yaml
+   ```
 
     For example:
 
-    ```shell
-    $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v0.7.0/operator.yaml
-    ```
+   ```shell
+   $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v0.7.0/operator.yaml
+   ```
 
 
 1. Wait for the deployment to complete.
 
-    ```shell
-    $ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
-    deployment "verrazzano-platform-operator" successfully rolled out
-    ```
+   ```shell
+   $ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
+   deployment "verrazzano-platform-operator" successfully rolled out
+   ```
 
 1. Confirm that the operator pod is correctly defined and running.
 
-    ```shell
-    $ kubectl -n verrazzano-install get pods
-    NAME                                            READY   STATUS    RESTARTS   AGE
-    verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
-    ```
+   ```shell
+   $ kubectl -n verrazzano-install get pods
+   NAME                                            READY   STATUS    RESTARTS   AGE
+   verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
+   ```
 
 ### Upgrade Verrazzano
 
