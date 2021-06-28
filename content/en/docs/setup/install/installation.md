@@ -12,7 +12,7 @@ You should install this developer preview release of Verrazzano only in a cluste
 The following instructions show you how to install Verrazzano in a
 single Kubernetes cluster.
 
-### Prerequisites
+## Prerequisites
 
 Verrazzano requires the following:
 - A Kubernetes cluster and a compatible `kubectl`.
@@ -27,7 +27,7 @@ Verrazzano has been tested _only_ on the following versions of Kubernetes: 1.17.
 {{< /alert >}}
 
 
-### Prepare for the install
+## Prepare for the install
 
 Before installing Verrazzano, see instructions on preparing the following Kubernetes platforms:
 
@@ -43,7 +43,7 @@ Before installing Verrazzano, see instructions on preparing the following Kubern
 
 **NOTE**: Verrazzano can create network policies that can be used to limit the ports and protocols that pods use for network communication. Network policies provide additional security but they are enforced only if you install a Kubernetes Container Network Interface (CNI) plug-in that enforces them, such as Calico. For instructions on how to install a CNI plug-in, see the documentation for your Kubernetes cluster.
 
-### Install the Verrazzano platform operator
+## Install the Verrazzano platform operator
 
 Verrazzano provides a platform [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
 to manage the life cycle of Verrazzano installations.  You can install,
@@ -73,7 +73,7 @@ To install the Verrazzano platform operator:
     verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
     ```
 
-### Perform the install
+## Perform the install
 
 Verrazzano supports the following installation profiles:  development (`dev`), production (`prod`), and
 managed cluster (`managed-cluster`).
@@ -100,7 +100,7 @@ install Verrazzano using one of the following methods:
 {{< tab tabNum="1" >}}
 <br>
 
-**Install using nip.io**
+#### Install using nip.io
 
 Run the following commands:
 
@@ -120,9 +120,9 @@ $ kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verra
 {{< tab tabNum="2" >}}
 <br>
 
-**Install using OCI DNS**
+#### Install using OCI DNS
 
-Prerequisites
+**Prerequisites**
 * A DNS zone is a distinct portion of a domain namespace. Therefore, ensure that the zone is appropriately associated with a parent domain.
 For example, an appropriate zone name for parent domain `v8o.example.com` domain is `us.v8o.example.com`.
 * Create a public OCI DNS zone using the OCI CLI or the OCI Console.
@@ -159,7 +159,7 @@ reads an OCI configuration file to create the secret.
   After generating the correct form of the `.pem` file, make sure to change the reference within the OCI configuration file.
   {{< /alert >}}
 
-Installation
+**Installation**
 
 Installing Verrazzano using OCI DNS requires some configuration settings to create DNS records.
 
@@ -201,7 +201,7 @@ To monitor the console log output of the installation:
 $ kubectl logs -f $(kubectl get pod -l job-name=verrazzano-install-my-verrazzano -o jsonpath="{.items[0].metadata.name}")
 ```
 
-### Verify the install
+## Verify the install
 
 Verrazzano installs multiple objects in multiple namespaces. In the `verrazzano-system` namespaces, all the pods in the `Running` state, does not guarantee, but likely indicates that Verrazzano is up and running.
 ```
@@ -223,14 +223,14 @@ vmi-system-prometheus-0-7bf464d898-czq8r                 4/4     Running   0    
 weblogic-operator-7db5cdcf59-qxsr9                       1/1     Running   0          27h
 ```
 
-#### (Optional) Run the example applications
+## (Optional) Run the example applications
 Example applications are located [here]({{< relref "/docs/samples/_index.md" >}}).
 
-##### To get the consoles URLs and credentials, see [Operations]({{< relref "/docs/operations/_index.md" >}}).
+##### To get the consoles URLs and credentials, see [Access Verrazzano]({{< relref "/docs/operations/_index.md" >}}).
 
-### Uninstall Verrazzano
+## Uninstall Verrazzano
 
-To delete a Verrazzano installations:
+To delete Verrazzano installations:
 
 ```
 # Get the name of the Verrazzano custom resource

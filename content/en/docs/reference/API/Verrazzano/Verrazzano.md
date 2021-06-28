@@ -41,27 +41,27 @@ The following table describes the `spec` portion of the Verrazzano custom resour
 | `environmentName` | string | Name of the installation.  This name is part of the endpoint access URLs that are generated. The default value is `default`. | No  
 | `profile` | string | The installation profile to select.  Valid values are `prod` (production) and `dev` (development).  The default is `prod`. | No |
 | `version` | string | The version to install.  Valid versions can be found [here](https://github.com/verrazzano/verrazzano/releases/).  Defaults to the current version supported by the Verrazzano platform operator. | No |
-| `components` | [Components](#Components) | The Verrazzano components.  | No  |
+| `components` | [`Components`](#Components) | The Verrazzano components.  | No  |
 
 
-## Components
+## `Components`
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `certManager` | [CertManagerComponent](#certmanager-component) | The cert-manager component configuration.  | No |
-| `dns` | [DNSComponent](#dns-component) | The DNS component configuration.  | No |
-| `ingress` | [IngressComponent](#ingress-component) | The ingress component configuration. | No |
-| `istio` | [IstioComponent](#istio-component) | The Istio component configuration. | No |
+| `certManager` | [`CertManagerComponent`](#certmanager-component) | The cert-manager component configuration.  | No |
+| `dns` | [`DNSComponent`](#dns-component) | The DNS component configuration.  | No |
+| `ingress` | [`IngressComponent`](#ingress-component) | The ingress component configuration. | No |
+| `istio` | [`IstioComponent`](#istio-component) | The Istio component configuration. | No |
 
-### CertManager Component
+### `CertManager` Component
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `certificate` | [Certificate](#certificate) | The certificate configuration. | No |
+| `certificate` | [`Certificate`](#certificate) | The certificate configuration. | No |
 
-#### Certificate
+#### `Certificate`
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `acme` | [Acme](#acme) | The ACME configuration.  Either `acme` or `ca` must be specified. | No |
-| `ca` | [CertificateAuthority](#CertificateAuthority) | The certificate authority configuration.  Either `acme` or `ca` must be specified. | No |
+| `ca` | [`CertificateAuthority`](#CertificateAuthority) | The certificate authority configuration.  Either `acme` or `ca` must be specified. | No |
 
 #### Acme
 | Field | Type | Description | Required
@@ -69,7 +69,7 @@ The following table describes the `spec` portion of the Verrazzano custom resour
 | `provider` | string | Name of the Acme provider. |  Yes |
 | `emailAddress` | string | Email address of the user. |  Yes |
 
-#### CertificateAuthority
+#### `CertificateAuthority`
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `secretName` | string | The secret name. |  Yes |

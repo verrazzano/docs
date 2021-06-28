@@ -40,19 +40,19 @@ To look directly at the metrics that are being made available by the metric sour
 
 For example, for the previous metric source:
 
-- Map the port being used to expose the metrics
+- Map the port being used to expose the metrics.
   ```
   $ kubectl port-forward tododomain-adminserver 7001:7001 -n todo-list
   ```
 
-- Get the user name and password used to access the metrics source from the corresponding secret
+- Get the user name and password used to access the metrics source from the corresponding secret.
 
   ```
   $ kubectl get secret --namespace todo-list tododomain-weblogic-credentials  -o jsonpath={.data.username} | base64 --decode; echo
   $ kubectl get secret --namespace todo-list tododomain-weblogic-credentials  -o jsonpath={.data.password} | base64 --decode; echo
   ```
 
-- Access the metrics at the exported path, using the user name and password retrieved in the previous step
+- Access the metrics at the exported path, using the user name and password retrieved in the previous step.
    ```
    $ curl -u USERNAME:PASSWORD localhost:7001/wls-exporter/metrics
    ```
@@ -75,7 +75,7 @@ Grafana provides visualization for your Prometheus metric data.
 
 To access Grafana:
 
-- Get the hostname from the Grafana ingress
+- Get the hostname from the Grafana ingress.
    ```
    $ kubectl get ingress vmi-system-grafana -n verrazzano-system
    ```
@@ -85,12 +85,12 @@ To access Grafana:
    vmi-system-grafana   <none>   grafana.vmi.system.default.123.456.789.10.nip.io   123.456.789.10   80, 443   26h
    ```
 
-- Get the password for the user `verrazzano`
+- Get the password for the user `verrazzano`.
    ```
    $ kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo
    ```
-- Access Grafana in a browser using the previous hostname
-- Log in using the `verrazzano` user and the previous password
+- Access Grafana in a browser using the previous hostname.
+- Log in using the `verrazzano` user and the previous password.
 
 ![Grafana](../../../images/grafana-initial-page.png)
 

@@ -14,17 +14,17 @@ KIND is not recommended for use on macOS and Windows because the Docker network 
 to the host.  On macOS and Windows, [minikube]({{< relref "/docs/setup/platforms/minikube/minikube.md" >}}) is recommended.
 {{% /alert %}}
 
-### Prerequisites
+## Prerequisites
 
 - Install [Docker](https://docs.docker.com/install/).
 - Install [KIND](https://kind.sigs.k8s.io/docs/user/quick-start/#installation).
 
-### Prepare the KIND cluster
+## Prepare the KIND cluster
 
 To prepare the KIND cluster for use with Verrazzano, you must create the cluster and then install and configure
 [MetalLB](https://metallb.universe.tf/) in that cluster.
 
-#### Create the KIND cluster
+### Create the KIND cluster
 
 KIND images are prebuilt for each release.  To find images suitable for a given release, check the
 [release notes](https://github.com/kubernetes-sigs/kind/releases) for your KIND version (check with `kind version`)
@@ -50,7 +50,7 @@ nodes:
 EOF
 ```
 
-#### Install and configure MetalLB
+### Install and configure MetalLB
 
 By default, KIND does not provide an implementation of network load balancers ([Services of type LoadBalancer](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/)).
 [MetalLB](https://metallb.universe.tf/) offers a network load balancer implementation.
@@ -101,7 +101,7 @@ data:
 EOF
 ```
 
-### Image caching to speed up install
+## Image caching to speed up install
 
 If you are experimenting with Verrazzano and expect that you may need to delete the KIND cluster and later, install Verrazzano again on a new KIND cluster, then you can follow these steps to ensure that the image cache used by containerd inside KIND is preserved across clusters. Subsequent installs will be faster than the first install, because they will not need to pull the images again.
 
@@ -144,6 +144,6 @@ nodes:
         containerPath: /var/lib/containerd #This is the location of the image cache inside the KIND container
 EOF
 ```
-### Next steps
+## Next steps
 
 To continue, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md#install-the-verrazzano-platform-operator" >}}).

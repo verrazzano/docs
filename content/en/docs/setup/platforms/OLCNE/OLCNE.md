@@ -6,14 +6,14 @@ weight: 7
 draft: false
 ---
 
-### Prepare for the OCLNE install
+## Prepare for the OCLNE install
 [Oracle Linux Cloud Native Environment](https://docs.oracle.com/en/operating-systems/olcne/) can be installed in several different types of environments.
 These range from physical, on-premises hardware to virtualized cloud infrastructure.
 The Oracle Linux Cloud Native Environment installation instructions assume that networking and compute resources already exist.
 The basic infrastructure requirements are a network with a public and private subnet
 and a set of hosts connected to those networks.
 
-#### OCI example
+### OCI example
 The following is an example of OCI infrastructure that can be used to evaluate Verrazzano installed on Oracle Linux Cloud Native Environment.
 If other environments are used, the capacity and configuration should be similar.
 
@@ -21,7 +21,7 @@ You can use the VCN Wizard of the OCI Console to automatically create most of th
 Additional security lists/rules, as detailed below, need to be added manually.
 All CIDR values provided are examples and can be customized as required.
 
-#### Virtual Cloud Network (for example, CIDR 10.0.0.0/16)
+### Virtual Cloud Network (for example, CIDR 10.0.0.0/16)
 **Public Subnet (for example, CIDR 10.0.0.0/24)**
 
 Security List / Ingress Rules
@@ -117,13 +117,13 @@ Other values can be used if required.
 | Kubernetes Worker Node 2      | Private | 32GB          | VM.Standard.E2.4    | Oracle Linux 7.8    |
 | Kubernetes Worker Node 3      | Private | 32GB          | VM.Standard.E2.4    | Oracle Linux 7.8    |
 
-### Do the OLCNE install
+## Do the OLCNE install
 Deploy Oracle Linux Cloud Native Environment with the Kubernetes module, following instructions from the [Getting Started](https://docs.oracle.com/en/operating-systems/olcne/1.1/start/install-module-deploy.html) guide.
 * Use a single Kubernetes control plane node.
 * Skip the Kubernetes API load balancer ([3.4.3](https://docs.oracle.com/en/operating-systems/olcne/1.1/start/install-lb.html)).
 * Use private CA certificates ([3.5.3](https://docs.oracle.com/en/operating-systems/olcne/1.1/start/certs-private.html)).
 
-### Prepare for the Verrazzano install
+## Prepare for the Verrazzano install
 
 A Verrazzano Oracle Linux Cloud Native Environment deployment requires:
 * A default storage provider that supports "Multiple Read/Write" mounts. For example, an NFS service like:
@@ -134,20 +134,20 @@ A Verrazzano Oracle Linux Cloud Native Environment deployment requires:
 
 Examples for meeting these requirements follow.
 
-#### Prerequisites Details
+### Prerequisites Details
 
 {{< tabs tabTotal="3" tabID="1" tabName1="Storage" tabName2="Load Balancers" tabName3="DNS" >}}
 {{< tab tabNum="1" >}}
 <br>
 
-#### Storage
+### Storage
 Verrazzano requires persistent storage for several components.
 This persistent storage is provided by a default storage class.
 A number of persistent storage providers exist for Kubernetes.
 This guide will focus on pre-allocated persistent volumes.
 In particular, the provided samples will illustrate the use of OCI's NFS File System.
 
-###### OCI example  
+##### OCI example  
 Before storage can be exposed to Kubernetes, it must be created.
 In OCI, this is done using File System resources.
 Using the OCI Console, create a new File System.
@@ -166,7 +166,7 @@ $ sudo mount 10.0.1.8:/example /mnt
 $ for x in {0001..0009}; do sudo mkdir -p /mnt/pv${x} && sudo chmod 777 /mnt/pv${x}; done
 ```
 
-###### Persistent Volumes
+##### Persistent Volumes
 A default Kubernetes storage class is required by Verrazzano.
 When using pre-allocated `PersistentVolumes`, for example NFS, persistent volumes should be declared as following.
 The value for `name` may be customized but will need to match the `PersistentVolume` `storageClassName` value later.
@@ -214,7 +214,7 @@ The value for `name` may be customized but will need to match the `PersistentVol
 {{< tab tabNum="2" >}}
 <br>
 
-#### Load Balancers
+### Load Balancers
 Verrazzano on Oracle Linux Cloud Native Environment uses external load balancer services.
 These will not automatically be provided by Verrazzano or Kubernetes.
 Two load balancers must be deployed outside of the subnet used for the Kubernetes cluster.
@@ -222,7 +222,7 @@ One load balancer is for management traffic and the other for application traffi
 
 Specific steps will differ for each load balancer provider, but a generic configuration and an OCI example follow.
 
-##### Generic configuration:
+#### Generic configuration:
 
 * Target Host: Host names of Kubernetes worker nodes
 * Target Ports: See table
@@ -238,7 +238,7 @@ Specific steps will differ for each load balancer provider, but a generic config
 | Management   | `ingress-controller-nginx-ingress-controller` | TCP   | 443                     | 30443       |
 
 
-##### OCI example
+#### OCI example
 The following details can be used to create OCI load balancers for accessing application and management user interfaces, respectively.
 These load balancers will route HTTP/HTTPS traffic from the Internet to the private subnet.
 If load balancers are desired, then they should be created now even though the application and management endpoints will be installed later.
@@ -270,7 +270,7 @@ If load balancers are desired, then they should be created now even though the a
 {{< tab tabNum="3" >}}
 <br>
 
-#### DNS
+### DNS
 When using the `spec.dns.external` DNS type, the installer searches the DNS zone you provide for two specific A records.
 These are used to configure the cluster and should refer to external addresses of the load balancers in the previous step.
 The A records will need to be created manually.
@@ -307,7 +307,7 @@ OR
 ```
 *.myenv.mydomain.com                             CNAME   ingress-mgmt.myenv.mydomain.com.
 ```
-##### OCI example
+#### OCI example
 DNS is configured in OCI by creating DNS zones in the OCI Console.
 When creating a DNS zone, use these values:
 * Method: Manual
@@ -339,6 +339,6 @@ The value for `<path to valid Kubernetes config>` is typically `${HOME}/.kube/co
 ```
 $ export KUBECONFIG=$VERRAZZANO_KUBECONFIG
 ```
-### Next steps
+## Next steps
 
 To continue, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md#install-the-verrazzano-platform-operator" >}}).
