@@ -47,7 +47,7 @@ the Ingress route information, etc.
 
 The NGINX Ingress Controller is a LoadBalancer service as seen here:
 ```
-kubectl get service -n ingress-nginx
+$ kubectl get service -n ingress-nginx
 ...
 ingress-controller-ingress-nginx-controller           LoadBalancer 
 ```
@@ -73,7 +73,7 @@ create a Gateway and VirtualService at that time.  However, during installation,
 create the Istio ingress gateway, which is a LoadBalancer service, along with the 
 Istio egress gateway, which is a ClusterIP service.  
 ```
-kubectl get service -n istio-system
+$ kubectl get service -n istio-system
 ...
 istio-ingressgateway   LoadBalancer 
 ```
@@ -113,18 +113,18 @@ outside the cluster.
 | ------------- |:------------- |:------------- 
 | cert-manager | Let's Encrypt | Get signed certificate
 | Elasticsearch | Keycloak | OIDC sidecar calls Keycloak for authentication which includes redirects
-| ExternalDNS | OCI | Create and Delete DNS entries in OCI DNS
+| ExternalDNS | External DNS | Create and Delete DNS entries in an external DNS
 | Fluentd | Elasticsearch | Fluentd on the managed cluster calls Elasticsearch on the admin cluster
 | Grafana | Keycloak | OIDC sidecar calls Keycloak for authentication which includes redirects
 | Kibana | Keycloak | OIDC sidecar calls Keycloak for authentication which includes redirects
 | Prometheus | Prometheus | Prometheus on admin cluster scrapes metrics from Prometheus on managed cluster
 | Rancher Agent | Rancher | Rancher agent on managed cluster sends requests to Rancher on admin cluster
 | Verrazzano API Proxy | Keycloak | API proxy on the managed cluster calls Keycloak on the admin cluster
-| Verrazzano Platform Operator | Kubernetes API server | MC agent on managed cluster calls API server on admin cluster
+| Verrazzano Platform Operator | Kubernetes API server | Multicluster agent on managed cluster calls API server on admin cluster
 
 ### East-West System Traffic
 The following tables shows Verrazzano system components that send traffic to a destination
-inside the cluster.  The destinations include any Verrazzano applications, with the following exceptions:
+inside the cluster, with the following exceptions:
 - Usage of CoreDNS: It can be assumed that any Pod in the cluster can access CoreDNS for name resolution.
 - Envoy to Istiod: The Envoy proxies all make requests to the Istio control plane to get dynamic configuration, etc.
 This includes both the gateways and the mesh sidecar proxies. That traffic is not shown. 
@@ -190,12 +190,6 @@ The following components use webhooks:
 - Rancher
 - Verrazzano Application Operator
 - Verrazzano Platform Operator
-
-#### Health Checks
-Each Kubernetes node has a kubelet that does health checks on Pods using probes, such
-as liveness probes.  This is something that you should be aware of, but no action
-is required on your part.  Verrazzano has no involvement with Kubelet health checks,
-and they are not affected by NetworkPolices.
 
 ## Application Traffic
 Application traffic includes all traffic to and from Verrazzano applications. 
@@ -277,13 +271,13 @@ routing or load balancing.  Verrazzano doesn't configure east-west traffic.  Con
 [bobs-books-comp.yaml](HTTPS://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/bobs-books-comp.yaml). 
 When deploying Bob's Books, a VirtualService is created for bobby's front-end, because of the IngressTrait, but there are 
 no VirtualServices for the other services in the application.  When bobbys-front-end sends requests to 
-bobbys-helidon-stock-application, east-west traffic, the traffic still goes to bobbys-helidon-stock-application through 
+bobbys-helidon-stock-application, this east-west traffic still goes to bobbys-helidon-stock-application through 
 the Envoy sidecar proxies in the source and destination Pods, but there is no VirtualService representing 
 bobbys-helidon-stock-application, where you could specify a canary deployment or custom load balancing.  This 
 is something you could manually configure, but it is not configured by Verrazzano.
 
 ## Proxies
-Verrazzano uses network proxies in multiple places.  The two proxies products used are Envoy and NGINX.
+Verrazzano uses network proxies in multiple places.  The two proxy products used are Envoy and NGINX.
 The following table shows which proxies are used and what Pod they run in.
 
 | Usage  | Proxy | Pod | Namespace | Description |
@@ -311,13 +305,12 @@ The following table shows which proxies are used and what Pod they run in.
 | Istio mesh sidecar | Envoy  | vmi-system-grafana-* | verrazzano-system | Grafana in the Istio mesh
 | Istio mesh sidecar | Envoy  | weblogic-operator-* | verrazzano-system | WebLogic operator in the Istio mesh
 
-## Multicluster and Hybrid Traffic
-Some Verrazzano components have mixed traffic across the aforementioned categories and traffic directions. Those
-components are the Verrazzano agent, Verrazzano API proxy, the OIDC proxy, Prometheus, and WebLogic.
-Some of this information is described in other sections of the document, but summarized here.
+## Multicluster
+Some Verrazzano components send traffic between Kubernetes clusters. Those components are the Verrazzano agent, 
+Verrazzano API proxy, the OIDC proxy, and Prometheus.
 
 #### Multicluster Egress
-The following tables shows Verrazzano system components that initiate requests between the admin and managed clusters.
+The following table shows Verrazzano system components that initiate requests between the admin and managed clusters.
 All of these requests go through the NGINX Ingress Controller on the respective destination cluster.
 
 | Source Cluster | Source Component | Destination Cluster | Destination Component | Description 
@@ -331,7 +324,7 @@ All of these requests go through the NGINX Ingress Controller on the respective 
 | Managed | Prometheus | Admin | Keycloak | OIDC sidecar sends requests to  Keycloak
 | Managed | Rancher Agent | Admin | Rancher | Rancher Agent sends requests Rancher 
 | Managed | Verrazzano API proxy | Admin | Keycloak | API proxy sends requests to  Keycloak 
-| Managed | Verrazzano Platform Operator | Admin | Kubernetes API server | Agent sends requests Kubernetes API server 
+| Managed | Verrazzano Agent | Admin | Kubernetes API server | Agent, in the platform operator, sends requests Kubernetes API server 
 
 ### Verrazzano Agent
 In the multicluster topology, the Verrazzano platform operator has an agent thread running on the managed cluster
@@ -347,9 +340,9 @@ Controller running on the admin cluster.
 ### Verrazzano OIDC proxy
 The OIDC proxy runs as a sidecar in the Elasticsearch, Kibana, Prometheus, Grafana Pods.  This proxy
 also needs to send requests to Keycloak, either in-cluster or through the cluster ingress.  When a 
-request comes into the ODIC proxy without an authentication header, the proxy sends a request to Keycloak
+request comes into the OIDC proxy without an authentication header, the proxy sends a request to Keycloak
 through the NGINX Ingress Controller, so the request exits the cluster.  Otherwise, the request is
-sent directly to Keycloak withing the cluster if OIDC is on the admin cluster.  If OIDC is on the managed
+sent directly to Keycloak within the cluster if OIDC is on the admin cluster.  If OIDC is on the managed
 cluster then it needs to send requests to Keycloak on the admin cluster.
 
 ### Prometheus
@@ -357,7 +350,3 @@ A single Prometheus service in the cluster scrapes metrics from Pods in system c
 It also scrapes Pods in the Istio mesh using HTTPS and outside the mesh using HTTP. In the multicluster case,
 the Prometheus on the admin cluster scrapes metrics from the Prometheus on the managed cluster, through 
 the NGINX Ingress Controller on the managed cluster.
-
-### WebLogic
-The WebLogic operator, a system component, sends request to the application's WebLogic domain.  Because the
-operator is in the Istio mesh, the domain must also be in the mesh, or those requests will fail.

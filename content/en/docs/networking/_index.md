@@ -9,7 +9,7 @@ A Verrazzano instance is comprised of both Verrazzano components and several
 third party products. Collectively, these components are called the Verrazzano 
 system components.  In addition, after Verrazzano is installed, 
 a Verrazzano instance can include applications deployed by the user.  Applications 
-can also be referred to as components, not to be confused with OAM components.  
+can also be referred to as components, not to be confused with OAM `components`.  
 
 All of the system components and applications use the network to some degree.  Verrazzano 
 configures networking to provide network security and traffic management.  Network 
@@ -27,7 +27,7 @@ to one of several destinations, all in the Istio mesh over mTLS. All of the traf
 in the mesh uses mTLS, with the following exceptions:
 - Traffic from the NGINX Ingress Controller to Rancher
 - Traffic from the Coherence operator to the Coherence cluster
-- Prometheus traffic, which uses HTTP or HTTPS (not shown)
+- Prometheus traffic (not shown), which uses HTTP or HTTPS
 
 **NOTE:** Several components inside the cluster send requests to Keycloak and will
 always go outside the cluster, back through the load balancer, if a Keycloak redirect
