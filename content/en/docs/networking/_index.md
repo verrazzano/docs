@@ -9,7 +9,7 @@ A Verrazzano instance is comprised of both Verrazzano components and several
 third party products. Collectively, these components are called the Verrazzano
 system components.  In addition, after Verrazzano is installed,
 a Verrazzano instance can include applications deployed by the user.  Applications
-can also be referred to as components, not to be confused with OAM `Components`.  
+can also be referred to as components, not to be confused with OAM Components.  
 
 All of the system components and applications use the network to some degree.  Verrazzano
 configures networking to provide network security and traffic management.  Network

@@ -10,27 +10,27 @@ Verrazzano manages and secures network traffic between Verrazzano system compone
 Verrazzano does not manage or secure traffic for the Kubernetes cluster itself, or for
 non-Verrazzano services or applications running in the cluster. Traffic is secured at two levels in the network stack:
 
-- ISO Layer 3/4: Using `NetworkPolicies` to control IP access to Pods.
+- ISO Layer 3/4: Using NetworkPolicies to control IP access to Pods.
 - ISO Layer 6: Using TLS and mTLS to provide authentication, confidentiality,
 and integrity for connections within the cluster, and for external connections.
 
-## `NetworkPolicies`
+## NetworkPolicies
 By default, all Pods in a Kubernetes cluster have network access to all other Pods in the cluster.
-Kubernetes has a `NetworkPolicy` resource that provides network level 3 and 4 security for Pods,
+Kubernetes has a NetworkPolicy resource that provides network level 3 and 4 security for Pods,
 restricting both ingress and egress IP traffic for a set of Pods in a namespace.  Verrazzano configures all
-system components with `NetworkPolicies` to control ingress.  Egress is not restricted.
+system components with NetworkPolicies to control ingress.  Egress is not restricted.
 
-**NOTE:** A `NetworkPolicy` resource needs a `NetworkPolicy` controller to implement the policy, otherwise the
-policy has no effect.  You must install a Kubernetes CNI plug-in that provides a `NetworkPolicy` controller,
+**NOTE:** A NetworkPolicy resource needs a NetworkPolicy controller to implement the policy, otherwise the
+policy has no effect.  You must install a Kubernetes CNI plug-in that provides a NetworkPolicy controller,
 such as Calico, before installing Verrazzano, or else the policies are ignored.
 
-### `NetworkPolicies` for system components
-Verrazzano installs a set of `NetworkPolicies` for system components to control ingress into the Pods.
+### NetworkPolicies for system components
+Verrazzano installs a set of NetworkPolicies for system components to control ingress into the Pods.
 A policy is scoped to a namespace and uses selectors to specify the Pods that the policy applies to, along
 with the ingress and egress rules.  For example, the following policy applies to the Verrazzano API Pod in the
 `verrazzano-system` namespace.  This policy allows network traffic from NGINX Ingress controller on
 port 8775, and from Prometheus on port 15090.  No other Pods can reach those ports or any other ports of the
-Verrazzano API Pod.  Notice that namespace selectors need to be used; the `NetworkPolicy` resource does not support
+Verrazzano API Pod.  Notice that namespace selectors need to be used; the NetworkPolicy resource does not support
 specifying the namespace name.
 ```
 apiVersion: networking.k8s.io/v1
@@ -64,7 +64,7 @@ spec:
 ```
 
 The following table shows all of the ingresses that allow network traffic into system components.
-The ports shown are Pod ports, which is what `NetworkPolicies` require.
+The ports shown are Pod ports, which is what NetworkPolicies require.
 
 
 | Component  | Pod Port           | From  | Description |
@@ -99,15 +99,15 @@ The ports shown are Pod ports, which is what `NetworkPolicies` require.
 | Prometheus | 8775 | NGINX Ingress | Access from external client.
 | Prometheus | 9090 | Grafana | Acccess for Grafana UI.
 
-### `NetworkPolicies` for applications
-By default, applications do not have `NetworkPolicies` that restrict ingress into the application or egress from it.
-You can configure them for the application namespaces using the `NetworkPolicy` section of a Verrazzano project.
+### NetworkPolicies for applications
+By default, applications do not have NetworkPolicies that restrict ingress into the application or egress from it.
+You can configure them for the application namespaces using the NetworkPolicy section of a Verrazzano project.
 
-### `NetworkPolicies` for Envoy sidecar proxies
+### NetworkPolicies for Envoy sidecar proxies
 As mentioned, Envoy sidecar proxies run in both system component pods and application pods.  Each proxy sends requests
-to the Istio control plane pod, `istiod`, for a variety of reasons. During installation, Verrazzano creates a `NetworkPolicy`
+to the Istio control plane pod, `istiod`, for a variety of reasons. During installation, Verrazzano creates a NetworkPolicy
 named `istiod-access` in the `istio-system` namespace to give ingress to system component sidecar proxies.  For applications,
-Verrazzano creates a per-application `NetworkPolicy` in the `istio-system` namespace to allow the same access to `istiod`.
+Verrazzano creates a per-application NetworkPolicy in the `istio-system` namespace to allow the same access to `istiod`.
 When the application is deleted, Verrazzano will delete the policy.
 
 ## mTLS
@@ -119,7 +119,7 @@ Verrazzano configures Istio to have strict mTLS for the mesh.  All components an
 will use mTLS, with the exception of Coherence clusters, which are not in the mesh. Also, all traffic between the Istio
 ingress gateway and mesh sidecars use mTLS, and the same is true between the proxy sidecars and the egress gateway.   
 
-Verrazzano sets up mTLS during installation with the `PeerAuthentication` resource as follows:
+Verrazzano sets up mTLS during installation with the PeerAuthentication resource as follows:
 ```
 apiVersion: v1
 items:
@@ -213,24 +213,24 @@ Before you create a Verrazzano application, you should decide if it should be in
 for example, mesh inclusion, by labeling the application namespace with `istio-injection=enabled` or `istio-injection=disabled`.
 By default, applications will not be put in the mesh if that label is missing.  If your application uses a Verrazzano
 project, then Verrazzano will label the namespaces in the project to enable injection. If the application is in the mesh,
-then mTLS will be used.  You can change the `PeerAuthentication` mTLS mode as desired if you don't want strict mTLS.
-Also, if you need to add mTLS port exceptions, you can do this with `DestinationRules` or by creating another `PeerAuthentication`
+then mTLS will be used.  You can change the PeerAuthentication mTLS mode as desired if you don't want strict mTLS.
+Also, if you need to add mTLS port exceptions, you can do this with DestinationRules or by creating another PeerAuthentication
 resource in the application namespace.  Consult the Istio documentation for more information.
 
 ### WebLogic
 When the WebLogic operator creates a domain, it needs to communicate with the Pods in the domain. Verrazzano puts the WebLogic operator
 in the mesh so that it can communicate with the domain Pods using mTLS.  Because of that, the WebLogic domain must be created in the mesh.
 Also, because mTLS is used, do not configure WebLogic to use TLS.  If you want to use a custom certificate for your application,
-you can specify that in the `ApplicationConfiguration`, but that TLS connection will be terminated at the Istio ingress gateway, which
-you configure using a Verrazzano `IngressTrait`.
+you can specify that in the ApplicationConfiguration, but that TLS connection will be terminated at the Istio ingress gateway, which
+you configure using a Verrazzano IngressTrait.
 
 ### Coherence
-Coherence clusters are represented by the `Coherence` resource, and are not in the mesh.  When Verrazzano creates a Coherence
+Coherence clusters are represented by the Coherence resource, and are not in the mesh.  When Verrazzano creates a Coherence
 cluster in a namespace that is annotated to do sidecar injection, it disables injection of the Coherence resource using the
-`sidecar.istio.io/inject="false"` label shown previously.  Furthermore, Verrazzano will create a `DestinationRule` in the application
+`sidecar.istio.io/inject="false"` label shown previously.  Furthermore, Verrazzano will create a DestinationRule in the application
 namespace to disable mTLS for the Coherence extend port `9000`.  This allows a service in the mesh to call the Coherence
 extend proxy.  For an example, see [Bobs Books](HTTPS://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books).
-Here is an example of a `DestinationRule` created for the Bob's Books application which includes a Coherence cluster.
+Here is an example of a DestinationRule created for the Bob's Books application which includes a Coherence cluster.
 ```
 API Version:  networking.istio.io/v1beta1
 Kind:         DestinationRule
@@ -247,11 +247,11 @@ Spec:
 ```
 
 ## Istio access control
-Istio lets you control access to your workload in the mesh, using the `AuthorizationPolicy` resource. This lets you
+Istio lets you control access to your workload in the mesh, using the AuthorizationPolicy resource. This lets you
 control which services or Pods can access your workloads.  Some of these options require mTLS; for more information, see
 [Authorization Policy](HTTPS://istio.io/latest/docs/reference/config/security/authorization-policy/).
 
-Verrazzano always creates `AuthorizationPolicies` for applications, but never for system components.  During application deployment,
+Verrazzano always creates AuthorizationPolicies for applications, but never for system components.  During application deployment,
 Verrazzano creates the policy in the application namespace and configures it to allow access from the following:
 
 - Other Pods in the application
@@ -260,7 +260,7 @@ Verrazzano creates the policy in the application namespace and configures it to 
 
 This prevents other Pods in the cluster from gaining network access to the application Pods.  
 Istio uses a service identity to determine the identity of the request's origin; for Kubernetes
-this identity is a service account.  Verrazzano creates a per-application `AuuthorizationPolicy` as follows:
+this identity is a service account.  Verrazzano creates a per-application AuthorizationPolicy as follows:
 ```
 AuthorizationPolicy
 apiVersion: security.istio.io/v1beta1
