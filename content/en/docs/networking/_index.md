@@ -17,33 +17,23 @@ settings are configured both at installation and during runtime as applications 
 deployed into the Kubernetes cluster.
 
 ### High-Level Overview
-The following diagram shows the high-level overview of Verrazzano networking for a sample
-deployment on an OKE cluster using OCI DNS and Let's Encrypt for certificates.  This
-diagram does not show Prometheus scraping. 
+The following diagram shows the high-level overview of Verrazzano networking 
+using ExternalDNS and Let's Encrypt for certificates. ExternalDNS and cert-manager 
+both run outside the mesh and connect to external services using TLS.  This diagram 
+does not show Prometheus scraping. 
 
-Verrazzano system traffic enters an OCI load balancer over TLS and is routed to the
-NGINX Ingress Controller, where TLS is terminated.  From there, the traffic is routed 
-to one of several destinations, all in the Istio mesh over mTLS. All of the traffic 
-in the mesh uses mTLS, with the following exceptions:
-- Traffic from the NGINX Ingress Controller to Rancher
-- Traffic from the Coherence operator to the Coherence cluster
-- Prometheus traffic (not shown), which uses HTTP or HTTPS
-
-**NOTE:** Several components inside the cluster send requests to Keycloak and will
-always go outside the cluster, back through the load balancer, if a Keycloak redirect
-is needed.  In some cases, where no redirect is needed, they will send requests directly 
-to Keycloak within the cluster.
-
-ExternalDNS runs outside the mesh and uses TLS.  The same is true for
-cert-manager.
+Verrazzano system traffic enters a platform load balancer over TLS and is routed to the
+NGINX Ingress Controller, where TLS is terminated.  From there, the traffic is routed
+to one of the system components in the mesh over mTLS, or using HTTP to a system component,
+outside the mesh.  
 
 Application traffic enters a second OCI load balancer over TLS and is routed to the
 Istio Ingress Gateway, where TLS is terminated. From there, the traffic is routed 
-to one of several applications using mTLS, all in the mesh for this example.
+to one of several applications using mTLS.
 
-With the exception of Prometheus scraping, and interaction with Kubernetes servers, these
-are all of the network traffic patterns used by Verrazzano in a single cluster topology.
-Applications may introduce new traffic patterns as might be expected. 
+***NOTE***: Applications can be deployed outside the mesh, but the Istio Ingress Gateway
+will send traffic to them using plaintext.  You need to do some additional configuration to 
+enable TLS passthrough as described at [Istio Gateway Passthrough](https://istio.io/latest/docs/tasks/traffic-management/ingress/ingress-sni-passthrough/)
 
 #### High-Level Network Diagram
 
