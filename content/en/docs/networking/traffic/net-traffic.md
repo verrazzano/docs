@@ -35,17 +35,17 @@ depends on the underlying Kubernetes platform.  With Oracle OKE, creating a Load
 result in an OCI load balancer being created and configured to load balance to a set of Pods.
 
 ### Ingress for system components
-To provide ingress to system components, Verrazzano installs a NGINX Ingress controller,
+To provide ingress to system components, Verrazzano installs a NGINX Ingress Controller,
 which includes a NGINX load balancer.  Verrazzano also creates Kubernetes
 Ingress resources to configure ingress for each system component that requires ingress.
 An Ingress resource is used is to specify HTTP/HTTPS routes to Kubernetes services, along
 with an endpoint hostname and a TLS certificate. An Ingress by itself doesn't do anything;
 it is just a resource. An ingress controller is needed to watch Ingress resources and
 reconcile them, configuring the underlying Kubernetes load balancer to handle the service
-routing. The NGINX Ingress controller processes Ingress resources and configures NGINX with
+routing. The NGINX Ingress Controller processes Ingress resources and configures NGINX with
 the ingress route information, and such.
 
-The NGINX Ingress controller is a LoadBalancer service, as seen here:
+The NGINX Ingress Controller is a LoadBalancer service, as seen here:
 ```
 $ kubectl get service -n ingress-nginx
 ...
@@ -84,7 +84,7 @@ routing traffic to the Istio ingress gateway Pod, for example, the Envoy proxy.
 When you install Verrazzano, you can optionally specify an external DNS for your domain.  If you do that,
 Verrazzano will not only create the DNS records, using ExternalDNS, but also it will configure your host
 name in the Ingress resources. You can then use that host name to access the system components through the
-NGINX Ingress controller.
+NGINX Ingress Controller.
 
 ## System traffic
 System traffic includes all traffic that enters and leaves system Pods.
@@ -93,7 +93,7 @@ System traffic includes all traffic that enters and leaves system Pods.
 North-south traffic includes all system traffic that enters or leaves a Kubernetes cluster.
 
 #### Ingress
-The following lists the Verrazzano system components which are accessed through the NGINX Ingress controller
+The following lists the Verrazzano system components which are accessed through the NGINX Ingress Controller
 from a client external to the cluster:
 
 - Elasticsearch
@@ -141,7 +141,7 @@ Elasticsearch Pods.
 | Grafana | Keycloak | OIDC sidecar calls Keycloak for token authentication.
 | Kibana | Elasticsearch | UI for Elasticsearch.
 | Kibana | Keycloak | OIDC sidecar calls Keycloak for token authentication.
-| NGINX Ingress controller | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
+| NGINX Ingress Controller | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
 | Istio | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
 | Prometheus | Keycloak | OIDC sidecar calls Keycloak for token authentication.
 | Rancher | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
@@ -168,8 +168,8 @@ This table shows Prometheus traffic for each system component scrape target.
 | Keycloak |Envoy metrics.
 | Kibana | Envoy metrics.
 | MySQL | Envoy metrics.
-| NGINX Ingress controller | Envoy metrics.
-| NGINX Ingress controller | NGINX metrics.
+| NGINX Ingress Controller | Envoy metrics.
+| NGINX Ingress Controller | NGINX metrics.
 | NGINX default back end | Envoy metrics.
 | Node exporter | Node metrics.
 | Prometheus | Envoy metrics.
@@ -290,7 +290,7 @@ The following table shows which proxies are used and in which Pod they run.
 | OIDC proxy sidecar | NGINX | `verrazzano-api-*` | `verrazzano-system` | Verrazzano API server that proxies to Kubernetes API server.
 | Application ingress | Envoy | `istio-ingressgateway-*` | `istio-system` | Provides external access to Verrazzano applications.
 | Application egress | Envoy | `istio-egressgateway-*` | `istio-system` | Provides control of application egress traffic.
-| Istio mesh sidecar | Envoy  | `ingress-controller-ingress-nginx-controller-*` | `ingress-nginx` | NGINX Ingress controller in the Istio mesh.
+| Istio mesh sidecar | Envoy  | `ingress-controller-ingress-nginx-controller-*` | `ingress-nginx` | NGINX Ingress Controller in the Istio mesh.
 | Istio mesh sidecar | Envoy  | `ingress-controller-ingress-nginx-defaultbackend-*` | `ingress-nginx` | NGINX default backend in the Istio mesh.
 | Istio mesh sidecar | Envoy  | `fluentd-*` | `verrazzano-system` | Fluentd in the Istio mesh.
 | Istio mesh sidecar | Envoy  | `keycloak-*` | `keycloak` | Keycloak in the Istio mesh.
@@ -311,7 +311,7 @@ Verrazzano API proxy, the OIDC proxy, and Prometheus.
 
 ### Multicluster egress
 The following table shows Verrazzano system components that initiate requests between the admin and managed clusters.
-All of these requests go through the NGINX Ingress controller on the respective destination cluster.
+All of these requests go through the NGINX Ingress Controller on the respective destination cluster.
 
 | Source Cluster | Source Component | Destination Cluster | Destination Component | Description
 | ------------- |:------------- |:------------- |:------------- |:-------------
@@ -341,7 +341,7 @@ controller running on the admin cluster.
 The OIDC proxy runs as a sidecar in the Elasticsearch, Kibana, Prometheus, and Grafana Pods.  This proxy
 also needs to send requests to Keycloak, either in-cluster or through the cluster ingress.  When a
 request comes into the OIDC proxy without an authentication header, the proxy sends a request to Keycloak
-through the NGINX Ingress controller, so the request exits the cluster.  Otherwise, if OIDC is on the admin cluster, then the request is
+through the NGINX Ingress Controller, so the request exits the cluster.  Otherwise, if OIDC is on the admin cluster, then the request is
 sent directly to Keycloak within the cluster.  If OIDC is on the managed
 cluster, then it must send requests to Keycloak on the admin cluster.
 
@@ -349,4 +349,4 @@ cluster, then it must send requests to Keycloak on the admin cluster.
 A single Prometheus service in the cluster, scrapes metrics from Pods in system components and applications.
 It also scrapes Pods in the Istio mesh using HTTPS, and outside the mesh using HTTP. In the multicluster case,
 the Prometheus on the admin cluster, scrapes metrics from Prometheus on the managed cluster, through
-the NGINX Ingress controller on the managed cluster.
+the NGINX Ingress Controller on the managed cluster.
