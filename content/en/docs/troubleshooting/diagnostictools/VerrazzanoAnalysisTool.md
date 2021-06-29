@@ -3,7 +3,7 @@ title: Verrazzano Analysis Tools
 linkTitle: Verrazzano Analysis Tools
 weight: 1
 description: Use the Verrazzano Analysis Tools to analyze cluster dumps
-draft: true
+draft: false
 ---
 
 ## Overview
@@ -170,3 +170,20 @@ The tool analyzes each cluster dump directory found; you need to provide only th
 To perform an analysis of the clusters:
 
 `$ verrazzano-analysis my-cluster-dumps`
+
+### Additional information
+
+```
+Usage: verrazzano-analysis [options] captured-data-directory
+```
+
+| Parameter | Definition | Default |
+| --- | --- | --- |
+| `-actions` | Include actions in the report | `true` |
+| `-help` | Display usage help | |
+| `-info` | Include informational messages | `true` |
+| `-minConfidence` | Minimum confidence threshold to report for issues, 0-10 | 0 |
+| `-minImpact` | Minimum impact threshold to report for issues, 0-10 | 0 |
+| `-reportFile` | Name of report output file | Output to stdout |
+| `-support` | Include support data in the report | `true` |
+| `-version` | Display tool version | |

@@ -3,7 +3,7 @@ title: Ingress Controller OCI IP Limit Exceeded
 linkTitle: Ingress Controller OCI IP Limit Exceeded
 description: Analysis detected ingress controller OCI IP limit exceeded
 weight: 5
-draft: true
+draft: false
 ---
 
 ### Summary
