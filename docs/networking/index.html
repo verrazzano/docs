@@ -100,7 +100,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../offline-search-index.8235a1fec1920441d6ac0eff8b826341.json"
+  data-offline-search-index-json-src="../../offline-search-index.c946a5f628c80803bae5ff26b35c8c11.json"
   data-offline-search-base-href="../../"
   data-offline-search-max-results="10"
 >
@@ -132,7 +132,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../offline-search-index.8235a1fec1920441d6ac0eff8b826341.json"
+  data-offline-search-index-json-src="../../offline-search-index.c946a5f628c80803bae5ff26b35c8c11.json"
   data-offline-search-base-href="../../"
   data-offline-search-max-results="10"
 >
@@ -526,11 +526,27 @@ if (!doNotTrack) {
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="../../docs/security/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Security</a>
+    <a  href="../../docs/networking/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Networking</a>
   </li>
   <ul>
-    <li class="collapse " id="docssecurity">
+    <li class="collapse show" id="docsnetworking">
       
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsnetworkingtrafficnet-traffic" href="../../docs/networking/traffic/net-traffic/">Network traffic</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsnetworkingsecuritynet-security" href="../../docs/networking/security/net-security/">Network security</a>
+        
       
       
     </li>
@@ -551,10 +567,10 @@ if (!doNotTrack) {
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="../../docs/networking/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Networking</a>
+    <a  href="../../docs/security/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Security</a>
   </li>
   <ul>
-    <li class="collapse show" id="docsnetworking">
+    <li class="collapse " id="docssecurity">
       
       
       
@@ -1114,6 +1130,19 @@ if (!doNotTrack) {
 
 
 
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#high-level-overview">High-Level overview</a></li>
+        <li><a href="#platform-network-connectivity">Platform network connectivity</a></li>
+        <li><a href="#network-configuration-during-installation">Network configuration during installation</a></li>
+        <li><a href="#network-configuration-during-application-life-cycle">Network configuration during application life cycle</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
 
 
           </div>
@@ -1150,7 +1179,68 @@ if (!doNotTrack) {
 	<h1>Networking</h1>
         
 	
-	
+	<p>A Verrazzano instance is comprised of both Verrazzano components and several
+third party products. Collectively, these components are called the Verrazzano
+system components.  In addition, after Verrazzano is installed,
+a Verrazzano instance can include applications deployed by the user.  Applications
+can also be referred to as components, not to be confused with OAM Components.</p>
+<p>All of the system components and applications use the network to some degree.  Verrazzano
+configures networking to provide network security and traffic management.  Network
+settings are configured both at installation and during runtime as applications as are
+deployed into the Kubernetes cluster.</p>
+<h2 id="high-level-overview">High-Level overview</h2>
+<p>The following diagram shows the high-level overview of Verrazzano networking
+using ExternalDNS and Let&rsquo;s Encrypt for certificates. ExternalDNS and cert-manager
+both run outside the mesh and connect to external services using TLS.  This diagram
+does not show Prometheus scraping.</p>
+<p>Verrazzano system traffic enters a platform load balancer over TLS and is routed to the
+NGINX Ingress Controller, where TLS is terminated.  From there, the traffic is routed
+to one of the system components in the mesh over mTLS, or using HTTP to a system component,
+outside the mesh.</p>
+<p>Application traffic enters a second OCI load balancer over TLS and is routed to the
+Istio ingress gateway, where TLS is terminated. From there, the traffic is routed
+to one of several applications using mTLS.</p>
+<p><strong>NOTE</strong>: Applications can be deployed outside the mesh, but the Istio ingress gateway
+will send traffic to them using plaintext.  You need to do some additional configuration to
+enable TLS passthrough, as described at <a href="https://istio.io/latest/docs/tasks/traffic-management/ingress/ingress-sni-passthrough/">Istio Gateway Passthrough</a>.</p>
+<h3 id="high-level-network-diagram">High-Level network diagram</h3>
+<p><img src="../images/networking/network-high-level.png" alt=""></p>
+<h2 id="platform-network-connectivity">Platform network connectivity</h2>
+<p>A Kubernetes cluster is installed on a platform, such as Oracle OKE,
+an on-premises installation, a hybrid cloud topology, or such.  Verrazzano interfaces only
+with Kubernetes; it has no knowledge of platform topology or network security. <em>You</em> must
+ensure that there is network connectivity.  For example, the
+ingresses might use a platform load balancer that provides the entry point into the
+cluster for Verrazzano consoles and applications.  These load balancer IP addresses must be
+accessible for your users.  In the multicluster case, clusters might be on
+different platform technologies with firewalls between them. Again, you must
+ensure that the clusters have network connectivity.</p>
+<h2 id="network-configuration-during-installation">Network configuration during installation</h2>
+<p>A summary of the network-related configuration follows.</p>
+<p>Verrazzano does the following as it relates to networking:</p>
+<ol>
+<li>Installs and configures NGINX Ingress Controller.</li>
+<li>Creates Ingress resources for system components.</li>
+<li>Installs and configures Istio.</li>
+<li>Enables strict mTLS for the mesh by creating an Istio PeerAuthentication resource.</li>
+<li>Creates an Istio egress gateway service.</li>
+<li>Creates an Istio ingress gateway service.</li>
+<li>Configures several Verrazzano system components to be in the mesh.</li>
+<li>Optionally, installs ExternalDNS and creates DNS records.</li>
+<li>Creates certificates required by TLS, used by system components.</li>
+<li>Creates certificates required by Kubernetes API server to call webhook.</li>
+<li>Creates NetworkPolicies for all of the system components.</li>
+</ol>
+<h2 id="network-configuration-during-application-life-cycle">Network configuration during application life cycle</h2>
+<p>Verrazzano does the following as it relates to applications being deployed and terminated:</p>
+<ol>
+<li>Optionally, creates an Istio Gateway and VirtualService resources.</li>
+<li>Creates Istio AuthorizationPolicies, as needed.</li>
+<li>Creates Istio DestinationRules, as needed.</li>
+<li>Optionally, creates a self-signed certificate for the application.</li>
+<li>Optionally, creates DNS records using ExternalDNS.</li>
+</ol>
+
         <div class="section-index">
     
     
@@ -1208,7 +1298,12 @@ if (!doNotTrack) {
             
         
             
-        
+                <div class="entry">
+                    <h5>
+                        <a href="../../docs/networking/traffic/net-traffic/">Network traffic</a>
+                    </h5>
+                    <p>Verrazzano network traffic</p>
+                </div>
             
         
             
@@ -1221,6 +1316,19 @@ if (!doNotTrack) {
         
             
         
+            
+        
+            
+        
+            
+        
+            
+                <div class="entry">
+                    <h5>
+                        <a href="../../docs/networking/security/net-security/">Network security</a>
+                    </h5>
+                    <p>Verrazzano network security</p>
+                </div>
             
         
             
@@ -1354,7 +1462,7 @@ if (!doNotTrack) {
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified June 17, 2021: <a  href="../../commit/830e6c79141eaa5e6f72ed8c43254cdf8f0bd192">docs re-org (#141) (830e6c7)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified June 29, 2021: <a  href="../../commit/5ac474bfaef388432d12598d82e86b384d96f074">review/edit (#160) (5ac474b)</a>
 </div>
 </div>
 

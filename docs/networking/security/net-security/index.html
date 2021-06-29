@@ -17,22 +17,22 @@
 <link rel="icon" type="image/png" href="../../../../favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="../../../../favicons/android-192x192.png" sizes="192x192">
 
-<title>Metrics | Verrazzano Enterprise Container Platform</title><meta property="og:title" content="Metrics" />
-<meta property="og:description" content="Verrazzano metrics" />
+<title>Network security | Verrazzano Enterprise Container Platform</title><meta property="og:title" content="Network security" />
+<meta property="og:description" content="Verrazzano network security" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://verrazzano.io/docs/monitoring/metrics/metrics/" />
-<meta property="article:modified_time" content="2021-06-28T13:08:56-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
-<meta itemprop="name" content="Metrics">
-<meta itemprop="description" content="Verrazzano metrics">
-<meta itemprop="dateModified" content="2021-06-28T13:08:56-04:00" />
-<meta itemprop="wordCount" content="426">
+<meta property="og:url" content="https://verrazzano.io/docs/networking/security/net-security/" />
+<meta property="article:modified_time" content="2021-06-29T19:43:36-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta itemprop="name" content="Network security">
+<meta itemprop="description" content="Verrazzano network security">
+<meta itemprop="dateModified" content="2021-06-29T19:43:36-04:00" />
+<meta itemprop="wordCount" content="2127">
 
 
 
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Metrics"/>
-<meta name="twitter:description" content="Verrazzano metrics"/>
+<meta name="twitter:title" content="Network security"/>
+<meta name="twitter:description" content="Verrazzano network security"/>
 
 
 <script type="application/javascript">
@@ -531,10 +531,10 @@ if (!doNotTrack) {
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="../../../../docs/networking/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Networking</a>
+    <a  href="../../../../docs/networking/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Networking</a>
   </li>
   <ul>
-    <li class="collapse " id="docsnetworking">
+    <li class="collapse show" id="docsnetworking">
       
       
       
@@ -550,7 +550,7 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsnetworkingsecuritynet-security" href="../../../../docs/networking/security/net-security/">Network security</a>
+          <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsnetworkingsecuritynet-security" href="../../../../docs/networking/security/net-security/">Network security</a>
         
       
       
@@ -597,10 +597,10 @@ if (!doNotTrack) {
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="../../../../docs/monitoring/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Monitoring &amp; Logging</a>
+    <a  href="../../../../docs/monitoring/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Monitoring &amp; Logging</a>
   </li>
   <ul>
-    <li class="collapse show" id="docsmonitoring">
+    <li class="collapse " id="docsmonitoring">
       
       
       
@@ -633,7 +633,7 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsmonitoringmetricsmetrics" href="../../../../docs/monitoring/metrics/metrics/">Metrics</a>
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsmonitoringmetricsmetrics" href="../../../../docs/monitoring/metrics/metrics/">Metrics</a>
         
       
       
@@ -1135,6 +1135,23 @@ if (!doNotTrack) {
 
 
 
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#networkpolicies">NetworkPolicies</a></li>
+        <li><a href="#mtls">mTLS</a></li>
+        <li><a href="#tls">TLS</a></li>
+        <li><a href="#istio-mesh">Istio mesh</a></li>
+        <li><a href="#components-in-the-mesh">Components in the mesh</a></li>
+        <li><a href="#applications-in-the-mesh">Applications in the mesh</a></li>
+        <li><a href="#istio-access-control">Istio access control</a></li>
+        <li><a href="#weblogic-domain-access">WebLogic domain access</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
 
 
           </div>
@@ -1163,14 +1180,14 @@ if (!doNotTrack) {
 
 
 <li class="breadcrumb-item" >
-	<a href="https://verrazzano.io/docs/monitoring/">Monitoring &amp; Logging</a>
+	<a href="https://verrazzano.io/docs/networking/">Networking</a>
 </li>
 
 
 
 
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="https://verrazzano.io/docs/monitoring/metrics/metrics/">Metrics</a>
+	<a href="https://verrazzano.io/docs/networking/security/net-security/">Network security</a>
 </li>
 
 	</ol>
@@ -1178,86 +1195,439 @@ if (!doNotTrack) {
 
             
 <div class="td-content">
-	<h1>Metrics</h1>
-    <div class="lead">Verrazzano metrics</div>
+	<h1>Network security</h1>
+    <div class="lead">Verrazzano network security</div>
 	       
-	<p>The Verrazzano metrics stack automates metrics aggregation and consists of Prometheus and Grafana components.
-Metrics sources expose system and application metrics.
-The Prometheus components retrieve and store the metrics and Grafana provides dashboards to
-visualize them.</p>
-<p><img src="../../../images/metrics.png" alt="Metrics"></p>
-<h3 id="metrics-sources">Metrics sources</h3>
-<p>Metrics sources produce metrics and expose them to the Kubernetes Prometheus system using annotations in the pods.
-The metrics annotations may differ slightly depending on the resource type.
-The following is an example of the WebLogic Prometheus-related configuration specified in the <code>todo-list</code> application pod:</p>
-<p><code>$ kubectl describe pod tododomain-adminserver -n todo-list</code></p>
-<pre><code>Annotations:  prometheus.io/path: /wls-exporter/metrics
-              prometheus.io/port: 7001
-              prometheus.io/scrape: true
-</code></pre><p>For other resource types, such as Coherence or Helidon, the annotations would look similar to this:</p>
-<pre><code>Annotations:  verrazzano.io/metricsEnabled: true
-              verrazzano.io/metricsPath: /metrics
-              verrazzano.io/metricsPort: 8080
-</code></pre><p>To look directly at the metrics that are being made available by the metric source, map the port and then access the path.</p>
-<p>For example, for the previous metric source:</p>
+	<p>Verrazzano manages and secures network traffic between Verrazzano system components and deployed applications.
+Verrazzano does not manage or secure traffic for the Kubernetes cluster itself, or for
+non-Verrazzano services or applications running in the cluster. Traffic is secured at two levels in the network stack:</p>
 <ul>
-<li>
-<p>Map the port being used to expose the metrics.</p>
-<pre><code>$ kubectl port-forward tododomain-adminserver 7001:7001 -n todo-list
-</code></pre></li>
-<li>
-<p>Get the user name and password used to access the metrics source from the corresponding secret.</p>
-<pre><code>$ kubectl get secret --namespace todo-list tododomain-weblogic-credentials  -o jsonpath={.data.username} | base64 --decode; echo
-$ kubectl get secret --namespace todo-list tododomain-weblogic-credentials  -o jsonpath={.data.password} | base64 --decode; echo
-</code></pre></li>
-<li>
-<p>Access the metrics at the exported path, using the user name and password retrieved in the previous step.</p>
-<pre><code>$ curl -u USERNAME:PASSWORD localhost:7001/wls-exporter/metrics
-</code></pre></li>
+<li>ISO Layer 3/4: Using NetworkPolicies to control IP access to Pods.</li>
+<li>ISO Layer 6: Using TLS and mTLS to provide authentication, confidentiality,
+and integrity for connections within the cluster, and for external connections.</li>
 </ul>
-<h3 id="metrics-server">Metrics server</h3>
+<h2 id="networkpolicies">NetworkPolicies</h2>
+<p>By default, all Pods in a Kubernetes cluster have network access to all other Pods in the cluster.
+Kubernetes has a NetworkPolicy resource that provides network level 3 and 4 security for Pods,
+restricting both ingress and egress IP traffic for a set of Pods in a namespace.  Verrazzano configures all
+system components with NetworkPolicies to control ingress.  Egress is not restricted.</p>
+<p><strong>NOTE:</strong> A NetworkPolicy resource needs a NetworkPolicy controller to implement the policy, otherwise the
+policy has no effect.  You must install a Kubernetes CNI plug-in that provides a NetworkPolicy controller,
+such as Calico, before installing Verrazzano, or else the policies are ignored.</p>
+<h3 id="networkpolicies-for-system-components">NetworkPolicies for system components</h3>
+<p>Verrazzano installs a set of NetworkPolicies for system components to control ingress into the Pods.
+A policy is scoped to a namespace and uses selectors to specify the Pods that the policy applies to, along
+with the ingress and egress rules.  For example, the following policy applies to the Verrazzano API Pod in the
+<code>verrazzano-system</code> namespace.  This policy allows network traffic from NGINX Ingress Controller on
+port 8775, and from Prometheus on port 15090.  No other Pods can reach those ports or any other ports of the
+Verrazzano API Pod.  Notice that namespace selectors need to be used; the NetworkPolicy resource does not support
+specifying the namespace name.</p>
+<pre><code>apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+...
+spec:
+  PodSelector:
+    matchLabels:
+      app: verrazzano-api
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: ingress-nginx
+      PodSelector:
+        matchLabels:
+          app.kubernetes.io/instance: ingress-controller
+    ports:
+    - port: 8775
+      protocol: TCP
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: verrazzano-system
+      PodSelector:
+        matchLabels:
+          app: system-prometheus
+    ports:
+    - port: 15090
+      protocol: TCP
+</code></pre><p>The following table shows all of the ingresses that allow network traffic into system components.
+The ports shown are Pod ports, which is what NetworkPolicies require.</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th align="left">Pod Port</th>
+<th align="left">From</th>
+<th align="left">Description</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Verrazzano Application Operator</td>
+<td align="left">9443</td>
+<td align="left">Kubernetes API Server</td>
+<td align="left">Webhook entrypoint.</td>
+<td></td>
+</tr>
+<tr>
+<td>Verrazzano Platform Operator</td>
+<td align="left">9443</td>
+<td align="left">Kubernetes API Server</td>
+<td align="left">Webhook entrypoint.</td>
+<td></td>
+</tr>
+<tr>
+<td>Verrazzano Console</td>
+<td align="left">8000</td>
+<td align="left">NGINX Ingress</td>
+<td align="left">Access from external client.</td>
+<td></td>
+</tr>
+<tr>
+<td>Verrazzano Console</td>
+<td align="left">15090</td>
+<td align="left">Prometheus</td>
+<td align="left">Prometheus scraping.</td>
+<td></td>
+</tr>
+<tr>
+<td>Verrazzano Proxy</td>
+<td align="left">8775</td>
+<td align="left">NGINX Ingress</td>
+<td align="left">Access from external client.</td>
+<td></td>
+</tr>
+<tr>
+<td>Verrazzano Proxy</td>
+<td align="left">15090</td>
+<td align="left">Prometheus</td>
+<td align="left">Prometheus scraping.</td>
+<td></td>
+</tr>
+<tr>
+<td>cert-manager</td>
+<td align="left">9402</td>
+<td align="left">Prometheus</td>
+<td align="left">Prometheus scraping.</td>
+<td></td>
+</tr>
+<tr>
+<td>Coherence Operator</td>
+<td align="left">9443</td>
+<td align="left">Prometheus</td>
+<td align="left">Webhook entrypoint.</td>
+<td></td>
+</tr>
+<tr>
+<td>Elasticsearch</td>
+<td align="left">8775</td>
+<td align="left">NGINX Ingress</td>
+<td align="left">Access from external client.</td>
+<td></td>
+</tr>
+<tr>
+<td>Elasticsearch</td>
+<td align="left">8775</td>
+<td align="left">Fluentd</td>
+<td align="left">Access from Fluentd.</td>
+<td></td>
+</tr>
+<tr>
+<td>Elasticsearch</td>
+<td align="left">9200</td>
+<td align="left">Kibana, Internal</td>
+<td align="left">Elasticsearch data port.</td>
+<td></td>
+</tr>
+<tr>
+<td>Elasticsearch</td>
+<td align="left">9300</td>
+<td align="left">Internal</td>
+<td align="left">Elasticsearch cluster port.</td>
+<td></td>
+</tr>
+<tr>
+<td>Elasticsearch</td>
+<td align="left">15090</td>
+<td align="left">Prometheus</td>
+<td align="left">Envoy metrics scraping.</td>
+<td></td>
+</tr>
+<tr>
+<td>Istio control plane</td>
+<td align="left">15012</td>
+<td align="left">Envoy</td>
+<td align="left">Envoy access to <code>istiod</code>.</td>
+<td></td>
+</tr>
+<tr>
+<td>Istio control plane</td>
+<td align="left">15014</td>
+<td align="left">Prometheus</td>
+<td align="left">Prometheus scraping.</td>
+<td></td>
+</tr>
+<tr>
+<td>Istio control plane</td>
+<td align="left">15017</td>
+<td align="left">Kubernetes API Server</td>
+<td align="left">Webhook entrypoint.</td>
+<td></td>
+</tr>
+<tr>
+<td>Istio ingress gateway</td>
+<td align="left">8443</td>
+<td align="left">External</td>
+<td align="left">Application ingress.</td>
+<td></td>
+</tr>
+<tr>
+<td>Istio ingress gateway</td>
+<td align="left">15090</td>
+<td align="left">Prometheus</td>
+<td align="left">Prometheus scraping.</td>
+<td></td>
+</tr>
+<tr>
+<td>Istio egress gateway</td>
+<td align="left">8443</td>
+<td align="left">Mesh services</td>
+<td align="left">Application egress.</td>
+<td></td>
+</tr>
+<tr>
+<td>Istio egress gateway</td>
+<td align="left">15090</td>
+<td align="left">Prometheus</td>
+<td align="left">Prometheus scraping.</td>
+<td></td>
+</tr>
+<tr>
+<td>Keycloak</td>
+<td align="left">8080</td>
+<td align="left">NGINX Ingress</td>
+<td align="left">Access from external client.</td>
+<td></td>
+</tr>
+<tr>
+<td>Keycloak</td>
+<td align="left">15090</td>
+<td align="left">Prometheus</td>
+<td align="left">Prometheus scraping.</td>
+<td></td>
+</tr>
+<tr>
+<td>MySql</td>
+<td align="left">15090</td>
+<td align="left">Prometheus</td>
+<td align="left">Prometheus scraping.</td>
+<td></td>
+</tr>
+<tr>
+<td>MySql</td>
+<td align="left">3306</td>
+<td align="left">Keycloak</td>
+<td align="left">Keycloak datastore.</td>
+<td></td>
+</tr>
+<tr>
+<td>Node exporter</td>
+<td align="left">9100</td>
+<td align="left">Prometheus</td>
+<td align="left">Prometheus scraping.</td>
+<td></td>
+</tr>
+<tr>
+<td>Rancher</td>
+<td align="left">80</td>
+<td align="left">NGINX Ingress</td>
+<td align="left">Access from external client.</td>
+<td></td>
+</tr>
+<tr>
+<td>Rancher</td>
+<td align="left">9443</td>
+<td align="left">Kubernetes API Server</td>
+<td align="left">Webhook entrypoint.</td>
+<td></td>
+</tr>
+<tr>
+<td>Prometheus</td>
+<td align="left">8775</td>
+<td align="left">NGINX Ingress</td>
+<td align="left">Access from external client.</td>
+<td></td>
+</tr>
+<tr>
+<td>Prometheus</td>
+<td align="left">9090</td>
+<td align="left">Grafana</td>
+<td align="left">Acccess for Grafana UI.</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="networkpolicies-for-applications">NetworkPolicies for applications</h3>
+<p>By default, applications do not have NetworkPolicies that restrict ingress into the application or egress from it.
+You can configure them for the application namespaces using the NetworkPolicy section of a Verrazzano project.</p>
+<h3 id="networkpolicies-for-envoy-sidecar-proxies">NetworkPolicies for Envoy sidecar proxies</h3>
+<p>As mentioned, Envoy sidecar proxies run in both system component pods and application pods.  Each proxy sends requests
+to the Istio control plane pod, <code>istiod</code>, for a variety of reasons. During installation, Verrazzano creates a NetworkPolicy
+named <code>istiod-access</code> in the <code>istio-system</code> namespace to give ingress to system component sidecar proxies.  For applications,
+Verrazzano creates a per-application NetworkPolicy in the <code>istio-system</code> namespace to allow the same access to <code>istiod</code>.
+When the application is deleted, Verrazzano will delete the policy.</p>
+<h2 id="mtls">mTLS</h2>
+<p>Istio can be enabled to use mTLS between services in the mesh, and also between the Istio gateways and Envoy sidecar proxies.
+There are various options to customize mTLS usage, for example it can be disabled on a per-port level.  The Istio
+control plane, Istiod, is a CA and provides key and certificate rotation for the Envoy proxies, both gateways and sidecars.</p>
+<p>Verrazzano configures Istio to have strict mTLS for the mesh.  All components and applications put into the mesh
+will use mTLS, with the exception of Coherence clusters, which are not in the mesh. Also, all traffic between the Istio
+ingress gateway and mesh sidecars use mTLS, and the same is true between the proxy sidecars and the egress gateway.</p>
+<p>Verrazzano sets up mTLS during installation with the PeerAuthentication resource as follows:</p>
+<pre><code>apiVersion: v1
+items:
+- apiVersion: security.istio.io/v1beta1
+  kind: PeerAuthentication
+  ...
+  spec:
+    mtls:
+      mode: STRICT
+</code></pre><h2 id="tls">TLS</h2>
+<p>TLS is used by external clients to access the cluster, both through the NGINX Ingress Controller and the Istio ingress gateway.
+The certificate used by these TLS connections vary; see <a href="../../../../docs/security/">Verrazzano security</a> for details.
+All TLS connections are terminated at the ingress proxy. Traffic between the two proxies and the internal cluster Pods
+always uses mTLS, because those Pods are all in the Istio mesh.</p>
+<h2 id="istio-mesh">Istio mesh</h2>
+<p>Istio provides extensive security protection for both authentication and authorization, as described in
+<a href="HTTPS://istio.io/latest/docs/concepts/security">Istio Security</a>. Access control and mTLS are two security
+features that Verrazzano configures.  These security features are available in the context of a service mesh.</p>
+<p>A service mesh is an infrastructure layer that provides certain capabilities like security, observability, load balancing,
+and such, for services.  Istio defines a service mesh <a href="HTTPS://istio.io/latest/about/service-mesh/">here</a>.
+In the context of Istio on Kubernetes, a service in the mesh is a Kubernetes Service. Consider the Bob&rsquo;s Books example application, which
+has several OAM components defined.  At runtime, there is a Kubernetes Service for each component, and each Service is
+in the mesh, with one or more Pods associated with the service.  All services in the mesh have an Envoy proxy in
+front of their Pods, intercepting network traffic to and from the Pod.  In Kubernetes, that proxy happens to be a sidecar
+running in each Pod.</p>
+<p>There are various ways to put a service in the mesh. Verrazzano uses the namespace label, <code>istio-injection: enabled</code>,
+to designate that all Pods in a given namespace are in the mesh.  When a Pod is created in that namespace, the Istio control
+plane mutating webhook, changes the Pod spec to add the Envoy proxy sidecar container, causing the Pod to be in the mesh.</p>
+<h3 id="disabling-sidecar-injection">Disabling sidecar injection</h3>
+<p>In certain cases, Verrazzano needs to disable sidecar injection for specific Pods in a namespace.  This is done in two ways:
+first, during installation, Verrazzano modifies the <code>istio-sidecar-injector</code> ConfigMap using a Helm override file for the Istio
+chart.  This excludes several components from the mesh, such as the Verrazzano application operator.  Second, certain Pods, such
+as Coherence Pods, are labeled at runtime with <code>sidecar.istio.io/inject=&quot;false&quot;</code> to exclude them from the mesh.</p>
+<h2 id="components-in-the-mesh">Components in the mesh</h2>
+<p>The following Verrazzano components are in the mesh and use mTLS for all service to service communication.</p>
 <ul>
-<li>Single pod per cluster</li>
-<li>Named <code>vmi-system-prometheus-*</code> in <code>verrazzano-system</code> namespace</li>
-<li>Discovers exposed metrics source endpoints</li>
-<li>Scrapes metrics from metrics sources</li>
-<li>Responsible for exposing all metrics</li>
+<li>Elasticsearch</li>
+<li>Fluentd</li>
+<li>Grafana</li>
+<li>Kibana</li>
+<li>Keycloak</li>
+<li>MySQL</li>
+<li>NGINX Ingress Controller</li>
+<li>Prometheus</li>
+<li>Verrazzano API Proxy</li>
+<li>Verrazzano Console</li>
+<li>WebLogic Operator</li>
 </ul>
-<h2 id="grafana">Grafana</h2>
-<p>Grafana provides visualization for your Prometheus metric data.</p>
+<p>Some of these components, have mesh-related details that are worth noting.</p>
+<h3 id="nginx">NGINX</h3>
+<p>The NGINX Ingress Controller listens for HTTPS traffic, and provides ingress into the cluster.  NGINX is
+configured to do TLS termination of client connections.  All traffic from NGINX to the mesh services
+use mTLS, which means that traffic is fully encrypted from the client to the target back-end services.</p>
+<h3 id="keycloak-and-mysql">Keycloak and MySQL</h3>
+<p>Keycloak and MySQL are also in the mesh and use mTLS for network traffic.  Because all of the components that use
+Keycloak are in the mesh, there is end to end mTLS security for all identity management handled by Keycloak.  The following components
+access Keycloak:</p>
 <ul>
-<li>Single pod per cluster</li>
-<li>Named <code>vmi-system-grafana-*</code> in <code>verrazzano-system</code> namespace</li>
-<li>Provides dashboards for metrics visualization</li>
+<li>Verrazzano API Proxy</li>
+<li>Verrazzano API Console</li>
+<li>Elasticsearch</li>
+<li>Prometheus</li>
+<li>Grafana</li>
+<li>Kibana</li>
 </ul>
-<p>To access Grafana:</p>
+<h3 id="prometheus">Prometheus</h3>
+<p>Although Prometheus is in the mesh, it is configured to use the Envoy sidecar and mTLS only when communicating with
+Keycloak.  All the traffic related to scraping metrics, bypasses the sidecar proxy, doesn&rsquo;t use
+the service IP address, but rather connects to the scrape target using the Pod IP address.  If the scrape target is in the mesh,
+then HTTPS is used; otherwise, HTTP is used.  For Verrazzano multicluster, Prometheus also connects from the admin cluster
+to the Prometheus server in the managed cluster by using the managed cluster NGINX Ingress, using HTTPS.  Prometheus
+in the managed cluster and never establishes connections to targets outside the cluster.</p>
+<p>Because Prometheus is in the mesh, additional configuration is done to allow the Envoy sidecar to be bypassed when scraping Pods.
+This is done with the Prometheus Pod annotation <code>traffic.sidecar.istio.io/includeOutboundIPRanges: &lt;keycloak-service-ip&gt;</code>.  This
+causes traffic bound for Keycloak to go through the Envoy sidecar, and all other traffic to bypass the sidecar.</p>
+<h3 id="weblogic-kubernetes-operator">WebLogic Kubernetes Operator</h3>
+<p>When the WebLogic operator creates a domain, it needs to communicate with the Pods in the domain. Verrazzano puts the
+WebLogic operator in the mesh so that it can communicate with the domain Pods using mTLS.  As a result, the WebLogic
+domain must be created in the mesh.</p>
+<h2 id="applications-in-the-mesh">Applications in the mesh</h2>
+<p>Before you create a Verrazzano application, you should decide if it should be in the mesh.  You control sidecar injection,
+for example, mesh inclusion, by labeling the application namespace with <code>istio-injection=enabled</code> or <code>istio-injection=disabled</code>.
+By default, applications will not be put in the mesh if that label is missing.  If your application uses a Verrazzano
+project, then Verrazzano will label the namespaces in the project to enable injection. If the application is in the mesh,
+then mTLS will be used.  You can change the PeerAuthentication mTLS mode as desired if you don&rsquo;t want strict mTLS.
+Also, if you need to add mTLS port exceptions, you can do this with DestinationRules or by creating another PeerAuthentication
+resource in the application namespace.  Consult the Istio documentation for more information.</p>
+<h3 id="weblogic">WebLogic</h3>
+<p>When the WebLogic operator creates a domain, it needs to communicate with the Pods in the domain. Verrazzano puts the WebLogic operator
+in the mesh so that it can communicate with the domain Pods using mTLS.  Because of that, the WebLogic domain must be created in the mesh.
+Also, because mTLS is used, do not configure WebLogic to use TLS.  If you want to use a custom certificate for your application,
+you can specify that in the ApplicationConfiguration, but that TLS connection will be terminated at the Istio ingress gateway, which
+you configure using a Verrazzano IngressTrait.</p>
+<h3 id="coherence">Coherence</h3>
+<p>Coherence clusters are represented by the Coherence resource, and are not in the mesh.  When Verrazzano creates a Coherence
+cluster in a namespace that is annotated to do sidecar injection, it disables injection of the Coherence resource using the
+<code>sidecar.istio.io/inject=&quot;false&quot;</code> label shown previously.  Furthermore, Verrazzano will create a DestinationRule in the application
+namespace to disable mTLS for the Coherence extend port <code>9000</code>.  This allows a service in the mesh to call the Coherence
+extend proxy.  For an example, see <a href="HTTPS://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books">Bobs Books</a>.
+Here is an example of a DestinationRule created for the Bob&rsquo;s Books application which includes a Coherence cluster.</p>
+<pre><code>API Version:  networking.istio.io/v1beta1
+Kind:         DestinationRule
+...
+Spec:
+  Host:  *.bobs-books.svc.cluster.local
+  Traffic Policy:
+    Port Level Settings:
+      Port:
+        Number:  9000
+      Tls:
+    Tls:
+      Mode:  ISTIO_MUTUAL
+</code></pre><h2 id="istio-access-control">Istio access control</h2>
+<p>Istio lets you control access to your workload in the mesh, using the AuthorizationPolicy resource. This lets you
+control which services or Pods can access your workloads.  Some of these options require mTLS; for more information, see
+<a href="HTTPS://istio.io/latest/docs/reference/config/security/authorization-policy/">Authorization Policy</a>.</p>
+<p>Verrazzano always creates AuthorizationPolicies for applications, but never for system components.  During application deployment,
+Verrazzano creates the policy in the application namespace and configures it to allow access from the following:</p>
 <ul>
-<li>
-<p>Get the hostname from the Grafana ingress.</p>
-<pre><code>$ kubectl get ingress vmi-system-grafana -n verrazzano-system
-</code></pre><pre><code>NAME                 CLASS    HOSTS                                              ADDRESS          PORTS     AGE
-vmi-system-grafana   &lt;none&gt;   grafana.vmi.system.default.123.456.789.10.nip.io   123.456.789.10   80, 443   26h
-</code></pre></li>
-<li>
-<p>Get the password for the user <code>verrazzano</code>.</p>
-<pre><code>$ kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo
-</code></pre></li>
-<li>
-<p>Access Grafana in a browser using the previous hostname.</p>
-</li>
-<li>
-<p>Log in using the <code>verrazzano</code> user and the previous password.</p>
-</li>
+<li>Other Pods in the application</li>
+<li>Istio ingress gateway</li>
+<li>Prometheus scraper</li>
 </ul>
-<p><img src="../../../images/grafana-initial-page.png" alt="Grafana"></p>
-<p>From here, you can select an existing dashboard or create a new dashboard.
-To select an existing dashboard, use the drop-down list in the top left corner.
-The initial value of this list is <code>Home</code>.</p>
-<p>To view host level metrics, select <code>Host Metrics</code>. This will provide system metrics for all
-of the nodes in your cluster.</p>
-<p>To view the application metrics for the <code>todo-list</code> example application, select <code>WebLogic Server Dashboard</code>
-because the <code>todo-list</code> application is a WebLogic application.</p>
-<p><img src="../../../images/grafana-weblogic-dashboard.png" alt="WebLogicDashboard"></p>
+<p>This prevents other Pods in the cluster from gaining network access to the application Pods.<br>
+Istio uses a service identity to determine the identity of the request&rsquo;s origin; for Kubernetes
+this identity is a service account.  Verrazzano creates a per-application AuthorizationPolicy as follows:</p>
+<pre><code>AuthorizationPolicy
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+...
+spec:
+  rules:
+    - from:
+    - source:
+  principals:
+    - cluster.local/ns/sales/sa/greeter
+    - cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account
+    - cluster.local/ns/verrazzano-system/sa/verrazzano-monitoring-operator
+</code></pre><h2 id="weblogic-domain-access">WebLogic domain access</h2>
+<p>For WebLogic applications, the WebLogic operator must have access to the domain Pods for two reasons.
+First, it must access the domain servers to get health status; second it must inject configuration into
+the Monitoring Exporter sidecar running in the domain server Pods. When a WebLogic domain is created,
+Verrazzano adds an additional source, <code>cluster.local/ns/verrazzano-system/sa/weblogic-operator-sa</code> to
+the <code>principals</code> section to permit that access.</p>
 
 	
 		<style>
@@ -1323,7 +1693,7 @@ because the <code>todo-list</code> application is a WebLogic application.</p>
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified June 28, 2021: <a  href="../../../../commit/99209860dde4097e66508f1dbd3aba1e4e27f76c">overall edit (#159) (9920986)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified June 29, 2021: <a  href="../../../../commit/5ac474bfaef388432d12598d82e86b384d96f074">review/edit (#160) (5ac474b)</a>
 </div>
 </div>
 

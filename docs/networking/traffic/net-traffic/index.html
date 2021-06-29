@@ -17,22 +17,22 @@
 <link rel="icon" type="image/png" href="../../../../favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="../../../../favicons/android-192x192.png" sizes="192x192">
 
-<title>Metrics | Verrazzano Enterprise Container Platform</title><meta property="og:title" content="Metrics" />
-<meta property="og:description" content="Verrazzano metrics" />
+<title>Network traffic | Verrazzano Enterprise Container Platform</title><meta property="og:title" content="Network traffic" />
+<meta property="og:description" content="Verrazzano network traffic" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://verrazzano.io/docs/monitoring/metrics/metrics/" />
-<meta property="article:modified_time" content="2021-06-28T13:08:56-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
-<meta itemprop="name" content="Metrics">
-<meta itemprop="description" content="Verrazzano metrics">
-<meta itemprop="dateModified" content="2021-06-28T13:08:56-04:00" />
-<meta itemprop="wordCount" content="426">
+<meta property="og:url" content="https://verrazzano.io/docs/networking/traffic/net-traffic/" />
+<meta property="article:modified_time" content="2021-06-29T19:43:36-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta itemprop="name" content="Network traffic">
+<meta itemprop="description" content="Verrazzano network traffic">
+<meta itemprop="dateModified" content="2021-06-29T19:43:36-04:00" />
+<meta itemprop="wordCount" content="2437">
 
 
 
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Metrics"/>
-<meta name="twitter:description" content="Verrazzano metrics"/>
+<meta name="twitter:title" content="Network traffic"/>
+<meta name="twitter:description" content="Verrazzano network traffic"/>
 
 
 <script type="application/javascript">
@@ -531,10 +531,10 @@ if (!doNotTrack) {
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="../../../../docs/networking/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Networking</a>
+    <a  href="../../../../docs/networking/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Networking</a>
   </li>
   <ul>
-    <li class="collapse " id="docsnetworking">
+    <li class="collapse show" id="docsnetworking">
       
       
       
@@ -542,7 +542,7 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsnetworkingtrafficnet-traffic" href="../../../../docs/networking/traffic/net-traffic/">Network traffic</a>
+          <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsnetworkingtrafficnet-traffic" href="../../../../docs/networking/traffic/net-traffic/">Network traffic</a>
         
       
       
@@ -597,10 +597,10 @@ if (!doNotTrack) {
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="../../../../docs/monitoring/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Monitoring &amp; Logging</a>
+    <a  href="../../../../docs/monitoring/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Monitoring &amp; Logging</a>
   </li>
   <ul>
-    <li class="collapse show" id="docsmonitoring">
+    <li class="collapse " id="docsmonitoring">
       
       
       
@@ -633,7 +633,7 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsmonitoringmetricsmetrics" href="../../../../docs/monitoring/metrics/metrics/">Metrics</a>
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsmonitoringmetricsmetrics" href="../../../../docs/monitoring/metrics/metrics/">Metrics</a>
         
       
       
@@ -1135,6 +1135,20 @@ if (!doNotTrack) {
 
 
 
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#ingress">Ingress</a></li>
+        <li><a href="#system-traffic">System traffic</a></li>
+        <li><a href="#application-traffic">Application Traffic</a></li>
+        <li><a href="#proxies">Proxies</a></li>
+        <li><a href="#multicluster">Multicluster</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
 
 
           </div>
@@ -1163,14 +1177,14 @@ if (!doNotTrack) {
 
 
 <li class="breadcrumb-item" >
-	<a href="https://verrazzano.io/docs/monitoring/">Monitoring &amp; Logging</a>
+	<a href="https://verrazzano.io/docs/networking/">Networking</a>
 </li>
 
 
 
 
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="https://verrazzano.io/docs/monitoring/metrics/metrics/">Metrics</a>
+	<a href="https://verrazzano.io/docs/networking/traffic/net-traffic/">Network traffic</a>
 </li>
 
 	</ol>
@@ -1178,86 +1192,716 @@ if (!doNotTrack) {
 
             
 <div class="td-content">
-	<h1>Metrics</h1>
-    <div class="lead">Verrazzano metrics</div>
+	<h1>Network traffic</h1>
+    <div class="lead">Verrazzano network traffic</div>
 	       
-	<p>The Verrazzano metrics stack automates metrics aggregation and consists of Prometheus and Grafana components.
-Metrics sources expose system and application metrics.
-The Prometheus components retrieve and store the metrics and Grafana provides dashboards to
-visualize them.</p>
-<p><img src="../../../images/metrics.png" alt="Metrics"></p>
-<h3 id="metrics-sources">Metrics sources</h3>
-<p>Metrics sources produce metrics and expose them to the Kubernetes Prometheus system using annotations in the pods.
-The metrics annotations may differ slightly depending on the resource type.
-The following is an example of the WebLogic Prometheus-related configuration specified in the <code>todo-list</code> application pod:</p>
-<p><code>$ kubectl describe pod tododomain-adminserver -n todo-list</code></p>
-<pre><code>Annotations:  prometheus.io/path: /wls-exporter/metrics
-              prometheus.io/port: 7001
-              prometheus.io/scrape: true
-</code></pre><p>For other resource types, such as Coherence or Helidon, the annotations would look similar to this:</p>
-<pre><code>Annotations:  verrazzano.io/metricsEnabled: true
-              verrazzano.io/metricsPath: /metrics
-              verrazzano.io/metricsPort: 8080
-</code></pre><p>To look directly at the metrics that are being made available by the metric source, map the port and then access the path.</p>
-<p>For example, for the previous metric source:</p>
+	<p>Network traffic refers to the data flowing across the network.  In the context of this
+document, it is useful to think of network traffic from two perspectives: traffic
+based on direction and traffic related to component types, system or applications.
+Traffic direction is either north-south traffic, which enters and leaves the cluster,
+or east-west traffic, which stays within the cluster.</p>
+<p>First is a description of getting traffic into the cluster, then how traffic flows after
+it is in the cluster.</p>
+<h2 id="ingress">Ingress</h2>
+<p>Ingress is an overloaded term, so it needs
+to be understood in context.  Sometimes the term means external access into the
+cluster, as in &ldquo;ingress to the cluster.&rdquo;  The term also refers to the Kubernetes
+Ingress resource. In addition, it might be used to mean network ingress to a container in a Pod.
+Here, it&rsquo;s used to refer to both general ingress into the cluster and the Kubernetes
+Ingress resource.</p>
+<p>During installation, Verrazzano creates the necessary network resources to access both
+system components and applications.  The following ingress and load balancers description
+is in the context of a Verrazzano installation.</p>
+<h3 id="loadbalancer-services">LoadBalancer Services</h3>
+<p>To reach Pods from outside a cluster, an external IP address must be exposed using a LoadBalancer or NodePort
+service.  Verrazzano creates two LoadBalancer services, one for system component traffic
+and another for application traffic. The specifics of how the service gets traffic into the cluster
+depends on the underlying Kubernetes platform.  With Oracle OKE, creating a LoadBalancer type service will
+result in an OCI load balancer being created and configured to load balance to a set of Pods.</p>
+<h3 id="ingress-for-system-components">Ingress for system components</h3>
+<p>To provide ingress to system components, Verrazzano installs a NGINX Ingress Controller,
+which includes a NGINX load balancer.  Verrazzano also creates Kubernetes
+Ingress resources to configure ingress for each system component that requires ingress.
+An Ingress resource is used is to specify HTTP/HTTPS routes to Kubernetes services, along
+with an endpoint hostname and a TLS certificate. An Ingress by itself doesn&rsquo;t do anything;
+it is just a resource. An ingress controller is needed to watch Ingress resources and
+reconcile them, configuring the underlying Kubernetes load balancer to handle the service
+routing. The NGINX Ingress Controller processes Ingress resources and configures NGINX with
+the ingress route information, and such.</p>
+<p>The NGINX Ingress Controller is a LoadBalancer service, as seen here:</p>
+<pre><code>$ kubectl get service -n ingress-nginx
+...
+ingress-controller-ingress-nginx-controller           LoadBalancer
+</code></pre><p>Using the OKE example, traffic entering the OCI load balancer is routed to the NGINX load
+balancer, then routed from there to the Pods belonging to the services described in the Ingress.</p>
+<h3 id="ingress-for-applications">Ingress for applications</h3>
+<p>Verrazzano also provides ingress into applications, but uses an Istio ingress gateway, which is
+an Envoy proxy, instead of NGINX.  Istio has a Gateway resource that provides load balancer information,
+such as hosts, ports, and certificates for traffic coming into the mesh.
+For more information, see <a href="HTTPS://istio.io/latest/docs/reference/config/networking/gateway/">Istio Gateway</a>.  Just as an
+Ingress needs a corresponding Ingress controller, the same is true for the Gateway resource, where there is a
+corresponding Istio ingress gateway controller. However, unlike the Ingress, the Gateway
+resource doesn&rsquo;t have service routing information.  That is
+handled by the Istio VirtualService resource.  The combination of Gateway and VirtualService is
+basically a superset of Ingress, because the combination provides more features than Ingress.
+In summary, the Istio ingress gateway provides ingress to the cluster using information from both
+the Gateway and VirtualService resources.</p>
+<p>Because Verrazzano doesn&rsquo;t create any applications during installations, there is no need to
+create a Gateway and VirtualService at that time.  However, during installation, Verrazzano does
+create the Istio ingress gateway, which is a LoadBalancer service, along with the
+Istio egress gateway, which is a ClusterIP service.</p>
+<pre><code>$ kubectl get service -n istio-system
+...
+istio-ingressgateway   LoadBalancer
+</code></pre><p>Again, referring to the OKE use case, this means that there will another OCI load balancer created,
+routing traffic to the Istio ingress gateway Pod, for example, the Envoy proxy.</p>
+<h3 id="external-dns">External DNS</h3>
+<p>When you install Verrazzano, you can optionally specify an external DNS for your domain.  If you do that,
+Verrazzano will not only create the DNS records, using ExternalDNS, but also it will configure your host
+name in the Ingress resources. You can then use that host name to access the system components through the
+NGINX Ingress Controller.</p>
+<h2 id="system-traffic">System traffic</h2>
+<p>System traffic includes all traffic that enters and leaves system Pods.</p>
+<h3 id="north-south-system-traffic">North-South system traffic</h3>
+<p>North-south traffic includes all system traffic that enters or leaves a Kubernetes cluster.</p>
+<h4 id="ingress-1">Ingress</h4>
+<p>The following lists the Verrazzano system components which are accessed through the NGINX Ingress Controller
+from a client external to the cluster:</p>
 <ul>
-<li>
-<p>Map the port being used to expose the metrics.</p>
-<pre><code>$ kubectl port-forward tododomain-adminserver 7001:7001 -n todo-list
-</code></pre></li>
-<li>
-<p>Get the user name and password used to access the metrics source from the corresponding secret.</p>
-<pre><code>$ kubectl get secret --namespace todo-list tododomain-weblogic-credentials  -o jsonpath={.data.username} | base64 --decode; echo
-$ kubectl get secret --namespace todo-list tododomain-weblogic-credentials  -o jsonpath={.data.password} | base64 --decode; echo
-</code></pre></li>
-<li>
-<p>Access the metrics at the exported path, using the user name and password retrieved in the previous step.</p>
-<pre><code>$ curl -u USERNAME:PASSWORD localhost:7001/wls-exporter/metrics
-</code></pre></li>
+<li>Elasticsearch</li>
+<li>Keycloak</li>
+<li>Kibana</li>
+<li>Grafana</li>
+<li>Prometheus</li>
+<li>Rancher</li>
+<li>Verrazzano Console</li>
+<li>Verrazzano API</li>
 </ul>
-<h3 id="metrics-server">Metrics server</h3>
+<h4 id="egress">Egress</h4>
+<p>The following table shows Verrazzano system components that initiate requests to a destination
+outside the cluster.</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th align="left">Destination</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cert-manager</td>
+<td align="left">Let&rsquo;s Encrypt</td>
+<td align="left">Get signed certificate.</td>
+</tr>
+<tr>
+<td>Elasticsearch</td>
+<td align="left">Keycloak</td>
+<td align="left">OIDC sidecar calls Keycloak for authentication, which includes redirects.</td>
+</tr>
+<tr>
+<td>ExternalDNS</td>
+<td align="left">External DNS</td>
+<td align="left">Create and delete DNS entries in an external DNS.</td>
+</tr>
+<tr>
+<td>Fluentd</td>
+<td align="left">Elasticsearch</td>
+<td align="left">Fluentd on the managed cluster calls Elasticsearch on the admin cluster.</td>
+</tr>
+<tr>
+<td>Grafana</td>
+<td align="left">Keycloak</td>
+<td align="left">OIDC sidecar calls Keycloak for authentication, which includes redirects.</td>
+</tr>
+<tr>
+<td>Kibana</td>
+<td align="left">Keycloak</td>
+<td align="left">OIDC sidecar calls Keycloak for authentication, which includes redirects.</td>
+</tr>
+<tr>
+<td>Prometheus</td>
+<td align="left">Prometheus</td>
+<td align="left">Prometheus on the admin cluster scrapes metrics from Prometheus on the managed cluster.</td>
+</tr>
+<tr>
+<td>Rancher Agent</td>
+<td align="left">Rancher</td>
+<td align="left">Rancher agent on the managed cluster sends requests to Rancher on the admin cluster.</td>
+</tr>
+<tr>
+<td>Verrazzano API Proxy</td>
+<td align="left">Keycloak</td>
+<td align="left">API proxy on the managed cluster calls Keycloak on the admin cluster.</td>
+</tr>
+<tr>
+<td>Verrazzano Platform Operator</td>
+<td align="left">Kubernetes API server</td>
+<td align="left">Multicluster agent on the managed cluster calls API server on the admin cluster.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="east-west-system-traffic">East-West system traffic</h3>
+<p>The following tables show Verrazzano system components that send traffic to a destination
+inside the cluster, with the following exceptions:</p>
 <ul>
-<li>Single pod per cluster</li>
-<li>Named <code>vmi-system-prometheus-*</code> in <code>verrazzano-system</code> namespace</li>
-<li>Discovers exposed metrics source endpoints</li>
-<li>Scrapes metrics from metrics sources</li>
-<li>Responsible for exposing all metrics</li>
+<li>Usage of CoreDNS: It can be assumed that any Pod in the cluster can access CoreDNS for name resolution.</li>
+<li>Envoy to Istiod: The Envoy proxies all make requests to the Istio control plane to get dynamic configuration, and such.
+This includes both the gateways and the mesh sidecar proxies. That traffic is not shown.</li>
+<li>Traffic within a component is not shown, for example, traffic between
+Elasticsearch Pods.</li>
+<li>Prometheus scraping traffic is shown in the second table.</li>
 </ul>
-<h2 id="grafana">Grafana</h2>
-<p>Grafana provides visualization for your Prometheus metric data.</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th align="left">Destination</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cert-manager</td>
+<td align="left">Kubernetes API server</td>
+<td align="left">Perform CRUD operations on Kubernetes resources.</td>
+</tr>
+<tr>
+<td>Elasticsearch</td>
+<td align="left">Keycloak</td>
+<td align="left">OIDC sidecar calls Keycloak for token authentication.</td>
+</tr>
+<tr>
+<td>Fluentd</td>
+<td align="left">Elasticsearch</td>
+<td align="left">Fluentd sends data to Elasticsearch.</td>
+</tr>
+<tr>
+<td>Grafana</td>
+<td align="left">Prometheus</td>
+<td align="left">UI for Prometheus data.</td>
+</tr>
+<tr>
+<td>Grafana</td>
+<td align="left">Keycloak</td>
+<td align="left">OIDC sidecar calls Keycloak for token authentication.</td>
+</tr>
+<tr>
+<td>Kibana</td>
+<td align="left">Elasticsearch</td>
+<td align="left">UI for Elasticsearch.</td>
+</tr>
+<tr>
+<td>Kibana</td>
+<td align="left">Keycloak</td>
+<td align="left">OIDC sidecar calls Keycloak for token authentication.</td>
+</tr>
+<tr>
+<td>NGINX Ingress Controller</td>
+<td align="left">Kubernetes API server</td>
+<td align="left">Perform CRUD operations on Kubernetes resources.</td>
+</tr>
+<tr>
+<td>Istio</td>
+<td align="left">Kubernetes API server</td>
+<td align="left">Perform CRUD operations on Kubernetes resources.</td>
+</tr>
+<tr>
+<td>Prometheus</td>
+<td align="left">Keycloak</td>
+<td align="left">OIDC sidecar calls Keycloak for token authentication.</td>
+</tr>
+<tr>
+<td>Rancher</td>
+<td align="left">Kubernetes API server</td>
+<td align="left">Perform CRUD operations on Kubernetes resources.</td>
+</tr>
+<tr>
+<td>Verrazzano API Proxy</td>
+<td align="left">Kubernetes API server</td>
+<td align="left">Perform CRUD operations on Kubernetes resources.</td>
+</tr>
+<tr>
+<td>Verrazzano Application Operator</td>
+<td align="left">Kubernetes API server</td>
+<td align="left">Perform CRUD operations on Kubernetes resources.</td>
+</tr>
+<tr>
+<td>Verrazzano Monitoring Operator</td>
+<td align="left">Kubernetes API server</td>
+<td align="left">Perform CRUD operations on Kubernetes resources.</td>
+</tr>
+<tr>
+<td>Verrazzano Operator</td>
+<td align="left">Kubernetes API server</td>
+<td align="left">Perform CRUD operations on Kubernetes resources.</td>
+</tr>
+<tr>
+<td>Verrazzano Platform Operator</td>
+<td align="left">Kubernetes API server</td>
+<td align="left">Perform CRUD operations on Kubernetes resources.</td>
+</tr>
+<tr>
+<td>Verrazzano Platform Operator</td>
+<td align="left">Rancher</td>
+<td align="left">Register the managed cluster with Rancher.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="prometheus-scraping-traffic">Prometheus scraping traffic</h4>
+<p>This table shows Prometheus traffic for each system component scrape target.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Target</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">cadvisor</td>
+<td align="left">Kubernetes metrics.</td>
+</tr>
+<tr>
+<td align="left">Elasticsearch</td>
+<td align="left">Envoy metrics.</td>
+</tr>
+<tr>
+<td align="left">Grafana</td>
+<td align="left">Envoy metrics.</td>
+</tr>
+<tr>
+<td align="left">Istiod</td>
+<td align="left">Istio control plane metrics.</td>
+</tr>
+<tr>
+<td align="left">Istiod</td>
+<td align="left">Envoy metrics.</td>
+</tr>
+<tr>
+<td align="left">Istio egress gateway</td>
+<td align="left">Envoy metrics.</td>
+</tr>
+<tr>
+<td align="left">Istio ingress gateway</td>
+<td align="left">Envoy metrics.</td>
+</tr>
+<tr>
+<td align="left">Keycloak</td>
+<td align="left">Envoy metrics.</td>
+</tr>
+<tr>
+<td align="left">Kibana</td>
+<td align="left">Envoy metrics.</td>
+</tr>
+<tr>
+<td align="left">MySQL</td>
+<td align="left">Envoy metrics.</td>
+</tr>
+<tr>
+<td align="left">NGINX Ingress Controller</td>
+<td align="left">Envoy metrics.</td>
+</tr>
+<tr>
+<td align="left">NGINX Ingress Controller</td>
+<td align="left">NGINX metrics.</td>
+</tr>
+<tr>
+<td align="left">NGINX default back end</td>
+<td align="left">Envoy metrics.</td>
+</tr>
+<tr>
+<td align="left">Node exporter</td>
+<td align="left">Node metrics.</td>
+</tr>
+<tr>
+<td align="left">Prometheus</td>
+<td align="left">Envoy metrics.</td>
+</tr>
+<tr>
+<td align="left">Prometheus</td>
+<td align="left">Prometheus metrics.</td>
+</tr>
+<tr>
+<td align="left">Verrazzano console</td>
+<td align="left">Envoy metrics.</td>
+</tr>
+<tr>
+<td align="left">Verrazzano API</td>
+<td align="left">Envoy metrics.</td>
+</tr>
+<tr>
+<td align="left">WebLogic operator</td>
+<td align="left">Envoy metrics.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="webhooks">Webhooks</h4>
+<p>Several of the system components are controllers, and some of those have webhooks.
+Webhooks are called by the Kubernetes API server on a component HTTPS port
+to validate or mutate API payloads before they reach the API server.</p>
+<p>The following components use webhooks:</p>
 <ul>
-<li>Single pod per cluster</li>
-<li>Named <code>vmi-system-grafana-*</code> in <code>verrazzano-system</code> namespace</li>
-<li>Provides dashboards for metrics visualization</li>
+<li>cert-manager</li>
+<li>Coherence Operator</li>
+<li>Istio</li>
+<li>Rancher</li>
+<li>Verrazzano Application Operator</li>
+<li>Verrazzano Platform Operator</li>
 </ul>
-<p>To access Grafana:</p>
-<ul>
-<li>
-<p>Get the hostname from the Grafana ingress.</p>
-<pre><code>$ kubectl get ingress vmi-system-grafana -n verrazzano-system
-</code></pre><pre><code>NAME                 CLASS    HOSTS                                              ADDRESS          PORTS     AGE
-vmi-system-grafana   &lt;none&gt;   grafana.vmi.system.default.123.456.789.10.nip.io   123.456.789.10   80, 443   26h
-</code></pre></li>
-<li>
-<p>Get the password for the user <code>verrazzano</code>.</p>
-<pre><code>$ kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo
-</code></pre></li>
-<li>
-<p>Access Grafana in a browser using the previous hostname.</p>
-</li>
-<li>
-<p>Log in using the <code>verrazzano</code> user and the previous password.</p>
-</li>
-</ul>
-<p><img src="../../../images/grafana-initial-page.png" alt="Grafana"></p>
-<p>From here, you can select an existing dashboard or create a new dashboard.
-To select an existing dashboard, use the drop-down list in the top left corner.
-The initial value of this list is <code>Home</code>.</p>
-<p>To view host level metrics, select <code>Host Metrics</code>. This will provide system metrics for all
-of the nodes in your cluster.</p>
-<p>To view the application metrics for the <code>todo-list</code> example application, select <code>WebLogic Server Dashboard</code>
-because the <code>todo-list</code> application is a WebLogic application.</p>
-<p><img src="../../../images/grafana-weblogic-dashboard.png" alt="WebLogicDashboard"></p>
+<h2 id="application-traffic">Application Traffic</h2>
+<p>Application traffic includes all traffic to and from Verrazzano applications.</p>
+<h3 id="north-south-application-traffic">North-South application traffic</h3>
+<p>After Verrazzano is installed, you can deploy applications into the Istio mesh.  When doing so, you will
+likely need ingress into the application.  As previously mentioned, this can be done with
+Istio using the Gateway and VirtualService resources.  Verrazzano will create those resources
+for you when you use an IngressTrait in your ApplicationConfiguration.  The Istio
+ingress gateway created during installation will be shared by all applications in the mesh,
+and the Gateway resource is bound to the Istio ingress gateway that was created
+during installation.  This is done by the selector field in the Gateway:</p>
+<pre><code>   selector:
+     istio: ingressgateway
+</code></pre><p>Verrazzano creates a Gateway/VirtualService pair for each IngressTrait.
+Following is an example of those two resources created by Verrazzano.</p>
+<p>Here is the Gateway; in this case both the host name and certificate were generated
+by Verrazzano.</p>
+<pre><code>apiVersion: v1
+items:
+- apiVersion: networking.istio.io/v1beta1
+  kind: Gateway
+  metadata:
+   ...
+    name: hello-helidon-hello-helidon-appconf-gw
+    namespace: hello-helidon
+  ...
+  spec:
+    selector:
+      istio: ingressgateway
+    servers:
+    - hosts:
+      - hello-helidon-appconf.hello-helidon.1.2.3.4.nip.io
+      port:
+        name: HTTPS
+        number: 443
+        protocol: HTTPS
+      tls:
+        credentialName: hello-helidon-hello-helidon-appconf-cert-secret
+        mode: SIMPLE
+</code></pre><p>Here is the VirtualService; notice that it refers back to the Gateway and
+that it contains the service routing information.</p>
+<pre><code>apiVersion: v1
+items:
+- apiVersion: networking.istio.io/v1beta1
+  kind: VirtualService
+  metadata:
+  ...
+    name: hello-helidon-ingress-rule-0-vs
+    namespace: hello-helidon
+  spec:
+    gateways:
+    - hello-helidon-hello-helidon-appconf-gw
+    hosts:
+    - hello-helidon-appconf.hello-helidon.1.2.3.4.nip.io
+    HTTP:
+    - match:
+      - uri:
+          prefix: /greet
+      route:
+      - destination:
+          host: hello-helidon
+          port:
+            number: 8080
+</code></pre><h3 id="east-west-application-traffic">East-West application traffic</h3>
+<p>To manage east-west traffic, each service in the mesh should be routed using a VirtualService and an optional
+DestinationRule.  You can still send east-west traffic without either of these resources, but you won’t get any custom
+routing or load balancing.  Verrazzano doesn&rsquo;t configure east-west traffic.  Consider <code>bobbys-front-end</code> in the Bob&rsquo;s Books example at
+<a href="HTTPS://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/bobs-books-comp.yaml">bobs-books-comp.yaml</a>.
+When deploying Bob&rsquo;s Books, a VirtualService is created for <code>bobbys-front-end</code>, because of the IngressTrait, but there are
+no VirtualServices for the other services in the application.  When <code>bobbys-front-end</code> sends requests to
+<code>bobbys-helidon-stock-application</code>, this east-west traffic still goes to <code>bobbys-helidon-stock-application</code> through
+the Envoy sidecar proxies in the source and destination Pods, but there is no VirtualService representing
+<code>bobbys-helidon-stock-application</code>, where you could specify a canary deployment or custom load balancing.  This
+is something you could configure manually, but it is not configured by Verrazzano.</p>
+<h2 id="proxies">Proxies</h2>
+<p>Verrazzano uses network proxies in multiple places.  The two proxy products are Envoy and NGINX.
+The following table shows which proxies are used and in which Pod they run.</p>
+<table>
+<thead>
+<tr>
+<th>Usage</th>
+<th align="left">Proxy</th>
+<th align="left">Pod</th>
+<th align="left">Namespace</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>System ingress</td>
+<td align="left">NGINX</td>
+<td align="left"><code>ingress-controller-ingress-nginx-controller-*</code></td>
+<td align="left"><code>ingress-nginx</code></td>
+<td align="left">Provides external access to Verrazzano system components.</td>
+</tr>
+<tr>
+<td>OIDC proxy sidecar</td>
+<td align="left">NGINX</td>
+<td align="left"><code>vmi-system-es-ingest-*</code></td>
+<td align="left"><code>verrazzano-system</code></td>
+<td align="left">Elasticsearch authentication.</td>
+</tr>
+<tr>
+<td>OIDC proxy sidecar</td>
+<td align="left">NGINX</td>
+<td align="left"><code>vmi-system-kibana-*</code></td>
+<td align="left"><code>verrazzano-system</code></td>
+<td align="left">Elasticsearch authentication.</td>
+</tr>
+<tr>
+<td>OIDC proxy sidecar</td>
+<td align="left">NGINX</td>
+<td align="left"><code>vmi-system-prometheus-*</code></td>
+<td align="left"><code>verrazzano-system</code></td>
+<td align="left">Elasticsearch authentication.</td>
+</tr>
+<tr>
+<td>OIDC proxy sidecar</td>
+<td align="left">NGINX</td>
+<td align="left"><code>vmi-system-grafana-*</code></td>
+<td align="left"><code>verrazzano-system</code></td>
+<td align="left">Elasticsearch authentication.</td>
+</tr>
+<tr>
+<td>OIDC proxy sidecar</td>
+<td align="left">NGINX</td>
+<td align="left"><code>verrazzano-api-*</code></td>
+<td align="left"><code>verrazzano-system</code></td>
+<td align="left">Verrazzano API server that proxies to Kubernetes API server.</td>
+</tr>
+<tr>
+<td>Application ingress</td>
+<td align="left">Envoy</td>
+<td align="left"><code>istio-ingressgateway-*</code></td>
+<td align="left"><code>istio-system</code></td>
+<td align="left">Provides external access to Verrazzano applications.</td>
+</tr>
+<tr>
+<td>Application egress</td>
+<td align="left">Envoy</td>
+<td align="left"><code>istio-egressgateway-*</code></td>
+<td align="left"><code>istio-system</code></td>
+<td align="left">Provides control of application egress traffic.</td>
+</tr>
+<tr>
+<td>Istio mesh sidecar</td>
+<td align="left">Envoy</td>
+<td align="left"><code>ingress-controller-ingress-nginx-controller-*</code></td>
+<td align="left"><code>ingress-nginx</code></td>
+<td align="left">NGINX Ingress Controller in the Istio mesh.</td>
+</tr>
+<tr>
+<td>Istio mesh sidecar</td>
+<td align="left">Envoy</td>
+<td align="left"><code>ingress-controller-ingress-nginx-defaultbackend-*</code></td>
+<td align="left"><code>ingress-nginx</code></td>
+<td align="left">NGINX default backend in the Istio mesh.</td>
+</tr>
+<tr>
+<td>Istio mesh sidecar</td>
+<td align="left">Envoy</td>
+<td align="left"><code>fluentd-*</code></td>
+<td align="left"><code>verrazzano-system</code></td>
+<td align="left">Fluentd in the Istio mesh.</td>
+</tr>
+<tr>
+<td>Istio mesh sidecar</td>
+<td align="left">Envoy</td>
+<td align="left"><code>keycloak-*</code></td>
+<td align="left"><code>keycloak</code></td>
+<td align="left">Keycloak in the Istio mesh.</td>
+</tr>
+<tr>
+<td>Istio mesh sidecar</td>
+<td align="left">Envoy</td>
+<td align="left"><code>mysql-*</code></td>
+<td align="left"><code>keycloak</code></td>
+<td align="left">MySQL used by Keycloak in the Istio mesh.</td>
+</tr>
+<tr>
+<td>Istio mesh sidecar</td>
+<td align="left">Envoy</td>
+<td align="left"><code>verrazzano-api-*</code></td>
+<td align="left"><code>verrazzano-system</code></td>
+<td align="left">Verrazzano API in the Istio mesh.</td>
+</tr>
+<tr>
+<td>Istio mesh sidecar</td>
+<td align="left">Envoy</td>
+<td align="left"><code>verrazzano-console-*</code></td>
+<td align="left"><code>verrazzano-system</code></td>
+<td align="left">Verrazzano console in the Istio mesh.</td>
+</tr>
+<tr>
+<td>Istio mesh sidecar</td>
+<td align="left">Envoy</td>
+<td align="left"><code>vmi-system-es-master-*</code></td>
+<td align="left"><code>verrazzano-system</code></td>
+<td align="left">Elasticsearch in the Istio mesh.</td>
+</tr>
+<tr>
+<td>Istio mesh sidecar</td>
+<td align="left">Envoy</td>
+<td align="left"><code>vmi-system-es-data-*</code></td>
+<td align="left"><code>verrazzano-system</code></td>
+<td align="left">Elasticsearch in the Istio mesh.</td>
+</tr>
+<tr>
+<td>Istio mesh sidecar</td>
+<td align="left">Envoy</td>
+<td align="left"><code>vmi-system-es-ingest-*</code></td>
+<td align="left"><code>verrazzano-system</code></td>
+<td align="left">Elasticsearch in the Istio mesh.</td>
+</tr>
+<tr>
+<td>Istio mesh sidecar</td>
+<td align="left">Envoy</td>
+<td align="left"><code>vmi-system-kibana-*</code></td>
+<td align="left"><code>verrazzano-system</code></td>
+<td align="left">Kibana in the Istio mesh.</td>
+</tr>
+<tr>
+<td>Istio mesh sidecar</td>
+<td align="left">Envoy</td>
+<td align="left"><code>vmi-system-prometheus-*</code></td>
+<td align="left"><code>verrazzano-system</code></td>
+<td align="left">Prometheus in the Istio mesh.</td>
+</tr>
+<tr>
+<td>Istio mesh sidecar</td>
+<td align="left">Envoy</td>
+<td align="left"><code>vmi-system-grafana-*</code></td>
+<td align="left"><code>verrazzano-system</code></td>
+<td align="left">Grafana in the Istio mesh.</td>
+</tr>
+<tr>
+<td>Istio mesh sidecar</td>
+<td align="left">Envoy</td>
+<td align="left"><code>weblogic-operator-*</code></td>
+<td align="left"><code>verrazzano-system</code></td>
+<td align="left">WebLogic operator in the Istio mesh.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="multicluster">Multicluster</h2>
+<p>Some Verrazzano components send traffic between Kubernetes clusters. Those components are the Verrazzano agent,
+Verrazzano API proxy, the OIDC proxy, and Prometheus.</p>
+<h3 id="multicluster-egress">Multicluster egress</h3>
+<p>The following table shows Verrazzano system components that initiate requests between the admin and managed clusters.
+All of these requests go through the NGINX Ingress Controller on the respective destination cluster.</p>
+<table>
+<thead>
+<tr>
+<th>Source Cluster</th>
+<th align="left">Source Component</th>
+<th align="left">Destination Cluster</th>
+<th align="left">Destination Component</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Admin</td>
+<td align="left">Prometheus</td>
+<td align="left">Managed</td>
+<td align="left">Prometheus</td>
+<td align="left">Scape metrics on managed clusters.</td>
+</tr>
+<tr>
+<td>Admin</td>
+<td align="left">Verrazzano Console</td>
+<td align="left">Managed</td>
+<td align="left">Verrazzano API proxy</td>
+<td align="left">Console proxy sends requests to  API proxy.</td>
+</tr>
+<tr>
+<td>Managed</td>
+<td align="left">Fluentd</td>
+<td align="left">Admin</td>
+<td align="left">Elasticsearch</td>
+<td align="left">Fluentd sends logs to Elasticsearch.</td>
+</tr>
+<tr>
+<td>Managed</td>
+<td align="left">Elasticsearch</td>
+<td align="left">Admin</td>
+<td align="left">Keycloak</td>
+<td align="left">OIDC sidecar sends requests to  Keycloak.</td>
+</tr>
+<tr>
+<td>Managed</td>
+<td align="left">Kibana</td>
+<td align="left">Admin</td>
+<td align="left">Keycloak</td>
+<td align="left">OIDC sidecar sends requests to  Keycloak.</td>
+</tr>
+<tr>
+<td>Managed</td>
+<td align="left">Grafana</td>
+<td align="left">Admin</td>
+<td align="left">Keycloak</td>
+<td align="left">OIDC sidecar sends requests to  Keycloak.</td>
+</tr>
+<tr>
+<td>Managed</td>
+<td align="left">Prometheus</td>
+<td align="left">Admin</td>
+<td align="left">Keycloak</td>
+<td align="left">OIDC sidecar sends requests to  Keycloak.</td>
+</tr>
+<tr>
+<td>Managed</td>
+<td align="left">Rancher Agent</td>
+<td align="left">Admin</td>
+<td align="left">Rancher</td>
+<td align="left">Rancher Agent sends requests Rancher.</td>
+</tr>
+<tr>
+<td>Managed</td>
+<td align="left">Verrazzano API proxy</td>
+<td align="left">Admin</td>
+<td align="left">Keycloak</td>
+<td align="left">API proxy sends requests to  Keycloak.</td>
+</tr>
+<tr>
+<td>Managed</td>
+<td align="left">Verrazzano Agent</td>
+<td align="left">Admin</td>
+<td align="left">Kubernetes API server</td>
+<td align="left">Agent, in the platform operator, sends requests Kubernetes API server.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="verrazzano-agent">Verrazzano agent</h3>
+<p>In the multicluster topology, the Verrazzano platform operator has an agent thread running on the managed cluster
+that sends requests to the Kubernetes API server on the admin cluster. The URL for the admin cluster Kubernetes
+API server is registered on the managed cluster by the user.</p>
+<h3 id="verrazzano-api-proxy">Verrazzano API proxy</h3>
+<p>In a multicluster topology, the Verrazzano API proxy runs on both the admin and managed clusters.<br>
+On the admin cluster, the API proxy connects to in-cluster Keycloak, using the Keycloak Service.
+On the managed cluster, the API proxy connects to Keycloak on the admin cluster through the NGINX Ingress
+controller running on the admin cluster.</p>
+<h3 id="verrazzano-oidc-proxy">Verrazzano OIDC proxy</h3>
+<p>The OIDC proxy runs as a sidecar in the Elasticsearch, Kibana, Prometheus, and Grafana Pods.  This proxy
+also needs to send requests to Keycloak, either in-cluster or through the cluster ingress.  When a
+request comes into the OIDC proxy without an authentication header, the proxy sends a request to Keycloak
+through the NGINX Ingress Controller, so the request exits the cluster.  Otherwise, if OIDC is on the admin cluster, then the request is
+sent directly to Keycloak within the cluster.  If OIDC is on the managed
+cluster, then it must send requests to Keycloak on the admin cluster.</p>
+<h3 id="prometheus">Prometheus</h3>
+<p>A single Prometheus service in the cluster, scrapes metrics from Pods in system components and applications.
+It also scrapes Pods in the Istio mesh using HTTPS, and outside the mesh using HTTP. In the multicluster case,
+the Prometheus on the admin cluster, scrapes metrics from Prometheus on the managed cluster, through
+the NGINX Ingress Controller on the managed cluster.</p>
 
 	
 		<style>
@@ -1323,7 +1967,7 @@ because the <code>todo-list</code> application is a WebLogic application.</p>
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified June 28, 2021: <a  href="../../../../commit/99209860dde4097e66508f1dbd3aba1e4e27f76c">overall edit (#159) (9920986)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified June 29, 2021: <a  href="../../../../commit/5ac474bfaef388432d12598d82e86b384d96f074">review/edit (#160) (5ac474b)</a>
 </div>
 </div>
 
