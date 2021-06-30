@@ -132,7 +132,7 @@ The following table describes the `spec` portion of the Verrazzano custom resour
 ### Fluentd Component
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `extraVolumeMounts` | [ExtraVolumeMount](#extra-volume-mount) list | A list of host path volume mounts in addition to `/var/log` into the Fluentd DaemonSet. Each log file in `/var/log` directory could be a symbolic link to a file outside of `/var/log`. The Fluentd DaemonSet must have the volume mount of the host path directory containing the log files to collect the logs. | No |
+| `extraVolumeMounts` | [ExtraVolumeMount](#extra-volume-mount) list | A list of host path volume mounts in addition to `/var/log` into the Fluentd DaemonSet. Each log file in the `/var/log` directory could be a symbolic link to a file outside of `/var/log`. The Fluentd DaemonSet must have the volume mount of the host path directory containing the log files to collect the logs. | No |
 
 #### Extra Volume Mount
 | Field | Type | Description | Required
