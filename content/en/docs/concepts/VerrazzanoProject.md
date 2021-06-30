@@ -1,6 +1,6 @@
 ---
-title: "Verrazzano project"
-linkTitle: Verrazzano project
+title: "Verrazzano projects"
+linkTitle: Verrazzano projects
 weight: 1
 draft: false
 ---
