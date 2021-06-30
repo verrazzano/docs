@@ -6,7 +6,6 @@ description: Use the Verrazzano Analysis Tools to analyze cluster dumps
 draft: false
 ---
 
-## Overview
 
 Verrazzano provides tooling which assists in troubleshooting issues in your environment:
 1. `k8s-dump-cluster.sh`
@@ -179,11 +178,11 @@ Usage: verrazzano-analysis [options] captured-data-directory
 
 | Parameter | Definition | Default |
 | --- | --- | --- |
-| `-actions` | Include actions in the report | `true` |
-| `-help` | Display usage help | |
-| `-info` | Include informational messages | `true` |
-| `-minConfidence` | Minimum confidence threshold to report for issues, 0-10 | 0 |
-| `-minImpact` | Minimum impact threshold to report for issues, 0-10 | 0 |
-| `-reportFile` | Name of report output file | Output to stdout |
-| `-support` | Include support data in the report | `true` |
-| `-version` | Display tool version | |
+| `-actions` | Include actions in the report. | `true` |
+| `-help` | Display usage help. | |
+| `-info` | Include informational messages. | `true` |
+| `-minConfidence` | Minimum confidence threshold to report for issues, 0-10. | `0` |
+| `-minImpact` | Minimum impact threshold to report for issues, 0-10. | `0` |
+| `-reportFile` | Name of report output file. | Output to stdout. |
+| `-support` | Include support data in the report. | `true` |
+| `-version` | Display tool version. | |

@@ -18,7 +18,7 @@ Install Verrazzano by following the [installation]({{< relref "/docs/setup/insta
 ### Grant permissions
 The `oam-kubernetes-runtime` is not installed with privileges that allow it to create the Kubernetes `Ingress` resource used in this example.
 The following steps create a role that allows `Ingress` resource creation and binds that role to the `oam-kubernetes-runtime` service account.
-For this example to work, your cluster admin will need to execute the following steps to create the `ClusterRole` and `ClusterRoleBinding`.
+For this example to work, your cluster admin will need to run the following steps to create the `ClusterRole` and `ClusterRoleBinding`.
 ```shell
 $ kubectl apply -f - <<EOF
 apiVersion: rbac.authorization.k8s.io/v1
