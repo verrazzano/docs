@@ -22,7 +22,7 @@
       <description>
         
         
-        &lt;p&gt;The &lt;code&gt;IngressTrait&lt;/code&gt; custom resource contains the configuration of host and path rules for traffic routing to an application.  Here is a sample &lt;code&gt;ApplicationConfiguration&lt;/code&gt; that specifies an &lt;code&gt;IngressTrait&lt;/code&gt;.  To deploy an example application that demonstrates this &lt;code&gt;IngressTrait&lt;/code&gt;, see &lt;a href=&#34;../../../docs/samples/hello-helidon/&#34;&gt;Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
+        &lt;p&gt;The IngressTrait custom resource contains the configuration of host and path rules for traffic routing to an application.  Here is a sample ApplicationConfiguration that specifies an IngressTrait.  To deploy an example application that demonstrates this IngressTrait, see &lt;a href=&#34;../../../docs/samples/hello-helidon/&#34;&gt;Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
 kind: ApplicationConfiguration
 metadata:
@@ -50,15 +50,15 @@ spec:
                 - paths:
                     - path: &amp;quot;/greet&amp;quot;
                       pathType: Prefix
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the sample configuration, the &lt;code&gt;IngressTrait&lt;/code&gt; &lt;code&gt;hello-helidon-ingress&lt;/code&gt; is set on the &lt;code&gt;hello-helidon-component&lt;/code&gt; application component and defines an ingress rule that configures a path and path type.  This exposes a route for external access to the application.  Note that because no &lt;code&gt;hosts&lt;/code&gt; list is given for the &lt;a href=&#34;#ingressrule&#34;&gt;&lt;code&gt;IngressRule&lt;/code&gt;&lt;/a&gt;, a DNS host name is automatically generated.&lt;/p&gt;
-&lt;p&gt;For example, with the sample application configuration successfully deployed, the application will be accessible with the &lt;code&gt;path&lt;/code&gt; specified in the &lt;code&gt;IngressTrait&lt;/code&gt; and the generated host name.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the sample configuration, the IngressTrait &lt;code&gt;hello-helidon-ingress&lt;/code&gt; is set on the &lt;code&gt;hello-helidon-component&lt;/code&gt; application component and defines an ingress rule that configures a path and path type.  This exposes a route for external access to the application.  Note that because no &lt;code&gt;hosts&lt;/code&gt; list is given for the &lt;a href=&#34;#ingressrule&#34;&gt;IngressRule&lt;/a&gt;, a DNS host name is automatically generated.&lt;/p&gt;
+&lt;p&gt;For example, with the sample application configuration successfully deployed, the application will be accessible with the &lt;code&gt;path&lt;/code&gt; specified in the IngressTrait and the generated host name.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath={.spec.servers[0].hosts[0]})
 $ echo $HOST
 hello-helidon-appconf.hello-helidon.11.22.33.44.nip.io
 
 $ curl -sk -X GET https://${HOST}/greet
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Alternatively, specific host names can be given in an &lt;a href=&#34;#ingressrule&#34;&gt;&lt;code&gt;IngressRule&lt;/code&gt;&lt;/a&gt;.  Doing this implies that a secret and certificate have been created for the specific hosts and the secret name has been specified in the associated &lt;a href=&#34;#ingresssecurity&#34;&gt;&lt;code&gt;IngressSecurity&lt;/code&gt;&lt;/a&gt; &lt;code&gt;secretName&lt;/code&gt; field.&lt;/p&gt;
-&lt;h4 id=&#34;ingresstrait&#34;&gt;&lt;code&gt;IngressTrait&lt;/code&gt;&lt;/h4&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Alternatively, specific host names can be given in an &lt;a href=&#34;#ingressrule&#34;&gt;IngressRule&lt;/a&gt;.  Doing this implies that a secret and certificate have been created for the specific hosts and the secret name has been specified in the associated &lt;a href=&#34;#ingresssecurity&#34;&gt;IngressSecurity&lt;/a&gt; &lt;code&gt;secretName&lt;/code&gt; field.&lt;/p&gt;
+&lt;h4 id=&#34;ingresstrait&#34;&gt;IngressTrait&lt;/h4&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -78,7 +78,7 @@ $ curl -sk -X GET https://${HOST}/greet
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;kind&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;IngressTrait&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;IngressTrait&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -89,14 +89,14 @@ $ curl -sk -X GET https://${HOST}/greet
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#ingresstraitspec&#34;&gt;&lt;code&gt;IngressTraitSpec&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#ingresstraitspec&#34;&gt;IngressTraitSpec&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The desired state of an ingress trait.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;ingresstraitspec&#34;&gt;&lt;code&gt;IngressTraitSpec&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;IngressTraitSpec&lt;/code&gt; specifies the desired state of an ingress trait.&lt;/p&gt;
+&lt;h4 id=&#34;ingresstraitspec&#34;&gt;IngressTraitSpec&lt;/h4&gt;
+&lt;p&gt;IngressTraitSpec specifies the desired state of an ingress trait.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -109,20 +109,20 @@ $ curl -sk -X GET https://${HOST}/greet
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;rules&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#ingressrule&#34;&gt;&lt;code&gt;IngressRule&lt;/code&gt;&lt;/a&gt; array&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#ingressrule&#34;&gt;IngressRule&lt;/a&gt; array&lt;/td&gt;
 &lt;td&gt;A list of ingress rules to for an ingress trait.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;tls&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#ingresssecurity&#34;&gt;&lt;code&gt;IngressSecurity&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
-&lt;td&gt;The security parameters for an ingress trait. This is required only if specific hosts are given in an &lt;a href=&#34;#ingressrule&#34;&gt;&lt;code&gt;IngressRule&lt;/code&gt;&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#ingresssecurity&#34;&gt;IngressSecurity&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The security parameters for an ingress trait. This is required only if specific hosts are given in an &lt;a href=&#34;#ingressrule&#34;&gt;IngressRule&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;ingressrule&#34;&gt;&lt;code&gt;IngressRule&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;IngressRule&lt;/code&gt; specifies a rule for an ingress trait.&lt;/p&gt;
+&lt;h4 id=&#34;ingressrule&#34;&gt;IngressRule&lt;/h4&gt;
+&lt;p&gt;IngressRule specifies a rule for an ingress trait.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -141,14 +141,14 @@ $ curl -sk -X GET https://${HOST}/greet
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;paths&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#ingresspath&#34;&gt;&lt;code&gt;IngressPath&lt;/code&gt;&lt;/a&gt; array&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#ingresspath&#34;&gt;IngressPath&lt;/a&gt; array&lt;/td&gt;
 &lt;td&gt;The paths to be exposed for an ingress trait.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;ingresspath&#34;&gt;&lt;code&gt;IngressPath&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;IngressPath&lt;/code&gt; specifies a specific path to be exposed for an ingress trait.&lt;/p&gt;
+&lt;h4 id=&#34;ingresspath&#34;&gt;IngressPath&lt;/h4&gt;
+&lt;p&gt;IngressPath specifies a specific path to be exposed for an ingress trait.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -173,8 +173,8 @@ $ curl -sk -X GET https://${HOST}/greet
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;ingresssecurity&#34;&gt;&lt;code&gt;IngressSecurity&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;IngressSecurity&lt;/code&gt; specifies the secret containing the certificate securing the transport for an ingress trait.&lt;/p&gt;
+&lt;h4 id=&#34;ingresssecurity&#34;&gt;IngressSecurity&lt;/h4&gt;
+&lt;p&gt;IngressSecurity specifies the secret containing the certificate securing the transport for an ingress trait.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -188,7 +188,7 @@ $ curl -sk -X GET https://${HOST}/greet
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;secretName&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;The name of a secret containing the certificate securing the transport.  The specification of a secret here implies that a certificate was created for specific hosts, as specified in an &lt;a href=&#34;#ingressrule&#34;&gt;&lt;code&gt;IngressRule&lt;/code&gt;&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;The name of a secret containing the certificate securing the transport.  The specification of a secret here implies that a certificate was created for specific hosts, as specified in an &lt;a href=&#34;#ingressrule&#34;&gt;IngressRule&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -206,8 +206,8 @@ $ curl -sk -X GET https://${HOST}/greet
       <description>
         
         
-        &lt;p&gt;The &lt;code&gt;MetricsTrait&lt;/code&gt; custom resource contains the configuration information needed to enable metrics for an application component.  Component workloads configured with a &lt;code&gt;MetricsTrait&lt;/code&gt; are setup to emit metrics through an endpoint that are scraped by a given Prometheus deployment.  Here is a sample &lt;code&gt;ApplicationConfiguration&lt;/code&gt; that specifies a &lt;code&gt;MetricsTrait&lt;/code&gt;.  To deploy an example application that demonstrates a &lt;code&gt;MetricsTrait&lt;/code&gt;, see &lt;a href=&#34;../../../docs/samples/hello-helidon/&#34;&gt;Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Note that if an &lt;code&gt;ApplicationConfiguration&lt;/code&gt; does not specify a &lt;code&gt;MetricsTrait&lt;/code&gt;, then a default &lt;code&gt;MetricsTrait&lt;/code&gt; will be generated with values appropriate for the workload type.&lt;/p&gt;
+        &lt;p&gt;The MetricsTrait custom resource contains the configuration information needed to enable metrics for an application component.  Component workloads configured with a MetricsTrait are setup to emit metrics through an endpoint that are scraped by a given Prometheus deployment.  Here is a sample ApplicationConfiguration that specifies a MetricsTrait.  To deploy an example application that demonstrates a MetricsTrait, see &lt;a href=&#34;../../../docs/samples/hello-helidon/&#34;&gt;Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Note that if an ApplicationConfiguration does not specify a MetricsTrait, then a default MetricsTrait will be generated with values appropriate for the workload type.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
 kind: ApplicationConfiguration
 metadata:
@@ -235,7 +235,7 @@ spec:
                 - paths:
                     - path: &amp;quot;/greet&amp;quot;
                       pathType: Prefix
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the sample configuration, a &lt;code&gt;MetricsTrait&lt;/code&gt; is specified for the &lt;code&gt;hello-helidon-component&lt;/code&gt; application component.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the sample configuration, a MetricsTrait is specified for the &lt;code&gt;hello-helidon-component&lt;/code&gt; application component.&lt;/p&gt;
 &lt;p&gt;With the sample application configuration successfully deployed, you can query for metrics from the application component.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get ingress -n verrazzano-system vmi-system-prometheus -o jsonpath={.spec.rules[0].host})
 $ echo $HOST
@@ -246,7 +246,7 @@ $ VZPASS=$(kubectl get secret --namespace verrazzano-system verrazzano -o jsonpa
 $ curl -sk --user verrazzano:${VZPASS} -X GET https://${HOST}/api/v1/query?query=vendor_requests_count_total
 
 {&amp;quot;status&amp;quot;:&amp;quot;success&amp;quot;,&amp;quot;data&amp;quot;:{&amp;quot;resultType&amp;quot;:&amp;quot;vector&amp;quot;,&amp;quot;result&amp;quot;:[{&amp;quot;metric&amp;quot;:{&amp;quot;__name__&amp;quot;:&amp;quot;vendor_requests_count_total&amp;quot;,&amp;quot;app&amp;quot;:&amp;quot;hello-helidon&amp;quot;,&amp;quot;app_oam_dev_component&amp;quot;:&amp;quot;hello-helidon-component&amp;quot;,&amp;quot;app_oam_dev_name&amp;quot;:&amp;quot;hello-helidon-appconf&amp;quot;,&amp;quot;app_oam_dev_resourceType&amp;quot;:&amp;quot;WORKLOAD&amp;quot;,&amp;quot;app_oam_dev_revision&amp;quot;:&amp;quot;hello-helidon-component-v1&amp;quot;,&amp;quot;containerizedworkload_oam_crossplane_io&amp;quot;:&amp;quot;496df78f-ef8b-4753-97fd-d9218d2f38f1&amp;quot;,&amp;quot;job&amp;quot;:&amp;quot;hello-helidon-appconf_default_helidon-logging_hello-helidon-component&amp;quot;,&amp;quot;namespace&amp;quot;:&amp;quot;helidon-logging&amp;quot;,&amp;quot;pod_name&amp;quot;:&amp;quot;hello-helidon-workload-b7d9d95d8-ht7gb&amp;quot;,&amp;quot;pod_template_hash&amp;quot;:&amp;quot;b7d9d95d8&amp;quot;},&amp;quot;value&amp;quot;:[1616535232.487,&amp;quot;4800&amp;quot;]}]}}
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;metricstrait&#34;&gt;&lt;code&gt;MetricsTrait&lt;/code&gt;&lt;/h4&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;metricstrait&#34;&gt;MetricsTrait&lt;/h4&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -266,7 +266,7 @@ $ curl -sk --user verrazzano:${VZPASS} -X GET https://${HOST}/api/v1/query?query
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;kind&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;MetricsTrait&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;MetricsTrait&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -277,14 +277,14 @@ $ curl -sk --user verrazzano:${VZPASS} -X GET https://${HOST}/api/v1/query?query
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#metricstraitspec&#34;&gt;&lt;code&gt;MetricsTraitSpec&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#metricstraitspec&#34;&gt;MetricsTraitSpec&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The desired state of a metrics trait.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;metricstraitspec&#34;&gt;&lt;code&gt;MetricsTraitSpec&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;MetricsTraitSpec&lt;/code&gt; specifies the desired state of a metrics trait.&lt;/p&gt;
+&lt;h4 id=&#34;metricstraitspec&#34;&gt;MetricsTraitSpec&lt;/h4&gt;
+&lt;p&gt;MetricsTraitSpec specifies the desired state of a metrics trait.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -334,7 +334,7 @@ $ curl -sk --user verrazzano:${VZPASS} -X GET https://${HOST}/api/v1/query?query
       <description>
         
         
-        &lt;p&gt;The &lt;code&gt;MultiClusterApplicationConfiguration&lt;/code&gt; custom resource is used to distribute &lt;code&gt;core.oam.dev/v1alpha2/ApplicationConfiguration&lt;/code&gt; resources in a multicluster environment. Here is a sample &lt;code&gt;MultiClusterApplicationConfiguration&lt;/code&gt; that specifies an &lt;code&gt;ApplicationConfiguration&lt;/code&gt; resource to create on the cluster named &lt;code&gt;managed1&lt;/code&gt;.  To deploy an example application that demonstrates a &lt;code&gt;MultiClusterApplicationConfiguration&lt;/code&gt;, see &lt;a href=&#34;../../../docs/samples/multicluster/hello-helidon/&#34;&gt;Multicluster Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
+        &lt;p&gt;The MultiClusterApplicationConfiguration custom resource is used to distribute &lt;code&gt;core.oam.dev/v1alpha2/ApplicationConfiguration&lt;/code&gt; resources in a multicluster environment. Here is a sample MultiClusterApplicationConfiguration that specifies an ApplicationConfiguration resource to create on the cluster named &lt;code&gt;managed1&lt;/code&gt;.  To deploy an example application that demonstrates a MultiClusterApplicationConfiguration, see &lt;a href=&#34;../../../docs/samples/multicluster/hello-helidon/&#34;&gt;Multicluster Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: clusters.verrazzano.io/v1alpha1
 kind: MultiClusterApplicationConfiguration
 metadata:
@@ -368,8 +368,8 @@ spec:
   placement:
     clusters:
       - name: managed1
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;multiclusterapplicationconfiguration&#34;&gt;&lt;code&gt;MultiClusterApplicationConfiguration&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;A &lt;code&gt;MultiClusterApplicationConfiguration&lt;/code&gt; is an envelope to create &lt;code&gt;core.oam.dev/v1alpha2/ApplicationConfiguration&lt;/code&gt; resources on the clusters specified in the &lt;code&gt;placement&lt;/code&gt; section.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;multiclusterapplicationconfiguration&#34;&gt;MultiClusterApplicationConfiguration&lt;/h4&gt;
+&lt;p&gt;A MultiClusterApplicationConfiguration is an envelope to create &lt;code&gt;core.oam.dev/v1alpha2/ApplicationConfiguration&lt;/code&gt; resources on the clusters specified in the &lt;code&gt;placement&lt;/code&gt; section.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -389,7 +389,7 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;kind&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;MultiClusterApplicationConfiguration&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;MultiClusterApplicationConfiguration&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -400,20 +400,20 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#multiclusterapplicationconfigurationspec&#34;&gt;&lt;code&gt;MultiClusterApplicationConfigurationSpec&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#multiclusterapplicationconfigurationspec&#34;&gt;MultiClusterApplicationConfigurationSpec&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The desired state of a &lt;code&gt;core.oam.dev/v1alpha2/ApplicationConfiguration&lt;/code&gt; resource.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;status&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;../multiclusterresourcestatus&#34;&gt;&lt;code&gt;MultiClusterResourceStatus&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;../multiclusterresourcestatus&#34;&gt;MultiClusterResourceStatus&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The runtime status of a multicluster resource.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;multiclusterapplicationconfigurationspec&#34;&gt;&lt;code&gt;MultiClusterApplicationConfigurationSpec&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;MultiClusterApplicationConfigurationSpec&lt;/code&gt; specifies the desired state of a &lt;code&gt;core.oam.dev/v1alpha2/ApplicationConfiguration&lt;/code&gt; resource.&lt;/p&gt;
+&lt;h4 id=&#34;multiclusterapplicationconfigurationspec&#34;&gt;MultiClusterApplicationConfigurationSpec&lt;/h4&gt;
+&lt;p&gt;MultiClusterApplicationConfigurationSpec specifies the desired state of a &lt;code&gt;core.oam.dev/v1alpha2/ApplicationConfiguration&lt;/code&gt; resource.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -426,20 +426,20 @@ spec:
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;template&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#applicationconfigurationtemplate&#34;&gt;&lt;code&gt;ApplicationConfigurationTemplate&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#applicationconfigurationtemplate&#34;&gt;ApplicationConfigurationTemplate&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The embedded &lt;code&gt;core.oam.dev/v1alpha2/ApplicationConfiguration&lt;/code&gt; resource.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;placement&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;../placement&#34;&gt;&lt;code&gt;Placement&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;../placement&#34;&gt;Placement&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;Clusters in which the resource is to be placed.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;applicationconfigurationtemplate&#34;&gt;&lt;code&gt;ApplicationConfigurationTemplate&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;ApplicationConfigurationTemplate&lt;/code&gt; has the metadata and spec of the &lt;code&gt;core.oam.dev/v1alpha2/ApplicationConfiguration&lt;/code&gt; resource.&lt;/p&gt;
+&lt;h4 id=&#34;applicationconfigurationtemplate&#34;&gt;ApplicationConfigurationTemplate&lt;/h4&gt;
+&lt;p&gt;ApplicationConfigurationTemplate has the metadata and spec of the &lt;code&gt;core.oam.dev/v1alpha2/ApplicationConfiguration&lt;/code&gt; resource.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -458,8 +458,8 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;ApplicationConfigurationSpec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;An instance of the &lt;code&gt;struct&lt;/code&gt; &lt;code&gt;ApplicationConfigurationSpec&lt;/code&gt; defined in &lt;a href=&#34;https://github.com/crossplane/oam-kubernetes-runtime/blob/master/apis/core/v1alpha2/core_types.go&#34;&gt;core_types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;ApplicationConfigurationSpec&lt;/td&gt;
+&lt;td&gt;An instance of the &lt;code&gt;struct&lt;/code&gt; ApplicationConfigurationSpec defined in &lt;a href=&#34;https://github.com/crossplane/oam-kubernetes-runtime/blob/master/apis/core/v1alpha2/core_types.go&#34;&gt;core_types.go&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -477,7 +477,7 @@ spec:
       <description>
         
         
-        &lt;p&gt;The &lt;code&gt;MultiClusterComponent&lt;/code&gt; custom resource is used to distribute &lt;code&gt;core.oam.dev/v1alpha2/Component&lt;/code&gt; resources in a multicluster environment. Here is a sample &lt;code&gt;MultiClusterComponent&lt;/code&gt; that specifies a OAM component resource to create on the cluster named &lt;code&gt;managed1&lt;/code&gt;.  To deploy an example application that demonstrates a &lt;code&gt;MultiClusterComponent&lt;/code&gt;, see &lt;a href=&#34;../../../docs/samples/multicluster/hello-helidon/&#34;&gt;Multicluster Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
+        &lt;p&gt;The MultiClusterComponent custom resource is used to distribute &lt;code&gt;core.oam.dev/v1alpha2/Component&lt;/code&gt; resources in a multicluster environment. Here is a sample MultiClusterComponent that specifies a OAM component resource to create on the cluster named &lt;code&gt;managed1&lt;/code&gt;.  To deploy an example application that demonstrates a MultiClusterComponent, see &lt;a href=&#34;../../../docs/samples/multicluster/hello-helidon/&#34;&gt;Multicluster Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: clusters.verrazzano.io/v1alpha1
 kind: MultiClusterComponent
 metadata:
@@ -508,8 +508,8 @@ spec:
   placement:
     clusters:
       - name: managed1
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;multiclustercomponent&#34;&gt;&lt;code&gt;MultiClusterComponent&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;A &lt;code&gt;MultiClusterComponent&lt;/code&gt; is an envelope to create &lt;code&gt;core.oam.dev/v1alpha2/Component&lt;/code&gt; resources on the clusters specified in the &lt;code&gt;placement&lt;/code&gt; section.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;multiclustercomponent&#34;&gt;MultiClusterComponent&lt;/h4&gt;
+&lt;p&gt;A MultiClusterComponent is an envelope to create &lt;code&gt;core.oam.dev/v1alpha2/Component&lt;/code&gt; resources on the clusters specified in the &lt;code&gt;placement&lt;/code&gt; section.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -529,7 +529,7 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;kind&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;MultiClusterComponent&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;MultiClusterComponent&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -540,20 +540,20 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#multiclustercomponentspec&#34;&gt;&lt;code&gt;MultiClusterComponentSpec&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#multiclustercomponentspec&#34;&gt;MultiClusterComponentSpec&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The desired state of a &lt;code&gt;core.oam.dev/v1alpha2/Component&lt;/code&gt; resource.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;status&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;../multiclusterresourcestatus&#34;&gt;&lt;code&gt;MultiClusterResourceStatus&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;../multiclusterresourcestatus&#34;&gt;MultiClusterResourceStatus&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The runtime status of a multicluster resource.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;multiclustercomponentspec&#34;&gt;&lt;code&gt;MultiClusterComponentSpec&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;MultiClusterComponentSpec&lt;/code&gt; specifies the desired state of a &lt;code&gt;core.oam.dev/v1alpha2/Component&lt;/code&gt; resource.&lt;/p&gt;
+&lt;h4 id=&#34;multiclustercomponentspec&#34;&gt;MultiClusterComponentSpec&lt;/h4&gt;
+&lt;p&gt;MultiClusterComponentSpec specifies the desired state of a &lt;code&gt;core.oam.dev/v1alpha2/Component&lt;/code&gt; resource.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -566,20 +566,20 @@ spec:
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;template&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#componenttemplate&#34;&gt;&lt;code&gt;ComponentTemplate&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#componenttemplate&#34;&gt;ComponentTemplate&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The embedded &lt;code&gt;core.oam.dev/v1alpha2/Component&lt;/code&gt; resource.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;placement&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;../placement&#34;&gt;&lt;code&gt;Placement&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;../placement&#34;&gt;Placement&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;Clusters in which the resource is to be placed.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;componenttemplate&#34;&gt;&lt;code&gt;ComponentTemplate&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;ComponentTemplate&lt;/code&gt; has the metadata and spec of the &lt;code&gt;core.oam.dev/v1alpha2/Component&lt;/code&gt; resource.&lt;/p&gt;
+&lt;h4 id=&#34;componenttemplate&#34;&gt;ComponentTemplate&lt;/h4&gt;
+&lt;p&gt;ComponentTemplate has the metadata and spec of the &lt;code&gt;core.oam.dev/v1alpha2/Component&lt;/code&gt; resource.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -598,8 +598,8 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;ComponentSpec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;An instance of the &lt;code&gt;struct&lt;/code&gt; &lt;code&gt;ComponentSpec&lt;/code&gt; defined in &lt;a href=&#34;https://github.com/crossplane/oam-kubernetes-runtime/blob/master/apis/core/v1alpha2/core_types.go&#34;&gt;core_types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;ComponentSpec&lt;/td&gt;
+&lt;td&gt;An instance of the &lt;code&gt;struct&lt;/code&gt; ComponentSpec defined in &lt;a href=&#34;https://github.com/crossplane/oam-kubernetes-runtime/blob/master/apis/core/v1alpha2/core_types.go&#34;&gt;core_types.go&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -617,7 +617,7 @@ spec:
       <description>
         
         
-        &lt;p&gt;The &lt;code&gt;MultiClusterConfigMap&lt;/code&gt; custom resource is used to distribute Kubernetes ConfigMap resources in a multicluster environment.  Here is a sample &lt;code&gt;MultiClusterConfigMap&lt;/code&gt; that specifies a Kubernetes ConfigMap to create on the cluster named &lt;code&gt;managed1&lt;/code&gt;.&lt;/p&gt;
+        &lt;p&gt;The MultiClusterConfigMap custom resource is used to distribute Kubernetes ConfigMap resources in a multicluster environment.  Here is a sample MultiClusterConfigMap that specifies a Kubernetes ConfigMap to create on the cluster named &lt;code&gt;managed1&lt;/code&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: clusters.verrazzano.io/v1alpha1
 kind: MultiClusterConfigMap
 metadata:
@@ -633,8 +633,8 @@ spec:
   placement:
     clusters:
       - name: managed1
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;multiclusterconfigmap&#34;&gt;&lt;code&gt;MultiClusterConfigMap&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;A &lt;code&gt;MultiClusterConfigMap&lt;/code&gt; is an envelope to create Kubernetes &lt;code&gt;ConfigMap&lt;/code&gt; resources on the clusters specified in the &lt;code&gt;placement&lt;/code&gt; section.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;multiclusterconfigmap&#34;&gt;MultiClusterConfigMap&lt;/h4&gt;
+&lt;p&gt;A MultiClusterConfigMap is an envelope to create Kubernetes ConfigMap resources on the clusters specified in the &lt;code&gt;placement&lt;/code&gt; section.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -654,7 +654,7 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;kind&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;MultiClusterConfigMap&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;MultiClusterConfigMap&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -665,20 +665,20 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#multiclusterconfigmapspec&#34;&gt;&lt;code&gt;MultiClusterConfigMapSpec&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#multiclusterconfigmapspec&#34;&gt;MultiClusterConfigMapSpec&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The desired state of a Kubernetes ConfigMap.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;status&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;../multiclusterresourcestatus&#34;&gt;&lt;code&gt;MultiClusterResourceStatus&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;../multiclusterresourcestatus&#34;&gt;MultiClusterResourceStatus&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The runtime status of a multicluster resource.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;multiclusterconfigmapspec&#34;&gt;&lt;code&gt;MultiClusterConfigMapSpec&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;MultiClusterConfigMapSpec&lt;/code&gt; specifies the desired state of a Kubernetes ConfigMap.&lt;/p&gt;
+&lt;h4 id=&#34;multiclusterconfigmapspec&#34;&gt;MultiClusterConfigMapSpec&lt;/h4&gt;
+&lt;p&gt;MultiClusterConfigMapSpec specifies the desired state of a Kubernetes ConfigMap.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -691,20 +691,20 @@ spec:
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;template&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#configmaptemplate&#34;&gt;&lt;code&gt;ConfigMapTemplate&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#configmaptemplate&#34;&gt;ConfigMapTemplate&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The embedded Kubernetes ConfigMap.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;placement&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;../placement&#34;&gt;&lt;code&gt;Placement&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;../placement&#34;&gt;Placement&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;Clusters in which the ConfigMap is to be placed.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;configmaptemplate&#34;&gt;&lt;code&gt;ConfigMapTemplate&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;ConfigMapTemplate&lt;/code&gt; has the metadata and spec of the Kubernetes ConfigMap.&lt;/p&gt;
+&lt;h4 id=&#34;configmaptemplate&#34;&gt;ConfigMapTemplate&lt;/h4&gt;
+&lt;p&gt;ConfigMapTemplate has the metadata and spec of the Kubernetes ConfigMap.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -724,19 +724,19 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;immutable&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;*bool&lt;/td&gt;
-&lt;td&gt;Corresponds to the &lt;code&gt;immutable&lt;/code&gt; field of the &lt;code&gt;struct&lt;/code&gt; &lt;code&gt;ConfigMap&lt;/code&gt; defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/core/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;Corresponds to the &lt;code&gt;immutable&lt;/code&gt; field of the &lt;code&gt;struct&lt;/code&gt; ConfigMap defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/core/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;data&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;map[string]string&lt;/td&gt;
-&lt;td&gt;Corresponds to the &lt;code&gt;data&lt;/code&gt; field of the &lt;code&gt;struct&lt;/code&gt; &lt;code&gt;ConfigMap&lt;/code&gt; defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/core/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;Corresponds to the &lt;code&gt;data&lt;/code&gt; field of the &lt;code&gt;struct&lt;/code&gt; ConfigMap defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/core/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;binaryData&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;map[string][]byte&lt;/td&gt;
-&lt;td&gt;Corresponds to the &lt;code&gt;binaryData&lt;/code&gt; field of the &lt;code&gt;struct&lt;/code&gt; &lt;code&gt;ConfigMap&lt;/code&gt;  defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/core/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;Corresponds to the &lt;code&gt;binaryData&lt;/code&gt; field of the &lt;code&gt;struct&lt;/code&gt; ConfigMap  defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/core/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -876,7 +876,7 @@ spec:
       <description>
         
         
-        &lt;p&gt;The &lt;code&gt;MultiClusterSecret&lt;/code&gt; custom resource is used to distribute Kubernetes Secret resources in a multicluster environment.  Here is a sample &lt;code&gt;MultiClusterSecret&lt;/code&gt; that specifies a Kubernetes secret to create on the cluster named &lt;code&gt;managed1&lt;/code&gt;.&lt;/p&gt;
+        &lt;p&gt;The MultiClusterSecret custom resource is used to distribute Kubernetes Secret resources in a multicluster environment.  Here is a sample MultiClusterSecret that specifies a Kubernetes secret to create on the cluster named &lt;code&gt;managed1&lt;/code&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: clusters.verrazzano.io/v1alpha1
 kind: MultiClusterSecret
 metadata:
@@ -891,8 +891,8 @@ spec:
   placement:
     clusters:
       - name: managed1
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;multiclustersecret&#34;&gt;&lt;code&gt;MultiClusterSecret&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;A &lt;code&gt;MultiClusterSecret&lt;/code&gt; is an envelope to create Kubernetes &lt;code&gt;Secret&lt;/code&gt; resources on the clusters specified in the &lt;code&gt;placement&lt;/code&gt; section.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;multiclustersecret&#34;&gt;MultiClusterSecret&lt;/h4&gt;
+&lt;p&gt;A MultiClusterSecret is an envelope to create Kubernetes Secret resources on the clusters specified in the &lt;code&gt;placement&lt;/code&gt; section.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -912,7 +912,7 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;kind&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;MultiClusterSecret&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;MultiClusterSecret&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -923,20 +923,20 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#multiclustersecretspec&#34;&gt;&lt;code&gt;MultiClusterSecretSpec&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#multiclustersecretspec&#34;&gt;MultiClusterSecretSpec&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The desired state of a Kubernetes Secret.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;status&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;../multiclusterresourcestatus&#34;&gt;&lt;code&gt;MultiClusterResourceStatus&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;../multiclusterresourcestatus&#34;&gt;MultiClusterResourceStatus&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The runtime status of a multicluster resource.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;multiclustersecretspec&#34;&gt;&lt;code&gt;MultiClusterSecretSpec&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;MultiClusterSecretSpec&lt;/code&gt; specifies the desired state of a Kubernetes Secret.&lt;/p&gt;
+&lt;h4 id=&#34;multiclustersecretspec&#34;&gt;MultiClusterSecretSpec&lt;/h4&gt;
+&lt;p&gt;MultiClusterSecretSpec specifies the desired state of a Kubernetes Secret.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -949,20 +949,20 @@ spec:
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;template&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#secrettemplate&#34;&gt;&lt;code&gt;SecretTemplate&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#secrettemplate&#34;&gt;SecretTemplate&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The embedded Kubernetes Secret.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;placement&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;../placement&#34;&gt;&lt;code&gt;Placement&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;../placement&#34;&gt;Placement&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;Clusters in which the Secret is to be placed.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;secrettemplate&#34;&gt;&lt;code&gt;SecretTemplate&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;SecretTemplate&lt;/code&gt; has the metadata and spec of the Kubernetes Secret.&lt;/p&gt;
+&lt;h4 id=&#34;secrettemplate&#34;&gt;SecretTemplate&lt;/h4&gt;
+&lt;p&gt;SecretTemplate has the metadata and spec of the Kubernetes Secret.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -982,19 +982,19 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;data&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;map[string][]byte&lt;/td&gt;
-&lt;td&gt;Corresponds to the &lt;code&gt;data&lt;/code&gt; field of the &lt;code&gt;struct&lt;/code&gt; &lt;code&gt;Secret&lt;/code&gt; defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/core/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;Corresponds to the &lt;code&gt;data&lt;/code&gt; field of the &lt;code&gt;struct&lt;/code&gt; Secret defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/core/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;stringData&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;map[string]string&lt;/td&gt;
-&lt;td&gt;Corresponds to the &lt;code&gt;stringData&lt;/code&gt; field of the &lt;code&gt;struct&lt;/code&gt; &lt;code&gt;Secret&lt;/code&gt;  defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/core/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;Corresponds to the &lt;code&gt;stringData&lt;/code&gt; field of the &lt;code&gt;struct&lt;/code&gt; Secret  defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/core/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;type&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;Corresponds to the &lt;code&gt;type&lt;/code&gt; field of the &lt;code&gt;struct&lt;/code&gt; &lt;code&gt;Secret&lt;/code&gt; defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/core/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;Corresponds to the &lt;code&gt;type&lt;/code&gt; field of the &lt;code&gt;struct&lt;/code&gt; Secret defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/core/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -1122,13 +1122,13 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;components&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#Components&#34;&gt;&lt;code&gt;Components&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#Components&#34;&gt;Components&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The Verrazzano components.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h2 id=&#34;components&#34;&gt;&lt;code&gt;Components&lt;/code&gt;&lt;/h2&gt;
+&lt;h2 id=&#34;components&#34;&gt;Components&lt;/h2&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -1141,31 +1141,31 @@ spec:
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;certManager&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#certmanager-component&#34;&gt;&lt;code&gt;CertManagerComponent&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#certmanager-component&#34;&gt;CertManagerComponent&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The cert-manager component configuration.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;dns&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#dns-component&#34;&gt;&lt;code&gt;DNSComponent&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#dns-component&#34;&gt;DNSComponent&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The DNS component configuration.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;ingress&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#ingress-component&#34;&gt;&lt;code&gt;IngressComponent&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#ingress-component&#34;&gt;IngressComponent&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The ingress component configuration.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;istio&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#istio-component&#34;&gt;&lt;code&gt;IstioComponent&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#istio-component&#34;&gt;IstioComponent&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The Istio component configuration.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;certmanager-component&#34;&gt;&lt;code&gt;CertManager&lt;/code&gt; Component&lt;/h3&gt;
+&lt;h3 id=&#34;certmanager-component&#34;&gt;CertManager Component&lt;/h3&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -1178,13 +1178,13 @@ spec:
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;certificate&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#certificate&#34;&gt;&lt;code&gt;Certificate&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#certificate&#34;&gt;Certificate&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The certificate configuration.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;certificate&#34;&gt;&lt;code&gt;Certificate&lt;/code&gt;&lt;/h4&gt;
+&lt;h4 id=&#34;certificate&#34;&gt;Certificate&lt;/h4&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -1203,7 +1203,7 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;ca&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#CertificateAuthority&#34;&gt;&lt;code&gt;CertificateAuthority&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#CertificateAuthority&#34;&gt;CertificateAuthority&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The certificate authority configuration.  Either &lt;code&gt;acme&lt;/code&gt; or &lt;code&gt;ca&lt;/code&gt; must be specified.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
@@ -1234,7 +1234,7 @@ spec:
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;certificateauthority&#34;&gt;&lt;code&gt;CertificateAuthority&lt;/code&gt;&lt;/h4&gt;
+&lt;h4 id=&#34;certificateauthority&#34;&gt;CertificateAuthority&lt;/h4&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -1304,7 +1304,7 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;domain&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;The type of wildcard DNS domain. For example, &lt;code&gt;nip.io&lt;/code&gt;, &lt;code&gt;sslip.io&lt;/code&gt;, etc.&lt;/td&gt;
+&lt;td&gt;The type of wildcard DNS domain. For example, &lt;code&gt;nip.io&lt;/code&gt;, &lt;code&gt;sslip.io&lt;/code&gt;, and such.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -1459,7 +1459,7 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;value&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;The argument value. Either &lt;code&gt;value&lt;/code&gt; or &lt;code&gt;valueList&lt;/code&gt; must be specifed.&lt;/td&gt;
+&lt;td&gt;The argument value. Either &lt;code&gt;value&lt;/code&gt; or &lt;code&gt;valueList&lt;/code&gt; must be specified.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1471,7 +1471,7 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;setString&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;Boolean&lt;/td&gt;
-&lt;td&gt;Specifies if the value is a string&lt;/td&gt;
+&lt;td&gt;Specifies if the value is a string.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -1508,8 +1508,8 @@ spec:
       <description>
         
         
-        &lt;h3 id=&#34;verrazzanocoherenceworkload&#34;&gt;&lt;code&gt;VerrazzanoCoherenceWorkload&lt;/code&gt;&lt;/h3&gt;
-&lt;p&gt;The &lt;code&gt;VerrazzanoCoherenceWorkload&lt;/code&gt; custom resource contains the configuration information for a &lt;a href=&#34;https://oracle.github.io/coherence-operator/docs/3.1.3/#/about/04_coherence_spec&#34;&gt;Coherence&lt;/a&gt; workload within Verrazzano.  Here is a sample component that specifies a &lt;code&gt;VerrazzanoCoherenceWorkload&lt;/code&gt;.  To deploy an example application that demonstrates this workload type, see &lt;a href=&#34;../../../docs/samples/sock-shop/&#34;&gt;Sock Shop&lt;/a&gt;.&lt;/p&gt;
+        &lt;h3 id=&#34;verrazzanocoherenceworkload&#34;&gt;VerrazzanoCoherenceWorkload&lt;/h3&gt;
+&lt;p&gt;The VerrazzanoCoherenceWorkload custom resource contains the configuration information for a &lt;a href=&#34;https://oracle.github.io/coherence-operator/docs/3.1.3/#/about/04_coherence_spec&#34;&gt;Coherence&lt;/a&gt; workload within Verrazzano.  Here is a sample component that specifies a VerrazzanoCoherenceWorkload.  To deploy an example application that demonstrates this workload type, see &lt;a href=&#34;../../../docs/samples/sock-shop/&#34;&gt;Sock Shop&lt;/a&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
 kind: Component
 metadata:
@@ -1551,7 +1551,7 @@ spec:
               port: 7001
               serviceMonitor:
                 enabled: true
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;verrazzanocoherenceworkload-1&#34;&gt;&lt;code&gt;VerrazzanoCoherenceWorkload&lt;/code&gt;&lt;/h4&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;verrazzanocoherenceworkload-1&#34;&gt;VerrazzanoCoherenceWorkload&lt;/h4&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -1571,7 +1571,7 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;kind&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;VerrazzanoCoherenceWorkload&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;VerrazzanoCoherenceWorkload&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1582,14 +1582,14 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#verrazzanocoherenceworkloadspec&#34;&gt;&lt;code&gt;VerrazzanoCoherenceWorkloadSpec&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#verrazzanocoherenceworkloadspec&#34;&gt;VerrazzanoCoherenceWorkloadSpec&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The desired state of a Verrazzano Coherence workload.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;verrazzanocoherenceworkloadspec&#34;&gt;&lt;code&gt;VerrazzanoCoherenceWorkloadSpec&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;VerrazzanoCoherenceWorkloadSpec&lt;/code&gt; specifies the desired state of a Verrazzano Coherence workload.&lt;/p&gt;
+&lt;h4 id=&#34;verrazzanocoherenceworkloadspec&#34;&gt;VerrazzanoCoherenceWorkloadSpec&lt;/h4&gt;
+&lt;p&gt;VerrazzanoCoherenceWorkloadSpec specifies the desired state of a Verrazzano Coherence workload.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -1608,8 +1608,8 @@ spec:
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;verrazzanohelidonworkload&#34;&gt;&lt;code&gt;VerrazzanoHelidonWorkload&lt;/code&gt;&lt;/h3&gt;
-&lt;p&gt;The &lt;code&gt;VerrazzanoHelidonWorkload&lt;/code&gt; custom resource contains the configuration information for a &lt;a href=&#34;https://helidon.io&#34;&gt;Helidon&lt;/a&gt; workload within Verrazzano. Here is a sample component that specifies a &lt;code&gt;VerrazzanoHelidonWorkload&lt;/code&gt;.  To deploy an example application that demonstrates this workload type, see &lt;a href=&#34;../../../docs/samples/hello-world/&#34;&gt;Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;verrazzanohelidonworkload&#34;&gt;VerrazzanoHelidonWorkload&lt;/h3&gt;
+&lt;p&gt;The VerrazzanoHelidonWorkload custom resource contains the configuration information for a &lt;a href=&#34;https://helidon.io&#34;&gt;Helidon&lt;/a&gt; workload within Verrazzano. Here is a sample component that specifies a VerrazzanoHelidonWorkload.  To deploy an example application that demonstrates this workload type, see &lt;a href=&#34;../../../docs/samples/hello-world/&#34;&gt;Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
 kind: Component
 metadata:
@@ -1635,7 +1635,7 @@ spec:
                 - containerPort: 8080
                   name: http
 
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;verrazzanohelidonworkload-1&#34;&gt;&lt;code&gt;VerrazzanoHelidonWorkload&lt;/code&gt;&lt;/h4&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;verrazzanohelidonworkload-1&#34;&gt;VerrazzanoHelidonWorkload&lt;/h4&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -1655,7 +1655,7 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;kind&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;VerrazzanoHelidonWorkload&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;VerrazzanoHelidonWorkload&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1666,14 +1666,14 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#verrazzanohelidonworkloadspec&#34;&gt;&lt;code&gt;VerrazzanoHelidonWorkloadSpec&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#verrazzanohelidonworkloadspec&#34;&gt;VerrazzanoHelidonWorkloadSpec&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The desired state of a Verrazzano Helidon workload.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;verrazzanohelidonworkloadspec&#34;&gt;&lt;code&gt;VerrazzanoHelidonWorkloadSpec&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;VerrazzanoHelidonWorkloadSpec&lt;/code&gt; specifies the desired state of a Verrazzano Helidon workload.&lt;/p&gt;
+&lt;h4 id=&#34;verrazzanohelidonworkloadspec&#34;&gt;VerrazzanoHelidonWorkloadSpec&lt;/h4&gt;
+&lt;p&gt;VerrazzanoHelidonWorkloadSpec specifies the desired state of a Verrazzano Helidon workload.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -1686,14 +1686,14 @@ spec:
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;deploymentTemplate&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#deploymenttemplate&#34;&gt;&lt;code&gt;DeploymentTemplate&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#deploymenttemplate&#34;&gt;DeploymentTemplate&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The embedded deployment.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;deploymenttemplate&#34;&gt;&lt;code&gt;DeploymentTemplate&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;DeploymentTemplate&lt;/code&gt; specifies the metadata and pod spec of the underlying deployment.&lt;/p&gt;
+&lt;h4 id=&#34;deploymenttemplate&#34;&gt;DeploymentTemplate&lt;/h4&gt;
+&lt;p&gt;DeploymentTemplate specifies the metadata and pod spec of the underlying deployment.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -1712,20 +1712,20 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;strategy&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#deploymentstrategy-v1-apps&#34;&gt;&lt;code&gt;DeploymentStrategy&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#deploymentstrategy-v1-apps&#34;&gt;DeploymentStrategy&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The replacement strategy of the underlying deployment.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;podSpec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#podspec-v1-core&#34;&gt;&lt;code&gt;PodSpec&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#podspec-v1-core&#34;&gt;PodSpec&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The pod spec of the underlying deployment.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;verrazzanoweblogicworkload&#34;&gt;&lt;code&gt;VerrazzanoWebLogicWorkload&lt;/code&gt;&lt;/h3&gt;
-&lt;p&gt;The &lt;code&gt;VerrazzanoWebLogicWorkload&lt;/code&gt; custom resource contains the configuration information for a WebLogic &lt;a href=&#34;https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md&#34;&gt;Domain&lt;/a&gt; workload within Verrazzano.  Here is a sample component that specifies a &lt;code&gt;VerrazzanoWebLogicWorkload&lt;/code&gt;.  To deploy an example application that demonstrates this workload type, see the ToDo List &lt;a href=&#34;../../../docs/samples/lift-and-shift/&#34;&gt;Lift-and-Shift&lt;/a&gt; application.&lt;/p&gt;
+&lt;h3 id=&#34;verrazzanoweblogicworkload&#34;&gt;VerrazzanoWebLogicWorkload&lt;/h3&gt;
+&lt;p&gt;The VerrazzanoWebLogicWorkload custom resource contains the configuration information for a WebLogic &lt;a href=&#34;https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md&#34;&gt;Domain&lt;/a&gt; workload within Verrazzano.  Here is a sample component that specifies a VerrazzanoWebLogicWorkload.  To deploy an example application that demonstrates this workload type, see the ToDo List &lt;a href=&#34;../../../docs/samples/lift-and-shift/&#34;&gt;Lift-and-Shift&lt;/a&gt; application.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
 kind: Component
 metadata:
@@ -1770,7 +1770,7 @@ spec:
                 value: /u01/oracle/wlserver
               - name: MW_HOME
                 value: /u01/oracle
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;verrazzanoweblogicworkload-1&#34;&gt;&lt;code&gt;VerrazzanoWebLogicWorkload&lt;/code&gt;&lt;/h4&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;verrazzanoweblogicworkload-1&#34;&gt;VerrazzanoWebLogicWorkload&lt;/h4&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -1790,7 +1790,7 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;kind&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;VerrazzanoWebLogicWorkload&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;VerrazzanoWebLogicWorkload&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1801,14 +1801,14 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#verrazzanoweblogicworkloadspec&#34;&gt;&lt;code&gt;VerrazzanoWebLogicWorkloadSpec&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#verrazzanoweblogicworkloadspec&#34;&gt;VerrazzanoWebLogicWorkloadSpec&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The desired state of a Verrazzano WebLogic workload.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;verrazzanoweblogicworkloadspec&#34;&gt;&lt;code&gt;VerrazzanoWebLogicWorkloadSpec&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;VerrazzanoWebLogicWorkloadSpec&lt;/code&gt; specifies the desired state of a Verrazzano WebLogic workload.&lt;/p&gt;
+&lt;h4 id=&#34;verrazzanoweblogicworkloadspec&#34;&gt;VerrazzanoWebLogicWorkloadSpec&lt;/h4&gt;
+&lt;p&gt;VerrazzanoWebLogicWorkloadSpec specifies the desired state of a Verrazzano WebLogic workload.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -1840,7 +1840,7 @@ spec:
       <description>
         
         
-        &lt;p&gt;The &lt;code&gt;VerrazzanoManagedCluster&lt;/code&gt; custom resource is used to register a managed cluster with an admin cluster.  Here is a sample &lt;code&gt;VerrazzanoManagedCluster&lt;/code&gt; that registers the cluster named &lt;code&gt;managed1&lt;/code&gt;.  To deploy an example application that demonstrates a &lt;code&gt;VerrazzanoManagedCluster&lt;/code&gt;, see &lt;a href=&#34;../../../docs/samples/multicluster/hello-helidon/&#34;&gt;Multicluster Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
+        &lt;p&gt;The VerrazzanoManagedCluster custom resource is used to register a managed cluster with an admin cluster.  Here is a sample VerrazzanoManagedCluster that registers the cluster named &lt;code&gt;managed1&lt;/code&gt;.  To deploy an example application that demonstrates a VerrazzanoManagedCluster, see &lt;a href=&#34;../../../docs/samples/multicluster/hello-helidon/&#34;&gt;Multicluster Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: clusters.verrazzano.io/v1alpha1
 kind: VerrazzanoManagedCluster
 metadata:
@@ -1849,7 +1849,7 @@ metadata:
 spec:
   description: &amp;quot;Managed Cluster 1&amp;quot;
   caSecret: ca-secret-managed1
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;verrazzanomanagedcluster&#34;&gt;&lt;code&gt;VerrazzanoManagedCluster&lt;/code&gt;&lt;/h4&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;verrazzanomanagedcluster&#34;&gt;VerrazzanoManagedCluster&lt;/h4&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -1869,7 +1869,7 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;kind&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;VerrazzanoManagedCluster&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;VerrazzanoManagedCluster&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1880,20 +1880,20 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#verrazzanomanagedclusterspec&#34;&gt;&lt;code&gt;VerrazzanoManagedClusterSpec&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#verrazzanomanagedclusterspec&#34;&gt;VerrazzanoManagedClusterSpec&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The managed cluster specification.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;status&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#verrazzanomanagedclusterstatus&#34;&gt;&lt;code&gt;VerrazzanoManagedClusterStatus&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#verrazzanomanagedclusterstatus&#34;&gt;VerrazzanoManagedClusterStatus&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The runtime status this resource.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;verrazzanomanagedclusterspec&#34;&gt;&lt;code&gt;VerrazzanoManagedClusterSpec&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;VerrazzanoManagedClusterSpec&lt;/code&gt; specifies a managed cluster to associate with an admin cluster.&lt;/p&gt;
+&lt;h4 id=&#34;verrazzanomanagedclusterspec&#34;&gt;VerrazzanoManagedClusterSpec&lt;/h4&gt;
+&lt;p&gt;VerrazzanoManagedClusterSpec specifies a managed cluster to associate with an admin cluster.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -1919,7 +1919,7 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;serviceAccount&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;The name of the &lt;code&gt;ServiceAccount&lt;/code&gt; that was generated for the managed cluster. This field is managed by a Verrazzano Kubernetes operator.&lt;/td&gt;
+&lt;td&gt;The name of the ServiceAccount that was generated for the managed cluster. This field is managed by a Verrazzano Kubernetes operator.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1930,7 +1930,7 @@ spec:
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;verrazzanomanagedclusterstatus&#34;&gt;&lt;code&gt;VerrazzanoManagedClusterStatus&lt;/code&gt;&lt;/h4&gt;
+&lt;h4 id=&#34;verrazzanomanagedclusterstatus&#34;&gt;VerrazzanoManagedClusterStatus&lt;/h4&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -1943,7 +1943,7 @@ spec:
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;conditions&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#condition&#34;&gt;&lt;code&gt;Condition&lt;/code&gt;&lt;/a&gt; array&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#condition&#34;&gt;Condition&lt;/a&gt; array&lt;/td&gt;
 &lt;td&gt;The current state of this resource.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
@@ -1961,8 +1961,8 @@ spec:
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;condition&#34;&gt;&lt;code&gt;Condition&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;Condition&lt;/code&gt; describes current state of this resource.&lt;/p&gt;
+&lt;h4 id=&#34;condition&#34;&gt;Condition&lt;/h4&gt;
+&lt;p&gt;Condition describes current state of this resource.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -1981,8 +1981,8 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;status&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;ConditionStatus&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;An instance of the type &lt;code&gt;ConditionStatus&lt;/code&gt; that is defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/core/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;ConditionStatus&lt;/td&gt;
+&lt;td&gt;An instance of the type ConditionStatus that is defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/core/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2012,7 +2012,7 @@ spec:
       <description>
         
         
-        &lt;p&gt;The &lt;code&gt;VerrazzanoProject&lt;/code&gt; custom resource is used to create the application namespaces and their associated security settings on one or more clusters.  The namespaces are always created on the admin cluster.  Here is a sample &lt;code&gt;VerrazzanoProject&lt;/code&gt; that specifies a namespace to create on the cluster named &lt;code&gt;managed1&lt;/code&gt;.&lt;/p&gt;
+        &lt;p&gt;The VerrazzanoProject custom resource is used to create the application namespaces and their associated security settings on one or more clusters.  The namespaces are always created on the admin cluster.  Here is a sample VerrazzanoProject that specifies a namespace to create on the cluster named &lt;code&gt;managed1&lt;/code&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: clusters.verrazzano.io/v1alpha1
 kind: VerrazzanoProject
 metadata:
@@ -2026,7 +2026,7 @@ spec:
   placement:
     clusters:
       - name: managed1
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;verrazzanoproject&#34;&gt;&lt;code&gt;VerrazzanoProject&lt;/code&gt;&lt;/h4&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;verrazzanoproject&#34;&gt;VerrazzanoProject&lt;/h4&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -2046,7 +2046,7 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;kind&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;VerrazzanoProject&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;VerrazzanoProject&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2057,20 +2057,20 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#verrazzanoprojectspec&#34;&gt;&lt;code&gt;VerrazzanoProjectSpec&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#verrazzanoprojectspec&#34;&gt;VerrazzanoProjectSpec&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The project specification.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;status&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;../multiclusterresourcestatus&#34;&gt;&lt;code&gt;MultiClusterResourceStatus&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;../multiclusterresourcestatus&#34;&gt;MultiClusterResourceStatus&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The runtime status of a multicluster resource.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;verrazzanoprojectspec&#34;&gt;&lt;code&gt;VerrazzanoProjectSpec&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;VerrazzanoProjectSpec&lt;/code&gt; specifies the namespaces to create and on which clusters to create them.&lt;/p&gt;
+&lt;h4 id=&#34;verrazzanoprojectspec&#34;&gt;VerrazzanoProjectSpec&lt;/h4&gt;
+&lt;p&gt;VerrazzanoProjectSpec specifies the namespaces to create and on which clusters to create them.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -2083,20 +2083,20 @@ spec:
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;template&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#projecttemplate&#34;&gt;&lt;code&gt;ProjectTemplate&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#projecttemplate&#34;&gt;ProjectTemplate&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The project template.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;placement&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;../placement&#34;&gt;&lt;code&gt;Placement&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;../placement&#34;&gt;Placement&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;Clusters on which the namespaces are to be created.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;projecttemplate&#34;&gt;&lt;code&gt;ProjectTemplate&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;ProjectTemplate&lt;/code&gt; contains the list of namespaces to create and the optional security configuration for each namespace.&lt;/p&gt;
+&lt;h4 id=&#34;projecttemplate&#34;&gt;ProjectTemplate&lt;/h4&gt;
+&lt;p&gt;ProjectTemplate contains the list of namespaces to create and the optional security configuration for each namespace.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -2109,26 +2109,26 @@ spec:
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;namespaces&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#namespacetemplate&#34;&gt;&lt;code&gt;NamespaceTemplate&lt;/code&gt;&lt;/a&gt; array&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#namespacetemplate&#34;&gt;NamespaceTemplate&lt;/a&gt; array&lt;/td&gt;
 &lt;td&gt;The list of application namespaces to create for this project.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;security&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#securityspec&#34;&gt;&lt;code&gt;SecuritySpec&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#securityspec&#34;&gt;SecuritySpec&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The project security configuration.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;networkPolicies&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#networkpolicytemplate&#34;&gt;&lt;code&gt;NetworkPolicyTemplate&lt;/code&gt;&lt;/a&gt; array&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#networkpolicytemplate&#34;&gt;NetworkPolicyTemplate&lt;/a&gt; array&lt;/td&gt;
 &lt;td&gt;The network policies applied to namespaces in the project.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;namespacetemplate&#34;&gt;&lt;code&gt;NamespaceTemplate&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;NamespaceTemplate&lt;/code&gt; contains the metadata and specification of a Kubernetes namespace.&lt;/p&gt;
+&lt;h4 id=&#34;namespacetemplate&#34;&gt;NamespaceTemplate&lt;/h4&gt;
+&lt;p&gt;NamespaceTemplate contains the metadata and specification of a Kubernetes namespace.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -2147,14 +2147,14 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;NamespaceSpec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;An instance of the &lt;code&gt;struct&lt;/code&gt; &lt;code&gt;NamespaceSpec&lt;/code&gt; defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/core/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;NamespaceSpec&lt;/td&gt;
+&lt;td&gt;An instance of the &lt;code&gt;struct&lt;/code&gt; NamespaceSpec defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/core/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;securityspec&#34;&gt;&lt;code&gt;SecuritySpec&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;SecuritySpec&lt;/code&gt; defines the security configuration for a project.&lt;/p&gt;
+&lt;h4 id=&#34;securityspec&#34;&gt;SecuritySpec&lt;/h4&gt;
+&lt;p&gt;SecuritySpec defines the security configuration for a project.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -2168,19 +2168,19 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;projectAdminSubjects&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;Subject&lt;/td&gt;
-&lt;td&gt;The subject to bind to the &lt;code&gt;verrazzano-project-admin&lt;/code&gt; role. Encoded as an instance of the &lt;code&gt;struct&lt;/code&gt; &lt;code&gt;Subject&lt;/code&gt; defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/rbac/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;The subject to bind to the &lt;code&gt;verrazzano-project-admin&lt;/code&gt; role. Encoded as an instance of the &lt;code&gt;struct&lt;/code&gt; Subject defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/rbac/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;projectMonitorSubjects&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;Subject&lt;/td&gt;
-&lt;td&gt;The subject to bind to the &lt;code&gt;verrazzano-project-monitoring&lt;/code&gt; role. Encoded as an instance of the &lt;code&gt;struct&lt;/code&gt; &lt;code&gt;Subject&lt;/code&gt; defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/rbac/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;The subject to bind to the &lt;code&gt;verrazzano-project-monitoring&lt;/code&gt; role. Encoded as an instance of the &lt;code&gt;struct&lt;/code&gt; Subject defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/rbac/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;networkpolicytemplate&#34;&gt;&lt;code&gt;NetworkPolicyTemplate&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;NetworkPolicyTemplate&lt;/code&gt; contains the metadata and specification of the underlying &lt;code&gt;NetworkPolicy&lt;/code&gt;.&lt;/p&gt;
+&lt;h4 id=&#34;networkpolicytemplate&#34;&gt;NetworkPolicyTemplate&lt;/h4&gt;
+&lt;p&gt;NetworkPolicyTemplate contains the metadata and specification of the underlying NetworkPolicy.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -2199,8 +2199,8 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;NetworkPolicySpec&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;An instance of the &lt;code&gt;struct&lt;/code&gt; &lt;code&gt;NetworkPolicySpec&lt;/code&gt; defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/networking/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;NetworkPolicySpec&lt;/td&gt;
+&lt;td&gt;An instance of the &lt;code&gt;struct&lt;/code&gt; NetworkPolicySpec defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/networking/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
