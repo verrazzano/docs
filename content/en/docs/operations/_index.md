@@ -5,29 +5,58 @@ weight: 5
 draft: false
 ---
 ## Get the consoles URLs
-Verrazzano installs several consoles. Get the ingress for the consoles with the following command:
 
-`$ kubectl get ingress -A`
+Verrazzano installs several consoles. The endpoints for an installation are stored in the `Status` field of the
+installed Verrazzano Custom Resource.
 
-To get the URL, prefix `https://` to the host name returned.
-For example, `https://rancher.myenv.mydomain.com`.
+You can get the endpoints for these consoles by issuing the following command and looking at the `Status.Instance` field:
 
-The following is an example of the ingresses:
+`$ kubectl get vz -o yaml`
+
+Which will result in output similar to the following (output abbreviated to just show the relevant portions):
+
 ```
-   NAMESPACE           NAME                               HOSTS                                          ADDRESS          PORTS     AGE
-   cattle-system       rancher                            rancher.myenv.mydomain.com                     128.234.33.198   80, 443   93m
-   keycloak            keycloak                           keycloak.myenv.mydomain.com                    128.234.33.198   80, 443   69m
-   verrazzano-system   verrazzano-operator-ingress        api.myenv.mydomain.com                         128.234.33.198   80, 443   81m
-   verrazzano-system   vmi-system-api                     api.vmi.system.myenv.mydomain.com              128.234.33.198   80, 443   80m
-   verrazzano-system   vmi-system-es-ingest               elasticsearch.vmi.system.myenv.mydomain.com    128.234.33.198   80, 443   80m
-   verrazzano-system   vmi-system-grafana                 grafana.vmi.system.myenv.mydomain.com          128.234.33.198   80, 443   80m
-   verrazzano-system   vmi-system-kibana                  kibana.vmi.system.myenv.mydomain.com           128.234.33.198   80, 443   80m
-   verrazzano-system   vmi-system-prometheus              prometheus.vmi.system.myenv.mydomain.com       128.234.33.198   80, 443   80m
-   verrazzano-system   vmi-system-prometheus-gw           prometheus-gw.vmi.system.myenv.mydomain.com    128.234.33.198   80, 443   80m
+  ...
+  status:
+    conditions:
+    - lastTransitionTime: "2021-06-30T03:10:00Z"
+      message: Verrazzano install in progress
+      status: "True"
+      type: InstallStarted
+    - lastTransitionTime: "2021-06-30T03:18:33Z"
+      message: Verrazzano install completed successfully
+      status: "True"
+      type: InstallComplete
+    instance:
+      consoleUrl: https://verrazzano.default.172.19.0.231.nip.io
+      elasticUrl: https://elasticsearch.vmi.system.default.172.19.0.231.nip.io
+      grafanaUrl: https://grafana.vmi.system.default.172.19.0.231.nip.io
+      keyCloakUrl: https://keycloak.default.172.19.0.231.nip.io
+      kibanaUrl: https://kibana.vmi.system.default.172.19.0.231.nip.io
+      prometheusUrl: https://prometheus.vmi.system.default.172.19.0.231.nip.io
+      rancherUrl: https://rancher.default.172.19.0.231.nip.io
+    state: Ready
+    version: 0.16.0
+```
+
+If you have `jq` installed, you can use the following command to get them more directly:
+
+`$ kubectl get vz -o jsonpath="{.items[].status.instance}" | jq .`
+
+The following is an example of the output:
+```
+{
+"consoleUrl": "https://verrazzano.default.172.19.0.231.nip.io",
+"elasticUrl": "https://elasticsearch.vmi.system.default.172.19.0.231.nip.io",
+"grafanaUrl": "https://grafana.vmi.system.default.172.19.0.231.nip.io",
+"keyCloakUrl": "https://keycloak.default.172.19.0.231.nip.io",
+"kibanaUrl": "https://kibana.vmi.system.default.172.19.0.231.nip.io",
+"prometheusUrl": "https://prometheus.vmi.system.default.172.19.0.231.nip.io",
+"rancherUrl": "https://rancher.default.172.19.0.231.nip.io"
+}
 ```
 
 ## Get console credentials
-
 
 You will need the credentials to access the consoles installed by Verrazzano.
 
