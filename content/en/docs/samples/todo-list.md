@@ -57,8 +57,7 @@ For more information and the source code of this application, see the [Verrazzan
      -n todo-list
    ```
 
-   Note that the ToDo List example application is preconfigured to use these credentials.
-   If you want to use different credentials, you will need to rebuild the Docker images for the example application.
+   Note that the ToDo List example application is preconfigured to use specific secret names.
    For the source code of this application, see the [Verrazzano Examples](https://github.com/verrazzano/examples).  
 
 1. To deploy the application, apply the example resources.
