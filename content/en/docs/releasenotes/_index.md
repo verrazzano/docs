@@ -5,6 +5,22 @@ weight: 13
 draft: false
 ---
 
+### v0.16.0
+Features:
+- Provided options to configure log volume/mount of log-collector Fluentd, and pre-configured profiles.
+- Automatically enable metrics and log capture for WebLogic domains deployed in Verrazzano.
+- Added security-related data/project YAML files to the Verrazzano console under project details. 
+- Updated WebLogic Kubernetes Operator to 3.2.4.
+- If the `runtimeEncryptionSecret` secret specified in the WebLogic domain spec does not already exist, then create it.
+
+Fixes:
+- Added fix for default metrics traits not always being injected into the `appconfig`. 
+- Updated timestamp in WebLogic application logs so that time filter can be used in Kibana.
+- Corrected the incorrect `podSelector` in node exporter network policy.  
+- Fixed DNS resolution issue due to missing cluster section of the `coredns configmap`.
+- Stability improvements for the platform, tests, and examples.
+- Renamed the Elasticsearch fields in a multicluster registration secret to be consistent.
+
 ### v0.15.0
 Features:
 - Support for private container registries.
