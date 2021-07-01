@@ -76,13 +76,7 @@ To install the Verrazzano platform operator:
 ## Perform the install
 
 Verrazzano supports the following installation profiles:  development (`dev`), production (`prod`), and
-managed cluster (`managed-cluster`).
-- The production profile, which is the default, provides a 3-node Elasticsearch and
-persistent storage for the Verrazzano Monitoring Instance (VMI).
-- The development profile provides a single node Elasticsearch and no persistent storage for the VMI.
-- The managed cluster profile installs only managed cluster
-components of Verrazzano. In order to take full advantage of [multicluster](../../../concepts/verrazzanomulticluster)
-features, the managed cluster should be registered with an admin cluster.
+managed cluster (`managed-cluster`).  See the [Installation Profiles](./profiles.md) document for more details.
 
 To change profiles in any of the following commands, set the `VZ_PROFILE` environment variable to the name of the profile you want to install.
 

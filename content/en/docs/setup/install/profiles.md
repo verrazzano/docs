@@ -15,9 +15,9 @@ The following table lists the available installation profiles for Verrazzano:
 
 | Profile  | Description | Characteristics
 | ------------- |:------------- |:------------- 
-| prod | Full install, production configuration | Persistent storage <br/></br>Production Elasticsearch cluster topology
+| prod | Full install, production configuration | Default Profile<br/><br/>Persistent storage <br/></br>Production Elasticsearch cluster topology
 | dev | A lightweight installation, for evaluation purposes | No persistence<br/><br/>Single-node ES cluster topology
-| managed-cluster | A specialized installation for managed clusters in a Multicluster topology | Minimal install<br/><br/>No local monitoring components<br/><br/>All monitoring data pushed to Admin cluster<br/><br/>No local ATN/ATZ, performed by Admin cluster
+| managed-cluster | A specialized installation for managed clusters in a Multicluster topology<br/><br/>In order to take full advantage of [multicluster](../../../concepts/verrazzanomulticluster) features, the managed cluster should be registered with an admin cluster. | Minimal install<br/><br/>No local monitoring components<br/><br/>All monitoring data pushed to Admin cluster<br/><br/>No local ATN/ATZ, performed by Admin cluster
 
 ### Component Profile Matrix
 
@@ -103,7 +103,7 @@ spec:
       mysql:
         volumeSource:
           persistentVolumeClaim:
-            claimName: mysql  # Use the "mysql" PVC template for the MySQL volume configuration
+            claimName: mysql
   volumeClaimSpecTemplates:
   - metadata:
       name: mysql      
