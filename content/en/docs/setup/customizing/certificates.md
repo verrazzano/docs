@@ -1,7 +1,7 @@
 ---
 title: "Configuring Certificates"
-description: "Configuring Certificates"
-weight: 4
+description: "Configuring SSL Certificates for Verrazzano system and application endpoints"
+weight: 2
 draft: true
 ---
 
