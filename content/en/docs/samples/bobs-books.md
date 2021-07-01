@@ -59,20 +59,14 @@ For more information and the source code of this application, see the [Verrazzan
    Replace `YOUR_REGISTRY_USERNAME`, `YOUR_REGISTRY_PASSWORD`, and `YOUR_REGISTRY_EMAIL`
    with the values you use to access the registry.  
 
-1. Create and label secrets for the WebLogic domains:
+1. Create secrets for the WebLogic domains:
     ```
     # Replace the values of the WLS_USERNAME and WLS_PASSWORD environment variables as appropriate.
     $ export WLS_USERNAME=<username>
     $ export WLS_PASSWORD=<password>
     $ kubectl create secret generic bobbys-front-end-weblogic-credentials --from-literal=password=$WLS_PASSWORD --from-literal=username=$WLS_USERNAME -n bobs-books
 
-    $ kubectl create secret generic bobbys-front-end-runtime-encrypt-secret --from-literal=password=$WLS_PASSWORD -n bobs-books
-    $ kubectl label secret bobbys-front-end-runtime-encrypt-secret weblogic.domainUID=bobbys-front-end -n bobs-books
-
     $ kubectl create secret generic bobs-bookstore-weblogic-credentials --from-literal=password=$WLS_PASSWORD --from-literal=username=$WLS_USERNAME -n bobs-books
-
-    $ kubectl create secret generic bobs-bookstore-runtime-encrypt-secret --from-literal=password=$WLS_PASSWORD -n bobs-books
-    $ kubectl label secret bobs-bookstore-runtime-encrypt-secret weblogic.domainUID=bobs-bookstore -n bobs-books
 
     $ kubectl create secret generic mysql-credentials \
         --from-literal=username=$WLS_USERNAME \

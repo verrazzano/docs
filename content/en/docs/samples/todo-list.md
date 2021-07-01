@@ -52,11 +52,6 @@ For more information and the source code of this application, see the [Verrazzan
      --from-literal=username=derek -n todo-list
 
    $ kubectl -n todo-list label secret tododomain-jdbc-tododb weblogic.domainUID=tododomain
-
-   $ kubectl create secret generic tododomain-runtime-encrypt-secret \
-     --from-literal=password=welcome1 -n todo-list
-
-   $ kubectl -n todo-list label secret tododomain-runtime-encrypt-secret weblogic.domainUID=tododomain
    ```
 
    Note that the ToDo List example application is preconfigured to use these credentials.

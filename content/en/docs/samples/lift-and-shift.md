@@ -22,9 +22,9 @@ The [Initial steps](#initial-steps) create a very simple on-premises domain that
 
 - [Maven](https://maven.apache.org/download.cgi) - to build the application
 
-- [WebLogic Deploy Tooling](https://github.com/oracle/weblogic-deploy-tooling/releases) (WDT) - v1.9.9 or later, to convert the WebLogic Server domain to and from metadata
+- [WebLogic Deploy Tooling](https://github.com/oracle/weblogic-deploy-tooling/releases) (WDT) - v1.9.15 or later, to convert the WebLogic Server domain to and from metadata
 
-- [WebLogic Image Tool](https://github.com/oracle/weblogic-image-tool/releases) (WIT) - v1.9.8 or later, to build the Docker image
+- [WebLogic Image Tool](https://github.com/oracle/weblogic-image-tool/releases) (WIT) - v1.9.13 or later, to build the Docker image
 
 ## Initial steps
 
@@ -190,7 +190,7 @@ The following steps will move the sample domain to Kubernetes with Verrazzano.
 
 ### Create a WDT Model
 
-- If you have not already done so, download v1.9.9 or later of [WebLogic Deploy Tooling](https://github.com/oracle/weblogic-deploy-tooling/releases) (WDT) from GitHub.
+- If you have not already done so, download v1.9.15 or later of [WebLogic Deploy Tooling](https://github.com/oracle/weblogic-deploy-tooling/releases) (WDT) from GitHub.
 - Unzip the installer `weblogic-deploy.zip` file so that you can access `bin/discoverDomain.sh`.
 - To make copying commands easier, define an environment variable for `WDT_HOME` that points to the directory where you installed WebLogic Deploy Tooling.
    ```shell script
@@ -221,21 +221,11 @@ To create a reusable model of the application and domain, use WDT to create a me
   ```
 
 You will find the following files in `./v8o`:
-- `application.yaml` - Verrazzano application configuration and component file; you can view a sample generated file [here](../application.yaml)
+- `create_k8s_secrets.sh` - A helper script with `kubectl` commands to apply the Kubernetes secrets needed for this domain
+- `vz-application.yaml` - Verrazzano application configuration and component file
+- `vz_variable.properties` - A set of properties extracted from the WDT domain model
 - `wdt-archive.zip` - The WDT archive file containing the ToDo List application WAR file
 - `wdt-model.yaml` - The WDT model of the WebLogic Server domain
-- `vz_variable.properties` - A set of properties extracted from the WDT domain model
-- `create_k8s_secrets.sh` - A helper script with `kubectl` commands to apply the Kubernetes secrets needed for this domain
-
-**NOTE:** Due to a bug in WDT v1.9.9, you need to make the following edits (preferably using an editor like `vi`) to the generated `application.yaml` file:
-* Delete the line between the copyright headers and the first `apiVersion`.
-
-   ![edit1](../../images/application-edit-1.png?thumbnail)
-
-* Delete the empty `clusters` field from the `tododomain` Domain component.
-
-   ![edit2](../../images/application-edit-2.png#thumbnail)
-
 
 If you chose to skip the [Access the application](#access-the-application) step and did not verify that the ToDo List application was deployed, then you should verify that you see the `todo.war` file inside the `wdt-archive.zip` file.  If you do not see the WAR file, there was something wrong in your deployment of the application on WebLogic Server that will require additional troubleshooting in your domain.
 
@@ -294,7 +284,7 @@ $ $WIT_HOME/bin/imagetool.sh create \
   --wdtModel ./wdt-model.yaml \
   --wdtArchive ./wdt-archive.zip \
   --wdtVariables ./vz_variable.properties \
-  --resourceTemplates=./application.yaml \
+  --resourceTemplates=./vz-application.yaml \
   --wdtModelOnly
 ```
 
@@ -306,13 +296,13 @@ If everything worked correctly, it is time to push that image to the container r
 the image from Kubernetes. You can use the Oracle Cloud Infrastructure Registry (OCIR) as your repository for this
 example, but most Docker compliant registries should work.
 
-The variables in the `application.yaml` resource template should be resolved with information from the image tool build.  
-Verify this by looking in the `v8o/application.yaml` file to make sure that the `image: {{{imageName}}}` value has been
+The variables in the `vz-application.yaml` resource template should be resolved with information from the image tool build.  
+Verify this by looking in the `v8o/vz-application.yaml` file to make sure that the `image: {{{imageName}}}` value has been
 set with the given `--tag` value.
 
 Push the image to your repo.
 
-**NOTE:** The image name must be the same as what is in the `application.yaml` file under
+**NOTE:** The image name must be the same as what is in the `vz-application.yaml` file under
 `spec > workload > spec > image` for the `tododomain-domain` component.
 
 ```shell script
@@ -328,8 +318,8 @@ These include:
 1. Creating and labeling the `tododomain` namespace.
 1. Creating the necessary secrets required by the ToDo List application.
 1. Deploying MySQL to the `tododomain` namespace.
-1. Updating the `application.yaml` file to use the Verrazzano MySQL deployment and (optionally) expose the WLS Console.
-1. Applying the `application.yaml` file.
+1. Updating the `vz-application.yaml` file to use the Verrazzano MySQL deployment and (optionally) expose the WLS Console.
+1. Applying the `vz-application.yaml` file.
 
 The following steps assume that you have a Kubernetes cluster and that [Verrazzano]({{< relref "/quickstart.md#install-verrazzano" >}}) is already installed in that cluster.
 
@@ -372,7 +362,7 @@ $ sh ./create_k8s_secrets.sh
 ```
 
 Verrazzano will need a credential to pull the image that you just created, so you need to create one more secret.
-The name for this credential can be changed in the `component.yaml` file to anything you like, but it defaults to `tododomain-registry-credentials`.
+The name for this credential can be changed in the `vz-application.yaml` file to anything you like, but it defaults to `tododomain-registry-credentials`.
 
 Assuming that you leave the name `tododomain-registry-credentials`, you will need to run a `kubectl create secret` command similar to the following:
 ```shell script
@@ -386,7 +376,7 @@ $ kubectl create secret docker-registry tododomain-registry-credentials \
 
 #### Update the application configuration
 
-Update the generated `application.yaml` file for the `todo` application to:
+Update the generated `vz-application.yaml` file for the `todo` application to:
 
 * Update the `tododomain-configmap` component to use the in-cluster MySQL service URL `jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb` to access the database.
 
@@ -407,16 +397,16 @@ Update the generated `application.yaml` file for the `todo` application to:
                       pathType: Prefix
 ```
 
-The file  [application-modified.yaml](../application-modified.yaml) is an example of a modified [application.yaml](../application.yaml) file.  A diff of these
+The file  [vz-application-modified.yaml](../vz-application-modified.yaml) is an example of a modified [vz-application.yaml](../vz-application.yaml) file.  A diff of these
 two sample files is shown:
 
 ```shell
-$ diff application.yaml application-modified.yaml
-27a28,30
+$ diff vz-application.yaml vz-application-modified.yaml
+26a27,29
 >                     # WLS console
 >                     - path: "/console"
 >                       pathType: Prefix
-105c108
+102c105
 <                   URL: "jdbc:mysql://localhost:3306/tododb"
 ---
 >                   URL: "jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb"
@@ -451,7 +441,7 @@ mysql-5cfd58477b-mg5c7          1/1     Running             0          2s
 Finally, run `kubectl apply` to apply the Verrazzano component and Verrazzano application configuration files to start your domain.
 
 ```shell script
-$ kubectl apply -f application.yaml
+$ kubectl apply -f vz-application.yaml
 ```
 
 This will:
