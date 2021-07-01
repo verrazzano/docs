@@ -43,20 +43,18 @@ For more information and the source code of this application, see the [Verrazzan
 
 1. Create and label secrets for the WebLogic domain:
    ```
-   $ kubectl create secret generic tododomain-weblogic-credentials \
-     --from-literal=password=welcome1 \
-     --from-literal=username=weblogic -n todo-list
+   # Replace the values of the WLS_USERNAME and WLS_PASSWORD environment variables as appropriate.
+   $ export WLS_USERNAME=<username>
+   $ export WLS_PASSWORD=<password>
+   $ kubectl create secret generic tododomain-weblogic-credentials --from-literal=password=$WLS_PASSWORD --from-literal=username=$WLS_USERNAME -n todo-list
 
-   $ kubectl create secret generic tododomain-jdbc-tododb \
-     --from-literal=password=welcome1 \
-     --from-literal=username=derek -n todo-list
-
+   $ kubectl create secret generic tododomain-runtime-encrypt-secret --from-literal=password=$WLS_PASSWORD -n todo-list
    $ kubectl -n todo-list label secret tododomain-jdbc-tododb weblogic.domainUID=tododomain
 
-   $ kubectl create secret generic tododomain-runtime-encrypt-secret \
-     --from-literal=password=welcome1 -n todo-list
-
-   $ kubectl -n todo-list label secret tododomain-runtime-encrypt-secret weblogic.domainUID=tododomain
+   $ kubectl create secret generic tododomain-jdbc-tododb \
+     --from-literal=username=$WLS_USERNAME \
+     --from-literal=password=$WLS_PASSWORD \
+     -n todo-list
    ```
 
    Note that the ToDo List example application is preconfigured to use these credentials.
