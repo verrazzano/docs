@@ -1,11 +1,11 @@
 ---
-title: "Configuring Certificates"
-description: "Configuring SSL Certificates for Verrazzano system and application endpoints"
+title: "Customizing Certificates"
+description: "Customizing SSL certificate generation for Verrazzano system and application endpoints"
 weight: 2
 draft: true
 ---
 
-This page describes how to configure SSL certificates to be used with Verrazzano services and deployed applications.
+This document describes how to configure SSL certificates for use with Verrazzano services and deployed applications.
 
 Verrazzano can be configured to issue certificates to secure external access to the system and application endpoints in
 the following configurations:

@@ -1,11 +1,11 @@
 ---
-title: "Installation Profiles"
-description: "Named Verrazzano configurations"
+title: "Install Profiles"
+description: "Using named Verrazzano configurations to simplify an installation"
 weight: 2
-draft: true
+draft: false
 ---
 
-This page describes built-in configuration profiles that can be used to simplify a Verrazzano install.  An installation
+This document describes built-in configuration profiles that you can use to simplify a Verrazzano installation.  An installation
 profile is a well-known configuration of Verrazzano settings that can be referenced by name, which can then be 
 customized as needed.
 
@@ -15,9 +15,9 @@ The following table lists the available installation profiles for Verrazzano:
 
 | Profile  | Description | Characteristics
 | ------------- |:------------- |:------------- 
-| prod | Full install, production configuration | Default Profile<br/><br/>Persistent storage <br/></br>Production Elasticsearch cluster topology
-| dev | A lightweight installation, for evaluation purposes | No persistence<br/><br/>Single-node ES cluster topology
-| managed-cluster | A specialized installation for managed clusters in a Multicluster topology<br/><br/>In order to take full advantage of [multicluster](../../../concepts/verrazzanomulticluster) features, the managed cluster should be registered with an admin cluster. | Minimal install<br/><br/>No local monitoring components<br/><br/>All monitoring data pushed to Admin cluster<br/><br/>No local ATN/ATZ, performed by Admin cluster
+| prod | Full install, production configuration | Default Profile<br/>- Persistent storage <br/>- Production Elasticsearch cluster topology
+| dev | Development/Evaluation configuration | Lightweight installation<br/>- For evaluation purposes<br/>- No persistence<br/>- Single-node Elasticsearch cluster topology
+| managed-cluster | A specialized installation for managed clusters in a Multicluster topology<br/>- In order to take full advantage of [multicluster](../../../concepts/verrazzanomulticluster) features, the managed cluster should be registered with an admin cluster. | Minimal install<br/>- No local monitoring components<br/>- All monitoring data pushed to Admin cluster<br/>- No local ATN/ATZ, performed by Admin cluster
 
 ### Component Profile Matrix
 
@@ -40,9 +40,7 @@ customize any Verrazzano install, regardless of the profile used.
 
 ## Profile Examples
 
-### dev Profile
-
-Basic `dev` profile:
+### Basic dev Profile
 
 ```
 apiVersion: install.verrazzano.io/v1alpha1
@@ -53,9 +51,7 @@ spec:
   profile: dev
 ```
 
-### prod Profile
-
-Basic `prod` profile:
+### Basic prod Profile
 
 ```
 apiVersion: install.verrazzano.io/v1alpha1
@@ -66,9 +62,7 @@ spec:
   profile: prod
 ```
 
-### managed-cluster Profile
-
-Basic `managed-cluster` profile:
+### Basic managed-cluster Profile
 
 ```
 apiVersion: install.verrazzano.io/v1alpha1

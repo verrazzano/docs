@@ -57,7 +57,7 @@ EOF
 
 While experimenting or developing with Verrazzano, you may end up destroying and re-creating your KIND cluster multiple
 times.  To speed up the Verrazzano install process you can follow these steps to ensure that the image cache used by 
-containerd inside of a KIND is preserved across clusters. Subsequent installs will be faster than the first install, 
+containerd inside a KIND cluster is preserved across clusters. Subsequent installs will be faster than the first install, 
 because they will not need to pull the images again.
 
 1\. Create a named Docker volume that will be used for the image cache, and note its `Mountpoint` path. In this example, the volume is named `containerd`.
