@@ -9,9 +9,9 @@ draft: false
 Features:
 - Provided options to configure log volume/mount of log-collector Fluentd, and pre-configured profiles.
 - Automatically enable metrics and log capture for WebLogic domains deployed in Verrazzano.
-- Added security related data/project YAML files to the Verrazzano console under project details. 
+- Added security-related data/project YAML files to the Verrazzano console under project details. 
 - Updated WebLogic Kubernetes Operator to 3.2.4.
-- If the `runtimeEncryptionSecret` secret specified in the WebLogic domain spec does not already exist then create it.
+- If the `runtimeEncryptionSecret` secret specified in the WebLogic domain spec does not already exist, then create it.
 
 Fixes:
 - Added fix for default metrics traits not always being injected into the `appconfig`. 
