@@ -1,6 +1,6 @@
 ---
-title: "Installation Guide"
-description: "How to install and uninstall Verrazzano"
+title: "Install Guide"
+description: "How to install Verrazzano"
 weight: 1
 draft: false
 ---
@@ -221,21 +221,3 @@ weblogic-operator-7db5cdcf59-qxsr9                       1/1     Running   0    
 Example applications are located [here]({{< relref "/docs/samples/_index.md" >}}).
 
 ##### To get the consoles URLs and credentials, see [Access Verrazzano]({{< relref "/docs/operations/_index.md" >}}).
-
-## Uninstall Verrazzano
-
-To delete Verrazzano installations:
-
-```
-# Get the name of the Verrazzano custom resource
-$ kubectl get verrazzano
-
-# Delete the Verrazzano custom resource
-$ kubectl delete verrazzano <name of custom resource>
-```
-
-To monitor the console log of the uninstall:
-
-```
-$ kubectl logs -f $(kubectl get pod -l job-name=verrazzano-uninstall-my-verrazzano -o jsonpath="{.items[0].metadata.name}")
-```

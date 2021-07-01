@@ -13,7 +13,7 @@ You can get the endpoints for these consoles by issuing the following command an
 
 `$ kubectl get vz -o yaml`
 
-Which will result in output similar to the following (output abbreviated to just show the relevant portions):
+This results in output similar to the following (output abbreviated to show only the relevant portions):
 
 ```
   ...
@@ -28,31 +28,29 @@ Which will result in output similar to the following (output abbreviated to just
       status: "True"
       type: InstallComplete
     instance:
-      consoleUrl: https://verrazzano.default.172.19.0.231.nip.io
-      elasticUrl: https://elasticsearch.vmi.system.default.172.19.0.231.nip.io
-      grafanaUrl: https://grafana.vmi.system.default.172.19.0.231.nip.io
-      keyCloakUrl: https://keycloak.default.172.19.0.231.nip.io
-      kibanaUrl: https://kibana.vmi.system.default.172.19.0.231.nip.io
-      prometheusUrl: https://prometheus.vmi.system.default.172.19.0.231.nip.io
-      rancherUrl: https://rancher.default.172.19.0.231.nip.io
-    state: Ready
-    version: 0.16.0
+      consoleUrl: https://verrazzano.default.11.22.33.44.nip.io
+      elasticUrl: https://elasticsearch.vmi.system.default.11.22.33.44.nip.io
+      grafanaUrl: https://grafana.vmi.system.default.11.22.33.44.nip.io
+      keyCloakUrl: https://keycloak.default.11.22.33.44.nip.io
+      kibanaUrl: https://kibana.vmi.system.default.11.22.33.44.nip.io
+      prometheusUrl: https://prometheus.vmi.system.default.11.22.33.44.nip.io
+      rancherUrl: https://rancher.default.11.22.33.44.nip.io
 ```
 
-If you have `jq` installed, you can use the following command to get them more directly:
+If you have `jq` installed, you can use the following command to get the instance URLs more directly:
 
 `$ kubectl get vz -o jsonpath="{.items[].status.instance}" | jq .`
 
 The following is an example of the output:
 ```
 {
-"consoleUrl": "https://verrazzano.default.172.19.0.231.nip.io",
-"elasticUrl": "https://elasticsearch.vmi.system.default.172.19.0.231.nip.io",
-"grafanaUrl": "https://grafana.vmi.system.default.172.19.0.231.nip.io",
-"keyCloakUrl": "https://keycloak.default.172.19.0.231.nip.io",
-"kibanaUrl": "https://kibana.vmi.system.default.172.19.0.231.nip.io",
-"prometheusUrl": "https://prometheus.vmi.system.default.172.19.0.231.nip.io",
-"rancherUrl": "https://rancher.default.172.19.0.231.nip.io"
+"consoleUrl": "https://verrazzano.default.11.22.33.44.nip.io",
+"elasticUrl": "https://elasticsearch.vmi.system.default.11.22.33.44.nip.io",
+"grafanaUrl": "https://grafana.vmi.system.default.11.22.33.44.nip.io",
+"keyCloakUrl": "https://keycloak.default.11.22.33.44.nip.io",
+"kibanaUrl": "https://kibana.vmi.system.default.11.22.33.44.nip.io",
+"prometheusUrl": "https://prometheus.vmi.system.default.11.22.33.44.nip.io",
+"rancherUrl": "https://rancher.default.11.22.33.44.nip.io"
 }
 ```
 

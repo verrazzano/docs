@@ -16,7 +16,7 @@ KIND clusters has more details on setting up MetalLB [here]({{< relref "/docs/se
 
 ### Customizations
 
-Verrazzano is highly customizable.  If your Kubernetes implementation requires custom configuration, see [Customizing Installations](../../customizing).
+Verrazzano is highly customizable.  If your Kubernetes implementation requires custom configuration, see [Customizing Installations](/docs/setup/install/customizing).
 
 ## Next steps
 
