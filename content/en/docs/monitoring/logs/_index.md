@@ -14,7 +14,7 @@ The Verrazzano logging stack consists of Fluentd, Elasticsearch, and Kibana comp
 
 As shown in the following diagram, logs written to stdout by a container running on Kubernetes are picked up by the kubelet service running on that node and written to `/var/log/containers`.
 
-![Logging](../../images/loggingResized.png)
+![Logging](../../images/logging.png)
 
 
 ## Fluentd sidecar
