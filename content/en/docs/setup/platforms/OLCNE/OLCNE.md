@@ -168,9 +168,9 @@ $ for x in {0001..0009}; do sudo mkdir -p /mnt/pv${x} && sudo chmod 777 /mnt/pv$
 
 ##### Persistent Volumes
 A default Kubernetes storage class is required by Verrazzano.
-When using pre-allocated `PersistentVolumes`, for example NFS, persistent volumes should be declared as following.
-The value for `name` may be customized but will need to match the `PersistentVolume` `storageClassName` value later.
-* Create a default `StorageClass`
+When using pre-allocated PersistentVolumes, for example NFS, persistent volumes should be declared as following.
+The value for `name` may be customized but will need to match the PersistentVolume `storageClassName` value later.
+* Create a default StorageClass
   ```
   $ cat << EOF | kubectl apply -f -
     apiVersion: storage.k8s.io/v1
@@ -183,7 +183,7 @@ The value for `name` may be customized but will need to match the `PersistentVol
     volumeBindingMode: WaitForFirstConsumer
   EOF
   ```
-* Create the required number of `PersistentVolume` resources.
+* Create the required number of PersistentVolume resources.
   The Verrazzano system requires five persistent volumes for itself.
   The following command creates nine persistent volumes.
   The value for `storageClassName` must match the above `StorageClass` name.

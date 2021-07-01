@@ -12,7 +12,7 @@ Metrics sources expose system and application metrics.
 The Prometheus components retrieve and store the metrics and Grafana provides dashboards to
 visualize them.
 
-![Metrics](../../../images/metrics.png)
+![Metrics](../../../images/metricsResized.png)
 
 ### Metrics sources
 
