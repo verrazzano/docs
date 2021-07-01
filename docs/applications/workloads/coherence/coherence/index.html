@@ -21,10 +21,10 @@
 <meta property="og:description" content="Using a Coherence workload in an application" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/applications/workloads/coherence/coherence/" />
-<meta property="article:modified_time" content="2021-06-28T13:08:56-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-07-01T08:11:47-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Coherence Workload">
 <meta itemprop="description" content="Using a Coherence workload in an application">
-<meta itemprop="dateModified" content="2021-06-28T13:08:56-04:00" />
+<meta itemprop="dateModified" content="2021-07-01T08:11:47-04:00" />
 <meta itemprop="wordCount" content="1232">
 
 
@@ -1360,9 +1360,9 @@ application with Coherence is provisioned, Verrazzano configures the default log
 metrics for the Coherence cluster.  Logs are sent to Elasticsearch and metrics to Prometheus.<br>
 You can view this telemetry data using the Kibana and Grafana consoles.</p>
 <h2 id="oam-component">OAM component</h2>
-<p>The custom resource YAML file for the Coherence cluster is specified as a <code>VerrazzanoCoherenceWorkload</code> custom resource.
+<p>The custom resource YAML file for the Coherence cluster is specified as a VerrazzanoCoherenceWorkload custom resource.
 In the following example, everything under the <code>spec:</code> section is standard Coherence resource YAML that you would typically use
-to provision a Coherence cluster.  Including this component reference in your <code>ApplicationConfiguration</code> will result
+to provision a Coherence cluster.  Including this component reference in your ApplicationConfiguration will result
 in a new Coherence cluster being provisioned.  You can have multiple clusters in the same application with no conflict.</p>
 <pre><code>apiVersion: core.oam.dev/v1alpha2
 kind: Component
@@ -1381,22 +1381,22 @@ spec:
           cluster: SockShop
           ...
 </code></pre><h3 id="life-cycle">Life cycle</h3>
-<p>With Verrazzano, you manage the life cycle of applications using <code>Component</code> and <code>ApplicationConfiguration</code> resources.
+<p>With Verrazzano, you manage the life cycle of applications using Component and ApplicationConfiguration resources.
 Typically, you would modify the Coherence cluster resource to make changes or to do lifecycle operations,
 like scale in and scale out.  However, in the Verrazzano environment, the cluster resource is owned by the
 Verrazzano application operator and will be reconciled to match the component workload resource.  Therefore,
 you need to manage the cluster configuration by modifying the resource, either by <code>kubectl edit</code> or applying a new YAML file. Verrazzano
-will notice that the <code>Component</code> resource changed and will update the Coherence resource as needed.</p>
+will notice that the Component resource changed and will update the Coherence resource as needed.</p>
 <h4 id="provisioning">Provisioning</h4>
 <p>When you apply the component YAML  file shown previously, Kubernetes will create a <code>component.oam.verrazzano.io</code> resource, but
-the Coherence cluster will not be created until you create the <code>ApplicationConfiguration</code> resource, which references
+the Coherence cluster will not be created until you create the ApplicationConfiguration resource, which references
 the Coherence component.  When the application is created, Verrazzano creates a Coherence custom resource for each
 cluster, which is subsequently processed by the Coherence operator, resulting in a new cluster.  After a cluster
 is created, the Coherence operator will monitor the Coherence resource to reconcile the state of the cluster. You can
 add a new Coherence workload to a running application, or remove an existing workload, by modifying
-the <code>ApplicationConfiguration</code> resource, and adding or removing the Coherence component.</p>
+the ApplicationConfiguration resource, and adding or removing the Coherence component.</p>
 <h4 id="scaling">Scaling</h4>
-<p>Scaling a Coherence cluster is done by modifying the replicas field in the <code>Component</code> resource.  Verrazzano
+<p>Scaling a Coherence cluster is done by modifying the replicas field in the Component resource.  Verrazzano
 will modify the Coherence resource replicas field and the cluster will be scaled accordingly.  The following example
 configuration shows the <code>replicas</code> field that specifies the number of pods in the cluster.</p>
 <pre><code>apiVersion: core.oam.dev/v1alpha2
@@ -1418,8 +1418,8 @@ spec:
           ...
 </code></pre><p><strong>NOTE:</strong> A Coherence cluster provisioned with Verrazzano does not support autoscaling with a Horizontal Pod Autoscaler.</p>
 <h4 id="termination">Termination</h4>
-<p>You can terminate the Coherence cluster by removing the component from the <code>ApplicationConfiguration</code> or by
-deleting the <code>ApplicationConfiguration</code> resource entirely.</p>
+<p>You can terminate the Coherence cluster by removing the component from the ApplicationConfiguration or by
+deleting the ApplicationConfiguration resource entirely.</p>
 
 
 <div class="alert alert-warning" role="alert">
@@ -1465,8 +1465,8 @@ metrics will still be scraped, but not at the default endpoint.</p>
               port: 7001
               serviceMonitor:
                 enabled: true
-</code></pre><p>Because <code>sock-shop</code> components are  not using the default Coherence metrics port, you must add a <code>MetricsTrait</code> section
-to the <code>ApplicationConfiguration</code> for each component, specifying the metrics port as follows:</p>
+</code></pre><p>Because <code>sock-shop</code> components are  not using the default Coherence metrics port, you must add a MetricsTrait section
+to the ApplicationConfiguration for each component, specifying the metrics port as follows:</p>
 <pre><code>        - trait:
             apiVersion: oam.verrazzano.io/v1alpha1
             kind: MetricsTrait
@@ -1590,7 +1590,7 @@ components in your application running in an Istio mesh.</p>
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified June 28, 2021: <a  href="../../../../../commit/99209860dde4097e66508f1dbd3aba1e4e27f76c">overall edit (#159) (9920986)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified July 1, 2021: <a  href="../../../../../commit/07a8b170647d31c32bd90345d82aff67d72c2311">fix formatting (#165) (07a8b17)</a>
 </div>
 </div>
 
