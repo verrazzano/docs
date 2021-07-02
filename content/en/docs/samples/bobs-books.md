@@ -133,6 +133,38 @@ For more information and the source code of this application, see the [Verrazzan
 
       * Bob's order manager UI at `https://<your-bobs-orders-host.your.domain>/`.
 
+## Access bobs-bookstore WebLogic Server Administration Console
+
+1. Setup port forwarding
+   ```
+   $ kubectl port-forward pods/bobs-bookstore-adminserver 7001:7001 -n bobs-books
+   ```
+
+1. Access the WebLogic Server Administration Console from your browser
+   ```
+   http://localhost:7001/console
+   ```
+
+{{< alert title="NOTE" color="tip" >}}
+It is recommended that the WebLogic Server Administration Console not be exposed publicly.
+{{< /alert >}}
+
+## Access bobbys-front-end WebLogic Server Administration Console
+
+1. Setup port forwarding
+   ```
+   $ kubectl port-forward pods/bobbys-front-end-adminserver 7001:7001 -n bobs-books
+   ```
+
+1. Access the WebLogic Server Administration Console from your browser
+   ```
+   http://localhost:7001/console
+   ```
+
+{{< alert title="NOTE" color="tip" >}}
+It is recommended that the WebLogic Server Administration Console not be exposed publicly.
+{{< /alert >}}
+
 ## Troubleshooting
 
 1. Verify that the application configuration, domains, Coherence resources, and ingress trait all exist.

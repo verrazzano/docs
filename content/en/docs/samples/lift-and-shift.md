@@ -390,23 +390,13 @@ Update the generated `vz-application.yaml` file for the `todo` application to:
                     # This is the URL of the database used by the WebLogic Server application
                     URL: "jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb"
 ```
-* (Optional) Add a path in the `tododomain-domain` `IngressTrait` to allow access to the WebLogic Server Administration Console.
-```yaml
-                    # WLS console
-                    - path: "/console"
-                      pathType: Prefix
-```
 
 The file  [vz-application-modified.yaml](../vz-application-modified.yaml) is an example of a modified [vz-application.yaml](../vz-application.yaml) file.  A diff of these
 two sample files is shown:
 
 ```shell
 $ diff vz-application.yaml vz-application-modified.yaml
-26a27,29
->                     # WLS console
->                     - path: "/console"
->                       pathType: Prefix
-102c105
+102c102
 <                   URL: "jdbc:mysql://localhost:3306/tododb"
 ---
 >                   URL: "jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb"
@@ -475,12 +465,24 @@ tododomain-adminserver   4/4     Running   0          5m
    ```
    https://tododomain-appconf.tododomain.11.22.33.44.nip.io/todo/rest/items/init
    ```
+
 1. Access the application
    ```
    http://tododomain-appconf.tododomain.11.22.33.44.nip.io/todo
    ```
 
-1. (Optional) Access the WebLogic Server Administration Console
+#### Access the WebLogic Server Administration Console
+
+1. Setup port forwarding
    ```
-   http://tododomain-appconf.tododomain.11.22.33.44.nip.io/console
+   $ kubectl port-forward pods/tododomain-adminserver 7001:7001 -n tododomain
    ```
+
+1. Access the WebLogic Server Administration Console from your browser
+   ```
+   http://localhost:7001/console
+   ```
+
+{{< alert title="NOTE" color="tip" >}}
+It is recommended that the WebLogic Server Administration Console not be exposed publicly.
+{{< /alert >}}

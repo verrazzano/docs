@@ -142,6 +142,22 @@ For more information and the source code of this application, see the [Verrazzan
    | Grafana     | `https://[vmi-system-grafana ingress host]`    | `verrazzano`/`telemetry-password` |
    | Prometheus  | `https://[vmi-system-prometheus ingress host]` | `verrazzano`/`telemetry-password` |
 
+## Access the WebLogic Server Administration Console
+
+1. Setup port forwarding
+   ```
+   $ kubectl port-forward pods/tododomain-adminserver 7001:7001 -n todo-list
+   ```
+
+1. Access the WebLogic Server Administration Console from your browser
+   ```
+   http://localhost:7001/console
+   ```
+ 
+{{< alert title="NOTE" color="tip" >}}
+It is recommended that the WebLogic Server Administration Console not be exposed publicly.
+{{< /alert >}}
+
 ## Troubleshooting
 
 1. Verify that the application configuration, domain, and ingress trait all exist.
