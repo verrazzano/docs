@@ -21,11 +21,11 @@
 <meta property="og:description" content="An example application containing a WebLogic component" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/samples/todo-list/" />
-<meta property="article:modified_time" content="2021-06-17T16:38:35-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-07-02T13:43:21-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="ToDo List">
 <meta itemprop="description" content="An example application containing a WebLogic component">
-<meta itemprop="dateModified" content="2021-06-17T16:38:35-04:00" />
-<meta itemprop="wordCount" content="794">
+<meta itemprop="dateModified" content="2021-07-02T13:43:21-04:00" />
+<meta itemprop="wordCount" content="816">
 
 
 
@@ -105,7 +105,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.534e8a3f65a7861b05bff8985a32a30e.json"
+  data-offline-search-index-json-src="../../../offline-search-index.663a4a7c71deb12de8efd38b7009e856.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -137,7 +137,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.534e8a3f65a7861b05bff8985a32a30e.json"
+  data-offline-search-index-json-src="../../../offline-search-index.663a4a7c71deb12de8efd38b7009e856.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -1287,6 +1287,7 @@ if (!doNotTrack) {
       <ul>
         <li><a href="#before-you-begin">Before you begin</a></li>
         <li><a href="#deploy-the-todo-list-application">Deploy the ToDo List application</a></li>
+        <li><a href="#access-the-weblogic-server-administration-console">Access the WebLogic Server Administration Console</a></li>
         <li><a href="#troubleshooting">Troubleshooting</a></li>
       </ul>
     </li>
@@ -1384,11 +1385,6 @@ $ kubectl create secret generic tododomain-jdbc-tododb \
   --from-literal=username=derek -n todo-list
 
 $ kubectl -n todo-list label secret tododomain-jdbc-tododb weblogic.domainUID=tododomain
-
-$ kubectl create secret generic tododomain-runtime-encrypt-secret \
-  --from-literal=password=welcome1 -n todo-list
-
-$ kubectl -n todo-list label secret tododomain-runtime-encrypt-secret weblogic.domainUID=tododomain
 </code></pre><p>Note that the ToDo List example application is preconfigured to use these credentials.
 If you want to use different credentials, you will need to rebuild the Docker images for the example application.
 For the source code of this application, see the <a href="https://github.com/verrazzano/examples">Verrazzano Examples</a>.</p>
@@ -1502,6 +1498,24 @@ vmi-system-prometheus        &lt;none&gt;   prometheus.vmi.system.default.140.14
 </table>
 </li>
 </ol>
+<h2 id="access-the-weblogic-server-administration-console">Access the WebLogic Server Administration Console</h2>
+<ol>
+<li>
+<p>Setup port forwarding</p>
+<pre><code>$ kubectl port-forward pods/tododomain-adminserver 7001:7001 -n todo-list
+</code></pre></li>
+<li>
+<p>Access the WebLogic Server Administration Console from your browser</p>
+<pre><code>http://localhost:7001/console
+</code></pre></li>
+</ol>
+
+
+<div class="alert alert-tip" role="alert">
+<h4 class="alert-heading">NOTE</h4>
+It is recommended that the WebLogic Server Administration Console not be exposed publicly.
+</div>
+
 <h2 id="troubleshooting">Troubleshooting</h2>
 <ol>
 <li>
@@ -1593,7 +1607,7 @@ tododomain-adminserver   2/2     Running   0          19h
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified June 17, 2021: <a  href="../../../commit/830e6c79141eaa5e6f72ed8c43254cdf8f0bd192">docs re-org (#141) (830e6c7)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified July 2, 2021: <a  href="../../../commit/309761fe8bb65f23bfe934d81428e2cefafb22d6">Update docs for the WLS examples (#169) (309761f)</a>
 </div>
 </div>
 

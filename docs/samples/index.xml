@@ -424,10 +424,10 @@ of all application-specific Kubernetes objects.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://maven.apache.org/download.cgi&#34;&gt;Maven&lt;/a&gt; - to build the application&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/oracle/weblogic-deploy-tooling/releases&#34;&gt;WebLogic Deploy Tooling&lt;/a&gt; (WDT) - v1.9.9 or later, to convert the WebLogic Server domain to and from metadata&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/oracle/weblogic-deploy-tooling/releases&#34;&gt;WebLogic Deploy Tooling&lt;/a&gt; (WDT) - v1.9.15 or later, to convert the WebLogic Server domain to and from metadata&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/oracle/weblogic-image-tool/releases&#34;&gt;WebLogic Image Tool&lt;/a&gt; (WIT) - v1.9.8 or later, to build the Docker image&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/oracle/weblogic-image-tool/releases&#34;&gt;WebLogic Image Tool&lt;/a&gt; (WIT) - v1.9.13 or later, to build the Docker image&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;initial-steps&#34;&gt;Initial steps&lt;/h2&gt;
@@ -619,7 +619,7 @@ that you selected &lt;code&gt;AdminServer&lt;/code&gt; as the data source target
 &lt;p&gt;The following steps will move the sample domain to Kubernetes with Verrazzano.&lt;/p&gt;
 &lt;h3 id=&#34;create-a-wdt-model&#34;&gt;Create a WDT Model&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;If you have not already done so, download v1.9.9 or later of &lt;a href=&#34;https://github.com/oracle/weblogic-deploy-tooling/releases&#34;&gt;WebLogic Deploy Tooling&lt;/a&gt; (WDT) from GitHub.&lt;/li&gt;
+&lt;li&gt;If you have not already done so, download v1.9.15 or later of &lt;a href=&#34;https://github.com/oracle/weblogic-deploy-tooling/releases&#34;&gt;WebLogic Deploy Tooling&lt;/a&gt; (WDT) from GitHub.&lt;/li&gt;
 &lt;li&gt;Unzip the installer &lt;code&gt;weblogic-deploy.zip&lt;/code&gt; file so that you can access &lt;code&gt;bin/discoverDomain.sh&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;To make copying commands easier, define an environment variable for &lt;code&gt;WDT_HOME&lt;/code&gt; that points to the directory where you installed WebLogic Deploy Tooling.
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt; $ &lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;WDT_HOME&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;/install/directory
@@ -646,22 +646,11 @@ $ &lt;span style=&#34;color:#000&#34;&gt;$WDT_HOME&lt;/span&gt;/bin/discoverDoma
 &lt;/ul&gt;
 &lt;p&gt;You will find the following files in &lt;code&gt;./v8o&lt;/code&gt;:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;application.yaml&lt;/code&gt; - Verrazzano application configuration and component file; you can view a sample generated file &lt;a href=&#34;../application.yaml&#34;&gt;here&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;create_k8s_secrets.sh&lt;/code&gt; - A helper script with &lt;code&gt;kubectl&lt;/code&gt; commands to apply the Kubernetes secrets needed for this domain&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;vz-application.yaml&lt;/code&gt; - Verrazzano application configuration and component file&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;vz_variable.properties&lt;/code&gt; - A set of properties extracted from the WDT domain model&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;wdt-archive.zip&lt;/code&gt; - The WDT archive file containing the ToDo List application WAR file&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;wdt-model.yaml&lt;/code&gt; - The WDT model of the WebLogic Server domain&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;vz_variable.properties&lt;/code&gt; - A set of properties extracted from the WDT domain model&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;create_k8s_secrets.sh&lt;/code&gt; - A helper script with &lt;code&gt;kubectl&lt;/code&gt; commands to apply the Kubernetes secrets needed for this domain&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; Due to a bug in WDT v1.9.9, you need to make the following edits (preferably using an editor like &lt;code&gt;vi&lt;/code&gt;) to the generated &lt;code&gt;application.yaml&lt;/code&gt; file:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Delete the line between the copyright headers and the first &lt;code&gt;apiVersion&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;../../images/application-edit-1.png?thumbnail&#34; alt=&#34;edit1&#34;&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Delete the empty &lt;code&gt;clusters&lt;/code&gt; field from the &lt;code&gt;tododomain&lt;/code&gt; Domain component.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;../../images/application-edit-2.png#thumbnail&#34; alt=&#34;edit2&#34;&gt;&lt;/p&gt;
-&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;If you chose to skip the &lt;a href=&#34;#access-the-application&#34;&gt;Access the application&lt;/a&gt; step and did not verify that the ToDo List application was deployed, then you should verify that you see the &lt;code&gt;todo.war&lt;/code&gt; file inside the &lt;code&gt;wdt-archive.zip&lt;/code&gt; file.  If you do not see the WAR file, there was something wrong in your deployment of the application on WebLogic Server that will require additional troubleshooting in your domain.&lt;/p&gt;
 &lt;h3 id=&#34;create-a-docker-image&#34;&gt;Create a Docker image&lt;/h3&gt;
@@ -713,7 +702,7 @@ $ &lt;span style=&#34;color:#000&#34;&gt;$WIT_HOME&lt;/span&gt;/bin/imagetool.sh
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --wdtModel ./wdt-model.yaml &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --wdtArchive ./wdt-archive.zip &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --wdtVariables ./vz_variable.properties &lt;span style=&#34;color:#4e9a06&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --resourceTemplates&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;./application.yaml &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --resourceTemplates&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;./vz-application.yaml &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --wdtModelOnly
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;imagetool create&lt;/code&gt; command will have created a local Docker image and updated the Verrazzano model with the domain home
 and image name.  Check your Docker images for the tag that you used in the &lt;code&gt;create&lt;/code&gt; command using &lt;code&gt;docker images&lt;/code&gt; from the Docker
@@ -721,11 +710,11 @@ CLI.&lt;/p&gt;
 &lt;p&gt;If everything worked correctly, it is time to push that image to the container registry that Verrazzano will use to access
 the image from Kubernetes. You can use the Oracle Cloud Infrastructure Registry (OCIR) as your repository for this
 example, but most Docker compliant registries should work.&lt;/p&gt;
-&lt;p&gt;The variables in the &lt;code&gt;application.yaml&lt;/code&gt; resource template should be resolved with information from the image tool build.&lt;br&gt;
-Verify this by looking in the &lt;code&gt;v8o/application.yaml&lt;/code&gt; file to make sure that the &lt;code&gt;image: {{{imageName}}}&lt;/code&gt; value has been
+&lt;p&gt;The variables in the &lt;code&gt;vz-application.yaml&lt;/code&gt; resource template should be resolved with information from the image tool build.&lt;br&gt;
+Verify this by looking in the &lt;code&gt;v8o/vz-application.yaml&lt;/code&gt; file to make sure that the &lt;code&gt;image: {{{imageName}}}&lt;/code&gt; value has been
 set with the given &lt;code&gt;--tag&lt;/code&gt; value.&lt;/p&gt;
 &lt;p&gt;Push the image to your repo.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The image name must be the same as what is in the &lt;code&gt;application.yaml&lt;/code&gt; file under
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The image name must be the same as what is in the &lt;code&gt;vz-application.yaml&lt;/code&gt; file under
 &lt;code&gt;spec &amp;gt; workload &amp;gt; spec &amp;gt; image&lt;/code&gt; for the &lt;code&gt;tododomain-domain&lt;/code&gt; component.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ docker push your/repo/todo:1
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;deploy-to-verrazzano&#34;&gt;Deploy to Verrazzano&lt;/h3&gt;
@@ -736,8 +725,8 @@ the application into a Verrazzano environment.&lt;/p&gt;
 &lt;li&gt;Creating and labeling the &lt;code&gt;tododomain&lt;/code&gt; namespace.&lt;/li&gt;
 &lt;li&gt;Creating the necessary secrets required by the ToDo List application.&lt;/li&gt;
 &lt;li&gt;Deploying MySQL to the &lt;code&gt;tododomain&lt;/code&gt; namespace.&lt;/li&gt;
-&lt;li&gt;Updating the &lt;code&gt;application.yaml&lt;/code&gt; file to use the Verrazzano MySQL deployment and (optionally) expose the WLS Console.&lt;/li&gt;
-&lt;li&gt;Applying the &lt;code&gt;application.yaml&lt;/code&gt; file.&lt;/li&gt;
+&lt;li&gt;Updating the &lt;code&gt;vz-application.yaml&lt;/code&gt; file to use the Verrazzano MySQL deployment and (optionally) expose the WLS Console.&lt;/li&gt;
+&lt;li&gt;Applying the &lt;code&gt;vz-application.yaml&lt;/code&gt; file.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;The following steps assume that you have a Kubernetes cluster and that &lt;a href=&#34;../../docs/quickstart/#install-verrazzano&#34;&gt;Verrazzano&lt;/a&gt; is already installed in that cluster.&lt;/p&gt;
 &lt;h4 id=&#34;label-the-namespace&#34;&gt;Label the namespace&lt;/h4&gt;
@@ -767,7 +756,7 @@ $ create_k8s_secret runtime-encryption-secret welcome1
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Then run the script:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ sh ./create_k8s_secrets.sh
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Verrazzano will need a credential to pull the image that you just created, so you need to create one more secret.
-The name for this credential can be changed in the &lt;code&gt;component.yaml&lt;/code&gt; file to anything you like, but it defaults to &lt;code&gt;tododomain-registry-credentials&lt;/code&gt;.&lt;/p&gt;
+The name for this credential can be changed in the &lt;code&gt;vz-application.yaml&lt;/code&gt; file to anything you like, but it defaults to &lt;code&gt;tododomain-registry-credentials&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Assuming that you leave the name &lt;code&gt;tododomain-registry-credentials&lt;/code&gt;, you will need to run a &lt;code&gt;kubectl create secret&lt;/code&gt; command similar to the following:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl create secret docker-registry tododomain-registry-credentials &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --docker-server&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;phx.ocir.io &lt;span style=&#34;color:#4e9a06&#34;&gt;\
@@ -776,7 +765,7 @@ The name for this credential can be changed in the &lt;code&gt;component.yaml&lt
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --docker-password&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;passwordForUsername&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --namespace&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;tododomain
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;update-the-application-configuration&#34;&gt;Update the application configuration&lt;/h4&gt;
-&lt;p&gt;Update the generated &lt;code&gt;application.yaml&lt;/code&gt; file for the &lt;code&gt;todo&lt;/code&gt; application to:&lt;/p&gt;
+&lt;p&gt;Update the generated &lt;code&gt;vz-application.yaml&lt;/code&gt; file for the &lt;code&gt;todo&lt;/code&gt; application to:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Update the &lt;code&gt;tododomain-configmap&lt;/code&gt; component to use the in-cluster MySQL service URL &lt;code&gt;jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb&lt;/code&gt; to access the database.&lt;/li&gt;
 &lt;/ul&gt;
@@ -788,20 +777,10 @@ The name for this credential can be changed in the &lt;code&gt;component.yaml&lt
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;JDBCDriverParams&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                    &lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# This is the URL of the database used by the WebLogic Server application&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;URL&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
-&lt;li&gt;(Optional) Add a path in the &lt;code&gt;tododomain-domain&lt;/code&gt; &lt;code&gt;IngressTrait&lt;/code&gt; to allow access to the WebLogic Server Administration Console.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                    &lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# WLS console&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                    &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;path&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;/console&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;pathType&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;Prefix&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The file  &lt;a href=&#34;../application-modified.yaml&#34;&gt;application-modified.yaml&lt;/a&gt; is an example of a modified &lt;a href=&#34;../application.yaml&#34;&gt;application.yaml&lt;/a&gt; file.  A diff of these
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The file  &lt;a href=&#34;../vz-application-modified.yaml&#34;&gt;vz-application-modified.yaml&lt;/a&gt; is an example of a modified &lt;a href=&#34;../vz-application.yaml&#34;&gt;vz-application.yaml&lt;/a&gt; file.  A diff of these
 two sample files is shown:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ diff application.yaml application-modified.yaml
-27a28,30
-&amp;gt;                     &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# WLS console&lt;/span&gt;
-&amp;gt;                     - path: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;/console&amp;#34;&lt;/span&gt;
-&amp;gt;                       pathType: Prefix
-105c108
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ diff vz-application.yaml vz-application-modified.yaml
+102c102
 &amp;lt;                   URL: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;jdbc:mysql://localhost:3306/tododb&amp;#34;&lt;/span&gt;
 ---
 &amp;gt;                   URL: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb&amp;#34;&lt;/span&gt;
@@ -821,7 +800,7 @@ mysql-5cfd58477b-mg5c7          0/1     ContainerCreating   &lt;span style=&#34;
 mysql-5cfd58477b-mg5c7          1/1     Running             &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;          2s
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;deploy-the-todo-list-application&#34;&gt;Deploy the ToDo List application&lt;/h4&gt;
 &lt;p&gt;Finally, run &lt;code&gt;kubectl apply&lt;/code&gt; to apply the Verrazzano component and Verrazzano application configuration files to start your domain.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f application.yaml
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f vz-application.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This will:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Create the application component resources for the ToDo List application.&lt;/li&gt;
@@ -834,37 +813,41 @@ pod/tododomain-adminserver condition met
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get pod -n tododomain
 NAME                     READY   STATUS    RESTARTS   AGE
 mysql-55bb4c4565-c8zf5   1/1     Running   &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;          8m
-tododomain-adminserver   2/2     Running   &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;          5m
+tododomain-adminserver   4/4     Running   &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;          5m
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;access-the-application-from-your-browser&#34;&gt;Access the application from your browser&lt;/h4&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;Get the &lt;code&gt;EXTERNAL_IP&lt;/code&gt; address of the &lt;code&gt;istio-ingressgateway&lt;/code&gt; service.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get service istio-ingressgateway -n istio-system
-
-NAME                   TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S)                      AGE
-istio-ingressgateway   LoadBalancer   10.96.97.98   11.22.33.44   80:31380/TCP,443:31390/TCP   13d
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The IP address is listed in the &lt;code&gt;EXTERNAL-IP&lt;/code&gt; column.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Add an entry to &lt;code&gt;/etc/hosts&lt;/code&gt; for the application hostname for the ingress gateway external IP.&lt;/p&gt;
-&lt;p&gt;Temporarily modify the &lt;code&gt;/etc/hosts&lt;/code&gt; file (on Mac or Linux)
-or &lt;code&gt;c:\Windows\System32\Drivers\etc\hosts&lt;/code&gt; file (on Windows 10),
-to add an entry mapping &lt;code&gt;todo.example.com&lt;/code&gt; to the ingress gateway&amp;rsquo;s &lt;code&gt;EXTERNAL-IP&lt;/code&gt; address.&lt;/p&gt;
-&lt;p&gt;For example:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;11.22.33.44 tododomain-appconf.tododomain.example.com
+&lt;p&gt;Get the generated host name for the application.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl get gateway tododomain-tododomain-appconf-gw -n tododomain -o jsonpath={.spec.servers[0].hosts[0]}
+tododomain-appconf.tododomain.11.22.33.44.nip.io
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Initialize the database by accessing the &lt;code&gt;init&lt;/code&gt; URL.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ curl http://tododomain-appconf.tododomain.example.com/todo/rest/items/init
-ToDos table initialized.
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;pre&gt;&lt;code&gt;https://tododomain-appconf.tododomain.11.22.33.44.nip.io/todo/rest/items/init
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Access the application in a browser at &lt;a href=&#34;http://tododomain-appconf.tododomain.example.com/todo&#34;&gt;http://tododomain-appconf.tododomain.example.com/todo&lt;/a&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;(Optional) Access the WebLogic Server Administration Console at &lt;a href=&#34;http://tododomain-appconf.tododomain.example.com/console&#34;&gt;http://tododomain-appconf.tododomain.example.com/console&lt;/a&gt;.&lt;/p&gt;
-&lt;/li&gt;
+&lt;p&gt;Access the application&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;http://tododomain-appconf.tododomain.11.22.33.44.nip.io/todo
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ol&gt;
+&lt;h4 id=&#34;access-the-weblogic-server-administration-console&#34;&gt;Access the WebLogic Server Administration Console&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Setup port forwarding&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl port-forward pods/tododomain-adminserver 7001:7001 -n tododomain
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Access the WebLogic Server Administration Console from your browser&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;http://localhost:7001/console
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;div class=&#34;alert alert-tip&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+It is recommended that the WebLogic Server Administration Console not be exposed publicly.
+&lt;/div&gt;
+
 
       </description>
     </item>
@@ -1439,11 +1422,6 @@ $ kubectl create secret generic tododomain-jdbc-tododb \
   --from-literal=username=derek -n todo-list
 
 $ kubectl -n todo-list label secret tododomain-jdbc-tododb weblogic.domainUID=tododomain
-
-$ kubectl create secret generic tododomain-runtime-encrypt-secret \
-  --from-literal=password=welcome1 -n todo-list
-
-$ kubectl -n todo-list label secret tododomain-runtime-encrypt-secret weblogic.domainUID=tododomain
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that the ToDo List example application is preconfigured to use these credentials.
 If you want to use different credentials, you will need to rebuild the Docker images for the example application.
 For the source code of this application, see the &lt;a href=&#34;https://github.com/verrazzano/examples&#34;&gt;Verrazzano Examples&lt;/a&gt;.&lt;/p&gt;
@@ -1557,6 +1535,24 @@ vmi-system-prometheus        &amp;lt;none&amp;gt;   prometheus.vmi.system.defaul
 &lt;/table&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
+&lt;h2 id=&#34;access-the-weblogic-server-administration-console&#34;&gt;Access the WebLogic Server Administration Console&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Setup port forwarding&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl port-forward pods/tododomain-adminserver 7001:7001 -n todo-list
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Access the WebLogic Server Administration Console from your browser&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;http://localhost:7001/console
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;div class=&#34;alert alert-tip&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+It is recommended that the WebLogic Server Administration Console not be exposed publicly.
+&lt;/div&gt;
+
 &lt;h2 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
@@ -1650,19 +1646,13 @@ $ kubectl label namespace bobs-books verrazzano-managed=true istio-injection=ena
 with the values you use to access the registry.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Create and label secrets for the WebLogic domains:&lt;/p&gt;
+&lt;p&gt;Create secrets for the WebLogic domains:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;# Replace the values of the WLS_USERNAME and WLS_PASSWORD environment variables as appropriate.
 $ export WLS_USERNAME=&amp;lt;username&amp;gt;
 $ export WLS_PASSWORD=&amp;lt;password&amp;gt;
 $ kubectl create secret generic bobbys-front-end-weblogic-credentials --from-literal=password=$WLS_PASSWORD --from-literal=username=$WLS_USERNAME -n bobs-books
 
-$ kubectl create secret generic bobbys-front-end-runtime-encrypt-secret --from-literal=password=$WLS_PASSWORD -n bobs-books
-$ kubectl label secret bobbys-front-end-runtime-encrypt-secret weblogic.domainUID=bobbys-front-end -n bobs-books
-
 $ kubectl create secret generic bobs-bookstore-weblogic-credentials --from-literal=password=$WLS_PASSWORD --from-literal=username=$WLS_USERNAME -n bobs-books
-
-$ kubectl create secret generic bobs-bookstore-runtime-encrypt-secret --from-literal=password=$WLS_PASSWORD -n bobs-books
-$ kubectl label secret bobs-bookstore-runtime-encrypt-secret weblogic.domainUID=bobs-bookstore -n bobs-books
 
 $ kubectl create secret generic mysql-credentials \
     --from-literal=username=$WLS_USERNAME \
@@ -1745,6 +1735,42 @@ Then, you can use a browser to access the application, as shown:&lt;/p&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
+&lt;h2 id=&#34;access-bobs-bookstore-weblogic-server-administration-console&#34;&gt;Access bobs-bookstore WebLogic Server Administration Console&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Setup port forwarding&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl port-forward pods/bobs-bookstore-adminserver 7001:7001 -n bobs-books
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Access the WebLogic Server Administration Console from your browser&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;http://localhost:7001/console
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;div class=&#34;alert alert-tip&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+It is recommended that the WebLogic Server Administration Console not be exposed publicly.
+&lt;/div&gt;
+
+&lt;h2 id=&#34;access-bobbys-front-end-weblogic-server-administration-console&#34;&gt;Access bobbys-front-end WebLogic Server Administration Console&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Setup port forwarding&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl port-forward pods/bobbys-front-end-adminserver 7001:7001 -n bobs-books
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Access the WebLogic Server Administration Console from your browser&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;http://localhost:7001/console
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;div class=&#34;alert alert-tip&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+It is recommended that the WebLogic Server Administration Console not be exposed publicly.
+&lt;/div&gt;
+
 &lt;h2 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
