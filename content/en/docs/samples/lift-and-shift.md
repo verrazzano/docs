@@ -460,38 +460,27 @@ Verify the pods are in the `Running` state:
 $ kubectl get pod -n tododomain
 NAME                     READY   STATUS    RESTARTS   AGE
 mysql-55bb4c4565-c8zf5   1/1     Running   0          8m
-tododomain-adminserver   2/2     Running   0          5m
+tododomain-adminserver   4/4     Running   0          5m
 ```
 
 #### Access the application from your browser
 
-1. Get the `EXTERNAL_IP` address of the `istio-ingressgateway` service.
+1. Get the generated host name for the application.
    ```
-   $ kubectl get service istio-ingressgateway -n istio-system
-
-   NAME                   TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S)                      AGE
-   istio-ingressgateway   LoadBalancer   10.96.97.98   11.22.33.44   80:31380/TCP,443:31390/TCP   13d
+   $ kubectl get gateway tododomain-tododomain-appconf-gw -n tododomain -o jsonpath={.spec.servers[0].hosts[0]}
+   tododomain-appconf.tododomain.11.22.33.44.nip.io
    ```
-
-    The IP address is listed in the `EXTERNAL-IP` column.
-
-1. Add an entry to `/etc/hosts` for the application hostname for the ingress gateway external IP.
-
-   Temporarily modify the `/etc/hosts` file (on Mac or Linux)
-   or `c:\Windows\System32\Drivers\etc\hosts` file (on Windows 10),
-   to add an entry mapping `todo.example.com` to the ingress gateway's `EXTERNAL-IP` address.
-
-
-    For example:
-     ```
-     11.22.33.44 tododomain-appconf.tododomain.example.com
-     ```
 
 1. Initialize the database by accessing the `init` URL.
-   ```shell
-   $ curl http://tododomain-appconf.tododomain.example.com/todo/rest/items/init
-   ToDos table initialized.
    ```
-1. Access the application in a browser at http://tododomain-appconf.tododomain.example.com/todo.
+   https://tododomain-appconf.tododomain.11.22.33.44.nip.io/todo/rest/items/init
+   ```
+1. Access the application
+   ```
+   http://tododomain-appconf.tododomain.11.22.33.44.nip.io/todo
+   ```
 
-1. (Optional) Access the WebLogic Server Administration Console at http://tododomain-appconf.tododomain.example.com/console.
+1. (Optional) Access the WebLogic Server Administration Console
+   ```
+   http://tododomain-appconf.tododomain.11.22.33.44.nip.io/console
+   ```
