@@ -1,5 +1,6 @@
 # Copyright (c) 2020, 2021, Oracle and/or its affiliates.
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
+
 apiVersion: core.oam.dev/v1alpha2
 kind: ApplicationConfiguration
 metadata:
@@ -22,9 +23,7 @@ spec:
             kind: IngressTrait
             spec:
               rules:
-                - hosts:
-                    - "tododomain-appconf.tododomain.example.com"
-                  paths:
+                - paths:
                     # application todo
                     - path: "/todo"
                       pathType: Prefix
@@ -37,50 +36,48 @@ metadata:
   namespace: tododomain
 spec:
   workload:
-    apiVersion: weblogic.oracle/v8
-    kind: Domain
-    metadata:
-      name: tododomain-domain
-      namespace: tododomain
+    apiVersion: oam.verrazzano.io/v1alpha1
+    kind: VerrazzanoWebLogicWorkload
     spec:
-      domainUID: tododomain
+      template:
+        metadata:
+          name: tododomain-domain
+          namespace: tododomain
+        spec:
+          domainUID: tododomain
 
-      # WebLogic Image Tool provides domainHome, domainHomeSourceType, and imageName
-      domainHome: /u01/domains/base_domain
-      domainHomeSourceType: FromModel
-      image: your/repo/todo:1
+          # WebLogic Image Tool provides domainHome, domainHomeSourceType, and imageName
+          domainHome: /u01/domains/base_domain
+          domainHomeSourceType: FromModel
+          image: your/repo/todo:1
 
-      imagePullSecrets:
-        - name: tododomain-registry-credentials
+          imagePullSecrets:
+            - name: tododomain-registry-credentials
+          includeServerOutInPodLog: true
+          webLogicCredentialsSecret:
+            name: tododomain-weblogic-credentials
+          configuration:
+            introspectorJobActiveDeadlineSeconds: 900
+            model:
+              configMap: tododomain-configmap
+              domainType: WLS
 
-      logHomeEnabled: true
-      includeServerOutInPodLog: true
-      webLogicCredentialsSecret:
-        name: tododomain-weblogic-credentials
-      configuration:
-        istio:
-          enabled: false
-        introspectorJobActiveDeadlineSeconds: 900
-        model:
-          configMap: tododomain-configmap
-          domainType: WLS
+              # WebLogic Image Tool provides modelHome
+              modelHome: /u01/wdt/models
 
-          # WebLogic Image Tool provides modelHome
-          modelHome: /u01/wdt/models
+              # encryption for the WDT model and the SystemSerializedIni.data file.
+              # used only for model-in-image deployment, can be removed for other types.
+              runtimeEncryptionSecret: tododomain-runtime-encryption-secret
 
-          # encryption for the WDT model and the SystemSerializedIni.data file.
-          # used only for model-in-image deployment, can be removed for other types.
-          runtimeEncryptionSecret: tododomain-runtime-encryption-secret
+            secrets:
+              - tododomain-jdbc-tododb
 
-        secrets:
-          - tododomain-jdbc-tododb
-
-      serverPod:
-        env:
-          - name: JAVA_OPTIONS
-            value: "-Dweblogic.StdoutDebugEnabled=false"
-          - name: USER_MEM_ARGS
-            value: "-Djava.security.egd=file:/dev/./urandom -Xms64m -Xmx256m "
+          serverPod:
+            env:
+              - name: JAVA_OPTIONS
+                value: "-Dweblogic.StdoutDebugEnabled=false"
+              - name: USER_MEM_ARGS
+                value: "-Djava.security.egd=file:/dev/./urandom -Xms64m -Xmx256m "
 ---
 apiVersion: core.oam.dev/v1alpha2
 kind: Component

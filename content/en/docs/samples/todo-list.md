@@ -52,11 +52,6 @@ For more information and the source code of this application, see the [Verrazzan
      --from-literal=username=derek -n todo-list
 
    $ kubectl -n todo-list label secret tododomain-jdbc-tododb weblogic.domainUID=tododomain
-
-   $ kubectl create secret generic tododomain-runtime-encrypt-secret \
-     --from-literal=password=welcome1 -n todo-list
-
-   $ kubectl -n todo-list label secret tododomain-runtime-encrypt-secret weblogic.domainUID=tododomain
    ```
 
    Note that the ToDo List example application is preconfigured to use these credentials.
@@ -146,6 +141,22 @@ For more information and the source code of this application, see the [Verrazzan
    | Kibana      | `https://[vmi-system-kibana ingress host]`     | `verrazzano`/`telemetry-password` |
    | Grafana     | `https://[vmi-system-grafana ingress host]`    | `verrazzano`/`telemetry-password` |
    | Prometheus  | `https://[vmi-system-prometheus ingress host]` | `verrazzano`/`telemetry-password` |
+
+## Access the WebLogic Server Administration Console
+
+1. Setup port forwarding
+   ```
+   $ kubectl port-forward pods/tododomain-adminserver 7001:7001 -n todo-list
+   ```
+
+1. Access the WebLogic Server Administration Console from your browser
+   ```
+   http://localhost:7001/console
+   ```
+ 
+{{< alert title="NOTE" color="tip" >}}
+It is recommended that the WebLogic Server Administration Console not be exposed publicly.
+{{< /alert >}}
 
 ## Troubleshooting
 
