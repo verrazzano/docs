@@ -6,45 +6,109 @@ Weight: 10
 draft: false
 ---
 
-By default, each Verrazzano install profile has different storage characteristics.  The following components allow for persistent 
-storage usage (expressed through `PersistentVolumeClaim` declarations in their `resources/helm` charts):
+The following components allow for persistent storage usage:
 
   - Elasticsearch
   - Prometheus
   - Grafana
-  - MySQL (Keycloak)
+  - Keycloak/MySQL
 
-{{< alert title="NOTE" color="warning" >}}
-Insert a table of persistence settings by profile here
-{{< /alert >}}
+As mentioned in the [Profiles]({{< relref "/docs/setup/install/profiles.md" >}}) document, each Verrazzano install profile 
+has different storage characteristics by default.  The `dev` profile uses only ephemeral storage, but in all other profiles, 
+each of the above components use persistent storage.
 
-By default, the `prod` profile uses 50Gi persistent volumes for each of the above services, using the default storage class for the target Kubernetes platform.  The `dev` profile uses ephemeral `emptyDir` storage by default.  However, you can customize these storage settings within a profile as desired.
+For install profiles other than `dev`, the default storage requests are as follows:
 
-To override these settings, customize the Verrazzano install resource by defining a [VolumeSource](https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/) on the `defaultVolumeSource` field in the install CR, which can be one of:
+| Component | Storage 
+| ------------- |:-------------:  
+| Elasticsearch | 50Gi<br/>(Data nodes) 
+| Prometheus | 50Gi 
+| Grafana | 50Gi 
+| Keycloak | 50Gi 
 
-  - [`emptyDir`](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir)
-  - [`persistentVolumeClaim`](https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimvolumesource-v1-core)
+## Customizing Persistent Storage
 
-Configuring `emptyDir` for the `defaultVolumeSource` forces all persistent volumes created by Verrazzano components in an installation to use ephemeral storage unless otherwise overridden.  This can be useful for development or test scenarios.
+The persistence settings for Verrazzano components can be customized through the following means in the
+[VerrazzanoSpec](/docs/reference/api/verrazzano/verrazzano/#verrazzanospec):
 
-You can use a [persistentVolumeClaim](https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimvolumesource-v1-core) to identify a `volumeClaimSpecTemplate` in the `volumeClaimSpecTemplates` section via the `claimSource` field.  A `volumeClaimSpecTemplate` is a named [PersistentVolumeClaimSpec](https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimspec-v1-core) configuration.  A `volumeClaimSpecTemplate` can be referenced from more than one component; it merely identifies configuration settings and does not result in a direct instantiation of a persistent volume.  The settings are used by referencing components when creating their [PersistentVolumeClaims](https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaim-v1-core) at install time.
+* Globally overriding the persistence settings for all components through the `defaultVolumeSource` field
+* Overriding the persistence settings for an individual component through a `volumeSource` field on that component's configuration
 
-If the component supports it, then you can override the `defaultVolumeSource` setting at the component level by defining a supported `VolumeSource` on that component.  At present, only the `keycloak/mysql` component supports a `volumeSource` field override.
+At present, only the `MySQL` component under `Keycloak` can be individually configured.
 
-### Examples
+The global `defaultVolumeSource` and component-level `volumeSource` fields can be set to one of the following values:
 
-The following example shows how to define a `dev` profile with different persistence settings for the monitoring components and the Keycloak/MySQL instance.
+| Component | Storage
+| ------------- |:-------------
+| [`emptyDir`](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir) | Ephemeral storage; this can be useful for development or test scenarios
+| [`persistentVolumeClaim`](https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimvolumesource-v1-core) | A `PersistentVolumeClaimVolumeSource` where the `claimSource` field references a named `volumeClaimSpecTemplate`.
 
-```shell
+In the case where you want to use a `persistentVolumeClaim` to override the storage settings for components, you must do the following:
+
+* Create a [volumeClaimSpecTemplate](/docs/reference/api/verrazzano/verrazzano/#volumeclaimspectemplate) which identifies
+  your desired persistence settings 
+* Configure a `persistentVolumeClaim` for the component where the `claimName` field references the template you created above
+
+This allows you to create named persistence settings "templates" that can be shared across multiple components within a Verrazzano
+configuration.  Note that the existence of a persistence template in the `volumeClaimSpecTemplates` list does not 
+directly result in the creation of a persistent volume, or affect any component storage settings until it is referenced 
+by either `defaultVolumeSource` or a specific component's `volumeSource`.
+
+## Examples
+
+### Customizing Persistence Globally via `defaultVolumeSource`
+
+If the `defaultVolumeSource` field is configured, then that setting will be used for all components that required storage.
+
+For example, the following Verrazzano configuration uses the `prod` profile, but disables persistent storage for all components,
+forcing them to use emphemeral storage:
+
+```
 apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
-  name: kind-verrazzano-with-persistence
+  name: no-storage-prod
 spec:
-  profile: dev
+  profile: prod
+  defaultVolumeSource:
+      emptyDir: {}
+```
+
+The next example uses a `persistentVolumeClaim` to globally override persistence settings for a `prod` profile to use 
+`100Gi` volumes for all components, instead of the default of `50Gi`:
+
+```
+apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: prod-global-override
+spec:
+  profile: prod
   defaultVolumeSource:
     persistentVolumeClaim:
-      claimName: default  # Use the "default" volume template
+      claimName: globalOverride
+  volumeClaimSpecTemplates:
+    - metadata:
+        name: globalOverride
+      spec:
+        resources:
+          requests:
+            storage: 100Gi
+```
+
+### Customizing PersistentVolumeClaim Settings For a Component Using `volumeSource`
+
+The following example Verrazzano configuration enables a `100Gi` PersistentVolumeClaim for the MySQL component in Keycloak 
+in a `dev` profile configuration, overriding the default that uses ephemeral storage for that profile, while using ephemeral
+storage for everything else:
+
+```
+apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: dev-mysql-storage-example
+spec:
+  profile: dev
   components:
     keycloak:
       mysql:
@@ -53,28 +117,47 @@ spec:
             claimName: mysql  # Use the "mysql" PVC template for the MySQL volume configuration
   volumeClaimSpecTemplates:
   - metadata:
-      name: default      # "default" is a known template name, and will be used by Verrazzano components by default if no other template is referenced explicitly
+      name: mysql      
     spec:
       resources:
         requests:
-          storage: 2Gi
-  - metadata:
-    spec:
-      resources:
-        requests:
-          storage: 5Gi  # default
-
+          storage: 100Gi
 ```
 
-The following example shows how to define a `dev` profile where all resources use `emptyDir` by default.
+### Using Global and Local Persistence Settings Together
 
-```shell
+The following example uses a `dev` install profile, but overrides the profile persistence settings to
+
+* Use `200Gi` volumes for all components by default 
+* Use a `100Gi` volume for the MySQL instance associated with Keycloak
+
+```
 apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
-  name: storage-example-dev
+  name: dev-storage-example
 spec:
   profile: dev
   defaultVolumeSource:
-    emptyDir: {}  # Use ephemeral storage for dev mode for all Components
+    persistentVolumeClaim:
+      claimName: vmi     # set storage globally for the metrics stack
+  components:
+    keycloak:
+      mysql:
+        volumeSource:
+          persistentVolumeClaim:
+            claimName: mysql  # set storage separately for keycloak's MySql instance
+  volumeClaimSpecTemplates:
+    - metadata:
+        name: mysql
+      spec:
+        resources:
+          requests:
+            storage: 100Gi
+    - metadata:
+        name: vmi
+      spec:
+        resources:
+          requests:
+            storage: 200Gi
 ```

@@ -34,15 +34,22 @@ spec:
 
 ```
 
-The following table describes the `spec` portion of the Verrazzano custom resource:
-
+## VerrazzanoSpec
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `environmentName` | string | Name of the installation.  This name is part of the endpoint access URLs that are generated. The default value is `default`. | No  
 | `profile` | string | The installation profile to select.  Valid values are `prod` (production) and `dev` (development).  The default is `prod`. | No |
 | `version` | string | The version to install.  Valid versions can be found [here](https://github.com/verrazzano/verrazzano/releases/).  Defaults to the current version supported by the Verrazzano platform operator. | No |
-| `components` | [Components](#Components) | The Verrazzano components.  | No  |
+| `components` | [Components](#components) | The Verrazzano components. | No  |
+| `defaultVolumeSource` | [VolumeSource](https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/) | Defines the type of volume to be used for persistence for all components unless overridden, and can be one of either [EmptyDirVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#emptydirvolumesource-v1-core) or [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core). If [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core) a is declared, the `claimName` must reference the name of an existing `VolumeClaimSpecTemplate` declared in the `volumeClaimSpecTemplates` section. | No
+| `volumeClaimSpecTemplates` | [][VolumeClaimSpecTemplate](#volumeclaimspectemplate) | Defines a named set of PVC configurations that can be referenced from components to configure persistent volumes.| No |
 
+
+## VolumeClaimSpecTemplate
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `metadata` | [ObjectMeta](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/object-meta/) | Metadata about the PersistentVolumeClaimSpec template.  | No |
+| `spec` | [PersistentVolumeClaimSpec](https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/persistent-volume-claim-v1/#PersistentVolumeClaimSpec) | A `PersistentVolumeClaimSpec` template that can be referenced by a Component to override its default storage settings for a profile.  At present, only a subset of the `resources.requests` object are honored depending on the component. | No |  
 
 ## Components
 | Field | Type | Description | Required
@@ -51,6 +58,11 @@ The following table describes the `spec` portion of the Verrazzano custom resour
 | `dns` | [DNSComponent](#dns-component) | The DNS component configuration.  | No |
 | `ingress` | [IngressComponent](#ingress-component) | The ingress component configuration. | No |
 | `istio` | [IstioComponent](#istio-component) | The Istio component configuration. | No |
+| `keycloak` | [KeycloakComponent](#keycloak-component) | The Keycloak component configuration. | No |
+| `elasticsearch` | [ElasticsearchComponent](#elasticsearch-component) | The Elasticsearch component configuration. | No |
+| `prometheus` | [PrometheusComponent](#prometheus-component) | The Prometheus component configuration. | No |
+| `kibana` | [KibanaComponent](#kibana-component) | The Kibana component configuration. | No |
+| `grafana` | [GrafanaComponent](#grafana-component) | The Grafana component configuration. | No |
 
 ### CertManager Component
 | Field | Type | Description | Required
@@ -128,3 +140,36 @@ The following table describes the `spec` portion of the Verrazzano custom resour
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `istioInstallArgs` | [NameValue](#name-value) list | A list of Istio Helm chart arguments and values to apply during the installation of Istio.  Each argument is specified as either a `name/value` or `name/valueList` pair. | No |
+
+### Keycloak Component
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `enabled` | boolean | If true, Keycloak will be installed | No |
+| `keycloakInstallArgs` | [NameValue](#name-value) list | Allows providing custom Helm arguments to install Keycloak  | No
+| `mysql` | [MySQLComponent](#mysql-component) | Contains the MySQL component configuration needed for Keycloak | No
+
+### MySQL Component
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `mysqlInstallArgs` | [NameValue](#name-value) list | Allows providing custom Helm arguments to intall MySQL for KeyCloak  | No
+| `volumeSource` | [VolumeSource](https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/) | Defines the type of volume to be used for persistence for Keycloak/MySQL, and can be one of either [EmptyDirVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#emptydirvolumesource-v1-core) or [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core). If [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core) is declared, the `claimName` must reference the name of a `VolumeClaimSpecTemplate` declared in the `volumeClaimSpecTemplates` section. | No
+
+### Elasticsearch Component
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `enabled` | boolean | If true, ElasticSearch will be installed | No |
+
+### Kibana Component
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `enabled` | boolean | If true, Kibana will be installed | No |
+
+### Prometheus Component
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `enabled` | boolean | If true, Prometheus will be installed | No |
+
+### Grafana Component
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `enabled` | boolean | If true, Grafana will be installed | No |
