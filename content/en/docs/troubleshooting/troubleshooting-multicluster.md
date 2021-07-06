@@ -12,13 +12,13 @@ If you created multicluster resources in the admin cluster, and specified a `pla
 then those resources will get created in that managed cluster. If they do not get created in the managed cluster, then
 use the following steps to troubleshoot:
 - Verify that the managed cluster is registered correctly and can connect to the admin cluster.
-- Verify that the `VerrazzanoProject` for the resource's namespace, also has a `placement` in that managed cluster.
+- Verify that the VerrazzanoProject for the resource's namespace, also has a `placement` in that managed cluster.
 - Check the multicluster resource's status field on the admin cluster to know what the status of that resource is
   on each managed cluster to which it is targeted.
 
 ## Verify managed cluster registration and connectivity
 You can verify that a managed cluster was successfully registered with an admin cluster by viewing the
-corresponding `VerrazzanoManagedCluster` (VMC) resource on the admin cluster. For example, to verify that a managed cluster
+corresponding VerrazzanoManagedCluster (VMC) resource on the admin cluster. For example, to verify that a managed cluster
 named `managed1` was successfully registered:
 ```shell
 # on the admin cluster
@@ -57,8 +57,8 @@ you provided during registration and ensure that it is correct, and that it is r
 is incorrect, then you will need to repeat the managed cluster registration process described in the setup instructions
 [here]({{< relref "/docs/setup/install/multicluster" >}}).
 
-## Verify `VerrazzanoProject` placement
-For Verrazzano to create an application namespace in a managed cluster, that namespace must be part of a `VerrazzanoProject`
+## Verify VerrazzanoProject placement
+For Verrazzano to create an application namespace in a managed cluster, that namespace must be part of a VerrazzanoProject
 that:
 
 1. Includes that namespace.
@@ -91,7 +91,7 @@ spec:
 On the admin cluster, each multicluster resource's status field is updated with the status of the underlying resource
 on each managed cluster in which it is placed.
 
-The following example command shows how to view the status of a `MultiClusterApplicationConfiguration` named `myapp`, in
+The following example command shows how to view the status of a MultiClusterApplicationConfiguration named `myapp`, in
 the namespace `mynamespace`, that has a `placement` value that includes the managed cluster `managed1`
 ```shell
 $ kubectl get multiclusterapplicationconfiguration myapp -n mynamespace -o yaml

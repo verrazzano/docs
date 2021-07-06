@@ -17,14 +17,12 @@ listed in the `placement` section.
 **NOTE:** The ToDo List application deployment files are contained in the Verrazzano project located at
 `<VERRAZZANO_HOME>/examples/todo-list`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
 
-All files and paths in this document are relative to
-`<VERRAZZANO_HOME>/examples/todo-list`.
 
 ## Deploy the example application
 
 1. Create a namespace for the multicluster ToDo List example by applying the Verrazzano project file.
    ```
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f verrazzano-project.yaml
+   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/verrazzano-project.yaml
    ```
 
 1. Log in to the `container-registry.oracle.com` Docker registry in which the Todo List application image is deployed.  You
@@ -41,13 +39,13 @@ will need the updated Docker `config.json`, containing your authentication token
 `mc-docker-registry-secret.yaml` file.  The multicluster secret resource will generate the required secret in the `mc-todo-list`
 namespace.
    ```
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f mc-docker-registry-secret.yaml
+   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/mc-docker-registry-secret.yaml
    ```
 1. Create the secrets for the WebLogic domain by applying the `mc-weblogic-domain-secret.yaml` and `mc-runtime-encrypt-secret.yaml` files:
    ```
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f mc-weblogic-domain-secret.yaml
+   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/mc-weblogic-domain-secret.yaml
 
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f mc-runtime-encrypt-secret.yaml
+   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/mc-runtime-encrypt-secret.yaml
    ```
 
    Note that the ToDo List example application is preconfigured to use these credentials.
@@ -56,9 +54,9 @@ namespace.
 
 1. Apply the ToDo List example multicluster application resources to deploy the application.
    ```
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f todo-list-components.yaml
+   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/todo-list-components.yaml
 
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f todo-list-application.yaml
+   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/todo-list-application.yaml
    ```
 
 1. Wait for the ToDo List example application to be ready.
