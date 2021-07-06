@@ -11,7 +11,6 @@ Features:
 - Automatically enabled metrics and log capture for WebLogic domains deployed in Verrazzano.
 - Added security-related data/project YAML files to the Verrazzano console, under project details.
 - Updated to the v3.2.4 WebLogic Kubernetes Operator.
-- If the `runtimeEncryptionSecret` secret, specified in the WebLogic domain spec, did not already exist, then created it.
 
 Fixes:
 - Added a fix for default metrics traits not always being injected into the `appconfig`.
@@ -20,6 +19,18 @@ Fixes:
 - Fixed the DNS resolution issue due to the missing cluster section of the `coredns configmap`.
 - Stability improvements for the platform, tests, and examples.
 - Renamed the Elasticsearch fields in a multicluster registration secret to be consistent.
+
+### v0.15.1
+Features:
+- Allow customization of Elasticsearch node sizes and topology during installation.
+- If the runtimeEncryptionSecret secret, specified in the WebLogic domain spec, does not already exist, then create it.
+
+Known Issues:
+- For Verrazzano Custom Resource installed on OCI Container Engine for Kubernetes (OKE), after upgrade to 0.15.1, the Fluentd DaemonSet in `verrazzano-system` namespace cannot access logs. 
+  Run following command to patch the Fluentd DaemonSet and correct the issue:
+  ```
+  kubectl patch -n verrazzano-system ds fluentd --patch '{"spec":{"template":{"spec":{"containers":[{"name": "fluentd","volumeMounts":[{"mountPath":"/u01/data/","name":"extravol0","readOnly":true}]}],"volumes":[{"hostPath":{"path":"/u01/data/","type":""},"name":"extravol0"}]}}}}'
+  ```
 
 ### v0.15.0
 Features:
