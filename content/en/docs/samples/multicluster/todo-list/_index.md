@@ -41,11 +41,9 @@ namespace.
    ```
    $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/mc-docker-registry-secret.yaml
    ```
-1. Create the secrets for the WebLogic domain by applying the `mc-weblogic-domain-secret.yaml` and `mc-runtime-encrypt-secret.yaml` files:
+1. Create the WebLogic domain secret by applying the `mc-weblogic-domain-secret.yaml` file:
    ```
    $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/mc-weblogic-domain-secret.yaml
-
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/mc-runtime-encrypt-secret.yaml
    ```
 
    Note that the ToDo List example application is preconfigured to use these credentials.
