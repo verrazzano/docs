@@ -3,7 +3,7 @@ title: Customizing the NGINX Ingress
 description: Instructions for customizing the Verrazzano NGINX installation
 linkTitle: Customizing NGINX
 Weight: 9
-draft: false
+draft: true
 ---
 
 You can customize the NGINX ingress configuration using Helm overrides.  For example, to override the configuration of the
