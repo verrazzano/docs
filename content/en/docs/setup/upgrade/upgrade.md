@@ -1,5 +1,5 @@
 ---
-title: "Upgrade Guide"
+title: "Upgrade"
 linkTitle: "Upgrade"
 description: "How to upgrade Verrazzano"
 weight: 3

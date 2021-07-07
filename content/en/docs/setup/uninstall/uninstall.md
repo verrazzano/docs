@@ -1,5 +1,5 @@
 ---
-title: "Uninstall Guide"
+title: "Uninstall"
 linkTitle: "Uninstall"
 description: "How to uninstall Verrazzano"
 weight: 3
