@@ -1,6 +1,6 @@
 ---
-title: "Installation Guide"
-description: "How to install and uninstall Verrazzano"
+title: "Install Guide"
+description: "How to install Verrazzano"
 weight: 1
 draft: false
 ---
@@ -47,7 +47,7 @@ Before installing Verrazzano, see instructions on preparing the following Kubern
 
 Verrazzano provides a platform [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
 to manage the life cycle of Verrazzano installations.  You can install,
-uninstall, and update Verrazzano installations by updating the
+uninstall, and upgrade Verrazzano installations by updating the
 [Verrazzano custom resource]({{< relref "/docs/reference/api/verrazzano/verrazzano.md" >}}).
 
 To install the Verrazzano platform operator:
@@ -76,13 +76,7 @@ To install the Verrazzano platform operator:
 ## Perform the install
 
 Verrazzano supports the following installation profiles:  development (`dev`), production (`prod`), and
-managed cluster (`managed-cluster`).
-- The production profile, which is the default, provides a 3-node Elasticsearch and
-persistent storage for the Verrazzano Monitoring Instance (VMI).
-- The development profile provides a single node Elasticsearch and no persistent storage for the VMI.
-- The managed cluster profile installs only managed cluster
-components of Verrazzano. In order to take full advantage of [multicluster](../../../concepts/verrazzanomulticluster)
-features, the managed cluster should be registered with an admin cluster.
+managed cluster (`managed-cluster`).  See the [Installation Profiles]({{< relref "/docs/setup/install/profiles.md"  >}}) document for more details.
 
 To change profiles in any of the following commands, set the `VZ_PROFILE` environment variable to the name of the profile you want to install.
 
@@ -227,21 +221,3 @@ weblogic-operator-7db5cdcf59-qxsr9                       1/1     Running   0    
 Example applications are located [here]({{< relref "/docs/samples/_index.md" >}}).
 
 ##### To get the consoles URLs and credentials, see [Access Verrazzano]({{< relref "/docs/operations/_index.md" >}}).
-
-## Uninstall Verrazzano
-
-To delete Verrazzano installations:
-
-```
-# Get the name of the Verrazzano custom resource
-$ kubectl get verrazzano
-
-# Delete the Verrazzano custom resource
-$ kubectl delete verrazzano <name of custom resource>
-```
-
-To monitor the console log of the uninstall:
-
-```
-$ kubectl logs -f $(kubectl get pod -l job-name=verrazzano-uninstall-my-verrazzano -o jsonpath="{.items[0].metadata.name}")
-```

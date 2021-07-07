@@ -1,7 +1,7 @@
 ---
 title: "Install Multicluster Verrazzano"
 description: "How to set up a multicluster Verrazzano environment"
-weight: 2
+weight: 5
 draft: false
 ---
 ## Prerequisites
