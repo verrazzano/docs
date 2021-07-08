@@ -46,8 +46,8 @@ Before installing Verrazzano, see instructions on preparing the following Kubern
 ## Install the Verrazzano platform operator
 
 Verrazzano provides a platform [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
-to manage the life cycle of Verrazzano installations.  Through the [Verrazzano]({{< relref "/docs/reference/api/verrazzano/verrazzano.md" >}})
-custom resource you can install, uninstall, and upgrade Verrazzano installations.
+to manage the life cycle of Verrazzano installations.  Using the [Verrazzano]({{< relref "/docs/reference/api/verrazzano/verrazzano.md" >}})
+custom resource, you can install, uninstall, and upgrade Verrazzano installations.
 
 To install the Verrazzano platform operator:
 

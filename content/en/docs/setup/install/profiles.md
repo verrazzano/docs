@@ -94,9 +94,9 @@ The following table describes the configurations for Prometheus and Grafana in e
 
 | Profile | Prometheus | Grafana
 | ------------- |:------------- |:-------------
-| prod | 1 replica, 128M memory, 50Gi storage | 1 replica, 48M memory, 50Gi storage
-| dev | 1 replica, 128M memory, ephemeral storage | 1 replica, 48M memory, ephemeral storage
-| managed-cluster | 1 replica, 128M memory, 50Gi storage | Not installed
+| prod | 1 replica (128M memory, 50Gi storage) | 1 replica (48M memory, 50Gi storage)
+| dev | 1 replica (128M memory, ephemeral storage) | 1 replica (48M memory, ephemeral storage)
+| managed-cluster | 1 replica (128M memory, 50Gi storage) | Not installed
 
 #### Profiles and Elasticsearch Configurations
 
@@ -104,9 +104,14 @@ The following table describes the Kibana and Elasticsearch cluster topology in e
 
 | Profile | Elasticsearch | Kibana
 | ------------- |:------------- |:-------------
-| prod | 3 master replicas, 1.4Gi memory, 50Gi storage<br/>1 ingest replica, 2.5Gi memory<br/>2 data replicas, 4.8Gi memory, 50Gi storage | 1 replica, 192M memory, ephemeral storage
-| dev | 1 master/data/ingest replica, 1Gi memory, ephemeral storage  | 1 replica, 192M memory, ephemeral storage
+| prod | 3 master replicas (1.4Gi memory, 50Gi storage each)<br/>1 ingest replica (2.5Gi memory, no storage)<br/>2 data replicas (4.8Gi memory, 50Gi storage each) | 1 replica (192M memory, ephemeral storage)
+| dev | 1 master/data/ingest replica (1Gi memory, ephemeral storage)  | 1 replica (192M memory, ephemeral storage)
 | managed-cluster | Not installed | Not installed
+
+{{< alert title="NOTE" color="warning" >}}
+Elasticsearch containers are configured to utilize 75% of the configured request memory for the Java min/max heap settings.
+{{< /alert >}}
+
 
 ### Profile-independent Defaults
 
