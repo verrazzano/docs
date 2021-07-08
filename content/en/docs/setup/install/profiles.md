@@ -15,9 +15,9 @@ The following table lists the available installation profiles for Verrazzano:
 
 | Profile  | Description | Characteristics
 | ------------- |:------------- |:------------- 
-| prod | Full install, production configuration | Default Profile<br/>- Persistent storage <br/>- Production Elasticsearch cluster topology
+| prod | Full install, production configuration | Default Profile<br/>- Full install<br/>- Persistent storage <br/>- Production Elasticsearch cluster topology
 | dev | Development/Evaluation configuration | Lightweight installation<br/>- For evaluation purposes<br/>- No persistence<br/>- Single-node Elasticsearch cluster topology
-| managed-cluster | A specialized installation for managed clusters in a Multicluster topology | Minimal install for a managed cluster<br/>- No local monitoring components<br/>- All monitoring data pushed to Admin cluster<br/>- No local ATN/ATZ, performed by Admin cluster<br/>- The cluster must be registered with an admin cluster In order leverage [multicluster](../../../concepts/verrazzanomulticluster) features
+| managed-cluster | A specialized installation for managed clusters in a Multicluster topology | Minimal install for a managed cluster<br/>- Cluster must be registered with an admin cluster to leverage [multicluster](../../../concepts/verrazzanomulticluster) features
 
 ### Using an Install Profile
 
@@ -41,7 +41,8 @@ one of those profiles.
 ### Customizing an Install Profile
 
 You can also override the profile settings for any component regardless of the profile.  The following example 
-illustrates a configuration that uses a customized `dev` profile:
+uses a customized `dev` profile to configure a small 8Gi persistent volume for the MySQL instance used by Keycloak to
+provide more stability for the Keycloak service:
 
 ```
 apiVersion: install.verrazzano.io/v1alpha1
@@ -51,10 +52,6 @@ metadata:
 spec:
   profile: dev
   components:
-    prometheus:
-      enabled: false
-    grafana:
-      enabled: false
     keycloak:
       mysql:
         volumeSource:
@@ -69,12 +66,6 @@ spec:
           storage: 8Gi
 ```
 
-The example configuration above does the following:
-
-* Disables the Prometheus and Grafana components smaller monitoring footprint.
-* Configures a small 8Gi persistent volume for the MySQL instance used by Keycloak to provide more
-  stability for the Keycloak service.
-  
 See [Customizing an Install](/docs/setup/install/customizing) for details on how to customize each 
 Verrazzano component.
 
@@ -97,14 +88,30 @@ customize any Verrazzano install, regardless of the profile used.
 | Rancher | ✔️ | ✔️ |    
 | Keycloak | ✔️ | ✔️ |  
 
-The following table describes the persistent storage configurations for components in each profile:
+#### Profiles and Prometheus Configurations
 
-| Component | dev | prod | managed-cluster
-| ------------- |:-------------:|:-------------:|:-------------: 
-| Elasticsearch<br/>(Master and Data nodes) | | 50Gi | 50Gi
-| Prometheus | | 50Gi | 50Gi
-| Grafana | | 50Gi | 50Gi
-| Keycloak | | 50Gi | 50Gi
+The following table describes the configurations for Prometheus and Grafana in each profile:
+
+| Profile | Prometheus | Grafana
+| ------------- |:------------- |:-------------
+| prod | 1 replica (128M memory, 50Gi storage) | 1 replica (48M memory, 50Gi storage)
+| dev | 1 replica (128M memory, ephemeral storage) | 1 replica (48M memory, ephemeral storage)
+| managed-cluster | 1 replica (128M memory, 50Gi storage) | Not installed
+
+#### Profiles and Elasticsearch Configurations
+
+The following table describes the Kibana and Elasticsearch cluster topology in each profile:
+
+| Profile | Elasticsearch | Kibana
+| ------------- |:------------- |:-------------
+| prod | 3 master replicas (1.4Gi memory, 50Gi storage each)<br/>1 ingest replica (2.5Gi memory, no storage)<br/>2 data replicas (4.8Gi memory, 50Gi storage each) | 1 replica (192M memory, ephemeral storage)
+| dev | 1 master/data/ingest replica (1Gi memory, ephemeral storage)  | 1 replica (192M memory, ephemeral storage)
+| managed-cluster | Not installed | Not installed
+
+{{< alert title="NOTE" color="warning" >}}
+Elasticsearch containers are configured to utilize 75% of the configured request memory for the Java min/max heap settings.
+{{< /alert >}}
+
 
 ### Profile-independent Defaults
 
