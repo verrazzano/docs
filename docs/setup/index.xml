@@ -27,7 +27,7 @@
     </item>
     
     <item>
-      <title>Docs: Install Verrazzano</title>
+      <title>Docs: Install</title>
       <link>https://verrazzano.io/docs/setup/install/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -40,7 +40,29 @@
     </item>
     
     <item>
-      <title>Docs: Upgrade Guide</title>
+      <title>Docs: Uninstall</title>
+      <link>https://verrazzano.io/docs/setup/uninstall/uninstall/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/setup/uninstall/uninstall/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;uninstall-verrazzano&#34;&gt;Uninstall Verrazzano&lt;/h2&gt;
+&lt;p&gt;To delete a Verrazzano installation:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# Get the name of the Verrazzano custom resource
+$ kubectl get verrazzano
+
+# Delete the Verrazzano custom resource
+$ kubectl delete verrazzano &amp;lt;name of custom resource&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To monitor the console log of the uninstall:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl logs -f $(kubectl get pod -l job-name=verrazzano-uninstall-my-verrazzano -o jsonpath=&amp;quot;{.items[0].metadata.name}&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Upgrade</title>
       <link>https://verrazzano.io/docs/setup/upgrade/upgrade/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -74,7 +96,7 @@ will not have any impact on running applications.&lt;/p&gt;
 &lt;p&gt;Upgrade the Verrazzano platform operator.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; If you are using a private container registry, follow the instructions at &lt;a href=&#34;../../private-registry/private-registry&#34;&gt;Using a Private Registry&lt;/a&gt; to update the platform operator.&lt;/p&gt;
 &lt;p&gt;To upgrade to the latest version:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v0.16.0/operator.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To upgrade to a specific version, where &lt;code&gt;&amp;lt;version&amp;gt;&lt;/code&gt; is the desired version:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/&amp;lt;version&amp;gt;/operator.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For example:&lt;/p&gt;
@@ -143,6 +165,31 @@ vmi-system-kibana-85565975b5-7hfdf                       2/2     Running   0    
 vmi-system-prometheus-0-7bf464d898-czq8r                 4/4     Running   0          27h
 weblogic-operator-7db5cdcf59-qxsr9                       1/1     Running   0          27h
 &lt;/code&gt;&lt;/pre&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Using a Private Registry</title>
+      <link>https://verrazzano.io/docs/setup/private-registry/private-registry/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/setup/private-registry/private-registry/</guid>
+      <description>
+        
+        
+        &lt;h3 id=&#34;using-a-private-registry-with-verrazzano&#34;&gt;Using a Private Registry with Verrazzano&lt;/h3&gt;
+&lt;p&gt;Verrazzano supports being able to install from a private Docker-compliant container registry, which requires:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Loading all required Verrazzano container images into your own registry and repository.&lt;/li&gt;
+&lt;li&gt;Installing the Verrazzano Platform Operator with the private registry and repository used to load the images.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To load the required Verrazzano images and prepare for an installation from your private registry, you must do the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Download the TAR file containing the full set of images for the Verrazzano release from the &lt;a href=&#34;https://www.oracle.com/downloads/&#34;&gt;Oracle Software Download Center&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Extract all files from the TAR file locally and follow instructions in the &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/tools/scripts/README.md&#34;&gt;README&lt;/a&gt;
+file in the archive.&lt;/li&gt;
+&lt;/ul&gt;
+
       </description>
     </item>
     

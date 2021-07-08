@@ -21,11 +21,11 @@
 <meta property="og:description" content="Instructions for setting up a KIND cluster for Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/setup/platforms/kind/kind/" />
-<meta property="article:modified_time" content="2021-06-28T13:08:56-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-07-07T11:41:32-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="KIND">
 <meta itemprop="description" content="Instructions for setting up a KIND cluster for Verrazzano">
-<meta itemprop="dateModified" content="2021-06-28T13:08:56-04:00" />
-<meta itemprop="wordCount" content="620">
+<meta itemprop="dateModified" content="2021-07-07T11:41:32-04:00" />
+<meta itemprop="wordCount" content="642">
 
 
 
@@ -105,7 +105,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.169e456ffe4fb5c2c77d87bb8022fb81.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.2440e7c93f596b133ada766b13d78f5b.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -137,7 +137,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.169e456ffe4fb5c2c77d87bb8022fb81.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.2440e7c93f596b133ada766b13d78f5b.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -280,7 +280,7 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupplatformsocioci" href="../../../../../docs/setup/platforms/oci/oci/">OCI</a>
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupplatformsocioci" href="../../../../../docs/setup/platforms/oci/oci/">OKE</a>
         
       
       
@@ -334,7 +334,7 @@ if (!doNotTrack) {
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="../../../../../docs/setup/install/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Install Verrazzano</a>
+    <a  href="../../../../../docs/setup/install/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Install</a>
   </li>
   <ul>
     <li class="collapse " id="docssetupinstall">
@@ -345,7 +345,15 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupinstallinstallation" href="../../../../../docs/setup/install/installation/">Installation Guide</a>
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupinstallinstallation" href="../../../../../docs/setup/install/installation/">Install Guide</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupinstallprofiles" href="../../../../../docs/setup/install/profiles/">Install Profiles</a>
         
       
       
@@ -354,6 +362,39 @@ if (!doNotTrack) {
           
           
           <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupinstallmulticluster" href="../../../../../docs/setup/install/multicluster/">Install Multicluster Verrazzano</a>
+        
+      
+      
+      
+        
+          
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="../../../../../docs/setup/install/customizing/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Customizing an Install</a>
+  </li>
+  <ul>
+    <li class="collapse " id="docssetupinstallcustomizing">
+      
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupinstallcustomizingstorage" href="../../../../../docs/setup/install/customizing/storage/">Customizing Persistent Storage</a>
+        
+      
+      
+    </li>
+  </ul>
+</ul>
+
         
       
       
@@ -368,7 +409,23 @@ if (!doNotTrack) {
         
           
           
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupuninstalluninstall" href="../../../../../docs/setup/uninstall/uninstall/">Uninstall</a>
+        
+      
+      
+      
+        
+          
+          
           <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupupgradeupgrade" href="../../../../../docs/setup/upgrade/upgrade/">Upgrade</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupprivate-registryprivate-registry" href="../../../../../docs/setup/private-registry/private-registry/">Using a Private Registry</a>
         
       
       
@@ -1287,7 +1344,6 @@ if (!doNotTrack) {
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#prepare-the-kind-cluster">Prepare the KIND cluster</a></li>
-        <li><a href="#image-caching-to-speed-up-install">Image caching to speed up install</a></li>
         <li><a href="#next-steps">Next steps</a></li>
       </ul>
     </li>
@@ -1368,7 +1424,9 @@ to the host.  On macOS and Windows, <a href="../../../../../docs/setup/platforms
 <h2 id="prepare-the-kind-cluster">Prepare the KIND cluster</h2>
 <p>To prepare the KIND cluster for use with Verrazzano, you must create the cluster and then install and configure
 <a href="https://metallb.universe.tf/">MetalLB</a> in that cluster.</p>
-<h3 id="create-the-kind-cluster">Create the KIND cluster</h3>
+<p>You can create the KIND cluster in two ways, with or without image caching.  Image caching can speed up your
+installation times.</p>
+<h4 id="create-a-kind-cluster">Create a KIND cluster</h4>
 <p>KIND images are prebuilt for each release.  To find images suitable for a given release, check the
 <a href="https://github.com/kubernetes-sigs/kind/releases">release notes</a> for your KIND version (check with <code>kind version</code>)
 where you&rsquo;ll find a complete listing of images created for a KIND release.</p>
@@ -1388,39 +1446,11 @@ with one suitable for the KIND release you are using.</p>
 </span><span style="color:#4e9a06">            &#34;service-account-issuer&#34;: &#34;kubernetes.default.svc&#34;
 </span><span style="color:#4e9a06">            &#34;service-account-signing-key-file&#34;: &#34;/etc/kubernetes/pki/sa.key&#34;
 </span><span style="color:#4e9a06">EOF</span>
-</code></pre></div><h3 id="install-and-configure-metallb">Install and configure MetalLB</h3>
-<p>By default, KIND does not provide an implementation of network load balancers (<a href="https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/">Services of type LoadBalancer</a>).
-<a href="https://metallb.universe.tf/">MetalLB</a> offers a network load balancer implementation.</p>
-<p>To install MetalLB:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
-$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml
-$ kubectl create secret generic -n metallb-system memberlist --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">secretkey</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;</span><span style="color:#204a87;font-weight:bold">$(</span>openssl rand -base64 128<span style="color:#204a87;font-weight:bold">)</span><span style="color:#4e9a06">&#34;</span>
-</code></pre></div><p>For further details, see the MetalLB <a href="https://metallb.universe.tf/installation/#installation-by-manifest">installation guide</a>.</p>
-<p>MetalLB is idle until configured.  Configure MetalLB in Layer 2 mode and give it control over a range of IP addresses in the <code>kind</code> Docker network.
-In versions v0.7.0 and earlier, KIND uses Docker&rsquo;s default bridge network; in versions v0.8.0 and later, it creates its own bridge network in KIND.</p>
-<p>To determine the subnet of the <code>kind</code> Docker network in KIND v0.8.0 and later:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ docker inspect kind <span style="color:#000;font-weight:bold">|</span> jq <span style="color:#4e9a06">&#39;.[0].IPAM.Config[0].Subnet&#39;</span> -r
-172.18.0.0/16
-</code></pre></div><p>To determine the subnet of the <code>kind</code> Docker network in KIND v0.7.0 and earlier:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ docker inspect bridge <span style="color:#000;font-weight:bold">|</span> jq <span style="color:#4e9a06">&#39;.[0].IPAM.Config[0].Subnet&#39;</span> -r
-172.17.0.0/16
-</code></pre></div><p>For use by MetalLB, assign a range of IP addresses at the end of the <code>kind</code> network&rsquo;s subnet CIDR range.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl apply -f - <span style="color:#4e9a06">&lt;&lt;-EOF
-</span><span style="color:#4e9a06">apiVersion: v1
-</span><span style="color:#4e9a06">kind: ConfigMap
-</span><span style="color:#4e9a06">metadata:
-</span><span style="color:#4e9a06">  namespace: metallb-system
-</span><span style="color:#4e9a06">  name: config
-</span><span style="color:#4e9a06">data:
-</span><span style="color:#4e9a06">  config: |
-</span><span style="color:#4e9a06">    address-pools:
-</span><span style="color:#4e9a06">    - name: my-ip-space
-</span><span style="color:#4e9a06">      protocol: layer2
-</span><span style="color:#4e9a06">      addresses:
-</span><span style="color:#4e9a06">      - 172.18.0.230-172.18.0.250
-</span><span style="color:#4e9a06">EOF</span>
-</code></pre></div><h2 id="image-caching-to-speed-up-install">Image caching to speed up install</h2>
-<p>If you are experimenting with Verrazzano and expect that you may need to delete the KIND cluster and later, install Verrazzano again on a new KIND cluster, then you can follow these steps to ensure that the image cache used by containerd inside KIND is preserved across clusters. Subsequent installs will be faster than the first install, because they will not need to pull the images again.</p>
+</code></pre></div><h4 id="create-a-kind-cluster-with-image-caching">Create a KIND Cluster With Image Caching</h4>
+<p>While experimenting or developing with Verrazzano, you may end up destroying and re-creating your KIND cluster multiple
+times.  To speed up the Verrazzano install process you can follow these steps to ensure that the image cache used by
+containerd inside a KIND cluster is preserved across clusters. Subsequent installs will be faster than the first install,
+because they will not need to pull the images again.</p>
 <p>1. Create a named Docker volume that will be used for the image cache, and note its <code>Mountpoint</code> path. In this example, the volume is named <code>containerd</code>.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ docker volume create containerd
 
@@ -1452,6 +1482,37 @@ $ docker volume inspect containerd <span style="color:#8f5902;font-style:italic"
 </span><span style="color:#4e9a06">    extraMounts:
 </span><span style="color:#4e9a06">      - hostPath: /var/lib/docker/volumes/containerd/_data
 </span><span style="color:#4e9a06">        containerPath: /var/lib/containerd #This is the location of the image cache inside the KIND container
+</span><span style="color:#4e9a06">EOF</span>
+</code></pre></div><h3 id="install-and-configure-metallb">Install and configure MetalLB</h3>
+<p>By default, KIND does not provide an implementation of network load balancers (<a href="https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/">Services of type LoadBalancer</a>).
+<a href="https://metallb.universe.tf/">MetalLB</a> offers a network load balancer implementation.</p>
+<p>To install MetalLB:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
+$ kubectl create secret generic -n metallb-system memberlist --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">secretkey</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;</span><span style="color:#204a87;font-weight:bold">$(</span>openssl rand -base64 128<span style="color:#204a87;font-weight:bold">)</span><span style="color:#4e9a06">&#34;</span>
+$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml
+</code></pre></div><p>For further details, see the MetalLB <a href="https://metallb.universe.tf/installation/#installation-by-manifest">installation guide</a>.</p>
+<p>MetalLB is idle until configured.  Configure MetalLB in Layer 2 mode and give it control over a range of IP addresses in the <code>kind</code> Docker network.
+In versions v0.7.0 and earlier, KIND uses Docker&rsquo;s default bridge network; in versions v0.8.0 and later, it creates its own bridge network in KIND.</p>
+<p>To determine the subnet of the <code>kind</code> Docker network in KIND v0.8.0 and later:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ docker inspect kind <span style="color:#000;font-weight:bold">|</span> jq <span style="color:#4e9a06">&#39;.[0].IPAM.Config[0].Subnet&#39;</span> -r
+172.18.0.0/16
+</code></pre></div><p>To determine the subnet of the <code>kind</code> Docker network in KIND v0.7.0 and earlier:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ docker inspect bridge <span style="color:#000;font-weight:bold">|</span> jq <span style="color:#4e9a06">&#39;.[0].IPAM.Config[0].Subnet&#39;</span> -r
+172.17.0.0/16
+</code></pre></div><p>For use by MetalLB, assign a range of IP addresses at the end of the <code>kind</code> network&rsquo;s subnet CIDR range.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl apply -f - <span style="color:#4e9a06">&lt;&lt;-EOF
+</span><span style="color:#4e9a06">apiVersion: v1
+</span><span style="color:#4e9a06">kind: ConfigMap
+</span><span style="color:#4e9a06">metadata:
+</span><span style="color:#4e9a06">  namespace: metallb-system
+</span><span style="color:#4e9a06">  name: config
+</span><span style="color:#4e9a06">data:
+</span><span style="color:#4e9a06">  config: |
+</span><span style="color:#4e9a06">    address-pools:
+</span><span style="color:#4e9a06">    - name: my-ip-space
+</span><span style="color:#4e9a06">      protocol: layer2
+</span><span style="color:#4e9a06">      addresses:
+</span><span style="color:#4e9a06">      - 172.18.0.230-172.18.0.250
 </span><span style="color:#4e9a06">EOF</span>
 </code></pre></div><h2 id="next-steps">Next steps</h2>
 <p>To continue, see the <a href="../../../../../docs/setup/install/installation/#install-the-verrazzano-platform-operator">Installation Guide</a>.</p>
@@ -1520,7 +1581,7 @@ $ docker volume inspect containerd <span style="color:#8f5902;font-style:italic"
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified June 28, 2021: <a  href="../../../../../commit/99209860dde4097e66508f1dbd3aba1e4e27f76c">overall edit (#159) (9920986)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified July 7, 2021: <a  href="../../../../../commit/a2f75be26963eb415b2c2dc716206f77d05227b4">Install/Upgrade update (#162) (a2f75be)</a>
 </div>
 </div>
 

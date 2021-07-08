@@ -476,7 +476,7 @@ For example, when processed, an &lt;code&gt;IngressTrait&lt;/code&gt; will creat
     </item>
     
     <item>
-      <title>Docs: Installation Guide</title>
+      <title>Docs: Install Guide</title>
       <link>https://verrazzano.io/docs/setup/install/installation/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -531,14 +531,13 @@ Verrazzano has been tested &lt;em&gt;only&lt;/em&gt; on the following versions o
 &lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Verrazzano can create network policies that can be used to limit the ports and protocols that pods use for network communication. Network policies provide additional security but they are enforced only if you install a Kubernetes Container Network Interface (CNI) plug-in that enforces them, such as Calico. For instructions on how to install a CNI plug-in, see the documentation for your Kubernetes cluster.&lt;/p&gt;
 &lt;h2 id=&#34;install-the-verrazzano-platform-operator&#34;&gt;Install the Verrazzano platform operator&lt;/h2&gt;
 &lt;p&gt;Verrazzano provides a platform &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/operator/&#34;&gt;operator&lt;/a&gt;
-to manage the life cycle of Verrazzano installations.  You can install,
-uninstall, and update Verrazzano installations by updating the
-&lt;a href=&#34;../docs/reference/api/verrazzano/verrazzano/&#34;&gt;Verrazzano custom resource&lt;/a&gt;.&lt;/p&gt;
+to manage the life cycle of Verrazzano installations.  Using the &lt;a href=&#34;../docs/reference/api/verrazzano/verrazzano/&#34;&gt;Verrazzano&lt;/a&gt;
+custom resource, you can install, uninstall, and upgrade Verrazzano installations.&lt;/p&gt;
 &lt;p&gt;To install the Verrazzano platform operator:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Deploy the Verrazzano platform operator.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v0.16.0/operator.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the deployment to complete.&lt;/p&gt;
@@ -554,15 +553,7 @@ verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   &lt;span style
 &lt;/ol&gt;
 &lt;h2 id=&#34;perform-the-install&#34;&gt;Perform the install&lt;/h2&gt;
 &lt;p&gt;Verrazzano supports the following installation profiles:  development (&lt;code&gt;dev&lt;/code&gt;), production (&lt;code&gt;prod&lt;/code&gt;), and
-managed cluster (&lt;code&gt;managed-cluster&lt;/code&gt;).&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;The production profile, which is the default, provides a 3-node Elasticsearch and
-persistent storage for the Verrazzano Monitoring Instance (VMI).&lt;/li&gt;
-&lt;li&gt;The development profile provides a single node Elasticsearch and no persistent storage for the VMI.&lt;/li&gt;
-&lt;li&gt;The managed cluster profile installs only managed cluster
-components of Verrazzano. In order to take full advantage of &lt;a href=&#34;../../../concepts/verrazzanomulticluster&#34;&gt;multicluster&lt;/a&gt;
-features, the managed cluster should be registered with an admin cluster.&lt;/li&gt;
-&lt;/ul&gt;
+managed cluster (&lt;code&gt;managed-cluster&lt;/code&gt;).  See the &lt;a href=&#34;../docs/setup/install/profiles/&#34;&gt;Installation Profiles&lt;/a&gt; document for more details.&lt;/p&gt;
 &lt;p&gt;To change profiles in any of the following commands, set the &lt;code&gt;VZ_PROFILE&lt;/code&gt; environment variable to the name of the profile you want to install.&lt;/p&gt;
 
 
@@ -734,17 +725,8 @@ vmi-system-prometheus-0-7bf464d898-czq8r                 4/4     Running   0    
 weblogic-operator-7db5cdcf59-qxsr9                       1/1     Running   0          27h
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;optional-run-the-example-applications&#34;&gt;(Optional) Run the example applications&lt;/h2&gt;
 &lt;p&gt;Example applications are located &lt;a href=&#34;../docs/samples/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;h5 id=&#34;to-get-the-consoles-urls-and-credentials-see-access-verrazzanohahahugoshortcode-s13-hbhb&#34;&gt;To get the consoles URLs and credentials, see &lt;a href=&#34;../docs/operations/&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/h5&gt;
-&lt;h2 id=&#34;uninstall-verrazzano&#34;&gt;Uninstall Verrazzano&lt;/h2&gt;
-&lt;p&gt;To delete Verrazzano installations:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;# Get the name of the Verrazzano custom resource
-$ kubectl get verrazzano
+&lt;h5 id=&#34;to-get-the-consoles-urls-and-credentials-see-access-verrazzanohahahugoshortcode-s15-hbhb&#34;&gt;To get the consoles URLs and credentials, see &lt;a href=&#34;../docs/operations/&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/h5&gt;
 
-# Delete the Verrazzano custom resource
-$ kubectl delete verrazzano &amp;lt;name of custom resource&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To monitor the console log of the uninstall:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl logs -f $(kubectl get pod -l job-name=verrazzano-uninstall-my-verrazzano -o jsonpath=&amp;quot;{.items[0].metadata.name}&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
       </description>
     </item>
     
@@ -913,10 +895,10 @@ output:&lt;/p&gt;
 &lt;h3 id=&#34;linux-instructions&#34;&gt;Linux Instructions&lt;/h3&gt;
 &lt;p&gt;Use these instructions to obtain the analysis tools on Linux machines.&lt;/p&gt;
 &lt;h4 id=&#34;download-the-tooling&#34;&gt;Download the tooling:&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt; $ wget https://github.com/verrazzano/verrazzano/releases/latest/download/k8s-dump-cluster.sh
- $ wget https://github.com/verrazzano/verrazzano/releases/latest/download/k8s-dump-cluster.sh.sha256
- $ wget https://github.com/verrazzano/verrazzano/releases/latest/download/verrazzano-analysis-linux-amd64.tar.gz
- $ wget https://github.com/verrazzano/verrazzano/releases/latest/download/verrazzano-analysis-linux-amd64.tar.gz.sha256
+&lt;pre&gt;&lt;code&gt; $ wget https://github.com/verrazzano/verrazzano/releases/download/v0.16.0/k8s-dump-cluster.sh
+ $ wget https://github.com/verrazzano/verrazzano/releases/download/v0.16.0/k8s-dump-cluster.sh.sha256
+ $ wget https://github.com/verrazzano/verrazzano/releases/download/v0.16.0/verrazzano-analysis-linux-amd64.tar.gz
+ $ wget https://github.com/verrazzano/verrazzano/releases/download/v0.16.0/verrazzano-analysis-linux-amd64.tar.gz.sha256
 &lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;verify-the-downloaded-files&#34;&gt;Verify the downloaded files:&lt;/h4&gt;
 &lt;pre&gt;&lt;code&gt; $ sha256sum -c k8s-dump-cluster.sh.sha256
  $ sha256sum -c verrazzano-analysis-linux-amd64.tar.gz.sha256
@@ -940,10 +922,10 @@ output:&lt;/p&gt;
 &lt;h3 id=&#34;mac-instructions&#34;&gt;Mac Instructions&lt;/h3&gt;
 &lt;p&gt;Use these instructions to obtain the analysis tools on Mac machines.&lt;/p&gt;
 &lt;h4 id=&#34;download-the-tooling&#34;&gt;Download the tooling:&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt; $ wget https://github.com/verrazzano/verrazzano/releases/latest/download/k8s-dump-cluster.sh
- $ wget https://github.com/verrazzano/verrazzano/releases/latest/download/k8s-dump-cluster.sh.sha256
- $ wget https://github.com/verrazzano/verrazzano/releases/latest/download/verrazzano-analysis-darwin-amd64.tar.gz
- $ wget https://github.com/verrazzano/verrazzano/releases/latest/download/verrazzano-analysis-darwin-amd64.tar.gz.sha256
+&lt;pre&gt;&lt;code&gt; $ wget https://github.com/verrazzano/verrazzano/releases/download/v0.16.0/k8s-dump-cluster.sh
+ $ wget https://github.com/verrazzano/verrazzano/releases/download/v0.16.0/k8s-dump-cluster.sh.sha256
+ $ wget https://github.com/verrazzano/verrazzano/releases/download/v0.16.0/verrazzano-analysis-darwin-amd64.tar.gz
+ $ wget https://github.com/verrazzano/verrazzano/releases/download/v0.16.0/verrazzano-analysis-darwin-amd64.tar.gz.sha256
 &lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;verify-the-downloaded-files&#34;&gt;Verify the downloaded files:&lt;/h4&gt;
 &lt;pre&gt;&lt;code&gt; $ shasum -a 256 -c k8s-dump-cluster.sh.sha256
  $ shasum -a 256 -c verrazzano-analysis-darwin-amd64.tar.gz.sha256
@@ -1365,126 +1347,253 @@ $ curl -sk -X GET https://${HOST}/greet
     </item>
     
     <item>
-      <title>Docs: Install Multicluster Verrazzano</title>
-      <link>https://verrazzano.io/docs/setup/install/multicluster/</link>
+      <title>Docs: Install Profiles</title>
+      <link>https://verrazzano.io/docs/setup/install/profiles/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://verrazzano.io/docs/setup/install/multicluster/</guid>
+      <guid>https://verrazzano.io/docs/setup/install/profiles/</guid>
       <description>
         
         
-        &lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
-&lt;p&gt;Before you begin, read this document, &lt;a href=&#34;../docs/concepts/verrazzanomulticluster/&#34;&gt;Verrazzano in a multicluster environment&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;
-&lt;p&gt;To set up a multicluster Verrazzano environment, you will need two or more Kubernetes clusters. One of these clusters
-will the &lt;em&gt;admin&lt;/em&gt; cluster; the others will be &lt;em&gt;managed&lt;/em&gt; clusters.&lt;/p&gt;
-&lt;p&gt;The instructions here assume an admin cluster and a single managed cluster. For each additional managed
-cluster, simply repeat the managed cluster instructions.&lt;/p&gt;
-&lt;h2 id=&#34;install-verrazzano&#34;&gt;Install Verrazzano&lt;/h2&gt;
-&lt;p&gt;Install Verrazzano on each Kubernetes cluster.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;On one cluster, install Verrazzano using the &lt;code&gt;dev&lt;/code&gt; or &lt;code&gt;prod&lt;/code&gt; profile; this will be the &lt;em&gt;admin&lt;/em&gt; cluster.&lt;/li&gt;
-&lt;li&gt;On the other cluster, install Verrazzano using the &lt;code&gt;managed-cluster&lt;/code&gt; profile; this will be a
-managed cluster. The &lt;code&gt;managed-cluster&lt;/code&gt; profile contains only the components that are required for a managed cluster.&lt;/li&gt;
-&lt;li&gt;Create the environment variables, &lt;code&gt;KUBECONFIG_ADMIN&lt;/code&gt; and &lt;code&gt;KUBECONFIG_MANAGED1&lt;/code&gt;, and point them to the &lt;code&gt;kubeconfig&lt;/code&gt;
-files for the admin and managed cluster, respectively. These environment variables will be used in subsequent steps
-when registering the managed cluster.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;For detailed instructions on how to install Verrazzano on a Kubernetes cluster using a specific profile, see the
-&lt;a href=&#34;../docs/setup/install/installation/&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;register-the-managed-cluster-with-the-admin-cluster&#34;&gt;Register the managed cluster with the admin cluster&lt;/h2&gt;
-&lt;p&gt;The following sections show you how to register the managed cluster with the admin cluster.&lt;/p&gt;
-&lt;!-- omit in toc --&gt;
-&lt;h3 id=&#34;preregistration-setup&#34;&gt;Preregistration setup&lt;/h3&gt;
-&lt;p&gt;Before registering the managed cluster, first you&amp;rsquo;ll need to set up the following items:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;A ConfigMap containing the externally reachable address of the admin cluster. This will be provided to the managed
-cluster during registration so that it can connect to the admin cluster.&lt;/li&gt;
-&lt;li&gt;A Secret containing the managed cluster&amp;rsquo;s CA certificate. Upon registration of the managed cluster, the host address of the Prometheus instance running on  the managed cluster is populated as &lt;code&gt;prometheusHost&lt;/code&gt; in the &lt;code&gt;Status&lt;/code&gt; field of the &lt;code&gt;VerrazzanoManagedCluster&lt;/code&gt; resource created in the admin cluster. This CA certificate and the value of  &lt;code&gt;prometheusHost&lt;/code&gt; is used by the admin cluster to scrape metrics from the managed cluster, for both applications and Verrazzano components.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Follow these preregistration setup steps:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Obtain the Kubernetes server address for the admin cluster from its &lt;code&gt;kubeconfig&lt;/code&gt; file.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;# If your kubeconfig has only a single context, or has the admin cluster&#39;s context set as the current-context
-$ ADMIN_K8S_SERVER_ADDRESS=&amp;quot;$(kubectl config view --minify | grep server | cut -f2- -d: | tr -d &#39; &#39;)&amp;quot;
-
-# If your kubeconfig has multiple contexts, list the kubeconfig contexts and find the name of context corresponding
-# to the admin cluster
-$ kubectl config get-contexts
-# Replace &amp;quot;admin-server-context-name&amp;quot; with the name of the context corresponding to your admin cluster.
-$ ADMIN_K8S_SERVER_ADDRESS=&amp;quot;$(kubectl --context admin-server-context-name config view --minify | grep server | cut -f2- -d: | tr -d &#39; &#39;)&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Create a ConfigMap that contains the Kubernetes server address for the admin cluster.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f &amp;lt;&amp;lt;EOF -
-apiVersion: v1
-kind: ConfigMap
+        &lt;p&gt;This document describes built-in configuration profiles that you can use to simplify a Verrazzano installation.  An installation
+profile is a well-known configuration of Verrazzano settings that can be referenced by name, which can then be
+customized as needed.&lt;/p&gt;
+&lt;h2 id=&#34;profiles&#34;&gt;Profiles&lt;/h2&gt;
+&lt;p&gt;The following table lists the available installation profiles for Verrazzano:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Profile&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;Description&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;Characteristics&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;prod&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Full install, production configuration&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Default Profile&lt;br/&gt;- Full install&lt;br/&gt;- Persistent storage &lt;br/&gt;- Production Elasticsearch cluster topology&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;dev&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Development/Evaluation configuration&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Lightweight installation&lt;br/&gt;- For evaluation purposes&lt;br/&gt;- No persistence&lt;br/&gt;- Single-node Elasticsearch cluster topology&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;managed-cluster&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;A specialized installation for managed clusters in a Multicluster topology&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Minimal install for a managed cluster&lt;br/&gt;- Cluster must be registered with an admin cluster to leverage &lt;a href=&#34;../../../concepts/verrazzanomulticluster&#34;&gt;multicluster&lt;/a&gt; features&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;using-an-install-profile&#34;&gt;Using an Install Profile&lt;/h3&gt;
+&lt;p&gt;In order to use a profile to install Verrazzano, simply set the profile name in the &lt;code&gt;profile&lt;/code&gt; field of your
+Verrazzano custom resource.&lt;/p&gt;
+&lt;p&gt;For example, to use the &lt;code&gt;dev&lt;/code&gt; profile:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
 metadata:
-  name: verrazzano-admin-cluster
-  namespace: verrazzano-mc
-data:
-  server: &amp;quot;${ADMIN_K8S_SERVER_ADDRESS}&amp;quot;
-EOF
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Obtain the CA certificate used by the managed cluster.  Use the following instructions to write the CA certificate as part of a secret to a file named &lt;code&gt;managed1.yaml&lt;/code&gt; in the current folder.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ export KUBECONFIG=$KUBECONFIG_MANAGED1
-$ CA_SECRET_FILE=managed1.yaml
-$ TLS_SECRET=$(kubectl -n verrazzano-system get secret system-tls -o json | jq -r &#39;.data.&amp;quot;ca.crt&amp;quot;&#39;)
-$ if [ ! -z &amp;quot;${TLS_SECRET%%*( )}&amp;quot; ] &amp;amp;&amp;amp; [ &amp;quot;null&amp;quot; != &amp;quot;${TLS_SECRET}&amp;quot; ] ; then \
-   CA_CERT=$(kubectl -n verrazzano-system get secret system-tls -o json | jq -r &#39;.data.&amp;quot;ca.crt&amp;quot;&#39; | base64 --decode); \
-  fi
-$ if [ ! -z &amp;quot;${CA_CERT}&amp;quot; ] ; then \
-   kubectl create secret generic &amp;quot;ca-secret-managed1&amp;quot; -n verrazzano-mc --from-literal=cacrt=&amp;quot;$CA_CERT&amp;quot; --dry-run=client -o yaml &amp;gt; ${CA_SECRET_FILE}; \
-  fi
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Create a Secret on the admin cluster that contains the CA certificate for the managed cluster. This secret will be used for scraping metrics from the managed cluster.
-The file &lt;code&gt;managed1.yaml&lt;/code&gt; that was created in the previous step provides input to this step.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f managed1.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;!-- omit in toc --&gt;
-&lt;h3 id=&#34;registration-steps&#34;&gt;Registration steps&lt;/h3&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;To begin the registration process for a managed cluster named &lt;code&gt;managed1&lt;/code&gt;, apply the VerrazzanoManagedCluster object on the admin cluster.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f &amp;lt;&amp;lt;EOF -
-apiVersion: clusters.verrazzano.io/v1alpha1
-kind: VerrazzanoManagedCluster
-metadata:
-  name: managed1
-  namespace: verrazzano-mc
+  name: my-verrazzano
 spec:
-  description: &amp;quot;Test VerrazzanoManagedCluster object&amp;quot;
-  caSecret: ca-secret-managed1
-EOF
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Wait for the VerrazzanoManagedCluster resource to reach the &lt;code&gt;Ready&lt;/code&gt; status. At that point, it will have generated a YAML
-file that must be applied on the managed cluster to complete the registration process.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl wait --for=condition=Ready vmc managed1 -n verrazzano-mc
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Export the YAML file created to register the managed cluster.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl get secret verrazzano-cluster-managed1-manifest -n verrazzano-mc -o jsonpath={.data.yaml} | base64 --decode &amp;gt; register.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Apply the registration file on the managed cluster.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl apply -f register.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;run-applications-in-multicluster-verrazzano&#34;&gt;Run applications in multicluster Verrazzano&lt;/h2&gt;
-&lt;p&gt;The Verrazzano multicluster setup is now complete and you can deploy applications by following the &lt;a href=&#34;../docs/samples/multicluster/hello-helidon/&#34;&gt;Multicluster Hello World Helidon&lt;/a&gt; example application.&lt;/p&gt;
-&lt;h2 id=&#34;use-the-admin-cluster-ui&#34;&gt;Use the admin cluster UI&lt;/h2&gt;
-&lt;p&gt;The admin cluster serves as a central point from which to register and deploy applications to managed clusters.&lt;/p&gt;
-&lt;p&gt;In the Verrazzano UI on the admin cluster, you can view the following:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;The managed clusters registered with this admin cluster.&lt;/li&gt;
-&lt;li&gt;VerrazzanoProjects located on this admin cluster, or any of its registered managed clusters, or both.&lt;/li&gt;
-&lt;li&gt;Applications located on this admin cluster, or any of its registered managed clusters, or both.&lt;/li&gt;
-&lt;/ul&gt;
+  profile: dev
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To use another profile, simply replace &lt;code&gt;dev&lt;/code&gt; in the example above with &lt;code&gt;prod&lt;/code&gt; or &lt;code&gt;managed-cluster&lt;/code&gt; to use
+one of those profiles.&lt;/p&gt;
+&lt;h3 id=&#34;customizing-an-install-profile&#34;&gt;Customizing an Install Profile&lt;/h3&gt;
+&lt;p&gt;You can also override the profile settings for any component regardless of the profile.  The following example
+uses a customized &lt;code&gt;dev&lt;/code&gt; profile to configure a small 8Gi persistent volume for the MySQL instance used by Keycloak to
+provide more stability for the Keycloak service:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: custom-dev-example
+spec:
+  profile: dev
+  components:
+    keycloak:
+      mysql:
+        volumeSource:
+          persistentVolumeClaim:
+            claimName: mysql
+  volumeClaimSpecTemplates:
+  - metadata:
+      name: mysql      
+    spec:
+      resources:
+        requests:
+          storage: 8Gi
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;See &lt;a href=&#34;../docs/setup/install/customizing&#34;&gt;Customizing an Install&lt;/a&gt; for details on how to customize each
+Verrazzano component.&lt;/p&gt;
+&lt;h3 id=&#34;profile-configurations&#34;&gt;Profile Configurations&lt;/h3&gt;
+&lt;p&gt;The following table describes the Verrazzano components that are installed with each profile.  Note that you can
+customize any Verrazzano install, regardless of the profile used.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Component&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;dev&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;prod&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;managed-cluster&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Istio&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;NGINX&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Cert-Manager&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;External-DNS&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;️&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Prometheus&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Elasticsearch&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Console&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Kibana&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Grafana&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Rancher&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Keycloak&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;profiles-and-prometheus-configurations&#34;&gt;Profiles and Prometheus Configurations&lt;/h4&gt;
+&lt;p&gt;The following table describes the configurations for Prometheus and Grafana in each profile:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Profile&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;Prometheus&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;Grafana&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;prod&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1 replica (128M memory, 50Gi storage)&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1 replica (48M memory, 50Gi storage)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;dev&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1 replica (128M memory, ephemeral storage)&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1 replica (48M memory, ephemeral storage)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;managed-cluster&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1 replica (128M memory, 50Gi storage)&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Not installed&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;profiles-and-elasticsearch-configurations&#34;&gt;Profiles and Elasticsearch Configurations&lt;/h4&gt;
+&lt;p&gt;The following table describes the Kibana and Elasticsearch cluster topology in each profile:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Profile&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;Elasticsearch&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;Kibana&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;prod&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;3 master replicas (1.4Gi memory, 50Gi storage each)&lt;br/&gt;1 ingest replica (2.5Gi memory, no storage)&lt;br/&gt;2 data replicas (4.8Gi memory, 50Gi storage each)&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1 replica (192M memory, ephemeral storage)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;dev&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1 master/data/ingest replica (1Gi memory, ephemeral storage)&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1 replica (192M memory, ephemeral storage)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;managed-cluster&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Not installed&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Not installed&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+Elasticsearch containers are configured to utilize 75% of the configured request memory for the Java min/max heap settings.
+&lt;/div&gt;
+
+&lt;h3 id=&#34;profile-independent-defaults&#34;&gt;Profile-independent Defaults&lt;/h3&gt;
+&lt;p&gt;The following table shows the settings for components that are profile-independent (consistent across
+all profiles unless overridden):&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Component&lt;/th&gt;
+&lt;th&gt;Default&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;DNS&lt;/td&gt;
+&lt;td&gt;Wildcard DNS provider &lt;a href=&#34;https://nip.io&#34;&gt;nip.io&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Certificates&lt;/td&gt;
+&lt;td&gt;Uses the &lt;a href=&#34;https://cert-manager.io/&#34;&gt;Cert-Manager&lt;/a&gt; self-signed &lt;a href=&#34;https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.ClusterIssuer&#34;&gt;ClusterIssuer&lt;/a&gt; for certificates&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Ingress-type&lt;/td&gt;
+&lt;td&gt;Defaults to&lt;code&gt;LoadBalancer&lt;/code&gt; service type for the ingress&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;See &lt;a href=&#34;../docs/setup/install/customizing&#34;&gt;Customizing an Install&lt;/a&gt; for details on how to customize each
+Verrazzano component.&lt;/p&gt;
 
       </description>
     </item>
@@ -3558,7 +3667,7 @@ spec:
     ingress:
       type: LoadBalancer
 
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The following table describes the &lt;code&gt;spec&lt;/code&gt; portion of the Verrazzano custom resource:&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;verrazzanospec&#34;&gt;VerrazzanoSpec&lt;/h2&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -3589,8 +3698,45 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;components&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#Components&#34;&gt;Components&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#components&#34;&gt;Components&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The Verrazzano components.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;defaultVolumeSource&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/&#34;&gt;VolumeSource&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Defines the type of volume to be used for persistence for all components unless overridden, and can be one of either &lt;a href=&#34;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#emptydirvolumesource-v1-core&#34;&gt;EmptyDirVolumeSource&lt;/a&gt; or &lt;a href=&#34;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core&#34;&gt;PersistentVolumeClaimVolumeSource&lt;/a&gt;. If &lt;a href=&#34;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core&#34;&gt;PersistentVolumeClaimVolumeSource&lt;/a&gt; a is declared, the &lt;code&gt;claimName&lt;/code&gt; must reference the name of an existing &lt;code&gt;VolumeClaimSpecTemplate&lt;/code&gt; declared in the &lt;code&gt;volumeClaimSpecTemplates&lt;/code&gt; section.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;volumeClaimSpecTemplates&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;[]&lt;a href=&#34;#volumeclaimspectemplate&#34;&gt;VolumeClaimSpecTemplate&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Defines a named set of PVC configurations that can be referenced from components to configure persistent volumes.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;volumeclaimspectemplate&#34;&gt;VolumeClaimSpecTemplate&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;metadata&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/object-meta/&#34;&gt;ObjectMeta&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Metadata about the PersistentVolumeClaimSpec template.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/persistent-volume-claim-v1/#PersistentVolumeClaimSpec&#34;&gt;PersistentVolumeClaimSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;A &lt;code&gt;PersistentVolumeClaimSpec&lt;/code&gt; template that can be referenced by a Component to override its default storage settings for a profile.  At present, only a subset of the &lt;code&gt;resources.requests&lt;/code&gt; object are honored depending on the component.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -3628,6 +3774,36 @@ spec:
 &lt;td&gt;&lt;code&gt;istio&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;#istio-component&#34;&gt;IstioComponent&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The Istio component configuration.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;keycloak&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#keycloak-component&#34;&gt;KeycloakComponent&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The Keycloak component configuration.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;elasticsearch&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#elasticsearch-component&#34;&gt;ElasticsearchComponent&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The Elasticsearch component configuration.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;prometheus&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#prometheus-component&#34;&gt;PrometheusComponent&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The Prometheus component configuration.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;kibana&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#kibana-component&#34;&gt;KibanaComponent&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The Kibana component configuration.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;grafana&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#grafana-component&#34;&gt;GrafanaComponent&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The Grafana component configuration.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -3958,6 +4134,188 @@ spec:
 &lt;td&gt;&lt;code&gt;istioInstallArgs&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;#name-value&#34;&gt;NameValue&lt;/a&gt; list&lt;/td&gt;
 &lt;td&gt;A list of Istio Helm chart arguments and values to apply during the installation of Istio.  Each argument is specified as either a &lt;code&gt;name/value&lt;/code&gt; or &lt;code&gt;name/valueList&lt;/code&gt; pair.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;fluentd-component&#34;&gt;Fluentd Component&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;extraVolumeMounts&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#extra-volume-mount&#34;&gt;ExtraVolumeMount&lt;/a&gt; list&lt;/td&gt;
+&lt;td&gt;A list of host path volume mounts in addition to &lt;code&gt;/var/log&lt;/code&gt; into the Fluentd DaemonSet. The Fluentd component collects log files in the &lt;code&gt;/var/log/containers&lt;/code&gt; directory of Kubernetes worker nodes. The &lt;code&gt;/var/log/containers&lt;/code&gt; directory may contain symbolic links to files located outside the &lt;code&gt;/var/log&lt;/code&gt; directory. If the host path directory containing the log files is located outside of &lt;code&gt;/var/log&lt;/code&gt;, the Fluentd DaemonSet must have the volume mount of that directory to collect the logs.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;extra-volume-mount&#34;&gt;Extra Volume Mount&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;source&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The source host path.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;destination&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The destination path on the Fluentd Container, defaults to the &lt;code&gt;source&lt;/code&gt; host path.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;readOnly&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Boolean&lt;/td&gt;
+&lt;td&gt;Specifies if the volume mount is read-only, defaults to &lt;code&gt;true&lt;/code&gt;.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;keycloak-component&#34;&gt;Keycloak Component&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;enabled&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;boolean&lt;/td&gt;
+&lt;td&gt;If true, Keycloak will be installed&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;keycloakInstallArgs&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#name-value&#34;&gt;NameValue&lt;/a&gt; list&lt;/td&gt;
+&lt;td&gt;Allows providing custom Helm arguments to install Keycloak&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;mysql&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#mysql-component&#34;&gt;MySQLComponent&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Contains the MySQL component configuration needed for Keycloak&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;mysql-component&#34;&gt;MySQL Component&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;mysqlInstallArgs&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#name-value&#34;&gt;NameValue&lt;/a&gt; list&lt;/td&gt;
+&lt;td&gt;Allows providing custom Helm arguments to intall MySQL for KeyCloak&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;volumeSource&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/&#34;&gt;VolumeSource&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Defines the type of volume to be used for persistence for Keycloak/MySQL, and can be one of either &lt;a href=&#34;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#emptydirvolumesource-v1-core&#34;&gt;EmptyDirVolumeSource&lt;/a&gt; or &lt;a href=&#34;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core&#34;&gt;PersistentVolumeClaimVolumeSource&lt;/a&gt;. If &lt;a href=&#34;https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core&#34;&gt;PersistentVolumeClaimVolumeSource&lt;/a&gt; is declared, the &lt;code&gt;claimName&lt;/code&gt; must reference the name of a &lt;code&gt;VolumeClaimSpecTemplate&lt;/code&gt; declared in the &lt;code&gt;volumeClaimSpecTemplates&lt;/code&gt; section.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;elasticsearch-component&#34;&gt;Elasticsearch Component&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;enabled&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;boolean&lt;/td&gt;
+&lt;td&gt;If true, ElasticSearch will be installed&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;kibana-component&#34;&gt;Kibana Component&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;enabled&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;boolean&lt;/td&gt;
+&lt;td&gt;If true, Kibana will be installed&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;prometheus-component&#34;&gt;Prometheus Component&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;enabled&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;boolean&lt;/td&gt;
+&lt;td&gt;If true, Prometheus will be installed&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;grafana-component&#34;&gt;Grafana Component&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;enabled&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;boolean&lt;/td&gt;
+&lt;td&gt;If true, Grafana will be installed&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -5175,7 +5533,29 @@ the &lt;code&gt;principals&lt;/code&gt; section to permit that access.&lt;/p&gt;
     </item>
     
     <item>
-      <title>Docs: Upgrade Guide</title>
+      <title>Docs: Uninstall</title>
+      <link>https://verrazzano.io/docs/setup/uninstall/uninstall/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/setup/uninstall/uninstall/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;uninstall-verrazzano&#34;&gt;Uninstall Verrazzano&lt;/h2&gt;
+&lt;p&gt;To delete a Verrazzano installation:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# Get the name of the Verrazzano custom resource
+$ kubectl get verrazzano
+
+# Delete the Verrazzano custom resource
+$ kubectl delete verrazzano &amp;lt;name of custom resource&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To monitor the console log of the uninstall:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl logs -f $(kubectl get pod -l job-name=verrazzano-uninstall-my-verrazzano -o jsonpath=&amp;quot;{.items[0].metadata.name}&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Upgrade</title>
       <link>https://verrazzano.io/docs/setup/upgrade/upgrade/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -5209,7 +5589,7 @@ will not have any impact on running applications.&lt;/p&gt;
 &lt;p&gt;Upgrade the Verrazzano platform operator.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; If you are using a private container registry, follow the instructions at &lt;a href=&#34;../../private-registry/private-registry&#34;&gt;Using a Private Registry&lt;/a&gt; to update the platform operator.&lt;/p&gt;
 &lt;p&gt;To upgrade to the latest version:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v0.16.0/operator.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To upgrade to a specific version, where &lt;code&gt;&amp;lt;version&amp;gt;&lt;/code&gt; is the desired version:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/&amp;lt;version&amp;gt;/operator.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For example:&lt;/p&gt;
@@ -5975,6 +6355,131 @@ $ kubectl get IngressTrait -n sockshop
     </item>
     
     <item>
+      <title>Docs: Install Multicluster Verrazzano</title>
+      <link>https://verrazzano.io/docs/setup/install/multicluster/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/setup/install/multicluster/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
+&lt;p&gt;Before you begin, read this document, &lt;a href=&#34;../docs/concepts/verrazzanomulticluster/&#34;&gt;Verrazzano in a multicluster environment&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;
+&lt;p&gt;To set up a multicluster Verrazzano environment, you will need two or more Kubernetes clusters. One of these clusters
+will the &lt;em&gt;admin&lt;/em&gt; cluster; the others will be &lt;em&gt;managed&lt;/em&gt; clusters.&lt;/p&gt;
+&lt;p&gt;The instructions here assume an admin cluster and a single managed cluster. For each additional managed
+cluster, simply repeat the managed cluster instructions.&lt;/p&gt;
+&lt;h2 id=&#34;install-verrazzano&#34;&gt;Install Verrazzano&lt;/h2&gt;
+&lt;p&gt;Install Verrazzano on each Kubernetes cluster.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;On one cluster, install Verrazzano using the &lt;code&gt;dev&lt;/code&gt; or &lt;code&gt;prod&lt;/code&gt; profile; this will be the &lt;em&gt;admin&lt;/em&gt; cluster.&lt;/li&gt;
+&lt;li&gt;On the other cluster, install Verrazzano using the &lt;code&gt;managed-cluster&lt;/code&gt; profile; this will be a
+managed cluster. The &lt;code&gt;managed-cluster&lt;/code&gt; profile contains only the components that are required for a managed cluster.&lt;/li&gt;
+&lt;li&gt;Create the environment variables, &lt;code&gt;KUBECONFIG_ADMIN&lt;/code&gt; and &lt;code&gt;KUBECONFIG_MANAGED1&lt;/code&gt;, and point them to the &lt;code&gt;kubeconfig&lt;/code&gt;
+files for the admin and managed cluster, respectively. These environment variables will be used in subsequent steps
+when registering the managed cluster.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For detailed instructions on how to install Verrazzano on a Kubernetes cluster using a specific profile, see the
+&lt;a href=&#34;../docs/setup/install/installation/&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;register-the-managed-cluster-with-the-admin-cluster&#34;&gt;Register the managed cluster with the admin cluster&lt;/h2&gt;
+&lt;p&gt;The following sections show you how to register the managed cluster with the admin cluster.&lt;/p&gt;
+&lt;!-- omit in toc --&gt;
+&lt;h3 id=&#34;preregistration-setup&#34;&gt;Preregistration setup&lt;/h3&gt;
+&lt;p&gt;Before registering the managed cluster, first you&amp;rsquo;ll need to set up the following items:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A ConfigMap containing the externally reachable address of the admin cluster. This will be provided to the managed
+cluster during registration so that it can connect to the admin cluster.&lt;/li&gt;
+&lt;li&gt;A Secret containing the managed cluster&amp;rsquo;s CA certificate. Upon registration of the managed cluster, the host address of the Prometheus instance running on  the managed cluster is populated as &lt;code&gt;prometheusHost&lt;/code&gt; in the &lt;code&gt;Status&lt;/code&gt; field of the &lt;code&gt;VerrazzanoManagedCluster&lt;/code&gt; resource created in the admin cluster. This CA certificate and the value of  &lt;code&gt;prometheusHost&lt;/code&gt; is used by the admin cluster to scrape metrics from the managed cluster, for both applications and Verrazzano components.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Follow these preregistration setup steps:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Obtain the Kubernetes server address for the admin cluster from its &lt;code&gt;kubeconfig&lt;/code&gt; file.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# If your kubeconfig has only a single context, or has the admin cluster&#39;s context set as the current-context
+$ ADMIN_K8S_SERVER_ADDRESS=&amp;quot;$(kubectl config view --minify | grep server | cut -f2- -d: | tr -d &#39; &#39;)&amp;quot;
+
+# If your kubeconfig has multiple contexts, list the kubeconfig contexts and find the name of context corresponding
+# to the admin cluster
+$ kubectl config get-contexts
+# Replace &amp;quot;admin-server-context-name&amp;quot; with the name of the context corresponding to your admin cluster.
+$ ADMIN_K8S_SERVER_ADDRESS=&amp;quot;$(kubectl --context admin-server-context-name config view --minify | grep server | cut -f2- -d: | tr -d &#39; &#39;)&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create a ConfigMap that contains the Kubernetes server address for the admin cluster.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f &amp;lt;&amp;lt;EOF -
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: verrazzano-admin-cluster
+  namespace: verrazzano-mc
+data:
+  server: &amp;quot;${ADMIN_K8S_SERVER_ADDRESS}&amp;quot;
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Obtain the CA certificate used by the managed cluster.  Use the following instructions to write the CA certificate as part of a secret to a file named &lt;code&gt;managed1.yaml&lt;/code&gt; in the current folder.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ export KUBECONFIG=$KUBECONFIG_MANAGED1
+$ CA_SECRET_FILE=managed1.yaml
+$ TLS_SECRET=$(kubectl -n verrazzano-system get secret system-tls -o json | jq -r &#39;.data.&amp;quot;ca.crt&amp;quot;&#39;)
+$ if [ ! -z &amp;quot;${TLS_SECRET%%*( )}&amp;quot; ] &amp;amp;&amp;amp; [ &amp;quot;null&amp;quot; != &amp;quot;${TLS_SECRET}&amp;quot; ] ; then \
+   CA_CERT=$(kubectl -n verrazzano-system get secret system-tls -o json | jq -r &#39;.data.&amp;quot;ca.crt&amp;quot;&#39; | base64 --decode); \
+  fi
+$ if [ ! -z &amp;quot;${CA_CERT}&amp;quot; ] ; then \
+   kubectl create secret generic &amp;quot;ca-secret-managed1&amp;quot; -n verrazzano-mc --from-literal=cacrt=&amp;quot;$CA_CERT&amp;quot; --dry-run=client -o yaml &amp;gt; ${CA_SECRET_FILE}; \
+  fi
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create a Secret on the admin cluster that contains the CA certificate for the managed cluster. This secret will be used for scraping metrics from the managed cluster.
+The file &lt;code&gt;managed1.yaml&lt;/code&gt; that was created in the previous step provides input to this step.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f managed1.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;!-- omit in toc --&gt;
+&lt;h3 id=&#34;registration-steps&#34;&gt;Registration steps&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;To begin the registration process for a managed cluster named &lt;code&gt;managed1&lt;/code&gt;, apply the VerrazzanoManagedCluster object on the admin cluster.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f &amp;lt;&amp;lt;EOF -
+apiVersion: clusters.verrazzano.io/v1alpha1
+kind: VerrazzanoManagedCluster
+metadata:
+  name: managed1
+  namespace: verrazzano-mc
+spec:
+  description: &amp;quot;Test VerrazzanoManagedCluster object&amp;quot;
+  caSecret: ca-secret-managed1
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Wait for the VerrazzanoManagedCluster resource to reach the &lt;code&gt;Ready&lt;/code&gt; status. At that point, it will have generated a YAML
+file that must be applied on the managed cluster to complete the registration process.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl wait --for=condition=Ready vmc managed1 -n verrazzano-mc
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Export the YAML file created to register the managed cluster.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl get secret verrazzano-cluster-managed1-manifest -n verrazzano-mc -o jsonpath={.data.yaml} | base64 --decode &amp;gt; register.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Apply the registration file on the managed cluster.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl apply -f register.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;run-applications-in-multicluster-verrazzano&#34;&gt;Run applications in multicluster Verrazzano&lt;/h2&gt;
+&lt;p&gt;The Verrazzano multicluster setup is now complete and you can deploy applications by following the &lt;a href=&#34;../docs/samples/multicluster/hello-helidon/&#34;&gt;Multicluster Hello World Helidon&lt;/a&gt; example application.&lt;/p&gt;
+&lt;h2 id=&#34;use-the-admin-cluster-ui&#34;&gt;Use the admin cluster UI&lt;/h2&gt;
+&lt;p&gt;The admin cluster serves as a central point from which to register and deploy applications to managed clusters.&lt;/p&gt;
+&lt;p&gt;In the Verrazzano UI on the admin cluster, you can view the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The managed clusters registered with this admin cluster.&lt;/li&gt;
+&lt;li&gt;VerrazzanoProjects located on this admin cluster, or any of its registered managed clusters, or both.&lt;/li&gt;
+&lt;li&gt;Applications located on this admin cluster, or any of its registered managed clusters, or both.&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Insufficient Memory</title>
       <link>https://verrazzano.io/docs/troubleshooting/diagnostictools/analysisadvice/insufficientmemory/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -6010,7 +6515,7 @@ $ kubectl get IngressTrait -n sockshop
     </item>
     
     <item>
-      <title>Docs: Oracle Cloud Infrastructure (OCI)</title>
+      <title>Docs: OCI Container Engine for Kubernetes (OKE)</title>
       <link>https://verrazzano.io/docs/setup/platforms/oci/oci/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -6027,19 +6532,15 @@ $ kubectl get IngressTrait -n sockshop
 &lt;p&gt;For &lt;code&gt;SHAPE&lt;/code&gt;, an OKE cluster with 3 nodes of &lt;code&gt;VM.Standard2.4&lt;/code&gt; &lt;a href=&#34;https://www.oracle.com/cloud/compute/virtual-machines.html&#34;&gt;OCI compute instance shape&lt;/a&gt; has proven sufficient to install Verrazzano and deploy the Bob&amp;rsquo;s Books example application.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Set the following &lt;code&gt;ENV&lt;/code&gt; variable:&lt;/p&gt;
+&lt;p&gt;Follow the instructions provided by OKE to download the Kubernetes config for your cluster, and set the following &lt;code&gt;ENV&lt;/code&gt; variable:&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;pre&gt;&lt;code&gt;   $ export KUBECONFIG=&amp;lt;path to valid Kubernetes config&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
-&lt;li&gt;Optional step, needed only if your organization requires the use of a private registry to host one or more of the Docker images installed by
-Verrazzano and those images have been loaded into the private registry. Create the optional &lt;code&gt;imagePullSecret&lt;/code&gt; named &lt;code&gt;verrazzano-container-registry&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Optional, see the document &lt;a href=&#34;../docs/setup/private-registry/private-registry/&#34;&gt;Using a Private Registry&lt;/a&gt;
+if your organization requires the use of a private registry to the Docker images installed by Verrazzano.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;   $ kubectl create secret docker-registry verrazzano-container-registry \
-    --docker-username=&amp;lt;username&amp;gt; \
-    --docker-password=&amp;lt;password&amp;gt; \
-    --docker-server=&amp;lt;docker server of private registry&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Verrazzano can create network policies that can be used to limit the ports and protocols that pods use for network communication. Network policies provide additional security but they are enforced only if you install a Kubernetes Container Network Interface (CNI) plug-in that enforces them, such as Calico. For an example on OKE, see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengsettingupcalico.htm&#34;&gt;Installing Calico and Setting Up Network Policies&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Verrazzano can create network policies that can be used to limit the ports and protocols that pods use for network communication. Network policies provide additional security but they are enforced only if you install a Kubernetes Container Network Interface (CNI) plug-in that enforces them, such as Calico. For an example on OKE, see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengsettingupcalico.htm&#34;&gt;Installing Calico and Setting Up Network Policies&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
 &lt;p&gt;To continue, see the &lt;a href=&#34;../docs/setup/install/installation/#install-the-verrazzano-platform-operator&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
 
@@ -6236,6 +6737,31 @@ $ kubectl delete -f springboot-comp.yaml
 $ kubectl delete namespace springboot
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ol&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Using a Private Registry</title>
+      <link>https://verrazzano.io/docs/setup/private-registry/private-registry/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/setup/private-registry/private-registry/</guid>
+      <description>
+        
+        
+        &lt;h3 id=&#34;using-a-private-registry-with-verrazzano&#34;&gt;Using a Private Registry with Verrazzano&lt;/h3&gt;
+&lt;p&gt;Verrazzano supports being able to install from a private Docker-compliant container registry, which requires:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Loading all required Verrazzano container images into your own registry and repository.&lt;/li&gt;
+&lt;li&gt;Installing the Verrazzano Platform Operator with the private registry and repository used to load the images.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To load the required Verrazzano images and prepare for an installation from your private registry, you must do the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Download the TAR file containing the full set of images for the Verrazzano release from the &lt;a href=&#34;https://www.oracle.com/downloads/&#34;&gt;Oracle Software Download Center&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Extract all files from the TAR file locally and follow instructions in the &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/tools/scripts/README.md&#34;&gt;README&lt;/a&gt;
+file in the archive.&lt;/li&gt;
+&lt;/ul&gt;
 
       </description>
     </item>
@@ -7654,315 +8180,6 @@ DNS CNAME records, in the same way.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ export KUBECONFIG=$VERRAZZANO_KUBECONFIG
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
 &lt;p&gt;To continue, see the &lt;a href=&#34;../docs/setup/install/installation/#install-the-verrazzano-platform-operator&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Docs: Software versions</title>
-      <link>https://verrazzano.io/docs/reference/versions/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://verrazzano.io/docs/reference/versions/</guid>
-      <description>
-        
-        
-        &lt;p&gt;Verrazzano installs a curated set of open source components.  The following table lists each open source
-component with its version and a brief description.&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Component&lt;/th&gt;
-&lt;th&gt;Version&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;cert-manager&lt;/td&gt;
-&lt;td&gt;1.2.0&lt;/td&gt;
-&lt;td&gt;Automates the management and issuance of TLS certificates.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Coherence Operator&lt;/td&gt;
-&lt;td&gt;3.1.5&lt;/td&gt;
-&lt;td&gt;Assists with deploying and managing Coherence clusters.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Elasticsearch&lt;/td&gt;
-&lt;td&gt;7.6.1&lt;/td&gt;
-&lt;td&gt;Provides a distributed, multitenant-capable full-text search engine.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;ExternalDNS&lt;/td&gt;
-&lt;td&gt;0.7.1&lt;/td&gt;
-&lt;td&gt;Synchronizes exposed Kubernetes Services and ingresses with DNS providers.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Grafana&lt;/td&gt;
-&lt;td&gt;6.4.4&lt;/td&gt;
-&lt;td&gt;Tool to help you study, analyze, and monitor metrics.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Istio&lt;/td&gt;
-&lt;td&gt;1.7.3&lt;/td&gt;
-&lt;td&gt;Service mesh that layers transparently onto existing distributed applications.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Keycloak&lt;/td&gt;
-&lt;td&gt;10.0.1&lt;/td&gt;
-&lt;td&gt;Provides single sign-on with Identity and Access Management.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Kibana&lt;/td&gt;
-&lt;td&gt;7.6.1&lt;/td&gt;
-&lt;td&gt;Provides search and data visualization capabilities for data indexed in Elasticsearch.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;MySQL&lt;/td&gt;
-&lt;td&gt;8.0.20&lt;/td&gt;
-&lt;td&gt;Open source relational database management system used by Keycloak.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;NGINX Ingress Controller&lt;/td&gt;
-&lt;td&gt;0.46.0&lt;/td&gt;
-&lt;td&gt;Traffic management solution for cloud‑native applications in Kubernetes.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Node Exporter&lt;/td&gt;
-&lt;td&gt;1.0.0&lt;/td&gt;
-&lt;td&gt;Prometheus exporter for hardware and OS metrics.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;OAM Kubernetes Runtime&lt;/td&gt;
-&lt;td&gt;0.3.0&lt;/td&gt;
-&lt;td&gt;Plug-in for implementing Open Application Model (OAM) control plane with Kubernetes.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Prometheus&lt;/td&gt;
-&lt;td&gt;2.13.1&lt;/td&gt;
-&lt;td&gt;Provides event monitoring and alerting.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Rancher&lt;/td&gt;
-&lt;td&gt;2.5.7&lt;/td&gt;
-&lt;td&gt;Manages multiple Kubernetes clusters.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;WebLogic Kubernetes Operator&lt;/td&gt;
-&lt;td&gt;3.2.4&lt;/td&gt;
-&lt;td&gt;Assists with deploying and managing WebLogic domains.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Docs: KIND</title>
-      <link>https://verrazzano.io/docs/setup/platforms/kind/kind/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://verrazzano.io/docs/setup/platforms/kind/kind/</guid>
-      <description>
-        
-        
-        &lt;p&gt;&lt;a href=&#34;https://kind.sigs.k8s.io/&#34;&gt;KIND&lt;/a&gt; is a tool for running local Kubernetes clusters using Docker container “nodes”.  Follow
-these instructions to prepare a KIND cluster for running Verrazzano.&lt;/p&gt;
-
-
-&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
-&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
-KIND is not recommended for use on macOS and Windows because the Docker network is not directly exposed
-to the host.  On macOS and Windows, &lt;a href=&#34;../docs/setup/platforms/minikube/minikube/&#34;&gt;minikube&lt;/a&gt; is recommended.
-&lt;/div&gt;
-
-&lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Install &lt;a href=&#34;https://docs.docker.com/install/&#34;&gt;Docker&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;Install &lt;a href=&#34;https://kind.sigs.k8s.io/docs/user/quick-start/#installation&#34;&gt;KIND&lt;/a&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;prepare-the-kind-cluster&#34;&gt;Prepare the KIND cluster&lt;/h2&gt;
-&lt;p&gt;To prepare the KIND cluster for use with Verrazzano, you must create the cluster and then install and configure
-&lt;a href=&#34;https://metallb.universe.tf/&#34;&gt;MetalLB&lt;/a&gt; in that cluster.&lt;/p&gt;
-&lt;h3 id=&#34;create-the-kind-cluster&#34;&gt;Create the KIND cluster&lt;/h3&gt;
-&lt;p&gt;KIND images are prebuilt for each release.  To find images suitable for a given release, check the
-&lt;a href=&#34;https://github.com/kubernetes-sigs/kind/releases&#34;&gt;release notes&lt;/a&gt; for your KIND version (check with &lt;code&gt;kind version&lt;/code&gt;)
-where you&amp;rsquo;ll find a complete listing of images created for a KIND release.&lt;/p&gt;
-&lt;p&gt;The following example references a Kubernetes v1.18.8-based image built for KIND v0.9.0.  Replace that image
-with one suitable for the KIND release you are using.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kind create cluster --config - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Cluster
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: kind.x-k8s.io/v1alpha4
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;nodes:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  - role: control-plane
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    image: kindest/node:v1.18.8@sha256:f4bcc97a0ad6e7abaf3f643d890add7efe6ee4ab90baeb374b4f41a4c95567eb
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    kubeadmConfigPatches:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      - |
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        kind: ClusterConfiguration
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        apiServer:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          extraArgs:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            &amp;#34;service-account-issuer&amp;#34;: &amp;#34;kubernetes.default.svc&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            &amp;#34;service-account-signing-key-file&amp;#34;: &amp;#34;/etc/kubernetes/pki/sa.key&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;install-and-configure-metallb&#34;&gt;Install and configure MetalLB&lt;/h3&gt;
-&lt;p&gt;By default, KIND does not provide an implementation of network load balancers (&lt;a href=&#34;https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/&#34;&gt;Services of type LoadBalancer&lt;/a&gt;).
-&lt;a href=&#34;https://metallb.universe.tf/&#34;&gt;MetalLB&lt;/a&gt; offers a network load balancer implementation.&lt;/p&gt;
-&lt;p&gt;To install MetalLB:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
-$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml
-$ kubectl create secret generic -n metallb-system memberlist --from-literal&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;secretkey&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;openssl rand -base64 128&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For further details, see the MetalLB &lt;a href=&#34;https://metallb.universe.tf/installation/#installation-by-manifest&#34;&gt;installation guide&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;MetalLB is idle until configured.  Configure MetalLB in Layer 2 mode and give it control over a range of IP addresses in the &lt;code&gt;kind&lt;/code&gt; Docker network.
-In versions v0.7.0 and earlier, KIND uses Docker&amp;rsquo;s default bridge network; in versions v0.8.0 and later, it creates its own bridge network in KIND.&lt;/p&gt;
-&lt;p&gt;To determine the subnet of the &lt;code&gt;kind&lt;/code&gt; Docker network in KIND v0.8.0 and later:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ docker inspect kind &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt; jq &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;.[0].IPAM.Config[0].Subnet&amp;#39;&lt;/span&gt; -r
-172.18.0.0/16
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To determine the subnet of the &lt;code&gt;kind&lt;/code&gt; Docker network in KIND v0.7.0 and earlier:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ docker inspect bridge &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt; jq &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;.[0].IPAM.Config[0].Subnet&amp;#39;&lt;/span&gt; -r
-172.17.0.0/16
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For use by MetalLB, assign a range of IP addresses at the end of the &lt;code&gt;kind&lt;/code&gt; network&amp;rsquo;s subnet CIDR range.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;-EOF
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: v1
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: ConfigMap
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  namespace: metallb-system
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: config
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;data:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  config: |
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    address-pools:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - name: my-ip-space
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      protocol: layer2
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      addresses:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      - 172.18.0.230-172.18.0.250
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;image-caching-to-speed-up-install&#34;&gt;Image caching to speed up install&lt;/h2&gt;
-&lt;p&gt;If you are experimenting with Verrazzano and expect that you may need to delete the KIND cluster and later, install Verrazzano again on a new KIND cluster, then you can follow these steps to ensure that the image cache used by containerd inside KIND is preserved across clusters. Subsequent installs will be faster than the first install, because they will not need to pull the images again.&lt;/p&gt;
-&lt;p&gt;1. Create a named Docker volume that will be used for the image cache, and note its &lt;code&gt;Mountpoint&lt;/code&gt; path. In this example, the volume is named &lt;code&gt;containerd&lt;/code&gt;.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ docker volume create containerd
-
-$ docker volume inspect containerd &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#Sample output is shown&lt;/span&gt;
-
-&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;
-    &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;CreatedAt&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;2021-01-11T16:27:47Z&amp;#34;&lt;/span&gt;,
-    &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Driver&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;local&amp;#34;&lt;/span&gt;,
-    &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Labels&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{}&lt;/span&gt;,
-    &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Mountpoint&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;/var/lib/docker/volumes/containerd/_data&amp;#34;&lt;/span&gt;,
-    &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Name&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;containerd&amp;#34;&lt;/span&gt;,
-    &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Options&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{}&lt;/span&gt;,
-    &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;Scope&amp;#34;&lt;/span&gt;: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;local&amp;#34;&lt;/span&gt;
-&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;2. Specify the &lt;code&gt;Mountpoint&lt;/code&gt; path obtained, as the &lt;code&gt;hostPath&lt;/code&gt; under &lt;code&gt;extraMounts&lt;/code&gt; in your KIND configuration file, with a &lt;code&gt;containerPath&lt;/code&gt; of &lt;code&gt;/var/lib/containerd&lt;/code&gt;, which is the default containerd image caching location inside the KIND container. An example of the modified KIND configuration is shown in the following &lt;code&gt;create cluster&lt;/code&gt; command:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kind create cluster --config - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Cluster
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: kind.x-k8s.io/v1alpha4
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;nodes:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  - role: control-plane
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    image: kindest/node:v1.18.8@sha256:f4bcc97a0ad6e7abaf3f643d890add7efe6ee4ab90baeb374b4f41a4c95567eb
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    kubeadmConfigPatches:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      - |
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        kind: ClusterConfiguration
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        apiServer:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          extraArgs:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            &amp;#34;service-account-issuer&amp;#34;: &amp;#34;kubernetes.default.svc&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            &amp;#34;service-account-signing-key-file&amp;#34;: &amp;#34;/etc/kubernetes/pki/sa.key&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    extraMounts:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      - hostPath: /var/lib/docker/volumes/containerd/_data
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        containerPath: /var/lib/containerd #This is the location of the image cache inside the KIND container
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
-&lt;p&gt;To continue, see the &lt;a href=&#34;../docs/setup/install/installation/#install-the-verrazzano-platform-operator&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Docs: Metrics</title>
-      <link>https://verrazzano.io/docs/monitoring/metrics/metrics/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://verrazzano.io/docs/monitoring/metrics/metrics/</guid>
-      <description>
-        
-        
-        &lt;p&gt;The Verrazzano metrics stack automates metrics aggregation and consists of Prometheus and Grafana components.
-Metrics sources expose system and application metrics.
-The Prometheus components retrieve and store the metrics and Grafana provides dashboards to
-visualize them.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;../../../images/metrics.png&#34; alt=&#34;Metrics&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;metrics-sources&#34;&gt;Metrics sources&lt;/h3&gt;
-&lt;p&gt;Metrics sources produce metrics and expose them to the Kubernetes Prometheus system using annotations in the pods.
-The metrics annotations may differ slightly depending on the resource type.
-The following is an example of the WebLogic Prometheus-related configuration specified in the &lt;code&gt;todo-list&lt;/code&gt; application pod:&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;$ kubectl describe pod tododomain-adminserver -n todo-list&lt;/code&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;Annotations:  prometheus.io/path: /wls-exporter/metrics
-              prometheus.io/port: 7001
-              prometheus.io/scrape: true
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For other resource types, such as Coherence or Helidon, the annotations would look similar to this:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;Annotations:  verrazzano.io/metricsEnabled: true
-              verrazzano.io/metricsPath: /metrics
-              verrazzano.io/metricsPort: 8080
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To look directly at the metrics that are being made available by the metric source, map the port and then access the path.&lt;/p&gt;
-&lt;p&gt;For example, for the previous metric source:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Map the port being used to expose the metrics.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl port-forward tododomain-adminserver 7001:7001 -n todo-list
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Get the user name and password used to access the metrics source from the corresponding secret.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get secret --namespace todo-list tododomain-weblogic-credentials  -o jsonpath={.data.username} | base64 --decode; echo
-$ kubectl get secret --namespace todo-list tododomain-weblogic-credentials  -o jsonpath={.data.password} | base64 --decode; echo
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Access the metrics at the exported path, using the user name and password retrieved in the previous step.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ curl -u USERNAME:PASSWORD localhost:7001/wls-exporter/metrics
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;metrics-server&#34;&gt;Metrics server&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;Single pod per cluster&lt;/li&gt;
-&lt;li&gt;Named &lt;code&gt;vmi-system-prometheus-*&lt;/code&gt; in &lt;code&gt;verrazzano-system&lt;/code&gt; namespace&lt;/li&gt;
-&lt;li&gt;Discovers exposed metrics source endpoints&lt;/li&gt;
-&lt;li&gt;Scrapes metrics from metrics sources&lt;/li&gt;
-&lt;li&gt;Responsible for exposing all metrics&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;grafana&#34;&gt;Grafana&lt;/h2&gt;
-&lt;p&gt;Grafana provides visualization for your Prometheus metric data.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Single pod per cluster&lt;/li&gt;
-&lt;li&gt;Named &lt;code&gt;vmi-system-grafana-*&lt;/code&gt; in &lt;code&gt;verrazzano-system&lt;/code&gt; namespace&lt;/li&gt;
-&lt;li&gt;Provides dashboards for metrics visualization&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;To access Grafana:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Get the hostname from the Grafana ingress.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get ingress vmi-system-grafana -n verrazzano-system
-&lt;/code&gt;&lt;/pre&gt;&lt;pre&gt;&lt;code&gt;NAME                 CLASS    HOSTS                                              ADDRESS          PORTS     AGE
-vmi-system-grafana   &amp;lt;none&amp;gt;   grafana.vmi.system.default.123.456.789.10.nip.io   123.456.789.10   80, 443   26h
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Get the password for the user &lt;code&gt;verrazzano&lt;/code&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Access Grafana in a browser using the previous hostname.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Log in using the &lt;code&gt;verrazzano&lt;/code&gt; user and the previous password.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;img src=&#34;../../../images/grafana-initial-page.png&#34; alt=&#34;Grafana&#34;&gt;&lt;/p&gt;
-&lt;p&gt;From here, you can select an existing dashboard or create a new dashboard.
-To select an existing dashboard, use the drop-down list in the top left corner.
-The initial value of this list is &lt;code&gt;Home&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;To view host level metrics, select &lt;code&gt;Host Metrics&lt;/code&gt;. This will provide system metrics for all
-of the nodes in your cluster.&lt;/p&gt;
-&lt;p&gt;To view the application metrics for the &lt;code&gt;todo-list&lt;/code&gt; example application, select &lt;code&gt;WebLogic Server Dashboard&lt;/code&gt;
-because the &lt;code&gt;todo-list&lt;/code&gt; application is a WebLogic application.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;../../../images/grafana-weblogic-dashboard.png&#34; alt=&#34;WebLogicDashboard&#34;&gt;&lt;/p&gt;
 
       </description>
     </item>

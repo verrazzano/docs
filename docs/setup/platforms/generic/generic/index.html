@@ -21,11 +21,11 @@
 <meta property="og:description" content="Instructions for setting up a generic Kubernetes cluster for Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/setup/platforms/generic/generic/" />
-<meta property="article:modified_time" content="2021-06-28T13:08:56-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-07-07T11:41:32-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Generic Kubernetes">
 <meta itemprop="description" content="Instructions for setting up a generic Kubernetes cluster for Verrazzano">
-<meta itemprop="dateModified" content="2021-06-28T13:08:56-04:00" />
-<meta itemprop="wordCount" content="525">
+<meta itemprop="dateModified" content="2021-07-07T11:41:32-04:00" />
+<meta itemprop="wordCount" content="83">
 
 
 
@@ -105,7 +105,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.169e456ffe4fb5c2c77d87bb8022fb81.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.2440e7c93f596b133ada766b13d78f5b.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -137,7 +137,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.169e456ffe4fb5c2c77d87bb8022fb81.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.2440e7c93f596b133ada766b13d78f5b.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -280,7 +280,7 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupplatformsocioci" href="../../../../../docs/setup/platforms/oci/oci/">OCI</a>
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupplatformsocioci" href="../../../../../docs/setup/platforms/oci/oci/">OKE</a>
         
       
       
@@ -334,7 +334,7 @@ if (!doNotTrack) {
 
 <ul class="td-sidebar-nav__section pr-md-3">
   <li class="td-sidebar-nav__section-title">
-    <a  href="../../../../../docs/setup/install/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Install Verrazzano</a>
+    <a  href="../../../../../docs/setup/install/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Install</a>
   </li>
   <ul>
     <li class="collapse " id="docssetupinstall">
@@ -345,7 +345,15 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupinstallinstallation" href="../../../../../docs/setup/install/installation/">Installation Guide</a>
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupinstallinstallation" href="../../../../../docs/setup/install/installation/">Install Guide</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupinstallprofiles" href="../../../../../docs/setup/install/profiles/">Install Profiles</a>
         
       
       
@@ -354,6 +362,39 @@ if (!doNotTrack) {
           
           
           <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupinstallmulticluster" href="../../../../../docs/setup/install/multicluster/">Install Multicluster Verrazzano</a>
+        
+      
+      
+      
+        
+          
+
+
+
+
+
+
+<ul class="td-sidebar-nav__section pr-md-3">
+  <li class="td-sidebar-nav__section-title">
+    <a  href="../../../../../docs/setup/install/customizing/" class="align-left pl-0 pr-2 collapsed td-sidebar-link td-sidebar-link__section">Customizing an Install</a>
+  </li>
+  <ul>
+    <li class="collapse " id="docssetupinstallcustomizing">
+      
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupinstallcustomizingstorage" href="../../../../../docs/setup/install/customizing/storage/">Customizing Persistent Storage</a>
+        
+      
+      
+    </li>
+  </ul>
+</ul>
+
         
       
       
@@ -368,7 +409,23 @@ if (!doNotTrack) {
         
           
           
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupuninstalluninstall" href="../../../../../docs/setup/uninstall/uninstall/">Uninstall</a>
+        
+      
+      
+      
+        
+          
+          
           <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupupgradeupgrade" href="../../../../../docs/setup/upgrade/upgrade/">Upgrade</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupprivate-registryprivate-registry" href="../../../../../docs/setup/private-registry/private-registry/">Using a Private Registry</a>
         
       
       
@@ -1354,153 +1411,7 @@ Verrazzano custom resource with no customizations, and follow the <a href="../..
 <p>Otherwise, you can install a load balancer, such as <a href="https://metallb.universe.tf/">MetalLB</a>. The platform setup page for
 KIND clusters has more details on setting up MetalLB <a href="../../../../../docs/setup/platforms/kind/kind/#install-and-configure-metallb">here</a>.</p>
 <h3 id="customizations">Customizations</h3>
-<p>If your Kubernetes implementation requires custom configuration, then there are two main areas you can configure: ingress and storage.</p>
-<nav>
-	<div class="nav nav-tabs" id="nav-tab" role="tablist">
-
-		
-		
-
-		
-		
-		
-
-		
-
-		<a class="nav-item nav-link active" id="nav-3" data-toggle="tab" href="#tab31" role="tab"
-		   aria-controls="nav-home" aria-selected="true">Ingress</a>
-
-		
-		
-
-		
-		
-		
-
-		
-
-		<a class="nav-item nav-link" id="nav-3" data-toggle="tab" href="#tab32" role="tab"
-		   aria-controls="nav-home" aria-selected="false">Storage</a>
-
-		
-		
-
-		
-		
-		
-
-		
-
-		<a class="nav-item nav-link" id="nav-3" data-toggle="tab" href="#tab33" role="tab"
-		   aria-controls="nav-home" aria-selected="false"></a>
-
-		
-		
-
-	</div>
-</nav>
-
-<div class="tab-content" id="3">
-
-
-
-
-
-
-
-
-<div class="tab-pane fade show active" id="tab31" role="tabpanel" aria-labelledby="nav-tabName1">
-
-	<br>
-<p>You can achieve ingress configuration using Helm overrides.  For example, to override the configuration of the
-<code>nginx-controller</code>,  apply the following customization to the Verrazzano CRD.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">spec:
- components:
-  ingress:
-   nginxInstallArgs:
-   <span style="color:#8f5902;font-style:italic"># nginx Helm overrides can be specified here</span>
-   - name: &lt;name of the nginx Helm override e.g. controller.nodeSelector.ingress-ready&gt;
-     value: &lt;value of the nginx Helm override e.g. <span style="color:#4e9a06">&#34;true&#34;</span>&gt;
-     setString: <span style="color:#204a87">true</span>
-</code></pre></div>
-
-</div>
-
-
-
-
-
-
-
-
-
-<div class="tab-pane fade" id="tab32" role="tabpanel" aria-labelledby="nav-tabName2">
-
-	<br>
-<p>By default, each Verrazzano install profile has different storage characteristics.  Some components have external storage requirements (expressed through <code>PersistentVolumeClaim</code> declarations in their <code>resources/helm</code> charts):</p>
-<ul>
-<li>MySQL</li>
-<li>Elasticsearch</li>
-<li>Prometheus</li>
-<li>Grafana</li>
-</ul>
-<p>By default, the <code>prod</code> profile uses 50Gi persistent volumes for each of the above services, using the default storage class for the target Kubernetes platform.  The <code>dev</code> profile uses ephemeral <code>emptyDir</code> storage by default.  However, you can customize these storage settings within a profile as desired.</p>
-<p>To override these settings, customize the Verrazzano install resource by defining a <a href="https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/">VolumeSource</a> on the <code>defaultVolumeSource</code> field in the install CR, which can be one of:</p>
-<ul>
-<li><a href="https://kubernetes.io/docs/concepts/storage/volumes/#emptydir"><code>emptyDir</code></a></li>
-<li><a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimvolumesource-v1-core"><code>persistentVolumeClaim</code></a></li>
-</ul>
-<p>Configuring <code>emptyDir</code> for the <code>defaultVolumeSource</code> forces all persistent volumes created by Verrazzano components in an installation to use ephemeral storage unless otherwise overridden.  This can be useful for development or test scenarios.</p>
-<p>You can use a <a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimvolumesource-v1-core">persistentVolumeClaim</a> to identify a <code>volumeClaimSpecTemplate</code> in the <code>volumeClaimSpecTemplates</code> section via the <code>claimSource</code> field.  A <code>volumeClaimSpecTemplate</code> is a named <a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimspec-v1-core">PersistentVolumeClaimSpec</a> configuration.  A <code>volumeClaimSpecTemplate</code> can be referenced from more than one component; it merely identifies configuration settings and does not result in a direct instantiation of a persistent volume.  The settings are used by referencing components when creating their <a href="https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaim-v1-core">PersistentVolumeClaims</a> at install time.</p>
-<p>If the component supports it, then you can override the <code>defaultVolumeSource</code> setting at the component level by defining a supported <code>VolumeSource</code> on that component.  At present, only the <code>keycloak/mysql</code> component supports a <code>volumeSource</code> field override.</p>
-<h3 id="examples">Examples</h3>
-<p>The following example shows how to define a <code>dev</code> profile with different persistence settings for the monitoring components and the Keycloak/MySQL instance.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">apiVersion: install.verrazzano.io/v1alpha1
-kind: Verrazzano
-metadata:
-  name: kind-verrazzano-with-persistence
-spec:
-  profile: dev
-  defaultVolumeSource:
-    persistentVolumeClaim:
-      claimName: default  <span style="color:#8f5902;font-style:italic"># Use the &#34;default&#34; volume template</span>
-  components:
-    keycloak:
-      mysql:
-        volumeSource:
-          persistentVolumeClaim:
-            claimName: mysql  <span style="color:#8f5902;font-style:italic"># Use the &#34;mysql&#34; PVC template for the MySQL volume configuration</span>
-  volumeClaimSpecTemplates:
-  - metadata:
-      name: default      <span style="color:#8f5902;font-style:italic"># &#34;default&#34; is a known template name, and will be used by Verrazzano components by default if no other template is referenced explicitly</span>
-    spec:
-      resources:
-        requests:
-          storage: 2Gi
-  - metadata:
-    spec:
-      resources:
-        requests:
-          storage: 5Gi  <span style="color:#8f5902;font-style:italic"># default</span>
-
-</code></pre></div><p>The following example shows how to define a <code>dev</code> profile where all resources use <code>emptyDir</code> by default.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">apiVersion: install.verrazzano.io/v1alpha1
-kind: Verrazzano
-metadata:
-  name: storage-example-dev
-spec:
-  profile: dev
-  defaultVolumeSource:
-    emptyDir: <span style="color:#ce5c00;font-weight:bold">{}</span>  <span style="color:#8f5902;font-style:italic"># Use ephemeral storage for dev mode for all Components</span>
-</code></pre></div>
-
-</div>
-
-
-
-
-
-</div>
+<p>Verrazzano is highly customizable.  If your Kubernetes implementation requires custom configuration, see <a href="../../../../../docs/setup/install/customizing">Customizing Installations</a>.</p>
 <h2 id="next-steps">Next steps</h2>
 <p>To continue, see the <a href="../../../../../docs/setup/install/installation/#install-the-verrazzano-platform-operator">Installation Guide</a>.</p>
 
@@ -1568,7 +1479,7 @@ spec:
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified June 28, 2021: <a  href="../../../../../commit/99209860dde4097e66508f1dbd3aba1e4e27f76c">overall edit (#159) (9920986)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified July 7, 2021: <a  href="../../../../../commit/a2f75be26963eb415b2c2dc716206f77d05227b4">Install/Upgrade update (#162) (a2f75be)</a>
 </div>
 </div>
 
