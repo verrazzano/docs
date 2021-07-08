@@ -39,7 +39,7 @@ In order to upgrade an existing Verrazzano installation, you must first upgrade 
    To upgrade to the latest version:
 
    ```shell
-   $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
+   $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/{{< param product_version >}}/operator.yaml
    ```
 
    To upgrade to a specific version, where `<version>` is the desired version:
