@@ -54,7 +54,7 @@ To install the Verrazzano platform operator:
 1. Deploy the Verrazzano platform operator.
 
     ```shell
-    $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
+    $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/{{< param product_version >}}/operator.yaml
     ```
 
 1. Wait for the deployment to complete.
