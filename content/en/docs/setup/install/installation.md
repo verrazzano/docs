@@ -37,8 +37,6 @@ Before installing Verrazzano, see instructions on preparing the following Kubern
 
 * [KIND]({{< relref "/docs/setup/platforms/kind/kind.md" >}})
 
-* [minikube]({{< relref "/docs/setup/platforms/minikube/minikube.md" >}})
-
 * [Generic Kubernetes]({{< relref "/docs/setup/platforms/generic/generic.md" >}})
 
 **NOTE**: Verrazzano can create network policies that can be used to limit the ports and protocols that pods use for network communication. Network policies provide additional security but they are enforced only if you install a Kubernetes Container Network Interface (CNI) plug-in that enforces them, such as Calico. For instructions on how to install a CNI plug-in, see the documentation for your Kubernetes cluster.
