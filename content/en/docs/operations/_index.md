@@ -7,13 +7,12 @@ draft: false
 ## Get the consoles URLs
 
 Verrazzano installs several consoles. The endpoints for an installation are stored in the `Status` field of the
-installed Verrazzano Custom Resource.
-
-You can get the endpoints for these consoles by issuing the following command and looking at the `Status.Instance` field:
+installed Verrazzano Custom Resource. You can get the endpoints for these consoles by issuing the following command
+and examining the `Status.Instance` field:
 
 `$ kubectl get vz -o yaml`
 
-This results in output similar to the following (output abbreviated to show only the relevant portions):
+The resulting output is similar to the following (abbreviated to show only the relevant portions):
 
 ```
   ...
@@ -37,7 +36,7 @@ This results in output similar to the following (output abbreviated to show only
       rancherUrl: https://rancher.default.11.22.33.44.nip.io
 ```
 
-If you have `jq` installed, you can use the following command to get the instance URLs more directly:
+If you have `jq` installed, then you can use the following command to get the instance URLs more directly:
 
 `$ kubectl get vz -o jsonpath="{.items[].status.instance}" | jq .`
 
@@ -54,7 +53,7 @@ The following is an example of the output:
 }
 ```
 
-## Get console credentials
+## Get consoles credentials
 
 You will need the credentials to access the consoles installed by Verrazzano.
 
@@ -93,15 +92,19 @@ To get the password:
  To change the Verrazzano password, first change the user password in Keycloak and then update the Verrazzano secret.
 
 **Change the user in Keycloak**
-1. Navigate to the Keycloak admin console. Obtaining the Keycloak admin console URL is described [here](#get-the-consoles-urls). Obtaining the Keycloak admin console credentials is described [here](#the-keycloak-admin-console).
-2. In the left pane, under `Manage`, select `Users`.
-3. In the `Users` pane, search for `verrazzano` or click `View all users`.
-4. For the `verrazzano` user, click the `Edit` action.
-5. At the top, select the `Credentials` tab.
-6. Specify the new password and confirm.
-7. Specify whether the new password is a temporary password. A temporary password must be reset on next login.
-8. Click `Reset Password`.
-9. Confirm the password reset by clicking `Reset password` in the confirmation dialog.
+1. Navigate to the Keycloak admin console.
+
+   a. Obtaining the Keycloak admin console URL is described [here](#get-the-consoles-urls).
+
+   b. Obtaining the Keycloak admin console credentials is described [here](#the-keycloak-admin-console).
+1. In the left pane, under `Manage`, select `Users`.
+1. In the `Users` pane, search for `verrazzano` or click `View all users`.
+1. For the `verrazzano` user, click the `Edit` action.
+1. At the top, select the `Credentials` tab.
+1. Specify the new password and confirm.
+1. Specify whether the new password is a temporary password. A temporary password must be reset on next login.
+1. Click `Reset Password`.
+1. Confirm the password reset by clicking `Reset password` in the confirmation dialog.
 
 **Update the Verrazzano secret**
 

@@ -29,15 +29,7 @@ Verrazzano has been tested _only_ on the following versions of Kubernetes: 1.17.
 
 ## Prepare for the install
 
-Before installing Verrazzano, see instructions on preparing the following Kubernetes platforms:
-
-* [OCI Container Engine for Kubernetes]({{< relref "/docs/setup/platforms/oci/oci.md" >}})
-
-* [OLCNE]({{< relref "/docs/setup/platforms/olcne/olcne.md" >}})
-
-* [KIND]({{< relref "/docs/setup/platforms/kind/kind.md" >}})
-
-* [Generic Kubernetes]({{< relref "/docs/setup/platforms/generic/generic.md" >}})
+Before installing Verrazzano, see instructions on preparing [Kubernetes platforms]({{< relref "/docs/setup/platforms/" >}}).
 
 **NOTE**: Verrazzano can create network policies that can be used to limit the ports and protocols that pods use for network communication. Network policies provide additional security but they are enforced only if you install a Kubernetes Container Network Interface (CNI) plug-in that enforces them, such as Calico. For instructions on how to install a CNI plug-in, see the documentation for your Kubernetes cluster.
 
@@ -73,13 +65,9 @@ To install the Verrazzano platform operator:
 ## Perform the install
 
 Verrazzano supports the following installation profiles:  development (`dev`), production (`prod`), and
-managed cluster (`managed-cluster`).  See the [Installation Profiles]({{< relref "/docs/setup/install/profiles.md"  >}}) document for more details.
+managed cluster (`managed-cluster`).  For more information, see [Installation Profiles]({{< relref "/docs/setup/install/profiles.md"  >}}).
 
 To change profiles in any of the following commands, set the `VZ_PROFILE` environment variable to the name of the profile you want to install.
-
-{{< alert title="NOTE" color="warning" >}}
-For Verrazzano installations on the minikube platform, use only the development profile.
-{{< /alert >}}
 
 For a complete description of Verrazzano configuration options, see the [Verrazzano Custom Resource Definition]({{< relref "/docs/reference/api/verrazzano/verrazzano.md" >}}).
 

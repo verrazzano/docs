@@ -1,7 +1,7 @@
 ---
-title: "Troubleshooting Verrazzano Installation and Uninstallation"
+title: "Install and Uninstall"
 linkTitle: "Install/Uninstall"
-description: "Troubleshooting problems with Verrazzano install and uninstall"
+description: "Troubleshooting Verrazzano installation and uninstallation"
 weight: 1
 draft: true
 ---

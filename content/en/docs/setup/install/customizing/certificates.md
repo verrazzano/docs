@@ -1,6 +1,7 @@
 ---
-title: "Customizing Certificates"
+title: "Customize Certificates"
 description: "Customizing SSL certificate generation for Verrazzano system and application endpoints"
+linkTitle: Certificates
 weight: 2
 draft: true
 ---
@@ -13,4 +14,3 @@ the following configurations:
 * Using a self-signed CA created by Verrazzano
 * Using staging or production LetsEncrypt certificates
 * Providing your own certificates
-

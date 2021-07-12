@@ -23,10 +23,10 @@ Fixes:
 ### v0.15.1
 Features:
 - Allow customization of Elasticsearch node sizes and topology during installation.
-- If the runtimeEncryptionSecret secret, specified in the WebLogic domain spec, does not already exist, then create it.
+- If `runtimeEncryptionSecret`, specified in the WebLogic domain spec, does not already exist, then create it.
 
 Known Issues:
-- For Verrazzano Custom Resource installed on OCI Container Engine for Kubernetes (OKE), after upgrade to 0.15.1, the Fluentd DaemonSet in `verrazzano-system` namespace cannot access logs. 
+- After upgrade to 0.15.1, for Verrazzano Custom Resource installed on OCI Container Engine for Kubernetes (OKE), the Fluentd DaemonSet in the `verrazzano-system` namespace cannot access logs.
   Run following command to patch the Fluentd DaemonSet and correct the issue:
   ```
   kubectl patch -n verrazzano-system ds fluentd --patch '{"spec":{"template":{"spec":{"containers":[{"name": "fluentd","volumeMounts":[{"mountPath":"/u01/data/","name":"extravol0","readOnly":true}]}],"volumes":[{"hostPath":{"path":"/u01/data/","type":""},"name":"extravol0"}]}}}}'

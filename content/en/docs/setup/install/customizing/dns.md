@@ -1,6 +1,7 @@
 ---
-title: "Customizing DNS"
-description: "Customizing the DNS configuration for Verrazzano system and application endpoints"
+title: "Customize DNS"
+description: "Customize DNS configurations for Verrazzano system and application endpoints"
+linkTitle: DNS
 weight: 1
 draft: true
 ---

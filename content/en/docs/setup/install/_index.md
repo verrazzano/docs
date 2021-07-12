@@ -1,6 +1,6 @@
 ---
 title: "Install"
-description: "Install and upgrade Verrazzano"
+description: "Install and customize Verrazzano"
 weight: 2
 draft: false
 ---
