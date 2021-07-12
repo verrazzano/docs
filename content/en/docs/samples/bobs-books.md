@@ -15,8 +15,6 @@ description: "An example application based on WebLogic, Helidon, and Coherence"
    **NOTE:** The Bob's Books example application deployment files are contained in the Verrazzano project located at
    `<VERRAZZANO_HOME>/examples/bobs-books`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
 
-   All files and paths in this document are relative to `<VERRAZZANO_HOME>/examples/bobs-books`.
-
 ## Overview
 
 Bob's Books consists of three main parts:
