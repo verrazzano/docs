@@ -100,7 +100,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.2440e7c93f596b133ada766b13d78f5b.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.3417773f8f20d995b2e269069c2ca137.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -132,7 +132,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.2440e7c93f596b133ada766b13d78f5b.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.3417773f8f20d995b2e269069c2ca137.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -292,14 +292,6 @@ if (!doNotTrack) {
           
           
           <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupplatformskindkind" href="../../../../docs/setup/platforms/kind/kind/">KIND</a>
-        
-      
-      
-      
-        
-          
-          
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupplatformsminikubeminikube" href="../../../../docs/setup/platforms/minikube/minikube/">minikube</a>
         
       
       
@@ -937,7 +929,7 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssamplessock-shop" href="../../../../docs/samples/sock-shop/">Helidon Sock Shop</a>
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssamplessock-shop" href="../../../../docs/samples/sock-shop/">Sock Shop</a>
         
       
       
@@ -1411,17 +1403,15 @@ if (!doNotTrack) {
 <p>Create a multicluster Verrazzano installation with one admin and one managed cluster, and register the managed cluster, by following the instructions <a href="../../../../docs/setup/install/multicluster/">here</a>.</p>
 <p><strong>NOTE:</strong>  The Hello World Helidon application deployment files are contained in the Verrazzano project located at
 <code>&lt;VERRAZZANO_HOME&gt;/examples/multicluster/hello-helidon</code>, where <code>&lt;VERRAZZANO_HOME&gt;</code> is the root of the Verrazzano project.</p>
-<p>All files and paths in this document are relative to
-<code>&lt;VERRAZZANO_HOME&gt;/examples/multicluster/hello-helidon</code>.</p>
 <h2 id="create-the-application-namespace">Create the application namespace</h2>
-<p>Apply the <code>VerrazzanoProject</code> resource on the admin cluster that defines the namespace for the application.  The namespaces defined in the <code>VerrazzanoProject</code> resource will be created on the admin cluster and all the managed clusters.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#000">KUBECONFIG</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">$KUBECONFIG_ADMIN</span> kubectl apply -f verrazzano-project.yaml
+<p>Apply the VerrazzanoProject resource on the admin cluster that defines the namespace for the application.  The namespaces defined in the VerrazzanoProject resource will be created on the admin cluster and all the managed clusters.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#000">KUBECONFIG</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">$KUBECONFIG_ADMIN</span> kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/verrazzano-project.yaml
 </code></pre></div><h2 id="deploy-the-hello-world-helidon-application">Deploy the Hello World Helidon application</h2>
 <ol>
 <li>
 <p>Apply the <code>hello-helidon</code> multicluster resources to deploy the application.  Each multicluster resource is an envelope that contains an OAM resource and a list of clusters to which to deploy.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#000">KUBECONFIG</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">$KUBECONFIG_ADMIN</span> kubectl apply -f mc-hello-helidon-comp.yaml
-$ <span style="color:#000">KUBECONFIG</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">$KUBECONFIG_ADMIN</span> kubectl apply -f mc-hello-helidon-app.yaml
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#000">KUBECONFIG</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">$KUBECONFIG_ADMIN</span> kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/mc-hello-helidon-comp.yaml
+$ <span style="color:#000">KUBECONFIG</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">$KUBECONFIG_ADMIN</span> kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml
 </code></pre></div></li>
 <li>
 <p>Wait for the application to be ready on the managed cluster.</p>
@@ -1449,7 +1439,7 @@ $ <span style="color:#000">KUBECONFIG</span><span style="color:#ce5c00;font-weig
 <li>
 <p>To change the application&rsquo;s location to the admin cluster, specify the change placement patch file.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8f5902;font-style:italic"># To change the placement to the admin cluster</span>
-$ <span style="color:#204a87">export</span> <span style="color:#000">CHANGE_PLACEMENT_PATCH_FILE</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;patch-change-placement-to-admin.yaml&#34;</span>
+$ <span style="color:#204a87">export</span> <span style="color:#000">CHANGE_PLACEMENT_PATCH_FILE</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/patch-change-placement-to-admin.yaml&#34;</span>
 </code></pre></div><p>This environment variable is used in subsequent steps.</p>
 </li>
 <li>
@@ -1481,16 +1471,16 @@ ready on the managed cluster.</p>
 </ol>
 <p>To return the application to the managed cluster named <code>managed1</code>, set the value of the <code>CHANGE_PLACEMENT_PATCH_FILE</code> environment variable to the patch file provided for that purpose, then repeat the previous numbered steps.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">   <span style="color:#8f5902;font-style:italic"># To change the placement back to the managed cluster named managed1</span>
-   $ <span style="color:#204a87">export</span> <span style="color:#000">CHANGE_PLACEMENT_PATCH_FILE</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;patch-return-placement-to-managed1.yaml&#34;</span>
+   $ <span style="color:#204a87">export</span> <span style="color:#000">CHANGE_PLACEMENT_PATCH_FILE</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/patch-return-placement-to-managed1.yaml&#34;</span>
 </code></pre></div><h2 id="undeploy-the-hello-world-helidon-application">Undeploy the Hello World Helidon application</h2>
 <p>Regardless of its location, to undeploy the application,
 delete the multicluster resources and the project from the admin cluster:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8f5902;font-style:italic"># Delete the multicluster application configuration</span>
-$ <span style="color:#000">KUBECONFIG</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">$KUBECONFIG_ADMIN</span> kubectl delete -f mc-hello-helidon-app.yaml
+$ <span style="color:#000">KUBECONFIG</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">$KUBECONFIG_ADMIN</span> kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml
 <span style="color:#8f5902;font-style:italic"># Delete the multicluster components for the application</span>
-$ <span style="color:#000">KUBECONFIG</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">$KUBECONFIG_ADMIN</span> kubectl delete -f mc-hello-helidon-comp.yaml
+$ <span style="color:#000">KUBECONFIG</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">$KUBECONFIG_ADMIN</span> kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/mc-hello-helidon-comp.yaml
 <span style="color:#8f5902;font-style:italic"># Delete the project</span>
-$ <span style="color:#000">KUBECONFIG</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">$KUBECONFIG_ADMIN</span> kubectl delete -f verrazzano-project.yaml
+$ <span style="color:#000">KUBECONFIG</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">$KUBECONFIG_ADMIN</span> kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/verrazzano-project.yaml
 </code></pre></div>
         <div class="section-index">
     
@@ -1499,8 +1489,6 @@ $ <span style="color:#000">KUBECONFIG</span><span style="color:#ce5c00;font-weig
     
     
     <hr class="panel-line">
-        
-            
         
             
         
@@ -1737,7 +1725,7 @@ $ <span style="color:#000">KUBECONFIG</span><span style="color:#ce5c00;font-weig
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified June 17, 2021: <a  href="../../../../commit/830e6c79141eaa5e6f72ed8c43254cdf8f0bd192">docs re-org (#141) (830e6c7)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified July 12, 2021: <a  href="../../../../commit/14619148f27bc2e68bf63e3a00912c2bddfc13c8">change file paths (#172) (1461914)</a>
 </div>
 </div>
 

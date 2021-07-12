@@ -100,7 +100,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.2440e7c93f596b133ada766b13d78f5b.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.3417773f8f20d995b2e269069c2ca137.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -132,7 +132,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.2440e7c93f596b133ada766b13d78f5b.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.3417773f8f20d995b2e269069c2ca137.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -292,14 +292,6 @@ if (!doNotTrack) {
           
           
           <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupplatformskindkind" href="../../../../docs/setup/platforms/kind/kind/">KIND</a>
-        
-      
-      
-      
-        
-          
-          
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupplatformsminikubeminikube" href="../../../../docs/setup/platforms/minikube/minikube/">minikube</a>
         
       
       
@@ -937,7 +929,7 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssamplessock-shop" href="../../../../docs/samples/sock-shop/">Helidon Sock Shop</a>
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssamplessock-shop" href="../../../../docs/samples/sock-shop/">Sock Shop</a>
         
       
       
@@ -1420,13 +1412,11 @@ listed in the <code>placement</code> section.</li>
 </ul>
 <p><strong>NOTE:</strong> The ToDo List application deployment files are contained in the Verrazzano project located at
 <code>&lt;VERRAZZANO_HOME&gt;/examples/todo-list</code>, where <code>&lt;VERRAZZANO_HOME&gt;</code> is the root of the Verrazzano project.</p>
-<p>All files and paths in this document are relative to
-<code>&lt;VERRAZZANO_HOME&gt;/examples/todo-list</code>.</p>
 <h2 id="deploy-the-example-application">Deploy the example application</h2>
 <ol>
 <li>
 <p>Create a namespace for the multicluster ToDo List example by applying the Verrazzano project file.</p>
-<pre><code>$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f verrazzano-project.yaml
+<pre><code>$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/verrazzano-project.yaml
 </code></pre></li>
 <li>
 <p>Log in to the <code>container-registry.oracle.com</code> Docker registry in which the Todo List application image is deployed.  You
@@ -1442,22 +1432,20 @@ will need the updated Docker <code>config.json</code>, containing your authentic
 <p>Create a <code>docker-registry</code> secret to enable pulling the ToDo List example image from the registry by applying the
 <code>mc-docker-registry-secret.yaml</code> file.  The multicluster secret resource will generate the required secret in the <code>mc-todo-list</code>
 namespace.</p>
-<pre><code>$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f mc-docker-registry-secret.yaml
+<pre><code>$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/mc-docker-registry-secret.yaml
 </code></pre></li>
 <li>
-<p>Create the secrets for the WebLogic domain by applying the <code>mc-weblogic-domain-secret.yaml</code> and <code>mc-runtime-encrypt-secret.yaml</code> files:</p>
-<pre><code>$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f mc-weblogic-domain-secret.yaml
-
-$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f mc-runtime-encrypt-secret.yaml
+<p>Create the WebLogic domain secret by applying the <code>mc-weblogic-domain-secret.yaml</code> file:</p>
+<pre><code>$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/mc-weblogic-domain-secret.yaml
 </code></pre><p>Note that the ToDo List example application is preconfigured to use these credentials.
 If you want to use different credentials, you will need to rebuild the Docker images for the example application.
 For the source code of this application, see the <a href="https://github.com/verrazzano/examples">Verrazzano examples</a>.</p>
 </li>
 <li>
 <p>Apply the ToDo List example multicluster application resources to deploy the application.</p>
-<pre><code>$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f todo-list-components.yaml
+<pre><code>$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/todo-list-components.yaml
 
-$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f todo-list-application.yaml
+$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/todo-list-application.yaml
 </code></pre></li>
 <li>
 <p>Wait for the ToDo List example application to be ready.
@@ -1762,8 +1750,6 @@ tododomain-adminserver   2/2     Running   0          19h
         
             
         
-            
-        
     
 </div>
 
@@ -1831,7 +1817,7 @@ tododomain-adminserver   2/2     Running   0          19h
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified June 17, 2021: <a  href="../../../../commit/830e6c79141eaa5e6f72ed8c43254cdf8f0bd192">docs re-org (#141) (830e6c7)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified July 12, 2021: <a  href="../../../../commit/14619148f27bc2e68bf63e3a00912c2bddfc13c8">change file paths (#172) (1461914)</a>
 </div>
 </div>
 

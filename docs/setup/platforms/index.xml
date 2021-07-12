@@ -874,7 +874,7 @@ these instructions to prepare a KIND cluster for running Verrazzano.&lt;/p&gt;
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
 KIND is not recommended for use on macOS and Windows because the Docker network is not directly exposed
-to the host.  On macOS and Windows, &lt;a href=&#34;../../../docs/setup/platforms/minikube/minikube/&#34;&gt;minikube&lt;/a&gt; is recommended.
+to the host.
 &lt;/div&gt;
 
 &lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
@@ -975,54 +975,6 @@ In versions v0.7.0 and earlier, KIND uses Docker&amp;rsquo;s default bridge netw
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      addresses:
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      - 172.18.0.230-172.18.0.250
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
-&lt;p&gt;To continue, see the &lt;a href=&#34;../../../docs/setup/install/installation/#install-the-verrazzano-platform-operator&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Docs: minikube</title>
-      <link>https://verrazzano.io/docs/setup/platforms/minikube/minikube/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://verrazzano.io/docs/setup/platforms/minikube/minikube/</guid>
-      <description>
-        
-        
-        &lt;p&gt;&lt;a href=&#34;https://minikube.sigs.k8s.io/docs/&#34;&gt;minikube&lt;/a&gt; quickly sets up a local Kubernetes cluster on macOS, Linux, and Windows. Follow
-these instructions to prepare a minikube cluster for running Verrazzano.&lt;/p&gt;
-&lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Install &lt;a href=&#34;https://minikube.sigs.k8s.io/docs/start/&#34;&gt;minikube&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;Install a &lt;a href=&#34;https://minikube.sigs.k8s.io/docs/drivers/&#34;&gt;driver&lt;/a&gt;:
-&lt;ul&gt;
-&lt;li&gt;On macOS or Windows, select a VM-based driver, not Docker.&lt;/li&gt;
-&lt;li&gt;Oracle Linux 7, deploying WebLogic or Coherence applications requires the kvm2 driver because the Docker driver &lt;a href=&#34;https://github.com/kubernetes/kubernetes/issues/72878&#34;&gt;requires a kernel patch&lt;/a&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;prepare-the-minikube-cluster&#34;&gt;Prepare the minikube cluster&lt;/h2&gt;
-&lt;p&gt;To prepare the minikube cluster for use with Verrazzano, you must create the cluster and then expose services
-of type &lt;code&gt;LoadBalancer&lt;/code&gt; by using the &lt;code&gt;minikube tunnel&lt;/code&gt; command.&lt;/p&gt;
-&lt;h3 id=&#34;create-the-minikube-cluster&#34;&gt;Create the minikube cluster&lt;/h3&gt;
-&lt;p&gt;Create a minikube cluster using a supported Kubernetes version and appropriate driver.  On Linux hosts, the default
-driver is acceptable; on macOS, hyperkit is recommended.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ minikube start &lt;span style=&#34;color:#4e9a06&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --kubernetes-version&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;v1.18.8 &lt;span style=&#34;color:#4e9a06&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --driver&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;hyperkit &lt;span style=&#34;color:#4e9a06&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --memory&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;16G &lt;span style=&#34;color:#4e9a06&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --disk-size&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;30G &lt;span style=&#34;color:#4e9a06&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --cpus&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;4&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --extra-config&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;apiserver.service-account-signing-key-file&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;/var/lib/minikube/certs/sa.key &lt;span style=&#34;color:#4e9a06&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --extra-config&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;apiserver.service-account-issuer&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;kubernetes/serviceaccount &lt;span style=&#34;color:#4e9a06&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --extra-config&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;apiserver.service-account-api-audiences&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;api
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;run-minikube-tunnel&#34;&gt;Run &lt;code&gt;minikube tunnel&lt;/code&gt;&lt;/h3&gt;
-&lt;p&gt;minikube exposes Kubernetes services of type &lt;a href=&#34;https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/&#34;&gt;&lt;code&gt;LoadBalancer&lt;/code&gt;&lt;/a&gt; with the
-&lt;a href=&#34;https://minikube.sigs.k8s.io/docs/commands/tunnel/&#34;&gt;&lt;code&gt;minikube tunnel&lt;/code&gt;&lt;/a&gt; command.&lt;/p&gt;
-&lt;p&gt;Note that the &lt;code&gt;ip&lt;/code&gt; command is required by &lt;code&gt;minikube tunnel&lt;/code&gt;.  You may need to add &lt;code&gt;/sbin&lt;/code&gt; to your &lt;code&gt;PATH&lt;/code&gt; environment variable.&lt;/p&gt;
-&lt;p&gt;Run a tunnel in a separate terminal from minikube:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ minikube tunnel
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
 &lt;p&gt;To continue, see the &lt;a href=&#34;../../../docs/setup/install/installation/#install-the-verrazzano-platform-operator&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
 

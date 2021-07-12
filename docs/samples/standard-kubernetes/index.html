@@ -21,10 +21,10 @@
 <meta property="og:description" content="Example of using standard Kubernetes resources" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/samples/standard-kubernetes/" />
-<meta property="article:modified_time" content="2021-06-30T15:23:43-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-07-12T08:22:15-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Standard Kubernetes Resources">
 <meta itemprop="description" content="Example of using standard Kubernetes resources">
-<meta itemprop="dateModified" content="2021-06-30T15:23:43-04:00" />
+<meta itemprop="dateModified" content="2021-07-12T08:22:15-04:00" />
 <meta itemprop="wordCount" content="511">
 
 
@@ -105,7 +105,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.2440e7c93f596b133ada766b13d78f5b.json"
+  data-offline-search-index-json-src="../../../offline-search-index.3417773f8f20d995b2e269069c2ca137.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -137,7 +137,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.2440e7c93f596b133ada766b13d78f5b.json"
+  data-offline-search-index-json-src="../../../offline-search-index.3417773f8f20d995b2e269069c2ca137.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -297,14 +297,6 @@ if (!doNotTrack) {
           
           
           <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupplatformskindkind" href="../../../docs/setup/platforms/kind/kind/">KIND</a>
-        
-      
-      
-      
-        
-          
-          
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupplatformsminikubeminikube" href="../../../docs/setup/platforms/minikube/minikube/">minikube</a>
         
       
       
@@ -942,7 +934,7 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssamplessock-shop" href="../../../docs/samples/sock-shop/">Helidon Sock Shop</a>
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssamplessock-shop" href="../../../docs/samples/sock-shop/">Sock Shop</a>
         
       
       
@@ -1400,16 +1392,16 @@ if (!doNotTrack) {
 	<p>This example demonstrates using standard Kubernetes resources, in conjunction with OAM resources, to define and deploy an application.
 Several standard Kubernetes resources are used in this example, both as workloads and traits.</p>
 <ul>
-<li><code>Deployment</code> is used as a workload within a <code>Component</code>.</li>
-<li><code>Service</code> is used as a workload within a <code>Component</code>.</li>
-<li><code>Ingress</code> is used as a trait within an <code>ApplicationConfiguration</code>.</li>
+<li>Deployment is used as a workload within a Component.</li>
+<li>Service is used as a workload within a Component.</li>
+<li>Ingress is used as a trait within an ApplicationConfiguration.</li>
 </ul>
 <h2 id="before-you-begin">Before you begin</h2>
 <p>Install Verrazzano by following the <a href="../../../docs/setup/install/installation/">installation</a> instructions.</p>
 <h3 id="grant-permissions">Grant permissions</h3>
-<p>The <code>oam-kubernetes-runtime</code> is not installed with privileges that allow it to create the Kubernetes <code>Ingress</code> resource used in this example.
-The following steps create a role that allows <code>Ingress</code> resource creation and binds that role to the <code>oam-kubernetes-runtime</code> service account.
-For this example to work, your cluster admin will need to run the following steps to create the <code>ClusterRole</code> and <code>ClusterRoleBinding</code>.</p>
+<p>The <code>oam-kubernetes-runtime</code> is not installed with privileges that allow it to create the Kubernetes Ingress resource used in this example.
+The following steps create a role that allows Ingress resource creation and binds that role to the <code>oam-kubernetes-runtime</code> service account.
+For this example to work, your cluster admin will need to run the following steps to create the ClusterRole and ClusterRoleBinding.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl apply -f - <span style="color:#4e9a06">&lt;&lt;EOF
 </span><span style="color:#4e9a06">apiVersion: rbac.authorization.k8s.io/v1
 </span><span style="color:#4e9a06">kind: ClusterRole
@@ -1452,7 +1444,7 @@ When accessed, the application returns the configured text.</p>
 $ kubectl label namespace oam-kube verrazzano-managed<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87">true</span> istio-injection<span style="color:#ce5c00;font-weight:bold">=</span>enabled
 </code></pre></div></li>
 <li>
-<p>Create a <code>Component</code> containing a <code>Deployment</code> workload.</p>
+<p>Create a Component containing a Deployment workload.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl apply -f - <span style="color:#4e9a06">&lt;&lt;EOF
 </span><span style="color:#4e9a06">apiVersion: core.oam.dev/v1alpha2
 </span><span style="color:#4e9a06">kind: Component
@@ -1482,7 +1474,7 @@ $ kubectl label namespace oam-kube verrazzano-managed<span style="color:#ce5c00;
 </span><span style="color:#4e9a06">EOF</span>
 </code></pre></div></li>
 <li>
-<p>Create a <code>Component</code> containing a <code>Service</code> workload.</p>
+<p>Create a Component containing a Service workload.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl apply -f - <span style="color:#4e9a06">&lt;&lt;EOF
 </span><span style="color:#4e9a06">apiVersion: core.oam.dev/v1alpha2
 </span><span style="color:#4e9a06">kind: Component
@@ -1503,7 +1495,7 @@ $ kubectl label namespace oam-kube verrazzano-managed<span style="color:#ce5c00;
 </span><span style="color:#4e9a06">EOF</span>
 </code></pre></div></li>
 <li>
-<p>Create an <code>ApplicationConfiguration</code> referencing both <code>Components</code> and configuring an ingress trait.</p>
+<p>Create an ApplicationConfiguration referencing both Components and configuring an ingress trait.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl apply -f - <span style="color:#4e9a06">&lt;&lt;EOF
 </span><span style="color:#4e9a06">apiVersion: core.oam.dev/v1alpha2
 </span><span style="color:#4e9a06">kind: ApplicationConfiguration
@@ -1552,7 +1544,7 @@ $ <span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;LOADB
 <p>To undeploy the application, delete the namespace created.
 This will result in the deletion of all explicitly and implicitly created resources in the namespace.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl delete namespace oam-kube
-</code></pre></div><p>If desired, the cluster admin also can remove the created <code>ClusterRole</code> and <code>ClusterRoleBinding</code>.</p>
+</code></pre></div><p>If desired, the cluster admin also can remove the created ClusterRole and ClusterRoleBinding.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl delete oam-kubernetes-runtime-ingresses am-kubernetes-runtime-ingresses
 $ kubectl delete ClusterRole oam-kubernetes-runtime-ingresses
 </code></pre></div>
@@ -1620,7 +1612,7 @@ $ kubectl delete ClusterRole oam-kubernetes-runtime-ingresses
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified June 30, 2021: <a  href="../../../commit/8e47df7ee1f0ff0f37330b83346590655ea91d72">cleanup all docs (#163) (8e47df7)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified July 12, 2021: <a  href="../../../commit/14619148f27bc2e68bf63e3a00912c2bddfc13c8">change file paths (#172) (1461914)</a>
 </div>
 </div>
 

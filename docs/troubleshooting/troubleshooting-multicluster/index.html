@@ -21,10 +21,10 @@
 <meta property="og:description" content="Troubleshooting problems with multicluster setup and applications" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/troubleshooting/troubleshooting-multicluster/" />
-<meta property="article:modified_time" content="2021-06-28T13:08:56-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-07-12T08:22:15-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Troubleshooting Multicluster Verrazzano">
 <meta itemprop="description" content="Troubleshooting problems with multicluster setup and applications">
-<meta itemprop="dateModified" content="2021-06-28T13:08:56-04:00" />
+<meta itemprop="dateModified" content="2021-07-12T08:22:15-04:00" />
 <meta itemprop="wordCount" content="654">
 
 
@@ -105,7 +105,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.2440e7c93f596b133ada766b13d78f5b.json"
+  data-offline-search-index-json-src="../../../offline-search-index.3417773f8f20d995b2e269069c2ca137.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -137,7 +137,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.2440e7c93f596b133ada766b13d78f5b.json"
+  data-offline-search-index-json-src="../../../offline-search-index.3417773f8f20d995b2e269069c2ca137.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -297,14 +297,6 @@ if (!doNotTrack) {
           
           
           <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupplatformskindkind" href="../../../docs/setup/platforms/kind/kind/">KIND</a>
-        
-      
-      
-      
-        
-          
-          
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupplatformsminikubeminikube" href="../../../docs/setup/platforms/minikube/minikube/">minikube</a>
         
       
       
@@ -942,7 +934,7 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssamplessock-shop" href="../../../docs/samples/sock-shop/">Helidon Sock Shop</a>
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssamplessock-shop" href="../../../docs/samples/sock-shop/">Sock Shop</a>
         
       
       
@@ -1343,7 +1335,7 @@ if (!doNotTrack) {
     <li>
       <ul>
         <li><a href="#verify-managed-cluster-registration-and-connectivity">Verify managed cluster registration and connectivity</a></li>
-        <li><a href="#verify-verrazzanoproject-placement">Verify <code>VerrazzanoProject</code> placement</a></li>
+        <li><a href="#verify-verrazzanoproject-placement">Verify VerrazzanoProject placement</a></li>
         <li><a href="#check-the-multicluster-resource-status">Check the multicluster resource status</a></li>
       </ul>
     </li>
@@ -1402,13 +1394,13 @@ then those resources will get created in that managed cluster. If they do not ge
 use the following steps to troubleshoot:</p>
 <ul>
 <li>Verify that the managed cluster is registered correctly and can connect to the admin cluster.</li>
-<li>Verify that the <code>VerrazzanoProject</code> for the resource&rsquo;s namespace, also has a <code>placement</code> in that managed cluster.</li>
+<li>Verify that the VerrazzanoProject for the resource&rsquo;s namespace, also has a <code>placement</code> in that managed cluster.</li>
 <li>Check the multicluster resource&rsquo;s status field on the admin cluster to know what the status of that resource is
 on each managed cluster to which it is targeted.</li>
 </ul>
 <h2 id="verify-managed-cluster-registration-and-connectivity">Verify managed cluster registration and connectivity</h2>
 <p>You can verify that a managed cluster was successfully registered with an admin cluster by viewing the
-corresponding <code>VerrazzanoManagedCluster</code> (VMC) resource on the admin cluster. For example, to verify that a managed cluster
+corresponding VerrazzanoManagedCluster (VMC) resource on the admin cluster. For example, to verify that a managed cluster
 named <code>managed1</code> was successfully registered:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8f5902;font-style:italic"># on the admin cluster</span>
 $ kubectl get verrazzanomanagedcluster managed1 -n verrazzano-mc -o yaml
@@ -1441,8 +1433,8 @@ $ kubectl logs -n verrazzano-system -l <span style="color:#000">app</span><span 
 you provided during registration and ensure that it is correct, and that it is reachable from the managed cluster. If it
 is incorrect, then you will need to repeat the managed cluster registration process described in the setup instructions
 <a href="../../../docs/setup/install/multicluster/">here</a>.</p>
-<h2 id="verify-verrazzanoproject-placement">Verify <code>VerrazzanoProject</code> placement</h2>
-<p>For Verrazzano to create an application namespace in a managed cluster, that namespace must be part of a <code>VerrazzanoProject</code>
+<h2 id="verify-verrazzanoproject-placement">Verify VerrazzanoProject placement</h2>
+<p>For Verrazzano to create an application namespace in a managed cluster, that namespace must be part of a VerrazzanoProject
 that:</p>
 <ol>
 <li>Includes that namespace.</li>
@@ -1466,7 +1458,7 @@ cluster <code>managed1</code>.</p>
 </code></pre><h2 id="check-the-multicluster-resource-status">Check the multicluster resource status</h2>
 <p>On the admin cluster, each multicluster resource&rsquo;s status field is updated with the status of the underlying resource
 on each managed cluster in which it is placed.</p>
-<p>The following example command shows how to view the status of a <code>MultiClusterApplicationConfiguration</code> named <code>myapp</code>, in
+<p>The following example command shows how to view the status of a MultiClusterApplicationConfiguration named <code>myapp</code>, in
 the namespace <code>mynamespace</code>, that has a <code>placement</code> value that includes the managed cluster <code>managed1</code></p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get multiclusterapplicationconfiguration myapp -n mynamespace -o yaml
 </code></pre></div><p>The status of the underlying resource in each cluster specified in the placement is shown in the following partial sample
@@ -1549,7 +1541,7 @@ output:</p>
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified June 28, 2021: <a  href="../../../commit/99209860dde4097e66508f1dbd3aba1e4e27f76c">overall edit (#159) (9920986)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified July 12, 2021: <a  href="../../../commit/14619148f27bc2e68bf63e3a00912c2bddfc13c8">change file paths (#172) (1461914)</a>
 </div>
 </div>
 

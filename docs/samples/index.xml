@@ -885,8 +885,6 @@ It is recommended that the WebLogic Server Administration Console not be exposed
 &lt;p&gt;Install Verrazzano by following the &lt;a href=&#34;../../docs/setup/install/installation/&#34;&gt;installation&lt;/a&gt; instructions.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The Sock Shop example application deployment files are contained in the Verrazzano project located at
 &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/sockshop&lt;/code&gt;, where &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
-&lt;p&gt;All files and paths in this document are relative to
-&lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/sockshop&lt;/code&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;deploy-the-sock-shop-application&#34;&gt;Deploy the Sock Shop application&lt;/h2&gt;
 &lt;p&gt;This example application provides a &lt;a href=&#34;https://helidon.io&#34;&gt;Helidon&lt;/a&gt; implementation of the &lt;a href=&#34;https://microservices-demo.github.io/&#34;&gt;Sock Shop Microservices Demo Application&lt;/a&gt;.
 It uses OAM resources to define the application deployment.&lt;/p&gt;
@@ -898,8 +896,8 @@ $ kubectl label namespace sockshop verrazzano-managed=true
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;To deploy the application, apply the Sock Shop OAM resources.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f sock-shop-comp.yaml
-$ kubectl apply -f sock-shop-app.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/sock-shop-comp.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/sock-shop-app.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the Sock Shop application to be ready.&lt;/p&gt;
@@ -1059,7 +1057,6 @@ $ kubectl get IngressTrait -n sockshop
         &lt;h2 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h2&gt;
 &lt;p&gt;Install Verrazzano by following the &lt;a href=&#34;../../docs/setup/install/installation/&#34;&gt;installation&lt;/a&gt; instructions.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The Spring Boot example application deployment files are contained in the Verrazzano project located at &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/springboot-app&lt;/code&gt;, where &lt;code&gt;VERRAZZANO_HOME&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
-&lt;p&gt;All files and paths in this document are relative to &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/springboot-app&lt;/code&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;deploy-the-spring-boot-application&#34;&gt;Deploy the Spring Boot application&lt;/h2&gt;
 &lt;p&gt;This example provides a simple web application developed using &lt;a href=&#34;https://spring.io/guides/gs/spring-boot/&#34;&gt;Spring Boot&lt;/a&gt;. For more information and the source code of this application, see the &lt;a href=&#34;https://github.com/verrazzano/examples&#34;&gt;Verrazzano Examples&lt;/a&gt;.&lt;/p&gt;
 &lt;ol&gt;
@@ -1070,8 +1067,8 @@ $ kubectl label namespace springboot verrazzano-managed=true istio-injection=ena
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;To deploy the application, apply the Spring Boot OAM resources.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f springboot-comp.yaml
-$ kubectl apply -f springboot-app.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/springboot-app/springboot-comp.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/springboot-app/springboot-app.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the Spring Boot application to be ready.&lt;/p&gt;
@@ -1209,16 +1206,16 @@ $ kubectl delete namespace springboot
         &lt;p&gt;This example demonstrates using standard Kubernetes resources, in conjunction with OAM resources, to define and deploy an application.
 Several standard Kubernetes resources are used in this example, both as workloads and traits.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;Deployment&lt;/code&gt; is used as a workload within a &lt;code&gt;Component&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Service&lt;/code&gt; is used as a workload within a &lt;code&gt;Component&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Ingress&lt;/code&gt; is used as a trait within an &lt;code&gt;ApplicationConfiguration&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Deployment is used as a workload within a Component.&lt;/li&gt;
+&lt;li&gt;Service is used as a workload within a Component.&lt;/li&gt;
+&lt;li&gt;Ingress is used as a trait within an ApplicationConfiguration.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h2&gt;
 &lt;p&gt;Install Verrazzano by following the &lt;a href=&#34;../../docs/setup/install/installation/&#34;&gt;installation&lt;/a&gt; instructions.&lt;/p&gt;
 &lt;h3 id=&#34;grant-permissions&#34;&gt;Grant permissions&lt;/h3&gt;
-&lt;p&gt;The &lt;code&gt;oam-kubernetes-runtime&lt;/code&gt; is not installed with privileges that allow it to create the Kubernetes &lt;code&gt;Ingress&lt;/code&gt; resource used in this example.
-The following steps create a role that allows &lt;code&gt;Ingress&lt;/code&gt; resource creation and binds that role to the &lt;code&gt;oam-kubernetes-runtime&lt;/code&gt; service account.
-For this example to work, your cluster admin will need to run the following steps to create the &lt;code&gt;ClusterRole&lt;/code&gt; and &lt;code&gt;ClusterRoleBinding&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;oam-kubernetes-runtime&lt;/code&gt; is not installed with privileges that allow it to create the Kubernetes Ingress resource used in this example.
+The following steps create a role that allows Ingress resource creation and binds that role to the &lt;code&gt;oam-kubernetes-runtime&lt;/code&gt; service account.
+For this example to work, your cluster admin will need to run the following steps to create the ClusterRole and ClusterRoleBinding.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: rbac.authorization.k8s.io/v1
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: ClusterRole
@@ -1261,7 +1258,7 @@ When accessed, the application returns the configured text.&lt;/p&gt;
 $ kubectl label namespace oam-kube verrazzano-managed&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87&#34;&gt;true&lt;/span&gt; istio-injection&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;enabled
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Create a &lt;code&gt;Component&lt;/code&gt; containing a &lt;code&gt;Deployment&lt;/code&gt; workload.&lt;/p&gt;
+&lt;p&gt;Create a Component containing a Deployment workload.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: core.oam.dev/v1alpha2
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Component
@@ -1291,7 +1288,7 @@ $ kubectl label namespace oam-kube verrazzano-managed&lt;span style=&#34;color:#
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Create a &lt;code&gt;Component&lt;/code&gt; containing a &lt;code&gt;Service&lt;/code&gt; workload.&lt;/p&gt;
+&lt;p&gt;Create a Component containing a Service workload.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: core.oam.dev/v1alpha2
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Component
@@ -1312,7 +1309,7 @@ $ kubectl label namespace oam-kube verrazzano-managed&lt;span style=&#34;color:#
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Create an &lt;code&gt;ApplicationConfiguration&lt;/code&gt; referencing both &lt;code&gt;Components&lt;/code&gt; and configuring an ingress trait.&lt;/p&gt;
+&lt;p&gt;Create an ApplicationConfiguration referencing both Components and configuring an ingress trait.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: core.oam.dev/v1alpha2
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: ApplicationConfiguration
@@ -1361,7 +1358,7 @@ $ &lt;span style=&#34;color:#204a87&#34;&gt;echo&lt;/span&gt; &lt;span style=&#3
 &lt;p&gt;To undeploy the application, delete the namespace created.
 This will result in the deletion of all explicitly and implicitly created resources in the namespace.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl delete namespace oam-kube
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;If desired, the cluster admin also can remove the created &lt;code&gt;ClusterRole&lt;/code&gt; and &lt;code&gt;ClusterRoleBinding&lt;/code&gt;.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;If desired, the cluster admin also can remove the created ClusterRole and ClusterRoleBinding.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl delete oam-kubernetes-runtime-ingresses am-kubernetes-runtime-ingresses
 $ kubectl delete ClusterRole oam-kubernetes-runtime-ingresses
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -1428,7 +1425,8 @@ For the source code of this application, see the &lt;a href=&#34;https://github.
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;To deploy the application, apply the example resources.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f .
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/todo-list/todo-list-components.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/todo-list/todo-list-application.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the ToDo List application to be ready.
@@ -1606,7 +1604,6 @@ tododomain-adminserver   2/2     Running   0          19h
 &lt;/ul&gt;
 &lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The Bob&amp;rsquo;s Books example application deployment files are contained in the Verrazzano project located at
 &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/bobs-books&lt;/code&gt;, where &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
-&lt;p&gt;All files and paths in this document are relative to &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/bobs-books&lt;/code&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;
@@ -1665,7 +1662,8 @@ If you want to use secret names that are different from what is specified in the
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;To deploy the application, apply the example resources.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f .
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/bobs-books/bobs-books-comp.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/bobs-books/bobs-books-app.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for all of the pods in the Bob&amp;rsquo;s Books example application to be ready.
@@ -1738,11 +1736,11 @@ Then, you can use a browser to access the application, as shown:&lt;/p&gt;
 &lt;h2 id=&#34;access-bobs-bookstore-weblogic-server-administration-console&#34;&gt;Access bobs-bookstore WebLogic Server Administration Console&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;Setup port forwarding&lt;/p&gt;
+&lt;p&gt;Set up port forwarding.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ kubectl port-forward pods/bobs-bookstore-adminserver 7001:7001 -n bobs-books
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Access the WebLogic Server Administration Console from your browser&lt;/p&gt;
+&lt;p&gt;Access the WebLogic Server Administration Console from your browser.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;http://localhost:7001/console
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ol&gt;
@@ -1756,11 +1754,11 @@ It is recommended that the WebLogic Server Administration Console not be exposed
 &lt;h2 id=&#34;access-bobbys-front-end-weblogic-server-administration-console&#34;&gt;Access bobbys-front-end WebLogic Server Administration Console&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;Setup port forwarding&lt;/p&gt;
+&lt;p&gt;Set up port forwarding.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ kubectl port-forward pods/bobbys-front-end-adminserver 7001:7001 -n bobs-books
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Access the WebLogic Server Administration Console from your browser&lt;/p&gt;
+&lt;p&gt;Access the WebLogic Server Administration Console from your browser.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;http://localhost:7001/console
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ol&gt;
@@ -1834,8 +1832,6 @@ roberts-coherence-1                                 2/2     Running   0         
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; All files and paths in this document are relative to
-&lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/multicluster&lt;/code&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
 &lt;p&gt;Prior to running the multicluster examples, complete the multicluster installation and managed cluster registration documented
 &lt;a href=&#34;../../docs/setup/install/multicluster/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
@@ -1857,7 +1853,6 @@ roberts-coherence-1                                 2/2     Running   0         
 &lt;h2 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h2&gt;
 &lt;p&gt;Install Verrazzano by following the &lt;a href=&#34;../../docs/setup/install/installation/&#34;&gt;installation&lt;/a&gt; instructions.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The Hello World Helidon configuration example application deployment files are contained in the Verrazzano project located at &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/helidon-config&lt;/code&gt;, where &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
-&lt;p&gt;All files and paths in this document are relative to &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/helidon-config&lt;/code&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;deploy-the-hello-config-world-helidon-application&#34;&gt;Deploy the Hello Config World Helidon application&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
@@ -1867,8 +1862,8 @@ $ kubectl label namespace helidon-config verrazzano-managed=true istio-injection
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;To deploy the application, apply the &lt;code&gt;helidon-config&lt;/code&gt; OAM resources.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f helidon-config-comp.yaml
-$ kubectl apply -f helidon-config-app.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/helidon-config/helidon-config-comp.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/helidon-config/helidon-config-app.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the application to be ready.&lt;/p&gt;
@@ -2009,7 +2004,6 @@ Note that this may take a few minutes and that you may see some of the services 
 &lt;h2 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h2&gt;
 &lt;p&gt;Install Verrazzano by following the &lt;a href=&#34;../../docs/setup/install/installation/&#34;&gt;installation&lt;/a&gt; instructions.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The Hello World Helidon example application deployment files are contained in the Verrazzano project located at &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/hello-helidon&lt;/code&gt;, where &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
-&lt;p&gt;All files and paths in this document are relative to &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/hello-helidon&lt;/code&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;deploy-the-hello-world-helidon-application&#34;&gt;Deploy the Hello World Helidon application&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
@@ -2019,8 +2013,8 @@ $ kubectl label namespace hello-helidon verrazzano-managed=true istio-injection=
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;To deploy the application, apply the &lt;code&gt;hello-helidon&lt;/code&gt; OAM resources.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f hello-helidon-comp.yaml
-$ kubectl apply -f hello-helidon-app.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-comp.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-app.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the application to be ready.&lt;/p&gt;
