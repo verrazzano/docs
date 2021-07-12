@@ -1,6 +1,7 @@
 ---
 title: "Helidon Sock Shop"
 weight: 4
+linkTitle: Sock Shop
 description: "A Helidon implementation of the Sock Shop Microservices Demo Application"
 ---
 
@@ -11,8 +12,6 @@ Install Verrazzano by following the [installation]({{< relref "/docs/setup/insta
 **NOTE:** The Sock Shop example application deployment files are contained in the Verrazzano project located at
 `<VERRAZZANO_HOME>/examples/sockshop`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
 
-All files and paths in this document are relative to
-`<VERRAZZANO_HOME>/examples/sockshop`.
 
 ## Deploy the Sock Shop application
 
@@ -27,8 +26,8 @@ It uses OAM resources to define the application deployment.
 
 1. To deploy the application, apply the Sock Shop OAM resources.
    ```
-   $ kubectl apply -f sock-shop-comp.yaml
-   $ kubectl apply -f sock-shop-app.yaml
+   $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/sock-shop-comp.yaml
+   $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/sock-shop-app.yaml
    ```
 
 1. Wait for the Sock Shop application to be ready.

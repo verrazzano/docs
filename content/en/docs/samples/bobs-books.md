@@ -15,8 +15,6 @@ description: "An example application based on WebLogic, Helidon, and Coherence"
    **NOTE:** The Bob's Books example application deployment files are contained in the Verrazzano project located at
    `<VERRAZZANO_HOME>/examples/bobs-books`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
 
-   All files and paths in this document are relative to `<VERRAZZANO_HOME>/examples/bobs-books`.
-
 ## Overview
 
 Bob's Books consists of three main parts:
@@ -80,7 +78,8 @@ For more information and the source code of this application, see the [Verrazzan
 
 1. To deploy the application, apply the example resources.
    ```
-   $ kubectl apply -f .
+   $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/bobs-books/bobs-books-comp.yaml
+   $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/bobs-books/bobs-books-app.yaml
    ```
 
 1. Wait for all of the pods in the Bob's Books example application to be ready.
@@ -135,12 +134,12 @@ For more information and the source code of this application, see the [Verrazzan
 
 ## Access bobs-bookstore WebLogic Server Administration Console
 
-1. Setup port forwarding
+1. Set up port forwarding.
    ```
    $ kubectl port-forward pods/bobs-bookstore-adminserver 7001:7001 -n bobs-books
    ```
 
-1. Access the WebLogic Server Administration Console from your browser
+1. Access the WebLogic Server Administration Console from your browser.
    ```
    http://localhost:7001/console
    ```
@@ -151,12 +150,12 @@ It is recommended that the WebLogic Server Administration Console not be exposed
 
 ## Access bobbys-front-end WebLogic Server Administration Console
 
-1. Setup port forwarding
+1. Set up port forwarding.
    ```
    $ kubectl port-forward pods/bobbys-front-end-adminserver 7001:7001 -n bobs-books
    ```
 
-1. Access the WebLogic Server Administration Console from your browser
+1. Access the WebLogic Server Administration Console from your browser.
    ```
    http://localhost:7001/console
    ```

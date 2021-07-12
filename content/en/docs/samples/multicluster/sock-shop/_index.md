@@ -13,20 +13,18 @@ listed in the `placement` section.
 **NOTE:** The Sock Shop application deployment files are contained in the Verrazzano project located at
 `<VERRAZZANO_HOME>/examples/sockshop`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
 
-All files and paths in this document are relative to
-`<VERRAZZANO_HOME>/examples/sockshop`.
 
 ## Deploy the Sock Shop application
 
 1. Create a namespace for the Sock Shop application by deploying the Verrazzano project.
    ```
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f verrazzano-project.yaml
+   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/sock-shop/verrazzano-project.yaml
    ```
 
 1. Apply the Sock Shop OAM resources to deploy the application.
    ```
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f sock-shop-comp.yaml
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f sock-shop-app.yaml
+   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/sock-shop/sock-shop-comp.yaml
+   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/sock-shop/sock-shop-app.yaml
    ```
 
 1. Wait for the Sock Shop application to be ready.

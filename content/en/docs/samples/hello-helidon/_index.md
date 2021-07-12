@@ -9,8 +9,6 @@ Install Verrazzano by following the [installation]({{< relref "/docs/setup/insta
 
 **NOTE:** The Hello World Helidon example application deployment files are contained in the Verrazzano project located at `<VERRAZZANO_HOME>/examples/hello-helidon`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
 
-All files and paths in this document are relative to `<VERRAZZANO_HOME>/examples/hello-helidon`.
-
 ## Deploy the Hello World Helidon application
 
 
@@ -22,8 +20,8 @@ All files and paths in this document are relative to `<VERRAZZANO_HOME>/examples
 
 1. To deploy the application, apply the `hello-helidon` OAM resources.
    ```
-   $ kubectl apply -f hello-helidon-comp.yaml
-   $ kubectl apply -f hello-helidon-app.yaml
+   $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-comp.yaml
+   $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-app.yaml
    ```
 
 1. Wait for the application to be ready.

@@ -10,8 +10,6 @@ Install Verrazzano by following the [installation]({{< relref "/docs/setup/insta
 
 **NOTE:** The Spring Boot example application deployment files are contained in the Verrazzano project located at `<VERRAZZANO_HOME>/examples/springboot-app`, where `VERRAZZANO_HOME` is the root of the Verrazzano project.
 
-All files and paths in this document are relative to `<VERRAZZANO_HOME>/examples/springboot-app`.
-
 
 ## Deploy the Spring Boot application
 
@@ -25,8 +23,8 @@ This example provides a simple web application developed using [Spring Boot](htt
 
 1. To deploy the application, apply the Spring Boot OAM resources.
    ```
-   $ kubectl apply -f springboot-comp.yaml
-   $ kubectl apply -f springboot-app.yaml
+   $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/springboot-app/springboot-comp.yaml
+   $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/springboot-app/springboot-app.yaml
    ```
 
 1. Wait for the Spring Boot application to be ready.
