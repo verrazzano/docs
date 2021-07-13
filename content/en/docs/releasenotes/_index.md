@@ -5,6 +5,18 @@ weight: 13
 draft: false
 ---
 
+### v0.17.0
+Features:
+- Allow VMI replicas and memory sizes to be changed during installation for both dev and prod profiles.
+- When installing Verrazzano on OKE, the OKE specific fluentd extraVolumeMounts configuration is no longer required.
+- Updated to the v3.2.5 WebLogic Kubernetes Operator.
+
+Fixes:
+- During uninstall, only delete application resources from namespaces which are managed by Verrazzano.
+- During upgrade, honor the APP_OPERATOR_IMAGE override.
+- Fixed Keycloak installation failure when Prometheus is disabled.
+- Allow empty values for helm overrides in config.json.
+
 ### v0.16.0
 Features:
 - Provided options to configure log volume/mount of the log collector, Fluentd, and pre-configured profiles.
@@ -24,6 +36,7 @@ Fixes:
 Features:
 - Allow customization of Elasticsearch node sizes and topology during installation.
 - If `runtimeEncryptionSecret`, specified in the WebLogic domain spec, does not already exist, then create it.
+- Support overrides of persistent storage configuration for Elasticsearch, Kibana, Prometheus, Grafana, and Keycloak.
 
 Known Issues:
 - After upgrade to 0.15.1, for Verrazzano Custom Resource installed on OCI Container Engine for Kubernetes (OKE), the Fluentd DaemonSet in the `verrazzano-system` namespace cannot access logs.
