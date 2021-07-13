@@ -1,7 +1,7 @@
 ---
 title: "Metrics"
 linkTitle: Metrics
-description: "Verrazzano metrics"
+description: "Understand Verrazzano metrics gathering and viewing"
 weight: 9
 draft: false
 ---

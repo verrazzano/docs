@@ -41,8 +41,8 @@ spec:
 | `profile` | string | The installation profile to select.  Valid values are `prod` (production) and `dev` (development).  The default is `prod`. | No |
 | `version` | string | The version to install.  Valid versions can be found [here](https://github.com/verrazzano/verrazzano/releases/).  Defaults to the current version supported by the Verrazzano platform operator. | No |
 | `components` | [Components](#components) | The Verrazzano components.  | No  |
-| `defaultVolumeSource` | [VolumeSource](https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/) | Defines the type of volume to be used for persistence for all components unless overridden, and can be one of either [EmptyDirVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#emptydirvolumesource-v1-core) or [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core). If [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core) a is declared, the `claimName` must reference the name of an existing `VolumeClaimSpecTemplate` declared in the `volumeClaimSpecTemplates` section. | No
-| `volumeClaimSpecTemplates` | [][VolumeClaimSpecTemplate](#volumeclaimspectemplate) | Defines a named set of PVC configurations that can be referenced from components to configure persistent volumes.| No |
+| `defaultVolumeSource` | [VolumeSource](https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/) | Defines the type of volume to be used for persistence for all components unless overridden, and can be one of either [EmptyDirVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#emptydirvolumesource-v1-core) or [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core). If [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core) is declared, then the `claimName` must reference the name of an existing `VolumeClaimSpecTemplate` declared in the `volumeClaimSpecTemplates` section. | No
+| `volumeClaimSpecTemplates` | [VolumeClaimSpecTemplate](#volumeclaimspectemplate) | Defines a named set of PVC configurations that can be referenced from components to configure persistent volumes.| No |
 
 
 ## VolumeClaimSpecTemplate
@@ -156,32 +156,32 @@ spec:
 ### Keycloak Component
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `enabled` | boolean | If true, Keycloak will be installed | No |
-| `keycloakInstallArgs` | [NameValue](#name-value) list | Allows providing custom Helm arguments to install Keycloak  | No
-| `mysql` | [MySQLComponent](#mysql-component) | Contains the MySQL component configuration needed for Keycloak | No
+| `enabled` | Boolean | If true, then Keycloak will be installed. | No |
+| `keycloakInstallArgs` | [NameValue](#name-value) list | Allows providing custom Helm arguments to install Keycloak.  | No
+| `mysql` | [MySQLComponent](#mysql-component) | Contains the MySQL component configuration needed for Keycloak. | No
 
 ### MySQL Component
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `mysqlInstallArgs` | [NameValue](#name-value) list | Allows providing custom Helm arguments to intall MySQL for KeyCloak  | No
-| `volumeSource` | [VolumeSource](https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/) | Defines the type of volume to be used for persistence for Keycloak/MySQL, and can be one of either [EmptyDirVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#emptydirvolumesource-v1-core) or [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core). If [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core) is declared, the `claimName` must reference the name of a `VolumeClaimSpecTemplate` declared in the `volumeClaimSpecTemplates` section. | No
+| `mysqlInstallArgs` | [NameValue](#name-value) list | Allows providing custom Helm arguments to install MySQL for Keycloak.  | No
+| `volumeSource` | [VolumeSource](https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/) | Defines the type of volume to be used for persistence for Keycloak/MySQL, and can be one of either [EmptyDirVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#emptydirvolumesource-v1-core) or [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core). If [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core) is declared, then the `claimName` must reference the name of a `VolumeClaimSpecTemplate` declared in the `volumeClaimSpecTemplates` section. | No
 
 ### Elasticsearch Component
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `enabled` | boolean | If true, ElasticSearch will be installed | No |
+| `enabled` | Boolean | If true, then Elasticsearch will be installed. | No |
 
 ### Kibana Component
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `enabled` | boolean | If true, Kibana will be installed | No |
+| `enabled` | Boolean | If true, then Kibana will be installed. | No |
 
 ### Prometheus Component
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `enabled` | boolean | If true, Prometheus will be installed | No |
+| `enabled` | Boolean | If true, then Prometheus will be installed. | No |
 
 ### Grafana Component
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `enabled` | boolean | If true, Grafana will be installed | No |
+| `enabled` | Boolean | If true, then Grafana will be installed. | No |

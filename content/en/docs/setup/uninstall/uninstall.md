@@ -6,7 +6,6 @@ weight: 3
 draft: false
 ---
 
-## Uninstall Verrazzano
 
 To delete a Verrazzano installation:
 
