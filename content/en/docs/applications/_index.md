@@ -1,6 +1,6 @@
 ---
 title: "Applications"
-description: "Developing applications with Verrazzano"
+description: "Develop applications with Verrazzano"
 weight: 6
 draft: false
 ---
@@ -172,15 +172,11 @@ The VerrazzanoWebLogicWorkload is used for WebLogic workloads.
 
 
 ### VerrazzanoCoherenceWorkload
-The VerrazzanoCoherenceWorkload is used for Coherence workloads.
-
-For more information, see [Coherence Workload]({{< relref "/docs/applications/workloads/coherence/coherence.md" >}}).
+The VerrazzanoCoherenceWorkload is used for Coherence workloads. See [Coherence Workload]({{< relref "/docs/applications/workloads/coherence/coherence.md" >}}).
 
 
 ### VerrazzanoHelidonWorkload
-The VerrazzanoHelidonWorkload is used for Helidon workloads.
-
-For more information, see [Helidon Workload]({{< relref "/docs/applications/workloads/helidon/helidon.md" >}}).
+The VerrazzanoHelidonWorkload is used for Helidon workloads. See [Helidon Workload]({{< relref "/docs/applications/workloads/helidon/helidon.md" >}}).
 
 
 ### OAM ContainerizedWorkload
