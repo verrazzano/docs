@@ -131,7 +131,7 @@ items:
 ```
 ## TLS
 TLS is used by external clients to access the cluster, both through the NGINX Ingress Controller and the Istio ingress gateway.
-The certificate used by these TLS connections vary; see [Verrazzano security]({{< relref "/docs/security" >}}) for details.
+The certificate used by these TLS connections vary; see [Verrazzano security] for details.
 All TLS connections are terminated at the ingress proxy. Traffic between the two proxies and the internal cluster Pods
 always uses mTLS, because those Pods are all in the Istio mesh.
 
