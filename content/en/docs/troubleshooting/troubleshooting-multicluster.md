@@ -1,7 +1,7 @@
 ---
 title: "Multicluster Verrazzano"
 linkTitle: "Multicluster"
-description: "Troubleshooting issues with multicluster setup and applications"
+description: "Troubleshoot issues with multicluster setup and applications"
 weight: 1
 draft: false
 ---

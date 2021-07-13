@@ -1,7 +1,6 @@
 ---
-title: Using a Private Registry
+title: Use a Private Registry
 description: Instructions for setting up Verrazzano using a private container registry
-linkTitle: Using a Private Registry
 Weight: 5
 draft: false
 ---

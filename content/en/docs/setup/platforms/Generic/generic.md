@@ -16,7 +16,7 @@ see [Install and configure MetalLB]({{< relref "/docs/setup/platforms/kind/kind.
 
 ## Customizations
 
-Verrazzano is highly customizable.  If your Kubernetes implementation requires a custom configuration, see [Customizing Installations]({{< relref "/docs/setup/install/customizing" >}}).
+Verrazzano is highly customizable.  If your Kubernetes implementation requires a custom configuration, see [Customize Installations]({{< relref "/docs/setup/install/customizing" >}}).
 
 ## Next steps
 

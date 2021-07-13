@@ -1,6 +1,5 @@
 ---
-title: "Network security"
-linkTitle: "Network security"
+title: "Network Security"
 description: "Verrazzano network security"
 weight: 3
 draft: false

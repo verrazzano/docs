@@ -1,7 +1,7 @@
 ---
 title: "Application Deployment"
 linkTitle: "Application Deployment"
-description: "Troubleshooting issues deploying applications on Verrazzano"
+description: "Troubleshoot issues deploying applications on Verrazzano"
 weight: 1
 draft: false
 ---

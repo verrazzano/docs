@@ -1,7 +1,7 @@
 ---
 title: "Logging"
 linkTitle: Logging
-description: "Verrazzano logging"
+description: "Learn about Verrazzano log collection and viewing"
 weight: 1
 draft: false
 ---
@@ -50,7 +50,7 @@ $ INDEX=verrazzano-namespace-todo-list
 $ curl -ik --user verrazzano:$PASS https://$HOST/$INDEX/_doc/_search?q=message:*
 ```
 
-Verrazzano provides support for two installation profiles, development (`dev`) and production (`prod`). The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.
+Verrazzano provides support for installation profiles: development (`dev`) and production (`prod`). The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.
 ## Kibana
 Kibana is a visualization dashboard for the content indexed on an Elasticsearch cluster.  Verrazzano creates a Kibana deployment to provide a user interface for querying and visualizing the log data collected in Elasticsearch.
 

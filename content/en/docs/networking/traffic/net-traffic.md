@@ -1,6 +1,5 @@
 ---
-title: "Network traffic"
-linkTitle: "Network traffic"
+title: "Network Traffic"
 description: "Verrazzano network traffic"
 weight: 2
 draft: false
