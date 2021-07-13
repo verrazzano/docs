@@ -7,15 +7,15 @@ draft: false
 
 ### v0.17.0
 Features:
-- Allow VMI replicas and memory sizes to be changed during installation for both dev and prod profiles.
-- When installing Verrazzano on OKE, the OKE specific fluentd extraVolumeMounts configuration is no longer required.
+- Allow Verrazzano Monitoring Instance (VMI) replicas and memory sizes to be changed during installation for both `dev` and `prod` profiles.
+- When installing Verrazzano on OKE, the OKE-specific Fluentd `extraVolumeMounts` configuration is no longer required.
 - Updated to the v3.2.5 WebLogic Kubernetes Operator.
 
 Fixes:
-- During uninstall, only delete application resources from namespaces which are managed by Verrazzano.
+- During uninstall, delete application resources only from namespaces which are managed by Verrazzano.
 - During upgrade, honor the APP_OPERATOR_IMAGE override.
 - Fixed Keycloak installation failure when Prometheus is disabled.
-- Allow empty values for helm overrides in config.json.
+- Allow empty values for Helm overrides in `config.json`.
 
 ### v0.16.0
 Features:
