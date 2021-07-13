@@ -25,19 +25,18 @@
         &lt;h2 id=&#34;prepare-for-the-oci-install&#34;&gt;Prepare for the OCI install&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;Create the &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm&#34;&gt;OKE&lt;/a&gt; cluster using the OCI Console or some other means.&lt;/p&gt;
+&lt;p&gt;Create the &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm&#34;&gt;OKE&lt;/a&gt; cluster using the OCI Console or by some other means.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;For &lt;code&gt;SHAPE&lt;/code&gt;, an OKE cluster with 3 nodes of &lt;code&gt;VM.Standard2.4&lt;/code&gt; &lt;a href=&#34;https://www.oracle.com/cloud/compute/virtual-machines.html&#34;&gt;OCI compute instance shape&lt;/a&gt; has proven sufficient to install Verrazzano and deploy the Bob&amp;rsquo;s Books example application.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Follow the instructions provided by OKE to download the Kubernetes config for your cluster, and set the following &lt;code&gt;ENV&lt;/code&gt; variable:&lt;/p&gt;
+&lt;p&gt;Follow the instructions provided by OKE to download the Kubernetes configuration file for your cluster, and set the following &lt;code&gt;ENV&lt;/code&gt; variable:&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;pre&gt;&lt;code&gt;   $ export KUBECONFIG=&amp;lt;path to valid Kubernetes config&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
-&lt;li&gt;Optional, see the document &lt;a href=&#34;../../../docs/setup/private-registry/private-registry/&#34;&gt;Using a Private Registry&lt;/a&gt;
-if your organization requires the use of a private registry to the Docker images installed by Verrazzano.&lt;/li&gt;
+&lt;li&gt;Optional, if your organization requires the use of a private registry to the Docker images installed by Verrazzano, see &lt;a href=&#34;../../../docs/setup/private-registry/private-registry/&#34;&gt;Using a Private Registry&lt;/a&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Verrazzano can create network policies that can be used to limit the ports and protocols that pods use for network communication. Network policies provide additional security but they are enforced only if you install a Kubernetes Container Network Interface (CNI) plug-in that enforces them, such as Calico. For an example on OKE, see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengsettingupcalico.htm&#34;&gt;Installing Calico and Setting Up Network Policies&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
@@ -885,12 +884,12 @@ to the host.
 &lt;h2 id=&#34;prepare-the-kind-cluster&#34;&gt;Prepare the KIND cluster&lt;/h2&gt;
 &lt;p&gt;To prepare the KIND cluster for use with Verrazzano, you must create the cluster and then install and configure
 &lt;a href=&#34;https://metallb.universe.tf/&#34;&gt;MetalLB&lt;/a&gt; in that cluster.&lt;/p&gt;
-&lt;p&gt;You can create the KIND cluster in two ways, with or without image caching.  Image caching can speed up your
-installation times.&lt;/p&gt;
-&lt;h4 id=&#34;create-a-kind-cluster&#34;&gt;Create a KIND cluster&lt;/h4&gt;
+&lt;p&gt;You can create the KIND cluster in two ways: with or without image caching; image caching can speed up your
+installation time.&lt;/p&gt;
+&lt;h3 id=&#34;create-a-kind-cluster&#34;&gt;Create a KIND cluster&lt;/h3&gt;
 &lt;p&gt;KIND images are prebuilt for each release.  To find images suitable for a given release, check the
-&lt;a href=&#34;https://github.com/kubernetes-sigs/kind/releases&#34;&gt;release notes&lt;/a&gt; for your KIND version (check with &lt;code&gt;kind version&lt;/code&gt;)
-where you&amp;rsquo;ll find a complete listing of images created for a KIND release.&lt;/p&gt;
+&lt;a href=&#34;https://github.com/kubernetes-sigs/kind/releases&#34;&gt;release notes&lt;/a&gt; for your KIND version (check with &lt;code&gt;kind version&lt;/code&gt;).
+There you&amp;rsquo;ll find a complete listing of images created for a KIND release.&lt;/p&gt;
 &lt;p&gt;The following example references a Kubernetes v1.18.8-based image built for KIND v0.9.0.  Replace that image
 with one suitable for the KIND release you are using.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kind create cluster --config - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
@@ -907,10 +906,10 @@ with one suitable for the KIND release you are using.&lt;/p&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            &amp;#34;service-account-issuer&amp;#34;: &amp;#34;kubernetes.default.svc&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            &amp;#34;service-account-signing-key-file&amp;#34;: &amp;#34;/etc/kubernetes/pki/sa.key&amp;#34;
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;create-a-kind-cluster-with-image-caching&#34;&gt;Create a KIND Cluster With Image Caching&lt;/h4&gt;
-&lt;p&gt;While experimenting or developing with Verrazzano, you may end up destroying and re-creating your KIND cluster multiple
-times.  To speed up the Verrazzano install process you can follow these steps to ensure that the image cache used by
-containerd inside a KIND cluster is preserved across clusters. Subsequent installs will be faster than the first install,
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;create-a-kind-cluster-with-image-caching&#34;&gt;Create a KIND cluster with image caching&lt;/h3&gt;
+&lt;p&gt;While developing or experimenting with Verrazzano, you might destroy and re-create your KIND cluster multiple
+times.  To speed up Verrazzano installation, follow these steps to ensure that the image cache used by
+containerd inside a KIND cluster, is preserved across clusters. Subsequent installations will be faster
 because they will not need to pull the images again.&lt;/p&gt;
 &lt;p&gt;1. Create a named Docker volume that will be used for the image cache, and note its &lt;code&gt;Mountpoint&lt;/code&gt; path. In this example, the volume is named &lt;code&gt;containerd&lt;/code&gt;.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ docker volume create containerd
@@ -944,7 +943,7 @@ $ docker volume inspect containerd &lt;span style=&#34;color:#8f5902;font-style:
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      - hostPath: /var/lib/docker/volumes/containerd/_data
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        containerPath: /var/lib/containerd #This is the location of the image cache inside the KIND container
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;install-and-configure-metallb&#34;&gt;Install and configure MetalLB&lt;/h3&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;install-and-configure-metallb&#34;&gt;Install and configure MetalLB&lt;/h2&gt;
 &lt;p&gt;By default, KIND does not provide an implementation of network load balancers (&lt;a href=&#34;https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/&#34;&gt;Services of type LoadBalancer&lt;/a&gt;).
 &lt;a href=&#34;https://metallb.universe.tf/&#34;&gt;MetalLB&lt;/a&gt; offers a network load balancer implementation.&lt;/p&gt;
 &lt;p&gt;To install MetalLB:&lt;/p&gt;
@@ -992,11 +991,11 @@ In versions v0.7.0 and earlier, KIND uses Docker&amp;rsquo;s default bridge netw
         
         &lt;h2 id=&#34;prepare-for-the-generic-install&#34;&gt;Prepare for the generic install&lt;/h2&gt;
 &lt;p&gt;If your generic Kubernetes implementation provides a load balancer implementation, then you can use a default configuration of the
-Verrazzano custom resource with no customizations, and follow the &lt;a href=&#34;../../../docs/setup/install/installation/#install-the-verrazzano-platform-operator&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Otherwise, you can install a load balancer, such as &lt;a href=&#34;https://metallb.universe.tf/&#34;&gt;MetalLB&lt;/a&gt;. The platform setup page for
-KIND clusters has more details on setting up MetalLB &lt;a href=&#34;../../../docs/setup/platforms/kind/kind/#install-and-configure-metallb&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;h3 id=&#34;customizations&#34;&gt;Customizations&lt;/h3&gt;
-&lt;p&gt;Verrazzano is highly customizable.  If your Kubernetes implementation requires custom configuration, see &lt;a href=&#34;../../../docs/setup/install/customizing&#34;&gt;Customizing Installations&lt;/a&gt;.&lt;/p&gt;
+Verrazzano custom resource with no customizations and follow the &lt;a href=&#34;../../../docs/setup/install/installation/#install-the-verrazzano-platform-operator&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Otherwise, you can install a load balancer, such as &lt;a href=&#34;https://metallb.universe.tf/&#34;&gt;MetalLB&lt;/a&gt;. For details,
+see &lt;a href=&#34;../../../docs/setup/platforms/kind/kind/#install-and-configure-metallb&#34;&gt;Install and configure MetalLB&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;customizations&#34;&gt;Customizations&lt;/h2&gt;
+&lt;p&gt;Verrazzano is highly customizable.  If your Kubernetes implementation requires a custom configuration, see &lt;a href=&#34;../../../docs/setup/install/customizing/&#34;&gt;Customize Installations&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
 &lt;p&gt;To continue, see the &lt;a href=&#34;../../../docs/setup/install/installation/#install-the-verrazzano-platform-operator&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
 
