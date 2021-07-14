@@ -67,7 +67,12 @@ You will need the credentials to access the consoles installed by Verrazzano.
 
 To get the password:
 
-`$ kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo`
+```
+$ kubectl get secret \
+    --namespace verrazzano-system verrazzano \
+    -o jsonpath={.data.password} | base64 \
+    --decode; echo
+```
 
 
 ### The Keycloak admin console
@@ -76,7 +81,12 @@ To get the password:
 
 To get the password:  
 
-`$ kubectl get secret --namespace keycloak keycloak-http -o jsonpath={.data.password} | base64 --decode; echo`
+```
+$ kubectl get secret \
+    --namespace keycloak keycloak-http \
+    -o jsonpath={.data.password} | base64 \
+    --decode; echo
+```
 
 
 ### The Rancher console
@@ -85,7 +95,12 @@ To get the password:
 
 To get the password:  
 
-`$ kubectl get secret --namespace cattle-system rancher-admin-secret -o jsonpath={.data.password} | base64 --decode; echo`
+```
+$ kubectl get secret \
+    --namespace cattle-system rancher-admin-secret \
+    -o jsonpath={.data.password} | base64 \
+    --decode; echo
+```
 
 ## Change the Verrazzano password
 

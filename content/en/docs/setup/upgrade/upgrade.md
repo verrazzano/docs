@@ -114,7 +114,9 @@ To upgrade Verrazzano:
 1. Wait for the upgrade to complete:
 
    ```shell
-   $ kubectl wait --timeout=10m --for=condition=UpgradeComplete verrazzano/my-verrazzano
+   $ kubectl wait \
+       --timeout=10m \
+       --for=condition=UpgradeComplete verrazzano/my-verrazzano
    ```
 
 ## Verify the upgrade

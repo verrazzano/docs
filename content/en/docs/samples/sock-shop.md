@@ -32,7 +32,10 @@ It uses OAM resources to define the application deployment.
 
 1. Wait for the Sock Shop application to be ready.
    ```
-   $ kubectl wait --for=condition=Ready pods --all -n sockshop --timeout=300s
+   $ kubectl wait \
+      --for=condition=Ready pods \
+      --all -n sockshop \
+      --timeout=300s
    ```
 
 ## Explore the application
@@ -58,14 +61,18 @@ Follow these steps to test the endpoints:
 
 1. Get the generated host name for the application.
    ```
-   $ HOST=$(kubectl get gateway -n sockshop -o jsonpath={.items[0].spec.servers[0].hosts[0]})
+   $ HOST=$(kubectl get gateway \
+        -n sockshop \
+        -o jsonpath={.items[0].spec.servers[0].hosts[0]})
    $ echo $HOST
    sockshop-appconf.sockshop.11.22.33.44.nip.io
    ```
 
 1. Get the `EXTERNAL_IP` address of the `istio-ingressgateway` service.
    ```
-   $ ADDRESS=$(kubectl get service -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+   $ ADDRESS=$(kubectl get service \
+        -n istio-system istio-ingressgateway \
+        -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
    $ echo $ADDRESS
    11.22.33.44
    ```   
@@ -76,21 +83,32 @@ Follow these steps to test the endpoints:
 
      ```
      # Get catalogue
-     $ curl -sk -X GET https://${HOST}/catalogue --resolve ${HOST}:443:${ADDRESS}
+     $ curl -sk \
+        -X GET \
+        https://${HOST}/catalogue \
+        --resolve ${HOST}:443:${ADDRESS}
      [{"count":115,"description":"For all those leg lovers out there....", ...}]
 
      # Add a new user (replace values of username and password)
-     $ curl -i --header "Content-Type: application/json" --request POST \
-     --data '{"username":"foo","password":"****","email":"foo@example.com","firstName":"foo","lastName":"foo"}' \
-     -k https://${HOST}/register --resolve ${HOST}:443:${ADDRESS}
+     $ curl -i \
+        --header "Content-Type: application/json" \
+        --request POST \
+        --data '{"username":"foo","password":"****","email":"foo@example.com","firstName":"foo","lastName":"foo"}' \
+        -k https://${HOST}/register \
+        --resolve ${HOST}:443:${ADDRESS}
 
      # Add an item to the user's cart
-     $ curl -i --header "Content-Type: application/json" --request POST \
-     --data '{"itemId": "a0a4f044-b040-410d-8ead-4de0446aec7e","unitPrice": "7.99"}' \
-     -k https://${HOST}/carts/{username}/items --resolve ${HOST}:443:${ADDRESS}
+     $ curl -i \
+        --header "Content-Type: application/json" \
+        --request POST \
+        --data '{"itemId": "a0a4f044-b040-410d-8ead-4de0446aec7e","unitPrice": "7.99"}' \
+        -k https://${HOST}/carts/{username}/items \
+        --resolve ${HOST}:443:${ADDRESS}
 
      # Get cart items
-     $ curl -i -k https://${HOST}/carts/{username}/items --resolve ${HOST}:443:${ADDRESS}
+     $ curl -i \
+        -k https://${HOST}/carts/{username}/items \
+        --resolve ${HOST}:443:${ADDRESS}
      ```
      If you are using `nip.io`, then you do not need to include `--resolve`.
 
@@ -121,7 +139,10 @@ Follow these steps to test the endpoints:
 
     - Run this command to get the password that was generated for the telemetry components:
       ```
-      $ kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo
+      $ kubectl get secret \
+         --namespace verrazzano-system verrazzano \
+         -o jsonpath={.data.password} | base64 \
+         --decode; echo
       ```
       The associated user name is `verrazzano`.
 

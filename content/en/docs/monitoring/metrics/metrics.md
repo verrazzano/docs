@@ -48,8 +48,14 @@ For example, for the previous metric source:
 - Get the user name and password used to access the metrics source from the corresponding secret.
 
   ```
-  $ kubectl get secret --namespace todo-list tododomain-weblogic-credentials  -o jsonpath={.data.username} | base64 --decode; echo
-  $ kubectl get secret --namespace todo-list tododomain-weblogic-credentials  -o jsonpath={.data.password} | base64 --decode; echo
+  $ kubectl get secret \
+      --namespace todo-list tododomain-weblogic-credentials \
+      -o jsonpath={.data.username} | base64 \
+      --decode; echo
+  $ kubectl get secret \
+      --namespace todo-list tododomain-weblogic-credentials \
+      -o jsonpath={.data.password} | base64 \
+      --decode; echo
   ```
 
 - Access the metrics at the exported path, using the user name and password retrieved in the previous step.
@@ -87,7 +93,10 @@ To access Grafana:
 
 - Get the password for the user `verrazzano`.
    ```
-   $ kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo
+   $ kubectl get secret \
+       --namespace verrazzano-system verrazzano \
+       -o jsonpath={.data.password} | base64 \
+       --decode; echo
    ```
 - Access Grafana in a browser using the previous hostname.
 - Log in using the `verrazzano` user and the previous password.

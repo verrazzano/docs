@@ -92,7 +92,9 @@ metadata:
 spec:
   profile: ${VZ_PROFILE:-dev}
 EOF
-$ kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
+$ kubectl wait \
+    --timeout=20m \
+    --for=condition=InstallComplete verrazzano/my-verrazzano
 ```
 
 {{< /tab >}}
@@ -108,7 +110,10 @@ For example, an appropriate zone name for parent domain `v8o.example.com` domain
 
   To create an OCI DNS zone using the OCI CLI:
   ```
-  $ oci dns zone create -c <compartment ocid> --name <zone-name-prefix>.v8o.example.com --zone-type PRIMARY
+  $ oci dns zone create \
+      -c <compartment ocid> \
+      --name <zone-name-prefix>.v8o.example.com \
+      --zone-type PRIMARY
   ```
 
   To create an OCI DNS zone using the OCI console, see [Managing DNS Service Zones](https://docs.oracle.com/en-us/iaas/Content/DNS/Tasks/managingdnszones.htm).
@@ -118,14 +123,19 @@ reads an OCI configuration file to create the secret.
 
   Download the `create_oci_config_secret.sh` script:
   ```
-  $ curl -o ./create_oci_config_secret.sh https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/scripts/install/create_oci_config_secret.sh
+  $ curl \
+      -o ./create_oci_config_secret.sh \
+      https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/scripts/install/create_oci_config_secret.sh
   ```
 
   Run the `create_oci_config_secret.sh` script:
   ```
   $ chmod +x create_oci_config_secret.sh
   $ export KUBECONFIG=<kubeconfig-file>
-  $ ./create_oci_config_secret.sh -o <oci-config-file> -s <config-file-section> -k <secret-name>
+  $ ./create_oci_config_secret.sh \
+      -o <oci-config-file> \
+      -s <config-file-section> \
+      -k <secret-name>
 
   -o defaults to the OCI configuration file in ~/.oci/config
   -s defaults to the DEFAULT properties section within the OCI configuration file
@@ -144,7 +154,9 @@ Installing Verrazzano using OCI DNS requires some configuration settings to crea
 
 Download the sample Verrazzano custom resource `install-oci.yaml` for OCI DNS:
 ```
-$ curl -o ./install-oci.yaml https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/config/samples/install-oci.yaml
+$ curl \
+    -o ./install-oci.yaml \
+    https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/config/samples/install-oci.yaml
 ```
 
 Edit the downloaded `install-oci.yaml` file and provide values for the following configuration settings:
@@ -168,7 +180,9 @@ Run the following commands:
 
 ```
 $ kubectl apply -f ./install-oci.yaml
-$ kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
+$ kubectl wait \
+    --timeout=20m \
+    --for=condition=InstallComplete verrazzano/my-verrazzano
 ```
 
 {{< /tab >}}
@@ -177,7 +191,10 @@ $ kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verra
 
 To monitor the console log output of the installation:
 ```shell
-$ kubectl logs -f $(kubectl get pod -l job-name=verrazzano-install-my-verrazzano -o jsonpath="{.items[0].metadata.name}")
+$ kubectl logs \
+    -f $(kubectl get pod \
+    -l job-name=verrazzano-install-my-verrazzano \
+    -o jsonpath="{.items[0].metadata.name}")
 ```
 
 ## Verify the install

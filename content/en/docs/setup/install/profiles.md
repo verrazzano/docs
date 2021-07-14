@@ -1,6 +1,5 @@
 ---
 title: "Installation Profiles"
-linkTitle: Install Profiles
 description: "How to use named Verrazzano configurations to simplify an installation"
 weight: 2
 draft: false
@@ -10,7 +9,7 @@ This document describes built-in configuration profiles that you can use to simp
 profile is a well-known configuration of Verrazzano settings that can be referenced by name, which then can be
 customized as needed.
 
-The following table describes the Verrazzano installation profiles:
+The following table describes the Verrazzano installation profiles.
 
 | Profile  | Description | Characteristics
 | ------------- |:------------- |:-------------
@@ -64,7 +63,7 @@ spec:
           storage: 8Gi
 ```
 
-For details on how to customize Verrazzano components, see [Customizing an Installation]({{< relref "/docs/setup/install/customizing" >}}).
+For details on how to customize Verrazzano components, see [Customize an Installation]({{< relref "/docs/setup/install/customizing" >}}).
 
 ## Profile configurations
 
@@ -87,7 +86,7 @@ customize any Verrazzano installation, regardless of the profile.
 
 ### Profiles and Prometheus configurations
 
-The following table describes the Prometheus and Grafana configurations in each profile:
+The following table describes the Prometheus and Grafana configurations in each profile.
 
 | Profile | Prometheus | Grafana
 | ------------- |:------------- |:-------------
@@ -97,7 +96,7 @@ The following table describes the Prometheus and Grafana configurations in each 
 
 ### Profiles and Elasticsearch configurations
 
-The following table describes the Kibana and Elasticsearch cluster topology in each profile:
+The following table describes the Kibana and Elasticsearch cluster topology in each profile.
 
 | Profile | Elasticsearch | Kibana
 | ------------- |:------------- |:-------------
@@ -113,7 +112,7 @@ Elasticsearch containers are configured to use 75% of the configured request mem
 ### Profile-independent defaults
 
 The following table shows the settings for components that are profile-independent (consistent across
-all profiles unless overridden):
+all profiles unless overridden).
 
 | Component | Default
 | -------------|-------------

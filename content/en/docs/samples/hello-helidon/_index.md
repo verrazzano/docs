@@ -26,7 +26,11 @@ Install Verrazzano by following the [installation]({{< relref "/docs/setup/insta
 
 1. Wait for the application to be ready.
    ```
-   $ kubectl wait --for=condition=Ready pods --all -n hello-helidon --timeout=300s
+   $ kubectl wait \
+      --for=condition=Ready pods \
+      --all \
+      -n hello-helidon \
+      --timeout=300s
    ```
 
 ## Explore the application
@@ -42,14 +46,18 @@ Follow these steps to test the endpoints:
 1. Get the generated host name for the application.
 
    ```
-   $ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath={.spec.servers[0].hosts[0]})
+   $ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw \
+        -n hello-helidon \
+        -o jsonpath={.spec.servers[0].hosts[0]})
    $ echo $HOST
    hello-helidon-appconf.hello-helidon.11.22.33.44.nip.io
    ```
 
 1. Get the `EXTERNAL_IP` address of the `istio-ingressgateway` service.
    ```
-   $ ADDRESS=$(kubectl get service -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+   $ ADDRESS=$(kubectl get service \
+        -n istio-system istio-ingressgateway \
+        -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
    $ echo $ADDRESS
    11.22.33.44
    ```   
@@ -58,7 +66,10 @@ Follow these steps to test the endpoints:
 
    * **Using the command line**
      ```
-     $ curl -sk -X GET https://${HOST}/greet --resolve ${HOST}:443:${ADDRESS}
+     $ curl -sk \
+        -X GET \
+        https://${HOST}/greet \
+        --resolve ${HOST}:443:${ADDRESS}
      {"message":"Hello World!"}
      ```
      If you are using `nip.io`, then you do not need to include `--resolve`.
@@ -87,7 +98,10 @@ Follow these steps to test the endpoints:
     - Run this command to get the password that was generated for the telemetry components:
 
       ```
-      $ kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo
+      $ kubectl get secret \
+         --namespace verrazzano-system verrazzano \
+         -o jsonpath={.data.password} | base64 \
+         --decode; echo
       ```
       The associated user name is `verrazzano`.
 

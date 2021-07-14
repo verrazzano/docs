@@ -23,7 +23,7 @@ listed in the `placement` section.
 1. Create a namespace for the multicluster ToDo List example by applying the Verrazzano project file.
    ```
    $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
-   -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/verrazzano-project.yaml
+       -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/verrazzano-project.yaml
    ```
 
 1. Log in to the `container-registry.oracle.com` Docker registry in which the Todo List application image is deployed.  You
@@ -41,12 +41,12 @@ will need the updated Docker `config.json`, containing your authentication token
 namespace.
    ```
    $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
-   -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/mc-docker-registry-secret.yaml
+       -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/mc-docker-registry-secret.yaml
    ```
 1. Create the WebLogic domain secret by applying the `mc-weblogic-domain-secret.yaml` file:
    ```
    $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
-   -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/mc-weblogic-domain-secret.yaml
+       -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/mc-weblogic-domain-secret.yaml
    ```
 
    Note that the ToDo List example application is preconfigured to use these credentials.
@@ -56,21 +56,25 @@ namespace.
 1. Apply the ToDo List example multicluster application resources to deploy the application.
    ```
    $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
-   -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/todo-list-components.yaml
+       -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/todo-list-components.yaml
 
    $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
-   -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/todo-list-application.yaml
+       -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/todo-list-application.yaml
    ```
 
 1. Wait for the ToDo List example application to be ready.
    You may need to repeat this command several times before it is successful.
    The `tododomain-adminserver` pod may take a while to be created and `Ready`.
    ```
-   $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl wait pod --for=condition=Ready tododomain-adminserver -n mc-todo-list
+   $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl wait pod \
+       --for=condition=Ready tododomain-adminserver \
+       -n mc-todo-list
    ```
 1. Get the generated host name for the application.
    ```
-   $ HOST=$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get gateway -n mc-todo-list -o jsonpath={.items[0].spec.servers[0].hosts[0]})
+   $ HOST=$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get gateway \
+         -n mc-todo-list \
+         -o jsonpath={.items[0].spec.servers[0].hosts[0]})
    $ echo $HOST
    todo-appconf.mc-todo-list.11.22.33.44.nip.io
    ```
@@ -78,7 +82,8 @@ namespace.
 1. Get the `EXTERNAL_IP` address of the `istio-ingressgateway` service.
    ```
    $ ADDRESS=$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get service \
-     -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+        -n istio-system istio-ingressgateway \
+        -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
    $ echo $ADDRESS
    11.22.33.44
    ```   
@@ -87,7 +92,8 @@ namespace.
 
    * **Using the command line**
      ```
-     $ curl -sk https://${HOST}/todo/ --resolve ${HOST}:443:${ADDRESS}
+     $ curl -sk https://${HOST}/todo/ \
+     --resolve ${HOST}:443:${ADDRESS}
      ```
      If you are using `nip.io`, then you do not need to include `--resolve`.
    * **Local testing with a browser**
@@ -117,7 +123,8 @@ namespace.
    * Run this command to get the password that was generated for the telemetry components:
      ```
      $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl get secret \
-     --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo
+         --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 \
+         --decode; echo
      ```
      The associated user name is `verrazzano`.
 

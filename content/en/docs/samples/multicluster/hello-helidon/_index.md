@@ -15,7 +15,7 @@ Create a multicluster Verrazzano installation with one admin and one managed clu
 Apply the VerrazzanoProject resource on the admin cluster that defines the namespace for the application.  The namespaces defined in the VerrazzanoProject resource will be created on the admin cluster and all the managed clusters.
    ```shell
    $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
-   -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/verrazzano-project.yaml
+       -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/verrazzano-project.yaml
    ```
 
 ## Deploy the Hello World Helidon application
@@ -23,14 +23,17 @@ Apply the VerrazzanoProject resource on the admin cluster that defines the names
 1. Apply the `hello-helidon` multicluster resources to deploy the application.  Each multicluster resource is an envelope that contains an OAM resource and a list of clusters to which to deploy.
    ```shell
    $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
-   -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/mc-hello-helidon-comp.yaml
+       -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/mc-hello-helidon-comp.yaml
    $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
-   -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml
+       -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml
    ```
 
 1. Wait for the application to be ready on the managed cluster.
    ```shell
-   $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl wait --for=condition=Ready pods --all -n hello-helidon --timeout=300s
+   $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl wait \
+       --for=condition=Ready pods \
+       --all -n hello-helidon \
+       --timeout=300s
    ```
 
 ## Explore the example application
@@ -66,30 +69,47 @@ By default, the application is located on the managed cluster called `managed1`.
 1. To change their placement, patch the `hello-helidon` multicluster resources.
    ```shell
    $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl patch mcappconf hello-helidon-appconf \
-   -n hello-helidon --type merge --patch "$(cat $CHANGE_PLACEMENT_PATCH_FILE)"
+       -n hello-helidon \
+       --type merge \
+       --patch "$(cat $CHANGE_PLACEMENT_PATCH_FILE)"
    $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl patch mccomp hello-helidon-component \
-   -n hello-helidon --type merge --patch "$(cat $CHANGE_PLACEMENT_PATCH_FILE)"
+       -n hello-helidon \
+       --type merge \
+       --patch "$(cat $CHANGE_PLACEMENT_PATCH_FILE)"
    ```
 1. To verify that their placement has changed, view the multicluster resources.
    ```shell
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl get mccomp hello-helidon-component -n hello-helidon -o jsonpath='{.spec.placement}';echo
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl get mcappconf hello-helidon-appconf -n hello-helidon -o jsonpath='{.spec.placement}';echo
+   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl get mccomp hello-helidon-component \
+       -n hello-helidon \
+       -o jsonpath='{.spec.placement}';echo
+   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl get mcappconf hello-helidon-appconf \
+       -n hello-helidon \
+       -o jsonpath='{.spec.placement}';echo
    ```
    The cluster
       name, `local`, indicates placement in the admin cluster.
 
 1. To change its placement, patch the VerrazzanoProject.
    ```shell
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl patch vp hello-helidon -n verrazzano-mc --type merge --patch "$(cat $CHANGE_PLACEMENT_PATCH_FILE)"
+   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl patch vp hello-helidon \
+       -n verrazzano-mc \
+       --type merge \
+       --patch "$(cat $CHANGE_PLACEMENT_PATCH_FILE)"
    ```
 1. Wait for the application to be ready on the admin cluster.
    ```shell
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl wait --for=condition=Ready pods --all -n hello-helidon --timeout=300s
+   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl wait \
+       --for=condition=Ready pods \
+       --all -n hello-helidon \
+       --timeout=300s
    ```
    **Note:** If you are returning the application to the managed cluster, then instead, wait for the application to be
    ready on the managed cluster.
    ```shell
-   $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl wait --for=condition=Ready pods --all -n hello-helidon --timeout=300s
+   $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl wait \
+       --for=condition=Ready pods \
+       --all -n hello-helidon \
+       --timeout=300s
    ```
 
 1. Now, you can test the example application running in its new location.
@@ -109,11 +129,11 @@ delete the multicluster resources and the project from the admin cluster:
 ```shell
 # Delete the multicluster application configuration
 $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl delete \
--f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml
 # Delete the multicluster components for the application
 $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl delete \
--f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/mc-hello-helidon-comp.yaml
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/mc-hello-helidon-comp.yaml
 # Delete the project
 $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl delete \
--f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/verrazzano-project.yaml
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/verrazzano-project.yaml
 ```

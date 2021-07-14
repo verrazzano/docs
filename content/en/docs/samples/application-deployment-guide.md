@@ -248,13 +248,17 @@ and enabled for Istio.
    ingress DNS name to the application's load balancer IP address.
    The generated host name is obtained by querying Kubernetes for the gateway:
    ```shell script
-   $ kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath='{.spec.servers[0].hosts[0]}'
+   $ kubectl get gateway hello-helidon-hello-helidon-appconf-gw \
+       -n hello-helidon \
+       -o jsonpath='{.spec.servers[0].hosts[0]}'
    ```
    The load balancer IP is obtained by querying Kubernetes for the
    Istio ingress gateway status:
 
    ```shell script
-   $ kubectl get service -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+   $ kubectl get service \
+       -n istio-system istio-ingressgateway \
+       -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
    ```
 
    DNS configuration steps are outside the scope of this guide. For DNS infrastructure that can be configured and used, see
@@ -338,8 +342,12 @@ If DNS was not configured, then use the alternative commands.
 
 1.  Save the host name and IP address of the load balancer exposing the application's REST service endpoints for later.
     ```shell script
-    $ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath='{.spec.servers[0].hosts[0]}')
-    $ ADDRESS=$(kubectl get service -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    $ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw \
+          -n hello-helidon \
+          -o jsonpath='{.spec.servers[0].hosts[0]}')
+    $ ADDRESS=$(kubectl get service \
+          -n istio-system istio-ingressgateway \
+          -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     ```
     **NOTE**:
 
@@ -351,46 +359,68 @@ If DNS was not configured, then use the alternative commands.
 
 1.  Get the default message.
     ```shell script
-    $ curl -sk -X GET "https://${HOST}/greet"
+    $ curl -sk \
+        -X GET \
+        "https://${HOST}/greet"
 
     {"message":"Hello World!"}
     ```
     If DNS has not been configured, then use this command.
     ```shell script
-    $ curl -sk -X GET "https://${HOST}/greet" --resolve ${HOST}:443:${ADDRESS}
+    $ curl -sk \
+        -X GET \
+        "https://${HOST}/greet" \
+        --resolve ${HOST}:443:${ADDRESS}
     ```
 
 1.  Get a message for Robert.
     ```shell script
-    $ curl -sk -X GET "https://${HOST}/greet/Robert"
+    $ curl -sk \
+        -X GET \
+        "https://${HOST}/greet/Robert"
 
     {"message":"Hello Robert!"}
     ```
     If DNS has not been configured, then use this command.
     ```shell script
-    $ curl -sk -X GET "https://${HOST}/greet/Robert" --resolve ${HOST}:443:${ADDRESS}
+    $ curl -sk \
+        -X GET
+        "https://${HOST}/greet/Robert" \
+        --resolve ${HOST}:443:${ADDRESS}
     ```
 
 1.  Update the default greeting.
     ```shell script
-    $ curl -sk -X PUT "https://${HOST}/greet/greeting" -H 'Content-Type: application/json' \
-    -d '{"greeting" : "Greetings"}'
+    $ curl -sk \
+        -X PUT \
+        "https://${HOST}/greet/greeting" \
+        -H 'Content-Type: application/json' \
+        -d '{"greeting" : "Greetings"}'
     ```
     If DNS has not been configured, then use this command.
     ```shell script
-    $ curl -sk -X PUT "https://${HOST}/greet/greeting" -H 'Content-Type: application/json' \
-    -d '{"greeting" : "Greetings"}' --resolve ${HOST}:443:${ADDRESS}
+    $ curl -sk \
+        -X PUT \
+        "https://${HOST}/greet/greeting" \
+        -H 'Content-Type: application/json' \
+        -d '{"greeting" : "Greetings"}' \
+        --resolve ${HOST}:443:${ADDRESS}
     ```
 
 1.  Get the new message for Robert.
     ```shell script
-    $ curl -sk -X GET "https://${HOST}/greet/Robert"
+    $ curl -sk \
+        -X GET \
+        "https://${HOST}/greet/Robert"
 
     {"message":"Greetings Robert!"}
     ```
     If DNS has not been configured, then use this command.
     ```shell script
-    $ curl -sk -X GET "https://${HOST}/greet/Robert" --resolve ${HOST}:443:${ADDRESS}
+    $ curl -sk \
+        -X GET \
+        "https://${HOST}/greet/Robert" \
+        --resolve ${HOST}:443:${ADDRESS}
     ```
 
 ### Access the application's logs
@@ -401,7 +431,9 @@ Elasticsearch and Kibana are examples of infrastructure Verrazzano creates in su
 
 Determine the URL to access Kibana:
  ```shell script
-$ KIBANA_HOST=$(kubectl get ingress -n verrazzano-system vmi-system-kibana -o jsonpath='{.spec.rules[0].host}')
+$ KIBANA_HOST=$(kubectl get ingress \
+      -n verrazzano-system vmi-system-kibana \
+      -o jsonpath='{.spec.rules[0].host}')
 $ KIBANA_URL="https://${KIBANA_HOST}"
 $ echo "${KIBANA_URL}"
 $ open "${KIBANA_URL}"
@@ -411,7 +443,10 @@ The user name to access Kibana defaults to `verrazzano` during the Verrazzano in
 
 Determine the password to access Kibana:
 ```shell script
-$ echo $(kubectl get secret -n verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode)
+$ echo $(kubectl get secret \
+      -n verrazzano-system verrazzano \
+      -o jsonpath={.data.password} | base64 \
+      --decode)
 ```
 
 ### Access the application's metrics
@@ -423,7 +458,9 @@ Prometheus and Grafana are additional components Verrazzano creates as a result 
 Determine the URL to access Grafana:
 
 ```shell script
-$ GRAFANA_HOST=$(kubectl get ingress -n verrazzano-system vmi-system-grafana -o jsonpath='{.spec.rules[0].host}')
+$ GRAFANA_HOST=$(kubectl get ingress \
+      -n verrazzano-system vmi-system-grafana \
+      -o jsonpath='{.spec.rules[0].host}')
 $ GRAFANA_URL="https://${GRAFANA_HOST}"
 $ echo "${GRAFANA_URL}"
 $ open "${GRAFANA_URL}"
@@ -433,14 +470,19 @@ The user name to access Grafana is set to the default value `verrazzano` during 
 Determine the password to access Grafana:
 
 ```shell script
-$ echo $(kubectl get secret -n verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode)
+$ echo $(kubectl get secret \
+      -n verrazzano-system verrazzano \
+      -o jsonpath={.data.password} | base64 \
+      --decode)
 ```
 
 Alternatively, metrics can be accessed directly using Prometheus.
 Determine the URL for this access:
 
 ```shell script
-$ PROMETHEUS_HOST=$(kubectl get ingress -n verrazzano-system vmi-system-prometheus -o jsonpath='{.spec.rules[0].host}')
+$ PROMETHEUS_HOST=$(kubectl get ingress \
+      -n verrazzano-system vmi-system-prometheus \
+      -o jsonpath='{.spec.rules[0].host}')
 $ PROMETHEUS_URL="https://${PROMETHEUS_HOST}"
 $ echo "${PROMETHEUS_URL}"
 $ open "${PROMETHEUS_URL}"

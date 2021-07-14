@@ -21,7 +21,9 @@ For application deployment to succeed, the `oam-kubernetes-runtime` pod must hav
 
 Use the following command to get the pod status.
 ```shell
-$ kubectl get pods -n verrazzano-system -l app.kubernetes.io/name=oam-kubernetes-runtime
+$ kubectl get pods \
+    -n verrazzano-system \
+    -l app.kubernetes.io/name=oam-kubernetes-runtime
 ```
 If the pod status is not Running, then see the following instructions for reviewing the `oam-kubernetes-runtime` pod logs.
 
@@ -30,7 +32,9 @@ For application deployment to succeed, the `verrazzano-application-operator` pod
 
 Use the following command to get the pod status.
 ```shell
-$ kubectl get pods -n verrazzano-system -l app=verrazzano-application-operator
+$ kubectl get pods \
+    -n verrazzano-system \
+    -l app=verrazzano-application-operator
 ```
 If the pod status is not Running, then see the following instructions for reviewing the `verrazzano-application-operator` logs.
 
@@ -39,7 +43,9 @@ Review the `oam-kubernetes-runtime` pod logs for any indication that pod startup
 
 Use the following command to get the logs.
 ```shell
-$ kubectl logs -n verrazzano-system -l app.kubernetes.io/name=oam-kubernetes-runtime
+$ kubectl logs \
+    -n verrazzano-system \
+    -l app.kubernetes.io/name=oam-kubernetes-runtime
 ```
 
 ### Review `verrazzano-application-operator` logs
@@ -47,7 +53,9 @@ Review the `verrazzano-application-operator` logs for any indication that pod st
 
 Use the following command to get the logs.
 ```shell
-$ kubectl logs -n verrazzano-system -l app=verrazzano-application-operator
+$ kubectl logs \
+    -n verrazzano-system \
+    -l app=verrazzano-application-operator
 ```
 
 ### Review generated workload resources
@@ -87,7 +95,9 @@ In this case, the `oam-kubernetes-runtime` logs will contain errors containing t
 
 The following command shows how to query for this type of failure message.
 ```shell
-$ kubectl logs -n verrazzano-system -l app.kubernetes.io/name=oam-kubernetes-runtime | grep forbidden
+$ kubectl logs \
+    -n verrazzano-system \
+    -l app.kubernetes.io/name=oam-kubernetes-runtime | grep forbidden
 ```
 
 ### Check resource owners
@@ -95,7 +105,9 @@ Kubernetes maintains the child to parent relationship within metadata fields.
 
 The following example returns the parent of the IngressTrait, named `hello-helidon-ingress`, in the `hello-helidon` namespace.
 ```shell
-$ kubectl get IngressTrait -n hello-helidon hello-helidon-ingress -o jsonpath='{range .metadata.ownerReferences[*]}{.name}{"\n"}{end}'
+$ kubectl get IngressTrait \
+    -n hello-helidon hello-helidon-ingress \
+    -o jsonpath='{range .metadata.ownerReferences[*]}{.name}{"\n"}{end}'
 ```
 The results of this command can help identify the lineage of a given resource.
 
@@ -105,6 +117,8 @@ For example, when processed, an IngressTrait will create related Gateway, Virtua
 
 The following command is an example of how to obtain the related resources of an IngressTraits.
 ```shell
-$ kubectl get IngressTrait -n hello-helidon hello-helidon-ingress -o jsonpath='{range .status.resources[*]}{.kind}: {.name}{"\n"}{end}'
+$ kubectl get IngressTrait \
+    -n hello-helidon hello-helidon-ingress \
+    -o jsonpath='{range .status.resources[*]}{.kind}: {.name}{"\n"}{end}'
 ```
 The results of this command can help identify which other resources, the given resource affected.

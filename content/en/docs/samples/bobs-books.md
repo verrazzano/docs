@@ -63,10 +63,14 @@ For more information and the source code of this application, see the [Verrazzan
     $ export WLS_USERNAME=<username>
     $ export WLS_PASSWORD=<password>
     $ kubectl create secret generic bobbys-front-end-weblogic-credentials \
-    --from-literal=password=$WLS_PASSWORD --from-literal=username=$WLS_USERNAME -n bobs-books
+        --from-literal=password=$WLS_PASSWORD \
+        --from-literal=username=$WLS_USERNAME \
+        -n bobs-books
 
     $ kubectl create secret generic bobs-bookstore-weblogic-credentials \
-    --from-literal=password=$WLS_PASSWORD --from-literal=username=$WLS_USERNAME -n bobs-books
+        --from-literal=password=$WLS_PASSWORD \
+        --from-literal=username=$WLS_USERNAME \
+        -n bobs-books
 
     $ kubectl create secret generic mysql-credentials \
         --from-literal=username=$WLS_USERNAME \
@@ -88,19 +92,26 @@ For more information and the source code of this application, see the [Verrazzan
    You may need to repeat this command several times before it is successful.
    The WebLogic Server and Coherence pods may take a while to be created and `Ready`.
    ```
-   $ kubectl wait --for=condition=Ready pods --all -n bobs-books --timeout=600s
+   $ kubectl wait \
+       --for=condition=Ready pods \
+       --all -n bobs-books \
+       --timeout=600s
    ```
 
 1. Get the `EXTERNAL_IP` address of the `istio-ingressgateway` service.
     ```
-    $ kubectl get service -n "istio-system" "istio-ingressgateway" -o jsonpath={.status.loadBalancer.ingress[0].ip}
+    $ kubectl get service \
+        -n "istio-system" "istio-ingressgateway" \
+        -o jsonpath={.status.loadBalancer.ingress[0].ip}
 
     11.22.33.44
     ```
 
 1. Get the generated host name for the application.
    ```
-   $ kubectl get gateway bobs-books-bobs-books-gw -n bobs-books -o jsonpath={.spec.servers[0].hosts[0]}
+   $ kubectl get gateway bobs-books-bobs-books-gw \
+       -n bobs-books \
+       -o jsonpath={.spec.servers[0].hosts[0]}
    bobs-books.bobs-books.11.22.33.44.nip.io
    ```
 

@@ -54,7 +54,10 @@ In the initial steps, you create a sample domain that represents your on-premise
 1. Start a MySQL client to change the password algorithm to `mysql_native_password`.
     - Assuming the database server is running, start a database CLI client.
         ```shell script
-        $ docker exec -it tododb mysql -uroot -p
+        $ docker exec \
+           -it tododb mysql \
+           -uroot \
+           -p
         ```
     - When prompted for the password, enter the password for the root user, `welcome1` or
     whatever password you set when starting the container in the previous step.  
