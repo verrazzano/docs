@@ -33,7 +33,9 @@
 &lt;h2 id=&#34;fluentd-sidecar&#34;&gt;Fluentd sidecar&lt;/h2&gt;
 &lt;p&gt;For components with multiple log streams or that cannot log to stdout, Verrazzano deploys a Fluentd sidecar which parses and translates the log stream.  The resulting log is sent to stdout of the sidecar container and then written to &lt;code&gt;/var/log/containers&lt;/code&gt; by the kubelet service.&lt;/p&gt;
 &lt;p&gt;For example, in a WebLogic deployment, &lt;code&gt;AdminServer.log&lt;/code&gt; is consumed, translated, and written to stdout by the Fluentd sidecar.  You can view these logs using &lt;code&gt;kubectl&lt;/code&gt; on the container named &lt;code&gt;fluentd-stdout-sidecar&lt;/code&gt;.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl logs tododomain-adminserver -n todo-list -c fluentd-stdout-sidecar
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl logs tododomain-adminserver &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;   -n todo-list &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;   -c fluentd-stdout-sidecar
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;fluentd-daemonset&#34;&gt;Fluentd DaemonSet&lt;/h2&gt;
 &lt;p&gt;Verrazzano deploys a Fluentd DaemonSet which runs one Fluentd replica per node in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace.
 Each instance pulls logs from the node&amp;rsquo;s &lt;code&gt;/var/log/containers&lt;/code&gt; directory and writes them to the target Elasticsearch index.  The index name is based on the namespace associated with the record, using this format: &lt;code&gt;verrazzano-namespace-&amp;lt;record namespace&amp;gt;&lt;/code&gt;.&lt;/p&gt;
@@ -42,14 +44,21 @@ Each instance pulls logs from the node&amp;rsquo;s &lt;code&gt;/var/log/containe
 &lt;h2 id=&#34;elasticsearch&#34;&gt;Elasticsearch&lt;/h2&gt;
 &lt;p&gt;Verrazzano creates an Elasticsearch deployment as the store and search engine for the logs processed by Fluentd.  Records written by Fluentd can be queried using the Elasticsearch REST API.&lt;/p&gt;
 &lt;p&gt;For example, you can use &lt;code&gt;curl&lt;/code&gt; to get all of the Elasticsearch indexes. First, you must get the password for the &lt;code&gt;verrazzano&lt;/code&gt; user and the host for the Elasticsearch VMI.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;PASS&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl get secret --namespace verrazzano-system verrazzano -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;={&lt;/span&gt;.data.password&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt; base64 --decode&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color:#204a87&#34;&gt;echo&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
-$ &lt;span style=&#34;color:#000&#34;&gt;HOST&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl get ingress -n verrazzano-system vmi-system-es-ingest -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;={&lt;/span&gt;.spec.rules&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;[&lt;/span&gt;0&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;]&lt;/span&gt;.host&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;PASS&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl get secret &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --namespace verrazzano-system verrazzano &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;={&lt;/span&gt;.data.password&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt; base64 &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --decode&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color:#204a87&#34;&gt;echo&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
+$ &lt;span style=&#34;color:#000&#34;&gt;HOST&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl get ingress &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -n verrazzano-system vmi-system-es-ingest &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;={&lt;/span&gt;.spec.rules&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;[&lt;/span&gt;0&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;]&lt;/span&gt;.host&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
 
-$ curl -ik --user verrazzano:&lt;span style=&#34;color:#000&#34;&gt;$PASS&lt;/span&gt; https://&lt;span style=&#34;color:#000&#34;&gt;$HOST&lt;/span&gt;//_cat/indices
+$ curl -ik &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;   --user verrazzano:&lt;span style=&#34;color:#000&#34;&gt;$PASS&lt;/span&gt; https://&lt;span style=&#34;color:#000&#34;&gt;$HOST&lt;/span&gt;//_cat/indices
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To see all of the records for a specific index, do the following:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;INDEX&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;verrazzano-namespace-todo-list
 
-$ curl -ik --user verrazzano:&lt;span style=&#34;color:#000&#34;&gt;$PASS&lt;/span&gt; https://&lt;span style=&#34;color:#000&#34;&gt;$HOST&lt;/span&gt;/&lt;span style=&#34;color:#000&#34;&gt;$INDEX&lt;/span&gt;/_doc/_search?q&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;message:*
+$ curl -ik &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --user verrazzano:&lt;span style=&#34;color:#000&#34;&gt;$PASS&lt;/span&gt; https://&lt;span style=&#34;color:#000&#34;&gt;$HOST&lt;/span&gt;/&lt;span style=&#34;color:#000&#34;&gt;$INDEX&lt;/span&gt;/_doc/_search?q&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;message:*
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Verrazzano provides support for installation profiles: development (&lt;code&gt;dev&lt;/code&gt;) and production (&lt;code&gt;prod&lt;/code&gt;). The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.&lt;/p&gt;
 &lt;h2 id=&#34;kibana&#34;&gt;Kibana&lt;/h2&gt;
 &lt;p&gt;Kibana is a visualization dashboard for the content indexed on an Elasticsearch cluster.  Verrazzano creates a Kibana deployment to provide a user interface for querying and visualizing the log data collected in Elasticsearch.&lt;/p&gt;
@@ -75,7 +84,7 @@ Metrics sources expose system and application metrics.
 The Prometheus components retrieve and store the metrics and Grafana provides dashboards to
 visualize them.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;../../../images/metrics.png&#34; alt=&#34;Metrics&#34;&gt;&lt;/p&gt;
-&lt;h3 id=&#34;metrics-sources&#34;&gt;Metrics sources&lt;/h3&gt;
+&lt;h2 id=&#34;metrics-sources&#34;&gt;Metrics sources&lt;/h2&gt;
 &lt;p&gt;Metrics sources produce metrics and expose them to the Kubernetes Prometheus system using annotations in the pods.
 The metrics annotations may differ slightly depending on the resource type.
 The following is an example of the WebLogic Prometheus-related configuration specified in the &lt;code&gt;todo-list&lt;/code&gt; application pod:&lt;/p&gt;
@@ -96,8 +105,14 @@ The following is an example of the WebLogic Prometheus-related configuration spe
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Get the user name and password used to access the metrics source from the corresponding secret.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get secret --namespace todo-list tododomain-weblogic-credentials  -o jsonpath={.data.username} | base64 --decode; echo
-$ kubectl get secret --namespace todo-list tododomain-weblogic-credentials  -o jsonpath={.data.password} | base64 --decode; echo
+&lt;pre&gt;&lt;code&gt;$ kubectl get secret \
+    --namespace todo-list tododomain-weblogic-credentials \
+    -o jsonpath={.data.username} | base64 \
+    --decode; echo
+$ kubectl get secret \
+    --namespace todo-list tododomain-weblogic-credentials \
+    -o jsonpath={.data.password} | base64 \
+    --decode; echo
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Access the metrics at the exported path, using the user name and password retrieved in the previous step.&lt;/p&gt;
@@ -106,18 +121,18 @@ $ kubectl get secret --namespace todo-list tododomain-weblogic-credentials  -o j
 &lt;/ul&gt;
 &lt;h3 id=&#34;metrics-server&#34;&gt;Metrics server&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;Single pod per cluster&lt;/li&gt;
-&lt;li&gt;Named &lt;code&gt;vmi-system-prometheus-*&lt;/code&gt; in &lt;code&gt;verrazzano-system&lt;/code&gt; namespace&lt;/li&gt;
-&lt;li&gt;Discovers exposed metrics source endpoints&lt;/li&gt;
-&lt;li&gt;Scrapes metrics from metrics sources&lt;/li&gt;
-&lt;li&gt;Responsible for exposing all metrics&lt;/li&gt;
+&lt;li&gt;Single pod per cluster.&lt;/li&gt;
+&lt;li&gt;Named &lt;code&gt;vmi-system-prometheus-*&lt;/code&gt; in &lt;code&gt;verrazzano-system&lt;/code&gt; namespace.&lt;/li&gt;
+&lt;li&gt;Discovers exposed metrics source endpoints.&lt;/li&gt;
+&lt;li&gt;Scrapes metrics from metrics sources.&lt;/li&gt;
+&lt;li&gt;Responsible for exposing all metrics.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;grafana&#34;&gt;Grafana&lt;/h2&gt;
 &lt;p&gt;Grafana provides visualization for your Prometheus metric data.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Single pod per cluster&lt;/li&gt;
-&lt;li&gt;Named &lt;code&gt;vmi-system-grafana-*&lt;/code&gt; in &lt;code&gt;verrazzano-system&lt;/code&gt; namespace&lt;/li&gt;
-&lt;li&gt;Provides dashboards for metrics visualization&lt;/li&gt;
+&lt;li&gt;Single pod per cluster.&lt;/li&gt;
+&lt;li&gt;Named &lt;code&gt;vmi-system-grafana-*&lt;/code&gt; in &lt;code&gt;verrazzano-system&lt;/code&gt; namespace.&lt;/li&gt;
+&lt;li&gt;Provides dashboards for metrics visualization.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;To access Grafana:&lt;/p&gt;
 &lt;ul&gt;
@@ -129,7 +144,10 @@ vmi-system-grafana   &amp;lt;none&amp;gt;   grafana.vmi.system.default.123.456.7
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Get the password for the user &lt;code&gt;verrazzano&lt;/code&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo
+&lt;pre&gt;&lt;code&gt;$ kubectl get secret \
+    --namespace verrazzano-system verrazzano \
+    -o jsonpath={.data.password} | base64 \
+    --decode; echo
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Access Grafana in a browser using the previous hostname.&lt;/p&gt;

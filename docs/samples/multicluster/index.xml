@@ -30,17 +30,23 @@
 &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/multicluster/hello-helidon&lt;/code&gt;, where &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
 &lt;h2 id=&#34;create-the-application-namespace&#34;&gt;Create the application namespace&lt;/h2&gt;
 &lt;p&gt;Apply the VerrazzanoProject resource on the admin cluster that defines the namespace for the application.  The namespaces defined in the VerrazzanoProject resource will be created on the admin cluster and all the managed clusters.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/verrazzano-project.yaml
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl apply &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/verrazzano-project.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;deploy-the-hello-world-helidon-application&#34;&gt;Deploy the Hello World Helidon application&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Apply the &lt;code&gt;hello-helidon&lt;/code&gt; multicluster resources to deploy the application.  Each multicluster resource is an envelope that contains an OAM resource and a list of clusters to which to deploy.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/mc-hello-helidon-comp.yaml
-$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl apply &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/mc-hello-helidon-comp.yaml
+$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl apply &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the application to be ready on the managed cluster.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_MANAGED1&lt;/span&gt; kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;Ready pods --all -n hello-helidon --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;300s
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_MANAGED1&lt;/span&gt; kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;Ready pods &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --all -n hello-helidon &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;300s
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;explore-the-example-application&#34;&gt;Explore the example application&lt;/h2&gt;
@@ -69,26 +75,45 @@ $ &lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;To change their placement, patch the &lt;code&gt;hello-helidon&lt;/code&gt; multicluster resources.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl patch mcappconf hello-helidon-appconf -n hello-helidon --type merge --patch &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;cat &lt;span style=&#34;color:#000&#34;&gt;$CHANGE_PLACEMENT_PATCH_FILE&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
-$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl patch mccomp hello-helidon-component -n hello-helidon --type merge --patch &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;cat &lt;span style=&#34;color:#000&#34;&gt;$CHANGE_PLACEMENT_PATCH_FILE&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl patch mcappconf hello-helidon-appconf &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -n hello-helidon &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --type merge &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --patch &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;cat &lt;span style=&#34;color:#000&#34;&gt;$CHANGE_PLACEMENT_PATCH_FILE&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
+$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl patch mccomp hello-helidon-component &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -n hello-helidon &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --type merge &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --patch &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;cat &lt;span style=&#34;color:#000&#34;&gt;$CHANGE_PLACEMENT_PATCH_FILE&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;To verify that their placement has changed, view the multicluster resources.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl get mccomp hello-helidon-component -n hello-helidon -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;{.spec.placement}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;&lt;span style=&#34;color:#204a87&#34;&gt;echo&lt;/span&gt;
-$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl get mcappconf hello-helidon-appconf -n hello-helidon -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;{.spec.placement}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;&lt;span style=&#34;color:#204a87&#34;&gt;echo&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl get mccomp hello-helidon-component &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -n hello-helidon &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;{.spec.placement}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;&lt;span style=&#34;color:#204a87&#34;&gt;echo&lt;/span&gt;
+$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl get mcappconf hello-helidon-appconf &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -n hello-helidon &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;{.spec.placement}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;&lt;span style=&#34;color:#204a87&#34;&gt;echo&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The cluster
 name, &lt;code&gt;local&lt;/code&gt;, indicates placement in the admin cluster.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;To change its placement, patch the VerrazzanoProject.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl patch vp hello-helidon -n verrazzano-mc --type merge --patch &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;cat &lt;span style=&#34;color:#000&#34;&gt;$CHANGE_PLACEMENT_PATCH_FILE&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl patch vp hello-helidon &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -n verrazzano-mc &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --type merge &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --patch &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;cat &lt;span style=&#34;color:#000&#34;&gt;$CHANGE_PLACEMENT_PATCH_FILE&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the application to be ready on the admin cluster.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;Ready pods --all -n hello-helidon --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;300s
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;Ready pods &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --all -n hello-helidon &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;300s
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; If you are returning the application to the managed cluster, then instead, wait for the application to be
 ready on the managed cluster.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_MANAGED1&lt;/span&gt; kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;Ready pods --all -n hello-helidon --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;300s
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_MANAGED1&lt;/span&gt; kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;Ready pods &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --all -n hello-helidon &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;300s
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Now, you can test the example application running in its new location.&lt;/p&gt;
@@ -101,11 +126,14 @@ ready on the managed cluster.&lt;/p&gt;
 &lt;p&gt;Regardless of its location, to undeploy the application,
 delete the multicluster resources and the project from the admin cluster:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Delete the multicluster application configuration&lt;/span&gt;
-$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml
+$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl delete &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml
 &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Delete the multicluster components for the application&lt;/span&gt;
-$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/mc-hello-helidon-comp.yaml
+$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl delete &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/mc-hello-helidon-comp.yaml
 &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Delete the project&lt;/span&gt;
-$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/verrazzano-project.yaml
+$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl delete &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/verrazzano-project.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
       </description>
     </item>
@@ -135,16 +163,22 @@ listed in the &lt;code&gt;placement&lt;/code&gt; section.&lt;/li&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Create a namespace for the Sock Shop application by deploying the Verrazzano project.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/sock-shop/verrazzano-project.yaml
+&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/sock-shop/verrazzano-project.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Apply the Sock Shop OAM resources to deploy the application.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/sock-shop/sock-shop-comp.yaml
-$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/sock-shop/sock-shop-app.yaml
+&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/sock-shop/sock-shop-comp.yaml
+$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/sock-shop/sock-shop-app.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the Sock Shop application to be ready.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl wait --for=condition=Ready pods --all -n mc-sockshop --timeout=300s
+&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl wait \
+    --for=condition=Ready pods \
+    --all -n mc-sockshop \
+    --timeout=300s
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;explore-the-sock-shop-application&#34;&gt;Explore the Sock Shop application&lt;/h2&gt;
@@ -162,13 +196,17 @@ ports, and such.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Get the generated host name for the application.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ HOST=$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get gateway -n mc-sockshop -o jsonpath={.items[0].spec.servers[0].hosts[0]})
+&lt;pre&gt;&lt;code&gt;$ HOST=$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get gateway \
+      -n mc-sockshop \
+      -o jsonpath={.items[0].spec.servers[0].hosts[0]})
 $ echo $HOST
 sockshop-appconf.mc-sockshop.11.22.33.44.nip.io
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Get the &lt;code&gt;EXTERNAL_IP&lt;/code&gt; address of the &lt;code&gt;istio-ingressgateway&lt;/code&gt; service.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ ADDRESS=$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get service -n istio-system istio-ingressgateway -o jsonpath=&#39;{.status.loadBalancer.ingress[0].ip}&#39;)
+&lt;pre&gt;&lt;code&gt;$ ADDRESS=$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get service \
+    -n istio-system istio-ingressgateway \
+    -o jsonpath=&#39;{.status.loadBalancer.ingress[0].ip}&#39;)
 $ echo $ADDRESS
 11.22.33.44
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
@@ -178,17 +216,30 @@ $ echo $ADDRESS
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;Using the command line&lt;/strong&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;# Get catalogue
-$ curl -sk -X GET https://${HOST}/catalogue --resolve ${HOST}:443:${ADDRESS}
+$ curl -sk \
+    -X GET \
+    https://${HOST}/catalogue \
+    --resolve ${HOST}:443:${ADDRESS}
 [{&amp;quot;count&amp;quot;:115,&amp;quot;description&amp;quot;:&amp;quot;For all those leg lovers out there....&amp;quot;, ...}]
 
 # Add a new user (replace values of username and password)
-$ curl -i --header &amp;quot;Content-Type: application/json&amp;quot; --request POST --data &#39;{&amp;quot;username&amp;quot;:&amp;quot;foo&amp;quot;,&amp;quot;password&amp;quot;:&amp;quot;****&amp;quot;,&amp;quot;email&amp;quot;:&amp;quot;foo@example.com&amp;quot;,&amp;quot;firstName&amp;quot;:&amp;quot;foo&amp;quot;,&amp;quot;lastName&amp;quot;:&amp;quot;foo&amp;quot;}&#39; -k https://${HOST}/register --resolve ${HOST}:443:${ADDRESS}
+$ curl -i \
+    --header &amp;quot;Content-Type: application/json&amp;quot; --request POST \
+    --data &#39;{&amp;quot;username&amp;quot;:&amp;quot;foo&amp;quot;,&amp;quot;password&amp;quot;:&amp;quot;****&amp;quot;,&amp;quot;email&amp;quot;:&amp;quot;foo@example.com&amp;quot;,&amp;quot;firstName&amp;quot;:&amp;quot;foo&amp;quot;,&amp;quot;lastName&amp;quot;:&amp;quot;foo&amp;quot;}&#39; \
+    -k https://${HOST}/register \
+    --resolve ${HOST}:443:${ADDRESS}
 
 # Add an item to the user&#39;s cart
-$ curl -i --header &amp;quot;Content-Type: application/json&amp;quot; --request POST --data &#39;{&amp;quot;itemId&amp;quot;: &amp;quot;a0a4f044-b040-410d-8ead-4de0446aec7e&amp;quot;,&amp;quot;unitPrice&amp;quot;: &amp;quot;7.99&amp;quot;}&#39; -k https://${HOST}/carts/{username}/items --resolve ${HOST}:443:${ADDRESS}
+$ curl -i \
+    --header &amp;quot;Content-Type: application/json&amp;quot; --request POST \
+    --data &#39;{&amp;quot;itemId&amp;quot;: &amp;quot;a0a4f044-b040-410d-8ead-4de0446aec7e&amp;quot;,&amp;quot;unitPrice&amp;quot;: &amp;quot;7.99&amp;quot;}&#39; \
+    -k https://${HOST}/carts/{username}/items \
+    --resolve ${HOST}:443:${ADDRESS}
 
 # Get cart items
-$ curl -i -k https://${HOST}/carts/{username}/items --resolve ${HOST}:443:${ADDRESS}
+$ curl -i \
+    -k https://${HOST}/carts/{username}/items \
+    --resolve ${HOST}:443:${ADDRESS}
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you are using &lt;code&gt;nip.io&lt;/code&gt;, then you do not need to include &lt;code&gt;--resolve&lt;/code&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
@@ -240,7 +291,10 @@ the deployed Sock Shop application.  Accessing them may require the following:&l
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;Run this command to get the password that was generated for the telemetry components:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo
+&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl get secret \
+    --namespace verrazzano-system verrazzano \
+    -o jsonpath={.data.password} | base64 \
+    --decode; echo
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The associated user name is &lt;code&gt;verrazzano&lt;/code&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
@@ -320,7 +374,8 @@ listed in the &lt;code&gt;placement&lt;/code&gt; section.&lt;/li&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Create a namespace for the multicluster ToDo List example by applying the Verrazzano project file.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/verrazzano-project.yaml
+&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/verrazzano-project.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Log in to the &lt;code&gt;container-registry.oracle.com&lt;/code&gt; Docker registry in which the Todo List application image is deployed.  You
@@ -336,36 +391,46 @@ will need the updated Docker &lt;code&gt;config.json&lt;/code&gt;, containing yo
 &lt;p&gt;Create a &lt;code&gt;docker-registry&lt;/code&gt; secret to enable pulling the ToDo List example image from the registry by applying the
 &lt;code&gt;mc-docker-registry-secret.yaml&lt;/code&gt; file.  The multicluster secret resource will generate the required secret in the &lt;code&gt;mc-todo-list&lt;/code&gt;
 namespace.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/mc-docker-registry-secret.yaml
+&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/mc-docker-registry-secret.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Create the WebLogic domain secret by applying the &lt;code&gt;mc-weblogic-domain-secret.yaml&lt;/code&gt; file:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/mc-weblogic-domain-secret.yaml
+&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/mc-weblogic-domain-secret.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that the ToDo List example application is preconfigured to use these credentials.
 If you want to use different credentials, you will need to rebuild the Docker images for the example application.
 For the source code of this application, see the &lt;a href=&#34;https://github.com/verrazzano/examples&#34;&gt;Verrazzano examples&lt;/a&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Apply the ToDo List example multicluster application resources to deploy the application.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/todo-list-components.yaml
+&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/todo-list-components.yaml
 
-$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/todo-list-application.yaml
+$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/todo-list-application.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the ToDo List example application to be ready.
 You may need to repeat this command several times before it is successful.
 The &lt;code&gt;tododomain-adminserver&lt;/code&gt; pod may take a while to be created and &lt;code&gt;Ready&lt;/code&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl wait pod --for=condition=Ready tododomain-adminserver -n mc-todo-list
+&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl wait pod \
+    --for=condition=Ready tododomain-adminserver \
+    -n mc-todo-list
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Get the generated host name for the application.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ HOST=$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get gateway -n mc-todo-list -o jsonpath={.items[0].spec.servers[0].hosts[0]})
+&lt;pre&gt;&lt;code&gt;$ HOST=$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get gateway \
+      -n mc-todo-list \
+      -o jsonpath={.items[0].spec.servers[0].hosts[0]})
 $ echo $HOST
 todo-appconf.mc-todo-list.11.22.33.44.nip.io
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Get the &lt;code&gt;EXTERNAL_IP&lt;/code&gt; address of the &lt;code&gt;istio-ingressgateway&lt;/code&gt; service.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ ADDRESS=$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get service -n istio-system istio-ingressgateway -o jsonpath=&#39;{.status.loadBalancer.ingress[0].ip}&#39;)
+&lt;pre&gt;&lt;code&gt;$ ADDRESS=$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get service \
+     -n istio-system istio-ingressgateway \
+     -o jsonpath=&#39;{.status.loadBalancer.ingress[0].ip}&#39;)
 $ echo $ADDRESS
 11.22.33.44
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
@@ -374,7 +439,8 @@ $ echo $ADDRESS
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;Using the command line&lt;/strong&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ curl -sk https://${HOST}/todo/ --resolve ${HOST}:443:${ADDRESS}
+&lt;pre&gt;&lt;code&gt;$ curl -sk https://${HOST}/todo/ \
+    --resolve ${HOST}:443:${ADDRESS}
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you are using &lt;code&gt;nip.io&lt;/code&gt;, then you do not need to include &lt;code&gt;--resolve&lt;/code&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
@@ -407,7 +473,9 @@ Accessing them may require the following:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;Run this command to get the password that was generated for the telemetry components:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo
+&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl get secret \
+    --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 \
+    --decode; echo
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The associated user name is &lt;code&gt;verrazzano&lt;/code&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;

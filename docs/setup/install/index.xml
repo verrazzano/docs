@@ -135,7 +135,9 @@ install Verrazzano using one of the following methods:&lt;/p&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  profile: ${VZ_PROFILE:-dev}
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
-$ kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;20m --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;InstallComplete verrazzano/my-verrazzano
+$ kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;20m &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;InstallComplete verrazzano/my-verrazzano
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -161,18 +163,26 @@ For example, an appropriate zone name for parent domain &lt;code&gt;v8o.example.
 &lt;li&gt;
 &lt;p&gt;Create a public OCI DNS zone using the OCI CLI or the OCI Console.&lt;/p&gt;
 &lt;p&gt;To create an OCI DNS zone using the OCI CLI:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ oci dns zone create -c &amp;lt;compartment ocid&amp;gt; --name &amp;lt;zone-name-prefix&amp;gt;.v8o.example.com --zone-type PRIMARY
+&lt;pre&gt;&lt;code&gt;$ oci dns zone create \
+    -c &amp;lt;compartment ocid&amp;gt; \
+    --name &amp;lt;zone-name-prefix&amp;gt;.v8o.example.com \
+    --zone-type PRIMARY
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To create an OCI DNS zone using the OCI console, see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/DNS/Tasks/managingdnszones.htm&#34;&gt;Managing DNS Service Zones&lt;/a&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Create a secret in the default namespace. The secret is created using the script &lt;code&gt;create_oci_config_secret.sh&lt;/code&gt; which
 reads an OCI configuration file to create the secret.&lt;/p&gt;
 &lt;p&gt;Download the &lt;code&gt;create_oci_config_secret.sh&lt;/code&gt; script:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ curl -o ./create_oci_config_secret.sh https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/scripts/install/create_oci_config_secret.sh
+&lt;pre&gt;&lt;code&gt;$ curl \
+    -o ./create_oci_config_secret.sh \
+    https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/scripts/install/create_oci_config_secret.sh
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Run the &lt;code&gt;create_oci_config_secret.sh&lt;/code&gt; script:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ chmod +x create_oci_config_secret.sh
 $ export KUBECONFIG=&amp;lt;kubeconfig-file&amp;gt;
-$ ./create_oci_config_secret.sh -o &amp;lt;oci-config-file&amp;gt; -s &amp;lt;config-file-section&amp;gt; -k &amp;lt;secret-name&amp;gt;
+$ ./create_oci_config_secret.sh \
+    -o &amp;lt;oci-config-file&amp;gt; \
+    -s &amp;lt;config-file-section&amp;gt; \
+    -k &amp;lt;secret-name&amp;gt;
 
 -o defaults to the OCI configuration file in ~/.oci/config
 -s defaults to the DEFAULT properties section within the OCI configuration file
@@ -189,7 +199,9 @@ After generating the correct form of the &lt;code&gt;.pem&lt;/code&gt; file, mak
 &lt;p&gt;&lt;strong&gt;Installation&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Installing Verrazzano using OCI DNS requires some configuration settings to create DNS records.&lt;/p&gt;
 &lt;p&gt;Download the sample Verrazzano custom resource &lt;code&gt;install-oci.yaml&lt;/code&gt; for OCI DNS:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ curl -o ./install-oci.yaml https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/config/samples/install-oci.yaml
+&lt;pre&gt;&lt;code&gt;$ curl \
+    -o ./install-oci.yaml \
+    https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/config/samples/install-oci.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Edit the downloaded &lt;code&gt;install-oci.yaml&lt;/code&gt; file and provide values for the following configuration settings:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;spec.environmentName&lt;/code&gt;&lt;/li&gt;
@@ -207,7 +219,9 @@ ingresses.  For example, you could use &lt;code&gt;sales&lt;/code&gt; as an &lt;
 previously).&lt;/p&gt;
 &lt;p&gt;Run the following commands:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ kubectl apply -f ./install-oci.yaml
-$ kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
+$ kubectl wait \
+    --timeout=20m \
+    --for=condition=InstallComplete verrazzano/my-verrazzano
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;/div&gt;
@@ -218,7 +232,10 @@ $ kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verra
 
 &lt;/div&gt;
 &lt;p&gt;To monitor the console log output of the installation:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl logs -f &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl get pod -l job-name&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;verrazzano-install-my-verrazzano -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;{.items[0].metadata.name}&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl logs &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -f &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl get pod &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -l job-name&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;verrazzano-install-my-verrazzano &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;{.items[0].metadata.name}&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;verify-the-install&#34;&gt;Verify the install&lt;/h2&gt;
 &lt;p&gt;Verrazzano installs multiple objects in multiple namespaces. In the &lt;code&gt;verrazzano-system&lt;/code&gt; namespaces, all the pods in the &lt;code&gt;Running&lt;/code&gt; state, does not guarantee, but likely indicates that Verrazzano is up and running.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ kubectl get pods -n verrazzano-system
@@ -256,7 +273,7 @@ weblogic-operator-7db5cdcf59-qxsr9                       1/1     Running   0    
         &lt;p&gt;This document describes built-in configuration profiles that you can use to simplify a Verrazzano installation.  An installation
 profile is a well-known configuration of Verrazzano settings that can be referenced by name, which then can be
 customized as needed.&lt;/p&gt;
-&lt;p&gt;The following table describes the Verrazzano installation profiles:&lt;/p&gt;
+&lt;p&gt;The following table describes the Verrazzano installation profiles.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -268,17 +285,17 @@ customized as needed.&lt;/p&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;prod&lt;/code&gt;&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Full install, production configuration&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Full install, production configuration.&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Default profile:&lt;br/&gt;- Full installation.&lt;br/&gt;- Persistent storage. &lt;br/&gt;- Production Elasticsearch cluster topology.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;dev&lt;/code&gt;&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Development or evaluation configuration&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Development or evaluation configuration.&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Lightweight installation:&lt;br/&gt;- For evaluation purposes.&lt;br/&gt;- No persistence.&lt;br/&gt;- Single-node Elasticsearch cluster topology.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;managed-cluster&lt;/code&gt;&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;A specialized installation for managed clusters in a multicluster topology&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;A specialized installation for managed clusters in a multicluster topology.&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Minimal installation for a managed cluster:&lt;br/&gt;- Cluster must be registered with an admin cluster to use &lt;a href=&#34;../../../docs/concepts/verrazzanomulticluster/&#34;&gt;multicluster&lt;/a&gt; features.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -317,7 +334,7 @@ spec:
       resources:
         requests:
           storage: 8Gi
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For details on how to customize Verrazzano components, see &lt;a href=&#34;../../../docs/setup/install/customizing/&#34;&gt;Customizing an Installation&lt;/a&gt;.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For details on how to customize Verrazzano components, see &lt;a href=&#34;../../../docs/setup/install/customizing/&#34;&gt;Customize an Installation&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;profile-configurations&#34;&gt;Profile configurations&lt;/h2&gt;
 &lt;p&gt;The following table lists the Verrazzano components that are installed with each profile.  Note that you can
 customize any Verrazzano installation, regardless of the profile.&lt;/p&gt;
@@ -400,7 +417,7 @@ customize any Verrazzano installation, regardless of the profile.&lt;/p&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h3 id=&#34;profiles-and-prometheus-configurations&#34;&gt;Profiles and Prometheus configurations&lt;/h3&gt;
-&lt;p&gt;The following table describes the Prometheus and Grafana configurations in each profile:&lt;/p&gt;
+&lt;p&gt;The following table describes the Prometheus and Grafana configurations in each profile.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -428,7 +445,7 @@ customize any Verrazzano installation, regardless of the profile.&lt;/p&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h3 id=&#34;profiles-and-elasticsearch-configurations&#34;&gt;Profiles and Elasticsearch configurations&lt;/h3&gt;
-&lt;p&gt;The following table describes the Kibana and Elasticsearch cluster topology in each profile:&lt;/p&gt;
+&lt;p&gt;The following table describes the Kibana and Elasticsearch cluster topology in each profile.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -464,7 +481,7 @@ Elasticsearch containers are configured to use 75% of the configured request mem
 
 &lt;h3 id=&#34;profile-independent-defaults&#34;&gt;Profile-independent defaults&lt;/h3&gt;
 &lt;p&gt;The following table shows the settings for components that are profile-independent (consistent across
-all profiles unless overridden):&lt;/p&gt;
+all profiles unless overridden).&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -475,15 +492,15 @@ all profiles unless overridden):&lt;/p&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;DNS&lt;/td&gt;
-&lt;td&gt;Wildcard DNS provider &lt;a href=&#34;https://nip.io&#34;&gt;nip.io&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Wildcard DNS provider &lt;a href=&#34;https://nip.io&#34;&gt;nip.io&lt;/a&gt;.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Certificates&lt;/td&gt;
-&lt;td&gt;Uses the &lt;a href=&#34;https://cert-manager.io/&#34;&gt;cert-manager&lt;/a&gt; self-signed &lt;a href=&#34;https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.ClusterIssuer&#34;&gt;ClusterIssuer&lt;/a&gt; for certificates&lt;/td&gt;
+&lt;td&gt;Uses the &lt;a href=&#34;https://cert-manager.io/&#34;&gt;cert-manager&lt;/a&gt; self-signed &lt;a href=&#34;https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.ClusterIssuer&#34;&gt;ClusterIssuer&lt;/a&gt; for certificates.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Ingress-type&lt;/td&gt;
-&lt;td&gt;Defaults to &lt;code&gt;LoadBalancer&lt;/code&gt; service type for the ingress&lt;/td&gt;
+&lt;td&gt;Defaults to &lt;code&gt;LoadBalancer&lt;/code&gt; service type for the ingress.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -561,10 +578,17 @@ EOF
 $ CA_SECRET_FILE=managed1.yaml
 $ TLS_SECRET=$(kubectl -n verrazzano-system get secret system-tls -o json | jq -r &#39;.data.&amp;quot;ca.crt&amp;quot;&#39;)
 $ if [ ! -z &amp;quot;${TLS_SECRET%%*( )}&amp;quot; ] &amp;amp;&amp;amp; [ &amp;quot;null&amp;quot; != &amp;quot;${TLS_SECRET}&amp;quot; ] ; then \
-   CA_CERT=$(kubectl -n verrazzano-system get secret system-tls -o json | jq -r &#39;.data.&amp;quot;ca.crt&amp;quot;&#39; | base64 --decode); \
+   CA_CERT=$(kubectl \
+        -n verrazzano-system get secret system-tls \
+        -o json | jq -r &#39;.data.&amp;quot;ca.crt&amp;quot;&#39; | base64 \
+        --decode); \
   fi
 $ if [ ! -z &amp;quot;${CA_CERT}&amp;quot; ] ; then \
-   kubectl create secret generic &amp;quot;ca-secret-managed1&amp;quot; -n verrazzano-mc --from-literal=cacrt=&amp;quot;$CA_CERT&amp;quot; --dry-run=client -o yaml &amp;gt; ${CA_SECRET_FILE}; \
+   kubectl create secret generic &amp;quot;ca-secret-managed1&amp;quot; \
+      -n verrazzano-mc \
+      --from-literal=cacrt=&amp;quot;$CA_CERT&amp;quot; \
+      --dry-run=client \
+      -o yaml &amp;gt; ${CA_SECRET_FILE}; \
   fi
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
@@ -592,11 +616,16 @@ EOF
 &lt;li&gt;
 &lt;p&gt;Wait for the VerrazzanoManagedCluster resource to reach the &lt;code&gt;Ready&lt;/code&gt; status. At that point, it will have generated a YAML
 file that must be applied on the managed cluster to complete the registration process.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl wait --for=condition=Ready vmc managed1 -n verrazzano-mc
+&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl wait \
+    --for=condition=Ready vmc managed1 \
+    -n verrazzano-mc
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Export the YAML file created to register the managed cluster.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl get secret verrazzano-cluster-managed1-manifest -n verrazzano-mc -o jsonpath={.data.yaml} | base64 --decode &amp;gt; register.yaml
+&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl get secret verrazzano-cluster-managed1-manifest \
+    -n verrazzano-mc \
+    -o jsonpath={.data.yaml} | base64 \
+    --decode &amp;gt; register.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Apply the registration file on the managed cluster.&lt;/p&gt;

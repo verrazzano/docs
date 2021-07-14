@@ -21,11 +21,11 @@
 <meta property="og:description" content="Troubleshoot issues with multicluster setup and applications" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/troubleshooting/troubleshooting-multicluster/" />
-<meta property="article:modified_time" content="2021-07-13T08:37:42-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-07-14T17:24:07-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Multicluster Verrazzano">
 <meta itemprop="description" content="Troubleshoot issues with multicluster setup and applications">
-<meta itemprop="dateModified" content="2021-07-13T08:37:42-04:00" />
-<meta itemprop="wordCount" content="654">
+<meta itemprop="dateModified" content="2021-07-14T17:24:07-04:00" />
+<meta itemprop="wordCount" content="662">
 
 
 
@@ -105,7 +105,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.a114724f5c5ac7aee90eadcb335800f5.json"
+  data-offline-search-index-json-src="../../../offline-search-index.3b4982b51bb3971fad1d1c0f448fc01d.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -137,7 +137,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.a114724f5c5ac7aee90eadcb335800f5.json"
+  data-offline-search-index-json-src="../../../offline-search-index.3b4982b51bb3971fad1d1c0f448fc01d.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -345,7 +345,7 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupinstallprofiles" href="../../../docs/setup/install/profiles/">Install Profiles</a>
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupinstallprofiles" href="../../../docs/setup/install/profiles/">Installation Profiles</a>
         
       
       
@@ -1363,7 +1363,7 @@ if (!doNotTrack) {
 	<h1>Multicluster Verrazzano</h1>
     <div class="lead">Troubleshoot issues with multicluster setup and applications</div>
 	       
-	<p>This document describes some common problems you may encounter when using multicluster Verrazzano, and how to troubleshoot them.</p>
+	<p>This document describes some common problems you might encounter when using multicluster Verrazzano, and how to troubleshoot them.</p>
 <p>If you created multicluster resources in the admin cluster, and specified a <code>placement</code> value in a managed cluster,
 then those resources will get created in that managed cluster. If they do not get created in the managed cluster, then
 use the following steps to troubleshoot:</p>
@@ -1378,7 +1378,9 @@ on each managed cluster to which it is targeted.</li>
 corresponding VerrazzanoManagedCluster (VMC) resource on the admin cluster. For example, to verify that a managed cluster
 named <code>managed1</code> was successfully registered:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8f5902;font-style:italic"># on the admin cluster</span>
-$ kubectl get verrazzanomanagedcluster managed1 -n verrazzano-mc -o yaml
+$ kubectl get verrazzanomanagedcluster managed1 <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -n verrazzano-mc <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -o yaml
 </code></pre></div><p>Partial sample output from the previous command:</p>
 <pre><code>  status:
     conditions:
@@ -1403,7 +1405,9 @@ connect to the admin cluster at regular intervals, and any errors will be report
 </li>
 </ol>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8f5902;font-style:italic"># on the managed cluster</span>
-$ kubectl logs -n verrazzano-system -l <span style="color:#000">app</span><span style="color:#ce5c00;font-weight:bold">=</span>verrazzano-application-operator
+$ kubectl logs <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -n verrazzano-system <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -l <span style="color:#000">app</span><span style="color:#ce5c00;font-weight:bold">=</span>verrazzano-application-operator
 </code></pre></div><p>If these logs reveal that there is a connectivity issue, check the admin cluster Kubernetes server address that
 you provided during registration and ensure that it is correct, and that it is reachable from the managed cluster. If it
 is incorrect, then you will need to repeat the managed cluster registration process described in the setup instructions
@@ -1418,7 +1422,9 @@ that:</p>
 <p>View the details of the project that corresponds to your application&rsquo;s namespace. In the example command that follows, the
 project name is assumed to be <code>myproject</code>. All projects are expected to be created in the <code>verrazzano-mc</code> namespace.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8f5902;font-style:italic"># on the admin cluster</span>
-$ kubectl get verrazzanoproject myproject -n verrazzano-mc -o yaml
+$ kubectl get verrazzanoproject myproject <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -n verrazzano-mc <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -o yaml
 </code></pre></div><p>The following partial sample output is for a project that will result in the namespace <code>mynamespace</code> being created on the managed
 cluster <code>managed1</code>.</p>
 <pre><code>spec:
@@ -1435,7 +1441,9 @@ cluster <code>managed1</code>.</p>
 on each managed cluster in which it is placed.</p>
 <p>The following example command shows how to view the status of a MultiClusterApplicationConfiguration named <code>myapp</code>, in
 the namespace <code>mynamespace</code>, that has a <code>placement</code> value that includes the managed cluster <code>managed1</code></p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get multiclusterapplicationconfiguration myapp -n mynamespace -o yaml
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get multiclusterapplicationconfiguration myapp <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -n mynamespace <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -o yaml
 </code></pre></div><p>The status of the underlying resource in each cluster specified in the placement is shown in the following partial sample
 output:</p>
 <pre><code>  status:
@@ -1516,7 +1524,7 @@ output:</p>
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified July 13, 2021: <a  href="../../../commit/e237c4a1fd694a48966daa8b51775e69e20e9f0d">overall edit (#177) (e237c4a)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified July 14, 2021: <a  href="../../../commit/f3a810266c0a7823d04ba70b35dcca1421a33154">fix examples code (#182) (f3a8102)</a>
 </div>
 </div>
 

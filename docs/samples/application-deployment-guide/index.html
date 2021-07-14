@@ -21,11 +21,11 @@
 <meta property="og:description" content="A guide for deploying an example application on Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/samples/application-deployment-guide/" />
-<meta property="article:modified_time" content="2021-06-17T16:38:35-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-07-14T17:24:07-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Application Deployment Guide">
 <meta itemprop="description" content="A guide for deploying an example application on Verrazzano">
-<meta itemprop="dateModified" content="2021-06-17T16:38:35-04:00" />
-<meta itemprop="wordCount" content="1879">
+<meta itemprop="dateModified" content="2021-07-14T17:24:07-04:00" />
+<meta itemprop="wordCount" content="1922">
 
 
 
@@ -105,7 +105,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.a114724f5c5ac7aee90eadcb335800f5.json"
+  data-offline-search-index-json-src="../../../offline-search-index.3b4982b51bb3971fad1d1c0f448fc01d.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -137,7 +137,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.a114724f5c5ac7aee90eadcb335800f5.json"
+  data-offline-search-index-json-src="../../../offline-search-index.3b4982b51bb3971fad1d1c0f448fc01d.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -345,7 +345,7 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupinstallprofiles" href="../../../docs/setup/install/profiles/">Install Profiles</a>
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupinstallprofiles" href="../../../docs/setup/install/profiles/">Installation Profiles</a>
         
       
       
@@ -1573,10 +1573,14 @@ that collectively provide and support the application.</p>
 <p>After deploying the application, configure DNS to resolve the application&rsquo;s
 ingress DNS name to the application&rsquo;s load balancer IP address.
 The generated host name is obtained by querying Kubernetes for the gateway:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.spec.servers[0].hosts[0]}&#39;</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get gateway hello-helidon-hello-helidon-appconf-gw <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -n hello-helidon <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.spec.servers[0].hosts[0]}&#39;</span>
 </code></pre></div><p>The load balancer IP is obtained by querying Kubernetes for the
 Istio ingress gateway status:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get service -n istio-system istio-ingressgateway -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.status.loadBalancer.ingress[0].ip}&#39;</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get service <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -n istio-system istio-ingressgateway <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.status.loadBalancer.ingress[0].ip}&#39;</span>
 </code></pre></div><p>DNS configuration steps are outside the scope of this guide. For DNS infrastructure that can be configured and used, see
 the <a href="https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/gettingstarted.htm">Oracle Cloud Infrastructure DNS</a> documentation.
 In some small non-production scenarios, DNS configuration using
@@ -1645,8 +1649,12 @@ If DNS was not configured, then use the alternative commands.</p>
 <ol>
 <li>
 <p>Save the host name and IP address of the load balancer exposing the application&rsquo;s REST service endpoints for later.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#000">HOST</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.spec.servers[0].hosts[0]}&#39;</span><span style="color:#204a87;font-weight:bold">)</span>
-$ <span style="color:#000">ADDRESS</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get service -n istio-system istio-ingressgateway -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.status.loadBalancer.ingress[0].ip}&#39;</span><span style="color:#204a87;font-weight:bold">)</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#000">HOST</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get gateway hello-helidon-hello-helidon-appconf-gw <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>      -n hello-helidon <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>      -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.spec.servers[0].hosts[0]}&#39;</span><span style="color:#204a87;font-weight:bold">)</span>
+$ <span style="color:#000">ADDRESS</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get service <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>      -n istio-system istio-ingressgateway <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>      -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.status.loadBalancer.ingress[0].ip}&#39;</span><span style="color:#204a87;font-weight:bold">)</span>
 </code></pre></div><p><strong>NOTE</strong>:</p>
 <ul>
 <li>The value of <code>ADDRESS</code> is used only if DNS has not been
@@ -1657,33 +1665,57 @@ with firewalls that validate <code>HTTP Host</code> headers.</li>
 </li>
 <li>
 <p>Get the default message.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -sk -X GET <span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet&#34;</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -sk <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -X GET <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    <span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet&#34;</span>
 
 <span style="color:#ce5c00;font-weight:bold">{</span><span style="color:#4e9a06">&#34;message&#34;</span>:<span style="color:#4e9a06">&#34;Hello World!&#34;</span><span style="color:#ce5c00;font-weight:bold">}</span>
 </code></pre></div><p>If DNS has not been configured, then use this command.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -sk -X GET <span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet&#34;</span> --resolve <span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span>:443:<span style="color:#4e9a06">${</span><span style="color:#000">ADDRESS</span><span style="color:#4e9a06">}</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -sk <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -X GET <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    <span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet&#34;</span> <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    --resolve <span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span>:443:<span style="color:#4e9a06">${</span><span style="color:#000">ADDRESS</span><span style="color:#4e9a06">}</span>
 </code></pre></div></li>
 <li>
 <p>Get a message for Robert.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -sk -X GET <span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet/Robert&#34;</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -sk <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -X GET <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    <span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet/Robert&#34;</span>
 
 <span style="color:#ce5c00;font-weight:bold">{</span><span style="color:#4e9a06">&#34;message&#34;</span>:<span style="color:#4e9a06">&#34;Hello Robert!&#34;</span><span style="color:#ce5c00;font-weight:bold">}</span>
 </code></pre></div><p>If DNS has not been configured, then use this command.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -sk -X GET <span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet/Robert&#34;</span> --resolve <span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span>:443:<span style="color:#4e9a06">${</span><span style="color:#000">ADDRESS</span><span style="color:#4e9a06">}</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -sk <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -X GET
+    <span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet/Robert&#34;</span> <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    --resolve <span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span>:443:<span style="color:#4e9a06">${</span><span style="color:#000">ADDRESS</span><span style="color:#4e9a06">}</span>
 </code></pre></div></li>
 <li>
 <p>Update the default greeting.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -sk -X PUT <span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet/greeting&#34;</span> -H <span style="color:#4e9a06">&#39;Content-Type: application/json&#39;</span> -d <span style="color:#4e9a06">&#39;{&#34;greeting&#34; : &#34;Greetings&#34;}&#39;</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -sk <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -X PUT <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    <span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet/greeting&#34;</span> <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -H <span style="color:#4e9a06">&#39;Content-Type: application/json&#39;</span> <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -d <span style="color:#4e9a06">&#39;{&#34;greeting&#34; : &#34;Greetings&#34;}&#39;</span>
 </code></pre></div><p>If DNS has not been configured, then use this command.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -sk -X PUT <span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet/greeting&#34;</span> -H <span style="color:#4e9a06">&#39;Content-Type: application/json&#39;</span> -d <span style="color:#4e9a06">&#39;{&#34;greeting&#34; : &#34;Greetings&#34;}&#39;</span> --resolve <span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span>:443:<span style="color:#4e9a06">${</span><span style="color:#000">ADDRESS</span><span style="color:#4e9a06">}</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -sk <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -X PUT <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    <span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet/greeting&#34;</span> <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -H <span style="color:#4e9a06">&#39;Content-Type: application/json&#39;</span> <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -d <span style="color:#4e9a06">&#39;{&#34;greeting&#34; : &#34;Greetings&#34;}&#39;</span> <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    --resolve <span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span>:443:<span style="color:#4e9a06">${</span><span style="color:#000">ADDRESS</span><span style="color:#4e9a06">}</span>
 </code></pre></div></li>
 <li>
 <p>Get the new message for Robert.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -sk -X GET <span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet/Robert&#34;</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -sk <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -X GET <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    <span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet/Robert&#34;</span>
 
 <span style="color:#ce5c00;font-weight:bold">{</span><span style="color:#4e9a06">&#34;message&#34;</span>:<span style="color:#4e9a06">&#34;Greetings Robert!&#34;</span><span style="color:#ce5c00;font-weight:bold">}</span>
 </code></pre></div><p>If DNS has not been configured, then use this command.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -sk -X GET <span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet/Robert&#34;</span> --resolve <span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span>:443:<span style="color:#4e9a06">${</span><span style="color:#000">ADDRESS</span><span style="color:#4e9a06">}</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -sk <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -X GET <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    <span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet/Robert&#34;</span> <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    --resolve <span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span>:443:<span style="color:#4e9a06">${</span><span style="color:#000">ADDRESS</span><span style="color:#4e9a06">}</span>
 </code></pre></div></li>
 </ol>
 <h3 id="access-the-applications-logs">Access the application&rsquo;s logs</h3>
@@ -1691,28 +1723,40 @@ with firewalls that validate <code>HTTP Host</code> headers.</li>
 These logs are collected using Elasticsearch and can be accessed using Kibana.
 Elasticsearch and Kibana are examples of infrastructure Verrazzano creates in support of an application as a result of applying an application configuration.</p>
 <p>Determine the URL to access Kibana:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#000">KIBANA_HOST</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get ingress -n verrazzano-system vmi-system-kibana -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.spec.rules[0].host}&#39;</span><span style="color:#204a87;font-weight:bold">)</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#000">KIBANA_HOST</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get ingress <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>     -n verrazzano-system vmi-system-kibana <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>     -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.spec.rules[0].host}&#39;</span><span style="color:#204a87;font-weight:bold">)</span>
 $ <span style="color:#000">KIBANA_URL</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">KIBANA_HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 $ <span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">${</span><span style="color:#000">KIBANA_URL</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 $ open <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">${</span><span style="color:#000">KIBANA_URL</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 </code></pre></div><p>The user name to access Kibana defaults to <code>verrazzano</code> during the Verrazzano installation.</p>
 <p>Determine the password to access Kibana:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#204a87">echo</span> <span style="color:#204a87;font-weight:bold">$(</span>kubectl get secret -n verrazzano-system verrazzano -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">={</span>.data.password<span style="color:#ce5c00;font-weight:bold">}</span> <span style="color:#000;font-weight:bold">|</span> base64 --decode<span style="color:#204a87;font-weight:bold">)</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#204a87">echo</span> <span style="color:#204a87;font-weight:bold">$(</span>kubectl get secret <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>      -n verrazzano-system verrazzano <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>      -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">={</span>.data.password<span style="color:#ce5c00;font-weight:bold">}</span> <span style="color:#000;font-weight:bold">|</span> base64 <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>      --decode<span style="color:#204a87;font-weight:bold">)</span>
 </code></pre></div><h3 id="access-the-applications-metrics">Access the application&rsquo;s metrics</h3>
 <p>Deployed applications have metric collection enabled.
 Grafana can be used to access these metrics collected by Prometheus.
 Prometheus and Grafana are additional components Verrazzano creates as a result of applying an application configuration.</p>
 <p>Determine the URL to access Grafana:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#000">GRAFANA_HOST</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get ingress -n verrazzano-system vmi-system-grafana -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.spec.rules[0].host}&#39;</span><span style="color:#204a87;font-weight:bold">)</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#000">GRAFANA_HOST</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get ingress <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>      -n verrazzano-system vmi-system-grafana <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>      -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.spec.rules[0].host}&#39;</span><span style="color:#204a87;font-weight:bold">)</span>
 $ <span style="color:#000">GRAFANA_URL</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">GRAFANA_HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 $ <span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">${</span><span style="color:#000">GRAFANA_URL</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 $ open <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">${</span><span style="color:#000">GRAFANA_URL</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 </code></pre></div><p>The user name to access Grafana is set to the default value <code>verrazzano</code> during the Verrazzano installation.</p>
 <p>Determine the password to access Grafana:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#204a87">echo</span> <span style="color:#204a87;font-weight:bold">$(</span>kubectl get secret -n verrazzano-system verrazzano -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">={</span>.data.password<span style="color:#ce5c00;font-weight:bold">}</span> <span style="color:#000;font-weight:bold">|</span> base64 --decode<span style="color:#204a87;font-weight:bold">)</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#204a87">echo</span> <span style="color:#204a87;font-weight:bold">$(</span>kubectl get secret <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>      -n verrazzano-system verrazzano <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>      -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">={</span>.data.password<span style="color:#ce5c00;font-weight:bold">}</span> <span style="color:#000;font-weight:bold">|</span> base64 <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>      --decode<span style="color:#204a87;font-weight:bold">)</span>
 </code></pre></div><p>Alternatively, metrics can be accessed directly using Prometheus.
 Determine the URL for this access:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#000">PROMETHEUS_HOST</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get ingress -n verrazzano-system vmi-system-prometheus -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.spec.rules[0].host}&#39;</span><span style="color:#204a87;font-weight:bold">)</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#000">PROMETHEUS_HOST</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get ingress <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>      -n verrazzano-system vmi-system-prometheus <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>      -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.spec.rules[0].host}&#39;</span><span style="color:#204a87;font-weight:bold">)</span>
 $ <span style="color:#000">PROMETHEUS_URL</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">PROMETHEUS_HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 $ <span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">${</span><span style="color:#000">PROMETHEUS_URL</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
 $ open <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">${</span><span style="color:#000">PROMETHEUS_URL</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#34;</span>
@@ -1801,7 +1845,7 @@ of all application-specific Kubernetes objects.</p>
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified June 17, 2021: <a  href="../../../commit/830e6c79141eaa5e6f72ed8c43254cdf8f0bd192">docs re-org (#141) (830e6c7)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified July 14, 2021: <a  href="../../../commit/f3a810266c0a7823d04ba70b35dcca1421a33154">fix examples code (#182) (f3a8102)</a>
 </div>
 </div>
 

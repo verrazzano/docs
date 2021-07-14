@@ -89,11 +89,11 @@ by either &lt;code&gt;defaultVolumeSource&lt;/code&gt; or a specific component&a
 &lt;h2 id=&#34;examples&#34;&gt;Examples&lt;/h2&gt;
 &lt;p&gt;Review the following customizing persistent storage examples:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#customizing-persistence-globally-using-defaultvolumesource&#34;&gt;Customizing persistence globally using &lt;code&gt;defaultVolumeSource&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#customizing-persistentvolumeclaim-settings-for-keycloak-using-volumesource&#34;&gt;Customizing PersistentVolumeClaim settings for Keycloak using &lt;code&gt;volumeSource&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#using-global-and-local-persistence-settings-together&#34;&gt;Using global and local persistence settings together&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#customize-persistence-globally-using-defaultvolumesource&#34;&gt;Customize persistence globally using &lt;code&gt;defaultVolumeSource&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#customize-persistentvolumeclaim-settings-for-keycloak-using-volumesource&#34;&gt;Customize PersistentVolumeClaim settings for Keycloak using &lt;code&gt;volumeSource&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#use-global-and-local-persistence-settings-together&#34;&gt;Use global and local persistence settings together&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;customizing-persistence-globally-using-defaultvolumesource&#34;&gt;Customizing persistence globally using &lt;code&gt;defaultVolumeSource&lt;/code&gt;&lt;/h3&gt;
+&lt;h3 id=&#34;customize-persistence-globally-using-defaultvolumesource&#34;&gt;Customize persistence globally using &lt;code&gt;defaultVolumeSource&lt;/code&gt;&lt;/h3&gt;
 &lt;p&gt;If &lt;code&gt;defaultVolumeSource&lt;/code&gt; is configured, then that setting will be used for all components that require storage.&lt;/p&gt;
 &lt;p&gt;For example, the following Verrazzano configuration uses the &lt;code&gt;prod&lt;/code&gt; profile, but disables persistent storage for all components:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
@@ -131,7 +131,7 @@ spec:
   profile: managed-cluster
   defaultVolumeSource:
     emptyDir: {}  # Use emphemeral storage for all Components unless overridden
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;customizing-persistentvolumeclaim-settings-for-keycloak-using-volumesource&#34;&gt;Customizing PersistentVolumeClaim settings for Keycloak using &lt;code&gt;volumeSource&lt;/code&gt;&lt;/h3&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;customize-persistentvolumeclaim-settings-for-keycloak-using-volumesource&#34;&gt;Customize PersistentVolumeClaim settings for Keycloak using &lt;code&gt;volumeSource&lt;/code&gt;&lt;/h3&gt;
 &lt;p&gt;The following example Verrazzano configuration enables a &lt;code&gt;100Gi&lt;/code&gt; PersistentVolumeClaim for the MySQL component in Keycloak
 in a &lt;code&gt;dev&lt;/code&gt; profile configuration.  This overrides the default of ephemeral storage for Keycloak in that profile, while
 retaining the default storage settings for other components:&lt;/p&gt;
@@ -154,7 +154,7 @@ spec:
       resources:
         requests:
           storage: 100Gi
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;using-global-and-local-persistence-settings-together&#34;&gt;Using global and local persistence settings together&lt;/h3&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;use-global-and-local-persistence-settings-together&#34;&gt;Use global and local persistence settings together&lt;/h3&gt;
 &lt;p&gt;The following example uses a &lt;code&gt;dev&lt;/code&gt; installation profile, but overrides the profile persistence settings to:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Use &lt;code&gt;200Gi&lt;/code&gt; volumes for all components by default.&lt;/li&gt;

@@ -237,13 +237,20 @@ spec:
                       pathType: Prefix
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the sample configuration, a MetricsTrait is specified for the &lt;code&gt;hello-helidon-component&lt;/code&gt; application component.&lt;/p&gt;
 &lt;p&gt;With the sample application configuration successfully deployed, you can query for metrics from the application component.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get ingress -n verrazzano-system vmi-system-prometheus -o jsonpath={.spec.rules[0].host})
+&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get ingress \
+     -n verrazzano-system vmi-system-prometheus \
+     -o jsonpath={.spec.rules[0].host})
 $ echo $HOST
 
 prometheus.vmi.system.default.&amp;lt;ip&amp;gt;.nip.io
 
-$ VZPASS=$(kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo)
-$ curl -sk --user verrazzano:${VZPASS} -X GET https://${HOST}/api/v1/query?query=vendor_requests_count_total
+$ VZPASS=$(kubectl get secret \
+     --namespace verrazzano-system verrazzano \
+     -o jsonpath={.data.password} | base64 \
+     --decode; echo)
+$ curl -sk \
+    --user verrazzano:${VZPASS} \
+    -X GET https://${HOST}/api/v1/query?query=vendor_requests_count_total
 
 {&amp;quot;status&amp;quot;:&amp;quot;success&amp;quot;,&amp;quot;data&amp;quot;:{&amp;quot;resultType&amp;quot;:&amp;quot;vector&amp;quot;,&amp;quot;result&amp;quot;:[{&amp;quot;metric&amp;quot;:{&amp;quot;__name__&amp;quot;:&amp;quot;vendor_requests_count_total&amp;quot;,&amp;quot;app&amp;quot;:&amp;quot;hello-helidon&amp;quot;,&amp;quot;app_oam_dev_component&amp;quot;:&amp;quot;hello-helidon-component&amp;quot;,&amp;quot;app_oam_dev_name&amp;quot;:&amp;quot;hello-helidon-appconf&amp;quot;,&amp;quot;app_oam_dev_resourceType&amp;quot;:&amp;quot;WORKLOAD&amp;quot;,&amp;quot;app_oam_dev_revision&amp;quot;:&amp;quot;hello-helidon-component-v1&amp;quot;,&amp;quot;containerizedworkload_oam_crossplane_io&amp;quot;:&amp;quot;496df78f-ef8b-4753-97fd-d9218d2f38f1&amp;quot;,&amp;quot;job&amp;quot;:&amp;quot;hello-helidon-appconf_default_helidon-logging_hello-helidon-component&amp;quot;,&amp;quot;namespace&amp;quot;:&amp;quot;helidon-logging&amp;quot;,&amp;quot;pod_name&amp;quot;:&amp;quot;hello-helidon-workload-b7d9d95d8-ht7gb&amp;quot;,&amp;quot;pod_template_hash&amp;quot;:&amp;quot;b7d9d95d8&amp;quot;},&amp;quot;value&amp;quot;:[1616535232.487,&amp;quot;4800&amp;quot;]}]}}
 &lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;metricstrait&#34;&gt;MetricsTrait&lt;/h4&gt;
@@ -754,9 +761,9 @@ spec:
       <description>
         
         
-        &lt;p&gt;The &lt;code&gt;MultiClusterResourceStatus&lt;/code&gt; subresource is shared by multicluster custom resources.&lt;/p&gt;
-&lt;h4 id=&#34;multiclusterresourcestatus&#34;&gt;&lt;code&gt;MultiClusterResourceStatus&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;MultiClusterResourceStatus&lt;/code&gt; specifies the status portion of a multicluster resource.&lt;/p&gt;
+        &lt;p&gt;The MultiClusterResourceStatus subresource is shared by multicluster custom resources.&lt;/p&gt;
+&lt;h4 id=&#34;multiclusterresourcestatus&#34;&gt;MultiClusterResourceStatus&lt;/h4&gt;
+&lt;p&gt;MultiClusterResourceStatus specifies the status portion of a multicluster resource.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -769,7 +776,7 @@ spec:
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;conditions&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#condition&#34;&gt;&lt;code&gt;Condition&lt;/code&gt;&lt;/a&gt; array&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#condition&#34;&gt;Condition&lt;/a&gt; array&lt;/td&gt;
 &lt;td&gt;The current state of a multicluster resource.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
@@ -781,14 +788,14 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;clusters&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#clusterlevelstatus&#34;&gt;&lt;code&gt;ClusterLevelStatus&lt;/code&gt;&lt;/a&gt; array&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#clusterlevelstatus&#34;&gt;ClusterLevelStatus&lt;/a&gt; array&lt;/td&gt;
 &lt;td&gt;Array of status information for each cluster.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;condition&#34;&gt;&lt;code&gt;Condition&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;Condition&lt;/code&gt; describes current state of a multicluster resource across all clusters.&lt;/p&gt;
+&lt;h4 id=&#34;condition&#34;&gt;Condition&lt;/h4&gt;
+&lt;p&gt;Condition describes current state of a multicluster resource across all clusters.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -807,8 +814,8 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;status&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;ConditionStatus&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;An instance of the type &lt;code&gt;ConditionStatus&lt;/code&gt; that is defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/core/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;ConditionStatus&lt;/td&gt;
+&lt;td&gt;An instance of the type ConditionStatus that is defined in &lt;a href=&#34;https://github.com/kubernetes/api/blob/master/core/v1/types.go&#34;&gt;types.go&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -825,8 +832,8 @@ spec:
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;clusterlevelstatus&#34;&gt;&lt;code&gt;ClusterLevelStatus&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;ClusterLevelStatus&lt;/code&gt; describes the status of the multicluster resource on an individual cluster.&lt;/p&gt;
+&lt;h4 id=&#34;clusterlevelstatus&#34;&gt;ClusterLevelStatus&lt;/h4&gt;
+&lt;p&gt;ClusterLevelStatus describes the status of the multicluster resource on an individual cluster.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -1012,9 +1019,9 @@ spec:
       <description>
         
         
-        &lt;p&gt;The &lt;code&gt;Placement&lt;/code&gt; subresource is shared by multicluster custom resources.&lt;/p&gt;
-&lt;h4 id=&#34;placement&#34;&gt;&lt;code&gt;Placement&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;Placement&lt;/code&gt; contains the name of each cluster where this resource will be located.&lt;/p&gt;
+        &lt;p&gt;The Placement subresource is shared by multicluster custom resources.&lt;/p&gt;
+&lt;h4 id=&#34;placement&#34;&gt;Placement&lt;/h4&gt;
+&lt;p&gt;Placement contains the name of each cluster where this resource will be located.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -1033,8 +1040,8 @@ spec:
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;cluster&#34;&gt;&lt;code&gt;Cluster&lt;/code&gt;&lt;/h4&gt;
-&lt;p&gt;&lt;code&gt;Cluster&lt;/code&gt; contains the name of a single cluster.&lt;/p&gt;
+&lt;h4 id=&#34;cluster&#34;&gt;Cluster&lt;/h4&gt;
+&lt;p&gt;Cluster contains the name of a single cluster.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;

@@ -22,12 +22,12 @@
 Note that if an ApplicationConfiguration does not specify a MetricsTrait, then a default MetricsTrait will be generated with values appropriate for the workload type." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/reference/api/oam/metricstrait/" />
-<meta property="article:modified_time" content="2021-06-30T15:23:43-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-07-14T17:24:07-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="MetricsTrait Custom Resource Definition">
 <meta itemprop="description" content="The MetricsTrait custom resource contains the configuration information needed to enable metrics for an application component. Component workloads configured with a MetricsTrait are setup to emit metrics through an endpoint that are scraped by a given Prometheus deployment. Here is a sample ApplicationConfiguration that specifies a MetricsTrait. To deploy an example application that demonstrates a MetricsTrait, see Hello World Helidon.
 Note that if an ApplicationConfiguration does not specify a MetricsTrait, then a default MetricsTrait will be generated with values appropriate for the workload type.">
-<meta itemprop="dateModified" content="2021-06-30T15:23:43-04:00" />
-<meta itemprop="wordCount" content="313">
+<meta itemprop="dateModified" content="2021-07-14T17:24:07-04:00" />
+<meta itemprop="wordCount" content="320">
 
 
 
@@ -108,7 +108,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.a114724f5c5ac7aee90eadcb335800f5.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.3b4982b51bb3971fad1d1c0f448fc01d.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -140,7 +140,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.a114724f5c5ac7aee90eadcb335800f5.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.3b4982b51bb3971fad1d1c0f448fc01d.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -348,7 +348,7 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupinstallprofiles" href="../../../../../docs/setup/install/profiles/">Install Profiles</a>
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupinstallprofiles" href="../../../../../docs/setup/install/profiles/">Installation Profiles</a>
         
       
       
@@ -1395,13 +1395,20 @@ spec:
                       pathType: Prefix
 </code></pre><p>In the sample configuration, a MetricsTrait is specified for the <code>hello-helidon-component</code> application component.</p>
 <p>With the sample application configuration successfully deployed, you can query for metrics from the application component.</p>
-<pre><code>$ HOST=$(kubectl get ingress -n verrazzano-system vmi-system-prometheus -o jsonpath={.spec.rules[0].host})
+<pre><code>$ HOST=$(kubectl get ingress \
+     -n verrazzano-system vmi-system-prometheus \
+     -o jsonpath={.spec.rules[0].host})
 $ echo $HOST
 
 prometheus.vmi.system.default.&lt;ip&gt;.nip.io
 
-$ VZPASS=$(kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo)
-$ curl -sk --user verrazzano:${VZPASS} -X GET https://${HOST}/api/v1/query?query=vendor_requests_count_total
+$ VZPASS=$(kubectl get secret \
+     --namespace verrazzano-system verrazzano \
+     -o jsonpath={.data.password} | base64 \
+     --decode; echo)
+$ curl -sk \
+    --user verrazzano:${VZPASS} \
+    -X GET https://${HOST}/api/v1/query?query=vendor_requests_count_total
 
 {&quot;status&quot;:&quot;success&quot;,&quot;data&quot;:{&quot;resultType&quot;:&quot;vector&quot;,&quot;result&quot;:[{&quot;metric&quot;:{&quot;__name__&quot;:&quot;vendor_requests_count_total&quot;,&quot;app&quot;:&quot;hello-helidon&quot;,&quot;app_oam_dev_component&quot;:&quot;hello-helidon-component&quot;,&quot;app_oam_dev_name&quot;:&quot;hello-helidon-appconf&quot;,&quot;app_oam_dev_resourceType&quot;:&quot;WORKLOAD&quot;,&quot;app_oam_dev_revision&quot;:&quot;hello-helidon-component-v1&quot;,&quot;containerizedworkload_oam_crossplane_io&quot;:&quot;496df78f-ef8b-4753-97fd-d9218d2f38f1&quot;,&quot;job&quot;:&quot;hello-helidon-appconf_default_helidon-logging_hello-helidon-component&quot;,&quot;namespace&quot;:&quot;helidon-logging&quot;,&quot;pod_name&quot;:&quot;hello-helidon-workload-b7d9d95d8-ht7gb&quot;,&quot;pod_template_hash&quot;:&quot;b7d9d95d8&quot;},&quot;value&quot;:[1616535232.487,&quot;4800&quot;]}]}}
 </code></pre><h4 id="metricstrait">MetricsTrait</h4>
@@ -1544,7 +1551,7 @@ $ curl -sk --user verrazzano:${VZPASS} -X GET https://${HOST}/api/v1/query?query
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified June 30, 2021: <a  href="../../../../../commit/8e47df7ee1f0ff0f37330b83346590655ea91d72">cleanup all docs (#163) (8e47df7)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified July 14, 2021: <a  href="../../../../../commit/f3a810266c0a7823d04ba70b35dcca1421a33154">fix examples code (#182) (f3a8102)</a>
 </div>
 </div>
 

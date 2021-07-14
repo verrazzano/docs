@@ -21,11 +21,11 @@
 <meta property="og:description" content="Troubleshoot issues deploying applications on Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/troubleshooting/troubleshooting-application-deployment/" />
-<meta property="article:modified_time" content="2021-07-13T08:37:42-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-07-14T17:24:07-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Application Deployment">
 <meta itemprop="description" content="Troubleshoot issues deploying applications on Verrazzano">
-<meta itemprop="dateModified" content="2021-07-13T08:37:42-04:00" />
-<meta itemprop="wordCount" content="704">
+<meta itemprop="dateModified" content="2021-07-14T17:24:07-04:00" />
+<meta itemprop="wordCount" content="718">
 
 
 
@@ -105,7 +105,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.a114724f5c5ac7aee90eadcb335800f5.json"
+  data-offline-search-index-json-src="../../../offline-search-index.3b4982b51bb3971fad1d1c0f448fc01d.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -137,7 +137,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.a114724f5c5ac7aee90eadcb335800f5.json"
+  data-offline-search-index-json-src="../../../offline-search-index.3b4982b51bb3971fad1d1c0f448fc01d.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -345,7 +345,7 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupinstallprofiles" href="../../../docs/setup/install/profiles/">Install Profiles</a>
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupinstallprofiles" href="../../../docs/setup/install/profiles/">Installation Profiles</a>
         
       
       
@@ -1364,21 +1364,29 @@ These are then used to generate additional child and related resources.</p>
 <h3 id="review-oam-kubernetes-runtime-operator-status">Review <code>oam-kubernetes-runtime</code> operator status</h3>
 <p>For application deployment to succeed, the <code>oam-kubernetes-runtime</code> pod must have a status of Running.</p>
 <p>Use the following command to get the pod status.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get pods -n verrazzano-system -l app.kubernetes.io/name<span style="color:#ce5c00;font-weight:bold">=</span>oam-kubernetes-runtime
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get pods <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -n verrazzano-system <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -l app.kubernetes.io/name<span style="color:#ce5c00;font-weight:bold">=</span>oam-kubernetes-runtime
 </code></pre></div><p>If the pod status is not Running, then see the following instructions for reviewing the <code>oam-kubernetes-runtime</code> pod logs.</p>
 <h3 id="review-verrazzano-application-operator-operator-status">Review <code>verrazzano-application-operator</code> operator status</h3>
 <p>For application deployment to succeed, the <code>verrazzano-application-operator</code> pod must have a status of Running.</p>
 <p>Use the following command to get the pod status.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get pods -n verrazzano-system -l <span style="color:#000">app</span><span style="color:#ce5c00;font-weight:bold">=</span>verrazzano-application-operator
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get pods <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -n verrazzano-system <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -l <span style="color:#000">app</span><span style="color:#ce5c00;font-weight:bold">=</span>verrazzano-application-operator
 </code></pre></div><p>If the pod status is not Running, then see the following instructions for reviewing the <code>verrazzano-application-operator</code> logs.</p>
 <h3 id="review-oam-kubernetes-runtime-operator-logs">Review <code>oam-kubernetes-runtime</code> operator logs</h3>
 <p>Review the <code>oam-kubernetes-runtime</code> pod logs for any indication that pod startup or the generation of workloads or traits has failed.</p>
 <p>Use the following command to get the logs.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl logs -n verrazzano-system -l app.kubernetes.io/name<span style="color:#ce5c00;font-weight:bold">=</span>oam-kubernetes-runtime
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl logs <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -n verrazzano-system <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -l app.kubernetes.io/name<span style="color:#ce5c00;font-weight:bold">=</span>oam-kubernetes-runtime
 </code></pre></div><h3 id="review-verrazzano-application-operator-logs">Review <code>verrazzano-application-operator</code> logs</h3>
 <p>Review the <code>verrazzano-application-operator</code> logs for any indication that pod startup or resource generation has failed.</p>
 <p>Use the following command to get the logs.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl logs -n verrazzano-system -l <span style="color:#000">app</span><span style="color:#ce5c00;font-weight:bold">=</span>verrazzano-application-operator
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl logs <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -n verrazzano-system <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -l <span style="color:#000">app</span><span style="color:#ce5c00;font-weight:bold">=</span>verrazzano-application-operator
 </code></pre></div><h3 id="review-generated-workload-resources">Review generated workload resources</h3>
 <p>The processing of a Component reference within an ApplicationConfiguration results in the generation of workloads.
 For example, a referenced Component might result in the generation of a VerrazzanoHelidonWorkload workload resource.
@@ -1404,17 +1412,23 @@ $ kubectl get -n hello-helidon virtualservice hello-helidon-ingress-rule-0-vs
 <p>The use of generic Kubernetes resources as workloads and traits can result in deployment failures if privileges are insufficient.
 In this case, the <code>oam-kubernetes-runtime</code> logs will contain errors containing the term <code>forbidden</code>.</p>
 <p>The following command shows how to query for this type of failure message.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl logs -n verrazzano-system -l app.kubernetes.io/name<span style="color:#ce5c00;font-weight:bold">=</span>oam-kubernetes-runtime <span style="color:#000;font-weight:bold">|</span> grep forbidden
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl logs <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -n verrazzano-system <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -l app.kubernetes.io/name<span style="color:#ce5c00;font-weight:bold">=</span>oam-kubernetes-runtime <span style="color:#000;font-weight:bold">|</span> grep forbidden
 </code></pre></div><h3 id="check-resource-owners">Check resource owners</h3>
 <p>Kubernetes maintains the child to parent relationship within metadata fields.</p>
 <p>The following example returns the parent of the IngressTrait, named <code>hello-helidon-ingress</code>, in the <code>hello-helidon</code> namespace.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get IngressTrait -n hello-helidon hello-helidon-ingress -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{range .metadata.ownerReferences[*]}{.name}{&#34;\n&#34;}{end}&#39;</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get IngressTrait <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -n hello-helidon hello-helidon-ingress <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{range .metadata.ownerReferences[*]}{.name}{&#34;\n&#34;}{end}&#39;</span>
 </code></pre></div><p>The results of this command can help identify the lineage of a given resource.</p>
 <h3 id="check-related-resources">Check related resources</h3>
 <p>Some resources also record the related resources affected during their processing.
 For example, when processed, an IngressTrait will create related Gateway, VirtualService, and Certificate resources.</p>
 <p>The following command is an example of how to obtain the related resources of an IngressTraits.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get IngressTrait -n hello-helidon hello-helidon-ingress -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{range .status.resources[*]}{.kind}: {.name}{&#34;\n&#34;}{end}&#39;</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get IngressTrait <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -n hello-helidon hello-helidon-ingress <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{range .status.resources[*]}{.kind}: {.name}{&#34;\n&#34;}{end}&#39;</span>
 </code></pre></div><p>The results of this command can help identify which other resources, the given resource affected.</p>
 
 	
@@ -1481,7 +1495,7 @@ For example, when processed, an IngressTrait will create related Gateway, Virtua
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified July 13, 2021: <a  href="../../../commit/e237c4a1fd694a48966daa8b51775e69e20e9f0d">overall edit (#177) (e237c4a)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified July 14, 2021: <a  href="../../../commit/f3a810266c0a7823d04ba70b35dcca1421a33154">fix examples code (#182) (f3a8102)</a>
 </div>
 </div>
 

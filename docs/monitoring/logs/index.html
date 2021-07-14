@@ -100,7 +100,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.a114724f5c5ac7aee90eadcb335800f5.json"
+  data-offline-search-index-json-src="../../../offline-search-index.3b4982b51bb3971fad1d1c0f448fc01d.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -132,7 +132,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.a114724f5c5ac7aee90eadcb335800f5.json"
+  data-offline-search-index-json-src="../../../offline-search-index.3b4982b51bb3971fad1d1c0f448fc01d.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -340,7 +340,7 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupinstallprofiles" href="../../../docs/setup/install/profiles/">Install Profiles</a>
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupinstallprofiles" href="../../../docs/setup/install/profiles/">Installation Profiles</a>
         
       
       
@@ -1370,7 +1370,9 @@ if (!doNotTrack) {
 <h2 id="fluentd-sidecar">Fluentd sidecar</h2>
 <p>For components with multiple log streams or that cannot log to stdout, Verrazzano deploys a Fluentd sidecar which parses and translates the log stream.  The resulting log is sent to stdout of the sidecar container and then written to <code>/var/log/containers</code> by the kubelet service.</p>
 <p>For example, in a WebLogic deployment, <code>AdminServer.log</code> is consumed, translated, and written to stdout by the Fluentd sidecar.  You can view these logs using <code>kubectl</code> on the container named <code>fluentd-stdout-sidecar</code>.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl logs tododomain-adminserver -n todo-list -c fluentd-stdout-sidecar
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl logs tododomain-adminserver <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>   -n todo-list <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>   -c fluentd-stdout-sidecar
 </code></pre></div><h2 id="fluentd-daemonset">Fluentd DaemonSet</h2>
 <p>Verrazzano deploys a Fluentd DaemonSet which runs one Fluentd replica per node in the <code>verrazzano-system</code> namespace.
 Each instance pulls logs from the node&rsquo;s <code>/var/log/containers</code> directory and writes them to the target Elasticsearch index.  The index name is based on the namespace associated with the record, using this format: <code>verrazzano-namespace-&lt;record namespace&gt;</code>.</p>
@@ -1379,14 +1381,21 @@ Each instance pulls logs from the node&rsquo;s <code>/var/log/containers</code> 
 <h2 id="elasticsearch">Elasticsearch</h2>
 <p>Verrazzano creates an Elasticsearch deployment as the store and search engine for the logs processed by Fluentd.  Records written by Fluentd can be queried using the Elasticsearch REST API.</p>
 <p>For example, you can use <code>curl</code> to get all of the Elasticsearch indexes. First, you must get the password for the <code>verrazzano</code> user and the host for the Elasticsearch VMI.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#000">PASS</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get secret --namespace verrazzano-system verrazzano -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">={</span>.data.password<span style="color:#ce5c00;font-weight:bold">}</span> <span style="color:#000;font-weight:bold">|</span> base64 --decode<span style="color:#000;font-weight:bold">;</span> <span style="color:#204a87">echo</span><span style="color:#204a87;font-weight:bold">)</span>
-$ <span style="color:#000">HOST</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get ingress -n verrazzano-system vmi-system-es-ingest -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">={</span>.spec.rules<span style="color:#ce5c00;font-weight:bold">[</span>0<span style="color:#ce5c00;font-weight:bold">]</span>.host<span style="color:#ce5c00;font-weight:bold">}</span><span style="color:#204a87;font-weight:bold">)</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#000">PASS</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get secret <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    --namespace verrazzano-system verrazzano <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">={</span>.data.password<span style="color:#ce5c00;font-weight:bold">}</span> <span style="color:#000;font-weight:bold">|</span> base64 <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    --decode<span style="color:#000;font-weight:bold">;</span> <span style="color:#204a87">echo</span><span style="color:#204a87;font-weight:bold">)</span>
+$ <span style="color:#000">HOST</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get ingress <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -n verrazzano-system vmi-system-es-ingest <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">={</span>.spec.rules<span style="color:#ce5c00;font-weight:bold">[</span>0<span style="color:#ce5c00;font-weight:bold">]</span>.host<span style="color:#ce5c00;font-weight:bold">}</span><span style="color:#204a87;font-weight:bold">)</span>
 
-$ curl -ik --user verrazzano:<span style="color:#000">$PASS</span> https://<span style="color:#000">$HOST</span>//_cat/indices
+$ curl -ik <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>   --user verrazzano:<span style="color:#000">$PASS</span> https://<span style="color:#000">$HOST</span>//_cat/indices
 </code></pre></div><p>To see all of the records for a specific index, do the following:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#000">INDEX</span><span style="color:#ce5c00;font-weight:bold">=</span>verrazzano-namespace-todo-list
 
-$ curl -ik --user verrazzano:<span style="color:#000">$PASS</span> https://<span style="color:#000">$HOST</span>/<span style="color:#000">$INDEX</span>/_doc/_search?q<span style="color:#ce5c00;font-weight:bold">=</span>message:*
+$ curl -ik <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    --user verrazzano:<span style="color:#000">$PASS</span> https://<span style="color:#000">$HOST</span>/<span style="color:#000">$INDEX</span>/_doc/_search?q<span style="color:#ce5c00;font-weight:bold">=</span>message:*
 </code></pre></div><p>Verrazzano provides support for installation profiles: development (<code>dev</code>) and production (<code>prod</code>). The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.</p>
 <h2 id="kibana">Kibana</h2>
 <p>Kibana is a visualization dashboard for the content indexed on an Elasticsearch cluster.  Verrazzano creates a Kibana deployment to provide a user interface for querying and visualizing the log data collected in Elasticsearch.</p>
@@ -1636,7 +1645,7 @@ $ curl -ik --user verrazzano:<span style="color:#000">$PASS</span> https://<span
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified July 13, 2021: <a  href="../../../commit/e237c4a1fd694a48966daa8b51775e69e20e9f0d">overall edit (#177) (e237c4a)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified July 14, 2021: <a  href="../../../commit/f3a810266c0a7823d04ba70b35dcca1421a33154">fix examples code (#182) (f3a8102)</a>
 </div>
 </div>
 

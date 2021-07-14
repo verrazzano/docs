@@ -100,7 +100,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.a114724f5c5ac7aee90eadcb335800f5.json"
+  data-offline-search-index-json-src="../../../offline-search-index.3b4982b51bb3971fad1d1c0f448fc01d.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -132,7 +132,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.a114724f5c5ac7aee90eadcb335800f5.json"
+  data-offline-search-index-json-src="../../../offline-search-index.3b4982b51bb3971fad1d1c0f448fc01d.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -340,7 +340,7 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupinstallprofiles" href="../../../docs/setup/install/profiles/">Install Profiles</a>
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupinstallprofiles" href="../../../docs/setup/install/profiles/">Installation Profiles</a>
         
       
       
@@ -1378,7 +1378,11 @@ $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/maste
 </code></pre></li>
 <li>
 <p>Wait for the application to be ready.</p>
-<pre><code>$ kubectl wait --for=condition=Ready pods --all -n hello-helidon --timeout=300s
+<pre><code>$ kubectl wait \
+   --for=condition=Ready pods \
+   --all \
+   -n hello-helidon \
+   --timeout=300s
 </code></pre></li>
 </ol>
 <h2 id="explore-the-application">Explore the application</h2>
@@ -1390,13 +1394,17 @@ ports, and such.</p>
 <ol>
 <li>
 <p>Get the generated host name for the application.</p>
-<pre><code>$ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath={.spec.servers[0].hosts[0]})
+<pre><code>$ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw \
+     -n hello-helidon \
+     -o jsonpath={.spec.servers[0].hosts[0]})
 $ echo $HOST
 hello-helidon-appconf.hello-helidon.11.22.33.44.nip.io
 </code></pre></li>
 <li>
 <p>Get the <code>EXTERNAL_IP</code> address of the <code>istio-ingressgateway</code> service.</p>
-<pre><code>$ ADDRESS=$(kubectl get service -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+<pre><code>$ ADDRESS=$(kubectl get service \
+     -n istio-system istio-ingressgateway \
+     -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 $ echo $ADDRESS
 11.22.33.44
 </code></pre></li>
@@ -1405,7 +1413,10 @@ $ echo $ADDRESS
 <ul>
 <li>
 <p><strong>Using the command line</strong></p>
-<pre><code>$ curl -sk -X GET https://${HOST}/greet --resolve ${HOST}:443:${ADDRESS}
+<pre><code>$ curl -sk \
+   -X GET \
+   https://${HOST}/greet \
+   --resolve ${HOST}:443:${ADDRESS}
 {&quot;message&quot;:&quot;Hello World!&quot;}
 </code></pre><p>If you are using <code>nip.io</code>, then you do not need to include <code>--resolve</code>.</p>
 </li>
@@ -1436,7 +1447,10 @@ before deploying the <code>hello-helidon</code> application.</li>
 <ul>
 <li>
 <p>Run this command to get the password that was generated for the telemetry components:</p>
-<pre><code>$ kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo
+<pre><code>$ kubectl get secret \
+   --namespace verrazzano-system verrazzano \
+   -o jsonpath={.data.password} | base64 \
+   --decode; echo
 </code></pre><p>The associated user name is <code>verrazzano</code>.</p>
 </li>
 <li>
@@ -1738,7 +1752,7 @@ Note that this may take a few minutes and that you may see some of the services 
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified July 12, 2021: <a  href="../../../commit/14619148f27bc2e68bf63e3a00912c2bddfc13c8">change file paths (#172) (1461914)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified July 14, 2021: <a  href="../../../commit/f3a810266c0a7823d04ba70b35dcca1421a33154">fix examples code (#182) (f3a8102)</a>
 </div>
 </div>
 

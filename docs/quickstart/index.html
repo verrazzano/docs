@@ -100,7 +100,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../offline-search-index.a114724f5c5ac7aee90eadcb335800f5.json"
+  data-offline-search-index-json-src="../../offline-search-index.3b4982b51bb3971fad1d1c0f448fc01d.json"
   data-offline-search-base-href="../../"
   data-offline-search-max-results="10"
 >
@@ -132,7 +132,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../offline-search-index.a114724f5c5ac7aee90eadcb335800f5.json"
+  data-offline-search-index-json-src="../../offline-search-index.3b4982b51bb3971fad1d1c0f448fc01d.json"
   data-offline-search-base-href="../../"
   data-offline-search-max-results="10"
 >
@@ -340,7 +340,7 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupinstallprofiles" href="../../docs/setup/install/profiles/">Install Profiles</a>
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docssetupinstallprofiles" href="../../docs/setup/install/profiles/">Installation Profiles</a>
         
       
       
@@ -1434,7 +1434,7 @@ profile and a development (<code>dev</code>) profile suitable for evaluation.</p
 <p>The Verrazzano operator launches a Kubernetes <a href="https://kubernetes.io/docs/concepts/workloads/controllers/job/">job</a> to install Verrazzano.  You can view the installation logs from that job with the following command:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl logs -f <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>    <span style="color:#204a87;font-weight:bold">$(</span> <span style="color:#4e9a06">\
-</span><span style="color:#4e9a06"></span>      kubectl get pod  <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>      kubectl get pod <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>          -l job-name<span style="color:#ce5c00;font-weight:bold">=</span>verrazzano-install-example-verrazzano <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>          -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;{.items[0].metadata.name}&#34;</span> <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>    <span style="color:#204a87;font-weight:bold">)</span>
@@ -1459,18 +1459,25 @@ $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/maste
 </code></pre></div></li>
 <li>
 <p>Wait for the application to be ready.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl <span style="color:#204a87">wait</span> --for<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">condition</span><span style="color:#ce5c00;font-weight:bold">=</span>Ready pods --all -n hello-helidon --timeout<span style="color:#ce5c00;font-weight:bold">=</span>300s
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl <span style="color:#204a87">wait</span> <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    --for<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">condition</span><span style="color:#ce5c00;font-weight:bold">=</span>Ready pods <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    --all -n hello-helidon <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    --timeout<span style="color:#ce5c00;font-weight:bold">=</span>300s
 pod/hello-helidon-deployment-78468f5f9c-czmp4 condition met
 </code></pre></div><p>This creates the Verrazzano OAM component application resources for the example, waits for the pods in the <code>hello-helidon</code>
 namespace to be ready.</p>
 </li>
 <li>
 <p>Save the host name of the load balancer exposing the application&rsquo;s REST service endpoints.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#000">HOST</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.spec.servers[0].hosts[0]}&#39;</span><span style="color:#204a87;font-weight:bold">)</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ <span style="color:#000">HOST</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get gateway hello-helidon-hello-helidon-appconf-gw <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -n hello-helidon <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.spec.servers[0].hosts[0]}&#39;</span><span style="color:#204a87;font-weight:bold">)</span>
 </code></pre></div></li>
 <li>
 <p>Get the default message.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -sk -X GET <span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet&#34;</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ curl -sk <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -X GET <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    <span style="color:#4e9a06">&#34;https://</span><span style="color:#4e9a06">${</span><span style="color:#000">HOST</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/greet&#34;</span>
 
 <span style="color:#ce5c00;font-weight:bold">{</span><span style="color:#4e9a06">&#34;message&#34;</span>:<span style="color:#4e9a06">&#34;Hello World!&#34;</span><span style="color:#ce5c00;font-weight:bold">}</span>
 </code></pre></div></li>
@@ -1514,7 +1521,7 @@ you can view the uninstall logs.
 <p>The Verrazzano operator launches a Kubernetes <a href="https://kubernetes.io/docs/concepts/workloads/controllers/job/">job</a> to delete the Verrazzano installation.  You can view the uninstall logs from that job with the following command:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl logs -f <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>    <span style="color:#204a87;font-weight:bold">$(</span> <span style="color:#4e9a06">\
-</span><span style="color:#4e9a06"></span>      kubectl get pod  <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>      kubectl get pod <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>          -l job-name<span style="color:#ce5c00;font-weight:bold">=</span>verrazzano-uninstall-example-verrazzano <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>          -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;{.items[0].metadata.name}&#34;</span> <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>    <span style="color:#204a87;font-weight:bold">)</span>
@@ -1764,7 +1771,7 @@ you can view the uninstall logs.
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified July 14, 2021: <a  href="../../commit/7a14b288e67ddeda9d95b8d738089463ee27af03">VZ-2953: Release 0.17.0 (#180) (7a14b28)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified July 14, 2021: <a  href="../../commit/f3a810266c0a7823d04ba70b35dcca1421a33154">fix examples code (#182) (f3a8102)</a>
 </div>
 </div>
 
