@@ -54,7 +54,10 @@ In the initial steps, you create a sample domain that represents your on-premise
 1. Start a MySQL client to change the password algorithm to `mysql_native_password`.
     - Assuming the database server is running, start a database CLI client.
         ```shell script
-        $ docker exec -it tododb mysql -uroot -p
+        $ docker exec \
+           -it tododb mysql \
+           -uroot \
+           -p
         ```
     - When prompted for the password, enter the password for the root user, `welcome1` or
     whatever password you set when starting the container in the previous step.  
@@ -473,16 +476,16 @@ tododomain-adminserver   4/4     Running   0          5m
 
 #### Access the WebLogic Server Administration Console
 
-1. Setup port forwarding
+1. Set up port forwarding.
    ```
    $ kubectl port-forward pods/tododomain-adminserver 7001:7001 -n tododomain
    ```
 
-1. Access the WebLogic Server Administration Console from your browser
+1. Access the WebLogic Server Administration Console from your browser.
    ```
    http://localhost:7001/console
    ```
 
-{{< alert title="NOTE" color="tip" >}}
-It is recommended that the WebLogic Server Administration Console not be exposed publicly.
+{{< alert title="NOTE" color="warning" >}}
+It is recommended that the WebLogic Server Administration Console _not_ be exposed publicly.
 {{< /alert >}}

@@ -20,7 +20,7 @@ These definitions can be referenced by components and application configurations
 
 ![](oam-arch.svg)
 
-## Application Configurations
+## Application configurations
 An ApplicationConfiguration is a collection of references to Components.
 A set of Traits and Scopes can be applied to each Component reference.
 The platform uses these Components, Traits, and Scopes to generate the final application
@@ -165,18 +165,11 @@ This provides the platform with additional information about processing the scop
 A ScopeDefintion is typically provided by the platform, not an end user.
 
 ## Verrazzano workloads
-The Verrazzano platform provides several workload definitions and implementations.
+The Verrazzano platform provides several workload definitions and implementations:
 
-### VerrazzanoWebLogicWorkload
-The VerrazzanoWebLogicWorkload is used for WebLogic workloads.
-
-
-### VerrazzanoCoherenceWorkload
-The VerrazzanoCoherenceWorkload is used for Coherence workloads. See [Coherence Workload]({{< relref "/docs/applications/workloads/coherence/coherence.md" >}}).
-
-
-### VerrazzanoHelidonWorkload
-The VerrazzanoHelidonWorkload is used for Helidon workloads. See [Helidon Workload]({{< relref "/docs/applications/workloads/helidon/helidon.md" >}}).
+- The VerrazzanoWebLogicWorkload is used for WebLogic workloads.
+- The VerrazzanoCoherenceWorkload is used for Coherence workloads. See [Coherence Workload]({{< relref "/docs/applications/workloads/coherence/coherence.md" >}}).
+- The VerrazzanoHelidonWorkload is used for Helidon workloads. See [Helidon Workload]({{< relref "/docs/applications/workloads/helidon/helidon.md" >}}).
 
 
 ### OAM ContainerizedWorkload
@@ -186,7 +179,10 @@ It is provided to ensure that OAM can be used for non-Kubernetes deployment envi
 See the [OAM specification](https://github.com/oam-dev/spec/blob/v0.2.1/core/workloads/containerized_workload/containerized_workload.md).
 
 ## Verrazzano traits
-The Verrazzano platform provides several trait definitions and implementations.
+The Verrazzano platform provides several trait definitions and implementations:
+
+- [IngressTrait](#ingresstrait)
+- [MetricsTrait](#metricstrait)
 
 ### IngressTrait
 The IngressTrait provides a simplified integration with the Istio ingress gateway included in the Verrazzano platform.

@@ -34,7 +34,7 @@ In order to upgrade an existing Verrazzano installation, you must first upgrade 
 
 1. Upgrade the Verrazzano platform operator.
 
-   **NOTE:** If you are using a private container registry, then to update the platform operator, follow the instructions at [Using a Private Registry]({{< relref "/docs/setup/private-registry/private-registry.md" >}}).
+   **NOTE:** If you are using a private container registry, then to update the platform operator, follow the instructions at [Use a Private Registry]({{< relref "/docs/setup/private-registry/private-registry.md" >}}).
 
    To upgrade to the latest version:
 
@@ -114,7 +114,9 @@ To upgrade Verrazzano:
 1. Wait for the upgrade to complete:
 
    ```shell
-   $ kubectl wait --timeout=10m --for=condition=UpgradeComplete verrazzano/my-verrazzano
+   $ kubectl wait \
+       --timeout=10m \
+       --for=condition=UpgradeComplete verrazzano/my-verrazzano
    ```
 
 ## Verify the upgrade

@@ -170,7 +170,7 @@ To perform an analysis of the clusters:
 
 `$ verrazzano-analysis my-cluster-dumps`
 
-### Additional information
+### Usage information
 
 ```
 Usage: verrazzano-analysis [options] captured-data-directory

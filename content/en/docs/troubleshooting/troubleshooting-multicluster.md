@@ -6,7 +6,7 @@ weight: 1
 draft: false
 ---
 
-This document describes some common problems you may encounter when using multicluster Verrazzano, and how to troubleshoot them.
+This document describes some common problems you might encounter when using multicluster Verrazzano, and how to troubleshoot them.
 
 If you created multicluster resources in the admin cluster, and specified a `placement` value in a managed cluster,
 then those resources will get created in that managed cluster. If they do not get created in the managed cluster, then
@@ -22,7 +22,9 @@ corresponding VerrazzanoManagedCluster (VMC) resource on the admin cluster. For 
 named `managed1` was successfully registered:
 ```shell
 # on the admin cluster
-$ kubectl get verrazzanomanagedcluster managed1 -n verrazzano-mc -o yaml
+$ kubectl get verrazzanomanagedcluster managed1 \
+    -n verrazzano-mc \
+    -o yaml
 ```
 
 Partial sample output from the previous command:
@@ -50,7 +52,9 @@ connect to the admin cluster at regular intervals, and any errors will be report
 
 ```shell
 # on the managed cluster
-$ kubectl logs -n verrazzano-system -l app=verrazzano-application-operator
+$ kubectl logs \
+    -n verrazzano-system \
+    -l app=verrazzano-application-operator
 ```
 If these logs reveal that there is a connectivity issue, check the admin cluster Kubernetes server address that
 you provided during registration and ensure that it is correct, and that it is reachable from the managed cluster. If it
@@ -69,7 +73,9 @@ project name is assumed to be `myproject`. All projects are expected to be creat
 
 ```shell
 # on the admin cluster
-$ kubectl get verrazzanoproject myproject -n verrazzano-mc -o yaml
+$ kubectl get verrazzanoproject myproject \
+    -n verrazzano-mc \
+    -o yaml
 ```
 
 The following partial sample output is for a project that will result in the namespace `mynamespace` being created on the managed
@@ -94,7 +100,9 @@ on each managed cluster in which it is placed.
 The following example command shows how to view the status of a MultiClusterApplicationConfiguration named `myapp`, in
 the namespace `mynamespace`, that has a `placement` value that includes the managed cluster `managed1`
 ```shell
-$ kubectl get multiclusterapplicationconfiguration myapp -n mynamespace -o yaml
+$ kubectl get multiclusterapplicationconfiguration myapp \
+    -n mynamespace \
+    -o yaml
 ```
 
 The status of the underlying resource in each cluster specified in the placement is shown in the following partial sample

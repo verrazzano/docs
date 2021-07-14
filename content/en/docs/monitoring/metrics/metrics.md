@@ -14,7 +14,7 @@ visualize them.
 
 ![Metrics](../../../images/metrics.png)
 
-### Metrics sources
+## Metrics sources
 
 Metrics sources produce metrics and expose them to the Kubernetes Prometheus system using annotations in the pods.
 The metrics annotations may differ slightly depending on the resource type.
@@ -48,8 +48,14 @@ For example, for the previous metric source:
 - Get the user name and password used to access the metrics source from the corresponding secret.
 
   ```
-  $ kubectl get secret --namespace todo-list tododomain-weblogic-credentials  -o jsonpath={.data.username} | base64 --decode; echo
-  $ kubectl get secret --namespace todo-list tododomain-weblogic-credentials  -o jsonpath={.data.password} | base64 --decode; echo
+  $ kubectl get secret \
+      --namespace todo-list tododomain-weblogic-credentials \
+      -o jsonpath={.data.username} | base64 \
+      --decode; echo
+  $ kubectl get secret \
+      --namespace todo-list tododomain-weblogic-credentials \
+      -o jsonpath={.data.password} | base64 \
+      --decode; echo
   ```
 
 - Access the metrics at the exported path, using the user name and password retrieved in the previous step.
@@ -59,19 +65,19 @@ For example, for the previous metric source:
 
 ### Metrics server
 
-- Single pod per cluster
-- Named `vmi-system-prometheus-*` in `verrazzano-system` namespace
-- Discovers exposed metrics source endpoints
-- Scrapes metrics from metrics sources
-- Responsible for exposing all metrics
+- Single pod per cluster.
+- Named `vmi-system-prometheus-*` in `verrazzano-system` namespace.
+- Discovers exposed metrics source endpoints.
+- Scrapes metrics from metrics sources.
+- Responsible for exposing all metrics.
 
 ## Grafana
 
 Grafana provides visualization for your Prometheus metric data.
 
-- Single pod per cluster
-- Named `vmi-system-grafana-*` in `verrazzano-system` namespace
-- Provides dashboards for metrics visualization
+- Single pod per cluster.
+- Named `vmi-system-grafana-*` in `verrazzano-system` namespace.
+- Provides dashboards for metrics visualization.
 
 To access Grafana:
 
@@ -87,7 +93,10 @@ To access Grafana:
 
 - Get the password for the user `verrazzano`.
    ```
-   $ kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo
+   $ kubectl get secret \
+       --namespace verrazzano-system verrazzano \
+       -o jsonpath={.data.password} | base64 \
+       --decode; echo
    ```
 - Access Grafana in a browser using the previous hostname.
 - Log in using the `verrazzano` user and the previous password.

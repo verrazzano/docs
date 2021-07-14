@@ -16,8 +16,8 @@ to the host.
 
 ## Prerequisites
 
-- Install [Docker](https://docs.docker.com/install/).
-- Install [KIND](https://kind.sigs.k8s.io/docs/user/quick-start/#installation).
+- Install [Docker](https://docs.docker.com/install/)
+- Install [KIND](https://kind.sigs.k8s.io/docs/user/quick-start/#installation)
 
 ## Prepare the KIND cluster
 
@@ -109,7 +109,9 @@ To install MetalLB:
 
 ```shell
 $ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
-$ kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
+$ kubectl create secret generic \
+    -n metallb-system memberlist \
+    --from-literal=secretkey="$(openssl rand -base64 128)"
 $ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml
 ```
 

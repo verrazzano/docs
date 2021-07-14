@@ -62,11 +62,11 @@ by either `defaultVolumeSource` or a specific component's `volumeSource`.
 ## Examples
 Review the following customizing persistent storage examples:
 
-- [Customizing persistence globally using `defaultVolumeSource`](#customizing-persistence-globally-using-defaultvolumesource)
-- [Customizing PersistentVolumeClaim settings for Keycloak using `volumeSource`](#customizing-persistentvolumeclaim-settings-for-keycloak-using-volumesource)
-- [Using global and local persistence settings together](#using-global-and-local-persistence-settings-together)
+- [Customize persistence globally using `defaultVolumeSource`](#customize-persistence-globally-using-defaultvolumesource)
+- [Customize PersistentVolumeClaim settings for Keycloak using `volumeSource`](#customize-persistentvolumeclaim-settings-for-keycloak-using-volumesource)
+- [Use global and local persistence settings together](#use-global-and-local-persistence-settings-together)
 
-### Customizing persistence globally using `defaultVolumeSource`
+### Customize persistence globally using `defaultVolumeSource`
 
 If `defaultVolumeSource` is configured, then that setting will be used for all components that require storage.
 
@@ -118,7 +118,7 @@ spec:
     emptyDir: {}  # Use emphemeral storage for all Components unless overridden
 ```
 
-### Customizing PersistentVolumeClaim settings for Keycloak using `volumeSource`
+### Customize PersistentVolumeClaim settings for Keycloak using `volumeSource`
 
 The following example Verrazzano configuration enables a `100Gi` PersistentVolumeClaim for the MySQL component in Keycloak
 in a `dev` profile configuration.  This overrides the default of ephemeral storage for Keycloak in that profile, while
@@ -146,7 +146,7 @@ spec:
           storage: 100Gi
 ```
 
-### Using global and local persistence settings together
+### Use global and local persistence settings together
 
 The following example uses a `dev` installation profile, but overrides the profile persistence settings to:
 

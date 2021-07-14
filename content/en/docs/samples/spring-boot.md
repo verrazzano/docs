@@ -29,21 +29,29 @@ This example provides a simple web application developed using [Spring Boot](htt
 
 1. Wait for the Spring Boot application to be ready.
    ```
-   $ kubectl wait --for=condition=Ready pods --all -n springboot --timeout=300s
+   $ kubectl wait \
+      --for=condition=Ready pods \
+      --all \
+      -n springboot \
+      --timeout=300s
    ```
 
 ## Explore the application
 
 1. Get the generated host name for the application.
    ```
-   $ HOST=$(kubectl get gateway -n springboot -o jsonpath={.items[0].spec.servers[0].hosts[0]})
+   $ HOST=$(kubectl get gateway \
+        -n springboot \
+        -o jsonpath={.items[0].spec.servers[0].hosts[0]})
    $ echo $HOST
    springboot-appconf.springboot.11.22.33.44.nip.io
    ```
 
 1. Get the `EXTERNAL_IP` address of the `istio-ingressgateway` service.
    ```
-   $ ADDRESS=$(kubectl get service -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+   $ ADDRESS=$(kubectl get service \
+        -n istio-system istio-ingressgateway \
+        -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
    $ echo $ADDRESS
    11.22.33.44
    ```   
@@ -52,8 +60,12 @@ This example provides a simple web application developed using [Spring Boot](htt
 
    * **Using the command line**
      ```
-     $ curl -sk https://${HOST} --resolve ${HOST}:443:${ADDRESS}
-     $ curl -sk https://${HOST}/facts --resolve ${HOST}:443:${ADDRESS}
+     $ curl -sk \
+         https://${HOST} \
+         --resolve ${HOST}:443:${ADDRESS}
+     $ curl -sk \
+         https://${HOST}/facts \
+         --resolve ${HOST}:443:${ADDRESS}
      ```
      If you are using `nip.io`, then you do not need to include `--resolve`.
    * **Local testing with a browser**
@@ -84,7 +96,10 @@ This example provides a simple web application developed using [Spring Boot](htt
 
    * Run this command to get the password that was generated for the telemetry components:
      ```
-     $ kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo
+     $ kubectl get secret \
+        --namespace verrazzano-system verrazzano \
+        -o jsonpath={.data.password} | base64 \
+        --decode; echo
      ```
      The associated user name is `verrazzano`.
 

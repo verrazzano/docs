@@ -152,12 +152,16 @@ When accessed, the application returns the configured text.
 ## Explore the application
 1. Get the host name for the application.
    ```shell
-   $ export HOST=$(kubectl get ingress -n oam-kube oam-kube-ing -o jsonpath='{.spec.rules[0].host}')
+   $ export HOST=$(kubectl get ingress \
+       -n oam-kube oam-kube-ing \
+       -o jsonpath='{.spec.rules[0].host}')
    $ echo "HOST=${HOST}"
    ```
 1. Get the load balancer address of the ingress gateway.
    ```shell
-   $ export LOADBALANCER=$(kubectl get ingress -n oam-kube oam-kube-ing -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+   $ export LOADBALANCER=$(kubectl get ingress \
+       -n oam-kube oam-kube-ing \
+       -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
    $ echo "LOADBALANCER=${LOADBALANCER}"
    ```
 1. Access the application.
