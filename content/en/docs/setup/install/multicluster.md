@@ -75,13 +75,17 @@ Follow these preregistration setup steps:
    $ CA_SECRET_FILE=managed1.yaml
    $ TLS_SECRET=$(kubectl -n verrazzano-system get secret system-tls -o json | jq -r '.data."ca.crt"')
    $ if [ ! -z "${TLS_SECRET%%*( )}" ] && [ "null" != "${TLS_SECRET}" ] ; then \
-      CA_CERT=$(kubectl -n verrazzano-system get secret system-tls -o json | jq -r '.data."ca.crt"' | base64 \
-      --decode); \
+      CA_CERT=$(kubectl \
+           -n verrazzano-system get secret system-tls \
+           -o json | jq -r '.data."ca.crt"' | base64 \
+           --decode); \
      fi
    $ if [ ! -z "${CA_CERT}" ] ; then \
       kubectl create secret generic "ca-secret-managed1" \
-      -n verrazzano-mc --from-literal=cacrt="$CA_CERT" \
-      --dry-run=client -o yaml > ${CA_SECRET_FILE}; \
+         -n verrazzano-mc \
+         --from-literal=cacrt="$CA_CERT" \
+         --dry-run=client \
+         -o yaml > ${CA_SECRET_FILE}; \
      fi
    ```
 
