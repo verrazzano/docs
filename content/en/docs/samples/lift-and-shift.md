@@ -473,16 +473,16 @@ tododomain-adminserver   4/4     Running   0          5m
 
 #### Access the WebLogic Server Administration Console
 
-1. Setup port forwarding
+1. Set up port forwarding.
    ```
    $ kubectl port-forward pods/tododomain-adminserver 7001:7001 -n tododomain
    ```
 
-1. Access the WebLogic Server Administration Console from your browser
+1. Access the WebLogic Server Administration Console from your browser.
    ```
    http://localhost:7001/console
    ```
 
-{{< alert title="NOTE" color="tip" >}}
-It is recommended that the WebLogic Server Administration Console not be exposed publicly.
+{{< alert title="NOTE" color="warning" >}}
+It is recommended that the WebLogic Server Administration Console _not_ be exposed publicly.
 {{< /alert >}}

@@ -373,11 +373,13 @@ If DNS was not configured, then use the alternative commands.
 
 1.  Update the default greeting.
     ```shell script
-    $ curl -sk -X PUT "https://${HOST}/greet/greeting" -H 'Content-Type: application/json' -d '{"greeting" : "Greetings"}'
+    $ curl -sk -X PUT "https://${HOST}/greet/greeting" -H 'Content-Type: application/json' \
+    -d '{"greeting" : "Greetings"}'
     ```
     If DNS has not been configured, then use this command.
     ```shell script
-    $ curl -sk -X PUT "https://${HOST}/greet/greeting" -H 'Content-Type: application/json' -d '{"greeting" : "Greetings"}' --resolve ${HOST}:443:${ADDRESS}
+    $ curl -sk -X PUT "https://${HOST}/greet/greeting" -H 'Content-Type: application/json' \
+    -d '{"greeting" : "Greetings"}' --resolve ${HOST}:443:${ADDRESS}
     ```
 
 1.  Get the new message for Robert.

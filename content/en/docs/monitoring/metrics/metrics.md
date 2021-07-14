@@ -14,7 +14,7 @@ visualize them.
 
 ![Metrics](../../../images/metrics.png)
 
-### Metrics sources
+## Metrics sources
 
 Metrics sources produce metrics and expose them to the Kubernetes Prometheus system using annotations in the pods.
 The metrics annotations may differ slightly depending on the resource type.
@@ -59,19 +59,19 @@ For example, for the previous metric source:
 
 ### Metrics server
 
-- Single pod per cluster
-- Named `vmi-system-prometheus-*` in `verrazzano-system` namespace
-- Discovers exposed metrics source endpoints
-- Scrapes metrics from metrics sources
-- Responsible for exposing all metrics
+- Single pod per cluster.
+- Named `vmi-system-prometheus-*` in `verrazzano-system` namespace.
+- Discovers exposed metrics source endpoints.
+- Scrapes metrics from metrics sources.
+- Responsible for exposing all metrics.
 
 ## Grafana
 
 Grafana provides visualization for your Prometheus metric data.
 
-- Single pod per cluster
-- Named `vmi-system-grafana-*` in `verrazzano-system` namespace
-- Provides dashboards for metrics visualization
+- Single pod per cluster.
+- Named `vmi-system-grafana-*` in `verrazzano-system` namespace.
+- Provides dashboards for metrics visualization.
 
 To access Grafana:
 

@@ -62,9 +62,11 @@ For more information and the source code of this application, see the [Verrazzan
     # Replace the values of the WLS_USERNAME and WLS_PASSWORD environment variables as appropriate.
     $ export WLS_USERNAME=<username>
     $ export WLS_PASSWORD=<password>
-    $ kubectl create secret generic bobbys-front-end-weblogic-credentials --from-literal=password=$WLS_PASSWORD --from-literal=username=$WLS_USERNAME -n bobs-books
+    $ kubectl create secret generic bobbys-front-end-weblogic-credentials \
+    --from-literal=password=$WLS_PASSWORD --from-literal=username=$WLS_USERNAME -n bobs-books
 
-    $ kubectl create secret generic bobs-bookstore-weblogic-credentials --from-literal=password=$WLS_PASSWORD --from-literal=username=$WLS_USERNAME -n bobs-books
+    $ kubectl create secret generic bobs-bookstore-weblogic-credentials \
+    --from-literal=password=$WLS_PASSWORD --from-literal=username=$WLS_USERNAME -n bobs-books
 
     $ kubectl create secret generic mysql-credentials \
         --from-literal=username=$WLS_USERNAME \
@@ -132,7 +134,15 @@ For more information and the source code of this application, see the [Verrazzan
 
       * Bob's order manager UI at `https://<your-bobs-orders-host.your.domain>/`.
 
-## Access bobs-bookstore WebLogic Server Administration Console
+## Access the applications using the WLS Administration Console
+
+Use the WebLogic Server Administration Console to access the applications as follows.
+
+{{< alert title="NOTE" color="warning" >}}
+It is recommended that the WebLogic Server Administration Console _not_ be exposed publicly.
+{{< /alert >}}
+
+### Access bobs-bookstore
 
 1. Set up port forwarding.
    ```
@@ -144,11 +154,7 @@ For more information and the source code of this application, see the [Verrazzan
    http://localhost:7001/console
    ```
 
-{{< alert title="NOTE" color="tip" >}}
-It is recommended that the WebLogic Server Administration Console not be exposed publicly.
-{{< /alert >}}
-
-## Access bobbys-front-end WebLogic Server Administration Console
+### Access bobbys-front-end
 
 1. Set up port forwarding.
    ```
@@ -160,9 +166,6 @@ It is recommended that the WebLogic Server Administration Console not be exposed
    http://localhost:7001/console
    ```
 
-{{< alert title="NOTE" color="tip" >}}
-It is recommended that the WebLogic Server Administration Console not be exposed publicly.
-{{< /alert >}}
 
 ## Troubleshooting
 

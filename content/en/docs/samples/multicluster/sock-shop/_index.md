@@ -18,13 +18,16 @@ listed in the `placement` section.
 
 1. Create a namespace for the Sock Shop application by deploying the Verrazzano project.
    ```
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/sock-shop/verrazzano-project.yaml
+   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+   -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/sock-shop/verrazzano-project.yaml
    ```
 
 1. Apply the Sock Shop OAM resources to deploy the application.
    ```
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/sock-shop/sock-shop-comp.yaml
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/sock-shop/sock-shop-app.yaml
+   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+   -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/sock-shop/sock-shop-comp.yaml
+   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+   -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/sock-shop/sock-shop-app.yaml
    ```
 
 1. Wait for the Sock Shop application to be ready.
@@ -62,7 +65,8 @@ Follow these steps to test the endpoints:
 
 1. Get the `EXTERNAL_IP` address of the `istio-ingressgateway` service.
    ```
-   $ ADDRESS=$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get service -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+   $ ADDRESS=$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get service \
+     -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
    $ echo $ADDRESS
    11.22.33.44
    ```   
@@ -77,10 +81,14 @@ Follow these steps to test the endpoints:
      [{"count":115,"description":"For all those leg lovers out there....", ...}]
 
      # Add a new user (replace values of username and password)
-     $ curl -i --header "Content-Type: application/json" --request POST --data '{"username":"foo","password":"****","email":"foo@example.com","firstName":"foo","lastName":"foo"}' -k https://${HOST}/register --resolve ${HOST}:443:${ADDRESS}
+     $ curl -i --header "Content-Type: application/json" --request POST \
+     --data '{"username":"foo","password":"****","email":"foo@example.com","firstName":"foo","lastName":"foo"}' \
+     -k https://${HOST}/register --resolve ${HOST}:443:${ADDRESS}
 
      # Add an item to the user's cart
-     $ curl -i --header "Content-Type: application/json" --request POST --data '{"itemId": "a0a4f044-b040-410d-8ead-4de0446aec7e","unitPrice": "7.99"}' -k https://${HOST}/carts/{username}/items --resolve ${HOST}:443:${ADDRESS}
+     $ curl -i --header "Content-Type: application/json" --request POST \
+     --data '{"itemId": "a0a4f044-b040-410d-8ead-4de0446aec7e","unitPrice": "7.99"}' \
+     -k https://${HOST}/carts/{username}/items --resolve ${HOST}:443:${ADDRESS}
 
      # Get cart items
      $ curl -i -k https://${HOST}/carts/{username}/items --resolve ${HOST}:443:${ADDRESS}
@@ -134,7 +142,8 @@ the deployed Sock Shop application.  Accessing them may require the following:
 
     - Run this command to get the password that was generated for the telemetry components:
         ```
-        $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo
+        $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl get secret \
+        --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo
         ```
         The associated user name is `verrazzano`.
 

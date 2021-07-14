@@ -18,7 +18,7 @@ draft: false
    $ export KUBECONFIG=<path to valid Kubernetes config>
 ```
 
-* Optional, if your organization requires the use of a private registry to the Docker images installed by Verrazzano, see [Using a Private Registry]({{< relref "/docs/setup/private-registry/private-registry.md" >}}).
+* Optional, if your organization requires the use of a private registry to the Docker images installed by Verrazzano, see [Use a Private Registry]({{< relref "/docs/setup/private-registry/private-registry.md" >}}).
 
 **NOTE**: Verrazzano can create network policies that can be used to limit the ports and protocols that pods use for network communication. Network policies provide additional security but they are enforced only if you install a Kubernetes Container Network Interface (CNI) plug-in that enforces them, such as Calico. For an example on OKE, see [Installing Calico and Setting Up Network Policies](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengsettingupcalico.htm).
 

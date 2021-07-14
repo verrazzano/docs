@@ -6,7 +6,7 @@ weight: 1
 draft: false
 ---
 
-This document describes some common problems you may encounter when using multicluster Verrazzano, and how to troubleshoot them.
+This document describes some common problems you might encounter when using multicluster Verrazzano, and how to troubleshoot them.
 
 If you created multicluster resources in the admin cluster, and specified a `placement` value in a managed cluster,
 then those resources will get created in that managed cluster. If they do not get created in the managed cluster, then

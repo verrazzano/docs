@@ -14,9 +14,9 @@ The following table describes the Verrazzano installation profiles:
 
 | Profile  | Description | Characteristics
 | ------------- |:------------- |:-------------
-| `prod` | Full install, production configuration | Default profile:<br/>- Full installation.<br/>- Persistent storage. <br/>- Production Elasticsearch cluster topology.
-| `dev` | Development or evaluation configuration | Lightweight installation:<br/>- For evaluation purposes.<br/>- No persistence.<br/>- Single-node Elasticsearch cluster topology.
-| `managed-cluster` | A specialized installation for managed clusters in a multicluster topology | Minimal installation for a managed cluster:<br/>- Cluster must be registered with an admin cluster to use [multicluster]({{< relref "/docs/concepts/verrazzanomulticluster" >}}) features.
+| `prod` | Full install, production configuration. | Default profile:<br/>- Full installation.<br/>- Persistent storage. <br/>- Production Elasticsearch cluster topology.
+| `dev` | Development or evaluation configuration. | Lightweight installation:<br/>- For evaluation purposes.<br/>- No persistence.<br/>- Single-node Elasticsearch cluster topology.
+| `managed-cluster` | A specialized installation for managed clusters in a multicluster topology. | Minimal installation for a managed cluster:<br/>- Cluster must be registered with an admin cluster to use [multicluster]({{< relref "/docs/concepts/verrazzanomulticluster" >}}) features.
 
 ## Use an installation profile
 
@@ -117,8 +117,8 @@ all profiles unless overridden):
 
 | Component | Default
 | -------------|-------------
-| DNS |  Wildcard DNS provider [nip.io](https://nip.io)
-| Certificates | Uses the [cert-manager](https://cert-manager.io/) self-signed [ClusterIssuer](https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.ClusterIssuer) for certificates
-| Ingress-type | Defaults to `LoadBalancer` service type for the ingress
+| DNS |  Wildcard DNS provider [nip.io](https://nip.io).
+| Certificates | Uses the [cert-manager](https://cert-manager.io/) self-signed [ClusterIssuer](https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.ClusterIssuer) for certificates.
+| Ingress-type | Defaults to `LoadBalancer` service type for the ingress.
 
 For details on how to customize Verrazzano components, see [Customizing an Installation]({{< relref "/docs/setup/install/customizing" >}}).

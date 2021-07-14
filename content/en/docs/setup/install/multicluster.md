@@ -68,7 +68,7 @@ Follow these preregistration setup steps:
       server: "${ADMIN_K8S_SERVER_ADDRESS}"
     EOF
     ```
-    
+
 1. Obtain the CA certificate used by the managed cluster.  Use the following instructions to write the CA certificate as part of a secret to a file named `managed1.yaml` in the current folder.
    ```
    $ export KUBECONFIG=$KUBECONFIG_MANAGED1
@@ -78,7 +78,9 @@ Follow these preregistration setup steps:
       CA_CERT=$(kubectl -n verrazzano-system get secret system-tls -o json | jq -r '.data."ca.crt"' | base64 --decode); \
      fi
    $ if [ ! -z "${CA_CERT}" ] ; then \
-      kubectl create secret generic "ca-secret-managed1" -n verrazzano-mc --from-literal=cacrt="$CA_CERT" --dry-run=client -o yaml > ${CA_SECRET_FILE}; \
+      kubectl create secret generic "ca-secret-managed1"  \
+      -n verrazzano-mc --from-literal=cacrt="$CA_CERT"  \
+      --dry-run=client -o yaml > ${CA_SECRET_FILE}; \
      fi
    ```
 
@@ -110,7 +112,8 @@ Follow these preregistration setup steps:
    ```
 1. Export the YAML file created to register the managed cluster.
    ```
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl get secret verrazzano-cluster-managed1-manifest -n verrazzano-mc -o jsonpath={.data.yaml} | base64 --decode > register.yaml
+   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl get secret verrazzano-cluster-managed1-manifest  \
+   -n verrazzano-mc -o jsonpath={.data.yaml} | base64 --decode > register.yaml
    ```
 
 1. Apply the registration file on the managed cluster.

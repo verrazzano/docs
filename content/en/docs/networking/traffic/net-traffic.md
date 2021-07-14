@@ -88,7 +88,7 @@ NGINX Ingress Controller.
 ## System traffic
 System traffic includes all traffic that enters and leaves system Pods.
 
-### North-South system traffic
+### North-south system traffic
 North-south traffic includes all system traffic that enters or leaves a Kubernetes cluster.
 
 #### Ingress
@@ -121,7 +121,7 @@ outside the cluster.
 | Verrazzano API Proxy | Keycloak | API proxy on the managed cluster calls Keycloak on the admin cluster.
 | Verrazzano Platform Operator | Kubernetes API server | Multicluster agent on the managed cluster calls API server on the admin cluster.
 
-### East-West system traffic
+### East-west system traffic
 The following tables show Verrazzano system components that send traffic to a destination
 inside the cluster, with the following exceptions:
 - Usage of CoreDNS: It can be assumed that any Pod in the cluster can access CoreDNS for name resolution.
@@ -190,10 +190,10 @@ The following components use webhooks:
 - Verrazzano Application Operator
 - Verrazzano Platform Operator
 
-## Application Traffic
+## Application traffic
 Application traffic includes all traffic to and from Verrazzano applications.
 
-### North-South application traffic
+### North-south application traffic
 After Verrazzano is installed, you can deploy applications into the Istio mesh.  When doing so, you will
 likely need ingress into the application.  As previously mentioned, this can be done with
 Istio using the Gateway and VirtualService resources.  Verrazzano will create those resources
@@ -263,7 +263,7 @@ items:
             number: 8080
 ```
 
-### East-West application traffic
+### East-west application traffic
 To manage east-west traffic, each service in the mesh should be routed using a VirtualService and an optional
 DestinationRule.  You can still send east-west traffic without either of these resources, but you won’t get any custom
 routing or load balancing.  Verrazzano doesn't configure east-west traffic.  Consider `bobbys-front-end` in the Bob's Books example at

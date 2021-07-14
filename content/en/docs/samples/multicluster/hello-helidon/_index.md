@@ -14,15 +14,18 @@ Create a multicluster Verrazzano installation with one admin and one managed clu
 
 Apply the VerrazzanoProject resource on the admin cluster that defines the namespace for the application.  The namespaces defined in the VerrazzanoProject resource will be created on the admin cluster and all the managed clusters.
    ```shell
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/verrazzano-project.yaml
+   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+   -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/verrazzano-project.yaml
    ```
 
 ## Deploy the Hello World Helidon application
 
 1. Apply the `hello-helidon` multicluster resources to deploy the application.  Each multicluster resource is an envelope that contains an OAM resource and a list of clusters to which to deploy.
    ```shell
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/mc-hello-helidon-comp.yaml
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml
+   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+   -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/mc-hello-helidon-comp.yaml
+   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+   -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml
    ```
 
 1. Wait for the application to be ready on the managed cluster.
@@ -62,8 +65,10 @@ By default, the application is located on the managed cluster called `managed1`.
 
 1. To change their placement, patch the `hello-helidon` multicluster resources.
    ```shell
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl patch mcappconf hello-helidon-appconf -n hello-helidon --type merge --patch "$(cat $CHANGE_PLACEMENT_PATCH_FILE)"
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl patch mccomp hello-helidon-component -n hello-helidon --type merge --patch "$(cat $CHANGE_PLACEMENT_PATCH_FILE)"
+   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl patch mcappconf hello-helidon-appconf \
+   -n hello-helidon --type merge --patch "$(cat $CHANGE_PLACEMENT_PATCH_FILE)"
+   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl patch mccomp hello-helidon-component \
+   -n hello-helidon --type merge --patch "$(cat $CHANGE_PLACEMENT_PATCH_FILE)"
    ```
 1. To verify that their placement has changed, view the multicluster resources.
    ```shell
@@ -103,9 +108,12 @@ delete the multicluster resources and the project from the admin cluster:
 
 ```shell
 # Delete the multicluster application configuration
-$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml
+$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl delete \
+-f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml
 # Delete the multicluster components for the application
-$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/mc-hello-helidon-comp.yaml
+$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl delete \
+-f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/mc-hello-helidon-comp.yaml
 # Delete the project
-$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/verrazzano-project.yaml
+$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl delete \
+-f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/hello-helidon/verrazzano-project.yaml
 ```

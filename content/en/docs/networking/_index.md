@@ -16,7 +16,7 @@ configures networking to provide network security and traffic management.  Netwo
 settings are configured both at installation and during runtime as applications as are
 deployed into the Kubernetes cluster.
 
-## High-Level overview
+## High-level overview
 The following diagram shows the high-level overview of Verrazzano networking
 using ExternalDNS and Let's Encrypt for certificates. ExternalDNS and cert-manager
 both run outside the mesh and connect to external services using TLS.  This diagram
@@ -35,7 +35,7 @@ to one of several applications using mTLS.
 will send traffic to them using plaintext.  You need to do some additional configuration to
 enable TLS passthrough, as described at [Istio Gateway Passthrough](https://istio.io/latest/docs/tasks/traffic-management/ingress/ingress-sni-passthrough/).
 
-### High-Level network diagram
+### High-level network diagram
 
 ![](../images/networking/network-high-level.png)
 
