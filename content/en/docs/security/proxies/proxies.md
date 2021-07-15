@@ -1,6 +1,6 @@
 ---
 title: "Verrazzano Proxies"
-description: ""
+description: "Learn about the Verrazzano API and OIDC proxies"
 weight: 7
 draft: true
 ---

@@ -1,6 +1,6 @@
 ---
 title: "Kubernetes RBAC"
-description: ""
+description: "Learn about Role-Based Access Control (RBAC)"
 weight: 2
 draft: true
 ---
@@ -15,9 +15,7 @@ Verrazzano creates default role bindings at install time and, for projects, at p
 Kubernetes RBAC must be enabled in every cluster Verrazzano is deployed to, or access control will not work. RBAC is enabled by default in most Kubernetes environments.
 {{< /alert >}}
 
-## User Roles
-
-### Verrazzano User Roles
+## Verrazzano User Roles
 
 The following table lists the defined Verrazzano user roles. Each is a `ClusterRole` intended to be granted directly to users or groups. (In some scenarios, it may be appropriate to grant a user roles to a service account.)
 
@@ -61,6 +59,23 @@ Verrazzano creates role bindings for system users at install time. The default r
 | verrazzano-admin | group: verrazzano-admins |
 | verrazzano-monitor | group: verrazzano-monitors |
 
+### Default Project Role Bindings
+
+Verrazzano creates role bindings for system users at install time. The default role bindings are listed below.
+
+| Role | Default Binding Subject |
+| ---- | ----------------------- |
+| verrazzano-project-admin | group: verrazzano-project-_<proj_name>_-admins |
+| verrazzano-project-monitor | group: verrazzano-project-_<proj_name>_-monitors |
+
+{{< alert title="NOTE" color="warning" >}}
+The role bindings for project roles are created automatically, but the project-specific groups that they refer to are not automatically created. You must create those groups using the Keycloak console or API, or specify different binding subjects for the project.
+{{< /alert >}}
+
+## Override Default Role Bindings
+
+You can override the default role bindings that are created for system and project roles.
+
 ### Override System Role Bindings
 
 To override the set of subjects that are bound to Verrazzano (and Kubernetes) roles at install time, add the Subjects to the Verrazzano CR you use to install Verrazzano, as shown in the example below:
@@ -83,19 +98,6 @@ spec:
 ```
 
 You can specify multiple subjects for both admin and monitor roles. You can also specify subject(s) for one role, but not the other. The default binding subjects will be used if no subjects are specified for a role.
-
-### Default Project Role Bindings
-
-Verrazzano creates role bindings for system users at install time. The default role bindings are listed below.
-
-| Role | Default Binding Subject |
-| ---- | ----------------------- |
-| verrazzano-project-admin | group: verrazzano-project-_<proj_name>_-admins |
-| verrazzano-project-monitor | group: verrazzano-project-_<proj_name>_-monitors |
-
-{{< alert title="NOTE" color="warning" >}}
-The role bindings for project roles are created automatically, but the project-specific groups that they refer to are not automatically created. You must create those groups using the Keycloak console or API, or specify different binding subjects for the project.
-{{< /alert >}}
 
 ### Override Project Role Bindings
 
