@@ -2,22 +2,22 @@
 title: "Kubernetes RBAC"
 description: "Learn about Role-Based Access Control (RBAC)"
 weight: 2
-draft: true
+draft: false
 ---
 
-Verrazzano uses Kubernetes role-based access control (RBAC) to protect Verrazzano resources.
+Verrazzano uses Kubernetes RBAC to protect Verrazzano resources.
 
 Verrazzano includes a set of roles that can be granted to users, enabling access to Verrazzano resources managed by Kubernetes. In addition, Verrazzano creates a number of roles that grant permissions needed by various Verrazzano system components (operators and third-party components).
 
-Verrazzano creates default role bindings during installation and, for projects, at project creation or update.
+Verrazzano creates default role bindings during installation and for projects, at project creation or update.
 
 {{< alert title="NOTE" color="warning" >}}
-Kubernetes RBAC must be enabled in every cluster Verrazzano is deployed to, or access control will not work. RBAC is enabled by default in most Kubernetes environments.
+Kubernetes RBAC must be enabled in every cluster to which Verrazzano is deployed or access control will not work. RBAC is enabled by default in most Kubernetes environments.
 {{< /alert >}}
 
 ## Verrazzano user roles
 
-The following table lists the defined Verrazzano user roles. Each is a `ClusterRole` intended to be granted directly to users or groups. (In some scenarios, it may be appropriate to grant a user role to a service account.)
+The following table lists the defined Verrazzano user roles. Each is a ClusterRole intended to be granted directly to users or groups. (In some scenarios, it may be appropriate to grant a user role to a service account.)
 
 | Verrazzano Role | Binding Scope | Description |
 | --------------- | ------------- | ----------- |
@@ -26,7 +26,7 @@ The following table lists the defined Verrazzano user roles. Each is a `ClusterR
 | verrazzano-project-admin | Namespace | Deploy/manage applications. |
 | verrazzano-project-monitor | Namespace | View/monitor applications. |
 
-### Kubernetes user roles
+## Kubernetes user roles
 
 Verrazzano roles do not include permissions for Kubernetes itself. Instead, it relies on the default user roles provided by Kubernetes. This allows Verrazzano to easily grant the Kubernetes access appropriate to a Verrazzano role, without having to maintain a long list of fine-grained Kubernetes permissions in the Verrazzano roles.
 
@@ -52,7 +52,7 @@ The default bindings can be overridden by specifying one or more Kubernetes Subj
 
 ### Default system role bindings
 
-Verrazzano creates role bindings for system users at install time. The default role bindings are listed below.
+Verrazzano creates role bindings for system users during installation. The default role bindings are listed below.
 
 | Role | Default Binding Subject |
 | ---- | ----------------------- |
@@ -61,7 +61,7 @@ Verrazzano creates role bindings for system users at install time. The default r
 
 ### Default project role bindings
 
-Verrazzano creates role bindings for system users at install time. The default role bindings are listed below.
+Verrazzano creates role bindings for system users during installation. The default role bindings are listed below.
 
 | Role | Default Binding Subject |
 | ---- | ----------------------- |
@@ -78,7 +78,7 @@ You can override the default role bindings that are created for system and proje
 
 ### Override system role bindings
 
-To override the set of subjects that are bound to Verrazzano (and Kubernetes) roles at install time, add the Subjects to the Verrazzano CR you use to install Verrazzano, as shown in the following example:
+To override the set of subjects that are bound to Verrazzano (and Kubernetes) roles during installation, add the Subjects to the Verrazzano CR you use to install Verrazzano, as shown in the following example:
 
 ```
 apiVersion: install.verrazzano.io/v1alpha1
@@ -97,7 +97,7 @@ spec:
   ...
 ```
 
-You can specify multiple subjects for both admin and monitor roles. You can also specify subject(s) for one role, but not the other. If no subjects are specified for a role, then the default binding subjects will be used.
+You can specify multiple subjects for both admin and monitor roles. You can also specify a subject or subjects for one role, but not the other. If no subjects are specified for a role, then the default binding subjects will be used.
 
 ### Override project role bindings
 
@@ -122,4 +122,4 @@ spec:
   ...
 ```
 
-As with the system role bindings, you can specify multiple subjects for both project-admin and project-monitor roles. You can also specify subject(s) for one role, but not the other. If no subjects are specified for a role, then the default binding subjects will be used.
+As with the system role bindings, you can specify multiple subjects for both project-admin and project-monitor roles. You can also specify a subject or subjects for one role, but not the other. If no subjects are specified for a role, then the default binding subjects will be used.
