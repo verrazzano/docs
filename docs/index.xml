@@ -1654,6 +1654,188 @@ all profiles unless overridden).&lt;/p&gt;
     </item>
     
     <item>
+      <title>Docs: Kubernetes RBAC</title>
+      <link>https://verrazzano.io/docs/security/rbac/rbac/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/security/rbac/rbac/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano uses Kubernetes RBAC to protect Verrazzano resources.&lt;/p&gt;
+&lt;p&gt;Verrazzano includes a set of roles that can be granted to users, enabling access to Verrazzano resources managed by Kubernetes. In addition, Verrazzano creates a number of roles that grant permissions needed by various Verrazzano system components (operators and third-party components).&lt;/p&gt;
+&lt;p&gt;Verrazzano creates default role bindings during installation and for projects, at project creation or update.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+Kubernetes RBAC must be enabled in every cluster to which Verrazzano is deployed or access control will not work. RBAC is enabled by default in most Kubernetes environments.
+&lt;/div&gt;
+
+&lt;h2 id=&#34;verrazzano-user-roles&#34;&gt;Verrazzano user roles&lt;/h2&gt;
+&lt;p&gt;The following table lists the defined Verrazzano user roles. Each is a ClusterRole intended to be granted directly to users or groups. (In some scenarios, it may be appropriate to grant a user role to a service account.)&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Verrazzano Role&lt;/th&gt;
+&lt;th&gt;Binding Scope&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;verrazzano-admin&lt;/td&gt;
+&lt;td&gt;Cluster&lt;/td&gt;
+&lt;td&gt;Manage Verrazzano system components, clusters, and projects. Install/update Verrazzano.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;verrazzano-monitor&lt;/td&gt;
+&lt;td&gt;Cluster&lt;/td&gt;
+&lt;td&gt;View/monitor Verrazzano system components, clusters, and projects.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;verrazzano-project-admin&lt;/td&gt;
+&lt;td&gt;Namespace&lt;/td&gt;
+&lt;td&gt;Deploy/manage applications.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;verrazzano-project-monitor&lt;/td&gt;
+&lt;td&gt;Namespace&lt;/td&gt;
+&lt;td&gt;View/monitor applications.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;kubernetes-user-roles&#34;&gt;Kubernetes user roles&lt;/h2&gt;
+&lt;p&gt;Verrazzano roles do not include permissions for Kubernetes itself. Instead, it relies on the default user roles provided by Kubernetes. This allows Verrazzano to easily grant the Kubernetes access appropriate to a Verrazzano role, without having to maintain a long list of fine-grained Kubernetes permissions in the Verrazzano roles.&lt;/p&gt;
+&lt;p&gt;The following table shows the default Kubernetes roles that are granted by default for each Verrazzano role.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Verrazzano Role&lt;/th&gt;
+&lt;th&gt;Kubernetes Role&lt;/th&gt;
+&lt;th&gt;Binding Scope&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;verrazzano-admin&lt;/td&gt;
+&lt;td&gt;admin&lt;/td&gt;
+&lt;td&gt;Cluster&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;verrazzano-monitor&lt;/td&gt;
+&lt;td&gt;view&lt;/td&gt;
+&lt;td&gt;Cluster&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;verrazzano-project-admin&lt;/td&gt;
+&lt;td&gt;admin&lt;/td&gt;
+&lt;td&gt;Namespace&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;verrazzano-project-monitor&lt;/td&gt;
+&lt;td&gt;view&lt;/td&gt;
+&lt;td&gt;Namespace&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;default-role-bindings&#34;&gt;Default role bindings&lt;/h2&gt;
+&lt;p&gt;Verrazzano creates role bindings for the system and for projects, binding Verrazzano ClusterRoles to one or more Kubernetes Subjects. By default, each role is bound to a Keycloak group, so all Keycloak users who are members of that group will be granted the role.&lt;/p&gt;
+&lt;p&gt;Also, Verrazzano creates role bindings for the corresponding Kubernetes user roles. The Kubernetes role appropriate for a given Verrazzano role is bound to the same set of Subjects as the corresponding Verrazzano role.&lt;/p&gt;
+&lt;p&gt;The default bindings can be overridden by specifying one or more Kubernetes Subjects to which the role should be bound. Any valid Subject can be specified (user, group, or service account), but two caveats should be kept in mind:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;It&amp;rsquo;s generally better to grant a role to a group, rather than a specific user, so that roles can be granted (or withdrawn) by editing a user&amp;rsquo;s group memberships, rather than deleting a role binding and creating a new one.&lt;/li&gt;
+&lt;li&gt;If you do want to grant a role directly to a specific user, the user must be specified using its unique ID, not its user name. This is because the API proxy impersonates the &amp;ldquo;sub&amp;rdquo; (subject) field from the user&amp;rsquo;s token, which contains the ID. Keycloak user IDs are guaranteed to be unique, unlike user names.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;default-system-role-bindings&#34;&gt;Default system role bindings&lt;/h3&gt;
+&lt;p&gt;Verrazzano creates role bindings for system users during installation. The default role bindings are listed below.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Role&lt;/th&gt;
+&lt;th&gt;Default Binding Subject&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;verrazzano-admin&lt;/td&gt;
+&lt;td&gt;group: verrazzano-admins&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;verrazzano-monitor&lt;/td&gt;
+&lt;td&gt;group: verrazzano-monitors&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;default-project-role-bindings&#34;&gt;Default project role bindings&lt;/h3&gt;
+&lt;p&gt;Verrazzano creates role bindings for system users during installation. The default role bindings are listed below.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Role&lt;/th&gt;
+&lt;th&gt;Default Binding Subject&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;verrazzano-project-admin&lt;/td&gt;
+&lt;td&gt;group: verrazzano-project-&lt;em&gt;&amp;lt;proj_name&amp;gt;&lt;/em&gt;-admins&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;verrazzano-project-monitor&lt;/td&gt;
+&lt;td&gt;group: verrazzano-project-&lt;em&gt;&amp;lt;proj_name&amp;gt;&lt;/em&gt;-monitors&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+The role bindings for project roles are created automatically, but the project-specific groups that they refer to are not automatically created. You must create those groups using the Keycloak console or API, or specify different binding subjects for the project.
+&lt;/div&gt;
+
+&lt;h2 id=&#34;override-default-role-bindings&#34;&gt;Override default role bindings&lt;/h2&gt;
+&lt;p&gt;You can override the default role bindings that are created for system and project roles.&lt;/p&gt;
+&lt;h3 id=&#34;override-system-role-bindings&#34;&gt;Override system role bindings&lt;/h3&gt;
+&lt;p&gt;To override the set of subjects that are bound to Verrazzano (and Kubernetes) roles during installation, add the Subjects to the Verrazzano CR you use to install Verrazzano, as shown in the following example:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: my-verrazzano
+spec:
+  ...
+  security:
+    adminSubjects:
+    - name: admin-group
+      kind: Group
+    monitorSubjects:
+    - name: view-group
+      kind: Group
+  ...
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;You can specify multiple subjects for both admin and monitor roles. You can also specify a subject or subjects for one role, but not the other. If no subjects are specified for a role, then the default binding subjects will be used.&lt;/p&gt;
+&lt;h3 id=&#34;override-project-role-bindings&#34;&gt;Override project role bindings&lt;/h3&gt;
+&lt;p&gt;To override the set of subjects that are bound to Verrazzano (and Kubernetes) roles for a project, add the Subjects to the VerrazzanoProject CR for the project, as shown in the example below.&lt;/p&gt;
+&lt;p&gt;Note that the generated role bindings will be updated if you update the VerrazzanoProject CR and change the subjects specified for either role.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: clusters.verrazzano.io/v1alpha1
+kind: VerrazzanoProject
+metadata:
+  name: my-project
+spec:
+  ...
+  security:
+    projectAdminSubjects:
+    - name: my-project-admin-group
+      kind: Group
+    projectMonitorSubjects:
+    - name: my-project-view-group
+      kind: Group
+  ...
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;As with the system role bindings, you can specify multiple subjects for both project-admin and project-monitor roles. You can also specify a subject or subjects for one role, but not the other. If no subjects are specified for a role, then the default binding subjects will be used.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Lift-and-Shift Guide</title>
       <link>https://verrazzano.io/docs/samples/lift-and-shift/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -5460,7 +5642,7 @@ items:
       mode: STRICT
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;tls&#34;&gt;TLS&lt;/h2&gt;
 &lt;p&gt;TLS is used by external clients to access the cluster, both through the NGINX Ingress Controller and the Istio ingress gateway.
-The certificate used by these TLS connections vary; see Verrazzano security for details.
+The certificate used by these TLS connections vary; see &lt;a href=&#34;../docs/security/&#34;&gt;Verrazzano security&lt;/a&gt; for details.
 All TLS connections are terminated at the ingress proxy. Traffic between the two proxies and the internal cluster Pods
 always uses mTLS, because those Pods are all in the Istio mesh.&lt;/p&gt;
 &lt;h2 id=&#34;istio-mesh&#34;&gt;Istio mesh&lt;/h2&gt;
@@ -6619,6 +6801,24 @@ file that must be applied on the managed cluster to complete the registration pr
     </item>
     
     <item>
+      <title>Docs: Keycloak and SSO</title>
+      <link>https://verrazzano.io/docs/security/keycloak/keycloak/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/security/keycloak/keycloak/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano can be deployed to a number of different hosted and on-premises Kubernetes environemts. Particularly in hosted environments, it may not be possible to choose the authentication providers configured for the Kubernetes API server, and Verrazzano may have no ability to view, manage, or authenticate users.&lt;/p&gt;
+&lt;p&gt;Verrazzano installs Keycloak to provide a common user store across all Kubernetes environents. The Verrazzano admin user can create and manage user accounts in Keycloak, and Verrazzano can authenticate and authorize Keycloak users.&lt;/p&gt;
+&lt;p&gt;Also, you can configure Keycloak to delegate authentication to an external user store, such as Active Directory or an LDAP server.&lt;/p&gt;
+&lt;p&gt;Because Keycloak is not configured as an authentication provider for the Kubernetes API, authenticating Keycloak users to Kubernetes requires the use of a proxy that impersonates Keycloak users when making Kubernetes API requests. For more information about the Verrazzano API proxy, see &lt;a href=&#34;../docs/security/proxies/proxies/&#34;&gt;Verrazzano Proxies&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Keycloak is also used when authenticating to the Verrazzano console and the various Verrazzano Monitoring Instance (VMI) logging and metrics consoles. The Verrazzano console uses the OpenID Connect (OIDC) PKCE flow to authenticate users against Keycloak and obtain ID and access tokens. Authentication for VMI consoles is provided by the Verrazzano OIDC proxy, which also uses PKCE to authenticate users, validates the resulting tokens, and authorizes incoming requests. For more information about the Verrazzano OIDC proxy, see &lt;a href=&#34;../docs/security/proxies/proxies/&#34;&gt;Verrazzano Proxies&lt;/a&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: OCI Container Engine for Kubernetes (OKE)</title>
       <link>https://verrazzano.io/docs/setup/platforms/oci/oci/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -7282,1046 +7482,6 @@ mysql-5c75c8b7f-vlhck    1/1     Running   0          19h
 tododomain-adminserver   2/2     Running   0          19h
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ol&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Docs: Bob&#39;s Books</title>
-      <link>https://verrazzano.io/docs/samples/bobs-books/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://verrazzano.io/docs/samples/bobs-books/</guid>
-      <description>
-        
-        
-        &lt;h2 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Install Verrazzano by following the &lt;a href=&#34;../docs/setup/install/installation/&#34;&gt;installation&lt;/a&gt; instructions.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;To download the example image, you must first accept the license agreement.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;In a browser, navigate to &lt;a href=&#34;https://container-registry.oracle.com/&#34;&gt;https://container-registry.oracle.com/&lt;/a&gt; and sign in.&lt;/li&gt;
-&lt;li&gt;Search for &lt;code&gt;example-bobbys-coherence&lt;/code&gt;, &lt;code&gt;example-bobbys-front-end&lt;/code&gt;, &lt;code&gt;example-bobs-books-order-manager&lt;/code&gt;, and &lt;code&gt;example-roberts-coherence&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;For each, select the image name in the results, click Continue, then read and accept the license agreement.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The Bob&amp;rsquo;s Books example application deployment files are contained in the Verrazzano project located at
-&lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/bobs-books&lt;/code&gt;, where &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;
-&lt;p&gt;Bob&amp;rsquo;s Books consists of three main parts:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;A back-end &amp;ldquo;order processing&amp;rdquo; application, which is a Java EE
-application with REST services and a very simple JSP UI, which
-stores data in a MySQL database.  This application runs on WebLogic
-Server.&lt;/li&gt;
-&lt;li&gt;A front-end web store &amp;ldquo;Robert&amp;rsquo;s Books&amp;rdquo;, which is a general book
-seller.  This is implemented as a Helidon microservice, which
-gets book data from Coherence, uses a Coherence cache store to persist
-data for the order manager, and has a React web UI.&lt;/li&gt;
-&lt;li&gt;A front-end web store &amp;ldquo;Bobby&amp;rsquo;s Books&amp;rdquo;, which is a specialty
-children&amp;rsquo;s book store.  This is implemented as a Helidon
-microservice, which gets book data from a (different) Coherence cache store,
-interfaces directly with the order manager,
-and has a JSF web UI running on WebLogic Server.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;For more information and the source code of this application, see the &lt;a href=&#34;https://github.com/verrazzano/examples&#34;&gt;Verrazzano Examples&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;deploy-the-example-application&#34;&gt;Deploy the example application&lt;/h2&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Create a namespace for the example and add a label identifying the namespace as managed by Verrazzano.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl create namespace bobs-books
-$ kubectl label namespace bobs-books verrazzano-managed=true istio-injection=enabled
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Create a &lt;code&gt;docker-registry&lt;/code&gt; secret to enable pulling the example image from the registry.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl create secret docker-registry bobs-books-repo-credentials \
-        --docker-server=container-registry.oracle.com \
-        --docker-username=YOUR_REGISTRY_USERNAME \
-        --docker-password=YOUR_REGISTRY_PASSWORD \
-        --docker-email=YOUR_REGISTRY_EMAIL \
-        -n bobs-books
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Replace &lt;code&gt;YOUR_REGISTRY_USERNAME&lt;/code&gt;, &lt;code&gt;YOUR_REGISTRY_PASSWORD&lt;/code&gt;, and &lt;code&gt;YOUR_REGISTRY_EMAIL&lt;/code&gt;
-with the values you use to access the registry.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Create secrets for the WebLogic domains:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;# Replace the values of the WLS_USERNAME and WLS_PASSWORD environment variables as appropriate.
-$ export WLS_USERNAME=&amp;lt;username&amp;gt;
-$ export WLS_PASSWORD=&amp;lt;password&amp;gt;
-$ kubectl create secret generic bobbys-front-end-weblogic-credentials \
-    --from-literal=password=$WLS_PASSWORD \
-    --from-literal=username=$WLS_USERNAME \
-    -n bobs-books
-
-$ kubectl create secret generic bobs-bookstore-weblogic-credentials \
-    --from-literal=password=$WLS_PASSWORD \
-    --from-literal=username=$WLS_USERNAME \
-    -n bobs-books
-
-$ kubectl create secret generic mysql-credentials \
-    --from-literal=username=$WLS_USERNAME \
-    --from-literal=password=$WLS_PASSWORD \
-    --from-literal=url=jdbc:mysql://mysql.bobs-books.svc.cluster.local:3306/books \
-    -n bobs-books
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that the example application is preconfigured to use specific secret names.
-For the source code of this application, see the &lt;a href=&#34;https://github.com/verrazzano/examples&#34;&gt;Verrazzano Examples&lt;/a&gt;.
-If you want to use secret names that are different from what is specified in the source code, you will need to update the corresponding YAML file and rebuild the Docker images for the example application.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;To deploy the application, apply the example resources.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/bobs-books/bobs-books-comp.yaml
-$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/bobs-books/bobs-books-app.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Wait for all of the pods in the Bob&amp;rsquo;s Books example application to be ready.
-You may need to repeat this command several times before it is successful.
-The WebLogic Server and Coherence pods may take a while to be created and &lt;code&gt;Ready&lt;/code&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl wait \
-    --for=condition=Ready pods \
-    --all -n bobs-books \
-    --timeout=600s
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Get the &lt;code&gt;EXTERNAL_IP&lt;/code&gt; address of the &lt;code&gt;istio-ingressgateway&lt;/code&gt; service.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get service \
-    -n &amp;quot;istio-system&amp;quot; &amp;quot;istio-ingressgateway&amp;quot; \
-    -o jsonpath={.status.loadBalancer.ingress[0].ip}
-
-11.22.33.44
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Get the generated host name for the application.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get gateway bobs-books-bobs-books-gw \
-    -n bobs-books \
-    -o jsonpath={.spec.servers[0].hosts[0]}
-bobs-books.bobs-books.11.22.33.44.nip.io
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Access the application. To access the application in a browser, you will need to do one of the following:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Option 1:&lt;/strong&gt; If you are using &lt;code&gt;nip.io&lt;/code&gt;, then you can access the application using the generated host name. For example:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Robert&amp;rsquo;s Books UI at &lt;code&gt;https://bobs-books.bobs-books.11.22.33.44.nip.io/&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Bobby&amp;rsquo;s Books UI at &lt;code&gt;https://bobs-books.bobs-books.11.22.33.44.nip.io/bobbys-front-end/&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Bob&amp;rsquo;s order manager  UI at &lt;code&gt;https://bobs-books.bobs-books.11.22.33.44.nip.io/bobs-bookstore-order-manager/orders&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Option 2:&lt;/strong&gt; Temporarily, modify the &lt;code&gt;/etc/hosts&lt;/code&gt; file (on Mac or Linux) or &lt;code&gt;c:\Windows\System32\Drivers\etc\hosts&lt;/code&gt; file (on Windows 10), to add an entry mapping the host used by the application to the external IP address assigned to your gateway. For example:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;11.22.33.44 bobs-books.example.com
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then, you can use a browser to access the application, as shown:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Robert&amp;rsquo;s Books UI at &lt;code&gt;https://bobs-books.example.com/&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Bobby&amp;rsquo;s Books UI at &lt;code&gt;https://bobs-books.example.com/bobbys-front-end/&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Bob&amp;rsquo;s order manager  UI at &lt;code&gt;https://bobs-books.example.com/bobs-bookstore-order-manager/orders&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Option 3:&lt;/strong&gt; Alternatively, point your own DNS name to the load balancer&amp;rsquo;s external IP address. In this case, you would need to have edited the &lt;code&gt;bobs-books-app.yaml&lt;/code&gt; file to use the appropriate values under the &lt;code&gt;hosts&lt;/code&gt; section for the application (such as &lt;code&gt;your-roberts-books-host.your.domain&lt;/code&gt;), before deploying the application.
-Then, you can use a browser to access the application, as shown:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Robert&amp;rsquo;s Books UI at &lt;code&gt;https://&amp;lt;your-roberts-books-host.your.domain&amp;gt;/&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Bobby&amp;rsquo;s Books UI at &lt;code&gt;https://&amp;lt;your-bobbys-books-host.your.domain&amp;gt;/bobbys-front-end/&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Bob&amp;rsquo;s order manager UI at &lt;code&gt;https://&amp;lt;your-bobs-orders-host.your.domain&amp;gt;/&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;access-the-applications-using-the-wls-administration-console&#34;&gt;Access the applications using the WLS Administration Console&lt;/h2&gt;
-&lt;p&gt;Use the WebLogic Server Administration Console to access the applications as follows.&lt;/p&gt;
-
-
-&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
-&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
-It is recommended that the WebLogic Server Administration Console &lt;em&gt;not&lt;/em&gt; be exposed publicly.
-&lt;/div&gt;
-
-&lt;h3 id=&#34;access-bobs-bookstore&#34;&gt;Access bobs-bookstore&lt;/h3&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Set up port forwarding.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl port-forward pods/bobs-bookstore-adminserver 7001:7001 -n bobs-books
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Access the WebLogic Server Administration Console from your browser.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;http://localhost:7001/console
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&#34;access-bobbys-front-end&#34;&gt;Access bobbys-front-end&lt;/h3&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Set up port forwarding.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl port-forward pods/bobbys-front-end-adminserver 7001:7001 -n bobs-books
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Access the WebLogic Server Administration Console from your browser.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;http://localhost:7001/console
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h2&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Verify that the application configuration, domains, Coherence resources, and ingress trait all exist.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get ApplicationConfiguration -n bobs-books
-$ kubectl get Domain -n bobs-books
-$ kubectl get Coherence -n bobs-books
-$ kubectl get IngressTrait -n bobs-books
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Verify that the service pods are successfully created and transition to the &lt;code&gt;READY&lt;/code&gt; state.
-Note that this may take a few minutes and that you may see some of the services terminate and restart.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get pods -n bobs-books
-
-NAME                                                READY   STATUS    RESTARTS   AGE
-bobbys-helidon-stock-application-868b5965c8-dk2xb   3/3     Running   0          19h
-bobbys-coherence-0                                  2/2     Running   0          19h
-bobbys-front-end-adminserver                        3/3     Running   0          19h
-bobbys-front-end-managed-server1                    3/3     Running   0          19h
-bobs-bookstore-adminserver                          3/3     Running   0          19h
-bobs-bookstore-managed-server1                      3/3     Running   0          19h
-mysql-669665fb54-9m8wq                              2/2     Running   0          19h
-robert-helidon-96997fcd5-kzjkf                      3/3     Running   0          19h
-robert-helidon-96997fcd5-nlswm                      3/3     Running   0          19h
-roberts-coherence-0                                 2/2     Running   0          17h
-roberts-coherence-1                                 2/2     Running   0          17h
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Docs: Oracle Linux Cloud Native Environment (OLCNE)</title>
-      <link>https://verrazzano.io/docs/setup/platforms/olcne/olcne/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://verrazzano.io/docs/setup/platforms/olcne/olcne/</guid>
-      <description>
-        
-        
-        &lt;h2 id=&#34;prepare-for-the-oclne-install&#34;&gt;Prepare for the OCLNE install&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/&#34;&gt;Oracle Linux Cloud Native Environment&lt;/a&gt; can be installed in several different types of environments.
-These range from physical, on-premises hardware to virtualized cloud infrastructure.
-The Oracle Linux Cloud Native Environment installation instructions assume that networking and compute resources already exist.
-The basic infrastructure requirements are a network with a public and private subnet
-and a set of hosts connected to those networks.&lt;/p&gt;
-&lt;h3 id=&#34;oci-example&#34;&gt;OCI example&lt;/h3&gt;
-&lt;p&gt;The following is an example of OCI infrastructure that can be used to evaluate Verrazzano installed on Oracle Linux Cloud Native Environment.
-If other environments are used, the capacity and configuration should be similar.&lt;/p&gt;
-&lt;p&gt;You can use the VCN Wizard of the OCI Console to automatically create most of the described network infrastructure.
-Additional security lists/rules, as detailed below, need to be added manually.
-All CIDR values provided are examples and can be customized as required.&lt;/p&gt;
-&lt;h3 id=&#34;virtual-cloud-network-for-example-cidr-1000016&#34;&gt;Virtual Cloud Network (for example, CIDR 10.0.0.0/16)&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;Public Subnet (for example, CIDR 10.0.0.0/24)&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Security List / Ingress Rules&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Stateless&lt;/th&gt;
-&lt;th&gt;Destination&lt;/th&gt;
-&lt;th&gt;Protocol&lt;/th&gt;
-&lt;th&gt;Source Ports&lt;/th&gt;
-&lt;th&gt;Destination Ports&lt;/th&gt;
-&lt;th&gt;Type &amp;amp; Code&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;ICMP&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;3, 4&lt;/td&gt;
-&lt;td&gt;ICMP errors&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.0.0/16&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;ICMP&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;3&lt;/td&gt;
-&lt;td&gt;ICMP errors&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;22&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;SSH&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;80&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;HTTP load balancer&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;443&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;HTTPS load balancer&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;Security List / Egress Rules&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Stateless&lt;/th&gt;
-&lt;th&gt;Destination&lt;/th&gt;
-&lt;th&gt;Protocol&lt;/th&gt;
-&lt;th&gt;Source Ports&lt;/th&gt;
-&lt;th&gt;Destination Ports&lt;/th&gt;
-&lt;th&gt;Type &amp;amp; Code&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;22&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;SSH&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;30080&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;HTTP load balancer&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;30443&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;HTTPS load balancer&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;31380&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;HTTP load balancer&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;31390&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;HTTPS load balancer&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;&lt;strong&gt;Private Subnet (for example, CIDR 10.0.1.0/24)&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Security List / Ingress Rules&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Stateless&lt;/th&gt;
-&lt;th&gt;Destination&lt;/th&gt;
-&lt;th&gt;Protocol&lt;/th&gt;
-&lt;th&gt;Source Ports&lt;/th&gt;
-&lt;th&gt;Destination Ports&lt;/th&gt;
-&lt;th&gt;Type &amp;amp; Code&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;ICMP&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;3, 4&lt;/td&gt;
-&lt;td&gt;ICMP errors&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.0.0/16&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;ICMP&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;3&lt;/td&gt;
-&lt;td&gt;ICMP errors&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.0.0/16&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;22&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;SSH&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.0.0/24&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;30080&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;HTTP load balancer&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.0.0/24&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;30443&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;HTTPS load balancer&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.0.0/24&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;31380&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;HTTP load balancer&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.0.0/24&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;31390&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;HTTPS load balancer&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;UDP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;111&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;NFS&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;111&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;NFS&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;UDP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;2048&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;NFS&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;2048-2050&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;NFS&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;2379-2380&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;Kubernetes etcd&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;6443&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;Kubernetes API Server&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;6446&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;MySQL&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;8090-8091&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;OLCNE Platform Agent&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;UDP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;8472&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;Flannel&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;10250-10255&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;Kubernetes Kublet&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;Security List / Egress Rules&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Stateless&lt;/th&gt;
-&lt;th&gt;Destination&lt;/th&gt;
-&lt;th&gt;Protocol&lt;/th&gt;
-&lt;th&gt;Source Ports&lt;/th&gt;
-&lt;th&gt;Destination Ports&lt;/th&gt;
-&lt;th&gt;Type and Code&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.0.0/0&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;All egress traffic&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;&lt;strong&gt;DHCP Options&lt;/strong&gt;&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;DNS Type&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;Internet and VCN Resolver&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;&lt;strong&gt;Route Tables&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Public Subnet Route Table Rules&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Destination&lt;/th&gt;
-&lt;th&gt;Target&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Internet Gateway&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;Private Subnet Route Table Rules&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Destination&lt;/th&gt;
-&lt;th&gt;Target&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;NAT Gateway&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;All OCI Services&lt;/td&gt;
-&lt;td&gt;Service Gateway&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;&lt;strong&gt;Internet Gateway&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;NAT Gateway&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Service Gateway&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;The following compute resources adhere to the guidelines provided in the Oracle Linux Cloud Native Environment &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.1/start/&#34;&gt;Getting Started&lt;/a&gt; guide.
-The attributes indicated (for example, Subnet, RAM, Shape, and Image) are recommendations that have been tested.
-Other values can be used if required.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Compute Instances&lt;/strong&gt;&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Role&lt;/th&gt;
-&lt;th&gt;Subnet&lt;/th&gt;
-&lt;th&gt;Suggested RAM&lt;/th&gt;
-&lt;th&gt;Compatible VM Shape&lt;/th&gt;
-&lt;th&gt;Compatible VM Image&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;SSH Jump Host&lt;/td&gt;
-&lt;td&gt;Public&lt;/td&gt;
-&lt;td&gt;8GB&lt;/td&gt;
-&lt;td&gt;VM.Standard.E2.1&lt;/td&gt;
-&lt;td&gt;Oracle Linux 7.8&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;OLCNE Operator Host&lt;/td&gt;
-&lt;td&gt;Private&lt;/td&gt;
-&lt;td&gt;16GB&lt;/td&gt;
-&lt;td&gt;VM.Standard.E2.2&lt;/td&gt;
-&lt;td&gt;Oracle Linux 7.8&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Kubernetes Control Plane Node&lt;/td&gt;
-&lt;td&gt;Private&lt;/td&gt;
-&lt;td&gt;32GB&lt;/td&gt;
-&lt;td&gt;VM.Standard.E2.4&lt;/td&gt;
-&lt;td&gt;Oracle Linux 7.8&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Kubernetes Worker Node 1&lt;/td&gt;
-&lt;td&gt;Private&lt;/td&gt;
-&lt;td&gt;32GB&lt;/td&gt;
-&lt;td&gt;VM.Standard.E2.4&lt;/td&gt;
-&lt;td&gt;Oracle Linux 7.8&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Kubernetes Worker Node 2&lt;/td&gt;
-&lt;td&gt;Private&lt;/td&gt;
-&lt;td&gt;32GB&lt;/td&gt;
-&lt;td&gt;VM.Standard.E2.4&lt;/td&gt;
-&lt;td&gt;Oracle Linux 7.8&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Kubernetes Worker Node 3&lt;/td&gt;
-&lt;td&gt;Private&lt;/td&gt;
-&lt;td&gt;32GB&lt;/td&gt;
-&lt;td&gt;VM.Standard.E2.4&lt;/td&gt;
-&lt;td&gt;Oracle Linux 7.8&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h2 id=&#34;do-the-olcne-install&#34;&gt;Do the OLCNE install&lt;/h2&gt;
-&lt;p&gt;Deploy Oracle Linux Cloud Native Environment with the Kubernetes module, following instructions from the &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.1/start/install-module-deploy.html&#34;&gt;Getting Started&lt;/a&gt; guide.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Use a single Kubernetes control plane node.&lt;/li&gt;
-&lt;li&gt;Skip the Kubernetes API load balancer (&lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.1/start/install-lb.html&#34;&gt;3.4.3&lt;/a&gt;).&lt;/li&gt;
-&lt;li&gt;Use private CA certificates (&lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.1/start/certs-private.html&#34;&gt;3.5.3&lt;/a&gt;).&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;prepare-for-the-verrazzano-install&#34;&gt;Prepare for the Verrazzano install&lt;/h2&gt;
-&lt;p&gt;A Verrazzano Oracle Linux Cloud Native Environment deployment requires:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;A default storage provider that supports &amp;ldquo;Multiple Read/Write&amp;rdquo; mounts. For example, an NFS service like:
-&lt;ul&gt;
-&lt;li&gt;Oracle Cloud Infrastructure File Storage Service.&lt;/li&gt;
-&lt;li&gt;A hardware-based storage system that provides NFS capabilities.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Load balancers in front of the worker nodes in the cluster.&lt;/li&gt;
-&lt;li&gt;DNS records that reference the load balancers.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Examples for meeting these requirements follow.&lt;/p&gt;
-&lt;h3 id=&#34;prerequisites-details&#34;&gt;Prerequisites Details&lt;/h3&gt;
-&lt;nav&gt;
-	&lt;div class=&#34;nav nav-tabs&#34; id=&#34;nav-tab&#34; role=&#34;tablist&#34;&gt;
-
-		
-		
-
-		
-		
-		
-
-		
-
-		&lt;a class=&#34;nav-item nav-link active&#34; id=&#34;nav-1&#34; data-toggle=&#34;tab&#34; href=&#34;#tab11&#34; role=&#34;tab&#34;
-		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Storage&lt;/a&gt;
-
-		
-		
-
-		
-		
-		
-
-		
-
-		&lt;a class=&#34;nav-item nav-link&#34; id=&#34;nav-1&#34; data-toggle=&#34;tab&#34; href=&#34;#tab12&#34; role=&#34;tab&#34;
-		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;false&#34;&gt;Load Balancers&lt;/a&gt;
-
-		
-		
-
-		
-		
-		
-
-		
-
-		&lt;a class=&#34;nav-item nav-link&#34; id=&#34;nav-1&#34; data-toggle=&#34;tab&#34; href=&#34;#tab13&#34; role=&#34;tab&#34;
-		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;false&#34;&gt;DNS&lt;/a&gt;
-
-		
-		
-
-	&lt;/div&gt;
-&lt;/nav&gt;
-
-&lt;div class=&#34;tab-content&#34; id=&#34;1&#34;&gt;
-
-
-
-
-
-
-
-
-&lt;div class=&#34;tab-pane fade show active&#34; id=&#34;tab11&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName1&#34;&gt;
-
-	&lt;br&gt;
-&lt;h3 id=&#34;storage&#34;&gt;Storage&lt;/h3&gt;
-&lt;p&gt;Verrazzano requires persistent storage for several components.
-This persistent storage is provided by a default storage class.
-A number of persistent storage providers exist for Kubernetes.
-This guide will focus on pre-allocated persistent volumes.
-In particular, the provided samples will illustrate the use of OCI&amp;rsquo;s NFS File System.&lt;/p&gt;
-&lt;h5 id=&#34;oci-example&#34;&gt;OCI example&lt;/h5&gt;
-&lt;p&gt;Before storage can be exposed to Kubernetes, it must be created.
-In OCI, this is done using File System resources.
-Using the OCI Console, create a new File System.
-Within the new File System, create an Export.
-Remember the value used for  &lt;code&gt;Export Path&lt;/code&gt; as it will be used later.
-Also note the Mount Target&amp;rsquo;s &lt;code&gt;IP Address&lt;/code&gt; for use later.&lt;/p&gt;
-&lt;p&gt;After the exports have been created, referenced persistent volume folders (for example, &lt;code&gt;/example/pv0001&lt;/code&gt;) will need to be created.
-In OCI, this can be done by mounting the export on one of the Kubernetes worker nodes and creating the folders.
-In the following example, the value &lt;code&gt;/example&lt;/code&gt; is the &lt;code&gt;Export Path&lt;/code&gt; and &lt;code&gt;10.0.1.8&lt;/code&gt; is the Mount Target&amp;rsquo;s &lt;code&gt;IP Address&lt;/code&gt;.
-The following command should be run on one of the Kubernetes worker nodes.
-This will result in the creation of nine persistent volume folders.
-The reason for nine persistent volume folders is covered in the next section.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ sudo mount 10.0.1.8:/example /mnt
-$ for x in {0001..0009}; do sudo mkdir -p /mnt/pv${x} &amp;amp;&amp;amp; sudo chmod 777 /mnt/pv${x}; done
-&lt;/code&gt;&lt;/pre&gt;&lt;h5 id=&#34;persistent-volumes&#34;&gt;Persistent Volumes&lt;/h5&gt;
-&lt;p&gt;A default Kubernetes storage class is required by Verrazzano.
-When using pre-allocated PersistentVolumes, for example NFS, persistent volumes should be declared as following.
-The value for &lt;code&gt;name&lt;/code&gt; may be customized but will need to match the PersistentVolume &lt;code&gt;storageClassName&lt;/code&gt; value later.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Create a default StorageClass
-&lt;pre&gt;&lt;code&gt;$ cat &amp;lt;&amp;lt; EOF | kubectl apply -f -
-  apiVersion: storage.k8s.io/v1
-  kind: StorageClass
-  metadata:
-    name: example-nfs
-    annotations:
-      storageclass.kubernetes.io/is-default-class: &amp;quot;true&amp;quot;
-  provisioner: kubernetes.io/no-provisioner
-  volumeBindingMode: WaitForFirstConsumer
-EOF
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;Create the required number of PersistentVolume resources.
-The Verrazzano system requires five persistent volumes for itself.
-The following command creates nine persistent volumes.
-The value for &lt;code&gt;storageClassName&lt;/code&gt; must match the above &lt;code&gt;StorageClass&lt;/code&gt; name.
-The values for &lt;code&gt;name&lt;/code&gt; may be customized.
-The value for &lt;code&gt;path&lt;/code&gt; must match the &lt;code&gt;Export Path&lt;/code&gt; of the Export from above, combined with the persistent volume folder from above.
-The value for &lt;code&gt;server&lt;/code&gt; must be changed to match the location of your file system server.
-&lt;pre&gt;&lt;code&gt;$ for n in {0001..0009}; do cat &amp;lt;&amp;lt; EOF | kubectl apply -f -
-  apiVersion: v1
-  kind: PersistentVolume
-  metadata:
-    name: pv${n}
-  spec:
-    storageClassName: example-nfs
-    accessModes:
-      - ReadWriteOnce
-      - ReadWriteMany
-    capacity:
-      storage: 50Gi
-    nfs:
-      path: /example/pv${n}
-      server: 10.0.1.8
-    volumeMode: Filesystem
-    persistentVolumeReclaimPolicy: Recycle
-EOF
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;/div&gt;
-
-
-
-
-
-
-
-
-
-&lt;div class=&#34;tab-pane fade&#34; id=&#34;tab12&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName2&#34;&gt;
-
-	&lt;br&gt;
-&lt;h3 id=&#34;load-balancers&#34;&gt;Load Balancers&lt;/h3&gt;
-&lt;p&gt;Verrazzano on Oracle Linux Cloud Native Environment uses external load balancer services.
-These will not automatically be provided by Verrazzano or Kubernetes.
-Two load balancers must be deployed outside of the subnet used for the Kubernetes cluster.
-One load balancer is for management traffic and the other for application traffic.&lt;/p&gt;
-&lt;p&gt;Specific steps will differ for each load balancer provider, but a generic configuration and an OCI example follow.&lt;/p&gt;
-&lt;h4 id=&#34;generic-configuration&#34;&gt;Generic configuration:&lt;/h4&gt;
-&lt;ul&gt;
-&lt;li&gt;Target Host: Host names of Kubernetes worker nodes&lt;/li&gt;
-&lt;li&gt;Target Ports: See table&lt;/li&gt;
-&lt;li&gt;External Ports: See table&lt;/li&gt;
-&lt;li&gt;Distribution: Round-robin&lt;/li&gt;
-&lt;li&gt;Health Check: TCP&lt;/li&gt;
-&lt;/ul&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Traffic Type&lt;/th&gt;
-&lt;th&gt;Service Name&lt;/th&gt;
-&lt;th&gt;Type&lt;/th&gt;
-&lt;th&gt;Suggested External Port&lt;/th&gt;
-&lt;th&gt;Target Port&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;Application&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;istio-ingressgateway&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;80&lt;/td&gt;
-&lt;td&gt;31380&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Application&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;istio-ingressgateway&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;443&lt;/td&gt;
-&lt;td&gt;31390&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Management&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;ingress-controller-nginx-ingress-controller&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;80&lt;/td&gt;
-&lt;td&gt;30080&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Management&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;ingress-controller-nginx-ingress-controller&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;443&lt;/td&gt;
-&lt;td&gt;30443&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h4 id=&#34;oci-example&#34;&gt;OCI example&lt;/h4&gt;
-&lt;p&gt;The following details can be used to create OCI load balancers for accessing application and management user interfaces, respectively.
-These load balancers will route HTTP/HTTPS traffic from the Internet to the private subnet.
-If load balancers are desired, then they should be created now even though the application and management endpoints will be installed later.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Application Load Balancer: Public Subnet
-&lt;ul&gt;
-&lt;li&gt;Listeners
-&lt;ul&gt;
-&lt;li&gt;HTTP Listener: Protocol TCP, Port 80&lt;/li&gt;
-&lt;li&gt;HTTPS Listener: Protocol TCP, Port 443&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Backend Sets
-&lt;ul&gt;
-&lt;li&gt;HTTP Backend Sets:
-&lt;ul&gt;
-&lt;li&gt;Health Check: Protocol TCP, Port 31380&lt;/li&gt;
-&lt;li&gt;Backends: Kubernetes Worker Nodes, Port 31380, Distribution Policy Weighted Round Robin&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;HTTPS Backend Sets
-&lt;ul&gt;
-&lt;li&gt;Health Check: Protocol TCP, Port 31390&lt;/li&gt;
-&lt;li&gt;Backends: Kubernetes Worker Nodes, Port 31390, Distribution Policy Weighted Round Robin&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Management Load Balancer: Public Subnet
-&lt;ul&gt;
-&lt;li&gt;Listeners
-&lt;ul&gt;
-&lt;li&gt;HTTP Listener: Protocol TCP, Port 80&lt;/li&gt;
-&lt;li&gt;HTTPS Listener: Protocol TCP, Port 443&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Backend Sets
-&lt;ul&gt;
-&lt;li&gt;HTTP Backend Sets:
-&lt;ul&gt;
-&lt;li&gt;Health Check: Protocol TCP, Port 30080&lt;/li&gt;
-&lt;li&gt;Backends: Kubernetes Worker Nodes, Port 30080, Distribution Policy Weighted Round Robin&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;HTTPS Backend Sets
-&lt;ul&gt;
-&lt;li&gt;Health Check: Protocol TCP, Port 30443&lt;/li&gt;
-&lt;li&gt;Backends: Kubernetes Worker Nodes, Port 30443, Distribution Policy Weighted Round Robin&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-
-
-&lt;/div&gt;
-
-
-
-
-
-
-
-
-
-&lt;div class=&#34;tab-pane fade&#34; id=&#34;tab13&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName3&#34;&gt;
-
-	&lt;br&gt;
-&lt;h3 id=&#34;dns&#34;&gt;DNS&lt;/h3&gt;
-&lt;p&gt;When using the &lt;code&gt;spec.dns.external&lt;/code&gt; DNS type, the installer searches the DNS zone you provide for two specific A records.
-These are used to configure the cluster and should refer to external addresses of the load balancers in the previous step.
-The A records will need to be created manually.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; At this time, the only supported deployment for Oracle Linux Cloud Native Environment is the external DNS type.&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Record&lt;/th&gt;
-&lt;th&gt;Use&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;ingress-mgmt&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Set as the &lt;code&gt;.spec.externalIPs&lt;/code&gt; value of the &lt;code&gt;ingress-controller-nginx-ingress-controller&lt;/code&gt; service.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;ingress-verrazzano&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Set as the &lt;code&gt;.spec.externalIPs&lt;/code&gt; value of the &lt;code&gt;istio-ingressgateway&lt;/code&gt; service.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;For example:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;198.51.100.10                                   A       ingress-mgmt.myenv.mydomain.com.
-203.0.113.10                                    A       ingress-verrazzano.myenv.mydomain.com.
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Verrazzano installation will result in a number of management services that need to point to the &lt;code&gt;ingress-mgmt&lt;/code&gt; address.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;keycloak.myenv.mydomain.com                      CNAME   ingress-mgmt.myenv.mydomain.com.
-rancher.myenv.mydomain.com                       CNAME   ingress-mgmt.myenv.mydomain.com.
-
-grafana.vmi.system.myenv.mydomain.com            CNAME   ingress-mgmt.myenv.mydomain.com.
-prometheus.vmi.system.myenv.mydomain.com         CNAME   ingress-mgmt.myenv.mydomain.com.
-kibana.vmi.system.myenv.mydomain.com             CNAME   ingress-mgmt.myenv.mydomain.com.
-elasticsearch.vmi.system.myenv.mydomain.com      CNAME   ingress-mgmt.myenv.mydomain.com.
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For simplicity, an administrator may want to create &lt;a href=&#34;https://tools.ietf.org/html/rfc1034#section-4.3.3&#34;&gt;wildcard DNS records&lt;/a&gt; for the management addresses:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;*.system.myenv.mydomain.com                      CNAME   ingress-mgmt.myenv.mydomain.com.
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;OR&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;*.myenv.mydomain.com                             CNAME   ingress-mgmt.myenv.mydomain.com.
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;oci-example&#34;&gt;OCI example&lt;/h4&gt;
-&lt;p&gt;DNS is configured in OCI by creating DNS zones in the OCI Console.
-When creating a DNS zone, use these values:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Method: Manual&lt;/li&gt;
-&lt;li&gt;Zone Name: &lt;code&gt;&amp;lt;dns-suffix&amp;gt;&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Zone Type: Primary&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;The value for &lt;code&gt;&amp;lt;dns-suffix&amp;gt;&lt;/code&gt; excludes the environment (for example, use the &lt;code&gt;mydomain.com&lt;/code&gt; portion of &lt;code&gt;myenv.mydomain.com&lt;/code&gt;).&lt;/p&gt;
-&lt;p&gt;DNS A records must be manually added to the zone and published using values described above.
-DNS CNAME records, in the same way.&lt;/p&gt;
-
-
-&lt;/div&gt;
-
-
-
-
-
-&lt;/div&gt;
-&lt;p&gt;During the Verrazzano install, these steps should be performed on the Oracle Linux Cloud Native Environment operator node.&lt;/p&gt;
-&lt;p&gt;Edit the sample Verrazzano custom resource &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/platform-operator/config/samples/install-olcne.yaml&#34;&gt;install-olcne.yaml&lt;/a&gt; file and provide these configuration settings for your OLCNE environment:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;The value for &lt;code&gt;spec.environmentName&lt;/code&gt; is a unique DNS subdomain for the cluster (for example, &lt;code&gt;myenv&lt;/code&gt; in &lt;code&gt;myenv.mydomain.com&lt;/code&gt;).&lt;/li&gt;
-&lt;li&gt;The value for &lt;code&gt;spec.dns.external.suffix&lt;/code&gt; is the remainder of the DNS domain (for example, &lt;code&gt;mydomain.com&lt;/code&gt; in &lt;code&gt;myenv.mydomain.com&lt;/code&gt;).&lt;/li&gt;
-&lt;li&gt;Under &lt;code&gt;spec.ingress.verrazzano.nginxInstallArgs&lt;/code&gt;, the value for &lt;code&gt;controller.service.externalIPs&lt;/code&gt; is the IP address of &lt;code&gt;ingress-mgmt.&amp;lt;myenv&amp;gt;.&amp;lt;mydomain.com&amp;gt;&lt;/code&gt; configured during DNS set up.&lt;/li&gt;
-&lt;li&gt;Under  &lt;code&gt;spec.ingress.application.istioInstallArgs&lt;/code&gt;, the value for &lt;code&gt;gateways.istio-ingressgateway.externalIPs&lt;/code&gt; is the IP address of &lt;code&gt;ingress-verrazzano.&amp;lt;myenv&amp;gt;.&amp;lt;mydomain.com&amp;gt;&lt;/code&gt; configured during DNS set up.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;You will install Verrazzano using the &lt;code&gt;external&lt;/code&gt; DNS type (the example custom resource for OLCNE is already configured to use &lt;code&gt;spec.dns.external&lt;/code&gt;).&lt;/p&gt;
-&lt;p&gt;Set the following environment variable:&lt;/p&gt;
-&lt;p&gt;The value for &lt;code&gt;&amp;lt;path to valid Kubernetes config&amp;gt;&lt;/code&gt; is typically &lt;code&gt;${HOME}/.kube/config&lt;/code&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ export KUBECONFIG=$VERRAZZANO_KUBECONFIG
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
-&lt;p&gt;To continue, see the &lt;a href=&#34;../docs/setup/install/installation/#install-the-verrazzano-platform-operator&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
 
       </description>
     </item>
