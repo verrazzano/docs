@@ -102,6 +102,96 @@ The ports shown are Pod ports, which is what NetworkPolicies require.
 By default, applications do not have NetworkPolicies that restrict ingress into the application or egress from it.
 You can configure them for the application namespaces using the NetworkPolicy section of a Verrazzano project.
 
+Be aware that pods become isolated by having a NetworkPolicy that selects them.  The following is the additional
+NetworkPolicies required for communicating with Verrazzano system components if a custom NetworkPolicy
+is defined in the application.
+<details>
+<summary>additional NetworkPolicies required.  Replace [networkpolicy-name], [appconfig-namespace], and [appconfig-name] with the real value.</summary>
+<p>
+
+```
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: [networkpolicy-name]
+  namespace: [appconfig-namespace]
+spec:
+  podSelector:
+    matchLabels:
+      app.oam.dev/name: [appconfig-name]
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: istio-system
+      podSelector:
+        matchLabels:
+          app: istio-ingressgateway
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: verrazzano-system
+      podSelector:
+        matchLabels:
+          app: system-prometheus
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: verrazzano-system
+      podSelector:
+        matchLabels:
+          app: coherence-operator
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: verrazzano-system
+      podSelector:
+        matchLabels:
+          app: weblogic-operator
+  egress:
+  - ports:
+    - port: 15012
+      protocol: TCP
+    to:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: istio-system
+      podSelector:
+        matchLabels:
+          app: istiod
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: istio-system
+      podSelector:
+        matchLabels:
+          app: istio-egressgateway
+  - ports:
+    - port: 53
+      protocol: TCP
+    - port: 53
+      protocol: UDP
+    to:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: kube-system
+  - ports:
+    - port: 8000
+      protocol: TCP
+    to:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: verrazzano-system
+      podSelector:
+        matchLabels:
+          app: coherence-operator
+```
+</p>
+</details>
+
 ### NetworkPolicies for Envoy sidecar proxies
 As mentioned, Envoy sidecar proxies run in both system component pods and application pods.  Each proxy sends requests
 to the Istio control plane pod, `istiod`, for a variety of reasons. During installation, Verrazzano creates a NetworkPolicy
