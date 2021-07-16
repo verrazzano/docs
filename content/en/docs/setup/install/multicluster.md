@@ -58,7 +58,7 @@ Follow these preregistration setup steps:
      # On the managed cluster
      $ kubectl -n verrazzano-system get secret system-tls
      ```
-     If this secret is present, then your managed cluster is using self-signed certificates. If it is ***not*** present,
+     If this secret is present, then your managed cluster is using self-signed certificates. If it is *not* present,
      then your managed cluster is using certificates signed by a well-known certificate authority.
      {{< tabs tabTotal="2" tabID="2" tabName1="Well-known CA" tabName2="Self-Signed" >}}
      {{< tab tabNum="1" >}}
@@ -92,11 +92,14 @@ $ kubectl create secret generic "ca-secret-managed1" -n verrazzano-mc \
      {{< /tabs >}}
 
 
-1. Create a Secret on the **admin** cluster that contains the CA certificate for the managed cluster. This secret will be used for scraping metrics from the managed cluster.
+1. Create a Secret on the *admin* cluster that contains the CA certificate for the managed cluster. This secret will be used for scraping metrics from the managed cluster.
    The file `managed1.yaml` that was created in the previous step provides input to this step.
    ```shell
    # On the admin cluster
    $ kubectl apply -f managed1.yaml
+
+   # Once the command succeeds, you may delete the managed1.yaml file
+   $ rm managed1.yaml
    ```
 
 1. Obtain the publicly accessible Kubernetes API server address for the admin cluster from its `kubeconfig` file, using
@@ -131,7 +134,7 @@ $ kubectl create secret generic "ca-secret-managed1" -n verrazzano-mc \
     $ export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
     ```
 
-1. On the Admin Cluster, create a ConfigMap that contains the externally accessible admin cluster Kubernetes server
+1. On the admin cluster, create a ConfigMap that contains the externally accessible admin cluster Kubernetes server
    address found in the previous step.
     ```shell
     # On the admin cluster
@@ -148,7 +151,7 @@ $ kubectl create secret generic "ca-secret-managed1" -n verrazzano-mc \
 
 <!-- omit in toc -->
 ### Registration steps
-Perform the first three registration steps on the **admin** cluster, and the last step, on the **managed** cluster.
+Perform the first three registration steps on the *admin* cluster, and the last step, on the *managed* cluster.
 The cluster against which to run the command is indicated in each code block.
 #### On the admin cluster
 1. To begin the registration process for a managed cluster named `managed1`, apply the VerrazzanoManagedCluster object on the admin cluster.
@@ -186,6 +189,9 @@ Apply the registration file exported in the previous step, on the managed cluste
    ```shell
    # On the managed cluster
    $ kubectl apply -f register.yaml
+
+   # Once the command succeeds, you may delete the register.yaml file
+   $ rm register.yaml
    ```
    After this step, the managed cluster will begin connecting to the admin cluster periodically. When the managed cluster
    connects to the admin cluster, it will update the `Status` field of the `VerrazzanoManagedCluster` resource for this
