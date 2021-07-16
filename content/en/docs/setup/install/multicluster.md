@@ -82,10 +82,14 @@ CA certificate is saved in an environment variable called `MGD_CA_CERT`. Then us
 
 ```shell
 # On the managed cluster
-$ MGD_CA_CERT=$(kubectl -n verrazzano-system get secret system-tls \
+$ MGD_CA_CERT=$(kubectl get secret system-tls \
+     -n verrazzano-system \
      -o jsonpath="{.data.ca\.crt}" | base64 --decode)
-$ kubectl create secret generic "ca-secret-managed1" -n verrazzano-mc \
-     --from-literal=cacrt="$MGD_CA_CERT" --dry-run=client -o yaml > managed1.yaml;
+$ kubectl create secret generic "ca-secret-managed1" \
+  -n verrazzano-mc \
+  --from-literal=cacrt="$MGD_CA_CERT" \
+  --dry-run=client \
+  -o yaml > managed1.yaml
 ```
 
      {{< /tab >}}
@@ -229,9 +233,9 @@ You can perform all the verification steps on the admin cluster.
 
 2. Verify that the managed cluster is successfully registered with Rancher.
    When you perform the registration steps, Verrazzano also registers the managed cluster with Rancher. 
-   View the Rancher UI on the admin cluster. Your cluster should be listed in Rancher's list of clusters, and should be
-   in `Active` state if the registration with Rancher was successful. You can find the Rancher UI URL for your cluster
-   by following the instructions for [Accessing Verrazzano]({{< relref "/docs/operations/_index.md" >}}).
+   View the Rancher UI on the admin cluster. If the registration with Rancher was successful, then your cluster will be
+   listed in Rancher's list of clusters, and should be in `Active` state. You can find the Rancher UI URL for your
+   cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/operations/_index.md" >}}).
 
 ## Run applications in multicluster Verrazzano
 
