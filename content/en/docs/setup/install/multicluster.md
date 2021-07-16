@@ -26,7 +26,7 @@ Install Verrazzano on each Kubernetes cluster.
   managed cluster. The `managed-cluster` profile contains only the components that are required for a managed cluster.
 
 For detailed instructions on how to install and customize Verrazzano on a Kubernetes cluster using a specific profile,
-see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}}).
+see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}}) and [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}}).
 
 ## Register the managed cluster with the admin cluster
 
