@@ -102,7 +102,8 @@ The ports shown are Pod ports, which is what NetworkPolicies require.
 By default, applications do not have NetworkPolicies that restrict ingress into the application or egress from it.
 You can configure them for the application namespaces using the NetworkPolicy section of a Verrazzano project.
 
-Be aware that pods become isolated by having a NetworkPolicy that selects them.  The following is the additional
+{{< alert title="NOTE" color="warning" >}}
+Pods become isolated by having a NetworkPolicy that selects them.  The following is the additional
 NetworkPolicies required for communicating with Verrazzano system components if a custom NetworkPolicy
 is defined in the application.
 <details>
@@ -191,6 +192,7 @@ spec:
 ```
 </p>
 </details>
+{{< /alert >}}
 
 ### NetworkPolicies for Envoy sidecar proxies
 As mentioned, Envoy sidecar proxies run in both system component pods and application pods.  Each proxy sends requests
