@@ -77,8 +77,8 @@ $ kubectl create secret generic "ca-secret-managed1" -n verrazzano-mc \
 
 If the managed cluster certificates are self-signed, create a file called `managed1.yaml` containing the CA
 certificate of the managed cluster as the value of the `cacrt` field. In the following commands, the managed cluster's
-CA certificate is saved in an environment variable called `MGD_CA_CERT`. Then the `managed1.yaml` file is generated
-using the `--dry-run` option of the `kubectl` command.
+CA certificate is saved in an environment variable called `MGD_CA_CERT`. Then use the `--dry-run` option of the
+`kubectl` command to generate the `managed1.yaml` file.
 
 ```shell
 # On the managed cluster
