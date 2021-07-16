@@ -30,22 +30,22 @@ see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}
 
 ## Register the managed cluster with the admin cluster
 
-The following sections show you how to register the managed cluster with the admin cluster. As indicated, some of these steps should
-to be performed on the admin cluster and some on the managed cluster.
+The following sections show you how to register the managed cluster with the admin cluster. As indicated, some of these
+steps are performed on the admin cluster and some on the managed cluster.
 
 <!-- omit in toc -->
 ### Preregistration setup
 
 Before registering the managed cluster, first you'll need to set up the following items:
 - A Secret containing the managed cluster's CA certificate. Note that the `cacrt` field in this secret can be empty if
-  the managed cluster uses a well-known CA. It is only required if the managed cluster uses self-signed certificates.
+  the managed cluster uses a well-known CA. It is required only if the managed cluster uses self-signed certificates.
   This CA certificate is used by the admin cluster to scrape metrics from the managed cluster, for both applications and Verrazzano components.
 - A ConfigMap containing the externally reachable address of the admin cluster. This will be provided to the managed
   cluster during registration so that it can connect to the admin cluster.
 
 Follow these preregistration setup steps:
 
-1. Obtain the managed cluster's CA certificate if needed to provide to the admin cluster. 
+1. If needed for the admin cluster, obtain the managed cluster's CA certificate.
    The admin cluster scrapes metrics from the managed cluster's Prometheus endpoint. If the managed cluster
    Verrazzano installation uses self-signed certificates, then the admin cluster will need the managed cluster's CA
    certificate in order to make an `https` connection.
@@ -68,15 +68,17 @@ In this case, create a file called `managed1.yaml` with an empty value for the `
 field as follows:
 
 ```shell
-echo "cacrt:" > managed1.yaml
+$ kubectl create secret generic "ca-secret-managed1" -n verrazzano-mc \
+     --from-literal=cacrt="" --dry-run=client -o yaml > managed1.yaml;
 ```
      {{< /tab >}}
      {{< tab tabNum="2" >}}
 <br>
 
-If the managed cluster certificates are self-signed, create a file called `managed1.yaml` containing the CA     certificate of the managed cluster as the value of the `cacrt` field. In the following commands, we save the
-managed cluster's CA certificate in an environment variable called `MGD_CA_CERT`, and then use the `kubectl`
-option `--dry-run` to generate the `managed1.yaml` file.
+If the managed cluster certificates are self-signed, create a file called `managed1.yaml` containing the CA
+certificate of the managed cluster as the value of the `cacrt` field. In the following commands, the managed cluster's
+CA certificate is saved in an environment variable called `MGD_CA_CERT`. Then the `managed1.yaml` file is generated
+using the `--dry-run` option of the `kubectl` command.
 
 ```shell
 # On the managed cluster
@@ -146,9 +148,9 @@ $ kubectl create secret generic "ca-secret-managed1" -n verrazzano-mc \
 
 <!-- omit in toc -->
 ### Registration steps
-The first three registration steps are to be performed on the **admin** cluster, and the last step is to be performed
-on the **managed** cluster. The cluster to run the command against is indicated in each code block.
-#### On the Admin Cluster
+Perform the first three registration steps on the **admin** cluster, and the last step, on the **managed** cluster.
+The cluster against which to run the command is indicated in each code block.
+#### On the admin cluster
 1. To begin the registration process for a managed cluster named `managed1`, apply the VerrazzanoManagedCluster object on the admin cluster.
    ```shell
    # On the admin cluster
@@ -195,7 +197,7 @@ Apply the registration file exported in the previous step, on the managed cluste
      route incoming requests for managed cluster information, to the managed cluster's API proxy. 
 
 ### Verifying that managed cluster registration completed
-The verification steps can all be performed on the admin cluster.
+You can perform all the verification steps on the admin cluster.
 
 1. Verify that the managed cluster can connect to the admin cluster. View the status of the `VerrazzanoManagedCluster`
    resource on the admin cluster, and check whether the `lastAgentConnectTime`, `prometheusUrl` and `apiUrl` fields are
@@ -205,13 +207,25 @@ The verification steps can all be performed on the admin cluster.
    $ kubectl get vmc managed1 -o yaml
    
    # Sample output showing the status field
-   
+   spec:
+     ....
+     ....
+   status:
+     apiUrl: https://verrazzano.default.172.18.0.211.nip.io
+     conditions:
+     - lastTransitionTime: "2021-07-07T15:49:43Z"
+       message: Ready
+       status: "True"
+       type: Ready
+     lastAgentConnectTime: "2021-07-16T14:47:25Z"
+     prometheusHost: prometheus.vmi.system.default.172.18.0.211.nip.io
    ```
 
-2. Verify that the managed cluster is successfully registered with Rancher. Visit the Rancher UI on the admin cluster.
-   When you perform the registration steps, Verrazzano also registers the managed cluster with Rancher. Your cluster
-   should be listed in Rancher's list of clusters, and should be in `Active` state if the registration with Rancher
-   was successful.
+2. Verify that the managed cluster is successfully registered with Rancher.
+   When you perform the registration steps, Verrazzano also registers the managed cluster with Rancher. 
+   View the Rancher UI on the admin cluster. Your cluster should be listed in Rancher's list of clusters, and should be
+   in `Active` state if the registration with Rancher was successful. You can find the Rancher UI URL for your cluster
+   by following the instructions for [Accessing Verrazzano]({{< relref "/docs/operations/_index.md" >}}).
 
 ## Run applications in multicluster Verrazzano
 
