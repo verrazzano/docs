@@ -103,26 +103,13 @@ By default, applications do not have NetworkPolicies that restrict ingress into 
 You can configure them for the application namespaces using the NetworkPolicy section of a Verrazzano project.
 
 {{< alert title="NOTE" color="warning" >}}
-Pods become isolated by having a NetworkPolicy that selects them.  The following is the additional
-NetworkPolicies required for communicating with Verrazzano system components if a custom NetworkPolicy
-is defined in the application.
+Verrazzano requires specific ingress to and egress from application pods. If you add a NetworkPolicy for your application namespace or pods, 
+you must add an additional policy to ensure that Verrazzano still has the required access it needs. The ingress policy is only needed if you restrict ingress. 
+Likewise, the egress policy is only needed if you restrict egress. Following are the ingress and egress NetworkPolicies:
 <details>
-<summary>additional NetworkPolicies required.  Replace [networkpolicy-name], [appconfig-namespace], and [appconfig-name] with the real value.</summary>
-<p>
+<summary>ingress NetworkPolicies</summary>
 
 ```
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: [networkpolicy-name]
-  namespace: [appconfig-namespace]
-spec:
-  podSelector:
-    matchLabels:
-      app.oam.dev/name: [appconfig-name]
-  policyTypes:
-  - Ingress
-  - Egress
   ingress:
   - from:
     - namespaceSelector:
@@ -152,6 +139,13 @@ spec:
       podSelector:
         matchLabels:
           app: weblogic-operator
+```
+</details>
+
+<details>
+<summary>egress NetworkPolicies</summary>
+
+```
   egress:
   - ports:
     - port: 15012
@@ -190,7 +184,6 @@ spec:
         matchLabels:
           app: coherence-operator
 ```
-</p>
 </details>
 {{< /alert >}}
 
