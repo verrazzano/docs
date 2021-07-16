@@ -117,6 +117,13 @@ Likewise, the egress policy is only needed if you restrict egress. Following are
           verrazzano.io/namespace: istio-system
       podSelector:
         matchLabels:
+          app: istiod
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: istio-system
+      podSelector:
+        matchLabels:
           app: istio-ingressgateway
   - from:
     - namespaceSelector:
