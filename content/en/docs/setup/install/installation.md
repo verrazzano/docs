@@ -64,8 +64,8 @@ To install the Verrazzano platform operator:
 
 ## Perform the install
 
-Verrazzano supports the following installation profiles:  development (`dev`), production (`prod`), and
-managed cluster (`managed-cluster`).  For more information, see [Installation Profiles]({{< relref "/docs/setup/install/profiles.md"  >}}).
+Verrazzano supports the following install profiles:  development (`dev`), production (`prod`), and
+managed cluster (`managed-cluster`).  For more information, see [Install Profiles]({{< relref "/docs/setup/install/profiles.md"  >}}).
 
 To change profiles in any of the following commands, set the `VZ_PROFILE` environment variable to the name of the profile you want to install.
 

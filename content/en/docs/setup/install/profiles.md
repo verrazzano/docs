@@ -1,5 +1,5 @@
 ---
-title: "Installation Profiles"
+title: "Install Profiles"
 description: "How to use named Verrazzano configurations to simplify an installation"
 weight: 2
 draft: false
@@ -9,7 +9,7 @@ This document describes built-in configuration profiles that you can use to simp
 profile is a well-known configuration of Verrazzano settings that can be referenced by name, which then can be
 customized as needed.
 
-The following table describes the Verrazzano installation profiles.
+The following table describes the available Verrazzano install profiles.
 
 | Profile  | Description | Characteristics
 | ------------- |:------------- |:-------------
