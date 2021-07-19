@@ -1,20 +1,20 @@
 ---
 title: "Clusters"
 weight: 11
-description: "View Managed Clusters registered with Verrazzano admin cluster."
+description: "To view the managed clusters registered with the Verrazzano admin cluster"
 draft: true
 ---
 
-To view the list of **Clusters** :
-1. From the **Home Page**, select "**Clusters** under Resources navigation section.
-1. The Managed Clusters are displayed as a list of cards. Each card has following information:
-   - Name: Name of the cluster.
-   - Namespace: Namespace in which the corresponding ***VerrazzanoManagedCluster*** Kubernetes resource is created.
-   - Status: Status of the cluster.
-   - Created on: The Timestamp on which the corresponding ***VerrazzanoManagedCluster*** Kubernetes resource was created in Verrazzano.
-   - API Url: API Url of the cluster.
-   - Project: Project of the application, in cases the application is a Multi-cluster application.
+On the Home page, under Resources, select **Clusters**.
 
-Pagination controls are present on top and bottom of the list of application cards. The list also supports sorting based on Name, Namespace and Status of the clusters.
+Managed clusters are displayed with the following information:
+   - Name: The name of the cluster.
+   - Namespace: The namespace in which the corresponding VerrazzanoManagedCluster Kubernetes resource was created.
+   - Status: The status of the cluster.
+   - Created on: The timestamp on which the corresponding VerrazzanoManagedCluster Kubernetes resource was created.
+   - API URL: The API URL of the cluster.
+   - Project: The application Project; in some cases, a multicluster application.
 
-To know more about Clusters and their usage see the [Multicluster]({{< relref "/docs/applications/multicluster" >}}) section.
+You can sort clusters based on Name, Namespace, and Status.
+
+For more information, see [Multiclusters]({{< relref "/docs/applications/multicluster" >}}).

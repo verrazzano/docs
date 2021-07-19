@@ -1,19 +1,21 @@
 ---
 title: "Components"
 weight: 11
-description: "View Components available in Verrazzano"
+description: "View all Components"
 draft: true
 ---
 
-OAM Components are reusable component templates that can be used and configured by Verrazzano **Applications**. To view the list of **Components** :
-1. From the **Home Page**, select "**Components** under Resources navigation section.
-2. The Components are displayed as a list of cards. Each card has following information:
-   - Name: Name of the component. This is a link and when clicked navigates to the [Components Details]({{< relref "/docs/console/components/componentdetails" >}}) screen.
-   - Namespace: Namespace in which the component is available.
-   - Workload Type: Type of ***Workload*** created by the component.
-   - Cluster: Cluster in which the component is available.
-   - Project: Project of the component, in cases the component is a Multi-cluster component.
+OAM Components are reusable component templates that can be used and configured by Verrazzano applications.
 
-Pagination controls are present on top and bottom of the list of component cards. The list also supports sorting based on Name, Namespace, Workload Type, Cluster and Project of the components. The filter controls below Resources navigation can be used to filter the list of cards based on Project and Cluster of the component.
+To view all the existing Components, on the Home page, under Resources, select **Components**.
 
-To know more about Components supported by Verrazzano see the [Components]({{< relref "/docs/applications/#components" >}}) section.
+The Components are displayed with the following information:
+   - Name: The name of the component; links to the [Components Details]({{< relref "/docs/console/components/componentdetails" >}}).
+   - Namespace: The namespace in which the component is available.
+   - Workload Type: The type of Workload created by the component.
+   - Cluster: The cluster in which the component is available.
+   - Project: The component Project; in some cases, a multicluster Component.
+
+You can sort Components based on Name, Namespace, Workload Type, Cluster, and Project, or filter them based on Project and cluster.
+
+For more information, see [Components]({{< relref "/docs/applications/#components" >}}).

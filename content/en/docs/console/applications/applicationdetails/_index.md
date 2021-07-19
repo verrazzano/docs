@@ -1,17 +1,18 @@
 ---
 title: "Application Details"
 weight: 11
-description: "Details of an application deployed in Verrazzano"
+description: "To learn more detailed application information"
 draft: true
 ---
 
-To access the details of an **Application** deployed in verrazzano :
-1. From the **Home Page**, select "**Applications** under Resources navigation section.
-1. Click on the link present against Name column on the application card. The application details page will open up in a separate window.
-3. The Application details screen has following information:
-   - General Information: This section is represented as a ***Tab*** and displays Name, Namespace, Created On, Status, Cluster and Project of the application. To switch between tabs, just click on the corresponding tab header.
-   - Labels: Labels present on the ***ApplicationConfiguration*** resource in Kubernetes.
-   - Annotations: Annotations present on the ***ApplicationConfiguration*** resource in Kubernetes.
-   
-The Application Details screen also displays **Components** associated with the application in **Resources** section.
-To know more about Application Configurations supported by Verrazzano see the [Application Configurations]({{< relref "/docs/applications/#application-configurations" >}}) section.
+1. On the Home page, select **Applications**.
+1. In the application card, select the application name link.
+
+The application details displays:
+   - General Information: Name, Namespace, Created On, Status, Cluster, and Project. Use the tabs to switch between pages.
+   - Labels: The labels present on the Kubernetes ApplicationConfiguration resource.
+   - Annotations: The annotations present on the Kubernetes ApplicationConfiguration resource.
+
+To learn more about Application Configurations, see [Application Configurations]({{< relref "/docs/applications/#application-configurations" >}}).
+
+Under Resources, the Application Details page shows the [Components]({{< relref "/docs/console/applications/applicationdetails/components/_index.md" >}}) associated with the application.
