@@ -214,7 +214,7 @@ You can perform all the verification steps on the admin cluster.
    populated. This may take up to 2 minutes after completing the registration steps.
    ```shell
    # On the admin cluster
-   $ kubectl get vmc managed1 -o yaml
+   $ kubectl get vmc managed1 -n verrazzano-mc -o yaml
    
    # Sample output showing the status field
    spec:
