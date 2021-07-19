@@ -1,9 +1,9 @@
 ---
 title: Image Pull Rate Limit
 linkTitle: Image Pull Rate Limit
-description: Analysis detected image pull rate limit issue
+description: Analysis detected an image pull rate limit issue
 weight: 5
-draft: true
+draft: false
 ---
 
 ### Summary

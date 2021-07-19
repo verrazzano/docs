@@ -1,5 +1,5 @@
 ---
-title: "Upgrade Guide"
+title: "Upgrade"
 linkTitle: "Upgrade"
 description: "How to upgrade Verrazzano"
 weight: 3
@@ -28,18 +28,18 @@ Upgrading an existing Verrazzano installation involves:
 
 **NOTE:** You may only change the version field during an upgrade; changes to other fields or component configurations are not supported at this time.
 
-### Upgrade the Verrazzano platform operator
+## Upgrade the Verrazzano platform operator
 
 In order to upgrade an existing Verrazzano installation, you must first upgrade the [Verrazzano platform operator](https://github.com/verrazzano/verrazzano-platform-operator).
 
 1. Upgrade the Verrazzano platform operator.
 
-   **NOTE:** If you are using a private container registry, follow the instructions at [Using a Private Registry](../../private-registry/private-registry) to update the platform operator.
+   **NOTE:** If you are using a private container registry, then to update the platform operator, follow the instructions at [Use a Private Registry]({{< relref "/docs/setup/private-registry/private-registry.md" >}}).
 
    To upgrade to the latest version:
 
    ```shell
-   $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
+   $ kubectl apply -f {{<release_asset_url operator.yaml>}}
    ```
 
    To upgrade to a specific version, where `<version>` is the desired version:
@@ -70,7 +70,7 @@ In order to upgrade an existing Verrazzano installation, you must first upgrade 
    verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
    ```
 
-### Upgrade Verrazzano
+## Upgrade Verrazzano
 
 To upgrade Verrazzano:
 
@@ -114,10 +114,12 @@ To upgrade Verrazzano:
 1. Wait for the upgrade to complete:
 
    ```shell
-   $ kubectl wait --timeout=10m --for=condition=UpgradeComplete verrazzano/my-verrazzano
+   $ kubectl wait \
+       --timeout=10m \
+       --for=condition=UpgradeComplete verrazzano/my-verrazzano
    ```
 
-### Verify the upgrade
+## Verify the upgrade
 
 Check that all the pods in the `verrazzano-system` namespace are in the `Running` state.  While the upgrade is in progress,
 you may see some pods terminating and restarting as newer versions of components are applied.

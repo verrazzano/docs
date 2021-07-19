@@ -1,9 +1,9 @@
 ---
 title: Install Failure
 linkTitle: Install Failure
-description: Analysis detected installation failure
+description: Analysis detected an installation failure
 weight: 5
-draft: true
+draft: false
 ---
 
 ### Summary

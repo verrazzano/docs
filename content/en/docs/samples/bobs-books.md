@@ -15,8 +15,6 @@ description: "An example application based on WebLogic, Helidon, and Coherence"
    **NOTE:** The Bob's Books example application deployment files are contained in the Verrazzano project located at
    `<VERRAZZANO_HOME>/examples/bobs-books`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
 
-   All files and paths in this document are relative to `<VERRAZZANO_HOME>/examples/bobs-books`.
-
 ## Overview
 
 Bob's Books consists of three main parts:
@@ -59,20 +57,20 @@ For more information and the source code of this application, see the [Verrazzan
    Replace `YOUR_REGISTRY_USERNAME`, `YOUR_REGISTRY_PASSWORD`, and `YOUR_REGISTRY_EMAIL`
    with the values you use to access the registry.  
 
-1. Create and label secrets for the WebLogic domains:
+1. Create secrets for the WebLogic domains:
     ```
     # Replace the values of the WLS_USERNAME and WLS_PASSWORD environment variables as appropriate.
     $ export WLS_USERNAME=<username>
     $ export WLS_PASSWORD=<password>
-    $ kubectl create secret generic bobbys-front-end-weblogic-credentials --from-literal=password=$WLS_PASSWORD --from-literal=username=$WLS_USERNAME -n bobs-books
+    $ kubectl create secret generic bobbys-front-end-weblogic-credentials \
+        --from-literal=password=$WLS_PASSWORD \
+        --from-literal=username=$WLS_USERNAME \
+        -n bobs-books
 
-    $ kubectl create secret generic bobbys-front-end-runtime-encrypt-secret --from-literal=password=$WLS_PASSWORD -n bobs-books
-    $ kubectl label secret bobbys-front-end-runtime-encrypt-secret weblogic.domainUID=bobbys-front-end -n bobs-books
-
-    $ kubectl create secret generic bobs-bookstore-weblogic-credentials --from-literal=password=$WLS_PASSWORD --from-literal=username=$WLS_USERNAME -n bobs-books
-
-    $ kubectl create secret generic bobs-bookstore-runtime-encrypt-secret --from-literal=password=$WLS_PASSWORD -n bobs-books
-    $ kubectl label secret bobs-bookstore-runtime-encrypt-secret weblogic.domainUID=bobs-bookstore -n bobs-books
+    $ kubectl create secret generic bobs-bookstore-weblogic-credentials \
+        --from-literal=password=$WLS_PASSWORD \
+        --from-literal=username=$WLS_USERNAME \
+        -n bobs-books
 
     $ kubectl create secret generic mysql-credentials \
         --from-literal=username=$WLS_USERNAME \
@@ -86,26 +84,34 @@ For more information and the source code of this application, see the [Verrazzan
 
 1. To deploy the application, apply the example resources.
    ```
-   $ kubectl apply -f .
+   $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/bobs-books/bobs-books-comp.yaml
+   $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/bobs-books/bobs-books-app.yaml
    ```
 
 1. Wait for all of the pods in the Bob's Books example application to be ready.
    You may need to repeat this command several times before it is successful.
    The WebLogic Server and Coherence pods may take a while to be created and `Ready`.
    ```
-   $ kubectl wait --for=condition=Ready pods --all -n bobs-books --timeout=600s
+   $ kubectl wait \
+       --for=condition=Ready pods \
+       --all -n bobs-books \
+       --timeout=600s
    ```
 
 1. Get the `EXTERNAL_IP` address of the `istio-ingressgateway` service.
     ```
-    $ kubectl get service -n "istio-system" "istio-ingressgateway" -o jsonpath={.status.loadBalancer.ingress[0].ip}
+    $ kubectl get service \
+        -n "istio-system" "istio-ingressgateway" \
+        -o jsonpath={.status.loadBalancer.ingress[0].ip}
 
     11.22.33.44
     ```
 
 1. Get the generated host name for the application.
    ```
-   $ kubectl get gateway bobs-books-bobs-books-gw -n bobs-books -o jsonpath={.spec.servers[0].hosts[0]}
+   $ kubectl get gateway bobs-books-bobs-books-gw \
+       -n bobs-books \
+       -o jsonpath={.spec.servers[0].hosts[0]}
    bobs-books.bobs-books.11.22.33.44.nip.io
    ```
 
@@ -138,6 +144,39 @@ For more information and the source code of this application, see the [Verrazzan
       * Bobby's Books UI at `https://<your-bobbys-books-host.your.domain>/bobbys-front-end/`.
 
       * Bob's order manager UI at `https://<your-bobs-orders-host.your.domain>/`.
+
+## Access the applications using the WLS Administration Console
+
+Use the WebLogic Server Administration Console to access the applications as follows.
+
+{{< alert title="NOTE" color="warning" >}}
+It is recommended that the WebLogic Server Administration Console _not_ be exposed publicly.
+{{< /alert >}}
+
+### Access bobs-bookstore
+
+1. Set up port forwarding.
+   ```
+   $ kubectl port-forward pods/bobs-bookstore-adminserver 7001:7001 -n bobs-books
+   ```
+
+1. Access the WebLogic Server Administration Console from your browser.
+   ```
+   http://localhost:7001/console
+   ```
+
+### Access bobbys-front-end
+
+1. Set up port forwarding.
+   ```
+   $ kubectl port-forward pods/bobbys-front-end-adminserver 7001:7001 -n bobs-books
+   ```
+
+1. Access the WebLogic Server Administration Console from your browser.
+   ```
+   http://localhost:7001/console
+   ```
+
 
 ## Troubleshooting
 
