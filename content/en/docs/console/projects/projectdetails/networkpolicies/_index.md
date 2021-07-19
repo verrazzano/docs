@@ -5,7 +5,7 @@ description: "Network Policies associated with a Multi-Cluster project deployed 
 draft: true
 ---
 
-A Multi-Cluster project will create Network Policies for all the applications and components deployed by it in all the managed clusters associated with it. To access Network Policies associated with a **Project** deployed in verrazzano :
+A project will create Network Policies for all the applications and components deployed by it in all the managed clusters associated with it. To access Network Policies associated with a **Project** deployed in verrazzano :
 1. From the **Home Page**, select "**Projects** under Resources navigation section.
 1. Click on the link present against Name column on the project card. The project details page will open up in a separate window.
 1. Select **Network Policies** from the **Resources** navigation section. 

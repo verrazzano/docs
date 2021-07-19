@@ -5,8 +5,10 @@ description: "Namespaces associated with a Multi-Cluster project deployed in Ver
 draft: true
 ---
 
-A Multi-Cluster project will create namespaces to deploy applications and components across one or more of Managed Clusters. To access namespaces associated with a **Project** deployed in verrazzano :
+To view namespaces governed by a **Project** in verrazzano :
 1. From the **Home Page**, select "**Projects** under Resources navigation section.
-1. Click on the link present against Name column on the project card. The project details page will open up in a separate window.
-1. Select **Namespaces** from the **Resources** navigation section. 
-2. A list of cards with Name of namespaces is displayed.
+2. Click on the link present against Name column on the project card. The project details page will open up in a separate window.
+3. Select **Namespaces** from the **Resources** navigation section. 
+4. A list of cards with Name of namespaces is displayed.
+
+See [Projects]({{< relref "/docs/applications/projects" >}}) section for more details on Projects and Namespaces.

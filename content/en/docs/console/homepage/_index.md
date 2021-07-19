@@ -1,7 +1,7 @@
 ---
 title: "Home Page"
 weight: 11
-description: "Verrazzano Home Page"
+description: "View Verrazzano Home Page"
 draft: true
 ---
 
