@@ -1560,7 +1560,7 @@ customize any Verrazzano installation, regardless of the profile.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;profiles-and-prometheus-configurations&#34;&gt;Profiles and Prometheus configurations&lt;/h3&gt;
+&lt;h3 id=&#34;prometheus-and-grafana-configurations&#34;&gt;Prometheus and Grafana configurations&lt;/h3&gt;
 &lt;p&gt;The following table describes the Prometheus and Grafana configurations in each profile.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -1588,7 +1588,7 @@ customize any Verrazzano installation, regardless of the profile.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;profiles-and-elasticsearch-configurations&#34;&gt;Profiles and Elasticsearch configurations&lt;/h3&gt;
+&lt;h3 id=&#34;kibana-and-elasticsearch-configurations&#34;&gt;Kibana and Elasticsearch configurations&lt;/h3&gt;
 &lt;p&gt;The following table describes the Kibana and Elasticsearch cluster topology in each profile.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -7563,10 +7563,11 @@ $ kubectl create secret generic tododomain-weblogic-credentials \
 
 
 $ kubectl create secret generic tododomain-jdbc-tododb \
-  --from-literal=username=$WLS_USERNAME \
-  --from-literal=password=$WLS_PASSWORD \
-  -n todo-list
+    --from-literal=username=$WLS_USERNAME \
+    --from-literal=password=$WLS_PASSWORD \
+    -n todo-list
 
+$ kubectl -n todo-list label secret tododomain-jdbc-tododb weblogic.domainUID=tododomain
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that the ToDo List example application is preconfigured to use specific secret names.
 For the source code of this application, see the &lt;a href=&#34;https://github.com/verrazzano/examples&#34;&gt;Verrazzano Examples&lt;/a&gt;.&lt;/p&gt;
 &lt;/li&gt;

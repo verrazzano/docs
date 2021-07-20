@@ -21,11 +21,11 @@
 <meta property="og:description" content="An example application containing a WebLogic component" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/samples/todo-list/" />
-<meta property="article:modified_time" content="2021-07-20T13:15:50-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-07-20T13:52:01-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="ToDo List">
 <meta itemprop="description" content="An example application containing a WebLogic component">
-<meta itemprop="dateModified" content="2021-07-20T13:15:50-04:00" />
-<meta itemprop="wordCount" content="828">
+<meta itemprop="dateModified" content="2021-07-20T13:52:01-04:00" />
+<meta itemprop="wordCount" content="836">
 
 
 
@@ -105,7 +105,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.6023861c9016da1d2032e2c0f76091a5.json"
+  data-offline-search-index-json-src="../../../offline-search-index.870ba9a642ac89f02e6cab9b6085256a.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -137,7 +137,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.6023861c9016da1d2032e2c0f76091a5.json"
+  data-offline-search-index-json-src="../../../offline-search-index.870ba9a642ac89f02e6cab9b6085256a.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -1476,10 +1476,11 @@ $ kubectl create secret generic tododomain-weblogic-credentials \
 
 
 $ kubectl create secret generic tododomain-jdbc-tododb \
-  --from-literal=username=$WLS_USERNAME \
-  --from-literal=password=$WLS_PASSWORD \
-  -n todo-list
+    --from-literal=username=$WLS_USERNAME \
+    --from-literal=password=$WLS_PASSWORD \
+    -n todo-list
 
+$ kubectl -n todo-list label secret tododomain-jdbc-tododb weblogic.domainUID=tododomain
 </code></pre><p>Note that the ToDo List example application is preconfigured to use specific secret names.
 For the source code of this application, see the <a href="https://github.com/verrazzano/examples">Verrazzano Examples</a>.</p>
 </li>
@@ -1713,7 +1714,7 @@ tododomain-adminserver   2/2     Running   0          19h
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified July 20, 2021: <a  href="../../../commit/0c92f2f8d853e47d28582f88671bd37eaf513827">Remove hardcoded credentials in todolist example (#167) (0c92f2f)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified July 20, 2021: <a  href="../../../commit/64e600ecaf937ce6f12ed6803e693498069fd4a6">fix profile headings (#188) (64e600e)</a>
 </div>
 </div>
 
