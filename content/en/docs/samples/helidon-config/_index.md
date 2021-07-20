@@ -9,8 +9,6 @@ Install Verrazzano by following the [installation]({{< relref "/docs/setup/insta
 
 **NOTE:** The Hello World Helidon configuration example application deployment files are contained in the Verrazzano project located at `<VERRAZZANO_HOME>/examples/helidon-config`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
 
-All files and paths in this document are relative to `<VERRAZZANO_HOME>/examples/helidon-config`.
-
 ## Deploy the Hello Config World Helidon application
 
 
@@ -22,13 +20,16 @@ All files and paths in this document are relative to `<VERRAZZANO_HOME>/examples
 
 1. To deploy the application, apply the `helidon-config` OAM resources.
    ```
-   $ kubectl apply -f helidon-config-comp.yaml
-   $ kubectl apply -f helidon-config-app.yaml
+   $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/helidon-config/helidon-config-comp.yaml
+   $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/helidon-config/helidon-config-app.yaml
    ```
 
 1. Wait for the application to be ready.
    ```
-   $ kubectl wait --for=condition=Ready pods --all -n helidon-config --timeout=300s
+   $ kubectl wait \
+      --for=condition=Ready pods \
+      --all -n helidon-config \
+      --timeout=300s
    ```
 
 ## Explore the application
@@ -44,14 +45,18 @@ Follow these steps to test the endpoints:
 1. Get the generated host name for the application.
 
    ```
-   $ HOST=$(kubectl get gateway helidon-config-helidon-config-appconf-gw -n helidon-config -o jsonpath={.spec.servers[0].hosts[0]})
+   $ HOST=$(kubectl get gateway helidon-config-helidon-config-appconf-gw \
+        -n helidon-config \
+        -o jsonpath={.spec.servers[0].hosts[0]})
    $ echo $HOST
    helidon-config-appconf.helidon-config.11.22.33.44.nip.io
    ```
 
 1. Get the `EXTERNAL_IP` address of the `istio-ingressgateway` service.
    ```
-   $ ADDRESS=$(kubectl get service -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+   $ ADDRESS=$(kubectl get service \
+        -n istio-system istio-ingressgateway \
+        -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
    $ echo $ADDRESS
    11.22.33.44
    ```   
@@ -60,7 +65,10 @@ Follow these steps to test the endpoints:
 
    * **Using the command line**
      ```
-     $ curl -sk -X GET https://${HOST}/config --resolve ${HOST}:443:${ADDRESS}
+     $ curl -sk \
+        -X GET \
+        https://${HOST}/config \
+        --resolve ${HOST}:443:${ADDRESS}
      {"message":"HelloConfig World!"}
      ```
      If you are using `nip.io`, then you do not need to include `--resolve`.
@@ -89,7 +97,10 @@ Follow these steps to test the endpoints:
     - Run this command to get the password that was generated for the telemetry components:
 
       ```
-      $ kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo
+      $ kubectl get secret \
+         --namespace verrazzano-system verrazzano \
+         -o jsonpath={.data.password} | base64 \
+         --decode; echo
       ```
       The associated user name is `verrazzano`.
 

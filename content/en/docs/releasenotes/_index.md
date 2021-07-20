@@ -5,21 +5,45 @@ weight: 13
 draft: false
 ---
 
-### v0.16.0
+### v0.17.0
 Features:
-- Provided options to configure log volume/mount of log-collector Fluentd, and pre-configured profiles.
-- Automatically enable metrics and log capture for WebLogic domains deployed in Verrazzano.
-- Added security-related data/project YAML files to the Verrazzano console under project details. 
-- Updated WebLogic Kubernetes Operator to 3.2.4.
-- If the `runtimeEncryptionSecret` secret specified in the WebLogic domain spec does not already exist, then create it.
+- Allow Verrazzano Monitoring Instance (VMI) replicas and memory sizes to be changed during installation for both `dev` and `prod` profiles.
+- When installing Verrazzano on OKE, the OKE-specific Fluentd `extraVolumeMounts` configuration is no longer required.
+- Updated to the v3.2.5 WebLogic Kubernetes Operator.
 
 Fixes:
-- Added fix for default metrics traits not always being injected into the `appconfig`. 
-- Updated timestamp in WebLogic application logs so that time filter can be used in Kibana.
-- Corrected the incorrect `podSelector` in node exporter network policy.  
-- Fixed DNS resolution issue due to missing cluster section of the `coredns configmap`.
+- During uninstall, delete application resources only from namespaces which are managed by Verrazzano.
+- During upgrade, honor the APP_OPERATOR_IMAGE override.
+- Fixed Keycloak installation failure when Prometheus is disabled.
+- Allow empty values for Helm overrides in `config.json`.
+
+### v0.16.0
+Features:
+- Provided options to configure log volume/mount of the log collector, Fluentd, and pre-configured profiles.
+- Automatically enabled metrics and log capture for WebLogic domains deployed in Verrazzano.
+- Added security-related data/project YAML files to the Verrazzano console, under project details.
+- Updated to the v3.2.4 WebLogic Kubernetes Operator.
+
+Fixes:
+- Added a fix for default metrics traits not always being injected into the `appconfig`.
+- Updated the timestamp in WebLogic application logs so that the time filter can be used in Kibana.
+- Corrected the incorrect `podSelector` in the node exporter network policy.  
+- Fixed the DNS resolution issue due to the missing cluster section of the `coredns configmap`.
 - Stability improvements for the platform, tests, and examples.
 - Renamed the Elasticsearch fields in a multicluster registration secret to be consistent.
+
+### v0.15.1
+Features:
+- Allow customization of Elasticsearch node sizes and topology during installation.
+- If `runtimeEncryptionSecret`, specified in the WebLogic domain spec, does not already exist, then create it.
+- Support overrides of persistent storage configuration for Elasticsearch, Kibana, Prometheus, Grafana, and Keycloak.
+
+Known Issues:
+- After upgrade to 0.15.1, for Verrazzano Custom Resource installed on OCI Container Engine for Kubernetes (OKE), the Fluentd DaemonSet in the `verrazzano-system` namespace cannot access logs.
+  Run following command to patch the Fluentd DaemonSet and correct the issue:
+  ```
+  kubectl patch -n verrazzano-system ds fluentd --patch '{"spec":{"template":{"spec":{"containers":[{"name": "fluentd","volumeMounts":[{"mountPath":"/u01/data/","name":"extravol0","readOnly":true}]}],"volumes":[{"hostPath":{"path":"/u01/data/","type":""},"name":"extravol0"}]}}}}'
+  ```
 
 ### v0.15.0
 Features:

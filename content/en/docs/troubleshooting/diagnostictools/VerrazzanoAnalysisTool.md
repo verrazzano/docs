@@ -24,10 +24,10 @@ Use these instructions to obtain the analysis tools on Linux machines.
 
 #### Download the tooling:
   ```
-   $ wget https://github.com/verrazzano/verrazzano/releases/latest/download/k8s-dump-cluster.sh
-   $ wget https://github.com/verrazzano/verrazzano/releases/latest/download/k8s-dump-cluster.sh.sha256
-   $ wget https://github.com/verrazzano/verrazzano/releases/latest/download/verrazzano-analysis-linux-amd64.tar.gz
-   $ wget https://github.com/verrazzano/verrazzano/releases/latest/download/verrazzano-analysis-linux-amd64.tar.gz.sha256
+   $ wget {{<release_asset_url k8s-dump-cluster.sh>}}
+   $ wget {{<release_asset_url k8s-dump-cluster.sh.sha256>}}
+   $ wget {{<release_asset_url verrazzano-analysis-linux-amd64.tar.gz>}}
+   $ wget {{<release_asset_url verrazzano-analysis-linux-amd64.tar.gz.sha256>}}
   ```
 
 #### Verify the downloaded files:
@@ -50,10 +50,10 @@ Use these instructions to obtain the analysis tools on Mac machines.
 
 #### Download the tooling:
   ```
-   $ wget https://github.com/verrazzano/verrazzano/releases/latest/download/k8s-dump-cluster.sh
-   $ wget https://github.com/verrazzano/verrazzano/releases/latest/download/k8s-dump-cluster.sh.sha256
-   $ wget https://github.com/verrazzano/verrazzano/releases/latest/download/verrazzano-analysis-darwin-amd64.tar.gz
-   $ wget https://github.com/verrazzano/verrazzano/releases/latest/download/verrazzano-analysis-darwin-amd64.tar.gz.sha256
+   $ wget {{<release_asset_url k8s-dump-cluster.sh>}}
+   $ wget {{<release_asset_url k8s-dump-cluster.sh.sha256>}}
+   $ wget {{<release_asset_url verrazzano-analysis-darwin-amd64.tar.gz>}}
+   $ wget {{<release_asset_url verrazzano-analysis-darwin-amd64.tar.gz.sha256>}}
   ```
 #### Verify the downloaded files:
   ```
@@ -170,7 +170,7 @@ To perform an analysis of the clusters:
 
 `$ verrazzano-analysis my-cluster-dumps`
 
-### Additional information
+### Usage information
 
 ```
 Usage: verrazzano-analysis [options] captured-data-directory

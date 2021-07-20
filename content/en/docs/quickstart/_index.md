@@ -37,9 +37,8 @@ The [Verrazzano platform operator](https://github.com/verrazzano/verrazzano-plat
 To install the Verrazzano platform operator:
 
 1. Deploy the Verrazzano platform operator.
-
     ```shell
-    $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/latest/download/operator.yaml
+    $ kubectl apply -f {{<release_asset_url operator.yaml>}}
     ```
 
 1. Wait for the deployment to complete.
@@ -101,7 +100,7 @@ To install Verrazzano:
     ```shell
     $ kubectl logs -f \
         $( \
-          kubectl get pod  \
+          kubectl get pod \
               -l job-name=verrazzano-install-example-verrazzano \
               -o jsonpath="{.items[0].metadata.name}" \
         )
@@ -135,7 +134,10 @@ enabled for Istio.
 1. Wait for the application to be ready.
 
    ```shell
-   $ kubectl wait --for=condition=Ready pods --all -n hello-helidon --timeout=300s
+   $ kubectl wait \
+       --for=condition=Ready pods \
+       --all -n hello-helidon \
+       --timeout=300s
    pod/hello-helidon-deployment-78468f5f9c-czmp4 condition met
    ```
    This creates the Verrazzano OAM component application resources for the example, waits for the pods in the `hello-helidon`
@@ -143,12 +145,16 @@ enabled for Istio.
 
 1.  Save the host name of the load balancer exposing the application's REST service endpoints.
     ```shell script
-    $ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath='{.spec.servers[0].hosts[0]}')
+    $ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw \
+        -n hello-helidon \
+        -o jsonpath='{.spec.servers[0].hosts[0]}')
     ```
 
 1.  Get the default message.
     ```shell script
-    $ curl -sk -X GET "https://${HOST}/greet"
+    $ curl -sk \
+        -X GET \
+        "https://${HOST}/greet"
 
     {"message":"Hello World!"}
     ```
@@ -201,7 +207,7 @@ To uninstall Verrazzano:
     ```shell
     $ kubectl logs -f \
         $( \
-          kubectl get pod  \
+          kubectl get pod \
               -l job-name=verrazzano-uninstall-example-verrazzano \
               -o jsonpath="{.items[0].metadata.name}" \
         )

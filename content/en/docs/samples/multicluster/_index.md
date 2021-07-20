@@ -13,8 +13,6 @@ description: "Examples of using Verrazzano in a multicluster environment"
 | [todo-list]({{< relref "/docs/samples/multicluster/todo-list/_index.md" >}}) | ToDo List is an example application containing a WebLogic component deployed to a multicluster environment. |
 
 
-**NOTE:** All files and paths in this document are relative to
-`<VERRAZZANO_HOME>/examples/multicluster`.
 
 ## Prerequisites
 

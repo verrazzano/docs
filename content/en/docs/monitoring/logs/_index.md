@@ -1,7 +1,7 @@
 ---
 title: "Logging"
 linkTitle: Logging
-description: "Verrazzano logging"
+description: "Learn about Verrazzano log collection and viewing"
 weight: 1
 draft: false
 ---
@@ -22,7 +22,9 @@ For components with multiple log streams or that cannot log to stdout, Verrazzan
 
 For example, in a WebLogic deployment, `AdminServer.log` is consumed, translated, and written to stdout by the Fluentd sidecar.  You can view these logs using `kubectl` on the container named `fluentd-stdout-sidecar`.
  ```shell
-$ kubectl logs tododomain-adminserver -n todo-list -c fluentd-stdout-sidecar
+$ kubectl logs tododomain-adminserver \
+    -n todo-list \
+    -c fluentd-stdout-sidecar
 ```
 
 ## Fluentd DaemonSet
@@ -37,20 +39,27 @@ Verrazzano creates an Elasticsearch deployment as the store and search engine fo
 
 For example, you can use `curl` to get all of the Elasticsearch indexes. First, you must get the password for the `verrazzano` user and the host for the Elasticsearch VMI.
 ```shell
-$ PASS=$(kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo)
-$ HOST=$(kubectl get ingress -n verrazzano-system vmi-system-es-ingest -o jsonpath={.spec.rules[0].host})
+$ PASS=$(kubectl get secret \
+    --namespace verrazzano-system verrazzano \
+    -o jsonpath={.data.password} | base64 \
+    --decode; echo)
+$ HOST=$(kubectl get ingress \
+    -n verrazzano-system vmi-system-es-ingest \
+    -o jsonpath={.spec.rules[0].host})
 
-$ curl -ik --user verrazzano:$PASS https://$HOST//_cat/indices
+$ curl -ik \
+   --user verrazzano:$PASS https://$HOST//_cat/indices
 ```
 
 To see all of the records for a specific index, do the following:
 ```shell
 $ INDEX=verrazzano-namespace-todo-list
 
-$ curl -ik --user verrazzano:$PASS https://$HOST/$INDEX/_doc/_search?q=message:*
+$ curl -ik \
+    --user verrazzano:$PASS https://$HOST/$INDEX/_doc/_search?q=message:*
 ```
 
-Verrazzano provides support for two installation profiles, development (`dev`) and production (`prod`). The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.
+Verrazzano provides support for installation profiles: development (`dev`) and production (`prod`). The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.
 ## Kibana
 Kibana is a visualization dashboard for the content indexed on an Elasticsearch cluster.  Verrazzano creates a Kibana deployment to provide a user interface for querying and visualizing the log data collected in Elasticsearch.
 

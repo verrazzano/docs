@@ -1,6 +1,5 @@
 ---
-title: "Verrazzano in a multicluster environment"
-linkTitle: Verrazzano in a multicluster environment
+title: "Verrazzano in a Multicluster Environment"
 weight: 1
 draft: false
 ---

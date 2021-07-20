@@ -1,7 +1,6 @@
 ---
-title: "Network security"
-linkTitle: "Network security"
-description: "Verrazzano network security"
+title: "Network Security"
+description: "Lean about Verrazzano network security"
 weight: 3
 draft: false
 ---
@@ -103,6 +102,98 @@ The ports shown are Pod ports, which is what NetworkPolicies require.
 By default, applications do not have NetworkPolicies that restrict ingress into the application or egress from it.
 You can configure them for the application namespaces using the NetworkPolicy section of a Verrazzano project.
 
+{{< alert title="NOTE" color="warning" >}}
+Verrazzano requires specific ingress to and egress from application pods. If you add a NetworkPolicy for your application namespace or pods, 
+you must add an additional policy to ensure that Verrazzano still has the required access it needs. The ingress policy is only needed if you restrict ingress. 
+Likewise, the egress policy is only needed if you restrict egress. Following are the ingress and egress NetworkPolicies:
+<details>
+<summary>ingress NetworkPolicies</summary>
+
+```
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: istio-system
+      podSelector:
+        matchLabels:
+          app: istiod
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: istio-system
+      podSelector:
+        matchLabels:
+          app: istio-ingressgateway
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: verrazzano-system
+      podSelector:
+        matchLabels:
+          app: system-prometheus
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: verrazzano-system
+      podSelector:
+        matchLabels:
+          app: coherence-operator
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: verrazzano-system
+      podSelector:
+        matchLabels:
+          app: weblogic-operator
+```
+</details>
+
+<details>
+<summary>egress NetworkPolicies</summary>
+
+```
+  egress:
+  - ports:
+    - port: 15012
+      protocol: TCP
+    to:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: istio-system
+      podSelector:
+        matchLabels:
+          app: istiod
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: istio-system
+      podSelector:
+        matchLabels:
+          app: istio-egressgateway
+  - ports:
+    - port: 53
+      protocol: TCP
+    - port: 53
+      protocol: UDP
+    to:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: kube-system
+  - ports:
+    - port: 8000
+      protocol: TCP
+    to:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: verrazzano-system
+      podSelector:
+        matchLabels:
+          app: coherence-operator
+```
+</details>
+{{< /alert >}}
+
 ### NetworkPolicies for Envoy sidecar proxies
 As mentioned, Envoy sidecar proxies run in both system component pods and application pods.  Each proxy sends requests
 to the Istio control plane pod, `istiod`, for a variety of reasons. During installation, Verrazzano creates a NetworkPolicy
@@ -132,7 +223,7 @@ items:
 ```
 ## TLS
 TLS is used by external clients to access the cluster, both through the NGINX Ingress Controller and the Istio ingress gateway.
-The certificate used by these TLS connections vary; see [Verrazzano security]({{< relref "/docs/security" >}}) for details.
+The certificate used by these TLS connections vary; see [Verrazzano security]({{< relref "/docs/security/_index.md" >}}) for details.
 All TLS connections are terminated at the ingress proxy. Traffic between the two proxies and the internal cluster Pods
 always uses mTLS, because those Pods are all in the Istio mesh.
 
