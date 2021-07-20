@@ -43,21 +43,24 @@ For more information and the source code of this application, see the [Verrazzan
 
 1. Create and label secrets for the WebLogic domain:
    ```
+
+   # Replace the values of the WLS_USERNAME and WLS_PASSWORD environment variables as appropriate.
+   $ export WLS_USERNAME=<username>
+   $ export WLS_PASSWORD=<password>
    $ kubectl create secret generic tododomain-weblogic-credentials \
-     --from-literal=password=welcome1 \
-     --from-literal=username=weblogic \
-     -n todo-list
+       --from-literal=password=$WLS_PASSWORD \
+       --from-literal=username=$WLS_USERNAME \
+       -n todo-list
+
 
    $ kubectl create secret generic tododomain-jdbc-tododb \
-     --from-literal=password=welcome1 \
-     --from-literal=username=derek \
+     --from-literal=username=$WLS_USERNAME \
+     --from-literal=password=$WLS_PASSWORD \
      -n todo-list
 
-   $ kubectl -n todo-list label secret tododomain-jdbc-tododb weblogic.domainUID=tododomain
    ```
 
-   Note that the ToDo List example application is preconfigured to use these credentials.
-   If you want to use different credentials, you will need to rebuild the Docker images for the example application.
+   Note that the ToDo List example application is preconfigured to use specific secret names.
    For the source code of this application, see the [Verrazzano Examples](https://github.com/verrazzano/examples).  
 
 1. To deploy the application, apply the example resources.
