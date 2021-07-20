@@ -84,7 +84,7 @@ customize any Verrazzano installation, regardless of the profile.
 | Rancher | ✔️ | ✔️ |    
 | Keycloak | ✔️ | ✔️ |  
 
-### Profiles and Prometheus configurations
+### Prometheus and Grafana configurations
 
 The following table describes the Prometheus and Grafana configurations in each profile.
 
@@ -94,7 +94,7 @@ The following table describes the Prometheus and Grafana configurations in each 
 | `dev` | 1 replica (128M memory, ephemeral storage) | 1 replica (48M memory, ephemeral storage)
 | `managed-cluster` | 1 replica (128M memory, 50Gi storage) | Not installed
 
-### Profiles and Elasticsearch configurations
+### Kibana and Elasticsearch configurations
 
 The following table describes the Kibana and Elasticsearch cluster topology in each profile.
 

@@ -54,10 +54,11 @@ For more information and the source code of this application, see the [Verrazzan
 
 
    $ kubectl create secret generic tododomain-jdbc-tododb \
-     --from-literal=username=$WLS_USERNAME \
-     --from-literal=password=$WLS_PASSWORD \
-     -n todo-list
+       --from-literal=username=$WLS_USERNAME \
+       --from-literal=password=$WLS_PASSWORD \
+       -n todo-list
 
+   $ kubectl -n todo-list label secret tododomain-jdbc-tododb weblogic.domainUID=tododomain
    ```
 
    Note that the ToDo List example application is preconfigured to use specific secret names.
