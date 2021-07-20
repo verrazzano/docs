@@ -21,11 +21,11 @@
 <meta property="og:description" content="An example application containing a WebLogic component" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/samples/todo-list/" />
-<meta property="article:modified_time" content="2021-07-14T17:24:07-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-07-20T13:15:50-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="ToDo List">
 <meta itemprop="description" content="An example application containing a WebLogic component">
-<meta itemprop="dateModified" content="2021-07-14T17:24:07-04:00" />
-<meta itemprop="wordCount" content="835">
+<meta itemprop="dateModified" content="2021-07-20T13:15:50-04:00" />
+<meta itemprop="wordCount" content="828">
 
 
 
@@ -105,7 +105,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.a5d49e276ac0e827f806efaf7959cdab.json"
+  data-offline-search-index-json-src="../../../offline-search-index.6023861c9016da1d2032e2c0f76091a5.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -137,7 +137,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.a5d49e276ac0e827f806efaf7959cdab.json"
+  data-offline-search-index-json-src="../../../offline-search-index.6023861c9016da1d2032e2c0f76091a5.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -1465,19 +1465,22 @@ with the values you use to access the registry.</p>
 </li>
 <li>
 <p>Create and label secrets for the WebLogic domain:</p>
-<pre><code>$ kubectl create secret generic tododomain-weblogic-credentials \
-  --from-literal=password=welcome1 \
-  --from-literal=username=weblogic \
-  -n todo-list
+<pre><code>
+# Replace the values of the WLS_USERNAME and WLS_PASSWORD environment variables as appropriate.
+$ export WLS_USERNAME=&lt;username&gt;
+$ export WLS_PASSWORD=&lt;password&gt;
+$ kubectl create secret generic tododomain-weblogic-credentials \
+    --from-literal=password=$WLS_PASSWORD \
+    --from-literal=username=$WLS_USERNAME \
+    -n todo-list
+
 
 $ kubectl create secret generic tododomain-jdbc-tododb \
-  --from-literal=password=welcome1 \
-  --from-literal=username=derek \
+  --from-literal=username=$WLS_USERNAME \
+  --from-literal=password=$WLS_PASSWORD \
   -n todo-list
 
-$ kubectl -n todo-list label secret tododomain-jdbc-tododb weblogic.domainUID=tododomain
-</code></pre><p>Note that the ToDo List example application is preconfigured to use these credentials.
-If you want to use different credentials, you will need to rebuild the Docker images for the example application.
+</code></pre><p>Note that the ToDo List example application is preconfigured to use specific secret names.
 For the source code of this application, see the <a href="https://github.com/verrazzano/examples">Verrazzano Examples</a>.</p>
 </li>
 <li>
@@ -1710,7 +1713,7 @@ tododomain-adminserver   2/2     Running   0          19h
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified July 14, 2021: <a  href="../../../commit/f3a810266c0a7823d04ba70b35dcca1421a33154">fix examples code (#182) (f3a8102)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified July 20, 2021: <a  href="../../../commit/0c92f2f8d853e47d28582f88671bd37eaf513827">Remove hardcoded credentials in todolist example (#167) (0c92f2f)</a>
 </div>
 </div>
 

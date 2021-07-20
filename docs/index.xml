@@ -7552,19 +7552,22 @@ with the values you use to access the registry.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Create and label secrets for the WebLogic domain:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl create secret generic tododomain-weblogic-credentials \
-  --from-literal=password=welcome1 \
-  --from-literal=username=weblogic \
-  -n todo-list
+&lt;pre&gt;&lt;code&gt;
+# Replace the values of the WLS_USERNAME and WLS_PASSWORD environment variables as appropriate.
+$ export WLS_USERNAME=&amp;lt;username&amp;gt;
+$ export WLS_PASSWORD=&amp;lt;password&amp;gt;
+$ kubectl create secret generic tododomain-weblogic-credentials \
+    --from-literal=password=$WLS_PASSWORD \
+    --from-literal=username=$WLS_USERNAME \
+    -n todo-list
+
 
 $ kubectl create secret generic tododomain-jdbc-tododb \
-  --from-literal=password=welcome1 \
-  --from-literal=username=derek \
+  --from-literal=username=$WLS_USERNAME \
+  --from-literal=password=$WLS_PASSWORD \
   -n todo-list
 
-$ kubectl -n todo-list label secret tododomain-jdbc-tododb weblogic.domainUID=tododomain
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that the ToDo List example application is preconfigured to use these credentials.
-If you want to use different credentials, you will need to rebuild the Docker images for the example application.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that the ToDo List example application is preconfigured to use specific secret names.
 For the source code of this application, see the &lt;a href=&#34;https://github.com/verrazzano/examples&#34;&gt;Verrazzano Examples&lt;/a&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
