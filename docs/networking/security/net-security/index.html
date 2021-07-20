@@ -21,11 +21,11 @@
 <meta property="og:description" content="Lean about Verrazzano network security" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/networking/security/net-security/" />
-<meta property="article:modified_time" content="2021-07-16T12:48:02-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-07-16T17:30:39-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Network Security">
 <meta itemprop="description" content="Lean about Verrazzano network security">
-<meta itemprop="dateModified" content="2021-07-16T12:48:02-04:00" />
-<meta itemprop="wordCount" content="2127">
+<meta itemprop="dateModified" content="2021-07-16T17:30:39-04:00" />
+<meta itemprop="wordCount" content="2318">
 
 
 
@@ -105,7 +105,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.d0d315f481c5385c4320b5507fbba66a.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.a5d49e276ac0e827f806efaf7959cdab.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -137,7 +137,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.d0d315f481c5385c4320b5507fbba66a.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.a5d49e276ac0e827f806efaf7959cdab.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -1706,6 +1706,95 @@ The ports shown are Pod ports, which is what NetworkPolicies require.</p>
 <h3 id="networkpolicies-for-applications">NetworkPolicies for applications</h3>
 <p>By default, applications do not have NetworkPolicies that restrict ingress into the application or egress from it.
 You can configure them for the application namespaces using the NetworkPolicy section of a Verrazzano project.</p>
+
+
+<div class="alert alert-warning" role="alert">
+<h4 class="alert-heading">NOTE</h4>
+<p>Verrazzano requires specific ingress to and egress from application pods. If you add a NetworkPolicy for your application namespace or pods,
+you must add an additional policy to ensure that Verrazzano still has the required access it needs. The ingress policy is only needed if you restrict ingress.
+Likewise, the egress policy is only needed if you restrict egress. Following are the ingress and egress NetworkPolicies:</p>
+<details>
+<summary>ingress NetworkPolicies</summary>
+<pre><code>  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: istio-system
+      podSelector:
+        matchLabels:
+          app: istiod
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: istio-system
+      podSelector:
+        matchLabels:
+          app: istio-ingressgateway
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: verrazzano-system
+      podSelector:
+        matchLabels:
+          app: system-prometheus
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: verrazzano-system
+      podSelector:
+        matchLabels:
+          app: coherence-operator
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: verrazzano-system
+      podSelector:
+        matchLabels:
+          app: weblogic-operator
+</code></pre></details>
+<details>
+<summary>egress NetworkPolicies</summary>
+<pre><code>  egress:
+  - ports:
+    - port: 15012
+      protocol: TCP
+    to:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: istio-system
+      podSelector:
+        matchLabels:
+          app: istiod
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: istio-system
+      podSelector:
+        matchLabels:
+          app: istio-egressgateway
+  - ports:
+    - port: 53
+      protocol: TCP
+    - port: 53
+      protocol: UDP
+    to:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: kube-system
+  - ports:
+    - port: 8000
+      protocol: TCP
+    to:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: verrazzano-system
+      podSelector:
+        matchLabels:
+          app: coherence-operator
+</code></pre></details>
+
+</div>
+
 <h3 id="networkpolicies-for-envoy-sidecar-proxies">NetworkPolicies for Envoy sidecar proxies</h3>
 <p>As mentioned, Envoy sidecar proxies run in both system component pods and application pods.  Each proxy sends requests
 to the Istio control plane pod, <code>istiod</code>, for a variety of reasons. During installation, Verrazzano creates a NetworkPolicy
@@ -1928,7 +2017,7 @@ the <code>principals</code> section to permit that access.</p>
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified July 16, 2021: <a  href="../../../../commit/0cc6e10c2d273087b9838eb7ae75358b346f0bfd">review security docs (#186) (0cc6e10)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified July 16, 2021: <a  href="../../../../commit/51ce59d67e5af5baa5111ee790a45ee649d1f7a1">system network policies needed if application network policies is defined. (#185) (51ce59d)</a>
 </div>
 </div>
 

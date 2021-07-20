@@ -1015,6 +1015,95 @@ The ports shown are Pod ports, which is what NetworkPolicies require.&lt;/p&gt;
 &lt;h3 id=&#34;networkpolicies-for-applications&#34;&gt;NetworkPolicies for applications&lt;/h3&gt;
 &lt;p&gt;By default, applications do not have NetworkPolicies that restrict ingress into the application or egress from it.
 You can configure them for the application namespaces using the NetworkPolicy section of a Verrazzano project.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+&lt;p&gt;Verrazzano requires specific ingress to and egress from application pods. If you add a NetworkPolicy for your application namespace or pods,
+you must add an additional policy to ensure that Verrazzano still has the required access it needs. The ingress policy is only needed if you restrict ingress.
+Likewise, the egress policy is only needed if you restrict egress. Following are the ingress and egress NetworkPolicies:&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt;ingress NetworkPolicies&lt;/summary&gt;
+&lt;pre&gt;&lt;code&gt;  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: istio-system
+      podSelector:
+        matchLabels:
+          app: istiod
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: istio-system
+      podSelector:
+        matchLabels:
+          app: istio-ingressgateway
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: verrazzano-system
+      podSelector:
+        matchLabels:
+          app: system-prometheus
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: verrazzano-system
+      podSelector:
+        matchLabels:
+          app: coherence-operator
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: verrazzano-system
+      podSelector:
+        matchLabels:
+          app: weblogic-operator
+&lt;/code&gt;&lt;/pre&gt;&lt;/details&gt;
+&lt;details&gt;
+&lt;summary&gt;egress NetworkPolicies&lt;/summary&gt;
+&lt;pre&gt;&lt;code&gt;  egress:
+  - ports:
+    - port: 15012
+      protocol: TCP
+    to:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: istio-system
+      podSelector:
+        matchLabels:
+          app: istiod
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: istio-system
+      podSelector:
+        matchLabels:
+          app: istio-egressgateway
+  - ports:
+    - port: 53
+      protocol: TCP
+    - port: 53
+      protocol: UDP
+    to:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: kube-system
+  - ports:
+    - port: 8000
+      protocol: TCP
+    to:
+    - namespaceSelector:
+        matchLabels:
+          verrazzano.io/namespace: verrazzano-system
+      podSelector:
+        matchLabels:
+          app: coherence-operator
+&lt;/code&gt;&lt;/pre&gt;&lt;/details&gt;
+
+&lt;/div&gt;
+
 &lt;h3 id=&#34;networkpolicies-for-envoy-sidecar-proxies&#34;&gt;NetworkPolicies for Envoy sidecar proxies&lt;/h3&gt;
 &lt;p&gt;As mentioned, Envoy sidecar proxies run in both system component pods and application pods.  Each proxy sends requests
 to the Istio control plane pod, &lt;code&gt;istiod&lt;/code&gt;, for a variety of reasons. During installation, Verrazzano creates a NetworkPolicy

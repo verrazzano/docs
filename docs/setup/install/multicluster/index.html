@@ -21,11 +21,11 @@
 <meta property="og:description" content="How to set up a multicluster Verrazzano environment" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://verrazzano.io/docs/setup/install/multicluster/" />
-<meta property="article:modified_time" content="2021-07-14T17:24:07-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-07-19T15:31:49-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Install Multicluster Verrazzano">
 <meta itemprop="description" content="How to set up a multicluster Verrazzano environment">
-<meta itemprop="dateModified" content="2021-07-14T17:24:07-04:00" />
-<meta itemprop="wordCount" content="857">
+<meta itemprop="dateModified" content="2021-07-19T15:31:49-04:00" />
+<meta itemprop="wordCount" content="1430">
 
 
 
@@ -105,7 +105,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.d0d315f481c5385c4320b5507fbba66a.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.a5d49e276ac0e827f806efaf7959cdab.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -137,7 +137,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.d0d315f481c5385c4320b5507fbba66a.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.a5d49e276ac0e827f806efaf7959cdab.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -1454,106 +1454,260 @@ cluster, simply repeat the managed cluster instructions.</p>
 <li>On one cluster, install Verrazzano using the <code>dev</code> or <code>prod</code> profile; this will be the <em>admin</em> cluster.</li>
 <li>On the other cluster, install Verrazzano using the <code>managed-cluster</code> profile; this will be a
 managed cluster. The <code>managed-cluster</code> profile contains only the components that are required for a managed cluster.</li>
-<li>Create the environment variables, <code>KUBECONFIG_ADMIN</code> and <code>KUBECONFIG_MANAGED1</code>, and point them to the <code>kubeconfig</code>
-files for the admin and managed cluster, respectively. These environment variables will be used in subsequent steps
-when registering the managed cluster.</li>
 </ul>
-<p>For detailed instructions on how to install Verrazzano on a Kubernetes cluster using a specific profile, see the
-<a href="../../../../docs/setup/install/installation/">Installation Guide</a>.</p>
+<p>For detailed instructions on how to install and customize Verrazzano on a Kubernetes cluster using a specific profile,
+see the <a href="../../../../docs/setup/install/installation/">Installation Guide</a> and <a href="../../../../docs/setup/install/profiles/">Installation Profiles</a>.</p>
 <h2 id="register-the-managed-cluster-with-the-admin-cluster">Register the managed cluster with the admin cluster</h2>
-<p>The following sections show you how to register the managed cluster with the admin cluster.</p>
+<p>The following sections show you how to register the managed cluster with the admin cluster. As indicated, some of these
+steps are performed on the admin cluster and some on the managed cluster.</p>
 <!-- omit in toc -->
 <h3 id="preregistration-setup">Preregistration setup</h3>
 <p>Before registering the managed cluster, first you&rsquo;ll need to set up the following items:</p>
 <ul>
+<li>A Secret containing the managed cluster&rsquo;s CA certificate. Note that the <code>cacrt</code> field in this secret can be empty if
+the managed cluster uses a well-known CA. It is required only if the managed cluster uses self-signed certificates.
+This CA certificate is used by the admin cluster to scrape metrics from the managed cluster, for both applications and Verrazzano components.</li>
 <li>A ConfigMap containing the externally reachable address of the admin cluster. This will be provided to the managed
 cluster during registration so that it can connect to the admin cluster.</li>
-<li>A Secret containing the managed cluster&rsquo;s CA certificate. Upon registration of the managed cluster, the host address of the Prometheus instance running on  the managed cluster is populated as <code>prometheusHost</code> in the <code>Status</code> field of the <code>VerrazzanoManagedCluster</code> resource created in the admin cluster. This CA certificate and the value of  <code>prometheusHost</code> is used by the admin cluster to scrape metrics from the managed cluster, for both applications and Verrazzano components.</li>
 </ul>
 <p>Follow these preregistration setup steps:</p>
 <ol>
 <li>
-<p>Obtain the Kubernetes server address for the admin cluster from its <code>kubeconfig</code> file.</p>
-<pre><code># If your kubeconfig has only a single context, or has the admin cluster's context set as the current-context
-$ ADMIN_K8S_SERVER_ADDRESS=&quot;$(kubectl config view --minify | grep server | cut -f2- -d: | tr -d ' ')&quot;
+<p>If needed for the admin cluster, obtain the managed cluster&rsquo;s CA certificate.
+The admin cluster scrapes metrics from the managed cluster&rsquo;s Prometheus endpoint. If the managed cluster
+Verrazzano installation uses self-signed certificates, then the admin cluster will need the managed cluster&rsquo;s CA
+certificate in order to make an <code>https</code> connection.</p>
+<ul>
+<li>Depending on whether the Verrazzano installation on the managed cluster uses
+self-signed certificates or certificates signed by a well-known certificate authority,
+choose the appropriate instructions.</li>
+<li>If you are unsure what type of certificates are used, check for the <code>system-tls</code> secret in the <code>verrazzano-system</code> namespace
+on the managed cluster.
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8f5902;font-style:italic"># On the managed cluster</span>
+$ kubectl -n verrazzano-system get secret system-tls
+</code></pre></div><p>If this secret is present, then your managed cluster is using self-signed certificates. If it is <em>not</em> present,
+then your managed cluster is using certificates signed by a well-known certificate authority.
+<nav>
+	<div class="nav nav-tabs" id="nav-tab" role="tablist">
 
-# If your kubeconfig has multiple contexts, list the kubeconfig contexts and find the name of context corresponding
-# to the admin cluster
-$ kubectl config get-contexts
-# Replace &quot;admin-server-context-name&quot; with the name of the context corresponding to your admin cluster.
-$ ADMIN_K8S_SERVER_ADDRESS=&quot;$(kubectl --context admin-server-context-name config view --minify | grep server | cut -f2- -d: | tr -d ' ')&quot;
-</code></pre></li>
+		
+		
+
+		
+		
+		
+
+		
+
+		<a class="nav-item nav-link active" id="nav-2" data-toggle="tab" href="#tab21" role="tab"
+		   aria-controls="nav-home" aria-selected="true">Well-known CA</a>
+
+		
+		
+
+		
+		
+		
+
+		
+
+		<a class="nav-item nav-link" id="nav-2" data-toggle="tab" href="#tab22" role="tab"
+		   aria-controls="nav-home" aria-selected="false">Self-Signed</a>
+
+		
+		
+
+	</div>
+</nav>
+
+<div class="tab-content" id="2">
+
+
+     
+
+
+
+
+
+<div class="tab-pane fade show active" id="tab21" role="tabpanel" aria-labelledby="nav-tabName1">
+
+	<br>
+<p>In this case, create a file called <code>managed1.yaml</code> with an empty value for the <code>cacrt</code>
+field as follows:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl create secret generic <span style="color:#4e9a06">&#34;ca-secret-managed1&#34;</span> -n verrazzano-mc <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>     --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">cacrt</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;&#34;</span> --dry-run<span style="color:#ce5c00;font-weight:bold">=</span>client -o yaml &gt; managed1.yaml<span style="color:#000;font-weight:bold">;</span>
+</code></pre></div>
+
+</div>
+
+
+
+     
+
+
+
+
+
+<div class="tab-pane fade" id="tab22" role="tabpanel" aria-labelledby="nav-tabName2">
+
+	<br>
+<p>If the managed cluster certificates are self-signed, create a file called <code>managed1.yaml</code> containing the CA
+certificate of the managed cluster as the value of the <code>cacrt</code> field. In the following commands, the managed cluster&rsquo;s
+CA certificate is saved in an environment variable called <code>MGD_CA_CERT</code>. Then use the <code>--dry-run</code> option of the
+<code>kubectl</code> command to generate the <code>managed1.yaml</code> file.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8f5902;font-style:italic"># On the managed cluster</span>
+$ <span style="color:#000">MGD_CA_CERT</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get secret system-tls <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>     -n verrazzano-system <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>     -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;{.data.ca\.crt}&#34;</span> <span style="color:#000;font-weight:bold">|</span> base64 --decode<span style="color:#204a87;font-weight:bold">)</span>
+$ kubectl create secret generic <span style="color:#4e9a06">&#34;ca-secret-managed1&#34;</span> <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>  -n verrazzano-mc <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>  --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">cacrt</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;</span><span style="color:#000">$MGD_CA_CERT</span><span style="color:#4e9a06">&#34;</span> <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>  --dry-run<span style="color:#ce5c00;font-weight:bold">=</span>client <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>  -o yaml &gt; managed1.yaml
+</code></pre></div>
+
+</div>
+
+
+
+     
+
+</div></p>
+</li>
+</ul>
+</li>
 <li>
-<p>Create a ConfigMap that contains the Kubernetes server address for the admin cluster.</p>
-<pre><code>$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f &lt;&lt;EOF -
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: verrazzano-admin-cluster
-  namespace: verrazzano-mc
-data:
-  server: &quot;${ADMIN_K8S_SERVER_ADDRESS}&quot;
-EOF
-</code></pre></li>
-<li>
-<p>Obtain the CA certificate used by the managed cluster.  Use the following instructions to write the CA certificate as part of a secret to a file named <code>managed1.yaml</code> in the current folder.</p>
-<pre><code>$ export KUBECONFIG=$KUBECONFIG_MANAGED1
-$ CA_SECRET_FILE=managed1.yaml
-$ TLS_SECRET=$(kubectl -n verrazzano-system get secret system-tls -o json | jq -r '.data.&quot;ca.crt&quot;')
-$ if [ ! -z &quot;${TLS_SECRET%%*( )}&quot; ] &amp;&amp; [ &quot;null&quot; != &quot;${TLS_SECRET}&quot; ] ; then \
-   CA_CERT=$(kubectl \
-        -n verrazzano-system get secret system-tls \
-        -o json | jq -r '.data.&quot;ca.crt&quot;' | base64 \
-        --decode); \
-  fi
-$ if [ ! -z &quot;${CA_CERT}&quot; ] ; then \
-   kubectl create secret generic &quot;ca-secret-managed1&quot; \
-      -n verrazzano-mc \
-      --from-literal=cacrt=&quot;$CA_CERT&quot; \
-      --dry-run=client \
-      -o yaml &gt; ${CA_SECRET_FILE}; \
-  fi
-</code></pre></li>
-<li>
-<p>Create a Secret on the admin cluster that contains the CA certificate for the managed cluster. This secret will be used for scraping metrics from the managed cluster.
+<p>Create a Secret on the <em>admin</em> cluster that contains the CA certificate for the managed cluster. This secret will be used for scraping metrics from the managed cluster.
 The file <code>managed1.yaml</code> that was created in the previous step provides input to this step.</p>
-<pre><code>$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f managed1.yaml
-</code></pre></li>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8f5902;font-style:italic"># On the admin cluster</span>
+$ kubectl apply -f managed1.yaml
+
+<span style="color:#8f5902;font-style:italic"># Once the command succeeds, you may delete the managed1.yaml file</span>
+$ rm managed1.yaml
+</code></pre></div></li>
+<li>
+<p>Obtain the publicly accessible Kubernetes API server address for the admin cluster from its <code>kubeconfig</code> file, using
+the following instructions.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8f5902;font-style:italic"># First list the contexts in the kubeconfig file - sample output is shown below</span>
+$ kubectl config get-contexts -o<span style="color:#ce5c00;font-weight:bold">=</span>name
+my-admin-cluster
+my-managed-cluster
+</code></pre></div><div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8f5902;font-style:italic"># From the output, find the admin cluster&#39;s context name and use it in the next command</span>
+<span style="color:#8f5902;font-style:italic"># View the information for that context in your kubeconfig file</span> 
+$ kubectl --context <span style="color:#ce5c00;font-weight:bold">[</span>your-admin-cluster-context-name<span style="color:#ce5c00;font-weight:bold">]</span> config view --minify
+apiVersion: v1
+kind: Config
+clusters:
+- cluster:
+  certificate-authority-data: DATA+OMITTED
+  server: https://127.0.0.1:46829
+  name: kind-managed1
+contexts:
+....
+....
+</code></pre></div><div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8f5902;font-style:italic"># In the output of the above command, the address shown in the &#34;server&#34; field is the Kubernetes API server address.</span>
+<span style="color:#8f5902;font-style:italic"># Set the ADMIN_K8S_SERVER_ADDRESS environment variable to that value e.g. in the above sample output, the</span>
+<span style="color:#8f5902;font-style:italic"># value is https://127.0.0.1:46829</span>
+$ <span style="color:#204a87">export</span> <span style="color:#000">ADMIN_K8S_SERVER_ADDRESS</span><span style="color:#ce5c00;font-weight:bold">=</span>&lt;the server address from the config output&gt;
+</code></pre></div></li>
+<li>
+<p>On the admin cluster, create a ConfigMap that contains the externally accessible admin cluster Kubernetes server
+address found in the previous step.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8f5902;font-style:italic"># On the admin cluster</span>
+$ kubectl apply -f <span style="color:#4e9a06">&lt;&lt;EOF -
+</span><span style="color:#4e9a06">apiVersion: v1
+</span><span style="color:#4e9a06">kind: ConfigMap
+</span><span style="color:#4e9a06">metadata:
+</span><span style="color:#4e9a06">  name: verrazzano-admin-cluster
+</span><span style="color:#4e9a06">  namespace: verrazzano-mc
+</span><span style="color:#4e9a06">data:
+</span><span style="color:#4e9a06">  server: &#34;${ADMIN_K8S_SERVER_ADDRESS}&#34;
+</span><span style="color:#4e9a06">EOF</span>
+</code></pre></div></li>
 </ol>
 <!-- omit in toc -->
 <h3 id="registration-steps">Registration steps</h3>
+<p>Perform the first three registration steps on the <em>admin</em> cluster, and the last step, on the <em>managed</em> cluster.
+The cluster against which to run the command is indicated in each code block.</p>
+<h4 id="on-the-admin-cluster">On the admin cluster</h4>
 <ol>
 <li>
 <p>To begin the registration process for a managed cluster named <code>managed1</code>, apply the VerrazzanoManagedCluster object on the admin cluster.</p>
-<pre><code>$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f &lt;&lt;EOF -
-apiVersion: clusters.verrazzano.io/v1alpha1
-kind: VerrazzanoManagedCluster
-metadata:
-  name: managed1
-  namespace: verrazzano-mc
-spec:
-  description: &quot;Test VerrazzanoManagedCluster object&quot;
-  caSecret: ca-secret-managed1
-EOF
-</code></pre></li>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8f5902;font-style:italic"># On the admin cluster</span>
+$ kubectl apply -f <span style="color:#4e9a06">&lt;&lt;EOF -
+</span><span style="color:#4e9a06">apiVersion: clusters.verrazzano.io/v1alpha1
+</span><span style="color:#4e9a06">kind: VerrazzanoManagedCluster
+</span><span style="color:#4e9a06">metadata:
+</span><span style="color:#4e9a06">  name: managed1
+</span><span style="color:#4e9a06">  namespace: verrazzano-mc
+</span><span style="color:#4e9a06">spec:
+</span><span style="color:#4e9a06">  description: &#34;Test VerrazzanoManagedCluster object&#34;
+</span><span style="color:#4e9a06">  caSecret: ca-secret-managed1
+</span><span style="color:#4e9a06">EOF</span>
+</code></pre></div></li>
 <li>
 <p>Wait for the VerrazzanoManagedCluster resource to reach the <code>Ready</code> status. At that point, it will have generated a YAML
 file that must be applied on the managed cluster to complete the registration process.</p>
-<pre><code>$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl wait \
-    --for=condition=Ready vmc managed1 \
-    -n verrazzano-mc
-</code></pre></li>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8f5902;font-style:italic"># On the admin cluster</span>
+$ kubectl <span style="color:#204a87">wait</span> --for<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">condition</span><span style="color:#ce5c00;font-weight:bold">=</span>Ready <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    vmc managed1 -n verrazzano-mc
+</code></pre></div></li>
 <li>
 <p>Export the YAML file created to register the managed cluster.</p>
-<pre><code>$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl get secret verrazzano-cluster-managed1-manifest \
-    -n verrazzano-mc \
-    -o jsonpath={.data.yaml} | base64 \
-    --decode &gt; register.yaml
-</code></pre></li>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8f5902;font-style:italic"># On the admin cluster</span>
+$ kubectl get secret verrazzano-cluster-managed1-manifest <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -n verrazzano-mc <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">={</span>.data.yaml<span style="color:#ce5c00;font-weight:bold">}</span> <span style="color:#000;font-weight:bold">|</span> base64 --decode &gt; register.yaml
+</code></pre></div></li>
+</ol>
+<h4 id="on-the-managed-cluster">On the managed cluster</h4>
+<p>Apply the registration file exported in the previous step, on the managed cluster.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8f5902;font-style:italic"># On the managed cluster</span>
+$ kubectl apply -f register.yaml
+
+<span style="color:#8f5902;font-style:italic"># Once the command succeeds, you may delete the register.yaml file</span>
+$ rm register.yaml
+</code></pre></div><p>After this step, the managed cluster will begin connecting to the admin cluster periodically. When the managed cluster
+connects to the admin cluster, it will update the <code>Status</code> field of the <code>VerrazzanoManagedCluster</code> resource for this
+managed cluster, with the following information:</p>
+<ul>
+<li>The timestamp of the most recent connection made from the managed cluster, in the <code>lastAgentConnectTime</code> status field.</li>
+<li>The host address of the Prometheus instance running on the managed cluster, in the <code>prometheusHost</code> status field. This is
+then used by the admin cluster to scrape metrics from the managed cluster.</li>
+<li>The API address of the managed cluster, in the <code>apiUrl</code> status field. This is used by the admin cluster&rsquo;s API proxy to
+route incoming requests for managed cluster information, to the managed cluster&rsquo;s API proxy.</li>
+</ul>
+<h3 id="verifying-that-managed-cluster-registration-completed">Verifying that managed cluster registration completed</h3>
+<p>You can perform all the verification steps on the admin cluster.</p>
+<ol>
 <li>
-<p>Apply the registration file on the managed cluster.</p>
-<pre><code>$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl apply -f register.yaml
-</code></pre></li>
+<p>Verify that the managed cluster can connect to the admin cluster. View the status of the <code>VerrazzanoManagedCluster</code>
+resource on the admin cluster, and check whether the <code>lastAgentConnectTime</code>, <code>prometheusUrl</code> and <code>apiUrl</code> fields are
+populated. This may take up to 2 minutes after completing the registration steps.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8f5902;font-style:italic"># On the admin cluster</span>
+$ kubectl get vmc managed1 -n verrazzano-mc -o yaml
+   
+<span style="color:#8f5902;font-style:italic"># Sample output showing the status field</span>
+spec:
+  ....
+  ....
+status:
+  apiUrl: https://verrazzano.default.172.18.0.211.nip.io
+  conditions:
+  - lastTransitionTime: <span style="color:#4e9a06">&#34;2021-07-07T15:49:43Z&#34;</span>
+    message: Ready
+    status: <span style="color:#4e9a06">&#34;True&#34;</span>
+    type: Ready
+  lastAgentConnectTime: <span style="color:#4e9a06">&#34;2021-07-16T14:47:25Z&#34;</span>
+  prometheusHost: prometheus.vmi.system.default.172.18.0.211.nip.io
+</code></pre></div></li>
+<li>
+<p>Verify that the managed cluster is successfully registered with Rancher.
+When you perform the registration steps, Verrazzano also registers the managed cluster with Rancher.
+View the Rancher UI on the admin cluster. If the registration with Rancher was successful, then your cluster will be
+listed in Rancher&rsquo;s list of clusters, and should be in <code>Active</code> state. You can find the Rancher UI URL for your
+cluster by following the instructions for <a href="../../../../docs/operations/">Accessing Verrazzano</a>.</p>
+</li>
 </ol>
 <h2 id="run-applications-in-multicluster-verrazzano">Run applications in multicluster Verrazzano</h2>
 <p>The Verrazzano multicluster setup is now complete and you can deploy applications by following the <a href="../../../../docs/samples/multicluster/hello-helidon/">Multicluster Hello World Helidon</a> example application.</p>
@@ -1630,7 +1784,7 @@ file that must be applied on the managed cluster to complete the registration pr
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified July 14, 2021: <a  href="../../../../commit/f3a810266c0a7823d04ba70b35dcca1421a33154">fix examples code (#182) (f3a8102)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified July 19, 2021: <a  href="../../../../commit/cd8b47ad4bd71503ab3a5d87002ae490933b9f26">Multicluster install doc improvements. (#183) (cd8b47a)</a>
 </div>
 </div>
 
