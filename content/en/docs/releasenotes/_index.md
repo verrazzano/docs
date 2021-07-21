@@ -5,6 +5,10 @@ weight: 13
 draft: false
 ---
 
+### v1.0.0
+Features:
+- Updated to the v2.5.9 Rancher.
+
 ### v0.17.0
 Features:
 - Allow Verrazzano Monitoring Instance (VMI) replicas and memory sizes to be changed during installation for both `dev` and `prod` profiles.
