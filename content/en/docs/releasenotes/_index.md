@@ -6,8 +6,7 @@ draft: false
 ---
 
 ### v1.0.0
-Features:
-- Updated to Rancher v2.5.9.
+Features: Updated to Rancher v2.5.9.
 
 ### v0.17.0
 Features:
