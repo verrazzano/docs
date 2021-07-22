@@ -1,0 +1,215 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Verrazzano Enterprise Container Platform – Customizing an Install</title>
+    <link>/docs/setup/install/customizing/</link>
+    <description>Recent content in Customizing an Install on Verrazzano Enterprise Container Platform</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="/docs/setup/install/customizing/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: Customizing the NGINX Ingress</title>
+      <link>/docs/setup/install/customizing/ingress/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/install/customizing/ingress/</guid>
+      <description>
+        
+        
+        &lt;p&gt;You can customize the NGINX ingress configuration using Helm overrides.  For example, to override the configuration of the
+&lt;code&gt;nginx-controller&lt;/code&gt;,  apply the following customization to the Verrazzano CRD.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;spec:
+ components:
+  ingress:
+   nginxInstallArgs:
+   &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# nginx Helm overrides can be specified here&lt;/span&gt;
+   - name: &amp;lt;name of the nginx Helm override e.g. controller.nodeSelector.ingress-ready&amp;gt;
+     value: &amp;lt;value of the nginx Helm override e.g. &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt;&amp;gt;
+     setString: &lt;span style=&#34;color:#204a87&#34;&gt;true&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Customizing Persistence Settings</title>
+      <link>/docs/setup/install/customizing/storage/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/install/customizing/storage/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The following components allow for persistent storage usage:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Elasticsearch&lt;/li&gt;
+&lt;li&gt;Prometheus&lt;/li&gt;
+&lt;li&gt;Grafana&lt;/li&gt;
+&lt;li&gt;Keycloak/MySQL&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;As mentioned in the &lt;a href=&#34;../../../../docs/setup/install/profiles/&#34;&gt;Profiles&lt;/a&gt; document, each Verrazzano install profile
+has different storage characteristics by default.  The &lt;code&gt;dev&lt;/code&gt; profile uses only ephemeral storage, but in all other profiles,
+each of the above components use persistent storage.&lt;/p&gt;
+&lt;p&gt;For install profiles other than &lt;code&gt;dev&lt;/code&gt;, the default storage requests are as follows:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Component&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Storage&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Elasticsearch&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;50Gi&lt;br/&gt;(Data nodes)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Prometheus&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;50Gi&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Grafana&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;50Gi&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Keycloak&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;50Gi&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;customizing-persistent-storage&#34;&gt;Customizing Persistent Storage&lt;/h2&gt;
+&lt;p&gt;The persistence settings for Verrazzano components can be customized through the following means in the
+&lt;a href=&#34;../../../../docs/reference/api/verrazzano/verrazzano/#verrazzanospec&#34;&gt;VerrazzanoSpec&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Globally overriding the persistence settings for all components through the &lt;code&gt;defaultVolumeSource&lt;/code&gt; field&lt;/li&gt;
+&lt;li&gt;Overriding the persistence settings for an individual component through a &lt;code&gt;volumeSource&lt;/code&gt; field on that component&amp;rsquo;s configuration&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;At present, only the &lt;code&gt;MySQL&lt;/code&gt; component under &lt;code&gt;Keycloak&lt;/code&gt; can be individually configured.&lt;/p&gt;
+&lt;p&gt;The global &lt;code&gt;defaultVolumeSource&lt;/code&gt; and component-level &lt;code&gt;volumeSource&lt;/code&gt; fields can be set to one of the following values:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Component&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;Storage&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&#34;https://kubernetes.io/docs/concepts/storage/volumes/#emptydir&#34;&gt;&lt;code&gt;emptyDir&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Ephemeral storage; this can be useful for development or test scenarios&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;a href=&#34;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#persistentvolumeclaimvolumesource-v1-core&#34;&gt;&lt;code&gt;persistentVolumeClaim&lt;/code&gt;&lt;/a&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;A &lt;code&gt;PersistentVolumeClaimVolumeSource&lt;/code&gt; where the &lt;code&gt;claimSource&lt;/code&gt; field references a named &lt;code&gt;volumeClaimSpecTemplate&lt;/code&gt;.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;In the case where you want to use a &lt;code&gt;persistentVolumeClaim&lt;/code&gt; to override the storage settings for components, you must do the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Create a &lt;a href=&#34;../../../../docs/reference/api/verrazzano/verrazzano/#volumeclaimspectemplate&#34;&gt;volumeClaimSpecTemplate&lt;/a&gt; which identifies
+your desired persistence settings&lt;/li&gt;
+&lt;li&gt;Configure a &lt;code&gt;persistentVolumeClaim&lt;/code&gt; for the component where the &lt;code&gt;claimName&lt;/code&gt; field references the template you created above&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This allows you to create named persistence settings &amp;ldquo;templates&amp;rdquo; that can be shared across multiple components within a Verrazzano
+configuration.  Note that the existence of a persistence template in the &lt;code&gt;volumeClaimSpecTemplates&lt;/code&gt; list does not
+directly result in the creation of a persistent volume, or affect any component storage settings until it is referenced
+by either &lt;code&gt;defaultVolumeSource&lt;/code&gt; or a specific component&amp;rsquo;s &lt;code&gt;volumeSource&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;examples&#34;&gt;Examples&lt;/h2&gt;
+&lt;h3 id=&#34;customizing-persistence-globally-via-defaultvolumesource&#34;&gt;Customizing Persistence Globally via &lt;code&gt;defaultVolumeSource&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;If the &lt;code&gt;defaultVolumeSource&lt;/code&gt; field is configured, then that setting will be used for all components that required storage.&lt;/p&gt;
+&lt;p&gt;For example, the following Verrazzano configuration uses the &lt;code&gt;prod&lt;/code&gt; profile, but disables persistent storage for all components,
+forcing them to use emphemeral storage:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: no-storage-prod
+spec:
+  profile: prod
+  defaultVolumeSource:
+      emptyDir: {}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The next example uses a &lt;code&gt;persistentVolumeClaim&lt;/code&gt; to globally override persistence settings for a &lt;code&gt;prod&lt;/code&gt; profile to use
+&lt;code&gt;100Gi&lt;/code&gt; volumes for all components, instead of the default of &lt;code&gt;50Gi&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: prod-global-override
+spec:
+  profile: prod
+  defaultVolumeSource:
+    persistentVolumeClaim:
+      claimName: globalOverride
+  volumeClaimSpecTemplates:
+    - metadata:
+        name: globalOverride
+      spec:
+        resources:
+          requests:
+            storage: 100Gi
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;customizing-persistentvolumeclaim-settings-for-a-component-using-volumesource&#34;&gt;Customizing PersistentVolumeClaim Settings For a Component Using &lt;code&gt;volumeSource&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;The following example Verrazzano configuration enables a &lt;code&gt;100Gi&lt;/code&gt; PersistentVolumeClaim for the MySQL component in Keycloak
+in a &lt;code&gt;dev&lt;/code&gt; profile configuration, overriding the default that uses ephemeral storage for that profile, while using ephemeral
+storage for everything else:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: dev-mysql-storage-example
+spec:
+  profile: dev
+  components:
+    keycloak:
+      mysql:
+        volumeSource:
+          persistentVolumeClaim:
+            claimName: mysql  # Use the &amp;quot;mysql&amp;quot; PVC template for the MySQL volume configuration
+  volumeClaimSpecTemplates:
+  - metadata:
+      name: mysql      
+    spec:
+      resources:
+        requests:
+          storage: 100Gi
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;using-global-and-local-persistence-settings-together&#34;&gt;Using Global and Local Persistence Settings Together&lt;/h3&gt;
+&lt;p&gt;The following example uses a &lt;code&gt;dev&lt;/code&gt; install profile, but overrides the profile persistence settings to&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Use &lt;code&gt;200Gi&lt;/code&gt; volumes for all components by default&lt;/li&gt;
+&lt;li&gt;Use a &lt;code&gt;100Gi&lt;/code&gt; volume for the MySQL instance associated with Keycloak&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: dev-storage-example
+spec:
+  profile: dev
+  defaultVolumeSource:
+    persistentVolumeClaim:
+      claimName: vmi     # set storage globally for the metrics stack
+  components:
+    keycloak:
+      mysql:
+        volumeSource:
+          persistentVolumeClaim:
+            claimName: mysql  # set storage separately for keycloak&#39;s MySql instance
+  volumeClaimSpecTemplates:
+    - metadata:
+        name: mysql
+      spec:
+        resources:
+          requests:
+            storage: 100Gi
+    - metadata:
+        name: vmi
+      spec:
+        resources:
+          requests:
+            storage: 200Gi
+&lt;/code&gt;&lt;/pre&gt;
+      </description>
+    </item>
+    
+  </channel>
+</rss>
