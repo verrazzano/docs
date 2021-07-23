@@ -1,7 +1,7 @@
 
 # Hello World Helidon
 
-This example is a Helidon-based service that returns a “Hello World” response when invoked. The application configuration uses the default, microprofile properties file.
+This example is a Helidon-based service that returns a "Hello World" response when invoked. The application configuration uses the default, microprofile properties file.
 
 ## Before you begin
 

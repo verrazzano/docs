@@ -6,7 +6,7 @@ Weight: 8
 draft: false
 ---
 
-[KIND](https://kind.sigs.k8s.io/) is a tool for running local Kubernetes clusters using Docker container “nodes”.  Follow
+[KIND](https://kind.sigs.k8s.io/) is a tool for running local Kubernetes clusters using Docker container "nodes".  Follow
 these instructions to prepare a KIND cluster for running Verrazzano.
 
 {{% alert title="NOTE" color="warning" %}}
