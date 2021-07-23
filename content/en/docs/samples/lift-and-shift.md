@@ -316,7 +316,7 @@ These include:
 1. Creating and labeling the `tododomain` namespace.
 1. Creating the necessary secrets required by the ToDo List application.
 1. Deploying MySQL to the `tododomain` namespace.
-1. Updating the `vz-application.yaml` file to use the Verrazzano MySQL deployment and (optionally) expose the WLS Administration Console.
+1. Updating the `vz-application.yaml` file to use the Verrazzano MySQL deployment and (optionally) expose the WebLogic Server Administration Console.
 1. Applying the `vz-application.yaml` file.
 
 The following steps assume that you have a Kubernetes cluster and that [Verrazzano]({{< relref "/quickstart.md#install-verrazzano" >}}) is already installed in that cluster.
@@ -442,7 +442,7 @@ $ kubectl wait pod \
 pod/tododomain-adminserver condition met
 ```
 
-Verify that the pods are in the `READY` state:
+Verify that the pods are in the `Running` state:
 ```shell
 $ kubectl get pod -n tododomain
 NAME                     READY   STATUS    RESTARTS   AGE
