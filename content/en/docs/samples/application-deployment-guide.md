@@ -9,7 +9,7 @@ draft: false
 
 ## Overview
 
-Developing and deploying an application to [Verrazzano](https://verrazzano.io/) consists of:
+Developing and deploying an application to [Verrazzano]({{< relref "/" >}}) consists of:
 1. Packaging the application as a Docker image.
 1. Publishing the application's Docker image to a container registry.
 1. Applying the application's Verrazzano components to the cluster.
