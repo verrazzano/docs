@@ -1,21 +1,31 @@
 ---
-title: Customize NGINX Ingress
-description: Instructions for customizing the Verrazzano NGINX installation
-linkTitle: NGINX
+title: Customize Ingress
+description: Customize Verrazzano NGINX and Istio ingress installation settings
+linkTitle: Ingress
 Weight: 9
-draft: true
+draft: false
 ---
 
-You can customize the NGINX ingress configuration using Helm overrides.  For example, to override the configuration of the
-`nginx-controller`,  apply the following customization to the Verrazzano CRD.
+Verrazzano uses NGINX for ingress to Verrazzano system components and Istio for application ingress.
+You can customize the NGINX and Istio ingress installation configurations using Helm overrides specified in the
+Verrazzano custom resource. For example, the following Verrazzano custom resource overrides the shape
+of an OCI load balancer for both NGINX and Istio ingresses:
 
 ```shell
+apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: custom-lb-settings
 spec:
- components:
-  ingress:
-   nginxInstallArgs:
-   # nginx Helm overrides can be specified here
-   - name: <name of the nginx Helm override e.g. controller.nodeSelector.ingress-ready>
-     value: <value of the nginx Helm override e.g. "true">
-     setString: true
+  profile: prod
+  components:
+    ingress:
+      type: LoadBalancer
+      nginxInstallArgs:
+      - name: controller.service.annotations."service\.beta\.kubernetes\.io/oci-load-balancer-shape"
+        value: "10Mbps"
+    istio:
+      istioInstallArgs:
+      - name: gateways.istio-ingressgateway.serviceAnnotations."service\.beta\.kubernetes\.io/oci-load-balancer-shape"
+        value: "10Mbps"
 ```
