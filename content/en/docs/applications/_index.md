@@ -207,7 +207,7 @@ spec:
                 - paths:
                     - path: "/greet"
 ```
-See the [API documentation](https://verrazzano.io/docs/reference/api/oam/ingresstrait/) for details.
+See the [API documentation]({{< relref "/docs/reference/api/oam/ingresstrait.md" >}}) for details.
 
 ### MetricsTrait
 The MetricsTrait provides a simplified integration with the Prometheus service included in the Verrazzano platform.
@@ -229,7 +229,7 @@ spec:
             apiVersion: oam.verrazzano.io/v1alpha1
             kind: MetricsTrait
 ```
-See the [API documentation](https://verrazzano.io/docs/reference/api/oam/metricstrait/) for details.
+See the [API documentation]({{< relref "/docs/reference/api/oam/metricstrait.md" >}}) for details.
 
 ## Kubernetes resources
 Verrazzano and OAM provide workloads and traits to define and customize applications.
