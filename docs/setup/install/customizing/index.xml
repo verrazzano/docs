@@ -14,6 +14,39 @@
     
     
     <item>
+      <title>Docs: Customize Ingress</title>
+      <link>https://verrazzano.io/docs/setup/install/customizing/ingress/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/setup/install/customizing/ingress/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano uses NGINX for ingress to Verrazzano system components and Istio for application ingress.
+You can customize the NGINX and Istio ingress installation configurations using Helm overrides specified in the
+Verrazzano custom resource. For example, the following Verrazzano custom resource overrides the shape
+of an OCI load balancer for both NGINX and Istio ingresses:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: custom-lb-settings
+spec:
+  profile: prod
+  components:
+    ingress:
+      type: LoadBalancer
+      nginxInstallArgs:
+      - name: controller.service.annotations.&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;service\.beta\.kubernetes\.io/oci-load-balancer-shape&amp;#34;&lt;/span&gt;
+        value: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;10Mbps&amp;#34;&lt;/span&gt;
+    istio:
+      istioInstallArgs:
+      - name: gateways.istio-ingressgateway.serviceAnnotations.&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;service\.beta\.kubernetes\.io/oci-load-balancer-shape&amp;#34;&lt;/span&gt;
+        value: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;10Mbps&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Customize Persistent Storage</title>
       <link>https://verrazzano.io/docs/setup/install/customizing/storage/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
