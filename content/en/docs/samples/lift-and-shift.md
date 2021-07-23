@@ -38,18 +38,18 @@ In the initial steps, you create a sample domain that represents your on-premise
     ```
 1. Start the container database (and optionally mount a volume for data).
     ```
+    $ export MYSQL_USER=<your-mysql-username>
+    $ export MYSQL_PASSWORD=<your-mysql-password>
+    $ export MYSQL_ROOT_PASSWORD=<your-mysql-rootpassword>
     $ docker run --name tododb \
       -p 3306:3306 \
-      -e MYSQL_USER=derek \
-      -e MYSQL_PASSWORD=welcome1 \
+      -e MYSQL_USER=$MYSQL_USER \
+      -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
       -e MYSQL_DATABASE=tododb \
-      -e MYSQL_ROOT_PASSWORD=welcome1 \
+      -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD \
       -d mysql:latest
     ```
 
-   {{< alert title="NOTE" color="tip" >}}
-   You should use a more secure password.
-   {{< /alert >}}
 
 1. Start a MySQL client to change the password algorithm to `mysql_native_password`.
     - Assuming the database server is running, start a database CLI client.
@@ -59,16 +59,11 @@ In the initial steps, you create a sample domain that represents your on-premise
            -uroot \
            -p
         ```
-    - When prompted for the password, enter the password for the root user, `welcome1` or
-    whatever password you set when starting the container in the previous step.  
+    - When prompted for the password, enter the password for the root user.  
     - After being connected, run the `ALTER` command at the MySQL prompt.
         ```mysql
-        $ ALTER USER 'derek'@'%' IDENTIFIED WITH mysql_native_password BY 'welcome1';
+        $ ALTER USER '<your-mysql-username>'@'%' identified with mysql_native_password by '<your-mysql-password>';
         ```
-
-   {{< alert title="NOTE" color="tip" >}}
-   You should use a more secure password.
-   {{< /alert >}}
 
 ### Create a WebLogic Server domain
 1. If you do not have WebLogic Server 12.2.1.4.0 installed, install it now.  
@@ -131,9 +126,9 @@ Using the WebLogic Server Administration Console, log in and add a data source c
     - Database Name: `tododb`
     - Host name: `localhost`
     - Database Port: `3306`
-    - Database User Name: `derek`
-    - Password: `welcome1` (or whatever password you used)
-    - Confirm Password: `welcome1`
+    - Database User Name: `<your-mysql-username>`
+    - Password: `<your-mysql-password>`
+    - Confirm Password: `<your-mysql-password>`
 
 1. Click **Next**.
 
@@ -321,7 +316,7 @@ These include:
 1. Creating and labeling the `tododomain` namespace.
 1. Creating the necessary secrets required by the ToDo List application.
 1. Deploying MySQL to the `tododomain` namespace.
-1. Updating the `vz-application.yaml` file to use the Verrazzano MySQL deployment and (optionally) expose the WLS Console.
+1. Updating the `vz-application.yaml` file to use the Verrazzano MySQL deployment and (optionally) expose the WLS Administration Console.
 1. Applying the `vz-application.yaml` file.
 
 The following steps assume that you have a Kubernetes cluster and that [Verrazzano]({{< relref "/quickstart.md#install-verrazzano" >}}) is already installed in that cluster.
@@ -342,20 +337,17 @@ If you haven't already done so, edit and run the `create_k8s_secrets.sh` script 
 WDT does not discover passwords from your existing domain.  Before running the create secrets script, you will need to
 edit `create_k8s_secrets.sh` to set the passwords for the WebLogic Server domain and the data source.  In this domain,
 there are a few passwords that you need to enter:
-* Administrator credentials (for example, `weblogic/welcome1`)
-* ToDo database credentials (for example, `derek/welcome1`)
-* Runtime encryption secret (for example, `welcome1`)
+* Administrator credentials
+* ToDo database credentials
+
 
 For example:
 ```shell script
 # Update <admin-user> and <admin-password> for weblogic-credentials
-$ create_paired_k8s_secret weblogic-credentials weblogic welcome1
+$ create_paired_k8s_secret weblogic-credentials <your-WLS-username> <your-WLS-password>
 
 # Update <user> and <password> for tododomain-jdbc-tododb
-$ create_paired_k8s_secret jdbc-tododb derek welcome1
-
-# Update <password> used to encrypt hashes
-$ create_k8s_secret runtime-encryption-secret welcome1
+$ create_paired_k8s_secret jdbc-tododb <your-mysql-username> <your-mysql-password>
 ```
 
 Then run the script:
@@ -444,11 +436,13 @@ This will:
 Wait for the ToDo List example application to be ready.
 
 ```shell
-$ kubectl wait pod --for=condition=Ready tododomain-adminserver -n tododomain
+$ kubectl wait pod \
+    --for=condition=Ready tododomain-adminserver \
+    -n tododomain
 pod/tododomain-adminserver condition met
 ```
 
-Verify the pods are in the `Running` state:
+Verify that the pods are in the `READY` state:
 ```shell
 $ kubectl get pod -n tododomain
 NAME                     READY   STATUS    RESTARTS   AGE
@@ -460,7 +454,9 @@ tododomain-adminserver   4/4     Running   0          5m
 
 1. Get the generated host name for the application.
    ```
-   $ kubectl get gateway tododomain-tododomain-appconf-gw -n tododomain -o jsonpath={.spec.servers[0].hosts[0]}
+   $ kubectl get gateway tododomain-tododomain-appconf-gw \
+       -n tododomain \
+       -o jsonpath={.spec.servers[0].hosts[0]}
    tododomain-appconf.tododomain.11.22.33.44.nip.io
    ```
 
@@ -469,7 +465,7 @@ tododomain-adminserver   4/4     Running   0          5m
    https://tododomain-appconf.tododomain.11.22.33.44.nip.io/todo/rest/items/init
    ```
 
-1. Access the application
+1. Access the application.
    ```
    http://tododomain-appconf.tododomain.11.22.33.44.nip.io/todo
    ```
