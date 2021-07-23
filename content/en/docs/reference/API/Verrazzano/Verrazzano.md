@@ -73,7 +73,7 @@ spec:
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `acme` | [Acme](#acme) | The ACME configuration.  Either `acme` or `ca` must be specified. | No |
-| `ca` | [CertificateAuthority](#CertificateAuthority) | The certificate authority configuration.  Either `acme` or `ca` must be specified. | No |
+| `ca` | [CertificateAuthority](#certificateauthority) | The certificate authority configuration.  Either `acme` or `ca` must be specified. | No |
 
 #### Acme
 | Field | Type | Description | Required
