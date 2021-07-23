@@ -8,17 +8,17 @@ draft: false
 
 This example demonstrates using standard Kubernetes resources, in conjunction with OAM resources, to define and deploy an application.
 Several standard Kubernetes resources are used in this example, both as workloads and traits.  
-- `Deployment` is used as a workload within a `Component`.
-- `Service` is used as a workload within a `Component`.
-- `Ingress` is used as a trait within an `ApplicationConfiguration`.
+- Deployment is used as a workload within a Component.
+- Service is used as a workload within a Component.
+- Ingress is used as a trait within an ApplicationConfiguration.
 
 ## Before you begin
 Install Verrazzano by following the [installation]({{< relref "/docs/setup/install/installation.md" >}}) instructions.
 
 ### Grant permissions
-The `oam-kubernetes-runtime` is not installed with privileges that allow it to create the Kubernetes `Ingress` resource used in this example.
-The following steps create a role that allows `Ingress` resource creation and binds that role to the `oam-kubernetes-runtime` service account.
-For this example to work, your cluster admin will need to run the following steps to create the `ClusterRole` and `ClusterRoleBinding`.
+The `oam-kubernetes-runtime` is not installed with privileges that allow it to create the Kubernetes Ingress resource used in this example.
+The following steps create a role that allows Ingress resource creation and binds that role to the `oam-kubernetes-runtime` service account.
+For this example to work, your cluster admin will need to run the following steps to create the ClusterRole and ClusterRoleBinding.
 ```shell
 $ kubectl apply -f - <<EOF
 apiVersion: rbac.authorization.k8s.io/v1
@@ -64,7 +64,7 @@ When accessed, the application returns the configured text.
     $ kubectl label namespace oam-kube verrazzano-managed=true istio-injection=enabled
     ```
 
-1. Create a `Component` containing a `Deployment` workload.
+1. Create a Component containing a Deployment workload.
     ```shell
     $ kubectl apply -f - <<EOF
     apiVersion: core.oam.dev/v1alpha2
@@ -95,7 +95,7 @@ When accessed, the application returns the configured text.
     EOF
     ```
 
-1. Create a `Component` containing a `Service` workload.
+1. Create a Component containing a Service workload.
     ```shell
     $ kubectl apply -f - <<EOF
     apiVersion: core.oam.dev/v1alpha2
@@ -117,7 +117,7 @@ When accessed, the application returns the configured text.
     EOF
     ```
 
-1. Create an `ApplicationConfiguration` referencing both `Components` and configuring an ingress trait.
+1. Create an ApplicationConfiguration referencing both Components and configuring an ingress trait.
     ```shell
     $ kubectl apply -f - <<EOF
     apiVersion: core.oam.dev/v1alpha2
@@ -152,12 +152,16 @@ When accessed, the application returns the configured text.
 ## Explore the application
 1. Get the host name for the application.
    ```shell
-   $ export HOST=$(kubectl get ingress -n oam-kube oam-kube-ing -o jsonpath='{.spec.rules[0].host}')
+   $ export HOST=$(kubectl get ingress \
+       -n oam-kube oam-kube-ing \
+       -o jsonpath='{.spec.rules[0].host}')
    $ echo "HOST=${HOST}"
    ```
 1. Get the load balancer address of the ingress gateway.
    ```shell
-   $ export LOADBALANCER=$(kubectl get ingress -n oam-kube oam-kube-ing -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+   $ export LOADBALANCER=$(kubectl get ingress \
+       -n oam-kube oam-kube-ing \
+       -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
    $ echo "LOADBALANCER=${LOADBALANCER}"
    ```
 1. Access the application.
@@ -172,7 +176,7 @@ This will result in the deletion of all explicitly and implicitly created resour
 $ kubectl delete namespace oam-kube
 ```
 
-If desired, the cluster admin also can remove the created `ClusterRole` and `ClusterRoleBinding`.
+If desired, the cluster admin also can remove the created ClusterRole and ClusterRoleBinding.
 ```shell
 $ kubectl delete oam-kubernetes-runtime-ingresses am-kubernetes-runtime-ingresses
 $ kubectl delete ClusterRole oam-kubernetes-runtime-ingresses

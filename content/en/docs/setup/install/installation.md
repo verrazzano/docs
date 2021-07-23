@@ -29,17 +29,7 @@ Verrazzano has been tested _only_ on the following versions of Kubernetes: 1.17.
 
 ## Prepare for the install
 
-Before installing Verrazzano, see instructions on preparing the following Kubernetes platforms:
-
-* [OCI Container Engine for Kubernetes]({{< relref "/docs/setup/platforms/oci/oci.md" >}})
-
-* [OLCNE]({{< relref "/docs/setup/platforms/olcne/olcne.md" >}})
-
-* [KIND]({{< relref "/docs/setup/platforms/kind/kind.md" >}})
-
-* [minikube]({{< relref "/docs/setup/platforms/minikube/minikube.md" >}})
-
-* [Generic Kubernetes]({{< relref "/docs/setup/platforms/generic/generic.md" >}})
+Before installing Verrazzano, see instructions on preparing [Kubernetes platforms]({{< relref "/docs/setup/platforms/" >}}).
 
 **NOTE**: Verrazzano can create network policies that can be used to limit the ports and protocols that pods use for network communication. Network policies provide additional security but they are enforced only if you install a Kubernetes Container Network Interface (CNI) plug-in that enforces them, such as Calico. For instructions on how to install a CNI plug-in, see the documentation for your Kubernetes cluster.
 
@@ -54,7 +44,7 @@ To install the Verrazzano platform operator:
 1. Deploy the Verrazzano platform operator.
 
     ```shell
-    $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/{{< param product_version >}}/operator.yaml
+    $ kubectl apply -f {{<release_asset_url operator.yaml>}}
     ```
 
 1. Wait for the deployment to complete.
@@ -75,13 +65,9 @@ To install the Verrazzano platform operator:
 ## Perform the install
 
 Verrazzano supports the following installation profiles:  development (`dev`), production (`prod`), and
-managed cluster (`managed-cluster`).  See the [Installation Profiles]({{< relref "/docs/setup/install/profiles.md"  >}}) document for more details.
+managed cluster (`managed-cluster`).  For more information, see [Installation Profiles]({{< relref "/docs/setup/install/profiles.md"  >}}).
 
 To change profiles in any of the following commands, set the `VZ_PROFILE` environment variable to the name of the profile you want to install.
-
-{{< alert title="NOTE" color="warning" >}}
-For Verrazzano installations on the minikube platform, use only the development profile.
-{{< /alert >}}
 
 For a complete description of Verrazzano configuration options, see the [Verrazzano Custom Resource Definition]({{< relref "/docs/reference/api/verrazzano/verrazzano.md" >}}).
 
@@ -106,7 +92,9 @@ metadata:
 spec:
   profile: ${VZ_PROFILE:-dev}
 EOF
-$ kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
+$ kubectl wait \
+    --timeout=20m \
+    --for=condition=InstallComplete verrazzano/my-verrazzano
 ```
 
 {{< /tab >}}
@@ -122,7 +110,10 @@ For example, an appropriate zone name for parent domain `v8o.example.com` domain
 
   To create an OCI DNS zone using the OCI CLI:
   ```
-  $ oci dns zone create -c <compartment ocid> --name <zone-name-prefix>.v8o.example.com --zone-type PRIMARY
+  $ oci dns zone create \
+      -c <compartment ocid> \
+      --name <zone-name-prefix>.v8o.example.com \
+      --zone-type PRIMARY
   ```
 
   To create an OCI DNS zone using the OCI console, see [Managing DNS Service Zones](https://docs.oracle.com/en-us/iaas/Content/DNS/Tasks/managingdnszones.htm).
@@ -132,14 +123,19 @@ reads an OCI configuration file to create the secret.
 
   Download the `create_oci_config_secret.sh` script:
   ```
-  $ curl -o ./create_oci_config_secret.sh https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/scripts/install/create_oci_config_secret.sh
+  $ curl \
+      -o ./create_oci_config_secret.sh \
+      https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/scripts/install/create_oci_config_secret.sh
   ```
 
   Run the `create_oci_config_secret.sh` script:
   ```
   $ chmod +x create_oci_config_secret.sh
   $ export KUBECONFIG=<kubeconfig-file>
-  $ ./create_oci_config_secret.sh -o <oci-config-file> -s <config-file-section> -k <secret-name>
+  $ ./create_oci_config_secret.sh \
+      -o <oci-config-file> \
+      -s <config-file-section> \
+      -k <secret-name>
 
   -o defaults to the OCI configuration file in ~/.oci/config
   -s defaults to the DEFAULT properties section within the OCI configuration file
@@ -158,7 +154,9 @@ Installing Verrazzano using OCI DNS requires some configuration settings to crea
 
 Download the sample Verrazzano custom resource `install-oci.yaml` for OCI DNS:
 ```
-$ curl -o ./install-oci.yaml https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/config/samples/install-oci.yaml
+$ curl \
+    -o ./install-oci.yaml \
+    https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/config/samples/install-oci.yaml
 ```
 
 Edit the downloaded `install-oci.yaml` file and provide values for the following configuration settings:
@@ -182,7 +180,9 @@ Run the following commands:
 
 ```
 $ kubectl apply -f ./install-oci.yaml
-$ kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verrazzano
+$ kubectl wait \
+    --timeout=20m \
+    --for=condition=InstallComplete verrazzano/my-verrazzano
 ```
 
 {{< /tab >}}
@@ -191,7 +191,10 @@ $ kubectl wait --timeout=20m --for=condition=InstallComplete verrazzano/my-verra
 
 To monitor the console log output of the installation:
 ```shell
-$ kubectl logs -f $(kubectl get pod -l job-name=verrazzano-install-my-verrazzano -o jsonpath="{.items[0].metadata.name}")
+$ kubectl logs \
+    -f $(kubectl get pod \
+    -l job-name=verrazzano-install-my-verrazzano \
+    -o jsonpath="{.items[0].metadata.name}")
 ```
 
 ## Verify the install

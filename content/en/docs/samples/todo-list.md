@@ -43,43 +43,56 @@ For more information and the source code of this application, see the [Verrazzan
 
 1. Create and label secrets for the WebLogic domain:
    ```
+
+   # Replace the values of the WLS_USERNAME and WLS_PASSWORD environment variables as appropriate.
+   $ export WLS_USERNAME=<username>
+   $ export WLS_PASSWORD=<password>
    $ kubectl create secret generic tododomain-weblogic-credentials \
-     --from-literal=password=welcome1 \
-     --from-literal=username=weblogic -n todo-list
+       --from-literal=password=$WLS_PASSWORD \
+       --from-literal=username=$WLS_USERNAME \
+       -n todo-list
+
 
    $ kubectl create secret generic tododomain-jdbc-tododb \
-     --from-literal=password=welcome1 \
-     --from-literal=username=derek -n todo-list
+       --from-literal=username=$WLS_USERNAME \
+       --from-literal=password=$WLS_PASSWORD \
+       -n todo-list
 
    $ kubectl -n todo-list label secret tododomain-jdbc-tododb weblogic.domainUID=tododomain
    ```
 
-   Note that the ToDo List example application is preconfigured to use these credentials.
-   If you want to use different credentials, you will need to rebuild the Docker images for the example application.
+   Note that the ToDo List example application is preconfigured to use specific secret names.
    For the source code of this application, see the [Verrazzano Examples](https://github.com/verrazzano/examples).  
 
 1. To deploy the application, apply the example resources.
    ```
-   $ kubectl apply -f .
+   $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/todo-list/todo-list-components.yaml
+   $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/todo-list/todo-list-application.yaml
    ```
 
 1. Wait for the ToDo List application to be ready.
    You may need to repeat this command several times before it is successful.
    The `tododomain-adminserver` pod may take a while to be created and `Ready`.
    ```
-   $ kubectl wait pod --for=condition=Ready tododomain-adminserver -n todo-list
+   $ kubectl wait pod \
+      --for=condition=Ready tododomain-adminserver \
+      -n todo-list
    ```
 
 1. Get the generated host name for the application.
    ```
-   $ HOST=$(kubectl get gateway -n todo-list -o jsonpath={.items[0].spec.servers[0].hosts[0]})
+   $ HOST=$(kubectl get gateway \
+        -n todo-list \
+        -o jsonpath={.items[0].spec.servers[0].hosts[0]})
    $ echo $HOST
    todo-appconf.todo-list.11.22.33.44.nip.io
    ```
 
 1. Get the `EXTERNAL_IP` address of the `istio-ingressgateway` service.
    ```
-   $ ADDRESS=$(kubectl get service -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+   $ ADDRESS=$(kubectl get service \
+        -n istio-system istio-ingressgateway \
+        -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
    $ echo $ADDRESS
    11.22.33.44
    ```   
@@ -88,7 +101,9 @@ For more information and the source code of this application, see the [Verrazzan
 
    * **Using the command line**
      ```
-     $ curl -sk https://${HOST}/todo/ --resolve ${HOST}:443:${ADDRESS}
+     $ curl -sk \
+        https://${HOST}/todo/ \
+        --resolve ${HOST}:443:${ADDRESS}
      ```
      If you are using `nip.io`, then you do not need to include `--resolve`.
    * **Local testing with a browser**
@@ -116,7 +131,10 @@ For more information and the source code of this application, see the [Verrazzan
 
    * Run this command to get the password that was generated for the telemetry components:
      ```
-     $ kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 --decode; echo
+     $ kubectl get secret \
+         --namespace verrazzano-system verrazzano \
+         -o jsonpath={.data.password} | base64 \
+         --decode; echo
      ```
      The associated user name is `verrazzano`.
 
@@ -144,18 +162,18 @@ For more information and the source code of this application, see the [Verrazzan
 
 ## Access the WebLogic Server Administration Console
 
-1. Setup port forwarding
+1. Set up port forwarding.
    ```
    $ kubectl port-forward pods/tododomain-adminserver 7001:7001 -n todo-list
    ```
 
-1. Access the WebLogic Server Administration Console from your browser
+1. Access the WebLogic Server Administration Console from your browser.
    ```
    http://localhost:7001/console
    ```
- 
-{{< alert title="NOTE" color="tip" >}}
-It is recommended that the WebLogic Server Administration Console not be exposed publicly.
+
+{{< alert title="NOTE" color="warning" >}}
+It is recommended that the WebLogic Server Administration Console _not_ be exposed publicly.
 {{< /alert >}}
 
 ## Troubleshooting

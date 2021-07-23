@@ -11,27 +11,27 @@ these instructions to prepare a KIND cluster for running Verrazzano.
 
 {{% alert title="NOTE" color="warning" %}}
 KIND is not recommended for use on macOS and Windows because the Docker network is not directly exposed
-to the host.  On macOS and Windows, [minikube]({{< relref "/docs/setup/platforms/minikube/minikube.md" >}}) is recommended.
+to the host.
 {{% /alert %}}
 
 ## Prerequisites
 
-- Install [Docker](https://docs.docker.com/install/).
-- Install [KIND](https://kind.sigs.k8s.io/docs/user/quick-start/#installation).
+- Install [Docker](https://docs.docker.com/install/)
+- Install [KIND](https://kind.sigs.k8s.io/docs/user/quick-start/#installation)
 
 ## Prepare the KIND cluster
 
 To prepare the KIND cluster for use with Verrazzano, you must create the cluster and then install and configure
 [MetalLB](https://metallb.universe.tf/) in that cluster.
 
-You can create the KIND cluster in two ways, with or without image caching.  Image caching can speed up your
-installation times.
+You can create the KIND cluster in two ways: with or without image caching; image caching can speed up your
+installation time.
 
-#### Create a KIND cluster
+### Create a KIND cluster
 
 KIND images are prebuilt for each release.  To find images suitable for a given release, check the
-[release notes](https://github.com/kubernetes-sigs/kind/releases) for your KIND version (check with `kind version`)
-where you'll find a complete listing of images created for a KIND release.
+[release notes](https://github.com/kubernetes-sigs/kind/releases) for your KIND version (check with `kind version`).
+There you'll find a complete listing of images created for a KIND release.
 
 The following example references a Kubernetes v1.18.8-based image built for KIND v0.9.0.  Replace that image
 with one suitable for the KIND release you are using.
@@ -53,11 +53,11 @@ nodes:
 EOF
 ```
 
-#### Create a KIND Cluster With Image Caching
+### Create a KIND cluster with image caching
 
-While experimenting or developing with Verrazzano, you may end up destroying and re-creating your KIND cluster multiple
-times.  To speed up the Verrazzano install process you can follow these steps to ensure that the image cache used by 
-containerd inside a KIND cluster is preserved across clusters. Subsequent installs will be faster than the first install, 
+While developing or experimenting with Verrazzano, you might destroy and re-create your KIND cluster multiple
+times.  To speed up Verrazzano installation, follow these steps to ensure that the image cache used by
+containerd inside a KIND cluster, is preserved across clusters. Subsequent installations will be faster
 because they will not need to pull the images again.
 
 1\. Create a named Docker volume that will be used for the image cache, and note its `Mountpoint` path. In this example, the volume is named `containerd`.
@@ -100,7 +100,7 @@ nodes:
 EOF
 ```
 
-### Install and configure MetalLB
+## Install and configure MetalLB
 
 By default, KIND does not provide an implementation of network load balancers ([Services of type LoadBalancer](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/)).
 [MetalLB](https://metallb.universe.tf/) offers a network load balancer implementation.
@@ -109,7 +109,9 @@ To install MetalLB:
 
 ```shell
 $ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
-$ kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
+$ kubectl create secret generic \
+    -n metallb-system memberlist \
+    --from-literal=secretkey="$(openssl rand -base64 128)"
 $ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml
 ```
 

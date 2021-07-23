@@ -1,7 +1,7 @@
 ---
-title: Customizing the NGINX Ingress
+title: Customize NGINX Ingress
 description: Instructions for customizing the Verrazzano NGINX installation
-linkTitle: Customizing NGINX
+linkTitle: NGINX
 Weight: 9
 draft: true
 ---

@@ -1,7 +1,6 @@
 ---
-title: "Software versions"
-linkTitle: Software versions
-description: "Software versions installed with Verrazzano"
+title: "Software Versions"
+description: "Review the software versions installed with Verrazzano"
 weight: 7
 draft: false
 ---
