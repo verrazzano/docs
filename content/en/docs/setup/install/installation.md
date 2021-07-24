@@ -5,10 +5,6 @@ weight: 1
 draft: false
 ---
 
-{{< alert title="NOTE" color="warning" >}}
-You should install this developer preview release of Verrazzano only in a cluster that can be safely deleted when your evaluation is complete.
-{{< /alert >}}
-
 The following instructions show you how to install Verrazzano in a
 single Kubernetes cluster.
 

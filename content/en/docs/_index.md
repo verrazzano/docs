@@ -19,10 +19,6 @@ Verrazzano includes the following capabilities:
 * Integrated security
 * DevOps and GitOps enablement
 
-{{< alert title="NOTE" color="warning" >}}
-This is a developer preview release of Verrazzano. You should install Verrazzano only
-in a Kubernetes cluster that can be safely deleted when your evaluation is complete.
-{{< /alert >}}
 
 Select [Quick Start]({{< relref "/docs/quickstart/_index.md" >}}) to get started.
 
