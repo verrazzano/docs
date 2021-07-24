@@ -287,7 +287,7 @@ and enabled for Istio.
    The parameter `hello-helidon-deployment` is from the component's
    `spec.workload.spec.deploymentTemplate.podSpec.metadata.name` value.
 
-1. Verify the Verrazzano application operator pod is running.
+1. Verify that the Verrazzano application operator pod is running.
 
    ```
    $ kubectl get pods -n verrazzano-system | grep '^NAME\|verrazzano-application-operator'

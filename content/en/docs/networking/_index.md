@@ -64,7 +64,7 @@ Verrazzano does the following as it relates to networking:
 1. Configures several Verrazzano system components to be in the mesh.  
 1. Optionally, installs ExternalDNS and creates DNS records.
 1. Creates certificates required by TLS, used by system components.
-1. Creates certificates required by Kubernetes API server to call webhook.
+1. Creates certificates required by Kubernetes API server to call a webhook.
 1. Creates NetworkPolicies for all of the system components.
 
 ## Network configuration during application life cycle

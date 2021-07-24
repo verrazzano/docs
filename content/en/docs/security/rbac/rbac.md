@@ -1,11 +1,11 @@
 ---
 title: "Kubernetes RBAC"
-description: "Learn about Role-Based Access Control (RBAC)"
+description: "Learn about role-based authorization in Verrazzano"
 weight: 2
 draft: false
 ---
 
-Verrazzano uses Kubernetes RBAC to protect Verrazzano resources.
+Verrazzano uses Kubernetes Role-Based Access Control (RBAC) to protect Verrazzano resources.
 
 Verrazzano includes a set of roles that can be granted to users, enabling access to Verrazzano resources managed by Kubernetes. In addition, Verrazzano creates a number of roles that grant permissions needed by various Verrazzano system components (operators and third-party components).
 

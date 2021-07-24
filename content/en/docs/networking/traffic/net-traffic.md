@@ -173,7 +173,7 @@ This table shows Prometheus traffic for each system component scrape target.
 | Node exporter | Node metrics.
 | Prometheus | Envoy metrics.
 | Prometheus | Prometheus metrics.
-| Verrazzano console | Envoy metrics.
+| Verrazzano Console | Envoy metrics.
 | Verrazzano API | Envoy metrics.
 | WebLogic operator | Envoy metrics.
 
@@ -295,7 +295,7 @@ The following table shows which proxies are used and in which Pod they run.
 | Istio mesh sidecar | Envoy  | `keycloak-*` | `keycloak` | Keycloak in the Istio mesh.
 | Istio mesh sidecar | Envoy  | `mysql-*` | `keycloak` | MySQL used by Keycloak in the Istio mesh.
 | Istio mesh sidecar | Envoy | `verrazzano-api-*` | `verrazzano-system` | Verrazzano API in the Istio mesh.
-| Istio mesh sidecar | Envoy | `verrazzano-console-*` | `verrazzano-system` | Verrazzano console in the Istio mesh.
+| Istio mesh sidecar | Envoy | `verrazzano-console-*` | `verrazzano-system` | Verrazzano Console in the Istio mesh.
 | Istio mesh sidecar | Envoy  | `vmi-system-es-master-*` | `verrazzano-system` | Elasticsearch in the Istio mesh.
 | Istio mesh sidecar | Envoy  | `vmi-system-es-data-*` | `verrazzano-system` | Elasticsearch in the Istio mesh.
 | Istio mesh sidecar | Envoy  | `vmi-system-es-ingest-*` | `verrazzano-system` | Elasticsearch in the Istio mesh.
@@ -306,7 +306,7 @@ The following table shows which proxies are used and in which Pod they run.
 
 ## Multicluster
 Some Verrazzano components send traffic between Kubernetes clusters. Those components are the Verrazzano agent,
-Verrazzano API proxy, the OIDC proxy, and Prometheus.
+Verrazzano API proxy, the OpenID Connect (OIDC) proxy, and Prometheus.
 
 ### Multicluster egress
 The following table shows Verrazzano system components that initiate requests between the admin and managed clusters.
