@@ -22,11 +22,11 @@
 <meta property="og:description" content="A guide for moving WebLogic Server domains to Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/samples/lift-and-shift/" />
-<meta property="article:modified_time" content="2021-07-14T17:24:07-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-07-24T09:05:35-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Lift-and-Shift Guide">
 <meta itemprop="description" content="A guide for moving WebLogic Server domains to Verrazzano">
-<meta itemprop="dateModified" content="2021-07-14T17:24:07-04:00" />
-<meta itemprop="wordCount" content="2491">
+<meta itemprop="dateModified" content="2021-07-24T09:05:35-04:00" />
+<meta itemprop="wordCount" content="2449">
 
 
 
@@ -106,7 +106,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.36f259c62ab66d9ac6ea309c5f88b445.json"
+  data-offline-search-index-json-src="../../../offline-search-index.faf4f40c0e0eb12a9532eee25a38da4c.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -133,7 +133,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.36f259c62ab66d9ac6ea309c5f88b445.json"
+  data-offline-search-index-json-src="../../../offline-search-index.faf4f40c0e0eb12a9532eee25a38da4c.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -533,23 +533,17 @@ if (!doNotTrack) {
 </code></pre></li>
 <li>
 <p>Start the container database (and optionally mount a volume for data).</p>
-<pre><code>$ docker run --name tododb \
+<pre><code>$ export MYSQL_USER=&lt;your-mysql-username&gt;
+$ export MYSQL_PASSWORD=&lt;your-mysql-password&gt;
+$ export MYSQL_ROOT_PASSWORD=&lt;your-mysql-rootpassword&gt;
+$ docker run --name tododb \
   -p 3306:3306 \
-  -e MYSQL_USER=derek \
-  -e MYSQL_PASSWORD=welcome1 \
+  -e MYSQL_USER=$MYSQL_USER \
+  -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
   -e MYSQL_DATABASE=tododb \
-  -e MYSQL_ROOT_PASSWORD=welcome1 \
+  -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD \
   -d mysql:latest
-</code></pre>
-
-<div class="alert alert-tip" role="alert">
-<h4 class="alert-heading">NOTE</h4>
-
-    You should use a more secure password.
-
-</div>
-
-</li>
+</code></pre></li>
 <li>
 <p>Start a MySQL client to change the password algorithm to <code>mysql_native_password</code>.</p>
 <ul>
@@ -559,21 +553,11 @@ if (!doNotTrack) {
 </span><span style="color:#4e9a06"></span>   -uroot <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>   -p
 </code></pre></div></li>
-<li>When prompted for the password, enter the password for the root user, <code>welcome1</code> or
-whatever password you set when starting the container in the previous step.</li>
+<li>When prompted for the password, enter the password for the root user.</li>
 <li>After being connected, run the <code>ALTER</code> command at the MySQL prompt.
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#a40000">$</span> <span style="color:#204a87;font-weight:bold">ALTER</span> <span style="color:#204a87;font-weight:bold">USER</span> <span style="color:#4e9a06">&#39;derek&#39;</span><span style="color:#ce5c00;font-weight:bold">@</span><span style="color:#4e9a06">&#39;%&#39;</span> <span style="color:#204a87;font-weight:bold">IDENTIFIED</span> <span style="color:#204a87;font-weight:bold">WITH</span> <span style="color:#000">mysql_native_password</span> <span style="color:#204a87;font-weight:bold">BY</span> <span style="color:#4e9a06">&#39;welcome1&#39;</span><span style="color:#000;font-weight:bold">;</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#a40000">$</span> <span style="color:#204a87;font-weight:bold">ALTER</span> <span style="color:#204a87;font-weight:bold">USER</span> <span style="color:#4e9a06">&#39;&lt;your-mysql-username&gt;&#39;</span><span style="color:#ce5c00;font-weight:bold">@</span><span style="color:#4e9a06">&#39;%&#39;</span> <span style="color:#204a87;font-weight:bold">identified</span> <span style="color:#204a87;font-weight:bold">with</span> <span style="color:#000">mysql_native_password</span> <span style="color:#204a87;font-weight:bold">by</span> <span style="color:#4e9a06">&#39;&lt;your-mysql-password&gt;&#39;</span><span style="color:#000;font-weight:bold">;</span>
 </code></pre></div></li>
 </ul>
-
-
-<div class="alert alert-tip" role="alert">
-<h4 class="alert-heading">NOTE</h4>
-
-    You should use a more secure password.
-
-</div>
-
 </li>
 </ol>
 <h3 id="create-a-weblogic-server-domain">Create a WebLogic Server domain</h3>
@@ -657,9 +641,9 @@ log in using the administrator credentials you specified.</p>
 <li>Database Name: <code>tododb</code></li>
 <li>Host name: <code>localhost</code></li>
 <li>Database Port: <code>3306</code></li>
-<li>Database User Name: <code>derek</code></li>
-<li>Password: <code>welcome1</code> (or whatever password you used)</li>
-<li>Confirm Password: <code>welcome1</code></li>
+<li>Database User Name: <code>&lt;your-mysql-username&gt;</code></li>
+<li>Password: <code>&lt;your-mysql-password&gt;</code></li>
+<li>Confirm Password: <code>&lt;your-mysql-password&gt;</code></li>
 </ul>
 </li>
 <li>
@@ -825,7 +809,7 @@ the application into a Verrazzano environment.</p>
 <li>Creating and labeling the <code>tododomain</code> namespace.</li>
 <li>Creating the necessary secrets required by the ToDo List application.</li>
 <li>Deploying MySQL to the <code>tododomain</code> namespace.</li>
-<li>Updating the <code>vz-application.yaml</code> file to use the Verrazzano MySQL deployment and (optionally) expose the WLS Console.</li>
+<li>Updating the <code>vz-application.yaml</code> file to use the Verrazzano MySQL deployment and (optionally) expose the WebLogic Server Administration Console.</li>
 <li>Applying the <code>vz-application.yaml</code> file.</li>
 </ol>
 <p>The following steps assume that you have a Kubernetes cluster and that <a href="../../../docs/quickstart/#install-verrazzano">Verrazzano</a> is already installed in that cluster.</p>
@@ -840,19 +824,15 @@ WDT does not discover passwords from your existing domain.  Before running the c
 edit <code>create_k8s_secrets.sh</code> to set the passwords for the WebLogic Server domain and the data source.  In this domain,
 there are a few passwords that you need to enter:</p>
 <ul>
-<li>Administrator credentials (for example, <code>weblogic/welcome1</code>)</li>
-<li>ToDo database credentials (for example, <code>derek/welcome1</code>)</li>
-<li>Runtime encryption secret (for example, <code>welcome1</code>)</li>
+<li>Administrator credentials</li>
+<li>ToDo database credentials</li>
 </ul>
 <p>For example:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8f5902;font-style:italic"># Update &lt;admin-user&gt; and &lt;admin-password&gt; for weblogic-credentials</span>
-$ create_paired_k8s_secret weblogic-credentials weblogic welcome1
+$ create_paired_k8s_secret weblogic-credentials &lt;your-WLS-username&gt; &lt;your-WLS-password&gt;
 
 <span style="color:#8f5902;font-style:italic"># Update &lt;user&gt; and &lt;password&gt; for tododomain-jdbc-tododb</span>
-$ create_paired_k8s_secret jdbc-tododb derek welcome1
-
-<span style="color:#8f5902;font-style:italic"># Update &lt;password&gt; used to encrypt hashes</span>
-$ create_k8s_secret runtime-encryption-secret welcome1
+$ create_paired_k8s_secret jdbc-tododb &lt;your-mysql-username&gt; &lt;your-mysql-password&gt;
 </code></pre></div><p>Then run the script:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sh ./create_k8s_secrets.sh
 </code></pre></div><p>Verrazzano will need a credential to pull the image that you just created, so you need to create one more secret.
@@ -907,9 +887,11 @@ mysql-5cfd58477b-mg5c7          1/1     Running             <span style="color:#
 <li>Create the application configuration resources that create the instance of the ToDo List application in the Verrazzano cluster.</li>
 </ul>
 <p>Wait for the ToDo List example application to be ready.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl <span style="color:#204a87">wait</span> pod --for<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">condition</span><span style="color:#ce5c00;font-weight:bold">=</span>Ready tododomain-adminserver -n tododomain
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl <span style="color:#204a87">wait</span> pod <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    --for<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">condition</span><span style="color:#ce5c00;font-weight:bold">=</span>Ready tododomain-adminserver <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -n tododomain
 pod/tododomain-adminserver condition met
-</code></pre></div><p>Verify the pods are in the <code>Running</code> state:</p>
+</code></pre></div><p>Verify that the pods are in the <code>Running</code> state:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get pod -n tododomain
 NAME                     READY   STATUS    RESTARTS   AGE
 mysql-55bb4c4565-c8zf5   1/1     Running   <span style="color:#0000cf;font-weight:bold">0</span>          8m
@@ -918,7 +900,9 @@ tododomain-adminserver   4/4     Running   <span style="color:#0000cf;font-weigh
 <ol>
 <li>
 <p>Get the generated host name for the application.</p>
-<pre><code>$ kubectl get gateway tododomain-tododomain-appconf-gw -n tododomain -o jsonpath={.spec.servers[0].hosts[0]}
+<pre><code>$ kubectl get gateway tododomain-tododomain-appconf-gw \
+    -n tododomain \
+    -o jsonpath={.spec.servers[0].hosts[0]}
 tododomain-appconf.tododomain.11.22.33.44.nip.io
 </code></pre></li>
 <li>
@@ -926,7 +910,7 @@ tododomain-appconf.tododomain.11.22.33.44.nip.io
 <pre><code>https://tododomain-appconf.tododomain.11.22.33.44.nip.io/todo/rest/items/init
 </code></pre></li>
 <li>
-<p>Access the application</p>
+<p>Access the application.</p>
 <pre><code>http://tododomain-appconf.tododomain.11.22.33.44.nip.io/todo
 </code></pre></li>
 </ol>
