@@ -11,7 +11,7 @@ To delete a Verrazzano installation, simply delete the Verrazzano custom resourc
 install it into your cluster.
 
 The following example starts a delete of a Verrazzano installation in the background, and then 
-uses the `kubectl logs -f` command to tail the uninstall log:
+uses the `kubectl logs -f` command to tail the Console output of the pod performing the uninstall:
 
 ```
 # Get the name of the Verrazzano custom resource
