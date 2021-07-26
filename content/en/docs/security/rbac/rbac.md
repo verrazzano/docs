@@ -1,6 +1,6 @@
 ---
 title: "Kubernetes RBAC"
-description: "Learn about role-based authorization in Verrazzano"
+description: "Learn about role-based access control in Verrazzano"
 weight: 2
 draft: false
 ---
