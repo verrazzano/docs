@@ -22,11 +22,11 @@
 <meta property="og:description" content="An example application containing a WebLogic component" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/samples/todo-list/" />
-<meta property="article:modified_time" content="2021-07-26T15:42:24-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-07-26T16:56:10-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="ToDo List">
 <meta itemprop="description" content="An example application containing a WebLogic component">
-<meta itemprop="dateModified" content="2021-07-26T15:42:24-04:00" />
-<meta itemprop="wordCount" content="878">
+<meta itemprop="dateModified" content="2021-07-26T16:56:10-04:00" />
+<meta itemprop="wordCount" content="909">
 
 
 
@@ -106,7 +106,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.10b541332fcc01f8db739f260bf62095.json"
+  data-offline-search-index-json-src="../../../offline-search-index.677d0cd42ea85fa8a223f8bed523f4aa.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -133,7 +133,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.10b541332fcc01f8db739f260bf62095.json"
+  data-offline-search-index-json-src="../../../offline-search-index.677d0cd42ea85fa8a223f8bed523f4aa.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -560,10 +560,14 @@ For the source code of this application, see the <a href="https://github.com/ver
 $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/todo-list/todo-list-application.yaml
 </code></pre></li>
 <li>
-<p>Wait for the ToDo List application to be ready.
-You may need to repeat this command several times before it is successful.
+<p>Wait for the ToDo List application to be ready. You can monitor its progress by listing pods and inspecting the output, or
+you can use the <code>kubectl wait</code> command. You may need to repeat the <code>kubectl wait</code> command several times before it is successful.
 The <code>tododomain-adminserver</code> pod may take a while to be created and <code>Ready</code>.</p>
-<pre><code>$ kubectl wait pod \
+<pre><code>$ kubectl get pods -n todo-list
+
+# -or- #
+
+$ kubectl wait pod \
    --for=condition=Ready tododomain-adminserver \
    -n todo-list
 </code></pre></li>

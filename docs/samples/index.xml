@@ -1517,10 +1517,14 @@ For the source code of this application, see the &lt;a href=&#34;https://github.
 $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/todo-list/todo-list-application.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Wait for the ToDo List application to be ready.
-You may need to repeat this command several times before it is successful.
+&lt;p&gt;Wait for the ToDo List application to be ready. You can monitor its progress by listing pods and inspecting the output, or
+you can use the &lt;code&gt;kubectl wait&lt;/code&gt; command. You may need to repeat the &lt;code&gt;kubectl wait&lt;/code&gt; command several times before it is successful.
 The &lt;code&gt;tododomain-adminserver&lt;/code&gt; pod may take a while to be created and &lt;code&gt;Ready&lt;/code&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl wait pod \
+&lt;pre&gt;&lt;code&gt;$ kubectl get pods -n todo-list
+
+# -or- #
+
+$ kubectl wait pod \
    --for=condition=Ready tododomain-adminserver \
    -n todo-list
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
@@ -1776,9 +1780,14 @@ $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/maste
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for all of the pods in the Bob&amp;rsquo;s Books example application to be ready.
-You may need to repeat this command several times before it is successful.
+You can monitor their progress by listing the pods and inspecting the output, or you can use the &lt;code&gt;kubectl wait&lt;/code&gt; command.&lt;/p&gt;
+&lt;p&gt;You may need to repeat the &lt;code&gt;kubectl wait&lt;/code&gt; command several times before it is successful.
 The WebLogic Server and Coherence pods may take a while to be created and &lt;code&gt;Ready&lt;/code&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl wait \
+&lt;pre&gt;&lt;code&gt;$ kubectl get pods -n bobs-books
+
+# -or- #
+
+$ kubectl wait \
     --for=condition=Ready pods \
     --all -n bobs-books \
     --timeout=600s
