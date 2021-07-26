@@ -89,9 +89,15 @@ For more information and the source code of this application, see the [Verrazzan
    ```
 
 1. Wait for all of the pods in the Bob's Books example application to be ready.
-   You may need to repeat this command several times before it is successful.
+   You can monitor their progress by listing the pods and inspecting the output, or you can use the `kubectl wait` command.  
+
+   You may need to repeat the `kubectl wait` command several times before it is successful.
    The WebLogic Server and Coherence pods may take a while to be created and `Ready`.
    ```
+   $ kubectl get pods -n bobs-books
+
+   # -or- #
+
    $ kubectl wait \
        --for=condition=Ready pods \
        --all -n bobs-books \
