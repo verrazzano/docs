@@ -1,6 +1,6 @@
 ---
 title: "Welcome to Verrazzano"
-linkTitle: "Documentation"
+linkTitle: "Documentation v1.0"
 weight: 20
 menu:
   main:
