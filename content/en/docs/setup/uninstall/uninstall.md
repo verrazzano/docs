@@ -16,7 +16,7 @@ uses the `kubectl logs -f` command to tail the uninstall log:
 ```
 # Get the name of the Verrazzano custom resource
 $ MYVZ=$(kubectl  get vz -o jsonpath="{.items[0].metadata.name}")
-$ 
+
 # Delete the Verrazzano custom resource
 $ kubectl delete verrazzano $MYVZ --wait=false
 $ kubectl logs \
