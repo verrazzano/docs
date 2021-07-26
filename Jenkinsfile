@@ -38,8 +38,7 @@ pipeline {
         stage('Quality Check') {
             steps {
                 sh """
-                    echo "run site linter"
-                    ./scripts/lint_site.sh
+                    ./scripts/check.sh
                 """
             }
         }
