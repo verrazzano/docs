@@ -121,7 +121,7 @@ reads an OCI configuration file to create the secret.
   ```
   $ curl \
       -o ./create_oci_config_secret.sh \
-      https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/scripts/install/create_oci_config_secret.sh
+      https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/scripts/install/create_oci_config_secret.sh "\n"
   ```
 
   Run the `create_oci_config_secret.sh` script:
@@ -152,7 +152,7 @@ Download the sample Verrazzano custom resource `install-oci.yaml` for OCI DNS:
 ```
 $ curl \
     -o ./install-oci.yaml \
-    https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/config/samples/install-oci.yaml
+    https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/config/samples/install-oci.yaml "\n"
 ```
 
 Edit the downloaded `install-oci.yaml` file and provide values for the following configuration settings:

@@ -43,7 +43,7 @@ $ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-hel
 $ echo $HOST
 hello-helidon-appconf.hello-helidon.11.22.33.44.nip.io
 
-$ curl -sk -X GET https://${HOST}/greet
+$ curl -sk -X GET https://${HOST}/greet "\n"
 ```
 Alternatively, specific host names can be given in an [IngressRule](#ingressrule).  Doing this implies that a secret and certificate have been created for the specific hosts and the secret name has been specified in the associated [IngressSecurity](#ingresssecurity) `secretName` field.
 

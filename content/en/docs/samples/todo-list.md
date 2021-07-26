@@ -103,7 +103,7 @@ For more information and the source code of this application, see the [Verrazzan
      ```
      $ curl -sk \
         https://${HOST}/todo/ \
-        --resolve ${HOST}:443:${ADDRESS}
+        --resolve ${HOST}:443:${ADDRESS} "\n"
      ```
      If you are using `nip.io`, then you do not need to include `--resolve`.
    * **Local testing with a browser**

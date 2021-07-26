@@ -198,7 +198,7 @@ The following steps will move the sample domain to Kubernetes with Verrazzano.
 For example, to get the latest version:
 
 ```shell
-$ curl -OL https://github.com/oracle/weblogic-deploy-tooling/releases/latest/download/weblogic-deploy.zip
+$ curl -OL https://github.com/oracle/weblogic-deploy-tooling/releases/latest/download/weblogic-deploy.zip "\n"
 $ unzip  weblogic-deploy.zip
 $ cd weblogic-deploy
 $ export WDT_HOME=$(pwd)
@@ -241,7 +241,7 @@ fill in the placeholders for you, or you can edit the model manually to set the 
 For example, to get the latest WIT tool:
 
 ```shell
-$ curl -OL https://github.com/oracle/weblogic-image-tool/releases/latest/download/imagetool.zip
+$ curl -OL https://github.com/oracle/weblogic-image-tool/releases/latest/download/imagetool.zip "\n"
 $ unzip imagetool.zip
 $ cd imagetool
 $ export WIT_HOME=$(pwd)

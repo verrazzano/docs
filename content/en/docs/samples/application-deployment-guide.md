@@ -361,7 +361,7 @@ If DNS was not configured, then use the alternative commands.
     ```shell script
     $ curl -sk \
         -X GET \
-        "https://${HOST}/greet"
+        "https://${HOST}/greet" "\n"
 
     {"message":"Hello World!"}
     ```
@@ -370,14 +370,14 @@ If DNS was not configured, then use the alternative commands.
     $ curl -sk \
         -X GET \
         "https://${HOST}/greet" \
-        --resolve ${HOST}:443:${ADDRESS}
+        --resolve ${HOST}:443:${ADDRESS} "\n"
     ```
 
 1.  Get a message for Robert.
     ```shell script
     $ curl -sk \
         -X GET \
-        "https://${HOST}/greet/Robert"
+        "https://${HOST}/greet/Robert" "\n"
 
     {"message":"Hello Robert!"}
     ```
@@ -386,7 +386,7 @@ If DNS was not configured, then use the alternative commands.
     $ curl -sk \
         -X GET
         "https://${HOST}/greet/Robert" \
-        --resolve ${HOST}:443:${ADDRESS}
+        --resolve ${HOST}:443:${ADDRESS} "\n"
     ```
 
 1.  Update the default greeting.
@@ -395,7 +395,7 @@ If DNS was not configured, then use the alternative commands.
         -X PUT \
         "https://${HOST}/greet/greeting" \
         -H 'Content-Type: application/json' \
-        -d '{"greeting" : "Greetings"}'
+        -d '{"greeting" : "Greetings"}' "\n"
     ```
     If DNS has not been configured, then use this command.
     ```shell script
@@ -404,14 +404,14 @@ If DNS was not configured, then use the alternative commands.
         "https://${HOST}/greet/greeting" \
         -H 'Content-Type: application/json' \
         -d '{"greeting" : "Greetings"}' \
-        --resolve ${HOST}:443:${ADDRESS}
+        --resolve ${HOST}:443:${ADDRESS} "\n"
     ```
 
 1.  Get the new message for Robert.
     ```shell script
     $ curl -sk \
         -X GET \
-        "https://${HOST}/greet/Robert"
+        "https://${HOST}/greet/Robert" "\n"
 
     {"message":"Greetings Robert!"}
     ```
@@ -420,7 +420,7 @@ If DNS was not configured, then use the alternative commands.
     $ curl -sk \
         -X GET \
         "https://${HOST}/greet/Robert" \
-        --resolve ${HOST}:443:${ADDRESS}
+        --resolve ${HOST}:443:${ADDRESS} "\n"
     ```
 
 ### Access the application's logs

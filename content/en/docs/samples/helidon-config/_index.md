@@ -69,7 +69,7 @@ Follow these steps to test the endpoints:
         -X GET \
         https://${HOST}/config \
         --resolve ${HOST}:443:${ADDRESS}
-     {"message":"HelloConfig World!"}
+     {"message":"HelloConfig World!"} "\n"
      ```
      If you are using `nip.io`, then you do not need to include `--resolve`.
    * **Local testing with a browser**

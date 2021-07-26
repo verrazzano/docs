@@ -60,7 +60,7 @@ For example, for the previous metric source:
 
 - Access the metrics at the exported path, using the user name and password retrieved in the previous step.
    ```
-   $ curl -u USERNAME:PASSWORD localhost:7001/wls-exporter/metrics
+   $ curl -u USERNAME:PASSWORD localhost:7001/wls-exporter/metrics "\n"
    ```
 
 ### Metrics server

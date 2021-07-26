@@ -53,7 +53,7 @@ $ VZPASS=$(kubectl get secret \
      --decode; echo)
 $ curl -sk \
     --user verrazzano:${VZPASS} \
-    -X GET https://${HOST}/api/v1/query?query=vendor_requests_count_total
+    -X GET https://${HOST}/api/v1/query?query=vendor_requests_count_total "\n"
 
 {"status":"success","data":{"resultType":"vector","result":[{"metric":{"__name__":"vendor_requests_count_total","app":"hello-helidon","app_oam_dev_component":"hello-helidon-component","app_oam_dev_name":"hello-helidon-appconf","app_oam_dev_resourceType":"WORKLOAD","app_oam_dev_revision":"hello-helidon-component-v1","containerizedworkload_oam_crossplane_io":"496df78f-ef8b-4753-97fd-d9218d2f38f1","job":"hello-helidon-appconf_default_helidon-logging_hello-helidon-component","namespace":"helidon-logging","pod_name":"hello-helidon-workload-b7d9d95d8-ht7gb","pod_template_hash":"b7d9d95d8"},"value":[1616535232.487,"4800"]}]}}
 ```

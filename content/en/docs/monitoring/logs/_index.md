@@ -48,7 +48,7 @@ $ HOST=$(kubectl get ingress \
     -o jsonpath={.spec.rules[0].host})
 
 $ curl -ik \
-   --user verrazzano:$PASS https://$HOST//_cat/indices
+   --user verrazzano:$PASS https://$HOST//_cat/indices "\n"
 ```
 
 To see all of the records for a specific index, do the following:
@@ -56,7 +56,7 @@ To see all of the records for a specific index, do the following:
 $ INDEX=verrazzano-namespace-todo-list
 
 $ curl -ik \
-    --user verrazzano:$PASS https://$HOST/$INDEX/_doc/_search?q=message:*
+    --user verrazzano:$PASS https://$HOST/$INDEX/_doc/_search?q=message:* "\n"
 ```
 
 Verrazzano provides support for [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}}). The production profile (`prod`), which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile (`dev`) provides a single node Elasticsearch and no persistent storage for the VMI. The `managed-cluster` profile does not install Elasticsearch or Kibana in the local cluster; all logs are forwarded to the admin cluster's Elasticsearch instance.

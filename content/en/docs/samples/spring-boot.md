@@ -62,10 +62,10 @@ This example provides a simple web application developed using [Spring Boot](htt
      ```
      $ curl -sk \
          https://${HOST} \
-         --resolve ${HOST}:443:${ADDRESS}
+         --resolve ${HOST}:443:${ADDRESS} "\n"
      $ curl -sk \
          https://${HOST}/facts \
-         --resolve ${HOST}:443:${ADDRESS}
+         --resolve ${HOST}:443:${ADDRESS} "\n"
      ```
      If you are using `nip.io`, then you do not need to include `--resolve`.
    * **Local testing with a browser**

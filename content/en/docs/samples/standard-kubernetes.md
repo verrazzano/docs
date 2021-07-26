@@ -166,7 +166,7 @@ When accessed, the application returns the configured text.
    ```
 1. Access the application.
    ```shell
-   $ curl http://${HOST}/example --resolve ${HOST}:80:${LOADBALANCER}
+   $ curl http://${HOST}/example --resolve ${HOST}:80:${LOADBALANCER} "\n"
     ```
 
 ## Undeploy the application

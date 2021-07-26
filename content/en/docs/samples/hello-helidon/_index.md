@@ -70,7 +70,7 @@ Follow these steps to test the endpoints:
         -X GET \
         https://${HOST}/greet \
         --resolve ${HOST}:443:${ADDRESS}
-     {"message":"Hello World!"}
+     {"message":"Hello World!"} "\n"
      ```
      If you are using `nip.io`, then you do not need to include `--resolve`.
    * **Local testing with a browser**

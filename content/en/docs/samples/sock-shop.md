@@ -87,7 +87,7 @@ Follow these steps to test the endpoints:
         -X GET \
         https://${HOST}/catalogue \
         --resolve ${HOST}:443:${ADDRESS}
-     [{"count":115,"description":"For all those leg lovers out there....", ...}]
+     [{"count":115,"description":"For all those leg lovers out there....", ...}] "\n"
 
      # Add a new user (replace values of username and password)
      $ curl -i \
@@ -95,7 +95,7 @@ Follow these steps to test the endpoints:
         --request POST \
         --data '{"username":"foo","password":"****","email":"foo@example.com","firstName":"foo","lastName":"foo"}' \
         -k https://${HOST}/register \
-        --resolve ${HOST}:443:${ADDRESS}
+        --resolve ${HOST}:443:${ADDRESS} "\n"
 
      # Add an item to the user's cart
      $ curl -i \
@@ -103,12 +103,12 @@ Follow these steps to test the endpoints:
         --request POST \
         --data '{"itemId": "a0a4f044-b040-410d-8ead-4de0446aec7e","unitPrice": "7.99"}' \
         -k https://${HOST}/carts/{username}/items \
-        --resolve ${HOST}:443:${ADDRESS}
+        --resolve ${HOST}:443:${ADDRESS} "\n"
 
      # Get cart items
      $ curl -i \
         -k https://${HOST}/carts/{username}/items \
-        --resolve ${HOST}:443:${ADDRESS}
+        --resolve ${HOST}:443:${ADDRESS} "\n"
      ```
      If you are using `nip.io`, then you do not need to include `--resolve`.
 
