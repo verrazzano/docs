@@ -17,7 +17,7 @@ If using Keycloak for application authentication and authorization, create a new
 
 ## Network security
 
-Verrazzano uses Istio to authenticate and authorize incoming network connections for applications. Verrazzano also provides support for configuring Kubernetes NetworkPolicy on Verrazzano Projects. NetworkPolicy rules control where network connections can be made.
+Verrazzano uses Istio to authenticate and authorize incoming network connections for applications. Verrazzano also provides support for configuring Kubernetes NetworkPolicy on Verrazzano projects. NetworkPolicy rules control where network connections can be made.
 
 {{< alert title="NOTE" color="warning" >}}
 Enforcement of NetworkPolicy requires that a Kubernetes CNI provider, such as Calico, be configured for the cluster.

@@ -17,7 +17,7 @@ $ kubectl get verrazzano
 $ kubectl delete verrazzano <name of custom resource>
 ```
 
-To monitor the console log of the uninstall:
+To monitor the Console log of the uninstall:
 
 ```
 $ kubectl logs \

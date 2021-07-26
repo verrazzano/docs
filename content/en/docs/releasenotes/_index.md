@@ -24,7 +24,7 @@ Fixes:
 Features:
 - Provided options to configure log volume/mount of the log collector, Fluentd, and pre-configured profiles.
 - Automatically enabled metrics and log capture for WebLogic domains deployed in Verrazzano.
-- Added security-related data/project YAML files to the Verrazzano console, under project details.
+- Added security-related data/project YAML files to the Verrazzano Console, under project details.
 - Updated to the v3.2.4 WebLogic Kubernetes Operator.
 
 Fixes:
@@ -85,7 +85,7 @@ Features:
     - Add network policies for Keycloak.
     - Add platform operator network policies.
     - Add network policies for Elasticsearch and Kibana.
-    - Set network policies for Verrazzano operators, console, and API proxy.
+    - Set network policies for Verrazzano operators, Console, and API proxy.
     - Add network policies for WebLogic Kubernetes Operator.
 - Changes to allow magic DNS provider to be specified (xip.io, nip.io, sslip.io).
 - Support service setup for multiple containers.

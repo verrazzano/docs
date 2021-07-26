@@ -112,7 +112,7 @@ For example, an appropriate zone name for parent domain `v8o.example.com` domain
       --zone-type PRIMARY
   ```
 
-  To create an OCI DNS zone using the OCI console, see [Managing DNS Service Zones](https://docs.oracle.com/en-us/iaas/Content/DNS/Tasks/managingdnszones.htm).
+  To create an OCI DNS zone using the OCI Console, see [Managing DNS Service Zones](https://docs.oracle.com/en-us/iaas/Content/DNS/Tasks/managingdnszones.htm).
 
 * Create a secret in the default namespace. The secret is created using the script `create_oci_config_secret.sh` which
 reads an OCI configuration file to create the secret.
@@ -185,7 +185,7 @@ $ kubectl wait \
 {{< /tabs >}}
 
 
-To monitor the console log output of the installation:
+To monitor the Console log output of the installation:
 ```shell
 $ kubectl logs \
     -f $(kubectl get pod \

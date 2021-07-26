@@ -103,9 +103,9 @@ By default, applications do not have NetworkPolicies that restrict ingress into 
 You can configure them for the application namespaces using the NetworkPolicy section of a Verrazzano project.
 
 {{< alert title="NOTE" color="warning" >}}
-Verrazzano requires specific ingress to and egress from application pods. If you add a NetworkPolicy for your application namespace or pods, 
-you must add an additional policy to ensure that Verrazzano still has the required access it needs. The ingress policy is only needed if you restrict ingress. 
-Likewise, the egress policy is only needed if you restrict egress. Following are the ingress and egress NetworkPolicies:
+Verrazzano requires specific ingress to and egress from application pods. If you add a NetworkPolicy for your application namespace or pods,
+you must add an additional policy to ensure that Verrazzano still has the required access it needs. The ingress policy is only needed if you restrict ingress.
+Likewise, the egress policy is only needed if you restrict egress. The following are the ingress and egress NetworkPolicies:
 <details>
 <summary>ingress NetworkPolicies</summary>
 
@@ -262,7 +262,7 @@ The following Verrazzano components are in the mesh and use mTLS for all service
 - Prometheus
 - Verrazzano API Proxy
 - Verrazzano Console
-- WebLogic Operator
+- WebLogic Kubernetes Operator
 
 Some of these components, have mesh-related details that are worth noting.
 

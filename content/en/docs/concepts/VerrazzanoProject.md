@@ -9,3 +9,5 @@ group of users. When creating a project, you can specify the _subjects:_ users, 
 to be granted access to the namespaces governed by the project. Two types of subjects may be specified:
 - Project admins, who have both read and write access to the project's namespaces.
 - Project monitors, who have read-only access to the project's namespaces.
+
+For more information, see [Projects]({{< relref "/docs/applications/projects/_index.md" >}}).

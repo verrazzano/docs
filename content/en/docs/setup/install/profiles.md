@@ -120,4 +120,4 @@ all profiles unless overridden).
 | Certificates | Uses the [cert-manager](https://cert-manager.io/) self-signed [ClusterIssuer](https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.ClusterIssuer) for certificates.
 | Ingress-type | Defaults to `LoadBalancer` service type for the ingress.
 
-For details on how to customize Verrazzano components, see [Customizing an Installation]({{< relref "/docs/setup/install/customizing" >}}).
+For details on how to customize Verrazzano components, see [Customize an Installation]({{< relref "/docs/setup/install/customizing" >}}).
