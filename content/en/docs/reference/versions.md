@@ -11,7 +11,7 @@ component with its version and a brief description.
 | Component | Version | Description |
 | ---       | ---     | ---         |
 | cert-manager | 1.2.0 | Automates the management and issuance of TLS certificates.
-| Coherence Operator | 3.1.5 | Assists with deploying and managing Coherence clusters.
+| Coherence Operator | 3.2.0 | Assists with deploying and managing Coherence clusters.
 | Elasticsearch | 7.6.1 | Provides a distributed, multitenant-capable full-text search engine.
 | ExternalDNS | 0.7.1 | Synchronizes exposed Kubernetes Services and ingresses with DNS providers.
 | Grafana | 6.4.4 | Tool to help you study, analyze, and monitor metrics.
@@ -23,5 +23,5 @@ component with its version and a brief description.
 | Node Exporter | 1.0.0 | Prometheus exporter for hardware and OS metrics.
 | OAM Kubernetes Runtime | 0.3.0 | Plug-in for implementing Open Application Model (OAM) control plane with Kubernetes.
 | Prometheus | 2.13.1 | Provides event monitoring and alerting.
-| Rancher | 2.5.7 | Manages multiple Kubernetes clusters.
+| Rancher | 2.5.9 | Manages multiple Kubernetes clusters.
 | WebLogic Kubernetes Operator | 3.2.5 | Assists with deploying and managing WebLogic domains.
