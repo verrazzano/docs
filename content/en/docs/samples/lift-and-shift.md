@@ -467,7 +467,7 @@ tododomain-adminserver   4/4     Running   0          5m
 
 1. Access the application.
    ```
-   http://tododomain-appconf.tododomain.11.22.33.44.nip.io/todo
+   https://tododomain-appconf.tododomain.11.22.33.44.nip.io/todo
    ```
 
 #### Access the WebLogic Server Administration Console
