@@ -48,16 +48,18 @@
       <description>
         
         
-        &lt;p&gt;To delete a Verrazzano installation:&lt;/p&gt;
+        &lt;p&gt;To delete a Verrazzano installation, simply delete the Verrazzano custom resource you used to
+install it into your cluster.&lt;/p&gt;
+&lt;p&gt;The following example starts a delete of a Verrazzano installation in the background, and then
+uses the &lt;code&gt;kubectl logs -f&lt;/code&gt; command to tail the Console output of the pod performing the uninstall:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;# Get the name of the Verrazzano custom resource
-$ kubectl get verrazzano
+$ MYVZ=$(kubectl  get vz -o jsonpath=&amp;quot;{.items[0].metadata.name}&amp;quot;)
 
 # Delete the Verrazzano custom resource
-$ kubectl delete verrazzano &amp;lt;name of custom resource&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To monitor the Console log of the uninstall:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl logs \
+$ kubectl delete verrazzano $MYVZ --wait=false
+$ kubectl logs \
     -f $(kubectl get pod \
-    -l job-name=verrazzano-uninstall-my-verrazzano \
+    -l job-name=verrazzano-uninstall-${MYVZ} \
     -o jsonpath=&amp;quot;{.items[0].metadata.name}&amp;quot;)
 &lt;/code&gt;&lt;/pre&gt;
       </description>
