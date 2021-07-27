@@ -21,8 +21,8 @@ Regardless of which DNS management you use with Verrazzano, the value in
 conjunction with the configured domain in the [`spec.components.dns`](/docs/reference/api/verrazzano/verrazzano/#dns-component) 
 section of the custom resource to form the full domain name used to access Verrazzano ingresses.  
 
-For example, if `us.v8o.example.com` is configured as the domain in `spec.components.dns`, you could use `sales` as an 
-`environmentName`, yielding `sales.us.v8o.example.com` as the sales-related domain.
+For example, if `us.mydomain.com` is configured as the domain in `spec.components.dns`, you could use `sales` as an 
+`environmentName`, yielding `sales.us.mydomain.com` as the sales-related domain.
 
 
 {{< tabs tabTotal="3" tabID="1" tabName1="Wildcard DNS" tabName2="OCI DNS" tabName3="Custom DNS">}}
@@ -72,14 +72,14 @@ conditionally installed when OCI DNS is configured for DNS management in Verrazz
 
 **Prerequisites**
 * A DNS zone is a distinct portion of a domain namespace. Therefore, ensure that the zone is appropriately associated with a parent domain.
-  For example, an appropriate zone name for parent domain `v8o.example.com` domain is `us.v8o.example.com`.
+  For example, an appropriate zone name for parent domain `mydomain.com` domain is `us.mydomain.com`.
 * Create a public OCI DNS zone using the OCI CLI or the OCI Console.
 
   To create an OCI DNS zone using the OCI CLI:
   ```
   $ oci dns zone create \
       -c <compartment ocid> \
-      --name <zone-name-prefix>.v8o.example.com \
+      --name <zone-name-prefix>.mydomain.com \
       --zone-type PRIMARY
   ```
 
@@ -102,7 +102,7 @@ conditionally installed when OCI DNS is configured for DNS management in Verrazz
   $ export KUBECONFIG=<kubeconfig-file>
   $ ./create_oci_config_secret.sh \
       -o <oci-config-file> \
-      -s <config-file-section> \
+      -s <oci-config-file-profile> \
       -k <secret-name>
 
   -o defaults to the OCI configuration file in ~/.oci/config
@@ -142,7 +142,7 @@ See [`spec.components.dns.oci`](/docs/reference/api/verrazzano/verrazzano#dns-oc
 configuration settings.
 
 For example, a custom resource for a `prod` installation profile using OCI DNS might look as follows, yielding 
-a domain of `myenv.example.mydomain.com` (OCI identifiers redacted):
+a domain of `myenv.mydomain.com` (OCI identifiers redacted):
 
 ```
 apiVersion: install.verrazzano.io/v1alpha1
@@ -158,7 +158,7 @@ spec:
         ociConfigSecret: oci
         dnsZoneCompartmentOCID: ocid1.compartment.oc1..compartment-ocid
         dnsZoneOCID: ocid1.dns-zone.oc1..zone-ocid
-        dnsZoneName: example.mydomain.com
+        dnsZoneName: mydomain.com
 ```
 
 {{< /tab >}}
