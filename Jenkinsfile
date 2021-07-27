@@ -53,10 +53,19 @@ pipeline {
             }
         }
 
+        stage('Creating production documentation zip') {
+            steps {
+                sh """
+                    zip -r verrazzano-production-docs.zip production
+                """
+            }
+        }
+
         stage('Archive artifacts ') {
             steps {
                archiveArtifacts artifacts: 'staging/**'
                archiveArtifacts artifacts: 'production/**'
+               archiveArtifacts artifacts: 'verrazzano-production-docs.zip'
             }
         }
 
