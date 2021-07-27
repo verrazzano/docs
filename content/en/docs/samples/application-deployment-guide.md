@@ -278,23 +278,20 @@ and enabled for Istio.
 1. Verify the Helidon application pod is running.
 
    ```
-   $ kubectl get pods -n hello-helidon | grep '^NAME\|hello-helidon-deployment'
+   $ kubectl get pods -n hello-helidon -l app=hello-helidon
 
    NAME                                        READY   STATUS    RESTARTS   AGE
-   hello-helidon-deployment-78468f5f9c-czmp4   3/3     Running   0          22h
-   ```
-
-   The parameter `hello-helidon-deployment` is from the component's
-   `spec.workload.spec.deploymentTemplate.podSpec.metadata.name` value.
+   hello-helidon-deployment-8664954995-wcb9d   2/2     Running   0          5m5s
+```
 
 1. Verify that the Verrazzano application operator pod is running.
 
    ```
-   $ kubectl get pods -n verrazzano-system | grep '^NAME\|verrazzano-application-operator'
+   $ kubectl get pod -n verrazzano-system -l app=verrazzano-application-operator
 
-   NAME                                                     READY   STATUS    RESTARTS   AGE
-   verrazzano-application-operator-5485967588-lp6cw         1/1     Running   0          8d
-   ```
+   NAME                                               READY   STATUS    RESTARTS   AGE
+   verrazzano-application-operator-79849b89ff-lr9w6   1/1     Running   0          13m
+```
 
    The namespace `verrazzano-system` is used by Verrazzano for
    non-application objects managed by Verrazzano.
@@ -317,10 +314,9 @@ and enabled for Istio.
    monitoring stack created by Verrazzano for the deployed applications.
 
    The monitoring infrastructure comprises several components:
-   * `vmi-system-api` - Internal API for configuring monitoring
    * `vmi-system-es` - Elasticsearch for log collection
-   * `vmi-system-kibana` - Kibana for log visualization
    * `vmi-system-grafana` - Grafana for metric visualization
+   * `vmi-system-kibana` - Kibana for log visualization
    * `vmi-system-prometheus` - Prometheus for metric collection
    <p/>
 
@@ -330,7 +326,7 @@ and enabled for Istio.
    a reasonable length of time, such as five minutes.
 
    ```shell script
-   $ kubectl describe pod -n hello-helidon hello-helidon-deployment-78468f5f9c-czmp4
+   $ kubectl describe pod -n hello-helidon -l app=hello-helidon
    ```
 
    Use the specific namespace and name for the pod being investigated.

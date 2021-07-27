@@ -171,10 +171,11 @@ Follow these steps to test the endpoints:
 
 ## Troubleshooting
 
-1. Verify that the application configuration, domain, and ingress trait all exist.
+1. Verify that the application configuration, component, workload, and ingress trait all exist.
    ```
    $ kubectl get ApplicationConfiguration -n sockshop
-   $ kubectl get Domain -n sockshop
+   $ kubectl get Component -n sockshop
+   $ kubectl get VerrazzanoCoherenceWorkload -n sockshop
    $ kubectl get IngressTrait -n sockshop
    ```   
 
