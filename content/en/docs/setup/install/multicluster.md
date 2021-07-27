@@ -52,14 +52,15 @@ Follow these preregistration setup steps:
    - Depending on whether the Verrazzano installation on the managed cluster uses
      self-signed certificates or certificates signed by a well-known certificate authority,
      choose the appropriate instructions.
-   - If you are unsure what type of certificates are used, check for the `system-tls` secret in the `verrazzano-system` namespace
-     on the managed cluster.
+   - If you are unsure what type of certificates are used, check the `ca.crt` field of the `system-tls` secret
+     in the `verrazzano-system` namespace on the managed cluster.
      ```shell
      # On the managed cluster
-     $ kubectl -n verrazzano-system get secret system-tls
+     $ kvz get secret system-tls -o jsonpath='{.data.ca\.crt}'
      ```
-     If this secret is present, then your managed cluster is using self-signed certificates. If it is *not* present,
-     then your managed cluster is using certificates signed by a well-known certificate authority.
+     If this value is empty, then your managed cluster is using certificates signed by a well-known certificate
+     authority. Otherwise, your managed cluster is using self-signed certificates.
+
      {{< tabs tabTotal="2" tabID="2" tabName1="Well-known CA" tabName2="Self-Signed" >}}
      {{< tab tabNum="1" >}}
 <br>
