@@ -28,4 +28,3 @@ else
   echo "${BRANCH_NAME} is not a release branch.  Can not publish."
   exit 1
 fi
-
