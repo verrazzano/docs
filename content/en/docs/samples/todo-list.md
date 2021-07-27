@@ -70,10 +70,14 @@ For more information and the source code of this application, see the [Verrazzan
    $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/todo-list/todo-list-application.yaml
    ```
 
-1. Wait for the ToDo List application to be ready.
-   You may need to repeat this command several times before it is successful.
+1. Wait for the ToDo List application to be ready. You can monitor its progress by listing pods and inspecting the output, or
+you can use the `kubectl wait` command. You may need to repeat the `kubectl wait` command several times before it is successful.
    The `tododomain-adminserver` pod may take a while to be created and `Ready`.
    ```
+   $ kubectl get pods -n todo-list
+
+   # -or- #
+
    $ kubectl wait pod \
       --for=condition=Ready tododomain-adminserver \
       -n todo-list
@@ -162,10 +166,13 @@ For more information and the source code of this application, see the [Verrazzan
 
 ## Access the WebLogic Server Administration Console
 
+To access the Console from the machine where you are running `kubectl`:
+
 1. Set up port forwarding.
    ```
    $ kubectl port-forward pods/tododomain-adminserver 7001:7001 -n todo-list
    ```
+   **NOTE**: If you are using the OCI Cloud Shell to run `kubectl`, in order to access the Console using port forwarding, you will need to run `kubectl` on another machine.
 
 1. Access the WebLogic Server Administration Console from your browser.
    ```

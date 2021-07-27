@@ -467,7 +467,7 @@ tododomain-adminserver   4/4     Running   0          5m
 
 1. Access the application.
    ```
-   http://tododomain-appconf.tododomain.11.22.33.44.nip.io/todo
+   https://tododomain-appconf.tododomain.11.22.33.44.nip.io/todo
    ```
 
 #### Access the WebLogic Server Administration Console
@@ -476,6 +476,7 @@ tododomain-adminserver   4/4     Running   0          5m
    ```
    $ kubectl port-forward pods/tododomain-adminserver 7001:7001 -n tododomain
    ```
+   **NOTE**: If you are using the OCI Cloud Shell to run `kubectl`, in order to access the WebLogic Server Administration Console using port forwarding, you will need to run `kubectl` on another machine.
 
 1. Access the WebLogic Server Administration Console from your browser.
    ```
