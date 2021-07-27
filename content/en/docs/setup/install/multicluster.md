@@ -56,7 +56,7 @@ Follow these preregistration setup steps:
      in the `verrazzano-system` namespace on the managed cluster.
      ```shell
      # On the managed cluster
-     $ kvz get secret system-tls -o jsonpath='{.data.ca\.crt}'
+     $ kubectl -n verrazzano-system get secret system-tls -o jsonpath='{.data.ca\.crt}'
      ```
      If this value is empty, then your managed cluster is using certificates signed by a well-known certificate
      authority. Otherwise, your managed cluster is using self-signed certificates.
