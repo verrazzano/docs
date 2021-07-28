@@ -253,19 +253,17 @@ Those have been omitted from the lists.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Verify the Helidon application pod is running.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get pods -n hello-helidon | grep &#39;^NAME\|hello-helidon-deployment&#39;
+&lt;pre&gt;&lt;code&gt;$ kubectl get pods -n hello-helidon -l app=hello-helidon
 
 NAME                                        READY   STATUS    RESTARTS   AGE
-hello-helidon-deployment-78468f5f9c-czmp4   3/3     Running   0          22h
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The parameter &lt;code&gt;hello-helidon-deployment&lt;/code&gt; is from the component&amp;rsquo;s
-&lt;code&gt;spec.workload.spec.deploymentTemplate.podSpec.metadata.name&lt;/code&gt; value.&lt;/p&gt;
-&lt;/li&gt;
+hello-helidon-deployment-8664954995-wcb9d   2/2     Running   0          5m5s
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Verify that the Verrazzano application operator pod is running.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get pods -n verrazzano-system | grep &#39;^NAME\|verrazzano-application-operator&#39;
+&lt;pre&gt;&lt;code&gt;$ kubectl get pod -n verrazzano-system -l app=verrazzano-application-operator
 
-NAME                                                     READY   STATUS    RESTARTS   AGE
-verrazzano-application-operator-5485967588-lp6cw         1/1     Running   0          8d
+NAME                                               READY   STATUS    RESTARTS   AGE
+verrazzano-application-operator-79849b89ff-lr9w6   1/1     Running   0          13m
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The namespace &lt;code&gt;verrazzano-system&lt;/code&gt; is used by Verrazzano for
 non-application objects managed by Verrazzano.
 A single &lt;code&gt;verrazzano-application-operator&lt;/code&gt; manages the life cycle of
@@ -284,10 +282,9 @@ vmi-system-prometheus-0-7bf464d898-czq8r                 4/4     Running   0    
 monitoring stack created by Verrazzano for the deployed applications.&lt;/p&gt;
 &lt;p&gt;The monitoring infrastructure comprises several components:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;vmi-system-api&lt;/code&gt; - Internal API for configuring monitoring&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;vmi-system-es&lt;/code&gt; - Elasticsearch for log collection&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;vmi-system-kibana&lt;/code&gt; - Kibana for log visualization&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;vmi-system-grafana&lt;/code&gt; - Grafana for metric visualization&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;vmi-system-kibana&lt;/code&gt; - Kibana for log visualization&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;vmi-system-prometheus&lt;/code&gt; - Prometheus for metric collection&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p/&gt;
@@ -296,7 +293,7 @@ monitoring stack created by Verrazzano for the deployed applications.&lt;/p&gt;
 &lt;p&gt;Diagnose failures.&lt;/p&gt;
 &lt;p&gt;View the event logs of any pod not entering the &lt;code&gt;Running&lt;/code&gt; state within
 a reasonable length of time, such as five minutes.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl describe pod -n hello-helidon hello-helidon-deployment-78468f5f9c-czmp4
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl describe pod -n hello-helidon -l &lt;span style=&#34;color:#000&#34;&gt;app&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;hello-helidon
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Use the specific namespace and name for the pod being investigated.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
@@ -1086,9 +1083,10 @@ before deploying the Sock Shop application.&lt;/li&gt;
 &lt;h2 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;Verify that the application configuration, domain, and ingress trait all exist.&lt;/p&gt;
+&lt;p&gt;Verify that the application configuration, component, workload, and ingress trait all exist.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ kubectl get ApplicationConfiguration -n sockshop
-$ kubectl get Domain -n sockshop
+$ kubectl get Component -n sockshop
+$ kubectl get VerrazzanoCoherenceWorkload -n sockshop
 $ kubectl get IngressTrait -n sockshop
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
@@ -1259,13 +1257,12 @@ vmi-system-prometheus        &amp;lt;none&amp;gt;   prometheus.vmi.system.defaul
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;To undeploy the application, delete the Spring Boot OAM resources.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl delete -f springboot-app.yaml
-$ kubectl delete -f springboot-comp.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/springboot-app/springboot-app.yaml
+$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/springboot-app/springboot-comp.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Delete the namespace &lt;code&gt;springboot&lt;/code&gt; after the application pod is terminated.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get pods -n springboot
-$ kubectl delete namespace springboot
+&lt;pre&gt;&lt;code&gt;$ kubectl delete namespace springboot
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
@@ -1441,7 +1438,7 @@ $ &lt;span style=&#34;color:#204a87&#34;&gt;echo&lt;/span&gt; &lt;span style=&#3
 This will result in the deletion of all explicitly and implicitly created resources in the namespace.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl delete namespace oam-kube
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;If desired, the cluster admin also can remove the created ClusterRole and ClusterRoleBinding.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl delete oam-kubernetes-runtime-ingresses am-kubernetes-runtime-ingresses
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl delete ClusterRoleBinding oam-kubernetes-runtime-ingresses
 $ kubectl delete ClusterRole oam-kubernetes-runtime-ingresses
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
       </description>
