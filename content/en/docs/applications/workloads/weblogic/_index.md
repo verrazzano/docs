@@ -7,7 +7,7 @@ draft: true
 
 ## WebLogic Kubernetes Operator
 
-WebLogic server platform is a widely used enterprise application server for managing Java Enterprise Edition ("JEE") based applications and is [certified](https://blogs.oracle.com/weblogicserver/weblogic-server-certification-on-kubernetes) to run on Kubernetes using the [WebLogic Kubernetes Operator](https://github.com/oracle/weblogic-kubernetes-operator). WebLogic Kubernetes Operator manages the WebLogic Domain life cycle in a Verrazzano. WebLogic Domain CRD specifies configuration of a WebLogic Domain. The Operator watches WebLogic Domain CR and reconciles WebLogic Domain by creating, updating, and deleting Kubernetes resources (Pods, etc.) as needed. Each pod is a WebLogic Domain server (administration or managed).
+WebLogic server platform is a widely used enterprise application server for managing Java Enterprise Edition ("JEE") based applications and is [certified](https://blogs.oracle.com/weblogicserver/weblogic-server-certification-on-kubernetes) to run on Kubernetes using the [WebLogic Kubernetes Operator](https://github.com/oracle/weblogic-kubernetes-operator). WebLogic Kubernetes Operator manages the WebLogic Domain life cycle in a Verrazzano. WebLogic Domain CRD specifies configuration of a WebLogic Domain. The Operator watches WebLogic Domain CR and reconciles WebLogic Domain by creating, updating, and deleting Kubernetes resources (Pods, services and so on) as needed. Each pod is a WebLogic Domain server (administration or managed).
 
 <figure>
   <img src="/docs/images/wls-op-action.png" style="display:block;margin-left:auto;margin-right:auto;width:70%" alt="WebLogic Kubernetes Operator"/>
@@ -75,9 +75,9 @@ Verrazzano Application Operator watches the `VerrazzanoWebLogicWorkload` CR and 
   <figcaption style="text-align:center">Verrazzano Application Operator</figcaption>
 <figure>
 
-## WebLogic Domain lifecycle
+## WebLogic Domain life ycle
 
-Following are the different lifecyle stages of a WebLogic Domain.
+Following are the different life cycle stages of a WebLogic Domain.
 
 1. Create WebLogic Domain
 - Application containing WebLogic component is created
@@ -94,8 +94,8 @@ Following are the different lifecyle stages of a WebLogic Domain.
 WebLogic Domain scale-in and scale-out operations can be performed by modifying the OAM component replicas count. WebLogic Domain can be deleted by deleting the OAM application or removing component from application.
 
 <figure>
-  <img src="/docs/images/wls-domain-scale.png" style="display:block;margin-left:auto;margin-right:auto;width:70%" alt="WebLogic Domain lifecycle"/>
-  <figcaption style="text-align:center">WebLogic Domain lifecycle</figcaption>
+  <img src="/docs/images/wls-domain-scale.png" style="display:block;margin-left:auto;margin-right:auto;width:70%" alt="WebLogic Domain life cycle"/>
+  <figcaption style="text-align:center">WebLogic Domain life cycle</figcaption>
 <figure>
 
 ## Istio Integration
@@ -107,7 +107,7 @@ Verrazzano creates all WebLogic Domain pods in istio-mesh and all  WebLogic netw
   <figcaption style="text-align:center">WebLogic Domain mTLS</figcaption>
 <figure>
 <br/>
-The Envoy proxy sidecar exists in front of workloads for each service providing security, load balancing, metrics, etc. Traffic in and out of the pod goes through the proxy. 
+The Envoy proxy sidecar exists in front of workloads for each service providing security, load balancing, metrics and so on. Traffic in and out of the pod goes through the proxy. 
 
 <figure>
   <img src="/docs/images/wls-istio-mesh.png" style="display:block;margin-left:auto;margin-right:auto;width:70%" alt="WebLogic Domain in Istio-Mesh"/>
@@ -130,7 +130,7 @@ items:
 
 ## WebLogic Domain - Istio Mesh Ingress and Egress
 
-Verrazzano installer creates two types of gateway services - one for ingress and other for egress, depending on the options selected for the installation. Ingress gateway is `LoadBalancer` service type and TLS is terminated at Istio Ingress Gateway. Ingress to WebLogic Domain is optional and `IngressTrait` can be used to enable that. Egress to endpoints outside the mesh go through Istio Egress Gateway. WebLogic Kubernetes Operator also communicates with WebLogic Domain servers over mTLS and uses Egress gateway used to access mesh external endpoints.
+Verrazzano installer creates the Ingress Gateway Service. Ingress gateway is `LoadBalancer` service type and TLS is terminated at Istio Ingress Gateway. Ingress to WebLogic Domain is optional and `IngressTrait` can be used to enable that.
 
 <figure>
   <img src="/docs/images/wls-istio-ing-eg.png" style="display:block;margin-left:auto;margin-right:auto;width:70%" alt="Istio Mesh Ingress and Egress"/>
@@ -139,7 +139,7 @@ Verrazzano installer creates two types of gateway services - one for ingress and
 
 ## Istio Ingress and Routing – Single WebLogic Domain
 
-Istio Gateway resource describes a proxy providing ingress into the Kubernetes cluster and the istio-mesh. Gateway specifies the host, port and protocol etc. and is bound to a gateway service (LoadBalancer / NodePort). VirtualService specifies routes to services, load balancing.
+Istio Gateway resource describes a proxy providing ingress into the Kubernetes cluster and the istio-mesh. Gateway specifies the host, port,protocol and so on and is bound to a gateway service (LoadBalancer / NodePort). VirtualService specifies routes to services, load balancing.
 
 <figure>
   <img src="/docs/images/wls-istio-gateway.png" style="display:block;margin-left:auto;margin-right:auto;width:70%" alt="Istio: Single WebLogic Domain"/>
