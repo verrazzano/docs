@@ -282,7 +282,7 @@ and enabled for Istio.
 
    NAME                                        READY   STATUS    RESTARTS   AGE
    hello-helidon-deployment-8664954995-wcb9d   2/2     Running   0          5m5s
-```
+   ```
 
 1. Verify that the Verrazzano application operator pod is running.
 
@@ -291,7 +291,7 @@ and enabled for Istio.
 
    NAME                                               READY   STATUS    RESTARTS   AGE
    verrazzano-application-operator-79849b89ff-lr9w6   1/1     Running   0          13m
-```
+   ```
 
    The namespace `verrazzano-system` is used by Verrazzano for
    non-application objects managed by Verrazzano.
