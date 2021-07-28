@@ -6,8 +6,6 @@ weight: 6
 draft: false
 ---
 
-## WebLogic Kubernetes Operator
-
 WebLogic Server is a widely-used enterprise application server for managing Java Enterprise Edition-based applications and is [certified](https://blogs.oracle.com/weblogicserver/weblogic-server-certification-on-kubernetes) to run on Kubernetes using the [WebLogic Kubernetes Operator](https://oracle.github.io/weblogic-kubernetes-operator/). The WebLogic Kubernetes Operator manages the WebLogic domain life cycle in Verrazzano. The WebLogic Domain custom resource definition (CRD) specifies the configuration of the WebLogic domain. The operator monitors the WebLogic Domain CRD and reconciles the domain by creating, updating, and deleting Kubernetes resources (Pods, Services, and such), as needed. Each pod is a WebLogic Server, an Administration Server or Managed Server.
 
 <figure>
@@ -15,7 +13,6 @@ WebLogic Server is a widely-used enterprise application server for managing Java
   <figcaption style="text-align:center">WebLogic Kubernetes Operator</figcaption>
 </figure>
 
-### WebLogic Kubernetes Operator in Verrazzano
 
  The WebLogic Kubernetes Operator is installed in the `verrazzano-system` namespace and is also part of the [istio-mesh](https://istio.io/latest/about/service-mesh/) deployed by Verrazzano.
 
