@@ -130,12 +130,11 @@ This example provides a simple web application developed using [Spring Boot](htt
 
 1. To undeploy the application, delete the Spring Boot OAM resources.
    ```
-   $ kubectl delete -f springboot-app.yaml
-   $ kubectl delete -f springboot-comp.yaml
+   $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/springboot-app/springboot-app.yaml
+   $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/springboot-app/springboot-comp.yaml
    ```
 
 1. Delete the namespace `springboot` after the application pod is terminated.
    ```
-   $ kubectl get pods -n springboot
    $ kubectl delete namespace springboot
    ```

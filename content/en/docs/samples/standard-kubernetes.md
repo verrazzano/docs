@@ -178,6 +178,6 @@ $ kubectl delete namespace oam-kube
 
 If desired, the cluster admin also can remove the created ClusterRole and ClusterRoleBinding.
 ```shell
-$ kubectl delete oam-kubernetes-runtime-ingresses am-kubernetes-runtime-ingresses
+$ kubectl delete ClusterRoleBinding oam-kubernetes-runtime-ingresses
 $ kubectl delete ClusterRole oam-kubernetes-runtime-ingresses
 ```
