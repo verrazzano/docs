@@ -317,7 +317,7 @@ WebLogic logs are sent to Elasticsearch, which is installed in the Verrazzano cl
   <figcaption style="text-align:center">WebLogic Logging</figcaption>
 <figure>
 
-## Lift and shift WebLogic applications
+## Lift-and-Shift WebLogic applications
 
 Verrazzano makes it easy for you to migrate WebLogic applications from on-premises installations to the cloud. You can use WebLogic Deploy Tooling (WDT) to build the domain model and WebLogic Image Tool (WIT) to build the WebLogic domain image.
 
@@ -348,7 +348,7 @@ Step 4. Verify the domain.
    - To verify that the WebLogic domain is up and running, follow the steps found [here](https://oracle.github.io/weblogic-kubernetes-operator/samples/domains/domain-home-in-image/#verify-the-domain).
 
 
-## Database Connection
+## Database connections
 
 Typically, WebLogic applications make database connections using the connection information present in the JDBCSystemResources created in a WebLogic domain. To implement this in Verrazzano, databases are deployed as separate components and the connection information is made available to the WebLogic domain using a WDT Model.
 
