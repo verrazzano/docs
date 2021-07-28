@@ -70,7 +70,10 @@ when configured to use the [`spec.components.dns.oci`](/docs/reference/api/verra
 through the [External DNS Service](https://github.com/kubernetes-sigs/external-dns), which is a component that is 
 conditionally installed when OCI DNS is configured for DNS management in Verrazzano.
 
-**Prerequisites**
+#### Prerequisites
+
+You need to ensure the following before using OCI DNS with Verrazzano:
+
 * A DNS zone is a distinct portion of a domain namespace. Therefore, ensure that the zone is appropriately associated with a parent domain.
   For example, an appropriate zone name for parent domain `mydomain.com` domain is `us.mydomain.com`.
 * Create a public OCI DNS zone using the OCI CLI or the OCI Console.
@@ -86,42 +89,114 @@ conditionally installed when OCI DNS is configured for DNS management in Verrazz
   To create an OCI DNS zone using the OCI Console, see 
   [Managing DNS Service Zones](https://docs.oracle.com/en-us/iaas/Content/DNS/Tasks/managingdnszones.htm).
 
-* Create a secret in the default namespace. The secret is created using the script `create_oci_config_secret.sh` which
-  reads an OCI configuration file to create the secret.
+* A valid OCI API Signing key that can be used to communicate with OCI DNS in your tenancy.  If you need to create an API key, 
+  see the OCI documentation 
+  [Required Keys and OCIDs](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm).
 
-  Download the `create_oci_config_secret.sh` script:
-  ```
-  $ curl \
-      -o ./create_oci_config_secret.sh \
-      https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/scripts/install/create_oci_config_secret.sh
-  ```
+#### Create an OCI API Secret in the Target Cluster
+ 
+Verrazzano will need to be made aware of the necessary API credentials to be able to communicate with OCI DNS to manage
+DNS records.  A generic Kubernetes secret must be created so that it can be referenced by the custom 
+resource used to install Verrazzano.
 
-  Run the `create_oci_config_secret.sh` script:
-  ```
-  $ chmod +x create_oci_config_secret.sh
-  $ export KUBECONFIG=<kubeconfig-file>
-  $ ./create_oci_config_secret.sh \
-      -o <oci-config-file> \
-      -s <oci-config-file-profile> \
-      -k <secret-name>
+Once you have a API key ready for use, create a YAML file `oci.yaml` with the API credentials of the form
 
-  -o defaults to the OCI configuration file in ~/.oci/config
-  -s defaults to the DEFAULT properties section within the OCI configuration file
-  -k defaults to a secret named oci
-  ```
-  {{< alert title="NOTE" color="warning" >}}
-  The `key_file` value within the OCI configuration file must reference a `.pem` file that contains a RSA private key.
-  The contents of a RSA private key file starts with `-----BEGIN RSA PRIVATE KEY-----`.  If your OCI configuration file
-  references a `.pem` file that is not of this form, then you must generate a RSA private key file.  See 
-  [Generating a RSA Private Key](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm).
-  After generating the correct form of the `.pem` file, make sure to change the reference within the OCI configuration file.
-  {{< /alert >}}
+```
+auth:
+  region: <oci-region>
+  tenancy: <oci-tenancy-ocid>
+  user: <oci-user-ocid>
+  key: |
+    <oci-api-private-key-file-contents>
+  fingerprint: <oci-api-private-key-fingerprint>
+```
 
-**Configuration**
+This information can typically be found in your OCI CLI config file, or in the OCI Console.  The 
+`<oci-api-private-key-fingerprint>` contents are the PEM-encoded contents of the `key_file` value within the OCI CLI 
+configuration profile.
 
-Configuring Verrazzano to use OCI DNS requires some configuration settings to create DNS records.
+{{< alert title="NOTE" color="warning" >}}
+The key_file within the OCI configuration file must reference a .pem file that contains a RSA private key.
+If the key is PEM-encoded, the contents of a RSA private key file will start with `-----BEGIN RSA PRIVATE KEY-----`.  
+<br/>
+If your OCI configuration file references a `.pem` file that is not of this form, then you must generate a RSA private key file.  See
+[Generating a RSA Private Key](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm).
+After generating the correct form of the `.pem` file, make sure to change the reference within the OCI configuration file.
+{{< /alert >}}
 
-Download the sample Verrazzano custom resource `install-oci.yaml` for OCI DNS:
+For example, your `oci.yaml` file will look similar to the following:
+
+```
+auth:
+  region: us-ashburn-1
+  tenancy: ocid1.tenancy.oc1.....
+  user: ocid1.user.oc1.....
+  key: |
+    -----BEGIN PRIVATE KEY-----
+    ...
+    -----END PRIVATE KEY-----
+  fingerprint: 12:d3:4c:gh:fd:9e:27:g8:b9:0d:9f:00:22:33:c3:gg
+```
+
+Next, create a generic Kubernetes secret using `kubectl`
+  
+For example, to create a secret named `oci` from a file `oci.yaml` do the following:
+  
+```
+$ kubectl create secret generic oci --from-file=oci.yaml
+```
+
+This secret will later be referenced from the Verrazzano custom resource used during installation.
+
+##### Using the Verrazzano Helper Script to Create an OCI Secret
+
+Verrazzano also provides a helper script to create the necessary Kubernetes secret based on your OCI CLI config file,
+assuming you have the OCI CLI installed and a valid OCI CLI profile with the required API key information. The secret is 
+created using the script `create_oci_config_secret.sh` which reads your OCI CLI configuration file to create the secret.
+
+First, download the `create_oci_config_secret.sh` script:
+
+```
+$ curl \
+    -o ./create_oci_config_secret.sh \
+    https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/scripts/install/create_oci_config_secret.sh
+```
+
+Next, set your KUBECONFIG environment variable to point to your cluster, and run the `create_oci_config_secret.sh` 
+script to dislpay the options:
+```
+$ chmod +x create_oci_config_secret.sh
+$ export KUBECONFIG=<kubeconfig-file>
+$ ./create_oci_config_secret.sh  -h
+usage: ./create_oci_config_secret.sh [-o oci_config_file] [-s config_file_section]
+  -o oci_config_file         The full path to the OCI configuration file (default ~/.oci/config)
+  -s config_file_section     The properties section within the OCI configuration file.  Default is DEFAULT
+  -k secret_name             The secret name containing the OCI configuration.  Default is oci
+  -h                         Help
+```
+
+For example, to have the script create the YAML file using your `[DEFAULT]` OCI CLI profile and then create a Kubernetes secret 
+named `oci`, you can simply run the script with no arguments as follows:
+
+```
+$ ./create_oci_config_secret.sh
+secret/oci created
+```
+
+The following example creates a secret `myoci` using an OCI CLI profile named `dev`:
+
+```
+$ ./create_oci_config_secret.sh -s dev -k myoci
+secret/myoci created
+```
+
+#### Installation
+
+Once the OCI API secret is created, create a Verrazzano custom resource for installation that is configured to use OCI 
+DNS, and reference the secret you created.
+
+As a starting point, download the sample Verrazzano custom resource `install-oci.yaml` for OCI DNS:
+
 ```
 $ curl \
     -o ./install-oci.yaml \
@@ -137,9 +212,8 @@ custom resource spec:
 * `spec.components.dns.oci.dnsZoneOCID`
 * `spec.components.dns.oci.dnsZoneName`
 
-
-See [`spec.components.dns.oci`](/docs/reference/api/verrazzano/verrazzano#dns-oci) for details on the OCI DNS 
-configuration settings.
+The field `spec.components.dns.oci.ociConfigSecret` should reference the secret created earlier. For details on the
+OCI DNS configuration settings, see [`spec.components.dns.oci`](/docs/reference/api/verrazzano/verrazzano#dns-oci).
 
 For example, a custom resource for a `prod` installation profile using OCI DNS might look as follows, yielding 
 a domain of `myenv.mydomain.com` (OCI identifiers redacted):
@@ -160,6 +234,8 @@ spec:
         dnsZoneOCID: ocid1.dns-zone.oc1..zone-ocid
         dnsZoneName: mydomain.com
 ```
+
+Once the custom resource is ready, apply it using `kubectl apply -f <path-to-custom-resource-file>`.
 
 {{< /tab >}}
 {{< tab tabNum="3" >}}
