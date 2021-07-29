@@ -101,7 +101,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.ae7a35c6e567996965dfc2ee25d51879.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.d64c8fb46d12caeaf2f70608503e43f0.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -128,7 +128,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.ae7a35c6e567996965dfc2ee25d51879.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.d64c8fb46d12caeaf2f70608503e43f0.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -627,9 +627,11 @@ before deploying the Sock Shop application.</li>
 <h2 id="troubleshooting">Troubleshooting</h2>
 <ol>
 <li>
-<p>Verify that the application configuration, domain, and ingress trait all exist.</p>
+<p>Verify that the application configuration, components, workloads, and ingress trait all exist.</p>
 <pre><code>$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get ApplicationConfiguration -n mc-sockshop
-$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get Domain -n mc-sockshop
+$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get Component -n mc-sockshop
+$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get VerrazzanoCoherenceWorkload -n mc-sockshop
+$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get Coherence -n mc-sockshop
 $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get IngressTrait -n mc-sockshop
 </code></pre></li>
 <li>
@@ -662,12 +664,9 @@ the deployed Sock Shop application.  Accessing them may require the following:</
 </ul>
 <p>You can retrieve the list of available ingresses with following command:</p>
 <pre><code>$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get ing -n verrazzano-system
-NAME                         CLASS    HOSTS                                                    ADDRESS          PORTS     AGE
-verrazzano-ingress           &lt;none&gt;   verrazzano.default.140.238.94.217.nip.io                 140.238.94.217   80, 443   7d2h
-vmi-system-es-ingest         &lt;none&gt;   elasticsearch.vmi.system.default.140.238.94.217.nip.io   140.238.94.217   80, 443   7d2h
-vmi-system-grafana           &lt;none&gt;   grafana.vmi.system.default.140.238.94.217.nip.io         140.238.94.217   80, 443   7d2h
-vmi-system-kibana            &lt;none&gt;   kibana.vmi.system.default.140.238.94.217.nip.io          140.238.94.217   80, 443   7d2h
-vmi-system-prometheus        &lt;none&gt;   prometheus.vmi.system.default.140.238.94.217.nip.io      140.238.94.217   80, 443   7d2h
+NAME                    CLASS    HOSTS                                              ADDRESS       PORTS     AGE
+verrazzano-ingress      &lt;none&gt;   verrazzano.default.10.11.12.13.nip.io              10.11.12.13   80, 443   32m
+vmi-system-prometheus   &lt;none&gt;   prometheus.vmi.system.default.10.11.12.13.nip.io   10.11.12.13   80, 443   32m
 </code></pre><p>Using the ingress host information, some of the endpoints available are:</p>
 <table>
 <thead>
@@ -678,16 +677,6 @@ vmi-system-prometheus        &lt;none&gt;   prometheus.vmi.system.default.140.23
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>Kibana</td>
-<td><code>https://[vmi-system-kibana ingress host]</code></td>
-<td><code>verrazzano</code>/<code>telemetry-password</code></td>
-</tr>
-<tr>
-<td>Grafana</td>
-<td><code>https://[vmi-system-grafana ingress host]</code></td>
-<td><code>verrazzano</code>/<code>telemetry-password</code></td>
-</tr>
 <tr>
 <td>Prometheus</td>
 <td><code>https://[vmi-system-prometheus ingress host]</code></td>

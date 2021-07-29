@@ -268,9 +268,11 @@ before deploying the Sock Shop application.&lt;/li&gt;
 &lt;h2 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;Verify that the application configuration, domain, and ingress trait all exist.&lt;/p&gt;
+&lt;p&gt;Verify that the application configuration, components, workloads, and ingress trait all exist.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get ApplicationConfiguration -n mc-sockshop
-$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get Domain -n mc-sockshop
+$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get Component -n mc-sockshop
+$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get VerrazzanoCoherenceWorkload -n mc-sockshop
+$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get Coherence -n mc-sockshop
 $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get IngressTrait -n mc-sockshop
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
@@ -303,12 +305,9 @@ the deployed Sock Shop application.  Accessing them may require the following:&l
 &lt;/ul&gt;
 &lt;p&gt;You can retrieve the list of available ingresses with following command:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get ing -n verrazzano-system
-NAME                         CLASS    HOSTS                                                    ADDRESS          PORTS     AGE
-verrazzano-ingress           &amp;lt;none&amp;gt;   verrazzano.default.140.238.94.217.nip.io                 140.238.94.217   80, 443   7d2h
-vmi-system-es-ingest         &amp;lt;none&amp;gt;   elasticsearch.vmi.system.default.140.238.94.217.nip.io   140.238.94.217   80, 443   7d2h
-vmi-system-grafana           &amp;lt;none&amp;gt;   grafana.vmi.system.default.140.238.94.217.nip.io         140.238.94.217   80, 443   7d2h
-vmi-system-kibana            &amp;lt;none&amp;gt;   kibana.vmi.system.default.140.238.94.217.nip.io          140.238.94.217   80, 443   7d2h
-vmi-system-prometheus        &amp;lt;none&amp;gt;   prometheus.vmi.system.default.140.238.94.217.nip.io      140.238.94.217   80, 443   7d2h
+NAME                    CLASS    HOSTS                                              ADDRESS       PORTS     AGE
+verrazzano-ingress      &amp;lt;none&amp;gt;   verrazzano.default.10.11.12.13.nip.io              10.11.12.13   80, 443   32m
+vmi-system-prometheus   &amp;lt;none&amp;gt;   prometheus.vmi.system.default.10.11.12.13.nip.io   10.11.12.13   80, 443   32m
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Using the ingress host information, some of the endpoints available are:&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -319,16 +318,6 @@ vmi-system-prometheus        &amp;lt;none&amp;gt;   prometheus.vmi.system.defaul
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;Kibana&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-kibana ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Grafana&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-grafana ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Prometheus&lt;/td&gt;
 &lt;td&gt;&lt;code&gt;https://[vmi-system-prometheus ingress host]&lt;/code&gt;&lt;/td&gt;
