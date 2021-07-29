@@ -155,7 +155,7 @@ First, download the `create_oci_config_secret.sh` script:
 ```
 $ curl \
     -o ./create_oci_config_secret.sh \
-    https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/scripts/install/create_oci_config_secret.sh
+    {{< ghlink raw=true path="platform-operator/scripts/install/create_oci_config_secret.sh" >}}
 ```
 
 Next, set your `KUBECONFIG` environment variable to point to your cluster, and run `create_oci_config_secret.sh -h` 
@@ -197,7 +197,7 @@ As a starting point, download the sample Verrazzano custom resource `install-oci
 ```
 $ curl \
     -o ./install-oci.yaml \
-    https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/config/samples/install-oci.yaml
+    {{< ghlink raw=true path="platform-operator/config/samples/install-oci.yaml" >}}
 ```
 
 Edit the downloaded `install-oci.yaml` file and provide values for the following configuration settings in the
