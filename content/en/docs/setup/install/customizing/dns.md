@@ -111,8 +111,26 @@ auth:
 ```
 
 This information can typically be found in your OCI CLI config file, or in the OCI Console.  The 
-`<oci-api-private-key-fingerprint>` contents are the PEM-encoded contents of the `key_file` value within the OCI CLI 
+`<oci-api-private-key-file-contents>` contents are the PEM-encoded contents of the `key_file` value within the OCI CLI 
 configuration profile.
+
+{{< alert title="NOTE" color="warning" >}}
+The key_file within the OCI configuration file must reference a .pem file that contains a RSA private key.
+If the key is PEM-encoded, the contents of a RSA private key file will start with `-----BEGIN RSA PRIVATE KEY-----`.  
+<br/>
+If your OCI configuration file references a `.pem` file that is not of this form, then you must generate a RSA private key file.  See
+[Generating a RSA Private Key](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm).
+After generating the correct form of the `.pem` file, make sure to change the reference within the OCI configuration file.
+<br/><br/>
+If your installation fails with the following error and your secret is present, check the format of your private key file:
+```
+[2021-07-29 14:36:59 UTC] Error from server (NotFound): secrets "oci" not found
+...
+[2021-07-29 14:42:00 UTC] Error: timed out waiting for the condition
+[2021-07-29 14:42:00 UTC] Installing external DNS                                                      [FAILED]
+```
+
+{{< /alert >}}
 
 For example, your `oci.yaml` file will look similar to the following:
 
@@ -122,9 +140,9 @@ auth:
   tenancy: ocid1.tenancy.oc1.....
   user: ocid1.user.oc1.....
   key: |
-    -----BEGIN PRIVATE KEY-----
+    -----BEGIN RSA PRIVATE KEY-----
     ...
-    -----END PRIVATE KEY-----
+    -----BEGIN RSA PRIVATE KEY-----
   fingerprint: 12:d3:4c:gh:fd:9e:27:g8:b9:0d:9f:00:22:33:c3:gg
 ```
 
