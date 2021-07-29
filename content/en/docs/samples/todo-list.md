@@ -87,7 +87,7 @@ you can use the `kubectl wait` command. You may need to repeat the `kubectl wait
    ```
    $ HOST=$(kubectl get gateway \
         -n todo-list \
-        -o jsonpath={.items[0].spec.servers[0].hosts[0]})
+        -o jsonpath='{.items[0].spec.servers[0].hosts[0]}')
    $ echo $HOST
    todo-appconf.todo-list.11.22.33.44.nip.io
    ```
@@ -137,7 +137,7 @@ you can use the `kubectl wait` command. You may need to repeat the `kubectl wait
      ```
      $ kubectl get secret \
          --namespace verrazzano-system verrazzano \
-         -o jsonpath={.data.password} | base64 \
+         -o jsonpath='{.data.password}' | base64 \
          --decode; echo
      ```
      The associated user name is `verrazzano`.
@@ -149,11 +149,11 @@ you can use the `kubectl wait` command. You may need to repeat the `kubectl wait
    ```
    $ kubectl get ingress -n verrazzano-system
    NAME                         CLASS    HOSTS                                                     ADDRESS           PORTS     AGE
-   verrazzano-ingress           <none>   verrazzano.default.140.141.142.143.nip.io                 140.141.142.143   80, 443   7d2h
-   vmi-system-es-ingest         <none>   elasticsearch.vmi.system.default.140.141.142.143.nip.io   140.141.142.143   80, 443   7d2h
-   vmi-system-grafana           <none>   grafana.vmi.system.default.140.141.142.143.nip.io         140.141.142.143   80, 443   7d2h
-   vmi-system-kibana            <none>   kibana.vmi.system.default.140.141.142.143.nip.io          140.141.142.143   80, 443   7d2h
-   vmi-system-prometheus        <none>   prometheus.vmi.system.default.140.141.142.143.nip.io      140.141.142.143   80, 443   7d2h
+   verrazzano-ingress           <none>   verrazzano.default.11.22.33.44.nip.io                 11.22.33.44   80, 443   7d2h
+   vmi-system-es-ingest         <none>   elasticsearch.vmi.system.default.11.22.33.44.nip.io   11.22.33.44   80, 443   7d2h
+   vmi-system-grafana           <none>   grafana.vmi.system.default.11.22.33.44.nip.io         11.22.33.44   80, 443   7d2h
+   vmi-system-kibana            <none>   kibana.vmi.system.default.11.22.33.44.nip.io          11.22.33.44   80, 443   7d2h
+   vmi-system-prometheus        <none>   prometheus.vmi.system.default.11.22.33.44.nip.io      11.22.33.44   80, 443   7d2h
    ```
 
    Using the ingress host information, some of the endpoints available are:
