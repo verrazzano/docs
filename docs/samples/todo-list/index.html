@@ -22,10 +22,10 @@
 <meta property="og:description" content="An example application containing a WebLogic component" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/samples/todo-list/" />
-<meta property="article:modified_time" content="2021-07-26T16:56:10-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-07-29T15:48:03-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="ToDo List">
 <meta itemprop="description" content="An example application containing a WebLogic component">
-<meta itemprop="dateModified" content="2021-07-26T16:56:10-04:00" />
+<meta itemprop="dateModified" content="2021-07-29T15:48:03-04:00" />
 <meta itemprop="wordCount" content="909">
 
 
@@ -106,7 +106,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.d64c8fb46d12caeaf2f70608503e43f0.json"
+  data-offline-search-index-json-src="../../../offline-search-index.66a5a14e47b4f2ba6da00924c2d8af8c.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -133,7 +133,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.d64c8fb46d12caeaf2f70608503e43f0.json"
+  data-offline-search-index-json-src="../../../offline-search-index.66a5a14e47b4f2ba6da00924c2d8af8c.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -577,9 +577,9 @@ $ kubectl wait pod \
 <p>Get the generated host name for the application.</p>
 <pre><code>$ HOST=$(kubectl get gateway \
      -n todo-list \
-     -o jsonpath={.items[0].spec.servers[0].hosts[0]})
+     -o jsonpath='{.items[0].spec.servers[0].hosts[0]}')
 $ echo $HOST
-todo-appconf.todo-list.11.22.33.44.nip.io
+todo-appconf.todo-list.10.11.12.13.nip.io
 </code></pre></li>
 <li>
 <p>Get the <code>EXTERNAL_IP</code> address of the <code>istio-ingressgateway</code> service.</p>
@@ -587,7 +587,7 @@ todo-appconf.todo-list.11.22.33.44.nip.io
      -n istio-system istio-ingressgateway \
      -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 $ echo $ADDRESS
-11.22.33.44
+10.11.12.13
 </code></pre></li>
 <li>
 <p>Access the ToDo List application:</p>
@@ -605,7 +605,7 @@ $ echo $ADDRESS
 or <code>c:\Windows\System32\Drivers\etc\hosts</code> file (on Windows 10),
 to add an entry mapping the host name to the ingress gateway&rsquo;s <code>EXTERNAL-IP</code> address.
 For example:</p>
-<pre><code>11.22.33.44 todo.example.com
+<pre><code>10.11.12.13 todo.example.com
 </code></pre><p>Then, you can access the application in a browser at <code>https://todo.example.com/todo</code>.</p>
 </li>
 <li>
@@ -636,7 +636,7 @@ Accessing them may require the following:</p>
 <p>Run this command to get the password that was generated for the telemetry components:</p>
 <pre><code>$ kubectl get secret \
     --namespace verrazzano-system verrazzano \
-    -o jsonpath={.data.password} | base64 \
+    -o jsonpath='{.data.password}' | base64 \
     --decode; echo
 </code></pre><p>The associated user name is <code>verrazzano</code>.</p>
 </li>
@@ -647,11 +647,11 @@ Accessing them may require the following:</p>
 <p>You can retrieve the list of available ingresses with following command:</p>
 <pre><code>$ kubectl get ingress -n verrazzano-system
 NAME                         CLASS    HOSTS                                                     ADDRESS           PORTS     AGE
-verrazzano-ingress           &lt;none&gt;   verrazzano.default.140.141.142.143.nip.io                 140.141.142.143   80, 443   7d2h
-vmi-system-es-ingest         &lt;none&gt;   elasticsearch.vmi.system.default.140.141.142.143.nip.io   140.141.142.143   80, 443   7d2h
-vmi-system-grafana           &lt;none&gt;   grafana.vmi.system.default.140.141.142.143.nip.io         140.141.142.143   80, 443   7d2h
-vmi-system-kibana            &lt;none&gt;   kibana.vmi.system.default.140.141.142.143.nip.io          140.141.142.143   80, 443   7d2h
-vmi-system-prometheus        &lt;none&gt;   prometheus.vmi.system.default.140.141.142.143.nip.io      140.141.142.143   80, 443   7d2h
+verrazzano-ingress           &lt;none&gt;   verrazzano.default.10.11.12.13.nip.io                 10.11.12.13   80, 443   7d2h
+vmi-system-es-ingest         &lt;none&gt;   elasticsearch.vmi.system.default.10.11.12.13.nip.io   10.11.12.13   80, 443   7d2h
+vmi-system-grafana           &lt;none&gt;   grafana.vmi.system.default.10.11.12.13.nip.io         10.11.12.13   80, 443   7d2h
+vmi-system-kibana            &lt;none&gt;   kibana.vmi.system.default.10.11.12.13.nip.io          10.11.12.13   80, 443   7d2h
+vmi-system-prometheus        &lt;none&gt;   prometheus.vmi.system.default.10.11.12.13.nip.io      10.11.12.13   80, 443   7d2h
 </code></pre><p>Using the ingress host information, some of the endpoints available are:</p>
 <table>
 <thead>

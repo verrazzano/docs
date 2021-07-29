@@ -1529,9 +1529,9 @@ $ kubectl wait pod \
 &lt;p&gt;Get the generated host name for the application.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateway \
      -n todo-list \
-     -o jsonpath={.items[0].spec.servers[0].hosts[0]})
+     -o jsonpath=&#39;{.items[0].spec.servers[0].hosts[0]}&#39;)
 $ echo $HOST
-todo-appconf.todo-list.11.22.33.44.nip.io
+todo-appconf.todo-list.10.11.12.13.nip.io
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Get the &lt;code&gt;EXTERNAL_IP&lt;/code&gt; address of the &lt;code&gt;istio-ingressgateway&lt;/code&gt; service.&lt;/p&gt;
@@ -1539,7 +1539,7 @@ todo-appconf.todo-list.11.22.33.44.nip.io
      -n istio-system istio-ingressgateway \
      -o jsonpath=&#39;{.status.loadBalancer.ingress[0].ip}&#39;)
 $ echo $ADDRESS
-11.22.33.44
+10.11.12.13
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Access the ToDo List application:&lt;/p&gt;
@@ -1557,7 +1557,7 @@ $ echo $ADDRESS
 or &lt;code&gt;c:\Windows\System32\Drivers\etc\hosts&lt;/code&gt; file (on Windows 10),
 to add an entry mapping the host name to the ingress gateway&amp;rsquo;s &lt;code&gt;EXTERNAL-IP&lt;/code&gt; address.
 For example:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;11.22.33.44 todo.example.com
+&lt;pre&gt;&lt;code&gt;10.11.12.13 todo.example.com
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then, you can access the application in a browser at &lt;code&gt;https://todo.example.com/todo&lt;/code&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
@@ -1588,7 +1588,7 @@ Accessing them may require the following:&lt;/p&gt;
 &lt;p&gt;Run this command to get the password that was generated for the telemetry components:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ kubectl get secret \
     --namespace verrazzano-system verrazzano \
-    -o jsonpath={.data.password} | base64 \
+    -o jsonpath=&#39;{.data.password}&#39; | base64 \
     --decode; echo
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The associated user name is &lt;code&gt;verrazzano&lt;/code&gt;.&lt;/p&gt;
 &lt;/li&gt;
@@ -1599,11 +1599,11 @@ Accessing them may require the following:&lt;/p&gt;
 &lt;p&gt;You can retrieve the list of available ingresses with following command:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ kubectl get ingress -n verrazzano-system
 NAME                         CLASS    HOSTS                                                     ADDRESS           PORTS     AGE
-verrazzano-ingress           &amp;lt;none&amp;gt;   verrazzano.default.140.141.142.143.nip.io                 140.141.142.143   80, 443   7d2h
-vmi-system-es-ingest         &amp;lt;none&amp;gt;   elasticsearch.vmi.system.default.140.141.142.143.nip.io   140.141.142.143   80, 443   7d2h
-vmi-system-grafana           &amp;lt;none&amp;gt;   grafana.vmi.system.default.140.141.142.143.nip.io         140.141.142.143   80, 443   7d2h
-vmi-system-kibana            &amp;lt;none&amp;gt;   kibana.vmi.system.default.140.141.142.143.nip.io          140.141.142.143   80, 443   7d2h
-vmi-system-prometheus        &amp;lt;none&amp;gt;   prometheus.vmi.system.default.140.141.142.143.nip.io      140.141.142.143   80, 443   7d2h
+verrazzano-ingress           &amp;lt;none&amp;gt;   verrazzano.default.10.11.12.13.nip.io                 10.11.12.13   80, 443   7d2h
+vmi-system-es-ingest         &amp;lt;none&amp;gt;   elasticsearch.vmi.system.default.10.11.12.13.nip.io   10.11.12.13   80, 443   7d2h
+vmi-system-grafana           &amp;lt;none&amp;gt;   grafana.vmi.system.default.10.11.12.13.nip.io         10.11.12.13   80, 443   7d2h
+vmi-system-kibana            &amp;lt;none&amp;gt;   kibana.vmi.system.default.10.11.12.13.nip.io          10.11.12.13   80, 443   7d2h
+vmi-system-prometheus        &amp;lt;none&amp;gt;   prometheus.vmi.system.default.10.11.12.13.nip.io      10.11.12.13   80, 443   7d2h
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Using the ingress host information, some of the endpoints available are:&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
