@@ -133,10 +133,12 @@ Follow these steps to test the endpoints:
 
 ## Troubleshooting
 
-1. Verify that the application configuration, domain, and ingress trait all exist.
+1. Verify that the application configuration, components, workloads, and ingress trait all exist.
    ```
    $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get ApplicationConfiguration -n mc-sockshop
-   $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get Domain -n mc-sockshop
+   $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get Component -n mc-sockshop
+   $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get VerrazzanoCoherenceWorkload -n mc-sockshop
+   $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get Coherence -n mc-sockshop
    $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get IngressTrait -n mc-sockshop
    ```   
 
@@ -170,12 +172,9 @@ the deployed Sock Shop application.  Accessing them may require the following:
 
     ```
     $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get ing -n verrazzano-system
-    NAME                         CLASS    HOSTS                                                    ADDRESS          PORTS     AGE
-    verrazzano-ingress           <none>   verrazzano.default.140.238.94.217.nip.io                 140.238.94.217   80, 443   7d2h
-    vmi-system-es-ingest         <none>   elasticsearch.vmi.system.default.140.238.94.217.nip.io   140.238.94.217   80, 443   7d2h
-    vmi-system-grafana           <none>   grafana.vmi.system.default.140.238.94.217.nip.io         140.238.94.217   80, 443   7d2h
-    vmi-system-kibana            <none>   kibana.vmi.system.default.140.238.94.217.nip.io          140.238.94.217   80, 443   7d2h
-    vmi-system-prometheus        <none>   prometheus.vmi.system.default.140.238.94.217.nip.io      140.238.94.217   80, 443   7d2h
+    NAME                    CLASS    HOSTS                                              ADDRESS       PORTS     AGE
+    verrazzano-ingress      <none>   verrazzano.default.10.11.12.13.nip.io              10.11.12.13   80, 443   32m
+    vmi-system-prometheus   <none>   prometheus.vmi.system.default.10.11.12.13.nip.io   10.11.12.13   80, 443   32m
      ```  
 
     Using the ingress host information, some of the endpoints available are:
