@@ -24,9 +24,9 @@ Install Verrazzano on each Kubernetes cluster.
 - On one cluster, install Verrazzano using the `dev` or `prod` profile; this will be the *admin* cluster.
 - On the other cluster, install Verrazzano using the `managed-cluster` profile; this will be a
   managed cluster. The `managed-cluster` profile contains only the components that are required for a managed cluster.
-- Create the environment variables, `KUBECONFIG_ADMIN`, `KUBECONTEXT_ADMIN`, `KUBECONFIG_MANAGED1` and
-  `KUBECONTEXT_MANAGED1` and point them to the `kubeconfig` files and contexts for the admin and managed cluster,
-  respectively. These environment variables will be used in subsequent steps when registering the managed cluster. The
+- Create the environment variables, `KUBECONFIG_ADMIN`, `KUBECONTEXT_ADMIN`, `KUBECONFIG_MANAGED1`, and
+  `KUBECONTEXT_MANAGED1`, and point them to the `kubeconfig` files and contexts for the admin and managed cluster,
+  respectively. You will use these environment variables in subsequent steps when registering the managed cluster. The
   following shows an example of how to set these environment variables.
   ```shell
   $ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
@@ -133,7 +133,7 @@ $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
    $ rm managed1.yaml
    ```
 
-1. Obtain the Kubernetes API server address for the admin cluster, using the following instructions. This address must
+1. Use the following instructions to obtain the Kubernetes API server address for the admin cluster. This address must
    be accessible from the managed cluster.
 
    {{< tabs tabTotal="2" tabID="3" tabName1="Most Kubernetes Clusters" tabName2="Kind Clusters" >}}
@@ -141,7 +141,7 @@ $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
 <br>
 
 For most types of Kubernetes clusters, except for Kind clusters, you can find the externally accessible API server
-address of the admin cluster, from its `kubeconfig` file.
+address of the admin cluster from its `kubeconfig` file.
 
 ```shell
 # View the information for the admin cluster in your kubeconfig file 
