@@ -181,6 +181,4 @@ the deployed Sock Shop application.  Accessing them may require the following:
 
     | Description| Address | Credentials |
     | --- | --- | --- |
-    | Kibana | `https://[vmi-system-kibana ingress host]` | `verrazzano`/`telemetry-password` |
-    | Grafana | `https://[vmi-system-grafana ingress host]` | `verrazzano`/`telemetry-password` |
     | Prometheus | `https://[vmi-system-prometheus ingress host]` | `verrazzano`/`telemetry-password` |    
