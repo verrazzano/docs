@@ -6,17 +6,15 @@ weight: 1
 draft: false
 ---
 
-### Customizing DNS
-
-Verrazzano supports 3 choices for DNS for Verrazzano services and applications:
+Verrazzano supports three DNS choices for Verrazzano services and applications:
 
 * Free wildcard DNS services ([nip.io](https://nip.io/) and [sslip.io](https://sslip.io))
 * [Oracle Cloud Infrastructure DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm) managed by Verrazzano
 * Custom (user-managed) DNS
 
-#### How Verrazzano Constructs a DNS Domain
+### How Verrazzano constructs a DNS domain
 
-Regardless of which DNS management you use with Verrazzano, the value in 
+Regardless of which DNS management you use with Verrazzano, the value in the
 [`spec.environmentName`](/docs/reference/api/verrazzano/verrazzano/#verrazzanospec) field in your installation will be 
 prepended to the configured domain in the [`spec.components.dns`](/docs/reference/api/verrazzano/verrazzano/#dns-component) 
 section of the custom resource to form the full DNS domain name used to access endpoints in the Verrazzano installation.  
@@ -28,7 +26,7 @@ Verrazzano will create `sales.us.mydomain.com` as the DNS domain for the install
 {{< tab tabNum="1" >}}
 <br>
 
-Verrazzano can be configured to use either the ([nip.io](https://nip.io/) or [sslip.io](https://sslip.io)) free wildcard DNS services.
+Verrazzano can be configured to use either the [nip.io](https://nip.io/) or [sslip.io](https://sslip.io) free wildcard DNS services.
 Wildcard DNS services are services that, when queried with a hostname with an embedded IP address, returns that IP Address.
 
 For example, using the [nip.io](https://nip.io/) service, the following DNS names all map to the IP address `10.0.0.1`:
@@ -189,10 +187,10 @@ secret/myoci created
 
 #### Installation
 
-Once the OCI API secret is created, create a Verrazzano custom resource for installation that is configured to use OCI 
+After the OCI API secret is created, create a Verrazzano custom resource for the installation that is configured to use OCI 
 DNS, and reference the secret you created.
 
-As a starting point, download the sample Verrazzano custom resource `install-oci.yaml` for OCI DNS:
+As a starting point, download the sample Verrazzano custom resource `install-oci.yaml` file for OCI DNS:
 
 ```
 $ curl \
@@ -232,19 +230,19 @@ spec:
         dnsZoneName: mydomain.com
 ```
 
-Once the custom resource is ready, apply it using `kubectl apply -f <path-to-custom-resource-file>`.
+After the custom resource is ready, apply it using `kubectl apply -f <path-to-custom-resource-file>`.
 
 {{< /tab >}}
 {{< tab tabNum="3" >}}
 <br>
 
-Users can specify their own externally managed, custom DNS domain.  In this scenario, the user manages their own DNS 
+You can specify your own externally managed, custom DNS domain.  In this scenario, you manage your own DNS 
 domain and the management of all DNS records in that domain.
 
 An externally managed DNS domain is specified in the [`spec.components.dns.external.suffix`](/docs/reference/api/verrazzano/verrazzano/#dns-external) 
 field of the Verrazzano custom resource.  
 
-When using an externally managed DNS domain, the responsibility lies with the user for
+When using an externally managed DNS domain, you are responsible for:
 
 * Configuring A records for Verrazzano ingress points (load balancers)
 * Configuring CNAME records for hostnames in the domain that point to the A records as needed
