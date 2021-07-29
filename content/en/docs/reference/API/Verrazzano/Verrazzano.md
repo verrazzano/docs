@@ -170,6 +170,7 @@ spec:
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `enabled` | Boolean | If true, then Elasticsearch will be installed. | No |
+| `installArgs` | [NameValue](#name-value) list | A list of Verrazzano Helm chart arguments and values to apply during the installation of the Verrazzano system chart.  Each argument is specified as either a `name/value` or `name/valueList` pair. | No |
 
 ### Kibana Component
 | Field | Type | Description | Required
