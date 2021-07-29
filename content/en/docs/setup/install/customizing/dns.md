@@ -142,7 +142,7 @@ auth:
   key: |
     -----BEGIN RSA PRIVATE KEY-----
     ...
-    -----BEGIN RSA PRIVATE KEY-----
+    -----END RSA PRIVATE KEY-----
   fingerprint: 12:d3:4c:gh:fd:9e:27:g8:b9:0d:9f:00:22:33:c3:gg
 ```
 
