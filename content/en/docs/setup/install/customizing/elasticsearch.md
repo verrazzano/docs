@@ -3,29 +3,29 @@ title: "Customize Elasticsearch"
 description: "Customize Elasticsearch with Verrazzano"
 linkTitle: Elasticsearch
 weight: 8
-draft: true
+draft: false
 ---
 
-The [Installation Profiles](/docs/setup/install/profiles/) page describes the Elasticsearch cluster topologies provided
-by Verrazzano by default.  For various reasons, those topologies may not be sufficient for your needs.
+The [Installation Profiles](/docs/setup/install/profiles/) document describes the default Elasticsearch cluster 
+topologies provided by Verrazzano.  For various reasons, those topologies may not be sufficient for your needs.
 
-You can provide more fine grained configuration instructions to Verrazzano as to 
-how you want to configure your Elasticsearch cluster topology through
-the [spec.components.elasticsearch.installArgs](/docs/reference/api/verrazzano/verrazzano/#elasticsearch-component) 
-field in the Verrazzano custom resource.  This field can be used to specify a list of Helm value overrides for
-the Elasticsearch configuration when installing Verrazzano.
+You can provide more fine-grained configuration instructions to Verrazzano for how you want to configure your 
+Elasticsearch cluster topology through the 
+[spec.components.elasticsearch.installArgs](/docs/reference/api/verrazzano/verrazzano/#elasticsearch-component) 
+field in the Verrazzano custom resource.  When installing Verrazzano, you can use this field to specify a list of Helm 
+value overrides for the Elasticsearch configuration when installing Verrazzano.
 
 The Helm values in the Verrazzano system chart related to Elasticsearch are listed in the following table:
 
 | Name | Description
 | ------------- |:-------------
-| nodes.master.replicas | Number of master node replicas 
-| nodes.master.requests.memory | Memory request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity)
-| nodes.ingest.replicas | Number of ingest node replicas
-| nodes.ingest.requests.memory | Memory request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity)
-| nodes.data.replicas | Number of data node replicas
-| nodes.data.requests.memory | Memory request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity)
-| nodes.data.requests.storage | Storage request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity)
+| `nodes.master.replicas` | Number of master node replicas 
+| `nodes.master.requests.memory` | Memory request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity).
+| `nodes.ingest.replicas` | Number of ingest node replicas.
+| `nodes.ingest.requests.memory` | Memory request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity).
+| `nodes.data.replicas` | Number of data node replicas.
+| `nodes.data.requests.memory` | Memory request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity).
+| `nodes.data.requests.storage` | Storage request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity).
 
 The following example overrides the `dev` installation profile Elasticsearch configuration (a single-node cluster with
 1Gi of memory and ephemeral storage) to use a multi-node cluster with persistent storage:
@@ -56,7 +56,7 @@ spec:
         value: "10Gi"
 ```
 
-Listing out the pods and persistent volumes in the `verrazzano-system` namespace for the above configuration 
+Listing the pods and persistent volumes in the `verrazzano-system` namespace for the previous configuration 
 shows the expected nodes are running with the appropriate data volumes:
 
 ```
@@ -89,7 +89,8 @@ pod/weblogic-operator-5bd7bb6fb5-wz5cr                 2/2     Running   0      
 
 Note that the `master` node uses the same amount of persistent storage as is configured for the data nodes.
 
-A describe of an Elasticsearch data pod from this configuration shows the requested amount of memory:
+Running the command `kubectl describe pod -n verrazzano-system vmi-system-es-data-0-5884cfb84d-hn8xg` shows the 
+requested amount of memory:
 
 ```
 Containers:
