@@ -137,7 +137,7 @@ Certificates issued by the LetsEncrypt `staging` environment are signed by untru
 the self-signed certificate authority.  They are not intended for production use.
 {{< /alert >}}
 
-#### LetsEncrypt staging vs production
+### LetsEncrypt staging vs production
 
 LetsEncrypt provides rate-limits on generated certificates to ensure fair usage across all clients.  The 
 `production` environment limits can be exceeded more frequently in environments where Verrazzano may be being 
