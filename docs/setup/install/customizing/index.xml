@@ -329,6 +329,147 @@ set to &lt;code&gt;example.com&lt;/code&gt;, the A records would need to be set 
     </item>
     
     <item>
+      <title>Docs: Customize Elasticsearch</title>
+      <link>/docs/setup/install/customizing/elasticsearch/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/install/customizing/elasticsearch/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano supports two cluster topologies for an Elasticsearch cluster:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A single-node cluster (master, ingest, and data roles performed by a single node).&lt;/li&gt;
+&lt;li&gt;A multi-node cluster configuration with separate master, data, and ingest nodes.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a href=&#34;../../../../docs/setup/install/profiles/&#34;&gt;Installation Profiles&lt;/a&gt; describes the default Elasticsearch cluster
+configurations provided by Verrazzano.&lt;/p&gt;
+&lt;p&gt;You can customize the node characteristics of your Elasticsearch cluster by using the
+&lt;a href=&#34;../../../../docs/reference/api/verrazzano/verrazzano/#elasticsearch-component&#34;&gt;spec.components.elasticsearch.installArgs&lt;/a&gt;
+field in the Verrazzano custom resource.  When installing Verrazzano, you can use this field to specify a list of Helm
+value overrides for the Elasticsearch configuration.&lt;/p&gt;
+&lt;p&gt;These Helm overrides let you to customize the following node characteristics:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Number of node replicas.&lt;/li&gt;
+&lt;li&gt;Memory request size per node.&lt;/li&gt;
+&lt;li&gt;Storage request size (data nodes only).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The following table lists the Helm values in the Verrazzano system chart related to Elasticsearch nodes.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;nodes.master.replicas&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Number of master node replicas.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;nodes.master.requests.memory&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Memory request amount expressed as a &lt;a href=&#34;https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity&#34;&gt;Quantity&lt;/a&gt;.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;nodes.ingest.replicas&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Number of ingest node replicas.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;nodes.ingest.requests.memory&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Memory request amount expressed as a &lt;a href=&#34;https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity&#34;&gt;Quantity&lt;/a&gt;.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;nodes.data.replicas&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Number of data node replicas.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;nodes.data.requests.memory&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Memory request amount expressed as a &lt;a href=&#34;https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity&#34;&gt;Quantity&lt;/a&gt;.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;nodes.data.requests.storage&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Storage request amount expressed as a &lt;a href=&#34;https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity&#34;&gt;Quantity&lt;/a&gt;.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;The following example overrides the &lt;code&gt;dev&lt;/code&gt; installation profile, Elasticsearch configuration (a single-node cluster with
+1Gi of memory and ephemeral storage) to use a multi-node cluster with persistent storage:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: custom-es-example
+spec:
+  profile: dev
+  components:
+    elasticsearch:
+      installArgs:
+      - name: nodes.master.replicas
+        value: &amp;quot;1&amp;quot;
+      - name: nodes.master.requests.memory
+        value: &amp;quot;1G&amp;quot;
+      - name: nodes.ingest.replicas
+        value: &amp;quot;1&amp;quot;
+      - name: nodes.ingest.requests.memory
+        value: &amp;quot;1G&amp;quot;
+      - name: nodes.data.replicas
+        value: &amp;quot;3&amp;quot;
+      - name: nodes.data.requests.memory
+        value: &amp;quot;1.5G&amp;quot;
+      - name: nodes.data.requests.storage
+        value: &amp;quot;10Gi&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Listing the pods and persistent volumes in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace for the previous configuration
+shows the expected nodes are running with the appropriate data volumes:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl  get pvc,pod -n verrazzano-system
+NAME                                                                STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+persistentvolumeclaim/elasticsearch-master-vmi-system-es-master-0   Bound    pvc-8ffff457-4d72-4a72-89ba-2cdcb8eade38   10Gi       RWO            standard       6m51s
+persistentvolumeclaim/vmi-system-es-data                            Bound    pvc-e32c2182-46ba-4789-b577-195874b3dd69   10Gi       RWO            standard       6m53s
+persistentvolumeclaim/vmi-system-es-data-1                          Bound    pvc-67789196-d688-4d06-b074-77655a913552   10Gi       RWO            standard       6m53s
+persistentvolumeclaim/vmi-system-es-data-2                          Bound    pvc-43e07e3e-0713-4ab1-ac3f-812069c35cbb   10Gi       RWO            standard       6m53s
+
+NAME                                                   READY   STATUS    RESTARTS   AGE
+pod/coherence-operator-6986d6cf95-6b58p                1/1     Running   2          7m3s
+pod/fluentd-fn28c                                      2/2     Running   2          7m12s
+pod/oam-kubernetes-runtime-679c6f6775-79tvm            1/1     Running   0          5m11s
+pod/verrazzano-api-58c5f65c8-6zbpc                     2/2     Running   0          7m12s
+pod/verrazzano-application-operator-5766b899fd-9fjhb   1/1     Running   0          4m55s
+pod/verrazzano-console-6599854544-pw56c                2/2     Running   0          7m12s
+pod/verrazzano-monitoring-operator-55877766d4-9ktvh    1/1     Running   0          7m12s
+pod/verrazzano-operator-75b5cd49fc-68cm4               1/1     Running   0          7m12s
+pod/vmi-system-es-data-0-5884cfb84d-hn8xg              2/2     Running   0          6m52s
+pod/vmi-system-es-data-1-679775494f-pdwzf              2/2     Running   0          6m52s
+pod/vmi-system-es-data-2-5886d745c5-6pscm              2/2     Running   0          6m52s
+pod/vmi-system-es-ingest-795749ddd8-cs4pc              3/3     Running   0          6m52s
+pod/vmi-system-es-master-0                             2/2     Running   0          6m51s
+pod/vmi-system-grafana-b94fcbb67-ktwf8                 3/3     Running   0          6m52s
+pod/vmi-system-kibana-6594cfccc-j8gp5                  3/3     Running   0          6m51s
+pod/vmi-system-prometheus-0-75864fc668-s5xv8           4/4     Running   0          44s
+pod/weblogic-operator-5bd7bb6fb5-wz5cr                 2/2     Running   0          6m30s
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that the &lt;code&gt;master&lt;/code&gt; node uses the same amount of persistent storage as is configured for the data nodes.&lt;/p&gt;
+&lt;p&gt;Running the command &lt;code&gt;kubectl describe pod -n verrazzano-system vmi-system-es-data-0-5884cfb84d-hn8xg&lt;/code&gt; shows the
+requested amount of memory:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Containers:
+  es-data:
+    Container ID:  containerd://cc01f24b107da0e1e90a05a49c7fd969761f59a81316fa01f7cc56a166684628
+    Image:         ghcr.io/verrazzano/elasticsearch:7.6.1-20201130145440-5c76ab1
+    Image ID:      ghcr.io/verrazzano/elasticsearch@sha256:3d2cbb539f9ebba991c6f36db4fbaa9dc9c03e6192a28787869f7850cc2bd66c
+    Ports:         9200/TCP, 9300/TCP
+    Host Ports:    0/TCP, 0/TCP
+    Args:
+      elasticsearch
+      -E
+      logger.org.elasticsearch=INFO
+    State:          Running
+      Started:      Thu, 29 Jul 2021 06:04:17 +0000
+    Ready:          True
+    Restart Count:  0
+    Requests:
+      memory:   1500M
+&lt;/code&gt;&lt;/pre&gt;
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Customize Ingress</title>
       <link>/docs/setup/install/customizing/ingress/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
