@@ -5,7 +5,7 @@ linkTitle: Elasticsearch
 weight: 8
 draft: false
 ---
-
+blah
 Verrazzano supports two general cluster topologies for a Elasticsearch cluster:
 1. A single-node cluster (master/ingest/data roles performed by a single node)
 2. A multi-node cluster configuration with separate master, data, and ingest nodes
