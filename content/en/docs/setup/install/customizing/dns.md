@@ -89,8 +89,27 @@ The following prerequisites must be met before using OCI DNS with Verrazzano:
   [Managing DNS Service Zones](https://docs.oracle.com/en-us/iaas/Content/DNS/Tasks/managingdnszones.htm).
 
 * You must have a valid OCI API Signing key that can be used to communicate with OCI DNS in your tenancy.  
-  
-  If you need to create an API key, see the OCI documentation [Required Keys and OCIDs](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm).
+
+  For example, you can create an API signing key using the OCI CLI:
+
+  ```
+    $ oci setup keys --key-name myapikey
+    Enter a passphrase for your private key (empty for no passphrase):
+    Public key written to: /Users/jdoe/.oci/myapikey_public.pem
+    Private key written to: /Users/jdoe/.oci/myapikey.pem
+    Public key fingerprint: 39:08:44:69:9f:f5:73:86:7a:46:d8:ad:34:4f:95:29
+    
+    
+        If you haven't already uploaded your API Signing public key through the
+        console, follow the instructions on the page linked below in the section
+        'How to upload the public key':
+    
+            https://docs.cloud.oracle.com/Content/API/Concepts/apisigningkey.htm#How2
+  ```
+
+  After the key pair has been created you must upload the public key to your account in your OCI tenancy. See
+  the OCI documentation [Required Keys and OCIDs](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm)
+  for details.
 
 #### Create an OCI API Secret in the Target Cluster
  
@@ -113,24 +132,6 @@ auth:
 This information can typically be found in your OCI CLI config file, or in the OCI Console.  The 
 `<oci-api-private-key-file-contents>` contents are the PEM-encoded contents of the `key_file` value within the OCI CLI 
 configuration profile.
-
-{{< alert title="NOTE" color="warning" >}}
-The key_file within the OCI configuration file must reference a .pem file that contains a RSA private key.
-If the key is PEM-encoded, the contents of a RSA private key file will start with `-----BEGIN RSA PRIVATE KEY-----`.  
-<br/>
-If your OCI configuration file references a `.pem` file that is not of this form, then you must generate a RSA private key file.  See
-[Generating a RSA Private Key](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm).
-After generating the correct form of the `.pem` file, make sure to change the reference within the OCI configuration file.
-<br/><br/>
-If your installation fails with the following error and your secret is present, check the format of your private key file:
-```
-[2021-07-29 14:36:59 UTC] Error from server (NotFound): secrets "oci" not found
-...
-[2021-07-29 14:42:00 UTC] Error: timed out waiting for the condition
-[2021-07-29 14:42:00 UTC] Installing external DNS                                                      [FAILED]
-```
-
-{{< /alert >}}
 
 For example, your `oci.yaml` file will look similar to the following:
 
@@ -196,7 +197,7 @@ $ ./create_oci_config_secret.sh
 secret/oci created
 ```
 
-The following example creates a secret `myoci` using an OCI CLI profile named `dev`:
+The following example creates a secret `myoci` using an OCI CLI profile named `[dev]`:
 
 ```
 $ ./create_oci_config_secret.sh -s dev -k myoci
