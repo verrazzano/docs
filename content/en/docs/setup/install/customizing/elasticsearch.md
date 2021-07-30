@@ -1,21 +1,21 @@
 ---
 title: "Customize Elasticsearch"
-description: "Customize Elasticsearch with Verrazzano"
+description: "Learn how to customize your Elasticsearch cluster configuration"
 linkTitle: Elasticsearch
 weight: 8
 draft: false
 ---
 
-Verrazzano supports two general cluster topologies for an Elasticsearch cluster:
-1. A single-node cluster (master/ingest/data roles performed by a single node).
-2. A multi-node cluster configuration with separate master, data, and ingest nodes.
+Verrazzano supports two cluster topologies for an Elasticsearch cluster:
+- A single-node cluster (master, ingest, and data roles performed by a single node).
+- A multi-node cluster configuration with separate master, data, and ingest nodes.
 
 [Installation Profiles](/docs/setup/install/profiles/) describes the default Elasticsearch cluster
 configurations provided by Verrazzano.  
 
-You can customize the node characteristics of your Elasticsearch cluster through the
+You can customize the node characteristics of your Elasticsearch cluster by using the
 [spec.components.elasticsearch.installArgs](/docs/reference/api/verrazzano/verrazzano/#elasticsearch-component)
-field in the Verrazzano custom resource.  When installing Verrazzano, you can use this field to specify a list of Helm 
+field in the Verrazzano custom resource.  When installing Verrazzano, you can use this field to specify a list of Helm
 value overrides for the Elasticsearch configuration.
 
 These Helm overrides let you to customize the following node characteristics:
@@ -23,7 +23,7 @@ These Helm overrides let you to customize the following node characteristics:
 * Memory request size per node.
 * Storage request size (data nodes only).
 
-The following table lists the Helm values in the Verrazzano system chart related to Elasticsearch nodes:
+The following table lists the Helm values in the Verrazzano system chart related to Elasticsearch nodes.
 
 | Name | Description
 | ------------- |:-------------
@@ -35,7 +35,7 @@ The following table lists the Helm values in the Verrazzano system chart related
 | `nodes.data.requests.memory` | Memory request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity).
 | `nodes.data.requests.storage` | Storage request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity).
 
-The following example overrides the `dev` installation profile Elasticsearch configuration (a single-node cluster with
+The following example overrides the `dev` installation profile, Elasticsearch configuration (a single-node cluster with
 1Gi of memory and ephemeral storage) to use a multi-node cluster with persistent storage:
 
 ```
@@ -64,11 +64,11 @@ spec:
         value: "10Gi"
 ```
 
-Listing the pods and persistent volumes in the `verrazzano-system` namespace for the previous configuration 
+Listing the pods and persistent volumes in the `verrazzano-system` namespace for the previous configuration
 shows the expected nodes are running with the appropriate data volumes:
 
 ```
-$ kubectl  get pvc,pod -n verrazzano-system 
+$ kubectl  get pvc,pod -n verrazzano-system
 NAME                                                                STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
 persistentvolumeclaim/elasticsearch-master-vmi-system-es-master-0   Bound    pvc-8ffff457-4d72-4a72-89ba-2cdcb8eade38   10Gi       RWO            standard       6m51s
 persistentvolumeclaim/vmi-system-es-data                            Bound    pvc-e32c2182-46ba-4789-b577-195874b3dd69   10Gi       RWO            standard       6m53s
@@ -97,7 +97,7 @@ pod/weblogic-operator-5bd7bb6fb5-wz5cr                 2/2     Running   0      
 
 Note that the `master` node uses the same amount of persistent storage as is configured for the data nodes.
 
-Running the command `kubectl describe pod -n verrazzano-system vmi-system-es-data-0-5884cfb84d-hn8xg` shows the 
+Running the command `kubectl describe pod -n verrazzano-system vmi-system-es-data-0-5884cfb84d-hn8xg` shows the
 requested amount of memory:
 
 ```
