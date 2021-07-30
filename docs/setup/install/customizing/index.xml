@@ -14,6 +14,321 @@
     
     
     <item>
+      <title>Docs: Customize DNS</title>
+      <link>/docs/setup/install/customizing/dns/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/install/customizing/dns/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano supports three DNS choices for Verrazzano services and applications:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Free wildcard DNS services (&lt;a href=&#34;https://nip.io/&#34;&gt;nip.io&lt;/a&gt; and &lt;a href=&#34;https://sslip.io&#34;&gt;sslip.io&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm&#34;&gt;Oracle Cloud Infrastructure DNS&lt;/a&gt; managed by Verrazzano&lt;/li&gt;
+&lt;li&gt;Custom (user-managed) DNS&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;how-verrazzano-constructs-a-dns-domain&#34;&gt;How Verrazzano constructs a DNS domain&lt;/h2&gt;
+&lt;p&gt;Regardless of which DNS management you use, the value in the
+&lt;a href=&#34;../../../../docs/reference/api/verrazzano/verrazzano/#verrazzanospec&#34;&gt;&lt;code&gt;spec.environmentName&lt;/code&gt;&lt;/a&gt; field in your installation will be
+prepended to the configured domain in the &lt;a href=&#34;../../../../docs/reference/api/verrazzano/verrazzano/#dns-component&#34;&gt;&lt;code&gt;spec.components.dns&lt;/code&gt;&lt;/a&gt;
+section of the custom resource, to form the full DNS domain name used to access Verrazzano endpoints.&lt;/p&gt;
+&lt;p&gt;For example, if &lt;code&gt;spec.environmentName&lt;/code&gt; is set to &lt;code&gt;sales&lt;/code&gt; and the domain is configured in &lt;code&gt;spec.components.dns&lt;/code&gt; as &lt;code&gt;us.example.com&lt;/code&gt;,
+Verrazzano will create &lt;code&gt;sales.us.example.com&lt;/code&gt; as the DNS domain for the installation.&lt;/p&gt;
+&lt;nav&gt;
+	&lt;div class=&#34;nav nav-tabs&#34; id=&#34;nav-tab&#34; role=&#34;tablist&#34;&gt;
+
+		
+		
+
+		
+		
+		
+
+		
+
+		&lt;a class=&#34;nav-item nav-link active&#34; id=&#34;nav-1&#34; data-toggle=&#34;tab&#34; href=&#34;#tab11&#34; role=&#34;tab&#34;
+		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Wildcard DNS&lt;/a&gt;
+
+		
+		
+
+		
+		
+		
+
+		
+
+		&lt;a class=&#34;nav-item nav-link&#34; id=&#34;nav-1&#34; data-toggle=&#34;tab&#34; href=&#34;#tab12&#34; role=&#34;tab&#34;
+		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;false&#34;&gt;OCI DNS&lt;/a&gt;
+
+		
+		
+
+		
+		
+		
+
+		
+
+		&lt;a class=&#34;nav-item nav-link&#34; id=&#34;nav-1&#34; data-toggle=&#34;tab&#34; href=&#34;#tab13&#34; role=&#34;tab&#34;
+		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;false&#34;&gt;Custom DNS&lt;/a&gt;
+
+		
+		
+
+	&lt;/div&gt;
+&lt;/nav&gt;
+
+&lt;div class=&#34;tab-content&#34; id=&#34;1&#34;&gt;
+
+
+
+
+
+
+
+
+&lt;div class=&#34;tab-pane fade show active&#34; id=&#34;tab11&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName1&#34;&gt;
+
+	&lt;br&gt;
+&lt;p&gt;Verrazzano can be configured to use either the &lt;a href=&#34;https://nip.io/&#34;&gt;nip.io&lt;/a&gt; or &lt;a href=&#34;https://sslip.io&#34;&gt;sslip.io&lt;/a&gt; free wildcard DNS services.
+When queried with a hostname with an embedded IP address, wildcard DNS services return that IP address.&lt;/p&gt;
+&lt;p&gt;For example, using the &lt;code&gt;nip.io&lt;/code&gt; service, the following DNS names all map to the IP address &lt;code&gt;10.0.0.1&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;10.0.0.1.nip.io
+app.10.0.0.1.nip.io
+customer1.app.10.0.0.1.nip.io
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To configure Verrazzano to use one of these services, set the
+&lt;a href=&#34;../../../../docs/reference/api/verrazzano/verrazzano#dns-wildcard&#34;&gt;&lt;code&gt;spec.wildcard.domain&lt;/code&gt;&lt;/a&gt;
+field in the Verrazzano custom resource to either &lt;code&gt;nip.io&lt;/code&gt; or &lt;code&gt;sslip.io&lt;/code&gt;; the default is &lt;code&gt;nip.io&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;For example, the following configuration uses &lt;code&gt;sslip.io&lt;/code&gt;, instead of &lt;code&gt;nip.io&lt;/code&gt;, for wildcard DNS with a &lt;code&gt;dev&lt;/code&gt; installation profile:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: my-verrazzano
+spec:
+  profile: dev
+  environmentName: default
+  components:
+    dns:
+      wildcard:
+        domain: sslip.io
+&lt;/code&gt;&lt;/pre&gt;&lt;br/&gt;
+
+
+&lt;/div&gt;
+
+
+
+
+
+
+
+
+
+&lt;div class=&#34;tab-pane fade&#34; id=&#34;tab12&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName2&#34;&gt;
+
+	&lt;br&gt;
+&lt;p&gt;Verrazzano can directly manage records in &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm&#34;&gt;Oracle OCI DNS&lt;/a&gt;
+when configured to use the &lt;a href=&#34;../../../../docs/reference/api/verrazzano/verrazzano#dns-oci&#34;&gt;&lt;code&gt;spec.components.dns.oci&lt;/code&gt;&lt;/a&gt; field.  This is achieved
+through the &lt;a href=&#34;https://github.com/kubernetes-sigs/external-dns&#34;&gt;External DNS Service&lt;/a&gt;, which is a component that is
+conditionally installed when OCI DNS is configured for DNS management in Verrazzano.&lt;/p&gt;
+&lt;h3 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h3&gt;
+&lt;p&gt;The following prerequisites must be met before using OCI DNS with Verrazzano:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;You must have control of a DNS domain.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;You must have an OCI DNS Service Zone that is configured to manage records for that domain.&lt;/p&gt;
+&lt;p&gt;A DNS Service Zone is a distinct portion of a domain namespace. You must ensure that the zone is appropriately associated with a parent domain.
+For example, an appropriate zone name for parent domain &lt;code&gt;example.com&lt;/code&gt; is &lt;code&gt;us.example.com&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;To create an OCI DNS zone using the OCI CLI:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ oci dns zone create \
+    -c &amp;lt;compartment ocid&amp;gt; \
+    --name &amp;lt;zone-name-prefix&amp;gt;.example.com \
+    --zone-type PRIMARY
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To create an OCI DNS zone using the OCI Console, see
+&lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/DNS/Tasks/managingdnszones.htm&#34;&gt;Managing DNS Service Zones&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;You must have a valid OCI API signing key that can be used to communicate with OCI DNS in your tenancy.&lt;/p&gt;
+&lt;p&gt;For example, you can create an API signing key using the OCI CLI:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;  $ oci setup keys --key-name myapikey
+  Enter a passphrase for your private key (empty for no passphrase):
+  Public key written to: /Users/jdoe/.oci/myapikey_public.pem
+  Private key written to: /Users/jdoe/.oci/myapikey.pem
+  Public key fingerprint: 39:08:44:69:9f:f5:73:86:7a:46:d8:ad:34:4f:95:29
+
+
+      If you haven&#39;t already uploaded your API signing public key through the
+      console, follow the instructions on the page linked below in the section
+      &#39;How to upload the public key&#39;:
+
+          https://docs.cloud.oracle.com/Content/API/Concepts/apisigningkey.htm#How2
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;After the key pair has been created, you must upload the public key to your account in your OCI tenancy.   For details, see
+the OCI documentation, &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm&#34;&gt;Required Keys and OCIDs&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;create-an-oci-api-secret-in-the-target-cluster&#34;&gt;Create an OCI API secret in the target cluster&lt;/h3&gt;
+&lt;p&gt;To communicate with OCI DNS to manage DNS records, Verrazzano needs to be made aware of the necessary API credentials.&lt;br&gt;
+A generic Kubernetes secret must be created in the cluster&amp;rsquo;s &lt;code&gt;default&lt;/code&gt; namespace with the required credentials.
+That secret must then be referenced by the custom resource that is used to install Verrazzano.&lt;/p&gt;
+&lt;p&gt;After you have an OCI API key ready for use, create a YAML file, &lt;code&gt;oci.yaml&lt;/code&gt;, with the API credentials in the form:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;auth:
+  region: &amp;lt;oci-region&amp;gt;
+  tenancy: &amp;lt;oci-tenancy-ocid&amp;gt;
+  user: &amp;lt;oci-user-ocid&amp;gt;
+  key: |
+    &amp;lt;oci-api-private-key-file-contents&amp;gt;
+  fingerprint: &amp;lt;oci-api-private-key-fingerprint&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This information typically can be found in your OCI CLI config file or in the OCI Console.  The
+&lt;code&gt;&amp;lt;oci-api-private-key-file-contents&amp;gt;&lt;/code&gt; contents are the PEM-encoded contents of the &lt;code&gt;key_file&lt;/code&gt; value within the OCI CLI
+configuration profile.&lt;/p&gt;
+&lt;p&gt;For example, your &lt;code&gt;oci.yaml&lt;/code&gt; file will look similar to the following:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;auth:
+  region: us-ashburn-1
+  tenancy: ocid1.tenancy.oc1.....
+  user: ocid1.user.oc1.....
+  key: |
+    -----BEGIN RSA PRIVATE KEY-----
+    ...
+    -----END RSA PRIVATE KEY-----
+  fingerprint: 12:d3:4c:gh:fd:9e:27:g8:b9:0d:9f:00:22:33:c3:gg
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then, you can create a generic Kubernetes secret in the cluster&amp;rsquo;s &lt;code&gt;default&lt;/code&gt; namespace using &lt;code&gt;kubectl&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl create secret generic -n default &amp;lt;secret-name&amp;gt; --from-file=&amp;lt;path-to-oci-yaml-file&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For example, to create a secret named &lt;code&gt;oci&lt;/code&gt; from a file &lt;code&gt;oci.yaml&lt;/code&gt;, do the following:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl create secret generic -n default oci --from-file=oci.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This secret will later be referenced from the Verrazzano custom resource used during installation.&lt;/p&gt;
+&lt;h3 id=&#34;use-a-verrazzano-helper-script-to-create-an-oci-secret&#34;&gt;Use a Verrazzano helper script to create an OCI secret&lt;/h3&gt;
+&lt;p&gt;Verrazzano also provides a helper script to create the necessary Kubernetes secret based on your OCI CLI config file,
+assuming that you have the OCI CLI installed and a valid OCI CLI profile with the required API key information. The script
+&lt;code&gt;create_oci_config_secret.sh&lt;/code&gt; reads your OCI CLI configuration file to create the secret.&lt;/p&gt;
+&lt;p&gt;First, download the &lt;code&gt;create_oci_config_secret.sh&lt;/code&gt; script:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ curl \
+    -o ./create_oci_config_secret.sh \
+    https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/scripts/install/create_oci_config_secret.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Next, set your &lt;code&gt;KUBECONFIG&lt;/code&gt; environment variable to point to your cluster and run &lt;code&gt;create_oci_config_secret.sh -h&lt;/code&gt;
+to display the script options:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ chmod +x create_oci_config_secret.sh
+$ export KUBECONFIG=&amp;lt;kubeconfig-file&amp;gt;
+$ ./create_oci_config_secret.sh  -h
+usage: ./create_oci_config_secret.sh [-o oci_config_file] [-s config_file_section]
+  -o oci_config_file         The full path to the OCI configuration file (default ~/.oci/config)
+  -s config_file_section     The properties section within the OCI configuration file.  Default is DEFAULT
+  -k secret_name             The secret name containing the OCI configuration.  Default is oci
+  -c context_name            The kubectl context to use
+  -h                         Help
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For example, to have the script create the YAML file using your &lt;code&gt;[DEFAULT]&lt;/code&gt; OCI CLI profile and then create a Kubernetes secret
+named &lt;code&gt;oci&lt;/code&gt;, you can run the script with no arguments, as follows:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ ./create_oci_config_secret.sh
+secret/oci created
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The following example creates a secret &lt;code&gt;myoci&lt;/code&gt; using an OCI CLI profile named &lt;code&gt;[dev]&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ ./create_oci_config_secret.sh -s dev -k myoci
+secret/myoci created
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;installation&#34;&gt;Installation&lt;/h3&gt;
+&lt;p&gt;After the OCI API secret is created, create a Verrazzano custom resource for the installation that is configured to use OCI
+DNS, and reference the secret you created.&lt;/p&gt;
+&lt;p&gt;As a starting point, download the sample Verrazzano custom resource &lt;code&gt;install-oci.yaml&lt;/code&gt; file for OCI DNS:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ curl \
+    -o ./install-oci.yaml \
+    https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/config/samples/install-oci.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Edit the &lt;code&gt;install-oci.yaml&lt;/code&gt; file to provide values for the following configuration settings in the
+custom resource spec:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;../../../../docs/reference/api/verrazzano/verrazzano/#verrazzanospec&#34;&gt;&lt;code&gt;spec.environmentName&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;spec.components.dns.oci.ociConfigSecret&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;spec.components.dns.oci.dnsZoneCompartmentOCID&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;spec.components.dns.oci.dnsZoneOCID&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;spec.components.dns.oci.dnsZoneName&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The field &lt;code&gt;spec.components.dns.oci.ociConfigSecret&lt;/code&gt; should reference the secret created earlier. For details on the
+OCI DNS configuration settings, see &lt;a href=&#34;../../../../docs/reference/api/verrazzano/verrazzano#dns-oci&#34;&gt;&lt;code&gt;spec.components.dns.oci&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;For example, a custom resource for a &lt;code&gt;prod&lt;/code&gt; installation profile using OCI DNS might look as follows, yielding
+a domain of &lt;code&gt;myenv.example.com&lt;/code&gt; (OCI identifiers redacted):&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: my-verrazzano
+spec:
+  profile: prod
+  environmentName: myenv
+  components:
+    dns:
+      oci:
+        ociConfigSecret: oci
+        dnsZoneCompartmentOCID: ocid1.compartment.oc1..compartment-ocid
+        dnsZoneOCID: ocid1.dns-zone.oc1..zone-ocid
+        dnsZoneName: example.com
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;After the custom resource is ready, apply it using &lt;code&gt;kubectl apply -f &amp;lt;path-to-custom-resource-file&amp;gt;&lt;/code&gt;.&lt;/p&gt;
+
+
+&lt;/div&gt;
+
+
+
+
+
+
+
+
+
+&lt;div class=&#34;tab-pane fade&#34; id=&#34;tab13&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName3&#34;&gt;
+
+	&lt;br&gt;
+&lt;p&gt;You can specify your own externally managed, custom DNS domain.  In this scenario, you manage your own DNS
+domain and all DNS records in that domain.&lt;/p&gt;
+&lt;p&gt;An externally managed DNS domain is specified in the &lt;a href=&#34;../../../../docs/reference/api/verrazzano/verrazzano/#dns-external&#34;&gt;&lt;code&gt;spec.components.dns.external.suffix&lt;/code&gt;&lt;/a&gt;
+field of the Verrazzano custom resource.&lt;/p&gt;
+&lt;p&gt;When using an externally managed DNS domain, you are responsible for:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Configuring A records for Verrazzano ingress points (load balancers)&lt;/li&gt;
+&lt;li&gt;Configuring CNAME records for hostnames in the domain that point to the A records, as needed&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The Verrazzano installer searches the DNS zone you provide for two specific A records.&lt;br&gt;
+These are used to configure the cluster and should refer to external addresses of the load balancers provisioned by
+the user.&lt;/p&gt;
+&lt;p&gt;The A records need to be created manually.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Record&lt;/th&gt;
+&lt;th&gt;Use&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;ingress-mgmt&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Set as the &lt;code&gt;.spec.externalIPs&lt;/code&gt; value of the &lt;code&gt;ingress-controller-nginx-ingress-controller&lt;/code&gt; service.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;ingress-verrazzano&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Set as the &lt;code&gt;.spec.externalIPs&lt;/code&gt; value of the &lt;code&gt;istio-ingressgateway&lt;/code&gt; service.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;For example, if &lt;code&gt;spec.environmentName&lt;/code&gt; is set to &lt;code&gt;myenv&lt;/code&gt;, and &lt;code&gt;spec.components.dns.external.suffix&lt;/code&gt; is
+set to &lt;code&gt;example.com&lt;/code&gt;, the A records would need to be set up as follows:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;198.51.100.10                                   A       ingress-mgmt.myenv.example.com.
+203.0.113.10                                    A       ingress-verrazzano.myenv.example.com.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This example assumes that load balancers exist for &lt;code&gt;ingress-mgmt&lt;/code&gt; on &lt;code&gt;198.51.100.10&lt;/code&gt; and for &lt;code&gt;ingress-verrazzano&lt;/code&gt; on
+&lt;code&gt;203.0.113.10&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;For a more complete example, see the documentation for setting up Verrazzano on the
+&lt;a href=&#34;../../../../docs/setup/platforms/olcne/olcne/&#34;&gt;OLCNE Platform&lt;/a&gt;.&lt;/p&gt;
+
+
+&lt;/div&gt;
+
+
+
+
+
+&lt;/div&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Customize Ingress</title>
       <link>/docs/setup/install/customizing/ingress/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

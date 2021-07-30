@@ -69,59 +69,18 @@ verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   &lt;span style
 &lt;/ol&gt;
 &lt;h2 id=&#34;perform-the-install&#34;&gt;Perform the install&lt;/h2&gt;
 &lt;p&gt;Verrazzano supports the following installation profiles:  development (&lt;code&gt;dev&lt;/code&gt;), production (&lt;code&gt;prod&lt;/code&gt;), and
-managed cluster (&lt;code&gt;managed-cluster&lt;/code&gt;).  For more information, see &lt;a href=&#34;../../../docs/setup/install/profiles/&#34;&gt;Installation Profiles&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;To change profiles in any of the following commands, set the &lt;code&gt;VZ_PROFILE&lt;/code&gt; environment variable to the name of the profile you want to install.&lt;/p&gt;
-&lt;p&gt;For a complete description of Verrazzano configuration options, see the &lt;a href=&#34;../../../docs/reference/api/verrazzano/verrazzano/&#34;&gt;Verrazzano Custom Resource Definition&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;According to your DNS choice, &lt;a href=&#34;https://nip.io/&#34;&gt;nip.io&lt;/a&gt; (wildcard DNS) or
-&lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm&#34;&gt;Oracle OCI DNS&lt;/a&gt;,
-install Verrazzano using one of the following methods:&lt;/p&gt;
-&lt;nav&gt;
-	&lt;div class=&#34;nav nav-tabs&#34; id=&#34;nav-tab&#34; role=&#34;tablist&#34;&gt;
-
-		
-		
-
-		
-		
-		
-
-		
-
-		&lt;a class=&#34;nav-item nav-link active&#34; id=&#34;nav-2&#34; data-toggle=&#34;tab&#34; href=&#34;#tab21&#34; role=&#34;tab&#34;
-		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;nip.io&lt;/a&gt;
-
-		
-		
-
-		
-		
-		
-
-		
-
-		&lt;a class=&#34;nav-item nav-link&#34; id=&#34;nav-2&#34; data-toggle=&#34;tab&#34; href=&#34;#tab22&#34; role=&#34;tab&#34;
-		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;false&#34;&gt;OCI DNS&lt;/a&gt;
-
-		
-		
-
-	&lt;/div&gt;
-&lt;/nav&gt;
-
-&lt;div class=&#34;tab-content&#34; id=&#34;2&#34;&gt;
-
-
-
-
-
-
-
-
-&lt;div class=&#34;tab-pane fade show active&#34; id=&#34;tab21&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName1&#34;&gt;
-
-	&lt;br&gt;
-&lt;h4 id=&#34;install-using-nipio&#34;&gt;Install using nip.io&lt;/h4&gt;
-&lt;p&gt;Run the following commands:&lt;/p&gt;
+managed cluster (&lt;code&gt;managed-cluster&lt;/code&gt;).  For more information on profiles, see
+&lt;a href=&#34;../../../docs/setup/install/profiles/&#34;&gt;Installation Profiles&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This page shows how to create a basic Verrazzano installation using&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The development (&lt;code&gt;dev&lt;/code&gt;) installation profile&lt;/li&gt;
+&lt;li&gt;Wildcard-DNS, where DNS is provided by &lt;a href=&#34;https://nip.io&#34;&gt;nip.io&lt;/a&gt; (the default)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For a complete description of Verrazzano configuration options, see the
+&lt;a href=&#34;../../../docs/reference/api/verrazzano/verrazzano/&#34;&gt;Verrazzano Custom Resource Definition&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To use other DNS options, see the &lt;a href=&#34;../../../docs/setup/install/customizing/dns/&#34;&gt;Customzing DNS&lt;/a&gt; page for more details.&lt;/p&gt;
+&lt;h4 id=&#34;install-verrazzano&#34;&gt;Install Verrazzano&lt;/h4&gt;
+&lt;p&gt;To create a Verrazzano installation as described in the previous section, run the following commands:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: install.verrazzano.io/v1alpha1
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Verrazzano
@@ -133,100 +92,8 @@ install Verrazzano using one of the following methods:&lt;/p&gt;
 $ kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;20m &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;InstallComplete verrazzano/my-verrazzano
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-
-
-
-
-
-
-
-
-
-&lt;div class=&#34;tab-pane fade&#34; id=&#34;tab22&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName2&#34;&gt;
-
-	&lt;br&gt;
-&lt;h4 id=&#34;install-using-oci-dns&#34;&gt;Install using OCI DNS&lt;/h4&gt;
-&lt;p&gt;&lt;strong&gt;Prerequisites&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;A DNS zone is a distinct portion of a domain namespace. Therefore, ensure that the zone is appropriately associated with a parent domain.
-For example, an appropriate zone name for parent domain &lt;code&gt;v8o.example.com&lt;/code&gt; domain is &lt;code&gt;us.v8o.example.com&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Create a public OCI DNS zone using the OCI CLI or the OCI Console.&lt;/p&gt;
-&lt;p&gt;To create an OCI DNS zone using the OCI CLI:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ oci dns zone create \
-    -c &amp;lt;compartment ocid&amp;gt; \
-    --name &amp;lt;zone-name-prefix&amp;gt;.v8o.example.com \
-    --zone-type PRIMARY
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To create an OCI DNS zone using the OCI Console, see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/DNS/Tasks/managingdnszones.htm&#34;&gt;Managing DNS Service Zones&lt;/a&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Create a secret in the default namespace. The secret is created using the script &lt;code&gt;create_oci_config_secret.sh&lt;/code&gt; which
-reads an OCI configuration file to create the secret.&lt;/p&gt;
-&lt;p&gt;Download the &lt;code&gt;create_oci_config_secret.sh&lt;/code&gt; script:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ curl \
-    -o ./create_oci_config_secret.sh \
-    https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/scripts/install/create_oci_config_secret.sh
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Run the &lt;code&gt;create_oci_config_secret.sh&lt;/code&gt; script:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ chmod +x create_oci_config_secret.sh
-$ export KUBECONFIG=&amp;lt;kubeconfig-file&amp;gt;
-$ ./create_oci_config_secret.sh \
-    -o &amp;lt;oci-config-file&amp;gt; \
-    -s &amp;lt;config-file-section&amp;gt; \
-    -k &amp;lt;secret-name&amp;gt;
-
--o defaults to the OCI configuration file in ~/.oci/config
--s defaults to the DEFAULT properties section within the OCI configuration file
--k defaults to a secret named oci
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
-&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt;The &amp;lt;code&amp;gt;key_file&amp;lt;/code&amp;gt; value within the OCI configuration file must reference a &amp;lt;code&amp;gt;.pem&amp;lt;/code&amp;gt; file that contains a RSA private key.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The contents of a RSA private key file starts with &lt;code&gt;&amp;mdash;&amp;ndash;BEGIN RSA PRIVATE KEY&amp;mdash;&amp;ndash;&lt;/code&gt;.  If your OCI configuration file
-references a &lt;code&gt;.pem&lt;/code&gt; file that is not of this form, then you must generate a RSA private key file.  See &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm&#34;&gt;Generating a RSA Private Key&lt;/a&gt;.
-After generating the correct form of the &lt;code&gt;.pem&lt;/code&gt; file, make sure to change the reference within the OCI configuration file.&lt;/p&gt;
-&lt;/div&gt;
-&lt;p&gt;&lt;strong&gt;Installation&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Installing Verrazzano using OCI DNS requires some configuration settings to create DNS records.&lt;/p&gt;
-&lt;p&gt;Download the sample Verrazzano custom resource &lt;code&gt;install-oci.yaml&lt;/code&gt; for OCI DNS:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ curl \
-    -o ./install-oci.yaml \
-    https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/config/samples/install-oci.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Edit the downloaded &lt;code&gt;install-oci.yaml&lt;/code&gt; file and provide values for the following configuration settings:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;spec.environmentName&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;spec.certificate.acme.emailAddress&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;spec.dns.oci.ociConfigSecret&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;spec.dns.oci.dnsZoneCompartmentOCID&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;spec.dns.oci.dnsZoneOCID&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;spec.dns.oci.dnsZoneName&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;For the full configuration information for an installation, see the &lt;a href=&#34;../../../docs/reference/api/verrazzano/verrazzano/&#34;&gt;Verrazzano Custom Resource Definition&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;When you use the OCI DNS installation, you need to provide a Verrazzano name in the Verrazzano custom resource
-(&lt;code&gt;spec.environmentName&lt;/code&gt;) that will be used as part of the domain name used to access Verrazzano
-ingresses.  For example, you could use &lt;code&gt;sales&lt;/code&gt; as an &lt;code&gt;environmentName&lt;/code&gt;, yielding
-&lt;code&gt;sales.us.v8o.example.com&lt;/code&gt; as the sales-related domain (assuming the domain and zone names listed
-previously).&lt;/p&gt;
-&lt;p&gt;Run the following commands:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f ./install-oci.yaml
-$ kubectl wait \
-    --timeout=20m \
-    --for=condition=InstallComplete verrazzano/my-verrazzano
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-
-
-
-
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To use a different profile with the above example, set the &lt;code&gt;VZ_PROFILE&lt;/code&gt; environment variable to the name of the profile
+you want to install.&lt;/p&gt;
 &lt;p&gt;To monitor the Console log output of the installation:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl logs &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -f &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl get pod &lt;span style=&#34;color:#4e9a06&#34;&gt;\
@@ -252,7 +119,7 @@ vmi-system-prometheus-0-7bf464d898-czq8r                 4/4     Running   0    
 weblogic-operator-7db5cdcf59-qxsr9                       1/1     Running   0          27h
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;optional-run-the-example-applications&#34;&gt;(Optional) Run the example applications&lt;/h2&gt;
 &lt;p&gt;Example applications are located &lt;a href=&#34;../../../docs/samples/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;h5 id=&#34;to-get-the-consoles-urls-and-credentials-see-access-verrazzanohahahugoshortcode-s9-hbhb&#34;&gt;To get the consoles URLs and credentials, see &lt;a href=&#34;../../../docs/operations/&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/h5&gt;
+&lt;h5 id=&#34;to-get-the-consoles-urls-and-credentials-see-access-verrazzanohahahugoshortcode-s8-hbhb&#34;&gt;To get the consoles URLs and credentials, see &lt;a href=&#34;../../../docs/operations/&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/h5&gt;
 
       </description>
     </item>
