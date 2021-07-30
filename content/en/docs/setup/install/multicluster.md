@@ -24,6 +24,28 @@ Install Verrazzano on each Kubernetes cluster.
 - On one cluster, install Verrazzano using the `dev` or `prod` profile; this will be the *admin* cluster.
 - On the other cluster, install Verrazzano using the `managed-cluster` profile; this will be a
   managed cluster. The `managed-cluster` profile contains only the components that are required for a managed cluster.
+- Create the environment variables, `KUBECONFIG_ADMIN`, `KUBECONTEXT_ADMIN`, `KUBECONFIG_MANAGED1`, and
+  `KUBECONTEXT_MANAGED1`, and point them to the `kubeconfig` files and contexts for the admin and managed cluster,
+  respectively. You will use these environment variables in subsequent steps when registering the managed cluster. The
+  following shows an example of how to set these environment variables.
+  ```shell
+  $ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
+  $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
+
+  # lists the contexts in each kubeconfig file
+  $ kubectl --kubeconfig $KUBECONFIG_ADMIN config get-contexts -o=name
+  my-admin-cluster-context
+  some-other-cluster-context
+
+  $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 config get-contexts -o=name
+  my-managed-cluster-context
+  some-other-cluster2-context
+
+  # Choose the right context name for your admin and managed clusters from the output shown and set the KUBECONTEXT
+  # environment variables
+  $ export KUBECONTEXT_ADMIN=<admin-cluster-context-name>
+  $ export KUBECONTEXT_MANAGED1=<managed-cluster-context-name>
+  ```
 
 For detailed instructions on how to install and customize Verrazzano on a Kubernetes cluster using a specific profile,
 see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}}) and [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}}).
@@ -31,7 +53,8 @@ see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}
 ## Register the managed cluster with the admin cluster
 
 The following sections show you how to register the managed cluster with the admin cluster. As indicated, some of these
-steps are performed on the admin cluster and some on the managed cluster.
+steps are performed on the admin cluster and some on the managed cluster. The commands provided use the environment
+variables set previously to connect to the appropriate cluster.
 
 <!-- omit in toc -->
 ### Preregistration setup
@@ -56,7 +79,8 @@ Follow these preregistration setup steps:
      in the `verrazzano-system` namespace on the managed cluster.
      ```shell
      # On the managed cluster
-     $ kubectl -n verrazzano-system get secret system-tls -o jsonpath='{.data.ca\.crt}'
+     $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
+          -n verrazzano-system get secret system-tls -o jsonpath='{.data.ca\.crt}'
      ```
      If this value is empty, then your managed cluster is using certificates signed by a well-known certificate
      authority. Otherwise, your managed cluster is using self-signed certificates.
@@ -83,16 +107,17 @@ CA certificate is saved in an environment variable called `MGD_CA_CERT`. Then us
 
 ```shell
 # On the managed cluster
-$ MGD_CA_CERT=$(kubectl get secret system-tls \
+$ MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
+     get secret system-tls \
      -n verrazzano-system \
      -o jsonpath="{.data.ca\.crt}" | base64 --decode)
-$ kubectl create secret generic "ca-secret-managed1" \
+$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
+  create secret generic "ca-secret-managed1" \
   -n verrazzano-mc \
   --from-literal=cacrt="$MGD_CA_CERT" \
   --dry-run=client \
   -o yaml > managed1.yaml
 ```
-
      {{< /tab >}}
      {{< /tabs >}}
 
@@ -101,49 +126,70 @@ $ kubectl create secret generic "ca-secret-managed1" \
    The file `managed1.yaml` that was created in the previous step provides input to this step.
    ```shell
    # On the admin cluster
-   $ kubectl apply -f managed1.yaml
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+        apply -f managed1.yaml
 
    # Once the command succeeds, you may delete the managed1.yaml file
    $ rm managed1.yaml
    ```
 
-1. Obtain the publicly accessible Kubernetes API server address for the admin cluster from its `kubeconfig` file, using
-   the following instructions.
-    ```shell
-    # First list the contexts in the kubeconfig file - sample output is shown below
-    $ kubectl config get-contexts -o=name
-    my-admin-cluster
-    my-managed-cluster
-    ```
+1. Use the following instructions to obtain the Kubernetes API server address for the admin cluster. This address must
+   be accessible from the managed cluster.
 
-    ```shell
-    # From the output, find the admin cluster's context name and use it in the next command
-    # View the information for that context in your kubeconfig file 
-    $ kubectl --context [your-admin-cluster-context-name] config view --minify
-    apiVersion: v1
-    kind: Config
-    clusters:
-    - cluster:
-      certificate-authority-data: DATA+OMITTED
-      server: https://127.0.0.1:46829
-      name: kind-managed1
-    contexts:
-    ....
-    ....
-    ```
+   {{< tabs tabTotal="2" tabID="3" tabName1="Most Kubernetes Clusters" tabName2="Kind Clusters" >}}
+   {{< tab tabNum="1" >}}
+<br>
 
-    ```shell
-    # In the output of the above command, the address shown in the "server" field is the Kubernetes API server address.
-    # Set the ADMIN_K8S_SERVER_ADDRESS environment variable to that value e.g. in the above sample output, the
-    # value is https://127.0.0.1:46829
-    $ export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
-    ```
+For most types of Kubernetes clusters, except for Kind clusters, you can find the externally accessible API server
+address of the admin cluster from its `kubeconfig` file.
+
+```shell
+# View the information for the admin cluster in your kubeconfig file 
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN config view --minify
+apiVersion: v1
+kind: Config
+clusters:
+- cluster:
+  certificate-authority-data: DATA+OMITTED
+  server: https://11.22.33.44:6443
+  name: my-admin-cluster
+contexts:
+....
+....
+```
+In the output of this command, you can find the URL of the admin cluster API server from the `server` entry. Set the
+value of the ADMIN_K8S_SERVER_ADDRESS variable to this URL.
+```shell
+export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
+```
+
+   {{< /tab >}}
+   {{< tab tabNum="2" >}}
+<br>
+
+Kind clusters run within a Docker container. If your admin and managed clusters are Kind clusters, the API server
+address of the admin cluster in its `kubeconfig` file is usually a local address on the host machine, which will not be
+accessible from the managed cluster. Use the `kind` command to obtain the "internal" `kubeconfig` of the admin
+cluster, which will contain a server address accessible from other Kind clusters on the same machine, and therefore in
+the same Docker network.
+
+```shell
+$ kind get kubeconfig --internal --name <your-admin-cluster-name>
+```
+In the output of this command, you can find the URL of the admin cluster API server from the `server` entry. Set the
+value of the ADMIN_K8S_SERVER_ADDRESS variable to this URL.
+```shell
+export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
+```
+   {{< /tab >}}
+   {{< /tabs >}}
 
 1. On the admin cluster, create a ConfigMap that contains the externally accessible admin cluster Kubernetes server
    address found in the previous step.
     ```shell
     # On the admin cluster
-    $ kubectl apply -f <<EOF -
+    $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+        apply -f <<EOF -
     apiVersion: v1
     kind: ConfigMap
     metadata:
@@ -162,7 +208,8 @@ The cluster against which to run the command is indicated in each code block.
 1. To begin the registration process for a managed cluster named `managed1`, apply the VerrazzanoManagedCluster object on the admin cluster.
    ```shell
    # On the admin cluster
-   $ kubectl apply -f <<EOF -
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+       apply -f <<EOF -
    apiVersion: clusters.verrazzano.io/v1alpha1
    kind: VerrazzanoManagedCluster
    metadata:
@@ -178,13 +225,15 @@ The cluster against which to run the command is indicated in each code block.
 
    ```shell
    # On the admin cluster
-   $ kubectl wait --for=condition=Ready \
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+       wait --for=condition=Ready \
        vmc managed1 -n verrazzano-mc
    ```
 1. Export the YAML file created to register the managed cluster.
    ```shell
    # On the admin cluster
-   $ kubectl get secret verrazzano-cluster-managed1-manifest \
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+       get secret verrazzano-cluster-managed1-manifest \
        -n verrazzano-mc \
        -o jsonpath={.data.yaml} | base64 --decode > register.yaml
    ```
@@ -193,7 +242,8 @@ The cluster against which to run the command is indicated in each code block.
 Apply the registration file exported in the previous step, on the managed cluster.
    ```shell
    # On the managed cluster
-   $ kubectl apply -f register.yaml
+   $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
+       apply -f register.yaml
 
    # Once the command succeeds, you may delete the register.yaml file
    $ rm register.yaml
@@ -215,7 +265,8 @@ You can perform all the verification steps on the admin cluster.
    populated. This may take up to 2 minutes after completing the registration steps.
    ```shell
    # On the admin cluster
-   $ kubectl get vmc managed1 -n verrazzano-mc -o yaml
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+       get vmc managed1 -n verrazzano-mc -o yaml
    
    # Sample output showing the status field
    spec:
