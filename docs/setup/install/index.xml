@@ -529,12 +529,34 @@ cluster, simply repeat the managed cluster instructions.&lt;/p&gt;
 &lt;li&gt;On one cluster, install Verrazzano using the &lt;code&gt;dev&lt;/code&gt; or &lt;code&gt;prod&lt;/code&gt; profile; this will be the &lt;em&gt;admin&lt;/em&gt; cluster.&lt;/li&gt;
 &lt;li&gt;On the other cluster, install Verrazzano using the &lt;code&gt;managed-cluster&lt;/code&gt; profile; this will be a
 managed cluster. The &lt;code&gt;managed-cluster&lt;/code&gt; profile contains only the components that are required for a managed cluster.&lt;/li&gt;
+&lt;li&gt;Create the environment variables, &lt;code&gt;KUBECONFIG_ADMIN&lt;/code&gt;, &lt;code&gt;KUBECONTEXT_ADMIN&lt;/code&gt;, &lt;code&gt;KUBECONFIG_MANAGED1&lt;/code&gt;, and
+&lt;code&gt;KUBECONTEXT_MANAGED1&lt;/code&gt;, and point them to the &lt;code&gt;kubeconfig&lt;/code&gt; files and contexts for the admin and managed cluster,
+respectively. You will use these environment variables in subsequent steps when registering the managed cluster. The
+following shows an example of how to set these environment variables.
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG_ADMIN&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;/path/to/your/adminclusterkubeconfig
+$ &lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG_MANAGED1&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;/path/to/your/managedclusterkubeconfig
+
+&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# lists the contexts in each kubeconfig file&lt;/span&gt;
+$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; config get-contexts -o&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;name
+my-admin-cluster-context
+some-other-cluster-context
+
+$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_MANAGED1&lt;/span&gt; config get-contexts -o&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;name
+my-managed-cluster-context
+some-other-cluster2-context
+
+&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Choose the right context name for your admin and managed clusters from the output shown and set the KUBECONTEXT&lt;/span&gt;
+&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# environment variables&lt;/span&gt;
+$ &lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;KUBECONTEXT_ADMIN&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&amp;lt;admin-cluster-context-name&amp;gt;
+$ &lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;KUBECONTEXT_MANAGED1&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&amp;lt;managed-cluster-context-name&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;For detailed instructions on how to install and customize Verrazzano on a Kubernetes cluster using a specific profile,
 see the &lt;a href=&#34;../../../docs/setup/install/installation/&#34;&gt;Installation Guide&lt;/a&gt; and &lt;a href=&#34;../../../docs/setup/install/profiles/&#34;&gt;Installation Profiles&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;register-the-managed-cluster-with-the-admin-cluster&#34;&gt;Register the managed cluster with the admin cluster&lt;/h2&gt;
 &lt;p&gt;The following sections show you how to register the managed cluster with the admin cluster. As indicated, some of these
-steps are performed on the admin cluster and some on the managed cluster.&lt;/p&gt;
+steps are performed on the admin cluster and some on the managed cluster. The commands provided use the environment
+variables set previously to connect to the appropriate cluster.&lt;/p&gt;
 &lt;!-- omit in toc --&gt;
 &lt;h3 id=&#34;preregistration-setup&#34;&gt;Preregistration setup&lt;/h3&gt;
 &lt;p&gt;Before registering the managed cluster, first you&amp;rsquo;ll need to set up the following items:&lt;/p&gt;
@@ -562,7 +584,8 @@ choose the appropriate instructions.&lt;/p&gt;
 &lt;p&gt;If you are unsure what type of certificates are used, check the &lt;code&gt;ca.crt&lt;/code&gt; field of the &lt;code&gt;system-tls&lt;/code&gt; secret
 in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace on the managed cluster.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# On the managed cluster&lt;/span&gt;
-$ kubectl -n verrazzano-system get secret system-tls -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;{.data.ca\.crt}&amp;#39;&lt;/span&gt;
+$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_MANAGED1&lt;/span&gt; --context &lt;span style=&#34;color:#000&#34;&gt;$KUBECONTEXT_MANAGED1&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;     -n verrazzano-system get secret system-tls -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;{.data.ca\.crt}&amp;#39;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;If this value is empty, then your managed cluster is using certificates signed by a well-known certificate
 authority. Otherwise, your managed cluster is using self-signed certificates.&lt;/p&gt;
 &lt;nav&gt;
@@ -634,10 +657,12 @@ certificate of the managed cluster as the value of the &lt;code&gt;cacrt&lt;/cod
 CA certificate is saved in an environment variable called &lt;code&gt;MGD_CA_CERT&lt;/code&gt;. Then use the &lt;code&gt;--dry-run&lt;/code&gt; option of the
 &lt;code&gt;kubectl&lt;/code&gt; command to generate the &lt;code&gt;managed1.yaml&lt;/code&gt; file.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# On the managed cluster&lt;/span&gt;
-$ &lt;span style=&#34;color:#000&#34;&gt;MGD_CA_CERT&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl get secret system-tls &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+$ &lt;span style=&#34;color:#000&#34;&gt;MGD_CA_CERT&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_MANAGED1&lt;/span&gt; --context &lt;span style=&#34;color:#000&#34;&gt;$KUBECONTEXT_MANAGED1&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;     get secret system-tls &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;     -n verrazzano-system &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;     -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;{.data.ca\.crt}&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt; base64 --decode&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
-$ kubectl create secret generic &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;ca-secret-managed1&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_MANAGED1&lt;/span&gt; --context &lt;span style=&#34;color:#000&#34;&gt;$KUBECONTEXT_MANAGED1&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  create secret generic &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;ca-secret-managed1&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  -n verrazzano-mc &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --from-literal&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;cacrt&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$MGD_CA_CERT&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;  --dry-run&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;client &lt;span style=&#34;color:#4e9a06&#34;&gt;\
@@ -658,41 +683,117 @@ $ kubectl create secret generic &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#
 &lt;p&gt;Create a Secret on the &lt;em&gt;admin&lt;/em&gt; cluster that contains the CA certificate for the managed cluster. This secret will be used for scraping metrics from the managed cluster.
 The file &lt;code&gt;managed1.yaml&lt;/code&gt; that was created in the previous step provides input to this step.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# On the admin cluster&lt;/span&gt;
-$ kubectl apply -f managed1.yaml
+$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; --context &lt;span style=&#34;color:#000&#34;&gt;$KUBECONTEXT_ADMIN&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;     apply -f managed1.yaml
 
 &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Once the command succeeds, you may delete the managed1.yaml file&lt;/span&gt;
 $ rm managed1.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Obtain the publicly accessible Kubernetes API server address for the admin cluster from its &lt;code&gt;kubeconfig&lt;/code&gt; file, using
-the following instructions.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# First list the contexts in the kubeconfig file - sample output is shown below&lt;/span&gt;
-$ kubectl config get-contexts -o&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;name
-my-admin-cluster
-my-managed-cluster
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# From the output, find the admin cluster&amp;#39;s context name and use it in the next command&lt;/span&gt;
-&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# View the information for that context in your kubeconfig file&lt;/span&gt; 
-$ kubectl --context &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;[&lt;/span&gt;your-admin-cluster-context-name&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;]&lt;/span&gt; config view --minify
+&lt;p&gt;Use the following instructions to obtain the Kubernetes API server address for the admin cluster. This address must
+be accessible from the managed cluster.&lt;/p&gt;
+&lt;nav&gt;
+	&lt;div class=&#34;nav nav-tabs&#34; id=&#34;nav-tab&#34; role=&#34;tablist&#34;&gt;
+
+		
+		
+
+		
+		
+		
+
+		
+
+		&lt;a class=&#34;nav-item nav-link active&#34; id=&#34;nav-3&#34; data-toggle=&#34;tab&#34; href=&#34;#tab31&#34; role=&#34;tab&#34;
+		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Most Kubernetes Clusters&lt;/a&gt;
+
+		
+		
+
+		
+		
+		
+
+		
+
+		&lt;a class=&#34;nav-item nav-link&#34; id=&#34;nav-3&#34; data-toggle=&#34;tab&#34; href=&#34;#tab32&#34; role=&#34;tab&#34;
+		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;false&#34;&gt;Kind Clusters&lt;/a&gt;
+
+		
+		
+
+	&lt;/div&gt;
+&lt;/nav&gt;
+
+&lt;div class=&#34;tab-content&#34; id=&#34;3&#34;&gt;
+
+
+   
+
+
+
+
+
+&lt;div class=&#34;tab-pane fade show active&#34; id=&#34;tab31&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName1&#34;&gt;
+
+	&lt;br&gt;
+&lt;p&gt;For most types of Kubernetes clusters, except for Kind clusters, you can find the externally accessible API server
+address of the admin cluster from its &lt;code&gt;kubeconfig&lt;/code&gt; file.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# View the information for the admin cluster in your kubeconfig file&lt;/span&gt; 
+$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; --context &lt;span style=&#34;color:#000&#34;&gt;$KUBECONTEXT_ADMIN&lt;/span&gt; config view --minify
 apiVersion: v1
 kind: Config
 clusters:
 - cluster:
   certificate-authority-data: DATA+OMITTED
-  server: https://127.0.0.1:46829
-  name: kind-managed1
+  server: https://11.22.33.44:6443
+  name: my-admin-cluster
 contexts:
 ....
 ....
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# In the output of the above command, the address shown in the &amp;#34;server&amp;#34; field is the Kubernetes API server address.&lt;/span&gt;
-&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Set the ADMIN_K8S_SERVER_ADDRESS environment variable to that value e.g. in the above sample output, the&lt;/span&gt;
-&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# value is https://127.0.0.1:46829&lt;/span&gt;
-$ &lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;ADMIN_K8S_SERVER_ADDRESS&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&amp;lt;the server address from the config output&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In the output of this command, you can find the URL of the admin cluster API server from the &lt;code&gt;server&lt;/code&gt; entry. Set the
+value of the ADMIN_K8S_SERVER_ADDRESS variable to this URL.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;ADMIN_K8S_SERVER_ADDRESS&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&amp;lt;the server address from the config output&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+
+
+   
+
+
+
+
+
+&lt;div class=&#34;tab-pane fade&#34; id=&#34;tab32&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName2&#34;&gt;
+
+	&lt;br&gt;
+&lt;p&gt;Kind clusters run within a Docker container. If your admin and managed clusters are Kind clusters, the API server
+address of the admin cluster in its &lt;code&gt;kubeconfig&lt;/code&gt; file is usually a local address on the host machine, which will not be
+accessible from the managed cluster. Use the &lt;code&gt;kind&lt;/code&gt; command to obtain the &amp;ldquo;internal&amp;rdquo; &lt;code&gt;kubeconfig&lt;/code&gt; of the admin
+cluster, which will contain a server address accessible from other Kind clusters on the same machine, and therefore in
+the same Docker network.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kind get kubeconfig --internal --name &amp;lt;your-admin-cluster-name&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In the output of this command, you can find the URL of the admin cluster API server from the &lt;code&gt;server&lt;/code&gt; entry. Set the
+value of the ADMIN_K8S_SERVER_ADDRESS variable to this URL.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;ADMIN_K8S_SERVER_ADDRESS&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&amp;lt;the server address from the config output&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+
+
+   
+
+&lt;/div&gt;
+&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;On the admin cluster, create a ConfigMap that contains the externally accessible admin cluster Kubernetes server
 address found in the previous step.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# On the admin cluster&lt;/span&gt;
-$ kubectl apply -f &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF -
+$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; --context &lt;span style=&#34;color:#000&#34;&gt;$KUBECONTEXT_ADMIN&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    apply -f &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF -
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: v1
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: ConfigMap
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
@@ -712,7 +813,8 @@ The cluster against which to run the command is indicated in each code block.&lt
 &lt;li&gt;
 &lt;p&gt;To begin the registration process for a managed cluster named &lt;code&gt;managed1&lt;/code&gt;, apply the VerrazzanoManagedCluster object on the admin cluster.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# On the admin cluster&lt;/span&gt;
-$ kubectl apply -f &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF -
+$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; --context &lt;span style=&#34;color:#000&#34;&gt;$KUBECONTEXT_ADMIN&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    apply -f &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF -
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: clusters.verrazzano.io/v1alpha1
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: VerrazzanoManagedCluster
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
@@ -727,13 +829,15 @@ $ kubectl apply -f &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
 &lt;p&gt;Wait for the VerrazzanoManagedCluster resource to reach the &lt;code&gt;Ready&lt;/code&gt; status. At that point, it will have generated a YAML
 file that must be applied on the managed cluster to complete the registration process.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# On the admin cluster&lt;/span&gt;
-$ kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;Ready &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; --context &lt;span style=&#34;color:#000&#34;&gt;$KUBECONTEXT_ADMIN&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;Ready &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    vmc managed1 -n verrazzano-mc
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Export the YAML file created to register the managed cluster.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# On the admin cluster&lt;/span&gt;
-$ kubectl get secret verrazzano-cluster-managed1-manifest &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; --context &lt;span style=&#34;color:#000&#34;&gt;$KUBECONTEXT_ADMIN&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    get secret verrazzano-cluster-managed1-manifest &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -n verrazzano-mc &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;={&lt;/span&gt;.data.yaml&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt; base64 --decode &amp;gt; register.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
@@ -741,7 +845,8 @@ $ kubectl get secret verrazzano-cluster-managed1-manifest &lt;span style=&#34;co
 &lt;h4 id=&#34;on-the-managed-cluster&#34;&gt;On the managed cluster&lt;/h4&gt;
 &lt;p&gt;Apply the registration file exported in the previous step, on the managed cluster.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# On the managed cluster&lt;/span&gt;
-$ kubectl apply -f register.yaml
+$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_MANAGED1&lt;/span&gt; --context &lt;span style=&#34;color:#000&#34;&gt;$KUBECONTEXT_MANAGED1&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    apply -f register.yaml
 
 &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Once the command succeeds, you may delete the register.yaml file&lt;/span&gt;
 $ rm register.yaml
@@ -763,7 +868,8 @@ route incoming requests for managed cluster information, to the managed cluster&
 resource on the admin cluster, and check whether the &lt;code&gt;lastAgentConnectTime&lt;/code&gt;, &lt;code&gt;prometheusUrl&lt;/code&gt; and &lt;code&gt;apiUrl&lt;/code&gt; fields are
 populated. This may take up to 2 minutes after completing the registration steps.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# On the admin cluster&lt;/span&gt;
-$ kubectl get vmc managed1 -n verrazzano-mc -o yaml
+$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; --context &lt;span style=&#34;color:#000&#34;&gt;$KUBECONTEXT_ADMIN&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    get vmc managed1 -n verrazzano-mc -o yaml
    
 &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Sample output showing the status field&lt;/span&gt;
 spec:

@@ -805,20 +805,20 @@ The A records will need to be created manually.&lt;/p&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;For example:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;198.51.100.10                                   A       ingress-mgmt.myenv.mydomain.com.
-203.0.113.10                                    A       ingress-verrazzano.myenv.mydomain.com.
+&lt;pre&gt;&lt;code&gt;198.51.100.10                                   A       ingress-mgmt.myenv.example.com.
+203.0.113.10                                    A       ingress-verrazzano.myenv.example.com.
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Verrazzano installation will result in a number of management services that need to point to the &lt;code&gt;ingress-mgmt&lt;/code&gt; address.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;keycloak.myenv.mydomain.com                      CNAME   ingress-mgmt.myenv.mydomain.com.
-rancher.myenv.mydomain.com                       CNAME   ingress-mgmt.myenv.mydomain.com.
+&lt;pre&gt;&lt;code&gt;keycloak.myenv.example.com                      CNAME   ingress-mgmt.myenv.example.com.
+rancher.myenv.example.com                       CNAME   ingress-mgmt.myenv.example.com.
 
-grafana.vmi.system.myenv.mydomain.com            CNAME   ingress-mgmt.myenv.mydomain.com.
-prometheus.vmi.system.myenv.mydomain.com         CNAME   ingress-mgmt.myenv.mydomain.com.
-kibana.vmi.system.myenv.mydomain.com             CNAME   ingress-mgmt.myenv.mydomain.com.
-elasticsearch.vmi.system.myenv.mydomain.com      CNAME   ingress-mgmt.myenv.mydomain.com.
+grafana.vmi.system.myenv.example.com            CNAME   ingress-mgmt.myenv.example.com.
+prometheus.vmi.system.myenv.example.com         CNAME   ingress-mgmt.myenv.example.com.
+kibana.vmi.system.myenv.example.com             CNAME   ingress-mgmt.myenv.example.com.
+elasticsearch.vmi.system.myenv.example.com      CNAME   ingress-mgmt.myenv.example.com.
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For simplicity, an administrator may want to create &lt;a href=&#34;https://tools.ietf.org/html/rfc1034#section-4.3.3&#34;&gt;wildcard DNS records&lt;/a&gt; for the management addresses:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;*.system.myenv.mydomain.com                      CNAME   ingress-mgmt.myenv.mydomain.com.
+&lt;pre&gt;&lt;code&gt;*.system.myenv.example.com                      CNAME   ingress-mgmt.myenv.example.com.
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;OR&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;*.myenv.mydomain.com                             CNAME   ingress-mgmt.myenv.mydomain.com.
+&lt;pre&gt;&lt;code&gt;*.myenv.example.com                             CNAME   ingress-mgmt.myenv.example.com.
 &lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;oci-example&#34;&gt;OCI example&lt;/h4&gt;
 &lt;p&gt;DNS is configured in OCI by creating DNS zones in the OCI Console.
 When creating a DNS zone, use these values:&lt;/p&gt;
@@ -827,7 +827,7 @@ When creating a DNS zone, use these values:&lt;/p&gt;
 &lt;li&gt;Zone Name: &lt;code&gt;&amp;lt;dns-suffix&amp;gt;&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Zone Type: Primary&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;The value for &lt;code&gt;&amp;lt;dns-suffix&amp;gt;&lt;/code&gt; excludes the environment (for example, use the &lt;code&gt;mydomain.com&lt;/code&gt; portion of &lt;code&gt;myenv.mydomain.com&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;The value for &lt;code&gt;&amp;lt;dns-suffix&amp;gt;&lt;/code&gt; excludes the environment (for example, use the &lt;code&gt;example.com&lt;/code&gt; portion of &lt;code&gt;myenv.example.com&lt;/code&gt;).&lt;/p&gt;
 &lt;p&gt;DNS A records must be manually added to the zone and published using values described above.
 DNS CNAME records, in the same way.&lt;/p&gt;
 
@@ -842,10 +842,10 @@ DNS CNAME records, in the same way.&lt;/p&gt;
 &lt;p&gt;During the Verrazzano install, these steps should be performed on the Oracle Linux Cloud Native Environment operator node.&lt;/p&gt;
 &lt;p&gt;Edit the sample Verrazzano custom resource &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/platform-operator/config/samples/install-olcne.yaml&#34;&gt;install-olcne.yaml&lt;/a&gt; file and provide these configuration settings for your OLCNE environment:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;The value for &lt;code&gt;spec.environmentName&lt;/code&gt; is a unique DNS subdomain for the cluster (for example, &lt;code&gt;myenv&lt;/code&gt; in &lt;code&gt;myenv.mydomain.com&lt;/code&gt;).&lt;/li&gt;
-&lt;li&gt;The value for &lt;code&gt;spec.dns.external.suffix&lt;/code&gt; is the remainder of the DNS domain (for example, &lt;code&gt;mydomain.com&lt;/code&gt; in &lt;code&gt;myenv.mydomain.com&lt;/code&gt;).&lt;/li&gt;
-&lt;li&gt;Under &lt;code&gt;spec.ingress.verrazzano.nginxInstallArgs&lt;/code&gt;, the value for &lt;code&gt;controller.service.externalIPs&lt;/code&gt; is the IP address of &lt;code&gt;ingress-mgmt.&amp;lt;myenv&amp;gt;.&amp;lt;mydomain.com&amp;gt;&lt;/code&gt; configured during DNS set up.&lt;/li&gt;
-&lt;li&gt;Under  &lt;code&gt;spec.ingress.application.istioInstallArgs&lt;/code&gt;, the value for &lt;code&gt;gateways.istio-ingressgateway.externalIPs&lt;/code&gt; is the IP address of &lt;code&gt;ingress-verrazzano.&amp;lt;myenv&amp;gt;.&amp;lt;mydomain.com&amp;gt;&lt;/code&gt; configured during DNS set up.&lt;/li&gt;
+&lt;li&gt;The value for &lt;code&gt;spec.environmentName&lt;/code&gt; is a unique DNS subdomain for the cluster (for example, &lt;code&gt;myenv&lt;/code&gt; in &lt;code&gt;myenv.example.com&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;The value for &lt;code&gt;spec.dns.external.suffix&lt;/code&gt; is the remainder of the DNS domain (for example, &lt;code&gt;example.com&lt;/code&gt; in &lt;code&gt;myenv.example.com&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;Under &lt;code&gt;spec.ingress.verrazzano.nginxInstallArgs&lt;/code&gt;, the value for &lt;code&gt;controller.service.externalIPs&lt;/code&gt; is the IP address of &lt;code&gt;ingress-mgmt.&amp;lt;myenv&amp;gt;.&amp;lt;example.com&amp;gt;&lt;/code&gt; configured during DNS set up.&lt;/li&gt;
+&lt;li&gt;Under  &lt;code&gt;spec.ingress.application.istioInstallArgs&lt;/code&gt;, the value for &lt;code&gt;gateways.istio-ingressgateway.externalIPs&lt;/code&gt; is the IP address of &lt;code&gt;ingress-verrazzano.&amp;lt;myenv&amp;gt;.&amp;lt;example.com&amp;gt;&lt;/code&gt; configured during DNS set up.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;You will install Verrazzano using the &lt;code&gt;external&lt;/code&gt; DNS type (the example custom resource for OLCNE is already configured to use &lt;code&gt;spec.dns.external&lt;/code&gt;).&lt;/p&gt;
 &lt;p&gt;Set the following environment variable:&lt;/p&gt;

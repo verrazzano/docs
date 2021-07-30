@@ -22,10 +22,10 @@
 <meta property="og:description" content="Instructions for setting up an OLCNE cluster for Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/platforms/olcne/olcne/" />
-<meta property="article:modified_time" content="2021-07-01T14:37:34-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-07-30T09:54:23-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Oracle Linux Cloud Native Environment (OLCNE)">
 <meta itemprop="description" content="Instructions for setting up an OLCNE cluster for Verrazzano">
-<meta itemprop="dateModified" content="2021-07-01T14:37:34-04:00" />
+<meta itemprop="dateModified" content="2021-07-30T09:54:23-04:00" />
 <meta itemprop="wordCount" content="1782">
 
 
@@ -106,7 +106,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.66a5a14e47b4f2ba6da00924c2d8af8c.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.a574e296cb527268fa9bd8853848a8e5.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -133,7 +133,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.66a5a14e47b4f2ba6da00924c2d8af8c.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.a574e296cb527268fa9bd8853848a8e5.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -1262,20 +1262,20 @@ The A records will need to be created manually.</p>
 </tbody>
 </table>
 <p>For example:</p>
-<pre><code>198.51.100.10                                   A       ingress-mgmt.myenv.mydomain.com.
-203.0.113.10                                    A       ingress-verrazzano.myenv.mydomain.com.
+<pre><code>198.51.100.10                                   A       ingress-mgmt.myenv.example.com.
+203.0.113.10                                    A       ingress-verrazzano.myenv.example.com.
 </code></pre><p>Verrazzano installation will result in a number of management services that need to point to the <code>ingress-mgmt</code> address.</p>
-<pre><code>keycloak.myenv.mydomain.com                      CNAME   ingress-mgmt.myenv.mydomain.com.
-rancher.myenv.mydomain.com                       CNAME   ingress-mgmt.myenv.mydomain.com.
+<pre><code>keycloak.myenv.example.com                      CNAME   ingress-mgmt.myenv.example.com.
+rancher.myenv.example.com                       CNAME   ingress-mgmt.myenv.example.com.
 
-grafana.vmi.system.myenv.mydomain.com            CNAME   ingress-mgmt.myenv.mydomain.com.
-prometheus.vmi.system.myenv.mydomain.com         CNAME   ingress-mgmt.myenv.mydomain.com.
-kibana.vmi.system.myenv.mydomain.com             CNAME   ingress-mgmt.myenv.mydomain.com.
-elasticsearch.vmi.system.myenv.mydomain.com      CNAME   ingress-mgmt.myenv.mydomain.com.
+grafana.vmi.system.myenv.example.com            CNAME   ingress-mgmt.myenv.example.com.
+prometheus.vmi.system.myenv.example.com         CNAME   ingress-mgmt.myenv.example.com.
+kibana.vmi.system.myenv.example.com             CNAME   ingress-mgmt.myenv.example.com.
+elasticsearch.vmi.system.myenv.example.com      CNAME   ingress-mgmt.myenv.example.com.
 </code></pre><p>For simplicity, an administrator may want to create <a href="https://tools.ietf.org/html/rfc1034#section-4.3.3">wildcard DNS records</a> for the management addresses:</p>
-<pre><code>*.system.myenv.mydomain.com                      CNAME   ingress-mgmt.myenv.mydomain.com.
+<pre><code>*.system.myenv.example.com                      CNAME   ingress-mgmt.myenv.example.com.
 </code></pre><p>OR</p>
-<pre><code>*.myenv.mydomain.com                             CNAME   ingress-mgmt.myenv.mydomain.com.
+<pre><code>*.myenv.example.com                             CNAME   ingress-mgmt.myenv.example.com.
 </code></pre><h4 id="oci-example">OCI example</h4>
 <p>DNS is configured in OCI by creating DNS zones in the OCI Console.
 When creating a DNS zone, use these values:</p>
@@ -1284,7 +1284,7 @@ When creating a DNS zone, use these values:</p>
 <li>Zone Name: <code>&lt;dns-suffix&gt;</code></li>
 <li>Zone Type: Primary</li>
 </ul>
-<p>The value for <code>&lt;dns-suffix&gt;</code> excludes the environment (for example, use the <code>mydomain.com</code> portion of <code>myenv.mydomain.com</code>).</p>
+<p>The value for <code>&lt;dns-suffix&gt;</code> excludes the environment (for example, use the <code>example.com</code> portion of <code>myenv.example.com</code>).</p>
 <p>DNS A records must be manually added to the zone and published using values described above.
 DNS CNAME records, in the same way.</p>
 
@@ -1299,10 +1299,10 @@ DNS CNAME records, in the same way.</p>
 <p>During the Verrazzano install, these steps should be performed on the Oracle Linux Cloud Native Environment operator node.</p>
 <p>Edit the sample Verrazzano custom resource <a href="https://github.com/verrazzano/verrazzano/blob/master/platform-operator/config/samples/install-olcne.yaml">install-olcne.yaml</a> file and provide these configuration settings for your OLCNE environment:</p>
 <ul>
-<li>The value for <code>spec.environmentName</code> is a unique DNS subdomain for the cluster (for example, <code>myenv</code> in <code>myenv.mydomain.com</code>).</li>
-<li>The value for <code>spec.dns.external.suffix</code> is the remainder of the DNS domain (for example, <code>mydomain.com</code> in <code>myenv.mydomain.com</code>).</li>
-<li>Under <code>spec.ingress.verrazzano.nginxInstallArgs</code>, the value for <code>controller.service.externalIPs</code> is the IP address of <code>ingress-mgmt.&lt;myenv&gt;.&lt;mydomain.com&gt;</code> configured during DNS set up.</li>
-<li>Under  <code>spec.ingress.application.istioInstallArgs</code>, the value for <code>gateways.istio-ingressgateway.externalIPs</code> is the IP address of <code>ingress-verrazzano.&lt;myenv&gt;.&lt;mydomain.com&gt;</code> configured during DNS set up.</li>
+<li>The value for <code>spec.environmentName</code> is a unique DNS subdomain for the cluster (for example, <code>myenv</code> in <code>myenv.example.com</code>).</li>
+<li>The value for <code>spec.dns.external.suffix</code> is the remainder of the DNS domain (for example, <code>example.com</code> in <code>myenv.example.com</code>).</li>
+<li>Under <code>spec.ingress.verrazzano.nginxInstallArgs</code>, the value for <code>controller.service.externalIPs</code> is the IP address of <code>ingress-mgmt.&lt;myenv&gt;.&lt;example.com&gt;</code> configured during DNS set up.</li>
+<li>Under  <code>spec.ingress.application.istioInstallArgs</code>, the value for <code>gateways.istio-ingressgateway.externalIPs</code> is the IP address of <code>ingress-verrazzano.&lt;myenv&gt;.&lt;example.com&gt;</code> configured during DNS set up.</li>
 </ul>
 <p>You will install Verrazzano using the <code>external</code> DNS type (the example custom resource for OLCNE is already configured to use <code>spec.dns.external</code>).</p>
 <p>Set the following environment variable:</p>
