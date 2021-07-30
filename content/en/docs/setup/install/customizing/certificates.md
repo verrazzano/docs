@@ -9,8 +9,8 @@ draft: false
 Verrazzano can be configured to issue certificates to secure access from external clients to system endpoints in
 the following configurations:
 
-* Using a certificates issued by a self-signed certificate authority (CA) created by Verrazzano  (the default)
-* Using a self-signed certificate authority that you provide  
+* Using a certificates issued by a self-signed certificate authority (CA) created by Verrazzano (the default).
+* Using certificate authority that you provide.
 * Using [LetsEncrypt](https://letsencrypt.org/) as the certificate issuer (requires [OCI DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm)).
 
 In all cases Verrazzano uses [CertManager](https://cert-manager.io/) to manage the creation of certificates.
@@ -25,7 +25,7 @@ Verrazzano creates its own self-signed CA as the default behavior.  No configura
 
 ## Use a custom CA
 
-If you wish to provide your own self-signed CA certificate, you must
+If you wish to provide your own CA certificate, you must
 
 * (Optional) Create your own signing key pair and CA certificate.
   
@@ -41,7 +41,10 @@ If you wish to provide your own self-signed CA certificate, you must
   These files must be named in that manner for the next step.
   
   If you already have generated your own key pair, you should name the private key and certificate `tls.key` and `tls.crt`,
-  respectively.
+  respectively.  If your issuer represents an intermediate, ensure that `tls.crt` contains the issuer’s full chain in the 
+  correct order.
+
+  You can find more details on providing your own CA in the [CertManager CA documentation](https://cert-manager.io/docs/configuration/ca/).
   
 * Save your signing key pair as a secret as a Kubernetes secret.
 
@@ -50,8 +53,7 @@ If you wish to provide your own self-signed CA certificate, you must
   $ kubectl create secret tls myca --namespace=myca --cert=tls.crt --key=tls.key 
   ```
   
-  You can find more details on providing your own CA certificate in the 
-  [CertManager CA documentation](https://cert-manager.io/docs/configuration/ca/).
+  
   
 * Specify the secret name and namespace location in the Verrazzano custom resource.
 
