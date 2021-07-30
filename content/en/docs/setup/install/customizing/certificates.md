@@ -9,19 +9,75 @@ draft: false
 Verrazzano can be configured to issue certificates to secure access from external clients to system endpoints in
 the following configurations:
 
-* Using a self-signed certificates (the default) 
+* Using a certificates issued by a self-signed certificate authority (CA) created by Verrazzano  (the default)
+* Using a self-signed certificate authority that you provide  
 * Using [LetsEncrypt](https://letsencrypt.org/) as the certificate issuer (requires [OCI DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm)).
 
 In both cases, Verrazzano uses [CertManager](https://cert-manager.io/) to 
 manage the creation of certificates for use by Verrazzano system components.
 
-## Use Self-Signed Certificates
-
-Verrazzano creates self-signed certificates as the default behavior.  No configuration is required.
-
 {{< alert title="NOTE" color="warning" >}}
 Self-signed Certificate Authorities generate certificates that are NOT signed by a trusted authority; they are not typically used in production environments.
 {{< /alert >}}
+
+## Use the Verrazzano Self-Signed CA
+
+Verrazzano creates its own self-signed CA as the default behavior.  No configuration is required.
+
+## Use a custom CA
+
+If you wish to provide your own self-signed CA certificate, you must
+
+* (Optional) Create your own signing key pair and CA certificate.
+  
+  For example, you can use the `openssl` CLI to create a key pair for the `nip.io` domain:
+  ```
+  # Generate a CA private key
+  $ openssl genrsa -out tls.key 2048
+    
+  # Create a self signed Certificate, valid for 10yrs with the 'signing' option set
+  $ openssl req -x509 -new -nodes -key tls.key -subj "/CN=*.nip.io" -days 3650 -reqexts v3_req -extensions v3_ca -out tls.crt
+  ```
+  The output of these commands will be two files, tls.key and tls.crt, the key and certificate for your signing key pair.
+  These files must be named in that manner for the next step.
+  
+  If you already have generated your own key pair, you should name the private key and certificate `tls.key` and `tls.crt`,
+  respectively.
+  
+* Save your signing key pair as a secret as a Kubernetes secret.
+
+  ```
+  $ kubectl create ns myissuer
+  $ kubectl create secret myca ca-key-pair \
+        --cert=tls.crt \
+        --key=tls.key \
+        --namespace=myissuer
+  ```
+  
+* Specify the secret name and namespace location in the Verrazzano custom resource.
+
+  The custom CA secret must be provided to CertManager using the following fields in
+  [`spec.components.certManager.certificate.ca`](/docs/reference/api/verrazzano/verrazzano#certificate) in the Verrazzano custom resource:
+  
+  * `spec.components.certManager.certificate.ca.secretName`
+  * `spec.components.certManager.certificate.ca.clusterResourceNamespace`
+
+For example, if you created a CA secret named `myca` in the namespace `myissuer`, you would configure it as shown below:
+
+```
+apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: custom-ca-example
+spec:
+  profile: dev
+  components:
+    certManager:
+      certificate:
+        ca:
+          secretName: myca
+          clusterResourceNamespace: myissuer
+```
 
 ## Use LetsEncrypt Certificates
 
