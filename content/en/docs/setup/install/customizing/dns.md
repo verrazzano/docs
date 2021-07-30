@@ -5,7 +5,7 @@ linkTitle: DNS
 weight: 1
 draft: false
 ---
-blah
+
 Verrazzano supports three DNS choices for Verrazzano services and applications:
 
 * Free wildcard DNS services ([nip.io](https://nip.io/) and [sslip.io](https://sslip.io))
@@ -27,9 +27,9 @@ Verrazzano will create `sales.us.mydomain.com` as the DNS domain for the install
 <br>
 
 Verrazzano can be configured to use either the [nip.io](https://nip.io/) or [sslip.io](https://sslip.io) free wildcard DNS services.
-Wildcard DNS services are services that, when queried with a hostname with an embedded IP address, returns that IP Address.
+When queried with a hostname with an embedded IP address, wildcard DNS services return that IP address.
 
-For example, using the [nip.io](https://nip.io/) service, the following DNS names all map to the IP address `10.0.0.1`:
+For example, using the `nip.io` service, the following DNS names all map to the IP address `10.0.0.1`:
 
 ```
 10.0.0.1.nip.io 
@@ -37,7 +37,7 @@ app.10.0.0.1.nip.io
 customer1.app.10.0.0.1.nip.io
 ```
 
-To configure Verrazzano to use one of these services, simply set the 
+To configure Verrazzano to use one of these services, set the 
 [`spec.wildcard.domain`](/docs/reference/api/verrazzano/verrazzano#dns-wildcard) 
 field in the Verrazzano custom resource to either `nip.io` or `sslip.io`.  The default is `nip.io`.
 
@@ -63,11 +63,11 @@ spec:
 <br>
 
 Verrazzano can directly manage records in [Oracle OCI DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm) 
-when configured to use the [`spec.components.dns.oci`](/docs/reference/api/verrazzano/verrazzano#dns-oci).  This is achieved
+when configured to use the [`spec.components.dns.oci`](/docs/reference/api/verrazzano/verrazzano#dns-oci) field.  This is achieved
 through the [External DNS Service](https://github.com/kubernetes-sigs/external-dns), which is a component that is 
 conditionally installed when OCI DNS is configured for DNS management in Verrazzano.
 
-#### Prerequisites
+### Prerequisites
 
 The following prerequisites must be met before using OCI DNS with Verrazzano:
 
@@ -75,7 +75,7 @@ The following prerequisites must be met before using OCI DNS with Verrazzano:
 * You must have an OCI DNS Service Zone that is configured to manage records for that domain.
 
   A DNS Service Zone is a distinct portion of a domain namespace. You must ensure that the zone is appropriately associated with a parent domain.
-  For example, an appropriate zone name for parent domain `mydomain.com` domain is `us.mydomain.com`.
+  For example, an appropriate zone name for parent domain `mydomain.com` is `us.mydomain.com`.
   
   To create an OCI DNS zone using the OCI CLI:
   ```
@@ -88,7 +88,7 @@ The following prerequisites must be met before using OCI DNS with Verrazzano:
   To create an OCI DNS zone using the OCI Console, see 
   [Managing DNS Service Zones](https://docs.oracle.com/en-us/iaas/Content/DNS/Tasks/managingdnszones.htm).
 
-* You must have a valid OCI API Signing key that can be used to communicate with OCI DNS in your tenancy.  
+* You must have a valid OCI API signing key that can be used to communicate with OCI DNS in your tenancy.  
 
   For example, you can create an API signing key using the OCI CLI:
 
@@ -111,13 +111,13 @@ The following prerequisites must be met before using OCI DNS with Verrazzano:
   the OCI documentation [Required Keys and OCIDs](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm)
   for details.
 
-#### Create an OCI API Secret in the Target Cluster
- 
-Verrazzano will need to be made aware of the necessary API credentials to be able to communicate with OCI DNS to manage
-DNS records.  A generic Kubernetes secret must be created in the cluster's `default` namespace with the required credentials.
+### Create an OCI API Secret in the Target Cluster
+
+To communicate with OCI DNS to manage DNS records, Verrazzano needs to be made aware of the necessary API credentials.  
+A generic Kubernetes secret must be created in the cluster's `default` namespace with the required credentials.
 That secret must then be referenced by the custom resource that is used to install Verrazzano.  
 
-Once you have an OCI API key ready for use, create a YAML file `oci.yaml` with the API credentials of the form
+After you have an OCI API key ready for use, create a YAML file `oci.yaml` with the API credentials in the form
 
 ```
 auth:
@@ -161,11 +161,11 @@ $ kubectl create secret generic -n default oci --from-file=oci.yaml
 
 This secret will later be referenced from the Verrazzano custom resource used during installation.
 
-##### Using the Verrazzano Helper Script to Create an OCI Secret
+#### Use the Verrazzano Helper Script to Create an OCI Secret
 
 Verrazzano also provides a helper script to create the necessary Kubernetes secret based on your OCI CLI config file,
-assuming you have the OCI CLI installed and a valid OCI CLI profile with the required API key information. The secret is 
-created using the script `create_oci_config_secret.sh` which reads your OCI CLI configuration file to create the secret.
+assuming you have the OCI CLI installed and a valid OCI CLI profile with the required API key information. The script 
+`create_oci_config_secret.sh` reads your OCI CLI configuration file to create the secret.
 
 First, download the `create_oci_config_secret.sh` script:
 
@@ -204,7 +204,7 @@ $ ./create_oci_config_secret.sh -s dev -k myoci
 secret/myoci created
 ```
 
-#### Installation
+### Installation
 
 After the OCI API secret is created, create a Verrazzano custom resource for the installation that is configured to use OCI 
 DNS, and reference the secret you created.
