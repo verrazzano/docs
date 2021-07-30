@@ -13,8 +13,7 @@ the following configurations:
 * Using a self-signed certificate authority that you provide  
 * Using [LetsEncrypt](https://letsencrypt.org/) as the certificate issuer (requires [OCI DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm)).
 
-In both cases, Verrazzano uses [CertManager](https://cert-manager.io/) to 
-manage the creation of certificates for use by Verrazzano system components.
+In all cases Verrazzano uses [CertManager](https://cert-manager.io/) to manage the creation of certificates.
 
 {{< alert title="NOTE" color="warning" >}}
 Self-signed Certificate Authorities generate certificates that are NOT signed by a trusted authority; they are not typically used in production environments.
@@ -47,12 +46,12 @@ If you wish to provide your own self-signed CA certificate, you must
 * Save your signing key pair as a secret as a Kubernetes secret.
 
   ```
-  $ kubectl create ns myissuer
-  $ kubectl create secret myca ca-key-pair \
-        --cert=tls.crt \
-        --key=tls.key \
-        --namespace=myissuer
+  $ kubectl create ns myca
+  $ kubectl create secret tls myca --namespace=myca --cert=tls.crt --key=tls.key 
   ```
+  
+  You can find more details on providing your own CA certificate in the 
+  [CertManager CA documentation](https://cert-manager.io/docs/configuration/ca/).
   
 * Specify the secret name and namespace location in the Verrazzano custom resource.
 
@@ -62,7 +61,7 @@ If you wish to provide your own self-signed CA certificate, you must
   * `spec.components.certManager.certificate.ca.secretName`
   * `spec.components.certManager.certificate.ca.clusterResourceNamespace`
 
-For example, if you created a CA secret named `myca` in the namespace `myissuer`, you would configure it as shown below:
+For example, if you created a CA secret named `myca` in the namespace `myca`, you would configure it as shown below:
 
 ```
 apiVersion: install.verrazzano.io/v1alpha1
@@ -76,7 +75,7 @@ spec:
       certificate:
         ca:
           secretName: myca
-          clusterResourceNamespace: myissuer
+          clusterResourceNamespace: myca
 ```
 
 ## Use LetsEncrypt Certificates
