@@ -5,29 +5,29 @@ linkTitle: Elasticsearch
 weight: 8
 draft: false
 ---
-blah
-Verrazzano supports two general cluster topologies for a Elasticsearch cluster:
-1. A single-node cluster (master/ingest/data roles performed by a single node)
-2. A multi-node cluster configuration with separate master, data, and ingest nodes
 
-The [Installation Profiles](/docs/setup/install/profiles/) document describes the default Elasticsearch cluster
-configurations provided by Verrazzano when using installation profiles.  
+Verrazzano supports two general cluster topologies for an Elasticsearch cluster:
+1. A single-node cluster (master/ingest/data roles performed by a single node).
+2. A multi-node cluster configuration with separate master, data, and ingest nodes.
 
-You can further customize the node characteristics of your Elasticsearch cluster through the
+[Installation Profiles](/docs/setup/install/profiles/) describes the default Elasticsearch cluster
+configurations provided by Verrazzano.  
+
+You can customize the node characteristics of your Elasticsearch cluster through the
 [spec.components.elasticsearch.installArgs](/docs/reference/api/verrazzano/verrazzano/#elasticsearch-component)
-field in the Verrazzano custom resource.  You can use this field to specify a list of Helm value overrides for the
-Elasticsearch configuration when installing Verrazzano.
+field in the Verrazzano custom resource.  When installing Verrazzano, you can use this field to specify a list of Helm 
+value overrides for the Elasticsearch configuration.
 
-These helm overrides allow you to customize the following node characteristics:
-* Number of node replicas
-* Memory request size per node
-* Storage request size (data nodes only)
+These Helm overrides let you to customize the following node characteristics:
+* Number of node replicas.
+* Memory request size per node.
+* Storage request size (data nodes only).
 
 The following table lists the Helm values in the Verrazzano system chart related to Elasticsearch nodes:
 
 | Name | Description
 | ------------- |:-------------
-| `nodes.master.replicas` | Number of master node replicas 
+| `nodes.master.replicas` | Number of master node replicas.
 | `nodes.master.requests.memory` | Memory request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity).
 | `nodes.ingest.replicas` | Number of ingest node replicas.
 | `nodes.ingest.requests.memory` | Memory request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity).
