@@ -22,7 +22,7 @@ spec:
       certificate:
         acme:
           provider: letsEncrypt
-          emailAddress: emailAddress@domain.com
+          emailAddress: emailAddress@example.com
     dns:
       oci:
         ociConfigSecret: oci

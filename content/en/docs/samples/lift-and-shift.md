@@ -90,7 +90,7 @@ In the initial steps, you create a sample domain that represents your on-premise
    * Select **Create a new domain**.
    * Specify a `Domain Location` of `<oracle home>/user_projects/domains/tododomain` and click **Next**.
    * Select the **Basic WebLogic Server Domain [wlserver]** template and click **Next**.
-   * Enter the password for the administrative user (the examples here assume a password of "welcome1") and click **Next**.
+   * Enter the password for the administrative user and click **Next**.
    * Accept the defaults for `Domain Mode` and `JDK`, and click **Next**.
    * Select **Administration Server** and click **Next**.
    * Ensure that the server name is `AdminServer` and click **Next**.
@@ -363,7 +363,7 @@ Assuming that you leave the name `tododomain-registry-credentials`, you will nee
 ```shell script
 $ kubectl create secret docker-registry tododomain-registry-credentials \
   --docker-server=phx.ocir.io \
-  --docker-email=your.name@company.com \
+  --docker-email=your.name@example.com \
   --docker-username=tenancy/username \
   --docker-password='passwordForUsername' \
   --namespace=tododomain
