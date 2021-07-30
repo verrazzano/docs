@@ -50,8 +50,8 @@ If you wish to provide your own CA certificate, you must
 * Save your signing key pair as a Kubernetes secret.
 
   ```
-  $ kubectl create ns myca
-  $ kubectl create secret tls myca --namespace=myca --cert=tls.crt --key=tls.key 
+  $ kubectl create ns mynamespace
+  $ kubectl create secret tls myca --namespace=mynamespace --cert=tls.crt --key=tls.key 
   ```
   
 * Specify the secret name and namespace location in the Verrazzano custom resource.
@@ -62,7 +62,7 @@ If you wish to provide your own CA certificate, you must
   * `spec.components.certManager.certificate.ca.secretName`
   * `spec.components.certManager.certificate.ca.clusterResourceNamespace`
 
-For example, if you created a CA secret named `myca` in the namespace `myca`, you would configure it as shown below:
+For example, if you created a CA secret named `myca` in the namespace `mynamespace`, you would configure it as shown below:
 
 ```
 apiVersion: install.verrazzano.io/v1alpha1
@@ -76,7 +76,7 @@ spec:
       certificate:
         ca:
           secretName: myca
-          clusterResourceNamespace: myca
+          clusterResourceNamespace: mynamespace
 ```
 
 ## Use LetsEncrypt Certificates
