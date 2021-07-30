@@ -284,28 +284,28 @@ The A records will need to be created manually.
 
 For example:
 ```
-198.51.100.10                                   A       ingress-mgmt.myenv.mydomain.com.
-203.0.113.10                                    A       ingress-verrazzano.myenv.mydomain.com.
+198.51.100.10                                   A       ingress-mgmt.myenv.example.com.
+203.0.113.10                                    A       ingress-verrazzano.myenv.example.com.
 ```
 
 Verrazzano installation will result in a number of management services that need to point to the `ingress-mgmt` address.
 ```
-keycloak.myenv.mydomain.com                      CNAME   ingress-mgmt.myenv.mydomain.com.
-rancher.myenv.mydomain.com                       CNAME   ingress-mgmt.myenv.mydomain.com.
+keycloak.myenv.example.com                      CNAME   ingress-mgmt.myenv.example.com.
+rancher.myenv.example.com                       CNAME   ingress-mgmt.myenv.example.com.
 
-grafana.vmi.system.myenv.mydomain.com            CNAME   ingress-mgmt.myenv.mydomain.com.
-prometheus.vmi.system.myenv.mydomain.com         CNAME   ingress-mgmt.myenv.mydomain.com.
-kibana.vmi.system.myenv.mydomain.com             CNAME   ingress-mgmt.myenv.mydomain.com.
-elasticsearch.vmi.system.myenv.mydomain.com      CNAME   ingress-mgmt.myenv.mydomain.com.
+grafana.vmi.system.myenv.example.com            CNAME   ingress-mgmt.myenv.example.com.
+prometheus.vmi.system.myenv.example.com         CNAME   ingress-mgmt.myenv.example.com.
+kibana.vmi.system.myenv.example.com             CNAME   ingress-mgmt.myenv.example.com.
+elasticsearch.vmi.system.myenv.example.com      CNAME   ingress-mgmt.myenv.example.com.
 ```
 
 For simplicity, an administrator may want to create [wildcard DNS records](https://tools.ietf.org/html/rfc1034#section-4.3.3) for the management addresses:
 ```
-*.system.myenv.mydomain.com                      CNAME   ingress-mgmt.myenv.mydomain.com.
+*.system.myenv.example.com                      CNAME   ingress-mgmt.myenv.example.com.
 ```
 OR
 ```
-*.myenv.mydomain.com                             CNAME   ingress-mgmt.myenv.mydomain.com.
+*.myenv.example.com                             CNAME   ingress-mgmt.myenv.example.com.
 ```
 #### OCI example
 DNS is configured in OCI by creating DNS zones in the OCI Console.
@@ -314,7 +314,7 @@ When creating a DNS zone, use these values:
 * Zone Name: `<dns-suffix>`
 * Zone Type: Primary
 
-The value for `<dns-suffix>` excludes the environment (for example, use the `mydomain.com` portion of `myenv.mydomain.com`).
+The value for `<dns-suffix>` excludes the environment (for example, use the `example.com` portion of `myenv.example.com`).
 
 DNS A records must be manually added to the zone and published using values described above.
 DNS CNAME records, in the same way.
@@ -326,10 +326,10 @@ During the Verrazzano install, these steps should be performed on the Oracle Lin
 
 Edit the sample Verrazzano custom resource [install-olcne.yaml](https://github.com/verrazzano/verrazzano/blob/master/platform-operator/config/samples/install-olcne.yaml) file and provide these configuration settings for your OLCNE environment:
 
-- The value for `spec.environmentName` is a unique DNS subdomain for the cluster (for example, `myenv` in `myenv.mydomain.com`).
-- The value for `spec.dns.external.suffix` is the remainder of the DNS domain (for example, `mydomain.com` in `myenv.mydomain.com`).
-- Under `spec.ingress.verrazzano.nginxInstallArgs`, the value for `controller.service.externalIPs` is the IP address of `ingress-mgmt.<myenv>.<mydomain.com>` configured during DNS set up.
-- Under  `spec.ingress.application.istioInstallArgs`, the value for `gateways.istio-ingressgateway.externalIPs` is the IP address of `ingress-verrazzano.<myenv>.<mydomain.com>` configured during DNS set up.
+- The value for `spec.environmentName` is a unique DNS subdomain for the cluster (for example, `myenv` in `myenv.example.com`).
+- The value for `spec.dns.external.suffix` is the remainder of the DNS domain (for example, `example.com` in `myenv.example.com`).
+- Under `spec.ingress.verrazzano.nginxInstallArgs`, the value for `controller.service.externalIPs` is the IP address of `ingress-mgmt.<myenv>.<example.com>` configured during DNS set up.
+- Under  `spec.ingress.application.istioInstallArgs`, the value for `gateways.istio-ingressgateway.externalIPs` is the IP address of `ingress-verrazzano.<myenv>.<example.com>` configured during DNS set up.
 
 You will install Verrazzano using the `external` DNS type (the example custom resource for OLCNE is already configured to use `spec.dns.external`).
 
