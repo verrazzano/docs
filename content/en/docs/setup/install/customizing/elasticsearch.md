@@ -6,16 +6,24 @@ weight: 8
 draft: false
 ---
 
-The [Installation Profiles](/docs/setup/install/profiles/) document describes the default Elasticsearch cluster 
-topologies provided by Verrazzano.  For various reasons, those topologies may not be sufficient for your needs.
+Verrazzano supports two general cluster topologies for a Elasticsearch cluster:
+1. A single-node cluster (master/ingest/data roles performed by a single node)
+2. A multi-node cluster configuration with separate master, data, and ingest nodes
 
-You can provide more fine-grained configuration instructions to Verrazzano for how you want to configure your 
-Elasticsearch cluster topology through the 
-[spec.components.elasticsearch.installArgs](/docs/reference/api/verrazzano/verrazzano/#elasticsearch-component) 
-field in the Verrazzano custom resource.  When installing Verrazzano, you can use this field to specify a list of Helm 
-value overrides for the Elasticsearch configuration when installing Verrazzano.
+The [Installation Profiles](/docs/setup/install/profiles/) document describes the default Elasticsearch cluster
+configurations provided by Verrazzano when using installation profiles.  
 
-The Helm values in the Verrazzano system chart related to Elasticsearch are listed in the following table:
+You can further customize the node characteristics of your Elasticsearch cluster through the
+[spec.components.elasticsearch.installArgs](/docs/reference/api/verrazzano/verrazzano/#elasticsearch-component)
+field in the Verrazzano custom resource.  You can use this field to specify a list of Helm value overrides for the
+Elasticsearch configuration when installing Verrazzano.
+
+These helm overrides allow you to customize the following node characteristics:
+* Number of node replicas
+* Memory request size per node
+* Storage request size (data nodes only)
+
+The following table lists the Helm values in the Verrazzano system chart related to Elasticsearch nodes:
 
 | Name | Description
 | ------------- |:-------------
