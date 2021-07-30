@@ -1,68 +1,27 @@
 ---
 title: "Customize Certificates"
-description: "Customize SSL certificate generation for Verrazzano system and application endpoints"
+description: "Customize SSL certificate generation for Verrazzano system endpoints"
 linkTitle: Certificates
 weight: 2
 draft: false
 ---
 
-Verrazzano can be configured to issue certificates to secure access from external clients to the system and application endpoints in
+Verrazzano can be configured to issue certificates to secure access from external clients to system endpoints in
 the following configurations:
 
-* Using a self-signed (the default) or user-provided certificate authority (CA).
-* Using [LetsEncrypt](https://letsencrypt.org/) as the CA (requires [OCI DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm)).
+* Using a self-signed certificates (the default) 
+* Using [LetsEncrypt](https://letsencrypt.org/) as the certificate issuer (requires [OCI DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm)).
 
-In both cases, Verrazzano uses [CertManager](https://cert-manager.io/) to create a
-[`ClusterIssuer`](https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.ClusterIssuer) that will
+In both cases, Verrazzano uses [CertManager](https://cert-manager.io/) to 
 manage the creation of certificates for use by Verrazzano system components.
-
-{{< tabs tabTotal="2" tabID="2" tabName1="CA" tabName2="LetsEncrypt" >}}
-{{< tab tabNum="1" >}}
-<br>
 
 ## Use Self-Signed Certificates
 
-Verrazzano supports using a local (in-cluster) CA to create certificates. It can create its own 
-self-signed CA (the default case) or use a CA certificate that you provide.
+Verrazzano creates self-signed certificates as the default behavior.  No configuration is required.
 
 {{< alert title="NOTE" color="warning" >}}
-Self-signed Certificate Authorities generate certificates that are NOT signed by a trusted authority; they are not intended for production use.
+Self-signed Certificate Authorities generate certificates that are NOT signed by a trusted authority; they are not typically used in production environments.
 {{< /alert >}}
-
-If nothing is configured, Verrazzano will default to creating its own self-signed CA using CertManager.
-
-If you wish to provide your own self-signed CA certificate, you must
-
-* Create a CA secret and an [`Issuer`](https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.Issuer) resource as described 
-  in the [CertManager CA documentation](https://cert-manager.io/docs/configuration/ca/)
-* Specify the secret name and namespace location in the Verrazzano custom resource
-
-The custom CA secret used to create the `Issuer` must be provided to CertManager using the following fields in
-[`spec.components.certManager.certificate.ca`](/docs/reference/api/verrazzano/verrazzano#certificate) in the Verrazzano custom resource:
-
-* `spec.components.certManager.certificate.ca.secretName`
-* `spec.components.certManager.certificate.ca.clusterResourceNamespace`
-
-For example, if you created a CA secret named `myca` in the namespace `myissuer`, you would configure it as shown below:
-
-```
-apiVersion: install.verrazzano.io/v1alpha1
-kind: Verrazzano
-metadata:
-  name: custom-ca-example
-spec:
-  profile: dev
-  components:
-    certManager:
-      certificate:
-        ca:
-          secretName: myca
-          clusterResourceNamespace: myissuer
-```
-
-{{< /tab >}}
-{{< tab tabNum="2" >}}
-<br>
 
 ## Use LetsEncrypt Certificates
 
@@ -134,7 +93,7 @@ spec:
 
 {{< alert title="NOTE" color="warning" >}}
 Certificates issued by the LetsEncrypt `staging` environment are signed by untrusted authorities, similar to 
-the self-signed certificate authority.  They are not intended for production use.
+self-signed certificates.  They are not typically used in production environments.
 {{< /alert >}}
 
 ### LetsEncrypt staging vs production
@@ -147,4 +106,3 @@ rate limit exceptions on certificate generation.
 In such environments it would be better to use the LetsEncrypt `staging` environment, which has much higher limits
 than the `production` environment.  For test environments, the self-signed CA also may be more appropriate to completely
 avoid LetsEncrypt rate limits.
-{{< /tab >}}
