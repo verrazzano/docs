@@ -61,23 +61,22 @@ To install the Verrazzano platform operator:
 ## Perform the install
 
 Verrazzano supports the following installation profiles:  development (`dev`), production (`prod`), and
-managed cluster (`managed-cluster`).  For more information, see [Installation Profiles]({{< relref "/docs/setup/install/profiles.md"  >}}).
+managed cluster (`managed-cluster`).  For more information on profiles, see 
+[Installation Profiles]({{< relref "/docs/setup/install/profiles.md"  >}}).
 
-To change profiles in any of the following commands, set the `VZ_PROFILE` environment variable to the name of the profile you want to install.
+This page shows how to create a basic Verrazzano installation using
 
-For a complete description of Verrazzano configuration options, see the [Verrazzano Custom Resource Definition]({{< relref "/docs/reference/api/verrazzano/verrazzano.md" >}}).
+* The development (`dev`) installation profile
+* Wildcard-DNS, where DNS is provided by [nip.io](https://nip.io) (the default)
 
-According to your DNS choice, [nip.io](https://nip.io/) (wildcard DNS) or
-[Oracle OCI DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm),
-install Verrazzano using one of the following methods:
+For a complete description of Verrazzano configuration options, see the 
+[Verrazzano Custom Resource Definition]({{< relref "/docs/reference/api/verrazzano/verrazzano.md" >}}).
 
-{{< tabs tabTotal="2" tabID="2" tabName1="nip.io" tabName2="OCI DNS" >}}
-{{< tab tabNum="1" >}}
-<br>
+To use other DNS options, see the [Customzing DNS](/docs/setup/install/customizing/dns/) page for more details.
 
-#### Install using nip.io
+#### Install Verrazzano
 
-Run the following commands:
+To create a Verrazzano installation as described in the previous section, run the following commands:
 
 ```shell
 $ kubectl apply -f - <<EOF
@@ -93,97 +92,8 @@ $ kubectl wait \
     --for=condition=InstallComplete verrazzano/my-verrazzano
 ```
 
-{{< /tab >}}
-{{< tab tabNum="2" >}}
-<br>
-
-#### Install using OCI DNS
-
-**Prerequisites**
-* A DNS zone is a distinct portion of a domain namespace. Therefore, ensure that the zone is appropriately associated with a parent domain.
-For example, an appropriate zone name for parent domain `v8o.example.com` domain is `us.v8o.example.com`.
-* Create a public OCI DNS zone using the OCI CLI or the OCI Console.
-
-  To create an OCI DNS zone using the OCI CLI:
-  ```
-  $ oci dns zone create \
-      -c <compartment ocid> \
-      --name <zone-name-prefix>.v8o.example.com \
-      --zone-type PRIMARY
-  ```
-
-  To create an OCI DNS zone using the OCI Console, see [Managing DNS Service Zones](https://docs.oracle.com/en-us/iaas/Content/DNS/Tasks/managingdnszones.htm).
-
-* Create a secret in the default namespace. The secret is created using the script `create_oci_config_secret.sh` which
-reads an OCI configuration file to create the secret.
-
-  Download the `create_oci_config_secret.sh` script:
-  ```
-  $ curl \
-      -o ./create_oci_config_secret.sh \
-      https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/scripts/install/create_oci_config_secret.sh
-  ```
-
-  Run the `create_oci_config_secret.sh` script:
-  ```
-  $ chmod +x create_oci_config_secret.sh
-  $ export KUBECONFIG=<kubeconfig-file>
-  $ ./create_oci_config_secret.sh \
-      -o <oci-config-file> \
-      -s <config-file-section> \
-      -k <secret-name>
-
-  -o defaults to the OCI configuration file in ~/.oci/config
-  -s defaults to the DEFAULT properties section within the OCI configuration file
-  -k defaults to a secret named oci
-  ```
-  {{< alert title="NOTE" color="warning" >}}
-  The `key_file` value within the OCI configuration file must reference a `.pem` file that contains a RSA private key.
-  The contents of a RSA private key file starts with `-----BEGIN RSA PRIVATE KEY-----`.  If your OCI configuration file
-  references a `.pem` file that is not of this form, then you must generate a RSA private key file.  See [Generating a RSA Private Key](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm).
-  After generating the correct form of the `.pem` file, make sure to change the reference within the OCI configuration file.
-  {{< /alert >}}
-
-**Installation**
-
-Installing Verrazzano using OCI DNS requires some configuration settings to create DNS records.
-
-Download the sample Verrazzano custom resource `install-oci.yaml` for OCI DNS:
-```
-$ curl \
-    -o ./install-oci.yaml \
-    https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/config/samples/install-oci.yaml
-```
-
-Edit the downloaded `install-oci.yaml` file and provide values for the following configuration settings:
-
-* `spec.environmentName`
-* `spec.certificate.acme.emailAddress`
-* `spec.dns.oci.ociConfigSecret`
-* `spec.dns.oci.dnsZoneCompartmentOCID`
-* `spec.dns.oci.dnsZoneOCID`
-* `spec.dns.oci.dnsZoneName`
-
-For the full configuration information for an installation, see the [Verrazzano Custom Resource Definition]({{< relref "/docs/reference/api/verrazzano/verrazzano.md" >}}).
-
-When you use the OCI DNS installation, you need to provide a Verrazzano name in the Verrazzano custom resource
- (`spec.environmentName`) that will be used as part of the domain name used to access Verrazzano
-ingresses.  For example, you could use `sales` as an `environmentName`, yielding
-`sales.us.v8o.example.com` as the sales-related domain (assuming the domain and zone names listed
-previously).
-
-Run the following commands:
-
-```
-$ kubectl apply -f ./install-oci.yaml
-$ kubectl wait \
-    --timeout=20m \
-    --for=condition=InstallComplete verrazzano/my-verrazzano
-```
-
-{{< /tab >}}
-{{< /tabs >}}
-
+To use a different profile with the above example, set the `VZ_PROFILE` environment variable to the name of the profile 
+you want to install.
 
 To monitor the Console log output of the installation:
 ```shell
