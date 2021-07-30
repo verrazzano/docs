@@ -5,7 +5,7 @@ linkTitle: DNS
 weight: 1
 draft: false
 ---
-
+blah
 Verrazzano supports three DNS choices for Verrazzano services and applications:
 
 * Free wildcard DNS services ([nip.io](https://nip.io/) and [sslip.io](https://sslip.io))
