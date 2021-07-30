@@ -6,12 +6,13 @@ weight: 2
 draft: false
 ---
 
-Verrazzano can be configured to issue certificates to secure access from external clients to system endpoints in
-the following configurations:
+Verrazzano issues certificates to secure access from external clients to secure system endpoints.  
+A certificate from a certificate authority (CA) must be configured to issue the endpoint certificates in one of the 
+following ways:
 
-* Using a certificates issued by a self-signed certificate authority (CA) created by Verrazzano (the default).
-* Using certificate authority that you provide.
-* Using [LetsEncrypt](https://letsencrypt.org/) as the certificate issuer (requires [OCI DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm)).
+* Let Verrazzano generate a self-signed CA (the default) (the default).
+* Configure a CA that you provide.
+* Configure [LetsEncrypt](https://letsencrypt.org/) as the certificate issuer (requires [OCI DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm)).
 
 In all cases Verrazzano uses [CertManager](https://cert-manager.io/) to manage the creation of certificates.
 
@@ -46,14 +47,12 @@ If you wish to provide your own CA certificate, you must
 
   You can find more details on providing your own CA in the [CertManager CA documentation](https://cert-manager.io/docs/configuration/ca/).
   
-* Save your signing key pair as a secret as a Kubernetes secret.
+* Save your signing key pair as a Kubernetes secret.
 
   ```
   $ kubectl create ns myca
   $ kubectl create secret tls myca --namespace=myca --cert=tls.crt --key=tls.key 
   ```
-  
-  
   
 * Specify the secret name and namespace location in the Verrazzano custom resource.
 
