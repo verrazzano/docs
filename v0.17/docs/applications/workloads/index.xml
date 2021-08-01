@@ -1,0 +1,337 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Verrazzano Enterprise Container Platform – Workloads</title>
+    <link>https://verrazzano.io/docs/applications/workloads/</link>
+    <description>Recent content in Workloads on Verrazzano Enterprise Container Platform</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="https://verrazzano.io/docs/applications/workloads/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: Coherence Workload</title>
+      <link>https://verrazzano.io/docs/applications/workloads/coherence/coherence/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/applications/workloads/coherence/coherence/</guid>
+      <description>
+        
+        
+        &lt;p&gt;A Verrazzano application can contain any number of Coherence component workloads, where each workload
+is a standalone Coherence cluster, independent from other Coherence clusters in the application.&lt;/p&gt;
+&lt;p&gt;Verrazzano uses the standard Coherence operator to provision and manage clusters, as documented
+at &lt;a href=&#34;https://oracle.github.io/coherence-operator/docs/latest&#34;&gt;Coherence Operator&lt;/a&gt;.  The Coherence operator
+uses a CRD, coherence.oracle.com (Coherence resource), to represent a Coherence cluster.  When a Verrazzano
+application with Coherence is provisioned, Verrazzano configures the default logging and
+metrics for the Coherence cluster.  Logs are sent to Elasticsearch and metrics to Prometheus.&lt;br&gt;
+You can view this telemetry data using the Kibana and Grafana consoles.&lt;/p&gt;
+&lt;h2 id=&#34;oam-component&#34;&gt;OAM component&lt;/h2&gt;
+&lt;p&gt;The custom resource YAML file for the Coherence cluster is specified as a VerrazzanoCoherenceWorkload custom resource.
+In the following example, everything under the &lt;code&gt;spec:&lt;/code&gt; section is standard Coherence resource YAML that you would typically use
+to provision a Coherence cluster.  Including this component reference in your ApplicationConfiguration will result
+in a new Coherence cluster being provisioned.  You can have multiple clusters in the same application with no conflict.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
+kind: Component
+metadata:
+  name: orders
+  namespace: sockshop
+spec:
+  workload:
+    apiVersion: oam.verrazzano.io/v1alpha1
+    kind: VerrazzanoCoherenceWorkload
+    spec:
+      template:
+        metadata:
+          name: orders-coh
+        spec:
+          cluster: SockShop
+          ...
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;life-cycle&#34;&gt;Life cycle&lt;/h3&gt;
+&lt;p&gt;With Verrazzano, you manage the life cycle of applications using Component and ApplicationConfiguration resources.
+Typically, you would modify the Coherence cluster resource to make changes or to do lifecycle operations,
+like scale in and scale out.  However, in the Verrazzano environment, the cluster resource is owned by the
+Verrazzano application operator and will be reconciled to match the component workload resource.  Therefore,
+you need to manage the cluster configuration by modifying the resource, either by &lt;code&gt;kubectl edit&lt;/code&gt; or applying a new YAML file. Verrazzano
+will notice that the Component resource changed and will update the Coherence resource as needed.&lt;/p&gt;
+&lt;h4 id=&#34;provisioning&#34;&gt;Provisioning&lt;/h4&gt;
+&lt;p&gt;When you apply the component YAML  file shown previously, Kubernetes will create a &lt;code&gt;component.oam.verrazzano.io&lt;/code&gt; resource, but
+the Coherence cluster will not be created until you create the ApplicationConfiguration resource, which references
+the Coherence component.  When the application is created, Verrazzano creates a Coherence custom resource for each
+cluster, which is subsequently processed by the Coherence operator, resulting in a new cluster.  After a cluster
+is created, the Coherence operator will monitor the Coherence resource to reconcile the state of the cluster. You can
+add a new Coherence workload to a running application, or remove an existing workload, by modifying
+the ApplicationConfiguration resource, and adding or removing the Coherence component.&lt;/p&gt;
+&lt;h4 id=&#34;scaling&#34;&gt;Scaling&lt;/h4&gt;
+&lt;p&gt;Scaling a Coherence cluster is done by modifying the replicas field in the Component resource.  Verrazzano
+will modify the Coherence resource replicas field and the cluster will be scaled accordingly.  The following example
+configuration shows the &lt;code&gt;replicas&lt;/code&gt; field that specifies the number of pods in the cluster.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
+kind: Component
+metadata:
+  name: orders
+  namespace: sockshop
+spec:
+  workload:
+    apiVersion: oam.verrazzano.io/v1alpha1
+    kind: VerrazzanoCoherenceWorkload
+    spec:
+      template:
+        metadata:
+          name: orders-coh
+        spec:
+          cluster: SockShop
+          replicas: 3
+          ...
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; A Coherence cluster provisioned with Verrazzano does not support autoscaling with a Horizontal Pod Autoscaler.&lt;/p&gt;
+&lt;h4 id=&#34;termination&#34;&gt;Termination&lt;/h4&gt;
+&lt;p&gt;You can terminate the Coherence cluster by removing the component from the ApplicationConfiguration or by
+deleting the ApplicationConfiguration resource entirely.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+Do not delete the Coherence component if the application is still using it.
+&lt;/div&gt;
+
+&lt;h2 id=&#34;logging&#34;&gt;Logging&lt;/h2&gt;
+&lt;p&gt;When a Coherence cluster is provisioned, Verrazzano configures it to send logs to Elasticsearch.  This is done by
+injecting Fluentd sidecar configuration into the Coherence resource. The Coherence operator will create the pod with the
+Fluentd sidecar.  This sidecar periodically copies the Coherence logs from &lt;code&gt;/logs&lt;/code&gt; to stdout, enabling the Fluentd DaemonSet
+in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace to send the logs to Elasticsearch.  Note that the Fluend sidecar running in the Coherence
+pod never communicates with Elasticsearch or any other network endpoint.&lt;/p&gt;
+&lt;p&gt;The logs are placed in a per-namespace Elasticsearch index named &lt;code&gt;verrazzano-namespace-&amp;lt;namespace&amp;gt;&lt;/code&gt;,
+for example: &lt;code&gt;verrazzano-namespace-sockshop&lt;/code&gt;.  All logs from Coherence pods in the same namespace will
+go into the same index, even for different applications.  This is standard behavior and there is no way to disable or change it.&lt;/p&gt;
+&lt;p&gt;Each log record has some Coherence and application fields, along with the log message itself.  For example:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt; kubernetes.labels.coherenceCluster        SockShop
+ kubernetes.labels.app_oam_dev/name        sockshop-appconf
+ kubernetes.labels.app_oam_dev/component   orders
+ ...
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;metrics&#34;&gt;Metrics&lt;/h2&gt;
+&lt;p&gt;Verrazzano uses Prometheus to scrape metrics from Coherence cluster pods.  Like logging, metrics scraping is also
+enabled during provisioning, however, the Coherence resource YAML file must have proper metrics configuration.  For details, see
+&lt;a href=&#34;https://oracle.github.io/coherence-operator/docs/latest/#/metrics/020_metrics&#34;&gt;Coherence Metrics&lt;/a&gt;.  In summary,
+there are two ways to configure the Coherence metrics endpoint.  Coherence has a default metrics endpoint that you can
+enable.  If your application serves metrics from its own endpoint, such as a Helidon application, then do not use the native
+Coherence metrics endpoint.  To see the difference, examine the &lt;code&gt;socks-shop&lt;/code&gt; and &lt;code&gt;bobs-books&lt;/code&gt; examples.&lt;/p&gt;
+&lt;h3 id=&#34;bobs-books&#34;&gt;Bobs Books&lt;/h3&gt;
+&lt;p&gt;The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books&#34;&gt;bobs-books&lt;/a&gt; example uses the default
+Coherence metrics endpoint, so the configuration must enable this feature, shown in the following metrics section of the
+&lt;code&gt;roberts-coherence&lt;/code&gt; component in the YAML file, &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/bobs-books-comp.yaml&#34;&gt;bobs-books-comp.yaml&lt;/a&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-...&#34; data-lang=&#34;...&#34;&gt;          coherence:
+            metrics:
+              enabled: true
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;sock-shop&#34;&gt;Sock Shop&lt;/h3&gt;
+&lt;p&gt;The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples/sock-shop&#34;&gt;sock-shop&lt;/a&gt; example, which is a Helidon
+application with embedded Coherence, explicitly specifies the metrics port 7001 and doesn&amp;rsquo;t enable Coherence metrics.  Coherence
+metrics will still be scraped, but not at the default endpoint.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;          ports:
+            ...
+            - name: metrics
+              port: 7001
+              serviceMonitor:
+                enabled: true
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Because &lt;code&gt;sock-shop&lt;/code&gt; components are  not using the default Coherence metrics port, you must add a MetricsTrait section
+to the ApplicationConfiguration for each component, specifying the metrics port as follows:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;        - trait:
+            apiVersion: oam.verrazzano.io/v1alpha1
+            kind: MetricsTrait
+            metadata:
+              name: carts-metrics
+            spec:
+              port: 7001
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;prometheus-configuration&#34;&gt;Prometheus configuration&lt;/h3&gt;
+&lt;p&gt;Prometheus is configured to scrape targets using the ConfigMaps in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace.  During application deployments,
+Verrazzano updates the &lt;code&gt;vmi-system-prometheus-config&lt;/code&gt; ConfigMap and adds targets for the application pods.  Verrazzano also annotates
+those pods to match the expected annotations in the ConfigMap. When the application is deleted, Verrazzano removes the targets from
+the ConfigMap.  You do not need to manually modify the ConfigMap or annotate the application pods.&lt;/p&gt;
+&lt;p&gt;Here is an example of the&lt;code&gt;sock-shop&lt;/code&gt; Prometheus ConfigMap section for &lt;code&gt;catalog&lt;/code&gt;.  Notice that pods in the &lt;code&gt;sock-shop&lt;/code&gt; namespace with labels &lt;code&gt;app_oam_dev_name&lt;/code&gt;
+and &lt;code&gt;app_oam_dev_component&lt;/code&gt; are targeted.  Prometheus will find those pods and then look at the pod annotations, &lt;code&gt;verrazzano_io/metricsEnabled&lt;/code&gt;, &lt;code&gt;verrazzano_io/metricsPath&lt;/code&gt;,
+and  &lt;code&gt;verrazzano_io/metricsPort&lt;/code&gt; for scrape configuration.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;- job_name: sockshop-appconf_default_sockshop_catalog
+  ...
+  kubernetes_sd_configs:
+  - role: pod
+    namespaces:
+      names:
+      - sockshop
+  relabel_configs:
+  - source_labels: [__meta_kubernetes_pod_annotation_verrazzano_io_metricsEnabled,
+      __meta_kubernetes_pod_label_app_oam_dev_name, __meta_kubernetes_pod_label_app_oam_dev_component]
+  ...  
+  - source_labels: [__meta_kubernetes_pod_annotation_verrazzano_io_metricsPath]
+  ...
+  - source_labels: [__address__, __meta_kubernetes_pod_annotation_verrazzano_io_metricsPort]
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Here is the corresponding &lt;code&gt;catalog&lt;/code&gt; pod labels and annotations.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kind: Pod
+metadata:
+  labels:
+    ...
+    app.oam.dev/component: catalog
+    app.oam.dev/name: sockshop-appconf
+  annotations:
+    ...
+    verrazzano.io/metricsEnabled: &amp;quot;true&amp;quot;
+    verrazzano.io/metricsPath: /metrics
+    verrazzano.io/metricsPort: &amp;quot;7001&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;istio-integration&#34;&gt;Istio Integration&lt;/h2&gt;
+&lt;p&gt;Verrazzano ensures that Coherence clusters are not included in an Istio mesh, even if the namespace has the &lt;code&gt;istio-injection: enabled&lt;/code&gt; label.
+This is done by adding the &lt;code&gt;sidecar.istio.io/inject: &amp;quot;false&amp;quot;&lt;/code&gt; annotation to the Coherence resource, resulting in Coherence pods being
+created with that label.  However, other application components in the mesh using mutual TLS authentication (mTLS)  may need to communicate with Coherence.  To handle this case,
+Verrazzano automatically creates an Istio DestinationRule to disable TLS for the Coherence port.  This policy disables mTLS for port
+9000, which happens to be used as a Coherence &lt;code&gt;extend&lt;/code&gt; port for Bob&amp;rsquo;s Books.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;  trafficPolicy:
+    portLevelSettings:
+    - port:
+        number: 9000
+      tls: {}
+   ...
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Currently, port 9000 is the only port where TLS is disabled, so you need to use this as the Coherence &lt;code&gt;extend&lt;/code&gt; port if
+other components in the mesh access Coherence over the &lt;code&gt;extend&lt;/code&gt; protocol.&lt;/p&gt;
+&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
+&lt;p&gt;Verrazzano makes it easy to deploy and observe Coherence clusters in your application, providing seamless integration with other
+components in your application running in an Istio mesh.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Helidon Workload</title>
+      <link>https://verrazzano.io/docs/applications/workloads/helidon/helidon/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://verrazzano.io/docs/applications/workloads/helidon/helidon/</guid>
+      <description>
+        
+        
+        &lt;p&gt;&lt;a href=&#34;https://helidon.io&#34;&gt;Helidon&lt;/a&gt; is a collection of Java libraries for writing microservices. Helidon provides an open source,
+lightweight, fast, reactive, cloud native framework for developing Java microservices. It is available as two frameworks:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://helidon.io/docs/latest/#/se/introduction/01_introduction&#34;&gt;Helidon SE&lt;/a&gt; is a compact toolkit that embraces the
+latest Java SE features: reactive streams, asynchronous and functional programming, and fluent-style APIs.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://helidon.io/docs/latest/#/mp/introduction/01_introduction&#34;&gt;Helidon MP&lt;/a&gt; implements and supports Eclipse MicroProfile,
+a baseline platform definition that leverages Java EE and Jakarta EE technologies for microservices and delivers application
+portability across multiple runtimes.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Helidon is designed and built with container-first philosophy.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Small footprint, low memory usage and faster startup times.&lt;/li&gt;
+&lt;li&gt;All 3rd party dependencies are stored separately to enable Docker layering.&lt;/li&gt;
+&lt;li&gt;Provides readiness, liveness and customizable health information for container schedulers like &lt;a href=&#34;https://kubernetes.io/&#34;&gt;Kubernetes&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Containerized Helidon applications are generally deployed as &lt;a href=&#34;https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/deployment-v1/&#34;&gt;Deployment&lt;/a&gt; in Kubernetes.&lt;/p&gt;
+&lt;h2 id=&#34;verrazzano-integration&#34;&gt;Verrazzano integration&lt;/h2&gt;
+&lt;p&gt;Verrazzano supports application definition using &lt;a href=&#34;https://oam.dev/&#34;&gt;Open Application Model (OAM)&lt;/a&gt;. Verrrazzano applications
+are composed of &lt;a href=&#34;https://github.com/oam-dev/spec/blob/master/3.component.md&#34;&gt;components&lt;/a&gt; and
+&lt;a href=&#34;https://github.com/oam-dev/spec/blob/master/7.application_configuration.md&#34;&gt;application configurations&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Helidon applications are first class citizen in Verrazzano with specialized Helidon Workload support, for example,
+VerrazzanoHelidonWorkload. VerrazzanoHelidonWorkload is supported as part of &lt;code&gt;verrazzano-application-operator&lt;/code&gt; in the
+Verrazzano installation and no additional operator setup or installation is required. VerrazzanoHelidonWorkload also supports all
+the traits and scopes defined by Verrazzano along with core ones defined by the OAM specification.&lt;/p&gt;
+&lt;p&gt;VerrazzanoHelidonWorkload is modeled after &lt;a href=&#34;https://github.com/oam-dev/spec/blob/v0.2.1/core/workloads/containerized_workload/containerized_workload.md&#34;&gt;ContainerizedWorkload&lt;/a&gt;,
+for example, it is used for long-running workloads in containers. However, VerrazzanoHelidonWorkload closely resembles and directly refers to
+Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/deployment-v1/&#34;&gt;Deployment&lt;/a&gt; schema. This
+enables an easy lift and shift of existing containerized Helidon applications.&lt;/p&gt;
+&lt;p&gt;The complete VerrazzanoHelidonWorkload API
+definition and description is available at &lt;a href=&#34;../../../docs/reference/api/oam/workloads/#verrazzanohelidonworkload&#34;&gt;VerrazzanoHelidonWorkload&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;verrazzano-helidon-application-development&#34;&gt;Verrazzano Helidon application development&lt;/h2&gt;
+&lt;p&gt;With Verrazzano, you manage the life cycle of applications using Component and ApplicationConfiguration resources. A Verrazzano
+application can contain any number of VerrazzanoHelidonWorkload components, where each workload is a standalone
+containerized Helidon application, independent of any other in the application.&lt;/p&gt;
+&lt;p&gt;In the following example, everything under the &lt;code&gt;spec:&lt;/code&gt; section is the custom resource YAML file for the containerized Helidon application,
+as defined by VerrazzanoHelidonWorkload custom resource. Including this component reference in your ApplicationConfiguration
+will result in a new containerized Helidon application being provisioned.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;core.oam.dev/v1alpha2&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;Component&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;hello-helidon-component&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;namespace&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;hello-helidon&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;workload&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;oam.verrazzano.io/v1alpha1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;VerrazzanoHelidonWorkload&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;hello-helidon-workload&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;labels&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;app&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;hello-helidon&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;deploymentTemplate&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;hello-helidon-deployment&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;podSpec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;containers&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;hello-helidon-container&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;...&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;...&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;a href=&#34;../../../docs/samples/application-deployment-guide/&#34;&gt;Application Development Guide&lt;/a&gt; provides end-to-end instructions for
+developing and deploying the Verrazzano Helidon application.&lt;/p&gt;
+&lt;p&gt;For more Verrazzano Helidon application examples, see &lt;a href=&#34;../../../docs/samples/&#34;&gt;Examples&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;provisioning&#34;&gt;Provisioning&lt;/h3&gt;
+&lt;p&gt;When you apply the previous component YAML file, Kubernetes will create a &lt;code&gt;component.oam.verrazzano.io&lt;/code&gt; resource, but
+the containerized Helidon application will not be created until you create the ApplicationConfiguration resource,
+which references the VerrazzanoHelidonWorkload component. When the application is created, Verrazzano creates a
+Deployment and Service resource for each containerized Helidon application.&lt;/p&gt;
+&lt;p&gt;Typically, you would modify the Deployment and Service resource to make changes or to do lifecycle operations,
+like scale in and scale out.  However, in the Verrazzano environment, the containerized Helidon application resource is owned
+by the &lt;code&gt;verrazzano-application-operator&lt;/code&gt; and will be reconciled to match the component workload resource. Therefore,
+you need to manage the application configuration by modifying the VerrazzanoHelidonWorkload or ApplicationConfiguration resource,
+either by &lt;code&gt;kubectl edit&lt;/code&gt; or applying new YAML file. Verrazzano will notice that the component resource change and will update
+the Deployment and Service resource as needed.&lt;/p&gt;
+&lt;p&gt;You can add a new VerrazzanoHelidonWorkload to a running application, or remove an existing workload, by modifying
+the ApplicationConfiguration resource and adding or removing the VerrazzanoHelidonWorkload component.&lt;/p&gt;
+&lt;h3 id=&#34;scaling&#34;&gt;Scaling&lt;/h3&gt;
+&lt;p&gt;The recommended way to scale containerized Helidon application replicas is to specify &lt;a href=&#34;https://github.com/oam-dev/spec/blob/v0.2.1/core/traits/manual_scaler_trait.md&#34;&gt;ManualScalerTrait&lt;/a&gt;
+with VerrazzanoHelidonWorkload in ApplicationConfiguration. The following example
+configuration shows the &lt;code&gt;replicaCount&lt;/code&gt; field that specifies the number of replicas for the application.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#000&#34;&gt;...&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;components&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;componentName&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;hello-helidon-component&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;traits&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;trait&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                      
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;core.oam.dev/v1alpha2&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;ManualScalerTrait&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;            &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;replicaCount&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;...&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Verrazzano will modify the Deployment resource &lt;code&gt;replicas&lt;/code&gt; field and the containerized Helidon application replicas will
+be scaled accordingly.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+Make sure the &lt;code&gt;replicas&lt;/code&gt; defined on the VerrazzanoHelidonWorkload component and that &lt;code&gt;replicaCount&lt;/code&gt; defined on ManualScalerTrait
+for that component matches, or else the DeploymentController in Kubernetes and OAM runtime in &lt;code&gt;verrazzano-application-operator&lt;/code&gt;
+will compete to create a different number of Pods for same containerized Helidon application. To avoid confusion,
+we recommend that you specify &lt;code&gt;replicaCount&lt;/code&gt; defined on ManualScalerTrait and leave &lt;code&gt;replicas&lt;/code&gt; undefined on VerrazzanoHelidonWorkload (as it is optional).
+&lt;/div&gt;
+
+&lt;h3 id=&#34;logging&#34;&gt;Logging&lt;/h3&gt;
+&lt;p&gt;When a containerized Helidon application is provisioned on Verrazzano, Verrazzano will configure the default logging
+and send logs to Elasticsearch. Logs can be viewed using the Kibana console.&lt;/p&gt;
+&lt;p&gt;The logs are placed in a per-namespace Elasticsearch index named &lt;code&gt;verrazzano-namespace-&amp;lt;namespace&amp;gt;&lt;/code&gt;,
+for example: &lt;code&gt;verrazzano-namespace-hello-helidon&lt;/code&gt;.  All logs from containerized Helidon application pods in the same namespace will
+go into the same index, even for different applications.  This is standard behavior and there is no way to disable or change it.&lt;/p&gt;
+&lt;h3 id=&#34;metrics&#34;&gt;Metrics&lt;/h3&gt;
+&lt;p&gt;Verrazzano uses Prometheus to scrape metrics from containerized Helidon application pods. Like logging, metrics scraping is also
+enabled during provisioning. Metrics can be viewed using the Grafana console.&lt;/p&gt;
+&lt;p&gt;Verrazzano lets you to customize configuration information needed to enable metrics using &lt;a href=&#34;../../../docs/reference/api/oam/metricstrait/&#34;&gt;MetricsTrait&lt;/a&gt;
+for an application component.&lt;/p&gt;
+&lt;h3 id=&#34;ingress&#34;&gt;Ingress&lt;/h3&gt;
+&lt;p&gt;Verrazzano lets you to configure traffic routing to a containerized Helidon application, using
+&lt;a href=&#34;../../../docs/reference/api/oam/ingresstrait/&#34;&gt;IngressTrait&lt;/a&gt; for an application component.&lt;/p&gt;
+&lt;h2 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h2&gt;
+&lt;p&gt;Whenever you have a problem with your Verrazzano Helidon application, there are some basic techniques you
+can use to troubleshoot. &lt;a href=&#34;../../../docs/troubleshooting/&#34;&gt;Troubleshooting&lt;/a&gt; shows you some simple
+things to try when troubleshooting, as well as how to solve common problems you may encounter.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>
