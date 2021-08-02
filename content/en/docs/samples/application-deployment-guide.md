@@ -101,12 +101,12 @@ EXPOSE 8080
 
 When you deploy applications with Verrazzano, the platform sets up connections, network policies, and
 ingresses in the service mesh, and wires up a monitoring stack to capture the metrics, logs, and traces.
-Verrazzano employs OAM components to define the functional units of a system that are then
+Verrazzano employs OAM Components to define the functional units of a system that are then
 assembled and configured by defining associated application configurations.
 
 ### Verrazzano components
 
-A Verrazzano OAM component is a
+A Verrazzano OAM Component is a
 [Kubernetes Custom Resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
 describing an application's general composition and environment requirements.
 The following code shows the component for the example application used in this guide.
@@ -227,9 +227,9 @@ and enabled for Istio.
    $ kubectl apply -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-comp.yaml" >}}
    ```
 
-   This step causes the validation and creation of the component resource.
+   This step causes the validation and creation of the Component resource.
    No other resources or objects are created as a result.
-   Application configurations applied in the future may reference this component resource.
+   Application configurations applied in the future may reference this Component resource.
 
 1. Apply the application configuration.
 

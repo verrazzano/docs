@@ -52,11 +52,11 @@ The following are the life cycle stages of a WebLogic domain:
    - Application containing WebLogic component is deleted.
    - WebLogic component removed from an existing application.
 3. Scale a WebLogic domain.
-   - Modify the `replicas` field in the WebLogic Domain CR within the OAM component spec.
+   - Modify the `replicas` field in the WebLogic Domain CR within the OAM Component spec.
 4. Update a WebLogic domain.
-   - Modify the other `fields` field in the WebLogic Domain CR within the OAM component spec.
+   - Modify the other `fields` field in the WebLogic Domain CR within the OAM Component spec.
 
-Scale-in and scale-out a WebLogic domain by modifying the OAM component replicas count. Delete the WebLogic domain by deleting the OAM application or removing the component from the application.
+Scale-in and scale-out a WebLogic domain by modifying the OAM Component replicas count. Delete the WebLogic domain by deleting the OAM application or removing the component from the application.
 
 
 ## Istio integration
@@ -202,7 +202,7 @@ spec:
 ```
 ### Monitoring Exporter Component
 
-Review the following example `monitoringExporter` configuration in OAM component.
+Review the following example `monitoringExporter` configuration in OAM Component.
 
 ```yaml
 workload:
@@ -261,7 +261,7 @@ Step 1. Create a WebLogic domain image.
 
 Step 2. Create a VerrazzanoWebLogicWorkload component.
    - To deploy and run the WebLogic domain image in Verrazzano, create the VerrazzanoWebLogicWorkload component that specifies the definition and parameters for the WebLogic domain contained in the image.
-   - For an example VerrazzanoWebLogicWorkload component resource created for a sample WebLogic domain, see the [todo-domain]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) example.
+   - For an example VerrazzanoWebLogicWorkload Component resource created for a sample WebLogic domain, see the [todo-domain]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) example.
    - For all the option supported by the WebLogic domain configuration, see [Domain.md](https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md).
 
 Step 3. Create ApplicationConfiguration for WebLogic application.

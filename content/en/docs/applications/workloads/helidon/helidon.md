@@ -27,10 +27,10 @@ Containerized Helidon applications are generally deployed as [Deployment](https:
 ## Verrazzano integration
 
 Verrazzano supports application definition using [Open Application Model (OAM)](https://oam.dev/). Verrrazzano applications
-are composed of [components](https://github.com/oam-dev/spec/blob/master/3.component.md) and
-[application configurations](https://github.com/oam-dev/spec/blob/master/7.application_configuration.md).
+are composed of [components](https://github.com/oam-dev/spec/blob/master/3.component_model.md) and
+[application configurations](https://github.com/oam-dev/spec/blob/master/7.application.md).
 
-Helidon applications are first class citizen in Verrazzano with specialized Helidon Workload support, for example,
+Helidon applications are first class citizen in Verrazzano with specialized Helidon workload support, for example,
 VerrazzanoHelidonWorkload. VerrazzanoHelidonWorkload is supported as part of `verrazzano-application-operator` in the
 Verrazzano installation and no additional operator setup or installation is required. VerrazzanoHelidonWorkload also supports all
 the traits and scopes defined by Verrazzano along with core ones defined by the OAM specification.
@@ -50,7 +50,7 @@ application can contain any number of VerrazzanoHelidonWorkload components, wher
 containerized Helidon application, independent of any other in the application.
 
 In the following example, everything under the `spec:` section is the custom resource YAML file for the containerized Helidon application,
-as defined by VerrazzanoHelidonWorkload custom resource. Including this component reference in your ApplicationConfiguration
+as defined by VerrazzanoHelidonWorkload custom resource. Including this Component reference in your ApplicationConfiguration
 will result in a new containerized Helidon application being provisioned.
 
 ```yaml
@@ -85,7 +85,7 @@ For more Verrazzano Helidon application examples, see [Examples]({{< relref "/do
 
 ### Provisioning
 
-When you apply the previous component YAML file, Kubernetes will create a `component.oam.verrazzano.io` resource, but
+When you apply the previous Component YAML file, Kubernetes will create a `component.oam.verrazzano.io` resource, but
 the containerized Helidon application will not be created until you create the ApplicationConfiguration resource,
 which references the VerrazzanoHelidonWorkload component. When the application is created, Verrazzano creates a
 Deployment and Service resource for each containerized Helidon application.
@@ -94,7 +94,7 @@ Typically, you would modify the Deployment and Service resource to make changes 
 like scale in and scale out.  However, in the Verrazzano environment, the containerized Helidon application resource is owned
 by the `verrazzano-application-operator` and will be reconciled to match the component workload resource. Therefore,
 you need to manage the application configuration by modifying the VerrazzanoHelidonWorkload or ApplicationConfiguration resource,
-either by `kubectl edit` or applying new YAML file. Verrazzano will notice that the component resource change and will update
+either by `kubectl edit` or applying new YAML file. Verrazzano will notice that the Component resource change and will update
 the Deployment and Service resource as needed.
 
 You can add a new VerrazzanoHelidonWorkload to a running application, or remove an existing workload, by modifying

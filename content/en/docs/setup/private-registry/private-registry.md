@@ -14,5 +14,5 @@ Verrazzano supports being able to install from a private Docker-compliant contai
 To load the required Verrazzano images and prepare for an installation from your private registry, you must do the following:
 
 * Download the TAR file containing the full set of images for the Verrazzano release from the [Oracle Software Download Center](https://www.oracle.com/downloads/).
-* Extract all files from the TAR file locally and follow the instructions in the [README](https://github.com/verrazzano/verrazzano/blob/master/tools/scripts/README.md)
+* Extract all the files from the TAR file locally and follow the instructions in the [README](https://github.com/verrazzano/verrazzano/blob/master/tools/scripts/README.md)
   file in the archive.
