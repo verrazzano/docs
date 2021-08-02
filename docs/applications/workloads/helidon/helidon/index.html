@@ -22,10 +22,10 @@
 <meta property="og:description" content="Develop Helidon applications on Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/applications/workloads/helidon/helidon/" />
-<meta property="article:modified_time" content="2021-07-13T10:26:33-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-08-02T12:47:50-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Helidon Workload">
 <meta itemprop="description" content="Develop Helidon applications on Verrazzano">
-<meta itemprop="dateModified" content="2021-07-13T10:26:33-04:00" />
+<meta itemprop="dateModified" content="2021-08-02T12:47:50-04:00" />
 <meta itemprop="wordCount" content="843">
 
 
@@ -106,7 +106,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.63ffa1e2503b8524ddf327855b18124e.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.515471659980b743caf32fbc79d50705.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -133,7 +133,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.63ffa1e2503b8524ddf327855b18124e.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.515471659980b743caf32fbc79d50705.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -534,9 +534,9 @@ portability across multiple runtimes.</li>
 <p>Containerized Helidon applications are generally deployed as <a href="https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/deployment-v1/">Deployment</a> in Kubernetes.</p>
 <h2 id="verrazzano-integration">Verrazzano integration</h2>
 <p>Verrazzano supports application definition using <a href="https://oam.dev/">Open Application Model (OAM)</a>. Verrrazzano applications
-are composed of <a href="https://github.com/oam-dev/spec/blob/master/3.component.md">components</a> and
-<a href="https://github.com/oam-dev/spec/blob/master/7.application_configuration.md">application configurations</a>.</p>
-<p>Helidon applications are first class citizen in Verrazzano with specialized Helidon Workload support, for example,
+are composed of <a href="https://github.com/oam-dev/spec/blob/master/3.component_model.md">components</a> and
+<a href="https://github.com/oam-dev/spec/blob/master/7.application.md">application configurations</a>.</p>
+<p>Helidon applications are first class citizen in Verrazzano with specialized Helidon workload support, for example,
 VerrazzanoHelidonWorkload. VerrazzanoHelidonWorkload is supported as part of <code>verrazzano-application-operator</code> in the
 Verrazzano installation and no additional operator setup or installation is required. VerrazzanoHelidonWorkload also supports all
 the traits and scopes defined by Verrazzano along with core ones defined by the OAM specification.</p>
@@ -551,7 +551,7 @@ definition and description is available at <a href="../../../../../docs/referenc
 application can contain any number of VerrazzanoHelidonWorkload components, where each workload is a standalone
 containerized Helidon application, independent of any other in the application.</p>
 <p>In the following example, everything under the <code>spec:</code> section is the custom resource YAML file for the containerized Helidon application,
-as defined by VerrazzanoHelidonWorkload custom resource. Including this component reference in your ApplicationConfiguration
+as defined by VerrazzanoHelidonWorkload custom resource. Including this Component reference in your ApplicationConfiguration
 will result in a new containerized Helidon application being provisioned.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>core.oam.dev/v1alpha2<span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>Component<span style="color:#f8f8f8;text-decoration:underline">
@@ -579,7 +579,7 @@ will result in a new containerized Helidon application being provisioned.</p>
 developing and deploying the Verrazzano Helidon application.</p>
 <p>For more Verrazzano Helidon application examples, see <a href="../../../../../docs/samples/">Examples</a>.</p>
 <h3 id="provisioning">Provisioning</h3>
-<p>When you apply the previous component YAML file, Kubernetes will create a <code>component.oam.verrazzano.io</code> resource, but
+<p>When you apply the previous Component YAML file, Kubernetes will create a <code>component.oam.verrazzano.io</code> resource, but
 the containerized Helidon application will not be created until you create the ApplicationConfiguration resource,
 which references the VerrazzanoHelidonWorkload component. When the application is created, Verrazzano creates a
 Deployment and Service resource for each containerized Helidon application.</p>
@@ -587,7 +587,7 @@ Deployment and Service resource for each containerized Helidon application.</p>
 like scale in and scale out.  However, in the Verrazzano environment, the containerized Helidon application resource is owned
 by the <code>verrazzano-application-operator</code> and will be reconciled to match the component workload resource. Therefore,
 you need to manage the application configuration by modifying the VerrazzanoHelidonWorkload or ApplicationConfiguration resource,
-either by <code>kubectl edit</code> or applying new YAML file. Verrazzano will notice that the component resource change and will update
+either by <code>kubectl edit</code> or applying new YAML file. Verrazzano will notice that the Component resource change and will update
 the Deployment and Service resource as needed.</p>
 <p>You can add a new VerrazzanoHelidonWorkload to a running application, or remove an existing workload, by modifying
 the ApplicationConfiguration resource and adding or removing the VerrazzanoHelidonWorkload component.</p>

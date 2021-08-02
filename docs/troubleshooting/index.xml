@@ -23,8 +23,8 @@
         
         
         &lt;p&gt;During application deployment, the &lt;code&gt;oam-kubernetes-runtime&lt;/code&gt; and &lt;code&gt;verrazzano-application-operator&lt;/code&gt; cooperate through the generation and update of Kubernetes resources.
-The &lt;code&gt;oam-kubernetes-runtime&lt;/code&gt; processes the ApplicationConfiguration and Component resources provided by the user and generates workload and trait resources.
-The &lt;code&gt;verrazzano-application-operator&lt;/code&gt; processes Verrazzano specific workload and trait resources.
+The &lt;code&gt;oam-kubernetes-runtime&lt;/code&gt; processes the ApplicationConfiguration and Component resources provided by the user and generates workload and Trait resources.
+The &lt;code&gt;verrazzano-application-operator&lt;/code&gt; processes Verrazzano specific workload and Trait resources.
 These are then used to generate additional child and related resources.&lt;/p&gt;
 &lt;p&gt;Troubleshooting application deployments should follow three general steps:&lt;/p&gt;
 &lt;ol&gt;
@@ -68,11 +68,11 @@ If the expected related resources, for example Deployment or Service, are missin
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get -n hello-helidon verrazzanohelidonworkload hello-helidon-workload
 $ kubectl get -n hello-helidon deployment hello-helidon-deployment
 $ kubectl get -n hello-helidon service hello-helidon-deployment
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;review-generated-trait-resources&#34;&gt;Review generated trait resources&lt;/h3&gt;
-&lt;p&gt;The processing of traits embedded with an ApplicationConfiguration results in the generation of trait resources.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;review-generated-trait-resources&#34;&gt;Review generated Trait resources&lt;/h3&gt;
+&lt;p&gt;The processing of traits embedded with an ApplicationConfiguration results in the generation of Trait resources.
 For example, an IngressTrait embedded within an ApplicationConfiguration will result in the generation of an IngressTrait resource.
 In turn, the IngressTrait resource will be processed and result in the generation of related Certificate, Gateway, and VirtualService resources.&lt;/p&gt;
-&lt;p&gt;If the expected trait resource, for example IngressTrait, is missing, then review the &lt;code&gt;oam-kubernetes-runtime&lt;/code&gt; logs.
+&lt;p&gt;If the expected Trait resource, for example IngressTrait, is missing, then review the &lt;code&gt;oam-kubernetes-runtime&lt;/code&gt; logs.
 If the expected related resources, for example Certificate, Gateway, and VirtualService, are missing, then review the &lt;code&gt;verrazzano-application-operator&lt;/code&gt; logs.&lt;/p&gt;
 &lt;p&gt;The following commands are examples of checking for the resources related to an IngressTrait.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get -n hello-helidon ingresstrait hello-helidon-ingress

@@ -22,10 +22,10 @@
 <meta property="og:description" content="Troubleshoot issues deploying applications on Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/troubleshooting/troubleshooting-application-deployment/" />
-<meta property="article:modified_time" content="2021-07-14T17:24:07-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-08-02T12:47:50-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Application Deployment">
 <meta itemprop="description" content="Troubleshoot issues deploying applications on Verrazzano">
-<meta itemprop="dateModified" content="2021-07-14T17:24:07-04:00" />
+<meta itemprop="dateModified" content="2021-08-02T12:47:50-04:00" />
 <meta itemprop="wordCount" content="718">
 
 
@@ -106,7 +106,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.63ffa1e2503b8524ddf327855b18124e.json"
+  data-offline-search-index-json-src="../../../offline-search-index.515471659980b743caf32fbc79d50705.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -133,7 +133,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.63ffa1e2503b8524ddf327855b18124e.json"
+  data-offline-search-index-json-src="../../../offline-search-index.515471659980b743caf32fbc79d50705.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -495,8 +495,8 @@ if (!doNotTrack) {
 		
 	</header>    
 	<p>During application deployment, the <code>oam-kubernetes-runtime</code> and <code>verrazzano-application-operator</code> cooperate through the generation and update of Kubernetes resources.
-The <code>oam-kubernetes-runtime</code> processes the ApplicationConfiguration and Component resources provided by the user and generates workload and trait resources.
-The <code>verrazzano-application-operator</code> processes Verrazzano specific workload and trait resources.
+The <code>oam-kubernetes-runtime</code> processes the ApplicationConfiguration and Component resources provided by the user and generates workload and Trait resources.
+The <code>verrazzano-application-operator</code> processes Verrazzano specific workload and Trait resources.
 These are then used to generate additional child and related resources.</p>
 <p>Troubleshooting application deployments should follow three general steps:</p>
 <ol>
@@ -540,11 +540,11 @@ If the expected related resources, for example Deployment or Service, are missin
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get -n hello-helidon verrazzanohelidonworkload hello-helidon-workload
 $ kubectl get -n hello-helidon deployment hello-helidon-deployment
 $ kubectl get -n hello-helidon service hello-helidon-deployment
-</code></pre></div><h3 id="review-generated-trait-resources">Review generated trait resources</h3>
-<p>The processing of traits embedded with an ApplicationConfiguration results in the generation of trait resources.
+</code></pre></div><h3 id="review-generated-trait-resources">Review generated Trait resources</h3>
+<p>The processing of traits embedded with an ApplicationConfiguration results in the generation of Trait resources.
 For example, an IngressTrait embedded within an ApplicationConfiguration will result in the generation of an IngressTrait resource.
 In turn, the IngressTrait resource will be processed and result in the generation of related Certificate, Gateway, and VirtualService resources.</p>
-<p>If the expected trait resource, for example IngressTrait, is missing, then review the <code>oam-kubernetes-runtime</code> logs.
+<p>If the expected Trait resource, for example IngressTrait, is missing, then review the <code>oam-kubernetes-runtime</code> logs.
 If the expected related resources, for example Certificate, Gateway, and VirtualService, are missing, then review the <code>verrazzano-application-operator</code> logs.</p>
 <p>The following commands are examples of checking for the resources related to an IngressTrait.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get -n hello-helidon ingresstrait hello-helidon-ingress

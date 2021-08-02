@@ -105,10 +105,10 @@ Note that the Docker container exposes a single port 8080.&lt;/p&gt;
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;application-deployment&#34;&gt;Application deployment&lt;/h2&gt;
 &lt;p&gt;When you deploy applications with Verrazzano, the platform sets up connections, network policies, and
 ingresses in the service mesh, and wires up a monitoring stack to capture the metrics, logs, and traces.
-Verrazzano employs OAM components to define the functional units of a system that are then
+Verrazzano employs OAM Components to define the functional units of a system that are then
 assembled and configured by defining associated application configurations.&lt;/p&gt;
 &lt;h3 id=&#34;verrazzano-components&#34;&gt;Verrazzano components&lt;/h3&gt;
-&lt;p&gt;A Verrazzano OAM component is a
+&lt;p&gt;A Verrazzano OAM Component is a
 &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/&#34;&gt;Kubernetes Custom Resource&lt;/a&gt;
 describing an application&amp;rsquo;s general composition and environment requirements.
 The following code shows the component for the example application used in this guide.
@@ -213,9 +213,9 @@ $ kubectl label namespace hello-helidon verrazzano-managed&lt;span style=&#34;co
 &lt;li&gt;
 &lt;p&gt;Apply the application&amp;rsquo;s component.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-comp.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This step causes the validation and creation of the component resource.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This step causes the validation and creation of the Component resource.
 No other resources or objects are created as a result.
-Application configurations applied in the future may reference this component resource.&lt;/p&gt;
+Application configurations applied in the future may reference this Component resource.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Apply the application configuration.&lt;/p&gt;
@@ -448,8 +448,8 @@ of all application-specific Kubernetes objects.&lt;/p&gt;
         
         
         &lt;p&gt;During application deployment, the &lt;code&gt;oam-kubernetes-runtime&lt;/code&gt; and &lt;code&gt;verrazzano-application-operator&lt;/code&gt; cooperate through the generation and update of Kubernetes resources.
-The &lt;code&gt;oam-kubernetes-runtime&lt;/code&gt; processes the ApplicationConfiguration and Component resources provided by the user and generates workload and trait resources.
-The &lt;code&gt;verrazzano-application-operator&lt;/code&gt; processes Verrazzano specific workload and trait resources.
+The &lt;code&gt;oam-kubernetes-runtime&lt;/code&gt; processes the ApplicationConfiguration and Component resources provided by the user and generates workload and Trait resources.
+The &lt;code&gt;verrazzano-application-operator&lt;/code&gt; processes Verrazzano specific workload and Trait resources.
 These are then used to generate additional child and related resources.&lt;/p&gt;
 &lt;p&gt;Troubleshooting application deployments should follow three general steps:&lt;/p&gt;
 &lt;ol&gt;
@@ -493,11 +493,11 @@ If the expected related resources, for example Deployment or Service, are missin
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get -n hello-helidon verrazzanohelidonworkload hello-helidon-workload
 $ kubectl get -n hello-helidon deployment hello-helidon-deployment
 $ kubectl get -n hello-helidon service hello-helidon-deployment
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;review-generated-trait-resources&#34;&gt;Review generated trait resources&lt;/h3&gt;
-&lt;p&gt;The processing of traits embedded with an ApplicationConfiguration results in the generation of trait resources.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;review-generated-trait-resources&#34;&gt;Review generated Trait resources&lt;/h3&gt;
+&lt;p&gt;The processing of traits embedded with an ApplicationConfiguration results in the generation of Trait resources.
 For example, an IngressTrait embedded within an ApplicationConfiguration will result in the generation of an IngressTrait resource.
 In turn, the IngressTrait resource will be processed and result in the generation of related Certificate, Gateway, and VirtualService resources.&lt;/p&gt;
-&lt;p&gt;If the expected trait resource, for example IngressTrait, is missing, then review the &lt;code&gt;oam-kubernetes-runtime&lt;/code&gt; logs.
+&lt;p&gt;If the expected Trait resource, for example IngressTrait, is missing, then review the &lt;code&gt;oam-kubernetes-runtime&lt;/code&gt; logs.
 If the expected related resources, for example Certificate, Gateway, and VirtualService, are missing, then review the &lt;code&gt;verrazzano-application-operator&lt;/code&gt; logs.&lt;/p&gt;
 &lt;p&gt;The following commands are examples of checking for the resources related to an IngressTrait.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl get -n hello-helidon ingresstrait hello-helidon-ingress
@@ -2570,7 +2570,7 @@ mysql-5cfd58477b-mg5c7          1/1     Running             &lt;span style=&#34;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f vz-application.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This will:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Create the application component resources for the ToDo List application.&lt;/li&gt;
+&lt;li&gt;Create the application Component resources for the ToDo List application.&lt;/li&gt;
 &lt;li&gt;Create the application configuration resources that create the instance of the ToDo List application in the Verrazzano cluster.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Wait for the ToDo List example application to be ready.&lt;/p&gt;
@@ -2913,7 +2913,7 @@ spec:
       <description>
         
         
-        &lt;p&gt;The MultiClusterComponent custom resource is used to distribute &lt;code&gt;core.oam.dev/v1alpha2/Component&lt;/code&gt; resources in a multicluster environment. Here is a sample MultiClusterComponent that specifies a OAM component resource to create on the cluster named &lt;code&gt;managed1&lt;/code&gt;.  To deploy an example application that demonstrates a MultiClusterComponent, see &lt;a href=&#34;../docs/samples/multicluster/hello-helidon/&#34;&gt;Multicluster Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
+        &lt;p&gt;The MultiClusterComponent custom resource is used to distribute &lt;code&gt;core.oam.dev/v1alpha2/Component&lt;/code&gt; resources in a multicluster environment. Here is a sample MultiClusterComponent that specifies a OAM Component resource to create on the cluster named &lt;code&gt;managed1&lt;/code&gt;.  To deploy an example application that demonstrates a MultiClusterComponent, see &lt;a href=&#34;../docs/samples/multicluster/hello-helidon/&#34;&gt;Multicluster Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: clusters.verrazzano.io/v1alpha1
 kind: MultiClusterComponent
 metadata:
@@ -6091,7 +6091,7 @@ features that Verrazzano configures.  These security features are available in t
 &lt;p&gt;A service mesh is an infrastructure layer that provides certain capabilities like security, observability, load balancing,
 and such, for services.  Istio defines a service mesh &lt;a href=&#34;HTTPS://istio.io/latest/about/service-mesh/&#34;&gt;here&lt;/a&gt;.
 In the context of Istio on Kubernetes, a service in the mesh is a Kubernetes Service. Consider the Bob&amp;rsquo;s Books example application, which
-has several OAM components defined.  At runtime, there is a Kubernetes Service for each component, and each Service is
+has several OAM Components defined.  At runtime, there is a Kubernetes Service for each component, and each Service is
 in the mesh, with one or more Pods associated with the service.  All services in the mesh have an Envoy proxy in
 front of their Pods, intercepting network traffic to and from the Pod.  In Kubernetes, that proxy happens to be a sidecar
 running in each Pod.&lt;/p&gt;
@@ -6227,9 +6227,9 @@ the &lt;code&gt;principals&lt;/code&gt; section to permit that access.&lt;/p&gt;
       <description>
         
         
-        &lt;p&gt;To delete a Verrazzano installation, simply delete the Verrazzano custom resource you used to
+        &lt;p&gt;To delete a Verrazzano installation, delete the Verrazzano custom resource you used to
 install it into your cluster.&lt;/p&gt;
-&lt;p&gt;The following example starts a delete of a Verrazzano installation in the background, and then
+&lt;p&gt;The following example starts a deletion of a Verrazzano installation in the background, and then
 uses the &lt;code&gt;kubectl logs -f&lt;/code&gt; command to tail the Console output of the pod performing the uninstall:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;# Get the name of the Verrazzano custom resource
 $ MYVZ=$(kubectl  get vz -o jsonpath=&amp;quot;{.items[0].metadata.name}&amp;quot;)
@@ -6258,7 +6258,7 @@ specific release version that may be different from the overall Verrazzano versi
 knows the versions of each component associated with the Verrazzano version.  When you perform the initial Verrazzano
 installation, the appropriate version of each component is installed by the platform operator.
 Post installation, it may be necessary to update one or more of the component images or Helm charts.  This update is also
-handled by the platform operator and is called an &lt;code&gt;upgrade&lt;/code&gt;.  Currently, Verrazzano does only patch-level upgrade,
+handled by the platform operator and is called an &lt;code&gt;upgrade&lt;/code&gt;.  Currently, Verrazzano does only patch-level upgrades,
 where a &lt;code&gt;helm upgrade&lt;/code&gt; command can be issued for the component.  Typically, patch-level upgrades simply replace component
 images with newer versions.&lt;/p&gt;
 &lt;p&gt;It is important to distinguish between updating the Verrazzano platform operator versus upgrading the Verrazzano installation.
@@ -6370,10 +6370,10 @@ uses a CRD, coherence.oracle.com (Coherence resource), to represent a Coherence 
 application with Coherence is provisioned, Verrazzano configures the default logging and
 metrics for the Coherence cluster.  Logs are sent to Elasticsearch and metrics to Prometheus.&lt;br&gt;
 You can view this telemetry data using the Kibana and Grafana consoles.&lt;/p&gt;
-&lt;h2 id=&#34;oam-component&#34;&gt;OAM component&lt;/h2&gt;
+&lt;h2 id=&#34;oam-component&#34;&gt;OAM Component&lt;/h2&gt;
 &lt;p&gt;The custom resource YAML file for the Coherence cluster is specified as a VerrazzanoCoherenceWorkload custom resource.
 In the following example, everything under the &lt;code&gt;spec:&lt;/code&gt; section is standard Coherence resource YAML that you would typically use
-to provision a Coherence cluster.  Including this component reference in your ApplicationConfiguration will result
+to provision a Coherence cluster.  Including this Component reference in your ApplicationConfiguration will result
 in a new Coherence cluster being provisioned.  You can have multiple clusters in the same application with no conflict.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
 kind: Component
@@ -6395,11 +6395,11 @@ spec:
 &lt;p&gt;With Verrazzano, you manage the life cycle of applications using Component and ApplicationConfiguration resources.
 Typically, you would modify the Coherence cluster resource to make changes or to do lifecycle operations,
 like scale in and scale out.  However, in the Verrazzano environment, the cluster resource is owned by the
-Verrazzano application operator and will be reconciled to match the component workload resource.  Therefore,
+Verrazzano application operator and will be reconciled to match the Component workload resource.  Therefore,
 you need to manage the cluster configuration by modifying the resource, either by &lt;code&gt;kubectl edit&lt;/code&gt; or applying a new YAML file. Verrazzano
 will notice that the Component resource changed and will update the Coherence resource as needed.&lt;/p&gt;
 &lt;h4 id=&#34;provisioning&#34;&gt;Provisioning&lt;/h4&gt;
-&lt;p&gt;When you apply the component YAML  file shown previously, Kubernetes will create a &lt;code&gt;component.oam.verrazzano.io&lt;/code&gt; resource, but
+&lt;p&gt;When you apply the Component YAML  file shown previously, Kubernetes will create a &lt;code&gt;component.oam.verrazzano.io&lt;/code&gt; resource, but
 the Coherence cluster will not be created until you create the ApplicationConfiguration resource, which references
 the Coherence component.  When the application is created, Verrazzano creates a Coherence custom resource for each
 cluster, which is subsequently processed by the Coherence operator, resulting in a new cluster.  After a cluster
@@ -6429,7 +6429,7 @@ spec:
           ...
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; A Coherence cluster provisioned with Verrazzano does not support autoscaling with a Horizontal Pod Autoscaler.&lt;/p&gt;
 &lt;h4 id=&#34;termination&#34;&gt;Termination&lt;/h4&gt;
-&lt;p&gt;You can terminate the Coherence cluster by removing the component from the ApplicationConfiguration or by
+&lt;p&gt;You can terminate the Coherence cluster by removing the Component from the ApplicationConfiguration or by
 deleting the ApplicationConfiguration resource entirely.&lt;/p&gt;
 
 
@@ -6569,9 +6569,9 @@ portability across multiple runtimes.&lt;/li&gt;
 &lt;p&gt;Containerized Helidon applications are generally deployed as &lt;a href=&#34;https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/deployment-v1/&#34;&gt;Deployment&lt;/a&gt; in Kubernetes.&lt;/p&gt;
 &lt;h2 id=&#34;verrazzano-integration&#34;&gt;Verrazzano integration&lt;/h2&gt;
 &lt;p&gt;Verrazzano supports application definition using &lt;a href=&#34;https://oam.dev/&#34;&gt;Open Application Model (OAM)&lt;/a&gt;. Verrrazzano applications
-are composed of &lt;a href=&#34;https://github.com/oam-dev/spec/blob/master/3.component.md&#34;&gt;components&lt;/a&gt; and
-&lt;a href=&#34;https://github.com/oam-dev/spec/blob/master/7.application_configuration.md&#34;&gt;application configurations&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Helidon applications are first class citizen in Verrazzano with specialized Helidon Workload support, for example,
+are composed of &lt;a href=&#34;https://github.com/oam-dev/spec/blob/master/3.component_model.md&#34;&gt;components&lt;/a&gt; and
+&lt;a href=&#34;https://github.com/oam-dev/spec/blob/master/7.application.md&#34;&gt;application configurations&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Helidon applications are first class citizen in Verrazzano with specialized Helidon workload support, for example,
 VerrazzanoHelidonWorkload. VerrazzanoHelidonWorkload is supported as part of &lt;code&gt;verrazzano-application-operator&lt;/code&gt; in the
 Verrazzano installation and no additional operator setup or installation is required. VerrazzanoHelidonWorkload also supports all
 the traits and scopes defined by Verrazzano along with core ones defined by the OAM specification.&lt;/p&gt;
@@ -6586,7 +6586,7 @@ definition and description is available at &lt;a href=&#34;../docs/reference/api
 application can contain any number of VerrazzanoHelidonWorkload components, where each workload is a standalone
 containerized Helidon application, independent of any other in the application.&lt;/p&gt;
 &lt;p&gt;In the following example, everything under the &lt;code&gt;spec:&lt;/code&gt; section is the custom resource YAML file for the containerized Helidon application,
-as defined by VerrazzanoHelidonWorkload custom resource. Including this component reference in your ApplicationConfiguration
+as defined by VerrazzanoHelidonWorkload custom resource. Including this Component reference in your ApplicationConfiguration
 will result in a new containerized Helidon application being provisioned.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;core.oam.dev/v1alpha2&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;Component&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
@@ -6614,7 +6614,7 @@ will result in a new containerized Helidon application being provisioned.&lt;/p&
 developing and deploying the Verrazzano Helidon application.&lt;/p&gt;
 &lt;p&gt;For more Verrazzano Helidon application examples, see &lt;a href=&#34;../docs/samples/&#34;&gt;Examples&lt;/a&gt;.&lt;/p&gt;
 &lt;h3 id=&#34;provisioning&#34;&gt;Provisioning&lt;/h3&gt;
-&lt;p&gt;When you apply the previous component YAML file, Kubernetes will create a &lt;code&gt;component.oam.verrazzano.io&lt;/code&gt; resource, but
+&lt;p&gt;When you apply the previous Component YAML file, Kubernetes will create a &lt;code&gt;component.oam.verrazzano.io&lt;/code&gt; resource, but
 the containerized Helidon application will not be created until you create the ApplicationConfiguration resource,
 which references the VerrazzanoHelidonWorkload component. When the application is created, Verrazzano creates a
 Deployment and Service resource for each containerized Helidon application.&lt;/p&gt;
@@ -6622,7 +6622,7 @@ Deployment and Service resource for each containerized Helidon application.&lt;/
 like scale in and scale out.  However, in the Verrazzano environment, the containerized Helidon application resource is owned
 by the &lt;code&gt;verrazzano-application-operator&lt;/code&gt; and will be reconciled to match the component workload resource. Therefore,
 you need to manage the application configuration by modifying the VerrazzanoHelidonWorkload or ApplicationConfiguration resource,
-either by &lt;code&gt;kubectl edit&lt;/code&gt; or applying new YAML file. Verrazzano will notice that the component resource change and will update
+either by &lt;code&gt;kubectl edit&lt;/code&gt; or applying new YAML file. Verrazzano will notice that the Component resource change and will update
 the Deployment and Service resource as needed.&lt;/p&gt;
 &lt;p&gt;You can add a new VerrazzanoHelidonWorkload to a running application, or remove an existing workload, by modifying
 the ApplicationConfiguration resource and adding or removing the VerrazzanoHelidonWorkload component.&lt;/p&gt;
@@ -7542,7 +7542,7 @@ cluster by following the instructions for &lt;a href=&#34;../docs/operations/&#3
 &lt;p&gt;Create the &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm&#34;&gt;OKE&lt;/a&gt; cluster using the OCI Console or by some other means.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;For &lt;code&gt;SHAPE&lt;/code&gt;, an OKE cluster with 3 nodes of &lt;code&gt;VM.Standard2.4&lt;/code&gt; &lt;a href=&#34;https://www.oracle.com/cloud/compute/virtual-machines.html&#34;&gt;OCI compute instance shape&lt;/a&gt; has proven sufficient to install Verrazzano and deploy the Bob&amp;rsquo;s Books example application.&lt;/p&gt;
+&lt;p&gt;For &lt;code&gt;SHAPE&lt;/code&gt;, an OKE cluster with 3 nodes of &lt;code&gt;VM.Standard2.4&lt;/code&gt; &lt;a href=&#34;https://www.oracle.com/cloud/compute/virtual-machines.html&#34;&gt;OCI compute instance shape&lt;/a&gt; has proven sufficient to install Verrazzano and deploy the &lt;a href=&#34;../docs/samples/bobs-books/&#34;&gt;Bob&amp;rsquo;s Books&lt;/a&gt; example application.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Follow the instructions provided by OKE to download the Kubernetes configuration file for your cluster, and set the following &lt;code&gt;ENV&lt;/code&gt; variable:&lt;/p&gt;
@@ -7783,7 +7783,7 @@ $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/mast
 &lt;p&gt;To load the required Verrazzano images and prepare for an installation from your private registry, you must do the following:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Download the TAR file containing the full set of images for the Verrazzano release from the &lt;a href=&#34;https://www.oracle.com/downloads/&#34;&gt;Oracle Software Download Center&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;Extract all files from the TAR file locally and follow the instructions in the &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/tools/scripts/README.md&#34;&gt;README&lt;/a&gt;
+&lt;li&gt;Extract all the files from the TAR file locally and follow the instructions in the &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/tools/scripts/README.md&#34;&gt;README&lt;/a&gt;
 file in the archive.&lt;/li&gt;
 &lt;/ul&gt;
 
