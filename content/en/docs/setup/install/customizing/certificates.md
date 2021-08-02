@@ -120,7 +120,7 @@ spec:
         ociConfigSecret: oci
         dnsZoneCompartmentOCID: ocid1.compartment.oc1.....
         dnsZoneOCID: ocid1.dns-zone.oc1.....
-        dnsZoneName: mydomain.com
+        dnsZoneName: example.com
 ```
 
 The following example configures Verrazzano to use the LetsEncrypt `staging` environment with OCI DNS:
@@ -144,7 +144,7 @@ spec:
         ociConfigSecret: oci
         dnsZoneCompartmentOCID: ocid1.compartment.oc1.....
         dnsZoneOCID: ocid1.dns-zone.oc1.....
-        dnsZoneName: mydomain.com
+        dnsZoneName: example.com
 ```
 
 {{< alert title="NOTE" color="warning" >}}
