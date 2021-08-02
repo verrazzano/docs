@@ -19,7 +19,7 @@ detailed view, see the diagram [here](#detailed-view-of-multicluster-verrazzano)
 ## Admin cluster
 A Verrazzano admin cluster is a central management point for:
 - Deploying and undeploying applications to the managed clusters registered with the admin cluster.
-- Viewing logs and metrics for both Verrazzano components and applications that reside in the managed clusters.
+- Viewing logs and metrics for both Verrazzano Components and applications that reside in the managed clusters.
 
 You may register one or more managed clusters with the admin cluster by creating a VerrazzanoManagedCluster
 resource in the `verrazzano-mc` namespace of an admin cluster.
@@ -31,7 +31,7 @@ cluster as well as on managed clusters.
 A Verrazzano managed cluster has a minimal footprint of Verrazzano, installed using the `managed-cluster`
 installation profile. A managed cluster has the following additional characteristics:
 - It is registered with an admin cluster with a unique name.
-- Logs for Verrazzano system components and Verrazzano multicluster applications are sent to
+- Logs for Verrazzano system Components and Verrazzano multicluster applications are sent to
   Elasticsearch running on the admin cluster, and are viewable from that cluster.
 - A Verrazzano multicluster Kubernetes resource, created on the admin cluster, will be retrieved and deployed to a
   managed cluster if all of the following are true:

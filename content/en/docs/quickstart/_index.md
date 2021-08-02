@@ -34,6 +34,8 @@ You can install, uninstall, and update Verrazzano installations by updating the
 [Verrazzano custom resource]({{< relref "/docs/reference/api/verrazzano/verrazzano.md" >}}).
 The [Verrazzano platform operator](https://github.com/verrazzano/verrazzano-platform-operator) controller will apply the configuration from the custom resource to the cluster for you.
 
+**NOTE**: If you just created the cluster, then you must wait until your nodes reach Ready status before installing Verrazzano.
+
 To install the Verrazzano platform operator:
 
 1. Deploy the Verrazzano platform operator.
@@ -140,7 +142,7 @@ enabled for Istio.
        --timeout=300s
    pod/hello-helidon-deployment-78468f5f9c-czmp4 condition met
    ```
-   This creates the Verrazzano OAM component application resources for the example, waits for the pods in the `hello-helidon`
+   This creates the Verrazzano OAM Component application resources for the example, waits for the pods in the `hello-helidon`
    namespace to be ready.
 
 1.  Save the host name of the load balancer exposing the application's REST service endpoints.

@@ -7,8 +7,8 @@ draft: false
 ---
 
 During application deployment, the `oam-kubernetes-runtime` and `verrazzano-application-operator` cooperate through the generation and update of Kubernetes resources.
-The `oam-kubernetes-runtime` processes the ApplicationConfiguration and Component resources provided by the user and generates workload and trait resources.
-The `verrazzano-application-operator` processes Verrazzano specific workload and trait resources.
+The `oam-kubernetes-runtime` processes the ApplicationConfiguration and Component resources provided by the user and generates workload and Trait resources.
+The `verrazzano-application-operator` processes Verrazzano specific workload and Trait resources.
 These are then used to generate additional child and related resources.
 
 Troubleshooting application deployments should follow three general steps:
@@ -73,12 +73,12 @@ $ kubectl get -n hello-helidon deployment hello-helidon-deployment
 $ kubectl get -n hello-helidon service hello-helidon-deployment
 ```
 
-### Review generated trait resources
-The processing of traits embedded with an ApplicationConfiguration results in the generation of trait resources.
+### Review generated Trait resources
+The processing of traits embedded with an ApplicationConfiguration results in the generation of Trait resources.
 For example, an IngressTrait embedded within an ApplicationConfiguration will result in the generation of an IngressTrait resource.
 In turn, the IngressTrait resource will be processed and result in the generation of related Certificate, Gateway, and VirtualService resources.
 
-If the expected trait resource, for example IngressTrait, is missing, then review the `oam-kubernetes-runtime` logs.
+If the expected Trait resource, for example IngressTrait, is missing, then review the `oam-kubernetes-runtime` logs.
 If the expected related resources, for example Certificate, Gateway, and VirtualService, are missing, then review the `verrazzano-application-operator` logs.
 
 The following commands are examples of checking for the resources related to an IngressTrait.

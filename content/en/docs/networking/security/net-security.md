@@ -235,7 +235,7 @@ features that Verrazzano configures.  These security features are available in t
 A service mesh is an infrastructure layer that provides certain capabilities like security, observability, load balancing,
 and such, for services.  Istio defines a service mesh [here](HTTPS://istio.io/latest/about/service-mesh/).
 In the context of Istio on Kubernetes, a service in the mesh is a Kubernetes Service. Consider the Bob's Books example application, which
-has several OAM components defined.  At runtime, there is a Kubernetes Service for each component, and each Service is
+has several OAM Components defined.  At runtime, there is a Kubernetes Service for each component, and each Service is
 in the mesh, with one or more Pods associated with the service.  All services in the mesh have an Envoy proxy in
 front of their Pods, intercepting network traffic to and from the Pod.  In Kubernetes, that proxy happens to be a sidecar
 running in each Pod.  

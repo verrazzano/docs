@@ -430,7 +430,7 @@ $ kubectl apply -f vz-application.yaml
 ```
 
 This will:
-* Create the application component resources for the ToDo List application.
+* Create the application Component resources for the ToDo List application.
 * Create the application configuration resources that create the instance of the ToDo List application in the Verrazzano cluster.
 
 Wait for the ToDo List example application to be ready.

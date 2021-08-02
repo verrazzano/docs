@@ -11,7 +11,7 @@ specific release version that may be different from the overall Verrazzano versi
 knows the versions of each component associated with the Verrazzano version.  When you perform the initial Verrazzano
 installation, the appropriate version of each component is installed by the platform operator.
 Post installation, it may be necessary to update one or more of the component images or Helm charts.  This update is also
-handled by the platform operator and is called an `upgrade`.  Currently, Verrazzano does only patch-level upgrade,
+handled by the platform operator and is called an `upgrade`.  Currently, Verrazzano does only patch-level upgrades,
 where a `helm upgrade` command can be issued for the component.  Typically, patch-level upgrades simply replace component
 images with newer versions.
 

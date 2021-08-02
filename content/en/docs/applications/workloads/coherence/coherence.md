@@ -17,10 +17,10 @@ application with Coherence is provisioned, Verrazzano configures the default log
 metrics for the Coherence cluster.  Logs are sent to Elasticsearch and metrics to Prometheus.  
 You can view this telemetry data using the Kibana and Grafana consoles.
 
-## OAM component
+## OAM Component
 The custom resource YAML file for the Coherence cluster is specified as a VerrazzanoCoherenceWorkload custom resource.
 In the following example, everything under the `spec:` section is standard Coherence resource YAML that you would typically use
-to provision a Coherence cluster.  Including this component reference in your ApplicationConfiguration will result
+to provision a Coherence cluster.  Including this Component reference in your ApplicationConfiguration will result
 in a new Coherence cluster being provisioned.  You can have multiple clusters in the same application with no conflict.
 ```
 apiVersion: core.oam.dev/v1alpha2
@@ -45,12 +45,12 @@ spec:
 With Verrazzano, you manage the life cycle of applications using Component and ApplicationConfiguration resources.
 Typically, you would modify the Coherence cluster resource to make changes or to do lifecycle operations,
 like scale in and scale out.  However, in the Verrazzano environment, the cluster resource is owned by the
-Verrazzano application operator and will be reconciled to match the component workload resource.  Therefore,
+Verrazzano application operator and will be reconciled to match the Component workload resource.  Therefore,
 you need to manage the cluster configuration by modifying the resource, either by `kubectl edit` or applying a new YAML file. Verrazzano
 will notice that the Component resource changed and will update the Coherence resource as needed.
 
 #### Provisioning
-When you apply the component YAML  file shown previously, Kubernetes will create a `component.oam.verrazzano.io` resource, but
+When you apply the Component YAML  file shown previously, Kubernetes will create a `component.oam.verrazzano.io` resource, but
 the Coherence cluster will not be created until you create the ApplicationConfiguration resource, which references
 the Coherence component.  When the application is created, Verrazzano creates a Coherence custom resource for each
 cluster, which is subsequently processed by the Coherence operator, resulting in a new cluster.  After a cluster
@@ -85,7 +85,7 @@ spec:
 **NOTE:** A Coherence cluster provisioned with Verrazzano does not support autoscaling with a Horizontal Pod Autoscaler.
 
 #### Termination
-You can terminate the Coherence cluster by removing the component from the ApplicationConfiguration or by
+You can terminate the Coherence cluster by removing the Component from the ApplicationConfiguration or by
 deleting the ApplicationConfiguration resource entirely.
 
 {{< alert title="NOTE" color="warning" >}}
