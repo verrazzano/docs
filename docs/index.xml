@@ -33,8 +33,8 @@
 &lt;p&gt;This guide does not provide the full details for the first two steps. An existing example application
 Docker image has been packaged and published for use.&lt;/p&gt;
 &lt;p&gt;Verrazzano supports application definition using &lt;a href=&#34;https://oam.dev/&#34;&gt;Open Application Model (OAM)&lt;/a&gt;.  Verrrazzano applications are
-composed of &lt;a href=&#34;https://github.com/oam-dev/spec/blob/master/3.component.md&#34;&gt;components&lt;/a&gt; and
-&lt;a href=&#34;https://github.com/oam-dev/spec/blob/master/7.application_configuration.md&#34;&gt;application configurations&lt;/a&gt;.  This document
+composed of &lt;a href=&#34;https://github.com/oam-dev/spec/blob/master/3.component_model.md&#34;&gt;components&lt;/a&gt; and
+&lt;a href=&#34;https://github.com/oam-dev/spec/blob/master/7.application.md&#34;&gt;application configurations&lt;/a&gt;.  This document
 demonstrates creating OAM resources that define an application as well as the steps required to deploy those resources.&lt;/p&gt;
 &lt;h2 id=&#34;what-you-need&#34;&gt;What you need&lt;/h2&gt;
 &lt;ul&gt;
@@ -6118,7 +6118,7 @@ as Coherence Pods, are labeled at runtime with &lt;code&gt;sidecar.istio.io/inje
 &lt;li&gt;Verrazzano Console&lt;/li&gt;
 &lt;li&gt;WebLogic Kubernetes Operator&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Some of these components, have mesh-related details that are worth noting.&lt;/p&gt;
+&lt;p&gt;Some of these components, have mesh-related details that are worth noting, as described in the following sections.&lt;/p&gt;
 &lt;h3 id=&#34;nginx&#34;&gt;NGINX&lt;/h3&gt;
 &lt;p&gt;The NGINX Ingress Controller listens for HTTPS traffic, and provides ingress into the cluster.  NGINX is
 configured to do TLS termination of client connections.  All traffic from NGINX to the mesh services
@@ -6168,8 +6168,8 @@ you configure using a Verrazzano IngressTrait.&lt;/p&gt;
 cluster in a namespace that is annotated to do sidecar injection, it disables injection of the Coherence resource using the
 &lt;code&gt;sidecar.istio.io/inject=&amp;quot;false&amp;quot;&lt;/code&gt; label shown previously.  Furthermore, Verrazzano will create a DestinationRule in the application
 namespace to disable mTLS for the Coherence extend port &lt;code&gt;9000&lt;/code&gt;.  This allows a service in the mesh to call the Coherence
-extend proxy.  For an example, see &lt;a href=&#34;HTTPS://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books&#34;&gt;Bobs Books&lt;/a&gt;.
-Here is an example of a DestinationRule created for the Bob&amp;rsquo;s Books application which includes a Coherence cluster.&lt;/p&gt;
+extend proxy.  For an example, see &lt;a href=&#34;HTTPS://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books&#34;&gt;Bobs Books&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Here is an example of a DestinationRule created for the Bob&amp;rsquo;s Books application which includes a Coherence cluster.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;API Version:  networking.istio.io/v1beta1
 Kind:         DestinationRule
 ...
