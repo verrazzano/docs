@@ -19,8 +19,8 @@ This guide does not provide the full details for the first two steps. An existin
 Docker image has been packaged and published for use.
 
 Verrazzano supports application definition using [Open Application Model (OAM)](https://oam.dev/).  Verrrazzano applications are
-composed of [components](https://github.com/oam-dev/spec/blob/master/3.component.md) and
-[application configurations](https://github.com/oam-dev/spec/blob/master/7.application_configuration.md).  This document
+composed of [components](https://github.com/oam-dev/spec/blob/master/3.component_model.md) and
+[application configurations](https://github.com/oam-dev/spec/blob/master/7.application.md).  This document
 demonstrates creating OAM resources that define an application as well as the steps required to deploy those resources.
 
 ## What you need
