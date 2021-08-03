@@ -1,6 +1,6 @@
 ---
 title: "Network Security"
-description: "Lean about Verrazzano network security"
+description: "Learn about Verrazzano network security"
 weight: 3
 draft: false
 ---
@@ -264,7 +264,7 @@ The following Verrazzano components are in the mesh and use mTLS for all service
 - Verrazzano Console
 - WebLogic Kubernetes Operator
 
-Some of these components, have mesh-related details that are worth noting.
+Some of these components, have mesh-related details that are worth noting, as described in the following sections.
 
 ### NGINX
 The NGINX Ingress Controller listens for HTTPS traffic, and provides ingress into the cluster.  NGINX is
@@ -321,6 +321,7 @@ cluster in a namespace that is annotated to do sidecar injection, it disables in
 `sidecar.istio.io/inject="false"` label shown previously.  Furthermore, Verrazzano will create a DestinationRule in the application
 namespace to disable mTLS for the Coherence extend port `9000`.  This allows a service in the mesh to call the Coherence
 extend proxy.  For an example, see [Bobs Books](HTTPS://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books).
+
 Here is an example of a DestinationRule created for the Bob's Books application which includes a Coherence cluster.
 ```
 API Version:  networking.istio.io/v1beta1
