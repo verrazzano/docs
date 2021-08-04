@@ -224,7 +224,7 @@ and enabled for Istio.
 1. Apply the application's component.
 
    ```shell script
-   $ kubectl apply -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-comp.yaml" >}}
+   $ kubectl apply -f {{< release_source_url raw=true path="examples/hello-helidon/hello-helidon-comp.yaml" >}}
    ```
 
    This step causes the validation and creation of the Component resource.
@@ -234,7 +234,7 @@ and enabled for Istio.
 1. Apply the application configuration.
 
    ```shell script
-   $ kubectl apply -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-app.yaml" >}}
+   $ kubectl apply -f {{< release_source_url raw=true path="examples/hello-helidon/hello-helidon-app.yaml" >}}
    ```
 
    This step causes the validation and creation of the application configuration resource.
@@ -493,7 +493,7 @@ Run the following commands to delete the application configuration, and optional
 1. Delete the application configuration.
 
    ```shell script
-   $ kubectl delete -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-app.yaml" >}}
+   $ kubectl delete -f {{< release_source_url raw=true path="examples/hello-helidon/hello-helidon-app.yaml" >}}
    ```
 
    The deletion of the application configuration will result in the destruction
@@ -502,7 +502,7 @@ Run the following commands to delete the application configuration, and optional
 1. (Optional) Delete the application's component.
 
    ```shell script
-   $ kubectl delete -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-comp.yaml" >}}
+   $ kubectl delete -f {{< release_source_url raw=true path="examples/hello-helidon/hello-helidon-comp.yaml" >}}
    ```
    **Note**: This step is not required if other application configurations for this component will be applied in the future.
 

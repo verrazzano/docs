@@ -19,15 +19,15 @@ listed in the `placement` section.
 1. Create a namespace for the Sock Shop application by deploying the Verrazzano project.
    ```
    $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
-       -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/sock-shop/verrazzano-project.yaml
+       -f {{< release_source_url raw=true path=examples/multicluster/sock-shop/verrazzano-project.yaml >}}
    ```
 
 1. Apply the Sock Shop OAM resources to deploy the application.
    ```
    $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
-       -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/sock-shop/sock-shop-comp.yaml
+       -f {{< release_source_url raw=true path=examples/multicluster/sock-shop/sock-shop-comp.yaml >}}
    $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
-       -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/sock-shop/sock-shop-app.yaml
+       -f {{< release_source_url raw=true path=examples/multicluster/sock-shop/sock-shop-app.yaml >}}
    ```
 
 1. Wait for the Sock Shop application to be ready.

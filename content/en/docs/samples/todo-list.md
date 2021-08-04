@@ -66,8 +66,8 @@ For more information and the source code of this application, see the [Verrazzan
 
 1. To deploy the application, apply the example resources.
    ```
-   $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/todo-list/todo-list-components.yaml
-   $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/todo-list/todo-list-application.yaml
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/todo-list/todo-list-components.yaml >}}
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/todo-list/todo-list-application.yaml >}}
    ```
 
 1. Wait for the ToDo List application to be ready. You can monitor its progress by listing pods and inspecting the output, or

@@ -84,8 +84,8 @@ For more information and the source code of this application, see the [Verrazzan
 
 1. To deploy the application, apply the example resources.
    ```
-   $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/bobs-books/bobs-books-comp.yaml
-   $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/bobs-books/bobs-books-app.yaml
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/bobs-books/bobs-books-comp.yaml >}}
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/bobs-books/bobs-books-app.yaml >}}
    ```
 
 1. Wait for all of the pods in the Bob's Books example application to be ready.

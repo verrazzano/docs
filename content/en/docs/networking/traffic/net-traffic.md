@@ -267,7 +267,7 @@ items:
 To manage east-west traffic, each service in the mesh should be routed using a VirtualService and an optional
 DestinationRule.  You can still send east-west traffic without either of these resources, but you won’t get any custom
 routing or load balancing.  Verrazzano doesn't configure east-west traffic.  Consider `bobbys-front-end` in the Bob's Books example at
-[bobs-books-comp.yaml](HTTPS://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/bobs-books-comp.yaml).
+[bobs-books-comp.yaml]( {{< release_source_url path=examples/bobs-books/bobs-books-comp.yaml >}} ).
 When deploying Bob's Books, a VirtualService is created for `bobbys-front-end`, because of the IngressTrait, but there are
 no VirtualServices for the other services in the application.  When `bobbys-front-end` sends requests to
 `bobbys-helidon-stock-application`, this east-west traffic still goes to `bobbys-helidon-stock-application` through

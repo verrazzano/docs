@@ -23,7 +23,7 @@ listed in the `placement` section.
 1. Create a namespace for the multicluster ToDo List example by applying the Verrazzano project file.
    ```
    $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
-       -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/verrazzano-project.yaml
+       -f {{< release_source_url raw=true path=examples/multicluster/todo-list/verrazzano-project.yaml >}}
    ```
 
 1. Log in to the `container-registry.oracle.com` Docker registry in which the Todo List application image is deployed.  You
@@ -41,12 +41,12 @@ will need the updated Docker `config.json`, containing your authentication token
 namespace.
    ```
    $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
-       -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/mc-docker-registry-secret.yaml
+       -f {{< release_source_url raw=true path=examples/multicluster/todo-list/mc-docker-registry-secret.yaml >}}
    ```
 1. Create the WebLogic domain secret by applying the `mc-weblogic-domain-secret.yaml` file:
    ```
    $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
-       -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/mc-weblogic-domain-secret.yaml
+       -f {{< release_source_url raw=true path=examples/multicluster/todo-list/mc-weblogic-domain-secret.yaml >}}
    ```
 
    Note that the ToDo List example application is preconfigured to use these credentials.
@@ -56,10 +56,10 @@ namespace.
 1. Apply the ToDo List example multicluster application resources to deploy the application.
    ```
    $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
-       -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/todo-list-components.yaml
+       -f {{< release_source_url raw=true path=examples/multicluster/todo-list/todo-list-components.yaml >}}
 
    $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
-       -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/multicluster/todo-list/todo-list-application.yaml
+       -f {{< release_source_url raw=true path=examples/multicluster/todo-list/todo-list-application.yaml >}}
    ```
 
 1. Wait for the ToDo List example application to be ready.

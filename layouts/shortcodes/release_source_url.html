@@ -1,0 +1,6 @@
+{{- $path := .Get "path" -}}
+{{- $raw := (default false (.Get "raw")) -}}
+{{- $repo := .Site.Params.github_project_repo -}}
+{{- $repo := cond $raw (replace $repo "github.com" "raw.githubusercontent.com") (printf "%s/blob" $repo) -}}
+{{- $repo_url := printf "%s/%s/%s" $repo .Site.Params.release_version $path -}}
+{{- $repo_url -}}
