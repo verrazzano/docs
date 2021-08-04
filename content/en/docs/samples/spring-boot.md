@@ -23,8 +23,8 @@ This example provides a simple web application developed using [Spring Boot](htt
 
 1. To deploy the application, apply the Spring Boot OAM resources.
    ```
-   $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/springboot-app/springboot-comp.yaml
-   $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/springboot-app/springboot-app.yaml
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/springboot-app/springboot-comp.yaml >}}
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/springboot-app/springboot-app.yaml >}}
    ```
 
 1. Wait for the Spring Boot application to be ready.
@@ -130,8 +130,8 @@ This example provides a simple web application developed using [Spring Boot](htt
 
 1. To undeploy the application, delete the Spring Boot OAM resources.
    ```
-   $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/springboot-app/springboot-app.yaml
-   $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/springboot-app/springboot-comp.yaml
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/springboot-app/springboot-app.yaml >}}
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/springboot-app/springboot-comp.yaml >}}
    ```
 
 1. Delete the namespace `springboot` after the application pod is terminated.

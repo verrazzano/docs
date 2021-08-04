@@ -20,8 +20,8 @@ Install Verrazzano by following the [installation]({{< relref "/docs/setup/insta
 
 1. To deploy the application, apply the `helidon-config` OAM resources.
    ```
-   $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/helidon-config/helidon-config-comp.yaml
-   $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/helidon-config/helidon-config-app.yaml
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/helidon-config/helidon-config-comp.yaml >}}
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/helidon-config/helidon-config-app.yaml >}}
    ```
 
 1. Wait for the application to be ready.

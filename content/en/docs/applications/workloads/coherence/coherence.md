@@ -121,9 +121,9 @@ enable.  If your application serves metrics from its own endpoint, such as a Hel
 Coherence metrics endpoint.  To see the difference, examine the `socks-shop` and `bobs-books` examples.
 
 ### Bobs Books
-The [bobs-books](https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books) example uses the default
+The [bobs-books]( {{< release_source_url path=examples/bobs-books >}} ) example uses the default
 Coherence metrics endpoint, so the configuration must enable this feature, shown in the following metrics section of the
-`roberts-coherence` component in the YAML file, [bobs-books-comp.yaml](https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/bobs-books-comp.yaml).
+`roberts-coherence` component in the YAML file, [bobs-books-comp.yaml]( {{< release_source_url path=examples/bobs-books/bobs-books-comp.yaml >}} ).
 ```          ...
           coherence:
             metrics:
@@ -131,7 +131,7 @@ Coherence metrics endpoint, so the configuration must enable this feature, shown
 ```
 
 ### Sock Shop
-The [sock-shop](https://github.com/verrazzano/verrazzano/blob/master/examples/sock-shop) example, which is a Helidon
+The [sock-shop]( {{< release_source_url path=examples/sock-shop >}} ) example, which is a Helidon
 application with embedded Coherence, explicitly specifies the metrics port 7001 and doesn't enable Coherence metrics.  Coherence
 metrics still will be scraped, but not at the default endpoint.
 ```
