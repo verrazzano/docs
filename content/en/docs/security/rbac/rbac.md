@@ -61,7 +61,7 @@ Verrazzano creates role bindings for system users during installation. The defau
 
 ### Default project role bindings
 
-Verrazzano creates role bindings for system users during installation. The default role bindings are listed below.
+Verrazzano creates role bindings for project users at project creation or update. The default role bindings are listed below.
 
 | Role | Default Binding Subject |
 | ---- | ----------------------- |
