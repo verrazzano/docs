@@ -26,8 +26,8 @@ It uses OAM resources to define the application deployment.
 
 1. To deploy the application, apply the Sock Shop OAM resources.
    ```
-   $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/sock-shop-comp.yaml
-   $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/sock-shop-app.yaml
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/sock-shop/sock-shop-comp.yaml >}}
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/sock-shop/sock-shop-app.yaml >}}
    ```
 
 1. Wait for the Sock Shop application to be ready.

@@ -320,7 +320,7 @@ Coherence clusters are represented by the Coherence resource, and are not in the
 cluster in a namespace that is annotated to do sidecar injection, it disables injection of the Coherence resource using the
 `sidecar.istio.io/inject="false"` label shown previously.  Furthermore, Verrazzano will create a DestinationRule in the application
 namespace to disable mTLS for the Coherence extend port `9000`.  This allows a service in the mesh to call the Coherence
-extend proxy.  For an example, see [Bobs Books](HTTPS://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books).
+extend proxy.  For an example, see [Bobs Books]( {{< release_source_url path=examples/bobs-books >}} ).
 
 Here is an example of a DestinationRule created for the Bob's Books application which includes a Coherence cluster.
 ```
