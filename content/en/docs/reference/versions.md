@@ -1,10 +1,48 @@
 ---
 title: "Software Versions"
-description: "Review the software versions installed with Verrazzano"
+description: "Software versions used by Verrazzano"
 weight: 7
 draft: false
 ---
+This page describes the software versions installed and supported by Verrazzano.
 
+## Kubernetes
+Verrazzano can be installed on the following Kubernetes releases:
+- 1.18
+- 1.19
+- 1.20
+
+See the [Kubernetes Release Documentation](https://kubernetes.io/releases/) for more information.
+Also refer to [Verrazzano platform setup]({{< relref "/docs/setup/platforms/_index.md" >}}) for platform specific details.
+
+## WebLogic
+The supported versions of WebLogic are dependent on the WebLogic Kubernetes Operator version.
+Currently, the following WebLogic versions are supported:
+| Version | WebLogic Documentation | 
+| ---       | ---     |
+| Oracle WebLogic Server 12.2.1.3.0 with patch 29135930 | [documentation](https://docs.oracle.com/middleware/12213/wls/index.html)
+| Oracle WebLogic Server 12.2.1.4.0 | [documentation](https://docs.oracle.com/en/middleware/fusion-middleware/weblogic-server/12.2.1.4/index.html)
+| Oracle WebLogic Server 14.1.1.0.0 | [documentation](https://docs.oracle.com/en/middleware/standalone/weblogic-server/14.1.1.0/)
+
+See the [WebLogic Kubernetes Operator](https://oracle.github.io/weblogic-kubernetes-operator/userguide/prerequisites/introduction/) 
+documentation for more information on supported versions and prerequisites.
+ 
+## Coherence
+The supported versions of Coherence are dependent on the Coherence Operator version.
+Currently, the following Coherence versions are supported:
+| Version | Coherence Documentation | 
+| ---       | ---     |
+| Oracle Coherence 12.2.1.3 | [documentation](https://docs.oracle.com/middleware/12213/coherence/index.html)
+| Oracle Coherence 12.2.1.4 | [documentation](https://docs.oracle.com/en/middleware/fusion-middleware/coherence/12.2.1.4/index.html)
+| Oracle Coherence 14.1.1.0 | [documentation](https://docs.oracle.com/en/middleware/fusion-middleware/coherence/12.2.1.4/index.html)
+
+See the [Coherence Operator](https://oracle.github.io/coherence-operator/docs/latest/#/about/01_overview) 
+documentation for more information.
+ 
+## Helidon
+Verrazzano supports all versions of Helidon.  See the [Helidon](https://helidon.io) documentation for more information.
+
+## Installed Components
 Verrazzano installs a curated set of open source components.  The following table lists each open source
 component with its version and a brief description.
 
@@ -25,3 +63,4 @@ component with its version and a brief description.
 | Prometheus | 2.13.1 | Provides event monitoring and alerting.
 | Rancher | 2.5.9 | Manages multiple Kubernetes clusters.
 | WebLogic Kubernetes Operator | 3.2.5 | Assists with deploying and managing WebLogic domains.
+
