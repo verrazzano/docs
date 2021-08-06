@@ -37,7 +37,8 @@ The supported versions of Coherence are dependent on the Coherence Operator vers
 For more information, see [Coherence Operator](https://oracle.github.io/coherence-operator/docs/latest/#/about/01_overview).
  
 ## Helidon
-Verrazzano supports all versions of Helidon.  For more information, see [Helidon](https://helidon.io).
+Verrazzano supports all versions of Helidon.  For more information, see [Helidon](https://helidon.io) and
+ [Helidon Commercial Offerings](https://support.oracle.com/knowledge/Middleware/2645279_1.html).
 
 ## Installed Components
 Verrazzano installs a curated set of open source components.  The following table lists each open source
