@@ -74,7 +74,7 @@ pipeline {
             steps {
                 sh """
                     echo "run site publisher"
-                    ./scripts/publish.sh "${env.BRANCH_NAME}" $(<latest-version)
+                    ./scripts/publish.sh "${env.BRANCH_NAME}" $(<.latest-version)
                 """
             }
         }
