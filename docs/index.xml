@@ -212,14 +212,14 @@ $ kubectl label namespace hello-helidon verrazzano-managed&lt;span style=&#34;co
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Apply the application&amp;rsquo;s component.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-comp.yaml
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/hello-helidon/hello-helidon-comp.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This step causes the validation and creation of the Component resource.
 No other resources or objects are created as a result.
 Application configurations applied in the future may reference this Component resource.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Apply the application configuration.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-app.yaml
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/hello-helidon/hello-helidon-app.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This step causes the validation and creation of the application configuration resource.
 This operation triggers the activation of a number of Verrazzano operators.
 These operators create other Kubernetes objects (for example, Deployments, ReplicaSets, Pods, Services, Ingresses)
@@ -420,13 +420,13 @@ $ open &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span 
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Delete the application configuration.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-app.yaml
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/hello-helidon/hello-helidon-app.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The deletion of the application configuration will result in the destruction
 of all application-specific Kubernetes objects.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;(Optional) Delete the application&amp;rsquo;s component.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-comp.yaml
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/hello-helidon/hello-helidon-comp.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: This step is not required if other application configurations for this component will be applied in the future.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
@@ -2108,7 +2108,7 @@ all profiles unless overridden).&lt;/p&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h3 id=&#34;default-project-role-bindings&#34;&gt;Default project role bindings&lt;/h3&gt;
-&lt;p&gt;Verrazzano creates role bindings for system users during installation. The default role bindings are listed below.&lt;/p&gt;
+&lt;p&gt;Verrazzano creates role bindings for project users at project creation or update. The default role bindings are listed below.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -3868,7 +3868,7 @@ items:
 &lt;p&gt;To manage east-west traffic, each service in the mesh should be routed using a VirtualService and an optional
 DestinationRule.  You can still send east-west traffic without either of these resources, but you won’t get any custom
 routing or load balancing.  Verrazzano doesn&amp;rsquo;t configure east-west traffic.  Consider &lt;code&gt;bobbys-front-end&lt;/code&gt; in the Bob&amp;rsquo;s Books example at
-&lt;a href=&#34;HTTPS://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/bobs-books-comp.yaml&#34;&gt;bobs-books-comp.yaml&lt;/a&gt;.
+&lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.0.0/examples/bobs-books/bobs-books-comp.yaml&#34;&gt;bobs-books-comp.yaml&lt;/a&gt;.
 When deploying Bob&amp;rsquo;s Books, a VirtualService is created for &lt;code&gt;bobbys-front-end&lt;/code&gt;, because of the IngressTrait, but there are
 no VirtualServices for the other services in the application.  When &lt;code&gt;bobbys-front-end&lt;/code&gt; sends requests to
 &lt;code&gt;bobbys-helidon-stock-application&lt;/code&gt;, this east-west traffic still goes to &lt;code&gt;bobbys-helidon-stock-application&lt;/code&gt; through
@@ -4224,7 +4224,7 @@ the NGINX Ingress Controller on the managed cluster.&lt;/p&gt;
         
         &lt;p&gt;The Verrazzano custom resource contains the configuration information for an installation.
 Here is a sample Verrazzano custom resource file that uses OCI DNS.  See other examples
-&lt;a href=&#34;https://github.com/verrazzano/verrazzano/tree/master/platform-operator/config/samples&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.0.0/platform-operator/config/samples&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
@@ -6168,7 +6168,7 @@ you configure using a Verrazzano IngressTrait.&lt;/p&gt;
 cluster in a namespace that is annotated to do sidecar injection, it disables injection of the Coherence resource using the
 &lt;code&gt;sidecar.istio.io/inject=&amp;quot;false&amp;quot;&lt;/code&gt; label shown previously.  Furthermore, Verrazzano will create a DestinationRule in the application
 namespace to disable mTLS for the Coherence extend port &lt;code&gt;9000&lt;/code&gt;.  This allows a service in the mesh to call the Coherence
-extend proxy.  For an example, see &lt;a href=&#34;HTTPS://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books&#34;&gt;Bobs Books&lt;/a&gt;.&lt;/p&gt;
+extend proxy.  For an example, see &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.0.0/examples/bobs-books&#34;&gt;Bobs Books&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Here is an example of a DestinationRule created for the Bob&amp;rsquo;s Books application which includes a Coherence cluster.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;API Version:  networking.istio.io/v1beta1
 Kind:         DestinationRule
@@ -6462,14 +6462,14 @@ there are two ways to configure the Coherence metrics endpoint.  Coherence has a
 enable.  If your application serves metrics from its own endpoint, such as a Helidon application, then do not use the native
 Coherence metrics endpoint.  To see the difference, examine the &lt;code&gt;socks-shop&lt;/code&gt; and &lt;code&gt;bobs-books&lt;/code&gt; examples.&lt;/p&gt;
 &lt;h3 id=&#34;bobs-books&#34;&gt;Bobs Books&lt;/h3&gt;
-&lt;p&gt;The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books&#34;&gt;bobs-books&lt;/a&gt; example uses the default
+&lt;p&gt;The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.0.0/examples/bobs-books&#34;&gt;bobs-books&lt;/a&gt; example uses the default
 Coherence metrics endpoint, so the configuration must enable this feature, shown in the following metrics section of the
-&lt;code&gt;roberts-coherence&lt;/code&gt; component in the YAML file, &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples/bobs-books/bobs-books-comp.yaml&#34;&gt;bobs-books-comp.yaml&lt;/a&gt;.&lt;/p&gt;
+&lt;code&gt;roberts-coherence&lt;/code&gt; component in the YAML file, &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.0.0/examples/bobs-books/bobs-books-comp.yaml&#34;&gt;bobs-books-comp.yaml&lt;/a&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-...&#34; data-lang=&#34;...&#34;&gt;          coherence:
             metrics:
               enabled: true
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;sock-shop&#34;&gt;Sock Shop&lt;/h3&gt;
-&lt;p&gt;The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples/sock-shop&#34;&gt;sock-shop&lt;/a&gt; example, which is a Helidon
+&lt;p&gt;The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.0.0/examples/sock-shop&#34;&gt;sock-shop&lt;/a&gt; example, which is a Helidon
 application with embedded Coherence, explicitly specifies the metrics port 7001 and doesn&amp;rsquo;t enable Coherence metrics.  Coherence
 metrics still will be scraped, but not at the default endpoint.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;          ports:
@@ -6701,8 +6701,8 @@ $ kubectl label namespace sockshop verrazzano-managed=true
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;To deploy the application, apply the Sock Shop OAM resources.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/sock-shop-comp.yaml
-$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/sock-shop-app.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/sock-shop/sock-shop-comp.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/sock-shop/sock-shop-app.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the Sock Shop application to be ready.&lt;/p&gt;
@@ -7625,8 +7625,8 @@ $ kubectl label namespace springboot verrazzano-managed=true istio-injection=ena
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;To deploy the application, apply the Spring Boot OAM resources.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/springboot-app/springboot-comp.yaml
-$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/springboot-app/springboot-app.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/springboot-app/springboot-comp.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/springboot-app/springboot-app.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the Spring Boot application to be ready.&lt;/p&gt;
@@ -7754,8 +7754,8 @@ vmi-system-prometheus        &amp;lt;none&amp;gt;   prometheus.vmi.system.defaul
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;To undeploy the application, delete the Spring Boot OAM resources.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/springboot-app/springboot-app.yaml
-$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/springboot-app/springboot-comp.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/springboot-app/springboot-app.yaml
+$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/springboot-app/springboot-comp.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Delete the namespace &lt;code&gt;springboot&lt;/code&gt; after the application pod is terminated.&lt;/p&gt;
@@ -7783,7 +7783,7 @@ $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/mast
 &lt;p&gt;To load the required Verrazzano images and prepare for an installation from your private registry, you must do the following:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Download the TAR file containing the full set of images for the Verrazzano release from the &lt;a href=&#34;https://www.oracle.com/downloads/&#34;&gt;Oracle Software Download Center&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;Extract all the files from the TAR file locally and follow the instructions in the &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/tools/scripts/README.md&#34;&gt;README&lt;/a&gt;
+&lt;li&gt;Extract all the files from the TAR file locally and follow the instructions in the &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.0.0/tools/scripts/README.md&#34;&gt;README&lt;/a&gt;
 file in the archive.&lt;/li&gt;
 &lt;/ul&gt;
 
