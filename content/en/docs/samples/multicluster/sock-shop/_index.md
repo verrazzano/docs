@@ -11,7 +11,7 @@ If your environment does not have a cluster of that name, then you should edit t
 listed in the `placement` section.
 
 **NOTE:** The Sock Shop application deployment files are contained in the Verrazzano project located at
-`<VERRAZZANO_HOME>/examples/sockshop`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
+`<VERRAZZANO_HOME>/examples/multicluster/sockshop`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
 
 
 ## Deploy the Sock Shop application

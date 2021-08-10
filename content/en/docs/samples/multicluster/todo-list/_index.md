@@ -15,7 +15,7 @@ listed in the `placement` section.
   * Click Continue, then read and accept the license agreement.
 
 **NOTE:** The ToDo List application deployment files are contained in the Verrazzano project located at
-`<VERRAZZANO_HOME>/examples/todo-list`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
+`<VERRAZZANO_HOME>/examples/multicluster/todo-list`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
 
 
 ## Deploy the ToDo List example application
