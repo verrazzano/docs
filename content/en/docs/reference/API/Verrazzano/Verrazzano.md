@@ -131,10 +131,10 @@ spec:
 #### Name Value
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `name` | string | The argument name. |  Yes |
-| `value` | string | The argument value. Either `value` or `valueList` must be specified. |  No |
-| `valueList` | string list | The list of argument values. Either `value` or `valueList` must be specified.   |  No |
-| `setString` | Boolean | Specifies if the value is a string. |  No |
+| `name` | string | The name of a helm override for a Verrazzano component chart, specified with a `—set` flag on the helm command line, e.g. `helm install --set name=value` |  Yes |
+| `value` | string | The value of a helm override for a Verrazzano component chart, specified with a `—set` flag on the helm command line, e.g. `helm install --set name=value`. Either `value` or `valueList` must be specified. |  No |
+| `valueList` | string list | The list of helm override values for a Verrazzano component, each specified with a `—set` flag on the helm command line, e.g. `helm install --set name[0]=<first element of valueList> —set name[1]=<second element of valueList>`. Either `value` or `valueList` must be specified.   |  No |
+| `setString` | Boolean | Specifies if the argument requires the helm `--set-string` command line flag to override a chart value, e.g. `helm install --set-string name=value`. |  No |
 
 ### Istio Component
 | Field | Type | Description | Required
