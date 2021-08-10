@@ -22,7 +22,7 @@ listed in the `placement` section.
 
 1. Create a namespace for the multicluster ToDo List example by applying the Verrazzano project file.
    ```
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
        -f {{< release_source_url raw=true path=examples/multicluster/todo-list/verrazzano-project.yaml >}}
    ```
 
@@ -34,7 +34,7 @@ listed in the `placement` section.
 1. Edit the `mc-docker-registry-secret.yaml` file and replace the
 `<BASE 64 ENCODED DOCKER CONFIG JSON>` with the value generated from the following command.
    ```
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl create secret docker-registry temp \
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN create secret docker-registry temp \
        --dry-run=client \
        --docker-server=container-registry.oracle.com \
        --docker-username=YOUR_REGISTRY_USERNAME \
@@ -48,7 +48,7 @@ listed in the `placement` section.
 1. Apply the `mc-docker-registry-secret.yaml` file to create the multicluster secret.  The multicluster secret 
 resource will generate the required secret in the mc-todo-list namespace.
    ```
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f mc-docker-registry-secret.yaml
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply -f mc-docker-registry-secret.yaml
    ```
 
 1. Download the `mc-weblogic-domain-secret.yaml` and `mc-tododb-secret.yaml` files.
@@ -67,30 +67,30 @@ replacing the `THE_USERNAME` and `THE_PASSWORD` values with the respective WebLo
 1. Apply the `mc-weblogic-domain-secret.yaml` and `mc-tododb-secret.yaml` files.  The 
 multicluster secret resource will generate the required secret in the mc-todo-list namespace.
    ```
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f mc-weblogic-domain-secret.yaml
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f mc-tododb-secret.yaml
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply -f mc-weblogic-domain-secret.yaml
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply -f mc-tododb-secret.yaml
    ```
 
 1. Apply the application and component resources to deploy the ToDo List application.
    ```
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
        -f {{< release_source_url raw=true path=examples/multicluster/todo-list/todo-list-components.yaml >}}
 
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
        -f {{< release_source_url raw=true path=examples/multicluster/todo-list/todo-list-application.yaml >}}
    ```
 
 1. Wait for the ToDo List example application to be ready.  This 
    The `tododomain-adminserver` pod may take several minutes to be created and `Ready`.
    ```
-   $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl wait pod \
+   $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 wait pod \
        --for=condition=Ready tododomain-adminserver \
        -n mc-todo-list
    ```
 
 1. Get the generated host name for the application.
    ```
-   $ HOST=$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get gateway \
+   $ HOST=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 get gateway \
          -n mc-todo-list \
          -o jsonpath={.items[0].spec.servers[0].hosts[0]})
    $ echo $HOST
@@ -99,7 +99,7 @@ multicluster secret resource will generate the required secret in the mc-todo-li
 
 1. Get the `EXTERNAL_IP` address of the `istio-ingressgateway` service.
    ```
-   $ ADDRESS=$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get service \
+   $ ADDRESS=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 get service \
         -n istio-system istio-ingressgateway \
         -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
    $ echo $ADDRESS
@@ -140,7 +140,7 @@ multicluster secret resource will generate the required secret in the mc-todo-li
 
    * Run this command to get the password that was generated for the telemetry components:
      ```
-     $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl get secret \
+     $ kubectl --kubeconfig $KUBECONFIG_ADMIN get secret \
          --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 \
          --decode; echo
      ```
@@ -151,7 +151,7 @@ multicluster secret resource will generate the required secret in the mc-todo-li
    You can retrieve the list of available ingresses with following command:
 
    ```
-   $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get ingress -n verrazzano-system
+   $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get ingress -n verrazzano-system
    NAME                         CLASS    HOSTS                                                     ADDRESS           PORTS     AGE
    verrazzano-ingress           <none>   verrazzano.default.140.141.142.143.nip.io                 140.141.142.143   80, 443   7d2h
    vmi-system-es-ingest         <none>   elasticsearch.vmi.system.default.140.141.142.143.nip.io   140.141.142.143   80, 443   7d2h
@@ -172,15 +172,15 @@ multicluster secret resource will generate the required secret in the mc-todo-li
 
 1. Verify that the application configuration, domain, and ingress trait all exist.
    ```
-   $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get ApplicationConfiguration -n mc-todo-list
+   $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get ApplicationConfiguration -n mc-todo-list
    NAME           AGE
    todo-appconf   19h
 
-   $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get Domain -n mc-todo-list
+   $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get Domain -n mc-todo-list
    NAME          AGE
    todo-domain   19h
 
-   $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get IngressTrait -n mc-todo-list
+   $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get IngressTrait -n mc-todo-list
    NAME                           AGE
    todo-domain-trait-7cbd798c96   19h
    ```
@@ -188,7 +188,7 @@ multicluster secret resource will generate the required secret in the mc-todo-li
 1. Verify that the WebLogic Administration Server and MySQL pods have been created and are running.
    Note that this will take several minutes.
    ```
-   $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get pods -n mc-todo-list
+   $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get pods -n mc-todo-list
 
    NAME                     READY   STATUS    RESTARTS   AGE
    mysql-5c75c8b7f-vlhck    1/1     Running   0          19h
