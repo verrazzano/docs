@@ -18,7 +18,7 @@ listed in the `placement` section.
 `<VERRAZZANO_HOME>/examples/todo-list`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
 
 
-## Deploy the example application
+## Deploy the ToDo List example application
 
 1. Create a namespace for the multicluster ToDo List example by applying the Verrazzano project file.
    ```
@@ -26,34 +26,52 @@ listed in the `placement` section.
        -f {{< release_source_url raw=true path=examples/multicluster/todo-list/verrazzano-project.yaml >}}
    ```
 
-1. Log in to the `container-registry.oracle.com` Docker registry in which the Todo List application image is deployed.  You
-will need the updated Docker `config.json`, containing your authentication token, for the next step.
+1. Download the `mc-docker-registry-secret.yaml` file.
    ```
-   $ docker login container-registry.oracle.com
+   $ wget  https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/multicluster/todo-list/mc-docker-registry-secret.yaml
    ```
-1. Update the `mc-docker-registry-secret.yaml` file with the your registry authentication info.  Edit the file and replace the
+
+1. Edit the `mc-docker-registry-secret.yaml` file and replace the
 `<BASE 64 ENCODED DOCKER CONFIG JSON>` with the value generated from the following command.
    ```
-   $ cat ~/.docker/config.json | base64
+   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl create secret docker-registry temp \
+       --dry-run=client \
+       --docker-server=container-registry.oracle.com \
+       --docker-username=YOUR_REGISTRY_USERNAME \
+       --docker-password=YOUR_REGISTRY_PASSWORD \
+       --docker-email=YOUR_REGISTRY_EMAIL \
+       -o jsonpath='{.data.\.dockerconfigjson}'
    ```
-1. Create a `docker-registry` secret to enable pulling the ToDo List example image from the registry by applying the
-`mc-docker-registry-secret.yaml` file.  The multicluster secret resource will generate the required secret in the `mc-todo-list`
-namespace.
+   Replace `YOUR_REGISTRY_USERNAME`, `YOUR_REGISTRY_PASSWORD`, and `YOUR_REGISTRY_EMAIL`
+   with the values you use to access the registry. 
+      
+1. Apply the `mc-docker-registry-secret.yaml` file to create the multicluster secret.  The multicluster secret 
+resource will generate the required secret in the mc-todo-list namespace.
    ```
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
-       -f {{< release_source_url raw=true path=examples/multicluster/todo-list/mc-docker-registry-secret.yaml >}}
-   ```
-1. Create the WebLogic domain secret by applying the `mc-weblogic-domain-secret.yaml` file:
-   ```
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
-       -f {{< release_source_url raw=true path=examples/multicluster/todo-list/mc-weblogic-domain-secret.yaml >}}
+   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f mc-docker-registry-secret.yaml
    ```
 
-   Note that the ToDo List example application is preconfigured to use these credentials.
-   If you want to use different credentials, you will need to rebuild the Docker images for the example application.
-   For the source code of this application, see the [Verrazzano examples](https://github.com/verrazzano/examples).  
+1. Download the `mc-weblogic-domain-secret.yaml` and `mc-tododb-secret.yaml` files.
+   ```
+   $ wget https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/multicluster/todo-list/mc-weblogic-domain-secret.yaml
+   $ wget https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/multicluster/todo-list/mc-tododb-secret.yaml
+   ```
 
-1. Apply the ToDo List example multicluster application resources to deploy the application.
+1. Edit the `mc-weblogic-domain-secret.yaml` and `mc-tododb-secret.yaml` files,
+replacing the `THE_USERNAME` and `THE_PASSWORD` values with the respective WebLogic username and password.
+   ```
+      username: THE_USERNAME
+      password: THE_PASSWORD
+   ```
+      
+1. Apply the `mc-weblogic-domain-secret.yaml` and `mc-tododb-secret.yaml` files.  The 
+multicluster secret resource will generate the required secret in the mc-todo-list namespace.
+   ```
+   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f mc-weblogic-domain-secret.yaml
+   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply -f mc-tododb-secret.yaml
+   ```
+
+1. Apply the application and component resources to deploy the ToDo List application.
    ```
    $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
        -f {{< release_source_url raw=true path=examples/multicluster/todo-list/todo-list-components.yaml >}}
@@ -62,14 +80,14 @@ namespace.
        -f {{< release_source_url raw=true path=examples/multicluster/todo-list/todo-list-application.yaml >}}
    ```
 
-1. Wait for the ToDo List example application to be ready.
-   You may need to repeat this command several times before it is successful.
-   The `tododomain-adminserver` pod may take a while to be created and `Ready`.
+1. Wait for the ToDo List example application to be ready.  This 
+   The `tododomain-adminserver` pod may take several minutes to be created and `Ready`.
    ```
    $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl wait pod \
        --for=condition=Ready tododomain-adminserver \
        -n mc-todo-list
    ```
+
 1. Get the generated host name for the application.
    ```
    $ HOST=$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get gateway \
