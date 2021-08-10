@@ -28,7 +28,7 @@ listed in the `placement` section.
 
 1. Download the `mc-docker-registry-secret.yaml` file.
    ```
-   $ wget https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/multicluster/todo-list/mc-docker-registry-secret.yaml
+   $ wget {{< release_source_url raw=true path=examples/multicluster/todo-list/mc-docker-registry-secret.yaml >}}
    ```
 
 1. Edit the `mc-docker-registry-secret.yaml` file and replace the
@@ -40,7 +40,7 @@ listed in the `placement` section.
        --docker-username=YOUR_REGISTRY_USERNAME \
        --docker-password=YOUR_REGISTRY_PASSWORD \
        --docker-email=YOUR_REGISTRY_EMAIL \
-       -o jsonpath='{.data.\.dockerconfigjson}'
+       -o jsonpath='{.data.\.dockerconfigjson}'; echo
    ```
    Replace `YOUR_REGISTRY_USERNAME`, `YOUR_REGISTRY_PASSWORD`, and `YOUR_REGISTRY_EMAIL`
    with the values you use to access the registry. 
@@ -53,8 +53,8 @@ resource will generate the required secret in the mc-todo-list namespace.
 
 1. Download the `mc-weblogic-domain-secret.yaml` and `mc-tododb-secret.yaml` files.
    ```
-   $ wget https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/multicluster/todo-list/mc-weblogic-domain-secret.yaml
-   $ wget https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/multicluster/todo-list/mc-tododb-secret.yaml
+   $ wget {{< release_source_url raw=true path=examples/multicluster/todo-list/mc-weblogic-domain-secret.yaml >}}
+   $ wget {{< release_source_url raw=true path=examples/multicluster/todo-list/mc-tododb-secret.yaml >}}
    ```
 
 1. Edit the `mc-weblogic-domain-secret.yaml` and `mc-tododb-secret.yaml` files,
@@ -71,7 +71,7 @@ multicluster secret resource will generate the required secret in the mc-todo-li
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply -f mc-tododb-secret.yaml
    ```
 
-1. Apply the application and component resources to deploy the ToDo List application.
+1. Apply the multicluster component and application resources to deploy the ToDo List application.
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
        -f {{< release_source_url raw=true path=examples/multicluster/todo-list/todo-list-components.yaml >}}
