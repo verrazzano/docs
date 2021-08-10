@@ -28,11 +28,11 @@ listed in the `placement` section.
 
 1. Download the `mc-docker-registry-secret.yaml` file.
    ```
-   $ wget  https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/multicluster/todo-list/mc-docker-registry-secret.yaml
+   $ wget https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/multicluster/todo-list/mc-docker-registry-secret.yaml
    ```
 
 1. Edit the `mc-docker-registry-secret.yaml` file and replace the
-`<BASE 64 ENCODED DOCKER CONFIG JSON>` with the value generated from the following command.
+`<BASE 64 ENCODED DOCKER CONFIG JSON>` placeholder with the value generated from the following command.
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN create secret docker-registry temp \
        --dry-run=client \
@@ -58,7 +58,7 @@ resource will generate the required secret in the mc-todo-list namespace.
    ```
 
 1. Edit the `mc-weblogic-domain-secret.yaml` and `mc-tododb-secret.yaml` files,
-replacing the `THE_USERNAME` and `THE_PASSWORD` values with the respective WebLogic username and password.
+replacing the `THE_USERNAME` and `THE_PASSWORD` placeholders with the respective WebLogic username and password.
    ```
       username: THE_USERNAME
       password: THE_PASSWORD
