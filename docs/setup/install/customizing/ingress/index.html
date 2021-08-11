@@ -22,11 +22,11 @@
 <meta property="og:description" content="Customize Verrazzano NGINX and Istio ingress installation settings" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/install/customizing/ingress/" />
-<meta property="article:modified_time" content="2021-07-23T08:40:43-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-08-11T17:39:29-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Customize Ingress">
 <meta itemprop="description" content="Customize Verrazzano NGINX and Istio ingress installation settings">
-<meta itemprop="dateModified" content="2021-07-23T08:40:43-04:00" />
-<meta itemprop="wordCount" content="81">
+<meta itemprop="dateModified" content="2021-08-11T17:39:29-04:00" />
+<meta itemprop="wordCount" content="117">
 
 
 
@@ -106,7 +106,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.0f9bcb1cdfe046ca887e7bea280a713a.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.b03a086838ae4b0cdd9c88410799e427.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -133,7 +133,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.0f9bcb1cdfe046ca887e7bea280a713a.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.b03a086838ae4b0cdd9c88410799e427.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -534,7 +534,16 @@ spec:
       istioInstallArgs:
       - name: gateways.istio-ingressgateway.serviceAnnotations.<span style="color:#4e9a06">&#34;service\.beta\.kubernetes\.io/oci-load-balancer-shape&#34;</span>
         value: <span style="color:#4e9a06">&#34;10Mbps&#34;</span>
-</code></pre></div>
+</code></pre></div><p>The entries above leverage dot notation to represent YAML values.  For example:</p>
+<pre><code>    - name: controller.service.annotations.&quot;service\.beta\.kubernetes\.io/oci-load-balancer-shape&quot;
+      value: &quot;10Mbps&quot;
+</code></pre><p>is translated into:</p>
+<pre><code>controler:
+   service:
+     annotations:
+       service.beta.kubernetes.io/oci-load-balancer-shape: 10Mbps
+</code></pre><p>For more information concerning the setting of component overrides see <a href="https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing">https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing</a></p>
+
 	
 		<style>
   .feedback--answer {
