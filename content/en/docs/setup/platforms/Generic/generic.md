@@ -20,7 +20,7 @@ You can install a load balancer, such as [MetalLB](https://metallb.universe.tf/)
 inside and outside your Kubernetes cluster. This would include specifics of your [CNI](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/) implementation, IP address allocation schemes, and routing that go beyond the scope of this documentation. For a Kind implementation, see [Install and configure MetalLB]({{< relref "/docs/setup/platforms/kind/kind.md#install-and-configure-metallb" >}}).
 
 
-Finally, It is possible to use a Kubernetes [Service of type NodePort](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport) to test aspects of Verrazzano.
+It is possible to use a Kubernetes [Service of type NodePort](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport) to test aspects of Verrazzano.
 This requires a good working knowledge of networking and has limited use cases. 
 
 ## Customizations
