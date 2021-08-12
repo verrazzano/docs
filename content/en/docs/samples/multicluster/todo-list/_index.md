@@ -43,10 +43,10 @@ listed in the `placement` section.
        -o jsonpath='{.data.\.dockerconfigjson}'; echo
    ```
    Replace `YOUR_REGISTRY_USERNAME`, `YOUR_REGISTRY_PASSWORD`, and `YOUR_REGISTRY_EMAIL`
-   with the values you use to access the registry. 
-      
-1. Apply the `mc-docker-registry-secret.yaml` file to create the multicluster secret.  The multicluster secret 
-resource will generate the required secret in the mc-todo-list namespace.
+   with the values you use to access the registry.
+
+1. Apply the `mc-docker-registry-secret.yaml` file to create the multicluster secret.  The multicluster secret
+resource will generate the required secret in the `mc-todo-list` namespace.
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply -f mc-docker-registry-secret.yaml
    ```
@@ -58,14 +58,14 @@ resource will generate the required secret in the mc-todo-list namespace.
    ```
 
 1. Edit the `mc-weblogic-domain-secret.yaml` and `mc-tododb-secret.yaml` files,
-replacing the `THE_USERNAME` and `THE_PASSWORD` placeholders with the respective WebLogic username and password.
+replacing the `THE_USERNAME` and `THE_PASSWORD` placeholders with the respective WebLogic user name and password.
    ```
       username: THE_USERNAME
       password: THE_PASSWORD
    ```
-      
-1. Apply the `mc-weblogic-domain-secret.yaml` and `mc-tododb-secret.yaml` files.  The 
-multicluster secret resource will generate the required secret in the mc-todo-list namespace.
+
+1. Apply the `mc-weblogic-domain-secret.yaml` and `mc-tododb-secret.yaml` files.  The
+multicluster secret resource will generate the required secret in the `mc-todo-list` namespace.
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply -f mc-weblogic-domain-secret.yaml
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply -f mc-tododb-secret.yaml
@@ -80,7 +80,7 @@ multicluster secret resource will generate the required secret in the mc-todo-li
        -f {{< release_source_url raw=true path=examples/multicluster/todo-list/todo-list-application.yaml >}}
    ```
 
-1. Wait for the ToDo List example application to be ready.  This 
+1. Wait for the ToDo List example application to be ready.  This
    The `tododomain-adminserver` pod may take several minutes to be created and `Ready`.
    ```
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 wait pod \
