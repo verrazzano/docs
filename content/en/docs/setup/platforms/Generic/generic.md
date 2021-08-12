@@ -8,11 +8,20 @@ draft: false
 
 ## Prepare for the generic install
 
-If your generic Kubernetes implementation provides a load balancer implementation, then you can use a default configuration of the
-Verrazzano custom resource with no customizations and follow the [Installation Guide]({{< relref "/docs/setup/install/installation.md#install-the-verrazzano-platform-operator" >}}).
+Verrazzano requires that your Kubernetes cluster provides an implementation of network load balancers ([Services of type LoadBalancer](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/)) for a production environment. If your generic Kubernetes implementation provides this feature, then you can use a default configuration
+of the Verrazzano custom resource with no customizations and follow the [Installation Guide]({{< relref "/docs/setup/install/installation.md#install-the-verrazzano-platform-operator" >}}).
 
-Otherwise, you can install a load balancer, such as [MetalLB](https://metallb.universe.tf/). For details,
-see [Install and configure MetalLB]({{< relref "/docs/setup/platforms/kind/kind.md#install-and-configure-metallb" >}}).
+
+{{% alert title="NOTE" color="warning" %}}
+Remember to not overlap network CIDR blocks when designing and implementing your Kubernetes cluster, proper routing relies on that.
+{{% /alert %}}
+
+You can install a load balancer, such as [MetalLB](https://metallb.universe.tf/). This setup requires knowledge of networking both
+inside and outside your Kubernetes cluster. This would include specifics of your [CNI](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/) implementation, IP address allocation schemes, and routing that go beyond the scope of this documentation. For a Kind implementation, see [Install and configure MetalLB]({{< relref "/docs/setup/platforms/kind/kind.md#install-and-configure-metallb" >}}).
+
+
+It is possible to use a Kubernetes [Service of type NodePort](https://kubernetes.io/docs/concepts/services-networking/service/#nodeport) to test aspects of Verrazzano.
+This requires a good working knowledge of networking and has limited use cases. 
 
 ## Customizations
 
