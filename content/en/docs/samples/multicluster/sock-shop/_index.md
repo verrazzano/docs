@@ -11,28 +11,28 @@ If your environment does not have a cluster of that name, then you should edit t
 listed in the `placement` section.
 
 **NOTE:** The Sock Shop application deployment files are contained in the Verrazzano project located at
-`<VERRAZZANO_HOME>/examples/sockshop`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
+`<VERRAZZANO_HOME>/examples/multicluster/sockshop`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
 
 
 ## Deploy the Sock Shop application
 
 1. Create a namespace for the Sock Shop application by deploying the Verrazzano project.
    ```
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
        -f {{< release_source_url raw=true path=examples/multicluster/sock-shop/verrazzano-project.yaml >}}
    ```
 
 1. Apply the Sock Shop OAM resources to deploy the application.
    ```
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
        -f {{< release_source_url raw=true path=examples/multicluster/sock-shop/sock-shop-comp.yaml >}}
-   $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
        -f {{< release_source_url raw=true path=examples/multicluster/sock-shop/sock-shop-app.yaml >}}
    ```
 
 1. Wait for the Sock Shop application to be ready.
    ```
-   $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl wait \
+   $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 wait \
        --for=condition=Ready pods \
        --all -n mc-sockshop \
        --timeout=300s
@@ -61,7 +61,7 @@ Follow these steps to test the endpoints:
 
 1. Get the generated host name for the application.
    ```
-   $ HOST=$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get gateway \
+   $ HOST=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 get gateway \
          -n mc-sockshop \
          -o jsonpath={.items[0].spec.servers[0].hosts[0]})
    $ echo $HOST
@@ -70,7 +70,7 @@ Follow these steps to test the endpoints:
 
 1. Get the `EXTERNAL_IP` address of the `istio-ingressgateway` service.
    ```
-   $ ADDRESS=$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get service \
+   $ ADDRESS=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 get service \
        -n istio-system istio-ingressgateway \
        -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
    $ echo $ADDRESS
@@ -135,16 +135,16 @@ Follow these steps to test the endpoints:
 
 1. Verify that the application configuration, components, workloads, and ingress trait all exist.
    ```
-   $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get ApplicationConfiguration -n mc-sockshop
-   $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get Component -n mc-sockshop
-   $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get VerrazzanoCoherenceWorkload -n mc-sockshop
-   $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get Coherence -n mc-sockshop
-   $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get IngressTrait -n mc-sockshop
+   $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get ApplicationConfiguration -n mc-sockshop
+   $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get Component -n mc-sockshop
+   $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get VerrazzanoCoherenceWorkload -n mc-sockshop
+   $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get Coherence -n mc-sockshop
+   $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get IngressTrait -n mc-sockshop
    ```   
 
 1. Verify that the Sock Shop service pods are successfully created and transition to the `READY` state. Note that this may take a few minutes and that you may see some of the services terminate and restart.
    ```
-    $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get pods -n mc-sockshop
+    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get pods -n mc-sockshop
 
     NAME             READY   STATUS    RESTARTS   AGE
     carts-coh-0      2/2     Running   0          38m
@@ -159,7 +159,7 @@ the deployed Sock Shop application.  Accessing them may require the following:
 
     - Run this command to get the password that was generated for the telemetry components:
         ```
-        $ KUBECONFIG=$KUBECONFIG_ADMIN kubectl get secret \
+        $ kubectl --kubeconfig $KUBECONFIG_ADMIN get secret \
             --namespace verrazzano-system verrazzano \
             -o jsonpath={.data.password} | base64 \
             --decode; echo
@@ -171,7 +171,7 @@ the deployed Sock Shop application.  Accessing them may require the following:
     You can retrieve the list of available ingresses with following command:
 
     ```
-    $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get ing -n verrazzano-system
+    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get ing -n verrazzano-system
     NAME                    CLASS    HOSTS                                              ADDRESS       PORTS     AGE
     verrazzano-ingress      <none>   verrazzano.default.10.11.12.13.nip.io              10.11.12.13   80, 443   32m
     vmi-system-prometheus   <none>   prometheus.vmi.system.default.10.11.12.13.nip.io   10.11.12.13   80, 443   32m

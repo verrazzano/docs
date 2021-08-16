@@ -30,12 +30,14 @@ spec:
         value: "10Mbps"
 ```
 
-The entries above leverage dot notation to represent YAML values.  For example:
+The previous entries use dot notation to represent YAML values.  
+
+For example:
 ```
     - name: controller.service.annotations."service\.beta\.kubernetes\.io/oci-load-balancer-shape"
       value: "10Mbps"
 ```
-is translated into:
+Is translated into:
 
 ```
 controler:
@@ -43,4 +45,4 @@ controler:
      annotations:
        service.beta.kubernetes.io/oci-load-balancer-shape: 10Mbps
 ```
-For more information concerning the setting of component overrides see https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing
+For more information about setting component overrides, see [Customizing the Chart Before Installing](https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing).
