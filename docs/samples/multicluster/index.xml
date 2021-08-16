@@ -30,20 +30,20 @@
 &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/multicluster/hello-helidon&lt;/code&gt;, where &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
 &lt;h2 id=&#34;create-the-application-namespace&#34;&gt;Create the application namespace&lt;/h2&gt;
 &lt;p&gt;Apply the VerrazzanoProject resource on the admin cluster that defines the namespace for the application.  The namespaces defined in the VerrazzanoProject resource will be created on the admin cluster and all the managed clusters.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl apply &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; apply &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/multicluster/hello-helidon/verrazzano-project.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;deploy-the-hello-world-helidon-application&#34;&gt;Deploy the Hello World Helidon application&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Apply the &lt;code&gt;hello-helidon&lt;/code&gt; multicluster resources to deploy the application.  Each multicluster resource is an envelope that contains an OAM resource and a list of clusters to which to deploy.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl apply &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; apply &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/multicluster/hello-helidon/mc-hello-helidon-comp.yaml
-$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl apply &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; apply &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the application to be ready on the managed cluster.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_MANAGED1&lt;/span&gt; kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_MANAGED1&lt;/span&gt; &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;Ready pods &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --all -n hello-helidon &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;300s
@@ -56,12 +56,12 @@ $ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Verify that the application namespace exists on the managed cluster.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_MANAGED1&lt;/span&gt; kubectl get namespace hello-helidon
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_MANAGED1&lt;/span&gt; get namespace hello-helidon
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Verify that the multicluster resources for the application all exist.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_MANAGED1&lt;/span&gt; kubectl get MultiClusterComponent -n hello-helidon
-$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_MANAGED1&lt;/span&gt; kubectl get MultiClusterApplicationConfiguration -n hello-helidon
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_MANAGED1&lt;/span&gt; get MultiClusterComponent -n hello-helidon
+$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_MANAGED1&lt;/span&gt; get MultiClusterApplicationConfiguration -n hello-helidon
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;locating-the-application-on-a-different-cluster&#34;&gt;Locating the application on a different cluster&lt;/h2&gt;
@@ -75,21 +75,21 @@ $ &lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;To change their placement, patch the &lt;code&gt;hello-helidon&lt;/code&gt; multicluster resources.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl patch mcappconf hello-helidon-appconf &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; patch mcappconf hello-helidon-appconf &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -n hello-helidon &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --type merge &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --patch &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;cat &lt;span style=&#34;color:#000&#34;&gt;$CHANGE_PLACEMENT_PATCH_FILE&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
-$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl patch mccomp hello-helidon-component &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; patch mccomp hello-helidon-component &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -n hello-helidon &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --type merge &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --patch &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;cat &lt;span style=&#34;color:#000&#34;&gt;$CHANGE_PLACEMENT_PATCH_FILE&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;To verify that their placement has changed, view the multicluster resources.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl get mccomp hello-helidon-component &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; get mccomp hello-helidon-component &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -n hello-helidon &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;{.spec.placement}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;&lt;span style=&#34;color:#204a87&#34;&gt;echo&lt;/span&gt;
-$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl get mcappconf hello-helidon-appconf &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; get mcappconf hello-helidon-appconf &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -n hello-helidon &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;{.spec.placement}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt;&lt;span style=&#34;color:#204a87&#34;&gt;echo&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The cluster
@@ -97,20 +97,20 @@ name, &lt;code&gt;local&lt;/code&gt;, indicates placement in the admin cluster.&
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;To change its placement, patch the VerrazzanoProject.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl patch vp hello-helidon &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; patch vp hello-helidon &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -n verrazzano-mc &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --type merge &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --patch &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;cat &lt;span style=&#34;color:#000&#34;&gt;$CHANGE_PLACEMENT_PATCH_FILE&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the application to be ready on the admin cluster.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;Ready pods &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --all -n hello-helidon &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;300s
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; If you are returning the application to the managed cluster, then instead, wait for the application to be
 ready on the managed cluster.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_MANAGED1&lt;/span&gt; kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_MANAGED1&lt;/span&gt; &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;Ready pods &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --all -n hello-helidon &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;300s
@@ -126,13 +126,13 @@ ready on the managed cluster.&lt;/p&gt;
 &lt;p&gt;Regardless of its location, to undeploy the application,
 delete the multicluster resources and the project from the admin cluster:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Delete the multicluster application configuration&lt;/span&gt;
-$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl delete &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; delete &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml
 &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Delete the multicluster components for the application&lt;/span&gt;
-$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl delete &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; delete &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/multicluster/hello-helidon/mc-hello-helidon-comp.yaml
 &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Delete the project&lt;/span&gt;
-$ &lt;span style=&#34;color:#000&#34;&gt;KUBECONFIG&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; kubectl delete &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; delete &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/multicluster/hello-helidon/verrazzano-project.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
       </description>
@@ -158,24 +158,24 @@ If your environment does not have a cluster of that name, then you should edit t
 listed in the &lt;code&gt;placement&lt;/code&gt; section.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The Sock Shop application deployment files are contained in the Verrazzano project located at
-&lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/sockshop&lt;/code&gt;, where &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
+&lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/multicluster/sockshop&lt;/code&gt;, where &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
 &lt;h2 id=&#34;deploy-the-sock-shop-application&#34;&gt;Deploy the Sock Shop application&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Create a namespace for the Sock Shop application by deploying the Verrazzano project.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+&lt;pre&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
     -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/multicluster/sock-shop/verrazzano-project.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Apply the Sock Shop OAM resources to deploy the application.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+&lt;pre&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
     -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/multicluster/sock-shop/sock-shop-comp.yaml
-$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
     -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/multicluster/sock-shop/sock-shop-app.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the Sock Shop application to be ready.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl wait \
+&lt;pre&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 wait \
     --for=condition=Ready pods \
     --all -n mc-sockshop \
     --timeout=300s
@@ -196,7 +196,7 @@ ports, and such.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Get the generated host name for the application.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ HOST=$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get gateway \
+&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 get gateway \
       -n mc-sockshop \
       -o jsonpath={.items[0].spec.servers[0].hosts[0]})
 $ echo $HOST
@@ -204,7 +204,7 @@ sockshop-appconf.mc-sockshop.11.22.33.44.nip.io
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Get the &lt;code&gt;EXTERNAL_IP&lt;/code&gt; address of the &lt;code&gt;istio-ingressgateway&lt;/code&gt; service.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ ADDRESS=$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get service \
+&lt;pre&gt;&lt;code&gt;$ ADDRESS=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 get service \
     -n istio-system istio-ingressgateway \
     -o jsonpath=&#39;{.status.loadBalancer.ingress[0].ip}&#39;)
 $ echo $ADDRESS
@@ -269,15 +269,15 @@ before deploying the Sock Shop application.&lt;/li&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Verify that the application configuration, components, workloads, and ingress trait all exist.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get ApplicationConfiguration -n mc-sockshop
-$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get Component -n mc-sockshop
-$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get VerrazzanoCoherenceWorkload -n mc-sockshop
-$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get Coherence -n mc-sockshop
-$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get IngressTrait -n mc-sockshop
+&lt;pre&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get ApplicationConfiguration -n mc-sockshop
+$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get Component -n mc-sockshop
+$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get VerrazzanoCoherenceWorkload -n mc-sockshop
+$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get Coherence -n mc-sockshop
+$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get IngressTrait -n mc-sockshop
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Verify that the Sock Shop service pods are successfully created and transition to the &lt;code&gt;READY&lt;/code&gt; state. Note that this may take a few minutes and that you may see some of the services terminate and restart.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt; $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get pods -n mc-sockshop
+&lt;pre&gt;&lt;code&gt; $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get pods -n mc-sockshop
 
  NAME             READY   STATUS    RESTARTS   AGE
  carts-coh-0      2/2     Running   0          38m
@@ -293,7 +293,7 @@ the deployed Sock Shop application.  Accessing them may require the following:&l
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;Run this command to get the password that was generated for the telemetry components:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl get secret \
+&lt;pre&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN get secret \
     --namespace verrazzano-system verrazzano \
     -o jsonpath={.data.password} | base64 \
     --decode; echo
@@ -304,7 +304,7 @@ the deployed Sock Shop application.  Accessing them may require the following:&l
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;You can retrieve the list of available ingresses with following command:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get ing -n verrazzano-system
+&lt;pre&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get ing -n verrazzano-system
 NAME                    CLASS    HOSTS                                              ADDRESS       PORTS     AGE
 verrazzano-ingress      &amp;lt;none&amp;gt;   verrazzano.default.10.11.12.13.nip.io              10.11.12.13   80, 443   32m
 vmi-system-prometheus   &amp;lt;none&amp;gt;   prometheus.vmi.system.default.10.11.12.13.nip.io   10.11.12.13   80, 443   32m
@@ -358,58 +358,71 @@ listed in the &lt;code&gt;placement&lt;/code&gt; section.&lt;/li&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The ToDo List application deployment files are contained in the Verrazzano project located at
-&lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/todo-list&lt;/code&gt;, where &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
-&lt;h2 id=&#34;deploy-the-example-application&#34;&gt;Deploy the example application&lt;/h2&gt;
+&lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/multicluster/todo-list&lt;/code&gt;, where &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
+&lt;h2 id=&#34;deploy-the-todo-list-example-application&#34;&gt;Deploy the ToDo List example application&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Create a namespace for the multicluster ToDo List example by applying the Verrazzano project file.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+&lt;pre&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
     -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/multicluster/todo-list/verrazzano-project.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Log in to the &lt;code&gt;container-registry.oracle.com&lt;/code&gt; Docker registry in which the Todo List application image is deployed.  You
-will need the updated Docker &lt;code&gt;config.json&lt;/code&gt;, containing your authentication token, for the next step.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ docker login container-registry.oracle.com
+&lt;p&gt;Download the &lt;code&gt;mc-docker-registry-secret.yaml&lt;/code&gt; file.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ wget https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/multicluster/todo-list/mc-docker-registry-secret.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Update the &lt;code&gt;mc-docker-registry-secret.yaml&lt;/code&gt; file with the your registry authentication info.  Edit the file and replace the
-&lt;code&gt;&amp;lt;BASE 64 ENCODED DOCKER CONFIG JSON&amp;gt;&lt;/code&gt; with the value generated from the following command.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ cat ~/.docker/config.json | base64
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Create a &lt;code&gt;docker-registry&lt;/code&gt; secret to enable pulling the ToDo List example image from the registry by applying the
-&lt;code&gt;mc-docker-registry-secret.yaml&lt;/code&gt; file.  The multicluster secret resource will generate the required secret in the &lt;code&gt;mc-todo-list&lt;/code&gt;
-namespace.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
-    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/multicluster/todo-list/mc-docker-registry-secret.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Create the WebLogic domain secret by applying the &lt;code&gt;mc-weblogic-domain-secret.yaml&lt;/code&gt; file:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
-    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/multicluster/todo-list/mc-weblogic-domain-secret.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that the ToDo List example application is preconfigured to use these credentials.
-If you want to use different credentials, you will need to rebuild the Docker images for the example application.
-For the source code of this application, see the &lt;a href=&#34;https://github.com/verrazzano/examples&#34;&gt;Verrazzano examples&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Edit the &lt;code&gt;mc-docker-registry-secret.yaml&lt;/code&gt; file and replace the
+&lt;code&gt;&amp;lt;BASE 64 ENCODED DOCKER CONFIG JSON&amp;gt;&lt;/code&gt; placeholder with the value generated from the following command.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN create secret docker-registry temp \
+    --dry-run=client \
+    --docker-server=container-registry.oracle.com \
+    --docker-username=YOUR_REGISTRY_USERNAME \
+    --docker-password=YOUR_REGISTRY_PASSWORD \
+    --docker-email=YOUR_REGISTRY_EMAIL \
+    -o jsonpath=&#39;{.data.\.dockerconfigjson}&#39;; echo
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Replace &lt;code&gt;YOUR_REGISTRY_USERNAME&lt;/code&gt;, &lt;code&gt;YOUR_REGISTRY_PASSWORD&lt;/code&gt;, and &lt;code&gt;YOUR_REGISTRY_EMAIL&lt;/code&gt;
+with the values you use to access the registry.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Apply the ToDo List example multicluster application resources to deploy the application.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+&lt;p&gt;Apply the &lt;code&gt;mc-docker-registry-secret.yaml&lt;/code&gt; file to create the multicluster secret.  The multicluster secret
+resource will generate the required secret in the &lt;code&gt;mc-todo-list&lt;/code&gt; namespace.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN apply -f mc-docker-registry-secret.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Download the &lt;code&gt;mc-weblogic-domain-secret.yaml&lt;/code&gt; and &lt;code&gt;mc-tododb-secret.yaml&lt;/code&gt; files.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ wget https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/multicluster/todo-list/mc-weblogic-domain-secret.yaml
+$ wget https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/multicluster/todo-list/mc-tododb-secret.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Edit the &lt;code&gt;mc-weblogic-domain-secret.yaml&lt;/code&gt; and &lt;code&gt;mc-tododb-secret.yaml&lt;/code&gt; files,
+replacing the &lt;code&gt;THE_USERNAME&lt;/code&gt; and &lt;code&gt;THE_PASSWORD&lt;/code&gt; placeholders with the respective WebLogic user name and password.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;   username: THE_USERNAME
+   password: THE_PASSWORD
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Apply the &lt;code&gt;mc-weblogic-domain-secret.yaml&lt;/code&gt; and &lt;code&gt;mc-tododb-secret.yaml&lt;/code&gt; files.  The
+multicluster secret resource will generate the required secret in the &lt;code&gt;mc-todo-list&lt;/code&gt; namespace.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN apply -f mc-weblogic-domain-secret.yaml
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN apply -f mc-tododb-secret.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Apply the multicluster component and application resources to deploy the ToDo List application.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
     -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/multicluster/todo-list/todo-list-components.yaml
 
-$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
     -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/multicluster/todo-list/todo-list-application.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Wait for the ToDo List example application to be ready.
-You may need to repeat this command several times before it is successful.
-The &lt;code&gt;tododomain-adminserver&lt;/code&gt; pod may take a while to be created and &lt;code&gt;Ready&lt;/code&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl wait pod \
+&lt;p&gt;Wait for the ToDo List example application to be ready.  This
+The &lt;code&gt;tododomain-adminserver&lt;/code&gt; pod may take several minutes to be created and &lt;code&gt;Ready&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 wait pod \
     --for=condition=Ready tododomain-adminserver \
     -n mc-todo-list
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Get the generated host name for the application.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ HOST=$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get gateway \
+&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 get gateway \
       -n mc-todo-list \
       -o jsonpath={.items[0].spec.servers[0].hosts[0]})
 $ echo $HOST
@@ -417,7 +430,7 @@ todo-appconf.mc-todo-list.11.22.33.44.nip.io
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Get the &lt;code&gt;EXTERNAL_IP&lt;/code&gt; address of the &lt;code&gt;istio-ingressgateway&lt;/code&gt; service.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ ADDRESS=$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get service \
+&lt;pre&gt;&lt;code&gt;$ ADDRESS=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 get service \
      -n istio-system istio-ingressgateway \
      -o jsonpath=&#39;{.status.loadBalancer.ingress[0].ip}&#39;)
 $ echo $ADDRESS
@@ -462,7 +475,7 @@ Accessing them may require the following:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;Run this command to get the password that was generated for the telemetry components:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl get secret \
+&lt;pre&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN get secret \
     --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 \
     --decode; echo
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The associated user name is &lt;code&gt;verrazzano&lt;/code&gt;.&lt;/p&gt;
@@ -472,7 +485,7 @@ Accessing them may require the following:&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;You can retrieve the list of available ingresses with following command:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get ingress -n verrazzano-system
+&lt;pre&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get ingress -n verrazzano-system
 NAME                         CLASS    HOSTS                                                     ADDRESS           PORTS     AGE
 verrazzano-ingress           &amp;lt;none&amp;gt;   verrazzano.default.140.141.142.143.nip.io                 140.141.142.143   80, 443   7d2h
 vmi-system-es-ingest         &amp;lt;none&amp;gt;   elasticsearch.vmi.system.default.140.141.142.143.nip.io   140.141.142.143   80, 443   7d2h
@@ -512,22 +525,22 @@ vmi-system-prometheus        &amp;lt;none&amp;gt;   prometheus.vmi.system.defaul
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Verify that the application configuration, domain, and ingress trait all exist.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get ApplicationConfiguration -n mc-todo-list
+&lt;pre&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get ApplicationConfiguration -n mc-todo-list
 NAME           AGE
 todo-appconf   19h
 
-$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get Domain -n mc-todo-list
+$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get Domain -n mc-todo-list
 NAME          AGE
 todo-domain   19h
 
-$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get IngressTrait -n mc-todo-list
+$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get IngressTrait -n mc-todo-list
 NAME                           AGE
 todo-domain-trait-7cbd798c96   19h
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Verify that the WebLogic Administration Server and MySQL pods have been created and are running.
 Note that this will take several minutes.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get pods -n mc-todo-list
+&lt;pre&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get pods -n mc-todo-list
 
 NAME                     READY   STATUS    RESTARTS   AGE
 mysql-5c75c8b7f-vlhck    1/1     Running   0          19h

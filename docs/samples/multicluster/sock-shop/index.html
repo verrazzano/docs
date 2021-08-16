@@ -101,7 +101,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.9cf714a19bd7cf2107a5b48700357df7.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.17d95d7bc20c9a9ff323fcdec26253cb.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -128,7 +128,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.9cf714a19bd7cf2107a5b48700357df7.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.17d95d7bc20c9a9ff323fcdec26253cb.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -523,24 +523,24 @@ If your environment does not have a cluster of that name, then you should edit t
 listed in the <code>placement</code> section.</li>
 </ul>
 <p><strong>NOTE:</strong> The Sock Shop application deployment files are contained in the Verrazzano project located at
-<code>&lt;VERRAZZANO_HOME&gt;/examples/sockshop</code>, where <code>&lt;VERRAZZANO_HOME&gt;</code> is the root of the Verrazzano project.</p>
+<code>&lt;VERRAZZANO_HOME&gt;/examples/multicluster/sockshop</code>, where <code>&lt;VERRAZZANO_HOME&gt;</code> is the root of the Verrazzano project.</p>
 <h2 id="deploy-the-sock-shop-application">Deploy the Sock Shop application</h2>
 <ol>
 <li>
 <p>Create a namespace for the Sock Shop application by deploying the Verrazzano project.</p>
-<pre><code>$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+<pre><code>$ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
     -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/multicluster/sock-shop/verrazzano-project.yaml
 </code></pre></li>
 <li>
 <p>Apply the Sock Shop OAM resources to deploy the application.</p>
-<pre><code>$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+<pre><code>$ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
     -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/multicluster/sock-shop/sock-shop-comp.yaml
-$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl apply \
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
     -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/multicluster/sock-shop/sock-shop-app.yaml
 </code></pre></li>
 <li>
 <p>Wait for the Sock Shop application to be ready.</p>
-<pre><code>$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl wait \
+<pre><code>$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 wait \
     --for=condition=Ready pods \
     --all -n mc-sockshop \
     --timeout=300s
@@ -561,7 +561,7 @@ ports, and such.</p>
 <ol>
 <li>
 <p>Get the generated host name for the application.</p>
-<pre><code>$ HOST=$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get gateway \
+<pre><code>$ HOST=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 get gateway \
       -n mc-sockshop \
       -o jsonpath={.items[0].spec.servers[0].hosts[0]})
 $ echo $HOST
@@ -569,7 +569,7 @@ sockshop-appconf.mc-sockshop.11.22.33.44.nip.io
 </code></pre></li>
 <li>
 <p>Get the <code>EXTERNAL_IP</code> address of the <code>istio-ingressgateway</code> service.</p>
-<pre><code>$ ADDRESS=$(KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get service \
+<pre><code>$ ADDRESS=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 get service \
     -n istio-system istio-ingressgateway \
     -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 $ echo $ADDRESS
@@ -634,15 +634,15 @@ before deploying the Sock Shop application.</li>
 <ol>
 <li>
 <p>Verify that the application configuration, components, workloads, and ingress trait all exist.</p>
-<pre><code>$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get ApplicationConfiguration -n mc-sockshop
-$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get Component -n mc-sockshop
-$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get VerrazzanoCoherenceWorkload -n mc-sockshop
-$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get Coherence -n mc-sockshop
-$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get IngressTrait -n mc-sockshop
+<pre><code>$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get ApplicationConfiguration -n mc-sockshop
+$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get Component -n mc-sockshop
+$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get VerrazzanoCoherenceWorkload -n mc-sockshop
+$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get Coherence -n mc-sockshop
+$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get IngressTrait -n mc-sockshop
 </code></pre></li>
 <li>
 <p>Verify that the Sock Shop service pods are successfully created and transition to the <code>READY</code> state. Note that this may take a few minutes and that you may see some of the services terminate and restart.</p>
-<pre><code> $ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get pods -n mc-sockshop
+<pre><code> $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get pods -n mc-sockshop
 
  NAME             READY   STATUS    RESTARTS   AGE
  carts-coh-0      2/2     Running   0          38m
@@ -658,7 +658,7 @@ the deployed Sock Shop application.  Accessing them may require the following:</
 <ul>
 <li>
 <p>Run this command to get the password that was generated for the telemetry components:</p>
-<pre><code>$ KUBECONFIG=$KUBECONFIG_ADMIN kubectl get secret \
+<pre><code>$ kubectl --kubeconfig $KUBECONFIG_ADMIN get secret \
     --namespace verrazzano-system verrazzano \
     -o jsonpath={.data.password} | base64 \
     --decode; echo
@@ -669,7 +669,7 @@ the deployed Sock Shop application.  Accessing them may require the following:</
 </li>
 </ul>
 <p>You can retrieve the list of available ingresses with following command:</p>
-<pre><code>$ KUBECONFIG=$KUBECONFIG_MANAGED1 kubectl get ing -n verrazzano-system
+<pre><code>$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get ing -n verrazzano-system
 NAME                    CLASS    HOSTS                                              ADDRESS       PORTS     AGE
 verrazzano-ingress      &lt;none&gt;   verrazzano.default.10.11.12.13.nip.io              10.11.12.13   80, 443   32m
 vmi-system-prometheus   &lt;none&gt;   prometheus.vmi.system.default.10.11.12.13.nip.io   10.11.12.13   80, 443   32m
