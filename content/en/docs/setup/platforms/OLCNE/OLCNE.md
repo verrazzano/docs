@@ -209,6 +209,7 @@ The value for `name` may be customized but will need to match the PersistentVolu
       volumeMode: Filesystem
       persistentVolumeReclaimPolicy: Recycle
   EOF
+  done
   ```
 {{< /tab >}}
 {{< tab tabNum="2" >}}
