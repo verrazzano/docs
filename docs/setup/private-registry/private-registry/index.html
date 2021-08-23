@@ -22,11 +22,11 @@
 <meta property="og:description" content="Instructions for setting up Verrazzano using a private container registry" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/private-registry/private-registry/" />
-<meta property="article:modified_time" content="2021-08-04T12:37:13-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-08-23T12:08:52-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Use a Private Registry">
 <meta itemprop="description" content="Instructions for setting up Verrazzano using a private container registry">
-<meta itemprop="dateModified" content="2021-08-04T12:37:13-04:00" />
-<meta itemprop="wordCount" content="102">
+<meta itemprop="dateModified" content="2021-08-23T12:08:52-04:00" />
+<meta itemprop="wordCount" content="258">
 
 
 
@@ -106,7 +106,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.0d179180b48d2765d56cbcda9a6d8825.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.44574735c190cee236128ec1789ac209.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -133,7 +133,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.0d179180b48d2765d56cbcda9a6d8825.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.44574735c190cee236128ec1789ac209.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -494,17 +494,44 @@ if (!doNotTrack) {
 		
 		
 	</header>    
-	<p>Verrazzano supports being able to install from a private Docker-compliant container registry, which requires:</p>
+	<p>You can install Verrazzano using a private Docker-compliant container registry. This requires the following:</p>
 <ul>
 <li>Loading all required Verrazzano container images into your own registry and repository.</li>
 <li>Installing the Verrazzano platform operator with the private registry and repository used to load the images.</li>
 </ul>
-<p>To load the required Verrazzano images and prepare for an installation from your private registry, you must do the following:</p>
+<p>To obtain the required Verrazzano images and install from your private registry, you must:</p>
+<ol>
+<li>Download the Verrazzano ZIP file from the Oracle Software Delivery Cloud:
 <ul>
-<li>Download the TAR file containing the full set of images for the Verrazzano release from the <a href="https://www.oracle.com/downloads/">Oracle Software Download Center</a>.</li>
-<li>Extract all the files from the TAR file locally and follow the instructions in the <a href="https://github.com/verrazzano/verrazzano/blob/v1.0.0/tools/scripts/README.md">README</a>
-file in the archive.</li>
+<li>In your browser, go to <a href="https://edelivery.oracle.com">Oracle Software Delivery Cloud</a> and log in with your credentials.</li>
+<li>In the drop-down menu next to the search bar, select <strong>Download Package</strong>.</li>
+<li>In the search bar, enter <code>Verrazzano Enterprise Container Platform</code> and click <strong>Search</strong>.</li>
+<li>Select the <code>DLP: Oracle Verrazzano Enterprise Edition 1.0</code> link.  This will add it to your download queue.</li>
+<li>Select the <strong>Continue</strong> link.</li>
+<li>Accept the license agreement and click <strong>Continue</strong>.</li>
+<li>Download the file:
+<ul>
+<li>To download the ZIP file directly, select the file link in the list.</li>
+<li>To download the ZIP file using <code>Oracle Download Manager</code>, click <strong>Download</strong> and run the <code>Oracle Download Manager</code> executable.</li>
 </ul>
+</li>
+</ul>
+</li>
+<li>Prepare to do the private registry install:
+<ul>
+<li>Unzip the ZIP archive to a desired directory location.  There will be two files, a compressed TAR file containing the product
+files and a checksum file.</li>
+<li>Go to the expanded archive directory.</li>
+<li>(Optional) Validate the checksum and the TAR file match.  For example,
+<pre><code>$ shasum -c  verrazzano_1.0.0.tar.gz.sha256
+verrazzano_1.0.0.tar.gz: OK
+</code></pre></li>
+<li>Expand the TAR file, for example, <code>tar xvf verrazzano_1.0.0.tar.gz</code>.</li>
+</ul>
+</li>
+<li>Load the product images into your private registry and install Verrazzano using the instructions in the <code>README.md</code>
+file that is packaged with the TAR file.</li>
+</ol>
 
 	
 		<style>
