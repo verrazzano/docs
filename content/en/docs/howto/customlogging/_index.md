@@ -104,7 +104,7 @@ While this path is flexible, alterations to the example container environment va
 ## Verify Fluentd Sidecar Deployment
 
 To verify that a deployment successfully created a custom Fluentd sidecar:
-- Verify that the container name exists on the WebLogic application pod.
+- Verify that the container name exists on the application pod.
   ```
   $ kubectl get pods -n <application-namespace> <application-pod-name> -o jsonpath="{.spec.containers[*].name}" | tr -s '[[:space:]]' '\n'
   ...
