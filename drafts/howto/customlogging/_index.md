@@ -3,7 +3,7 @@
 In order to add flexibility and customization to logging with Verrazzano, additional components must be created to interact with the Verrazzano logging DaemonSet.
 Verrazzano currently manages Fluentd sidecars as a means to collect and funnel logs to the [Fluentd DaemonSet]({{< relref "/docs/monitoring/logs/#fluentd-daemonset" >}}).
 However, these sidecars are not currently customizable. 
-If users need customization of Fluend configurations or images, users can create their own sidecar to interact with the DaemonSet. 
+If users want to utilize alternative Fluentd configurations or images, users can create their own sidecar to interact with the DaemonSet. 
 Outlined below are steps necessary to create and deploy a Fluentd sidecar that interacts with the Verrazzano Fluentd DaemonSet
 
 ## Fluentd Custom Sidecar Configuration File
@@ -30,17 +30,18 @@ In order to interact with the [Fluentd DaemonSet]({{< relref "/docs/monitoring/l
 Now that the Fluentd configuration ConfigMap is deployed, create volumes to grant Fluentd access to the application logs and the Fluentd configuration file.
 ```yaml
 workload:
-   apiVersion: oam.verrazzano.io/v1alpha1
-   kind: ContainerizedWorkload
+  apiVersion: apps/v1
+  kind: Deployment
    ...
-   spec:
-      resources:
-         volumes:
-            - emptyDir: {}
-              name: shared-log-files
-            - name: fdconfig
-              configMap:
-                 name: fluentdconf
+  spec:
+    template:
+      spec:
+        volumes:
+          - name: shared-log-files
+            emptyDir: {}
+          - name: fdconfig
+            configMap:
+              name: fluentdconf
 
 ```
 The example volume `shared-log-files` is used to enable the Fluentd container to view logs from application containers. This example utilized an emptyDir volume type for ease of access, but other volume types can be used.
@@ -49,43 +50,50 @@ The `fdconfig` example volume mounts the previously deployed ConfigMap containin
 
 ## Fluentd Custom Sidecar Container
 
-The final resource addition to the [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) is creating the additional sidecar container.
+The final resource addition to the Deployment is creating the additional sidecar container.
 
 ```yaml
 workload:
-   apiVersion: oam.verrazzano.io/v1alpha1
-   kind: VerrazzanoWebLogicWorkload
+   apiVersion: apps/v1
+   kind: Deployment
    ...
    spec:
-      template:
-         spec:
-            serverPod:
-               containers:
-               - image: fluent/fluentd
-                 name: fluentd
-                 env:
-                    - name: FLUENT_UID
-                      value: root
-                    - name: FLUENT_CONF
-                      value: fluent.conf
-                    - name: FLUENTD_ARGS
-                      value: -c /fluentd/etc/fluent.conf
-                 volumeMounts:
-                    - mountPath: /scratch
-                      name: shared-log-files
-                      readOnly: true
-                    - name: fdconfig
-                      mountPath: /fluentd/etc/
+     template:
+       spec:
+         containers:
+         - name: user-application
+           ...
+           volumeMounts:
+             - mountPath: /log/file/path
+               name: shared-log-files
+               
+         - image: fluent/fluentd
+           name: fluentd
+           env:
+              - name: FLUENT_UID
+                value: root
+              - name: FLUENT_CONF
+                value: fluent.conf
+              - name: FLUENTD_ARGS
+                value: -c /fluentd/etc/fluent.conf
+           volumeMounts:
+              - mountPath: /log/file/path
+                name: shared-log-files
+                readOnly: true
+              - name: fdconfig
+                mountPath: /fluentd/etc/
 
 ```
 
 This example container uses the [default Fluentd image](https://hub.docker.com/r/fluent/fluentd/) published on Dockerhub, but any image with additional Fluentd plugins can be used in its place.
 
 Mounted are both volumes created to enable the Fluentd sidecar to monitor and parse logs.
-[VerrazzanoWebLogicWorkloads]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) mount a volume in the `/scratch` directory containing log files.
-Thus, any sidecar containers are limited to log access under that directory. As shown above, the `shared-log-file` volume is mounted at `/scratch` for this reason.
+The volume `shared-log-files` should be mounted at the location that the application writes log files.
+The volumeMount for the application and sidecar should point to the same directory. 
+This enables both containers to access log files within that directory.
 
-The example Fluentd configuration volume is mounted at `/fluentd/etc/`. While this path is more flexible, alterations to the example container environment variables are required to support alternative paths.
+The example Fluentd configuration volume is mounted at `/fluentd/etc/`. 
+While this path is flexible, alterations to the example container environment variables are required to support alternative paths.
 
 ## Verifying Fluentd Sidecar Deployment
 
