@@ -68,7 +68,7 @@ workload:
          spec:
             serverPod:
                containers:
-               - image: fluent/fluentd
+               - image: ghcr.io/verrazzano/fluentd-kubernetes-daemonset:v1.12.3-20210517195222-f345ec2
                  name: fluentd
                  env:
                     - name: FLUENT_UID
@@ -86,7 +86,7 @@ workload:
 
 ```
 
-This example container uses the [default Fluentd image](https://hub.docker.com/r/fluent/fluentd/) published on Docker Hub, but you can use any image with additional Fluentd plug-ins in its place.
+This example container uses the Verrazzano Fluentd image, but you can use any image with additional Fluentd plug-ins in its place.
 
 Mounted are both volumes created to enable the Fluentd sidecar to monitor and parse logs.
 [VerrazzanoWebLogicWorkloads]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) mount a volume in the `/scratch` directory containing log files.
