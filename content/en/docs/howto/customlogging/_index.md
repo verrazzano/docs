@@ -1,10 +1,16 @@
-# Custom Fluentd Sidecar
+---
+title: "Customize Fluentd Sidecars"
+linkTitle: Customize Fluentd Sidecars
+description: "A guide for deploying custom Fluentd sidecars"
+weight: 3
+draft: true
+---
 
-In order to add flexibility and customization to logging with Verrazzano, additional components must be created to interact with the Verrazzano logging DaemonSet.
-Verrazzano currently manages Fluentd sidecars as a means to collect and funnel logs to the [Fluentd DaemonSet]({{< relref "/docs/monitoring/logs/#fluentd-daemonset" >}}).
+In order to add flexibility and customization to logging with Verrazzano, you must create additional components to interact with the Verrazzano logging DaemonSet.
+Verrazzano currently manages Fluentd sidecars to collect and funnel logs to the [Fluentd DaemonSet]({{< relref "/docs/monitoring/logs/#fluentd-daemonset" >}}).
 However, these sidecars are not currently customizable. 
-If users want to utilize alternative Fluentd configurations or images, users can create their own sidecar to interact with the DaemonSet. 
-Outlined below are steps necessary to create and deploy a Fluentd sidecar that interacts with the Verrazzano Fluentd DaemonSet
+If you want to utilize alternative Fluentd configurations or images, you can create their own sidecar to interact with the DaemonSet.
+The following steps show you how to create and deploy a Fluentd sidecar that interacts with the Verrazzano Fluentd DaemonSet.
 
 ## Fluentd Custom Sidecar Configuration File
 
@@ -23,7 +29,8 @@ data:
       </match>
 
 ```
-In order to interact with the [Fluentd DaemonSet]({{< relref "/docs/monitoring/logs/#fluentd-daemonset" >}}) that Verrazzano manages, the configuration must redirect logs to stdout as shown in the match block at the end of the above Fluentd config file.
+In order to interact with the [Fluentd DaemonSet]({{< relref "/docs/monitoring/logs/#fluentd-daemonset" >}}) that Verrazzano manages, the configuration must redirect logs to stdout, as shown in the match block at the end of the previous Fluentd config file.
+This ConfigMap must be deployed before the following resources.
 
 ## Fluentd Custom Sidecar Volumes
 
@@ -44,13 +51,13 @@ workload:
               name: fluentdconf
 
 ```
-The example volume `shared-log-files` is used to enable the Fluentd container to view logs from application containers. This example utilized an emptyDir volume type for ease of access, but other volume types can be used.
+The example volume `shared-log-files` lets the Fluentd container view logs from application containers. This example uses an `emptyDir` volume type for ease of access, but you can use other volume types.
 
 The `fdconfig` example volume mounts the previously deployed ConfigMap containing the Fluentd configuration. This allows the attached Fluentd sidecar to access the embedded Fluentd configuration file.
 
 ## Fluentd Custom Sidecar Container
 
-The final resource addition to the Deployment is creating the additional sidecar container.
+The final resource addition to the Deployment is to create the additional sidecar container.
 
 ```yaml
 workload:
@@ -85,11 +92,11 @@ workload:
 
 ```
 
-This example container uses the [default Fluentd image](https://hub.docker.com/r/fluent/fluentd/) published on Dockerhub, but any image with additional Fluentd plugins can be used in its place.
+This example container uses the [default Fluentd image](https://hub.docker.com/r/fluent/fluentd/) published on Docker Hub, but you can use any image with additional Fluentd plug-ins in its place.
 
 Mounted are both volumes created to enable the Fluentd sidecar to monitor and parse logs.
 The volume `shared-log-files` should be mounted at the location that the application writes log files.
-The volumeMount for the application and sidecar should point to the same directory. 
+The `volumeMount` for the application and sidecar should point to the same directory. 
 This enables both containers to access log files within that directory.
 
 The example Fluentd configuration volume is mounted at `/fluentd/etc/`. 
@@ -97,17 +104,17 @@ While this path is flexible, alterations to the example container environment va
 
 ## Verifying Fluentd Sidecar Deployment
 
-To verify that a deployment successfully created a custom Fluentd sidecar, the following steps can be taken.
-- Verify that The container name exists on the WebLogic application pod.
-    - ```
-        $ kubectl get pods -n <application-namespace> <application-pod-name> -o jsonpath="{.spec.containers[*].name}" | tr -s '[[:space:]]' '\n'
-        ...
-        fluentd
-        ...
-        ```
+To verify that a deployment successfully created a custom Fluentd sidecar.
+- Verify that the container name exists on the WebLogic application pod.
+  ```
+  $ kubectl get pods -n <application-namespace> <application-pod-name> -o jsonpath="{.spec.containers[*].name}" | tr -s '[[:space:]]' '\n'
+  ...
+  fluentd
+  ...
+  ```
 - Verify that the Fluentd sidecar is redirecting logs to stdout.
-    - ```
-        kubectl logs -n <application-namespace> <application-pod-name> fluentd
-        ```
-- Follow the instructions on [Verrazzano Logging]({{< relref "/docs/monitoring/logs" >}}) to ensure the [Fluentd DaemonSet]({{< relref "/docs/monitoring/logs/#fluentd-daemonset" >}}) collected the logs from stdout.
-  These logs should appear in the Verrazzano managed [ElasticSearch]({{< relref "/docs/monitoring/logs#elasticsearch" >}}) and [Kibana]({{< relref "/docs/monitoring/logs#kibana" >}})
+  ```
+  $ kubectl logs -n <application-namespace> <application-pod-name> fluentd
+  ```
+- Follow the instructions at [Verrazzano Logging]({{< relref "/docs/monitoring/logs" >}}) to ensure that the [Fluentd DaemonSet]({{< relref "/docs/monitoring/logs/#fluentd-daemonset" >}}) collected the logs from stdout.
+  These logs will appear in the Verrazzano managed [ElasticSearch]({{< relref "/docs/monitoring/logs#elasticsearch" >}}) and [Kibana]({{< relref "/docs/monitoring/logs#kibana" >}}).

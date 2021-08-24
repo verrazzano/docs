@@ -1,9 +1,15 @@
-# Custom Fluentd Sidecar
+---
+title: "Customize Fluentd Sidecars for WebLogic Workloads"
+linkTitle: Customize Fluentd Sidecars for WebLogic Workloads
+description: "A guide for deploying custom Fluentd sidecars to VerrazzanoWebLogicWorkload components"
+weight: 4
+draft: true
+---
 
 Verrazzano creates and manages a Fluentd sidecar injection for each WebLogic pod.
 However, these resources are static and additional containers are required to customize the Fluentd configuration file and the container image.
 
-Outlined are instructions on attaching and deploying custom Fluentd sidecars to [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) components.
+The following instructions show you how to attach and deploy custom Fluentd sidecars to [VerrazzanoWebLogicWorkloads]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) components.
 
 ## Fluentd Custom Sidecar Configuration File
 
@@ -22,7 +28,7 @@ data:
       </match>
 
 ```
-In order to interact with the [Fluentd DaemonSet]({{< relref "/docs/monitoring/logs/#fluentd-daemonset" >}}) that Verrazzano manages, the configuration must redirect logs to stdout as shown in the match block at the end of the above Fluentd config file.
+In order to interact with the [Fluentd DaemonSet]({{< relref "/docs/monitoring/logs/#fluentd-daemonset" >}}) that Verrazzano manages, the configuration must redirect logs to stdout, as shown in the match block at the end of the previous Fluentd config file.
 
 ## Fluentd Custom Sidecar Volumes
 
@@ -44,13 +50,13 @@ workload:
                        name: fluentdconf
 
 ```
-The example volume `shared-log-files` is used to enable the Fluentd container to view logs from application containers. This example utilized an emptyDir volume type for ease of access, but other volume types can be used.
+The example volume `shared-log-files` is used to enable the Fluentd container to view logs from application containers. This example utilized an `emptyDir` volume type for ease of access, but you can use other volume types.
 
 The `fdconfig` example volume mounts the previously deployed ConfigMap containing the Fluentd configuration. This allows the attached Fluentd sidecar to access the embedded Fluentd configuration file.
 
 ## Fluentd Custom Sidecar Container
 
-The final resource addition to the [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) is creating the additional sidecar container.
+The final resource addition to the [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) is to create the additional sidecar container.
 
 ```yaml
 workload:
@@ -80,7 +86,7 @@ workload:
 
 ```
 
-This example container uses the [default Fluentd image](https://hub.docker.com/r/fluent/fluentd/) published on Dockerhub, but any image with additional Fluentd plugins can be used in its place.
+This example container uses the [default Fluentd image](https://hub.docker.com/r/fluent/fluentd/) published on Docker Hub, but you can use any image with additional Fluentd plug-ins in its place.
 
 Mounted are both volumes created to enable the Fluentd sidecar to monitor and parse logs.
 [VerrazzanoWebLogicWorkloads]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) mount a volume in the `/scratch` directory containing log files.
@@ -90,17 +96,17 @@ The example Fluentd configuration volume is mounted at `/fluentd/etc/`. While th
 
 ## Verifying Fluentd Sidecar Deployment
 
-To verify that a deployment successfully created a custom Fluentd sidecar, the following steps can be taken.
-- Verify that The container name exists on the WebLogic application pod.
-    - ```
-        $ kubectl get pods -n <application-namespace> <application-pod-name> -o jsonpath="{.spec.containers[*].name}" | tr -s '[[:space:]]' '\n'
-        ...
-        fluentd
-        ...
-        ```
+To verify that a deployment successfully created a custom Fluentd sidecar.
+- Verify that the container name exists on the WebLogic application pod.
+  ```
+  $ kubectl get pods -n <application-namespace> <application-pod-name> -o jsonpath="{.spec.containers[*].name}" | tr -s '[[:space:]]' '\n'
+  ...
+  fluentd
+  ...
+  ```
 - Verify that the Fluentd sidecar is redirecting logs to stdout.
-    - ```
-        kubectl logs -n <application-namespace> <application-pod-name> fluentd
-        ```
-- Follow the instructions on [Verrazzano Logging]({{< relref "/docs/monitoring/logs" >}}) to ensure the [Fluentd DaemonSet]({{< relref "/docs/monitoring/logs/#fluentd-daemonset" >}}) collected the logs from stdout.
-  These logs should appear in the Verrazzano managed [ElasticSearch]({{< relref "/docs/monitoring/logs#elasticsearch" >}}) and [Kibana]({{< relref "/docs/monitoring/logs#kibana" >}})
+  ```
+  kubectl logs -n <application-namespace> <application-pod-name> fluentd
+  ```
+- Follow the instructions at [Verrazzano Logging]({{< relref "/docs/monitoring/logs" >}}) to ensure that the [Fluentd DaemonSet]({{< relref "/docs/monitoring/logs/#fluentd-daemonset" >}}) collected the logs from stdout.
+  These logs will appear in the Verrazzano managed [ElasticSearch]({{< relref "/docs/monitoring/logs#elasticsearch" >}}) and [Kibana]({{< relref "/docs/monitoring/logs#kibana" >}}).
