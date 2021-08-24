@@ -245,6 +245,7 @@ metadata:
 
 WebLogic logs are sent to Elasticsearch, which is installed in the Verrazzano cluster. The Fluentd sidecar is injected into each WebLogic pod to send server logs to stdout. The Fluentd `DaemonSet` in the `verrazzano-system` namespace sends logs to Elasticsearch. In Elasticsearch, logs are indexed by namespace.
 
+
 ## Lift-and-Shift WebLogic applications
 
 Verrazzano makes it easy for you to migrate WebLogic applications from on-premises installations to the cloud. You can use WebLogic Deploy Tooling (WDT) to build the domain model and the WebLogic Image Tool (WIT) to build the WebLogic domain image.
