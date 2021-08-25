@@ -10,6 +10,7 @@ However, these resources are not currently configurable and additional container
 For more on how Verrazzano handles logging, read the [Logging](http://localhost:1313/docs/monitoring/logs/) documentation.
 
 The following instructions show you how to attach and deploy custom Fluentd sidecars to [VerrazzanoWebLogicWorkloads]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) components.
+The example YAML files in this document will be modeled after the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) YAML files for context.
 
 If you are new to [Open Application Model](https://oam.dev/) resources in Verrazzano, consult the [Applications](http://localhost:1313/docs/applications/) documentation before completing this configuration.
 
@@ -36,7 +37,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
    name: fluentdconf
-   namespace: <application-namespace>
+   namespace: todo-list
 data:
    fluent.conf: |
       ...
@@ -52,21 +53,58 @@ This ConfigMap must be deployed before or with all other application resources.
 
 Now that the Fluentd configuration ConfigMap is deployed, create volumes to grant Fluentd access to the application logs and the Fluentd configuration file.
 ```yaml
-workload:
-   apiVersion: oam.verrazzano.io/v1alpha1
-   kind: VerrazzanoWebLogicWorkload
-   ...
-   spec:
+apiVersion: core.oam.dev/v1alpha2
+kind: Component
+metadata:
+  name: todo-domain
+  namespace: todo-list
+spec:
+  workload:
+    apiVersion: oam.verrazzano.io/v1alpha1
+    kind: VerrazzanoWebLogicWorkload
+    spec:
       template:
-         spec:
-            serverPod:
-               volumes:
-                  - emptyDir: {}
-                    name: shared-log-files
-                  - name: fdconfig
-                    configMap:
-                       name: fluentdconf
-
+        metadata:
+          name: todo-domain
+          namespace: todo-list
+        spec:
+          domainUID: tododomain
+          domainHome: /u01/domains/tododomain
+          image: container-registry.oracle.com/verrazzano/example-todo:0.1.12-1-20210624160519-017d358
+          imagePullSecrets:
+            - name: tododomain-repo-credentials
+          domainHomeSourceType: "FromModel"
+          includeServerOutInPodLog: true
+          replicas: 1
+          webLogicCredentialsSecret:
+            name: tododomain-weblogic-credentials
+          configuration:
+            introspectorJobActiveDeadlineSeconds: 900
+            model:
+              configMap: tododomain-jdbc-config
+              domainType: WLS
+              modelHome: /u01/wdt/models
+              runtimeEncryptionSecret: tododomain-runtime-encrypt-secret
+            secrets:
+              - tododomain-jdbc-tododb
+          serverPod:
+            # ---- Add volumes for Fluentd container ----
+            volumes:
+              - emptyDir: {}
+                name: shared-log-files
+              - name: fdconfig
+                configMap:
+                  name: fluentdconf
+            # ---- Add volumes for Fluentd container  ----
+            env:
+              - name: JAVA_OPTIONS
+                value: "-Dweblogic.StdoutDebugEnabled=false"
+              - name: USER_MEM_ARGS
+                value: "-Djava.security.egd=file:/dev/./urandom -Xms64m -Xmx256m "
+              - name: WL_HOME
+                value: /u01/oracle/wlserver
+              - name: MW_HOME
+                value: /u01/oracle
 ```
 The example volume `shared-log-files` is used to enable the Fluentd container to view logs from application containers. This example uses an `emptyDir` volume type for ease of access, but you can use other volume types.
 
@@ -77,31 +115,74 @@ The `fdconfig` example volume mounts the previously deployed ConfigMap containin
 The final resource addition to the [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) is to create the custom sidecar container.
 
 ```yaml
-workload:
-   apiVersion: oam.verrazzano.io/v1alpha1
-   kind: VerrazzanoWebLogicWorkload
-   ...
-   spec:
+apiVersion: core.oam.dev/v1alpha2
+kind: Component
+metadata:
+  name: todo-domain
+  namespace: todo-list
+spec:
+  workload:
+    apiVersion: oam.verrazzano.io/v1alpha1
+    kind: VerrazzanoWebLogicWorkload
+    spec:
       template:
-         spec:
-            serverPod:
-               containers:
-               - image: ghcr.io/verrazzano/fluentd-kubernetes-daemonset:v1.12.3-20210517195222-f345ec2
-                 name: fluentd
-                 env:
-                    - name: FLUENT_UID
-                      value: root
-                    - name: FLUENT_CONF
-                      value: fluent.conf
-                    - name: FLUENTD_ARGS
-                      value: -c /fluentd/etc/fluent.conf
-                 volumeMounts:
-                    - mountPath: /scratch
-                      name: shared-log-files
-                      readOnly: true
-                    - name: fdconfig
-                      mountPath: /fluentd/etc/
-
+        metadata:
+          name: todo-domain
+          namespace: todo-list
+        spec:
+          domainUID: tododomain
+          domainHome: /u01/domains/tododomain
+          image: container-registry.oracle.com/verrazzano/example-todo:0.1.12-1-20210624160519-017d358
+          imagePullSecrets:
+            - name: tododomain-repo-credentials
+          domainHomeSourceType: "FromModel"
+          includeServerOutInPodLog: true
+          replicas: 1
+          webLogicCredentialsSecret:
+            name: tododomain-weblogic-credentials
+          configuration:
+            introspectorJobActiveDeadlineSeconds: 900
+            model:
+              configMap: tododomain-jdbc-config
+              domainType: WLS
+              modelHome: /u01/wdt/models
+              runtimeEncryptionSecret: tododomain-runtime-encrypt-secret
+            secrets:
+              - tododomain-jdbc-tododb
+          serverPod:
+            # ---- Add Fluentd container with volumeMounts  ----
+            containers:
+              - image: fluent/fluentd
+                name: fluentd
+                env:
+                  - name: FLUENT_UID
+                    value: root
+                  - name: FLUENT_CONF
+                    value: fluent.conf
+                  - name: FLUENTD_ARGS
+                    value: -c /fluentd/etc/fluent.conf
+                volumeMounts:
+                  - mountPath: /scratch
+                    name: shared-log-files
+                    readOnly: true
+                  - name: fdconfig
+                    mountPath: /fluentd/etc/
+            # ---- Add Fluentd container with volumeMounts  ----
+            volumes:
+              - emptyDir: {}
+                name: shared-log-files
+              - name: fdconfig
+                configMap:
+                  name: fluentdconf
+            env:
+              - name: JAVA_OPTIONS
+                value: "-Dweblogic.StdoutDebugEnabled=false"
+              - name: USER_MEM_ARGS
+                value: "-Djava.security.egd=file:/dev/./urandom -Xms64m -Xmx256m "
+              - name: WL_HOME
+                value: /u01/oracle/wlserver
+              - name: MW_HOME
+                value: /u01/oracle
 ```
 
 This example container uses the Verrazzano Fluentd image, but you can use any image with additional Fluentd plug-ins in its place.
