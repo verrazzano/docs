@@ -3,7 +3,7 @@ title: "Customize Application Logging for WebLogic Workload"
 linkTitle: Customize Application Logging for WebLogic Workloads
 description: "A guide for deploying custom Fluentd sidecars to VerrazzanoWebLogicWorkload components"
 weight: 4
-draft: false
+draft: true
 ---
 
 Verrazzano creates and manages a Fluentd sidecar injection for each WebLogic pod.
