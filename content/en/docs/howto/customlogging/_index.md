@@ -1,6 +1,5 @@
 ---
-title: "Customize Application Logging for Generic Workload"
-linkTitle: Customize Application Logging for Generic Workload
+title: "Customize Application Logging for Generic Workloads"
 description: "A guide for deploying custom Fluentd sidecars"
 weight: 3
 draft: true
@@ -9,8 +8,8 @@ draft: true
 In order to add flexibility and customization to logging with Verrazzano, you must create additional components to interact with the Verrazzano logging DaemonSet.
 Verrazzano currently manages Fluentd sidecars to collect and funnel logs to the [Fluentd DaemonSet]({{< relref "/docs/monitoring/logs/#fluentd-daemonset" >}}).
 However, these sidecars are not currently customizable. 
-If you want to use alternative Fluentd configurations or images, you can create their own sidecar to interact with the DaemonSet.
-The following steps show you how to create and deploy a Fluentd sidecar that interacts with the Verrazzano Fluentd DaemonSet.
+If you want to use alternative Fluentd configurations or images, you can create a custom sidecar to interact with the DaemonSet.
+The following steps show you how to create and deploy a custom Fluentd sidecar that interacts with the Verrazzano Fluentd DaemonSet.
 
 ## Create a Fluentd custom sidecar configuration file
 
@@ -30,7 +29,7 @@ data:
 
 ```
 In order to interact with the [Fluentd DaemonSet]({{< relref "/docs/monitoring/logs/#fluentd-daemonset" >}}) that Verrazzano manages, the configuration must redirect logs to stdout, as shown in the match block at the end of the previous Fluentd config file.
-This ConfigMap must be deployed prior to the following resources.
+This ConfigMap must be deployed before or with the application resources.
 
 ## Create Fluentd custom sidecar volumes
 
@@ -102,7 +101,9 @@ This enables both containers to access log files within that directory.
 The example Fluentd configuration volume is mounted at `/fluentd/etc/`. 
 While this path is flexible, alterations to the example container environment variables are required to support alternative paths.
 
-## Verify Fluentd Sidecar Deployment
+## Deploy the Fluentd Sidecar
+
+Now that the resources have been configured, it is time to deploy the application.
 
 To verify that a deployment successfully created a custom Fluentd sidecar:
 - Verify that the container name exists on the application pod.

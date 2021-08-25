@@ -1,6 +1,5 @@
 ---
-title: "Customize Application Logging for WebLogic Workload"
-linkTitle: Customize Application Logging for WebLogic Workloads
+title: "Customize Application Logging for WebLogic Workloads"
 description: "A guide for deploying custom Fluentd sidecars to VerrazzanoWebLogicWorkload components"
 weight: 4
 draft: true
@@ -21,10 +20,9 @@ $ curl https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/t
 $ curl https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/todo-list/todo-list-application.yaml > todo-list-application.yaml
 ```
 The `todo-list-components.yaml` contains the [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) that is the focus of the following alterations.
-This file is also a great place to store any additional kubernetes resources.
-The `todo-list-application.yaml` will not need edits based on this tutorial, but can be leveraged for additional component configuration.
+This file is also a great place to store any additional kubernetes resources that are deployed with the application.
 
-With the local application yaml files downloaded, follow the following instructions and the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) instructions to deploy this example application with a custom Fluentd sidecar.
+With the local application yaml files downloaded, first follow the following instructions and then the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) instructions to deploy this example application with a custom Fluentd sidecar.
 
 ## Create a Fluentd custom sidecar configuration file
 
@@ -44,7 +42,7 @@ data:
 
 ```
 In order to interact with the [Fluentd DaemonSet]({{< relref "/docs/monitoring/logs/#fluentd-daemonset" >}}) that Verrazzano manages, the configuration must redirect logs to stdout, as shown in the match block at the end of the previous Fluentd config file.
-This ConfigMap must be deployed prior to the following resources.
+This ConfigMap must be deployed before or with the application resources.
 
 ## Create Fluentd custom sidecar volumes
 
@@ -110,7 +108,15 @@ Thus, any sidecar containers are limited to log access under that directory. As 
 
 The example Fluentd configuration volume is mounted at `/fluentd/etc/`. While this path is more flexible, alterations to the example container environment variables are required to support alternative paths.
 
-## Verify Fluentd sidecar deployment
+## Deploy the Fluentd sidecar
+
+Now that the resources have been configured, it is time to deploy the application. 
+If you used the example application, make sure to set up the required resources in the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) instructions before deploying the application.
+The deployment commands should look like this:
+```
+$ kubectl apply -f todo-list-components.yaml
+$ kubectl apply -f todo-list-application.yaml
+```
 
 To verify that a deployment successfully created a custom Fluentd sidecar:
 - Verify that the container name exists on the WebLogic application pod.
