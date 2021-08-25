@@ -7,7 +7,7 @@ draft: true
 
 In order to add flexibility and customization to logging with Verrazzano, you must create additional components to interact with the Verrazzano logging DaemonSet.
 Verrazzano currently manages Fluentd sidecars to collect and funnel logs to the [Fluentd DaemonSet]({{< relref "/docs/monitoring/logs/#fluentd-daemonset" >}}).
-However, these sidecars are not currently customizable. 
+However, these sidecars are not currently configurable. 
 If you want to use alternative Fluentd configurations or images, you can create a custom sidecar to interact with the DaemonSet.
 The following steps show you how to create and deploy a custom Fluentd sidecar that interacts with the Verrazzano Fluentd DaemonSet.
 
