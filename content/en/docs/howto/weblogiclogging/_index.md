@@ -3,14 +3,28 @@ title: "Customize Application Logging for WebLogic Workload"
 linkTitle: Customize Application Logging for WebLogic Workloads
 description: "A guide for deploying custom Fluentd sidecars to VerrazzanoWebLogicWorkload components"
 weight: 4
-draft: true
+draft: false
 ---
 
 Verrazzano creates and manages a Fluentd sidecar injection for each WebLogic pod.
 However, these resources are static and additional containers are required to customize the Fluentd configuration file and the container image.
 
 The following instructions show you how to attach and deploy custom Fluentd sidecars to [VerrazzanoWebLogicWorkloads]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) components.
-This ConfigMap must be deployed prior to the following resources.
+
+## Example Application
+
+If you would like to test the following configuration on an example application, the Verrazzano [ToDo List]({{< relref "/docs/samples/todo-list" >}}) example application is a great place to start.
+Before you deploy the application, you need to edit the application and component YAML files.
+You can run the following commands to create a local copy of the application YAML files.
+```
+$ curl https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/todo-list/todo-list-components.yaml > todo-list-components.yaml
+$ curl https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/todo-list/todo-list-application.yaml > todo-list-application.yaml
+```
+The `todo-list-components.yaml` contains the [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) that is the focus of the following alterations.
+This file is also a great place to store any additional kubernetes resources.
+The `todo-list-application.yaml` will not need edits based on this tutorial, but can be leveraged for additional component configuration.
+
+With the local application yaml files downloaded, follow the following instructions and the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) instructions to deploy this example application with a custom Fluentd sidecar.
 
 ## Create a Fluentd custom sidecar configuration file
 
@@ -30,6 +44,7 @@ data:
 
 ```
 In order to interact with the [Fluentd DaemonSet]({{< relref "/docs/monitoring/logs/#fluentd-daemonset" >}}) that Verrazzano manages, the configuration must redirect logs to stdout, as shown in the match block at the end of the previous Fluentd config file.
+This ConfigMap must be deployed prior to the following resources.
 
 ## Create Fluentd custom sidecar volumes
 
