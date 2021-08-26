@@ -103,7 +103,7 @@ While this path is flexible, alterations to the example container environment va
 
 ## Deploy the Fluentd sidecar
 
-Now that you hae configured the resources, go ahead and deploy the application.
+Now that you have configured the resources, go ahead and deploy the application.
 
 To verify that a deployment successfully created a custom Fluentd sidecar:
 - Verify that the container name exists on the application pod.

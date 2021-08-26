@@ -5,9 +5,9 @@ weight: 4
 draft: false
 ---
 
-Verrazzano creates and manages a Fluentd sidecar injection for each WebLogic pod. This allows application logs to interact with the cluster-wide Fluentd daemonset.
+Verrazzano creates and manages a Fluentd sidecar injection for each WebLogic pod. This allows application logs to interact with the cluster-wide Fluentd DaemonSet.
 However, these resources are not currently configurable and additional containers are required to customize the Fluentd configuration file and the container image.
-For more information, see [Logging]({{< relref "/docs/monitoring/logs" >}}) documentation.
+For more information, see [Logging]({{< relref "/docs/monitoring/logs" >}}).
 
 The following instructions show you how to attach and deploy custom Fluentd sidecars to [VerrazzanoWebLogicWorkloads]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) components.
 The example YAML files in this document are modeled after the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) YAML files.
@@ -193,7 +193,7 @@ The example Fluentd configuration volume is mounted at `/fluentd/etc/`. While th
 
 Now that the resources have been configured, it is time to deploy the application.
 
-If you used the example application, make sure to follow steps 1 through 3 in the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) instructions before deploying the application.
+Before deploying the application, follow steps 1 through 3 in the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) instructions.
 Replace the deployment commands in step 4 with your locally edited YAML files:
 ```
 $ kubectl apply -f todo-list-components.yaml
