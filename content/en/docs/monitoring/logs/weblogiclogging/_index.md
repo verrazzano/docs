@@ -5,9 +5,9 @@ weight: 4
 draft: false
 ---
 
-Verrazzano creates and manages a Fluentd sidecar injection for each WebLogic pod. This allows application logs to 
+Verrazzano creates and manages a Fluentd sidecar injection for each WebLogic pod. This allows application logs to interact with the cluster-wide Fluentd daemonset.
 However, these resources are not currently configurable and additional containers are required to customize the Fluentd configuration file and the container image.
-For more on how Verrazzano handles logging, read the [Logging](http://localhost:1313/docs/monitoring/logs/) documentation.
+For more information, see [Logging](http://localhost:1313/docs/monitoring/logs/) documentation.
 
 The following instructions show you how to attach and deploy custom Fluentd sidecars to [VerrazzanoWebLogicWorkloads]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) components.
 The example YAML files in this document will be modeled after the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) YAML files for context.
@@ -27,11 +27,10 @@ The `todo-list-components.yaml` contains the [VerrazzanoWebLogicWorkload]({{< re
 This file is also a great place to store any complementary kubernetes resources that are deployed with the application.
 
 With the local application yaml files downloaded, first follow the following instructions and later the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) instructions to deploy this example application with a custom Fluentd sidecar.
-Detailed information about the example application deployment is located in the [Deployment]({{< ref "#deploy-the-fluentd-sidecar" >}}) section of this document.
 
 ## Create a Fluentd custom sidecar configuration file
 
-Before deploying a [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) component, create a [ConfigMap](https://kubernetes.io/docs/concepts/configuration/configmap/) that contains the Fluentd config file.
+Before deploying the [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) component, create a [ConfigMap](https://kubernetes.io/docs/concepts/configuration/configmap/) that contains the Fluentd config file.
 ```yaml
 apiVersion: v1
 kind: ConfigMap
@@ -197,13 +196,13 @@ The example Fluentd configuration volume is mounted at `/fluentd/etc/`. While th
 
 Now that the resources have been configured, it is time to deploy the application.
 
-If you used the example application, make sure to follow steps 1-3 in the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) instructions before deploying the application.
-The step 4 deployment commands should be replaced with your locally edited YAML files:
+If you used the example application, make sure to follow steps 1 through 3 in the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) instructions before deploying the application.
+Replace the deployment commands in step 4 with your locally edited YAML files:
 ```
 $ kubectl apply -f todo-list-components.yaml
 $ kubectl apply -f todo-list-application.yaml
 ```
-Now you are able to complete the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) instructions from step 5 onward.
+Now follow the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) instructions from step 5 onward as needed.
 
 To verify that a deployment successfully created a custom Fluentd sidecar:
 - Verify that the container name exists on the WebLogic application pod.

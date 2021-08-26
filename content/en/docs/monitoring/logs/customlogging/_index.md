@@ -2,7 +2,7 @@
 title: "Customize Application Logging for Generic Workloads"
 description: "A guide for deploying custom Fluentd sidecars"
 weight: 3
-draft: true
+draft: false
 ---
 
 In order to add flexibility and customization to logging with Verrazzano, you must create additional components to interact with the Verrazzano logging DaemonSet.
@@ -33,7 +33,7 @@ This ConfigMap must be deployed before or with the application resources.
 
 ## Create Fluentd custom sidecar volumes
 
-Now that the Fluentd configuration ConfigMap is deployed, create volumes to grant Fluentd access to the application logs and the Fluentd configuration file.
+After the Fluentd configuration ConfigMap is deployed, create volumes to grant Fluentd access to the application logs and the Fluentd configuration file.
 ```yaml
 workload:
   apiVersion: apps/v1
@@ -101,9 +101,9 @@ This enables both containers to access log files within that directory.
 The example Fluentd configuration volume is mounted at `/fluentd/etc/`. 
 While this path is flexible, alterations to the example container environment variables are required to support alternative paths.
 
-## Deploy the Fluentd Sidecar
+## Deploy the Fluentd sidecar
 
-Now that the resources have been configured, it is time to deploy the application.
+Now that you hae configured the resources, go ahead and deploy the application.
 
 To verify that a deployment successfully created a custom Fluentd sidecar:
 - Verify that the container name exists on the application pod.
