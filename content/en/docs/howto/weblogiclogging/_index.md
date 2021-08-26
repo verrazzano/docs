@@ -152,7 +152,7 @@ spec:
           serverPod:
             # ---- Add Fluentd container with volumeMounts  ----
             containers:
-              - image: fluent/fluentd
+              - image: ghcr.io/verrazzano/fluentd-kubernetes-daemonset:v1.12.3-20210517195222-f345ec2
                 name: fluentd
                 env:
                   - name: FLUENT_UID
