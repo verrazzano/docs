@@ -27,8 +27,8 @@ $ kubectl logs tododomain-adminserver \
     -c fluentd-stdout-sidecar
 ```
 
-The Fluentd Docker image hosts two default plugins, `kubernetes_parser` and `kubernetes_multiline_parser`.
-Both of these plugins help to parse kubernetes management log files. 
+The Verrazzano Fluentd Docker image has two default plugins, `kubernetes_parser` and `kubernetes_multiline_parser`.
+These plugins help to parse kubernetes management log files. 
 
 Here are example use cases for these plugins:
 ```
@@ -57,7 +57,7 @@ Here are example use cases for these plugins:
 # ----   EOF      ----
 ```
 
-For more details on these plugins, you can view their source files in our [Fluentd plugins](https://github.com/verrazzano/fluentd-kubernetes-daemonset/tree/oracle-build-from-source-v1.12/docker-image/v1.12/oraclelinux-elasticsearch7/plugins) folder.
+For more details, see the [Fluentd plugins](https://github.com/verrazzano/fluentd-kubernetes-daemonset/tree/oracle-build-from-source-v1.12/docker-image/v1.12/oraclelinux-elasticsearch7/plugins) folder.
 
 ## Fluentd DaemonSet
 Verrazzano deploys a Fluentd DaemonSet which runs one Fluentd replica per node in the `verrazzano-system` namespace.
