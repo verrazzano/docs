@@ -27,7 +27,23 @@ $ kubectl logs tododomain-adminserver \
     -c fluentd-stdout-sidecar
 ```
 
-The Verrazzano Fluentd Docker image has two default plugins, `kubernetes_parser` and `kubernetes_multiline_parser`.
+The Verrazzano Fluentd Docker image comes with these plugins:
+
+- [fluent-plugin-concat](https://github.com/fluent-plugins-nursery/fluent-plugin-concat)
+- [fluent-plugin-dedot_filter](https://github.com/lunardial/fluent-plugin-dedot_filter)
+- [fluent-plugin-detect-exceptions ](https://github.com/GoogleCloudPlatform/fluent-plugin-detect-exceptions)
+- [fluent-plugin-elasticsearch](https://docs.fluentd.org/output/elasticsearch)
+- [fluent-plugin-grok-parser](https://github.com/fluent/fluent-plugin-grok-parser)
+- [fluent-plugin-json-in-json-2](https://rubygems.org/gems/fluent-plugin-json-in-json-2)
+- [fluent-plugin-kubernetes_metadata_filter](https://github.com/fabric8io/fluent-plugin-kubernetes_metadata_filter)
+- [fluent-plugin-multi-format-parser](https://github.com/repeatedly/fluent-plugin-multi-format-parser)
+- [fluent-plugin-parser-cri](https://github.com/fluent/fluent-plugin-parser-cri)
+- [fluent-plugin-prometheus](https://github.com/fluent/fluent-plugin-prometheus)
+- [fluent-plugin-record-modifier](https://github.com/repeatedly/fluent-plugin-record-modifier)
+- [fluent-plugin-rewrite-tag-filter](https://github.com/fluent/fluent-plugin-rewrite-tag-filter)
+- [fluent-plugin-systemd](https://github.com/fluent-plugin-systemd/fluent-plugin-systemd)
+
+The Verrazzano Fluentd Docker image also has two local default plugins, `kubernetes_parser` and `kubernetes_multiline_parser`.
 These plugins help to parse kubernetes management log files. 
 
 Here are example use cases for these plugins:
