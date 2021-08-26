@@ -27,6 +27,38 @@ $ kubectl logs tododomain-adminserver \
     -c fluentd-stdout-sidecar
 ```
 
+The Fluentd Docker image hosts two default plugins, `kubernetes_parser` and `kubernetes_multiline_parser`.
+Both of these plugins help to parse kubernetes management log files. 
+
+Here are example use cases for these plugins:
+```
+# ---- fluentd.conf ----
+# kubernetes parser
+<source>
+  @type tail
+  path ./kubelet.log
+  read_from_head yes
+  tag kubelet
+  <parse>
+     @type multiline_kubernetes
+  </parse>
+</source>
+
+# kubernetes multi-line parser
+<source>
+  @type tail
+  path ./kubelet.log
+  read_from_head yes
+  tag kubelet
+  <parse>
+     @type multiline_kubernetes
+  </parse>
+</source>
+# ----   EOF      ----
+```
+
+For more details on these plugins, you can view their source files in our [Fluentd plugins](https://github.com/verrazzano/fluentd-kubernetes-daemonset/tree/oracle-build-from-source-v1.12/docker-image/v1.12/oraclelinux-elasticsearch7/plugins) folder.
+
 ## Fluentd DaemonSet
 Verrazzano deploys a Fluentd DaemonSet which runs one Fluentd replica per node in the `verrazzano-system` namespace.
 Each instance pulls logs from the node's `/var/log/containers` directory and writes them to the target Elasticsearch index.  The index name is based on the namespace associated with the record, using this format: `verrazzano-namespace-<record namespace>`.
