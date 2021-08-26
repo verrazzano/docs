@@ -7,26 +7,23 @@ draft: false
 
 Verrazzano creates and manages a Fluentd sidecar injection for each WebLogic pod. This allows application logs to interact with the cluster-wide Fluentd daemonset.
 However, these resources are not currently configurable and additional containers are required to customize the Fluentd configuration file and the container image.
-For more information, see [Logging](http://localhost:1313/docs/monitoring/logs/) documentation.
+For more information, see [Logging]({{< relref "/docs/monitoring/logs" >}}) documentation.
 
 The following instructions show you how to attach and deploy custom Fluentd sidecars to [VerrazzanoWebLogicWorkloads]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) components.
-The example YAML files in this document will be modeled after the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) YAML files for context.
+The example YAML files in this document are modeled after the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) YAML files.
 
-If you are new to [Open Application Model](https://oam.dev/) resources in Verrazzano, consult the [Applications](http://localhost:1313/docs/applications/) documentation before completing this configuration.
+If you are new to [Open Application Model](https://oam.dev/) resources in Verrazzano, before you begin, read this document, [Applications]({{< relref "/docs/applications/_index.md" >}}).
 
-## Example Application
+## Use an example application
 
-If you would like to test the following configuration on an example application, the Verrazzano [ToDo List]({{< relref "/docs/samples/todo-list" >}}) example application is a great place to start.
-Before you deploy the application, you need to edit the application and component YAML files.
-You can run the following commands to create a local copy of the application YAML files.
+To try out custom application logging, we'll use the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) example application.
+Before deploying the application, you need to edit the application and component YAML files.
+Run the following commands to create a local copy of the application YAML files.
 ```
 $ curl https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/todo-list/todo-list-components.yaml --output todo-list-components.yaml
 $ curl https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/todo-list/todo-list-application.yaml --output todo-list-application.yaml
 ```
-The `todo-list-components.yaml` contains the [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) that is the focus of the following alterations.
-This file is also a great place to store any complementary kubernetes resources that are deployed with the application.
-
-With the local application yaml files downloaded, first follow the following instructions and later the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) instructions to deploy this example application with a custom Fluentd sidecar.
+The `todo-list-components.yaml` file contains the [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) which is where we will modify the deployment.
 
 ## Create a Fluentd custom sidecar configuration file
 
