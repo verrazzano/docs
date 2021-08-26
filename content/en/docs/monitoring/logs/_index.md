@@ -27,7 +27,7 @@ $ kubectl logs tododomain-adminserver \
     -c fluentd-stdout-sidecar
 ```
 
-The Verrazzano Fluentd Docker image comes with these plugins:
+The Verrazzano Fluentd Docker image comes with these plug-ins:
 
 - [fluent-plugin-concat](https://github.com/fluent-plugins-nursery/fluent-plugin-concat)
 - [fluent-plugin-dedot_filter](https://github.com/lunardial/fluent-plugin-dedot_filter)
@@ -43,10 +43,10 @@ The Verrazzano Fluentd Docker image comes with these plugins:
 - [fluent-plugin-rewrite-tag-filter](https://github.com/fluent/fluent-plugin-rewrite-tag-filter)
 - [fluent-plugin-systemd](https://github.com/fluent-plugin-systemd/fluent-plugin-systemd)
 
-The Verrazzano Fluentd Docker image also has two local default plugins, `kubernetes_parser` and `kubernetes_multiline_parser`.
-These plugins help to parse kubernetes management log files. 
+The Verrazzano Fluentd Docker image also has two local default plug-ins, `kubernetes_parser` and `kubernetes_multiline_parser`.
+These plug-ins help to parse Kubernetes management log files. 
 
-Here are example use cases for these plugins:
+Here are example use cases for these plug-ins:
 ```
 # ---- fluentd.conf ----
 # kubernetes parser
