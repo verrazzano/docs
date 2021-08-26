@@ -27,6 +27,54 @@ $ kubectl logs tododomain-adminserver \
     -c fluentd-stdout-sidecar
 ```
 
+The Verrazzano Fluentd Docker image comes with these plug-ins:
+
+- [fluent-plugin-concat](https://github.com/fluent-plugins-nursery/fluent-plugin-concat)
+- [fluent-plugin-dedot_filter](https://github.com/lunardial/fluent-plugin-dedot_filter)
+- [fluent-plugin-detect-exceptions ](https://github.com/GoogleCloudPlatform/fluent-plugin-detect-exceptions)
+- [fluent-plugin-elasticsearch](https://docs.fluentd.org/output/elasticsearch)
+- [fluent-plugin-grok-parser](https://github.com/fluent/fluent-plugin-grok-parser)
+- [fluent-plugin-json-in-json-2](https://rubygems.org/gems/fluent-plugin-json-in-json-2)
+- [fluent-plugin-kubernetes_metadata_filter](https://github.com/fabric8io/fluent-plugin-kubernetes_metadata_filter)
+- [fluent-plugin-multi-format-parser](https://github.com/repeatedly/fluent-plugin-multi-format-parser)
+- [fluent-plugin-parser-cri](https://github.com/fluent/fluent-plugin-parser-cri)
+- [fluent-plugin-prometheus](https://github.com/fluent/fluent-plugin-prometheus)
+- [fluent-plugin-record-modifier](https://github.com/repeatedly/fluent-plugin-record-modifier)
+- [fluent-plugin-rewrite-tag-filter](https://github.com/fluent/fluent-plugin-rewrite-tag-filter)
+- [fluent-plugin-systemd](https://github.com/fluent-plugin-systemd/fluent-plugin-systemd)
+
+The Verrazzano Fluentd Docker image also has two local default plug-ins, `kubernetes_parser` and `kubernetes_multiline_parser`.
+These plug-ins help to parse Kubernetes management log files. 
+
+Here are example use cases for these plug-ins:
+```
+# ---- fluentd.conf ----
+# kubernetes parser
+<source>
+  @type tail
+  path ./kubelet.log
+  read_from_head yes
+  tag kubelet
+  <parse>
+     @type multiline_kubernetes
+  </parse>
+</source>
+
+# kubernetes multi-line parser
+<source>
+  @type tail
+  path ./kubelet.log
+  read_from_head yes
+  tag kubelet
+  <parse>
+     @type multiline_kubernetes
+  </parse>
+</source>
+# ----   EOF      ----
+```
+
+For more details, see the [Fluentd plugins](https://github.com/verrazzano/fluentd-kubernetes-daemonset/tree/oracle-build-from-source-v1.12/docker-image/v1.12/oraclelinux-elasticsearch7/plugins) folder.
+
 ## Fluentd DaemonSet
 Verrazzano deploys a Fluentd DaemonSet which runs one Fluentd replica per node in the `verrazzano-system` namespace.
 Each instance pulls logs from the node's `/var/log/containers` directory and writes them to the target Elasticsearch index.  The index name is based on the namespace associated with the record, using this format: `verrazzano-namespace-<record namespace>`.
