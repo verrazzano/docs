@@ -93,7 +93,7 @@ workload:
 
 This example container uses the Verrazzano Fluentd image, but you can use any image with additional Fluentd plug-ins in its place.
 
-Mounted are both volumes created to enable the Fluentd sidecar to monitor and parse logs.
+The volumeMounts `shared-log-files` and `fdconfig` are created to enable the Fluentd sidecar to monitor and parse logs.
 The volume `shared-log-files` should be mounted at the location that the application writes log files.
 The `volumeMount` for the application and sidecar should point to the same directory. 
 This enables both containers to access log files within that directory.

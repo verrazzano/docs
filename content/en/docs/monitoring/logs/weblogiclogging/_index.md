@@ -20,8 +20,8 @@ To try out custom application logging, we'll use the [ToDo List]({{< relref "/do
 Before deploying the application, you need to edit the application and component YAML files.
 Run the following commands to create a local copy of the application YAML files.
 ```
-$ curl https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/todo-list/todo-list-components.yaml --output todo-list-components.yaml
-$ curl https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.0/examples/todo-list/todo-list-application.yaml --output todo-list-application.yaml
+$ curl {{< release_source_url raw=true path=examples/todo-list/todo-list-components.yaml >}} --output todo-list-components.yaml
+$ curl {{< release_source_url raw=true path=examples/todo-list/todo-list-application.yaml >}} --output todo-list-application.yaml
 ```
 The `todo-list-components.yaml` file contains the [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) which is where we will modify the deployment.
 
@@ -84,14 +84,14 @@ spec:
             secrets:
               - tododomain-jdbc-tododb
           serverPod:
-            # ---- Add volumes for Fluentd container ----
+            # ---- BEGIN: Add volumes for Fluentd container ----
             volumes:
               - emptyDir: {}
                 name: shared-log-files
               - name: fdconfig
                 configMap:
                   name: fluentdconf
-            # ---- Add volumes for Fluentd container  ----
+            # ---- END: Add volumes for Fluentd container  ----
             env:
               - name: JAVA_OPTIONS
                 value: "-Dweblogic.StdoutDebugEnabled=false"
@@ -146,7 +146,7 @@ spec:
             secrets:
               - tododomain-jdbc-tododb
           serverPod:
-            # ---- Add Fluentd container with volumeMounts  ----
+            # ---- BEGIN: Add Fluentd container with volumeMounts  ----
             containers:
               - image: ghcr.io/verrazzano/fluentd-kubernetes-daemonset:v1.12.3-20210517195222-f345ec2
                 name: fluentd
@@ -163,7 +163,7 @@ spec:
                     readOnly: true
                   - name: fdconfig
                     mountPath: /fluentd/etc/
-            # ---- Add Fluentd container with volumeMounts  ----
+            # ---- END: Add Fluentd container with volumeMounts  ----
             volumes:
               - emptyDir: {}
                 name: shared-log-files
@@ -187,7 +187,7 @@ Mounted are both volumes created to enable the Fluentd sidecar to monitor and pa
 [VerrazzanoWebLogicWorkloads]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) mount a volume in the `/scratch` directory containing log files.
 Thus, any sidecar containers are limited to log access under that directory. As shown previously, the `shared-log-file` volume is mounted at `/scratch` for this reason.
 
-The example Fluentd configuration volume is mounted at `/fluentd/etc/`. While this path is more flexible, alterations to the example container environment variables are required to support alternative paths.
+The example Fluentd configuration volume is mounted at `/fluentd/etc/`. While this path is more flexible, the `FLUEND_ARGS` environment variable needs to be updated accordingly.
 
 ## Deploy the Fluentd sidecar
 
