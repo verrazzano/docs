@@ -1,11 +1,15 @@
 ---
-title: "Customize Application Logging for WebLogic Workloads"
-description: "A guide for deploying custom Fluentd sidecars to VerrazzanoWebLogicWorkload components"
+title: "Deploy a Kubernetes Sidecar with Verrazzano"
+description: "A guide for deploying custom sidecars to Verrazzano workload components"
 weight: 4
 draft: false
 ---
+You may want to add additional sidecars to Verrazzano workloads. For an introduction on this topic, you can create a custom Fluentd sidecar for application logs. 
+The following instructions demonstrate how to deploy a custom Fluentd sidecar using the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) example application.
 
-Verrazzano creates and manages a Fluentd sidecar injection for each WebLogic pod. This allows application logs to interact with the cluster-wide Fluentd DaemonSet.
+## Understand Verrazzano Logging
+
+Verrazzano creates and manages a Fluentd sidecar injection for each WebLogic pod. This allows application logs to interact with the cluster-wide [Fluentd DaemonSet]({{< relref "/docs/monitoring/logs/_index.md#fluentd-daemonset" >}}).
 However, these resources are not currently configurable and additional containers are required to customize the Fluentd configuration file and the container image.
 For more information, see [Logging]({{< relref "/docs/monitoring/logs" >}}).
 
