@@ -12,15 +12,13 @@ Verrazzano creates and manages a Fluentd sidecar injection for each WebLogic pod
 However, these resources are not currently configurable and additional containers are required to customize the Fluentd configuration file and the container image.
 For more information on Fluentd sidecars and DaemonSet, see [Logging]({{< relref "/docs/monitoring/logs" >}}).
 
-The following instructions demonstrate how to attach and deploy a custom Fluentd sidecar to [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) components using the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) example application.
-
-Before deploying the application, you will need to edit the application and component YAML files.
+The following instructions use the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) example application to demonstrate how to attach and deploy a custom Fluentd sidecar to a [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) component. Before deploying the application, you will need to edit the application and component YAML files.
 Run the following commands to create a local copy of them:
 ```
 $ curl {{< release_source_url raw=true path=examples/todo-list/todo-list-components.yaml >}} --output todo-list-components.yaml
 $ curl {{< release_source_url raw=true path=examples/todo-list/todo-list-application.yaml >}} --output todo-list-application.yaml
 ```
-The `todo-list-components.yaml` file contains the [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) which is where we will modify the deployment.
+The `todo-list-components.yaml` file contains the [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}), which is where you will modify the deployment.
 
 ## Create a Fluentd custom sidecar configuration file
 
@@ -39,7 +37,7 @@ data:
       </match>
 
 ```
-In order to interact with the [Fluentd DaemonSet]({{< relref "/docs/monitoring/logs/#fluentd-daemonset" >}}) that Verrazzano manages, the configuration must redirect logs to stdout, as shown in the match block at the end of the previous Fluentd config file.
+In order to interact with the [Fluentd DaemonSet]({{< relref "/docs/monitoring/logs/#fluentd-daemonset" >}}) that Verrazzano manages, the configuration must redirect logs to stdout, as shown in the match block at the end of the Fluentd config file.
 This ConfigMap must be deployed before or with all other application resources.
 
 ## Create Fluentd custom sidecar volumes
@@ -188,13 +186,13 @@ The example Fluentd configuration volume is mounted at `/fluentd/etc/`. While th
 
 ## Deploy the Fluentd sidecar
 
-Now that the resources have been configured, it is time to deploy the application. Follow steps 1 through 3 in the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) example application instructions.
+Now that the resources have been configured, you can deploy the application. Follow steps 1 through 3 in the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) example application instructions.
 Replace the deployment commands in step 4 with your locally edited YAML files:
 ```
 $ kubectl apply -f todo-list-components.yaml
 $ kubectl apply -f todo-list-application.yaml
 ```
-Now follow the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) instructions from step 5 onward, as needed.
+Now, follow the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) instructions from step 5 onward, as needed.
 
 To verify that a deployment successfully created a custom Fluentd sidecar:
 - Verify that the container name exists on the WebLogic application pod.
@@ -209,4 +207,4 @@ To verify that a deployment successfully created a custom Fluentd sidecar:
   kubectl logs -n <application-namespace> <application-pod-name> fluentd
   ```
 - Follow the instructions at [Verrazzano Logging]({{< relref "/docs/monitoring/logs" >}}) to ensure that the [Fluentd DaemonSet]({{< relref "/docs/monitoring/logs/#fluentd-daemonset" >}}) collected the logs from stdout.
-  These logs will appear in the Verrazzano managed [ElasticSearch]({{< relref "/docs/monitoring/logs#elasticsearch" >}}) and [Kibana]({{< relref "/docs/monitoring/logs#kibana" >}}).
+  These logs will appear in the Verrazzano-managed [ElasticSearch]({{< relref "/docs/monitoring/logs#elasticsearch" >}}) and [Kibana]({{< relref "/docs/monitoring/logs#kibana" >}}).
