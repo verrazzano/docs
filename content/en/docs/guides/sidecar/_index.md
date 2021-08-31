@@ -1,28 +1,21 @@
 ---
 title: "Deploy a Kubernetes Sidecar with Verrazzano"
+linkTitle: "Deploy Custom Sidecars"
 description: "A guide for deploying custom sidecars to Verrazzano workload components"
-weight: 4
+weight: 3
 draft: false
 ---
-You may want to add additional sidecars to Verrazzano workloads. For an introduction on this topic, you can create a custom Fluentd sidecar for application logs. 
-The following instructions demonstrate how to deploy a custom Fluentd sidecar using the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) example application.
 
-## Understand Verrazzano Logging
+You may want to add additional sidecars to Verrazzano workloads. This guide will serve as an introduction by showing you how to create a custom Fluentd sidecar for application logs.
 
-Verrazzano creates and manages a Fluentd sidecar injection for each WebLogic pod. This allows application logs to interact with the cluster-wide [Fluentd DaemonSet]({{< relref "/docs/monitoring/logs/_index.md#fluentd-daemonset" >}}).
+Verrazzano creates and manages a Fluentd sidecar injection for each WebLogic pod. This allows application logs to interact with the cluster-wide Fluentd DaemonSet.
 However, these resources are not currently configurable and additional containers are required to customize the Fluentd configuration file and the container image.
-For more information, see [Logging]({{< relref "/docs/monitoring/logs" >}}).
+For more information on Fluentd sidecars and DaemonSet, see [Logging]({{< relref "/docs/monitoring/logs" >}}).
 
-The following instructions show you how to attach and deploy custom Fluentd sidecars to [VerrazzanoWebLogicWorkloads]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) components.
-The example YAML files in this document are modeled after the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) YAML files.
+The following instructions demonstrate how to attach and deploy a custom Fluentd sidecar to [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) components using the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) example application.
 
-If you are new to [Open Application Model](https://oam.dev/) resources in Verrazzano, before you begin, read this document, [Applications]({{< relref "/docs/applications/_index.md" >}}).
-
-## Use an example application
-
-To try out custom application logging, we'll use the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) example application.
-Before deploying the application, you need to edit the application and component YAML files.
-Run the following commands to create a local copy of the application YAML files.
+Before deploying the application, you will need to edit the application and component YAML files.
+Run the following commands to create a local copy of them:
 ```
 $ curl {{< release_source_url raw=true path=examples/todo-list/todo-list-components.yaml >}} --output todo-list-components.yaml
 $ curl {{< release_source_url raw=true path=examples/todo-list/todo-list-application.yaml >}} --output todo-list-application.yaml
@@ -195,15 +188,13 @@ The example Fluentd configuration volume is mounted at `/fluentd/etc/`. While th
 
 ## Deploy the Fluentd sidecar
 
-Now that the resources have been configured, it is time to deploy the application.
-
-Before deploying the application, follow steps 1 through 3 in the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) instructions.
+Now that the resources have been configured, it is time to deploy the application. Follow steps 1 through 3 in the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) example application instructions.
 Replace the deployment commands in step 4 with your locally edited YAML files:
 ```
 $ kubectl apply -f todo-list-components.yaml
 $ kubectl apply -f todo-list-application.yaml
 ```
-Now follow the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) instructions from step 5 onward as needed.
+Now follow the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) instructions from step 5 onward, as needed.
 
 To verify that a deployment successfully created a custom Fluentd sidecar:
 - Verify that the container name exists on the WebLogic application pod.
