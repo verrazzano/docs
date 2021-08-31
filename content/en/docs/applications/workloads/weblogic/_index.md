@@ -251,7 +251,7 @@ WebLogic logs are sent to Elasticsearch, which is installed in the Verrazzano cl
 Verrazzano makes it easy for you to migrate WebLogic applications from on-premises installations to the cloud. You can use WebLogic Deploy Tooling (WDT) to build the domain model and the WebLogic Image Tool (WIT) to build the WebLogic domain image.
 
 
-For detailed instructions, see the [Lift-and-Shift]({{< relref "/docs/samples/lift-and-shift.md" >}}) Guide.
+For detailed instructions, see the [Lift-and-Shift]({{< relref "/docs/guides/lift-and-shift/lift-and-shift.md" >}}) Guide.
 
 ## Deploy WebLogic applications in Verrazzano
 
