@@ -130,7 +130,7 @@ DeploymentTemplate specifies the metadata and pod spec of the underlying deploym
 
 
 ### VerrazzanoWebLogicWorkload
-The VerrazzanoWebLogicWorkload custom resource contains the configuration information for a WebLogic [Domain](https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md) workload within Verrazzano.  Here is a sample component that specifies a VerrazzanoWebLogicWorkload.  To deploy an example application that demonstrates this workload type, see the ToDo List [Lift-and-Shift]({{< relref "/docs/samples/lift-and-shift.md" >}}) application.
+The VerrazzanoWebLogicWorkload custom resource contains the configuration information for a WebLogic [Domain](https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md) workload within Verrazzano.  Here is a sample component that specifies a VerrazzanoWebLogicWorkload.  To deploy an example application that demonstrates this workload type, see the ToDo List [Lift-and-Shift]({{< relref "/docs/guides/lift-and-shift/lift-and-shift.md" >}}) application.
 
 ```
 apiVersion: core.oam.dev/v1alpha2
