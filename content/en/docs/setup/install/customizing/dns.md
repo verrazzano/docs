@@ -113,7 +113,7 @@ The following prerequisites must be met before using OCI DNS with Verrazzano:
 ### Create an OCI API secret in the target cluster
 
 To communicate with OCI DNS to manage DNS records, Verrazzano needs to be made aware of the necessary API credentials.  
-A generic Kubernetes secret must be created in the cluster's `default` namespace with the required credentials.
+A generic Kubernetes secret must be created in the cluster's `verrazzano-install` namespace with the required credentials.
 That secret must then be referenced by the custom resource that is used to install Verrazzano.  
 
 After you have an OCI API key ready for use, create a YAML file, `oci.yaml`, with the API credentials in the form:
@@ -146,16 +146,16 @@ auth:
   fingerprint: 12:d3:4c:gh:fd:9e:27:g8:b9:0d:9f:00:22:33:c3:gg
 ```
 
-Then, you can create a generic Kubernetes secret in the cluster's `default` namespace using `kubectl`.
+Then, you can create a generic Kubernetes secret in the cluster's `verrazzano-install` namespace using `kubectl`.
 
 ```
-$ kubectl create secret generic -n default <secret-name> --from-file=<path-to-oci-yaml-file>
+$ kubectl create secret generic -n verrazzano-install <secret-name> --from-file=<path-to-oci-yaml-file>
 ```
 
 For example, to create a secret named `oci` from a file `oci.yaml`, do the following:
 
 ```
-$ kubectl create secret generic -n default oci --from-file=oci.yaml
+$ kubectl create secret generic -n verrazzano-install oci --from-file=oci.yaml
 ```
 
 This secret will later be referenced from the Verrazzano custom resource used during installation.
