@@ -10,6 +10,11 @@ WebLogic Server is a widely-used enterprise application server for managing Java
 
 The WebLogic Kubernetes Operator is installed in the `verrazzano-system` namespace and is also part of the [istio-mesh](https://istio.io/latest/about/service-mesh/) deployed by Verrazzano.
 
+{{< alert title="NOTE" color="warning" >}}
+Verrazzano installs an instance of the WebLogic Operator. If you have a pre-existing instance of the WebLogic Operator, namespaces managed by each instance must be exclusive.
+Do not label a namespace to be managed by Verrazzano that is also managed by the pre-existing WebLogic Operator.
+{{< /alert >}}
+
 ## WebLogic OAM Component
 
 In Verrazzano, WebLogic workloads are specified as a [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) OAM Component and one component specifies exactly one WebLogic domain. An `ApplicationConfiguration` can contain multiple `VerrazzanoWebLogicWorkload` components and therefore, multiple WebLogic domains. You can specify `Traits` for one or more `VerrazzanoWebLogicWorkload` components. All WebLogic Domain CR fields can be specified in the `VerrazzanoWebLogicWorkload`.
