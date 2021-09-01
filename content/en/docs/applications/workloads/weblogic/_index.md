@@ -11,7 +11,7 @@ WebLogic Server is a widely-used enterprise application server for managing Java
 The WebLogic Kubernetes Operator is installed in the `verrazzano-system` namespace and is also part of the [istio-mesh](https://istio.io/latest/about/service-mesh/) deployed by Verrazzano.
 
 {{< alert title="NOTE" color="warning" >}}
-Verrazzano installs an instance of the WebLogic Kubernetes Operator. If you have a pre-existing instance of the WebLogic Kubernetes Operator, namespaces managed by each instance must be mutually exclusive.
+Verrazzano installs an instance of the WebLogic Kubernetes Operator. If you have a pre-existing instance of the operator, namespaces managed by each instance must be mutually exclusive.
 Do not label a namespace which is managed by the pre-existing WebLogic Kubernetes Operator, to also be managed by Verrazzano.
 {{< /alert >}}
 
