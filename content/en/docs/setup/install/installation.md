@@ -97,7 +97,7 @@ you want to install.
 
 To monitor the Console log output of the installation:
 ```shell
-$ kubectl logs \
+$ kubectl -n verrazzano-install logs \
     -f $(kubectl get pod \
     -l job-name=verrazzano-install-my-verrazzano \
     -o jsonpath="{.items[0].metadata.name}")
