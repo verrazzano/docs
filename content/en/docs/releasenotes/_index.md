@@ -5,6 +5,17 @@ weight: 13
 draft: false
 ---
 
+### v1.0.1
+Fixes:
+- Updated to the v3.3.0 WebLogic Kubernetes Operator.
+- Updated to the v3.2.1 Coherence Operator.
+- Updated external-dns and cert-manager image versions.
+- Updated to the 1.20.6-2 version of kubectl in the analysis tool.
+- Ensured ConfigMaps are deleted during uninstall.
+- Fixed logging pattern match issue for OKE Kubernetes v1.20.8 clusters.
+- Fixed multicluster log collection for Verrazzano installs using LetsEncrypt certificates.
+- Fixed console UI display bugs for multicluster applications.
+
 ### v1.0.0
 Features: Updated to Rancher v2.5.9.
 
