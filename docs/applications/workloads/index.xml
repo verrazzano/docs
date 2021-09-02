@@ -122,14 +122,14 @@ there are two ways to configure the Coherence metrics endpoint.  Coherence has a
 enable.  If your application serves metrics from its own endpoint, such as a Helidon application, then do not use the native
 Coherence metrics endpoint.  To see the difference, examine the &lt;code&gt;socks-shop&lt;/code&gt; and &lt;code&gt;bobs-books&lt;/code&gt; examples.&lt;/p&gt;
 &lt;h3 id=&#34;bobs-books&#34;&gt;Bobs Books&lt;/h3&gt;
-&lt;p&gt;The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.0.0/examples/bobs-books&#34;&gt;bobs-books&lt;/a&gt; example uses the default
+&lt;p&gt;The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.0.1/examples/bobs-books&#34;&gt;bobs-books&lt;/a&gt; example uses the default
 Coherence metrics endpoint, so the configuration must enable this feature, shown in the following metrics section of the
-&lt;code&gt;roberts-coherence&lt;/code&gt; component in the YAML file, &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.0.0/examples/bobs-books/bobs-books-comp.yaml&#34;&gt;bobs-books-comp.yaml&lt;/a&gt;.&lt;/p&gt;
+&lt;code&gt;roberts-coherence&lt;/code&gt; component in the YAML file, &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.0.1/examples/bobs-books/bobs-books-comp.yaml&#34;&gt;bobs-books-comp.yaml&lt;/a&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-...&#34; data-lang=&#34;...&#34;&gt;          coherence:
             metrics:
               enabled: true
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;sock-shop&#34;&gt;Sock Shop&lt;/h3&gt;
-&lt;p&gt;The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.0.0/examples/sock-shop&#34;&gt;sock-shop&lt;/a&gt; example, which is a Helidon
+&lt;p&gt;The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.0.1/examples/sock-shop&#34;&gt;sock-shop&lt;/a&gt; example, which is a Helidon
 application with embedded Coherence, explicitly specifies the metrics port 7001 and doesn&amp;rsquo;t enable Coherence metrics.  Coherence
 metrics still will be scraped, but not at the default endpoint.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;          ports:
@@ -348,6 +348,16 @@ things to try when troubleshooting, as well as how to solve common problems you 
         
         &lt;p&gt;WebLogic Server is a widely-used enterprise application server for managing Java Enterprise Edition-based applications and is &lt;a href=&#34;https://blogs.oracle.com/weblogicserver/weblogic-server-certification-on-kubernetes&#34;&gt;certified&lt;/a&gt; to run on Kubernetes using the &lt;a href=&#34;https://oracle.github.io/weblogic-kubernetes-operator/&#34;&gt;WebLogic Kubernetes Operator&lt;/a&gt;. The WebLogic Kubernetes Operator manages the WebLogic domain life cycle in Verrazzano. The WebLogic Domain custom resource (CR) specifies the configuration of the WebLogic domain. The operator monitors the WebLogic Domain CR and reconciles the domain by creating, updating, and deleting Kubernetes resources (Pods, Services, and such), as needed. Each pod is a WebLogic Server, an Administration Server or Managed Server.&lt;/p&gt;
 &lt;p&gt;The WebLogic Kubernetes Operator is installed in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace and is also part of the &lt;a href=&#34;https://istio.io/latest/about/service-mesh/&#34;&gt;istio-mesh&lt;/a&gt; deployed by Verrazzano.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    Verrazzano installs an instance of the WebLogic Kubernetes Operator. If you have a pre-existing instance of the operator, namespaces managed by each instance must be mutually exclusive.
+Do not label a namespace which is managed by the pre-existing WebLogic Kubernetes Operator, to also be managed by Verrazzano.
+
+&lt;/div&gt;
+
 &lt;h2 id=&#34;weblogic-oam-component&#34;&gt;WebLogic OAM Component&lt;/h2&gt;
 &lt;p&gt;In Verrazzano, WebLogic workloads are specified as a &lt;a href=&#34;../../../docs/reference/api/oam/workloads/#verrazzanoweblogicworkload&#34;&gt;VerrazzanoWebLogicWorkload&lt;/a&gt; OAM Component and one component specifies exactly one WebLogic domain. An &lt;code&gt;ApplicationConfiguration&lt;/code&gt; can contain multiple &lt;code&gt;VerrazzanoWebLogicWorkload&lt;/code&gt; components and therefore, multiple WebLogic domains. You can specify &lt;code&gt;Traits&lt;/code&gt; for one or more &lt;code&gt;VerrazzanoWebLogicWorkload&lt;/code&gt; components. All WebLogic Domain CR fields can be specified in the &lt;code&gt;VerrazzanoWebLogicWorkload&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;The following is an example WebLogic OAM Component.&lt;/p&gt;
