@@ -22,11 +22,11 @@
 <meta property="og:description" content="How to set up a multicluster Verrazzano environment" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/install/multicluster/" />
-<meta property="article:modified_time" content="2021-07-30T09:33:58-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-09-02T17:12:30-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Install Multicluster Verrazzano">
 <meta itemprop="description" content="How to set up a multicluster Verrazzano environment">
-<meta itemprop="dateModified" content="2021-07-30T09:33:58-04:00" />
-<meta itemprop="wordCount" content="1723">
+<meta itemprop="dateModified" content="2021-09-02T17:12:30-04:00" />
+<meta itemprop="wordCount" content="2060">
 
 
 
@@ -106,7 +106,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.57b87acc4b30570a75b63d84578cdb0e.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.b9286194416d62d49f63a53f582d390a.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -133,7 +133,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.57b87acc4b30570a75b63d84578cdb0e.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.b9286194416d62d49f63a53f582d390a.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -204,8 +204,13 @@ if (!doNotTrack) {
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupuninstalluninstall-li">
   <a href="../../../../docs/setup/uninstall/uninstall/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupuninstalluninstall"><span class="">Uninstall</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupupgradeupgrade-li">
-  <a href="../../../../docs/setup/upgrade/upgrade/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupupgradeupgrade"><span class="">Upgrade</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docssetupupgrade-li">
+  <a href="../../../../docs/setup/upgrade/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssetupupgrade"><span class="">Upgrade</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupupgrademulticluster-li">
+  <a href="../../../../docs/setup/upgrade/multicluster/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssetupupgrademulticluster"><span class="">Upgrade Multicluster Verrazzano</span></a>
+</li>
+  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupprivate-registryprivate-registry-li">
   <a href="../../../../docs/setup/private-registry/private-registry/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupprivate-registryprivate-registry"><span class="">Use a Private Registry</span></a>
 </li>
@@ -870,13 +875,13 @@ then used by the admin cluster to scrape metrics from the managed cluster.</li>
 <li>The API address of the managed cluster, in the <code>apiUrl</code> status field. This is used by the admin cluster&rsquo;s API proxy to
 route incoming requests for managed cluster information, to the managed cluster&rsquo;s API proxy.</li>
 </ul>
-<h3 id="verifying-that-managed-cluster-registration-completed">Verifying that managed cluster registration completed</h3>
+<h3 id="verify-that-managed-cluster-registration-completed">Verify that managed cluster registration completed</h3>
 <p>You can perform all the verification steps on the admin cluster.</p>
 <ol>
 <li>
 <p>Verify that the managed cluster can connect to the admin cluster. View the status of the <code>VerrazzanoManagedCluster</code>
-resource on the admin cluster, and check whether the <code>lastAgentConnectTime</code>, <code>prometheusUrl</code> and <code>apiUrl</code> fields are
-populated. This may take up to 2 minutes after completing the registration steps.</p>
+resource on the admin cluster, and check whether the <code>lastAgentConnectTime</code>, <code>prometheusUrl</code>, and <code>apiUrl</code> fields are
+populated. This may take up to two minutes after completing the registration steps.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8f5902;font-style:italic"># On the admin cluster</span>
 $ kubectl --kubeconfig <span style="color:#000">$KUBECONFIG_ADMIN</span> --context <span style="color:#000">$KUBECONTEXT_ADMIN</span> <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>    get vmc managed1 -n verrazzano-mc -o yaml
@@ -899,11 +904,41 @@ status:
 <p>Verify that the managed cluster is successfully registered with Rancher.
 When you perform the registration steps, Verrazzano also registers the managed cluster with Rancher.
 View the Rancher UI on the admin cluster. If the registration with Rancher was successful, then your cluster will be
-listed in Rancher&rsquo;s list of clusters, and should be in <code>Active</code> state. You can find the Rancher UI URL for your
+listed in Rancher&rsquo;s list of clusters, and will be in <code>Active</code> state. You can find the Rancher UI URL for your
 cluster by following the instructions for <a href="../../../../docs/operations/">Accessing Verrazzano</a>.</p>
 </li>
 </ol>
-<h2 id="run-applications-in-multicluster-verrazzano">Run applications in multicluster Verrazzano</h2>
+<h3 id="verify-that-managed-cluster-metrics-are-being-collected">Verify that managed cluster metrics are being collected</h3>
+<p>Verify that the admin cluster is collecting metrics from the managed cluster.  The Prometheus output will include
+records that contain the name of the managed cluster (labeled as <code>managed_cluster</code>).</p>
+<p>You can find the Prometheus UI URL for your cluster by following the instructions for <a href="../../../../docs/operations/">Accessing Verrazzano</a>.
+Execute a query for a metric (for example, <code>node_disk_io_time_seconds_total</code>).</p>
+<p><strong>Sample output of a Prometheus query</strong></p>
+<p><img src="../../../../docs/images/multicluster/prometheus-multicluster.png" alt="Prometheus"></p>
+<p>An alternative approach to using the Prometheus UI is to query metrics from the command line. Here is an example of how to obtain Prometheus metrics from the command line. Search the output of the query for responses that have the <code>managaged_cluster</code> field set to the name of the managed cluster.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8f5902;font-style:italic"># On the admin cluster</span>
+$ <span style="color:#000">prometheusUrl</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl --kubeconfig <span style="color:#000">$KUBECONFIG_ADMIN</span> --context <span style="color:#000">$KUBECONTEXT_ADMIN</span> <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>                 get verrazzano -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.items[0].status.instance.prometheusUrl}&#39;</span><span style="color:#204a87;font-weight:bold">)</span>
+$ <span style="color:#000">VZPASS</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl --kubeconfig <span style="color:#000">$KUBECONFIG_ADMIN</span> --context <span style="color:#000">$KUBECONTEXT_ADMIN</span> <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>           get secret verrazzano --namespace verrazzano-system <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>           -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">={</span>.data.password<span style="color:#ce5c00;font-weight:bold">}</span> <span style="color:#000;font-weight:bold">|</span> base64 --decode<span style="color:#000;font-weight:bold">;</span> <span style="color:#204a87">echo</span><span style="color:#204a87;font-weight:bold">)</span>
+$ curl --user verrazzano:<span style="color:#4e9a06">${</span><span style="color:#000">VZPASS</span><span style="color:#4e9a06">}</span> <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">${</span><span style="color:#000">prometheusUrl</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/api/v1/query?query=node_disk_io_time_seconds_total&#34;</span>
+</code></pre></div><h3 id="verify-that-managed-cluster-logs-are-being-collected">Verify that managed cluster logs are being collected</h3>
+<p>Verify that the admin cluster is collecting logs from the managed cluster.  The output will include records which have the name of the managed cluster in the <code>cluster_name</code> field.</p>
+<p>You can find the Kibana UI URL for your cluster by following the instructions for <a href="../../../../docs/operations/">Accessing Verrazzano</a>.
+Create an index for <code>verrazzano-namespace-verrazzano-system</code>.  Some log records will have the <code>cluster_name</code> field populated with the name of
+the managed cluster.</p>
+<p><strong>Sample output of a Kibana screen</strong></p>
+<p><img src="../../../../docs/images/multicluster/kibana-multicluster.png" alt="Kibana"></p>
+<p>An alternative approach to using the Kibana UI is to query Elasticsearch from the command line.  Here is an example of how to obtain log records from the command line.  Search the output of the query for responses that have the <code>cluster_name</code> field set to the name of the managed cluster.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8f5902;font-style:italic"># On the admin cluster</span>
+$ <span style="color:#000">kibanaUrl</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl --kubeconfig <span style="color:#000">$KUBECONFIG_ADMIN</span> --context <span style="color:#000">$KUBECONTEXT_ADMIN</span> <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>                 get verrazzano -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.items[0].status.instance.kibanaUrl}&#39;</span><span style="color:#204a87;font-weight:bold">)</span>
+$ <span style="color:#000">VZPASS</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl --kubeconfig <span style="color:#000">$KUBECONFIG_ADMIN</span> --context <span style="color:#000">$KUBECONTEXT_ADMIN</span> <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>           get secret verrazzano --namespace verrazzano-system <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>           -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">={</span>.data.password<span style="color:#ce5c00;font-weight:bold">}</span> <span style="color:#000;font-weight:bold">|</span> base64 --decode<span style="color:#000;font-weight:bold">;</span> <span style="color:#204a87">echo</span><span style="color:#204a87;font-weight:bold">)</span>
+$ curl --user verrazzano:<span style="color:#4e9a06">${</span><span style="color:#000">VZPASS</span><span style="color:#4e9a06">}</span> -X POST -H <span style="color:#4e9a06">&#39;kbn-xsrf: true&#39;</span> <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">${</span><span style="color:#000">kibanaUrl</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/elasticsearch/verrazzano-namespace-verrazzano-system/_search?size=25&#34;</span>
+</code></pre></div><h2 id="run-applications-in-multicluster-verrazzano">Run applications in multicluster Verrazzano</h2>
 <p>The Verrazzano multicluster setup is now complete and you can deploy applications by following the <a href="../../../../docs/samples/multicluster/hello-helidon/">Multicluster Hello World Helidon</a> example application.</p>
 <h2 id="use-the-admin-cluster-ui">Use the admin cluster UI</h2>
 <p>The admin cluster serves as a central point from which to register and deploy applications to managed clusters.</p>

@@ -6245,115 +6245,6 @@ $ kubectl logs \
     </item>
     
     <item>
-      <title>Docs: Upgrade</title>
-      <link>/docs/setup/upgrade/upgrade/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/docs/setup/upgrade/upgrade/</guid>
-      <description>
-        
-        
-        &lt;p&gt;A Verrazzano installation consists of a stack of components, such as cert-manager, where each component has a
-specific release version that may be different from the overall Verrazzano version.  The Verrazzano platform operator
-knows the versions of each component associated with the Verrazzano version.  When you perform the initial Verrazzano
-installation, the appropriate version of each component is installed by the platform operator.
-Post installation, it may be necessary to update one or more of the component images or Helm charts.  This update is also
-handled by the platform operator and is called an &lt;code&gt;upgrade&lt;/code&gt;.  Currently, Verrazzano does only patch-level upgrades,
-where a &lt;code&gt;helm upgrade&lt;/code&gt; command can be issued for the component.  Typically, patch-level upgrades simply replace component
-images with newer versions.&lt;/p&gt;
-&lt;p&gt;It is important to distinguish between updating the Verrazzano platform operator versus upgrading the Verrazzano installation.
-The platform operator contains the newer component charts and image versions, so it must be updated prior to upgrading the installation.
-Updating the platform operator has no effect on an existing installation until you initiate the Verrazzano installation upgrade.
-Currently, there is no way to roll back either the platform operator update or the Verrazzano installation upgrade.  Upgrading
-will not have any impact on running applications.&lt;/p&gt;
-&lt;p&gt;Upgrading an existing Verrazzano installation involves:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Upgrading the Verrazzano platform operator to the &lt;a href=&#34;https://github.com/verrazzano/verrazzano/releases/&#34;&gt;Verrazzano release version&lt;/a&gt; to which you want to upgrade.&lt;/li&gt;
-&lt;li&gt;Updating the version of your installed &lt;code&gt;Verrazzano&lt;/code&gt; resource to the version supported by the upgraded operator.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; You may only change the version field during an upgrade; changes to other fields or component configurations are not supported at this time.&lt;/p&gt;
-&lt;h2 id=&#34;upgrade-the-verrazzano-platform-operator&#34;&gt;Upgrade the Verrazzano platform operator&lt;/h2&gt;
-&lt;p&gt;In order to upgrade an existing Verrazzano installation, you must first upgrade the &lt;a href=&#34;https://github.com/verrazzano/verrazzano-platform-operator&#34;&gt;Verrazzano platform operator&lt;/a&gt;.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Upgrade the Verrazzano platform operator.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; If you are using a private container registry, then to update the platform operator, follow the instructions at &lt;a href=&#34;../docs/setup/private-registry/private-registry/&#34;&gt;Use a Private Registry&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;To upgrade to the latest version:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v1.0.1/operator.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To upgrade to a specific version, where &lt;code&gt;&amp;lt;version&amp;gt;&lt;/code&gt; is the desired version:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/&amp;lt;version&amp;gt;/operator.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For example:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v0.7.0/operator.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Wait for the deployment to complete.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
-deployment &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;verrazzano-platform-operator&amp;#34;&lt;/span&gt; successfully rolled out
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Confirm that the operator pod is correctly defined and running.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl -n verrazzano-install get pods
-NAME                                            READY   STATUS    RESTARTS   AGE
-verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   &lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;0&lt;/span&gt;          114s
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;upgrade-verrazzano&#34;&gt;Upgrade Verrazzano&lt;/h2&gt;
-&lt;p&gt;To upgrade Verrazzano:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Update the &lt;code&gt;Verrazzano&lt;/code&gt; resource to the desired version.&lt;/p&gt;
-&lt;p&gt;To upgrade the Verrazzano components, you must update the &lt;code&gt;version&lt;/code&gt; field in your &lt;code&gt;Verrazzano&lt;/code&gt; resource spec to
-match the version supported by the platform operator to which you upgraded and apply it to the cluster.&lt;/p&gt;
-&lt;p&gt;The value of the &lt;code&gt;version&lt;/code&gt; field in the resource spec must be a &lt;a href=&#34;https://semver.org/&#34;&gt;Semantic Versioning&lt;/a&gt; value
-corresponding to a valid &lt;a href=&#34;https://github.com/verrazzano/verrazzano/releases/&#34;&gt;Verrazzano release version&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;You can update the resource by doing one of the following:&lt;/p&gt;
-&lt;p&gt;a. Editing the YAML file you used to install Verrazzano and setting the version field to the latest version.&lt;/p&gt;
-&lt;p&gt;For example, to upgrade to &lt;code&gt;v0.17.0&lt;/code&gt;, your YAML file should be edited to add or update the version field:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;install.verrazzano.io/v1alpha1&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;Verrazzano&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;my-verrazzano&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;profile&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;dev&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;version&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;v0&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;.17.0&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Then apply the resource to the cluster (if you have not edited the resource in-place using &lt;code&gt;kubectl edit&lt;/code&gt;):&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f my-verrazzano.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;b. Editing the &lt;code&gt;Verrazzano&lt;/code&gt; resource directly using &lt;code&gt;kubectl&lt;/code&gt; and setting the version field directly, for example:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl edit verrazzano my-verrazzano
-&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# In the resource editor, add or update the version field to &amp;#34;version: v0.17.0&amp;#34;, then save.&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Wait for the upgrade to complete:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl &lt;span style=&#34;color:#204a87&#34;&gt;wait&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --timeout&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;10m &lt;span style=&#34;color:#4e9a06&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --for&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;condition&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;UpgradeComplete verrazzano/my-verrazzano
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;verify-the-upgrade&#34;&gt;Verify the upgrade&lt;/h2&gt;
-&lt;p&gt;Check that all the pods in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace are in the &lt;code&gt;Running&lt;/code&gt; state.  While the upgrade is in progress,
-you may see some pods terminating and restarting as newer versions of components are applied.&lt;/p&gt;
-&lt;p&gt;For example:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get pods -n verrazzano-system
-coherence-operator-controller-manager-7557bc4c49-7w55p   1/1     Running   0          27h
-fluentd-fzmsl                                            1/1     Running   0          27h
-fluentd-r9wwf                                            1/1     Running   0          27h
-fluentd-zp2r2                                            1/1     Running   0          27h
-oam-kubernetes-runtime-6ff589f66f-r95qv                  1/1     Running   0          27h
-verrazzano-api-669c7d7f66-rcnl8                          1/1     Running   0          27h
-verrazzano-application-operator-b5b77d676-7w95p          1/1     Running   0          27h
-verrazzano-console-6b469dff9c-b2jwk                      1/1     Running   0          27h
-verrazzano-monitoring-operator-54cb658774-f6jjm          1/1     Running   0          27h
-verrazzano-operator-7f4b99d7d-wg7qm                      1/1     Running   0          27h
-vmi-system-es-master-0                                   2/2     Running   0          27h
-vmi-system-grafana-74bb7cdf65-k97pb                      2/2     Running   0          27h
-vmi-system-kibana-85565975b5-7hfdf                       2/2     Running   0          27h
-vmi-system-prometheus-0-7bf464d898-czq8r                 4/4     Running   0          27h
-weblogic-operator-7db5cdcf59-qxsr9                       1/1     Running   0          27h
-&lt;/code&gt;&lt;/pre&gt;
-      </description>
-    </item>
-    
-    <item>
       <title>Docs: Coherence Workload</title>
       <link>/docs/applications/workloads/coherence/coherence/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -7427,13 +7318,13 @@ then used by the admin cluster to scrape metrics from the managed cluster.&lt;/l
 &lt;li&gt;The API address of the managed cluster, in the &lt;code&gt;apiUrl&lt;/code&gt; status field. This is used by the admin cluster&amp;rsquo;s API proxy to
 route incoming requests for managed cluster information, to the managed cluster&amp;rsquo;s API proxy.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;verifying-that-managed-cluster-registration-completed&#34;&gt;Verifying that managed cluster registration completed&lt;/h3&gt;
+&lt;h3 id=&#34;verify-that-managed-cluster-registration-completed&#34;&gt;Verify that managed cluster registration completed&lt;/h3&gt;
 &lt;p&gt;You can perform all the verification steps on the admin cluster.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Verify that the managed cluster can connect to the admin cluster. View the status of the &lt;code&gt;VerrazzanoManagedCluster&lt;/code&gt;
-resource on the admin cluster, and check whether the &lt;code&gt;lastAgentConnectTime&lt;/code&gt;, &lt;code&gt;prometheusUrl&lt;/code&gt; and &lt;code&gt;apiUrl&lt;/code&gt; fields are
-populated. This may take up to 2 minutes after completing the registration steps.&lt;/p&gt;
+resource on the admin cluster, and check whether the &lt;code&gt;lastAgentConnectTime&lt;/code&gt;, &lt;code&gt;prometheusUrl&lt;/code&gt;, and &lt;code&gt;apiUrl&lt;/code&gt; fields are
+populated. This may take up to two minutes after completing the registration steps.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# On the admin cluster&lt;/span&gt;
 $ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; --context &lt;span style=&#34;color:#000&#34;&gt;$KUBECONTEXT_ADMIN&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    get vmc managed1 -n verrazzano-mc -o yaml
@@ -7456,11 +7347,41 @@ status:
 &lt;p&gt;Verify that the managed cluster is successfully registered with Rancher.
 When you perform the registration steps, Verrazzano also registers the managed cluster with Rancher.
 View the Rancher UI on the admin cluster. If the registration with Rancher was successful, then your cluster will be
-listed in Rancher&amp;rsquo;s list of clusters, and should be in &lt;code&gt;Active&lt;/code&gt; state. You can find the Rancher UI URL for your
+listed in Rancher&amp;rsquo;s list of clusters, and will be in &lt;code&gt;Active&lt;/code&gt; state. You can find the Rancher UI URL for your
 cluster by following the instructions for &lt;a href=&#34;../docs/operations/&#34;&gt;Accessing Verrazzano&lt;/a&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id=&#34;run-applications-in-multicluster-verrazzano&#34;&gt;Run applications in multicluster Verrazzano&lt;/h2&gt;
+&lt;h3 id=&#34;verify-that-managed-cluster-metrics-are-being-collected&#34;&gt;Verify that managed cluster metrics are being collected&lt;/h3&gt;
+&lt;p&gt;Verify that the admin cluster is collecting metrics from the managed cluster.  The Prometheus output will include
+records that contain the name of the managed cluster (labeled as &lt;code&gt;managed_cluster&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;You can find the Prometheus UI URL for your cluster by following the instructions for &lt;a href=&#34;../docs/operations/&#34;&gt;Accessing Verrazzano&lt;/a&gt;.
+Execute a query for a metric (for example, &lt;code&gt;node_disk_io_time_seconds_total&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Sample output of a Prometheus query&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../docs/images/multicluster/prometheus-multicluster.png&#34; alt=&#34;Prometheus&#34;&gt;&lt;/p&gt;
+&lt;p&gt;An alternative approach to using the Prometheus UI is to query metrics from the command line. Here is an example of how to obtain Prometheus metrics from the command line. Search the output of the query for responses that have the &lt;code&gt;managaged_cluster&lt;/code&gt; field set to the name of the managed cluster.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# On the admin cluster&lt;/span&gt;
+$ &lt;span style=&#34;color:#000&#34;&gt;prometheusUrl&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; --context &lt;span style=&#34;color:#000&#34;&gt;$KUBECONTEXT_ADMIN&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;                 get verrazzano -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;{.items[0].status.instance.prometheusUrl}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
+$ &lt;span style=&#34;color:#000&#34;&gt;VZPASS&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; --context &lt;span style=&#34;color:#000&#34;&gt;$KUBECONTEXT_ADMIN&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;           get secret verrazzano --namespace verrazzano-system &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;           -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;={&lt;/span&gt;.data.password&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt; base64 --decode&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color:#204a87&#34;&gt;echo&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
+$ curl --user verrazzano:&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;VZPASS&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;prometheusUrl&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;/api/v1/query?query=node_disk_io_time_seconds_total&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;verify-that-managed-cluster-logs-are-being-collected&#34;&gt;Verify that managed cluster logs are being collected&lt;/h3&gt;
+&lt;p&gt;Verify that the admin cluster is collecting logs from the managed cluster.  The output will include records which have the name of the managed cluster in the &lt;code&gt;cluster_name&lt;/code&gt; field.&lt;/p&gt;
+&lt;p&gt;You can find the Kibana UI URL for your cluster by following the instructions for &lt;a href=&#34;../docs/operations/&#34;&gt;Accessing Verrazzano&lt;/a&gt;.
+Create an index for &lt;code&gt;verrazzano-namespace-verrazzano-system&lt;/code&gt;.  Some log records will have the &lt;code&gt;cluster_name&lt;/code&gt; field populated with the name of
+the managed cluster.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Sample output of a Kibana screen&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../docs/images/multicluster/kibana-multicluster.png&#34; alt=&#34;Kibana&#34;&gt;&lt;/p&gt;
+&lt;p&gt;An alternative approach to using the Kibana UI is to query Elasticsearch from the command line.  Here is an example of how to obtain log records from the command line.  Search the output of the query for responses that have the &lt;code&gt;cluster_name&lt;/code&gt; field set to the name of the managed cluster.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# On the admin cluster&lt;/span&gt;
+$ &lt;span style=&#34;color:#000&#34;&gt;kibanaUrl&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; --context &lt;span style=&#34;color:#000&#34;&gt;$KUBECONTEXT_ADMIN&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;                 get verrazzano -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;{.items[0].status.instance.kibanaUrl}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
+$ &lt;span style=&#34;color:#000&#34;&gt;VZPASS&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; --context &lt;span style=&#34;color:#000&#34;&gt;$KUBECONTEXT_ADMIN&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;           get secret verrazzano --namespace verrazzano-system &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;           -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;={&lt;/span&gt;.data.password&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt; base64 --decode&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color:#204a87&#34;&gt;echo&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
+$ curl --user verrazzano:&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;VZPASS&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt; -X POST -H &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;kbn-xsrf: true&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;kibanaUrl&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;/elasticsearch/verrazzano-namespace-verrazzano-system/_search?size=25&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;run-applications-in-multicluster-verrazzano&#34;&gt;Run applications in multicluster Verrazzano&lt;/h2&gt;
 &lt;p&gt;The Verrazzano multicluster setup is now complete and you can deploy applications by following the &lt;a href=&#34;../docs/samples/multicluster/hello-helidon/&#34;&gt;Multicluster Hello World Helidon&lt;/a&gt; example application.&lt;/p&gt;
 &lt;h2 id=&#34;use-the-admin-cluster-ui&#34;&gt;Use the admin cluster UI&lt;/h2&gt;
 &lt;p&gt;The admin cluster serves as a central point from which to register and deploy applications to managed clusters.&lt;/p&gt;
@@ -7814,6 +7735,181 @@ verrazzano_1.0.0.tar.gz: OK
 file that is packaged with the TAR file.&lt;/li&gt;
 &lt;/ol&gt;
 
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Standard Kubernetes Resources</title>
+      <link>/docs/samples/standard-kubernetes/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/samples/standard-kubernetes/</guid>
+      <description>
+        
+        
+        &lt;p&gt;This example demonstrates using standard Kubernetes resources, in conjunction with OAM resources, to define and deploy an application.
+Several standard Kubernetes resources are used in this example, both as workloads and traits.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Deployment is used as a workload within a Component.&lt;/li&gt;
+&lt;li&gt;Service is used as a workload within a Component.&lt;/li&gt;
+&lt;li&gt;Ingress is used as a trait within an ApplicationConfiguration.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h2&gt;
+&lt;p&gt;Install Verrazzano by following the &lt;a href=&#34;../docs/setup/install/installation/&#34;&gt;installation&lt;/a&gt; instructions.&lt;/p&gt;
+&lt;h3 id=&#34;grant-permissions&#34;&gt;Grant permissions&lt;/h3&gt;
+&lt;p&gt;The &lt;code&gt;oam-kubernetes-runtime&lt;/code&gt; is not installed with privileges that allow it to create the Kubernetes Ingress resource used in this example.
+The following steps create a role that allows Ingress resource creation and binds that role to the &lt;code&gt;oam-kubernetes-runtime&lt;/code&gt; service account.
+For this example to work, your cluster admin will need to run the following steps to create the ClusterRole and ClusterRoleBinding.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: rbac.authorization.k8s.io/v1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: ClusterRole
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: oam-kubernetes-runtime-ingresses
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;rules:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  - apiGroups:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - networking.k8s.io
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - extensions
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    resources:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - ingresses
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    verbs:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - create
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - delete
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - get
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - list
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - patch
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - update
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;---
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: rbac.authorization.k8s.io/v1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: ClusterRoleBinding
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: oam-kubernetes-runtime-ingresses
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;roleRef:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  apiGroup: rbac.authorization.k8s.io
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  kind: ClusterRole
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: oam-kubernetes-runtime-ingresses
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;subjects:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  - kind: ServiceAccount
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    name: oam-kubernetes-runtime
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    namespace: verrazzano-system
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;deploy-the-application&#34;&gt;Deploy the application&lt;/h2&gt;
+&lt;p&gt;This example provides an web application using a common example application image.
+When accessed, the application returns the configured text.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Create the application namespace and add a label identifying the namespace as managed by Verrazzano.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl create namespace oam-kube
+$ kubectl label namespace oam-kube verrazzano-managed&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87&#34;&gt;true&lt;/span&gt; istio-injection&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;enabled
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create a Component containing a Deployment workload.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: core.oam.dev/v1alpha2
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Component
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: oam-kube-dep-comp
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  namespace: oam-kube
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  workload:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    kind: Deployment
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    apiVersion: apps/v1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    name: oam-kube-dep
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      replicas: 1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      selector:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        matchLabels:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          app: oam-kube-app
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      template:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          labels:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            app: oam-kube-app
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          containers:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            - name: oam-kube-cnt
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;              image: hashicorp/http-echo
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;              args:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;                - &amp;#34;-text=hello&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create a Component containing a Service workload.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: core.oam.dev/v1alpha2
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Component
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: oam-kube-svc-comp
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  namespace: oam-kube
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  workload:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    kind: Service
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    apiVersion: v1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      name: oam-kube-svc
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      selector:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        app: oam-kube-app
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      ports:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      - port: 5678 # Default port for image
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create an ApplicationConfiguration referencing both Components and configuring an ingress trait.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: core.oam.dev/v1alpha2
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: ApplicationConfiguration
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: oam-kube-appconf
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  namespace: oam-kube
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  components:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - componentName: oam-kube-dep-comp
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - componentName: oam-kube-svc-comp
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      traits:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        - trait:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            apiVersion: networking.k8s.io/v1beta1
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            kind: Ingress
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            metadata:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;              name: oam-kube-ing
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;              annotations:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;                kubernetes.io/ingress.class: istio
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            spec:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;              rules:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;              - host: oam-kube-app.example.com
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;                http:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;                  paths:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;                    - path: /example
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;                      backend:
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;                        serviceName: oam-kube-svc
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;                        servicePort: 5678
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;explore-the-application&#34;&gt;Explore the application&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Get the host name for the application.
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;HOST&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl get ingress &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -n oam-kube oam-kube-ing &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;{.spec.rules[0].host}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
+$ &lt;span style=&#34;color:#204a87&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;HOST=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;HOST&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;Get the load balancer address of the ingress gateway.
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;LOADBALANCER&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl get ingress &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -n oam-kube oam-kube-ing &lt;span style=&#34;color:#4e9a06&#34;&gt;\
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;{.status.loadBalancer.ingress[0].ip}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
+$ &lt;span style=&#34;color:#204a87&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;LOADBALANCER=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;LOADBALANCER&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;Access the application.
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ curl http://&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;HOST&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;/example --resolve &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;HOST&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;:80:&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;LOADBALANCER&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;undeploy-the-application&#34;&gt;Undeploy the application&lt;/h2&gt;
+&lt;p&gt;To undeploy the application, delete the namespace created.
+This will result in the deletion of all explicitly and implicitly created resources in the namespace.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl delete namespace oam-kube
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;If desired, the cluster admin also can remove the created ClusterRole and ClusterRoleBinding.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl delete ClusterRoleBinding oam-kubernetes-runtime-ingresses
+$ kubectl delete ClusterRole oam-kubernetes-runtime-ingresses
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
       </description>
     </item>
     
