@@ -6,14 +6,12 @@ draft: false
 ---
 
 ### v1.0.1
-Features:
+Fixes:
 - Updated to the following versions:
    - WebLogic Kubernetes Operator v3.3.0.
    - Coherence Operator v3.2.1.
-   - The 1.20.6-2 version of `kubectl` in the analysis tool.
+   - In the Analysis Tool, `kubectl` v1.20.6-2.
 - Updated external-dns and cert-manager image versions.
-
-Fixes:
 - Ensured ConfigMaps are deleted during uninstall.
 - Fixed logging pattern match issue for OKE Kubernetes v1.20.8 clusters.
 - Fixed multicluster log collection for Verrazzano installations using LetsEncrypt certificates.
