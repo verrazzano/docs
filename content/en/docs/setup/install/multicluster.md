@@ -301,7 +301,7 @@ Execute a query for a metric (e.g. `node_disk_io_time_seconds_total`).
 
 ![Prometheus](/docs/images/multicluster/prometheus-multicluster.png)
 
-An alternative approach to using the Prometheus UI is to query metrics from the command line. Here is an example of how to obtain Prometheus metrics from the command line.
+An alternative approach to using the Prometheus UI is to query metrics from the command line. Here is an example of how to obtain Prometheus metrics from the command line. Search the output of the query for responses that have the `managaged_cluster` field set to the name of the managed cluster.
    ```shell
    # On the admin cluster
    $ prometheusUrl=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
@@ -314,8 +314,7 @@ An alternative approach to using the Prometheus UI is to query metrics from the 
 
 ### Verifying that managed cluster logs are being collected
 
-Verify that the admin cluster is collecting logs from the managed cluster.  The output should include records that
-contain the name of the managed cluster (labeled as `cluster_name`).
+Verify that the admin cluster is collecting logs from the managed cluster.  The output should include records which have the name of the managed cluster in the `cluster_name` field.
 
 You can find the Kibana UI URL for your cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/operations/_index.md" >}}).
 Create an index for `verrazzano-namespace-verrazzano-system`.  Some log records should have the `cluster_name` field populated with the name of
@@ -325,7 +324,7 @@ the managed cluster.
 
 ![Kibana](/docs/images/multicluster/kibana-multicluster.png)
 
-An alternative approach to using the Kibana UI is to query Elasticsearch from the command line.  Here is an example of how to obtain log records from the command line.
+An alternative approach to using the Kibana UI is to query Elasticsearch from the command line.  Here is an example of how to obtain log records from the command line.  Search the output of the query for responses that have the `cluster_name` field set to the name of the managed cluster.
    ```shell
    # On the admin cluster
    $ kibanaUrl=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
