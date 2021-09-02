@@ -257,12 +257,12 @@ Apply the registration file exported in the previous step, on the managed cluste
    - The API address of the managed cluster, in the `apiUrl` status field. This is used by the admin cluster's API proxy to
      route incoming requests for managed cluster information, to the managed cluster's API proxy. 
 
-### Verifying that managed cluster registration completed
+### Verify that managed cluster registration completed
 You can perform all the verification steps on the admin cluster.
 
 1. Verify that the managed cluster can connect to the admin cluster. View the status of the `VerrazzanoManagedCluster`
-   resource on the admin cluster, and check whether the `lastAgentConnectTime`, `prometheusUrl` and `apiUrl` fields are
-   populated. This may take up to 2 minutes after completing the registration steps.
+   resource on the admin cluster, and check whether the `lastAgentConnectTime`, `prometheusUrl`, and `apiUrl` fields are
+   populated. This may take up to two minutes after completing the registration steps.
    ```shell
    # On the admin cluster
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
@@ -286,8 +286,54 @@ You can perform all the verification steps on the admin cluster.
 2. Verify that the managed cluster is successfully registered with Rancher.
    When you perform the registration steps, Verrazzano also registers the managed cluster with Rancher. 
    View the Rancher UI on the admin cluster. If the registration with Rancher was successful, then your cluster will be
-   listed in Rancher's list of clusters, and should be in `Active` state. You can find the Rancher UI URL for your
+   listed in Rancher's list of clusters, and will be in `Active` state. You can find the Rancher UI URL for your
    cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/operations/_index.md" >}}).
+
+### Verify that managed cluster metrics are being collected
+
+Verify that the admin cluster is collecting metrics from the managed cluster.  The Prometheus output will include 
+records that contain the name of the managed cluster (labeled as `managed_cluster`).
+
+You can find the Prometheus UI URL for your cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/operations/_index.md" >}}).
+Execute a query for a metric (for example, `node_disk_io_time_seconds_total`).
+
+**Sample output of a Prometheus query**
+
+![Prometheus](/docs/images/multicluster/prometheus-multicluster.png)
+
+An alternative approach to using the Prometheus UI is to query metrics from the command line. Here is an example of how to obtain Prometheus metrics from the command line. Search the output of the query for responses that have the `managaged_cluster` field set to the name of the managed cluster.
+   ```shell
+   # On the admin cluster
+   $ prometheusUrl=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+                    get verrazzano -o jsonpath='{.items[0].status.instance.prometheusUrl}')
+   $ VZPASS=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+              get secret verrazzano --namespace verrazzano-system \
+              -o jsonpath={.data.password} | base64 --decode; echo)
+   $ curl --user verrazzano:${VZPASS} "${prometheusUrl}/api/v1/query?query=node_disk_io_time_seconds_total"
+   ```
+
+### Verify that managed cluster logs are being collected
+
+Verify that the admin cluster is collecting logs from the managed cluster.  The output will include records which have the name of the managed cluster in the `cluster_name` field.
+
+You can find the Kibana UI URL for your cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/operations/_index.md" >}}).
+Create an index for `verrazzano-namespace-verrazzano-system`.  Some log records will have the `cluster_name` field populated with the name of
+the managed cluster.
+
+**Sample output of a Kibana screen**
+
+![Kibana](/docs/images/multicluster/kibana-multicluster.png)
+
+An alternative approach to using the Kibana UI is to query Elasticsearch from the command line.  Here is an example of how to obtain log records from the command line.  Search the output of the query for responses that have the `cluster_name` field set to the name of the managed cluster.
+   ```shell
+   # On the admin cluster
+   $ kibanaUrl=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+                    get verrazzano -o jsonpath='{.items[0].status.instance.kibanaUrl}')
+   $ VZPASS=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+              get secret verrazzano --namespace verrazzano-system \
+              -o jsonpath={.data.password} | base64 --decode; echo)
+   $ curl --user verrazzano:${VZPASS} -X POST -H 'kbn-xsrf: true' "${kibanaUrl}/elasticsearch/verrazzano-namespace-verrazzano-system/_search?size=25"
+   ```
 
 ## Run applications in multicluster Verrazzano
 

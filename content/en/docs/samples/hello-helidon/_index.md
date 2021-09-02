@@ -48,7 +48,7 @@ Follow these steps to test the endpoints:
    ```
    $ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw \
         -n hello-helidon \
-        -o jsonpath={.spec.servers[0].hosts[0]})
+        -o jsonpath='{.spec.servers[0].hosts[0]}')
    $ echo $HOST
    hello-helidon-appconf.hello-helidon.11.22.33.44.nip.io
    ```
