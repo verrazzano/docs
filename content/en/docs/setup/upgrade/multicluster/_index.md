@@ -5,7 +5,7 @@ weight: 3
 draft: false
 ---
 
-Each cluster of a multicluster environment is upgraded separately. Start with the admin cluster, and then each managed cluster, follow the [Upgrade Verrazzano]({{< relref "/docs/setup/upgrade/_index.md" >}}) instructions.
+Each cluster of a multicluster environment is upgraded separately. Start with the admin cluster, and then for each managed cluster, follow the [Upgrade Verrazzano]({{< relref "/docs/setup/upgrade/_index.md" >}}) instructions.
 
 ## Verify the upgrade of each managed cluster
 
