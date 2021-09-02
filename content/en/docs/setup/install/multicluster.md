@@ -289,6 +289,39 @@ You can perform all the verification steps on the admin cluster.
    listed in Rancher's list of clusters, and should be in `Active` state. You can find the Rancher UI URL for your
    cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/operations/_index.md" >}}).
 
+### Verifying that managed cluster metrics are being collected
+
+Verify that the admin cluster is collecting metrics from the managed cluster.  The output should include records that 
+contain the name of the managed cluster (labeled as `managed_cluster`).
+
+
+
+
+Here is an example of how to obtain metrics from the command line.
+   ```shell
+   # On the admin cluster
+   $ prometheusUrl=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+                    get verrazzano -o jsonpath='{.items[0].status.instance.prometheusUrl}')
+   $ VZPASS=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+              get secret verrazzano --namespace verrazzano-system \
+              -o jsonpath={.data.password} | base64 --decode; echo)
+   $ curl --user verrazzano:${VZPASS} "${prometheusUrl}/api/v1/query?query=node_cpu_seconds_total"
+   ```
+
+### Verifying that managed cluster logs are being collected
+
+Verify that the admin cluster is collecting logs from the managed cluster.  The output should include records that
+contain the name of the managed cluster (labeled as `cluster_name`).
+   ```shell
+   # On the admin cluster
+   $ kibanaUrl=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+                    get verrazzano -o jsonpath='{.items[0].status.instance.kibanaUrl}')
+   $ VZPASS=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+              get secret verrazzano --namespace verrazzano-system \
+              -o jsonpath={.data.password} | base64 --decode; echo)
+   $ curl --user verrazzano:${VZPASS} -X POST -H 'kbn-xsrf: true' "${kibanaUrl}/elasticsearch/verrazzano-namespace-verrazzano-system/_search?size=25"
+   ```
+
 ## Run applications in multicluster Verrazzano
 
 The Verrazzano multicluster setup is now complete and you can deploy applications by following the [Multicluster Hello World Helidon]({{< relref "/docs/samples/multicluster/hello-helidon/_index.md" >}}) example application.
