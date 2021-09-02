@@ -6,14 +6,17 @@ draft: false
 ---
 
 ### v1.0.1
-Fixes:
-- Updated to the v3.3.0 WebLogic Kubernetes Operator.
-- Updated to the v3.2.1 Coherence Operator.
+Features:
+- Updated to the following versions:
+   - WebLogic Kubernetes Operator v3.3.0.
+   - Coherence Operator v3.2.1.
+   - The 1.20.6-2 version of `kubectl` in the analysis tool.
 - Updated external-dns and cert-manager image versions.
-- Updated to the 1.20.6-2 version of kubectl in the analysis tool.
+
+Fixes:
 - Ensured ConfigMaps are deleted during uninstall.
 - Fixed logging pattern match issue for OKE Kubernetes v1.20.8 clusters.
-- Fixed multicluster log collection for Verrazzano installs using LetsEncrypt certificates.
+- Fixed multicluster log collection for Verrazzano installations using LetsEncrypt certificates.
 - Fixed console UI display bugs for multicluster applications.
 
 ### v1.0.0
@@ -23,7 +26,7 @@ Features: Updated to Rancher v2.5.9.
 Features:
 - Allow Verrazzano Monitoring Instance (VMI) replicas and memory sizes to be changed during installation for both `dev` and `prod` profiles.
 - When installing Verrazzano on OKE, the OKE-specific Fluentd `extraVolumeMounts` configuration is no longer required.
-- Updated to the v3.2.5 WebLogic Kubernetes Operator.
+- Updated to WebLogic Kubernetes Operator v3.2.5.
 
 Fixes:
 - During uninstall, delete application resources only from namespaces which are managed by Verrazzano.
@@ -36,7 +39,7 @@ Features:
 - Provided options to configure log volume/mount of the log collector, Fluentd, and pre-configured profiles.
 - Automatically enabled metrics and log capture for WebLogic domains deployed in Verrazzano.
 - Added security-related data/project YAML files to the Verrazzano Console, under project details.
-- Updated to the v3.2.4 WebLogic Kubernetes Operator.
+- Updated to WebLogic Kubernetes Operator v3.2.4.
 
 Fixes:
 - Added a fix for default metrics traits not always being injected into the `appconfig`.
@@ -64,12 +67,12 @@ Features:
 - Support for private container registries.
 - Secured communication between Verrazzano resources using Istio.
 - Updated to the following versions:
-    - cert-manager to 1.2.0.
-    - Coherence Operator to 3.1.5.
-    - WebLogic Kubernetes Operator to 3.2.3.
-    - Node Exporter to 1.0.0.
-    - NGINX Ingress Controller to 0.46.
-    - Fluentd to 1.12.3.
+    - cert-manager v1.2.0.
+    - Coherence Operator v3.1.5.
+    - WebLogic Kubernetes Operator v3.2.3.
+    - Node Exporter v1.0.0.
+    - NGINX Ingress Controller v0.46.
+    - Fluentd v1.12.3.
 - Added network policies for Istio.
 
 Fixes:
@@ -157,11 +160,11 @@ Fixes:
 Features:
   - By default, application endpoints now use HTTPs - when using magic DNS, certificates are issued by cluster issuer, when using
     OCI DNS certificates are issued using Let's Encrypt, or the end user can provide certificates.
-  - Updated Coherence operator to 3.1.3.
+  - Updated to Coherence Operator v3.1.3.
   - Updates for running Verrazzano on Kubernetes 1.19 and 1.20.
   - RBAC roles and role bindings created at install time.
   - Added instance information to status of Verrazzano custom resource; can be used to obtain instance URLs.
-  - Upgraded Istio to v1.7.3.
+  - Updated to Istio v1.7.3.
 
 Fixes:
   - Reduced log level of Elasticsearch; excessive logging could have resulted in filling up disks.
@@ -188,7 +191,7 @@ spec:
     - The default behavior has been changed to use the system VMI for all monitoring (applications and Verrazzano components).  It is still possible to customize one of the profiles to enable the original, non-shared VMI mode.
     - Initial support for the Open Application Model (OAM).
 - Fixes:
-    - Updated Axios NPM package to v0.21.1 to resolve a security vulnerability in the examples code.
+    - Updated to Axios NPM package v0.21.1 to resolve a security vulnerability in the examples code.
 
 ### v.0.7.0
 - Features:
