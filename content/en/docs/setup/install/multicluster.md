@@ -291,13 +291,17 @@ You can perform all the verification steps on the admin cluster.
 
 ### Verifying that managed cluster metrics are being collected
 
-Verify that the admin cluster is collecting metrics from the managed cluster.  The output should include records that 
-contain the name of the managed cluster (labeled as `managed_cluster`).
+Verify that the admin cluster is collecting metrics from the managed cluster.  The Prometheus output should include 
+records that contain the name of the managed cluster (labeled as `managed_cluster`).
 
+You can find the Prometheus UI URL for your cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/operations/_index.md" >}}).
+Execute a query for a metric (e.g. `node_disk_io_time_seconds_total`).
 
+**Sample output of a Prometheus query**
 
+![Prometheus](/docs/images/multicluster/prometheus-multicluster.png)
 
-Here is an example of how to obtain metrics from the command line.
+An alternative approach to using the Prometheus UI is to query metrics from the command line. Here is an example of how to obtain Prometheus metrics from the command line.
    ```shell
    # On the admin cluster
    $ prometheusUrl=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
@@ -305,13 +309,23 @@ Here is an example of how to obtain metrics from the command line.
    $ VZPASS=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
               get secret verrazzano --namespace verrazzano-system \
               -o jsonpath={.data.password} | base64 --decode; echo)
-   $ curl --user verrazzano:${VZPASS} "${prometheusUrl}/api/v1/query?query=node_cpu_seconds_total"
+   $ curl --user verrazzano:${VZPASS} "${prometheusUrl}/api/v1/query?query=node_disk_io_time_seconds_total"
    ```
 
 ### Verifying that managed cluster logs are being collected
 
 Verify that the admin cluster is collecting logs from the managed cluster.  The output should include records that
 contain the name of the managed cluster (labeled as `cluster_name`).
+
+You can find the Kibana UI URL for your cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/operations/_index.md" >}}).
+Create an index for `verrazzano-namespace-verrazzano-system`.  Some log records should have the `cluster_name` field populated with the name of
+the managed cluster.
+
+**Sample output of a Kibana screen**
+
+![Kibana](/docs/images/multicluster/kibana-multicluster.png)
+
+An alternative approach to using the Kibana UI is to query Elasticsearch from the command line.  Here is an example of how to obtain log records from the command line.
    ```shell
    # On the admin cluster
    $ kibanaUrl=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
