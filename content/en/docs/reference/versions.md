@@ -1,42 +1,34 @@
 ---
 title: "Software Versions"
-description: "Review the software versions used by Verrazzano"
+description: "Review the software versions installed and supported by Verrazzano"
 weight: 7
 draft: false
 ---
-This document describes the software versions installed and supported by Verrazzano.
-## Kubernetes
-You can install Verrazzano on the following Kubernetes releases:
-- 1.18
-- 1.19
-- 1.20
+
+
+## Supported Software Versions
+Verrazzano supports the following software versions.
+
+### Kubernetes
+You can install Verrazzano on the following Kubernetes versions.
+
+| Verrazzano | Release Date | Patch Releases | Latest Patch Release Date | Kubernetes Versions
+| ---        | ---          | ---            | ---                       | ---                
+| 1.0        | 2021-08-02   | 1.0.1          | 2021-09-01                | 1.18, 1.19, 1.20   
 
 For more information, see [Kubernetes Release Documentation](https://kubernetes.io/releases/).
 For platform specific details, see [Verrazzano platform setup]({{< relref "/docs/setup/platforms/_index.md" >}}).
 
-## WebLogic Server
-The supported versions of WebLogic Server are dependent on the WebLogic Kubernetes Operator version.
- Currently, Verrazzano supports the following WebLogic Server versions:
-| Version | WebLogic Server Documentation | 
-| ---       | ---     |
-| Oracle WebLogic Server 12.2.1.3.0 with patch 29135930 | [documentation](https://docs.oracle.com/middleware/12213/wls/index.html)
-| Oracle WebLogic Server 12.2.1.4.0 | [documentation](https://docs.oracle.com/en/middleware/fusion-middleware/weblogic-server/12.2.1.4/index.html)
-| Oracle WebLogic Server 14.1.1.0.0 | [documentation](https://docs.oracle.com/en/middleware/standalone/weblogic-server/14.1.1.0/)
+### WebLogic Server
+The supported versions of WebLogic Server are dependent on the [WebLogic Kubernetes Operator](https://oracle.github.io/weblogic-kubernetes-operator/) version.
+See the WebLogic Server versions supported [here](https://oracle.github.io/weblogic-kubernetes-operator/userguide/prerequisites/introduction/).
 
-For more information on supported versions and prerequisites, see [WebLogic Kubernetes Operator](https://oracle.github.io/weblogic-kubernetes-operator/userguide/prerequisites/introduction/).
 
-## Coherence
-The supported versions of Coherence are dependent on the Coherence Operator version.
- Currently, Verrazzano supports the following Coherence versions:
-| Version | Coherence Documentation | 
-| ---       | ---     |
-| Oracle Coherence 12.2.1.3 | [documentation](https://docs.oracle.com/middleware/12213/coherence/index.html)
-| Oracle Coherence 12.2.1.4 | [documentation](https://docs.oracle.com/en/middleware/fusion-middleware/coherence/12.2.1.4/index.html)
-| Oracle Coherence 14.1.1.0 | [documentation](https://docs.oracle.com/en/middleware/fusion-middleware/coherence/12.2.1.4/index.html)
+### Coherence
+The supported versions of Coherence are dependent on the [Coherence Operator](https://oracle.github.io/coherence-operator/docs/latest/#/about/01_overview) version.
+See the Coherence versions supported [here](https://oracle.github.io/coherence-operator/docs/latest/#/docs/installation/01_installation).
 
-For more information, see [Coherence Operator](https://oracle.github.io/coherence-operator/docs/latest/#/about/01_overview).
- 
-## Helidon
+### Helidon
 Verrazzano supports all versions of Helidon.  For more information, see [Helidon](https://helidon.io) and
  [Helidon Commercial Offerings](https://support.oracle.com/knowledge/Middleware/2645279_1.html).
 
@@ -50,6 +42,7 @@ component with its version and a brief description.
 | Coherence Operator | 3.2.1 | Assists with deploying and managing Coherence clusters.
 | Elasticsearch | 7.6.1 | Provides a distributed, multitenant-capable full-text search engine.
 | ExternalDNS | 0.7.1 | Synchronizes exposed Kubernetes Services and ingresses with DNS providers.
+| Fluentd | 1.12.3 | Collects logs and sends them to Elasticsearch.
 | Grafana | 6.4.4 | Tool to help you study, analyze, and monitor metrics.
 | Istio | 1.7.3 | Service mesh that layers transparently onto existing distributed applications.
 | Keycloak | 10.0.1 | Provides single sign-on with Identity and Access Management.
@@ -61,4 +54,3 @@ component with its version and a brief description.
 | Prometheus | 2.13.1 | Provides event monitoring and alerting.
 | Rancher | 2.5.9 | Manages multiple Kubernetes clusters.
 | WebLogic Kubernetes Operator | 3.3.0 | Assists with deploying and managing WebLogic domains.
-

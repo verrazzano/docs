@@ -17,12 +17,7 @@ Verrazzano requires the following:
 - At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.  This is sufficient to install the development profile
   of Verrazzano.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient for deploying your
   applications.
-
-For a list of the open source components and versions installed with Verrazzano, see [Software Versions]({{< relref "/docs/reference/versions.md" >}}).
-
-{{< alert title="NOTE" color="warning" >}}
-Verrazzano has been tested _only_ on the following versions of Kubernetes: 1.17.x, 1.18.x, 1.19.x, and 1.20x.  Other versions have not been tested and are not guaranteed to work.
-{{< /alert >}}
+- For a list of the software versions supported and installed by Verrazzano, see [Software Versions]({{< relref "/docs/reference/versions.md" >}}).
 
 
 ## Install the Verrazzano platform operator
