@@ -1,7 +1,7 @@
 ---
 title: "Software Versions"
 description: "Review the software versions installed and supported by Verrazzano"
-weight: 7
+weight: 1
 draft: false
 ---
 
