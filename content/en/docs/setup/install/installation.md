@@ -15,12 +15,7 @@ Verrazzano requires the following:
 - At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.  This is sufficient to install the development profile
   of Verrazzano.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient for deploying your
   applications.
-
-For a list of the open source components and versions installed with Verrazzano, see [Software Versions]({{< relref "/docs/reference/versions.md" >}}).
-
-{{< alert title="NOTE" color="warning" >}}
-Verrazzano has been tested _only_ on the following versions of Kubernetes: 1.17.x, 1.18.x, 1.19.x, and 1.20x.  Other versions have not been tested and are not guaranteed to work.
-{{< /alert >}}
+- For a list of the software versions supported and installed by Verrazzano, see [Software Versions]({{< relref "/docs/setup/versions.md" >}}).
 
 
 ## Prepare for the install
@@ -61,7 +56,7 @@ To install the Verrazzano platform operator:
 ## Perform the install
 
 Verrazzano supports the following installation profiles:  development (`dev`), production (`prod`), and
-managed cluster (`managed-cluster`).  For more information on profiles, see 
+managed cluster (`managed-cluster`).  For more information on profiles, see
 [Installation Profiles]({{< relref "/docs/setup/install/profiles.md"  >}}).
 
 This page shows how to create a basic Verrazzano installation using
@@ -69,7 +64,7 @@ This page shows how to create a basic Verrazzano installation using
 * The development (`dev`) installation profile
 * Wildcard-DNS, where DNS is provided by [nip.io](https://nip.io) (the default)
 
-For a complete description of Verrazzano configuration options, see the 
+For a complete description of Verrazzano configuration options, see the
 [Verrazzano Custom Resource Definition]({{< relref "/docs/reference/api/verrazzano/verrazzano.md" >}}).
 
 To use other DNS options, see the [Customzing DNS](/docs/setup/install/customizing/dns/) page for more details.
@@ -92,7 +87,7 @@ $ kubectl wait \
     --for=condition=InstallComplete verrazzano/my-verrazzano
 ```
 
-To use a different profile with the above example, set the `VZ_PROFILE` environment variable to the name of the profile 
+To use a different profile with the above example, set the `VZ_PROFILE` environment variable to the name of the profile
 you want to install.
 
 To monitor the Console log output of the installation:
