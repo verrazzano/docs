@@ -36,7 +36,50 @@
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl logs tododomain-adminserver &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;   -n todo-list &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;   -c fluentd-stdout-sidecar
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;fluentd-daemonset&#34;&gt;Fluentd DaemonSet&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The Verrazzano Fluentd Docker image comes with these plug-ins:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/fluent-plugins-nursery/fluent-plugin-concat&#34;&gt;fluent-plugin-concat&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/lunardial/fluent-plugin-dedot_filter&#34;&gt;fluent-plugin-dedot_filter&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/GoogleCloudPlatform/fluent-plugin-detect-exceptions&#34;&gt;fluent-plugin-detect-exceptions &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.fluentd.org/output/elasticsearch&#34;&gt;fluent-plugin-elasticsearch&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/fluent/fluent-plugin-grok-parser&#34;&gt;fluent-plugin-grok-parser&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://rubygems.org/gems/fluent-plugin-json-in-json-2&#34;&gt;fluent-plugin-json-in-json-2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/fabric8io/fluent-plugin-kubernetes_metadata_filter&#34;&gt;fluent-plugin-kubernetes_metadata_filter&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/repeatedly/fluent-plugin-multi-format-parser&#34;&gt;fluent-plugin-multi-format-parser&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/fluent/fluent-plugin-parser-cri&#34;&gt;fluent-plugin-parser-cri&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/fluent/fluent-plugin-prometheus&#34;&gt;fluent-plugin-prometheus&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/repeatedly/fluent-plugin-record-modifier&#34;&gt;fluent-plugin-record-modifier&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/fluent/fluent-plugin-rewrite-tag-filter&#34;&gt;fluent-plugin-rewrite-tag-filter&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/fluent-plugin-systemd/fluent-plugin-systemd&#34;&gt;fluent-plugin-systemd&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The Verrazzano Fluentd Docker image also has two local default plug-ins, &lt;code&gt;kubernetes_parser&lt;/code&gt; and &lt;code&gt;kubernetes_multiline_parser&lt;/code&gt;.
+These plug-ins help to parse Kubernetes management log files.&lt;/p&gt;
+&lt;p&gt;Here are example use cases for these plug-ins:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# ---- fluentd.conf ----
+# kubernetes parser
+&amp;lt;source&amp;gt;
+  @type tail
+  path ./kubelet.log
+  read_from_head yes
+  tag kubelet
+  &amp;lt;parse&amp;gt;
+     @type multiline_kubernetes
+  &amp;lt;/parse&amp;gt;
+&amp;lt;/source&amp;gt;
+
+# kubernetes multi-line parser
+&amp;lt;source&amp;gt;
+  @type tail
+  path ./kubelet.log
+  read_from_head yes
+  tag kubelet
+  &amp;lt;parse&amp;gt;
+     @type multiline_kubernetes
+  &amp;lt;/parse&amp;gt;
+&amp;lt;/source&amp;gt;
+# ----   EOF      ----
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For more details, see the &lt;a href=&#34;https://github.com/verrazzano/fluentd-kubernetes-daemonset/tree/oracle-build-from-source-v1.12/docker-image/v1.12/oraclelinux-elasticsearch7/plugins&#34;&gt;Fluentd plugins&lt;/a&gt; folder.&lt;/p&gt;
+&lt;h2 id=&#34;fluentd-daemonset&#34;&gt;Fluentd DaemonSet&lt;/h2&gt;
 &lt;p&gt;Verrazzano deploys a Fluentd DaemonSet which runs one Fluentd replica per node in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace.
 Each instance pulls logs from the node&amp;rsquo;s &lt;code&gt;/var/log/containers&lt;/code&gt; directory and writes them to the target Elasticsearch index.  The index name is based on the namespace associated with the record, using this format: &lt;code&gt;verrazzano-namespace-&amp;lt;record namespace&amp;gt;&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;For example, &lt;code&gt;vmi-system-kibana&lt;/code&gt; logs written to &lt;code&gt;/var/log/containers&lt;/code&gt; will be pulled by Fluentd and written to Elasticsearch.  The index used is named &lt;code&gt;verrazzano-namespace-verrazzano-system&lt;/code&gt; because the VMI runs in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace.&lt;/p&gt;
