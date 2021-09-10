@@ -117,14 +117,14 @@ spec:
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `type` | string | The ingress type.  Valid values are `LoadBalancer` and `NodePort`.  The default value is `LoadBalancer`.  |  Yes |
-| `nginxInstallArgs` |  [NGINXInstallArgs](#nginx-install-args) list | A list of values to use during NGINX install. | No |
+| `nginxInstallArgs` |  [NGINXInstallArgs](#nginx-install-args) list | A list of values to use during NGINX installation. | No |
 | `ports` | [PortConfig](#port-config) list | The list port configurations used by the ingress. | No |
 
 #### NGINX Install Args
 | Name | Type | ValueType | Description | Required
 | --- | --- | --- | --- | --- |
 | `controller.service.externalIPs` | [NameValue](#name-value)  | string list | The external IP address used by the NGINX Ingress Controller. |  No |
-| `controller.service.externalTrafficPolicy` | [NameValue](#name-value) | string  | Preserves the client source IP. See [Bare-metal considerations](https://kubernetes.github.io/ingress-nginx/deploy/baremetal/). |  No |
+| `controller.service.externalTrafficPolicy` | [NameValue](#name-value) | string  | Preserves the client source IP address. See [Bare-metal considerations](https://kubernetes.github.io/ingress-nginx/deploy/baremetal/). |  No |
 | `controller.service.annotations.*` | [NameValue](#name-value) | string  | Annotations used for NGINX Ingress Controller.  For sample usage, see [Customize Ingress](/docs/setup/install/customizing/ingress/). |  No |
 | `controller.autoscaling.enabled` | [NameValue](#name-value) |  Boolean | If true, then enable horizonal pod autoscaler.  Default false. |  No |
 | `controller.autoscaling.minReplicas` | [NameValue](#name-value) | string | Minimum replicas used for autoscaling.  Default 1. |  No |
@@ -150,13 +150,13 @@ spec:
 ### Istio Component
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `istioInstallArgs` | [IstioInstallArgs](#istio-install-args) list | A list of values to use during Istio install.  Each argument is specified as either a `name/value` or `name/valueList` pair. | No |
+| `istioInstallArgs` | [IstioInstallArgs](#istio-install-args) list | A list of values to use during Istio installation.  Each argument is specified as either a `name/value` or `name/valueList` pair. | No |
 
 #### Istio Install Args
 | Name | Type | ValueType | Description | Required
 | --- | --- | --- | --- | --- |
 | `gateways.istio-ingressgateway.externalIPs` | [NameValue](#name-value)  | string list | The external IP address used by the Istio Ingress Gateway. |  No |
-| `gateways.istio-ingressgateway.serviceAnnotations.*` | [NameValue](#name-value) | string | Annotations used for Istio Ingress Gateway.  For sample usage, see [Customize Ingress](/docs/setup/install/customizing/ingress/). |  No |
+| `gateways.istio-ingressgateway.serviceAnnotations.*` | [NameValue](#name-value) | string | Annotations used for the Istio Ingress Gateway.  For sample usage, see [Customize Ingress](/docs/setup/install/customizing/ingress/). |  No |
 
 
 ### Fluentd Component
@@ -188,7 +188,7 @@ spec:
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `enabled` | Boolean | If true, then Elasticsearch will be installed. | No |
-| `installArgs` | [ElasticsearchInstallArgs](#elasticsearch-install-args) list | A list of values to use during Elasticsearch install.  Each argument is specified as either a `name/value` or `name/valueList` pair.  For sample usage, see [Customize Elasticsearch](/docs/setup/install/customizing/elasticsearch/).| No |
+| `installArgs` | [ElasticsearchInstallArgs](#elasticsearch-install-args) list | A list of values to use during Elasticsearch installation.  Each argument is specified as either a `name/value` or `name/valueList` pair.  For sample usage, see [Customize Elasticsearch](/docs/setup/install/customizing/elasticsearch/).| No |
 
 #### Elasticsearch Install Args
 | Name | Type | ValueType | Description | Required
