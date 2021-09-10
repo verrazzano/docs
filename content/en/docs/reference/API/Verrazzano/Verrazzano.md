@@ -117,8 +117,18 @@ spec:
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `type` | string | The ingress type.  Valid values are `LoadBalancer` and `NodePort`.  The default value is `LoadBalancer`.  |  Yes |
-| `ingressNginxArgs` |  [NameValue](#name-value) list | The list of argument names and values. | No |
+| `nginxInstallArgs` |  [NGINXInstallArgs](#nginx-install-args) list | The list of argument names and values. | No |
 | `ports` | [PortConfig](#port-config) list | The list port configurations used by the ingress. | No |
+
+#### NGINX Install Args
+| Name | Type | ValueType | Description | Required
+| --- | --- | --- | --- | --- |
+| `controller.service.externalIPs` | [NameValue](#name-value)  | string list | The external IP address used by the NGINX Ingress Controller. |  No |
+| `controller.service.externalTrafficPolicy` | [NameValue](#name-value) | string  | Preserves the client source IP. See [Bare-metal considerations](https://kubernetes.github.io/ingress-nginx/deploy/baremetal/). |  No |
+| `controller.service.annotations.*` | [NameValue](#name-value) | string  | Annotations used for NGINX Ingress Controller.  For sample usage, see [Customize Ingress](/docs/setup/install/customizing/ingress/). |  No |
+| `controller.autoscaling.enabled` | [NameValue](#name-value) |  Boolean | If true, then enable horizonal pod autoscaler.  Default false. |  No |
+| `controller.autoscaling.minReplicas` | [NameValue](#name-value) | string | Minimum replicas used for autoscaling.  Default 1. |  No |
+
 
 #### Port Config
 | Field | Type | Description | Required
@@ -140,7 +150,14 @@ spec:
 ### Istio Component
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `istioInstallArgs` | [NameValue](#name-value) list | A list of Istio Helm chart arguments and values to apply during the installation of Istio.  Each argument is specified as either a `name/value` or `name/valueList` pair. | No |
+| `istioInstallArgs` | [IstioInstallArgs](#istio-install-args) list | A list of Istio Helm chart arguments and values to apply during the installation of Istio.  Each argument is specified as either a `name/value` or `name/valueList` pair. | No |
+
+#### Istio Install Args
+| Name | Type | ValueType | Description | Required
+| --- | --- | --- | --- | --- |
+| `gateways.istio-ingressgateway.externalIPs` | [NameValue](#name-value)  | string list | The external IP address used by the Istio Ingress Gateway. |  No |
+| `gateways.istio-ingressgateway.serviceAnnotations.*` | [NameValue](#name-value) | string | Annotations used for Istio Ingress Gateway.  For sample usage, see [Customize Ingress](/docs/setup/install/customizing/ingress/). |  No |
+
 
 ### Fluentd Component
 | Field | Type | Description | Required
@@ -160,13 +177,11 @@ spec:
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `enabled` | Boolean | If true, then Keycloak will be installed. | No |
-| `keycloakInstallArgs` | [NameValue](#name-value) list | Allows providing custom Helm arguments to install Keycloak.  | No
 | `mysql` | [MySQLComponent](#mysql-component) | Contains the MySQL component configuration needed for Keycloak. | No
 
 ### MySQL Component
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `mysqlInstallArgs` | [NameValue](#name-value) list | Allows providing custom Helm arguments to install MySQL for Keycloak.  | No
 | `volumeSource` | [VolumeSource](https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/) | Defines the type of volume to be used for persistence for Keycloak/MySQL, and can be one of either [EmptyDirVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#emptydirvolumesource-v1-core) or [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core). If [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core) is declared, then the `claimName` must reference the name of a `VolumeClaimSpecTemplate` declared in the `volumeClaimSpecTemplates` section. | No
 
 ### Elasticsearch Component
