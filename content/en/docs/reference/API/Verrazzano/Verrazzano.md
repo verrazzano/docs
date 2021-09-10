@@ -117,7 +117,7 @@ spec:
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `type` | string | The ingress type.  Valid values are `LoadBalancer` and `NodePort`.  The default value is `LoadBalancer`.  |  Yes |
-| `nginxInstallArgs` |  [NGINXInstallArgs](#nginx-install-args) list | The list of argument names and values. | No |
+| `nginxInstallArgs` |  [NGINXInstallArgs](#nginx-install-args) list | A list of values to use during NGINX install. | No |
 | `ports` | [PortConfig](#port-config) list | The list port configurations used by the ingress. | No |
 
 #### NGINX Install Args
@@ -150,7 +150,7 @@ spec:
 ### Istio Component
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `istioInstallArgs` | [IstioInstallArgs](#istio-install-args) list | A list of Istio Helm chart arguments and values to apply during the installation of Istio.  Each argument is specified as either a `name/value` or `name/valueList` pair. | No |
+| `istioInstallArgs` | [IstioInstallArgs](#istio-install-args) list | A list of values to use during Istio install.  Each argument is specified as either a `name/value` or `name/valueList` pair. | No |
 
 #### Istio Install Args
 | Name | Type | ValueType | Description | Required
@@ -188,7 +188,19 @@ spec:
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `enabled` | Boolean | If true, then Elasticsearch will be installed. | No |
-| `installArgs` | [NameValue](#name-value) list | A list of Verrazzano Helm chart arguments and values to apply during the installation of the Verrazzano system chart.  Each argument is specified as either a `name/value` or `name/valueList` pair. | No |
+| `installArgs` | [ElasticsearchInstallArgs](#elasticsearch-install-args) list | A list of values to use during Elasticsearch install.  Each argument is specified as either a `name/value` or `name/valueList` pair.  For sample usage, see [Customize Elasticsearch](/docs/setup/install/customizing/elasticsearch/).| No |
+
+#### Elasticsearch Install Args
+| Name | Type | ValueType | Description | Required
+| --- | --- | --- | --- | --- |
+| `nodes.master.replicas` | [NameValue](#name-value) | string  | The number of master node replicas. |  No |
+| `nodes.master.requests.memory` | [NameValue](#name-value) |  string  | The master node memory request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity). |  No |
+| `nodes.ingest.replicas` | [NameValue](#name-value) | string  | The number of ingest node replicas. |  No |
+| `nodes.ingest.requests.memory` | [NameValue](#name-value) |  string  | The ingest node memory request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity). |  No |
+| `nodes.data.replicas` | [NameValue](#name-value) | string  | The number of data node replicas. |  No |
+| `nodes.data.requests.memory` | [NameValue](#name-value) |  string  | The data node memory request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity). |  No |
+| `nodes.data.requests.storage` | [NameValue](#name-value) |  string  | The data storage request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity). |  No |
+
 
 ### Kibana Component
 | Field | Type | Description | Required
