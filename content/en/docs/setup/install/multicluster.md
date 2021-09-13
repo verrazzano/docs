@@ -89,7 +89,7 @@ Follow these preregistration setup steps:
      {{< tab tabNum="1" >}}
 <br>
 
-In this case, no additional configuration is necessary!
+In this case, no additional configuration is necessary.
 
      {{< /tab >}}
      {{< tab tabNum="2" >}}
