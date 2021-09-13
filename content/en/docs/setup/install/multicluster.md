@@ -89,16 +89,10 @@ Follow these preregistration setup steps:
      {{< tab tabNum="1" >}}
 <br>
 
-In this case, create a file called `managed1.yaml` with an empty value for the `cacrt`
-field as follows:
+In this case, no additional configuration is necessary.
 
-```shell
-$ kubectl create secret generic "ca-secret-managed1" -n verrazzano-mc \
-     --from-literal=cacrt="" --dry-run=client -o yaml > managed1.yaml;
-```
      {{< /tab >}}
      {{< tab tabNum="2" >}}
-<br>
 
 If the managed cluster certificates are self-signed, create a file called `managed1.yaml` containing the CA
 certificate of the managed cluster as the value of the `cacrt` field. In the following commands, the managed cluster's
@@ -118,11 +112,7 @@ $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
   --dry-run=client \
   -o yaml > managed1.yaml
 ```
-     {{< /tab >}}
-     {{< /tabs >}}
-
-
-1. Create a Secret on the *admin* cluster that contains the CA certificate for the managed cluster. This secret will be used for scraping metrics from the managed cluster.
+Create a Secret on the *admin* cluster that contains the CA certificate for the managed cluster. This secret will be used for scraping metrics from the managed cluster.
    The file `managed1.yaml` that was created in the previous step provides input to this step.
    ```shell
    # On the admin cluster
@@ -132,6 +122,9 @@ $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
    # Once the command succeeds, you may delete the managed1.yaml file
    $ rm managed1.yaml
    ```
+
+     {{< /tab >}}
+     {{< /tabs >}}
 
 1. Use the following instructions to obtain the Kubernetes API server address for the admin cluster. This address must
    be accessible from the managed cluster.
