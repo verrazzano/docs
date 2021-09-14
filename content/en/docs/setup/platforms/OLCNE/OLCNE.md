@@ -272,7 +272,7 @@ If load balancers are desired, then they should be created now even though the a
 <br>
 
 ### DNS
-When using the `spec.dns.external` DNS type, the installer searches the DNS zone you provide for two specific A records.
+When using the Verrazzano`spec.components.dns.external` DNS type, the installer searches the DNS zone you provide for two specific A records.
 These are used to configure the cluster and should refer to external addresses of the load balancers in the previous step.
 The A records will need to be created manually.
 
@@ -328,11 +328,11 @@ During the Verrazzano install, these steps should be performed on the Oracle Lin
 Edit the sample Verrazzano custom resource [install-olcne.yaml]( {{< release_source_url path=platform-operator/config/samples/install-olcne.yaml >}} ) file and provide these configuration settings for your OLCNE environment:
 
 - The value for `spec.environmentName` is a unique DNS subdomain for the cluster (for example, `myenv` in `myenv.example.com`).
-- The value for `spec.dns.external.suffix` is the remainder of the DNS domain (for example, `example.com` in `myenv.example.com`).
-- Under `spec.ingress.verrazzano.nginxInstallArgs`, the value for `controller.service.externalIPs` is the IP address of `ingress-mgmt.<myenv>.<example.com>` configured during DNS set up.
-- Under  `spec.ingress.application.istioInstallArgs`, the value for `gateways.istio-ingressgateway.externalIPs` is the IP address of `ingress-verrazzano.<myenv>.<example.com>` configured during DNS set up.
+- The value for `spec.components.dns.external.suffix` is the remainder of the DNS domain (for example, `example.com` in `myenv.example.com`).
+- Under `spec.components.ingress.nginxInstallArgs`, the value for `controller.service.externalIPs` is the IP address of `ingress-mgmt.<myenv>.<example.com>` configured during DNS set up.
+- Under  `spec.components.istio.istioInstallArgs`, the value for `gateways.istio-ingressgateway.externalIPs` is the IP address of `ingress-verrazzano.<myenv>.<example.com>` configured during DNS set up.
 
-You will install Verrazzano using the `external` DNS type (the example custom resource for OLCNE is already configured to use `spec.dns.external`).
+You will install Verrazzano using the `external` DNS type (the example custom resource for OLCNE is already configured to use `spec.components.dns.external`).
 
 Set the following environment variable:
 
