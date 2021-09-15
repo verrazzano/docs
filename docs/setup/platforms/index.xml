@@ -783,7 +783,7 @@ If load balancers are desired, then they should be created now even though the a
 
 	&lt;br&gt;
 &lt;h3 id=&#34;dns&#34;&gt;DNS&lt;/h3&gt;
-&lt;p&gt;When using the &lt;code&gt;spec.dns.external&lt;/code&gt; DNS type, the installer searches the DNS zone you provide for two specific A records.
+&lt;p&gt;When using the Verrazzano&lt;code&gt;spec.components.dns.external&lt;/code&gt; DNS type, the installer searches the DNS zone you provide for two specific A records.
 These are used to configure the cluster and should refer to external addresses of the load balancers in the previous step.
 The A records will need to be created manually.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; At this time, the only supported deployment for Oracle Linux Cloud Native Environment is the external DNS type.&lt;/p&gt;
@@ -844,11 +844,11 @@ DNS CNAME records, in the same way.&lt;/p&gt;
 &lt;p&gt;Edit the sample Verrazzano custom resource &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.0.1/platform-operator/config/samples/install-olcne.yaml&#34;&gt;install-olcne.yaml&lt;/a&gt; file and provide these configuration settings for your OLCNE environment:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;The value for &lt;code&gt;spec.environmentName&lt;/code&gt; is a unique DNS subdomain for the cluster (for example, &lt;code&gt;myenv&lt;/code&gt; in &lt;code&gt;myenv.example.com&lt;/code&gt;).&lt;/li&gt;
-&lt;li&gt;The value for &lt;code&gt;spec.dns.external.suffix&lt;/code&gt; is the remainder of the DNS domain (for example, &lt;code&gt;example.com&lt;/code&gt; in &lt;code&gt;myenv.example.com&lt;/code&gt;).&lt;/li&gt;
-&lt;li&gt;Under &lt;code&gt;spec.ingress.verrazzano.nginxInstallArgs&lt;/code&gt;, the value for &lt;code&gt;controller.service.externalIPs&lt;/code&gt; is the IP address of &lt;code&gt;ingress-mgmt.&amp;lt;myenv&amp;gt;.&amp;lt;example.com&amp;gt;&lt;/code&gt; configured during DNS set up.&lt;/li&gt;
-&lt;li&gt;Under  &lt;code&gt;spec.ingress.application.istioInstallArgs&lt;/code&gt;, the value for &lt;code&gt;gateways.istio-ingressgateway.externalIPs&lt;/code&gt; is the IP address of &lt;code&gt;ingress-verrazzano.&amp;lt;myenv&amp;gt;.&amp;lt;example.com&amp;gt;&lt;/code&gt; configured during DNS set up.&lt;/li&gt;
+&lt;li&gt;The value for &lt;code&gt;spec.components.dns.external.suffix&lt;/code&gt; is the remainder of the DNS domain (for example, &lt;code&gt;example.com&lt;/code&gt; in &lt;code&gt;myenv.example.com&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;Under &lt;code&gt;spec.components.ingress.nginxInstallArgs&lt;/code&gt;, the value for &lt;code&gt;controller.service.externalIPs&lt;/code&gt; is the IP address of &lt;code&gt;ingress-mgmt.&amp;lt;myenv&amp;gt;.&amp;lt;example.com&amp;gt;&lt;/code&gt; configured during DNS set up.&lt;/li&gt;
+&lt;li&gt;Under  &lt;code&gt;spec.components.istio.istioInstallArgs&lt;/code&gt;, the value for &lt;code&gt;gateways.istio-ingressgateway.externalIPs&lt;/code&gt; is the IP address of &lt;code&gt;ingress-verrazzano.&amp;lt;myenv&amp;gt;.&amp;lt;example.com&amp;gt;&lt;/code&gt; configured during DNS set up.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;You will install Verrazzano using the &lt;code&gt;external&lt;/code&gt; DNS type (the example custom resource for OLCNE is already configured to use &lt;code&gt;spec.dns.external&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;You will install Verrazzano using the &lt;code&gt;external&lt;/code&gt; DNS type (the example custom resource for OLCNE is already configured to use &lt;code&gt;spec.components.dns.external&lt;/code&gt;).&lt;/p&gt;
 &lt;p&gt;Set the following environment variable:&lt;/p&gt;
 &lt;p&gt;The value for &lt;code&gt;&amp;lt;path to valid Kubernetes config&amp;gt;&lt;/code&gt; is typically &lt;code&gt;${HOME}/.kube/config&lt;/code&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ export KUBECONFIG=$VERRAZZANO_KUBECONFIG

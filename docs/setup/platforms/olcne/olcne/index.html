@@ -22,10 +22,10 @@
 <meta property="og:description" content="Instructions for setting up an OLCNE cluster for Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/platforms/olcne/olcne/" />
-<meta property="article:modified_time" content="2021-08-19T14:44:29-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-09-15T09:18:29-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Oracle Linux Cloud Native Environment (OLCNE)">
 <meta itemprop="description" content="Instructions for setting up an OLCNE cluster for Verrazzano">
-<meta itemprop="dateModified" content="2021-08-19T14:44:29-04:00" />
+<meta itemprop="dateModified" content="2021-09-15T09:18:29-04:00" />
 <meta itemprop="wordCount" content="1783">
 
 
@@ -106,7 +106,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.9d3203952608cc5165b87f77193288cf.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.921620b03528d500d1cba714095f021f.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -133,7 +133,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.9d3203952608cc5165b87f77193288cf.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.921620b03528d500d1cba714095f021f.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -1258,7 +1258,7 @@ If load balancers are desired, then they should be created now even though the a
 
 	<br>
 <h3 id="dns">DNS</h3>
-<p>When using the <code>spec.dns.external</code> DNS type, the installer searches the DNS zone you provide for two specific A records.
+<p>When using the Verrazzano<code>spec.components.dns.external</code> DNS type, the installer searches the DNS zone you provide for two specific A records.
 These are used to configure the cluster and should refer to external addresses of the load balancers in the previous step.
 The A records will need to be created manually.</p>
 <p><strong>NOTE:</strong> At this time, the only supported deployment for Oracle Linux Cloud Native Environment is the external DNS type.</p>
@@ -1319,11 +1319,11 @@ DNS CNAME records, in the same way.</p>
 <p>Edit the sample Verrazzano custom resource <a href="https://github.com/verrazzano/verrazzano/blob/v1.0.1/platform-operator/config/samples/install-olcne.yaml">install-olcne.yaml</a> file and provide these configuration settings for your OLCNE environment:</p>
 <ul>
 <li>The value for <code>spec.environmentName</code> is a unique DNS subdomain for the cluster (for example, <code>myenv</code> in <code>myenv.example.com</code>).</li>
-<li>The value for <code>spec.dns.external.suffix</code> is the remainder of the DNS domain (for example, <code>example.com</code> in <code>myenv.example.com</code>).</li>
-<li>Under <code>spec.ingress.verrazzano.nginxInstallArgs</code>, the value for <code>controller.service.externalIPs</code> is the IP address of <code>ingress-mgmt.&lt;myenv&gt;.&lt;example.com&gt;</code> configured during DNS set up.</li>
-<li>Under  <code>spec.ingress.application.istioInstallArgs</code>, the value for <code>gateways.istio-ingressgateway.externalIPs</code> is the IP address of <code>ingress-verrazzano.&lt;myenv&gt;.&lt;example.com&gt;</code> configured during DNS set up.</li>
+<li>The value for <code>spec.components.dns.external.suffix</code> is the remainder of the DNS domain (for example, <code>example.com</code> in <code>myenv.example.com</code>).</li>
+<li>Under <code>spec.components.ingress.nginxInstallArgs</code>, the value for <code>controller.service.externalIPs</code> is the IP address of <code>ingress-mgmt.&lt;myenv&gt;.&lt;example.com&gt;</code> configured during DNS set up.</li>
+<li>Under  <code>spec.components.istio.istioInstallArgs</code>, the value for <code>gateways.istio-ingressgateway.externalIPs</code> is the IP address of <code>ingress-verrazzano.&lt;myenv&gt;.&lt;example.com&gt;</code> configured during DNS set up.</li>
 </ul>
-<p>You will install Verrazzano using the <code>external</code> DNS type (the example custom resource for OLCNE is already configured to use <code>spec.dns.external</code>).</p>
+<p>You will install Verrazzano using the <code>external</code> DNS type (the example custom resource for OLCNE is already configured to use <code>spec.components.dns.external</code>).</p>
 <p>Set the following environment variable:</p>
 <p>The value for <code>&lt;path to valid Kubernetes config&gt;</code> is typically <code>${HOME}/.kube/config</code>.</p>
 <pre><code>$ export KUBECONFIG=$VERRAZZANO_KUBECONFIG
