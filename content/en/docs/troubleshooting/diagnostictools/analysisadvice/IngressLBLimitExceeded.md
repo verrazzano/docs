@@ -1,6 +1,6 @@
 ---
-title: Ingress Controller Load Balancer Service Limit Reached
-linkTitle: Ingress Controller Load Balancer Service Limit Reached
+title: Ingress Controller LB Service Limit Reached
+linkTitle: Ingress Controller LB Service Limit Reached
 description: Analysis detected that the load balancer service limit was exceeded
 weight: 5
 draft: false
@@ -12,9 +12,9 @@ Analysis detected that the Verrazzano installation failed while installing the N
 The root cause appears to be that the load balancer service limit has been reached.
 
 ### Steps
-1. Review the messages from the supporting details for the exact limits, and delete unused load balancers
-2. If available, use a different load balancer shape
-3. Refer to OCI documentation on [Service Limits](https://docs.oracle.com/en-us/iaas/Content/General/Concepts/servicelimits.htm#)
+1. Review the messages from the supporting details for the exact limits, and delete unused load balancers.
+2. If available, use a different load balancer shape. See [Customizing Ingress](https://verrazzano.io/docs/setup/install/customizing/ingress/).
+3. Refer to the OCI documentation on [Service Limits](https://docs.oracle.com/en-us/iaas/Content/General/Concepts/servicelimits.htm#).
 
 ### Related information
 * [Platform Setup]({{< relref "/docs/setup/platforms/_index.md" >}})
