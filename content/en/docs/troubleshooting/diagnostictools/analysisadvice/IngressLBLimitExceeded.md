@@ -1,5 +1,5 @@
 ---
-title: Ingress Controller LB Service Limit Reached
+title: Ingress Controller Load Balancer Service Limit Reached
 linkTitle: Ingress Controller LB Service Limit Reached
 description: Analysis detected that the load balancer service limit was exceeded
 weight: 5
