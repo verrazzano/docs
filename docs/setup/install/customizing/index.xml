@@ -172,7 +172,7 @@ the OCI documentation, &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Conten
 &lt;/ul&gt;
 &lt;h3 id=&#34;create-an-oci-api-secret-in-the-target-cluster&#34;&gt;Create an OCI API secret in the target cluster&lt;/h3&gt;
 &lt;p&gt;To communicate with OCI DNS to manage DNS records, Verrazzano needs to be made aware of the necessary API credentials.&lt;br&gt;
-A generic Kubernetes secret must be created in the cluster&amp;rsquo;s &lt;code&gt;default&lt;/code&gt; namespace with the required credentials.
+A generic Kubernetes secret must be created in the cluster&amp;rsquo;s &lt;code&gt;verrazzano-install&lt;/code&gt; namespace with the required credentials.
 That secret must then be referenced by the custom resource that is used to install Verrazzano.&lt;/p&gt;
 &lt;p&gt;After you have an OCI API key ready for use, create a YAML file, &lt;code&gt;oci.yaml&lt;/code&gt;, with the API credentials in the form:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;auth:
@@ -195,10 +195,10 @@ configuration profile.&lt;/p&gt;
     ...
     -----END RSA PRIVATE KEY-----
   fingerprint: 12:d3:4c:gh:fd:9e:27:g8:b9:0d:9f:00:22:33:c3:gg
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then, you can create a generic Kubernetes secret in the cluster&amp;rsquo;s &lt;code&gt;default&lt;/code&gt; namespace using &lt;code&gt;kubectl&lt;/code&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl create secret generic -n default &amp;lt;secret-name&amp;gt; --from-file=&amp;lt;path-to-oci-yaml-file&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then, you can create a generic Kubernetes secret in the cluster&amp;rsquo;s &lt;code&gt;verrazzano-install&lt;/code&gt; namespace using &lt;code&gt;kubectl&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl create secret generic -n verrazzano-install &amp;lt;secret-name&amp;gt; --from-file=&amp;lt;path-to-oci-yaml-file&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For example, to create a secret named &lt;code&gt;oci&lt;/code&gt; from a file &lt;code&gt;oci.yaml&lt;/code&gt;, do the following:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl create secret generic -n default oci --from-file=oci.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl create secret generic -n verrazzano-install oci --from-file=oci.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This secret will later be referenced from the Verrazzano custom resource used during installation.&lt;/p&gt;
 &lt;h3 id=&#34;use-a-verrazzano-helper-script-to-create-an-oci-secret&#34;&gt;Use a Verrazzano helper script to create an OCI secret&lt;/h3&gt;
 &lt;p&gt;Verrazzano also provides a helper script to create the necessary Kubernetes secret based on your OCI CLI config file,
