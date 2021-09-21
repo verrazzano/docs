@@ -7006,6 +7006,34 @@ $ kubectl logs \
     </item>
     
     <item>
+      <title>Docs: Ingress Controller Load Balancer Service Limit Reached</title>
+      <link>/docs/troubleshooting/diagnostictools/analysisadvice/ingresslblimitexceeded/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/troubleshooting/diagnostictools/analysisadvice/ingresslblimitexceeded/</guid>
+      <description>
+        
+        
+        &lt;h3 id=&#34;summary&#34;&gt;Summary&lt;/h3&gt;
+&lt;p&gt;Analysis detected that the Verrazzano installation failed while installing the NGINX Ingress Controller.&lt;/p&gt;
+&lt;p&gt;The root cause appears to be that the load balancer service limit has been reached.&lt;/p&gt;
+&lt;h3 id=&#34;steps&#34;&gt;Steps&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Review the messages from the supporting details for the exact limits, and delete unused load balancers.&lt;/li&gt;
+&lt;li&gt;If available, use a different load balancer shape. See &lt;a href=&#34;https://verrazzano.io/docs/setup/install/customizing/ingress/&#34;&gt;Customizing Ingress&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Refer to the OCI documentation on &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/General/Concepts/servicelimits.htm#&#34;&gt;Service Limits&lt;/a&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;related-information&#34;&gt;Related information&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;../docs/setup/platforms/&#34;&gt;Platform Setup&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/tasks/debug-application-cluster/troubleshooting/&#34;&gt;Kubernetes Troubleshooting&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Balance/Concepts/balanceoverview.htm&#34;&gt;More information on load balancers&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Ingress Controller No Load Balancer IP</title>
       <link>/docs/troubleshooting/diagnostictools/analysisadvice/ingressnoloadbalancerip/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -7817,181 +7845,6 @@ $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
-      </description>
-    </item>
-    
-    <item>
-      <title>Docs: Standard Kubernetes Resources</title>
-      <link>/docs/samples/standard-kubernetes/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/docs/samples/standard-kubernetes/</guid>
-      <description>
-        
-        
-        &lt;p&gt;This example demonstrates using standard Kubernetes resources, in conjunction with OAM resources, to define and deploy an application.
-Several standard Kubernetes resources are used in this example, both as workloads and traits.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Deployment is used as a workload within a Component.&lt;/li&gt;
-&lt;li&gt;Service is used as a workload within a Component.&lt;/li&gt;
-&lt;li&gt;Ingress is used as a trait within an ApplicationConfiguration.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h2&gt;
-&lt;p&gt;Install Verrazzano by following the &lt;a href=&#34;../docs/setup/install/installation/&#34;&gt;installation&lt;/a&gt; instructions.&lt;/p&gt;
-&lt;h3 id=&#34;grant-permissions&#34;&gt;Grant permissions&lt;/h3&gt;
-&lt;p&gt;The &lt;code&gt;oam-kubernetes-runtime&lt;/code&gt; is not installed with privileges that allow it to create the Kubernetes Ingress resource used in this example.
-The following steps create a role that allows Ingress resource creation and binds that role to the &lt;code&gt;oam-kubernetes-runtime&lt;/code&gt; service account.
-For this example to work, your cluster admin will need to run the following steps to create the ClusterRole and ClusterRoleBinding.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: rbac.authorization.k8s.io/v1
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: ClusterRole
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: oam-kubernetes-runtime-ingresses
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;rules:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  - apiGroups:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - networking.k8s.io
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - extensions
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    resources:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - ingresses
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    verbs:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - create
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - delete
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - get
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - list
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - patch
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - update
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;---
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: rbac.authorization.k8s.io/v1
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: ClusterRoleBinding
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: oam-kubernetes-runtime-ingresses
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;roleRef:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  apiGroup: rbac.authorization.k8s.io
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  kind: ClusterRole
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: oam-kubernetes-runtime-ingresses
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;subjects:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  - kind: ServiceAccount
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    name: oam-kubernetes-runtime
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    namespace: verrazzano-system
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;deploy-the-application&#34;&gt;Deploy the application&lt;/h2&gt;
-&lt;p&gt;This example provides an web application using a common example application image.
-When accessed, the application returns the configured text.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Create the application namespace and add a label identifying the namespace as managed by Verrazzano.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl create namespace oam-kube
-$ kubectl label namespace oam-kube verrazzano-managed&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87&#34;&gt;true&lt;/span&gt; istio-injection&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;enabled
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Create a Component containing a Deployment workload.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: core.oam.dev/v1alpha2
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Component
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: oam-kube-dep-comp
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  namespace: oam-kube
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  workload:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    kind: Deployment
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    apiVersion: apps/v1
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    name: oam-kube-dep
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    spec:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      replicas: 1
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      selector:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        matchLabels:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          app: oam-kube-app
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      template:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        metadata:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          labels:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            app: oam-kube-app
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        spec:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;          containers:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            - name: oam-kube-cnt
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;              image: hashicorp/http-echo
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;              args:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;                - &amp;#34;-text=hello&amp;#34;
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Create a Component containing a Service workload.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: core.oam.dev/v1alpha2
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: Component
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: oam-kube-svc-comp
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  namespace: oam-kube
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  workload:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    kind: Service
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    apiVersion: v1
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    metadata:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      name: oam-kube-svc
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    spec:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      selector:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        app: oam-kube-app
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      ports:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      - port: 5678 # Default port for image
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Create an ApplicationConfiguration referencing both Components and configuring an ingress trait.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f - &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;lt;&amp;lt;EOF
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;apiVersion: core.oam.dev/v1alpha2
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;kind: ApplicationConfiguration
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;metadata:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  name: oam-kube-appconf
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  namespace: oam-kube
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;spec:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;  components:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - componentName: oam-kube-dep-comp
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;    - componentName: oam-kube-svc-comp
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;      traits:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;        - trait:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            apiVersion: networking.k8s.io/v1beta1
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            kind: Ingress
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            metadata:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;              name: oam-kube-ing
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;              annotations:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;                kubernetes.io/ingress.class: istio
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;            spec:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;              rules:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;              - host: oam-kube-app.example.com
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;                http:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;                  paths:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;                    - path: /example
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;                      backend:
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;                        serviceName: oam-kube-svc
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;                        servicePort: 5678
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;EOF&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;explore-the-application&#34;&gt;Explore the application&lt;/h2&gt;
-&lt;ol&gt;
-&lt;li&gt;Get the host name for the application.
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;HOST&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl get ingress &lt;span style=&#34;color:#4e9a06&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -n oam-kube oam-kube-ing &lt;span style=&#34;color:#4e9a06&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;{.spec.rules[0].host}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
-$ &lt;span style=&#34;color:#204a87&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;HOST=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;HOST&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;Get the load balancer address of the ingress gateway.
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ &lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;LOADBALANCER&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;$(&lt;/span&gt;kubectl get ingress &lt;span style=&#34;color:#4e9a06&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -n oam-kube oam-kube-ing &lt;span style=&#34;color:#4e9a06&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -o &lt;span style=&#34;color:#000&#34;&gt;jsonpath&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;{.status.loadBalancer.ingress[0].ip}&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;)&lt;/span&gt;
-$ &lt;span style=&#34;color:#204a87&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;LOADBALANCER=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;LOADBALANCER&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;Access the application.
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ curl http://&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;HOST&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;/example --resolve &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;HOST&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;:80:&lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;LOADBALANCER&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;undeploy-the-application&#34;&gt;Undeploy the application&lt;/h2&gt;
-&lt;p&gt;To undeploy the application, delete the namespace created.
-This will result in the deletion of all explicitly and implicitly created resources in the namespace.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl delete namespace oam-kube
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;If desired, the cluster admin also can remove the created ClusterRole and ClusterRoleBinding.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl delete ClusterRoleBinding oam-kubernetes-runtime-ingresses
-$ kubectl delete ClusterRole oam-kubernetes-runtime-ingresses
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
       </description>
     </item>
     
