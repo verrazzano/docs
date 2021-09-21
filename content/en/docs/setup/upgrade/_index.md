@@ -54,15 +54,20 @@ In order to upgrade an existing Verrazzano installation, you must first upgrade 
    $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v0.7.0/operator.yaml
    ```
 
-
-1. Wait for the deployment to complete.
+1. Wait for the deployment to complete, and for the previous operator pod to be terminated (about 30s) before continuing.
+   There should only one platform operator pod running in the `verrazzano-install` 
+   namespace.
 
    ```shell
    $ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
    deployment "verrazzano-platform-operator" successfully rolled out
+   
+   $ kubectl get pod -n verrazzano-install 
+   NAME                                            READY   STATUS    RESTARTS   AGE
+   verrazzano-platform-operator-6ccdcc8dff-gfhvh   1/1     Running   0          3m
    ```
 
-1. Confirm that the operator pod is correctly defined and running.
+2. Confirm that the operator pod is correctly defined and running.
 
    ```shell
    $ kubectl -n verrazzano-install get pods
