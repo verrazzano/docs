@@ -291,6 +291,7 @@ For example:
 
 Verrazzano installation will result in a number of management services that need to point to the `ingress-mgmt` address.
 ```
+verrazzano.myenv.example.com                    CNAME   ingress-mgmt.myenv.example.com.
 keycloak.myenv.example.com                      CNAME   ingress-mgmt.myenv.example.com.
 rancher.myenv.example.com                       CNAME   ingress-mgmt.myenv.example.com.
 
