@@ -225,11 +225,10 @@ Specific steps will differ for each load balancer provider, but a generic config
 * Distribution: Round-robin
 * Health Check: TCP
 
-The backend must be configured for each load balancer, which is described in the following section.
-
 ##### **Backend for management load balancer**
-The target ports in the following table are marked TBD and need to be determined after you install Verrazzano.  Run the 
-following command to get the target ports for the NGINX Ingress Controller:
+You must install Verrazzano to get the target ports for each load balancer backend. 
+In the following table, those ports are marked TBD. Run the following command to get the target
+ports for the NGINX Ingress Controller:
 ``` 
 kubectl get service ingress-controller-ingress-nginx-controller -n ingress-nginx
 ```
