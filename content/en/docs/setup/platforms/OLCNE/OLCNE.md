@@ -229,7 +229,7 @@ The backend must be configured for each load balancer, which is described in the
 
 ##### **Backend for management load balancer**
 The target ports in the following table are marked TBD and need to be determined after you install Verrazzano.  Run the 
-following command to get the target port for the NGINX Ingress Controller:
+following command to get the target ports for the NGINX Ingress Controller:
 ``` 
 kubectl get service ingress-controller-ingress-nginx-controller -n ingress-nginx
 ```
