@@ -134,12 +134,6 @@ A Verrazzano Oracle Linux Cloud Native Environment deployment requires:
 
 Examples for meeting these requirements follow.
 
-### Prerequisites Details
-
-{{< tabs tabTotal="3" tabID="1" tabName1="Storage" tabName2="Load Balancers" tabName3="DNS" >}}
-{{< tab tabNum="1" >}}
-<br>
-
 ### Storage
 Verrazzano requires persistent storage for several components.
 This persistent storage is provided by a default storage class.
@@ -147,7 +141,7 @@ A number of persistent storage providers exist for Kubernetes.
 This guide will focus on pre-allocated persistent volumes.
 In particular, the provided samples will illustrate the use of OCI's NFS File System.
 
-##### OCI example  
+#### OCI example  
 Before storage can be exposed to Kubernetes, it must be created.
 In OCI, this is done using File System resources.
 Using the OCI Console, create a new File System.
@@ -166,7 +160,7 @@ $ sudo mount 10.0.1.8:/example /mnt
 $ for x in {0001..0009}; do sudo mkdir -p /mnt/pv${x} && sudo chmod 777 /mnt/pv${x}; done
 ```
 
-##### Persistent Volumes
+#### Persistent Volumes
 A default Kubernetes storage class is required by Verrazzano.
 When using pre-allocated PersistentVolumes, for example NFS, persistent volumes should be declared as following.
 The value for `name` may be customized but will need to match the PersistentVolume `storageClassName` value later.
@@ -211,9 +205,6 @@ The value for `name` may be customized but will need to match the PersistentVolu
   EOF
   done
   ```
-{{< /tab >}}
-{{< tab tabNum="2" >}}
-<br>
 
 ### Load Balancers
 Verrazzano on Oracle Linux Cloud Native Environment uses external load balancer services.
@@ -231,18 +222,41 @@ Specific steps will differ for each load balancer provider, but a generic config
 * Distribution: Round-robin
 * Health Check: TCP
 
-| Traffic Type | Service Name                                  | Type  | Suggested External Port | Target Port |
-|--------------|-----------------------------------------------|-------|-------------------------|-------------|
-| Application  | `istio-ingressgateway`                        | TCP   | 80                      | 31380       |
-| Application  | `istio-ingressgateway`                        | TCP   | 443                     | 31390       |
-| Management   | `ingress-controller-nginx-ingress-controller` | TCP   | 80                      | 30080       |
-| Management   | `ingress-controller-nginx-ingress-controller` | TCP   | 443                     | 30443       |
+The following entries are needed for the load balancer backend configuration:
 
+##### **Backend for management load balancer**
+The target ports in the following table are marked TBD and need to be determined after you install Verazzano.  Run the 
+following command to get the target port for the NGINX Ingres Controller:
+``` 
+kubectl get service ingress-controller-ingress-nginx-controller -n ingress-nginx
+```
+In the PORT(S) column you will see the target port associated with port 80 and 443, for example: 80:30080/TCP,443:30443.  
+Use these target port values for the backend. 
 
+| Service Name                                  | Type  |  External Port          | Target Port |
+|---------------------------------------------|-------|-------------------------|-------------|
+`ingress-controller-nginx-ingress-controller` | TCP   | 80                      | TBD         |  
+`ingress-controller-nginx-ingress-controller` | TCP   | 443                     | TBD         |  
+
+##### **Backend for application load balancer**
+Get the target ports for Istio Ingress Gateway service using the following command:
+```
+kubectl get service  istio-ingressgateway  -n  istio-system
+```
+Create the backend entries for the Istio Ingress Gateway using the target ports.
+
+| Service Name                                  | Type  |  External Port          | Target Port |
+|-----------------------------------------------|-------|-------------------------|-------------|
+| `istio-ingressgateway`                        | TCP   | 80                      | TBD         |
+| `istio-ingressgateway`                        | TCP   | 443                     | TBD         |
+  
+    
 #### OCI example
 The following details can be used to create OCI load balancers for accessing application and management user interfaces, respectively.
 These load balancers will route HTTP/HTTPS traffic from the Internet to the private subnet.
 If load balancers are desired, then they should be created now even though the application and management endpoints will be installed later.
+
+**NOTE** In the following list, the using port 0 for the health check indicates that the backend ports should be used. 
 
 * Application Load Balancer: Public Subnet
   * Listeners
@@ -250,26 +264,23 @@ If load balancers are desired, then they should be created now even though the a
     * HTTPS Listener: Protocol TCP, Port 443
   * Backend Sets
     * HTTP Backend Sets:
-      * Health Check: Protocol TCP, Port 31380
-      * Backends: Kubernetes Worker Nodes, Port 31380, Distribution Policy Weighted Round Robin
+      * Health Check: Protocol TCP, Port 0
+      * Backends: Kubernetes Worker Nodes, Port TBD, Distribution Policy Weighted Round Robin
     * HTTPS Backend Sets
-      * Health Check: Protocol TCP, Port 31390
-      * Backends: Kubernetes Worker Nodes, Port 31390, Distribution Policy Weighted Round Robin
+      * Health Check: Protocol TCP, Port 0
+      * Backends: Kubernetes Worker Nodes, Port TBD, Distribution Policy Weighted Round Robin
 * Management Load Balancer: Public Subnet
   * Listeners
     * HTTP Listener: Protocol TCP, Port 80
     * HTTPS Listener: Protocol TCP, Port 443
   * Backend Sets
     * HTTP Backend Sets:
-      * Health Check: Protocol TCP, Port 30080
-      * Backends: Kubernetes Worker Nodes, Port 30080, Distribution Policy Weighted Round Robin
+      * Health Check: Protocol TCP, Port 0
+      * Backends: Kubernetes Worker Nodes, Port TBD, Distribution Policy Weighted Round Robin
     * HTTPS Backend Sets
-      * Health Check: Protocol TCP, Port 30443
-      * Backends: Kubernetes Worker Nodes, Port 30443, Distribution Policy Weighted Round Robin
+      * Health Check: Protocol TCP, Port 0
+      * Backends: Kubernetes Worker Nodes, Port TBD, Distribution Policy Weighted Round Robin
 
-{{< /tab >}}
-{{< tab tabNum="3" >}}
-<br>
 
 ### DNS
 When using the Verrazzano`spec.components.dns.external` DNS type, the installer searches the DNS zone you provide for two specific A records.
@@ -321,8 +332,7 @@ The value for `<dns-suffix>` excludes the environment (for example, use the `exa
 DNS A records must be manually added to the zone and published using values described above.
 DNS CNAME records, in the same way.
 
-{{< /tab >}}
-{{< /tabs >}}
+
 
 During the Verrazzano install, these steps should be performed on the Oracle Linux Cloud Native Environment operator node.
 
