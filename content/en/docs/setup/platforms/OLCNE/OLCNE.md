@@ -132,6 +132,9 @@ A Verrazzano Oracle Linux Cloud Native Environment deployment requires:
 * Load balancers in front of the worker nodes in the cluster.
 * DNS records that reference the load balancers.
 
+** NOTE ** The target ports for the load balancer backends cannot be determined until you install.  
+You can create the load balancers before you install, but post-installation configuration is required.
+
 Examples for meeting these requirements follow.
 
 ### Storage
@@ -222,16 +225,16 @@ Specific steps will differ for each load balancer provider, but a generic config
 * Distribution: Round-robin
 * Health Check: TCP
 
-The following entries are needed for the load balancer backend configuration:
+The backend must be configured for each load balancer, which is described in the following section.
 
 ##### **Backend for management load balancer**
-The target ports in the following table are marked TBD and need to be determined after you install Verazzano.  Run the 
-following command to get the target port for the NGINX Ingres Controller:
+The target ports in the following table are marked TBD and need to be determined after you install Verrazzano.  Run the 
+following command to get the target port for the NGINX Ingress Controller:
 ``` 
 kubectl get service ingress-controller-ingress-nginx-controller -n ingress-nginx
 ```
-In the PORT(S) column you will see the target port associated with port 80 and 443, for example: 80:30080/TCP,443:30443.  
-Use these target port values for the backend. 
+In the `PORT(S)` column you will see the target port associated with port 80 and 443, for example: `80:30080/TCP,443:30443`.  
+Use these target port values for the backend.
 
 | Service Name                                  | Type  |  External Port          | Target Port |
 |---------------------------------------------|-------|-------------------------|-------------|
@@ -239,11 +242,11 @@ Use these target port values for the backend.
 `ingress-controller-nginx-ingress-controller` | TCP   | 443                     | TBD         |  
 
 ##### **Backend for application load balancer**
-Get the target ports for Istio Ingress Gateway service using the following command:
+Get the target ports for the Istio Ingress Gateway service using the following command:
 ```
 kubectl get service  istio-ingressgateway  -n  istio-system
 ```
-Create the backend entries for the Istio Ingress Gateway using the target ports.
+Create the backend entries for the Istio Ingress Gateway using the target ports as follows:
 
 | Service Name                                  | Type  |  External Port          | Target Port |
 |-----------------------------------------------|-------|-------------------------|-------------|
