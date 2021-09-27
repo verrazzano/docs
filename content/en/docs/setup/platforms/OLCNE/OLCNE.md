@@ -233,7 +233,7 @@ ports for the NGINX Ingress Controller:
 kubectl get service ingress-controller-ingress-nginx-controller -n ingress-nginx
 ```
 In the `PORT(S)` column you will see the target port associated with port 80 and 443, for example: `80:30080/TCP,443:30443`.  
-Use these target port values for the backend.
+Use these target port values for the NGINX Ingress Controller load balancer backend.
 
 | Service Name                                  | Type  |  External Port          | Target Port |
 |---------------------------------------------|-------|-------------------------|-------------|
@@ -245,7 +245,7 @@ Get the target ports for the Istio Ingress Gateway service using the following c
 ```
 kubectl get service  istio-ingressgateway  -n  istio-system
 ```
-Create the backend entries for the Istio Ingress Gateway using the target ports as follows:
+Use these port values for the Istio Ingress Gateway load balancer backend.
 
 | Service Name                                  | Type  |  External Port          | Target Port |
 |-----------------------------------------------|-------|-------------------------|-------------|
