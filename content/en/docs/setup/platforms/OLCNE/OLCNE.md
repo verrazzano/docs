@@ -132,7 +132,7 @@ A Verrazzano Oracle Linux Cloud Native Environment deployment requires:
 * Load balancers in front of the worker nodes in the cluster.
 * DNS records that reference the load balancers.
 
-**NOTE** The target ports for the load balancer backends cannot be determined until you install Verrazzano.  
+**NOTE:** The target ports for the load balancer backends cannot be determined until you install Verrazzano.  
 You can create the load balancers before you install, but post-installation configuration is required.
 
 Examples for meeting these requirements follow.
@@ -258,7 +258,7 @@ The following details can be used to create OCI load balancers for accessing app
 These load balancers will route HTTP/HTTPS traffic from the Internet to the private subnet.
 If load balancers are desired, then they should be created now even though the application and management endpoints will be installed later.
 
-**NOTE** In the following list, the using port 0 for the health check indicates that the backend ports should be used. 
+**NOTE:** In the following list, the using port 0 for the health check indicates that the backend ports should be used. 
 
 * Application Load Balancer: Public Subnet
   * Listeners
