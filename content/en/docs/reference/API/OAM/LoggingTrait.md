@@ -4,9 +4,9 @@ linkTitle: LoggingTrait CRD
 weight: 2
 draft: false
 ---
-The `LoggingTrait` custom resource contains the configuration for an additional logging sidecar with a custom image and Fluentd configuration file.
-Here is a sample `ApplicationConfiguration` that includes a `LoggingTrait`. 
-To deploy an example application with this `LoggingTrait`, replace the `ApplicationConfiguration` of the [ToDo-List]({{< relref "/docs/samples/todo-list" >}}) example application with the following sample.
+The LoggingTrait custom resource contains the configuration for an additional logging sidecar with a custom image and Fluentd configuration file.
+Here is a sample ApplicationConfiguration that includes a LoggingTrait. 
+To deploy an example application with this LoggingTrait, replace the ApplicationConfiguration of the [ToDo-List]({{< relref "/docs/samples/todo-list" >}}) example application with the following sample.
 
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
@@ -48,12 +48,12 @@ In this sample configuration, the LoggingTrait `logging-trait-example` is set on
 This sidecar will be attached to the component's pod and will gather logs according to the given Fluentd configuration file. 
 In order for the Fluentd DaemonSet to collect the custom logs, the Fluentd configuration file needs to direct the logs to `STDOUT` as demonstrated in the previous example.
 
-For example, when the [ToDo-List]({{< relref "/docs/samples/todo-list" >}}) example `ApplicationConfiguration` is successfully deployed with a `LoggingTrait`, the `tododomain-adminserver` pod will have a container named `logging-stdout`.
+For example, when the [ToDo-List]({{< relref "/docs/samples/todo-list" >}}) example ApplicationConfiguration is successfully deployed with a LoggingTrait, the `tododomain-adminserver` pod will have a container named `logging-stdout`.
 ```bash
 $ kubectl get pods tododomain-adminserver -n todo-list -o jsonpath='{.spec.containers[*].name}'
   ... logging-stdout ...
 ```
-In this example, the `logging-stdout` container will run the image given in the `LoggingTrait` and a ConfigMap named `logging-stdout-todo-domain-domain` will be created with the custom Fluentd configuration file.
+In this example, the `logging-stdout` container will run the image given in the LoggingTrait and a ConfigMap named `logging-stdout-todo-domain-domain` will be created with the custom Fluentd configuration file.
 
 #### LoggingTrait
 
@@ -65,7 +65,7 @@ In this example, the `logging-stdout` container will run the image given in the 
 | `spec` |  [LoggingTraitSpec](#loggingtraitspec) | The desired state of an ingress trait. | Yes |
 
 #### LoggingTraitSpec
-`LoggingTraitSpec` specifies the desired state of an ingress trait.
+LoggingTraitSpec specifies the desired state of an ingress trait.
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
@@ -74,7 +74,7 @@ In this example, the `logging-stdout` container will run the image given in the 
 | `workloadRef` | [WorkloadReference](#workloadReference) | The name of the custom Fluentd image. | Yes |
 
 #### WorkloadReference
-`WorkloadReference` specifies the desired workload information.
+WorkloadReference specifies the desired workload information.
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `apiVersion` | string | API Version for the desired workload | Yes |
