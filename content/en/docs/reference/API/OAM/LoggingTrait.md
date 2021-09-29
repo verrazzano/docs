@@ -46,7 +46,7 @@ spec:
 ```
 In this sample configuration, the LoggingTrait `logging-trait-example` is set on the `todo-domain` application component and defines a logging sidecar with the given Fluentd image and configuration file.
 This sidecar will be attached to the component's pod and will gather logs according to the given Fluentd configuration file. 
-In order for the Fluentd DaemonSet to collect the custom logs, the Fluentd configuration file needs to direct the logs to `STDOUT` as demonstrated in the previous example.
+In order for the Fluentd DaemonSet to collect the custom logs, the Fluentd configuration file needs to direct the logs to `STDOUT`, as demonstrated in the previous example.
 
 For example, when the [ToDo-List]({{< relref "/docs/samples/todo-list" >}}) example ApplicationConfiguration is successfully deployed with a LoggingTrait, the `tododomain-adminserver` pod will have a container named `logging-stdout`.
 ```bash
@@ -62,22 +62,22 @@ In this example, the `logging-stdout` container will run the image given in the 
 | `apiVersion` | string | `oam.verrazzano.io/v1alpha1` | Yes |
 | `kind` | string | LoggingTrait | Yes |
 | `metadata` | ObjectMeta | Refer to Kubernetes API documentation for fields of metadata. | No |
-| `spec` |  [LoggingTraitSpec](#loggingtraitspec) | The desired state of an logging trait. | Yes |
+| `spec` |  [LoggingTraitSpec](#loggingtraitspec) | The desired state of a logging trait. | Yes |
 
 #### LoggingTraitSpec
-LoggingTraitSpec specifies the desired state of an logging trait.
+LoggingTraitSpec specifies the desired state of a logging trait.
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `loggingConfig` | map[string]string | A  of the Fluentd configuration file name and the configuration file details. | Yes |
+| `loggingConfig` | map[string]string | A map of the Fluentd configuration file name and the configuration file details. | Yes |
 | `loggingImage` | string | The name of the custom Fluentd image. | Yes |
-| `workloadRef` | [WorkloadReference](#workloadReference) | The name of the custom Fluentd image. | Yes |
+| `workloadRef` | [WorkloadReference](#workloadReference) | A reference to the desired workload | Yes |
 
 #### WorkloadReference
 WorkloadReference specifies the desired workload information.
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `apiVersion` | string | API Version for the desired workload | Yes |
-| `kind` | string | Kind of the desired workload | Yes |
+| `apiVersion` | string | API version of the desired workload. | Yes |
+| `kind` | string | Kind of desired workload. | Yes |
 | `metadata` | ObjectMeta | Refer to Kubernetes API documentation for fields of metadata. | No |
