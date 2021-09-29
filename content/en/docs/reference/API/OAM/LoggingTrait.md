@@ -71,7 +71,7 @@ LoggingTraitSpec specifies the desired state of a logging trait.
 | --- | --- | --- | --- |
 | `loggingConfig` | map[string]string | A map of the Fluentd configuration file name and the configuration file details. | Yes |
 | `loggingImage` | string | The name of the custom Fluentd image. | Yes |
-| `workloadRef` | [WorkloadReference](#workloadReference) | A reference to the desired workload | Yes |
+| `workloadRef` | [WorkloadReference](#workloadReference) | A reference to the desired workload. | Yes |
 
 #### WorkloadReference
 WorkloadReference specifies the desired workload information.
