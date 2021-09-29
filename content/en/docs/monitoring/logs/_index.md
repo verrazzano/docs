@@ -111,7 +111,7 @@ Verrazzano provides support for [Installation Profiles]({{< relref "/docs/setup/
 
 If you want the logs sent to an external Elasticsearch instead of the default VMI Elasticsearch, specify `elasticsearchURL` and `elasticsearchSecret` in the [Fluentd]({{< relref "/docs/reference/API/Verrazzano/Verrazzano.md#fluentd-component" >}}) Component configuration in your Verrazzano custom resource.
 
-The following is an example of Verrazzano custom resource to send logs to the Elasticsearch endpoint `https://external-es.default.172.18.0.231.nip.io`.
+The following is an example of Verrazzano custom resource to send the logs to the Elasticsearch endpoint `https://external-es.default.172.18.0.231.nip.io`.
 ```
 apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
