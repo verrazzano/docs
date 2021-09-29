@@ -75,6 +75,7 @@ LoggingTraitSpec specifies the desired state of an ingress trait.
 
 #### WorkloadReference
 WorkloadReference specifies the desired workload information.
+
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `apiVersion` | string | API Version for the desired workload | Yes |
