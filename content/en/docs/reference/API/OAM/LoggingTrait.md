@@ -65,7 +65,7 @@ In this example, the `logging-stdout` container will run the image given in the 
 | `spec` |  [LoggingTraitSpec](#loggingtraitspec) | The desired state of an ingress trait. | Yes |
 
 #### LoggingTraitSpec
-IngressTraitSpec specifies the desired state of an ingress trait.
+`LoggingTraitSpec` specifies the desired state of an ingress trait.
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
@@ -74,7 +74,7 @@ IngressTraitSpec specifies the desired state of an ingress trait.
 | `workloadRef` | [WorkloadReference](#workloadReference) | The name of the custom Fluentd image. | Yes |
 
 #### WorkloadReference
-WorkloadReference specifies the desired workload information.
+`WorkloadReference` specifies the desired workload information.
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `apiVersion` | string | API Version for the desired workload | Yes |
