@@ -62,10 +62,10 @@ In this example, the `logging-stdout` container will run the image given in the 
 | `apiVersion` | string | `oam.verrazzano.io/v1alpha1` | Yes |
 | `kind` | string | LoggingTrait | Yes |
 | `metadata` | ObjectMeta | Refer to Kubernetes API documentation for fields of metadata. | No |
-| `spec` |  [LoggingTraitSpec](#loggingtraitspec) | The desired state of an ingress trait. | Yes |
+| `spec` |  [LoggingTraitSpec](#loggingtraitspec) | The desired state of an logging trait. | Yes |
 
 #### LoggingTraitSpec
-LoggingTraitSpec specifies the desired state of an ingress trait.
+LoggingTraitSpec specifies the desired state of an logging trait.
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
