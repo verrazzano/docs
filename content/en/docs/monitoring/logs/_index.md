@@ -109,9 +109,9 @@ $ curl -ik \
 
 Verrazzano provides support for [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}}). The production profile (`prod`), which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile (`dev`) provides a single node Elasticsearch and no persistent storage for the VMI. The `managed-cluster` profile does not install Elasticsearch or Kibana in the local cluster; all logs are forwarded to the admin cluster's Elasticsearch instance.
 
-If you want the logs sent to an external Elasticsearch instead of the default VMI Elasticsearch, specify `elasticsearchURL` and `elasticsearchSecret` in the [Fluentd]({{< relref "/docs/reference/API/Verrazzano/Verrazzano.md#fluentd-component" >}}) Component configuration in your Verrazzano custom resource.
+If you want the logs sent to an external Elasticsearch, instead of the default VMI Elasticsearch, specify `elasticsearchURL` and `elasticsearchSecret` in the [Fluentd]({{< relref "/docs/reference/API/Verrazzano/Verrazzano.md#fluentd-component" >}}) Component configuration in your Verrazzano custom resource.
 
-The following is an example of Verrazzano custom resource to send the logs to the Elasticsearch endpoint `https://external-es.default.172.18.0.231.nip.io`.
+The following is an example of a Verrazzano custom resource to send the logs to the Elasticsearch endpoint `https://external-es.default.172.18.0.231.nip.io`.
 ```
 apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
