@@ -72,8 +72,8 @@ The ports shown are Pod ports, which is what NetworkPolicies require.
 | Verrazzano Platform Operator | 9443 | Kubernetes API Server  | Webhook entrypoint.
 | Verrazzano Console | 8000 | NGINX Ingress |  Access from external client.
 | Verrazzano Console | 15090 | Prometheus | Prometheus scraping.
-| Verrazzano Proxy | 8775 | NGINX Ingress |  Access from external client.
-| Verrazzano Proxy | 15090 | Prometheus | Prometheus scraping.
+| Verrazzano Authentication Proxy | 8775 | NGINX Ingress | Access from external client.
+| Verrazzano Authentication Proxy | 15090 | Prometheus | Prometheus scraping.
 | cert-manager| 9402 | Prometheus | Prometheus scraping.
 | Coherence Operator | 9443 | Prometheus | Webhook entrypoint.
 | Elasticsearch | 8775 | NGINX Ingress | Access from external client.
@@ -260,7 +260,7 @@ The following Verrazzano components are in the mesh and use mTLS for all service
 - MySQL
 - NGINX Ingress Controller
 - Prometheus
-- Verrazzano API Proxy
+- Verrazzano Authentication Proxy
 - Verrazzano Console
 - WebLogic Kubernetes Operator
 
@@ -275,8 +275,8 @@ use mTLS, which means that traffic is fully encrypted from the client to the tar
 Keycloak and MySQL are also in the mesh and use mTLS for network traffic.  Because all of the components that use
 Keycloak are in the mesh, there is end to end mTLS security for all identity management handled by Keycloak.  The following components
 access Keycloak:
-- Verrazzano API Proxy
-- Verrazzano API Console
+- Verrazzano Authentication Proxy
+- Verrazzano Console
 - Elasticsearch
 - Prometheus
 - Grafana
