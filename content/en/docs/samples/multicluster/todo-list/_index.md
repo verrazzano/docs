@@ -197,7 +197,8 @@ replacing the `THE_USERNAME` and `THE_PASSWORD` placeholders with the respective
 ## Undeploy the ToDo List application
 
 Regardless of its location, to undeploy the application,
-delete the application resources and the project from the admin cluster:
+delete the application resources and the project from the admin cluster.
+Undeploy is for all clusters in which the application is located.
 
 ```shell
 # Delete the multicluster application configuration

@@ -20,7 +20,7 @@ Apply the VerrazzanoProject resource on the admin cluster that defines the names
 
 ## Deploy the Hello World Helidon application
 
-1. Apply the `hello-helidon` multicluster resources to deploy the application.  Each multicluster resource is an envelope that contains an OAM resource and a list of clusters to which to deploy.
+1. Apply the `hello-helidon` multicluster application configuration resource to deploy the application.  The multicluster resource is an envelope that contains an OAM resource and a list of clusters to which to deploy.
    ```shell
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
        -f {{< release_source_url raw=true path=examples/multicluster/hello-helidon/hello-helidon-comp.yaml >}}
@@ -49,7 +49,7 @@ Follow the instructions for [troubleshooting]({{< relref "/docs/samples/hello-he
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get namespace hello-helidon
    ```
 
-1. Verify that the multicluster resource for the application exist.
+1. Verify that the multicluster resource for the application exists.
    ```shell
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get MultiClusterApplicationConfiguration -n hello-helidon
    ```
@@ -65,14 +65,14 @@ By default, the application is located on the managed cluster called `managed1`.
    ```
    This environment variable is used in subsequent steps.
 
-1. To change their placement, patch the `hello-helidon` multicluster resource.
+1. To change their placement, patch the `hello-helidon` multicluster application configuration.
    ```shell
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN patch mcappconf hello-helidon-appconf \
        -n hello-helidon \
        --type merge \
        --patch "$(cat $CHANGE_PLACEMENT_PATCH_FILE)"
    ```
-1. To verify that their placement has changed, view the multicluster resource.
+1. To verify that its placement has changed, view the multicluster resource.
    ```shell
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN get mcappconf hello-helidon-appconf \
        -n hello-helidon \
@@ -116,7 +116,8 @@ To return the application to the managed cluster named `managed1`, set the value
 ## Undeploy the Hello World Helidon application
 
 Regardless of its location, to undeploy the application,
-delete the application resources and the project from the admin cluster:
+delete the application resources and the project from the admin cluster.
+Undeploy is for all clusters in which the application is located.
 
 ```shell
 # Delete the multicluster application configuration
