@@ -26,12 +26,12 @@ listed in the `placement` section.
        -f {{< release_source_url raw=true path=examples/multicluster/todo-list/verrazzano-project.yaml >}}
    ```
 
-1. Download the `mc-docker-registry-secret.yaml` file.
+1. Download the `docker-registry-secret.yaml` file.
    ```
-   $ wget {{< release_source_url raw=true path=examples/multicluster/todo-list/mc-docker-registry-secret.yaml >}}
+   $ wget {{< release_source_url raw=true path=examples/multicluster/todo-list/docker-registry-secret.yaml >}}
    ```
 
-1. Edit the `mc-docker-registry-secret.yaml` file and replace the
+1. Edit the `docker-registry-secret.yaml` file and replace the
 `<BASE 64 ENCODED DOCKER CONFIG JSON>` placeholder with the value generated from the following command.
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN create secret docker-registry temp \
@@ -45,54 +45,53 @@ listed in the `placement` section.
    Replace `YOUR_REGISTRY_USERNAME`, `YOUR_REGISTRY_PASSWORD`, and `YOUR_REGISTRY_EMAIL`
    with the values you use to access the registry.
 
-1. Apply the `mc-docker-registry-secret.yaml` file to create the multicluster secret.  The multicluster secret
-resource will generate the required secret in the `mc-todo-list` namespace.
+1. Apply the `docker-registry-secret.yaml` file to create the secret.
    ```
-   $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply -f mc-docker-registry-secret.yaml
-   ```
-
-1. Download the `mc-weblogic-domain-secret.yaml` and `mc-tododb-secret.yaml` files.
-   ```
-   $ wget {{< release_source_url raw=true path=examples/multicluster/todo-list/mc-weblogic-domain-secret.yaml >}}
-   $ wget {{< release_source_url raw=true path=examples/multicluster/todo-list/mc-tododb-secret.yaml >}}
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply -f docker-registry-secret.yaml
    ```
 
-1. Edit the `mc-weblogic-domain-secret.yaml` and `mc-tododb-secret.yaml` files,
+1. Download the `weblogic-domain-secret.yaml` and `tododb-secret.yaml` files.
+   ```
+   $ wget {{< release_source_url raw=true path=examples/multicluster/todo-list/weblogic-domain-secret.yaml >}}
+   $ wget {{< release_source_url raw=true path=examples/multicluster/todo-list/tododb-secret.yaml >}}
+   ```
+
+1. Edit the `weblogic-domain-secret.yaml` and `tododb-secret.yaml` files,
 replacing the `THE_USERNAME` and `THE_PASSWORD` placeholders with the respective WebLogic user name and password.
    ```
       username: THE_USERNAME
       password: THE_PASSWORD
    ```
 
-1. Apply the `mc-weblogic-domain-secret.yaml` and `mc-tododb-secret.yaml` files.  The
-multicluster secret resource will generate the required secret in the `mc-todo-list` namespace.
+1. Apply the `weblogic-domain-secret.yaml` and `tododb-secret.yaml` files.
    ```
-   $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply -f mc-weblogic-domain-secret.yaml
-   $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply -f mc-tododb-secret.yaml
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply -f weblogic-domain-secret.yaml
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply -f tododb-secret.yaml
    ```
 
-1. Apply the multicluster component and application resources to deploy the ToDo List application.
+1. Apply the component and multicluster application resources to deploy the ToDo List application.
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
        -f {{< release_source_url raw=true path=examples/multicluster/todo-list/todo-list-components.yaml >}}
 
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
-       -f {{< release_source_url raw=true path=examples/multicluster/todo-list/todo-list-application.yaml >}}
+       -f {{< release_source_url raw=true path=examples/multicluster/todo-list/mc-todo-list-application.yaml >}}
    ```
 
-1. Wait for the ToDo List example application to be ready.  This
+1. Wait for the ToDo List example application to be ready.
    The `tododomain-adminserver` pod may take several minutes to be created and `Ready`.
    ```
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 wait pod \
        --for=condition=Ready tododomain-adminserver \
-       -n mc-todo-list
+       -n mc-todo-list \
+       --timeout=300s
    ```
 
 1. Get the generated host name for the application.
    ```
    $ HOST=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 get gateway \
          -n mc-todo-list \
-         -o jsonpath={.items[0].spec.servers[0].hosts[0]})
+         -o jsonpath='{.items[0].spec.servers[0].hosts[0]}')
    $ echo $HOST
    todo-appconf.mc-todo-list.11.22.33.44.nip.io
    ```
@@ -151,7 +150,7 @@ multicluster secret resource will generate the required secret in the `mc-todo-l
    You can retrieve the list of available ingresses with following command:
 
    ```
-   $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get ingress -n verrazzano-system
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN get ingress -n verrazzano-system
    NAME                         CLASS    HOSTS                                                     ADDRESS           PORTS     AGE
    verrazzano-ingress           <none>   verrazzano.default.140.141.142.143.nip.io                 140.141.142.143   80, 443   7d2h
    vmi-system-es-ingest         <none>   elasticsearch.vmi.system.default.140.141.142.143.nip.io   140.141.142.143   80, 443   7d2h
@@ -194,3 +193,21 @@ multicluster secret resource will generate the required secret in the `mc-todo-l
    mysql-5c75c8b7f-vlhck    1/1     Running   0          19h
    tododomain-adminserver   2/2     Running   0          19h
    ```
+
+## Undeploy the ToDo List application
+
+Regardless of its location, to undeploy the application,
+delete the application resources and the project from the admin cluster.
+Undeploy is for all clusters in which the application is located.
+
+```shell
+# Delete the multicluster application configuration
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
+    -f {{< release_source_url raw=true path=examples/multicluster/todo-list/mc-todo-list-application.yaml >}}
+# Delete the components for the application
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
+    -f {{< release_source_url raw=true path=examples/multicluster/todo-list/todo-list-components.yaml >}}
+# Delete the project
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
+    -f {{< release_source_url raw=true path=examples/multicluster/todo-list/verrazzano-project.yaml >}}
+```
