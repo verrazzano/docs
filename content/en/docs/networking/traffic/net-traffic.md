@@ -138,7 +138,7 @@ Elasticsearch Pods.
 | Istio | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
 | Rancher | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
 | Verrazzano Authentication Proxy | Keycloak | Calls Keycloak for token authentication.
-| Verrazzano Authentication Proxy | VMI components | Access UIs for Kibana, Grafana, etc.
+| Verrazzano Authentication Proxy | VMI components | Access UIs for Kibana, Grafana, and such.
 | Verrazzano Authentication Proxy | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
 | Verrazzano Application Operator | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
 | Verrazzano Monitoring Operator | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
@@ -308,12 +308,8 @@ All of these requests go through the NGINX Ingress Controller on the respective 
 | Admin | Prometheus | Managed | Prometheus | Scape metrics on managed clusters.
 | Admin | Verrazzano Console | Managed | Verrazzano Authentication Proxy | Admin cluster proxy sends Kubernetes API requests to managed cluster proxy.
 | Managed | Fluentd | Admin | Elasticsearch | Fluentd sends logs to Elasticsearch.
-| Managed | Elasticsearch | Admin | Keycloak | OIDC sidecar sends requests to  Keycloak.
-| Managed | Kibana | Admin | Keycloak | OIDC sidecar sends requests to  Keycloak.
-| Managed | Grafana | Admin | Keycloak | OIDC sidecar sends requests to  Keycloak.
-| Managed | Prometheus | Admin | Keycloak | OIDC sidecar sends requests to  Keycloak.
 | Managed | Rancher Agent | Admin | Rancher | Rancher Agent sends requests Rancher.
-| Managed | Verrazzano Authentication Proxy | Admin | Keycloak | API proxy sends requests to  Keycloak.
+| Managed | Verrazzano Authentication Proxy | Admin | Keycloak | Proxy sends requests to Keycloak.
 | Managed | Verrazzano Agent | Admin | Kubernetes API server | Agent, in the platform operator, sends requests Kubernetes API server.
 
 ### Verrazzano agent
@@ -321,7 +317,7 @@ In the multicluster topology, the Verrazzano platform operator has an agent thre
 that sends requests to the Kubernetes API server on the admin cluster. The URL for the admin cluster Kubernetes
 API server is registered on the managed cluster by the user.
 
-### Verrazzano Authentication Proxy
+### Verrazzano authentication proxy
 In a multicluster topology, the Verrazzano authentication proxy runs on both the admin and managed clusters.  
 On the admin cluster, the authentication proxy connects to in-cluster Keycloak, using the Keycloak Service.
 On the managed cluster, the authentication proxy connects to Keycloak on the admin cluster through the NGINX Ingress
@@ -329,7 +325,7 @@ controller running on the admin cluster.
 
 For SSO, the authentication proxy also needs to send requests to Keycloak, either in-cluster or through the cluster ingress. When a
 request comes into the authentication proxy without an authentication header, the proxy sends a request to Keycloak
-through the NGINX Ingress Controller, so the request exits the cluster.  Otherwise, if the authentication proxy is on the admin cluster, then the request is
+through the NGINX ingress controller, so the request exits the cluster.  Otherwise, if the authentication proxy is on the admin cluster, then the request is
 sent directly to Keycloak within the cluster.  If the authentication proxy is on the managed
 cluster, then it must send requests to Keycloak on the admin cluster.
 
