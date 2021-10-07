@@ -15,6 +15,6 @@ This capability is used primarily by the Verrazzano Console. The Console authent
 
 In multicluster scenarios, the Console directs all Kubernetes API requests to the admin cluster's authentication proxy. If a request refers to a resource in a different cluster, the authentication proxy forwards the request, along with the user's authentication token, to the authentication proxy running in the remote cluster.
 
-## Single Sign-On SSO
+## Single Sign-On (SSO)
 
 The Verrazzano authentication proxy provides SSO across the Verrazzano Console and the Verrazzano Monitoring Instance (VMI) logging and metrics consoles. When an unauthenticated request is received by the proxy, it runs the OIDC PKCE authentication flow to obtain tokens for the user. If the user is already authenticated to Keycloak (because they have already accessed either the Verrazzano Console or another VMI component), Keycloak returns tokens based on the existing user session, and the process is transparent to the user. If not, Keycloak will authenticate the user, establishing a session, before returning tokens.

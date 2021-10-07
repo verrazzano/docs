@@ -325,7 +325,7 @@ controller running on the admin cluster.
 
 For SSO, the authentication proxy also needs to send requests to Keycloak, either in-cluster or through the cluster ingress. When a
 request comes into the authentication proxy without an authentication header, the proxy sends a request to Keycloak
-through the NGINX ingress controller, so the request exits the cluster.  Otherwise, if the authentication proxy is on the admin cluster, then the request is
+through the NGINX Ingress Controller, so the request exits the cluster.  Otherwise, if the authentication proxy is on the admin cluster, then the request is
 sent directly to Keycloak within the cluster.  If the authentication proxy is on the managed
 cluster, then it must send requests to Keycloak on the admin cluster.
 

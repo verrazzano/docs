@@ -48,7 +48,7 @@ Also, Verrazzano creates role bindings for the corresponding Kubernetes user rol
 The default bindings can be overridden by specifying one or more Kubernetes Subjects to which the role should be bound. Any valid Subject can be specified (user, group, or service account), but two caveats should be kept in mind:
 
 - It's generally better to grant a role to a group, rather than a specific user, so that roles can be granted (or withdrawn) by editing a user's group memberships, rather than deleting a role binding and creating a new one.
-- If you do want to grant a role directly to a specific user, the user must be specified using its unique ID, not its user name. This is because the authentication proxy impersonates the "sub" (subject) field from the user's token, which contains the ID. Keycloak user IDs are guaranteed to be unique, unlike user names.
+- If you do want to grant a role directly to a specific user, the user must be specified using its unique ID, not its user name. This is because the authentication proxy impersonates the `sub` (subject) field from the user's token, which contains the ID. Keycloak user IDs are guaranteed to be unique, unlike user names.
 
 ### Default system role bindings
 
