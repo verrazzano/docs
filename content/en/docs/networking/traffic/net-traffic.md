@@ -321,7 +321,7 @@ API server is registered on the managed cluster by the user.
 In a multicluster topology, the Verrazzano authentication proxy runs on both the admin and managed clusters.  
 On the admin cluster, the authentication proxy connects to in-cluster Keycloak, using the Keycloak Service.
 On the managed cluster, the authentication proxy connects to Keycloak on the admin cluster through the NGINX Ingress
-controller running on the admin cluster.
+Controller running on the admin cluster.
 
 For SSO, the authentication proxy also needs to send requests to Keycloak, either in-cluster or through the cluster ingress. When a
 request comes into the authentication proxy without an authentication header, the proxy sends a request to Keycloak
