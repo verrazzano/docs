@@ -111,14 +111,11 @@ outside the cluster.
 | Component  | Destination | Description |
 | ------------- |:------------- |:-------------
 | cert-manager | Let's Encrypt | Get signed certificate.
-| Elasticsearch | Keycloak | OIDC sidecar calls Keycloak for authentication, which includes redirects.
 | ExternalDNS | External DNS | Create and delete DNS entries in an external DNS.
 | Fluentd | Elasticsearch | Fluentd on the managed cluster calls Elasticsearch on the admin cluster.
-| Grafana | Keycloak | OIDC sidecar calls Keycloak for authentication, which includes redirects.
-| Kibana | Keycloak | OIDC sidecar calls Keycloak for authentication, which includes redirects.
 | Prometheus | Prometheus | Prometheus on the admin cluster scrapes metrics from Prometheus on the managed cluster.
 | Rancher Agent | Rancher | Rancher agent on the managed cluster sends requests to Rancher on the admin cluster.
-| Verrazzano API Proxy | Keycloak | API proxy on the managed cluster calls Keycloak on the admin cluster.
+| Verrazzano Authentication Proxy | Keycloak | Calls Keycloak for authentication, which includes redirects.
 | Verrazzano Platform Operator | Kubernetes API server | Multicluster agent on the managed cluster calls API server on the admin cluster.
 
 ### East-west system traffic
@@ -134,17 +131,15 @@ Elasticsearch Pods.
 | Component  | Destination | Description |
 | ------------- |:------------- |:-------------
 | cert-manager | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
-| Elasticsearch | Keycloak | OIDC sidecar calls Keycloak for token authentication.
 | Fluentd | Elasticsearch | Fluentd sends data to Elasticsearch.
 | Grafana | Prometheus | UI for Prometheus data.
-| Grafana | Keycloak | OIDC sidecar calls Keycloak for token authentication.
 | Kibana | Elasticsearch | UI for Elasticsearch.
-| Kibana | Keycloak | OIDC sidecar calls Keycloak for token authentication.
 | NGINX Ingress Controller | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
 | Istio | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
-| Prometheus | Keycloak | OIDC sidecar calls Keycloak for token authentication.
 | Rancher | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
-| Verrazzano API Proxy | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
+| Verrazzano Authentication Proxy | Keycloak | Calls Keycloak for token authentication.
+| Verrazzano Authentication Proxy | VMI components | Access UIs for Kibana, Grafana, and such.
+| Verrazzano Authentication Proxy | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
 | Verrazzano Application Operator | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
 | Verrazzano Monitoring Operator | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
 | Verrazzano Operator | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
@@ -282,11 +277,7 @@ The following table shows which proxies are used and in which Pod they run.
 | Usage  | Proxy | Pod | Namespace | Description |
 | ------------- |:------------- |:------------- |:------------- |:-------------
 | System ingress | NGINX | `ingress-controller-ingress-nginx-controller-*` | `ingress-nginx` | Provides external access to Verrazzano system components.
-| OIDC proxy sidecar | NGINX | `vmi-system-es-ingest-*` | `verrazzano-system` | Elasticsearch authentication.
-| OIDC proxy sidecar | NGINX | `vmi-system-kibana-*` | `verrazzano-system` | Elasticsearch authentication.
-| OIDC proxy sidecar | NGINX | `vmi-system-prometheus-*` | `verrazzano-system` | Elasticsearch authentication.
-| OIDC proxy sidecar | NGINX | `vmi-system-grafana-*` | `verrazzano-system` | Elasticsearch authentication.
-| OIDC proxy sidecar | NGINX | `verrazzano-api-*` | `verrazzano-system` | Verrazzano API server that proxies to Kubernetes API server.
+| Verrazzano authentication proxy | NGINX | `verrazzano-authproxy-*` | `verrazzano-system` | Verrazzano authentication proxy server for Kubernetes API and SSO.
 | Application ingress | Envoy | `istio-ingressgateway-*` | `istio-system` | Provides external access to Verrazzano applications.
 | Application egress | Envoy | `istio-egressgateway-*` | `istio-system` | Provides control of application egress traffic.
 | Istio mesh sidecar | Envoy  | `ingress-controller-ingress-nginx-controller-*` | `ingress-nginx` | NGINX Ingress Controller in the Istio mesh.
@@ -306,7 +297,7 @@ The following table shows which proxies are used and in which Pod they run.
 
 ## Multicluster
 Some Verrazzano components send traffic between Kubernetes clusters. Those components are the Verrazzano agent,
-Verrazzano API proxy, the OpenID Connect (OIDC) proxy, and Prometheus.
+Verrazzano authentication proxy, and Prometheus.
 
 ### Multicluster egress
 The following table shows Verrazzano system components that initiate requests between the admin and managed clusters.
@@ -315,14 +306,10 @@ All of these requests go through the NGINX Ingress Controller on the respective 
 | Source Cluster | Source Component | Destination Cluster | Destination Component | Description
 | ------------- |:------------- |:------------- |:------------- |:-------------
 | Admin | Prometheus | Managed | Prometheus | Scape metrics on managed clusters.
-| Admin | Verrazzano Console | Managed | Verrazzano API proxy  | Console proxy sends requests to  API proxy.
+| Admin | Verrazzano Console | Managed | Verrazzano Authentication Proxy | Admin cluster proxy sends Kubernetes API requests to managed cluster proxy.
 | Managed | Fluentd | Admin | Elasticsearch | Fluentd sends logs to Elasticsearch.
-| Managed | Elasticsearch | Admin | Keycloak | OIDC sidecar sends requests to  Keycloak.
-| Managed | Kibana | Admin | Keycloak | OIDC sidecar sends requests to  Keycloak.
-| Managed | Grafana | Admin | Keycloak | OIDC sidecar sends requests to  Keycloak.
-| Managed | Prometheus | Admin | Keycloak | OIDC sidecar sends requests to  Keycloak.
 | Managed | Rancher Agent | Admin | Rancher | Rancher Agent sends requests Rancher.
-| Managed | Verrazzano API proxy | Admin | Keycloak | API proxy sends requests to  Keycloak.
+| Managed | Verrazzano Authentication Proxy | Admin | Keycloak | Proxy sends requests to Keycloak.
 | Managed | Verrazzano Agent | Admin | Kubernetes API server | Agent, in the platform operator, sends requests Kubernetes API server.
 
 ### Verrazzano agent
@@ -330,18 +317,16 @@ In the multicluster topology, the Verrazzano platform operator has an agent thre
 that sends requests to the Kubernetes API server on the admin cluster. The URL for the admin cluster Kubernetes
 API server is registered on the managed cluster by the user.
 
-### Verrazzano API proxy
-In a multicluster topology, the Verrazzano API proxy runs on both the admin and managed clusters.  
-On the admin cluster, the API proxy connects to in-cluster Keycloak, using the Keycloak Service.
-On the managed cluster, the API proxy connects to Keycloak on the admin cluster through the NGINX Ingress
-controller running on the admin cluster.
+### Verrazzano authentication proxy
+In a multicluster topology, the Verrazzano authentication proxy runs on both the admin and managed clusters.  
+On the admin cluster, the authentication proxy connects to in-cluster Keycloak, using the Keycloak Service.
+On the managed cluster, the authentication proxy connects to Keycloak on the admin cluster through the NGINX Ingress
+Controller running on the admin cluster.
 
-### Verrazzano OIDC proxy
-The OIDC proxy runs as a sidecar in the Elasticsearch, Kibana, Prometheus, and Grafana Pods.  This proxy
-also needs to send requests to Keycloak, either in-cluster or through the cluster ingress.  When a
-request comes into the OIDC proxy without an authentication header, the proxy sends a request to Keycloak
-through the NGINX Ingress Controller, so the request exits the cluster.  Otherwise, if OIDC is on the admin cluster, then the request is
-sent directly to Keycloak within the cluster.  If OIDC is on the managed
+For SSO, the authentication proxy also needs to send requests to Keycloak, either in-cluster or through the cluster ingress. When a
+request comes into the authentication proxy without an authentication header, the proxy sends a request to Keycloak
+through the NGINX Ingress Controller, so the request exits the cluster.  Otherwise, if the authentication proxy is on the admin cluster, then the request is
+sent directly to Keycloak within the cluster.  If the authentication proxy is on the managed
 cluster, then it must send requests to Keycloak on the admin cluster.
 
 ### Prometheus

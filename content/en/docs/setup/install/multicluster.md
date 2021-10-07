@@ -247,8 +247,8 @@ Apply the registration file exported in the previous step, on the managed cluste
    - The timestamp of the most recent connection made from the managed cluster, in the `lastAgentConnectTime` status field. 
    - The host address of the Prometheus instance running on the managed cluster, in the `prometheusHost` status field. This is
      then used by the admin cluster to scrape metrics from the managed cluster. 
-   - The API address of the managed cluster, in the `apiUrl` status field. This is used by the admin cluster's API proxy to
-     route incoming requests for managed cluster information, to the managed cluster's API proxy. 
+   - The API address of the managed cluster, in the `apiUrl` status field. This is used by the admin cluster's authentication proxy to
+     route incoming requests for managed cluster information, to the managed cluster's authentication proxy. 
 
 ### Verify that managed cluster registration completed
 You can perform all the verification steps on the admin cluster.
