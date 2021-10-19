@@ -4,23 +4,25 @@ linkTitle: MultiClusterApplicationConfiguration CRD
 weight: 2
 draft: false
 ---
-The MultiClusterApplicationConfiguration custom resource is used to distribute `core.oam.dev/v1alpha2/ApplicationConfiguration` resources in a multicluster environment. Here is a sample MultiClusterApplicationConfiguration that specifies an ApplicationConfiguration resource to create on the cluster named `managed1`.  To deploy an example application that demonstrates a MultiClusterApplicationConfiguration, see [Multicluster Hello World Helidon]({{< relref "/docs/samples/multicluster/hello-helidon/" >}}).
+The MultiClusterApplicationConfiguration custom resource is an envelope used to distribute `core.oam.dev/v1alpha2/ApplicationConfiguration` resources in a multicluster environment.
+
+Here is a sample MultiClusterApplicationConfiguration that specifies an ApplicationConfiguration resource to create on the cluster named `managed1`.  To deploy an example application that demonstrates a MultiClusterApplicationConfiguration, see [Multicluster ToDo List]({{< relref "/docs/samples/multicluster/todo-list/" >}}).
 
 ```
 apiVersion: clusters.verrazzano.io/v1alpha1
 kind: MultiClusterApplicationConfiguration
 metadata:
-  name: hello-helidon-appconf
-  namespace: hello-helidon
+  name: todo-appconf
+  namespace: mc-todo-list
 spec:
   template:
     metadata:
       annotations:
         version: v1.0.0
-        description: "Hello Helidon application"
+        description: "ToDo List example application"
     spec:
       components:
-        - componentName: hello-helidon-component
+        - componentName: todo-domain
           traits:
             - trait:
                 apiVersion: oam.verrazzano.io/v1alpha1
@@ -30,16 +32,22 @@ spec:
             - trait:
                 apiVersion: oam.verrazzano.io/v1alpha1
                 kind: IngressTrait
-                metadata:
-                  name: hello-helidon-ingress
                 spec:
                   rules:
                     - paths:
-                        - path: "/greet"
+                        - path: "/todo"
                           pathType: Prefix
+        - componentName: todo-jdbc-config
+        - componentName: mysql-initdb-config
+        - componentName: todo-mysql-service
+        - componentName: todo-mysql-deployment
   placement:
     clusters:
       - name: managed1
+  secrets:
+    - tododomain-repo-credentials
+    - tododomain-jdbc-tododb
+    - tododomain-weblogic-credentials
 ```
 
 #### MultiClusterApplicationConfiguration
@@ -60,6 +68,7 @@ MultiClusterApplicationConfigurationSpec specifies the desired state of a `core.
 | --- | --- | --- | --- |
 | `template` | [ApplicationConfigurationTemplate](#applicationconfigurationtemplate) | The embedded `core.oam.dev/v1alpha2/ApplicationConfiguration` resource. | Yes |
 | `placement` | [Placement](../placement) | Clusters in which the resource is to be placed. | Yes |
+| `secrets` | string array | List of secrets used by the application.  These secrets must be created in the applications namespace before deploying a MultiClusterApplicationConfiguration resource. | No |
 
 #### ApplicationConfigurationTemplate
 ApplicationConfigurationTemplate has the metadata and spec of the `core.oam.dev/v1alpha2/ApplicationConfiguration` resource.

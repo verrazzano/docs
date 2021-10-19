@@ -182,3 +182,21 @@ the deployed Sock Shop application.  Accessing them may require the following:
     | Description| Address | Credentials |
     | --- | --- | --- |
     | Prometheus | `https://[vmi-system-prometheus ingress host]` | `verrazzano`/`telemetry-password` |    
+
+## Undeploy the Sock Shop application
+
+Regardless of its location, to undeploy the application,
+delete the application resources and the project from the admin cluster.
+Undeploy is for all clusters in which the application is located.
+
+```shell
+# Delete the multicluster application configuration
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
+    -f {{< release_source_url raw=true path=examples/multicluster/sock-shop/sock-shop-app.yaml >}}
+# Delete the components for the application
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
+    -f {{< release_source_url raw=true path=examples/multicluster/sock-shop/sock-shop-comp.yaml >}}
+# Delete the project
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
+    -f {{< release_source_url raw=true path=examples/multicluster/sock-shop/verrazzano-project.yaml >}}
+```

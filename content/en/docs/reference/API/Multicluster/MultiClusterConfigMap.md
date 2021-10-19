@@ -4,7 +4,13 @@ linkTitle: MultiClusterConfigMap CRD
 weight: 2
 draft: false
 ---
-The MultiClusterConfigMap custom resource is used to distribute Kubernetes ConfigMap resources in a multicluster environment.  Here is a sample MultiClusterConfigMap that specifies a Kubernetes ConfigMap to create on the cluster named `managed1`.
+The MultiClusterConfigMap custom resource is an envelope used to distribute Kubernetes ConfigMap resources in a multicluster environment.
+
+**NOTE**: Starting with Verrazzano v1.1.0, it is preferred that the MultiClusterConfigMap custom resource not be used but instead
+directly use `core.oam.dev/v1alpha2/Component` to define ConfigMap resources in your application.
+See the example application, [Multicluster ToDo List]({{< relref "/docs/samples/multicluster/todo-list/" >}}) which directly uses `core.oam.dev/v1alpha2/Component` resources to define ConfigMaps.
+
+Here is a sample MultiClusterConfigMap that specifies a Kubernetes ConfigMap to create on the cluster named `managed1`.
 
 ```
 apiVersion: clusters.verrazzano.io/v1alpha1
