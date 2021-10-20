@@ -23,12 +23,12 @@
 apiVersion: install.verrazzano.io/v1alpha1 kind: Verrazzano metadata: name: my-verrazzano spec: environmentName: env profile: prod components: certManager: certificate: acme: provider: letsEncrypt emailAddress: emailAddress@example.com dns: oci: ociConfigSecret: oci dnsZoneCompartmentOCID: dnsZoneCompartmentOcid dnsZoneOCID: dnsZoneOcid dnsZoneName: my.dns.zone.name ingress: type: LoadBalancer VerrazzanoSpec    Field Type Description Required     environmentName string Name of the installation." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/reference/api/verrazzano/verrazzano/" />
-<meta property="article:modified_time" content="2021-08-16T09:53:03-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-10-20T13:03:05-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Verrazzano Custom Resource Definition">
 <meta itemprop="description" content="The Verrazzano custom resource contains the configuration information for an installation. Here is a sample Verrazzano custom resource file that uses OCI DNS. See other examples here.
 apiVersion: install.verrazzano.io/v1alpha1 kind: Verrazzano metadata: name: my-verrazzano spec: environmentName: env profile: prod components: certManager: certificate: acme: provider: letsEncrypt emailAddress: emailAddress@example.com dns: oci: ociConfigSecret: oci dnsZoneCompartmentOCID: dnsZoneCompartmentOcid dnsZoneOCID: dnsZoneOcid dnsZoneName: my.dns.zone.name ingress: type: LoadBalancer VerrazzanoSpec    Field Type Description Required     environmentName string Name of the installation.">
-<meta itemprop="dateModified" content="2021-08-16T09:53:03-04:00" />
-<meta itemprop="wordCount" content="1174">
+<meta itemprop="dateModified" content="2021-10-20T13:03:05-04:00" />
+<meta itemprop="wordCount" content="1348">
 
 
 
@@ -109,7 +109,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.f255c0c541413a43ae340db2ad01b8e3.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.807a68686c9d0c84b3d0d049aeba3eab.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -136,7 +136,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.f255c0c541413a43ae340db2ad01b8e3.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.807a68686c9d0c84b3d0d049aeba3eab.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -917,15 +917,64 @@ spec:
 <td>Yes</td>
 </tr>
 <tr>
-<td><code>ingressNginxArgs</code></td>
-<td><a href="#name-value">NameValue</a> list</td>
-<td>The list of argument names and values.</td>
+<td><code>nginxInstallArgs</code></td>
+<td><a href="#nginx-install-args">NGINXInstallArgs</a> list</td>
+<td>A list of values to use during NGINX installation.</td>
 <td>No</td>
 </tr>
 <tr>
 <td><code>ports</code></td>
 <td><a href="#port-config">PortConfig</a> list</td>
 <td>The list port configurations used by the ingress.</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<h4 id="nginx-install-args">NGINX Install Args</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>ValueType</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>controller.service.externalIPs</code></td>
+<td><a href="#name-value">NameValue</a></td>
+<td>string list</td>
+<td>The external IP address used by the NGINX Ingress Controller.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>controller.service.externalTrafficPolicy</code></td>
+<td><a href="#name-value">NameValue</a></td>
+<td>string</td>
+<td>Preserves the client source IP address. See <a href="https://kubernetes.github.io/ingress-nginx/deploy/baremetal/">Bare-metal considerations</a>.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>controller.service.annotations.*</code></td>
+<td><a href="#name-value">NameValue</a></td>
+<td>string</td>
+<td>Annotations used for NGINX Ingress Controller.  For sample usage, see <a href="../../../../../docs/setup/install/customizing/ingress/">Customize Ingress</a>.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>controller.autoscaling.enabled</code></td>
+<td><a href="#name-value">NameValue</a></td>
+<td>Boolean</td>
+<td>If true, then enable horizonal pod autoscaler.  Default false.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>controller.autoscaling.minReplicas</code></td>
+<td><a href="#name-value">NameValue</a></td>
+<td>string</td>
+<td>Minimum replicas used for autoscaling.  Default 1.</td>
 <td>No</td>
 </tr>
 </tbody>
@@ -1023,8 +1072,36 @@ spec:
 <tbody>
 <tr>
 <td><code>istioInstallArgs</code></td>
-<td><a href="#name-value">NameValue</a> list</td>
-<td>A list of Istio Helm chart arguments and values to apply during the installation of Istio.  Each argument is specified as either a <code>name/value</code> or <code>name/valueList</code> pair.</td>
+<td><a href="#istio-install-args">IstioInstallArgs</a> list</td>
+<td>A list of values to use during Istio installation.  Each argument is specified as either a <code>name/value</code> or <code>name/valueList</code> pair.</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<h4 id="istio-install-args">Istio Install Args</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>ValueType</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gateways.istio-ingressgateway.externalIPs</code></td>
+<td><a href="#name-value">NameValue</a></td>
+<td>string list</td>
+<td>The external IP address used by the Istio Ingress Gateway.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>gateways.istio-ingressgateway.serviceAnnotations.*</code></td>
+<td><a href="#name-value">NameValue</a></td>
+<td>string</td>
+<td>Annotations used for the Istio Ingress Gateway.  For sample usage, see <a href="../../../../../docs/setup/install/customizing/ingress/">Customize Ingress</a>.</td>
 <td>No</td>
 </tr>
 </tbody>
@@ -1097,12 +1174,6 @@ spec:
 <td>No</td>
 </tr>
 <tr>
-<td><code>keycloakInstallArgs</code></td>
-<td><a href="#name-value">NameValue</a> list</td>
-<td>Allows providing custom Helm arguments to install Keycloak.</td>
-<td>No</td>
-</tr>
-<tr>
 <td><code>mysql</code></td>
 <td><a href="#mysql-component">MySQLComponent</a></td>
 <td>Contains the MySQL component configuration needed for Keycloak.</td>
@@ -1121,12 +1192,6 @@ spec:
 </tr>
 </thead>
 <tbody>
-<tr>
-<td><code>mysqlInstallArgs</code></td>
-<td><a href="#name-value">NameValue</a> list</td>
-<td>Allows providing custom Helm arguments to install MySQL for Keycloak.</td>
-<td>No</td>
-</tr>
 <tr>
 <td><code>volumeSource</code></td>
 <td><a href="https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/">VolumeSource</a></td>
@@ -1154,8 +1219,71 @@ spec:
 </tr>
 <tr>
 <td><code>installArgs</code></td>
-<td><a href="#name-value">NameValue</a> list</td>
-<td>A list of Verrazzano Helm chart arguments and values to apply during the installation of the Verrazzano system chart.  Each argument is specified as either a <code>name/value</code> or <code>name/valueList</code> pair.</td>
+<td><a href="#elasticsearch-install-args">ElasticsearchInstallArgs</a> list</td>
+<td>A list of values to use during Elasticsearch installation.  Each argument is specified as either a <code>name/value</code> or <code>name/valueList</code> pair.  For sample usage, see <a href="../../../../../docs/setup/install/customizing/elasticsearch/">Customize Elasticsearch</a>.</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<h4 id="elasticsearch-install-args">Elasticsearch Install Args</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>ValueType</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>nodes.master.replicas</code></td>
+<td><a href="#name-value">NameValue</a></td>
+<td>string</td>
+<td>The number of master node replicas.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>nodes.master.requests.memory</code></td>
+<td><a href="#name-value">NameValue</a></td>
+<td>string</td>
+<td>The master node memory request amount expressed as a <a href="https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity">Quantity</a>.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>nodes.ingest.replicas</code></td>
+<td><a href="#name-value">NameValue</a></td>
+<td>string</td>
+<td>The number of ingest node replicas.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>nodes.ingest.requests.memory</code></td>
+<td><a href="#name-value">NameValue</a></td>
+<td>string</td>
+<td>The ingest node memory request amount expressed as a <a href="https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity">Quantity</a>.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>nodes.data.replicas</code></td>
+<td><a href="#name-value">NameValue</a></td>
+<td>string</td>
+<td>The number of data node replicas.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>nodes.data.requests.memory</code></td>
+<td><a href="#name-value">NameValue</a></td>
+<td>string</td>
+<td>The data node memory request amount expressed as a <a href="https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity">Quantity</a>.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>nodes.data.requests.storage</code></td>
+<td><a href="#name-value">NameValue</a></td>
+<td>string</td>
+<td>The data storage request amount expressed as a <a href="https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity">Quantity</a>.</td>
 <td>No</td>
 </tr>
 </tbody>
