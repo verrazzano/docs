@@ -71,7 +71,7 @@ IngressRule specifies a rule for an ingress trait.
 | --- | --- | --- | --- |
 | `hosts` | string array | One or more hosts exposed by the ingress trait.  Wildcard hosts or hosts that are empty are filtered out. If there are no valid hosts provided, then a DNS host name is automatically generated and used. | No |
 | `paths` | [IngressPath](#ingresspath) array | The paths to be exposed for an ingress trait. | Yes |
-| `destination` | [IngressDestination](#ingressdestination) | The destination host and port fot the ingress paths. | No |
+| `destination` | [IngressDestination](#ingressdestination) | The destination host and port for the ingress paths. | No |
 
 #### IngressPath
 IngressPath specifies a specific path to be exposed for an ingress trait.
@@ -86,12 +86,12 @@ IngressDestination specifies a specific destination host and port for the ingres
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `host` | string | destination host | No |
-| `port` | uint32 | destination port | No |
+| `host` | string | Destination host. | No |
+| `port` | uint32 | Destination port. | No |
 
 {{< alert title="NOTE" color="warning" >}}
 If there are multiple ports defined for a service, then the destination port must be specified OR
-the service port name must have a prefix "http". 
+the service port name must have the prefix "http". 
 {{< /alert >}}
 
 #### IngressSecurity
