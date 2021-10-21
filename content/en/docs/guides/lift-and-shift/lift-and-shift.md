@@ -134,7 +134,7 @@ Using the WebLogic Server Administration Console, log in and add a data source c
 
 1. Select **Test Configuration**, and make sure you see "Connection Test Succeeded" in the `Messages` field of the Console.
 
-    ![Connection test](content/en/docs/images/jdbc-connection-test.png)
+    ![Connection test](/docs/images/jdbc-connection-test.png)
 
 1. Click **Next**.
 
@@ -177,7 +177,7 @@ that you selected `AdminServer` as the data source target.
 
 - Access the application at `http://localhost:7001/todo/index.html`.  
 
-![ToDoList](content/en/docs/images/ToDoList.png)
+![ToDoList](/docs/images/ToDoList.png)
 
 - Add a few entries or delete some.
 - After verifying the application and database, you may shut down the local WebLogic Server domain.

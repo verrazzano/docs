@@ -37,7 +37,7 @@ enable TLS passthrough, as described at [Istio Gateway Passthrough](https://isti
 
 ### High-level network diagram
 
-![](../images/networking/network-high-level.png)
+![](/docs/images/networking/network-high-level.png)
 
 ## Platform network connectivity
 A Kubernetes cluster is installed on a platform, such as Oracle OKE,
