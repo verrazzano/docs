@@ -14,7 +14,7 @@ The Verrazzano logging stack consists of Fluentd, Elasticsearch, and Kibana comp
 
 As shown in the following diagram, logs written to stdout by a container running on Kubernetes are picked up by the kubelet service running on that node and written to `/var/log/containers`.
 
-![Logging](../../images/logging.png)
+![Logging](/docs/images/logging.png)
 
 
 ## Fluentd sidecar
@@ -44,7 +44,7 @@ The Verrazzano Fluentd Docker image comes with these plug-ins:
 - [fluent-plugin-systemd](https://github.com/fluent-plugin-systemd/fluent-plugin-systemd)
 
 The Verrazzano Fluentd Docker image also has two local default plug-ins, `kubernetes_parser` and `kubernetes_multiline_parser`.
-These plug-ins help to parse Kubernetes management log files. 
+These plug-ins help to parse Kubernetes management log files.
 
 Here are example use cases for these plug-ins:
 ```
@@ -118,4 +118,4 @@ To see the records of an Elasticsearch index through Kibana, create an index pat
 
 For example, to see the log records of a WebLogic application deployed to the `todo-list` namespace, create an index pattern of `verrazzano-namespace-todo-list`.
 
-![Kibana](../../images/kibana.png)
+![Kibana](/docs/images/kibana.png)

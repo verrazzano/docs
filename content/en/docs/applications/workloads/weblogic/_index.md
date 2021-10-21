@@ -338,4 +338,4 @@ $ curl -sk https://${HOST}/todo/ --resolve ${HOST}:443:${ADDRESS}
 - [WebLogic Kubernetes Operator GitHub repository](https://github.com/oracle/weblogic-kubernetes-operator/)
 - [WebLogic Domain CR](https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md)
 - [Verrazzano Application Workloads]({{< relref "/docs/applications/workloads/" >}})
-- [Lift and Shift Guide](https://verrazzano.io/docs/samples/lift-and-shift/)
+- [Lift and Shift Guide]({{< relref "/docs/guides/lift-and-shift/lift-and-shift.md" >}})
