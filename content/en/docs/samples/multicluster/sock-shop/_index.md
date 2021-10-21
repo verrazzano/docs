@@ -187,7 +187,7 @@ the deployed Sock Shop application.  Accessing them may require the following:
 
 Regardless of its location, to undeploy the application,
 delete the application resources and the project from the admin cluster.
-Undeploy is for all clusters in which the application is located.
+Undeploy affects all clusters in which the application is located.
 
 ```shell
 # Delete the multicluster application configuration

@@ -117,7 +117,7 @@ To return the application to the managed cluster named `managed1`, set the value
 
 Regardless of its location, to undeploy the application,
 delete the application resources and the project from the admin cluster.
-Undeploy is for all clusters in which the application is located.
+Undeploy affects all clusters in which the application is located.
 
 ```shell
 # Delete the multicluster application configuration

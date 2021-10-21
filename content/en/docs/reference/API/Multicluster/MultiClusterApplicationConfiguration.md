@@ -68,7 +68,7 @@ MultiClusterApplicationConfigurationSpec specifies the desired state of a `core.
 | --- | --- | --- | --- |
 | `template` | [ApplicationConfigurationTemplate](#applicationconfigurationtemplate) | The embedded `core.oam.dev/v1alpha2/ApplicationConfiguration` resource. | Yes |
 | `placement` | [Placement](../placement) | Clusters in which the resource is to be placed. | Yes |
-| `secrets` | string array | List of secrets used by the application.  These secrets must be created in the applications namespace before deploying a MultiClusterApplicationConfiguration resource. | No |
+| `secrets` | string array | List of secrets used by the application.  These secrets must be created in the application's namespace before deploying a MultiClusterApplicationConfiguration resource. | No |
 
 #### ApplicationConfigurationTemplate
 ApplicationConfigurationTemplate has the metadata and spec of the `core.oam.dev/v1alpha2/ApplicationConfiguration` resource.
