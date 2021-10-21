@@ -7,7 +7,7 @@ draft: false
 The MultiClusterSecret custom resource is an envelope used to distribute Kubernetes Secret resources in a multicluster environment.
 
 **NOTE**: Starting with Verrazzano v1.1.0, it is preferred that the MultiClusterSecret custom resource not be used; instead
-specify [MultiClusterApplicationConfiguration resource](../multiclusterapplicationconfiguration) in the MultiClusterApplicationConfiguration resource.
+specify secrets in the MultiClusterApplicationConfiguration resource.
 See the example application, [Multicluster ToDo List]({{< relref "/docs/samples/multicluster/todo-list/" >}}) where secrets are specified in a MultiClusterApplicationConfiguration resource.
 
 Here is a sample MultiClusterSecret that specifies a Kubernetes secret to create on the cluster named `managed1`.
