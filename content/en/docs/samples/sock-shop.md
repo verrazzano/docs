@@ -1,8 +1,8 @@
 ---
-title: "Helidon Sock Shop"
+title: "Sock Shop"
 weight: 4
 linkTitle: Sock Shop
-description: "A Helidon implementation of the Sock Shop Microservices Demo Application"
+description: "Implementations of the Sock Shop Microservices Demo Application"
 ---
 
 ## Before you begin
@@ -15,8 +15,14 @@ Install Verrazzano by following the [installation]({{< relref "/docs/setup/insta
 
 ## Deploy the Sock Shop application
 
-This example application provides a [Helidon](https://helidon.io) implementation of the [Sock Shop Microservices Demo Application](https://microservices-demo.github.io/).
+This example application provides various implementations of the [Sock Shop Microservices Demo Application](https://microservices-demo.github.io/).
 It uses OAM resources to define the application deployment.
+
+* [Coherence and Helidon](https://github.com/oracle/coherence-helidon-sockshop-sample) in the `helidon` subdirectory.
+* [Coherence and Micronaut](https://github.com/oracle/coherence-micronaut-sockshop-sample) in the `micronaut` subdirectory.
+
+**NOTE:** The following instructions are for the first variant.  To choose a different variant, change
+`helidon` to `micronaut` in the URLs for the YAML files.
 
 1. Create a namespace for the Sock Shop application and add a label identifying the namespace as managed by Verrazzano.
    ```
@@ -26,8 +32,8 @@ It uses OAM resources to define the application deployment.
 
 1. To deploy the application, apply the Sock Shop OAM resources.
    ```
-   $ kubectl apply -f {{< release_source_url raw=true path=examples/sock-shop/sock-shop-comp.yaml >}}
-   $ kubectl apply -f {{< release_source_url raw=true path=examples/sock-shop/sock-shop-app.yaml >}}
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/sock-shop/helidon/sock-shop-comp.yaml >}}
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/sock-shop/helidon/sock-shop-app.yaml >}}
    ```
 
 1. Wait for the Sock Shop application to be ready.
