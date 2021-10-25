@@ -14,7 +14,7 @@ You can install Verrazzano on the following Kubernetes versions.
 
 | Verrazzano | Release Date | Patch Releases | Latest Patch Release Date | Kubernetes Versions
 | ---        | ---          | ---            | ---                       | ---                
-| 1.0        | 2021-08-02   | 1.0.1          | 2021-09-01                | 1.18, 1.19, 1.20   
+| 1.0        | 2021-08-02   | 1.0.2          | 2021-10-25                | 1.18, 1.19, 1.20
 
 For more information, see [Kubernetes Release Documentation](https://kubernetes.io/releases/).
 For platform specific details, see [Verrazzano platform setup]({{< relref "/docs/setup/platforms/_index.md" >}}).
@@ -45,7 +45,7 @@ component with its version and a brief description.
 | Fluentd | 1.12.3 | Collects logs and sends them to Elasticsearch.
 | Grafana | 6.4.4 | Tool to help you study, analyze, and monitor metrics.
 | Istio | 1.7.3 | Service mesh that layers transparently onto existing distributed applications.
-| Keycloak | 10.0.1 | Provides single sign-on with Identity and Access Management.
+| Keycloak | 10.0.2 | Provides single sign-on with Identity and Access Management.
 | Kibana | 7.6.1 | Provides search and data visualization capabilities for data indexed in Elasticsearch.
 | MySQL | 8.0.20 | Open source relational database management system used by Keycloak.
 | NGINX Ingress Controller | 0.46.0 | Traffic management solution for cloud‑native applications in Kubernetes.
@@ -53,4 +53,4 @@ component with its version and a brief description.
 | OAM Kubernetes Runtime | 0.3.0 | Plug-in for implementing Open Application Model (OAM) control plane with Kubernetes.
 | Prometheus | 2.13.1 | Provides event monitoring and alerting.
 | Rancher | 2.5.9 | Manages multiple Kubernetes clusters.
-| WebLogic Kubernetes Operator | 3.3.0 | Assists with deploying and managing WebLogic domains.
+| WebLogic Kubernetes Operator | 3.3.2 | Assists with deploying and managing WebLogic domains.
