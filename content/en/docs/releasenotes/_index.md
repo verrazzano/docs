@@ -14,7 +14,7 @@ Fixes:
 - Rebuilt several component images to address known issues.
 - Fixes/improvements for the analysis tool, including support for diagnosing load balancer limit reached issues.
 - Fixes/improvements for the install/upgrade process, including:
-  - Install/upgrade jobs now run in the verrazzano-install namespace.
+  - Install/upgrade jobs now run in the ``verrazzano-install`` namespace.
   - Added Rancher registration status to the VerrazzanoManagedCluster status.
   - Updated OKE troubleshooting URL in install log.
   - Fixed ExternalIP handling during Istio install.
