@@ -11,16 +11,15 @@ Fixes:
 - Updated Keycloak to version 10.0.2.
 - Updated WebLogic Kubernetes Operator to version 3.3.2.
 - Updated Oracle Linux image to version 7.9.
-- Rebuilt several component images to address CVEs.
-- Fixes/improvements for the analysis tool, including:
-  - Added support for diagnosing loadbalancer limit reached issues.
+- Rebuilt several component images to address known issues.
+- Fixes/improvements for the analysis tool, including support for diagnosing load balancer limit reached issues.
 - Fixes/improvements for the install/upgrade process, including:
   - Install/upgrade jobs now run in the verrazzano-install namespace.
-  - Add Rancher registration status to the VerrazzanoManagedCluster status.
-  - Update OKE troubleshooting URL in install log.
-  - Fix ExternalIP handling during Istio install.
+  - Added Rancher registration status to the VerrazzanoManagedCluster status.
+  - Updated OKE troubleshooting URL in install log.
+  - Fixed ExternalIP handling during Istio install.
 - Fixed Elasticsearch status yellow due to unassigned_shards.
-- Disallow multicluster resources that are not in a VerrazzanoProject namespace.
+- Webhook now disallows multicluster resources that are not in a VerrazzanoProject namespace.
 
 ### v1.0.1
 Fixes:
