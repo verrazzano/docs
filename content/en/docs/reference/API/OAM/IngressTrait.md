@@ -71,6 +71,7 @@ IngressRule specifies a rule for an ingress trait.
 | --- | --- | --- | --- |
 | `hosts` | string array | One or more hosts exposed by the ingress trait.  Wildcard hosts or hosts that are empty are filtered out. If there are no valid hosts provided, then a DNS host name is automatically generated and used. | No |
 | `paths` | [IngressPath](#ingresspath) array | The paths to be exposed for an ingress trait. | Yes |
+| `destination` | [IngressDestination](#ingressdestination) | The destination host and port for the ingress paths. | No |
 
 #### IngressPath
 IngressPath specifies a specific path to be exposed for an ingress trait.
@@ -80,6 +81,18 @@ IngressPath specifies a specific path to be exposed for an ingress trait.
 | `path` | string | If no path is provided, it defaults to `/`. |  No |
 | `pathType` | string | Path type values are case-sensitive and formatted as follows: <ul><li>`exact`: exact string match</li><li>`prefix`: prefix-based match</li><li>`regex`: regex-based match</li></ul>If the provided ingress path doesn't contain a `pathType`, it defaults to `prefix` if the path is `/` and `exact` otherwise. | No |
 
+#### IngressDestination
+IngressDestination specifies a specific destination host and port for the ingress paths.
+
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `host` | string | Destination host. | No |
+| `port` | uint32 | Destination port. | No |
+
+{{< alert title="NOTE" color="warning" >}}
+If there are multiple ports defined for a service, then the destination port must be specified OR
+the service port name must have the prefix "http". 
+{{< /alert >}}
 
 #### IngressSecurity
 IngressSecurity specifies the secret containing the certificate securing the transport for an ingress trait.
