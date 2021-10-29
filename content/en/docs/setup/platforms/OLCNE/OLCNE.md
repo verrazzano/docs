@@ -142,24 +142,24 @@ Examples for meeting these requirements follow.
 
 ### Kubernetes 1.18 and 1.19
 
-On OLCNE installations with Kubernetes 1.18 or 1.19, some of the API's required for a Verrazzano installation are not enabled by default.  Update the configuration of the kube-apiserver by repeating the following steps on each of the master nodes.
+On OLCNE installations with Kubernetes 1.18 or 1.19, some of the APIs required for a Verrazzano installation are not enabled by default.  Update the configuration of the `kube-apiserver` by repeating the following steps on each of the master nodes.
 
 Get the IP addresses of the master nodes.
 ```
-kubectl get nodes -o wide | grep master
+$ kubectl get nodes -o wide | grep master
 ```
 
 SSH into a master node.
 ```
-ssh -i <path to private key file> opc@<IP address of a master node>
+$ ssh -i <path to private key file> opc@<IP address of a master node>
 ```
 
-Edit the configuration file of the kube-apiserver.
+Edit the configuration file of the `kube-apiserver`.
 ```
-sudo vi /etc/kubernetes/manifests/kube-apiserver.yaml
+$ sudo vi /etc/kubernetes/manifests/kube-apiserver.yaml
 ```
 
-Add the lines below to the `spec.containers.command.kube-apiserver` section.  The kube-apiserver pods will restart with the new configuration when the changes are saved.
+Add the following lines to the `spec.containers.command.kube-apiserver` section.  The `kube-apiserver` pods will restart with the new configuration when the changes are saved.
 ```
     - --service-account-signing-key-file=/etc/kubernetes/pki/sa.key
     - --service-account-issuer=api
