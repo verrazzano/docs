@@ -136,8 +136,38 @@ Examples for meeting these requirements follow.
 
 ### Prerequisites Details
 
-{{< tabs tabTotal="3" tabID="1" tabName1="Storage" tabName2="Load Balancers" tabName3="DNS" >}}
+{{< tabs tabTotal="4" tabID="1" tabName1="Kubernetes 1.18 and 1.19" tabName2="Storage" tabName3="Load Balancers" tabName4="DNS" >}}
 {{< tab tabNum="1" >}}
+<br>
+
+### Kubernetes 1.18 and 1.19
+
+On OLCNE installations with Kubernetes 1.18 or 1.19, some of the API's required for a Verrazzano installation are not enabled by default.  Update the configuration of the kube-apiserver by repeating the following steps on each of the master nodes.
+
+Get the IP addresses of the master nodes.
+```
+kubectl get nodes -o wide | grep master
+```
+
+SSH into a master node.
+```
+ssh -i <path to private key file> opc@<IP address of a master node>
+```
+
+Edit the configuration file of the kube-apiserver.
+```
+sudo vi /etc/kubernetes/manifests/kube-apiserver.yaml
+```
+
+Add the lines below to the `spec.containers.command.kube-apiserver` section.  The kube-apiserver pods will restart with the new configuration when the changes are saved.
+```
+    - --service-account-signing-key-file=/etc/kubernetes/pki/sa.key
+    - --service-account-issuer=api
+    - --service-account-api-audiences=api,vault,factors
+```
+
+{{< /tab >}}
+{{< tab tabNum="2" >}}
 <br>
 
 ### Storage
@@ -212,7 +242,7 @@ The value for `name` may be customized but will need to match the PersistentVolu
   done
   ```
 {{< /tab >}}
-{{< tab tabNum="2" >}}
+{{< tab tabNum="3" >}}
 <br>
 
 ### Load Balancers
@@ -268,7 +298,7 @@ If load balancers are desired, then they should be created now even though the a
       * Backends: Kubernetes Worker Nodes, Port 30443, Distribution Policy Weighted Round Robin
 
 {{< /tab >}}
-{{< tab tabNum="3" >}}
+{{< tab tabNum="4" >}}
 <br>
 
 ### DNS
@@ -322,6 +352,8 @@ DNS CNAME records, in the same way.
 
 {{< /tab >}}
 {{< /tabs >}}
+
+---
 
 During the Verrazzano install, these steps should be performed on the Oracle Linux Cloud Native Environment operator node.
 
