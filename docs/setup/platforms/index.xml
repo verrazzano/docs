@@ -529,7 +529,7 @@ Other values can be used if required.&lt;/p&gt;
 		
 
 		&lt;a class=&#34;nav-item nav-link active&#34; id=&#34;nav-1&#34; data-toggle=&#34;tab&#34; href=&#34;#tab11&#34; role=&#34;tab&#34;
-		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Storage&lt;/a&gt;
+		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Kubernetes 1.18 and 1.19&lt;/a&gt;
 
 		
 		
@@ -541,7 +541,7 @@ Other values can be used if required.&lt;/p&gt;
 		
 
 		&lt;a class=&#34;nav-item nav-link&#34; id=&#34;nav-1&#34; data-toggle=&#34;tab&#34; href=&#34;#tab12&#34; role=&#34;tab&#34;
-		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;false&#34;&gt;Load Balancers&lt;/a&gt;
+		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;false&#34;&gt;Storage&lt;/a&gt;
 
 		
 		
@@ -553,6 +553,18 @@ Other values can be used if required.&lt;/p&gt;
 		
 
 		&lt;a class=&#34;nav-item nav-link&#34; id=&#34;nav-1&#34; data-toggle=&#34;tab&#34; href=&#34;#tab13&#34; role=&#34;tab&#34;
+		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;false&#34;&gt;Load Balancers&lt;/a&gt;
+
+		
+		
+
+		
+		
+		
+
+		
+
+		&lt;a class=&#34;nav-item nav-link&#34; id=&#34;nav-1&#34; data-toggle=&#34;tab&#34; href=&#34;#tab14&#34; role=&#34;tab&#34;
 		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;false&#34;&gt;DNS&lt;/a&gt;
 
 		
@@ -571,6 +583,33 @@ Other values can be used if required.&lt;/p&gt;
 
 
 &lt;div class=&#34;tab-pane fade show active&#34; id=&#34;tab11&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName1&#34;&gt;
+
+	&lt;br&gt;
+&lt;h3 id=&#34;kubernetes-118-and-119&#34;&gt;Kubernetes 1.18 and 1.19&lt;/h3&gt;
+&lt;p&gt;On OLCNE installations with Kubernetes 1.18 or 1.19, some of the APIs required for a Verrazzano installation are not enabled by default.  Update the configuration of the &lt;code&gt;kube-apiserver&lt;/code&gt; by repeating the following steps on each of the master nodes.&lt;/p&gt;
+&lt;p&gt;Get the IP addresses of the master nodes.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl get nodes -o wide | grep master
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;SSH into a master node.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ ssh -i &amp;lt;path to private key file&amp;gt; opc@&amp;lt;IP address of a master node&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Edit the configuration file of the &lt;code&gt;kube-apiserver&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ sudo vi /etc/kubernetes/manifests/kube-apiserver.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Add the following lines to the &lt;code&gt;spec.containers.command.kube-apiserver&lt;/code&gt; section.  The &lt;code&gt;kube-apiserver&lt;/code&gt; pods will restart with the new configuration when the changes are saved.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;    - --service-account-signing-key-file=/etc/kubernetes/pki/sa.key
+    - --service-account-issuer=api
+    - --service-account-api-audiences=api,vault,factors
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;/div&gt;
+
+
+
+
+
+
+
+
+
+&lt;div class=&#34;tab-pane fade&#34; id=&#34;tab12&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName2&#34;&gt;
 
 	&lt;br&gt;
 &lt;h3 id=&#34;storage&#34;&gt;Storage&lt;/h3&gt;
@@ -651,7 +690,7 @@ done
 
 
 
-&lt;div class=&#34;tab-pane fade&#34; id=&#34;tab12&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName2&#34;&gt;
+&lt;div class=&#34;tab-pane fade&#34; id=&#34;tab13&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName3&#34;&gt;
 
 	&lt;br&gt;
 &lt;h3 id=&#34;load-balancers&#34;&gt;Load Balancers&lt;/h3&gt;
@@ -779,7 +818,7 @@ If load balancers are desired, then they should be created now even though the a
 
 
 
-&lt;div class=&#34;tab-pane fade&#34; id=&#34;tab13&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName3&#34;&gt;
+&lt;div class=&#34;tab-pane fade&#34; id=&#34;tab14&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName4&#34;&gt;
 
 	&lt;br&gt;
 &lt;h3 id=&#34;dns&#34;&gt;DNS&lt;/h3&gt;
@@ -840,6 +879,7 @@ DNS CNAME records, in the same way.&lt;/p&gt;
 
 
 &lt;/div&gt;
+&lt;hr&gt;
 &lt;p&gt;During the Verrazzano install, these steps should be performed on the Oracle Linux Cloud Native Environment operator node.&lt;/p&gt;
 &lt;p&gt;Edit the sample Verrazzano custom resource &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.0.2/platform-operator/config/samples/install-olcne.yaml&#34;&gt;install-olcne.yaml&lt;/a&gt; file and provide these configuration settings for your OLCNE environment:&lt;/p&gt;
 &lt;ul&gt;
