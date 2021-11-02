@@ -64,6 +64,7 @@ spec:
 | `prometheus` | [PrometheusComponent](#prometheus-component) | The Prometheus component configuration. | No |
 | `kibana` | [KibanaComponent](#kibana-component) | The Kibana component configuration. | No |
 | `grafana` | [GrafanaComponent](#grafana-component) | The Grafana component configuration. | No |
+| `kiali` | [KialiComponent](#kiali-component) | The Kiali component configuration. | No |
 
 ### CertManager Component
 | Field | Type | Description | Required
@@ -216,3 +217,8 @@ spec:
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `enabled` | Boolean | If true, then Grafana will be installed. | No |
+
+### Kiali Component
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `enabled` | Boolean | If true, then Kiali will be installed. | No |
