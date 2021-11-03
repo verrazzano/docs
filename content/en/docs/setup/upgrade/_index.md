@@ -149,11 +149,15 @@ weblogic-operator-7db5cdcf59-qxsr9                       1/1     Running   0    
 If your upgrade includes a minor version change to Istio, you must complete these additional actions to ensure that applications managed in the Istio mesh get upgraded properly.
 Before making any alterations to the application components, ensure that the Verrazzano Custom Resource status is `UpgradeComplete` and that all pods in the `verrazzano-system` namespace are in the `Running` state.
 
+Here is a list of all Verrazzano upgrades that contain minor version updates to Istio:
+| Old Release | New Release |
+| --- | --- |
+| 1.0.X | 1.1.X |
+
 ### Restarting applications
 If your application namespace has the `istio-injection=enabled` label, then your application components are in the Istio service mesh.
 As such, your application must be restarted to upgrade the Istio proxy sidecars to the new version.
-Verrazzano cannot guarantee application persistence as the application components restart.
-For WebLogic applications specifically, the WebLogic domain will undergo a hard restart. This will result in WebLogic application downtime as the domains get restarted.
+For WebLogic applications, the WebLogic domain will undergo a hard restart. This will result in WebLogic application downtime as the domains get restarted.
 
 To trigger this restart, you can annotate the application configuration with the key `verrazzano.io/restart-version`.
 Although the value of the annotation is insignificant to the upgrade, it is recommended to use whole number values to keep track of your upgrades.
