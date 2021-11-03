@@ -149,10 +149,7 @@ weblogic-operator-7db5cdcf59-qxsr9                       1/1     Running   0    
 If your upgrade includes a minor version change to Istio, you must complete these additional actions to ensure that applications managed in the Istio mesh get upgraded properly.
 Before making any alterations to the application components, ensure that the Verrazzano Custom Resource status is `UpgradeComplete` and that all pods in the `verrazzano-system` namespace are in the `Running` state.
 
-Here is a list of all Verrazzano upgrades that contain minor version updates to Istio:
-| Old Release | New Release |
-| --- | --- |
-| 1.0.X | 1.1.X |
+If you are upgrading Verrazzano from version `1.0.X` to version `1.1.X`, then you are required to restart the application.
 
 ### Restarting applications
 If your application namespace has the `istio-injection=enabled` label, then your application components are in the Istio service mesh.
@@ -161,11 +158,11 @@ For WebLogic applications, the WebLogic domain will undergo a hard restart. This
 
 To trigger this restart, you can annotate the application configuration with the key `verrazzano.io/restart-version`.
 When the annotation is added or the value is modified, Verrazzano will initiate a restart of all the application components.
-Although the value of the annotation is insignificant to the upgrade, it is recommended to use whole number values to keep track of your upgrades.
+Although the value of the annotation is insignificant to the upgrade, we recommend that you use whole number values to help keep track of your upgrades.
 For example, you can annotate the Bob's Books example application by using the following command:
 
 ```shell
-$ kubectl annotate appconfig bobs-books -n bobs-books verrazzano.io/restart-version="3"
+$ kubectl annotate appconfig bobs-books -n bobs-books verrazzano.io/restart-version="3" --overwrite
 ```
 
 To verify that this example application configuration has been updated, this command will return the value of your annotation:
