@@ -309,13 +309,14 @@ $ docker push your/repo/todo:1
 
 ### Deploy to Verrazzano
 
-After the application image has been created, there are several steps required to deploy a
+After the application image has been created, there are several steps required to deploy 
 the application into a Verrazzano environment.
 
 These include:
 1. Creating and labeling the `tododomain` namespace.
 1. Creating the necessary secrets required by the ToDo List application.
-1. Deploying MySQL to the `tododomain` namespace.
+1. Creating the Verrazzano components such as Service, Deployment, and ConfigMap required by the MySQL instance in the `tododomain` namespace. 
+1. Updating the `vz-application.yaml` file to enable the Verrazzano MySQL components in the ToDo List ApplicationConfiguration to deploy as Kubernetes objects.
 1. Updating the `vz-application.yaml` file to use the Verrazzano MySQL deployment and (optionally) expose the WebLogic Server Administration Console.
 1. Applying the `vz-application.yaml` file.
 
@@ -386,44 +387,83 @@ Update the generated `vz-application.yaml` file for the `todo` application to:
                     URL: "jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb"
 ```
 
+* Update the `tododomain-appconf` ApplicationConfiguration to enable Verrazzano MySQL components to be deployed as Kubernetes objects. 
+
+```yaml
+apiVersion: core.oam.dev/v1alpha2
+kind: ApplicationConfiguration
+metadata:
+  name: tododomain-appconf
+  namespace: tododomain
+  annotations:
+    version: v1.0.0
+    description: "tododomain application configuration"
+spec:
+  components:
+    - componentName: tododomain-domain
+      traits:
+        - trait:
+            apiVersion: oam.verrazzano.io/v1alpha1
+            kind: MetricsTrait
+            spec:
+              scraper: verrazzano-system/vmi-system-prometheus-0
+        - trait:
+            apiVersion: oam.verrazzano.io/v1alpha1
+            kind: IngressTrait
+            spec:
+              rules:
+                - paths:
+                    # application todo
+                    - path: "/todo"
+                      pathType: Prefix
+    - componentName: tododomain-configmap
+    - componentName: todo-mysql-service
+    - componentName: todo-mysql-deployment
+    - componentName: todo-mysql-configmap
+```
+
 The file  [vz-application-modified.yaml](../vz-application-modified.yaml) is an example of a modified [vz-application.yaml](../vz-application.yaml) file.  A diff of these
 two sample files is shown:
 
 ```shell
 $ diff vz-application.yaml vz-application-modified.yaml
-102c102
+30a31,33
+>     - componentName: todo-mysql-service
+>     - componentName: todo-mysql-deployment
+>     - componentName: todo-mysql-configmap
+102c105
 <                   URL: "jdbc:mysql://localhost:3306/tododb"
 ---
 >                   URL: "jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb"
 ```
 
-#### Deploy MySQL
+#### Create Verrazzano components for MySQL  
 
-As noted previously, moving a production environment to Verrazzano would require migrating the
-data as well.  While data migration is beyond the scope of this guide, we will still need to
-include a MySQL instance to be deployed with the application in the Verrazzano environment.
+As noted previously, moving a production environment to Verrazzano would require migrating the data as well. While data migration is beyond the scope of this guide, we will still need to include a MySQL instance to be deployed with the application in the Verrazzano environment.
 
-To do so, download the [mysql-oam.yaml](../mysql-oam.yaml) file.
+To do so, first, we need to create the Verrazzano components for MySQL by applying the [mysql-oam.yaml](../mysql-oam.yaml) file in the `tododomain` namespace. The components will be deployed as Kubernetes objects when the ToDo List application is deployed by applying the vz-application.yaml file in the next step. 
 
-Then, apply the YAML file:
+* Download the [mysql-oam.yaml](../mysql-oam.yaml) file.
+
+* Then, apply the YAML file:
 
 ```shell
 $ kubectl apply -f mysql-oam.yaml
+component.core.oam.dev/todo-mysql-service created
+component.core.oam.dev/todo-mysql-deployment created
+component.core.oam.dev/todo-mysql-configmap created
 ```
 
-Wait for the MySQL pod to reach the `Ready` state.
 
 ```shell
-$ kubectl get pod -n tododomain -w
-NAME                     READY   STATUS    RESTARTS   AGE
-mysql-5cfd58477b-mg5c7          0/1     Pending             0          0s
-mysql-5cfd58477b-mg5c7          0/1     Pending             0          0s
-mysql-5cfd58477b-mg5c7          0/1     ContainerCreating   0          0s
-mysql-5cfd58477b-mg5c7          1/1     Running             0          2s
+$ kubectl get components -ntododomain
+todo-mysql-configmap    ConfigMap       26s
+todo-mysql-deployment   Deployment      26s
+todo-mysql-service      Service         26s 
 ```
-#### Deploy the ToDo List application
+#### Deploy the ToDo List application and MySQL instance. 
 
-Finally, run `kubectl apply` to apply the Verrazzano component and Verrazzano application configuration files to start your domain.
+Finally, run `kubectl apply` to apply the Verrazzano components and Verrazzano application configuration files to start your domain.
 
 ```shell script
 $ kubectl apply -f vz-application.yaml
@@ -431,7 +471,9 @@ $ kubectl apply -f vz-application.yaml
 
 This will:
 * Create the application Component resources for the ToDo List application.
+* Deploys the Verrazzano component resources as Kubernetes objects and creates the MySQL instance.  
 * Create the application configuration resources that create the instance of the ToDo List application in the Verrazzano cluster.
+
 
 Wait for the ToDo List example application to be ready.
 
