@@ -154,7 +154,7 @@ If you are upgrading Verrazzano from version `1.0.X` to version `1.1.X`, then yo
 ### Restarting applications
 If your application namespace has the `istio-injection=enabled` label, then your application components are in the Istio service mesh.
 As such, your application must be restarted to upgrade the Istio proxy sidecars to the new version.
-For WebLogic applications, the WebLogic domain will undergo a hard restart. This will result in WebLogic application downtime as the domains get restarted.
+For WebLogic applications, the WebLogic domain will undergo a hard restart. This will result in a brief WebLogic application downtime as the domain restarts.
 
 To trigger this restart, you can annotate the application configuration with the key `verrazzano.io/restart-version`.
 When the annotation is added or the value is modified, Verrazzano will initiate a restart of all the application components.
