@@ -145,28 +145,28 @@ vmi-system-prometheus-0-7bf464d898-czq8r                 4/4     Running   0    
 weblogic-operator-7db5cdcf59-qxsr9                       1/1     Running   0          27h
 ```
 
-## Upgrade Istio-managed applications
-If your upgrade includes a major version change to Istio, you must complete these additional the following actions to ensure that applications managed in the Istio mesh get upgraded properly.
+## Upgrade Istio managed applications
+If your upgrade includes a major version change to Istio, you must complete these additional actions to ensure that applications managed in the Istio mesh get upgraded properly.
 Before making any alterations to the application components, ensure that the Verrazzano Custom Resource status is `UpgradeComplete` and that all pods in the `verrazzano-system` namespace are in the `Running` state.
 
 ### Restarting applications
-If your application namespace has the `istio-injection=enabled` label, your application components are in the Istio service mesh.
-If your application is in the Istio service mesh, your application must be restarted to upgrade the Istio proxy sidecars to the new version.
+If your application namespace has the `istio-injection=enabled` label, then your application components are in the Istio service mesh.
+As such, your application must be restarted to upgrade the Istio proxy sidecars to the new version.
 Verrazzano cannot guarantee application persistence as the application components restart.
 For WebLogic applications specifically, the WebLogic domain will undergo a hard restart. This will result in WebLogic application downtime as the domains get restarted.
 
-In order to trigger this restart, you can annotate the application configuration with the key `verrazzano.io/restart-version`.
+To trigger this restart, you can annotate the application configuration with the key `verrazzano.io/restart-version`.
 Although the value of the annotation is insignificant to the upgrade, it is recommended to use whole number values to keep track of your upgrades.
 For example, you can annotate the Bob's Books example application by using the following command:
 
 ```shell
-kubectl annotate appconfig bobs-books -n bobs-books verrazzano.io/restart-version="3"
+$ kubectl annotate appconfig bobs-books -n bobs-books verrazzano.io/restart-version="3"
 ```
 
-To verify that this example application configuration has been updated, this command should give the value of your annotation:
+To verify that this example application configuration has been updated, this command will return the value of your annotation:
 
 ```shell
-kubectl get appconfig bobs-books -n bobs-books -o jsonpath="{.metadata.annotations.verrazzano\.io/restart-version}"
+$ kubectl get appconfig bobs-books -n bobs-books -o jsonpath="{.metadata.annotations.verrazzano\.io/restart-version}"
 ```
 
 After completing the annotations and restarting, verify that your application is up and running as expected.
