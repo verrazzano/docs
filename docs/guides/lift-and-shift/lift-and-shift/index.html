@@ -22,11 +22,11 @@
 <meta property="og:description" content="A guide for moving WebLogic Server domains to Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/guides/lift-and-shift/lift-and-shift/" />
-<meta property="article:modified_time" content="2021-10-21T13:11:53-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-11-03T11:19:54-07:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Lift-and-Shift Guide">
 <meta itemprop="description" content="A guide for moving WebLogic Server domains to Verrazzano">
-<meta itemprop="dateModified" content="2021-10-21T13:11:53-04:00" />
-<meta itemprop="wordCount" content="2474">
+<meta itemprop="dateModified" content="2021-11-03T11:19:54-07:00" />
+<meta itemprop="wordCount" content="2588">
 
 
 
@@ -106,7 +106,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.0e260b03bdead1267807066569c0bb16.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.96e4319c78515c3e74c804f56bc882e3.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -133,7 +133,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.0e260b03bdead1267807066569c0bb16.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.96e4319c78515c3e74c804f56bc882e3.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -824,13 +824,14 @@ set with the given <code>--tag</code> value.</p>
 <code>spec &gt; workload &gt; spec &gt; image</code> for the <code>tododomain-domain</code> component.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ docker push your/repo/todo:1
 </code></pre></div><h3 id="deploy-to-verrazzano">Deploy to Verrazzano</h3>
-<p>After the application image has been created, there are several steps required to deploy a
+<p>After the application image has been created, there are several steps required to deploy
 the application into a Verrazzano environment.</p>
 <p>These include:</p>
 <ol>
 <li>Creating and labeling the <code>tododomain</code> namespace.</li>
 <li>Creating the necessary secrets required by the ToDo List application.</li>
-<li>Deploying MySQL to the <code>tododomain</code> namespace.</li>
+<li>Creating the Verrazzano components such as Service, Deployment, and ConfigMap required by the MySQL instance in the <code>tododomain</code> namespace.</li>
+<li>Updating the <code>vz-application.yaml</code> file to enable the Verrazzano MySQL components in the ToDo List ApplicationConfiguration to deploy as Kubernetes objects.</li>
 <li>Updating the <code>vz-application.yaml</code> file to use the Verrazzano MySQL deployment and (optionally) expose the WebLogic Server Administration Console.</li>
 <li>Applying the <code>vz-application.yaml</code> file.</li>
 </ol>
@@ -879,33 +880,76 @@ The name for this credential can be changed in the <code>vz-application.yaml</co
 </span><span style="color:#f8f8f8;text-decoration:underline">                  </span><span style="color:#204a87;font-weight:bold">JDBCDriverParams</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline">                    </span><span style="color:#8f5902;font-style:italic"># This is the URL of the database used by the WebLogic Server application</span><span style="color:#f8f8f8;text-decoration:underline">
 </span><span style="color:#f8f8f8;text-decoration:underline">                    </span><span style="color:#204a87;font-weight:bold">URL</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></code></pre></div><ul>
+<li>Update the <code>tododomain-appconf</code> ApplicationConfiguration to enable Verrazzano MySQL components to be deployed as Kubernetes objects.</li>
+</ul>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>core.oam.dev/v1alpha2<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>ApplicationConfiguration<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>tododomain-appconf<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">namespace</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>tododomain<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">annotations</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">version</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>v1<span style="color:#0000cf;font-weight:bold">.0.0</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">description</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;tododomain application configuration&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">components</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">componentName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>tododomain-domain<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">traits</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span>- <span style="color:#204a87;font-weight:bold">trait</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>oam.verrazzano.io/v1alpha1<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>MetricsTrait<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">scraper</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>verrazzano-system/vmi-system-prometheus<span style="color:#0000cf;font-weight:bold">-0</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">        </span>- <span style="color:#204a87;font-weight:bold">trait</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>oam.verrazzano.io/v1alpha1<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>IngressTrait<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">rules</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">                </span>- <span style="color:#204a87;font-weight:bold">paths</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">                    </span><span style="color:#8f5902;font-style:italic"># application todo</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">                    </span>- <span style="color:#204a87;font-weight:bold">path</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;/todo&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">                      </span><span style="color:#204a87;font-weight:bold">pathType</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>Prefix<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">componentName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>tododomain-configmap<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">componentName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>todo-mysql-service<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">componentName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>todo-mysql-deployment<span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">componentName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span>todo-mysql-configmap<span style="color:#f8f8f8;text-decoration:underline">
 </span></code></pre></div><p>The file  <a href="../vz-application-modified.yaml">vz-application-modified.yaml</a> is an example of a modified <a href="../vz-application.yaml">vz-application.yaml</a> file.  A diff of these
 two sample files is shown:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ diff vz-application.yaml vz-application-modified.yaml
-102c102
+30a31,33
+&gt;     - componentName: todo-mysql-service
+&gt;     - componentName: todo-mysql-deployment
+&gt;     - componentName: todo-mysql-configmap
+102c105
 &lt;                   URL: <span style="color:#4e9a06">&#34;jdbc:mysql://localhost:3306/tododb&#34;</span>
 ---
 &gt;                   URL: <span style="color:#4e9a06">&#34;jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb&#34;</span>
-</code></pre></div><h4 id="deploy-mysql">Deploy MySQL</h4>
-<p>As noted previously, moving a production environment to Verrazzano would require migrating the
-data as well.  While data migration is beyond the scope of this guide, we will still need to
-include a MySQL instance to be deployed with the application in the Verrazzano environment.</p>
-<p>To do so, download the <a href="../mysql-oam.yaml">mysql-oam.yaml</a> file.</p>
+</code></pre></div><h4 id="create-verrazzano-components-for-mysql">Create Verrazzano components for MySQL</h4>
+<p>As noted previously, moving a production environment to Verrazzano would require migrating the data as well. While data migration is beyond the scope of this guide, we will still need to include a MySQL instance to be deployed with the application in the Verrazzano environment.</p>
+<p>To do so, first, we need to create the Verrazzano components for MySQL by applying the <a href="../mysql-oam.yaml">mysql-oam.yaml</a> file in the <code>tododomain</code> namespace. The components will be deployed as Kubernetes objects when the ToDo List application is deployed by applying the vz-application.yaml file in the next step.</p>
+<ul>
+<li>
+<p>Download the <a href="../mysql-oam.yaml">mysql-oam.yaml</a> file.</p>
+</li>
+<li>
 <p>Then, apply the YAML file:</p>
+</li>
+</ul>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl apply -f mysql-oam.yaml
-</code></pre></div><p>Wait for the MySQL pod to reach the <code>Ready</code> state.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get pod -n tododomain -w
-NAME                     READY   STATUS    RESTARTS   AGE
-mysql-5cfd58477b-mg5c7          0/1     Pending             <span style="color:#0000cf;font-weight:bold">0</span>          0s
-mysql-5cfd58477b-mg5c7          0/1     Pending             <span style="color:#0000cf;font-weight:bold">0</span>          0s
-mysql-5cfd58477b-mg5c7          0/1     ContainerCreating   <span style="color:#0000cf;font-weight:bold">0</span>          0s
-mysql-5cfd58477b-mg5c7          1/1     Running             <span style="color:#0000cf;font-weight:bold">0</span>          2s
-</code></pre></div><h4 id="deploy-the-todo-list-application">Deploy the ToDo List application</h4>
-<p>Finally, run <code>kubectl apply</code> to apply the Verrazzano component and Verrazzano application configuration files to start your domain.</p>
+component.core.oam.dev/todo-mysql-service created
+component.core.oam.dev/todo-mysql-deployment created
+component.core.oam.dev/todo-mysql-configmap created
+</code></pre></div><div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl get components -ntododomain
+todo-mysql-configmap    ConfigMap       26s
+todo-mysql-deployment   Deployment      26s
+todo-mysql-service      Service         26s 
+</code></pre></div><h4 id="deploy-the-todo-list-application-and-mysql-instance">Deploy the ToDo List application and MySQL instance.</h4>
+<p>Finally, run <code>kubectl apply</code> to apply the Verrazzano components and Verrazzano application configuration files to start your domain.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl apply -f vz-application.yaml
 </code></pre></div><p>This will:</p>
 <ul>
 <li>Create the application Component resources for the ToDo List application.</li>
+<li>Deploys the Verrazzano component resources as Kubernetes objects and creates the MySQL instance.</li>
 <li>Create the application configuration resources that create the instance of the ToDo List application in the Verrazzano cluster.</li>
 </ul>
 <p>Wait for the ToDo List example application to be ready.</p>
