@@ -162,7 +162,7 @@ Although the value of the annotation is insignificant to the upgrade, we recomme
 For example, you can annotate the Bob's Books example application by using the following command:
 
 ```shell
-$ kubectl annotate appconfig bobs-books -n bobs-books verrazzano.io/restart-version="3" --overwrite
+$ kubectl annotate appconfig bobs-books -n bobs-books verrazzano.io/restart-version="1" --overwrite
 ```
 
 To verify that this example application configuration has been updated, this command will return the value of your annotation:
