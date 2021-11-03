@@ -309,13 +309,13 @@ $ docker push your/repo/todo:1
 
 ### Deploy to Verrazzano
 
-After the application image has been created, there are several steps required to deploy a
+After the application image has been created, there are several steps required to deploy 
 the application into a Verrazzano environment.
 
 These include:
 1. Creating and labeling the `tododomain` namespace.
 1. Creating the necessary secrets required by the ToDo List application.
-1. Creating the Verrazzano components such as service, deployment, and configmap required by the MySQL instance in the `tododomain` namespace. 
+1. Creating the Verrazzano components such as Service, Deployment, and ConfigMap required by the MySQL instance in the `tododomain` namespace. 
 1. Updating the `vz-application.yaml` file to enable the Verrazzano MySQL components in the ToDo List ApplicationConfiguration to deploy as Kubernetes objects.
 1. Updating the `vz-application.yaml` file to use the Verrazzano MySQL deployment and (optionally) expose the WebLogic Server Administration Console.
 1. Applying the `vz-application.yaml` file.
@@ -441,7 +441,7 @@ $ diff vz-application.yaml vz-application-modified.yaml
 
 As noted previously, moving a production environment to Verrazzano would require migrating the data as well. While data migration is beyond the scope of this guide, we will still need to include a MySQL instance to be deployed with the application in the Verrazzano environment.
 
- To do so, we need to first create the Verrazzano components by applying the [mysql-oam.yaml](../mysql-oam.yaml) in the `tododomain` namespace. The Verrazzano components will be deployed as Kubernetes objects when the To Do List application is deployed by applying the `vz-application.yaml` file is applied in the next step. 
+To do so, first, we need to create the Verrazzano components for MySQL by applying the [mysql-oam.yaml](../mysql-oam.yaml) in the `tododomain` namespace. The components will be deployed as Kubernetes objects when the ToDo List application is deployed by applying the vz-application.yaml file in the next step. 
 
 * Download the [mysql-oam.yaml](../mysql-oam.yaml) file.
 
