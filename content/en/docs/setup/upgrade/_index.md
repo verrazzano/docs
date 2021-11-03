@@ -145,8 +145,8 @@ vmi-system-prometheus-0-7bf464d898-czq8r                 4/4     Running   0    
 weblogic-operator-7db5cdcf59-qxsr9                       1/1     Running   0          27h
 ```
 
-## Upgrade Istio managed applications
-If your upgrade includes a major version change to Istio, you must complete these additional actions to ensure that applications managed in the Istio mesh get upgraded properly.
+## Upgrade applications in the Istio service mesh
+If your upgrade includes a minor version change to Istio, you must complete these additional actions to ensure that applications managed in the Istio mesh get upgraded properly.
 Before making any alterations to the application components, ensure that the Verrazzano Custom Resource status is `UpgradeComplete` and that all pods in the `verrazzano-system` namespace are in the `Running` state.
 
 ### Restarting applications
