@@ -160,6 +160,7 @@ As such, your application must be restarted to upgrade the Istio proxy sidecars 
 For WebLogic applications, the WebLogic domain will undergo a hard restart. This will result in WebLogic application downtime as the domains get restarted.
 
 To trigger this restart, you can annotate the application configuration with the key `verrazzano.io/restart-version`.
+When the annotation is added or the value is modified, Verrazzano will initiate a restart of all the application components.
 Although the value of the annotation is insignificant to the upgrade, it is recommended to use whole number values to keep track of your upgrades.
 For example, you can annotate the Bob's Books example application by using the following command:
 
