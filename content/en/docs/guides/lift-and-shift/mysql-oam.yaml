@@ -3,21 +3,6 @@
 # Copyright (c) 2020, 2021, Oracle and/or its affiliates.
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 apiVersion: core.oam.dev/v1alpha2
-kind: ApplicationConfiguration
-metadata:
-  name: tododomain-mysql
-  namespace: tododomain
-  annotations:
-    version: v1.0.0
-    description: "tododomain mysql configuration"
-spec:
-  components:
-    # Added mysql components to the application topology
-    - componentName: todo-mysql-service
-    - componentName: todo-mysql-deployment
-    - componentName: todo-mysql-configmap
----
-apiVersion: core.oam.dev/v1alpha2
 kind: Component
 metadata:
   name: todo-mysql-service
@@ -32,7 +17,7 @@ spec:
     spec:
       ports:
         - port: 3306
-          name: tls-mysql
+          name: mysql
       selector:
         app: mysql
       clusterIP: None
