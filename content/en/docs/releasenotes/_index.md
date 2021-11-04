@@ -8,6 +8,7 @@ draft: false
 ### v1.0.3
 Fixes:
 - Fix to use load balancer service external IP address for application ingress when using an external load balancer and wildcard DNS.
+- Fixed scraping of Prometheus metrics for WebLogic workloads on managed clusters.
 - Rebuilt several component images to address known issues.
 - Updated to the following versions:
     - Grafana 6.7.4.
