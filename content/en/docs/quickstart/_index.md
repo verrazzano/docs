@@ -95,9 +95,10 @@ To install Verrazzano:
     The Verrazzano operator launches a Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) to install Verrazzano.  You can view the installation logs from that job with the following command:
 
     ```shell
-    $ kubectl logs -f \
+    $ kubectl logs -n verrazzano-install -f \
         $( \
           kubectl get pod \
+              -n verrazzano-install \
               -l job-name=verrazzano-install-example-verrazzano \
               -o jsonpath="{.items[0].metadata.name}" \
         )
@@ -202,9 +203,10 @@ To uninstall Verrazzano:
     The Verrazzano operator launches a Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) to delete the Verrazzano installation.  You can view the uninstall logs from that job with the following command:
 
     ```shell
-    $ kubectl logs -f \
+    $ kubectl logs -n verrazzano-install -f \
         $( \
           kubectl get pod \
+              -n verrazzano-install \
               -l job-name=verrazzano-uninstall-example-verrazzano \
               -o jsonpath="{.items[0].metadata.name}" \
         )
