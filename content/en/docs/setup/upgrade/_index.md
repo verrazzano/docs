@@ -144,3 +144,29 @@ vmi-system-kibana-85565975b5-7hfdf                       2/2     Running   0    
 vmi-system-prometheus-0-7bf464d898-czq8r                 4/4     Running   0          27h
 weblogic-operator-7db5cdcf59-qxsr9                       1/1     Running   0          27h
 ```
+
+## Upgrade applications in the Istio service mesh
+If your upgrade includes a minor version change to Istio, such as if you are upgrading from Verrazzano 1.0.x to 1.1.x, you must complete these additional actions to ensure that applications managed in the Istio mesh get upgraded properly.
+Before making any alterations to the application components, ensure that the Verrazzano Custom Resource status is `UpgradeComplete` and that all pods in the `verrazzano-system` namespace are in the `Running` state.
+
+### Restarting applications
+If your application namespace has the `istio-injection=enabled` label, then your application components are in the Istio service mesh.
+As such, your application must be restarted to upgrade the Istio proxy sidecars to the new version.
+For WebLogic applications only, the WebLogic domain will undergo a hard restart. This will result in a brief WebLogic application downtime as the domain restarts.
+
+To trigger this restart, you can annotate the application configuration with the key `verrazzano.io/restart-version`.
+When the annotation is added or the value is modified, Verrazzano will initiate a restart of all the application components.
+Although the value of the annotation is insignificant to the upgrade, we recommend that you use whole number values to help keep track of your upgrades.
+For example, you can annotate the Bob's Books example application by using the following command:
+
+```shell
+$ kubectl annotate appconfig bobs-books -n bobs-books verrazzano.io/restart-version="1" --overwrite
+```
+
+To verify that this example application configuration has been updated, this command will return the value of your annotation:
+
+```shell
+$ kubectl get appconfig bobs-books -n bobs-books -o jsonpath="{.metadata.annotations.verrazzano\.io/restart-version}"
+```
+
+After completing the annotations and restarting, verify that your application is up and running as expected.
