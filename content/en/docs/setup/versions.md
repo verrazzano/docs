@@ -43,7 +43,7 @@ component with its version and a brief description.
 | Elasticsearch | 7.6.1 | Provides a distributed, multitenant-capable full-text search engine.
 | ExternalDNS | 0.7.1 | Synchronizes exposed Kubernetes Services and ingresses with DNS providers.
 | Fluentd | 1.12.3 | Collects logs and sends them to Elasticsearch.
-| Grafana | 6.4.4 | Tool to help you study, analyze, and monitor metrics.
+| Grafana | 6.7.4 | Tool to help you study, analyze, and monitor metrics.
 | Istio | 1.7.3 | Service mesh that layers transparently onto existing distributed applications.
 | Keycloak | 10.0.1 | Provides single sign-on with Identity and Access Management.
 | Kibana | 7.6.1 | Provides search and data visualization capabilities for data indexed in Elasticsearch.
@@ -53,4 +53,4 @@ component with its version and a brief description.
 | OAM Kubernetes Runtime | 0.3.0 | Plug-in for implementing Open Application Model (OAM) control plane with Kubernetes.
 | Prometheus | 2.13.1 | Provides event monitoring and alerting.
 | Rancher | 2.5.9 | Manages multiple Kubernetes clusters.
-| WebLogic Kubernetes Operator | 3.3.0 | Assists with deploying and managing WebLogic domains.
+| WebLogic Kubernetes Operator | 3.3.3 | Assists with deploying and managing WebLogic domains.
