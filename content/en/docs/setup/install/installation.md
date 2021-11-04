@@ -94,6 +94,7 @@ To monitor the Console log output of the installation:
 ```shell
 $ kubectl -n verrazzano-install logs \
     -f $(kubectl get pod \
+    -n verrazzano-install \
     -l job-name=verrazzano-install-my-verrazzano \
     -o jsonpath="{.items[0].metadata.name}")
 ```
