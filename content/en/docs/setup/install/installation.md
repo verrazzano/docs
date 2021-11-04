@@ -92,7 +92,7 @@ you want to install.
 
 To monitor the Console log output of the installation:
 ```shell
-$ kubectl -n verrazzano-install logs \
+$ kubectl logs -n verrazzano-install \
     -f $(kubectl get pod \
     -n verrazzano-install \
     -l job-name=verrazzano-install-my-verrazzano \
