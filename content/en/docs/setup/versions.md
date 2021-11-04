@@ -47,7 +47,7 @@ component with its version and a brief description.
 | Istio | 1.7.3 | Service mesh that layers transparently onto existing distributed applications.
 | Keycloak | 10.0.2 | Provides single sign-on with Identity and Access Management.
 | Kibana | 7.6.1 | Provides search and data visualization capabilities for data indexed in Elasticsearch.
-| MySQL | 8.0.27 | Open source relational database management system used by Keycloak.
+| MySQL | 8.0.20 | Open source relational database management system used by Keycloak.
 | NGINX Ingress Controller | 0.46.0 | Traffic management solution for cloud‑native applications in Kubernetes.
 | Node Exporter | 1.0.0 | Prometheus exporter for hardware and OS metrics.
 | OAM Kubernetes Runtime | 0.3.0 | Plug-in for implementing Open Application Model (OAM) control plane with Kubernetes.

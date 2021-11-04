@@ -7,11 +7,10 @@ draft: false
 
 ### v1.0.3
 Fixes:
-- Fix to use load balancer service external IP for application ingress when using an external load balancer and wildcard DNS.
+- Fix to use load balancer service external IP address for application ingress when using an external load balancer and wildcard DNS.
 - Rebuilt several component images to address known issues.
 - Updated to the following versions:
     - Grafana 6.7.4.
-    - MySQL 8.0.27
     - WebLogic Kubernetes Operator 3.3.3.
 
 ### v1.0.2
