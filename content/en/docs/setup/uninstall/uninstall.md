@@ -19,8 +19,9 @@ $ MYVZ=$(kubectl  get vz -o jsonpath="{.items[0].metadata.name}")
 
 # Delete the Verrazzano custom resource
 $ kubectl delete verrazzano $MYVZ --wait=false
-$ kubectl logs \
+$ kubectl logs -n verrazzano-install \
     -f $(kubectl get pod \
+    -n verrazzano-install \
     -l job-name=verrazzano-uninstall-${MYVZ} \
     -o jsonpath="{.items[0].metadata.name}")
 ```
