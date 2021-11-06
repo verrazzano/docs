@@ -285,7 +285,8 @@ You can perform all the verification steps on the admin cluster.
 ### Verify that managed cluster metrics are being collected
 
 Verify that the admin cluster is collecting metrics from the managed cluster.  The Prometheus output will include 
-records that contain the name of the managed cluster (labeled as `managed_cluster`).
+records that contain the name of the managed cluster, labeled as `verrazzano_cluster`, in addition to admin cluster
+records which are labeled as `local`
 
 You can find the Prometheus UI URL for your cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/operations/_index.md" >}}).
 Execute a query for a metric (for example, `node_disk_io_time_seconds_total`).
@@ -294,7 +295,7 @@ Execute a query for a metric (for example, `node_disk_io_time_seconds_total`).
 
 ![Prometheus](/docs/images/multicluster/prometheus-multicluster.png)
 
-An alternative approach to using the Prometheus UI is to query metrics from the command line. Here is an example of how to obtain Prometheus metrics from the command line. Search the output of the query for responses that have the `managaged_cluster` field set to the name of the managed cluster.
+An alternative approach to using the Prometheus UI is to query metrics from the command line. Here is an example of how to obtain Prometheus metrics from the command line. Search the output of the query for responses that have the `verrazzano_cluster` field set to the name of the managed cluster.
    ```shell
    # On the admin cluster
    $ prometheusUrl=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
