@@ -22,11 +22,11 @@
 <meta property="og:description" content="How to uninstall Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/uninstall/uninstall/" />
-<meta property="article:modified_time" content="2021-09-07T17:47:33-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-11-06T16:40:21-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Uninstall">
 <meta itemprop="description" content="How to uninstall Verrazzano">
-<meta itemprop="dateModified" content="2021-09-07T17:47:33-04:00" />
-<meta itemprop="wordCount" content="91">
+<meta itemprop="dateModified" content="2021-11-06T16:40:21-04:00" />
+<meta itemprop="wordCount" content="96">
 
 
 
@@ -106,7 +106,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.96e4319c78515c3e74c804f56bc882e3.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.e7ec818efe310aa7fd11af4a21c01777.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -133,7 +133,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.96e4319c78515c3e74c804f56bc882e3.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.e7ec818efe310aa7fd11af4a21c01777.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -517,8 +517,9 @@ $ MYVZ=$(kubectl  get vz -o jsonpath=&quot;{.items[0].metadata.name}&quot;)
 
 # Delete the Verrazzano custom resource
 $ kubectl delete verrazzano $MYVZ --wait=false
-$ kubectl logs \
+$ kubectl logs -n verrazzano-install \
     -f $(kubectl get pod \
+    -n verrazzano-install \
     -l job-name=verrazzano-uninstall-${MYVZ} \
     -o jsonpath=&quot;{.items[0].metadata.name}&quot;)
 </code></pre>

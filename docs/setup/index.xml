@@ -31,7 +31,7 @@
 &lt;tr&gt;
 &lt;th&gt;Verrazzano&lt;/th&gt;
 &lt;th&gt;Release Date&lt;/th&gt;
-&lt;th&gt;Patch Releases&lt;/th&gt;
+&lt;th&gt;Latest Patch Release&lt;/th&gt;
 &lt;th&gt;Latest Patch Release Date&lt;/th&gt;
 &lt;th&gt;Kubernetes Versions&lt;/th&gt;
 &lt;/tr&gt;
@@ -40,8 +40,8 @@
 &lt;tr&gt;
 &lt;td&gt;1.0&lt;/td&gt;
 &lt;td&gt;2021-08-02&lt;/td&gt;
-&lt;td&gt;1.0.2&lt;/td&gt;
-&lt;td&gt;2021-10-25&lt;/td&gt;
+&lt;td&gt;1.0.3&lt;/td&gt;
+&lt;td&gt;2021-11-06&lt;/td&gt;
 &lt;td&gt;1.18, 1.19, 1.20&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -96,7 +96,7 @@ component with its version and a brief description.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Grafana&lt;/td&gt;
-&lt;td&gt;6.4.4&lt;/td&gt;
+&lt;td&gt;6.7.4&lt;/td&gt;
 &lt;td&gt;Tool to help you study, analyze, and monitor metrics.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -146,7 +146,7 @@ component with its version and a brief description.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;WebLogic Kubernetes Operator&lt;/td&gt;
-&lt;td&gt;3.3.2&lt;/td&gt;
+&lt;td&gt;3.3.3&lt;/td&gt;
 &lt;td&gt;Assists with deploying and managing WebLogic domains.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -199,8 +199,9 @@ $ MYVZ=$(kubectl  get vz -o jsonpath=&amp;quot;{.items[0].metadata.name}&amp;quo
 
 # Delete the Verrazzano custom resource
 $ kubectl delete verrazzano $MYVZ --wait=false
-$ kubectl logs \
+$ kubectl logs -n verrazzano-install \
     -f $(kubectl get pod \
+    -n verrazzano-install \
     -l job-name=verrazzano-uninstall-${MYVZ} \
     -o jsonpath=&amp;quot;{.items[0].metadata.name}&amp;quot;)
 &lt;/code&gt;&lt;/pre&gt;
@@ -242,7 +243,7 @@ will not have any impact on running applications.&lt;/p&gt;
 &lt;p&gt;Upgrade the Verrazzano platform operator.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; If you are using a private container registry, then to update the platform operator, follow the instructions at &lt;a href=&#34;../../docs/setup/private-registry/private-registry/&#34;&gt;Use a Private Registry&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;To upgrade to the latest version:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v1.0.2/operator.yaml
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v1.0.3/operator.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To upgrade to a specific version, where &lt;code&gt;&amp;lt;version&amp;gt;&lt;/code&gt; is the desired version:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/&amp;lt;version&amp;gt;/operator.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For example:&lt;/p&gt;

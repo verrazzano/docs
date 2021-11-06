@@ -31,15 +31,15 @@
 &lt;h2 id=&#34;create-the-application-namespace&#34;&gt;Create the application namespace&lt;/h2&gt;
 &lt;p&gt;Apply the VerrazzanoProject resource on the admin cluster that defines the namespace for the application.  The namespaces defined in the VerrazzanoProject resource will be created on the admin cluster and all the managed clusters.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; apply &lt;span style=&#34;color:#4e9a06&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.2/examples/multicluster/hello-helidon/verrazzano-project.yaml
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.3/examples/multicluster/hello-helidon/verrazzano-project.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;deploy-the-hello-world-helidon-application&#34;&gt;Deploy the Hello World Helidon application&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Apply the &lt;code&gt;hello-helidon&lt;/code&gt; multicluster resources to deploy the application.  Each multicluster resource is an envelope that contains an OAM resource and a list of clusters to which to deploy.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; apply &lt;span style=&#34;color:#4e9a06&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.2/examples/multicluster/hello-helidon/mc-hello-helidon-comp.yaml
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.3/examples/multicluster/hello-helidon/mc-hello-helidon-comp.yaml
 $ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; apply &lt;span style=&#34;color:#4e9a06&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.2/examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.3/examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the application to be ready on the managed cluster.&lt;/p&gt;
@@ -70,7 +70,7 @@ $ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_MANAGE
 &lt;li&gt;
 &lt;p&gt;To change the application&amp;rsquo;s location to the admin cluster, specify the change placement patch file.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# To change the placement to the admin cluster&lt;/span&gt;
-$ &lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;CHANGE_PLACEMENT_PATCH_FILE&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.2/examples/multicluster/hello-helidon/patch-change-placement-to-admin.yaml&amp;#34;&lt;/span&gt;
+$ &lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;CHANGE_PLACEMENT_PATCH_FILE&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.3/examples/multicluster/hello-helidon/patch-change-placement-to-admin.yaml&amp;#34;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This environment variable is used in subsequent steps.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
@@ -121,19 +121,19 @@ ready on the managed cluster.&lt;/p&gt;
 &lt;/ol&gt;
 &lt;p&gt;To return the application to the managed cluster named &lt;code&gt;managed1&lt;/code&gt;, set the value of the &lt;code&gt;CHANGE_PLACEMENT_PATCH_FILE&lt;/code&gt; environment variable to the patch file provided for that purpose, then repeat the previous numbered steps.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;   &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# To change the placement back to the managed cluster named managed1&lt;/span&gt;
-   $ &lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;CHANGE_PLACEMENT_PATCH_FILE&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.2/examples/multicluster/hello-helidon/patch-return-placement-to-managed1.yaml&amp;#34;&lt;/span&gt;
+   $ &lt;span style=&#34;color:#204a87&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;CHANGE_PLACEMENT_PATCH_FILE&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.3/examples/multicluster/hello-helidon/patch-return-placement-to-managed1.yaml&amp;#34;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;undeploy-the-hello-world-helidon-application&#34;&gt;Undeploy the Hello World Helidon application&lt;/h2&gt;
 &lt;p&gt;Regardless of its location, to undeploy the application,
 delete the multicluster resources and the project from the admin cluster:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Delete the multicluster application configuration&lt;/span&gt;
 $ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; delete &lt;span style=&#34;color:#4e9a06&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.2/examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.3/examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml
 &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Delete the multicluster components for the application&lt;/span&gt;
 $ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; delete &lt;span style=&#34;color:#4e9a06&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.2/examples/multicluster/hello-helidon/mc-hello-helidon-comp.yaml
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.3/examples/multicluster/hello-helidon/mc-hello-helidon-comp.yaml
 &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Delete the project&lt;/span&gt;
 $ kubectl --kubeconfig &lt;span style=&#34;color:#000&#34;&gt;$KUBECONFIG_ADMIN&lt;/span&gt; delete &lt;span style=&#34;color:#4e9a06&#34;&gt;\
-&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.2/examples/multicluster/hello-helidon/verrazzano-project.yaml
+&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.3/examples/multicluster/hello-helidon/verrazzano-project.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
       </description>
     </item>
@@ -164,14 +164,14 @@ listed in the &lt;code&gt;placement&lt;/code&gt; section.&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Create a namespace for the Sock Shop application by deploying the Verrazzano project.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
-    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.2/examples/multicluster/sock-shop/verrazzano-project.yaml
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.3/examples/multicluster/sock-shop/verrazzano-project.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Apply the Sock Shop OAM resources to deploy the application.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
-    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.2/examples/multicluster/sock-shop/sock-shop-comp.yaml
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.3/examples/multicluster/sock-shop/sock-shop-comp.yaml
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
-    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.2/examples/multicluster/sock-shop/sock-shop-app.yaml
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.3/examples/multicluster/sock-shop/sock-shop-app.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the Sock Shop application to be ready.&lt;/p&gt;
@@ -364,11 +364,11 @@ listed in the &lt;code&gt;placement&lt;/code&gt; section.&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Create a namespace for the multicluster ToDo List example by applying the Verrazzano project file.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
-    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.2/examples/multicluster/todo-list/verrazzano-project.yaml
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.3/examples/multicluster/todo-list/verrazzano-project.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Download the &lt;code&gt;mc-docker-registry-secret.yaml&lt;/code&gt; file.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ wget https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.2/examples/multicluster/todo-list/mc-docker-registry-secret.yaml
+&lt;pre&gt;&lt;code&gt;$ wget https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.3/examples/multicluster/todo-list/mc-docker-registry-secret.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Edit the &lt;code&gt;mc-docker-registry-secret.yaml&lt;/code&gt; file and replace the
@@ -390,8 +390,8 @@ resource will generate the required secret in the &lt;code&gt;mc-todo-list&lt;/c
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Download the &lt;code&gt;mc-weblogic-domain-secret.yaml&lt;/code&gt; and &lt;code&gt;mc-tododb-secret.yaml&lt;/code&gt; files.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ wget https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.2/examples/multicluster/todo-list/mc-weblogic-domain-secret.yaml
-$ wget https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.2/examples/multicluster/todo-list/mc-tododb-secret.yaml
+&lt;pre&gt;&lt;code&gt;$ wget https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.3/examples/multicluster/todo-list/mc-weblogic-domain-secret.yaml
+$ wget https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.3/examples/multicluster/todo-list/mc-tododb-secret.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Edit the &lt;code&gt;mc-weblogic-domain-secret.yaml&lt;/code&gt; and &lt;code&gt;mc-tododb-secret.yaml&lt;/code&gt; files,
@@ -408,10 +408,10 @@ $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply -f mc-tododb-secret.yaml
 &lt;li&gt;
 &lt;p&gt;Apply the multicluster component and application resources to deploy the ToDo List application.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
-    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.2/examples/multicluster/todo-list/todo-list-components.yaml
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.3/examples/multicluster/todo-list/todo-list-components.yaml
 
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
-    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.2/examples/multicluster/todo-list/todo-list-application.yaml
+    -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.0.3/examples/multicluster/todo-list/todo-list-application.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the ToDo List example application to be ready.  This
