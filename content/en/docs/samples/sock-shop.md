@@ -20,9 +20,10 @@ It uses OAM resources to define the application deployment.
 
 * [Coherence and Helidon](https://github.com/oracle/coherence-helidon-sockshop-sample) in the `helidon` subdirectory.
 * [Coherence and Micronaut](https://github.com/oracle/coherence-micronaut-sockshop-sample) in the `micronaut` subdirectory.
+* [Coherence and Spring](https://github.com/oracle/coherence-spring-sockshop-sample) in the `spring` subdirectory.
 
 **NOTE:** The following instructions are for the first variant.  To choose a different variant, change
-`helidon` to `micronaut` in the URLs for the YAML files.
+`helidon` to `micronaut` or `spring` in the URLs for the YAML files.
 
 1. Create a namespace for the Sock Shop application and add a label identifying the namespace as managed by Verrazzano.
    ```
