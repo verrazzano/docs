@@ -29,12 +29,11 @@ spec:
               namespace: todo-list
             spec:
               loggingImage: fluent/fleuntd-example-image # Replace with custom Fluentd Image
-              loggingConfig:
-                fluent.conf: "
-                  # Replace with Fluentd config file
-                  <match **>
-                  @type stdout
-                  </match>"
+              loggingConfig: |-
+                # Replace with Fluentd config file
+                <match **>
+                @type stdout
+                </match>
     - componentName: todo-jdbc-configmap
     - componentName: todo-mysql-configmap
     - componentName: todo-mysql-service
@@ -65,5 +64,5 @@ LoggingTraitSpec specifies the desired state of a logging trait.
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `loggingConfig` | map[string]string | A map of the Fluentd configuration file name and the configuration file details. | Yes |
+| `loggingConfig` | string | A string representation of the Fluentd configuration. | Yes |
 | `loggingImage` | string | The name of the custom Fluentd image. | Yes |
