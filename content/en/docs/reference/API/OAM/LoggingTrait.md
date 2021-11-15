@@ -28,10 +28,6 @@ spec:
               name: logging-trait-example
               namespace: todo-list
             spec:
-              workloadRef:
-                name: "todo-domain"
-                apiVersion: oam.verrazzano.io/v1alpha1
-                kind: VerrazzanoWebLogicWorkload
               loggingImage: fluent/fleuntd-example-image # Replace with custom Fluentd Image
               loggingConfig:
                 fluent.conf: "
@@ -71,13 +67,3 @@ LoggingTraitSpec specifies the desired state of a logging trait.
 | --- | --- | --- | --- |
 | `loggingConfig` | map[string]string | A map of the Fluentd configuration file name and the configuration file details. | Yes |
 | `loggingImage` | string | The name of the custom Fluentd image. | Yes |
-| `workloadRef` | [WorkloadReference](#workloadReference) | A reference to the desired workload. | Yes |
-
-#### WorkloadReference
-WorkloadReference specifies the desired workload information.
-
-| Field | Type | Description | Required
-| --- | --- | --- | --- |
-| `apiVersion` | string | API version of the desired workload. | Yes |
-| `kind` | string | Kind of desired workload. | Yes |
-| `metadata` | ObjectMeta | Refer to Kubernetes API documentation for fields of metadata. | No |
