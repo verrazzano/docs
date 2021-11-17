@@ -234,3 +234,38 @@ Follow these steps to test the endpoints:
     shipping-coh-0   1/1     Running       0          36s
     users-coh-0      1/1     Running       0          35s
    ```
+## Undeploy the application
+
+1. To undeploy the application, delete the Sock Shop OAM resources.  Choose to undeploy either the `helidon`, `micronaut` or `spring` variant.
+
+   {{< tabs tabTotal="3" tabID="4" tabName1="Helidon" tabName2="Micronaut" tabName3="Spring">}}
+   {{< tab tabNum="1" >}}
+   <br>
+
+   ```
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/sock-shop/helidon/sock-shop-comp.yaml >}}
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/sock-shop/helidon/sock-shop-app.yaml >}}
+   ```
+   {{< /tab >}}
+   {{< tab tabNum="2" >}}
+   <br>
+
+   ```
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/sock-shop/micronaut/sock-shop-comp.yaml >}}
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/sock-shop/micronaut/sock-shop-app.yaml >}}
+   ```
+   {{< /tab >}}
+   {{< tab tabNum="3" >}}
+   <br>
+
+   ```
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/sock-shop/spring/sock-shop-comp.yaml >}}
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/sock-shop/spring/sock-shop-app.yaml >}}
+   ```
+   {{< /tab >}}
+   {{< /tabs >}}
+
+2. Delete the namespace `sockshop` after the application pod is terminated.
+   ```
+   $ kubectl delete namespace sockshop
+   ```
