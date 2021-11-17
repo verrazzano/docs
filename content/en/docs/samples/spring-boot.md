@@ -64,12 +64,17 @@ This example provides a simple web application developed using [Spring Boot](htt
 
    * **Using the command line**
      ```
+     # The expected response of this query is the HTML of a web page
      $ curl -sk \
          https://${HOST} \
          --resolve ${HOST}:443:${ADDRESS}
+     
      $ curl -sk \
          https://${HOST}/facts \
          --resolve ${HOST}:443:${ADDRESS}
+     
+     # Sample output
+     In 1524, Verazzano became the first European to enter the New York Harbor and the Hudson River.
      ```
      If you are using `nip.io`, then you do not need to include `--resolve`.
    * **Local testing with a browser**
@@ -80,7 +85,7 @@ This example provides a simple web application developed using [Spring Boot](htt
      Use the result of `$HOST` for the host name and `$ADDRESS` for the address.
      For example:
      ```
-     11.22.33.44 springboot-appconf.springboot.11.22.33.44.nip.io
+     11.22.33.44 springboot.example.com
      ```
      Then, you can access the application in a browser at `https://springboot.example.com/` and `https://springboot.example.com/facts`.
 
