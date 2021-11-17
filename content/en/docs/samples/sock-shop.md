@@ -28,9 +28,9 @@ It uses OAM resources to define the application deployment.
    $ kubectl label namespace sockshop verrazzano-managed=true
    ```
 
-1. To deploy the application, apply the Sock Shop OAM resources.  Choose to deploy either the `helidon` to `micronaut` or `spring` variant.
+1. To deploy the application, apply the Sock Shop OAM resources.  Choose to deploy either the `helidon`, `micronaut` or `spring` variant.
 
-   {{< tabs tabTotal="3" tabID="3" tabName1="Helidon" tabName2="Micronaut" tabName3="Sprint">}}
+   {{< tabs tabTotal="3" tabID="3" tabName1="Helidon" tabName2="Micronaut" tabName3="Spring">}}
    {{< tab tabNum="1" >}}
    <br>
 
@@ -143,6 +143,9 @@ Follow these steps to test the endpoints:
      $ curl -i \
         -k https://${HOST}/carts/{username}/items \
         --resolve ${HOST}:443:${ADDRESS}
+     
+     # Sample output
+     [{"itemId":"a0a4f044-b040-410d-8ead-4de0446aec7e","quantity":1,"unitPrice":7.99}]
      ```
      If you are using `nip.io`, then you do not need to include `--resolve`.
 
