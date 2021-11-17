@@ -156,3 +156,15 @@ Follow these steps to test the endpoints:
     NAME                                      READY   STATUS    RESTARTS   AGE
     hello-helidon-workload-676d97c7d4-wkrj2   2/2     Running   0          5m39s
    ```
+## Undeploy the application
+
+1. To undeploy the application, delete the Hello World Helidon OAM resources.
+   ```
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-app.yaml >}}
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-comp.yaml >}}
+   ```
+
+1. Delete the namespace `hello-helidon` after the application pod is terminated.
+   ```
+   $ kubectl delete namespace hello-helidon
+   ```
