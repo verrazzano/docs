@@ -51,7 +51,7 @@ Follow these steps to test the endpoints:
         -o jsonpath='{.spec.servers[0].hosts[0]}')
    $ echo $HOST
    
-   # Sample output of the echo $HOST
+   # Sample output
    hello-helidon-appconf.hello-helidon.11.22.33.44.nip.io
    ```
 
@@ -62,7 +62,7 @@ Follow these steps to test the endpoints:
         -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
    $ echo $ADDRESS
    
-   # Sample output of the echo $ADDRESS
+   # Sample output
    11.22.33.44
    ```   
 
@@ -120,13 +120,13 @@ Follow these steps to test the endpoints:
          $ kubectl get ingress -n verrazzano-system
       
          # Sample output
-         NAME                     CLASS    HOSTS                                                 ADDRESS       PORTS     AGE
-         verrazzano-ingress       <none>   verrazzano.default.11.22.33.44.nip.io                 11.22.33.44   80, 443   7d
-         vmi-system-es-ingest     <none>   elasticsearch.vmi.system.default.11.22.33.44.nip.io   11.22.33.44   80, 443   7d
-         vmi-system-grafana       <none>   grafana.vmi.system.default.11.22.33.44.nip.io         11.22.33.44   80, 443   7d
-         vmi-system-kiali         <none>   kiali.vmi.system.default.11.22.33.44.nip.io           11.22.33.44   80, 443   7d
-        vmi-system-kibana        <none>   kibana.vmi.system.default.11.22.33.44.nip.io          11.22.33.44   80, 443   7d
-         vmi-system-prometheus    <none>   prometheus.vmi.system.default.11.22.33.44.nip.io      11.22.33.44   80, 443   7d
+         NAME                    CLASS    HOSTS                                                 ADDRESS       PORTS     AGE
+         verrazzano-ingress      <none>   verrazzano.default.11.22.33.44.nip.io                 11.22.33.44   80, 443   7d
+         vmi-system-es-ingest    <none>   elasticsearch.vmi.system.default.11.22.33.44.nip.io   11.22.33.44   80, 443   7d
+         vmi-system-grafana      <none>   grafana.vmi.system.default.11.22.33.44.nip.io         11.22.33.44   80, 443   7d
+         vmi-system-kiali        <none>   kiali.vmi.system.default.11.22.33.44.nip.io           11.22.33.44   80, 443   7d
+        vmi-system-kibana       <none>   kibana.vmi.system.default.11.22.33.44.nip.io          11.22.33.44   80, 443   7d
+         vmi-system-prometheus   <none>   prometheus.vmi.system.default.11.22.33.44.nip.io      11.22.33.44   80, 443   7d
          ```  
 
          Using the ingress host information, some of the endpoints available are:
@@ -152,7 +152,7 @@ Follow these steps to test the endpoints:
    ```
     $ kubectl get pods -n hello-helidon
 
-    # Sample output get pods
+    # Sample output
     NAME                                      READY   STATUS    RESTARTS   AGE
     hello-helidon-workload-676d97c7d4-wkrj2   2/2     Running   0          5m39s
    ```
