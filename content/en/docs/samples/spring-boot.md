@@ -44,6 +44,8 @@ This example provides a simple web application developed using [Spring Boot](htt
         -n springboot \
         -o jsonpath={.items[0].spec.servers[0].hosts[0]})
    $ echo $HOST
+   
+   # Sample output
    springboot-appconf.springboot.11.22.33.44.nip.io
    ```
 
@@ -53,6 +55,8 @@ This example provides a simple web application developed using [Spring Boot](htt
         -n istio-system istio-ingressgateway \
         -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
    $ echo $ADDRESS
+   
+   # Sample output
    11.22.33.44
    ```   
 
@@ -73,9 +77,10 @@ This example provides a simple web application developed using [Spring Boot](htt
      Temporarily, modify the `/etc/hosts` file (on Mac or Linux)
      or `c:\Windows\System32\Drivers\etc\hosts` file (on Windows 10),
      to add an entry mapping the host name to the ingress gateway's `EXTERNAL-IP` address.
+     Use the result of `$HOST` for the host name and `$ADDRESS` for the address.
      For example:
      ```
-     11.22.33.44 springboot.example.com
+     11.22.33.44 springboot-appconf.springboot.11.22.33.44.nip.io
      ```
      Then, you can access the application in a browser at `https://springboot.example.com/` and `https://springboot.example.com/facts`.
 
@@ -109,12 +114,15 @@ This example provides a simple web application developed using [Spring Boot](htt
 
    ```
    $ kubectl get ingress -n verrazzano-system
-   NAME                         CLASS    HOSTS                                                     ADDRESS           PORTS     AGE
-   verrazzano-ingress           <none>   verrazzano.default.140.141.142.143.nip.io                 140.141.142.143   80, 443   7d2h
-   vmi-system-es-ingest         <none>   elasticsearch.vmi.system.default.140.141.142.143.nip.io   140.141.142.143   80, 443   7d2h
-   vmi-system-grafana           <none>   grafana.vmi.system.default.140.141.142.143.nip.io         140.141.142.143   80, 443   7d2h
-   vmi-system-kibana            <none>   kibana.vmi.system.default.140.141.142.143.nip.io          140.141.142.143   80, 443   7d2h
-   vmi-system-prometheus        <none>   prometheus.vmi.system.default.140.141.142.143.nip.io      140.141.142.143   80, 443   7d2h
+      
+   # Sample output
+   NAME                    CLASS    HOSTS                                                 ADDRESS       PORTS     AGE
+   verrazzano-ingress      <none>   verrazzano.default.11.22.33.44.nip.io                 11.22.33.44   80, 443   7d
+   vmi-system-es-ingest    <none>   elasticsearch.vmi.system.default.11.22.33.44.nip.io   11.22.33.44   80, 443   7d
+   vmi-system-grafana      <none>   grafana.vmi.system.default.11.22.33.44.nip.io         11.22.33.44   80, 443   7d
+   vmi-system-kiali        <none>   kiali.vmi.system.default.11.22.33.44.nip.io           11.22.33.44   80, 443   7d
+   vmi-system-kibana       <none>   kibana.vmi.system.default.11.22.33.44.nip.io          11.22.33.44   80, 443   7d
+   vmi-system-prometheus   <none>   prometheus.vmi.system.default.11.22.33.44.nip.io      11.22.33.44   80, 443   7d
     ```
 
    Using the ingress host information, some of the endpoints available are:
@@ -124,6 +132,7 @@ This example provides a simple web application developed using [Spring Boot](htt
    | Kibana      | `https://[vmi-system-kibana ingress host]`     | `verrazzano`/`telemetry-password` |
    | Grafana     | `https://[vmi-system-grafana ingress host]`    | `verrazzano`/`telemetry-password` |
    | Prometheus  | `https://[vmi-system-prometheus ingress host]` | `verrazzano`/`telemetry-password` |
+   | Kiali | `https://[vmi-system-kiali ingress host]` | `verrazzano`/`telemetry-password` |    
 
 
 ## Undeploy the application   
