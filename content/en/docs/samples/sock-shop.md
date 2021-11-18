@@ -264,7 +264,7 @@ Follow these steps to test the endpoints:
    {{< /tab >}}
    {{< /tabs >}}
 
-2. Delete the namespace `sockshop` after the application pod is terminated.
+2. Delete the namespace `sockshop` after the application pods are terminated.
    ```
    $ kubectl delete namespace sockshop
    ```
