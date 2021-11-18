@@ -14,6 +14,13 @@ listed in the `placement` section.
   * Search for `example-todo` and select the image name in the results.
   * Click Continue, then read and accept the license agreement.
 
+Setup the following environment variables to point to the kubeconfig for the admin and managed clusters.
+
+```
+$ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
+$ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
+```
+
 **NOTE:** The ToDo List application deployment files are contained in the Verrazzano project located at
 `<VERRAZZANO_HOME>/examples/multicluster/todo-list`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
 

@@ -10,6 +10,13 @@ It uses OAM resources to define the application deployment in a multicluster env
 If your environment does not have a cluster of that name, then you should edit the deployment files and change the cluster name
 listed in the `placement` section.
 
+Setup the following environment variables to point to the kubeconfig for the admin and managed clusters.
+
+```
+$ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
+$ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
+```
+
 **NOTE:** The Sock Shop application deployment files are contained in the Verrazzano project located at
 `<VERRAZZANO_HOME>/examples/multicluster/sockshop`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
 
