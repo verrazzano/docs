@@ -205,7 +205,8 @@ It is recommended that the WebLogic Server Administration Console _not_ be expos
    Note that this may take a few minutes and that you may see some of the services terminate and restart.
    ```
    $ kubectl get pods -n bobs-books
-
+   
+   # Sample output
    NAME                                                READY   STATUS    RESTARTS   AGE
    bobbys-helidon-stock-application-868b5965c8-dk2xb   3/3     Running   0          19h
    bobbys-coherence-0                                  2/2     Running   0          19h
