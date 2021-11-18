@@ -219,3 +219,15 @@ It is recommended that the WebLogic Server Administration Console _not_ be expos
    roberts-coherence-0                                 2/2     Running   0          17h
    roberts-coherence-1                                 2/2     Running   0          17h
    ```
+## Undeploy the application
+
+1. To undeploy the application, delete the Bob's Books OAM resources.
+   ```
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/bobs-books/bobs-books-app.yaml >}}
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/bobs-books/bobs-books-comp.yaml >}}
+   ```
+
+1. Delete the namespace `bobs-books` after the application pods are terminated. The secrets created for the WebLogic domain will also be deleted.
+   ```
+   $ kubectl delete namespace bobs-books
+   ```

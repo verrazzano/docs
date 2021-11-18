@@ -228,3 +228,15 @@ It is recommended that the WebLogic Server Administration Console _not_ be expos
    mysql-5c75c8b7f-vlhck    1/1     Running   0          19h
    tododomain-adminserver   2/2     Running   0          19h
    ```
+## Undeploy the application
+
+1. To undeploy the application, delete the ToDo List OAM resources.
+   ```
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/todo-list/todo-list-application.yaml >}}
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/todo-list/todo-list-components.yaml >}}
+   ```
+
+1. Delete the namespace `todo-list` after the application pods are terminated. The secrets created for the WebLogic domain will also be deleted.
+   ```
+   $ kubectl delete namespace todo-list
+   ```
