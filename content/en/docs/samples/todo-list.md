@@ -89,6 +89,8 @@ you can use the `kubectl wait` command. You may need to repeat the `kubectl wait
         -n todo-list \
         -o jsonpath='{.items[0].spec.servers[0].hosts[0]}')
    $ echo $HOST
+   
+   # Sample output
    todo-appconf.todo-list.10.11.12.13.nip.io
    ```
 
@@ -98,6 +100,8 @@ you can use the `kubectl wait` command. You may need to repeat the `kubectl wait
         -n istio-system istio-ingressgateway \
         -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
    $ echo $ADDRESS
+   
+   # Sample output
    10.11.12.13
    ```   
 
@@ -105,6 +109,7 @@ you can use the `kubectl wait` command. You may need to repeat the `kubectl wait
 
    * **Using the command line**
      ```
+     # The expected response of this query is the HTML of a web page
      $ curl -sk \
         https://${HOST}/todo/ \
         --resolve ${HOST}:443:${ADDRESS}
@@ -120,6 +125,9 @@ you can use the `kubectl wait` command. You may need to repeat the `kubectl wait
      10.11.12.13 todo.example.com
      ```
      Then, you can access the application in a browser at `https://todo.example.com/todo`.
+
+     If you are using `nip.io`, then you can access the application in a browser using the `HOST` variable (for example, `https://${HOST}/todo`).  If you are going through a proxy, you may need to add `*.nip.io` to the `NO_PROXY` list.
+   
    * **Using your own DNS name**
      * Point your own DNS name to the ingress gateway's `EXTERNAL-IP` address.
      * In this case, you would need to have edited the `todo-list-application.yaml` file
@@ -148,12 +156,15 @@ you can use the `kubectl wait` command. You may need to repeat the `kubectl wait
 
    ```
    $ kubectl get ingress -n verrazzano-system
-   NAME                         CLASS    HOSTS                                                     ADDRESS           PORTS     AGE
-   verrazzano-ingress           <none>   verrazzano.default.10.11.12.13.nip.io                 10.11.12.13   80, 443   7d2h
-   vmi-system-es-ingest         <none>   elasticsearch.vmi.system.default.10.11.12.13.nip.io   10.11.12.13   80, 443   7d2h
-   vmi-system-grafana           <none>   grafana.vmi.system.default.10.11.12.13.nip.io         10.11.12.13   80, 443   7d2h
-   vmi-system-kibana            <none>   kibana.vmi.system.default.10.11.12.13.nip.io          10.11.12.13   80, 443   7d2h
-   vmi-system-prometheus        <none>   prometheus.vmi.system.default.10.11.12.13.nip.io      10.11.12.13   80, 443   7d2h
+   
+   # Sample output
+   NAME                    CLASS    HOSTS                                                 ADDRESS       PORTS     AGE
+   verrazzano-ingress      <none>   verrazzano.default.11.22.33.44.nip.io                 11.22.33.44   80, 443   7d
+   vmi-system-es-ingest    <none>   elasticsearch.vmi.system.default.11.22.33.44.nip.io   11.22.33.44   80, 443   7d
+   vmi-system-grafana      <none>   grafana.vmi.system.default.11.22.33.44.nip.io         11.22.33.44   80, 443   7d
+   vmi-system-kiali        <none>   kiali.vmi.system.default.11.22.33.44.nip.io           11.22.33.44   80, 443   7d
+   vmi-system-kibana       <none>   kibana.vmi.system.default.11.22.33.44.nip.io          11.22.33.44   80, 443   7d
+   vmi-system-prometheus   <none>   prometheus.vmi.system.default.11.22.33.44.nip.io      11.22.33.44   80, 443   7d
    ```
 
    Using the ingress host information, some of the endpoints available are:
@@ -163,6 +174,7 @@ you can use the `kubectl wait` command. You may need to repeat the `kubectl wait
    | Kibana      | `https://[vmi-system-kibana ingress host]`     | `verrazzano`/`telemetry-password` |
    | Grafana     | `https://[vmi-system-grafana ingress host]`    | `verrazzano`/`telemetry-password` |
    | Prometheus  | `https://[vmi-system-prometheus ingress host]` | `verrazzano`/`telemetry-password` |
+   | Kiali | `https://[vmi-system-kiali ingress host]` | `verrazzano`/`telemetry-password` |    
 
 ## Access the WebLogic Server Administration Console
 
@@ -188,14 +200,20 @@ It is recommended that the WebLogic Server Administration Console _not_ be expos
 1. Verify that the application configuration, domain, and ingress trait all exist.
    ```
    $ kubectl get ApplicationConfiguration -n todo-list
+   
+   # Sample output
    NAME           AGE
    todo-appconf   19h
 
    $ kubectl get Domain -n todo-list
+
+   # Sample output
    NAME          AGE
    todo-domain   19h
 
    $ kubectl get IngressTrait -n todo-list
+   
+   # Sample output
    NAME                           AGE
    todo-domain-trait-7cbd798c96   19h
    ```
@@ -205,6 +223,7 @@ It is recommended that the WebLogic Server Administration Console _not_ be expos
    ```
    $ kubectl get pods -n todo-list
 
+   # Sample output
    NAME                     READY   STATUS    RESTARTS   AGE
    mysql-5c75c8b7f-vlhck    1/1     Running   0          19h
    tododomain-adminserver   2/2     Running   0          19h
