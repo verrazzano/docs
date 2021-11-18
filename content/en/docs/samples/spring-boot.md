@@ -82,7 +82,6 @@ This example provides a simple web application developed using [Spring Boot](htt
      Temporarily, modify the `/etc/hosts` file (on Mac or Linux)
      or `c:\Windows\System32\Drivers\etc\hosts` file (on Windows 10),
      to add an entry mapping the host name to the ingress gateway's `EXTERNAL-IP` address.
-     Use the result of `$HOST` for the host name and `$ADDRESS` for the address.
      For example:
      ```
      11.22.33.44 springboot.example.com

@@ -84,12 +84,13 @@ Follow these steps to test the endpoints:
      Temporarily, modify the `/etc/hosts` file (on Mac or Linux)
      or `c:\Windows\System32\Drivers\etc\hosts` file (on Windows 10),
      to add an entry mapping the host name to the ingress gateway's `EXTERNAL-IP` address.
-     Use the result of `$HOST` for the host name and `$ADDRESS` for the address.
      For example:
      ```
-     11.22.33.44 hello-helidon-appconf.hello-helidon.11.22.33.44.nip.io
+     11.22.33.44 hello-helidon.example.com
      ```
      Then you can access the application in a browser at `https://<host>/greet`.
+
+     If you are using `nip.io`, then you can access the application in a browser using the `HOST` variable (for example, `https://${HOST}/greet`).  If you are going through a proxy, you may need to add `*.nip.io` to the `NO_PROXY` list.
 
    * **Using your own DNS name**
      * Point your own DNS name to the ingress gateway's `EXTERNAL-IP` address.
