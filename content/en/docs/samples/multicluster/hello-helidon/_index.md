@@ -122,12 +122,12 @@ By default, the application is located on the managed cluster called `managed1`.
 
 1. Now, you can test the example application running in its new location.
 
-To return the application to the managed cluster named `managed1`, set the value of the `CHANGE_PLACEMENT_PATCH_FILE` environment variable to the patch file provided for that purpose, then repeat the previous numbered steps.
+   To return the application to the managed cluster named `managed1`, set the value of the `CHANGE_PLACEMENT_PATCH_FILE` environment variable to the patch file provided for that purpose, then repeat the previous numbered steps.
 
-```shell
+   ```shell
    # To change the placement back to the managed cluster named managed1
    $ export CHANGE_PLACEMENT_PATCH_FILE="{{< release_source_url raw=true path=examples/multicluster/hello-helidon/patch-return-placement-to-managed1.yaml >}}"
-```
+   ```
 
 ## Undeploy the Hello World Helidon application
 
