@@ -222,13 +222,13 @@ Undeploy affects all clusters in which the application is located.
     -f {{< release_source_url raw=true path=examples/multicluster/todo-list/todo-list-components.yaml >}}
    ```
 
-2. Delete the project
+1. Delete the project
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
     -f {{< release_source_url raw=true path=examples/multicluster/todo-list/verrazzano-project.yaml >}}
    ```
 
-3. Delete the namespace `mc-todo-list` after the application pods are terminated. The secrets created for the WebLogic domain will also be deleted.
+1. Delete the namespace `mc-todo-list` after the application pods are terminated. The secrets created for the WebLogic domain will also be deleted.
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete namespace mc-todo-list
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 delete namespace mc-todo-list
