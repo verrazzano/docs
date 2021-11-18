@@ -106,18 +106,23 @@ For more information and the source code of this application, see the [Verrazzan
 
 1. Get the `EXTERNAL_IP` address of the `istio-ingressgateway` service.
     ```
-    $ kubectl get service \
-        -n "istio-system" "istio-ingressgateway" \
-        -o jsonpath={.status.loadBalancer.ingress[0].ip}
-
+    $ ADDRESS=$(kubectl get service \
+        -n istio-system istio-ingressgateway \
+        -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    $ echo $ADDRESS
+   
+    # Sample output
     11.22.33.44
     ```
 
 1. Get the generated host name for the application.
    ```
-   $ kubectl get gateway bobs-books-bobs-books-gw \
+   $ HOST=$(kubectl get gateway bobs-books-bobs-books-gw \
        -n bobs-books \
-       -o jsonpath={.spec.servers[0].hosts[0]}
+       -o jsonpath='{.spec.servers[0].hosts[0]}')
+   $ echo $HOST
+   
+   # Sample output
    bobs-books.bobs-books.11.22.33.44.nip.io
    ```
 
