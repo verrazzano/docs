@@ -148,5 +148,4 @@ $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
 # Delete the namespace created on the admin and managed clusters
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete namespace hello-helidon
 $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 delete namespace hello-helidon
-
 ```
