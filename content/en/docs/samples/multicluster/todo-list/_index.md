@@ -214,17 +214,22 @@ Regardless of its location, to undeploy the application,
 delete the application resources and the project from the admin cluster.
 Undeploy affects all clusters in which the application is located.
 
-```shell
-# Delete the multicluster application configuration
-$ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
+1. To undeploy the application, delete the ToDo List OAM resources.
+   ```
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
     -f {{< release_source_url raw=true path=examples/multicluster/todo-list/mc-todo-list-application.yaml >}}
-# Delete the components for the application
-$ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
     -f {{< release_source_url raw=true path=examples/multicluster/todo-list/todo-list-components.yaml >}}
-# Delete the project
-$ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
+   ```
+
+2. Delete the project
+   ```
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
     -f {{< release_source_url raw=true path=examples/multicluster/todo-list/verrazzano-project.yaml >}}
-# Delete the namespace created on the admin and managed clusters
-$ kubectl --kubeconfig $KUBECONFIG_ADMIN delete namespace mc-todo-list
-$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 delete namespace mc-todo-list
-```
+   ```
+
+3. Delete the namespace `mc-todo-list` after the application pods are terminated. The secrets created for the WebLogic domain will also be deleted.
+   ```
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete namespace mc-todo-list
+   $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 delete namespace mc-todo-list
+   ```
