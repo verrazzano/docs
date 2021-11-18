@@ -6,6 +6,13 @@ The Hello World Helidon example is a Helidon-based service that returns a "Hello
 
 Create a multicluster Verrazzano installation with one admin and one managed cluster, and register the managed cluster, by following the instructions [here]({{< relref "/docs/setup/install/multicluster/_index.md" >}}).
 
+Setup the following environment variables to point to the kubeconfig for the admin and managed clusters.
+
+```
+$ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
+$ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
+```
+
 **NOTE:**  The Hello World Helidon application deployment files are contained in the Verrazzano project located at
 `<VERRAZZANO_HOME>/examples/multicluster/hello-helidon`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
 
@@ -70,13 +77,19 @@ By default, the application is located on the managed cluster called `managed1`.
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN patch mcappconf hello-helidon-appconf \
        -n hello-helidon \
        --type merge \
-       --patch "$(cat $CHANGE_PLACEMENT_PATCH_FILE)"
+       --patch "$(curl -s $CHANGE_PLACEMENT_PATCH_FILE)"
+   
+   # Expected response
+   multiclusterapplicationconfiguration.clusters.verrazzano.io/hello-helidon-appconf patched
    ```
 1. To verify that its placement has changed, view the multicluster resource.
    ```shell
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN get mcappconf hello-helidon-appconf \
        -n hello-helidon \
        -o jsonpath='{.spec.placement}';echo
+   
+   # Expected response
+   {"clusters":[{"name":"local"}]}
    ```
    The cluster
       name, `local`, indicates placement in the admin cluster.
@@ -86,7 +99,10 @@ By default, the application is located on the managed cluster called `managed1`.
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN patch vp hello-helidon \
        -n verrazzano-mc \
        --type merge \
-       --patch "$(cat $CHANGE_PLACEMENT_PATCH_FILE)"
+       --patch "$(curl -s $CHANGE_PLACEMENT_PATCH_FILE)"
+   
+   # Expected response
+   verrazzanoproject.clusters.verrazzano.io/hello-helidon patched
    ```
 1. Wait for the application to be ready on the admin cluster.
    ```shell
@@ -129,4 +145,8 @@ $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
 # Delete the project
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
     -f {{< release_source_url raw=true path=examples/multicluster/hello-helidon/verrazzano-project.yaml >}}
+# Delete the namespace created on the admin and managed clusters
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN delete namespace hello-helidon
+$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 delete namespace hello-helidon
+
 ```
