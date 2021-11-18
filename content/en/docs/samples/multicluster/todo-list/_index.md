@@ -33,48 +33,39 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
        -f {{< release_source_url raw=true path=examples/multicluster/todo-list/verrazzano-project.yaml >}}
    ```
 
-1. Download the `docker-registry-secret.yaml` file.
+1. Create a `docker-registry` secret to enable pulling the ToDo List example image from the registry.
    ```
-   $ wget {{< release_source_url raw=true path=examples/multicluster/todo-list/docker-registry-secret.yaml >}}
+   $ kubectl create secret docker-registry tododomain-repo-credentials \
+           --docker-server=container-registry.oracle.com \
+           --docker-username=YOUR_REGISTRY_USERNAME \
+           --docker-password=YOUR_REGISTRY_PASSWORD \
+           --docker-email=YOUR_REGISTRY_EMAIL \
+           -n mc-todo-list
    ```
 
-1. Edit the `docker-registry-secret.yaml` file and replace the
-`<BASE 64 ENCODED DOCKER CONFIG JSON>` placeholder with the value generated from the following command.
-   ```
-   $ kubectl --kubeconfig $KUBECONFIG_ADMIN create secret docker-registry temp \
-       --dry-run=client \
-       --docker-server=container-registry.oracle.com \
-       --docker-username=YOUR_REGISTRY_USERNAME \
-       --docker-password=YOUR_REGISTRY_PASSWORD \
-       --docker-email=YOUR_REGISTRY_EMAIL \
-       -o jsonpath='{.data.\.dockerconfigjson}'; echo
-   ```
    Replace `YOUR_REGISTRY_USERNAME`, `YOUR_REGISTRY_PASSWORD`, and `YOUR_REGISTRY_EMAIL`
    with the values you use to access the registry.
 
-1. Apply the `docker-registry-secret.yaml` file to create the secret.
+1. Create and label secrets for the WebLogic domain:
    ```
-   $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply -f docker-registry-secret.yaml
+   # Replace the values of the WLS_USERNAME and WLS_PASSWORD environment variables as appropriate.
+   $ export WLS_USERNAME=<username>
+   $ export WLS_PASSWORD=<password>
+   $ kubectl create secret generic tododomain-weblogic-credentials \
+       --from-literal=password=$WLS_PASSWORD \
+       --from-literal=username=$WLS_USERNAME \
+       -n mc-todo-list
+
+   $ kubectl create secret generic tododomain-jdbc-tododb \
+       --from-literal=username=$WLS_USERNAME \
+       --from-literal=password=$WLS_PASSWORD \
+       -n mc-todo-list
+
+   $ kubectl -n mc-todo-list label secret tododomain-jdbc-tododb weblogic.domainUID=tododomain
    ```
 
-1. Download the `weblogic-domain-secret.yaml` and `tododb-secret.yaml` files.
-   ```
-   $ wget {{< release_source_url raw=true path=examples/multicluster/todo-list/weblogic-domain-secret.yaml >}}
-   $ wget {{< release_source_url raw=true path=examples/multicluster/todo-list/tododb-secret.yaml >}}
-   ```
-
-1. Edit the `weblogic-domain-secret.yaml` and `tododb-secret.yaml` files,
-replacing the `THE_USERNAME` and `THE_PASSWORD` placeholders with the respective WebLogic user name and password.
-   ```
-      username: THE_USERNAME
-      password: THE_PASSWORD
-   ```
-
-1. Apply the `weblogic-domain-secret.yaml` and `tododb-secret.yaml` files.
-   ```
-   $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply -f weblogic-domain-secret.yaml
-   $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply -f tododb-secret.yaml
-   ```
+   Note that the ToDo List example application is preconfigured to use specific secret names.
+   For the source code of this application, see the [Verrazzano Examples](https://github.com/verrazzano/examples).
 
 1. Apply the component and multicluster application resources to deploy the ToDo List application.
    ```
@@ -100,6 +91,8 @@ replacing the `THE_USERNAME` and `THE_PASSWORD` placeholders with the respective
          -n mc-todo-list \
          -o jsonpath='{.items[0].spec.servers[0].hosts[0]}')
    $ echo $HOST
+   
+   # Sample output
    todo-appconf.mc-todo-list.11.22.33.44.nip.io
    ```
 
@@ -109,6 +102,8 @@ replacing the `THE_USERNAME` and `THE_PASSWORD` placeholders with the respective
         -n istio-system istio-ingressgateway \
         -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
    $ echo $ADDRESS
+   
+   # Sample output
    11.22.33.44
    ```   
 
@@ -116,6 +111,7 @@ replacing the `THE_USERNAME` and `THE_PASSWORD` placeholders with the respective
 
    * **Using the command line**
      ```
+     # The expected response of this query is the HTML of a web page
      $ curl -sk https://${HOST}/todo/ \
          --resolve ${HOST}:443:${ADDRESS}
      ```
@@ -158,12 +154,15 @@ replacing the `THE_USERNAME` and `THE_PASSWORD` placeholders with the respective
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN get ingress -n verrazzano-system
-   NAME                         CLASS    HOSTS                                                     ADDRESS           PORTS     AGE
-   verrazzano-ingress           <none>   verrazzano.default.140.141.142.143.nip.io                 140.141.142.143   80, 443   7d2h
-   vmi-system-es-ingest         <none>   elasticsearch.vmi.system.default.140.141.142.143.nip.io   140.141.142.143   80, 443   7d2h
-   vmi-system-grafana           <none>   grafana.vmi.system.default.140.141.142.143.nip.io         140.141.142.143   80, 443   7d2h
-   vmi-system-kibana            <none>   kibana.vmi.system.default.140.141.142.143.nip.io          140.141.142.143   80, 443   7d2h
-   vmi-system-prometheus        <none>   prometheus.vmi.system.default.140.141.142.143.nip.io      140.141.142.143   80, 443   7d2h
+   
+   # Sample output
+   NAME                    CLASS    HOSTS                                                 ADDRESS       PORTS     AGE
+   verrazzano-ingress      <none>   verrazzano.default.11.22.33.44.nip.io                 11.22.33.44   80, 443   7d
+   vmi-system-es-ingest    <none>   elasticsearch.vmi.system.default.11.22.33.44.nip.io   11.22.33.44   80, 443   7d
+   vmi-system-grafana      <none>   grafana.vmi.system.default.11.22.33.44.nip.io         11.22.33.44   80, 443   7d
+   vmi-system-kiali        <none>   kiali.vmi.system.default.11.22.33.44.nip.io           11.22.33.44   80, 443   7d
+   vmi-system-kibana       <none>   kibana.vmi.system.default.11.22.33.44.nip.io          11.22.33.44   80, 443   7d
+   vmi-system-prometheus   <none>   prometheus.vmi.system.default.11.22.33.44.nip.io      11.22.33.44   80, 443   7d
    ```
 
    Using the ingress host information, some of the endpoints available are:
@@ -173,20 +172,27 @@ replacing the `THE_USERNAME` and `THE_PASSWORD` placeholders with the respective
    | Kibana      | `https://[vmi-system-kibana ingress host]`     | `verrazzano`/`telemetry-password` |
    | Grafana     | `https://[vmi-system-grafana ingress host]`    | `verrazzano`/`telemetry-password` |
    | Prometheus  | `https://[vmi-system-prometheus ingress host]` | `verrazzano`/`telemetry-password` |
+   | Kiali | `https://[vmi-system-kiali ingress host]` | `verrazzano`/`telemetry-password` |    
 
 ## Troubleshooting
 
 1. Verify that the application configuration, domain, and ingress trait all exist.
    ```
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get ApplicationConfiguration -n mc-todo-list
+   
+   # Sample output
    NAME           AGE
    todo-appconf   19h
 
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get Domain -n mc-todo-list
+   
+   # Sample output
    NAME          AGE
    todo-domain   19h
 
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get IngressTrait -n mc-todo-list
+   
+   # Sample output
    NAME                           AGE
    todo-domain-trait-7cbd798c96   19h
    ```
@@ -196,9 +202,10 @@ replacing the `THE_USERNAME` and `THE_PASSWORD` placeholders with the respective
    ```
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get pods -n mc-todo-list
 
+   # Sample output
    NAME                     READY   STATUS    RESTARTS   AGE
-   mysql-5c75c8b7f-vlhck    1/1     Running   0          19h
-   tododomain-adminserver   2/2     Running   0          19h
+   mysql-5c75c8b7f-vlhck    2/2     Running   0          19h
+   tododomain-adminserver   4/4     Running   0          19h
    ```
 
 ## Undeploy the ToDo List application
@@ -217,4 +224,7 @@ $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
 # Delete the project
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
     -f {{< release_source_url raw=true path=examples/multicluster/todo-list/verrazzano-project.yaml >}}
+# Delete the namespace created on the admin and managed clusters
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN delete namespace mc-todo-list
+$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 delete namespace mc-todo-list
 ```
