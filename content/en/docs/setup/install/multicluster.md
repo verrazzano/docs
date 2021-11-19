@@ -302,7 +302,7 @@ An alternative approach to using the Prometheus UI is to query metrics from the 
    $ VZPASS=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
               get secret verrazzano --namespace verrazzano-system \
               -o jsonpath={.data.password} | base64 --decode; echo)
-   $ curl --user verrazzano:${VZPASS} "${prometheusUrl}/api/v1/query?query=node_disk_io_time_seconds_total"
+   $ curl -k --user verrazzano:${VZPASS} "${prometheusUrl}/api/v1/query?query=node_disk_io_time_seconds_total"
    ```
 
 ### Verify that managed cluster logs are being collected
@@ -325,7 +325,7 @@ An alternative approach to using the Kibana UI is to query Elasticsearch from th
    $ VZPASS=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
               get secret verrazzano --namespace verrazzano-system \
               -o jsonpath={.data.password} | base64 --decode; echo)
-   $ curl --user verrazzano:${VZPASS} -X POST -H 'kbn-xsrf: true' "${kibanaUrl}/elasticsearch/verrazzano-namespace-verrazzano-system/_search?size=25"
+   $ curl -k --user verrazzano:${VZPASS} -X POST -H 'kbn-xsrf: true' "${kibanaUrl}/elasticsearch/verrazzano-namespace-verrazzano-system/_search?size=25"
    ```
 
 ## Run applications in multicluster Verrazzano

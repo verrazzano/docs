@@ -122,12 +122,12 @@ By default, the application is located on the managed cluster called `managed1`.
 
 1. Now, you can test the example application running in its new location.
 
-To return the application to the managed cluster named `managed1`, set the value of the `CHANGE_PLACEMENT_PATCH_FILE` environment variable to the patch file provided for that purpose, then repeat the previous numbered steps.
+   To return the application to the managed cluster named `managed1`, set the value of the `CHANGE_PLACEMENT_PATCH_FILE` environment variable to the patch file provided for that purpose, then repeat the previous numbered steps.
 
-```shell
+   ```shell
    # To change the placement back to the managed cluster named managed1
    $ export CHANGE_PLACEMENT_PATCH_FILE="{{< release_source_url raw=true path=examples/multicluster/hello-helidon/patch-return-placement-to-managed1.yaml >}}"
-```
+   ```
 
 ## Undeploy the Hello World Helidon application
 
@@ -135,18 +135,22 @@ Regardless of its location, to undeploy the application,
 delete the application resources and the project from the admin cluster.
 Undeploy affects all clusters in which the application is located.
 
-```shell
-# Delete the multicluster application configuration
-$ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
-    -f {{< release_source_url raw=true path=examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml >}}
-# Delete the components for the application
-$ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
-    -f {{< release_source_url raw=true path=examples/multicluster/hello-helidon/hello-helidon-comp.yaml >}}
-# Delete the project
-$ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
-    -f {{< release_source_url raw=true path=examples/multicluster/hello-helidon/verrazzano-project.yaml >}}
-# Delete the namespace created on the admin and managed clusters
-$ kubectl --kubeconfig $KUBECONFIG_ADMIN delete namespace hello-helidon
-$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 delete namespace hello-helidon
+1. To undeploy the application, delete the Hello World Helidon OAM resources.
+   ```
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
+       -f {{< release_source_url raw=true path=examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml >}}
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
+       -f {{< release_source_url raw=true path=examples/multicluster/hello-helidon/hello-helidon-comp.yaml >}}
+   ```
 
-```
+1. Delete the project.
+   ```
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
+       -f {{< release_source_url raw=true path=examples/multicluster/hello-helidon/verrazzano-project.yaml >}}
+   ```
+
+1. Delete the namespace `hello-helidon` after the application pod is terminated.
+   ```
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete namespace hello-helidon
+   $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 delete namespace hello-helidon
+   ```

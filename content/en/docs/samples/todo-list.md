@@ -43,7 +43,6 @@ For more information and the source code of this application, see the [Verrazzan
 
 1. Create and label secrets for the WebLogic domain:
    ```
-
    # Replace the values of the WLS_USERNAME and WLS_PASSWORD environment variables as appropriate.
    $ export WLS_USERNAME=<username>
    $ export WLS_PASSWORD=<password>
@@ -51,7 +50,6 @@ For more information and the source code of this application, see the [Verrazzan
        --from-literal=password=$WLS_PASSWORD \
        --from-literal=username=$WLS_USERNAME \
        -n todo-list
-
 
    $ kubectl create secret generic tododomain-jdbc-tododb \
        --from-literal=username=$WLS_USERNAME \
@@ -225,8 +223,8 @@ It is recommended that the WebLogic Server Administration Console _not_ be expos
 
    # Sample output
    NAME                     READY   STATUS    RESTARTS   AGE
-   mysql-5c75c8b7f-vlhck    1/1     Running   0          19h
-   tododomain-adminserver   2/2     Running   0          19h
+   mysql-5c75c8b7f-vlhck    2/2     Running   0          19h
+   tododomain-adminserver   4/4     Running   0          19h
    ```
 ## Undeploy the application
 
