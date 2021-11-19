@@ -294,7 +294,7 @@ Execute a query for a metric (for example, `node_disk_io_time_seconds_total`).
 
 ![Prometheus](/docs/images/multicluster/prometheus-multicluster.png)
 
-An alternative approach to using the Prometheus UI is to query metrics from the command line. Here is an example of how to obtain Prometheus metrics from the command line. Search the output of the query for responses that have the `managaged_cluster` field set to the name of the managed cluster.
+An alternative approach to using the Prometheus UI is to query metrics from the command line. Here is an example of how to obtain Prometheus metrics from the command line. Search the output of the query for responses that have the `verrazzano_cluster` field set to the name of the managed cluster.
    ```shell
    # On the admin cluster
    $ prometheusUrl=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
