@@ -15,14 +15,14 @@ handled by the platform operator and is called an `upgrade`.  Currently, Verrazz
 where a `helm upgrade` command can be issued for the component.  Typically, patch-level upgrades simply replace component
 images with newer versions.
 
-## Application and System Pod Restarts
-Upgrading Verrazzano 1.0.* to 1.1.0 will result in an upgrade of Istio from 1.7.3 to 1.10.4.  Because of this, all the pods 
+## Application and system pod restarts
+Upgrading Verrazzano 1.0.x to 1.1.0 will result in an upgrade of Istio from 1.7.3 to 1.10.4.  Because of this, all the pods 
 in the Istio mesh need to be restarted so that the new Envoy proxy sidecar can be injected into the pods.  This includes both Verrazzano
-applications along with Verrazzano system pods, such as the NGINX Ingress Controller.  For WebLogic workloads, Verrazzano will shut down 
+applications, along with Verrazzano system pods, such as the NGINX Ingress Controller.  For WebLogic workloads, Verrazzano will shut down 
 every domain, do the upgrade, then start every domain.  For all other workloads, Verrazzano will perform a rolling restart 
 when the upgrade is complete.  There is no user involvement related to restarting applications; it is done automatically during upgrade.
 
-## Upgrade Steps 
+## Upgrade steps 
 It is important to distinguish between updating the Verrazzano platform operator versus upgrading the Verrazzano installation.
 The platform operator contains the newer component charts and image versions, so it must be updated prior to upgrading the installation.
 Updating the platform operator has no effect on an existing installation until you initiate the Verrazzano installation upgrade.
