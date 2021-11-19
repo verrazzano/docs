@@ -15,21 +15,25 @@ handled by the platform operator and is called an `upgrade`.  Currently, Verrazz
 where a `helm upgrade` command can be issued for the component.  Typically, patch-level upgrades simply replace component
 images with newer versions.
 
+## Application and System Pod Restarts
+Upgrading Verrazzano 1.0.* to 1.1.* will result in an upgrade of Istio from 1.7.3 to 1.10.4.  Because of this, all the pods 
+in the Istio mesh need to be restarted so that the new Envoy proxy can be injected into the pods.  This includes both Verrazzano
+applications along with Verrazzano system pods, such as the NGINX Ingress Controller.  For WebLogic workloads, Verrazzano will shut down 
+every domain, do the upgrade, then start every domain.  For all other workloads, Verrazzano will perform a rolling restart 
+when the upgrade is complete.  There is no user involvement related to restarting applications; it is done automatically during upgrade.
+
+## Upgrade Steps 
 It is important to distinguish between updating the Verrazzano platform operator versus upgrading the Verrazzano installation.
 The platform operator contains the newer component charts and image versions, so it must be updated prior to upgrading the installation.
 Updating the platform operator has no effect on an existing installation until you initiate the Verrazzano installation upgrade.
-Currently, there is no way to roll back either the platform operator update or the Verrazzano installation upgrade.  Upgrading
-will not have any impact on running applications.
+Currently, there is no way to roll back either the platform operator update or the Verrazzano installation upgrade.  
 
-Upgrading an existing Verrazzano installation involves:
+Upgrading an existing Verrazzano installation is a two-step process:
 
-* Upgrading the Verrazzano platform operator to the [Verrazzano release version](https://github.com/verrazzano/verrazzano/releases/) to which you want to upgrade.
-* Updating the version of your installed `Verrazzano` resource to the version supported by the upgraded operator.
+* Upgrade the Verrazzano platform operator to the [Verrazzano release version](https://github.com/verrazzano/verrazzano/releases/) to which you want to upgrade.
+* Update the Verrazzano installation.  
 
-**NOTE:** You may only change the version field during an upgrade; changes to other fields or component configurations are not supported at this time.
-
-## Upgrade the Verrazzano platform operator
-
+### Upgrade the Verrazzano platform operator
 In order to upgrade an existing Verrazzano installation, you must first upgrade the [Verrazzano platform operator](https://github.com/verrazzano/verrazzano-platform-operator).
 
 1. Upgrade the Verrazzano platform operator.
@@ -70,9 +74,12 @@ In order to upgrade an existing Verrazzano installation, you must first upgrade 
    verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
    ```
 
-## Upgrade Verrazzano
+### Upgrade Verrazzano
 
-To upgrade Verrazzano:
+To upgrade Verrazzano you need to change the version of your installed `Verrazzano` resource to the version supported by the
+Verrazzano Platform Operator.
+
+**NOTE:** You may only change the version field during an upgrade; changes to other fields or component configurations are not supported at this time.
 
 1. Update the `Verrazzano` resource to the desired version.
 
@@ -122,10 +129,7 @@ To upgrade Verrazzano:
 ## Verify the upgrade
 
 Check that all the pods in the `verrazzano-system` namespace are in the `Running` state.  While the upgrade is in progress,
-you may see some pods terminating and restarting as newer versions of components are applied.
-
-For example:
-
+you may see some pods terminating and restarting as newer versions of components are applied, for example:
 ```
 $ kubectl get pods -n verrazzano-system
 coherence-operator-controller-manager-7557bc4c49-7w55p   1/1     Running   0          27h
@@ -145,28 +149,10 @@ vmi-system-prometheus-0-7bf464d898-czq8r                 4/4     Running   0    
 weblogic-operator-7db5cdcf59-qxsr9                       1/1     Running   0          27h
 ```
 
-## Upgrade applications in the Istio service mesh
-If your upgrade includes a minor version change to Istio, such as if you are upgrading from Verrazzano 1.0.x to 1.1.x, you must complete these additional actions to ensure that applications managed in the Istio mesh get upgraded properly.
-Before making any alterations to the application components, ensure that the Verrazzano Custom Resource status is `UpgradeComplete` and that all pods in the `verrazzano-system` namespace are in the `Running` state.
-
-### Restarting applications
-If your application namespace has the `istio-injection=enabled` label, then your application components are in the Istio service mesh.
-As such, your application must be restarted to upgrade the Istio proxy sidecars to the new version.
-For WebLogic applications only, the WebLogic domain will undergo a hard restart. This will result in a brief WebLogic application downtime as the domain restarts.
-
-To trigger this restart, you can annotate the application configuration with the key `verrazzano.io/restart-version`.
-When the annotation is added or the value is modified, Verrazzano will initiate a restart of all the application components.
-Although the value of the annotation is insignificant to the upgrade, we recommend that you use whole number values to help keep track of your upgrades.
-For example, you can annotate the Bob's Books example application by using the following command:
-
-```shell
-$ kubectl annotate appconfig bobs-books -n bobs-books verrazzano.io/restart-version="1" --overwrite
+Check that the pods in your application namespaces are ready, for example: 
 ```
-
-To verify that this example application configuration has been updated, this command will return the value of your annotation:
-
-```shell
-$ kubectl get appconfig bobs-books -n bobs-books -o jsonpath="{.metadata.annotations.verrazzano\.io/restart-version}"
+$ kubectl get pods -n todo-list
+NAME                     READY   STATUS    RESTARTS   AGE
+mysql-67575d8954-d4vkm   2/2     Running   0          39h
+tododomain-adminserver   4/4     Running   0          39h
 ```
-
-After completing the annotations and restarting, verify that your application is up and running as expected.
