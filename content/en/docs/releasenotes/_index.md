@@ -5,7 +5,7 @@ weight: 13
 draft: false
 ---
 
-### v1.1
+### v1.1.0
 Fixes:
 - Updated Elasticsearch to version 7.10.2
 
