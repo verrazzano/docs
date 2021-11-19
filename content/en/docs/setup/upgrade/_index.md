@@ -76,7 +76,7 @@ In order to upgrade an existing Verrazzano installation, you must first upgrade 
 
 ### Upgrade Verrazzano
 
-To upgrade Verrazzano you need to change the version of your installed `Verrazzano` resource to the version supported by the
+To upgrade the Verrazzano installation, you need to change the version of your installed Verrazzano resource to the version supported by the
 Verrazzano Platform Operator.
 
 **NOTE:** You may only change the version field during an upgrade; changes to other fields or component configurations are not supported at this time.
