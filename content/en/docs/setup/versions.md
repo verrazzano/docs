@@ -40,7 +40,7 @@ component with its version and a brief description.
 | ---       | ---     | ---         |
 | cert-manager | 1.2.0 | Automates the management and issuance of TLS certificates.
 | Coherence Operator | 3.2.1 | Assists with deploying and managing Coherence clusters.
-| Elasticsearch | 7.6.1 | Provides a distributed, multitenant-capable full-text search engine.
+| Elasticsearch | 7.10.2 | Provides a distributed, multitenant-capable full-text search engine.
 | ExternalDNS | 0.7.1 | Synchronizes exposed Kubernetes Services and ingresses with DNS providers.
 | Fluentd | 1.12.3 | Collects logs and sends them to Elasticsearch.
 | Grafana | 6.7.4 | Tool to help you study, analyze, and monitor metrics.
