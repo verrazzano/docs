@@ -167,7 +167,7 @@ cluster, which will contain a server address accessible from other Kind clusters
 the same Docker network.
 
 ```shell
-$ kind get kubeconfig --internal --name <your-admin-cluster-name>
+$ kind get kubeconfig --internal --name <your-admin-cluster-name> | grep server
 ```
 In the output of this command, you can find the URL of the admin cluster API server from the `server` entry. Set the
 value of the ADMIN_K8S_SERVER_ADDRESS variable to this URL.
