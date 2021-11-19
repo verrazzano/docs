@@ -285,7 +285,7 @@ You can perform all the verification steps on the admin cluster.
 ### Verify that managed cluster metrics are being collected
 
 Verify that the admin cluster is collecting metrics from the managed cluster.  The Prometheus output will include 
-records that contain the name of the managed cluster (labeled as `managed_cluster`).
+records that contain the name of the Verrazzano cluster (labeled as `verrazzano_cluster`).
 
 You can find the Prometheus UI URL for your cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/operations/_index.md" >}}).
 Execute a query for a metric (for example, `node_disk_io_time_seconds_total`).
