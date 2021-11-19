@@ -5,6 +5,10 @@ weight: 13
 draft: false
 ---
 
+### v1.1
+Fixes:
+- Updated Elasticsearch to version 7.10.2
+
 ### v1.0.3
 Fixes:
 - Fix to use load balancer service external IP address for application ingress when using an external load balancer and wildcard DNS.
