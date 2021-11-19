@@ -7,7 +7,7 @@ draft: false
 
 ### v1.1.0
 Fixes:
-- Updated Elasticsearch to version 7.10.2
+- Updated Elasticsearch to version 7.10.2.
 
 ### v1.0.3
 Fixes:
