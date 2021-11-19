@@ -35,7 +35,7 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 
 1. Create a `docker-registry` secret to enable pulling the ToDo List example image from the registry.
    ```
-   $ kubectl create secret docker-registry tododomain-repo-credentials \
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN create secret docker-registry tododomain-repo-credentials \
            --docker-server=container-registry.oracle.com \
            --docker-username=YOUR_REGISTRY_USERNAME \
            --docker-password=YOUR_REGISTRY_PASSWORD \
@@ -51,17 +51,17 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
    # Replace the values of the WLS_USERNAME and WLS_PASSWORD environment variables as appropriate.
    $ export WLS_USERNAME=<username>
    $ export WLS_PASSWORD=<password>
-   $ kubectl create secret generic tododomain-weblogic-credentials \
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN create secret generic tododomain-weblogic-credentials \
        --from-literal=password=$WLS_PASSWORD \
        --from-literal=username=$WLS_USERNAME \
        -n mc-todo-list
 
-   $ kubectl create secret generic tododomain-jdbc-tododb \
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN create secret generic tododomain-jdbc-tododb \
        --from-literal=username=$WLS_USERNAME \
        --from-literal=password=$WLS_PASSWORD \
        -n mc-todo-list
 
-   $ kubectl -n mc-todo-list label secret tododomain-jdbc-tododb weblogic.domainUID=tododomain
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN -n mc-todo-list label secret tododomain-jdbc-tododb weblogic.domainUID=tododomain
    ```
 
    Note that the ToDo List example application is preconfigured to use specific secret names.
