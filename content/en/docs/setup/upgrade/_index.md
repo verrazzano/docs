@@ -17,7 +17,7 @@ images with newer versions.
 
 ## Application and System Pod Restarts
 Upgrading Verrazzano 1.0.* to 1.1.* will result in an upgrade of Istio from 1.7.3 to 1.10.4.  Because of this, all the pods 
-in the Istio mesh need to be restarted so that the new Envoy proxy can be injected into the pods.  This includes both Verrazzano
+in the Istio mesh need to be restarted so that the new Envoy proxy sidecar can be injected into the pods.  This includes both Verrazzano
 applications along with Verrazzano system pods, such as the NGINX Ingress Controller.  For WebLogic workloads, Verrazzano will shut down 
 every domain, do the upgrade, then start every domain.  For all other workloads, Verrazzano will perform a rolling restart 
 when the upgrade is complete.  There is no user involvement related to restarting applications; it is done automatically during upgrade.
