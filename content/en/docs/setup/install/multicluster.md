@@ -139,6 +139,8 @@ address of the admin cluster from its `kubeconfig` file.
 ```shell
 # View the information for the admin cluster in your kubeconfig file 
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN config view --minify
+
+# Sample output
 apiVersion: v1
 kind: Config
 clusters:
