@@ -11,7 +11,7 @@ You can customize the NGINX and Istio ingress installation configurations using 
 Verrazzano custom resource. For example, the following Verrazzano custom resource overrides the shape
 of an OCI load balancer for both NGINX and Istio ingresses:
 
-```shell
+```
 apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:

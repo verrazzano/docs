@@ -34,20 +34,20 @@ To install the Verrazzano platform operator:
 
 1. Deploy the Verrazzano platform operator.
 
-    ```shell
+    ```
     $ kubectl apply -f {{<release_asset_url operator.yaml>}}
     ```
 
 1. Wait for the deployment to complete.
 
-    ```shell
+    ```
     $ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
     deployment "verrazzano-platform-operator" successfully rolled out
     ```
 
 1. Confirm that the operator pod is correctly defined and running.
 
-    ```shell
+    ```
     $ kubectl -n verrazzano-install get pods
     NAME                                            READY   STATUS    RESTARTS   AGE
     verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
@@ -73,7 +73,7 @@ To use other DNS options, see the [Customzing DNS](/docs/setup/install/customizi
 
 To create a Verrazzano installation as described in the previous section, run the following commands:
 
-```shell
+```
 $ kubectl apply -f - <<EOF
 apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
@@ -91,7 +91,7 @@ To use a different profile with the above example, set the `VZ_PROFILE` environm
 you want to install.
 
 To monitor the Console log output of the installation:
-```shell
+```
 $ kubectl logs -n verrazzano-install \
     -f $(kubectl get pod \
     -n verrazzano-install \

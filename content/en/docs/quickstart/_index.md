@@ -34,20 +34,20 @@ The [Verrazzano platform operator](https://github.com/verrazzano/verrazzano-plat
 To install the Verrazzano platform operator:
 
 1. Deploy the Verrazzano platform operator.
-    ```shell
+    ```
     $ kubectl apply -f {{<release_asset_url operator.yaml>}}
     ```
 
 1. Wait for the deployment to complete.
 
-    ```shell
+    ```
     $ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
     deployment "verrazzano-platform-operator" successfully rolled out
     ```
 
 1. Confirm that the operator pod is correctly defined and running.
 
-    ```shell
+    ```
     $ kubectl -n verrazzano-install get pods
     NAME                                            READY   STATUS    RESTARTS   AGE
     verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
@@ -71,7 +71,7 @@ To install Verrazzano:
 
 1. Install Verrazzano with its `dev` profile.
 
-    ```shell
+    ```
     $ kubectl apply -f - <<EOF
     apiVersion: install.verrazzano.io/v1alpha1
     kind: Verrazzano
@@ -83,7 +83,7 @@ To install Verrazzano:
     ```
 
 1. Wait for the installation to complete.
-    ```shell
+    ```
     $ kubectl wait \
         --timeout=20m \
         --for=condition=InstallComplete \
@@ -94,7 +94,7 @@ To install Verrazzano:
 
     The Verrazzano operator launches a Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) to install Verrazzano.  You can view the installation logs from that job with the following command:
 
-    ```shell
+    ```
     $ kubectl logs -n verrazzano-install -f \
         $( \
           kubectl get pod \
@@ -117,21 +117,21 @@ To deploy the Hello World Helidon example application:
 1. Create a namespace for the example application and add labels identifying the namespace as managed by Verrazzano and
 enabled for Istio.
 
-   ```shell
+   ```
    $ kubectl create namespace hello-helidon
    $ kubectl label namespace hello-helidon verrazzano-managed=true istio-injection=enabled
    ```
 
 1. Apply the `hello-helidon` resources to deploy the application.
 
-   ```shell
+   ```
    $ kubectl apply -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-comp.yaml" >}}
    $ kubectl apply -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-app.yaml" >}}
    ```
 
 1. Wait for the application to be ready.
 
-   ```shell
+   ```
    $ kubectl wait \
        --for=condition=Ready pods \
        --all -n hello-helidon \
@@ -142,14 +142,14 @@ enabled for Istio.
    namespace to be ready.
 
 1.  Save the host name of the load balancer exposing the application's REST service endpoints.
-    ```shell script
+    ```
     $ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw \
         -n hello-helidon \
         -o jsonpath='{.spec.servers[0].hosts[0]}')
     ```
 
 1.  Get the default message.
-    ```shell script
+    ```
     $ curl -sk \
         -X GET \
         "https://${HOST}/greet"
@@ -164,21 +164,21 @@ To uninstall the Hello World Helidon example application:
 
 1. Delete the Verrazzano application resources.
 
-   ```shell
+   ```
    $ kubectl delete -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-comp.yaml" >}}
    $ kubectl delete -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-app.yaml" >}}
     ```
 
 1. Delete the example namespace.
 
-   ```shell
+   ```
    $ kubectl delete namespace hello-helidon
    namespace "hello-helidon" deleted
     ```
 
 1. Verify that the `hello-helidon` namespace has been deleted.
 
-   ```shell
+   ```
    $ kubectl get ns hello-helidon
    Error from server (NotFound): namespaces "hello-helidon" not found
    ```
@@ -189,7 +189,7 @@ To uninstall Verrazzano:
 
 1. Delete the Verrazzano custom resource.
 
-    ```shell
+    ```
     $ kubectl delete verrazzano example-verrazzano
     ```
 
@@ -202,7 +202,7 @@ To uninstall Verrazzano:
 
     The Verrazzano operator launches a Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) to delete the Verrazzano installation.  You can view the uninstall logs from that job with the following command:
 
-    ```shell
+    ```
     $ kubectl logs -n verrazzano-install -f \
         $( \
           kubectl get pod \

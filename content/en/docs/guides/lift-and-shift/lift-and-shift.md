@@ -53,7 +53,7 @@ In the initial steps, you create a sample domain that represents your on-premise
 
 1. Start a MySQL client to change the password algorithm to `mysql_native_password`.
     - Assuming the database server is running, start a database CLI client.
-        ```shell script
+        ```
         $ docker exec \
            -it tododb mysql \
            -uroot \
@@ -61,7 +61,7 @@ In the initial steps, you create a sample domain that represents your on-premise
         ```
     - When prompted for the password, enter the password for the root user.  
     - After being connected, run the `ALTER` command at the MySQL prompt.
-        ```mysql
+        ```
         $ ALTER USER '<your-mysql-username>'@'%' identified with mysql_native_password by '<your-mysql-password>';
         ```
 
@@ -81,7 +81,7 @@ In the initial steps, you create a sample domain that represents your on-premise
 
    - To make copying commands easier, define an environment variable for `ORACLE_HOME` that points to the directory where you installed WebLogic Server 12.2.1.4.0.  For example:
 
-     ```shell script
+     ```
      $ export ORACLE_HOME=$HOME/Oracle/Middleware/Oracle_Home
      ```
 
@@ -97,9 +97,9 @@ In the initial steps, you create a sample domain that represents your on-premise
    * Click **Create**.
    * After it has completed, click **Next**, then **Finish**.
 
-1. To start the newly created domain, run the domain's start script.
+1. To start the newly created domain, run the domain's start.
 
-    ```shell script
+    ```
      $ $ORACLE_HOME/user_projects/domains/tododomain/bin/startWebLogic.sh
     ```
 1. Access the Console of the newly started domain with your browser, for example, [http://localhost:7001/console](http://localhost:7001/console), and
@@ -150,7 +150,7 @@ Using the WebLogic Server Administration Console, log in and add a data source c
    **NOTE**: You should clone this repo outside of `$ORACLE_HOME` or copy the WAR
    file to another location, as WDT may ignore it during the model creation phase.
 
-   ```shell script
+   ```
     $ git clone https://github.com/verrazzano/examples.git
     $ cd examples/todo-list/
     $ mvn clean package
@@ -191,13 +191,13 @@ The following steps will move the sample domain to Kubernetes with Verrazzano.
 - If you have not already done so, download v1.9.15 or later of [WebLogic Deploy Tooling](https://github.com/oracle/weblogic-deploy-tooling/releases) (WDT) from GitHub.
 - Unzip the installer `weblogic-deploy.zip` file so that you can access `bin/discoverDomain.sh`.
 - To make copying commands easier, define an environment variable for `WDT_HOME` that points to the directory where you installed WebLogic Deploy Tooling.
-   ```shell script
+   ```
     $ export WDT_HOME=/install/directory
    ```
 
 For example, to get the latest version:
 
-```shell
+```
 $ curl -OL https://github.com/oracle/weblogic-deploy-tooling/releases/latest/download/weblogic-deploy.zip
 $ unzip  weblogic-deploy.zip
 $ cd weblogic-deploy
@@ -207,7 +207,7 @@ $ export WDT_HOME=$(pwd)
 To create a reusable model of the application and domain, use WDT to create a metadata model of the domain.  
 - First, create an output directory to hold the generated scripts and models.  
 - Then, run WDT `discoverDomain`.
-  ```shell script
+  ```
   $ mkdir v8o
   $ $WDT_HOME/bin/discoverDomain.sh \
     -oracle_home $ORACLE_HOME \
@@ -234,13 +234,13 @@ fill in the placeholders for you, or you can edit the model manually to set the 
 - If you have not already done so, download [WebLogic Image Tool](https://github.com/oracle/weblogic-image-tool/releases) (WIT) from GitHub.
 - Unzip the installer `imagetool.zip` file so that you can access `bin/imagetool.sh`.
 - To make copying commands easier, define an environment variable for `WIT_HOME` that points to the directory where you installed WebLogic Image Tool.
-   ```shell script
+   ```
     $ export WIT_HOME=/install/directory
    ```
 
 For example, to get the latest WIT tool:
 
-```shell
+```
 $ curl -OL https://github.com/oracle/weblogic-image-tool/releases/latest/download/imagetool.zip
 $ unzip imagetool.zip
 $ cd imagetool
@@ -252,7 +252,7 @@ download installers.  Until then, you must download the [WebLogic Server](https:
 and [Java Development Kit](https://www.oracle.com/java/technologies/javase/javase8u211-later-archive-downloads.html) installer
 manually and provide their location to the `imagetool cache addInstaller` command.
 
-```shell script
+```
 # The directory created previously to hold the generated scripts and models.
 $ cd v8o
 
@@ -303,19 +303,19 @@ Push the image to your repo.
 **NOTE:** The image name must be the same as what is in the `vz-application.yaml` file under
 `spec > workload > spec > image` for the `tododomain-domain` component.
 
-```shell script
+```
 $ docker push your/repo/todo:1
 ```
 
 ### Deploy to Verrazzano
 
-After the application image has been created, there are several steps required to deploy 
+After the application image has been created, there are several steps required to deploy
 the application into a Verrazzano environment.
 
 These include:
 1. Creating and labeling the `tododomain` namespace.
 1. Creating the necessary secrets required by the ToDo List application.
-1. Creating the Verrazzano components such as Service, Deployment, and ConfigMap required by the MySQL instance in the `tododomain` namespace. 
+1. Creating the Verrazzano components such as Service, Deployment, and ConfigMap required by the MySQL instance in the `tododomain` namespace.
 1. Updating the `vz-application.yaml` file to enable the Verrazzano MySQL components in the ToDo List ApplicationConfiguration to deploy as Kubernetes objects.
 1. Updating the `vz-application.yaml` file to use the Verrazzano MySQL deployment and (optionally) expose the WebLogic Server Administration Console.
 1. Applying the `vz-application.yaml` file.
@@ -327,7 +327,7 @@ The following steps assume that you have a Kubernetes cluster and that [Verrazza
 Create the `tododomain` namespace, and add labels to allow the WebLogic Server Kubernetes Operator to manage it and
 enabled for Istio.
 
-```shell
+```
 $ kubectl create namespace tododomain
 $ kubectl label namespace tododomain verrazzano-managed=true istio-injection=enabled
 ```
@@ -343,7 +343,7 @@ there are a few passwords that you need to enter:
 
 
 For example:
-```shell script
+```
 # Update <admin-user> and <admin-password> for weblogic-credentials
 $ create_paired_k8s_secret weblogic-credentials <your-WLS-username> <your-WLS-password>
 
@@ -353,7 +353,7 @@ $ create_paired_k8s_secret jdbc-tododb <your-mysql-username> <your-mysql-passwor
 
 Then run the script:
 
-```shell
+```
 $ sh ./create_k8s_secrets.sh
 ```
 
@@ -361,7 +361,7 @@ Verrazzano will need a credential to pull the image that you just created, so yo
 The name for this credential can be changed in the `vz-application.yaml` file to anything you like, but it defaults to `tododomain-registry-credentials`.
 
 Assuming that you leave the name `tododomain-registry-credentials`, you will need to run a `kubectl create secret` command similar to the following:
-```shell script
+```
 $ kubectl create secret docker-registry tododomain-registry-credentials \
   --docker-server=phx.ocir.io \
   --docker-email=your.name@example.com \
@@ -387,7 +387,7 @@ Update the generated `vz-application.yaml` file for the `todo` application to:
                     URL: "jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb"
 ```
 
-* Update the `tododomain-appconf` ApplicationConfiguration to enable Verrazzano MySQL components to be deployed as Kubernetes objects. 
+* Update the `tododomain-appconf` ApplicationConfiguration to enable Verrazzano MySQL components to be deployed as Kubernetes objects.
 
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
@@ -425,7 +425,7 @@ spec:
 The file  [vz-application-modified.yaml](../vz-application-modified.yaml) is an example of a modified [vz-application.yaml](../vz-application.yaml) file.  A diff of these
 two sample files is shown:
 
-```shell
+```
 $ diff vz-application.yaml vz-application-modified.yaml
 30a31,33
 >     - componentName: todo-mysql-service
@@ -441,13 +441,13 @@ $ diff vz-application.yaml vz-application-modified.yaml
 
 As noted previously, moving a production environment to Verrazzano would require migrating the data as well. While data migration is beyond the scope of this guide, we will still need to include a MySQL instance to be deployed with the application in the Verrazzano environment.
 
-To do so, first, we need to create the Verrazzano components for MySQL by applying the [mysql-oam.yaml](../mysql-oam.yaml) file in the `tododomain` namespace. The components will be deployed as Kubernetes objects when the ToDo List application is deployed by applying the vz-application.yaml file in the next step. 
+To do so, first, we need to create the Verrazzano components for MySQL by applying the [mysql-oam.yaml](../mysql-oam.yaml) file in the `tododomain` namespace. The components will be deployed as Kubernetes objects when the ToDo List application is deployed by applying the vz-application.yaml file in the next step.
 
 * Download the [mysql-oam.yaml](../mysql-oam.yaml) file.
 
 * Then, apply the YAML file:
 
-```shell
+```
 $ kubectl apply -f mysql-oam.yaml
 component.core.oam.dev/todo-mysql-service created
 component.core.oam.dev/todo-mysql-deployment created
@@ -455,17 +455,17 @@ component.core.oam.dev/todo-mysql-configmap created
 ```
 
 
-```shell
+```
 $ kubectl get components -ntododomain
 todo-mysql-configmap    ConfigMap       26s
 todo-mysql-deployment   Deployment      26s
-todo-mysql-service      Service         26s 
+todo-mysql-service      Service         26s
 ```
-#### Deploy the ToDo List application and MySQL instance. 
+#### Deploy the ToDo List application and MySQL instance.
 
 Finally, run `kubectl apply` to apply the Verrazzano components and Verrazzano application configuration files to start your domain.
 
-```shell script
+```
 $ kubectl apply -f vz-application.yaml
 ```
 
@@ -477,7 +477,7 @@ This will:
 
 Wait for the ToDo List example application to be ready.
 
-```shell
+```
 $ kubectl wait pod \
     --for=condition=Ready tododomain-adminserver \
     -n tododomain
@@ -485,7 +485,7 @@ pod/tododomain-adminserver condition met
 ```
 
 Verify that the pods are in the `Running` state:
-```shell
+```
 $ kubectl get pod -n tododomain
 NAME                     READY   STATUS    RESTARTS   AGE
 mysql-55bb4c4565-c8zf5   1/1     Running   0          8m

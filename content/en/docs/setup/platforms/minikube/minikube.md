@@ -27,7 +27,7 @@ of type `LoadBalancer` by using the `minikube tunnel` command.
 Create a minikube cluster using a supported Kubernetes version and appropriate driver.  On Linux hosts, the default
 driver is acceptable; on macOS, hyperkit is recommended.
 
-```shell
+```
 $ minikube start \
     --kubernetes-version=v1.18.8 \
     --driver=hyperkit \
@@ -48,7 +48,7 @@ Note that the `ip` command is required by `minikube tunnel`.  You may need to ad
 
 Run a tunnel in a separate terminal from minikube:
 
-```shell
+```
 $ minikube tunnel
 ```
 ## Next steps

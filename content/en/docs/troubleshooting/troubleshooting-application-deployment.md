@@ -20,7 +20,7 @@ Troubleshooting application deployments should follow three general steps:
 For application deployment to succeed, the `oam-kubernetes-runtime` pod must have a status of Running.
 
 Use the following command to get the pod status.
-```shell
+```
 $ kubectl get pods \
     -n verrazzano-system \
     -l app.kubernetes.io/name=oam-kubernetes-runtime
@@ -31,7 +31,7 @@ If the pod status is not Running, then see the following instructions for review
 For application deployment to succeed, the `verrazzano-application-operator` pod must have a status of Running.
 
 Use the following command to get the pod status.
-```shell
+```
 $ kubectl get pods \
     -n verrazzano-system \
     -l app=verrazzano-application-operator
@@ -42,7 +42,7 @@ If the pod status is not Running, then see the following instructions for review
 Review the `oam-kubernetes-runtime` pod logs for any indication that pod startup or the generation of workloads or traits has failed.
 
 Use the following command to get the logs.
-```shell
+```
 $ kubectl logs \
     -n verrazzano-system \
     -l app.kubernetes.io/name=oam-kubernetes-runtime
@@ -52,7 +52,7 @@ $ kubectl logs \
 Review the `verrazzano-application-operator` logs for any indication that pod startup or resource generation has failed.
 
 Use the following command to get the logs.
-```shell
+```
 $ kubectl logs \
     -n verrazzano-system \
     -l app=verrazzano-application-operator
@@ -67,7 +67,7 @@ If the expected workload resource, for example VerrazzanoHelidonWorkload, is mis
 If the expected related resources, for example Deployment or Service, are missing, then review the `verrazzano-application-operator` logs.
 
 The following commands are examples of checking for the resources related to a VerrazzanoHelidonWorkload deployment.
-```shell
+```
 $ kubectl get -n hello-helidon verrazzanohelidonworkload hello-helidon-workload
 $ kubectl get -n hello-helidon deployment hello-helidon-deployment
 $ kubectl get -n hello-helidon service hello-helidon-deployment
@@ -82,7 +82,7 @@ If the expected Trait resource, for example IngressTrait, is missing, then revie
 If the expected related resources, for example Certificate, Gateway, and VirtualService, are missing, then review the `verrazzano-application-operator` logs.
 
 The following commands are examples of checking for the resources related to an IngressTrait.
-```shell
+```
 $ kubectl get -n hello-helidon ingresstrait hello-helidon-ingress
 $ kubectl get -n istio-system Certificate hello-helidon-hello-helidon-appconf-cert
 $ kubectl get -n hello-helidon gateway hello-helidon-hello-helidon-appconf-gw
@@ -94,7 +94,7 @@ The use of generic Kubernetes resources as workloads and traits can result in de
 In this case, the `oam-kubernetes-runtime` logs will contain errors containing the term `forbidden`.
 
 The following command shows how to query for this type of failure message.
-```shell
+```
 $ kubectl logs \
     -n verrazzano-system \
     -l app.kubernetes.io/name=oam-kubernetes-runtime | grep forbidden
@@ -104,7 +104,7 @@ $ kubectl logs \
 Kubernetes maintains the child to parent relationship within metadata fields.
 
 The following example returns the parent of the IngressTrait, named `hello-helidon-ingress`, in the `hello-helidon` namespace.
-```shell
+```
 $ kubectl get IngressTrait \
     -n hello-helidon hello-helidon-ingress \
     -o jsonpath='{range .metadata.ownerReferences[*]}{.name}{"\n"}{end}'
@@ -116,7 +116,7 @@ Some resources also record the related resources affected during their processin
 For example, when processed, an IngressTrait will create related Gateway, VirtualService, and Certificate resources.
 
 The following command is an example of how to obtain the related resources of an IngressTraits.
-```shell
+```
 $ kubectl get IngressTrait \
     -n hello-helidon hello-helidon-ingress \
     -o jsonpath='{range .status.resources[*]}{.kind}: {.name}{"\n"}{end}'
