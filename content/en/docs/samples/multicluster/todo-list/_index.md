@@ -91,7 +91,7 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
          -n mc-todo-list \
          -o jsonpath='{.items[0].spec.servers[0].hosts[0]}')
    $ echo $HOST
-   
+
    # Sample output
    todo-appconf.mc-todo-list.11.22.33.44.nip.io
    ```
@@ -102,7 +102,7 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
         -n istio-system istio-ingressgateway \
         -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
    $ echo $ADDRESS
-   
+
    # Sample output
    11.22.33.44
    ```   
@@ -154,7 +154,7 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN get ingress -n verrazzano-system
-   
+
    # Sample output
    NAME                    CLASS    HOSTS                                                 ADDRESS       PORTS     AGE
    verrazzano-ingress      <none>   verrazzano.default.11.22.33.44.nip.io                 11.22.33.44   80, 443   7d
@@ -172,26 +172,26 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
    | Kibana      | `https://[vmi-system-kibana ingress host]`     | `verrazzano`/`telemetry-password` |
    | Grafana     | `https://[vmi-system-grafana ingress host]`    | `verrazzano`/`telemetry-password` |
    | Prometheus  | `https://[vmi-system-prometheus ingress host]` | `verrazzano`/`telemetry-password` |
-   | Kiali | `https://[vmi-system-kiali ingress host]` | `verrazzano`/`telemetry-password` |    
+   | Kiali | `https://[vmi-system-kiali ingress host]` | `verrazzano`/`telemetry-password` |
 
 ## Troubleshooting
 
 1. Verify that the application configuration, domain, and ingress trait all exist.
    ```
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get ApplicationConfiguration -n mc-todo-list
-   
+
    # Sample output
    NAME           AGE
    todo-appconf   19h
 
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get Domain -n mc-todo-list
-   
+
    # Sample output
    NAME          AGE
    todo-domain   19h
 
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get IngressTrait -n mc-todo-list
-   
+
    # Sample output
    NAME                           AGE
    todo-domain-trait-7cbd798c96   19h

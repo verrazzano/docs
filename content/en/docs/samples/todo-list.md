@@ -87,7 +87,7 @@ you can use the `kubectl wait` command. You may need to repeat the `kubectl wait
         -n todo-list \
         -o jsonpath='{.items[0].spec.servers[0].hosts[0]}')
    $ echo $HOST
-   
+
    # Sample output
    todo-appconf.todo-list.10.11.12.13.nip.io
    ```
@@ -98,7 +98,7 @@ you can use the `kubectl wait` command. You may need to repeat the `kubectl wait
         -n istio-system istio-ingressgateway \
         -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
    $ echo $ADDRESS
-   
+
    # Sample output
    10.11.12.13
    ```   
@@ -125,7 +125,7 @@ you can use the `kubectl wait` command. You may need to repeat the `kubectl wait
      Then, you can access the application in a browser at `https://todo.example.com/todo`.
 
      If you are using `nip.io`, then you can access the application in a browser using the `HOST` variable (for example, `https://${HOST}/todo`).  If you are going through a proxy, you may need to add `*.nip.io` to the `NO_PROXY` list.
-   
+
    * **Using your own DNS name**
      * Point your own DNS name to the ingress gateway's `EXTERNAL-IP` address.
      * In this case, you would need to have edited the `todo-list-application.yaml` file
@@ -154,7 +154,7 @@ you can use the `kubectl wait` command. You may need to repeat the `kubectl wait
 
    ```
    $ kubectl get ingress -n verrazzano-system
-   
+
    # Sample output
    NAME                    CLASS    HOSTS                                                 ADDRESS       PORTS     AGE
    verrazzano-ingress      <none>   verrazzano.default.11.22.33.44.nip.io                 11.22.33.44   80, 443   7d
@@ -172,7 +172,7 @@ you can use the `kubectl wait` command. You may need to repeat the `kubectl wait
    | Kibana      | `https://[vmi-system-kibana ingress host]`     | `verrazzano`/`telemetry-password` |
    | Grafana     | `https://[vmi-system-grafana ingress host]`    | `verrazzano`/`telemetry-password` |
    | Prometheus  | `https://[vmi-system-prometheus ingress host]` | `verrazzano`/`telemetry-password` |
-   | Kiali | `https://[vmi-system-kiali ingress host]` | `verrazzano`/`telemetry-password` |    
+   | Kiali | `https://[vmi-system-kiali ingress host]` | `verrazzano`/`telemetry-password` |
 
 ## Access the WebLogic Server Administration Console
 
@@ -198,7 +198,7 @@ It is recommended that the WebLogic Server Administration Console _not_ be expos
 1. Verify that the application configuration, domain, and ingress trait all exist.
    ```
    $ kubectl get ApplicationConfiguration -n todo-list
-   
+
    # Sample output
    NAME           AGE
    todo-appconf   19h
@@ -210,7 +210,7 @@ It is recommended that the WebLogic Server Administration Console _not_ be expos
    todo-domain   19h
 
    $ kubectl get IngressTrait -n todo-list
-   
+
    # Sample output
    NAME                           AGE
    todo-domain-trait-7cbd798c96   19h

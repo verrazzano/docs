@@ -78,7 +78,7 @@ By default, the application is located on the managed cluster called `managed1`.
        -n hello-helidon \
        --type merge \
        --patch "$(curl -s $CHANGE_PLACEMENT_PATCH_FILE)"
-   
+
    # Expected response
    multiclusterapplicationconfiguration.clusters.verrazzano.io/hello-helidon-appconf patched
    ```
@@ -87,7 +87,7 @@ By default, the application is located on the managed cluster called `managed1`.
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN get mcappconf hello-helidon-appconf \
        -n hello-helidon \
        -o jsonpath='{.spec.placement}';echo
-   
+
    # Expected response
    {"clusters":[{"name":"local"}]}
    ```
@@ -100,7 +100,7 @@ By default, the application is located on the managed cluster called `managed1`.
        -n verrazzano-mc \
        --type merge \
        --patch "$(curl -s $CHANGE_PLACEMENT_PATCH_FILE)"
-   
+
    # Expected response
    verrazzanoproject.clusters.verrazzano.io/hello-helidon patched
    ```

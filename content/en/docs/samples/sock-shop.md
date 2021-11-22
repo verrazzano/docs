@@ -93,7 +93,7 @@ Follow these steps to test the endpoints:
         -n sockshop \
         -o jsonpath={.items[0].spec.servers[0].hosts[0]})
    $ echo $HOST
-   
+
    # Sample output
    sockshop-appconf.sockshop.11.22.33.44.nip.io
    ```
@@ -104,7 +104,7 @@ Follow these steps to test the endpoints:
         -n istio-system istio-ingressgateway \
         -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
    $ echo $ADDRESS
-   
+
    # Sample output
    11.22.33.44
    ```   
@@ -119,7 +119,7 @@ Follow these steps to test the endpoints:
         -X GET \
         https://${HOST}/catalogue \
         --resolve ${HOST}:443:${ADDRESS}
-     
+
      # Sample output
      [{"count":115,"description":"For all those leg lovers out there....", ...}]
 
@@ -143,7 +143,7 @@ Follow these steps to test the endpoints:
      $ curl -i \
         -k https://${HOST}/carts/{username}/items \
         --resolve ${HOST}:443:${ADDRESS}
-     
+
      # Sample output
      [{"itemId":"a0a4f044-b040-410d-8ead-4de0446aec7e","quantity":1,"unitPrice":7.99}]
      ```
@@ -189,7 +189,7 @@ Follow these steps to test the endpoints:
 
         ```
          $ kubectl get ingress -n verrazzano-system
-      
+
          # Sample output
          NAME                    CLASS    HOSTS                                                 ADDRESS       PORTS     AGE
          verrazzano-ingress      <none>   verrazzano.default.11.22.33.44.nip.io                 11.22.33.44   80, 443   7d
@@ -207,7 +207,7 @@ Follow these steps to test the endpoints:
         | Kibana | `https://[vmi-system-kibana ingress host]` | `verrazzano`/`telemetry-password` |
         | Grafana | `https://[vmi-system-grafana ingress host]` | `verrazzano`/`telemetry-password` |
         | Prometheus | `https://[vmi-system-prometheus ingress host]` | `verrazzano`/`telemetry-password` |    
-        | Kiali | `https://[vmi-system-kiali ingress host]` | `verrazzano`/`telemetry-password` |    
+        | Kiali | `https://[vmi-system-kiali ingress host]` | `verrazzano`/`telemetry-password` |
 
 
 ## Troubleshooting

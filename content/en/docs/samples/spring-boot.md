@@ -44,7 +44,7 @@ This example provides a simple web application developed using [Spring Boot](htt
         -n springboot \
         -o jsonpath={.items[0].spec.servers[0].hosts[0]})
    $ echo $HOST
-   
+
    # Sample output
    springboot-appconf.springboot.11.22.33.44.nip.io
    ```
@@ -55,7 +55,7 @@ This example provides a simple web application developed using [Spring Boot](htt
         -n istio-system istio-ingressgateway \
         -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
    $ echo $ADDRESS
-   
+
    # Sample output
    11.22.33.44
    ```   
@@ -68,11 +68,11 @@ This example provides a simple web application developed using [Spring Boot](htt
      $ curl -sk \
          https://${HOST} \
          --resolve ${HOST}:443:${ADDRESS}
-     
+
      $ curl -sk \
          https://${HOST}/facts \
          --resolve ${HOST}:443:${ADDRESS}
-     
+
      # Sample output
      In 1524, Verazzano became the first European to enter the New York Harbor and the Hudson River.
      ```
@@ -118,7 +118,7 @@ This example provides a simple web application developed using [Spring Boot](htt
 
    ```
    $ kubectl get ingress -n verrazzano-system
-      
+
    # Sample output
    NAME                    CLASS    HOSTS                                                 ADDRESS       PORTS     AGE
    verrazzano-ingress      <none>   verrazzano.default.11.22.33.44.nip.io                 11.22.33.44   80, 443   7d
@@ -136,7 +136,7 @@ This example provides a simple web application developed using [Spring Boot](htt
    | Kibana      | `https://[vmi-system-kibana ingress host]`     | `verrazzano`/`telemetry-password` |
    | Grafana     | `https://[vmi-system-grafana ingress host]`    | `verrazzano`/`telemetry-password` |
    | Prometheus  | `https://[vmi-system-prometheus ingress host]` | `verrazzano`/`telemetry-password` |
-   | Kiali | `https://[vmi-system-kiali ingress host]` | `verrazzano`/`telemetry-password` |    
+   | Kiali | `https://[vmi-system-kiali ingress host]` | `verrazzano`/`telemetry-password` |
 
 
 ## Undeploy the application   

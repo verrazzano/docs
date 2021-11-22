@@ -50,7 +50,7 @@ Follow these steps to test the endpoints:
         -n hello-helidon \
         -o jsonpath='{.spec.servers[0].hosts[0]}')
    $ echo $HOST
-   
+
    # Sample output
    hello-helidon-appconf.hello-helidon.11.22.33.44.nip.io
    ```
@@ -61,7 +61,7 @@ Follow these steps to test the endpoints:
         -n istio-system istio-ingressgateway \
         -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
    $ echo $ADDRESS
-   
+
    # Sample output
    11.22.33.44
    ```   
@@ -74,7 +74,7 @@ Follow these steps to test the endpoints:
         -X GET \
         https://${HOST}/greet \
         --resolve ${HOST}:443:${ADDRESS}
-     
+
      # Expected response output
      {"message":"Hello World!"}
      ```
@@ -119,7 +119,7 @@ Follow these steps to test the endpoints:
 
          ```
          $ kubectl get ingress -n verrazzano-system
-      
+
          # Sample output
          NAME                    CLASS    HOSTS                                                 ADDRESS       PORTS     AGE
          verrazzano-ingress      <none>   verrazzano.default.11.22.33.44.nip.io                 11.22.33.44   80, 443   7d
@@ -137,7 +137,7 @@ Follow these steps to test the endpoints:
          | Kibana | `https://[vmi-system-kibana ingress host]` | `verrazzano`/`telemetry-password` |
          | Grafana | `https://[vmi-system-grafana ingress host]` | `verrazzano`/`telemetry-password` |
          | Prometheus | `https://[vmi-system-prometheus ingress host]` | `verrazzano`/`telemetry-password` |    
-         | Kiali | `https://[vmi-system-kiali ingress host]` | `verrazzano`/`telemetry-password` |    
+         | Kiali | `https://[vmi-system-kiali ingress host]` | `verrazzano`/`telemetry-password` |
 
 
 ## Troubleshooting

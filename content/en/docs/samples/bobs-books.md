@@ -110,7 +110,7 @@ For more information and the source code of this application, see the [Verrazzan
         -n istio-system istio-ingressgateway \
         -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
     $ echo $ADDRESS
-   
+
     # Sample output
     11.22.33.44
     ```
@@ -121,7 +121,7 @@ For more information and the source code of this application, see the [Verrazzan
        -n bobs-books \
        -o jsonpath='{.spec.servers[0].hosts[0]}')
    $ echo $HOST
-   
+
    # Sample output
    bobs-books.bobs-books.11.22.33.44.nip.io
    ```
@@ -205,7 +205,7 @@ It is recommended that the WebLogic Server Administration Console _not_ be expos
    Note that this may take a few minutes and that you may see some of the services terminate and restart.
    ```
    $ kubectl get pods -n bobs-books
-   
+
    # Sample output
    NAME                                                READY   STATUS    RESTARTS   AGE
    bobbys-helidon-stock-application-868b5965c8-dk2xb   3/3     Running   0          19h
