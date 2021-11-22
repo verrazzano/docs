@@ -21,7 +21,7 @@ As shown in the following diagram, logs written to stdout by a container running
 For components with multiple log streams or that cannot log to stdout, Verrazzano deploys a Fluentd sidecar which parses and translates the log stream.  The resulting log is sent to stdout of the sidecar container and then written to `/var/log/containers` by the kubelet service.
 
 For example, in a WebLogic deployment, `AdminServer.log` is consumed, translated, and written to stdout by the Fluentd sidecar.  You can view these logs using `kubectl` on the container named `fluentd-stdout-sidecar`.
- ```shell
+ ```
 $ kubectl logs tododomain-adminserver \
     -n todo-list \
     -c fluentd-stdout-sidecar
@@ -86,7 +86,7 @@ The same approach is used for both system and application logs.
 Verrazzano creates an Elasticsearch deployment as the store and search engine for the logs processed by Fluentd.  Records written by Fluentd can be queried using the Elasticsearch REST API.
 
 For example, you can use `curl` to get all of the Elasticsearch indexes. First, you must get the password for the `verrazzano` user and the host for the VMI Elasticsearch.
-```shell
+```
 $ PASS=$(kubectl get secret \
     --namespace verrazzano-system verrazzano \
     -o jsonpath={.data.password} | base64 \
@@ -100,7 +100,7 @@ $ curl -ik \
 ```
 
 To see all of the records for a specific index, do the following:
-```shell
+```
 $ INDEX=verrazzano-namespace-todo-list
 
 $ curl -ik \

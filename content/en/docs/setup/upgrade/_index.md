@@ -16,13 +16,13 @@ where a `helm upgrade` command can be issued for the component.  Typically, patc
 images with newer versions.
 
 ## Application and system pod restarts
-Upgrading Verrazzano 1.0.x to 1.1.0 will result in an upgrade of Istio from 1.7.3 to 1.10.4.  Because of this, all the pods 
+Upgrading Verrazzano 1.0.x to 1.1.0 will result in an upgrade of Istio from 1.7.3 to 1.10.4.  Because of this, all the pods
 in the Istio mesh need to be restarted so that the new Envoy proxy sidecar can be injected into the pods.  This includes both Verrazzano
-applications, along with Verrazzano system pods, such as the NGINX Ingress Controller.  For WebLogic workloads, Verrazzano will shut down 
-every domain, do the upgrade, then start every domain.  For all other workloads, Verrazzano will perform a rolling restart 
+applications, along with Verrazzano system pods, such as the NGINX Ingress Controller.  For WebLogic workloads, Verrazzano will shut down
+every domain, do the upgrade, then start every domain.  For all other workloads, Verrazzano will perform a rolling restart
 when the upgrade is complete.  There is no user involvement related to restarting applications; it is done automatically during upgrade.
 
-## Upgrade steps 
+## Upgrade steps
 It is important to distinguish between updating the Verrazzano platform operator versus upgrading the Verrazzano installation.
 The platform operator contains the newer component charts and image versions, so it must be updated prior to upgrading the installation.
 Updating the platform operator has no effect on an existing installation until you initiate the Verrazzano installation upgrade.
@@ -42,33 +42,33 @@ In order to upgrade an existing Verrazzano installation, you must first upgrade 
 
    To upgrade to the latest version:
 
-   ```shell
+   ```
    $ kubectl apply -f {{<release_asset_url operator.yaml>}}
    ```
 
    To upgrade to a specific version, where `<version>` is the desired version:
 
-   ```shell
+   ```
    $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/<version>/operator.yaml
    ```
 
     For example:
 
-   ```shell
+   ```
    $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v0.7.0/operator.yaml
    ```
 
 
 1. Wait for the deployment to complete.
 
-   ```shell
+   ```
    $ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
    deployment "verrazzano-platform-operator" successfully rolled out
    ```
 
 1. Confirm that the operator pod is correctly defined and running.
 
-   ```shell
+   ```
    $ kubectl -n verrazzano-install get pods
    NAME                                            READY   STATUS    RESTARTS   AGE
    verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
@@ -107,20 +107,20 @@ Verrazzano Platform Operator.
 
       Then apply the resource to the cluster (if you have not edited the resource in-place using `kubectl edit`):
 
-      ```shell
+      ```
       $ kubectl apply -f my-verrazzano.yaml
       ```
 
       b. Editing the `Verrazzano` resource directly using `kubectl` and setting the version field directly, for example:
 
-      ```shell
+      ```
       $ kubectl edit verrazzano my-verrazzano
       # In the resource editor, add or update the version field to "version: v0.17.0", then save.
       ```
 
 1. Wait for the upgrade to complete:
 
-   ```shell
+   ```
    $ kubectl wait \
        --timeout=10m \
        --for=condition=UpgradeComplete verrazzano/my-verrazzano
@@ -149,7 +149,7 @@ vmi-system-prometheus-0-7bf464d898-czq8r                 4/4     Running   0    
 weblogic-operator-7db5cdcf59-qxsr9                       1/1     Running   0          27h
 ```
 
-Check that the pods in your application namespaces are ready, for example: 
+Check that the pods in your application namespaces are ready, for example:
 ```
 $ kubectl get pods -n todo-list
 NAME                     READY   STATUS    RESTARTS   AGE

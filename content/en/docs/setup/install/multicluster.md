@@ -28,7 +28,7 @@ Install Verrazzano on each Kubernetes cluster.
   `KUBECONTEXT_MANAGED1`, and point them to the `kubeconfig` files and contexts for the admin and managed cluster,
   respectively. You will use these environment variables in subsequent steps when registering the managed cluster. The
   following shows an example of how to set these environment variables.
-  ```shell
+  ```
   $ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
   $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 
@@ -77,7 +77,7 @@ Follow these preregistration setup steps:
      choose the appropriate instructions.
    - If you are unsure what type of certificates are used, check the `ca.crt` field of the `system-tls` secret
      in the `verrazzano-system` namespace on the managed cluster.
-     ```shell
+     ```
      # On the managed cluster
      $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
           -n verrazzano-system get secret system-tls -o jsonpath='{.data.ca\.crt}'
@@ -99,7 +99,7 @@ certificate of the managed cluster as the value of the `cacrt` field. In the fol
 CA certificate is saved in an environment variable called `MGD_CA_CERT`. Then use the `--dry-run` option of the
 `kubectl` command to generate the `managed1.yaml` file.
 
-```shell
+```
 # On the managed cluster
 $ MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
      get secret system-tls \
@@ -114,7 +114,7 @@ $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
 ```
 Create a Secret on the *admin* cluster that contains the CA certificate for the managed cluster. This secret will be used for scraping metrics from the managed cluster.
    The file `managed1.yaml` that was created in the previous step provides input to this step.
-   ```shell
+   ```
    # On the admin cluster
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
         apply -f managed1.yaml
@@ -136,8 +136,8 @@ Create a Secret on the *admin* cluster that contains the CA certificate for the 
 For most types of Kubernetes clusters, except for Kind clusters, you can find the externally accessible API server
 address of the admin cluster from its `kubeconfig` file.
 
-```shell
-# View the information for the admin cluster in your kubeconfig file 
+```
+# View the information for the admin cluster in your kubeconfig file
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN config view --minify
 
 # Sample output
@@ -154,7 +154,7 @@ contexts:
 ```
 In the output of this command, you can find the URL of the admin cluster API server from the `server` entry. Set the
 value of the ADMIN_K8S_SERVER_ADDRESS variable to this URL.
-```shell
+```
 export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
 ```
 
@@ -168,12 +168,12 @@ accessible from the managed cluster. Use the `kind` command to obtain the "inter
 cluster, which will contain a server address accessible from other Kind clusters on the same machine, and therefore in
 the same Docker network.
 
-```shell
+```
 $ kind get kubeconfig --internal --name <your-admin-cluster-name> | grep server
 ```
 In the output of this command, you can find the URL of the admin cluster API server from the `server` entry. Set the
 value of the ADMIN_K8S_SERVER_ADDRESS variable to this URL.
-```shell
+```
 export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
 ```
    {{< /tab >}}
@@ -181,7 +181,7 @@ export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
 
 1. On the admin cluster, create a ConfigMap that contains the externally accessible admin cluster Kubernetes server
    address found in the previous step.
-    ```shell
+    ```
     # On the admin cluster
     $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
         apply -f <<EOF -
@@ -201,7 +201,7 @@ Perform the first three registration steps on the *admin* cluster, and the last 
 The cluster against which to run the command is indicated in each code block.
 #### On the admin cluster
 1. To begin the registration process for a managed cluster named `managed1`, apply the VerrazzanoManagedCluster object on the admin cluster.
-   ```shell
+   ```
    # On the admin cluster
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
        apply -f <<EOF -
@@ -218,14 +218,14 @@ The cluster against which to run the command is indicated in each code block.
 1. Wait for the VerrazzanoManagedCluster resource to reach the `Ready` status. At that point, it will have generated a YAML
    file that must be applied on the managed cluster to complete the registration process.
 
-   ```shell
+   ```
    # On the admin cluster
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
        wait --for=condition=Ready \
        vmc managed1 -n verrazzano-mc
    ```
 1. Export the YAML file created to register the managed cluster.
-   ```shell
+   ```
    # On the admin cluster
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
        get secret verrazzano-cluster-managed1-manifest \
@@ -235,7 +235,7 @@ The cluster against which to run the command is indicated in each code block.
 
 #### On the managed cluster
 Apply the registration file exported in the previous step, on the managed cluster.
-   ```shell
+   ```
    # On the managed cluster
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
        apply -f register.yaml
@@ -246,11 +246,11 @@ Apply the registration file exported in the previous step, on the managed cluste
    After this step, the managed cluster will begin connecting to the admin cluster periodically. When the managed cluster
    connects to the admin cluster, it will update the `Status` field of the `VerrazzanoManagedCluster` resource for this
    managed cluster, with the following information:
-   - The timestamp of the most recent connection made from the managed cluster, in the `lastAgentConnectTime` status field. 
+   - The timestamp of the most recent connection made from the managed cluster, in the `lastAgentConnectTime` status field.
    - The host address of the Prometheus instance running on the managed cluster, in the `prometheusHost` status field. This is
-     then used by the admin cluster to scrape metrics from the managed cluster. 
+     then used by the admin cluster to scrape metrics from the managed cluster.
    - The API address of the managed cluster, in the `apiUrl` status field. This is used by the admin cluster's authentication proxy to
-     route incoming requests for managed cluster information, to the managed cluster's authentication proxy. 
+     route incoming requests for managed cluster information, to the managed cluster's authentication proxy.
 
 ### Verify that managed cluster registration completed
 You can perform all the verification steps on the admin cluster.
@@ -258,11 +258,11 @@ You can perform all the verification steps on the admin cluster.
 1. Verify that the managed cluster can connect to the admin cluster. View the status of the `VerrazzanoManagedCluster`
    resource on the admin cluster, and check whether the `lastAgentConnectTime`, `prometheusUrl`, and `apiUrl` fields are
    populated. This may take up to two minutes after completing the registration steps.
-   ```shell
+   ```
    # On the admin cluster
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
        get vmc managed1 -n verrazzano-mc -o yaml
-   
+
    # Sample output showing the status field
    spec:
      ....
@@ -279,14 +279,14 @@ You can perform all the verification steps on the admin cluster.
    ```
 
 2. Verify that the managed cluster is successfully registered with Rancher.
-   When you perform the registration steps, Verrazzano also registers the managed cluster with Rancher. 
+   When you perform the registration steps, Verrazzano also registers the managed cluster with Rancher.
    View the Rancher UI on the admin cluster. If the registration with Rancher was successful, then your cluster will be
    listed in Rancher's list of clusters, and will be in `Active` state. You can find the Rancher UI URL for your
    cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/operations/_index.md" >}}).
 
 ### Verify that managed cluster metrics are being collected
 
-Verify that the admin cluster is collecting metrics from the managed cluster.  The Prometheus output will include 
+Verify that the admin cluster is collecting metrics from the managed cluster.  The Prometheus output will include
 records that contain the name of the Verrazzano cluster (labeled as `verrazzano_cluster`).
 
 You can find the Prometheus UI URL for your cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/operations/_index.md" >}}).
@@ -297,7 +297,7 @@ Execute a query for a metric (for example, `node_disk_io_time_seconds_total`).
 ![Prometheus](/docs/images/multicluster/prometheus-multicluster.png)
 
 An alternative approach to using the Prometheus UI is to query metrics from the command line. Here is an example of how to obtain Prometheus metrics from the command line. Search the output of the query for responses that have the `verrazzano_cluster` field set to the name of the managed cluster.
-   ```shell
+   ```
    # On the admin cluster
    $ prometheusUrl=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
                     get verrazzano -o jsonpath='{.items[0].status.instance.prometheusUrl}')
@@ -320,7 +320,7 @@ the managed cluster.
 ![Kibana](/docs/images/multicluster/kibana-multicluster.png)
 
 An alternative approach to using the Kibana UI is to query Elasticsearch from the command line.  Here is an example of how to obtain log records from the command line.  Search the output of the query for responses that have the `cluster_name` field set to the name of the managed cluster.
-   ```shell
+   ```
    # On the admin cluster
    $ kibanaUrl=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
                     get verrazzano -o jsonpath='{.items[0].status.instance.kibanaUrl}')

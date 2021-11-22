@@ -20,7 +20,7 @@ use the following steps to troubleshoot:
 You can verify that a managed cluster was successfully registered with an admin cluster by viewing the
 corresponding VerrazzanoManagedCluster (VMC) resource on the admin cluster. For example, to verify that a managed cluster
 named `managed1` was successfully registered:
-```shell
+```
 # on the admin cluster
 $ kubectl get verrazzanomanagedcluster managed1 \
     -n verrazzano-mc \
@@ -50,7 +50,7 @@ was not completed. For the complete setup instructions, see [here]({{< relref "/
 connect to the admin cluster at regular intervals, and any errors will be reported in the
 `verrazzano-application-operator` pod's log on the _managed_ cluster. View the logs using the following command.
 
-```shell
+```
 # on the managed cluster
 $ kubectl logs \
     -n verrazzano-system \
@@ -71,7 +71,7 @@ that:
 View the details of the project that corresponds to your application's namespace. In the example command that follows, the
 project name is assumed to be `myproject`. All projects are expected to be created in the `verrazzano-mc` namespace.
 
-```shell
+```
 # on the admin cluster
 $ kubectl get verrazzanoproject myproject \
     -n verrazzano-mc \
@@ -99,7 +99,7 @@ on each managed cluster in which it is placed.
 
 The following example command shows how to view the status of a MultiClusterApplicationConfiguration named `myapp`, in
 the namespace `mynamespace`, that has a `placement` value that includes the managed cluster `managed1`
-```shell
+```
 $ kubectl get multiclusterapplicationconfiguration myapp \
     -n mynamespace \
     -o yaml

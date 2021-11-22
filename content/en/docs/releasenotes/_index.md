@@ -206,7 +206,7 @@ Fixes:
 
 To enable OAM, when you install Verrazzano, specify the following in the Kubernetes manifest file for the Verrazzano custom resource:
 
-```shell
+```
 spec:
   oam:
     enabled: true
