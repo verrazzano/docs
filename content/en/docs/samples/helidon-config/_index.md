@@ -49,6 +49,8 @@ Follow these steps to test the endpoints:
         -n helidon-config \
         -o jsonpath={.spec.servers[0].hosts[0]})
    $ echo $HOST
+
+   # Sample output
    helidon-config-appconf.helidon-config.11.22.33.44.nip.io
    ```
 
@@ -58,6 +60,8 @@ Follow these steps to test the endpoints:
         -n istio-system istio-ingressgateway \
         -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
    $ echo $ADDRESS
+
+   # Sample output
    11.22.33.44
    ```   
 
@@ -69,6 +73,8 @@ Follow these steps to test the endpoints:
         -X GET \
         https://${HOST}/config \
         --resolve ${HOST}:443:${ADDRESS}
+
+     # Expected response output
      {"message":"HelloConfig World!"}
      ```
      If you are using `nip.io`, then you do not need to include `--resolve`.
@@ -82,6 +88,8 @@ Follow these steps to test the endpoints:
      11.22.33.44 helidon-config.example.com
      ```
      Then you can access the application in a browser at `https://<host>/config`.
+
+     If you are using `nip.io`, then you can access the application in a browser using the `HOST` variable (for example, `https://${HOST}/config`).  If you are going through a proxy, then you may need to add `*.nip.io` to the `NO_PROXY` list.
 
    * **Using your own DNS name**
      * Point your own DNS name to the ingress gateway's `EXTERNAL-IP` address.
@@ -109,14 +117,16 @@ Follow these steps to test the endpoints:
       You can retrieve the list of available ingresses with following command:
 
          ```
-         $ kubectl get ing -n verrazzano-system
-         NAME                         CLASS    HOSTS                                                    ADDRESS          PORTS     AGE
-         verrazzano-console-ingress   <none>   verrazzano.default.140.238.94.217.nip.io                 140.238.94.217   80, 443   7d2h
-         vmi-system-api               <none>   api.vmi.system.default.140.238.94.217.nip.io             140.238.94.217   80, 443   7d2h
-         vmi-system-es-ingest         <none>   elasticsearch.vmi.system.default.140.238.94.217.nip.io   140.238.94.217   80, 443   7d2h
-         vmi-system-grafana           <none>   grafana.vmi.system.default.140.238.94.217.nip.io         140.238.94.217   80, 443   7d2h
-         vmi-system-kibana            <none>   kibana.vmi.system.default.140.238.94.217.nip.io          140.238.94.217   80, 443   7d2h
-         vmi-system-prometheus        <none>   prometheus.vmi.system.default.140.238.94.217.nip.io      140.238.94.217   80, 443   7d2h
+         $ kubectl get ingress -n verrazzano-system
+
+         # Sample output
+         NAME                    CLASS    HOSTS                                                 ADDRESS       PORTS     AGE
+         verrazzano-ingress      <none>   verrazzano.default.11.22.33.44.nip.io                 11.22.33.44   80, 443   7d
+         vmi-system-es-ingest    <none>   elasticsearch.vmi.system.default.11.22.33.44.nip.io   11.22.33.44   80, 443   7d
+         vmi-system-grafana      <none>   grafana.vmi.system.default.11.22.33.44.nip.io         11.22.33.44   80, 443   7d
+         vmi-system-kiali        <none>   kiali.vmi.system.default.11.22.33.44.nip.io           11.22.33.44   80, 443   7d
+         vmi-system-kibana       <none>   kibana.vmi.system.default.11.22.33.44.nip.io          11.22.33.44   80, 443   7d
+         vmi-system-prometheus   <none>   prometheus.vmi.system.default.11.22.33.44.nip.io      11.22.33.44   80, 443   7d
          ```  
 
          Using the ingress host information, some of the endpoints available are:
@@ -126,6 +136,7 @@ Follow these steps to test the endpoints:
          | Kibana | `https://[vmi-system-kibana ingress host]` | `verrazzano`/`telemetry-password` |
          | Grafana | `https://[vmi-system-grafana ingress host]` | `verrazzano`/`telemetry-password` |
          | Prometheus | `https://[vmi-system-prometheus ingress host]` | `verrazzano`/`telemetry-password` |    
+         | Kiali | `https://[vmi-system-kiali ingress host]` | `verrazzano`/`telemetry-password` |
 
 ## Troubleshooting
 
@@ -140,6 +151,19 @@ Follow these steps to test the endpoints:
    ```
     $ kubectl get pods -n helidon-config
 
-    NAME                                      READY   STATUS    RESTARTS   AGE
+    # Sample output
+    NAME                                         READY   STATUS    RESTARTS   AGE
     helidon-config-deployment-676d97c7d4-wkrj2   3/3     Running   0          5m39s
+   ```
+## Undeploy the application
+
+1. To undeploy the application, delete the Hello Config World Helidon OAM resources.
+   ```
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/helidon-config/helidon-config-app.yaml >}}
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/helidon-config/helidon-config-comp.yaml >}}
+   ```
+
+1. Delete the namespace `helidon-config` after the application pod is terminated.
+   ```
+   $ kubectl delete namespace helidon-config
    ```

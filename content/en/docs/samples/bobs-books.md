@@ -106,18 +106,23 @@ For more information and the source code of this application, see the [Verrazzan
 
 1. Get the `EXTERNAL_IP` address of the `istio-ingressgateway` service.
     ```
-    $ kubectl get service \
-        -n "istio-system" "istio-ingressgateway" \
-        -o jsonpath={.status.loadBalancer.ingress[0].ip}
+    $ ADDRESS=$(kubectl get service \
+        -n istio-system istio-ingressgateway \
+        -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    $ echo $ADDRESS
 
+    # Sample output
     11.22.33.44
     ```
 
 1. Get the generated host name for the application.
    ```
-   $ kubectl get gateway bobs-books-bobs-books-gw \
+   $ HOST=$(kubectl get gateway bobs-books-bobs-books-gw \
        -n bobs-books \
-       -o jsonpath={.spec.servers[0].hosts[0]}
+       -o jsonpath='{.spec.servers[0].hosts[0]}')
+   $ echo $HOST
+
+   # Sample output
    bobs-books.bobs-books.11.22.33.44.nip.io
    ```
 
@@ -201,6 +206,7 @@ It is recommended that the WebLogic Server Administration Console _not_ be expos
    ```
    $ kubectl get pods -n bobs-books
 
+   # Sample output
    NAME                                                READY   STATUS    RESTARTS   AGE
    bobbys-helidon-stock-application-868b5965c8-dk2xb   3/3     Running   0          19h
    bobbys-coherence-0                                  2/2     Running   0          19h
@@ -213,4 +219,16 @@ It is recommended that the WebLogic Server Administration Console _not_ be expos
    robert-helidon-96997fcd5-nlswm                      3/3     Running   0          19h
    roberts-coherence-0                                 2/2     Running   0          17h
    roberts-coherence-1                                 2/2     Running   0          17h
+   ```
+## Undeploy the application
+
+1. To undeploy the application, delete the Bob's Books OAM resources.
+   ```
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/bobs-books/bobs-books-app.yaml >}}
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/bobs-books/bobs-books-comp.yaml >}}
+   ```
+
+1. Delete the namespace `bobs-books` after the application pods are terminated. The secrets created for the WebLogic domain also will be deleted.
+   ```
+   $ kubectl delete namespace bobs-books
    ```
