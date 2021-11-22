@@ -28,7 +28,7 @@ It uses OAM resources to define the application deployment.
    $ kubectl label namespace sockshop verrazzano-managed=true
    ```
 
-1. To deploy the application, apply the Sock Shop OAM resources.  Choose to deploy either the `helidon`, `micronaut` or `spring` variant.
+1. To deploy the application, apply the Sock Shop OAM resources.  Choose to deploy either the `helidon`, `micronaut`, or `spring` variant.
 
    {{< tabs tabTotal="3" tabID="3" tabName1="Helidon" tabName2="Micronaut" tabName3="Spring">}}
    {{< tab tabNum="1" >}}
@@ -235,7 +235,7 @@ Follow these steps to test the endpoints:
    ```
 ## Undeploy the application
 
-1. To undeploy the application, delete the Sock Shop OAM resources.  Choose to undeploy either the `helidon`, `micronaut` or `spring` variant.
+1. To undeploy the application, delete the Sock Shop OAM resources.  Choose to undeploy either the `helidon`, `micronaut`, or `spring` variant.
 
    {{< tabs tabTotal="3" tabID="4" tabName1="Helidon" tabName2="Micronaut" tabName3="Spring">}}
    {{< tab tabNum="1" >}}

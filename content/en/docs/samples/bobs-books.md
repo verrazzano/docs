@@ -228,7 +228,7 @@ It is recommended that the WebLogic Server Administration Console _not_ be expos
    $ kubectl delete -f {{< release_source_url raw=true path=examples/bobs-books/bobs-books-comp.yaml >}}
    ```
 
-1. Delete the namespace `bobs-books` after the application pods are terminated. The secrets created for the WebLogic domain will also be deleted.
+1. Delete the namespace `bobs-books` after the application pods are terminated. The secrets created for the WebLogic domain also will be deleted.
    ```
    $ kubectl delete namespace bobs-books
    ```

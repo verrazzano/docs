@@ -14,7 +14,7 @@ listed in the `placement` section.
   * Search for `example-todo` and select the image name in the results.
   * Click Continue, then read and accept the license agreement.
 
-Setup the following environment variables to point to the kubeconfig for the admin and managed clusters.
+Set up the following environment variables to point to the `kubeconfig` for the admin and managed clusters.
 
 ```
 $ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
@@ -228,7 +228,7 @@ Undeploy affects all clusters in which the application is located.
     -f {{< release_source_url raw=true path=examples/multicluster/todo-list/verrazzano-project.yaml >}}
    ```
 
-1. Delete the namespace `mc-todo-list` after the application pods are terminated. The secrets created for the WebLogic domain will also be deleted.
+1. Delete the namespace `mc-todo-list` after the application pods are terminated. The secrets created for the WebLogic domain also will be deleted.
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete namespace mc-todo-list
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 delete namespace mc-todo-list

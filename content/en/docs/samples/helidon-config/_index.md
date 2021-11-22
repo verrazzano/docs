@@ -89,7 +89,7 @@ Follow these steps to test the endpoints:
      ```
      Then you can access the application in a browser at `https://<host>/config`.
 
-     If you are using `nip.io`, then you can access the application in a browser using the `HOST` variable (for example, `https://${HOST}/config`).  If you are going through a proxy, you may need to add `*.nip.io` to the `NO_PROXY` list.
+     If you are using `nip.io`, then you can access the application in a browser using the `HOST` variable (for example, `https://${HOST}/config`).  If you are going through a proxy, then you may need to add `*.nip.io` to the `NO_PROXY` list.
 
    * **Using your own DNS name**
      * Point your own DNS name to the ingress gateway's `EXTERNAL-IP` address.

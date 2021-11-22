@@ -124,7 +124,7 @@ you can use the `kubectl wait` command. You may need to repeat the `kubectl wait
      ```
      Then, you can access the application in a browser at `https://todo.example.com/todo`.
 
-     If you are using `nip.io`, then you can access the application in a browser using the `HOST` variable (for example, `https://${HOST}/todo`).  If you are going through a proxy, you may need to add `*.nip.io` to the `NO_PROXY` list.
+     If you are using `nip.io`, then you can access the application in a browser using the `HOST` variable (for example, `https://${HOST}/todo`).  If you are going through a proxy, then you may need to add `*.nip.io` to the `NO_PROXY` list.
 
    * **Using your own DNS name**
      * Point your own DNS name to the ingress gateway's `EXTERNAL-IP` address.
@@ -234,7 +234,7 @@ It is recommended that the WebLogic Server Administration Console _not_ be expos
    $ kubectl delete -f {{< release_source_url raw=true path=examples/todo-list/todo-list-components.yaml >}}
    ```
 
-1. Delete the namespace `todo-list` after the application pods are terminated. The secrets created for the WebLogic domain will also be deleted.
+1. Delete the namespace `todo-list` after the application pods are terminated. The secrets created for the WebLogic domain also will be deleted.
    ```
    $ kubectl delete namespace todo-list
    ```

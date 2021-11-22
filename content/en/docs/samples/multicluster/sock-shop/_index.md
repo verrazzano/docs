@@ -10,7 +10,7 @@ It uses OAM resources to define the application deployment in a multicluster env
 If your environment does not have a cluster of that name, then you should edit the deployment files and change the cluster name
 listed in the `placement` section.
 
-Setup the following environment variables to point to the kubeconfig for the admin and managed clusters.
+Set up the following environment variables to point to the `kubeconfig` for the admin and managed clusters.
 
 ```
 $ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
