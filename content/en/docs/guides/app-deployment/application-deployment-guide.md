@@ -216,14 +216,14 @@ Steps similar to the `apply` steps would be used to deploy any application to Ve
 1. Create a namespace for the example application and add labels identifying the namespace as managed by Verrazzano
 and enabled for Istio.
 
-   ``` script
+   ```
    $ kubectl create namespace hello-helidon
    $ kubectl label namespace hello-helidon verrazzano-managed=true istio-injection=enabled
    ```
 
 1. Apply the application's component.
 
-   ``` script
+   ```
    $ kubectl apply -f {{< release_source_url raw=true path="examples/hello-helidon/hello-helidon-comp.yaml" >}}
    ```
 
@@ -233,7 +233,7 @@ and enabled for Istio.
 
 1. Apply the application configuration.
 
-   ``` script
+   ```
    $ kubectl apply -f {{< release_source_url raw=true path="examples/hello-helidon/hello-helidon-app.yaml" >}}
    ```
 
@@ -247,7 +247,7 @@ and enabled for Istio.
    After deploying the application, configure DNS to resolve the application's
    ingress DNS name to the application's load balancer IP address.
    The generated host name is obtained by querying Kubernetes for the gateway:
-   ``` script
+   ```
    $ kubectl get gateway hello-helidon-hello-helidon-appconf-gw \
        -n hello-helidon \
        -o jsonpath='{.spec.servers[0].hosts[0]}'
@@ -255,7 +255,7 @@ and enabled for Istio.
    The load balancer IP is obtained by querying Kubernetes for the
    Istio ingress gateway status:
 
-   ``` script
+   ```
    $ kubectl get service \
        -n istio-system istio-ingressgateway \
        -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
@@ -325,7 +325,7 @@ and enabled for Istio.
    View the event logs of any pod not entering the `Running` state within
    a reasonable length of time, such as five minutes.
 
-   ``` script
+   ```
    $ kubectl describe pod -n hello-helidon -l app=hello-helidon
    ```
 
@@ -337,7 +337,7 @@ Follow these steps to explore the application's functionality.
 If DNS was not configured, then use the alternative commands.
 
 1.  Save the host name and IP address of the load balancer exposing the application's REST service endpoints for later.
-    ``` script
+    ```
     $ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw \
           -n hello-helidon \
           -o jsonpath='{.spec.servers[0].hosts[0]}')
@@ -354,7 +354,7 @@ If DNS was not configured, then use the alternative commands.
 
 
 1.  Get the default message.
-    ``` script
+    ```
     $ curl -sk \
         -X GET \
         "https://${HOST}/greet"
@@ -362,7 +362,7 @@ If DNS was not configured, then use the alternative commands.
     {"message":"Hello World!"}
     ```
     If DNS has not been configured, then use this command.
-    ``` script
+    ```
     $ curl -sk \
         -X GET \
         "https://${HOST}/greet" \
@@ -370,7 +370,7 @@ If DNS was not configured, then use the alternative commands.
     ```
 
 1.  Get a message for Robert.
-    ``` script
+    ```
     $ curl -sk \
         -X GET \
         "https://${HOST}/greet/Robert"
@@ -378,7 +378,7 @@ If DNS was not configured, then use the alternative commands.
     {"message":"Hello Robert!"}
     ```
     If DNS has not been configured, then use this command.
-    ``` script
+    ```
     $ curl -sk \
         -X GET
         "https://${HOST}/greet/Robert" \
@@ -386,7 +386,7 @@ If DNS was not configured, then use the alternative commands.
     ```
 
 1.  Update the default greeting.
-    ``` script
+    ```
     $ curl -sk \
         -X PUT \
         "https://${HOST}/greet/greeting" \
@@ -394,7 +394,7 @@ If DNS was not configured, then use the alternative commands.
         -d '{"greeting" : "Greetings"}'
     ```
     If DNS has not been configured, then use this command.
-    ``` script
+    ```
     $ curl -sk \
         -X PUT \
         "https://${HOST}/greet/greeting" \
@@ -404,7 +404,7 @@ If DNS was not configured, then use the alternative commands.
     ```
 
 1.  Get the new message for Robert.
-    ``` script
+    ```
     $ curl -sk \
         -X GET \
         "https://${HOST}/greet/Robert"
@@ -412,7 +412,7 @@ If DNS was not configured, then use the alternative commands.
     {"message":"Greetings Robert!"}
     ```
     If DNS has not been configured, then use this command.
-    ``` script
+    ```
     $ curl -sk \
         -X GET \
         "https://${HOST}/greet/Robert" \
@@ -426,7 +426,7 @@ These logs are collected using Elasticsearch and can be accessed using Kibana.
 Elasticsearch and Kibana are examples of infrastructure Verrazzano creates in support of an application as a result of applying an application configuration.
 
 Determine the URL to access Kibana:
- ``` script
+ ```
 $ KIBANA_HOST=$(kubectl get ingress \
       -n verrazzano-system vmi-system-kibana \
       -o jsonpath='{.spec.rules[0].host}')
@@ -438,7 +438,7 @@ $ open "${KIBANA_URL}"
 The user name to access Kibana defaults to `verrazzano` during the Verrazzano installation.
 
 Determine the password to access Kibana:
-``` script
+```
 $ echo $(kubectl get secret \
       -n verrazzano-system verrazzano \
       -o jsonpath={.data.password} | base64 \
@@ -453,7 +453,7 @@ Prometheus and Grafana are additional components Verrazzano creates as a result 
 
 Determine the URL to access Grafana:
 
-``` script
+```
 $ GRAFANA_HOST=$(kubectl get ingress \
       -n verrazzano-system vmi-system-grafana \
       -o jsonpath='{.spec.rules[0].host}')
@@ -465,7 +465,7 @@ The user name to access Grafana is set to the default value `verrazzano` during 
 
 Determine the password to access Grafana:
 
-``` script
+```
 $ echo $(kubectl get secret \
       -n verrazzano-system verrazzano \
       -o jsonpath={.data.password} | base64 \
@@ -475,7 +475,7 @@ $ echo $(kubectl get secret \
 Alternatively, metrics can be accessed directly using Prometheus.
 Determine the URL for this access:
 
-``` script
+```
 $ PROMETHEUS_HOST=$(kubectl get ingress \
       -n verrazzano-system vmi-system-prometheus \
       -o jsonpath='{.spec.rules[0].host}')
@@ -492,7 +492,7 @@ Run the following commands to delete the application configuration, and optional
 
 1. Delete the application configuration.
 
-   ``` script
+   ```
    $ kubectl delete -f {{< release_source_url raw=true path="examples/hello-helidon/hello-helidon-app.yaml" >}}
    ```
 
@@ -501,13 +501,13 @@ Run the following commands to delete the application configuration, and optional
 
 1. (Optional) Delete the application's component.
 
-   ``` script
+   ```
    $ kubectl delete -f {{< release_source_url raw=true path="examples/hello-helidon/hello-helidon-comp.yaml" >}}
    ```
    **Note**: This step is not required if other application configurations for this component will be applied in the future.
 
 1. (Optional) Delete the namespace.
 
-   ``` script
+   ```
    $ kubectl delete namespace hello-helidon
    ```

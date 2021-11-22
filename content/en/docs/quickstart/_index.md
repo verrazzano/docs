@@ -142,14 +142,14 @@ enabled for Istio.
    namespace to be ready.
 
 1.  Save the host name of the load balancer exposing the application's REST service endpoints.
-    ``` script
+    ```
     $ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw \
         -n hello-helidon \
         -o jsonpath='{.spec.servers[0].hosts[0]}')
     ```
 
 1.  Get the default message.
-    ``` script
+    ```
     $ curl -sk \
         -X GET \
         "https://${HOST}/greet"
