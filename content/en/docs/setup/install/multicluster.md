@@ -60,8 +60,8 @@ variables set previously to connect to the appropriate cluster.
 ### Preregistration setup
 
 Before registering the managed cluster, first you'll need to set up the following items:
-- A Secret containing the managed cluster's CA certificate. Note that the `cacrt` field in this secret can be empty if
-  the managed cluster uses a well-known CA. It is required only if the managed cluster uses self-signed certificates.
+- A Secret containing the managed cluster's CA certificate. Note that the `cacrt` field in this secret can be empty only 
+  if the managed cluster uses a well-known CA.
   This CA certificate is used by the admin cluster to scrape metrics from the managed cluster, for both applications and Verrazzano components.
 - A ConfigMap containing the externally reachable address of the admin cluster. This will be provided to the managed
   cluster during registration so that it can connect to the admin cluster.
@@ -70,11 +70,11 @@ Follow these preregistration setup steps:
 
 1. If needed for the admin cluster, obtain the managed cluster's CA certificate.
    The admin cluster scrapes metrics from the managed cluster's Prometheus endpoint. If the managed cluster
-   Verrazzano installation uses self-signed certificates, then the admin cluster will need the managed cluster's CA
-   certificate in order to make an `https` connection.
+   Verrazzano installation uses self-signed certificates or LetsEncrypt staging certificates, then the admin 
+   cluster will need the managed cluster's CA certificate in order to make an `https` connection.
    - Depending on whether the Verrazzano installation on the managed cluster uses
-     self-signed certificates or certificates signed by a well-known certificate authority,
-     choose the appropriate instructions.
+     self-signed certificates, LetsEncrypt staging certificates, or certificates signed by a well-known 
+     certificate authority, choose the appropriate instructions.
    - If you are unsure what type of certificates are used, check the `ca.crt` field of the `system-tls` secret
      in the `verrazzano-system` namespace on the managed cluster.
      ```
