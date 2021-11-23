@@ -129,11 +129,11 @@ Create a Secret on the *admin* cluster that contains the CA certificate for the 
 1. Use the following instructions to obtain the Kubernetes API server address for the admin cluster. This address must
    be accessible from the managed cluster.
 
-   {{< tabs tabTotal="2" tabID="3" tabName1="Most Kubernetes Clusters" tabName2="Kind Clusters" >}}
+   {{< tabs tabTotal="2" tabID="3" tabName1="Most Kubernetes Clusters" tabName2="kind Clusters" >}}
    {{< tab tabNum="1" >}}
 <br>
 
-For most types of Kubernetes clusters, except for Kind clusters, you can find the externally accessible API server
+For most types of Kubernetes clusters, except for kind clusters, you can find the externally accessible API server
 address of the admin cluster from its `kubeconfig` file.
 
 ```
@@ -162,10 +162,10 @@ export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
    {{< tab tabNum="2" >}}
 <br>
 
-Kind clusters run within a Docker container. If your admin and managed clusters are Kind clusters, the API server
+kind clusters run within a Docker container. If your admin and managed clusters are kind clusters, the API server
 address of the admin cluster in its `kubeconfig` file is usually a local address on the host machine, which will not be
 accessible from the managed cluster. Use the `kind` command to obtain the "internal" `kubeconfig` of the admin
-cluster, which will contain a server address accessible from other Kind clusters on the same machine, and therefore in
+cluster, which will contain a server address accessible from other kind clusters on the same machine, and therefore in
 the same Docker network.
 
 ```
