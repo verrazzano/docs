@@ -75,18 +75,33 @@ Follow these preregistration setup steps:
    - Depending on whether the Verrazzano installation on the managed cluster uses
      self-signed certificates, LetsEncrypt staging certificates, or certificates signed by a well-known 
      certificate authority, choose the appropriate instructions.
-   - If you are unsure what type of certificates are used, check the `ca.crt` field of the `system-tls` secret
-     in the `verrazzano-system` namespace on the managed cluster.
-     ```
-     # On the managed cluster
-     $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
-          -n verrazzano-system get secret system-tls -o jsonpath='{.data.ca\.crt}'
-     ```
-     If this value is empty, then your managed cluster is using certificates signed by a well-known certificate
-     authority. Otherwise, your managed cluster is using self-signed certificates.
+   - If you are unsure what type of certificates are used, use the following instructions.
+     * Check if the `verrazzano` resource is configured to use LetsEncrypt staging certificates.
+       ```
+       # On the managed cluster
+       $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
+            describe verrazzano
+       ```
+       LetsEncrypt staging certificates are being used if the output contains the following information:
+       ```
+       Cert Manager:
+         Certificate:
+           Acme:
+             Environment:    staging
+             Provider:       letsEncrypt
+       ```
+     * Check the `ca.crt` field of the `system-tls` secret
+       in the `verrazzano-system` namespace on the managed cluster.
+       ```
+       # On the managed cluster
+       $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
+            -n verrazzano-system get secret system-tls -o jsonpath='{.data.ca\.crt}'
+       ```
+       If this value is empty, then your managed cluster is using certificates signed by a well-known certificate
+       authority. Otherwise, your managed cluster is using self-signed certificates.
 
-     {{< tabs tabTotal="2" tabID="2" tabName1="Well-known CA" tabName2="Self-Signed" >}}
-     {{< tab tabNum="1" >}}
+       {{< tabs tabTotal="3" tabID="2" tabName1="Well-known CA" tabName2="Self-Signed" tabName3="LetsEncrypt Staging" >}}
+       {{< tab tabNum="1" >}}
 <br>
 
 In this case, no additional configuration is necessary.
@@ -122,6 +137,37 @@ Create a Secret on the *admin* cluster that contains the CA certificate for the 
    # Once the command succeeds, you may delete the managed1.yaml file
    $ rm managed1.yaml
    ```
+     {{< /tab >}}
+     {{< tab tabNum="3" >}}
+
+If the managed cluster certificates are LetsEncrypt staging, create a file called `managed1.yaml` containing the CA
+certificate of the managed cluster as the value of the `cacrt` field. In the following commands, the managed cluster's
+CA certificate is saved in an environment variable called `MGD_CA_CERT`. Then use the `--dry-run` option of the
+`kubectl` command to generate the `managed1.yaml` file.
+
+Download the LetsEncrypt staging certificates
+```
+curl https://letsencrypt.org/certs/staging/letsencrypt-stg-int-r3.pem > staging-certs.pem
+curl https://letsencrypt.org/certs/staging/letsencrypt-stg-int-e1.pem >> staging-certs.pem
+curl https://letsencrypt.org/certs/staging/letsencrypt-stg-root-x1.pem >> staging-certs.pem
+```
+
+Create a Secret on the *admin* cluster that contains the CA certificate for the managed cluster. This secret will be used for scraping metrics from the managed cluster.
+```
+# On the admin cluster
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+     create secret generic "ca-secret-managed1" \
+     -n verrazzano-mc \
+     --from-file=cacrt=staging-certs.pem \
+     --dry-run=client \
+     -o yaml > managed1.yaml
+
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+     apply -f managed1.yaml
+
+# Once the command succeeds, you may delete the managed1.yaml file
+$ rm managed1.yaml
+```
 
      {{< /tab >}}
      {{< /tabs >}}
