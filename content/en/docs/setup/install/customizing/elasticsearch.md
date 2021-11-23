@@ -69,6 +69,8 @@ shows the expected nodes are running with the appropriate data volumes:
 
 ```
 $ kubectl  get pvc,pod -n verrazzano-system
+
+# Sample output
 NAME                                                                STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
 persistentvolumeclaim/elasticsearch-master-vmi-system-es-master-0   Bound    pvc-8ffff457-4d72-4a72-89ba-2cdcb8eade38   10Gi       RWO            standard       6m51s
 persistentvolumeclaim/vmi-system-es-data                            Bound    pvc-e32c2182-46ba-4789-b577-195874b3dd69   10Gi       RWO            standard       6m53s

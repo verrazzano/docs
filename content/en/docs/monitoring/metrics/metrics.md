@@ -84,9 +84,8 @@ To access Grafana:
 - Get the hostname from the Grafana ingress.
    ```
    $ kubectl get ingress vmi-system-grafana -n verrazzano-system
-   ```
 
-   ```
+   # Sample output
    NAME                 CLASS    HOSTS                                              ADDRESS          PORTS     AGE
    vmi-system-grafana   <none>   grafana.vmi.system.default.123.456.789.10.nip.io   123.456.789.10   80, 443   26h
    ```

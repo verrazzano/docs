@@ -47,7 +47,8 @@ the ingress route information, and such.
 The NGINX Ingress Controller is a LoadBalancer service, as seen here:
 ```
 $ kubectl get service -n ingress-nginx
-...
+
+# Sample output
 ingress-controller-ingress-nginx-controller           LoadBalancer
 ```
 
@@ -73,7 +74,8 @@ create the Istio ingress gateway, which is a LoadBalancer service, along with th
 Istio egress gateway, which is a ClusterIP service.  
 ```
 $ kubectl get service -n istio-system
-...
+
+# Sample output
 istio-ingressgateway   LoadBalancer
 ```
 Again, referring to the OKE use case, this means that there will another OCI load balancer created,

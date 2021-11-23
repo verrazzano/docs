@@ -65,8 +65,9 @@ because they will not need to pull the images again.
 ```
 $ docker volume create containerd
 
-$ docker volume inspect containerd #Sample output is shown
+$ docker volume inspect containerd 
 
+#Sample output
 {
     "CreatedAt": "2021-01-11T16:27:47Z",
     "Driver": "local",
@@ -124,6 +125,8 @@ To determine the subnet of the `kind` Docker network in KIND v0.8.0 and later:
 
 ```
 $ docker inspect kind | jq '.[0].IPAM.Config[0].Subnet' -r
+
+# Sample output
 172.18.0.0/16
 ```
 
@@ -131,6 +134,8 @@ To determine the subnet of the `kind` Docker network in KIND v0.7.0 and earlier:
 
 ```
 $ docker inspect bridge | jq '.[0].IPAM.Config[0].Subnet' -r
+
+# Sample output
 172.17.0.0/16
 ```
 
