@@ -280,6 +280,7 @@ and enabled for Istio.
    ```
    $ kubectl get pods -n hello-helidon -l app=hello-helidon
 
+   # Sample output
    NAME                                        READY   STATUS    RESTARTS   AGE
    hello-helidon-deployment-8664954995-wcb9d   2/2     Running   0          5m5s
    ```
@@ -289,6 +290,7 @@ and enabled for Istio.
    ```
    $ kubectl get pod -n verrazzano-system -l app=verrazzano-application-operator
 
+   # Sample output
    NAME                                               READY   STATUS    RESTARTS   AGE
    verrazzano-application-operator-79849b89ff-lr9w6   1/1     Running   0          13m
    ```
@@ -303,11 +305,13 @@ and enabled for Istio.
    ```
    $ kubectl get pods -n verrazzano-system | grep '^NAME\|vmi-system'
 
-   NAME                                                     READY   STATUS    RESTARTS   AGE
-   vmi-system-es-master-0                                   2/2     Running   0          26h
-   vmi-system-grafana-74bb7cdf65-k97pb                      2/2     Running   0          26h
-   vmi-system-kibana-85565975b5-7hfdf                       2/2     Running   0          26h
-   vmi-system-prometheus-0-7bf464d898-czq8r                 4/4     Running   0          26h
+   # Sample output
+   NAME                                               READY   STATUS    RESTARTS   AGE
+   vmi-system-es-master-0                             2/2     Running   0          47m
+   vmi-system-grafana-799d79648d-wsdp4                2/2     Running   0          47m
+   vmi-system-kiali-574c6dd94d-f49jv                  2/2     Running   0          51m
+   vmi-system-kibana-77f8d998f4-zzvqr                 2/2     Running   0          47m
+   vmi-system-prometheus-0-7f89d54fbf-brg6x           3/3     Running   0          45m
    ```
 
    These pods in the `verrazzano-system` namespace constitute a
@@ -316,6 +320,7 @@ and enabled for Istio.
    The monitoring infrastructure comprises several components:
    * `vmi-system-es` - Elasticsearch for log collection
    * `vmi-system-grafana` - Grafana for metric visualization
+   * `vms-system-kiali` - Kiali for management console of `istio` service mesh
    * `vmi-system-kibana` - Kibana for log visualization
    * `vmi-system-prometheus` - Prometheus for metric collection
    <p/>
@@ -359,6 +364,7 @@ If DNS was not configured, then use the alternative commands.
         -X GET \
         "https://${HOST}/greet"
 
+    # Expected response
     {"message":"Hello World!"}
     ```
     If DNS has not been configured, then use this command.
@@ -375,6 +381,7 @@ If DNS was not configured, then use the alternative commands.
         -X GET \
         "https://${HOST}/greet/Robert"
 
+    # Expected response
     {"message":"Hello Robert!"}
     ```
     If DNS has not been configured, then use this command.
@@ -409,6 +416,7 @@ If DNS was not configured, then use the alternative commands.
         -X GET \
         "https://${HOST}/greet/Robert"
 
+    # Expected response
     {"message":"Greetings Robert!"}
     ```
     If DNS has not been configured, then use this command.

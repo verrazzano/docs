@@ -30,6 +30,8 @@ To obtain the required Verrazzano images and install from your private registry,
    * (Optional) Validate the checksum and the TAR file match.  For example,
      ```
      $ shasum -c  verrazzano_1.0.0.tar.gz.sha256
+     
+     # Sample output
      verrazzano_1.0.0.tar.gz: OK
      ```
    * Expand the TAR file, for example, `tar xvf verrazzano_1.0.0.tar.gz`.

@@ -449,6 +449,8 @@ To do so, first, we need to create the Verrazzano components for MySQL by applyi
 
 ```
 $ kubectl apply -f mysql-oam.yaml
+
+# Expected response
 component.core.oam.dev/todo-mysql-service created
 component.core.oam.dev/todo-mysql-deployment created
 component.core.oam.dev/todo-mysql-configmap created
@@ -457,6 +459,8 @@ component.core.oam.dev/todo-mysql-configmap created
 
 ```
 $ kubectl get components -ntododomain
+
+# Expected response
 todo-mysql-configmap    ConfigMap       26s
 todo-mysql-deployment   Deployment      26s
 todo-mysql-service      Service         26s
@@ -481,12 +485,16 @@ Wait for the ToDo List example application to be ready.
 $ kubectl wait pod \
     --for=condition=Ready tododomain-adminserver \
     -n tododomain
+
+# Expected response
 pod/tododomain-adminserver condition met
 ```
 
 Verify that the pods are in the `Running` state:
 ```
 $ kubectl get pod -n tododomain
+
+# Sample output
 NAME                     READY   STATUS    RESTARTS   AGE
 mysql-55bb4c4565-c8zf5   1/1     Running   0          8m
 tododomain-adminserver   4/4     Running   0          5m
@@ -499,6 +507,8 @@ tododomain-adminserver   4/4     Running   0          5m
    $ kubectl get gateway tododomain-tododomain-appconf-gw \
        -n tododomain \
        -o jsonpath={.spec.servers[0].hosts[0]}
+   
+   # Sample output
    tododomain-appconf.tododomain.11.22.33.44.nip.io
    ```
 

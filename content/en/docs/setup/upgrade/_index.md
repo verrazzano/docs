@@ -63,6 +63,8 @@ In order to upgrade an existing Verrazzano installation, you must first upgrade 
 
    ```
    $ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
+   
+   # Expected response
    deployment "verrazzano-platform-operator" successfully rolled out
    ```
 
@@ -70,6 +72,8 @@ In order to upgrade an existing Verrazzano installation, you must first upgrade 
 
    ```
    $ kubectl -n verrazzano-install get pods
+   
+   # Sample output
    NAME                                            READY   STATUS    RESTARTS   AGE
    verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
    ```
@@ -132,26 +136,31 @@ Check that all the pods in the `verrazzano-system` namespace are in the `Running
 you may see some pods terminating and restarting as newer versions of components are applied, for example:
 ```
 $ kubectl get pods -n verrazzano-system
-coherence-operator-controller-manager-7557bc4c49-7w55p   1/1     Running   0          27h
-fluentd-fzmsl                                            1/1     Running   0          27h
-fluentd-r9wwf                                            1/1     Running   0          27h
-fluentd-zp2r2                                            1/1     Running   0          27h
-oam-kubernetes-runtime-6ff589f66f-r95qv                  1/1     Running   0          27h
-verrazzano-api-669c7d7f66-rcnl8                          1/1     Running   0          27h
-verrazzano-application-operator-b5b77d676-7w95p          1/1     Running   0          27h
-verrazzano-console-6b469dff9c-b2jwk                      1/1     Running   0          27h
-verrazzano-monitoring-operator-54cb658774-f6jjm          1/1     Running   0          27h
-verrazzano-operator-7f4b99d7d-wg7qm                      1/1     Running   0          27h
-vmi-system-es-master-0                                   2/2     Running   0          27h
-vmi-system-grafana-74bb7cdf65-k97pb                      2/2     Running   0          27h
-vmi-system-kibana-85565975b5-7hfdf                       2/2     Running   0          27h
-vmi-system-prometheus-0-7bf464d898-czq8r                 4/4     Running   0          27h
-weblogic-operator-7db5cdcf59-qxsr9                       1/1     Running   0          27h
+
+# Sample output
+coherence-operator-866798c99d-r69xt                1/1     Running   1          43m
+fluentd-f9fbv                                      2/2     Running   0          38m
+fluentd-n79c4                                      2/2     Running   0          38m
+fluentd-xslzw                                      2/2     Running   0          38m
+oam-kubernetes-runtime-56cdb56c98-wn2mb            1/1     Running   0          43m
+verrazzano-application-operator-7c95ddd5b5-7xzmn   1/1     Running   0          42m
+verrazzano-authproxy-594d8c8dcd-llmlr              2/2     Running   0          38m
+verrazzano-console-74dbf97fdf-zxvvn                2/2     Running   0          38m
+verrazzano-monitoring-operator-6fcf8484fd-gfkhs    1/1     Running   0          38m
+verrazzano-operator-66c8566f95-8lbs6               1/1     Running   0          38m
+vmi-system-es-master-0                             2/2     Running   0          38m
+vmi-system-grafana-799d79648d-wsdp4                2/2     Running   0          38m
+vmi-system-kiali-574c6dd94d-f49jv                  2/2     Running   0          41m
+vmi-system-kibana-77f8d998f4-zzvqr                 2/2     Running   0          38m
+vmi-system-prometheus-0-7f89d54fbf-brg6x           3/3     Running   0          36m
+weblogic-operator-7b447fdb47-wlw64                 2/2     Running   0          42m
 ```
 
 Check that the pods in your application namespaces are ready, for example:
 ```
 $ kubectl get pods -n todo-list
+
+# Sample output
 NAME                     READY   STATUS    RESTARTS   AGE
 mysql-67575d8954-d4vkm   2/2     Running   0          39h
 tododomain-adminserver   4/4     Running   0          39h

@@ -42,6 +42,8 @@ To install the Verrazzano platform operator:
 
     ```
     $ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
+   
+    # Sample output
     deployment "verrazzano-platform-operator" successfully rolled out
     ```
 
@@ -49,6 +51,8 @@ To install the Verrazzano platform operator:
 
     ```
     $ kubectl -n verrazzano-install get pods
+   
+    # Sample output
     NAME                                            READY   STATUS    RESTARTS   AGE
     verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
     ```
@@ -136,6 +140,8 @@ enabled for Istio.
        --for=condition=Ready pods \
        --all -n hello-helidon \
        --timeout=300s
+   
+   # Sample output
    pod/hello-helidon-deployment-78468f5f9c-czmp4 condition met
    ```
    This creates the Verrazzano OAM Component application resources for the example, waits for the pods in the `hello-helidon`
@@ -154,6 +160,7 @@ enabled for Istio.
         -X GET \
         "https://${HOST}/greet"
 
+    # Expected response
     {"message":"Hello World!"}
     ```
 
@@ -173,6 +180,8 @@ To uninstall the Hello World Helidon example application:
 
    ```
    $ kubectl delete namespace hello-helidon
+   
+   # Expected response
    namespace "hello-helidon" deleted
     ```
 
@@ -180,6 +189,8 @@ To uninstall the Hello World Helidon example application:
 
    ```
    $ kubectl get ns hello-helidon
+   
+   # Expected response
    Error from server (NotFound): namespaces "hello-helidon" not found
    ```
 

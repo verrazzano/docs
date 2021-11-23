@@ -42,6 +42,8 @@ To install the Verrazzano platform operator:
 
     ```
     $ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
+   
+    # Expected response
     deployment "verrazzano-platform-operator" successfully rolled out
     ```
 
@@ -49,6 +51,8 @@ To install the Verrazzano platform operator:
 
     ```
     $ kubectl -n verrazzano-install get pods
+   
+    # Sample output
     NAME                                            READY   STATUS    RESTARTS   AGE
     verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
     ```
@@ -104,21 +108,22 @@ $ kubectl logs -n verrazzano-install \
 Verrazzano installs multiple objects in multiple namespaces. In the `verrazzano-system` namespaces, all the pods in the `Running` state, does not guarantee, but likely indicates that Verrazzano is up and running.
 ```
 $ kubectl get pods -n verrazzano-system
-coherence-operator-controller-manager-7557bc4c49-7w55p   1/1     Running   0          27h
-fluentd-fzmsl                                            1/1     Running   0          27h
-fluentd-r9wwf                                            1/1     Running   0          27h
-fluentd-zp2r2                                            1/1     Running   0          27h
-oam-kubernetes-runtime-6ff589f66f-r95qv                  1/1     Running   0          27h
-verrazzano-api-669c7d7f66-rcnl8                          1/1     Running   0          27h
-verrazzano-application-operator-b5b77d676-7w95p          1/1     Running   0          27h
-verrazzano-console-6b469dff9c-b2jwk                      1/1     Running   0          27h
-verrazzano-monitoring-operator-54cb658774-f6jjm          1/1     Running   0          27h
-verrazzano-operator-7f4b99d7d-wg7qm                      1/1     Running   0          27h
-vmi-system-es-master-0                                   2/2     Running   0          27h
-vmi-system-grafana-74bb7cdf65-k97pb                      2/2     Running   0          27h
-vmi-system-kibana-85565975b5-7hfdf                       2/2     Running   0          27h
-vmi-system-prometheus-0-7bf464d898-czq8r                 4/4     Running   0          27h
-weblogic-operator-7db5cdcf59-qxsr9                       1/1     Running   0          27h
+
+# Sample output
+coherence-operator-dcfb446df-24djp                 1/1     Running   1          49m
+fluentd-h65xf                                      2/2     Running   1          45m
+oam-kubernetes-runtime-6645df49cd-6q96c            1/1     Running   0          49m
+verrazzano-application-operator-85ffd7f77b-rhwk7   1/1     Running   0          48m
+verrazzano-authproxy-58db5b9484-nhnql              2/2     Running   0          45m
+verrazzano-console-5dbdc579bd-hm4rh                2/2     Running   0          45m
+verrazzano-monitoring-operator-599654889d-lbb4z    1/1     Running   0          45m
+verrazzano-operator-7b6fd64dd5-8j9h8               1/1     Running   0          45m
+vmi-system-es-master-0                             2/2     Running   0          45m
+vmi-system-grafana-5558d65b46-pxg78                2/2     Running   0          45m
+vmi-system-kiali-5949966fb8-465s8                  2/2     Running   0          48m
+vmi-system-kibana-86b894d8f6-q4vb5                 2/2     Running   0          45m
+vmi-system-prometheus-0-859fcd87dc-m5ws9           3/3     Running   0          44m
+weblogic-operator-646756c75c-hgz6j                 2/2     Running   0          49m
 ```
 
 ## (Optional) Run the example applications

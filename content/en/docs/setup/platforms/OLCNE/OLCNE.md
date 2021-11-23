@@ -310,6 +310,7 @@ rancher.myenv.example.com                       CNAME   ingress-mgmt.myenv.examp
 
 grafana.vmi.system.myenv.example.com            CNAME   ingress-mgmt.myenv.example.com.
 prometheus.vmi.system.myenv.example.com         CNAME   ingress-mgmt.myenv.example.com.
+kiali.vmi.system.myenv.example.com              CNAME   ingress-mgmt.myenv.example.com.
 kibana.vmi.system.myenv.example.com             CNAME   ingress-mgmt.myenv.example.com.
 elasticsearch.vmi.system.myenv.example.com      CNAME   ingress-mgmt.myenv.example.com.
 ```
