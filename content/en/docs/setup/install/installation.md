@@ -104,7 +104,7 @@ $ kubectl logs -n verrazzano-install \
 ```
 
 After the installation is complete, you can use the console URLs.
-For more information on how to access the Verrazzano consoles, see [Access Verrazzano]({{< relref "/docs/operations/" >}}).git ad
+For more information on how to access the Verrazzano consoles, see [Access Verrazzano]({{< relref "/docs/operations/" >}}).
 ## Verify the install
 
 Verrazzano installs multiple objects in multiple namespaces. In the `verrazzano-system` namespaces, all the pods in the `Running` state, does not guarantee, but likely indicates that Verrazzano is up and running.
