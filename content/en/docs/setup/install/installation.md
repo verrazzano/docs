@@ -100,15 +100,6 @@ $ kubectl logs -n verrazzano-install \
     -f $(kubectl get pod \
     -n verrazzano-install \
     -l app=verrazzano-platform-operator \
-    -o jsonpath="{.items[0].metadata.name}")
-```
-
-To filter the logs by install:
-```
-$ kubectl logs -n verrazzano-install \
-    $(kubectl get pod \
-    -n verrazzano-install \
-    -l app=verrazzano-platform-operator \
     -o jsonpath="{.items[0].metadata.name}") | grep '"operation":"install"'
 ```
 
