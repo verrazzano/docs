@@ -94,7 +94,7 @@ $ kubectl wait \
 To use a different profile with the above example, set the `VZ_PROFILE` environment variable to the name of the profile
 you want to install.
 
-If an error occurs, you can check the log output of the installation:
+If an error occurs, check the log output of the installation:
 ```
 $ kubectl logs -n verrazzano-install \
     -f $(kubectl get pod \
@@ -103,9 +103,8 @@ $ kubectl logs -n verrazzano-install \
     -o jsonpath="{.items[0].metadata.name}") | grep '"operation":"install"'
 ```
 
-Once the install is complete, you can use the console urls. 
-Refer to [Access Verrazzano]({{< relref "/docs/operations/" >}}) for more information on how to access the Verrazzano consoles.
-
+After the installation is complete, you can use the console URLs.
+For more information on how to access the Verrazzano consoles, see [Access Verrazzano]({{< relref "/docs/operations/" >}}).git ad
 ## Verify the install
 
 Verrazzano installs multiple objects in multiple namespaces. In the `verrazzano-system` namespaces, all the pods in the `Running` state, does not guarantee, but likely indicates that Verrazzano is up and running.
