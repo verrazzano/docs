@@ -94,13 +94,22 @@ $ kubectl wait \
 To use a different profile with the above example, set the `VZ_PROFILE` environment variable to the name of the profile
 you want to install.
 
-To monitor the Console log output of the installation:
+To monitor the log output of the installation:
 ```
 $ kubectl logs -n verrazzano-install \
     -f $(kubectl get pod \
     -n verrazzano-install \
-    -l job-name=verrazzano-install-my-verrazzano \
+    -l app=verrazzano-platform-operator \
     -o jsonpath="{.items[0].metadata.name}")
+```
+
+To filter the logs by install:
+```
+$ kubectl logs -n verrazzano-install \
+    $(kubectl get pod \
+    -n verrazzano-install \
+    -l app=verrazzano-platform-operator \
+    -o jsonpath="{.items[0].metadata.name}") | grep '"operation":"install"'
 ```
 
 ## Verify the install
