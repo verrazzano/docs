@@ -11,6 +11,14 @@ Analysis detected that the Verrazzano installation has failed, however, it did n
 
 ### Steps
 
+Check the log output of the installation:
+```
+$ kubectl logs -n verrazzano-install \
+    -f $(kubectl get pod \
+    -n verrazzano-install \
+    -l app=verrazzano-platform-operator \
+    -o jsonpath="{.items[0].metadata.name}") | grep '"operation":"install"'
+```
 Review the analysis data, which can help identify the issue.
 
 ### Related information
