@@ -94,7 +94,16 @@ $ kubectl wait \
 To use a different profile with the above example, set the `VZ_PROFILE` environment variable to the name of the profile
 you want to install.
 
-For help troubleshooting the installation, see [Troubleshooting Install Failure]({{< relref "/docs/troubleshooting/diagnostictools/analysisadvice/installfailure.md" >}}).
+If an error occurs, check the log output of the installation:
+```
+$ kubectl logs -n verrazzano-install \
+    -f $(kubectl get pod \
+    -n verrazzano-install \
+    -l app=verrazzano-platform-operator \
+    -o jsonpath="{.items[0].metadata.name}") | grep '"operation":"install"'
+```
+
+For more help troubleshooting the installation, see [Analysis Advice]({{< relref "/docs/troubleshooting/diagnostictools/analysisadvice/" >}}).
 
 After the installation is complete, you can use the console URLs.
 For more information on how to access the Verrazzano consoles, see [Access Verrazzano]({{< relref "/docs/operations/" >}}).
