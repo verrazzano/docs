@@ -74,7 +74,7 @@ This example provides a simple web application developed using [Spring Boot](htt
          --resolve ${HOST}:443:${ADDRESS}
 
      # Sample output
-     In 1524, Verazzano became the first European to enter the New York Harbor and the Hudson River.
+     In 1524, Verrazzano became the first European to enter the New York Harbor and the Hudson River.
      ```
      If you are using `nip.io`, then you do not need to include `--resolve`.
    * **Local testing with a browser**
