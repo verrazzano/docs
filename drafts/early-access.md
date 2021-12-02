@@ -49,7 +49,7 @@ Customer updates their DNS with DNS data we provide. This allows verrazzano to f
 
 * Create `ingres.example0.verrazzano.io` A record pointing to the LB IP
 * Create `*.example0.verrazzano.io` CNAME `ingress.example0.verrazzano.io`
-* Create `_acme-challenge.example0.verrazano.io` CNAME `c4ff6c9c-c191-4a32-ab0b-91bc4f8f47ad.auth.acme-dns.io` (result of acme auth registration see below)
+* Create `_acme-challenge.example0.verrazzano.io` CNAME `c4ff6c9c-c191-4a32-ab0b-91bc4f8f47ad.auth.acme-dns.io` (result of acme auth registration see below)
 
 `curl -s -X POST https://auth.acme-dns.io/register | python -m json.tool`
 
@@ -57,7 +57,7 @@ the result have to be put into a secret keyed off of the domain name acmedns.jso
 
 ```
 {
-   "example0.verrazano.io": {
+   "example0.verrazzano.io": {
    "allowfrom": [],
    "fulldomain": "c4ff6c9c-c191-4a32-ab0b-91bc4f8f47ad.auth.acme-dns.io",
    "password": "IW2T4Ic7snaKxKjwd602fpuiqUVeQGnXCOL7ktvF",
