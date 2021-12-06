@@ -145,23 +145,23 @@ certificate of the managed cluster as the value of the `cacrt` field. In the fol
 CA certificate is saved in an environment variable called `MGD_CA_CERT`. Then use the `--dry-run` option of the
 `kubectl` command to generate the `managed1.yaml` file.
 
-Download the LetsEncrypt staging certificates
 ```
-curl https://letsencrypt.org/certs/staging/letsencrypt-stg-int-r3.pem > staging-certs.pem
-curl https://letsencrypt.org/certs/staging/letsencrypt-stg-int-e1.pem >> staging-certs.pem
-curl https://letsencrypt.org/certs/staging/letsencrypt-stg-root-x1.pem >> staging-certs.pem
+# On the admin cluster
+$ MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+     get secret tls-ca-additional \
+     -n cattle-system \
+     -o jsonpath="{.data.ca-additional\.pem}" | base64 --decode)
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+  create secret generic "ca-secret-managed1" \
+  -n verrazzano-mc \
+  --from-literal=cacrt="$MGD_CA_CERT" \
+  --dry-run=client \
+  -o yaml > managed1.yaml
 ```
 
 Create a Secret on the *admin* cluster that contains the CA certificate for the managed cluster. This secret will be used for scraping metrics from the managed cluster.
 ```
 # On the admin cluster
-$ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
-     create secret generic "ca-secret-managed1" \
-     -n verrazzano-mc \
-     --from-file=cacrt=staging-certs.pem \
-     --dry-run=client \
-     -o yaml > managed1.yaml
-
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
      apply -f managed1.yaml
 
