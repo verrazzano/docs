@@ -128,7 +128,7 @@ $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
   -o yaml > managed1.yaml
 ```
 Create a Secret on the *admin* cluster that contains the CA certificate for the managed cluster. This secret will be used for scraping metrics from the managed cluster.
-   The `managed1.yaml` filel that was created in the previous step provides input to this step.
+   The `managed1.yaml` file that was created in the previous step provides input to this step.
    ```
    # On the admin cluster
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
