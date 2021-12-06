@@ -78,13 +78,13 @@ $ kubectl apply -f - <<EOF
 apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
-  name: my-verrazzano
+  name: example-verrazzano
 spec:
   profile: ${VZ_PROFILE:-dev}
 EOF
 $ kubectl wait \
     --timeout=20m \
-    --for=condition=InstallComplete verrazzano/my-verrazzano
+    --for=condition=InstallComplete verrazzano/example-verrazzano
 ```
 
 To use a different profile with the above example, set the `VZ_PROFILE` environment variable to the name of the profile
@@ -95,7 +95,7 @@ To monitor the Console log output of the installation:
 $ kubectl logs -n verrazzano-install \
     -f $(kubectl get pod \
     -n verrazzano-install \
-    -l job-name=verrazzano-install-my-verrazzano \
+    -l job-name=verrazzano-install-example-verrazzano \
     -o jsonpath="{.items[0].metadata.name}")
 ```
 
