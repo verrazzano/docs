@@ -11,8 +11,11 @@ If your environment does not have a cluster of that name, then you should edit t
 listed in the `placement` section.
 * To download the example application image, you must first accept the license agreement.
   * In a browser, navigate to https://container-registry.oracle.com/ and sign in.
-  * Search for `example-todo` and select the image name in the results.
-  * Click Continue, then read and accept the license agreement.
+  * Search for `example-todo` and `weblogic`.
+  * For each one:
+     * Select the image name in the results.
+     * From the drop-down menu, select your language and click Continue.
+     * Then read and accept the license agreement.
 
 Set up the following environment variables to point to the `kubeconfig` for the admin and managed clusters.
 

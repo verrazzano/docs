@@ -9,8 +9,11 @@ description: "An example application containing a WebLogic component"
 * Install Verrazzano by following the [installation]({{< relref "/docs/setup/install/installation.md" >}}) instructions.
 * To download the example image, you must first accept the license agreement.
   * In a browser, navigate to https://container-registry.oracle.com/ and sign in.
-  * Search for `example-todo` and select the image name in the results.
-  * Click Continue, then read and accept the license agreement.
+  * Search for `example-todo` and `weblogic`.
+  * For each one: 
+     * Select the image name in the results.
+     * From the drop-down menu, select your language and click Continue.
+     * Then read and accept the license agreement.
 
 **NOTE:** The ToDo List example application deployment files are contained in the Verrazzano project located at
 `<VERRAZZANO_HOME>/examples/todo-list`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.

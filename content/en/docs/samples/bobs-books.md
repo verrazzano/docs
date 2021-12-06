@@ -9,8 +9,11 @@ description: "An example application based on WebLogic, Helidon, and Coherence"
 * Install Verrazzano by following the [installation]({{< relref "/docs/setup/install/installation.md" >}}) instructions.
 * To download the example image, you must first accept the license agreement.
   * In a browser, navigate to https://container-registry.oracle.com/ and sign in.
-  * Search for `example-bobbys-coherence`, `example-bobbys-front-end`, `example-bobs-books-order-manager`, and `example-roberts-coherence`.
-  * For each, select the image name in the results, click Continue, then read and accept the license agreement.
+  * Search for `example-bobbys-coherence`, `example-bobbys-front-end`, `example-bobs-books-order-manager`, `example-roberts-coherence`, and `weblogic`.
+  * For each one: 
+     * Select the image name in the results.
+     * From the drop-down menu, select your language and click Continue.
+     * Then read and accept the license agreement.
 
    **NOTE:** The Bob's Books example application deployment files are contained in the Verrazzano project located at
    `<VERRAZZANO_HOME>/examples/bobs-books`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
