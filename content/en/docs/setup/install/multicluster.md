@@ -369,12 +369,12 @@ the managed cluster.
 An alternative approach to using the Kibana UI is to query Elasticsearch from the command line.  Here is an example of how to obtain log records from the command line.  Search the output of the query for responses that have the `cluster_name` field set to the name of the managed cluster.
    ```
    # On the admin cluster
-   $ kibanaUrl=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+   $ KIBANA_URL=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
                     get verrazzano -o jsonpath='{.items[0].status.instance.kibanaUrl}')
    $ VZPASS=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
               get secret verrazzano --namespace verrazzano-system \
               -o jsonpath={.data.password} | base64 --decode; echo)
-   $ curl -k --user verrazzano:${VZPASS} -X POST -H 'kbn-xsrf: true' "${kibanaUrl}/elasticsearch/verrazzano-namespace-verrazzano-system/_search?size=25"
+   $ curl -k --user verrazzano:${VZPASS} -X POST -H 'kbn-xsrf: true' "${KIBANA_URL}/elasticsearch/verrazzano-namespace-verrazzano-system/_search?size=25"
    ```
 
 ## Run applications in multicluster Verrazzano
