@@ -71,18 +71,18 @@ Follow these preregistration setup steps:
 1. If needed for the admin cluster, obtain the managed cluster's CA certificate.
    The admin cluster scrapes metrics from the managed cluster's Prometheus endpoint. If the managed cluster
    Verrazzano installation uses self-signed certificates or LetsEncrypt staging certificates, then the admin 
-   cluster will need the managed cluster's CA certificate in order to make an `https` connection.
+   cluster will need the managed cluster's CA certificate to make an `https` connection.
    - Depending on whether the Verrazzano installation on the managed cluster uses
      self-signed certificates, LetsEncrypt staging certificates, or certificates signed by a well-known 
      certificate authority, choose the appropriate instructions.
    - If you are unsure what type of certificates are used, use the following instructions.
-     * Check if the `verrazzano` resource is configured to use LetsEncrypt staging certificates.
+     * To check if the `verrazzano` resource is configured to use LetsEncrypt staging certificates:
        ```
        # On the managed cluster
        $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
             describe verrazzano
        ```
-       LetsEncrypt staging certificates are being used if the output contains the following information:
+       If the output contains the following information, then LetsEncrypt staging certificates are being used.
        ```
        Cert Manager:
          Certificate:
@@ -90,8 +90,8 @@ Follow these preregistration setup steps:
              Environment:    staging
              Provider:       letsEncrypt
        ```
-     * Check the `ca.crt` field of the `system-tls` secret
-       in the `verrazzano-system` namespace on the managed cluster.
+     * To check the `ca.crt` field of the `system-tls` secret
+       in the `verrazzano-system` namespace on the managed cluster:
        ```
        # On the managed cluster
        $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
@@ -128,7 +128,7 @@ $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
   -o yaml > managed1.yaml
 ```
 Create a Secret on the *admin* cluster that contains the CA certificate for the managed cluster. This secret will be used for scraping metrics from the managed cluster.
-   The file `managed1.yaml` that was created in the previous step provides input to this step.
+   The `managed1.yaml` filel that was created in the previous step provides input to this step.
    ```
    # On the admin cluster
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
@@ -140,7 +140,7 @@ Create a Secret on the *admin* cluster that contains the CA certificate for the 
      {{< /tab >}}
      {{< tab tabNum="3" >}}
 
-If the managed cluster certificates are LetsEncrypt staging, create a file called `managed1.yaml` containing the CA
+If the managed cluster certificates are LetsEncrypt staging, then create a file called `managed1.yaml` containing the CA
 certificate of the managed cluster as the value of the `cacrt` field. In the following commands, the managed cluster's
 CA certificate is saved in an environment variable called `MGD_CA_CERT`. Then use the `--dry-run` option of the
 `kubectl` command to generate the `managed1.yaml` file.
@@ -160,12 +160,13 @@ $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
 ```
 
 Create a Secret on the *admin* cluster that contains the CA certificate for the managed cluster. This secret will be used for scraping metrics from the managed cluster.
+The `managed1.yaml` file that was created in the previous step provides input to this step.
 ```
 # On the admin cluster
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
      apply -f managed1.yaml
 
-# Once the command succeeds, you may delete the managed1.yaml file
+# After the command succeeds, you may delete the managed1.yaml file
 $ rm managed1.yaml
 ```
 
