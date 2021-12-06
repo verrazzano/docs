@@ -22,10 +22,10 @@
 <meta property="og:description" content="How to install Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/install/installation/" />
-<meta property="article:modified_time" content="2021-11-06T16:40:21-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-12-06T13:37:55-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Install Guide">
 <meta itemprop="description" content="How to install Verrazzano">
-<meta itemprop="dateModified" content="2021-11-06T16:40:21-04:00" />
+<meta itemprop="dateModified" content="2021-12-06T13:37:55-05:00" />
 <meta itemprop="wordCount" content="561">
 
 
@@ -106,7 +106,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.e7ec818efe310aa7fd11af4a21c01777.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.f5637ce6903e7fccf4b830585a0356f7.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -133,7 +133,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.e7ec818efe310aa7fd11af4a21c01777.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.f5637ce6903e7fccf4b830585a0356f7.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -587,20 +587,20 @@ managed cluster (<code>managed-cluster</code>).  For more information on profile
 </span><span style="color:#4e9a06">apiVersion: install.verrazzano.io/v1alpha1
 </span><span style="color:#4e9a06">kind: Verrazzano
 </span><span style="color:#4e9a06">metadata:
-</span><span style="color:#4e9a06">  name: my-verrazzano
+</span><span style="color:#4e9a06">  name: example-verrazzano
 </span><span style="color:#4e9a06">spec:
 </span><span style="color:#4e9a06">  profile: ${VZ_PROFILE:-dev}
 </span><span style="color:#4e9a06">EOF</span>
 $ kubectl <span style="color:#204a87">wait</span> <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>    --timeout<span style="color:#ce5c00;font-weight:bold">=</span>20m <span style="color:#4e9a06">\
-</span><span style="color:#4e9a06"></span>    --for<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">condition</span><span style="color:#ce5c00;font-weight:bold">=</span>InstallComplete verrazzano/my-verrazzano
+</span><span style="color:#4e9a06"></span>    --for<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">condition</span><span style="color:#ce5c00;font-weight:bold">=</span>InstallComplete verrazzano/example-verrazzano
 </code></pre></div><p>To use a different profile with the above example, set the <code>VZ_PROFILE</code> environment variable to the name of the profile
 you want to install.</p>
 <p>To monitor the Console log output of the installation:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ kubectl logs -n verrazzano-install <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>    -f <span style="color:#204a87;font-weight:bold">$(</span>kubectl get pod <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>    -n verrazzano-install <span style="color:#4e9a06">\
-</span><span style="color:#4e9a06"></span>    -l job-name<span style="color:#ce5c00;font-weight:bold">=</span>verrazzano-install-my-verrazzano <span style="color:#4e9a06">\
+</span><span style="color:#4e9a06"></span>    -l job-name<span style="color:#ce5c00;font-weight:bold">=</span>verrazzano-install-example-verrazzano <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>    -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;{.items[0].metadata.name}&#34;</span><span style="color:#204a87;font-weight:bold">)</span>
 </code></pre></div><h2 id="verify-the-install">Verify the install</h2>
 <p>Verrazzano installs multiple objects in multiple namespaces. In the <code>verrazzano-system</code> namespaces, all the pods in the <code>Running</code> state, does not guarantee, but likely indicates that Verrazzano is up and running.</p>

@@ -22,11 +22,11 @@
 <meta property="og:description" content="How to set up a multicluster Verrazzano environment" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/install/multicluster/" />
-<meta property="article:modified_time" content="2021-09-02T17:12:30-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2021-12-06T10:34:07-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Install Multicluster Verrazzano">
 <meta itemprop="description" content="How to set up a multicluster Verrazzano environment">
-<meta itemprop="dateModified" content="2021-09-02T17:12:30-04:00" />
-<meta itemprop="wordCount" content="2060">
+<meta itemprop="dateModified" content="2021-12-06T10:34:07-05:00" />
+<meta itemprop="wordCount" content="2061">
 
 
 
@@ -106,7 +106,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.e7ec818efe310aa7fd11af4a21c01777.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.f5637ce6903e7fccf4b830585a0356f7.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -133,7 +133,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.e7ec818efe310aa7fd11af4a21c01777.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.f5637ce6903e7fccf4b830585a0356f7.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -934,12 +934,12 @@ the managed cluster.</p>
 <p><img src="../../../../docs/images/multicluster/kibana-multicluster.png" alt="Kibana"></p>
 <p>An alternative approach to using the Kibana UI is to query Elasticsearch from the command line.  Here is an example of how to obtain log records from the command line.  Search the output of the query for responses that have the <code>cluster_name</code> field set to the name of the managed cluster.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#8f5902;font-style:italic"># On the admin cluster</span>
-$ <span style="color:#000">kibanaUrl</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl --kubeconfig <span style="color:#000">$KUBECONFIG_ADMIN</span> --context <span style="color:#000">$KUBECONTEXT_ADMIN</span> <span style="color:#4e9a06">\
+$ <span style="color:#000">KIBANA_URL</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl --kubeconfig <span style="color:#000">$KUBECONFIG_ADMIN</span> --context <span style="color:#000">$KUBECONTEXT_ADMIN</span> <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>                 get verrazzano -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.items[0].status.instance.kibanaUrl}&#39;</span><span style="color:#204a87;font-weight:bold">)</span>
 $ <span style="color:#000">VZPASS</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl --kubeconfig <span style="color:#000">$KUBECONFIG_ADMIN</span> --context <span style="color:#000">$KUBECONTEXT_ADMIN</span> <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>           get secret verrazzano --namespace verrazzano-system <span style="color:#4e9a06">\
 </span><span style="color:#4e9a06"></span>           -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">={</span>.data.password<span style="color:#ce5c00;font-weight:bold">}</span> <span style="color:#000;font-weight:bold">|</span> base64 --decode<span style="color:#000;font-weight:bold">;</span> <span style="color:#204a87">echo</span><span style="color:#204a87;font-weight:bold">)</span>
-$ curl --user verrazzano:<span style="color:#4e9a06">${</span><span style="color:#000">VZPASS</span><span style="color:#4e9a06">}</span> -X POST -H <span style="color:#4e9a06">&#39;kbn-xsrf: true&#39;</span> <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">${</span><span style="color:#000">kibanaUrl</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/elasticsearch/verrazzano-namespace-verrazzano-system/_search?size=25&#34;</span>
+$ curl -k --user verrazzano:<span style="color:#4e9a06">${</span><span style="color:#000">VZPASS</span><span style="color:#4e9a06">}</span> -X POST -H <span style="color:#4e9a06">&#39;kbn-xsrf: true&#39;</span> <span style="color:#4e9a06">&#34;</span><span style="color:#4e9a06">${</span><span style="color:#000">KIBANA_URL</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">/elasticsearch/verrazzano-namespace-verrazzano-system/_search?size=25&#34;</span>
 </code></pre></div><h2 id="run-applications-in-multicluster-verrazzano">Run applications in multicluster Verrazzano</h2>
 <p>The Verrazzano multicluster setup is now complete and you can deploy applications by following the <a href="../../../../docs/samples/multicluster/hello-helidon/">Multicluster Hello World Helidon</a> example application.</p>
 <h2 id="use-the-admin-cluster-ui">Use the admin cluster UI</h2>
