@@ -42,7 +42,7 @@ To install the Verrazzano platform operator:
 
     ```
     $ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
-   
+
     # Expected response
     deployment "verrazzano-platform-operator" successfully rolled out
     ```
@@ -51,7 +51,7 @@ To install the Verrazzano platform operator:
 
     ```
     $ kubectl -n verrazzano-install get pods
-   
+
     # Sample output
     NAME                                            READY   STATUS    RESTARTS   AGE
     verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
@@ -82,13 +82,13 @@ $ kubectl apply -f - <<EOF
 apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
-  name: my-verrazzano
+  name: example-verrazzano
 spec:
   profile: ${VZ_PROFILE:-dev}
 EOF
 $ kubectl wait \
     --timeout=20m \
-    --for=condition=InstallComplete verrazzano/my-verrazzano
+    --for=condition=InstallComplete verrazzano/example-verrazzano
 ```
 
 To use a different profile with the above example, set the `VZ_PROFILE` environment variable to the name of the profile
