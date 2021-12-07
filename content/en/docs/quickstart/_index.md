@@ -94,18 +94,21 @@ To install Verrazzano:
         verrazzano/example-verrazzano
     ```
 
+1. (Optional) Monitor the components' status:
+   ```
+   kubectl get vz -Ao jsonpath='{range .items[*]}{range @.status.components.*}{@.name}{"  "}{@.state}{"\n"}{end}'
+   ```
+
 1. (Optional) View the installation logs.
 
     The Verrazzano operator launches a Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) to install Verrazzano.  You can view the installation logs from that job with the following command:
 
     ```
-    $ kubectl logs -n verrazzano-install -f \
-        $( \
-          kubectl get pod \
-              -n verrazzano-install \
-              -l job-name=verrazzano-install-example-verrazzano \
-              -o jsonpath="{.items[0].metadata.name}" \
-        )
+    $ kubectl logs -n verrazzano-install \
+        -f $(kubectl get pod \
+        -n verrazzano-install \
+        -l app=verrazzano-platform-operator \
+        -o jsonpath="{.items[0].metadata.name}") | grep '"operation":"install"'
     ```
 
 ## Deploy an example application

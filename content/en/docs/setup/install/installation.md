@@ -94,6 +94,11 @@ $ kubectl wait \
 To use a different profile with the above example, set the `VZ_PROFILE` environment variable to the name of the profile
 you want to install.
 
+To monitor the status of the Verrazzano components during install, use this command:
+```
+kubectl get vz -Ao jsonpath='{range .items[*]}{range @.status.components.*}{@.name}{"  "}{@.state}{"\n"}{end}'
+```
+
 If an error occurs, check the log output of the installation:
 ```
 $ kubectl logs -n verrazzano-install \
