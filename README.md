@@ -1,6 +1,6 @@
-# Verrazzano Documentation
+# Verrazzano Archive Documentation
 
-This repository contains the Verrazzano documentation on https://verrazzano.io.
+This repository contains the Verrazzano Archive documentation on https://verrazzano.io/archive.
 
 The Verrazzano documentation website is built with [Hugo](https://gohugo.io/) templates
 based on the [Docsy](https://www.docsy.dev/) theme.
