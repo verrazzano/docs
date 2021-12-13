@@ -60,7 +60,7 @@ variables set previously to connect to the appropriate cluster.
 ### Preregistration setup
 
 Before registering the managed cluster, first you'll need to set up the following items:
-- A Secret containing the managed cluster's CA certificate. Note that the `cacrt` field in this secret can be empty only 
+- A Secret containing the managed cluster's CA certificate. Note that the `cacrt` field in this secret can be empty only
   if the managed cluster uses a well-known CA.
   This CA certificate is used by the admin cluster to scrape metrics from the managed cluster, for both applications and Verrazzano components.
 - A ConfigMap containing the externally reachable address of the admin cluster. This will be provided to the managed
@@ -70,10 +70,10 @@ Follow these preregistration setup steps:
 
 1. If needed for the admin cluster, obtain the managed cluster's CA certificate.
    The admin cluster scrapes metrics from the managed cluster's Prometheus endpoint. If the managed cluster
-   Verrazzano installation uses self-signed certificates or LetsEncrypt staging certificates, then the admin 
+   Verrazzano installation uses self-signed certificates or LetsEncrypt staging certificates, then the admin
    cluster will need the managed cluster's CA certificate to make an `https` connection.
    - Depending on whether the Verrazzano installation on the managed cluster uses
-     self-signed certificates, LetsEncrypt staging certificates, or certificates signed by a well-known 
+     self-signed certificates, LetsEncrypt staging certificates, or certificates signed by a well-known
      certificate authority, choose the appropriate instructions.
    - If you are unsure what type of certificates are used, use the following instructions.
      * To check if the `verrazzano` resource is configured to use LetsEncrypt staging certificates:
@@ -176,11 +176,11 @@ $ rm managed1.yaml
 1. Use the following instructions to obtain the Kubernetes API server address for the admin cluster. This address must
    be accessible from the managed cluster.
 
-   {{< tabs tabTotal="2" tabID="3" tabName1="Most Kubernetes Clusters" tabName2="kind Clusters" >}}
+   {{< tabs tabTotal="2" tabID="3" tabName1="Most Kubernetes Clusters" tabName2="Kind Clusters" >}}
    {{< tab tabNum="1" >}}
 <br>
 
-For most types of Kubernetes clusters, except for kind clusters, you can find the externally accessible API server
+For most types of Kubernetes clusters, except for Kind clusters, you can find the externally accessible API server
 address of the admin cluster from its `kubeconfig` file.
 
 ```
@@ -209,10 +209,10 @@ export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
    {{< tab tabNum="2" >}}
 <br>
 
-kind clusters run within a Docker container. If your admin and managed clusters are kind clusters, the API server
+Kind clusters run within a Docker container. If your admin and managed clusters are Kind clusters, the API server
 address of the admin cluster in its `kubeconfig` file is usually a local address on the host machine, which will not be
 accessible from the managed cluster. Use the `kind` command to obtain the "internal" `kubeconfig` of the admin
-cluster, which will contain a server address accessible from other kind clusters on the same machine, and therefore in
+cluster, which will contain a server address accessible from other Kind clusters on the same machine, and therefore in
 the same Docker network.
 
 ```
