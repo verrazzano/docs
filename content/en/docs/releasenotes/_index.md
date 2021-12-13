@@ -7,8 +7,8 @@ draft: false
 
 ### v1.1.0
 Fixes:
-- Updated Elasticsearch to version 7.10.2.
-- Updated Keycloak to version 15.0.2.
+- Updated several installed and supported [Software Versions]({{< relref "/docs/setup/versions.md" >}}).
+
 
 ### v1.0.3
 Fixes:
