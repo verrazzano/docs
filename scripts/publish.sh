@@ -32,13 +32,12 @@ if [[ ${RELEASE_BRANCH} == release-* ]]; then
   if [[ "true" == "${IS_LATEST}" ]]; then
     echo "publish ${VERSION} as the latest"
     /usr/bin/gh-pages -d production -b ${PUBLISH_BRANCH} -e latest
+    ensureRoot
   fi
-  ensureRoot
 elif [[ ${RELEASE_BRANCH} == master ]]; then
   install_gh-pages
   echo "publish master as devel"
   /usr/bin/gh-pages -d production -b ${PUBLISH_BRANCH} -e devel
-  ensureRoot
 elif [[ ${RELEASE_BRANCH} == archive ]]; then
   install_gh-pages
   echo "publish archive to the archive sub-directory"
