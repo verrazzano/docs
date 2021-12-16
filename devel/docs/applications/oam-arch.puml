@@ -1,0 +1,31 @@
+@startuml
+' Copyright (c) 2020, 2021, Oracle and/or its affiliates.
+' Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
+
+file "Application Configurations" as a
+rectangle "Traits" as t
+file "Components" as c
+file "Scopes" as s
+rectangle "Workloads" as w
+
+file "Workload Definitions" as wd
+file "Trait Definitions" as td
+file "Scope Definitions" as sd
+
+a --> t: contains
+a -d-> c: references
+a -d-> s: references
+
+c -d-> w: contains
+
+t -r-> c: applied to
+s -l-> c: applied to
+
+t .d..> td: defined by
+w .d.> wd: defined by
+s .d..> sd: defined by
+
+td -[hidden]r- wd
+wd -[hidden]r- sd
+
+@enduml
