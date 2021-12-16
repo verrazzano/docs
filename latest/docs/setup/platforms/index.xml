@@ -34,7 +34,7 @@
 &lt;p&gt;Follow the instructions provided by OKE to download the Kubernetes configuration file for your cluster, and set the following &lt;code&gt;ENV&lt;/code&gt; variable:&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;   $ export KUBECONFIG=&amp;lt;path to valid Kubernetes config&amp;gt;
+&lt;pre&gt;&lt;code&gt;   $ export KUBECONFIG=&amp;lt;path to valid Kubernetes config&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
 &lt;li&gt;Optional, if your organization requires the use of a private registry to the Docker images installed by Verrazzano, see &lt;a href=&#34;../../../docs/setup/private-registry/private-registry/&#34;&gt;Use a Private Registry&lt;/a&gt;.&lt;/li&gt;
 &lt;/ul&gt;
@@ -536,7 +536,7 @@ In the following example, the value &lt;code&gt;/example&lt;/code&gt; is the &lt
 The following command should be run on one of the Kubernetes worker nodes.
 This will result in the creation of nine persistent volume folders.
 The reason for nine persistent volume folders is covered in the next section.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ sudo mount 10.0.1.8:/example /mnt
+&lt;pre&gt;&lt;code&gt;$ sudo mount 10.0.1.8:/example /mnt
 $ for x in {0001..0009}; do sudo mkdir -p /mnt/pv${x} &amp;amp;&amp;amp; sudo chmod 777 /mnt/pv${x}; done
 &lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;persistent-volumes&#34;&gt;Persistent Volumes&lt;/h4&gt;
 &lt;p&gt;A default Kubernetes storage class is required by Verrazzano.
@@ -544,7 +544,7 @@ When using pre-allocated PersistentVolumes, for example NFS, persistent volumes 
 The value for &lt;code&gt;name&lt;/code&gt; may be customized but will need to match the PersistentVolume &lt;code&gt;storageClassName&lt;/code&gt; value later.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Create a default StorageClass
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ cat &amp;lt;&amp;lt; EOF | kubectl apply -f -
+&lt;pre&gt;&lt;code&gt;$ cat &amp;lt;&amp;lt; EOF | kubectl apply -f -
   apiVersion: storage.k8s.io/v1
   kind: StorageClass
   metadata:
@@ -562,7 +562,7 @@ The value for &lt;code&gt;storageClassName&lt;/code&gt; must match the above &lt
 The values for &lt;code&gt;name&lt;/code&gt; may be customized.
 The value for &lt;code&gt;path&lt;/code&gt; must match the &lt;code&gt;Export Path&lt;/code&gt; of the Export from above, combined with the persistent volume folder from above.
 The value for &lt;code&gt;server&lt;/code&gt; must be changed to match the location of your file system server.
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ for n in {0001..0009}; do cat &amp;lt;&amp;lt; EOF | kubectl apply -f -
+&lt;pre&gt;&lt;code&gt;$ for n in {0001..0009}; do cat &amp;lt;&amp;lt; EOF | kubectl apply -f -
   apiVersion: v1
   kind: PersistentVolume
   metadata:
@@ -601,7 +601,7 @@ One load balancer is for management traffic and the other for application traffi
 &lt;p&gt;You must install Verrazzano to get the target ports for each load balancer backend.
 In the following table, those ports are marked TBD. Run the following command to get the target
 ports for the NGINX Ingress Controller:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;kubectl get service ingress-controller-ingress-nginx-controller -n ingress-nginx
+&lt;pre&gt;&lt;code&gt;kubectl get service ingress-controller-ingress-nginx-controller -n ingress-nginx
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the &lt;code&gt;PORT(S)&lt;/code&gt; column you will see the target port associated with port 80 and 443, for example: &lt;code&gt;80:30080/TCP,443:30443&lt;/code&gt;.&lt;br&gt;
 Use these target port values for the NGINX Ingress Controller load balancer backend.&lt;/p&gt;
 &lt;table&gt;
@@ -630,7 +630,7 @@ Use these target port values for the NGINX Ingress Controller load balancer back
 &lt;/table&gt;
 &lt;h5 id=&#34;backend-for-application-load-balancer&#34;&gt;&lt;strong&gt;Backend for application load balancer&lt;/strong&gt;&lt;/h5&gt;
 &lt;p&gt;Get the target ports for the Istio Ingress Gateway service using the following command:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;kubectl get service  istio-ingressgateway  -n  istio-system
+&lt;pre&gt;&lt;code&gt;kubectl get service  istio-ingressgateway  -n  istio-system
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Use these port values for the Istio Ingress Gateway load balancer backend.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -739,10 +739,10 @@ The A records will need to be created manually.&lt;/p&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;For example:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;198.51.100.10                                   A       ingress-mgmt.myenv.example.com.
+&lt;pre&gt;&lt;code&gt;198.51.100.10                                   A       ingress-mgmt.myenv.example.com.
 203.0.113.10                                    A       ingress-verrazzano.myenv.example.com.
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Verrazzano installation will result in a number of management services that need to point to the &lt;code&gt;ingress-mgmt&lt;/code&gt; address.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;verrazzano.myenv.example.com                    CNAME   ingress-mgmt.myenv.example.com.
+&lt;pre&gt;&lt;code&gt;verrazzano.myenv.example.com                    CNAME   ingress-mgmt.myenv.example.com.
 keycloak.myenv.example.com                      CNAME   ingress-mgmt.myenv.example.com.
 rancher.myenv.example.com                       CNAME   ingress-mgmt.myenv.example.com.
 
@@ -752,9 +752,9 @@ kiali.vmi.system.myenv.example.com              CNAME   ingress-mgmt.myenv.examp
 kibana.vmi.system.myenv.example.com             CNAME   ingress-mgmt.myenv.example.com.
 elasticsearch.vmi.system.myenv.example.com      CNAME   ingress-mgmt.myenv.example.com.
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For simplicity, an administrator may want to create &lt;a href=&#34;https://tools.ietf.org/html/rfc1034#section-4.3.3&#34;&gt;wildcard DNS records&lt;/a&gt; for the management addresses:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;*.system.myenv.example.com                      CNAME   ingress-mgmt.myenv.example.com.
+&lt;pre&gt;&lt;code&gt;*.system.myenv.example.com                      CNAME   ingress-mgmt.myenv.example.com.
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;OR&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;*.myenv.example.com                             CNAME   ingress-mgmt.myenv.example.com.
+&lt;pre&gt;&lt;code&gt;*.myenv.example.com                             CNAME   ingress-mgmt.myenv.example.com.
 &lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;oci-example-3&#34;&gt;OCI example&lt;/h4&gt;
 &lt;p&gt;DNS is configured in OCI by creating DNS zones in the OCI Console.
 When creating a DNS zone, use these values:&lt;/p&gt;
@@ -767,7 +767,7 @@ When creating a DNS zone, use these values:&lt;/p&gt;
 &lt;p&gt;DNS A records must be manually added to the zone and published using values described above.
 DNS CNAME records, in the same way.&lt;/p&gt;
 &lt;p&gt;During the Verrazzano install, these steps should be performed on the Oracle Linux Cloud Native Environment operator node.&lt;/p&gt;
-&lt;p&gt;Edit the sample Verrazzano custom resource &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/platform-operator/config/samples/install-olcne.yaml&#34;&gt;install-olcne.yaml&lt;/a&gt; file and provide these configuration settings for your OLCNE environment:&lt;/p&gt;
+&lt;p&gt;Edit the sample Verrazzano custom resource &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.1/platform-operator/config/samples/install-olcne.yaml&#34;&gt;install-olcne.yaml&lt;/a&gt; file and provide these configuration settings for your OLCNE environment:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;The value for &lt;code&gt;spec.environmentName&lt;/code&gt; is a unique DNS subdomain for the cluster (for example, &lt;code&gt;myenv&lt;/code&gt; in &lt;code&gt;myenv.example.com&lt;/code&gt;).&lt;/li&gt;
 &lt;li&gt;The value for &lt;code&gt;spec.components.dns.external.suffix&lt;/code&gt; is the remainder of the DNS domain (for example, &lt;code&gt;example.com&lt;/code&gt; in &lt;code&gt;myenv.example.com&lt;/code&gt;).&lt;/li&gt;
@@ -777,7 +777,7 @@ DNS CNAME records, in the same way.&lt;/p&gt;
 &lt;p&gt;You will install Verrazzano using the &lt;code&gt;external&lt;/code&gt; DNS type (the example custom resource for OLCNE is already configured to use &lt;code&gt;spec.components.dns.external&lt;/code&gt;).&lt;/p&gt;
 &lt;p&gt;Set the following environment variable:&lt;/p&gt;
 &lt;p&gt;The value for &lt;code&gt;&amp;lt;path to valid Kubernetes config&amp;gt;&lt;/code&gt; is typically &lt;code&gt;${HOME}/.kube/config&lt;/code&gt;.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ export KUBECONFIG=$VERRAZZANO_KUBECONFIG
+&lt;pre&gt;&lt;code&gt;$ export KUBECONFIG=$VERRAZZANO_KUBECONFIG
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
 &lt;p&gt;To continue, see the &lt;a href=&#34;../../../docs/setup/install/installation/#install-the-verrazzano-platform-operator&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
 
@@ -821,7 +821,7 @@ installation time.&lt;/p&gt;
 There you&amp;rsquo;ll find a complete listing of images created for a Kind release.&lt;/p&gt;
 &lt;p&gt;The following example references a Kubernetes v1.18.8-based image built for Kind v0.9.0.  Replace that image
 with one suitable for the Kind release you are using.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kind create cluster --config - &amp;lt;&amp;lt;EOF
+&lt;pre&gt;&lt;code&gt;$ kind create cluster --config - &amp;lt;&amp;lt;EOF
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
@@ -841,7 +841,7 @@ times.  To speed up Verrazzano installation, follow these steps to ensure that t
 containerd inside a Kind cluster, is preserved across clusters. Subsequent installations will be faster
 because they will not need to pull the images again.&lt;/p&gt;
 &lt;p&gt;1. Create a named Docker volume that will be used for the image cache, and note its &lt;code&gt;Mountpoint&lt;/code&gt; path. In this example, the volume is named &lt;code&gt;containerd&lt;/code&gt;.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ docker volume create containerd
+&lt;pre&gt;&lt;code&gt;$ docker volume create containerd
 
 $ docker volume inspect containerd
 
@@ -856,7 +856,7 @@ $ docker volume inspect containerd
     &amp;quot;Scope&amp;quot;: &amp;quot;local&amp;quot;
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;2. Specify the &lt;code&gt;Mountpoint&lt;/code&gt; path obtained, as the &lt;code&gt;hostPath&lt;/code&gt; under &lt;code&gt;extraMounts&lt;/code&gt; in your Kind configuration file, with a &lt;code&gt;containerPath&lt;/code&gt; of &lt;code&gt;/var/lib/containerd&lt;/code&gt;, which is the default containerd image caching location inside the Kind container. An example of the modified Kind configuration is shown in the following &lt;code&gt;create cluster&lt;/code&gt; command:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kind create cluster --config - &amp;lt;&amp;lt;EOF
+&lt;pre&gt;&lt;code&gt;$ kind create cluster --config - &amp;lt;&amp;lt;EOF
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
@@ -877,7 +877,7 @@ EOF
 &lt;p&gt;By default, Kind does not provide an implementation of network load balancers (&lt;a href=&#34;https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/&#34;&gt;Services of type LoadBalancer&lt;/a&gt;).
 &lt;a href=&#34;https://metallb.universe.tf/&#34;&gt;MetalLB&lt;/a&gt; offers a network load balancer implementation.&lt;/p&gt;
 &lt;p&gt;To install MetalLB:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
 $ kubectl create secret generic \
     -n metallb-system memberlist \
     --from-literal=secretkey=&amp;quot;$(openssl rand -base64 128)&amp;quot;
@@ -886,17 +886,17 @@ $ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/mani
 &lt;p&gt;MetalLB is idle until configured.  Configure MetalLB in Layer 2 mode and give it control over a range of IP addresses in the &lt;code&gt;kind&lt;/code&gt; Docker network.
 In versions v0.7.0 and earlier, Kind uses Docker&amp;rsquo;s default bridge network; in versions v0.8.0 and later, it creates its own bridge network in Kind.&lt;/p&gt;
 &lt;p&gt;To determine the subnet of the &lt;code&gt;kind&lt;/code&gt; Docker network in Kind v0.8.0 and later:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ docker inspect kind | jq &#39;.[0].IPAM.Config[0].Subnet&#39; -r
+&lt;pre&gt;&lt;code&gt;$ docker inspect kind | jq &#39;.[0].IPAM.Config[0].Subnet&#39; -r
 
 # Sample output
 172.18.0.0/16
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To determine the subnet of the &lt;code&gt;kind&lt;/code&gt; Docker network in Kind v0.7.0 and earlier:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ docker inspect bridge | jq &#39;.[0].IPAM.Config[0].Subnet&#39; -r
+&lt;pre&gt;&lt;code&gt;$ docker inspect bridge | jq &#39;.[0].IPAM.Config[0].Subnet&#39; -r
 
 # Sample output
 172.17.0.0/16
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For use by MetalLB, assign a range of IP addresses at the end of the &lt;code&gt;kind&lt;/code&gt; network&amp;rsquo;s subnet CIDR range.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f - &amp;lt;&amp;lt;-EOF
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f - &amp;lt;&amp;lt;-EOF
 apiVersion: v1
 kind: ConfigMap
 metadata:
