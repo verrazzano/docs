@@ -34,7 +34,7 @@ Upgrading an existing Verrazzano installation is a two-step process:
 * Update the Verrazzano installation.  
 
 ### Upgrade the Verrazzano platform operator
-In order to upgrade an existing Verrazzano installation, you must first upgrade the [Verrazzano platform operator](https://github.com/verrazzano/verrazzano-platform-operator).
+In order to upgrade an existing Verrazzano installation, you must first upgrade the [Verrazzano platform operator](https://github.com/verrazzano/verrazzano).
 
 1. Upgrade the Verrazzano platform operator.
 
