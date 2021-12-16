@@ -7,8 +7,19 @@ draft: false
 
 ### v1.1.0
 Fixes:
+- Added support for Kiali
+- Simplified the placement of multicluster resources.
+- Improved the performance of installing Verrazzano
+- Added support for for external ElasticSearch
+- Improvements to system functions, including the authenticating proxy
+- Added support in the LoggingTrait to customize application logging
+- Fixed ability to register a managed cluster with Rancher when configured to use LetsEncrypt staging certificates.
+- Fixed Elasticsearch status yellow due to unassigned shards
+- Added support for Kubernetes 1.21, dropped support of Kubernetes 1.18
 - Updated several installed and supported [Software Versions]({{< relref "/docs/setup/versions.md" >}}).
 
+Known Issues:
+- Importing a Kubernetes v1.21 cluster into Rancher might not work properly. Rancher is planning to add support for Kubernetes v1.21 in the future.
 
 ### v1.0.3
 Fixes:
