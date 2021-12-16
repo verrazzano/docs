@@ -27,7 +27,7 @@ to manage the life cycle of Verrazzano installations.  The operator works with a
 [custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) defined in the cluster.
 You can install, uninstall, and update Verrazzano installations by updating the
 [Verrazzano custom resource]({{< relref "/docs/reference/api/verrazzano/verrazzano.md" >}}).
-The [Verrazzano platform operator](https://github.com/verrazzano/verrazzano-platform-operator) controller will apply the configuration from the custom resource to the cluster for you.
+The [Verrazzano platform operator](https://github.com/verrazzano/verrazzano) controller will apply the configuration from the custom resource to the cluster for you.
 
 **NOTE**: If you just created the cluster, then you must wait until your nodes reach Ready status before installing Verrazzano.
 
