@@ -44,18 +44,18 @@ custom resource, you can install, uninstall, and upgrade Verrazzano installation
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Deploy the Verrazzano platform operator.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/master/operator.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v1.1/operator.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the deployment to complete.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
 
 # Expected response
 deployment &amp;quot;verrazzano-platform-operator&amp;quot; successfully rolled out
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Confirm that the operator pod is correctly defined and running.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl -n verrazzano-install get pods
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-install get pods
 
 # Sample output
 NAME                                            READY   STATUS    RESTARTS   AGE
@@ -76,7 +76,7 @@ managed cluster (&lt;code&gt;managed-cluster&lt;/code&gt;).  For more informatio
 &lt;p&gt;To use other DNS options, see the &lt;a href=&#34;../../../docs/setup/install/customizing/dns/&#34;&gt;Customzing DNS&lt;/a&gt; page for more details.&lt;/p&gt;
 &lt;h4 id=&#34;install-verrazzano&#34;&gt;Install Verrazzano&lt;/h4&gt;
 &lt;p&gt;To create a Verrazzano installation as described in the previous section, run the following commands:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f - &amp;lt;&amp;lt;EOF
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f - &amp;lt;&amp;lt;EOF
 apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
@@ -90,7 +90,7 @@ $ kubectl wait \
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To use a different profile with the above example, set the &lt;code&gt;VZ_PROFILE&lt;/code&gt; environment variable to the name of the profile
 you want to install.&lt;/p&gt;
 &lt;p&gt;If an error occurs, check the log output of the installation:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl logs -n verrazzano-install \
+&lt;pre&gt;&lt;code&gt;$ kubectl logs -n verrazzano-install \
     -f $(kubectl get pod \
     -n verrazzano-install \
     -l app=verrazzano-platform-operator \
@@ -100,7 +100,7 @@ you want to install.&lt;/p&gt;
 For more information on how to access the Verrazzano consoles, see &lt;a href=&#34;../../../docs/operations/&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;verify-the-install&#34;&gt;Verify the install&lt;/h2&gt;
 &lt;p&gt;Verrazzano installs multiple objects in multiple namespaces. In the &lt;code&gt;verrazzano-system&lt;/code&gt; namespaces, all the pods in the &lt;code&gt;Running&lt;/code&gt; state, does not guarantee, but likely indicates that Verrazzano is up and running.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get pods -n verrazzano-system
+&lt;pre&gt;&lt;code&gt;$ kubectl get pods -n verrazzano-system
 
 # Sample output
 coherence-operator-dcfb446df-24djp                 1/1     Running   1          49m
@@ -141,25 +141,25 @@ customized as needed.&lt;/p&gt;
 &lt;thead&gt;
 &lt;tr&gt;
 &lt;th&gt;Profile&lt;/th&gt;
-&lt;th style=&#34;text-align:left&#34;&gt;Description&lt;/th&gt;
-&lt;th style=&#34;text-align:left&#34;&gt;Characteristics&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;Description&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;Characteristics&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;prod&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Full install, production configuration.&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Default profile:&lt;br/&gt;- Full installation.&lt;br/&gt;- Persistent storage. &lt;br/&gt;- Production Elasticsearch cluster topology.&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Full install, production configuration.&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Default profile:&lt;br/&gt;- Full installation.&lt;br/&gt;- Persistent storage. &lt;br/&gt;- Production Elasticsearch cluster topology.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;dev&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Development or evaluation configuration.&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Lightweight installation:&lt;br/&gt;- For evaluation purposes.&lt;br/&gt;- No persistence.&lt;br/&gt;- Single-node Elasticsearch cluster topology.&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Development or evaluation configuration.&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Lightweight installation:&lt;br/&gt;- For evaluation purposes.&lt;br/&gt;- No persistence.&lt;br/&gt;- Single-node Elasticsearch cluster topology.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;managed-cluster&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;A specialized installation for managed clusters in a multicluster topology.&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Minimal installation for a managed cluster:&lt;br/&gt;- Cluster must be registered with an admin cluster to use &lt;a href=&#34;../../../docs/concepts/verrazzanomulticluster/&#34;&gt;multicluster&lt;/a&gt; features.&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;A specialized installation for managed clusters in a multicluster topology.&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Minimal installation for a managed cluster:&lt;br/&gt;- Cluster must be registered with an admin cluster to use &lt;a href=&#34;../../../docs/concepts/verrazzanomulticluster/&#34;&gt;multicluster&lt;/a&gt; features.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -167,7 +167,7 @@ customized as needed.&lt;/p&gt;
 &lt;p&gt;To use a profile to install Verrazzano, set the profile name in the &lt;code&gt;profile&lt;/code&gt; field of your
 Verrazzano custom resource.&lt;/p&gt;
 &lt;p&gt;For example, to use the &lt;code&gt;dev&lt;/code&gt; profile:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
   name: my-verrazzano
@@ -178,7 +178,7 @@ spec:
 &lt;p&gt;You can override the profile settings for any component regardless of the profile.  The following example
 uses a customized &lt;code&gt;dev&lt;/code&gt; profile to configure a small 8Gi persistent volume for the MySQL instance used by Keycloak to
 provide more stability for the Keycloak service:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
   name: custom-dev-example
@@ -205,76 +205,76 @@ customize any Verrazzano installation, regardless of the profile.&lt;/p&gt;
 &lt;thead&gt;
 &lt;tr&gt;
 &lt;th&gt;Component&lt;/th&gt;
-&lt;th style=&#34;text-align:center&#34;&gt;dev&lt;/th&gt;
-&lt;th style=&#34;text-align:center&#34;&gt;prod&lt;/th&gt;
-&lt;th style=&#34;text-align:center&#34;&gt;managed-cluster&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;dev&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;prod&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;managed-cluster&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;Istio&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;NGINX&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Cert-Manager&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;External-DNS&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;️&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Prometheus&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Elasticsearch&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Console&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Kibana&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Grafana&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Rancher&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Keycloak&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -285,25 +285,25 @@ customize any Verrazzano installation, regardless of the profile.&lt;/p&gt;
 &lt;thead&gt;
 &lt;tr&gt;
 &lt;th&gt;Profile&lt;/th&gt;
-&lt;th style=&#34;text-align:left&#34;&gt;Prometheus&lt;/th&gt;
-&lt;th style=&#34;text-align:left&#34;&gt;Grafana&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;Prometheus&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;Grafana&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;prod&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;1 replica (128M memory, 50Gi storage)&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;1 replica (48M memory, 50Gi storage)&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1 replica (128M memory, 50Gi storage)&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1 replica (48M memory, 50Gi storage)&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;dev&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;1 replica (128M memory, ephemeral storage)&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;1 replica (48M memory, ephemeral storage)&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1 replica (128M memory, ephemeral storage)&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1 replica (48M memory, ephemeral storage)&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;managed-cluster&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;1 replica (128M memory, 50Gi storage)&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Not installed&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1 replica (128M memory, 50Gi storage)&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Not installed&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -313,25 +313,25 @@ customize any Verrazzano installation, regardless of the profile.&lt;/p&gt;
 &lt;thead&gt;
 &lt;tr&gt;
 &lt;th&gt;Profile&lt;/th&gt;
-&lt;th style=&#34;text-align:left&#34;&gt;Elasticsearch&lt;/th&gt;
-&lt;th style=&#34;text-align:left&#34;&gt;Kibana&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;Elasticsearch&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;Kibana&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;prod&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;3 master replicas (1.4Gi memory, 50Gi storage each)&lt;br/&gt;1 ingest replica (2.5Gi memory, no storage)&lt;br/&gt;2 data replicas (4.8Gi memory, 50Gi storage each)&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;1 replica (192M memory, ephemeral storage)&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;3 master replicas (1.4Gi memory, 50Gi storage each)&lt;br/&gt;1 ingest replica (2.5Gi memory, no storage)&lt;br/&gt;2 data replicas (4.8Gi memory, 50Gi storage each)&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1 replica (192M memory, ephemeral storage)&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;dev&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;1 master/data/ingest replica (1Gi memory, ephemeral storage)&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;1 replica (192M memory, ephemeral storage)&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1 master/data/ingest replica (1Gi memory, ephemeral storage)&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1 replica (192M memory, ephemeral storage)&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;managed-cluster&lt;/code&gt;&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Not installed&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Not installed&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Not installed&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Not installed&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -400,7 +400,7 @@ managed cluster. The &lt;code&gt;managed-cluster&lt;/code&gt; profile contains o
 &lt;code&gt;KUBECONTEXT_MANAGED1&lt;/code&gt;, and point them to the &lt;code&gt;kubeconfig&lt;/code&gt; files and contexts for the admin and managed cluster,
 respectively. You will use these environment variables in subsequent steps when registering the managed cluster. The
 following shows an example of how to set these environment variables.
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
+&lt;pre&gt;&lt;code&gt;$ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
 $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 
 # lists the contexts in each kubeconfig file
@@ -449,11 +449,11 @@ certificate authority, choose the appropriate instructions.&lt;/li&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;To check if the &lt;code&gt;verrazzano&lt;/code&gt; resource is configured to use LetsEncrypt staging certificates:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the managed cluster
+&lt;pre&gt;&lt;code&gt;# On the managed cluster
 $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
      describe verrazzano
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If the output contains the following information, then LetsEncrypt staging certificates are being used.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Cert Manager:
+&lt;pre&gt;&lt;code&gt;Cert Manager:
   Certificate:
     Acme:
       Environment:    staging
@@ -462,7 +462,7 @@ $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
 &lt;li&gt;
 &lt;p&gt;To check the &lt;code&gt;ca.crt&lt;/code&gt; field of the &lt;code&gt;system-tls&lt;/code&gt; secret
 in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace on the managed cluster:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the managed cluster
+&lt;pre&gt;&lt;code&gt;# On the managed cluster
 $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
      -n verrazzano-system get secret system-tls -o jsonpath=&#39;{.data.ca\.crt}&#39;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If this value is empty, then your managed cluster is using certificates signed by a well-known certificate
@@ -542,7 +542,7 @@ authority. Otherwise, your managed cluster is using self-signed certificates.&lt
 certificate of the managed cluster as the value of the &lt;code&gt;cacrt&lt;/code&gt; field. In the following commands, the managed cluster&amp;rsquo;s
 CA certificate is saved in an environment variable called &lt;code&gt;MGD_CA_CERT&lt;/code&gt;. Then use the &lt;code&gt;--dry-run&lt;/code&gt; option of the
 &lt;code&gt;kubectl&lt;/code&gt; command to generate the &lt;code&gt;managed1.yaml&lt;/code&gt; file.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the managed cluster
+&lt;pre&gt;&lt;code&gt;# On the managed cluster
 $ MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
      get secret system-tls \
      -n verrazzano-system \
@@ -555,7 +555,7 @@ $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
   -o yaml &amp;gt; managed1.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Create a Secret on the &lt;em&gt;admin&lt;/em&gt; cluster that contains the CA certificate for the managed cluster. This secret will be used for scraping metrics from the managed cluster.
 The &lt;code&gt;managed1.yaml&lt;/code&gt; file that was created in the previous step provides input to this step.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the admin cluster
+&lt;pre&gt;&lt;code&gt;# On the admin cluster
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
      apply -f managed1.yaml
 
@@ -579,7 +579,7 @@ $ rm managed1.yaml
 certificate of the managed cluster as the value of the &lt;code&gt;cacrt&lt;/code&gt; field. In the following commands, the managed cluster&amp;rsquo;s
 CA certificate is saved in an environment variable called &lt;code&gt;MGD_CA_CERT&lt;/code&gt;. Then use the &lt;code&gt;--dry-run&lt;/code&gt; option of the
 &lt;code&gt;kubectl&lt;/code&gt; command to generate the &lt;code&gt;managed1.yaml&lt;/code&gt; file.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the admin cluster
+&lt;pre&gt;&lt;code&gt;# On the admin cluster
 $ MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
      get secret tls-ca-additional \
      -n cattle-system \
@@ -592,7 +592,7 @@ $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
   -o yaml &amp;gt; managed1.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Create a Secret on the &lt;em&gt;admin&lt;/em&gt; cluster that contains the CA certificate for the managed cluster. This secret will be used for scraping metrics from the managed cluster.
 The &lt;code&gt;managed1.yaml&lt;/code&gt; file that was created in the previous step provides input to this step.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the admin cluster
+&lt;pre&gt;&lt;code&gt;# On the admin cluster
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
      apply -f managed1.yaml
 
@@ -662,7 +662,7 @@ be accessible from the managed cluster.&lt;/p&gt;
 	&lt;br&gt;
 &lt;p&gt;For most types of Kubernetes clusters, except for Kind clusters, you can find the externally accessible API server
 address of the admin cluster from its &lt;code&gt;kubeconfig&lt;/code&gt; file.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# View the information for the admin cluster in your kubeconfig file
+&lt;pre&gt;&lt;code&gt;# View the information for the admin cluster in your kubeconfig file
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN config view --minify
 
 # Sample output
@@ -678,7 +678,7 @@ contexts:
 ....
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the output of this command, you can find the URL of the admin cluster API server from the &lt;code&gt;server&lt;/code&gt; entry. Set the
 value of the ADMIN_K8S_SERVER_ADDRESS variable to this URL.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;export ADMIN_K8S_SERVER_ADDRESS=&amp;lt;the server address from the config output&amp;gt;
+&lt;pre&gt;&lt;code&gt;export ADMIN_K8S_SERVER_ADDRESS=&amp;lt;the server address from the config output&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;/div&gt;
@@ -699,10 +699,10 @@ address of the admin cluster in its &lt;code&gt;kubeconfig&lt;/code&gt; file is 
 accessible from the managed cluster. Use the &lt;code&gt;kind&lt;/code&gt; command to obtain the &amp;ldquo;internal&amp;rdquo; &lt;code&gt;kubeconfig&lt;/code&gt; of the admin
 cluster, which will contain a server address accessible from other Kind clusters on the same machine, and therefore in
 the same Docker network.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kind get kubeconfig --internal --name &amp;lt;your-admin-cluster-name&amp;gt; | grep server
+&lt;pre&gt;&lt;code&gt;$ kind get kubeconfig --internal --name &amp;lt;your-admin-cluster-name&amp;gt; | grep server
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the output of this command, you can find the URL of the admin cluster API server from the &lt;code&gt;server&lt;/code&gt; entry. Set the
 value of the ADMIN_K8S_SERVER_ADDRESS variable to this URL.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;export ADMIN_K8S_SERVER_ADDRESS=&amp;lt;the server address from the config output&amp;gt;
+&lt;pre&gt;&lt;code&gt;export ADMIN_K8S_SERVER_ADDRESS=&amp;lt;the server address from the config output&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;/div&gt;
@@ -716,7 +716,7 @@ value of the ADMIN_K8S_SERVER_ADDRESS variable to this URL.&lt;/p&gt;
 &lt;li&gt;
 &lt;p&gt;On the admin cluster, create a ConfigMap that contains the externally accessible admin cluster Kubernetes server
 address found in the previous step.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the admin cluster
+&lt;pre&gt;&lt;code&gt;# On the admin cluster
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
     apply -f &amp;lt;&amp;lt;EOF -
 apiVersion: v1
@@ -737,7 +737,7 @@ The cluster against which to run the command is indicated in each code block.&lt
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;To begin the registration process for a managed cluster named &lt;code&gt;managed1&lt;/code&gt;, apply the VerrazzanoManagedCluster object on the admin cluster.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the admin cluster
+&lt;pre&gt;&lt;code&gt;# On the admin cluster
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
     apply -f &amp;lt;&amp;lt;EOF -
 apiVersion: clusters.verrazzano.io/v1alpha1
@@ -753,14 +753,14 @@ EOF
 &lt;li&gt;
 &lt;p&gt;Wait for the VerrazzanoManagedCluster resource to reach the &lt;code&gt;Ready&lt;/code&gt; status. At that point, it will have generated a YAML
 file that must be applied on the managed cluster to complete the registration process.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the admin cluster
+&lt;pre&gt;&lt;code&gt;# On the admin cluster
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
     wait --for=condition=Ready \
     vmc managed1 -n verrazzano-mc
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Export the YAML file created to register the managed cluster.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the admin cluster
+&lt;pre&gt;&lt;code&gt;# On the admin cluster
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
     get secret verrazzano-cluster-managed1-manifest \
     -n verrazzano-mc \
@@ -769,7 +769,7 @@ $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
 &lt;/ol&gt;
 &lt;h4 id=&#34;on-the-managed-cluster&#34;&gt;On the managed cluster&lt;/h4&gt;
 &lt;p&gt;Apply the registration file exported in the previous step, on the managed cluster.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the managed cluster
+&lt;pre&gt;&lt;code&gt;# On the managed cluster
 $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
     apply -f register.yaml
 
@@ -792,7 +792,7 @@ route incoming requests for managed cluster information, to the managed cluster&
 &lt;p&gt;Verify that the managed cluster can connect to the admin cluster. View the status of the &lt;code&gt;VerrazzanoManagedCluster&lt;/code&gt;
 resource on the admin cluster, and check whether the &lt;code&gt;lastAgentConnectTime&lt;/code&gt;, &lt;code&gt;prometheusUrl&lt;/code&gt;, and &lt;code&gt;apiUrl&lt;/code&gt; fields are
 populated. This may take up to two minutes after completing the registration steps.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the admin cluster
+&lt;pre&gt;&lt;code&gt;# On the admin cluster
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
     get vmc managed1 -n verrazzano-mc -o yaml
 
@@ -826,7 +826,7 @@ Execute a query for a metric (for example, &lt;code&gt;node_disk_io_time_seconds
 &lt;p&gt;&lt;strong&gt;Sample output of a Prometheus query&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;../../../docs/images/multicluster/prometheus-multicluster.png&#34; alt=&#34;Prometheus&#34;&gt;&lt;/p&gt;
 &lt;p&gt;An alternative approach to using the Prometheus UI is to query metrics from the command line. Here is an example of how to obtain Prometheus metrics from the command line. Search the output of the query for responses that have the &lt;code&gt;verrazzano_cluster&lt;/code&gt; field set to the name of the managed cluster.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the admin cluster
+&lt;pre&gt;&lt;code&gt;# On the admin cluster
 $ prometheusUrl=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
                  get verrazzano -o jsonpath=&#39;{.items[0].status.instance.prometheusUrl}&#39;)
 $ VZPASS=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
@@ -841,7 +841,7 @@ the managed cluster.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Sample output of a Kibana screen&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;../../../docs/images/multicluster/kibana-multicluster.png&#34; alt=&#34;Kibana&#34;&gt;&lt;/p&gt;
 &lt;p&gt;An alternative approach to using the Kibana UI is to query Elasticsearch from the command line.  Here is an example of how to obtain log records from the command line.  Search the output of the query for responses that have the &lt;code&gt;cluster_name&lt;/code&gt; field set to the name of the managed cluster.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the admin cluster
+&lt;pre&gt;&lt;code&gt;# On the admin cluster
 $ KIBANA_URL=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
                  get verrazzano -o jsonpath=&#39;{.items[0].status.instance.kibanaUrl}&#39;)
 $ VZPASS=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
