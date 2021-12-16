@@ -10,7 +10,7 @@ Fixes:
 - Added support for Kiali
 - Simplified the placement of multicluster resources.
 - Improved the performance of installing Verrazzano
-- Added support for for external ElasticSearch
+- Added support for external Elasticsearch
 - Improvements to system functions, including the authenticating proxy
 - Added support in the LoggingTrait to customize application logging
 - Fixed ability to register a managed cluster with Rancher when configured to use LetsEncrypt staging certificates.
