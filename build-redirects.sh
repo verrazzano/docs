@@ -6,14 +6,9 @@ DOMAIN="$1"
 
 set -eu
 
-function redirect_file() {
-  local newPath="$1"
-  local url="$DOMAIN/$LATEST/$newPath"
-
-  echo "creating redirect for $newPath"
-
-  mkdir -p "../../$newPath"
-
+function fprint_index() {
+  local url="$1"
+  local file="$2"
   echo "<!DOCTYPE html>
 <html>
   <head>
@@ -23,8 +18,21 @@ function redirect_file() {
     <meta http-equiv='content-type' content='text/html; charset=utf-8'/>
     <meta http-equiv='refresh' content='0; url=$url'/>
   </head>
-</html>" > "../../$newPath/index.html"
+</html>" > "$2"
 }
+
+function redirect_file() {
+  local newPath="$1"
+  local url="$DOMAIN/$LATEST/$newPath"
+
+  echo "creating redirect for $newPath"
+
+  mkdir -p "../../$newPath"
+
+  fprint_index "$url" "../../$newPath/index.html"
+}
+
+fprint_index "$DOMAIN/$LATEST" "index.html"
 
 rm -rf docs
 cd content/en
