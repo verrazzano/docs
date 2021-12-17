@@ -226,10 +226,10 @@ Specific steps will differ for each load balancer provider, but a generic config
 * Health Check: TCP
 
 ##### **Backend for management load balancer**
-You must install Verrazzano to get the target ports for each load balancer backend. 
+You must install Verrazzano to get the target ports for each load balancer backend.
 In the following table, those ports are marked TBD. Run the following command to get the target
 ports for the NGINX Ingress Controller:
-``` 
+```
 kubectl get service ingress-controller-ingress-nginx-controller -n ingress-nginx
 ```
 In the `PORT(S)` column you will see the target port associated with port 80 and 443, for example: `80:30080/TCP,443:30443`.  
@@ -251,14 +251,14 @@ Use these port values for the Istio Ingress Gateway load balancer backend.
 |-----------------------------------------------|-------|-------------------------|-------------|
 | `istio-ingressgateway`                        | TCP   | 80                      | TBD         |
 | `istio-ingressgateway`                        | TCP   | 443                     | TBD         |
-  
-    
+
+
 #### OCI example
 The following details can be used to create OCI load balancers for accessing application and management user interfaces, respectively.
 These load balancers will route HTTP/HTTPS traffic from the Internet to the private subnet.
 If load balancers are desired, then they should be created now even though the application and management endpoints will be installed later.
 
-**NOTE**: In the following list, the using port 0 for the health check indicates that the backend ports should be used. 
+**NOTE**: In the following list, the using port 0 for the health check indicates that the backend ports should be used.
 
 * Application Load Balancer: Public Subnet
   * Listeners
@@ -339,7 +339,7 @@ DNS CNAME records, in the same way.
 
 During the Verrazzano install, these steps should be performed on the Oracle Linux Cloud Native Environment operator node.
 
-Edit the sample Verrazzano custom resource [install-olcne.yaml]( {{< release_source_url path=platform-operator/config/samples/install-olcne.yaml >}} ) file and provide these configuration settings for your OLCNE environment:
+Edit the sample Verrazzano custom resource [install-olcne.yaml](https://github.com/verrazzano/verrazzano/blob/release-1.1/platform-operator/config/samples/install-olcne.yaml) file and provide these configuration settings for your OLCNE environment:
 
 - The value for `spec.environmentName` is a unique DNS subdomain for the cluster (for example, `myenv` in `myenv.example.com`).
 - The value for `spec.components.dns.external.suffix` is the remainder of the DNS domain (for example, `example.com` in `myenv.example.com`).
