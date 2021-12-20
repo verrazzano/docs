@@ -213,7 +213,7 @@ As a starting point, download the sample Verrazzano custom resource `install-oci
 ```
 $ curl \
     -o ./install-oci.yaml \
-    {{< release_source_url raw=true path="platform-operator/config/samples/install-oci.yaml" >}}
+    https://raw.githubusercontent.com/verrazzano/verrazzano/release-1.1/platform-operator/config/samples/install-oci.yaml
 ```
 
 Edit the `install-oci.yaml` file to provide values for the following configuration settings in the
