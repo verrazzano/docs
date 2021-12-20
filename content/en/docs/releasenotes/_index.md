@@ -23,7 +23,7 @@ Known Issues:
 
 ### v1.0.4
 Fixes:
-- Elasticsearch and Springboot images were updated to consume log4j 2.16, to address CVE-2021-44228/CVE-2021-45046.
+- Elasticsearch and Spring Boot images were updated to consume log4j 2.16, to address CVE-2021-44228/CVE-2021-45046.
 - Keycloak image was updated to address vulnerabilities.
 - Minor bug fixes including fixes for capitalization in user-visible messages.
 
