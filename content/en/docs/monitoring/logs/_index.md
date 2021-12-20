@@ -42,6 +42,7 @@ The Verrazzano Fluentd Docker image comes with these plug-ins:
 - [fluent-plugin-record-modifier](https://github.com/repeatedly/fluent-plugin-record-modifier)
 - [fluent-plugin-rewrite-tag-filter](https://github.com/fluent/fluent-plugin-rewrite-tag-filter)
 - [fluent-plugin-systemd](https://github.com/fluent-plugin-systemd/fluent-plugin-systemd)
+- [fluent-plugin-oci-logging](https://github.com/oracle/fluent-plugin-oci-logging)
 
 The Verrazzano Fluentd Docker image also has two local default plug-ins, `kubernetes_parser` and `kubernetes_multiline_parser`.
 These plug-ins help to parse Kubernetes management log files.
