@@ -20,9 +20,6 @@ function install_gh-pages() {
   sudo chmod -R o+wx /usr/lib/node_modules
 }
 
-function ensureRoot() {
-    /usr/bin/gh-pages -b ${PUBLISH_BRANCH} -d hack -a
-}
 
 if [[ ${RELEASE_BRANCH} == release-* ]]; then
   install_gh-pages
@@ -32,7 +29,6 @@ if [[ ${RELEASE_BRANCH} == release-* ]]; then
   if [[ "true" == "${IS_LATEST}" ]]; then
     echo "publish ${VERSION} as the latest"
     /usr/bin/gh-pages -d production -b ${PUBLISH_BRANCH} -e latest
-    ensureRoot
   fi
 elif [[ ${RELEASE_BRANCH} == master ]]; then
   install_gh-pages
