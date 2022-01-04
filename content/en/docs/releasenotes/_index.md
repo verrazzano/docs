@@ -16,7 +16,7 @@ Fixes:
 - Fixed ability to register a managed cluster with Rancher when configured to use LetsEncrypt staging certificates.
 - Fixed Elasticsearch status yellow due to unassigned shards.
 - Added support for Kubernetes 1.21, dropped support of Kubernetes 1.18.
-- Updated several installed and supported [Software Versions]({{< relref "/docs/setup/versions.md" >}}).
+- Updated several installed and supported [Software Versions]({{< relref "/docs/setup/prereqs.md" >}}).
 
 Known Issues:
 - Importing a Kubernetes v1.21 cluster into Rancher might not work properly. Rancher does not currently support Kubernetes v1.21.
