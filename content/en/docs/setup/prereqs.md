@@ -1,9 +1,16 @@
 ---
-title: "Software Versions"
-description: "Review the software versions installed and supported by Verrazzano"
+title: "Prerequisites"
+description: "Review the prerequisite requirements, software versions installed and supported by Verrazzano"
 weight: 1
 draft: false
 ---
+
+
+Verrazzano requires the following:
+- A Kubernetes cluster and a compatible `kubectl`.
+- At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.  This is sufficient to install the development profile
+  of Verrazzano.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient for deploying your
+  applications.
 
 
 ## Supported Software Versions
@@ -14,7 +21,7 @@ You can install Verrazzano on the following Kubernetes versions.
 
 | Verrazzano | Release Date | Latest Patch Release | Latest Patch Release Date | Kubernetes Versions
 | ---        |--------------| ---                  | ---                       | ---
-| 1.0        | 2021-08-02   | 1.0.4                | 2021-12-20                | 1.18, 1.19, 1.20
+| 1.0        | 2021-08-02   | 1.0.4                |  2021-12-20               | 1.18, 1.19, 1.20
 | 1.1        | 2021-12-16   |                      |                           | 1.19, 1.20, 1.21
 
 For more information, see [Kubernetes Release Documentation](https://kubernetes.io/releases/).

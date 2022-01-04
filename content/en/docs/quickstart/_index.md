@@ -9,15 +9,11 @@ weight: 2
 
 The Quick Start assumes that you have already installed a
 [Kubernetes](https://kubernetes.io/) cluster. For instructions on preparing Kubernetes
-platforms for installing Verrazzano, see [Platform Setup]({{< relref "/docs/setup/platforms/_index.md" >}}). For
-detailed installation instructions, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}}).
+platforms for installing Verrazzano, see [Platform Setup]({{< relref "/docs/setup/platforms/_index.md" >}}).
 
-Verrazzano requires the following:
-- A Kubernetes cluster and a compatible `kubectl`.
-- At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.  This is sufficient to install the development profile
-  of Verrazzano.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient for deploying your
-  applications.
-- For a list of the software versions supported and installed by Verrazzano, see [Software Versions]({{< relref "/docs/setup/versions.md" >}}).
+- Find the Verrazzano prerequisite requirements [here]({{< relref "/docs/setup/prereqs.md" >}}).
+- Review the list of the [software versions supported]({{< relref "/docs/setup/prereqs.md#supported-software-versions" >}}) and [installed]({{< relref "/docs/setup/prereqs.md#installed-components" >}}) by Verrazzano.
+- For detailed installation instructions, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}}).
 
 
 ## Install the Verrazzano platform operator
@@ -42,7 +38,7 @@ To install the Verrazzano platform operator:
 
     ```
     $ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
-   
+
     # Sample output
     deployment "verrazzano-platform-operator" successfully rolled out
     ```
@@ -51,7 +47,7 @@ To install the Verrazzano platform operator:
 
     ```
     $ kubectl -n verrazzano-install get pods
-   
+
     # Sample output
     NAME                                            READY   STATUS    RESTARTS   AGE
     verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
@@ -138,7 +134,7 @@ enabled for Istio.
        --for=condition=Ready pods \
        --all -n hello-helidon \
        --timeout=300s
-   
+
    # Sample output
    pod/hello-helidon-deployment-78468f5f9c-czmp4 condition met
    ```
@@ -178,7 +174,7 @@ To uninstall the Hello World Helidon example application:
 
    ```
    $ kubectl delete namespace hello-helidon
-   
+
    # Expected response
    namespace "hello-helidon" deleted
     ```
@@ -187,7 +183,7 @@ To uninstall the Hello World Helidon example application:
 
    ```
    $ kubectl get ns hello-helidon
-   
+
    # Expected response
    Error from server (NotFound): namespaces "hello-helidon" not found
    ```
