@@ -9,15 +9,11 @@ weight: 2
 
 The Quick Start assumes that you have already installed a
 [Kubernetes](https://kubernetes.io/) cluster. For instructions on preparing Kubernetes
-platforms for installing Verrazzano, see [Platform Setup]({{< relref "/docs/setup/platforms/_index.md" >}}). For
-detailed installation instructions, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}}).
+platforms for installing Verrazzano, see [Platform Setup]({{< relref "/docs/setup/platforms/_index.md" >}}).
 
-Verrazzano requires the following:
-- A Kubernetes cluster and a compatible `kubectl`.
-- At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.  This is sufficient to install the development profile
-  of Verrazzano.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient for deploying your
-  applications.
-- For a list of the software versions supported and installed by Verrazzano, see [Software Versions]({{< relref "/docs/setup/versions.md" >}}).
+- Find the Verrazzano prerequisite requirements [here]({{< relref "/docs/setup/prereqs.md" >}}).
+- Review the list of the [software versions supported]({{< relref "/docs/setup/prereqs.md#supported-software-versions" >}}) and [installed]({{< relref "/docs/setup/prereqs.md#installed-components" >}}) by Verrazzano.
+- For detailed installation instructions, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}}).
 
 
 ## Install the Verrazzano platform operator
