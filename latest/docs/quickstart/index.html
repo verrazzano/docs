@@ -101,7 +101,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../offline-search-index.3f709ac5a1d11736011b2ea460efaf14.json"
+  data-offline-search-index-json-src="../../offline-search-index.ec5a489f99557d1af1f002251a722a1e.json"
   data-offline-search-base-href="../../"
   data-offline-search-max-results="10"
 >
@@ -128,7 +128,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../offline-search-index.3f709ac5a1d11736011b2ea460efaf14.json"
+  data-offline-search-index-json-src="../../offline-search-index.ec5a489f99557d1af1f002251a722a1e.json"
   data-offline-search-base-href="../../"
   data-offline-search-max-results="10"
 >
@@ -158,8 +158,8 @@ if (!doNotTrack) {
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docssetup-li">
   <a href="../../docs/setup/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssetup"><span class="">Setup</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupversions-li">
-  <a href="../../docs/setup/versions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupversions"><span class="">Software Versions</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupprereqs-li">
+  <a href="../../docs/setup/prereqs/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupprereqs"><span class="">Prerequisites</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docssetupplatforms-li">
   <a href="../../docs/setup/platforms/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssetupplatforms"><span class="">Platform Setup</span></a>
   <ul class="ul-3 foldable">
@@ -514,15 +514,11 @@ if (!doNotTrack) {
 	<h2 id="prerequisites">Prerequisites</h2>
 <p>The Quick Start assumes that you have already installed a
 <a href="https://kubernetes.io/">Kubernetes</a> cluster. For instructions on preparing Kubernetes
-platforms for installing Verrazzano, see <a href="../../docs/setup/platforms/">Platform Setup</a>. For
-detailed installation instructions, see the <a href="../../docs/setup/install/installation/">Installation Guide</a>.</p>
-<p>Verrazzano requires the following:</p>
+platforms for installing Verrazzano, see <a href="../../docs/setup/platforms/">Platform Setup</a>.</p>
 <ul>
-<li>A Kubernetes cluster and a compatible <code>kubectl</code>.</li>
-<li>At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.  This is sufficient to install the development profile
-of Verrazzano.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient for deploying your
-applications.</li>
-<li>For a list of the software versions supported and installed by Verrazzano, see <a href="../../docs/setup/versions/">Software Versions</a>.</li>
+<li>Find the Verrazzano prerequisite requirements <a href="../../docs/setup/prereqs/">here</a>.</li>
+<li>Review the list of the <a href="../../docs/setup/prereqs/#supported-software-versions">software versions supported</a> and <a href="../../docs/setup/prereqs/#installed-components">installed</a> by Verrazzano.</li>
+<li>For detailed installation instructions, see the <a href="../../docs/setup/install/installation/">Installation Guide</a>.</li>
 </ul>
 <h2 id="install-the-verrazzano-platform-operator">Install the Verrazzano platform operator</h2>
 <p>Verrazzano provides a Kubernetes <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/operator/">operator</a>
@@ -541,14 +537,14 @@ The <a href="https://github.com/verrazzano/verrazzano">Verrazzano platform opera
 <li>
 <p>Wait for the deployment to complete.</p>
 <pre><code>$ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
-  
+
 # Sample output
 deployment &quot;verrazzano-platform-operator&quot; successfully rolled out
 </code></pre></li>
 <li>
 <p>Confirm that the operator pod is correctly defined and running.</p>
 <pre><code>$ kubectl -n verrazzano-install get pods
-  
+
 # Sample output
 NAME                                            READY   STATUS    RESTARTS   AGE
 verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
@@ -619,7 +615,7 @@ $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/maste
     --for=condition=Ready pods \
     --all -n hello-helidon \
     --timeout=300s
-   
+
 # Sample output
 pod/hello-helidon-deployment-78468f5f9c-czmp4 condition met
 </code></pre><p>This creates the Verrazzano OAM Component application resources for the example, waits for the pods in the <code>hello-helidon</code>
@@ -652,14 +648,14 @@ $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/mast
 <li>
 <p>Delete the example namespace.</p>
 <pre><code>$ kubectl delete namespace hello-helidon
-   
+
 # Expected response
 namespace &quot;hello-helidon&quot; deleted
 </code></pre></li>
 <li>
 <p>Verify that the <code>hello-helidon</code> namespace has been deleted.</p>
 <pre><code>$ kubectl get ns hello-helidon
-   
+
 # Expected response
 Error from server (NotFound): namespaces &quot;hello-helidon&quot; not found
 </code></pre></li>
@@ -830,7 +826,7 @@ you can view the uninstall logs.
         
       </div>
       <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
-        <small class="text-white">&copy; 2021 Oracle and/or its affiliates</small>
+        <small class="text-white">&copy; 2022 Oracle and/or its affiliates</small>
         
 	
 		
