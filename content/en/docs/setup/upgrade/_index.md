@@ -97,7 +97,7 @@ Verrazzano Platform Operator.
 
       a. Editing the YAML file you used to install Verrazzano and setting the version field to the latest version.
 
-      For example, to upgrade to `v0.17.0`, your YAML file should be edited to add or update the version field:
+      For example, to upgrade to `v1.1.0`, your YAML file should be edited to add or update the version field:
 
       ```yaml
       apiVersion: install.verrazzano.io/v1alpha1
@@ -106,7 +106,7 @@ Verrazzano Platform Operator.
         name: my-verrazzano
       spec:
         profile: dev
-        version: v0.17.0
+        version: v1.0.0
       ```
 
       Then apply the resource to the cluster (if you have not edited the resource in-place using `kubectl edit`):
