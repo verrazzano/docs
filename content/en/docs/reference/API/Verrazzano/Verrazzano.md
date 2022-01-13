@@ -126,7 +126,7 @@ spec:
 | --- | --- | --- | --- | --- |
 | `controller.service.externalIPs` | [NameValue](#name-value)  | string list | The external IP address used by the NGINX Ingress Controller. |  No |
 | `controller.service.externalTrafficPolicy` | [NameValue](#name-value) | string  | Preserves the client source IP address. See [Bare-metal considerations](https://kubernetes.github.io/ingress-nginx/deploy/baremetal/). |  No |
-| `controller.service.annotations.*` | [NameValue](#name-value) | string  | Annotations used for NGINX Ingress Controller.  For sample usage, see [Customize Ingress](/docs/setup/install/customizing/ingress/). |  No |
+| `controller.service.annotations.*` | [NameValue](#name-value) | string  | Annotations used for NGINX Ingress Controller.  For sample usage, see [Customize Ingress](/docs/setup/customizing/ingress/). |  No |
 | `controller.autoscaling.enabled` | [NameValue](#name-value) |  Boolean | If true, then enable horizonal pod autoscaler.  Default false. |  No |
 | `controller.autoscaling.minReplicas` | [NameValue](#name-value) | string | Minimum replicas used for autoscaling.  Default 1. |  No |
 
@@ -143,9 +143,9 @@ spec:
 #### Name Value
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `name` | string | The name of a Helm override for a Verrazzano component chart, specified with a `—set` flag on the Helm command line, for example, `helm install --set name=value`. For more information about chart overrides, see [Customize Ingress](/docs/setup/install/customizing/ingress/). |  Yes |
-| `value` | string | The value of a Helm override for a Verrazzano component chart, specified with a `—set` flag on the Helm command line, for example, `helm install --set name=value`. Either `value` or `valueList` must be specified. For more information about chart overrides, see [Customize Ingress](/docs/setup/install/customizing/ingress/).|  No |
-| `valueList` | string list | The list of Helm override values for a Verrazzano component, each specified with a `—set` flag on the Helm command line, for example, `helm install --set name[0]=<first element of valueList> —set name[1]=<second element of valueList>`. Either `value` or `valueList` must be specified. For more information about chart overrides, see [Customize Ingress](/docs/setup/install/customizing/ingress/).  |  No |
+| `name` | string | The name of a Helm override for a Verrazzano component chart, specified with a `—set` flag on the Helm command line, for example, `helm install --set name=value`. For more information about chart overrides, see [Customize Ingress](/docs/setup/customizing/ingress/). |  Yes |
+| `value` | string | The value of a Helm override for a Verrazzano component chart, specified with a `—set` flag on the Helm command line, for example, `helm install --set name=value`. Either `value` or `valueList` must be specified. For more information about chart overrides, see [Customize Ingress](/docs/setup/customizing/ingress/).|  No |
+| `valueList` | string list | The list of Helm override values for a Verrazzano component, each specified with a `—set` flag on the Helm command line, for example, `helm install --set name[0]=<first element of valueList> —set name[1]=<second element of valueList>`. Either `value` or `valueList` must be specified. For more information about chart overrides, see [Customize Ingress](/docs/setup/customizing/ingress/).  |  No |
 | `setString` | Boolean | Specifies if the argument requires the Helm `--set-string` command-line flag to override a chart value, for example, `helm install --set-string name=value`. |  No |
 
 ### Istio Component
@@ -157,7 +157,7 @@ spec:
 | Name | Type | ValueType | Description | Required
 | --- | --- | --- | --- | --- |
 | `gateways.istio-ingressgateway.externalIPs` | [NameValue](#name-value)  | string list | The external IP address used by the Istio Ingress Gateway. |  No |
-| `gateways.istio-ingressgateway.serviceAnnotations.*` | [NameValue](#name-value) | string | Annotations used for the Istio Ingress Gateway.  For sample usage, see [Customize Ingress](/docs/setup/install/customizing/ingress/). |  No |
+| `gateways.istio-ingressgateway.serviceAnnotations.*` | [NameValue](#name-value) | string | Annotations used for the Istio Ingress Gateway.  For sample usage, see [Customize Ingress](/docs/setup/customizing/ingress/). |  No |
 
 
 ### Fluentd Component
@@ -189,7 +189,7 @@ spec:
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `enabled` | Boolean | If true, then Elasticsearch will be installed. | No |
-| `installArgs` | [ElasticsearchInstallArgs](#elasticsearch-install-args) list | A list of values to use during Elasticsearch installation.  Each argument is specified as either a `name/value` or `name/valueList` pair.  For sample usage, see [Customize Elasticsearch](/docs/setup/install/customizing/elasticsearch/).| No |
+| `installArgs` | [ElasticsearchInstallArgs](#elasticsearch-install-args) list | A list of values to use during Elasticsearch installation.  Each argument is specified as either a `name/value` or `name/valueList` pair.  For sample usage, see [Customize Elasticsearch](/docs/setup/customizing/elasticsearch/).| No |
 
 #### Elasticsearch Install Args
 | Name | Type | ValueType | Description | Required

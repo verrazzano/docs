@@ -2,7 +2,7 @@
 title: "Upgrade"
 linkTitle: "Upgrade"
 description: "How to upgrade Verrazzano"
-weight: 5
+weight: 6
 draft: false
 ---
 
@@ -63,7 +63,7 @@ In order to upgrade an existing Verrazzano installation, you must first upgrade 
 
    ```
    $ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
-   
+
    # Expected response
    deployment "verrazzano-platform-operator" successfully rolled out
    ```
@@ -72,7 +72,7 @@ In order to upgrade an existing Verrazzano installation, you must first upgrade 
 
    ```
    $ kubectl -n verrazzano-install get pods
-   
+
    # Sample output
    NAME                                            READY   STATUS    RESTARTS   AGE
    verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s

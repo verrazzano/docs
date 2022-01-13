@@ -13,7 +13,7 @@ The root cause appears to be that the load balancer service limit has been reach
 
 ### Steps
 1. Review the messages from the supporting details for the exact limits, and delete unused load balancers.
-2. If available, use a different load balancer shape. See [Customizing Ingress]({{< relref "/docs/setup/install/customizing/ingress.md" >}}).
+2. If available, use a different load balancer shape. See [Customizing Ingress]({{< relref "/docs/setup/customizing/ingress.md" >}}).
 3. Refer to the OCI documentation on [Service Limits](https://docs.oracle.com/en-us/iaas/Content/General/Concepts/servicelimits.htm#).
 
 ### Related information
