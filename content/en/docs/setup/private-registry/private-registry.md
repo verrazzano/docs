@@ -1,7 +1,7 @@
 ---
 title: Use a Private Registry
 description: Instructions for setting up Verrazzano using a private container registry
-Weight: 6
+Weight: 7
 draft: false
 ---
 
@@ -30,7 +30,7 @@ To obtain the required Verrazzano images and install from your private registry,
    * (Optional) Validate the checksum and the TAR file match.  For example,
      ```
      $ shasum -c  verrazzano_1.0.0.tar.gz.sha256
-     
+
      # Sample output
      verrazzano_1.0.0.tar.gz: OK
      ```
