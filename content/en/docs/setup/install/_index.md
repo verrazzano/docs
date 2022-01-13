@@ -1,6 +1,6 @@
 ---
 title: "Install"
-description: "Install and customize Verrazzano"
+description: "How to install Verrazzano"
 weight: 3
 draft: false
 ---

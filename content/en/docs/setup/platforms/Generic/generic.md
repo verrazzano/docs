@@ -25,7 +25,7 @@ This requires a good working knowledge of networking and has limited use cases.
 
 ## Customizations
 
-Verrazzano is highly customizable.  If your Kubernetes implementation requires a custom configuration, see [Customize Installations]({{< relref "/docs/setup/install/customizing" >}}).
+Verrazzano is highly customizable.  If your Kubernetes implementation requires a custom configuration, see [Customize Installations]({{< relref "/docs/setup/customizing" >}}).
 
 ## Next steps
 
