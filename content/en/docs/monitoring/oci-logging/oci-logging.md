@@ -37,7 +37,7 @@ spec:
 ```
 
 ## Overriding the default log objects
-You can override the OCI Log object on an individual namespace basis. To specify a log identifier on a namespace, add an annotation named `verrazzano.io/oci-log-id` to the namespace. The value of the annotation is the OCI Log object identifier.
+You can override the OCI Log object on an individual namespace. To specify a log identifier on a namespace, add an annotation named `verrazzano.io/oci-log-id` to the namespace. The value of the annotation is the OCI Log object identifier.
 
 Here is an example namespace.
 ```
