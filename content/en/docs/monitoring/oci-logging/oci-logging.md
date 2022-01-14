@@ -36,6 +36,30 @@ spec:
       enabled: false
 ```
 
+## Overriding the default log objects
+You can override the OCI Log object on an individual namespace. To specify a log identifier on a namespace, add an annotation named `verrazzano.io/oci-log-id` to the namespace. The value of the annotation is the OCI Log object identifier.
+
+Here is an example namespace.
+```
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    verrazzano.io/oci-log-id: ocid1.log.oc1.iad.ns.app.example
+  creationTimestamp: "2022-01-14T15:09:19Z"
+  labels:
+    istio-injection: enabled
+    verrazzano-managed: "true"
+  name: example
+spec:
+  finalizers:
+  - kubernetes
+status:
+  phase: Active
+```
+
+Note that if you add and subsequently remove the annotation then the logs will revert to the default OCI Log object specified in the Verrazzano custom resource.
+
 ## Searching logs
 To search Verrazzano logs, you can use the OCI Console, OCI CLI, or OCI SDK.
 
