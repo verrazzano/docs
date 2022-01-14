@@ -89,7 +89,7 @@ field in the Verrazzano custom resource.
 
 {{< alert title="NOTE" color="info" >}}
 Using LetsEncrypt for certificates also requires using OCI DNS for DNS management.
-For details, see the [Customize DNS](/docs/setup/install/customizing/dns/) page.
+For details, see the [Customize DNS](/docs/setup/customizing/dns/) page.
 {{< /alert >}}
 
 To configure CertManager to use LetsEncrypt as the certificates provider, you must configure a CertManager
