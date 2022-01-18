@@ -7,9 +7,9 @@ draft: false
 
 ### v1.1.1
 Fixes:
-- Elasticsearch and Keycloak images were updated to address CVE's.
+- Elasticsearch and Keycloak images were updated to address vulnerabilities.
 - Updated WebLogic Kubernetes Operator image to 3.3.7.
-- Minor bug fixes including updated Elasticsearch logging to avoid type collisions.
+- Minor bug fixes including updating Elasticsearch logging to avoid type collisions.
 - Improved cluster-dump behavior when capturing logs.
 - Rancher namespace is now created by default.
 
