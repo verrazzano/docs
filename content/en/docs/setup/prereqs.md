@@ -22,7 +22,7 @@ You can install Verrazzano on the following Kubernetes versions.
 | Verrazzano | Release Date | Latest Patch Release | Latest Patch Release Date | Kubernetes Versions
 | ---        |--------------| ---                  | ---                       | ---
 | 1.0        | 2021-08-02   | 1.0.4                |  2021-12-20               | 1.18, 1.19, 1.20
-| 1.1        | 2021-12-16   |                      |                           | 1.19, 1.20, 1.21
+| 1.1        | 2021-12-16   | 1.1.1                |  2022-01-18               | 1.19, 1.20, 1.21
 
 For more information, see [Kubernetes Release Documentation](https://kubernetes.io/releases/).
 For platform specific details, see [Verrazzano platform setup]({{< relref "/docs/setup/platforms/_index.md" >}}).
@@ -62,4 +62,4 @@ component with its version and a brief description.
 | OAM Kubernetes Runtime | 0.3.0    | Plug-in for implementing Open Application Model (OAM) control plane with Kubernetes.
 | Prometheus | 2.21.0-1 | Provides event monitoring and alerting.
 | Rancher | 2.5.9    | Manages multiple Kubernetes clusters.
-| WebLogic Kubernetes Operator | 3.3.6    | Assists with deploying and managing WebLogic domains.
+| WebLogic Kubernetes Operator | 3.3.7    | Assists with deploying and managing WebLogic domains.
