@@ -5,6 +5,14 @@ weight: 13
 draft: false
 ---
 
+### v1.1.1
+Fixes:
+- Elasticsearch and Keycloak images were updated to address CVEs.
+- Updated WebLogic Kubernetes Operator version to 3.3.7.
+- Minor bug fixes including updating Elasticsearch logging to avoid type collisions.
+- Improved cluster-dump behavior when capturing logs.
+- Rancher namespace is now created by default.
+
 ### v1.1.0
 Fixes:
 - Added support for Kiali.
