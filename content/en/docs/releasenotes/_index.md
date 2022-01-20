@@ -13,6 +13,9 @@ Fixes:
 - Improved cluster-dump behavior when capturing logs.
 - Rancher namespace is now created by default.
 
+Known Issues:
+- Importing a Kubernetes v1.21 cluster into Rancher might not work properly. Rancher does not currently support Kubernetes v1.21.
+
 ### v1.1.0
 Fixes:
 - Added support for Kiali.
