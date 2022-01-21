@@ -72,7 +72,7 @@ conditionally installed when OCI DNS is configured for DNS management in Verrazz
 The following prerequisites must be met before using OCI DNS with Verrazzano:
 
 * You must have control of a DNS domain.
-* You must have an OCI DNS Service Zone that is configured to manage records for that domain. Verrazzano also supports the use of both GLOBAL and PRIVATE OCI DNS zone
+* You must have an OCI DNS Service Zone that is configured to manage records for that domain. Verrazzano also supports the use of both GLOBAL and PRIVATE OCI DNS zones.
 
   A DNS Service Zone is a distinct portion of a domain namespace. You must ensure that the zone is appropriately associated with a parent domain.
   For example, an appropriate zone name for parent domain `example.com` is `us.example.com`.
@@ -147,7 +147,7 @@ auth:
 ```
 
 Verrazzano also supports the use of instance principals to communicate with OCI in order to create or update OCI DNS records. 
-Instance principal require some prerequisites that can be found [here](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm).
+Instance principal requires some prerequisites that can be found [here](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm).
 
 When using instance principals, your `oci.yaml` file will look as follows:
 
