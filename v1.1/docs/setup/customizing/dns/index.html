@@ -22,11 +22,11 @@
 <meta property="og:description" content="Customize DNS configurations for Verrazzano system and application endpoints" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/customizing/dns/" />
-<meta property="article:modified_time" content="2022-01-14T12:19:16-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-01-21T10:22:22-08:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Customize DNS">
 <meta itemprop="description" content="Customize DNS configurations for Verrazzano system and application endpoints">
-<meta itemprop="dateModified" content="2022-01-14T12:19:16-05:00" />
-<meta itemprop="wordCount" content="1304">
+<meta itemprop="dateModified" content="2022-01-21T10:22:22-08:00" />
+<meta itemprop="wordCount" content="1452">
 
 
 
@@ -106,7 +106,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.4b9e4505450cb81e9232b26ceff4b49d.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.821ec8751e0d345107ce96727c6d2c96.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -133,7 +133,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.4b9e4505450cb81e9232b26ceff4b49d.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.821ec8751e0d345107ce96727c6d2c96.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -648,7 +648,7 @@ conditionally installed when OCI DNS is configured for DNS management in Verrazz
 <p>You must have control of a DNS domain.</p>
 </li>
 <li>
-<p>You must have an OCI DNS Service Zone that is configured to manage records for that domain.</p>
+<p>You must have an OCI DNS Service Zone that is configured to manage records for that domain. Verrazzano also supports the use of both GLOBAL and PRIVATE OCI DNS zones.</p>
 <p>A DNS Service Zone is a distinct portion of a domain namespace. You must ensure that the zone is appropriately associated with a parent domain.
 For example, an appropriate zone name for parent domain <code>example.com</code> is <code>us.example.com</code>.</p>
 <p>To create an OCI DNS zone using the OCI CLI:</p>
@@ -703,6 +703,11 @@ configuration profile.</p>
     ...
     -----END RSA PRIVATE KEY-----
   fingerprint: 12:d3:4c:gh:fd:9e:27:g8:b9:0d:9f:00:22:33:c3:gg
+</code></pre><p>Verrazzano also supports the use of instance principals to communicate with OCI in order to create or update OCI DNS records.
+Instance principal requires some prerequisites that can be found <a href="https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm">here</a>.</p>
+<p>When using instance principals, your <code>oci.yaml</code> file will look as follows:</p>
+<pre><code>auth:
+  authtype: instance_principal
 </code></pre><p>Then, you can create a generic Kubernetes secret in the cluster&rsquo;s <code>verrazzano-install</code> namespace using <code>kubectl</code>.</p>
 <pre><code>$ kubectl create secret generic -n verrazzano-install &lt;secret-name&gt; --from-file=&lt;path-to-oci-yaml-file&gt;
 </code></pre><p>For example, to create a secret named <code>oci</code> from a file <code>oci.yaml</code>, do the following:</p>
@@ -726,6 +731,7 @@ usage: ./create_oci_config_secret.sh [-o oci_config_file] [-s config_file_sectio
   -s config_file_section     The properties section within the OCI configuration file.  Default is DEFAULT
   -k secret_name             The secret name containing the OCI configuration.  Default is oci
   -c context_name            The kubectl context to use
+  -a auth_type               The auth_type to be used to access OCI. Valid values are user_principal/instance_principal. Default is user_principal.
   -h                         Help
 </code></pre><p>For example, to have the script create the YAML file using your <code>[DEFAULT]</code> OCI CLI profile and then create a Kubernetes secret
 named <code>oci</code>, you can run the script with no arguments, as follows:</p>
@@ -733,6 +739,9 @@ named <code>oci</code>, you can run the script with no arguments, as follows:</p
 secret/oci created
 </code></pre><p>The following example creates a secret <code>myoci</code> using an OCI CLI profile named <code>[dev]</code>:</p>
 <pre><code>$ ./create_oci_config_secret.sh -s dev -k myoci
+secret/myoci created
+</code></pre><p>When using instance principals all other parameters will be ignored automatically. The following example creates a secret <code>myoci</code> using OCI instance principal:</p>
+<pre><code>$ ./create_oci_config_secret.sh -a instance_principal
 secret/myoci created
 </code></pre><h3 id="installation">Installation</h3>
 <p>After the OCI API secret is created, create a Verrazzano custom resource for the installation that is configured to use OCI
@@ -749,6 +758,7 @@ custom resource spec:</p>
 <li><code>spec.components.dns.oci.dnsZoneCompartmentOCID</code></li>
 <li><code>spec.components.dns.oci.dnsZoneOCID</code></li>
 <li><code>spec.components.dns.oci.dnsZoneName</code></li>
+<li><code>spec.components.dns.oci.dnsScope</code></li>
 </ul>
 <p>The field <code>spec.components.dns.oci.ociConfigSecret</code> should reference the secret created earlier. For details on the
 OCI DNS configuration settings, see <a href="../../../../docs/reference/api/verrazzano/verrazzano#dns-oci"><code>spec.components.dns.oci</code></a>.</p>
@@ -768,6 +778,22 @@ spec:
         dnsZoneCompartmentOCID: ocid1.compartment.oc1..compartment-ocid
         dnsZoneOCID: ocid1.dns-zone.oc1..zone-ocid
         dnsZoneName: example.com
+</code></pre><p>If using a private DNS zone, then the same <code>prod</code> installation profile using OCI DNS will look as follows:</p>
+<pre><code>apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: my-verrazzano
+spec:
+  profile: prod
+  environmentName: myenv
+  components:
+    dns:
+      oci:
+        ociConfigSecret: oci
+        dnsZoneCompartmentOCID: ocid1.compartment.oc1..compartment-ocid
+        dnsZoneOCID: ocid1.dns-zone.oc1..zone-ocid
+        dnsZoneName: example.com
+        dnsScope: PRIVATE
 </code></pre><p>After the custom resource is ready, apply it using <code>kubectl apply -f &lt;path-to-custom-resource-file&gt;</code>.</p>
 
 

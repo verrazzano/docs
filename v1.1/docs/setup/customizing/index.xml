@@ -140,7 +140,7 @@ conditionally installed when OCI DNS is configured for DNS management in Verrazz
 &lt;p&gt;You must have control of a DNS domain.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;You must have an OCI DNS Service Zone that is configured to manage records for that domain.&lt;/p&gt;
+&lt;p&gt;You must have an OCI DNS Service Zone that is configured to manage records for that domain. Verrazzano also supports the use of both GLOBAL and PRIVATE OCI DNS zones.&lt;/p&gt;
 &lt;p&gt;A DNS Service Zone is a distinct portion of a domain namespace. You must ensure that the zone is appropriately associated with a parent domain.
 For example, an appropriate zone name for parent domain &lt;code&gt;example.com&lt;/code&gt; is &lt;code&gt;us.example.com&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;To create an OCI DNS zone using the OCI CLI:&lt;/p&gt;
@@ -195,6 +195,11 @@ configuration profile.&lt;/p&gt;
     ...
     -----END RSA PRIVATE KEY-----
   fingerprint: 12:d3:4c:gh:fd:9e:27:g8:b9:0d:9f:00:22:33:c3:gg
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Verrazzano also supports the use of instance principals to communicate with OCI in order to create or update OCI DNS records.
+Instance principal requires some prerequisites that can be found &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;When using instance principals, your &lt;code&gt;oci.yaml&lt;/code&gt; file will look as follows:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;auth:
+  authtype: instance_principal
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then, you can create a generic Kubernetes secret in the cluster&amp;rsquo;s &lt;code&gt;verrazzano-install&lt;/code&gt; namespace using &lt;code&gt;kubectl&lt;/code&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ kubectl create secret generic -n verrazzano-install &amp;lt;secret-name&amp;gt; --from-file=&amp;lt;path-to-oci-yaml-file&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For example, to create a secret named &lt;code&gt;oci&lt;/code&gt; from a file &lt;code&gt;oci.yaml&lt;/code&gt;, do the following:&lt;/p&gt;
@@ -218,6 +223,7 @@ usage: ./create_oci_config_secret.sh [-o oci_config_file] [-s config_file_sectio
   -s config_file_section     The properties section within the OCI configuration file.  Default is DEFAULT
   -k secret_name             The secret name containing the OCI configuration.  Default is oci
   -c context_name            The kubectl context to use
+  -a auth_type               The auth_type to be used to access OCI. Valid values are user_principal/instance_principal. Default is user_principal.
   -h                         Help
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For example, to have the script create the YAML file using your &lt;code&gt;[DEFAULT]&lt;/code&gt; OCI CLI profile and then create a Kubernetes secret
 named &lt;code&gt;oci&lt;/code&gt;, you can run the script with no arguments, as follows:&lt;/p&gt;
@@ -225,6 +231,9 @@ named &lt;code&gt;oci&lt;/code&gt;, you can run the script with no arguments, as
 secret/oci created
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The following example creates a secret &lt;code&gt;myoci&lt;/code&gt; using an OCI CLI profile named &lt;code&gt;[dev]&lt;/code&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ ./create_oci_config_secret.sh -s dev -k myoci
+secret/myoci created
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;When using instance principals all other parameters will be ignored automatically. The following example creates a secret &lt;code&gt;myoci&lt;/code&gt; using OCI instance principal:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ ./create_oci_config_secret.sh -a instance_principal
 secret/myoci created
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;installation&#34;&gt;Installation&lt;/h3&gt;
 &lt;p&gt;After the OCI API secret is created, create a Verrazzano custom resource for the installation that is configured to use OCI
@@ -241,6 +250,7 @@ custom resource spec:&lt;/p&gt;
 &lt;li&gt;&lt;code&gt;spec.components.dns.oci.dnsZoneCompartmentOCID&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;spec.components.dns.oci.dnsZoneOCID&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;spec.components.dns.oci.dnsZoneName&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;spec.components.dns.oci.dnsScope&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;The field &lt;code&gt;spec.components.dns.oci.ociConfigSecret&lt;/code&gt; should reference the secret created earlier. For details on the
 OCI DNS configuration settings, see &lt;a href=&#34;../../../docs/reference/api/verrazzano/verrazzano#dns-oci&#34;&gt;&lt;code&gt;spec.components.dns.oci&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
@@ -260,6 +270,22 @@ spec:
         dnsZoneCompartmentOCID: ocid1.compartment.oc1..compartment-ocid
         dnsZoneOCID: ocid1.dns-zone.oc1..zone-ocid
         dnsZoneName: example.com
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If using a private DNS zone, then the same &lt;code&gt;prod&lt;/code&gt; installation profile using OCI DNS will look as follows:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: my-verrazzano
+spec:
+  profile: prod
+  environmentName: myenv
+  components:
+    dns:
+      oci:
+        ociConfigSecret: oci
+        dnsZoneCompartmentOCID: ocid1.compartment.oc1..compartment-ocid
+        dnsZoneOCID: ocid1.dns-zone.oc1..zone-ocid
+        dnsZoneName: example.com
+        dnsScope: PRIVATE
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;After the custom resource is ready, apply it using &lt;code&gt;kubectl apply -f &amp;lt;path-to-custom-resource-file&amp;gt;&lt;/code&gt;.&lt;/p&gt;
 
 
