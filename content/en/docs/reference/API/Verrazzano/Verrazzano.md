@@ -102,13 +102,12 @@ spec:
 | `domain` | string | The type of wildcard DNS domain. For example, `nip.io`, `sslip.io`, and such. |  Yes |
 
 #### DNS OCI
-| Field | Type | Description | Required 
-| --- | --- | -- |----------|
-| `ociConfigSecret` | string | Name of the OCI configuration secret.  Generate a secret based on the OCI configuration profile you want to use.  You can specify a profile other than DEFAULT and specify the secret name.  See instructions by running `./install/create_oci_config_secret.sh`.| Yes      |
-| `dnsZoneCompartmentOCID` | string | The OCI DNS compartment OCID. | Yes      |
-| `dnsZoneOCID` | string | The OCI DNS zone OCID. | Yes      |
-| `dnsZoneName` | string | Name of OCI DNS zone. | Yes      |
-| `dnsScope` | string | Scope of the dns zone (PRIVATE,GLOBAL). If not specified then default is GLOBAL.| No      |
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `ociConfigSecret` | string | Name of the OCI configuration secret.  Generate a secret based on the OCI configuration profile you want to use.  You can specify a profile other than DEFAULT and specify the secret name.  See instructions by running `./install/create_oci_config_secret.sh`.| Yes |
+| `dnsZoneCompartmentOCID` | string | The OCI DNS compartment OCID. |  Yes |
+| `dnsZoneOCID` | string | The OCI DNS zone OCID. |  Yes |
+| `dnsZoneName` | string | Name of OCI DNS zone. |  Yes |
 
 #### DNS External
 | Field | Type | Description | Required

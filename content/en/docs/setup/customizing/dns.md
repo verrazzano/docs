@@ -146,17 +146,6 @@ auth:
   fingerprint: 12:d3:4c:gh:fd:9e:27:g8:b9:0d:9f:00:22:33:c3:gg
 ```
 
-
-Verrazzano also supports the use of Instance principal to communicate with OCI in order to create/update DNS records. Instance principal requires some prerquistes 
-that can be found [here](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm).
-
-When using instance principal , your `oci.yaml` file will look as below:
-
-```
-auth:
-  authtype: instance_principal
-```
-
 Then, you can create a generic Kubernetes secret in the cluster's `verrazzano-install` namespace using `kubectl`.
 
 ```
@@ -192,11 +181,10 @@ $ chmod +x create_oci_config_secret.sh
 $ export KUBECONFIG=<kubeconfig-file>
 $ ./create_oci_config_secret.sh  -h
 usage: ./create_oci_config_secret.sh [-o oci_config_file] [-s config_file_section]
- -o oci_config_file         The full path to the OCI configuration file (default ~/.oci/config)
+  -o oci_config_file         The full path to the OCI configuration file (default ~/.oci/config)
   -s config_file_section     The properties section within the OCI configuration file.  Default is DEFAULT
   -k secret_name             The secret name containing the OCI configuration.  Default is oci
   -c context_name            The kubectl context to use
-  -a auth_type               The auth_type to be used to access OCI. Valid values are user_principal/instance_principal. Default is user_principal.
   -h                         Help
 ```
 
@@ -212,14 +200,6 @@ The following example creates a secret `myoci` using an OCI CLI profile named `[
 
 ```
 $ ./create_oci_config_secret.sh -s dev -k myoci
-secret/myoci created
-```
-
-When using instance principal all other parameters will be ignored automatically. The following example  creates a secret `myoci` using OCI 
-instance principal
-
-```
-$ ./create_oci_config_secret.sh -a instance_principal
 secret/myoci created
 ```
 
@@ -244,7 +224,6 @@ custom resource spec:
 * `spec.components.dns.oci.dnsZoneCompartmentOCID`
 * `spec.components.dns.oci.dnsZoneOCID`
 * `spec.components.dns.oci.dnsZoneName`
-* `spec.components.dns.oci.dnsScope`
 
 The field `spec.components.dns.oci.ociConfigSecret` should reference the secret created earlier. For details on the
 OCI DNS configuration settings, see [`spec.components.dns.oci`](/docs/reference/api/verrazzano/verrazzano#dns-oci).
@@ -268,27 +247,6 @@ spec:
         dnsZoneOCID: ocid1.dns-zone.oc1..zone-ocid
         dnsZoneName: example.com
 ```
-
-If using a private DNS zone, the same `prod` installation profile using OCI DNS will look as follows. 
-
-```
-apiVersion: install.verrazzano.io/v1alpha1
-kind: Verrazzano
-metadata:
-  name: my-verrazzano
-spec:
-  profile: prod
-  environmentName: myenv
-  components:
-    dns:
-      oci:
-        ociConfigSecret: oci
-        dnsZoneCompartmentOCID: ocid1.compartment.oc1..compartment-ocid
-        dnsZoneOCID: ocid1.dns-zone.oc1..zone-ocid
-        dnsZoneName: example.com
-        dnsScope: PRIVATE
-```
-
 
 After the custom resource is ready, apply it using `kubectl apply -f <path-to-custom-resource-file>`.
 
