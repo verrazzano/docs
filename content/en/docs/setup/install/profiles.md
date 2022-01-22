@@ -28,7 +28,7 @@ For example, to use the `dev` profile:
 apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
-  name: my-verrazzano
+  name: example-verrazzano
 spec:
   profile: dev
 ```
