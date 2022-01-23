@@ -48,12 +48,6 @@ In order to upgrade an existing Verrazzano installation, you must first upgrade 
    $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/<version>/operator.yaml
    ```
 
-    For example:
-
-   ```shell
-   $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v0.7.0/operator.yaml
-   ```
-
 
 1. Wait for the deployment to complete.
 
@@ -86,29 +80,29 @@ To upgrade Verrazzano:
 
       a. Editing the YAML file you used to install Verrazzano and setting the version field to the latest version.
 
-      For example, to upgrade to `v0.17.0`, your YAML file should be edited to add or update the version field:
+      For example, to upgrade to `{{<release_version>}}`, your YAML file should be edited to add or update the version field:
 
       ```yaml
       apiVersion: install.verrazzano.io/v1alpha1
       kind: Verrazzano
       metadata:
-        name: my-verrazzano
+        name: example-verrazzano
       spec:
         profile: dev
-        version: v0.17.0
+        version: {{<release_version>}}
       ```
 
       Then apply the resource to the cluster (if you have not edited the resource in-place using `kubectl edit`):
 
       ```shell
-      $ kubectl apply -f my-verrazzano.yaml
+      $ kubectl apply -f example-verrazzano.yaml
       ```
 
       b. Editing the `Verrazzano` resource directly using `kubectl` and setting the version field directly, for example:
 
       ```shell
-      $ kubectl edit verrazzano my-verrazzano
-      # In the resource editor, add or update the version field to "version: v0.17.0", then save.
+      $ kubectl edit verrazzano example-verrazzano
+      # In the resource editor, add or update the version field to "version: {{<release_version>}}", then save.
       ```
 
 1. Wait for the upgrade to complete:
@@ -116,7 +110,7 @@ To upgrade Verrazzano:
    ```shell
    $ kubectl wait \
        --timeout=10m \
-       --for=condition=UpgradeComplete verrazzano/my-verrazzano
+       --for=condition=UpgradeComplete verrazzano/example-verrazzano
    ```
 
 ## Verify the upgrade
