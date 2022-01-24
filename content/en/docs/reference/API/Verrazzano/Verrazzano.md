@@ -13,7 +13,7 @@ Here is a sample Verrazzano custom resource file that uses OCI DNS.  See other e
 apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
-  name: my-verrazzano
+  name: example-verrazzano
 spec:
   environmentName: env
   profile: prod

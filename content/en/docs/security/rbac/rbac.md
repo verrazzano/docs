@@ -84,7 +84,7 @@ To override the set of subjects that are bound to Verrazzano (and Kubernetes) ro
 apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
-  name: my-verrazzano
+  name: example-verrazzano
 spec:
   ...
   security:

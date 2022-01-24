@@ -47,7 +47,7 @@ For example, the following configuration uses `sslip.io`, instead of `nip.io`, f
 apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
-  name: my-verrazzano
+  name: example-verrazzano
 spec:
   profile: dev
   environmentName: default
@@ -235,7 +235,7 @@ a domain of `myenv.example.com` (OCI identifiers redacted):
 apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
-  name: my-verrazzano
+  name: example-verrazzano
 spec:
   profile: prod
   environmentName: myenv
