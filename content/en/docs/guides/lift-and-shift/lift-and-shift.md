@@ -86,6 +86,8 @@ In the initial steps, you create a sample domain that represents your on-premise
      ```
 
 1. Use the Oracle WebLogic Server Configuration Wizard to create a domain called `tododomain`.
+
+   **NOTE**: This example assumes that the on premises WebLogic Server domain is on Linux.
    * Launch `$ORACLE_HOME/oracle_common/common/bin/config.sh`.
    * Select **Create a new domain**.
    * Specify a `Domain Location` of `<oracle home>/user_projects/domains/tododomain` and click **Next**.
@@ -507,7 +509,7 @@ tododomain-adminserver   4/4     Running   0          5m
    $ kubectl get gateway tododomain-tododomain-appconf-gw \
        -n tododomain \
        -o jsonpath={.spec.servers[0].hosts[0]}
-   
+
    # Sample output
    tododomain-appconf.tododomain.11.22.33.44.nip.io
    ```
