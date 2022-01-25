@@ -182,6 +182,7 @@ spec:
 | --- | --- | --- | --- |
 | `systemLogId` | string | The OCID of the OCI Log that will collect system logs. | Yes |
 | `defaultAppLogId` | string | The OCID of the OCI Log that will collect application logs. | Yes |
+| `apiSecret` | string | The name of the secret containing the OCI API configuration and private key. | No |
 
 ### Keycloak Component
 | Field | Type | Description | Required
