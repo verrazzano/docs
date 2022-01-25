@@ -63,11 +63,11 @@ Note that if you add and subsequently remove the annotation then the logs will r
 ## Configuring user API credentials
 The Fluentd plugin included with Verrazzano will use OCI instance principal authentication by default. You can optionally configure Verrazzano with a user API signing key. API signing key authentication is required to send logs to OCI Logging if the cluster is running outside of OCI.
 
-If you do not already have an API signing key, then see [Required Keys and OCIDS](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm) in the OCI documentation. You will need to create an OCI configuration file with the credential details and then you will use that configuration file to create a secret. The profile name must be `DEFAULT` and the `key_file` path must be `/root/.oci/key`. The actual key file does not need to be in that location.
+If you do not already have an API signing key, then see [Required Keys and OCIDS](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm) in the OCI documentation. You need to create an OCI configuration file with the credential details and then use that configuration file to create a secret. The profile name must be `DEFAULT` and the `key_file` path must be `/root/.oci/key`. The actual key file does not need to be in that location.
 
 Note that the user associated with the API key must have the appropriate OCI Identity and Access Management (IAM) policy in place to allow the Fluentd plugin to send logs to OCI. See [Details for Logging](https://docs.oracle.com/en-us/iaas/Content/Identity/Reference/loggingpolicyreference.htm) in the OCI documentation for the IAM policies used by the OCI Logging service.
 
-Once the Verrazzano platform operator has been installed, create an opaque secret in the `verrazzano-install` namespace from the OCI configuration and private key files. The key for the configuration file must be `config` and the key for the private key file data must be `key`.
+After the Verrazzano platform operator has been installed, create an opaque secret in the `verrazzano-install` namespace from the OCI configuration and private key files. The key for the configuration file must be `config` and the key for the private key file data must be `key`.
 
 Here is an example `kubectl` command that will create the secret.
 
@@ -92,7 +92,7 @@ type: Opaque
 
 For convenience, there is a helper script available [here](https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/scripts/install/create_oci_fluentd_secret.sh) that you can point at an existing OCI configuration file and it will create the secret for you. The script allows you to override the default configuration file location, profile name, and the name of the secret.
 
-Once you have created the API secret, you need to configure the name of the secret in the Verrazzano custom resource, under the OCI section of the Fluentd component settings. Extending the example custom resource from earlier, your YAML file should look something like this.
+After you have created the API secret, you need to configure the name of the secret in the Verrazzano custom resource, under the OCI section of the Fluentd component settings. Extending the example custom resource from earlier, your YAML file should look something like this.
 
 ```
 apiVersion: install.verrazzano.io/v1alpha1
