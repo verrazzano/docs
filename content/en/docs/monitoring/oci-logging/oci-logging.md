@@ -90,7 +90,7 @@ metadata:
 type: Opaque
 ```
 
-For convenience, there is a helper script available [here](https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/scripts/install/create_oci_fluentd_secret.sh) that you can point at an existing OCI configuration file and it will create the secret for you. The script allows you to override the default configuration file location, profile name, and the name of the secret.
+For convenience, there is a helper script available [here]({{< release_source_url raw=true path="platform-operator/scripts/install/create_oci_fluentd_secret.sh" >}}) that you can point at an existing OCI configuration file and it will create the secret for you. The script allows you to override the default configuration file location, profile name, and the name of the secret.
 
 After you have created the API secret, you need to configure the name of the secret in the Verrazzano custom resource, under the OCI section of the Fluentd component settings. Extending the example custom resource from earlier, your YAML file should look something like this.
 
