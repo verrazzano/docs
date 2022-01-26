@@ -1,6 +1,6 @@
 ---
 title: "Customizing Load Balancers on OKE"
-descrIP addresstion: "Customizing load balancers on OKE for Verrazzano system and application endpoints"
+description: "Customizing load balancers on OKE for Verrazzano system and application endpoints"
 linkTitle: OKE Load Balancers
 weight: 3
 draft: false
@@ -59,7 +59,7 @@ spec:
         value: "10Mbps" 
 ```
 
-### Using PRIVATE IP address with load balancer
+### Using PRIVATE IP addresses with a load balancer
 
 At installation, Verrazzano lets you customize the IP address of the load balancers created.
 
