@@ -6173,41 +6173,6 @@ spec:
     </item>
     
     <item>
-      <title>Docs: Known Issues</title>
-      <link>/docs/troubleshooting/troubleshooting/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/docs/troubleshooting/troubleshooting/</guid>
-      <description>
-        
-        
-        &lt;h4 id=&#34;oke-missing-security-list-ingress-rules&#34;&gt;OKE Missing Security List Ingress Rules&lt;/h4&gt;
-&lt;p&gt;The install scripts perform a check, which attempts access through the ingress ports.  If the check fails, then the install will exit and you will see error messages like this:&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;ERROR: Port 443 is NOT accessible on ingress(132.145.66.80)!  Check that security lists include an ingress rule for the node port 31739.&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;On an OKE install, this may indicate that there is a missing ingress rule or rules.  To verify and fix the issue, do the following:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Get the ports for the &lt;code&gt;LoadBalancer&lt;/code&gt; services.
-&lt;ul&gt;
-&lt;li&gt;Run &lt;code&gt;kubectl get services -A&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Note the ports for the &lt;code&gt;LoadBalancer&lt;/code&gt; type services.  For example &lt;code&gt;80:31541/TCP,443:31739/TCP&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Check the security lists in the OCI Console.
-&lt;ul&gt;
-&lt;li&gt;Go to &lt;code&gt;Networking/Virtual Cloud Networks&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Select the related VCN.&lt;/li&gt;
-&lt;li&gt;Go to the &lt;code&gt;Security Lists&lt;/code&gt; for the VCN.&lt;/li&gt;
-&lt;li&gt;Select the security list named &lt;code&gt;oke-wkr-...&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Check the ingress rules for the security list.  There should be one rule for each of the destination ports named in the &lt;code&gt;LoadBalancer&lt;/code&gt; services.  In the above example, the destination ports are &lt;code&gt;31541&lt;/code&gt; &amp;amp; &lt;code&gt;31739&lt;/code&gt;. We would expect the ingress rule for &lt;code&gt;31739&lt;/code&gt; to be missing because it was named in the &lt;code&gt;ERROR&lt;/code&gt; output.&lt;/li&gt;
-&lt;li&gt;If a rule is missing, then add it by clicking &lt;code&gt;Add Ingress Rules&lt;/code&gt; and filling in the source CIDR and destination port range (missing port).  Use the existing rules as a guide.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-
-      </description>
-    </item>
-    
-    <item>
       <title>Docs: Network Security</title>
       <link>/docs/networking/security/net-security/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -8519,6 +8484,33 @@ $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.1
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Uninstall</title>
+      <link>/docs/setup/uninstall/uninstall/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/uninstall/uninstall/</guid>
+      <description>
+        
+        
+        &lt;p&gt;To delete a Verrazzano installation, delete the Verrazzano custom resource you used to
+install it into your cluster.&lt;/p&gt;
+&lt;p&gt;The following example starts a deletion of a Verrazzano installation in the background, and then
+uses the &lt;code&gt;kubectl logs -f&lt;/code&gt; command to tail the Console output of the pod performing the uninstall:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# Get the name of the Verrazzano custom resource
+$ MYVZ=$(kubectl  get vz -o jsonpath=&amp;quot;{.items[0].metadata.name}&amp;quot;)
+
+# Delete the Verrazzano custom resource
+$ kubectl delete verrazzano $MYVZ --wait=false
+$ kubectl logs -n verrazzano-install \
+    -f $(kubectl get pod \
+    -n verrazzano-install \
+    -l job-name=verrazzano-uninstall-${MYVZ} \
+    -o jsonpath=&amp;quot;{.items[0].metadata.name}&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
       </description>
     </item>
     
