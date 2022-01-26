@@ -63,7 +63,7 @@ spec:
 
 At the time of installation Verrazzano allows users to customize the ip address of load balancers created.
 
-For example, setting up Nginx to have a PRIVATE load balancer ip while the Istio load balancer is assigned a PUBLIC ip:
+For example, setting up NGINX to have a PRIVATE load balancer ip while the Istio load balancer is assigned a PUBLIC ip:
 
 ```yaml
 apiVersion: install.verrazzano.io/v1alpha1
@@ -81,7 +81,7 @@ spec:
         value: "true"    
 ```
 
-Example of setting up Nginx to have a PUBLIC load balancer ip while the Istio load balancer is assigned a PRIVATE ip:
+Example of setting up NGINX to have a PUBLIC load balancer ip while the Istio load balancer is assigned a PRIVATE ip:
 
 ```yaml
 apiVersion: install.verrazzano.io/v1alpha1
@@ -100,7 +100,7 @@ spec:
           value: "true"
 ```
 
-Example of setting both Nginx and Istio to have a PRIVATE load balancer ips:
+Example of setting both NGINX and Istio to have a PRIVATE load balancer ips:
 
 ```yaml
 apiVersion: install.verrazzano.io/v1alpha1
