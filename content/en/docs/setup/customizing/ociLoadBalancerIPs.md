@@ -7,15 +7,15 @@ draft: false
 ---
 
 Verrazzano sets up the following load balancers on Kubernetes at install time:
-* Loadbalancer for NGINX ingress
-* Loadbalancer for Istio ingress
+* Load balancer for NGINX ingress
+* Load balancer for Istio ingress
 
-Verrazzano allows customizing the LoadBalancers allocated by Oracle Container Engine (OKE) using annotations defined by OKE.
+Verrazzano allows customizing the load balancers allocated by Oracle Container Engine (OKE) using annotations defined by OKE.
 
 ### Customizing LoadBalancer Shape  
 
 At the time of installation Verrazzano allows users to customize the shape and size of the load balancers created. 
-OCI offers a flexible LoadBalancer which uses Dynamic Shape: 
+OCI offers a flexible load balancer which uses Dynamic Shape: 
 * 10 Mbps
 * 100 Mbps 
 * 400 Mbps
