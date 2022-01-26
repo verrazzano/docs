@@ -1,7 +1,7 @@
 ---
-title: "Customize OCI LoadBalancer IP Address"
-description: "Customize OCI LoadBalancer IP Address for Verrazzano system and application endpoints"
-linkTitle: OCILoadBalancer
+title: "Customizing Load Balancers on OKE"
+description: "Customizing Load Balancers on OKE for Verrazzano system and application endpoints"
+linkTitle: OKELoadBalancer
 weight: 1
 draft: false
 ---
@@ -10,9 +10,58 @@ Verrazzano sets up the following Load Balancers on Kuberentes at install time:
 * LoadBalancer for Nginx ingress
 * LoadBalancer for Istio ingress
 
-Verrazzano allows customizing the system LoadBalancers with OCI to provide a combination of public and private ip addresses. 
-This is achieved at install time by specifying OCI specific annotations.
+Verrazzano allows customizing the LoadBalancers allocated by Oracle Container Engine (OKE) using annotations defined by OKE.
 
+### Customizing LoadBalancer Shape  
+
+At the time of installation Verrazzano allows users to customize the shape and size of the LoadBalancers created. 
+OCI offers a flexible LoadBalancer which uses Dynamic Shape 
+* 10 Mbps
+* 100 Mbps 
+* 400 Mbps
+* 8,000 Mbps
+
+More details on service limits and shape can be found [here](https://docs.oracle.com/en-us/iaas/Content/Balance/Tasks/managingloadbalancer.htm#console)
+
+For example, setting up Nginx LoadBalancer with `10Mbps` can be achieved as follows:
+
+```yaml
+apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: example-verrazzano
+spec:
+  profile: dev
+  environmentName: default
+  components:
+    ingress:
+      type: LoadBalancer
+      nginxInstallArgs:
+      - name: controller.service.annotations."service\.beta\.kubernetes\.io/oci-load-balancer-shape"
+        value: "10Mbps"   
+```
+
+For example, setting up Istio LoadBalancer with `10Mbps` can be achieved as follows:
+
+```yaml
+apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: example-verrazzano
+spec:
+  profile: dev
+  environmentName: default
+  components:
+    ingress:
+      type: LoadBalancer
+      istioInstallArgs:
+      - name: gateways.istio-ingressgateway.serviceAnnotations."service\.beta\.kubernetes\.io/oci-load-balancer-shape"
+        value: "10Mbps 
+```
+
+### Using PRIVATE ip addresses with LoadBalancer
+
+At the time of installation Verrazzano allows users to customize the ip address of LoadBalancers created.
 
 For example, setting up Nginx to have a PRIVATE LoadBalancer ip while the Istio LoadBalancer is assigned a PUBLIC ip:
 
