@@ -431,7 +431,9 @@ If DNS was not configured, then use the alternative commands.
 
 Deployed applications have log collection enabled.
 These logs are collected using Elasticsearch and can be accessed using Kibana.
-Elasticsearch and Kibana are examples of infrastructure Verrazzano creates in support of an application as a result of applying an application configuration.
+Elasticsearch and Kibana are examples of infrastructure Verrazzano creates in support of an application as a
+result of applying an application configuration. For more information on creating an index pattern
+and visualizing the log data collected in Elasticsearch, see [Kibana]({{< relref "/docs/monitoring/logs/_index.md#kibana" >}}).
 
 Determine the URL to access Kibana:
  ```
@@ -457,7 +459,9 @@ $ echo $(kubectl get secret \
 
 Deployed applications have metric collection enabled.
 Grafana can be used to access these metrics collected by Prometheus.
-Prometheus and Grafana are additional components Verrazzano creates as a result of applying an application configuration.
+Prometheus and Grafana are additional components Verrazzano creates as a result of
+applying an application configuration. For more information on visualizing Prometheus
+metrics data, see [Grafana]({{< relref "/docs/monitoring/metrics/metrics.md#grafana" >}}).
 
 Determine the URL to access Grafana:
 
