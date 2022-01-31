@@ -1,23 +1,23 @@
 ---
-title: "Customizing Load Balancers on OKE"
-description: "Customizing load balancers on OKE for Verrazzano system and application endpoints"
+title: "Customize Load Balancers on OKE"
+description: "Customize load balancers on OKE for Verrazzano system and application endpoints"
 linkTitle: OKE Load Balancers
 weight: 3
 draft: false
 ---
 
-Verrazzano sets up the following load balancers on Kubernetes at install time:
+Verrazzano sets up the following load balancers on Kubernetes at installation:
 * Load balancer for NGINX ingress
 * Load balancer for Istio ingress
 
 Verrazzano allows customizing the load balancers allocated by Oracle Container Engine (OKE) using annotations defined by OKE.
 
-### Customizing load balancer shape  
+### Customize the load balancer shape  
 
-At installation, Verrazzano lets you customize the shape and size of the load balancers created. 
-OCI offers a flexible load balancer which uses Dynamic Shape: 
+At installation, Verrazzano lets you customize the shape and size of the load balancers created.
+OCI offers a flexible load balancer which uses Dynamic Shape:
 * 10 Mbps
-* 100 Mbps 
+* 100 Mbps
 * 400 Mbps
 * 8,000 Mbps
 
@@ -56,14 +56,14 @@ spec:
       type: LoadBalancer
       istioInstallArgs:
       - name: gateways.istio-ingressgateway.serviceAnnotations."service\.beta\.kubernetes\.io/oci-load-balancer-shape"
-        value: "10Mbps" 
+        value: "10Mbps"
 ```
 
-### Using PRIVATE IP addresses with a load balancer
+### Using private IP addresses with a load balancer
 
 At installation, Verrazzano lets you customize the IP address of the load balancers created.
 
-For example, setting up NGINX to have a PRIVATE load balancer IP address while the Istio load balancer is assigned a PUBLIC IP address:
+For example, setting up NGINX to have a private load balancer IP address while the Istio load balancer is assigned a public IP address:
 
 ```yaml
 apiVersion: install.verrazzano.io/v1alpha1
@@ -81,7 +81,7 @@ spec:
         value: "true"    
 ```
 
-Example of setting up NGINX to have a PUBLIC load balancer IP address while the Istio load balancer is assigned a PRIVATE IP address:
+Example of setting up NGINX to have a public load balancer IP address while the Istio load balancer is assigned a private IP address:
 
 ```yaml
 apiVersion: install.verrazzano.io/v1alpha1
@@ -100,7 +100,7 @@ spec:
           value: "true"
 ```
 
-Example of setting both NGINX and Istio to have a PRIVATE load balancer IP address:
+Example of setting both NGINX and Istio to have a private load balancer IP address:
 
 ```yaml
 apiVersion: install.verrazzano.io/v1alpha1
