@@ -130,7 +130,7 @@ DeploymentTemplate specifies the metadata and pod spec of the underlying deploym
 
 
 ### VerrazzanoWebLogicWorkload
-The VerrazzanoWebLogicWorkload custom resource contains the configuration information for a WebLogic [Domain](https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md) workload within Verrazzano.  Here is a sample component that specifies a VerrazzanoWebLogicWorkload.  To deploy an example application that demonstrates this workload type, see the ToDo List [Lift-and-Shift]({{< relref "/docs/guides/lift-and-shift/lift-and-shift.md" >}}) application.
+The VerrazzanoWebLogicWorkload custom resource contains the configuration information for a WebLogic [Domain](https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md) workload within Verrazzano.  Here is a sample component that specifies a VerrazzanoWebLogicWorkload.  To deploy an example application that demonstrates this workload type, see the ToDo List [Lift-and-Shift]({{< relref "/docs/guides/lift-and-shift/lift-and-shift.md" >}}) application.
 
 ```
 apiVersion: core.oam.dev/v1alpha2
@@ -193,4 +193,4 @@ VerrazzanoWebLogicWorkloadSpec specifies the desired state of a Verrazzano WebLo
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `template` |  [RawExtension](https://pkg.go.dev/k8s.io/apimachinery/pkg/runtime#RawExtension) | The metadata and spec for the underlying WebLogic [Domain](https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md) resource. |  Yes |
+| `template` |  [RawExtension](https://pkg.go.dev/k8s.io/apimachinery/pkg/runtime#RawExtension) | The metadata and spec for the underlying WebLogic [Domain](https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md) resource. |  Yes |
