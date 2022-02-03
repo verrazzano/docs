@@ -59,10 +59,13 @@ Verrazzano supports the following installation profiles:  development (`dev`), p
 managed cluster (`managed-cluster`).  For more information on profiles, see
 [Installation Profiles]({{< relref "/docs/setup/install/profiles.md"  >}}).
 
-This page shows how to create a basic Verrazzano installation using
+This page shows how to create a basic Verrazzano installation using:
 
 * The development (`dev`) installation profile
 * Wildcard-DNS, where DNS is provided by [nip.io](https://nip.io) (the default)
+
+{{< alert title="NOTE" color="warning" >}}Because the `dev` profile installs self-signed certificates, when installing Verrazzano on macOS, you might see: **Your connection is not private**. For a workaround, see this [FAQ]({{< relref "/docs/faq/FAQ#enable-google-chrome-to-accept-self-signed-verrazzano-certificates" >}}).
+{{< /alert >}}
 
 For a complete description of Verrazzano configuration options, see the
 [Verrazzano Custom Resource Definition]({{< relref "/docs/reference/api/verrazzano/verrazzano.md" >}}).
