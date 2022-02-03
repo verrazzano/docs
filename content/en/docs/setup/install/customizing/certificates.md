@@ -87,7 +87,7 @@ automated issuance of certificates signed by a trusted authority.  This is manag
 [`spec.components.certManager.certificate.acme`](/docs/reference/api/verrazzano/verrazzano#acme)
 field in the Verrazzano custom resource.
 
-{{< alert title="NOTE" color="info" >}}
+{{< alert title="NOTE" color="primary" >}}
 Using LetsEncrypt for certificates also requires using OCI DNS for DNS management.
 For details, see the [Customize DNS](/docs/setup/install/customizing/dns/) page.
 {{< /alert >}}
