@@ -63,6 +63,9 @@ The development profile has the following characteristics:
 * Ephemeral storage for the observability stack (if the pods are restarted, you lose all of your logs and metrics)
 * Single-node, reduced memory Elasticsearch cluster
 
+{{< alert title="NOTE" color="warning" >}}Because the `dev` profile installs self-signed certificates, when installing Verrazzano on macOS, you might see: **Your connection is not private**. For a workaround, see this [FAQ]({{< relref "/docs/faq/FAQ#enable-google-chrome-to-accept-self-signed-verrazzano-certificates" >}}).
+{{< /alert >}}
+
 To install Verrazzano:
 
 1. Install Verrazzano with its `dev` profile.
