@@ -11,20 +11,25 @@ Install Verrazzano by following the [installation]({{< relref "/docs/setup/insta
 
 ## Deploy the Hello World Helidon application
 
+1. To run this application in the default namespace.
+   ```
+   $kubectl label namespace default hello-helidon verrazzano-managed=true istio-injection=enabled
+   ```
+   For the rest of this document, it is assumed that the application is running in a namespace. If it runs in a default namespace, the -n option in the following commands can be ignored.
 
-1. Create a namespace for the application and add a label identifying the namespace as managed by Verrazzano.
+2. To run the application in a namespace other than default namespace, create a namespace for the application and add a label identifying the namespace as managed by Verrazzano.
    ```
    $ kubectl create namespace hello-helidon
    $ kubectl label namespace hello-helidon verrazzano-managed=true istio-injection=enabled
    ```
 
-1. To deploy the application, apply the `hello-helidon` OAM resources.
+3. To deploy the application, apply the `hello-helidon` OAM resources.
    ```
-   $ kubectl apply -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-comp.yaml >}}
-   $ kubectl apply -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-app.yaml >}}
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-comp.yaml >}} -n hello-helidon
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-app.yaml >}} -n hello-helidon
    ```
 
-1. Wait for the application to be ready.
+4. Wait for the application to be ready.
    ```
    $ kubectl wait \
       --for=condition=Ready pods \
