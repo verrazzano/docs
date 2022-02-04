@@ -40,6 +40,12 @@ For more information and the source code of this application, see the [Verrazzan
 
 ## Deploy the example application
 
+1. To run this application in the default namespace.
+   ```
+   $kubectl label namespace default verrazzano-managed=true istio-injection=enabled
+   ```
+   For the rest of this document, it is assumed that the application is running in a namespace. If it runs in the default namespace, you can ignore the ```-n``` option in the following commands.
+
 1. Create a namespace for the example and add a label identifying the namespace as managed by Verrazzano.
 
     ```
@@ -87,8 +93,8 @@ For more information and the source code of this application, see the [Verrazzan
 
 1. To deploy the application, apply the example resources.
    ```
-   $ kubectl apply -f {{< release_source_url raw=true path=examples/bobs-books/bobs-books-comp.yaml >}}
-   $ kubectl apply -f {{< release_source_url raw=true path=examples/bobs-books/bobs-books-app.yaml >}}
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/bobs-books/bobs-books-comp.yaml >}} -n bobs-books
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/bobs-books/bobs-books-app.yaml >}} -n bobs-books
    ```
 
 1. Wait for all of the pods in the Bob's Books example application to be ready.
@@ -227,8 +233,8 @@ It is recommended that the WebLogic Server Administration Console _not_ be expos
 
 1. To undeploy the application, delete the Bob's Books OAM resources.
    ```
-   $ kubectl delete -f {{< release_source_url raw=true path=examples/bobs-books/bobs-books-app.yaml >}}
-   $ kubectl delete -f {{< release_source_url raw=true path=examples/bobs-books/bobs-books-comp.yaml >}}
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/bobs-books/bobs-books-app.yaml >}} -n bobs-books
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/bobs-books/bobs-books-comp.yaml >}} -n bobs-books
    ```
 
 1. Delete the namespace `bobs-books` after the application pods are terminated. The secrets created for the WebLogic domain also will be deleted.

@@ -15,6 +15,12 @@ Install Verrazzano by following the [installation]({{< relref "/docs/setup/insta
 
 This example provides a simple web application developed using [Spring Boot](https://spring.io/guides/gs/spring-boot/). For more information and the source code of this application, see the [Verrazzano Examples](https://github.com/verrazzano/examples).
 
+1. To run this application in the default namespace.
+   ```
+   $kubectl label namespace default verrazzano-managed=true istio-injection=enabled
+   ```
+   For the rest of this document, it is assumed that the application is running in a namespace. If it runs in the default namespace, you can ignore the ```-n``` option in the following commands.
+
 1. Create a namespace for the Spring Boot application and add a label identifying the namespace as managed by Verrazzano.
    ```
    $ kubectl create namespace springboot
@@ -23,8 +29,8 @@ This example provides a simple web application developed using [Spring Boot](htt
 
 1. To deploy the application, apply the Spring Boot OAM resources.
    ```
-   $ kubectl apply -f {{< release_source_url raw=true path=examples/springboot-app/springboot-comp.yaml >}}
-   $ kubectl apply -f {{< release_source_url raw=true path=examples/springboot-app/springboot-app.yaml >}}
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/springboot-app/springboot-comp.yaml >}} -n springboot
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/springboot-app/springboot-app.yaml >}} -n springboot
    ```
 
 1. Wait for the Spring Boot application to be ready.
@@ -143,8 +149,8 @@ This example provides a simple web application developed using [Spring Boot](htt
 
 1. To undeploy the application, delete the Spring Boot OAM resources.
    ```
-   $ kubectl delete -f {{< release_source_url raw=true path=examples/springboot-app/springboot-app.yaml >}}
-   $ kubectl delete -f {{< release_source_url raw=true path=examples/springboot-app/springboot-comp.yaml >}}
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/springboot-app/springboot-app.yaml >}} -n springboot
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/springboot-app/springboot-comp.yaml >}} -n springboot
    ```
 
 1. Delete the namespace `springboot` after the application pod is terminated.
