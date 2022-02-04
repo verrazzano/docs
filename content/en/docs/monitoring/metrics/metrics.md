@@ -16,6 +16,8 @@ visualize them.
 
 ## Metrics sources
 
+### OAM
+
 Metrics sources produce metrics and expose them to the Kubernetes Prometheus system using annotations in the pods.
 The metrics annotations may differ slightly depending on the resource type.
 The following is an example of the WebLogic Prometheus-related configuration specified in the `todo-list` application pod:
@@ -62,6 +64,65 @@ For example, for the previous metric source:
    ```
    $ curl -u USERNAME:PASSWORD localhost:7001/wls-exporter/metrics
    ```
+  
+### Default Kubernetes workloads
+
+Verrazzano enables metric sources for Kubernetes workloads deployed without OAM components. 
+Currently, Verrazzano supports the following workload types: Deployments, ReplicaSets, StatefulSets, and Pods.
+To enable metrics for Kubernetes workloads, you must label the workload namespace with `verrazzano-managed=true`.
+
+#### Metrics template
+
+A metrics template is a custom resource created by Verrazzano to manage metrics configurations for default Kubernetes workloads.
+Metrics templates can be placed in the workload namespace or the `verrazzano-system` namespace.
+By default, Verrazzano installs a metrics template named `standard-k8s-metrics-template` in the `verrazzano-system` namespace.
+This metrics templates handles all aforementioned workload types.
+You can create your own metrics templates to extend and alter the functionality of the metrics template
+if the default metrics template does not meet your requirements.
+
+As outlined in the API, the metrics template contains a `workloadSelector` field that specifies the resources for which the template applies.
+If you want to forgo the workload selection, you can optionally add the annotation `app.verrazzano.io/metrics=<template-name>`
+to the namespace of the workload or the workload itself.
+Additionally, you can opt out of metrics for your namespace or workload by setting the annotation `app.verrazzano.io/metrics=none`.
+
+The precedence of template matching is as follows:
+
+1. A workload selects a template in the workload namespace through an annotation.
+2. A workload selects a template in the `verrazzano-system` namespace through an annotation.
+3. The workload namespace selects a template in the workload namespace through an annotation.
+4. The workload namespace selects a template in the `verrazzano-system` namespace through an annotation.
+5. A template in the workload namespace matches the workload through the `workloadSelector` field.
+6. A template in the `verrazzano-system` namespace matches the workload through the `workloadSelector` field.
+
+#### Prometheus overrides
+
+The `standard-k8s-metrics-template` metrics template installed by Verrazzano uses the following pod annotations to populate the Prometheus configuration.
+If not specified, Verrazzano will use these default values:
+
+```
+Annotations:  prometheus.io/path: /metrics
+              prometheus.io/port: 8080
+              prometheus.io/scrape: true
+```
+
+To alter these values, annotate the workload pod with the corresponding annotation.
+For example, if you want to change the metrics path, you could add the following to a Deployment definition:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-helidon-deployment
+  namespace: hello-helidon
+  annotations:
+    app.verrazzano.io/metrics: standard-k8s-metrics-template
+spec:
+  template:
+    metadata:
+      # add path annotation to the pod template
+      annotations:
+        prometheus.io/path: "/custom/metrics/path"
+```
 
 ### Metrics server
 
