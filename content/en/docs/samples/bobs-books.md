@@ -10,7 +10,7 @@ description: "An example application based on WebLogic, Helidon, and Coherence"
 * To download the example image, you must first accept the license agreement.
   * In a browser, navigate to https://container-registry.oracle.com/ and sign in.
   * Search for `example-bobbys-coherence`, `example-bobbys-front-end`, `example-bobs-books-order-manager`, `example-roberts-coherence`, and `weblogic`.
-  * For each one: 
+  * For each one:
      * Select the image name in the results.
      * From the drop-down menu, select your language and click Continue.
      * Then read and accept the license agreement.
@@ -40,11 +40,12 @@ For more information and the source code of this application, see the [Verrazzan
 
 ## Deploy the example application
 
-1. To run this application in the default namespace.
+{{< alert title="NOTE" color="primary" >}}To run this application in the default namespace:
    ```
    $kubectl label namespace default verrazzano-managed=true istio-injection=enabled
    ```
-   For the rest of this document, it is assumed that the application is running in a namespace. If it runs in the default namespace, you can ignore the ```-n``` option in the following commands.
+   If you chose the default namespace, you can ignore the `-n` option in the following commands.
+{{< /alert >}}   
 
 1. Create a namespace for the example and add a label identifying the namespace as managed by Verrazzano.
 
