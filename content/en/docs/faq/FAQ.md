@@ -10,7 +10,7 @@ draft: false
 
 There are some installation scenarios where Verrazzano generates SSL certificates that are not trusted by browsers:
 
-* The default installation, which will use its own self-signed CA to issue certificates.
+* The development (`dev`) profile installation, which uses its own self-signed CA to issue certificates.
 * Using the [Let's Encrypt Staging](https://letsencrypt.org/docs/staging-environment) authority, which uses untrusted CAs to sign certificates.
 
 These are typical development or testing scenarios, not recommended for production.  When accessing Verrazzano sites
