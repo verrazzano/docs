@@ -65,15 +65,15 @@ For example, for the previous metric source:
    $ curl -u USERNAME:PASSWORD localhost:7001/wls-exporter/metrics
    ```
   
-### Default Kubernetes workloads
+### Standard Kubernetes workloads
 
 Verrazzano enables metric sources for Kubernetes workloads deployed without OAM components. 
-Currently, Verrazzano supports the following workload types: Deployments, ReplicaSets, StatefulSets, and Pods.
+Verrazzano supports the following workload types: Deployments, ReplicaSets, StatefulSets, and Pods.
 To enable metrics for Kubernetes workloads, you must label the workload namespace with `verrazzano-managed=true`.
 
 #### Metrics Template
 
-A [Metrics Template]({{< relref "/docs/reference/api/Verrazzano/metricstemplate.md" >}}) is a custom resource created by Verrazzano to manage metrics configurations for default Kubernetes workloads.
+A [Metrics Template]({{< relref "/docs/reference/api/Verrazzano/metricstemplate.md" >}}) is a custom resource created by Verrazzano to manage metrics configurations for standard Kubernetes workloads.
 Metrics templates can be placed in the workload namespace or the `verrazzano-system` namespace.
 By default, Verrazzano installs a metrics template named `standard-k8s-metrics-template` in the `verrazzano-system` namespace.
 This metrics templates handles all aforementioned workload types.
