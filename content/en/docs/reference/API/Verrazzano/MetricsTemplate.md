@@ -110,11 +110,11 @@ Go to the [Metrics Template]({{< relref "/docs/monitoring/metrics/metrics.md#met
 #### PrometheusConfig
 | Field                  | Type                                | Description                                                                                            | Required |
 |------------------------|-------------------------------------|--------------------------------------------------------------------------------------------------------|----------|
-| `targetConfigMap`      | [TargetConfigMap](#targetconfigmap) | Identity of the ConfigMap to be updated with scrape configuration specified in `scrapeConfigTemplate`. | No       |
-| `scrapeConfigTemplate` | string                              | Scrape configuration template to be added to the Prometheus configuration.                             | No       |
+| `targetConfigMap`      | [TargetConfigMap](#targetconfigmap) | Identity of the ConfigMap to be updated with scrape configuration specified in `scrapeConfigTemplate`. | Yes      |
+| `scrapeConfigTemplate` | string                              | Scrape configuration template to be added to the Prometheus configuration.                             | Yes      |
 
 #### TargetConfigMap
 | Field       | Type   | Description                                                                | Required |
 |-------------|--------|----------------------------------------------------------------------------|----------|
-| `namespace` | string | Namespace of the ConfigMap to be updated with scrape target configuration. | No       |
-| `name`      | string | Name of the ConfigMap to be updated with scrape target configuration.      | No       |
+| `namespace` | string | Namespace of the ConfigMap to be updated with scrape target configuration. | Yes      |
+| `name`      | string | Name of the ConfigMap to be updated with scrape target configuration.      | Yes      |
