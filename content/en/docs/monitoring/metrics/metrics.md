@@ -128,6 +128,7 @@ spec:
 ```
 
 #### Prometheus configuration
+
 If you want to create your own Metrics Template, you will need to construct a [Prometheus scrape config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config).
 The scrape config uses [Go Templates](https://pkg.go.dev/text/template) to generate config values based on kubernetes resources.
 You are able to reference values in the workload and namespace definitions for use in the scrape config.
