@@ -108,13 +108,13 @@ Go to the [Metrics Template]({{< relref "/docs/monitoring/metrics/metrics.md#met
 | `resources`         | []string                                                                                                   | Scopes the template to given API Resources.        | No       |
 
 #### PrometheusConfig
-| Field                  | Type                                | Description                                                                | Required |
-|------------------------|-------------------------------------|----------------------------------------------------------------------------|----------|
-| `targetConfigMap`      | [TargetConfigMap](#targetconfigmap) | Details about the desired Prometheus ConfigMap.                            | No       |
-| `scrapeConfigTemplate` | string                              | Scrape configuration template to be added to the Prometheus configuration. | No       |
+| Field                  | Type                                | Description                                                                                            | Required |
+|------------------------|-------------------------------------|--------------------------------------------------------------------------------------------------------|----------|
+| `targetConfigMap`      | [TargetConfigMap](#targetconfigmap) | Identity of the ConfigMap to be updated with scrape configuration specified in `scrapeConfigTemplate`. | No       |
+| `scrapeConfigTemplate` | string                              | Scrape configuration template to be added to the Prometheus configuration.                             | No       |
 
 #### TargetConfigMap
-| Field       | Type   | Description                            | Required |
-|-------------|--------|----------------------------------------|----------|
-| `namespace` | string | Target Prometheus ConfigMap namespace. | No       |
-| `name`      | string | Target Prometheus ConfigMap name.      | No       |
+| Field       | Type   | Description                                                                | Required |
+|-------------|--------|----------------------------------------------------------------------------|----------|
+| `namespace` | string | Namespace of the ConfigMap to be updated with scrape target configuration. | No       |
+| `name`      | string | Name of the ConfigMap to be updated with scrape target configuration.      | No       |
