@@ -10,7 +10,7 @@ description: "An example application based on WebLogic, Helidon, and Coherence"
 * To download the example image, you must first accept the license agreement.
   * In a browser, navigate to https://container-registry.oracle.com/ and sign in.
   * Search for `example-bobbys-coherence`, `example-bobbys-front-end`, `example-bobs-books-order-manager`, `example-roberts-coherence`, and `weblogic`.
-  * For each one: 
+  * For each one:
      * Select the image name in the results.
      * From the drop-down menu, select your language and click Continue.
      * Then read and accept the license agreement.
@@ -39,6 +39,13 @@ Bob's Books consists of three main parts:
 For more information and the source code of this application, see the [Verrazzano Examples](https://github.com/verrazzano/examples).
 
 ## Deploy the example application
+
+{{< alert title="NOTE" color="primary" >}}To run this application in the default namespace:
+   ```
+   $kubectl label namespace default verrazzano-managed=true istio-injection=enabled
+   ```
+   If you chose the default namespace, you can skip Step 1. and ignore the `-n` option in the rest of the commands.
+{{< /alert >}}   
 
 1. Create a namespace for the example and add a label identifying the namespace as managed by Verrazzano.
 
@@ -87,8 +94,8 @@ For more information and the source code of this application, see the [Verrazzan
 
 1. To deploy the application, apply the example resources.
    ```
-   $ kubectl apply -f {{< release_source_url raw=true path=examples/bobs-books/bobs-books-comp.yaml >}}
-   $ kubectl apply -f {{< release_source_url raw=true path=examples/bobs-books/bobs-books-app.yaml >}}
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/bobs-books/bobs-books-comp.yaml >}} -n bobs-books
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/bobs-books/bobs-books-app.yaml >}} -n bobs-books
    ```
 
 1. Wait for all of the pods in the Bob's Books example application to be ready.
@@ -227,8 +234,8 @@ It is recommended that the WebLogic Server Administration Console _not_ be expos
 
 1. To undeploy the application, delete the Bob's Books OAM resources.
    ```
-   $ kubectl delete -f {{< release_source_url raw=true path=examples/bobs-books/bobs-books-app.yaml >}}
-   $ kubectl delete -f {{< release_source_url raw=true path=examples/bobs-books/bobs-books-comp.yaml >}}
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/bobs-books/bobs-books-app.yaml >}} -n bobs-books
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/bobs-books/bobs-books-comp.yaml >}} -n bobs-books
    ```
 
 1. Delete the namespace `bobs-books` after the application pods are terminated. The secrets created for the WebLogic domain also will be deleted.
