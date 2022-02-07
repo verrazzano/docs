@@ -25,13 +25,6 @@ All files and paths in this document are relative to `<VERRAZZANO_HOME>/examples
 ToDo List is an example application containing a WebLogic component.
 For more information and the source code of this application, see the [Verrazzano Examples](https://github.com/verrazzano/examples).
 
-{{< alert title="NOTE" color="primary" >}}To run this application in the default namespace:
-   ```
-   $kubectl label namespace default verrazzano-managed=true istio-injection=enabled
-   ```
-   If you chose the default namespace, you can skip Step 1. and ignore the `-n` option in the rest of the commands.
-{{< /alert >}}
-
 1. Create a namespace for the ToDo List example and add a label identifying the namespace as managed by Verrazzano.
    ```
    $ kubectl create namespace todo-list
@@ -74,8 +67,8 @@ For more information and the source code of this application, see the [Verrazzan
 
 1. To deploy the application, apply the example resources.
    ```
-   $ kubectl apply -f {{< release_source_url raw=true path=examples/todo-list/todo-list-components.yaml >}} -n todo-list
-   $ kubectl apply -f {{< release_source_url raw=true path=examples/todo-list/todo-list-application.yaml >}} -n todo-list
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/todo-list/todo-list-components.yaml >}}
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/todo-list/todo-list-application.yaml >}}
    ```
 
 1. Wait for the ToDo List application to be ready. You can monitor its progress by listing pods and inspecting the output, or
@@ -240,8 +233,8 @@ It is recommended that the WebLogic Server Administration Console _not_ be expos
 
 1. To undeploy the application, delete the ToDo List OAM resources.
    ```
-   $ kubectl delete -f {{< release_source_url raw=true path=examples/todo-list/todo-list-application.yaml >}} -n todo-list
-   $ kubectl delete -f {{< release_source_url raw=true path=examples/todo-list/todo-list-components.yaml >}} -n todo-list
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/todo-list/todo-list-application.yaml >}}
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/todo-list/todo-list-components.yaml >}}
    ```
 
 1. Delete the namespace `todo-list` after the application pods are terminated. The secrets created for the WebLogic domain also will be deleted.

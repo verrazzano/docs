@@ -11,14 +11,8 @@ Install Verrazzano by following the [installation]({{< relref "/docs/setup/insta
 
 ## Deploy the Hello World Helidon application
 
-{{< alert title="NOTE" color="primary" >}}To run this application in the default namespace:
-   ```
-   $kubectl label namespace default verrazzano-managed=true istio-injection=enabled
-   ```
-   If you chose the default namespace, you can skip Step 1. and ignore the `-n` option in the rest of the commands.
-{{< /alert >}}
 
-1. To run the application in a namespace other than default namespace, create a namespace for the application and add a label identifying the namespace as managed by Verrazzano.
+1. Create a namespace for the application and add a label identifying the namespace as managed by Verrazzano.
    ```
    $ kubectl create namespace hello-helidon
    $ kubectl label namespace hello-helidon verrazzano-managed=true istio-injection=enabled
@@ -26,8 +20,8 @@ Install Verrazzano by following the [installation]({{< relref "/docs/setup/insta
 
 1. To deploy the application, apply the `hello-helidon` OAM resources.
    ```
-   $ kubectl apply -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-comp.yaml >}} -n hello-helidon
-   $ kubectl apply -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-app.yaml >}} -n hello-helidon
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-comp.yaml >}}
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-app.yaml >}}
    ```
 
 1. Wait for the application to be ready.
@@ -167,8 +161,8 @@ Follow these steps to test the endpoints:
 
 1. To undeploy the application, delete the Hello World Helidon OAM resources.
    ```
-   $ kubectl delete -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-app.yaml >}} -n hello-helidon
-   $ kubectl delete -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-comp.yaml >}} -n hello-helidon
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-app.yaml >}}
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-comp.yaml >}}
    ```
 
 1. Delete the namespace `hello-helidon` after the application pod is terminated.
