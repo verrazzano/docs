@@ -22,13 +22,6 @@ It uses OAM resources to define the application deployment.
 * [Coherence and Micronaut](https://github.com/oracle/coherence-micronaut-sockshop-sample) in the `micronaut` subdirectory.
 * [Coherence and Spring](https://github.com/oracle/coherence-spring-sockshop-sample) in the `spring` subdirectory.
 
-{{< alert title="NOTE" color="primary" >}}To run this application in the default namespace:
-   ```
-   $kubectl label namespace default verrazzano-managed=true
-   ```
-   If you chose the default namespace, you can skip Step 1. and ignore the `-n` option in the rest of the commands.
-{{< /alert >}}
-
 1. Create a namespace for the Sock Shop application and add a label identifying the namespace as managed by Verrazzano.
    ```
    $ kubectl create namespace sockshop
@@ -42,24 +35,24 @@ It uses OAM resources to define the application deployment.
    <br>
 
    ```
-   $ kubectl apply -f {{< release_source_url raw=true path=examples/sock-shop/helidon/sock-shop-comp.yaml >}} -n sockshop
-   $ kubectl apply -f {{< release_source_url raw=true path=examples/sock-shop/helidon/sock-shop-app.yaml >}} -n sockshop
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/sock-shop/helidon/sock-shop-comp.yaml >}}
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/sock-shop/helidon/sock-shop-app.yaml >}}
    ```
    {{< /tab >}}
    {{< tab tabNum="2" >}}
    <br>
 
    ```
-   $ kubectl apply -f {{< release_source_url raw=true path=examples/sock-shop/micronaut/sock-shop-comp.yaml >}} -n sockshop
-   $ kubectl apply -f {{< release_source_url raw=true path=examples/sock-shop/micronaut/sock-shop-app.yaml >}} -n sockshop
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/sock-shop/micronaut/sock-shop-comp.yaml >}}
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/sock-shop/micronaut/sock-shop-app.yaml >}}
    ```
    {{< /tab >}}
    {{< tab tabNum="3" >}}
    <br>
 
    ```
-   $ kubectl apply -f {{< release_source_url raw=true path=examples/sock-shop/spring/sock-shop-comp.yaml >}} -n sockshop
-   $ kubectl apply -f {{< release_source_url raw=true path=examples/sock-shop/spring/sock-shop-app.yaml >}} -n sockshop
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/sock-shop/spring/sock-shop-comp.yaml >}}
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/sock-shop/spring/sock-shop-app.yaml >}}
    ```
    {{< /tab >}}
    {{< /tabs >}}
@@ -249,24 +242,24 @@ Follow these steps to test the endpoints:
    <br>
 
    ```
-   $ kubectl delete -f {{< release_source_url raw=true path=examples/sock-shop/helidon/sock-shop-comp.yaml >}} -n sockshop
-   $ kubectl delete -f {{< release_source_url raw=true path=examples/sock-shop/helidon/sock-shop-app.yaml >}} -n sockshop
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/sock-shop/helidon/sock-shop-comp.yaml >}}
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/sock-shop/helidon/sock-shop-app.yaml >}}
    ```
    {{< /tab >}}
    {{< tab tabNum="2" >}}
    <br>
 
    ```
-   $ kubectl delete -f {{< release_source_url raw=true path=examples/sock-shop/micronaut/sock-shop-comp.yaml >}} -n sockshop
-   $ kubectl delete -f {{< release_source_url raw=true path=examples/sock-shop/micronaut/sock-shop-app.yaml >}} -n sockshop
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/sock-shop/micronaut/sock-shop-comp.yaml >}}
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/sock-shop/micronaut/sock-shop-app.yaml >}}
    ```
    {{< /tab >}}
    {{< tab tabNum="3" >}}
    <br>
 
    ```
-   $ kubectl delete -f {{< release_source_url raw=true path=examples/sock-shop/spring/sock-shop-comp.yaml >}} -n sockshop
-   $ kubectl delete -f {{< release_source_url raw=true path=examples/sock-shop/spring/sock-shop-app.yaml >}} -n sockshop
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/sock-shop/spring/sock-shop-comp.yaml >}}
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/sock-shop/spring/sock-shop-app.yaml >}}
    ```
    {{< /tab >}}
    {{< /tabs >}}
