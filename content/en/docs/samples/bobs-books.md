@@ -44,7 +44,7 @@ For more information and the source code of this application, see the [Verrazzan
    ```
    $kubectl label namespace default verrazzano-managed=true istio-injection=enabled
    ```
-   If you chose the default namespace, you can ignore the `-n` option in the following commands.
+   If you chose the default namespace, you can skip Step 1. and ignore the `-n` option in the rest of the commands.
 {{< /alert >}}   
 
 1. Create a namespace for the example and add a label identifying the namespace as managed by Verrazzano.

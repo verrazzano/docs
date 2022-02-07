@@ -22,11 +22,12 @@ It uses OAM resources to define the application deployment.
 * [Coherence and Micronaut](https://github.com/oracle/coherence-micronaut-sockshop-sample) in the `micronaut` subdirectory.
 * [Coherence and Spring](https://github.com/oracle/coherence-spring-sockshop-sample) in the `spring` subdirectory.
 
-1. To run this application in the default namespace.
+{{< alert title="NOTE" color="primary" >}}To run this application in the default namespace:
    ```
-   $kubectl label namespace default verrazzano-managed=true 
+   $kubectl label namespace default verrazzano-managed=true
    ```
-   For the rest of this document, it is assumed that the application is running in a namespace. If it runs in the default namespace, you can ignore the ```-n``` option in the following commands.
+   If you chose the default namespace, you can skip Step 1. and ignore the `-n` option in the rest of the commands.
+{{< /alert >}}
 
 1. Create a namespace for the Sock Shop application and add a label identifying the namespace as managed by Verrazzano.
    ```

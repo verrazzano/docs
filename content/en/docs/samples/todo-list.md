@@ -25,11 +25,12 @@ All files and paths in this document are relative to `<VERRAZZANO_HOME>/examples
 ToDo List is an example application containing a WebLogic component.
 For more information and the source code of this application, see the [Verrazzano Examples](https://github.com/verrazzano/examples).
 
-1. To run this application in the default namespace.
+{{< alert title="NOTE" color="primary" >}}To run this application in the default namespace:
    ```
    $kubectl label namespace default verrazzano-managed=true istio-injection=enabled
    ```
-   For the rest of this document, it is assumed that the application is running in a namespace. If it runs in the default namespace, you can ignore the ```-n``` option in the following commands.
+   If you chose the default namespace, you can skip Step 1. and ignore the `-n` option in the rest of the commands.
+{{< /alert >}}
 
 1. Create a namespace for the ToDo List example and add a label identifying the namespace as managed by Verrazzano.
    ```
