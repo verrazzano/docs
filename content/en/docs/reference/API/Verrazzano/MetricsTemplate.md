@@ -5,7 +5,7 @@ weight: 2
 draft: false
 ---
 
-The Metrics Template CRD contains the metrics configuration for default Kubernetes workloads
+The Metrics Template CRD contains the metrics configuration for default Kubernetes workloads.
 Here is the default Metrics Template that Verrazzano installs.
 
 ```
@@ -81,16 +81,16 @@ spec:
       {{`{{ end }}`}}
 ```
 
-Go to the [Metrics Template]({{< relref "/docs/monitoring/metrics/metrics.md#metrics-template" >}}) section of the metrics documentation for more information on using the Metrics Template.
+For more information on using the Metrics Template, see [Metrics Template]({{< relref "/docs/monitoring/metrics/metrics.md#metrics-template" >}}).
 
 #### MetricsTemplate
 
-| Field        | Type                                        | Description                                                   | Required |
-|--------------|---------------------------------------------|---------------------------------------------------------------|----------|
-| `apiVersion` | string                                      | `app.verrazzano.io/v1alpha1`                                  | Yes      |
-| `kind`       | string                                      | MetricsTemplate                                               | Yes      |
-| `metadata`   | ObjectMeta                                  | Refer to Kubernetes API documentation for fields of metadata. | No       |
-| `spec`       | [MetricsTemplateSpec](#metricstemplatespec) | The desired state of a metrics trait.                         | Yes      |
+| Field        | Type                                        | Description                                                       | Required |
+|--------------|---------------------------------------------|-------------------------------------------------------------------|----------|
+| `apiVersion` | string                                      | `app.verrazzano.io/v1alpha1`                                      | Yes      |
+| `kind`       | string                                      | MetricsTemplate                                                   | Yes      |
+| `metadata`   | ObjectMeta                                  | Refer to the Kubernetes API documentation for fields of metadata. | No       |
+| `spec`       | [MetricsTemplateSpec](#metricstemplatespec) | The desired state of a metrics trait.                             | Yes      |
 
 #### MetricsTemplateSpec
 | Field              | Type                                  | Description                       | Required |
@@ -108,13 +108,13 @@ Go to the [Metrics Template]({{< relref "/docs/monitoring/metrics/metrics.md#met
 | `resources`         | []string                                                                                                   | Scopes the template to given API Resources.        | No       |
 
 #### PrometheusConfig
-| Field                  | Type                                | Description                                                                                            | Required |
-|------------------------|-------------------------------------|--------------------------------------------------------------------------------------------------------|----------|
-| `targetConfigMap`      | [TargetConfigMap](#targetconfigmap) | Identity of the ConfigMap to be updated with scrape configuration specified in `scrapeConfigTemplate`. | Yes      |
-| `scrapeConfigTemplate` | string                              | Scrape configuration template to be added to the Prometheus configuration.                             | Yes      |
+| Field                  | Type                                | Description                                                                                                | Required |
+|------------------------|-------------------------------------|------------------------------------------------------------------------------------------------------------|----------|
+| `targetConfigMap`      | [TargetConfigMap](#targetconfigmap) | Identity of the ConfigMap to be updated with the scrape configuration specified in `scrapeConfigTemplate`. | Yes      |
+| `scrapeConfigTemplate` | string                              | Scrape configuration template to be added to the Prometheus configuration.                                 | Yes      |
 
 #### TargetConfigMap
-| Field       | Type   | Description                                                                | Required |
-|-------------|--------|----------------------------------------------------------------------------|----------|
-| `namespace` | string | Namespace of the ConfigMap to be updated with scrape target configuration. | Yes      |
-| `name`      | string | Name of the ConfigMap to be updated with scrape target configuration.      | Yes      |
+| Field       | Type   | Description                                                                    | Required |
+|-------------|--------|--------------------------------------------------------------------------------|----------|
+| `namespace` | string | Namespace of the ConfigMap to be updated with the scrape target configuration. | Yes      |
+| `name`      | string | Name of the ConfigMap to be updated with the scrape target configuration.      | Yes      |

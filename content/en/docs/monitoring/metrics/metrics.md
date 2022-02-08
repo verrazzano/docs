@@ -16,6 +16,8 @@ visualize them.
 
 ## Metrics sources
 
+The following sections describe metrics sources that Verrazzano provides for OAM and standard Kubernetes applications.
+
 ### OAM
 
 Metrics sources produce metrics and expose them to the Kubernetes Prometheus system using annotations in the pods.
@@ -76,35 +78,35 @@ To enable metrics for Kubernetes workloads, you must label the workload namespac
 A [Metrics Template]({{< relref "/docs/reference/api/Verrazzano/metricstemplate.md" >}}) is a custom resource created by Verrazzano to manage metrics configurations for standard Kubernetes workloads.
 Metrics templates can be placed in the workload namespace or the `verrazzano-system` namespace.
 By default, Verrazzano installs a metrics template named `standard-k8s-metrics-template` in the `verrazzano-system` namespace.
-This metrics templates handles all aforementioned workload types.
-You can create your own metrics templates to extend and alter the functionality of the metrics template
-if the default metrics template does not meet your requirements.
+This metrics template handles all the aforementioned workload types.
+If the default metrics template does not meet your requirements, then you can create your own metrics templates to extend and alter its functionality.
+
 
 As outlined in the [API]({{< relref "/docs/reference/api/Verrazzano/metricstemplate.md" >}}), the metrics template contains a `workloadSelector` field that specifies the resources for which the template applies.
-If you want to forgo the workload selection and manually specify a template, you can optionally add the annotation `app.verrazzano.io/metrics=<template-name>`
-to the namespace of the workload or the workload itself.
+If you want to forgo the workload selection and manually specify a template, you can add the annotation `app.verrazzano.io/metrics=<template-name>`
+to the namespace of the workload or to the workload itself.
 Additionally, you can opt out of metrics for your namespace or workload by setting the annotation `app.verrazzano.io/metrics=none`.
 
-The precedence of template matching is as follows:
+The template matching precedence is as follows:
 
-1. A workload is annotated
-   1. A template matching the annotation value is found in the workload namespace
-   2. A template matching the annotation value is found in the `verrazzano-system` namespace
-   3. No template is found, an error is recorded, and metrics are not processed for this workload
-2. A workload namespace is annotated
-   1. A template matching the annotation value is found in the workload namespace
-   2. A template matching the annotation value is found in the `verrazzano-system` namespace
-   3. No template is found, an error is recorded, and metrics are not processed for this namespace
-3. No annotation is present
+1. A workload is annotated.
+   1. A template matching the annotation value is found in the workload namespace.
+   2. A template matching the annotation value is found in the `verrazzano-system` namespace.
+   3. No template is found, an error is recorded, and metrics are not processed for this workload.
+2. A workload namespace is annotated.
+   1. A template matching the annotation value is found in the workload namespace.
+   2. A template matching the annotation value is found in the `verrazzano-system` namespace.
+   3. No template is found, an error is recorded, and metrics are not processed for this namespace.
+3. No annotation is present.
    1. A template in the workload namespace matches the workload through the `workloadSelector` field.
    2. A template in the `verrazzano-system` namespace matches the workload through the `workloadSelector` field.
-   3. No templates match the workload and metrics are not processed for this workload
+   3. No templates match the workload and metrics are not processed for this workload.
    
 If a workload with no annotations matches multiple templates in a namespace, there is no guaranteed precedence in template matching.
-If this is the case, it is more reliable to specify the template you require through an annotation.
+If this is the case, it is more reliable to specify the template you require by using an annotation.
 
 To verify that the metrics template process was successful, look for a Prometheus target with this formatting:
-`<workload-namespace>_<workload-name>_<workload-type>`
+`<workload-namespace>_<workload-name>_<workload-type>`.
 
 #### Prometheus overrides
 
@@ -117,8 +119,8 @@ Annotations:  prometheus.io/path: /metrics
               prometheus.io/scrape: true
 ```
 
-To alter these values, annotate the workload pod with the corresponding annotation.
-For example, if you want to change the metrics path, you could add the following to a Deployment definition:
+To alter these values, annotate the workload pod with the corresponding annotations.
+For example, if you want to change the metrics path, then add the following to a Deployment definition:
 
 ```yaml
 apiVersion: apps/v1
@@ -138,12 +140,12 @@ spec:
 
 #### Prometheus configuration
 
-If you want to create your own Metrics Template, you will need to construct a [Prometheus scrape config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config).
-The scrape config uses [Go Templates](https://pkg.go.dev/text/template) to generate config values based on kubernetes resources.
-You are able to reference values in the `workload` and `namespace` definitions for use in the scrape config.
-For example, the default scrape config references the workload namespace field through this reference: `.workload.metadata.namespace`. 
-Do not include the `job_name` field in your scrape config as it will be generated by Verrazzano.
-You can reference the default scrape config in the [Metrics Template API]({{< relref "/docs/reference/api/Verrazzano/metricstemplate.md" >}}) for guidance on how to construct a Prometheus scrape config.
+If you want to create your own Metrics Template, you will need to construct a [Prometheus `scrape config`](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config).
+The `scrape config` uses [Go Templates](https://pkg.go.dev/text/template) to generate configuration values based on Kubernetes resources.
+You can reference values in the `workload` and `namespace` definitions for use in the `scrape config`.
+For example, the default `scrape config` references the workload namespace field through this reference: `.workload.metadata.namespace`. 
+Do not include the `job_name` field in your `scrape config` as it will be generated by Verrazzano.
+You can reference the `scrapeConfigTemplate` section in the [Metrics Template example]({{< relref "/docs/reference/api/Verrazzano/metricstemplate.md" >}}) for guidance on how to construct a Prometheus `scrape config`.
 
 ### Metrics server
 
