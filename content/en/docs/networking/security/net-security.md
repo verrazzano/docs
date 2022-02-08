@@ -197,9 +197,7 @@ Likewise, the egress policy is only needed if you restrict egress. The following
 ### NetworkPolicies for Envoy sidecar proxies
 As mentioned, Envoy sidecar proxies run in both system component pods and application pods.  Each proxy sends requests
 to the Istio control plane pod, `istiod`, for a variety of reasons. During installation, Verrazzano creates a NetworkPolicy
-named `istiod-access` in the `istio-system` namespace to give ingress to system component sidecar proxies.  For applications,
-Verrazzano creates a per-application NetworkPolicy in the `istio-system` namespace to allow the same access to `istiod`.
-When the application is deleted, Verrazzano will delete the policy.
+named `istiod-access` in the `istio-system` namespace to give ingress to system component and application sidecar proxies.
 
 ## mTLS
 Istio can be enabled to use mTLS between services in the mesh, and also between the Istio gateways and Envoy sidecar proxies.
@@ -255,6 +253,7 @@ The following Verrazzano components are in the mesh and use mTLS for all service
 - Elasticsearch
 - Fluentd
 - Grafana
+- Kiali
 - Kibana
 - Keycloak
 - MySQL
@@ -280,6 +279,7 @@ access Keycloak:
 - Elasticsearch
 - Prometheus
 - Grafana
+- Kiali
 - Kibana
 
 ### Prometheus
