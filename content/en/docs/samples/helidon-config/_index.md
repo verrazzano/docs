@@ -11,6 +11,12 @@ Install Verrazzano by following the [installation]({{< relref "/docs/setup/insta
 
 ## Deploy the Hello Config World Helidon application
 
+{{< alert title="NOTE" color="primary" >}}To run this application in the default namespace:
+   ```
+   $kubectl label namespace default verrazzano-managed=true istio-injection=enabled
+   ```
+   If you chose the default namespace, you can skip Step 1. and ignore the `-n` option in the rest of the commands.
+{{< /alert >}}
 
 1. Create a namespace for the application and add a label identifying the namespace as managed by Verrazzano.
    ```
@@ -20,8 +26,8 @@ Install Verrazzano by following the [installation]({{< relref "/docs/setup/insta
 
 1. To deploy the application, apply the `helidon-config` OAM resources.
    ```
-   $ kubectl apply -f {{< release_source_url raw=true path=examples/helidon-config/helidon-config-comp.yaml >}}
-   $ kubectl apply -f {{< release_source_url raw=true path=examples/helidon-config/helidon-config-app.yaml >}}
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/helidon-config/helidon-config-comp.yaml >}} -n helidon-config
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/helidon-config/helidon-config-app.yaml >}} -n helidon-config
    ```
 
 1. Wait for the application to be ready.
@@ -159,8 +165,8 @@ Follow these steps to test the endpoints:
 
 1. To undeploy the application, delete the Hello Config World Helidon OAM resources.
    ```
-   $ kubectl delete -f {{< release_source_url raw=true path=examples/helidon-config/helidon-config-app.yaml >}}
-   $ kubectl delete -f {{< release_source_url raw=true path=examples/helidon-config/helidon-config-comp.yaml >}}
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/helidon-config/helidon-config-app.yaml >}} -n helidon-config
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/helidon-config/helidon-config-comp.yaml >}} -n helidon-config
    ```
 
 1. Delete the namespace `helidon-config` after the application pod is terminated.
