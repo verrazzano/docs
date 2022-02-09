@@ -11,6 +11,8 @@ Verrazzano requires the following:
   of Verrazzano.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient for deploying your
   applications.
 
+## Supported Hardware
+Verrazzano requires x86-64; other architectures are not supported.
 
 ## Supported Software Versions
 Verrazzano supports the following software versions.
