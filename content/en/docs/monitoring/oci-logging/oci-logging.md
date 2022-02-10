@@ -15,6 +15,8 @@ Pay close attention to the [required permissions](https://docs.oracle.com/en-us/
 
 ## Installing Verrazzano
 OCI Logging is enabled in your cluster when installing Verrazzano. The Verrazzano installation custom resource has fields for specifying two custom logs: one for system logs and one for application logs. Here is an example Verrazzano installation YAML file.
+Note that the API references Kibana, future releases will use OpenSearch Dashboards in the public API.
+
 ```
 apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano

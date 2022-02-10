@@ -36,7 +36,8 @@ The following table lists the Helm values in the Verrazzano system chart related
 | `nodes.data.requests.storage` | Storage request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity).
 
 The following example overrides the `dev` installation profile, OpenSearch configuration (a single-node cluster with
-1Gi of memory and ephemeral storage) to use a multi-node cluster with persistent storage:
+1Gi of memory and ephemeral storage) to use a multi-node cluster with persistent storage. Note that the public API references Elasticsearch, 
+the API will change to OpenSearch in a future release.
 
 ```
 apiVersion: install.verrazzano.io/v1alpha1
