@@ -207,4 +207,4 @@ To verify that a deployment successfully created a custom Fluentd sidecar:
   kubectl logs -n <application-namespace> <application-pod-name> fluentd
   ```
 - Follow the instructions at [Verrazzano Logging]({{< relref "/docs/monitoring/logs" >}}) to ensure that the [Fluentd DaemonSet]({{< relref "/docs/monitoring/logs/#fluentd-daemonset" >}}) collected the logs from stdout.
-  These logs will appear in the Verrazzano-managed [OpenSearch]({{< relref "/docs/monitoring/logs#elasticsearch" >}}) and [OpenSearch Dashboards]({{< relref "/docs/monitoring/logs#opensearch-dashboards" >}}).
+  These logs will appear in the Verrazzano-managed [OpenSearch]({{< relref "/docs/monitoring/logs#opensearch" >}}) and [OpenSearch Dashboards]({{< relref "/docs/monitoring/logs#opensearch-dashboards" >}}).
