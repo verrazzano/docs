@@ -116,8 +116,15 @@ The template matching precedence is as follows:
 If a workload with no annotations matches multiple templates in a namespace, there is no guaranteed precedence in template matching.
 If this is the case, it is more reliable to specify the template you require by using an annotation.
 
-To verify that the metrics template process was successful, look for a Prometheus target with this formatting:
-`<workload-namespace>_<workload-name>_<workload-type>`.
+To verify that the metrics template process was successful, follow these steps:
+- Access the [Prometheus console]({{< relref "/docs/operations/_index.md" >}}).
+- From the console, use the navigation bar to access Status/Targets.
+- On this page, you will see a target name with this formatting: `<workload-namespace>_<workload-name>_<workload-type>`.
+- Copy this job name for use in future queries.
+- Verify that the State of this target is `UP`.
+- Next, use the navigation bar to access the Graph.
+- Here, use the job name you copied to construct this expression: `{job="<job_name>"}`
+- Use the graph to execute this expression and verify that you see application metrics appear.
 
 #### Prometheus overrides
 
