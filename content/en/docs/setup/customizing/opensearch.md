@@ -37,7 +37,7 @@ The following table lists the Helm values in the Verrazzano system chart related
 
 The following example overrides the `dev` installation profile, OpenSearch configuration (a single-node cluster with
 1Gi of memory and ephemeral storage) to use a multi-node cluster with persistent storage. Note that the public API references Elasticsearch, 
-the API will change to OpenSearch in a future release.
+the API will change to OpenSearch in an upcoming release.
 
 ```
 apiVersion: install.verrazzano.io/v1alpha1
