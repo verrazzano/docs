@@ -358,23 +358,23 @@ An alternative approach to using the Prometheus UI is to query metrics from the 
 
 Verify that the admin cluster is collecting logs from the managed cluster.  The output will include records which have the name of the managed cluster in the `cluster_name` field.
 
-You can find the Kibana UI URL for your cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/operations/_index.md" >}}).
+You can find the OpenSearch Dashboards UI URL for your cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/operations/_index.md" >}}).
 Create an index for `verrazzano-namespace-verrazzano-system`.  Some log records will have the `cluster_name` field populated with the name of
 the managed cluster.
 
-**Sample output of a Kibana screen**
+**Sample output of a OpenSearch Dashboards screen**
 
-![Kibana](/docs/images/multicluster/kibana-multicluster.png)
+![OpenSearch Dashboards](/docs/images/multicluster/opensearch-multicluster.png)
 
-An alternative approach to using the Kibana UI is to query Elasticsearch from the command line.  Here is an example of how to obtain log records from the command line.  Search the output of the query for responses that have the `cluster_name` field set to the name of the managed cluster.
+An alternative approach to using the OpenSearch Dashboards UI is to query OpenSearch from the command line.  Here is an example of how to obtain log records from the command line.  Search the output of the query for responses that have the `cluster_name` field set to the name of the managed cluster.
    ```
    # On the admin cluster
-   $ KIBANA_URL=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+   $ OSD_URL=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
                     get verrazzano -o jsonpath='{.items[0].status.instance.kibanaUrl}')
    $ VZPASS=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
               get secret verrazzano --namespace verrazzano-system \
               -o jsonpath={.data.password} | base64 --decode; echo)
-   $ curl -k --user verrazzano:${VZPASS} -X POST -H 'kbn-xsrf: true' "${KIBANA_URL}/elasticsearch/verrazzano-namespace-verrazzano-system/_search?size=25"
+   $ curl -k --user verrazzano:${VZPASS} -X POST -H 'kbn-xsrf: true' "${OSD_URL}/elasticsearch/verrazzano-namespace-verrazzano-system/_search?size=25"
    ```
 
 ## Run applications in multicluster Verrazzano

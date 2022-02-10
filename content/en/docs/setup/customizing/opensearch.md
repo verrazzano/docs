@@ -1,29 +1,29 @@
 ---
-title: "Customize Elasticsearch"
-description: "Learn how to customize your Elasticsearch cluster configuration"
-linkTitle: Elasticsearch
+title: "Customize OpenSearch"
+description: "Learn how to customize your OpenSearch cluster configuration"
+linkTitle: OpenSearch
 weight: 8
 draft: false
 ---
 
-Verrazzano supports two cluster topologies for an Elasticsearch cluster:
+Verrazzano supports two cluster topologies for an OpenSearch cluster:
 - A single-node cluster (master, ingest, and data roles performed by a single node).
 - A multi-node cluster configuration with separate master, data, and ingest nodes.
 
-[Installation Profiles](/docs/setup/install/profiles/) describes the default Elasticsearch cluster
+[Installation Profiles](/docs/setup/install/profiles/) describes the default OpenSearch cluster
 configurations provided by Verrazzano.  
 
-You can customize the node characteristics of your Elasticsearch cluster by using the
-[spec.components.elasticsearch.installArgs](/docs/reference/api/verrazzano/verrazzano/#elasticsearch-component)
+You can customize the node characteristics of your OpenSearch cluster by using the
+[spec.components.elasticsearch.installArgs](/docs/reference/api/verrazzano/verrazzano/#opensearch-component)
 field in the Verrazzano custom resource.  When installing Verrazzano, you can use this field to specify a list of Helm
-value overrides for the Elasticsearch configuration.
+value overrides for the OpenSearch configuration.
 
 These Helm overrides let you to customize the following node characteristics:
 * Number of node replicas.
 * Memory request size per node.
 * Storage request size (data nodes only).
 
-The following table lists the Helm values in the Verrazzano system chart related to Elasticsearch nodes.
+The following table lists the Helm values in the Verrazzano system chart related to OpenSearch nodes.
 
 | Name | Description
 | ------------- |:-------------
@@ -35,7 +35,7 @@ The following table lists the Helm values in the Verrazzano system chart related
 | `nodes.data.requests.memory` | Memory request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity).
 | `nodes.data.requests.storage` | Storage request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity).
 
-The following example overrides the `dev` installation profile, Elasticsearch configuration (a single-node cluster with
+The following example overrides the `dev` installation profile, OpenSearch configuration (a single-node cluster with
 1Gi of memory and ephemeral storage) to use a multi-node cluster with persistent storage:
 
 ```
@@ -106,14 +106,10 @@ requested amount of memory:
 Containers:
   es-data:
     Container ID:  containerd://cc01f24b107da0e1e90a05a49c7fd969761f59a81316fa01f7cc56a166684628
-    Image:         ghcr.io/verrazzano/elasticsearch:7.6.1-20201130145440-5c76ab1
+    Image:         ghcr.io/verrazzano/opensearch:1.2.3-20220207214930-833b159de83
     Image ID:      ghcr.io/verrazzano/elasticsearch@sha256:3d2cbb539f9ebba991c6f36db4fbaa9dc9c03e6192a28787869f7850cc2bd66c
     Ports:         9200/TCP, 9300/TCP
     Host Ports:    0/TCP, 0/TCP
-    Args:
-      elasticsearch
-      -E
-      logger.org.elasticsearch=INFO
     State:          Running
       Started:      Thu, 29 Jul 2021 06:04:17 +0000
     Ready:          True

@@ -6,7 +6,7 @@ weight: 1
 draft: false
 ---
 
-The Oracle Cloud Infrastructure (OCI) Logging service is a highly scalable and fully managed single pane of glass for all the logs in your tenancy. You can configure Verrazzano to send logs to OCI Logging instead of Elasticsearch.
+The Oracle Cloud Infrastructure (OCI) Logging service is a highly scalable and fully managed single pane of glass for all the logs in your tenancy. You can configure Verrazzano to send logs to OCI Logging instead of OpenSearch.
 
 ## Set up custom logs
 For a general overview, see [OCI Logging Overview](https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/loggingoverview.htm). Verrazzano sends its logs to OCI Custom Logs. You will need to provide two OCI Log identifiers in your Verrazzano installation resource. Follow the [Custom Logs](https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/custom_logs.htm) documentation steps to create two custom logs. **Do not** create an agent configuration when creating a custom log, otherwise the log records will be duplicated.

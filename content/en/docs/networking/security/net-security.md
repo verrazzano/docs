@@ -76,11 +76,11 @@ The ports shown are Pod ports, which is what NetworkPolicies require.
 | Verrazzano Authentication Proxy | 15090 | Prometheus | Prometheus scraping.
 | cert-manager| 9402 | Prometheus | Prometheus scraping.
 | Coherence Operator | 9443 | Prometheus | Webhook entrypoint.
-| Elasticsearch | 8775 | NGINX Ingress | Access from external client.
-| Elasticsearch | 8775 | Fluentd | Access from Fluentd.
-| Elasticsearch | 9200 | Kibana, Internal | Elasticsearch data port.
-| Elasticsearch | 9300 | Internal | Elasticsearch cluster port.  
-| Elasticsearch | 15090 | Prometheus | Envoy metrics scraping.
+| OpenSearch | 8775 | NGINX Ingress | Access from external client.
+| OpenSearch | 8775 | Fluentd | Access from Fluentd.
+| OpenSearch | 9200 | OpenSearch Dashboards, Internal | OpenSearch data port.
+| OpenSearch | 9300 | Internal | OpenSearch cluster port.  
+| OpenSearch | 15090 | Prometheus | Envoy metrics scraping.
 | Istio control plane | 15012 | Envoy | Envoy access to `istiod`.
 | Istio control plane | 15014 | Prometheus | Prometheus scraping.
 | Istio control plane | 15017 | Kubernetes API Server  | Webhook entrypoint.
@@ -250,11 +250,11 @@ as Coherence Pods, are labeled at runtime with `sidecar.istio.io/inject="false"`
 
 ## Components in the mesh
 The following Verrazzano components are in the mesh and use mTLS for all service to service communication.
-- Elasticsearch
+- OpenSearch
 - Fluentd
 - Grafana
 - Kiali
-- Kibana
+- OpenSearch Dashboards
 - Keycloak
 - MySQL
 - NGINX Ingress Controller
@@ -276,11 +276,11 @@ Keycloak are in the mesh, there is end to end mTLS security for all identity man
 access Keycloak:
 - Verrazzano Authentication Proxy
 - Verrazzano Console
-- Elasticsearch
+- OpenSearch
 - Prometheus
 - Grafana
 - Kiali
-- Kibana
+- OpenSearch Dashboards
 
 ### Prometheus
 Although Prometheus is in the mesh, it is configured to use the Envoy sidecar and mTLS only when communicating with

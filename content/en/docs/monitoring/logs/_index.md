@@ -6,11 +6,11 @@ weight: 1
 draft: false
 ---
 
-The Verrazzano logging stack consists of Fluentd, Elasticsearch, and Kibana components.
+The Verrazzano logging stack consists of Fluentd, OpenSearch, and OpenSearch Dashboards components.
 
 * Fluentd: a log aggregator that collects, processes, and formats logs from Kubernetes clusters.
-* Elasticsearch: a scalable search and analytics engine for storing Kubernetes logs.
-* Kibana: a visualization layer that provides a user interface to query and visualize collected logs.
+* OpenSearch: a scalable search and analytics engine for storing Kubernetes logs.
+* OpenSearch Dashboards: a visualization layer that provides a user interface to query and visualize collected logs.
 
 As shown in the following diagram, logs written to stdout by a container running on Kubernetes are picked up by the kubelet service running on that node and written to `/var/log/containers`.
 
@@ -78,15 +78,15 @@ For more details, see the [Fluentd plugins](https://github.com/verrazzano/fluent
 
 ## Fluentd DaemonSet
 Verrazzano deploys a Fluentd DaemonSet which runs one Fluentd replica per node in the `verrazzano-system` namespace.
-Each instance pulls logs from the node's `/var/log/containers` directory and writes them to the target Elasticsearch index.  The index name is based on the namespace associated with the record, using this format: `verrazzano-namespace-<record namespace>`.
+Each instance pulls logs from the node's `/var/log/containers` directory and writes them to the target OpenSearch index.  The index name is based on the namespace associated with the record, using this format: `verrazzano-namespace-<record namespace>`.
 
-For example, `vmi-system-kibana` logs written to `/var/log/containers` will be pulled by Fluentd and written to Elasticsearch.  The index used is named `verrazzano-namespace-verrazzano-system` because the VMI runs in the `verrazzano-system` namespace.
+For example, `vmi-system-kibana` logs written to `/var/log/containers` will be pulled by Fluentd and written to OpenSearch.  The index used is named `verrazzano-namespace-verrazzano-system` because the VMI runs in the `verrazzano-system` namespace.
 
 The same approach is used for both system and application logs.
-## Elasticsearch
-Verrazzano creates an Elasticsearch deployment as the store and search engine for the logs processed by Fluentd.  Records written by Fluentd can be queried using the Elasticsearch REST API.
+## OpenSearch
+Verrazzano creates an OpenSearch deployment as the store and search engine for the logs processed by Fluentd.  Records written by Fluentd can be queried using the OpenSearch REST API.
 
-For example, you can use `curl` to get all of the Elasticsearch indexes. First, you must get the password for the `verrazzano` user and the host for the VMI Elasticsearch.
+For example, you can use `curl` to get all of the OpenSearch indexes. First, you must get the password for the `verrazzano` user and the host for the VMI OpenSearch.
 ```
 $ PASS=$(kubectl get secret \
     --namespace verrazzano-system verrazzano \
@@ -97,7 +97,7 @@ $ HOST=$(kubectl get ingress \
     -o jsonpath={.spec.rules[0].host})
 
 $ curl -ik \
-   --user verrazzano:$PASS https://$HOST//_cat/indices
+   --user verrazzano:$PASS https://$HOST/_cat/indices
 ```
 
 To see all of the records for a specific index, do the following:
@@ -108,11 +108,11 @@ $ curl -ik \
     --user verrazzano:$PASS https://$HOST/$INDEX/_doc/_search?q=message:*
 ```
 
-Verrazzano provides support for [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}}). The production profile (`prod`), which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile (`dev`) provides a single node Elasticsearch and no persistent storage for the VMI. The `managed-cluster` profile does not install Elasticsearch or Kibana in the local cluster; all logs are forwarded to the admin cluster's Elasticsearch instance.
+Verrazzano provides support for [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}}). The production profile (`prod`), which is the default, provides a 3-node OpenSearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile (`dev`) provides a single node OpenSearch and no persistent storage for the VMI. The `managed-cluster` profile does not install OpenSearch or OpenSearch Dashboards in the local cluster; all logs are forwarded to the admin cluster's OpenSearch instance.
 
-If you want the logs sent to an external Elasticsearch, instead of the default VMI Elasticsearch, specify `elasticsearchURL` and `elasticsearchSecret` in the [Fluentd]({{< relref "/docs/reference/API/Verrazzano/Verrazzano.md#fluentd-component" >}}) Component configuration in your Verrazzano custom resource.
+If you want the logs sent to an external OpenSearch, instead of the default VMI OpenSearch, specify `elasticsearchURL` and `elasticsearchSecret` in the [Fluentd]({{< relref "/docs/reference/API/Verrazzano/Verrazzano.md#fluentd-component" >}}) Component configuration in your Verrazzano custom resource.
 
-The following is an example of a Verrazzano custom resource to send the logs to the Elasticsearch endpoint `https://external-es.default.172.18.0.231.nip.io`.
+The following is an example of a Verrazzano custom resource to send the logs to the OpenSearch endpoint `https://external-es.default.172.18.0.231.nip.io`.
 ```
 apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
@@ -124,13 +124,13 @@ spec:
       elasticsearchURL: https://external-es.default.172.18.0.231.nip.io
       elasticsearchSecret: external-es-secret
 ```
-## Kibana
-Kibana is a visualization dashboard for the content indexed on an Elasticsearch cluster.  Verrazzano creates a Kibana deployment to provide a user interface for querying and visualizing the log data collected in Elasticsearch.
+## OpenSearch Dashboards
+OpenSearch Dashboards is a visualization dashboard for the content indexed on an OpenSearch cluster.  Verrazzano creates a OpenSearch Dashboards deployment to provide a user interface for querying and visualizing the log data collected in OpenSearch.
 
-To access the Kibana console, read [Access Verrazzano]({{< relref "/docs/operations/_index.md" >}}).
+To access the OpenSearch Dashboards console, read [Access Verrazzano]({{< relref "/docs/operations/_index.md" >}}).
 
-To see the records of an Elasticsearch index through Kibana, create an index pattern to filter for records under the desired index.  
+To see the records of an OpenSearch index through OpenSearch Dashboards, create an index pattern to filter for records under the desired index.  
 
 For example, to see the log records of a WebLogic application deployed to the `todo-list` namespace, create an index pattern of `verrazzano-namespace-todo-list`.
 
-![Kibana](/docs/images/kibana.png)
+![OpenSearch Dashboards](/docs/images/opensearch.png)

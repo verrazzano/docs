@@ -133,7 +133,7 @@ This example provides a simple web application developed using [Spring Boot](htt
 
    | Description | Address | Credentials |
    | ----------- | ------- | ----------- |
-   | Kibana      | `https://[vmi-system-kibana ingress host]`     | `verrazzano`/`telemetry-password` |
+   | OpenSearch Dashboards      | `https://[vmi-system-kibana ingress host]`     | `verrazzano`/`telemetry-password` |
    | Grafana     | `https://[vmi-system-grafana ingress host]`    | `verrazzano`/`telemetry-password` |
    | Prometheus  | `https://[vmi-system-prometheus ingress host]` | `verrazzano`/`telemetry-password` |
    | Kiali | `https://[vmi-system-kiali ingress host]` | `verrazzano`/`telemetry-password` |

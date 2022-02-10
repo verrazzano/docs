@@ -32,7 +32,7 @@ A Verrazzano managed cluster has a minimal footprint of Verrazzano, installed us
 installation profile. A managed cluster has the following additional characteristics:
 - It is registered with an admin cluster with a unique name.
 - Logs for Verrazzano system Components and Verrazzano multicluster applications are sent to
-  Elasticsearch running on the admin cluster, and are viewable from that cluster.
+  OpenSearch running on the admin cluster, and are viewable from that cluster.
 - A Verrazzano multicluster Kubernetes resource, created on the admin cluster, will be retrieved and deployed to a
   managed cluster if all of the following are true:
     - The resource is in a namespace governed by a VerrazzanoProject.
@@ -79,7 +79,7 @@ When a managed cluster is registered, the following will happen:
   - The endpoint URL that the admin cluster should use to scrape Prometheus metrics from the managed cluster.
   - The date and time of the most recent successful connection from the managed cluster to the admin cluster.
 - For MultiClusterApplicationConfigurations retrieved and unwrapped on a managed cluster, the application logs are
-  sent to Elasticsearch on the admin cluster, and may be viewed from the Verrazzano-installed Kibana UI on the
+  sent to OpenSearch on the admin cluster, and may be viewed from the Verrazzano-installed OpenSearch Dashboards UI on the
   admin cluster. Likewise, application metrics will be scraped by the admin cluster and available from
   Verrazzano-installed Prometheus on the admin cluster.
 

@@ -97,9 +97,9 @@ North-south traffic includes all system traffic that enters or leaves a Kubernet
 The following lists the Verrazzano system components which are accessed through the NGINX Ingress Controller
 from a client external to the cluster:
 
-- Elasticsearch
+- OpenSearch
 - Keycloak
-- Kibana
+- OpenSearch Dashboards
 - Grafana
 - Prometheus
 - Rancher
@@ -114,7 +114,7 @@ outside the cluster.
 | ------------- |:------------- |:-------------
 | cert-manager | Let's Encrypt | Get signed certificate.
 | ExternalDNS | External DNS | Create and delete DNS entries in an external DNS.
-| Fluentd | Elasticsearch | Fluentd on the managed cluster calls Elasticsearch on the admin cluster.
+| Fluentd | OpenSearch | Fluentd on the managed cluster calls OpenSearch on the admin cluster.
 | Prometheus | Prometheus | Prometheus on the admin cluster scrapes metrics from Prometheus on the managed cluster.
 | Rancher Agent | Rancher | Rancher agent on the managed cluster sends requests to Rancher on the admin cluster.
 | Verrazzano Authentication Proxy | Keycloak | Calls Keycloak for authentication, which includes redirects.
@@ -127,20 +127,20 @@ inside the cluster, with the following exceptions:
 - Envoy to Istiod: The Envoy proxies all make requests to the Istio control plane to get dynamic configuration, and such.
 This includes both the gateways and the mesh sidecar proxies. That traffic is not shown.
 - Traffic within a component is not shown, for example, traffic between
-Elasticsearch Pods.
+OpenSearch Pods.
 - Prometheus scraping traffic is shown in the second table.
 
 | Component  | Destination | Description |
 | ------------- |:------------- |:-------------
 | cert-manager | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
-| Fluentd | Elasticsearch | Fluentd sends data to Elasticsearch.
+| Fluentd | OpenSearch | Fluentd sends data to OpenSearch.
 | Grafana | Prometheus | UI for Prometheus data.
-| Kibana | Elasticsearch | UI for Elasticsearch.
+| OpenSearch Dashboards | OpenSearch | UI for OpenSearch.
 | NGINX Ingress Controller | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
 | Istio | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
 | Rancher | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
 | Verrazzano Authentication Proxy | Keycloak | Calls Keycloak for token authentication.
-| Verrazzano Authentication Proxy | VMI components | Access UIs for Kibana, Grafana, and such.
+| Verrazzano Authentication Proxy | VMI components | Access UIs for OpenSearch Dashboards, Grafana, and such.
 | Verrazzano Authentication Proxy | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
 | Verrazzano Application Operator | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
 | Verrazzano Monitoring Operator | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
@@ -155,14 +155,14 @@ This table shows Prometheus traffic for each system component scrape target.
  Target | Description |
 |:------------- |:-------------
 | cadvisor | Kubernetes metrics.
-| Elasticsearch | Envoy metrics.
+| OpenSearch | Envoy metrics.
 | Grafana | Envoy metrics.
 | Istiod | Istio control plane metrics.
 | Istiod | Envoy metrics.
 | Istio egress gateway | Envoy metrics.
 | Istio ingress gateway | Envoy metrics.
 | Keycloak |Envoy metrics.
-| Kibana | Envoy metrics.
+| OpenSearch Dashboards | Envoy metrics.
 | MySQL | Envoy metrics.
 | NGINX Ingress Controller | Envoy metrics.
 | NGINX Ingress Controller | NGINX metrics.
@@ -289,10 +289,10 @@ The following table shows which proxies are used and in which Pod they run.
 | Istio mesh sidecar | Envoy  | `mysql-*` | `keycloak` | MySQL used by Keycloak in the Istio mesh.
 | Istio mesh sidecar | Envoy | `verrazzano-api-*` | `verrazzano-system` | Verrazzano API in the Istio mesh.
 | Istio mesh sidecar | Envoy | `verrazzano-console-*` | `verrazzano-system` | Verrazzano Console in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `vmi-system-es-master-*` | `verrazzano-system` | Elasticsearch in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `vmi-system-es-data-*` | `verrazzano-system` | Elasticsearch in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `vmi-system-es-ingest-*` | `verrazzano-system` | Elasticsearch in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `vmi-system-kibana-*` | `verrazzano-system` | Kibana in the Istio mesh.
+| Istio mesh sidecar | Envoy  | `vmi-system-es-master-*` | `verrazzano-system` | OpenSearch in the Istio mesh.
+| Istio mesh sidecar | Envoy  | `vmi-system-es-data-*` | `verrazzano-system` | OpenSearch in the Istio mesh.
+| Istio mesh sidecar | Envoy  | `vmi-system-es-ingest-*` | `verrazzano-system` | OpenSearch in the Istio mesh.
+| Istio mesh sidecar | Envoy  | `vmi-system-kibana-*` | `verrazzano-system` | OpenSearch Dashboards in the Istio mesh.
 | Istio mesh sidecar | Envoy  | `vmi-system-prometheus-*` | `verrazzano-system` | Prometheus in the Istio mesh.
 | Istio mesh sidecar | Envoy  | `vmi-system-grafana-*` | `verrazzano-system` | Grafana in the Istio mesh.
 | Istio mesh sidecar | Envoy  | `weblogic-operator-*` | `verrazzano-system` | WebLogic operator in the Istio mesh.
@@ -309,7 +309,7 @@ All of these requests go through the NGINX Ingress Controller on the respective 
 | ------------- |:------------- |:------------- |:------------- |:-------------
 | Admin | Prometheus | Managed | Prometheus | Scape metrics on managed clusters.
 | Admin | Verrazzano Console | Managed | Verrazzano Authentication Proxy | Admin cluster proxy sends Kubernetes API requests to managed cluster proxy.
-| Managed | Fluentd | Admin | Elasticsearch | Fluentd sends logs to Elasticsearch.
+| Managed | Fluentd | Admin | OpenSearch | Fluentd sends logs to OpenSearch.
 | Managed | Rancher Agent | Admin | Rancher | Rancher Agent sends requests Rancher.
 | Managed | Verrazzano Authentication Proxy | Admin | Keycloak | Proxy sends requests to Keycloak.
 | Managed | Verrazzano Agent | Admin | Kubernetes API server | Agent, in the platform operator, sends requests Kubernetes API server.

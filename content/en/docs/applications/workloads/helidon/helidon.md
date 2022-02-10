@@ -133,9 +133,9 @@ we recommend that you specify `replicaCount` defined on ManualScalerTrait and le
 ### Logging
 
 When a containerized Helidon application is provisioned on Verrazzano, Verrazzano will configure the default logging
-and send logs to Elasticsearch. Logs can be viewed using the Kibana console.
+and send logs to OpenSearch. Logs can be viewed using the OpenSearch Dashboards console.
 
-The logs are placed in a per-namespace Elasticsearch index named `verrazzano-namespace-<namespace>`,
+The logs are placed in a per-namespace OpenSearch index named `verrazzano-namespace-<namespace>`,
 for example: `verrazzano-namespace-hello-helidon`.  All logs from containerized Helidon application pods in the same namespace will
 go into the same index, even for different applications.  This is standard behavior and there is no way to disable or change it.
 

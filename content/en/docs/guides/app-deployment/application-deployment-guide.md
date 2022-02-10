@@ -318,10 +318,10 @@ and enabled for Istio.
    monitoring stack created by Verrazzano for the deployed applications.
 
    The monitoring infrastructure comprises several components:
-   * `vmi-system-es` - Elasticsearch for log collection
+   * `vmi-system-es` - OpenSearch for log collection
    * `vmi-system-grafana` - Grafana for metric visualization
    * `vms-system-kiali` - Kiali for management console of `istio` service mesh
-   * `vmi-system-kibana` - Kibana for log visualization
+   * `vmi-system-kibana` - OpenSearch Dashboards for log visualization
    * `vmi-system-prometheus` - Prometheus for metric collection
    <p/>
 
@@ -430,24 +430,24 @@ If DNS was not configured, then use the alternative commands.
 ### Access the application's logs
 
 Deployed applications have log collection enabled.
-These logs are collected using Elasticsearch and can be accessed using Kibana.
-Elasticsearch and Kibana are examples of infrastructure Verrazzano creates in support of an application as a
+These logs are collected using OpenSearch and can be accessed using OpenSearch Dashboards.
+OpenSearch and OpenSearch Dashboards are examples of infrastructure Verrazzano creates in support of an application as a
 result of applying an application configuration. For more information on creating an index pattern
-and visualizing the log data collected in Elasticsearch, see [Kibana]({{< relref "/docs/monitoring/logs/_index.md#kibana" >}}).
+and visualizing the log data collected in OpenSearch, see [OpenSearch Dashboards]({{< relref "/docs/monitoring/logs/_index.md#opensearch-dashboards" >}}).
 
-Determine the URL to access Kibana:
+Determine the URL to access OpenSearch Dashboards:
  ```
-$ KIBANA_HOST=$(kubectl get ingress \
+$ OSD_HOST=$(kubectl get ingress \
       -n verrazzano-system vmi-system-kibana \
       -o jsonpath='{.spec.rules[0].host}')
-$ KIBANA_URL="https://${KIBANA_HOST}"
-$ echo "${KIBANA_URL}"
-$ open "${KIBANA_URL}"
+$ OSD_URL="https://${OSD_HOST}"
+$ echo "${OSD_URL}"
+$ open "${OSD_URL}"
 ```
 
-The user name to access Kibana defaults to `verrazzano` during the Verrazzano installation.
+The user name to access OpenSearch Dashboards defaults to `verrazzano` during the Verrazzano installation.
 
-Determine the password to access Kibana:
+Determine the password to access OpenSearch Dashboards:
 ```
 $ echo $(kubectl get secret \
       -n verrazzano-system verrazzano \
