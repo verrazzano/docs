@@ -13,8 +13,8 @@ The following table describes the Verrazzano installation profiles.
 
 | Profile  | Description | Characteristics
 | ------------- |:------------- |:-------------
-| `prod` | Full install, production configuration. | Default profile:<br/>- Full installation.<br/>- Persistent storage. <br/>- Production Elasticsearch cluster topology.
-| `dev` | Development or evaluation configuration. | Lightweight installation:<br/>- For evaluation purposes.<br/>- No persistence.<br/>- Single-node Elasticsearch cluster topology.
+| `prod` | Full install, production configuration. | Default profile:<br/>- Full installation.<br/>- Persistent storage. <br/>- Production OpenSearch cluster topology.
+| `dev` | Development or evaluation configuration. | Lightweight installation:<br/>- For evaluation purposes.<br/>- No persistence.<br/>- Single-node OpenSearch cluster topology.
 | `managed-cluster` | A specialized installation for managed clusters in a multicluster topology. | Minimal installation for a managed cluster:<br/>- Cluster must be registered with an admin cluster to use [multicluster]({{< relref "/docs/concepts/verrazzanomulticluster" >}}) features.
 
 ## Use an installation profile
@@ -77,9 +77,9 @@ customize any Verrazzano installation, regardless of the profile.
 | Cert-Manager | ✔️ | ✔️ | ✔️
 | External-DNS |️ |️ |
 | Prometheus | ✔️ | ✔️ | ✔️
-| Elasticsearch | ✔️ | ✔️ |
+| OpenSearch | ✔️ | ✔️ |
 | Console | ✔️ | ✔️ |
-| Kibana | ✔️ | ✔️ |  
+| OpenSearch Dashboards | ✔️ | ✔️ |  
 | Grafana | ✔️ | ✔️ |  
 | Rancher | ✔️ | ✔️ |    
 | Keycloak | ✔️ | ✔️ |  
@@ -94,18 +94,18 @@ The following table describes the Prometheus and Grafana configurations in each 
 | `dev` | 1 replica (128M memory, ephemeral storage) | 1 replica (48M memory, ephemeral storage)
 | `managed-cluster` | 1 replica (128M memory, 50Gi storage) | Not installed
 
-### Kibana and Elasticsearch configurations
+### OpenSearch Dashboards and OpenSearch configurations
 
-The following table describes the Kibana and Elasticsearch cluster topology in each profile.
+The following table describes the OpenSearch Dashboards and OpenSearch cluster topology in each profile.
 
-| Profile | Elasticsearch | Kibana
+| Profile | OpenSearch | OpenSearch Dashboards
 | ------------- |:------------- |:-------------
 | `prod` | 3 master replicas (1.4Gi memory, 50Gi storage each)<br/>1 ingest replica (2.5Gi memory, no storage)<br/>2 data replicas (4.8Gi memory, 50Gi storage each) | 1 replica (192M memory, ephemeral storage)
 | `dev` | 1 master/data/ingest replica (1Gi memory, ephemeral storage)  | 1 replica (192M memory, ephemeral storage)
 | `managed-cluster` | Not installed | Not installed
 
 {{< alert title="NOTE" color="warning" >}}
-Elasticsearch containers are configured to use 75% of the configured request memory for the Java min/max heap settings.
+OpenSearch containers are configured to use 75% of the configured request memory for the Java min/max heap settings.
 {{< /alert >}}
 
 

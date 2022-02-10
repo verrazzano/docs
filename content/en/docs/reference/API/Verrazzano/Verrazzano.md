@@ -60,9 +60,9 @@ spec:
 | `istio` | [IstioComponent](#istio-component) | The Istio component configuration. | No |
 | `fluentd` | [FluentdComponent](#fluentd-component) | The Fluentd component configuration. | No |
 | `keycloak` | [KeycloakComponent](#keycloak-component) | The Keycloak component configuration. | No |
-| `elasticsearch` | [ElasticsearchComponent](#elasticsearch-component) | The Elasticsearch component configuration. | No |
+| `elasticsearch` | [OpenSearchComponent](#opensearch-component) | The OpenSearch component configuration. | No |
 | `prometheus` | [PrometheusComponent](#prometheus-component) | The Prometheus component configuration. | No |
-| `kibana` | [KibanaComponent](#kibana-component) | The Kibana component configuration. | No |
+| `kibana` | [OpenSearchDashboardsComponent](#opensearch-dashboards-component) | The OpenSearch Dashboards component configuration. | No |
 | `grafana` | [GrafanaComponent](#grafana-component) | The Grafana component configuration. | No |
 | `kiali` | [KialiComponent](#kiali-component) | The Kiali component configuration. | No |
 
@@ -165,8 +165,8 @@ spec:
 | --- | --- | --- | --- |
 | `enabled` | Boolean | If true, then Fluentd will be installed. | No |
 | `extraVolumeMounts` | [ExtraVolumeMount](#extra-volume-mount) list | A list of host path volume mounts in addition to `/var/log` into the Fluentd DaemonSet. The Fluentd component collects log files in the `/var/log/containers` directory of Kubernetes worker nodes. The `/var/log/containers` directory may contain symbolic links to files located outside the `/var/log` directory. If the host path directory containing the log files is located outside of `/var/log`, the Fluentd DaemonSet must have the volume mount of that directory to collect the logs. | No |
-| `elasticsearchURL` | string | The target Elasticsearch URLs.  Specify this option in [this format](https://docs.fluentd.org/output/elasticsearch#hosts-optional).  The default `http://vmi-system-es-ingest-oidc:8775` is the VMI Elasticsearch URL. | No |
-| `elasticsearchSecret` | string | The secret containing the credentials for connecting to Elasticsearch.  This secret needs to be created in the `verrazzano-install` namespace prior to creating the Verrazzano custom resource.  Specify the Elasticsearch login credentials in the `username` and `password` fields in this secret.  Specify the CA for verifying the Elasticsearch certificate in the `ca-bundle` field, if applicable.  The default `verrazzano` is the secret for connecting to the VMI Elasticsearch. | No |
+| `elasticsearchURL` | string | The target OpenSearch URLs.  Specify this option in [this format](https://docs.fluentd.org/output/elasticsearch#hosts-optional).  The default `http://vmi-system-es-ingest-oidc:8775` is the VMI OpenSearch URL. | No |
+| `elasticsearchSecret` | string | The secret containing the credentials for connecting to OpenSearch.  This secret needs to be created in the `verrazzano-install` namespace prior to creating the Verrazzano custom resource.  Specify the OpenSearch login credentials in the `username` and `password` fields in this secret.  Specify the CA for verifying the OpenSearch certificate in the `ca-bundle` field, if applicable.  The default `verrazzano` is the secret for connecting to the VMI OpenSearch. | No |
 | `oci` | [OCILoggingConfiguration](#oci-logging-configuration) | The OCI Logging configuration. | No |
 
 #### Extra Volume Mount
@@ -195,13 +195,13 @@ spec:
 | --- | --- | --- | --- |
 | `volumeSource` | [VolumeSource](https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/) | Defines the type of volume to be used for persistence for Keycloak/MySQL, and can be one of either [EmptyDirVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#emptydirvolumesource-v1-core) or [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core). If [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core) is declared, then the `claimName` must reference the name of a `VolumeClaimSpecTemplate` declared in the `volumeClaimSpecTemplates` section. | No
 
-### Elasticsearch Component
+### OpenSearch Component
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `enabled` | Boolean | If true, then Elasticsearch will be installed. | No |
-| `installArgs` | [ElasticsearchInstallArgs](#elasticsearch-install-args) list | A list of values to use during Elasticsearch installation.  Each argument is specified as either a `name/value` or `name/valueList` pair.  For sample usage, see [Customize Elasticsearch](/docs/setup/customizing/elasticsearch/).| No |
+| `enabled` | Boolean | If true, then OpenSearch will be installed. | No |
+| `installArgs` | [OpenSearchInstallArgs](#opensearch-install-args) list | A list of values to use during OpenSearch installation.  Each argument is specified as either a `name/value` or `name/valueList` pair.  For sample usage, see [Customize OpenSearch](/docs/setup/customizing/opensearch/).| No |
 
-#### Elasticsearch Install Args
+#### OpenSearch Install Args
 | Name | Type | ValueType | Description | Required
 | --- | --- | --- | --- | --- |
 | `nodes.master.replicas` | [NameValue](#name-value) | string  | The number of master node replicas. |  No |
@@ -213,10 +213,10 @@ spec:
 | `nodes.data.requests.storage` | [NameValue](#name-value) |  string  | The data storage request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity). |  No |
 
 
-### Kibana Component
+### OpenSearch Dashboards Component
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `enabled` | Boolean | If true, then Kibana will be installed. | No |
+| `enabled` | Boolean | If true, then OpenSearch Dashboards will be installed. | No |
 
 ### Prometheus Component
 | Field | Type | Description | Required

@@ -9,7 +9,7 @@ draft: false
 Using the Verrazzano Console, you can:
 - Find general information about your Verrazzano environment, such as Status and Version.
 - Access the installed Rancher and Keycloak consoles.
-- Access Kibana, Grafana, Prometheus, and Elasticsearch telemetry data.
+- Access OpenSearch Dashboards, Grafana, Prometheus, and OpenSearch telemetry data.
 - View applications, projects, and Components resources.
 - In a multicluster environment, view clusters.
 - Use the breadcrumbs for quick and easy navigation.

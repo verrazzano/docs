@@ -62,8 +62,8 @@ You will need the credentials to access the consoles installed by Verrazzano.
 ### Consoles accessed by the same user name/password
 - Grafana
 - Prometheus
-- Kibana
-- Elasticsearch
+- OpenSearch Dashboards
+- OpenSearch
 - Kiali
 
 **User:**  `verrazzano`

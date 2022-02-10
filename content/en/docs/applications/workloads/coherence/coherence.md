@@ -14,8 +14,8 @@ Verrazzano uses the standard Coherence operator to provision and manage clusters
 at [Coherence Operator](https://oracle.github.io/coherence-operator/docs/latest).  The Coherence operator
 uses a CRD, coherence.oracle.com (Coherence resource), to represent a Coherence cluster.  When a Verrazzano
 application with Coherence is provisioned, Verrazzano configures the default logging and
-metrics for the Coherence cluster.  Logs are sent to Elasticsearch and metrics to Prometheus.  
-You can view this telemetry data using the Kibana and Grafana consoles.
+metrics for the Coherence cluster.  Logs are sent to OpenSearch and metrics to Prometheus.  
+You can view this telemetry data using the OpenSearch Dashboards and Grafana consoles.
 
 ## OAM Component
 The custom resource YAML file for the Coherence cluster is specified as a VerrazzanoCoherenceWorkload custom resource.
@@ -94,13 +94,13 @@ Do not delete the Coherence component if the application is still using it.
 
 
 ## Logging
-When a Coherence cluster is provisioned, Verrazzano configures it to send logs to Elasticsearch.  This is done by
+When a Coherence cluster is provisioned, Verrazzano configures it to send logs to OpenSearch.  This is done by
 injecting Fluentd sidecar configuration into the Coherence resource. The Coherence operator will create the pod with the
 Fluentd sidecar.  This sidecar periodically copies the Coherence logs from `/logs` to stdout, enabling the Fluentd DaemonSet
-in the `verrazzano-system` namespace to send the logs to Elasticsearch.  Note that the Fluend sidecar running in the Coherence
-pod never communicates with Elasticsearch or any other network endpoint.
+in the `verrazzano-system` namespace to send the logs to OpenSearch.  Note that the Fluend sidecar running in the Coherence
+pod never communicates with OpenSearch or any other network endpoint.
 
-The logs are placed in a per-namespace Elasticsearch index named `verrazzano-namespace-<namespace>`,
+The logs are placed in a per-namespace OpenSearch index named `verrazzano-namespace-<namespace>`,
 for example: `verrazzano-namespace-sockshop`.  All logs from Coherence pods in the same namespace will
 go into the same index, even for different applications.  This is standard behavior and there is no way to disable or change it.
 

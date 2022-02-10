@@ -50,14 +50,14 @@ component with its version and a brief description.
 | ---       |----------| ---         |
 | cert-manager | 1.2.0    | Automates the management and issuance of TLS certificates.
 | Coherence Operator | 3.2.3    | Assists with deploying and managing Coherence clusters.
-| Elasticsearch | 7.10.2   | Provides a distributed, multitenant-capable full-text search engine.
+| OpenSearch | 1.2.3  | Provides a distributed, multitenant-capable full-text search engine.
 | ExternalDNS | 0.7.1    | Synchronizes exposed Kubernetes Services and ingresses with DNS providers.
-| Fluentd | 1.12.3   | Collects logs and sends them to Elasticsearch.
+| Fluentd | 1.12.3   | Collects logs and sends them to OpenSearch.
 | Grafana | 7.2.1-2  | Tool to help you study, analyze, and monitor metrics.
 | Istio | 1.10.4   | Service mesh that layers transparently onto existing distributed applications.
 | Keycloak | 15.0.2   | Provides single sign-on with Identity and Access Management.
 | Kiali | 1.34.1   | Management console for the Istio service mesh.
-| Kibana | 7.10.2   | Provides search and data visualization capabilities for data indexed in Elasticsearch.
+| OpenSearch Dashboards | 1.2.0   | Provides search and data visualization capabilities for data indexed in OpenSearch.
 | MySQL | 8.0.26   | Open source relational database management system used by Keycloak.
 | NGINX Ingress Controller | 0.46.0   | Traffic management solution for cloud‑native applications in Kubernetes.
 | Node Exporter | 1.0.0    | Prometheus exporter for hardware and OS metrics.
