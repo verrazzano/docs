@@ -131,6 +131,6 @@ To access the OpenSearch Dashboards console, read [Access Verrazzano]({{< relref
 
 To see the records of an OpenSearch index through OpenSearch Dashboards, create an index pattern to filter for records under the desired index.  
 
-For example, to see the log records of a WebLogic application deployed to the `todo-list` namespace, create an index pattern of `verrazzano-namespace-todo-list`.
+For example, to see the log records of a WebLogic application deployed to the `todo-list` namespace, create an index pattern of `verrazzano-namespace-todo-*`.
 
 ![OpenSearch Dashboards](/docs/images/opensearch.png)
