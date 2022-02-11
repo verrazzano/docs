@@ -102,7 +102,8 @@ To install Verrazzano:
         -f $(kubectl get pod \
         -n verrazzano-install \
         -l app=verrazzano-platform-operator \
-        -o jsonpath="{.items[0].metadata.name}") | grep '"operation":"install"'
+        -o jsonpath="{.items[0].metadata.name}") | grep '^{.*}$' \
+        | jq -r '."@timestamp" as $timestamp | "\($timestamp) \(.level) \(.message)"' 
     ```
 
 ## Deploy an example application
