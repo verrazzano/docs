@@ -346,8 +346,8 @@ WebLogic domain components in a Verrazzano model represent the custom resource f
 Limitations:
 
 * Verrazzano uses WebLogic Kubernetes Operator version 2.6. Any features or values added in latger versions of the operator are not valid.
-* "Domain Home in Image" is the only valid domain home strategy with Verrazzano in this early release. Future releases will include support for other domain home strategies.
-* Domain configuration overrides are not supported in this early release of Verrazzano, but will be supported in a future release. If you use secrets or config maps to store configuration overrides, those overrides will not be applied, and may cause other errors.
+* "Domain Home in Image" is the only valid domain home strategy with Verrazzano in this early release. Upcoming releases will include support for other domain home strategies.
+* Domain configuration overrides are not supported in this early release of Verrazzano, but will be supported in an upcoming release. If you use secrets or config maps to store configuration overrides, those overrides will not be applied, and may cause other errors.
 * JRF domains are not supported in this early release of Verrazzano. Restricted JRF is supported.
 * Use of Oracle Platform Security Services is not supported in this early release.
 

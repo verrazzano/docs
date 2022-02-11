@@ -248,7 +248,7 @@ metadata:
 
 ## Logging
 
-WebLogic logs are sent to Elasticsearch, which is installed in the Verrazzano cluster. The Fluentd sidecar is injected into each WebLogic pod to send server logs to stdout. The Fluentd `DaemonSet` in the `verrazzano-system` namespace sends logs to Elasticsearch. In Elasticsearch, logs are indexed by namespace.
+WebLogic logs are sent to OpenSearch, which is installed in the Verrazzano cluster. The Fluentd sidecar is injected into each WebLogic pod to send server logs to stdout. The Fluentd `DaemonSet` in the `verrazzano-system` namespace sends logs to OpenSearch. In OpenSearch, logs are indexed by namespace.
 
 
 ## Lift-and-Shift WebLogic applications
