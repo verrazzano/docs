@@ -135,10 +135,10 @@ For example, to see the log records of a WebLogic application deployed to the `t
 
 ![OpenSearch Dashboards](/docs/images/opensearch.png)
 
-## Log Rotation
+## Log rotation
 
-We recommend configuring log rotation for OpenSearch, using a periodic job to purge or snapshot old records.
-A basic implementation of log rotation is provided below, implemented using a Kubernetes CronJob.
+We recommend configuring log rotation for OpenSearch using a periodic job to purge or snapshot old records.
+A basic implementation of log rotation is provided in the following example, implemented using a Kubernetes CronJob.
 To install the log rotation example on your cluster, save the snippet into a file and make the following modifications:
 
 - Substitue the value of `OPENSEARCH_HOST` with your specific OpenSearch HTTPS endpoint.
