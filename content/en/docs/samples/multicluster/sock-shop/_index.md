@@ -1,4 +1,9 @@
-# Multicluster Helidon Sock Shop
+---
+title: "Multicluster Helidon Sock Shop"
+linktitle: "Helidon Sock Shop"
+description: "Implementation of the [Sock Shop Microservices Demo Application](https://microservices-demo.github.io/) deployed to a multicluster environment."
+weight: 2
+---
 
 This example application provides a [Helidon](https://helidon.io) implementation of the [Sock Shop Microservices Demo Application](https://microservices-demo.github.io/).
 It uses OAM resources to define the application deployment in a multicluster environment.

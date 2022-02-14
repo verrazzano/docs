@@ -1,4 +1,9 @@
-# ToDo List
+---
+title: "Multicluster ToDo List"
+linktitle: "ToDo List"
+description: "ToDo List is an example application containing a WebLogic component deployed to a multicluster environment."
+weight: 3
+---
 
 ToDo List is an example application containing a WebLogic component.
 For more information and the source code of this application, see the [Verrazzano Examples](https://github.com/verrazzano/examples).
