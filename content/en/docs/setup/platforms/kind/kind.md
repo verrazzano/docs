@@ -109,11 +109,11 @@ By default, Kind does not provide an implementation of network load balancers ([
 To install MetalLB:
 
 ```
-$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.11.0/manifests/namespace.yaml
 $ kubectl create secret generic \
     -n metallb-system memberlist \
     --from-literal=secretkey="$(openssl rand -base64 128)"
-$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.11.0/manifests/metallb.yaml
 ```
 
 For further details, see the MetalLB [installation guide](https://metallb.universe.tf/installation/#installation-by-manifest).
