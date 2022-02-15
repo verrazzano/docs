@@ -103,7 +103,7 @@ To install Verrazzano:
         -n verrazzano-install \
         -l app=verrazzano-platform-operator \
         -o jsonpath="{.items[0].metadata.name}") | grep '^{.*}$' \
-        | jq -r '."@timestamp" as $timestamp | "\($timestamp) \(.level) \(.message)"' 
+        | jq -r '."@timestamp" as $timestamp | "\($timestamp) \(.level) \(.message)"'
     ```
 
 ## Deploy an example application
@@ -127,8 +127,8 @@ enabled for Istio.
 1. Apply the `hello-helidon` resources to deploy the application.
 
    ```
-   $ kubectl apply -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-comp.yaml" >}}
-   $ kubectl apply -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-app.yaml" >}}
+   $ kubectl apply -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-comp.yaml" >}} -n hello-helidon
+   $ kubectl apply -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-app.yaml" >}} -n hello-helidon
    ```
 
 1. Wait for the application to be ready.
