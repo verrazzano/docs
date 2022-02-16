@@ -33,10 +33,10 @@ spec:
           podAntiAffinity:
             requiredDuringSchedulingIgnoredDuringExecution:
               - labelSelector:
-                - matchExpressions:
-                  - key: app
-                    operator: In
-                    values:
-                      - verrazzano-authproxy
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - verrazzano-authproxy
                 topologyKey: kubernetes.io/hostname
 ```
