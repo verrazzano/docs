@@ -54,7 +54,7 @@ spec:
 ## Components
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `authPRoxy` | [AuthProxyComponent](#authproxy-component) | The AuthProxy component configuration.  | No |
+| `authProxy` | [AuthProxyComponent](#authproxy-component) | The AuthProxy component configuration.  | No |
 | `certManager` | [CertManagerComponent](#certmanager-component) | The cert-manager component configuration.  | No |
 | `dns` | [DNSComponent](#dns-component) | The DNS component configuration.  | No |
 | `ingress` | [IngressComponent](#ingress-component) | The ingress component configuration. | No |
@@ -78,7 +78,7 @@ spec:
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `replicas` | uint32 | The number of pods to replicate. | No |
-| `affinity` | [affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) | A Kubernetes affinity definition. | No |
+| `affinity` | [Affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) | A Kubernetes affinity definition. | No |
 
 ### CertManager Component
 | Field | Type | Description | Required
@@ -187,7 +187,7 @@ spec:
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `replicas` | uint32 | The number of pods to replicate. | No |
-| `affinity` | [affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) | A Kubernetes affinity definition. | No |
+| `affinity` | [Affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) | A Kubernetes affinity definition. | No |
 
 #### Istio Install Args
 | Name | Type | ValueType | Description | Required
