@@ -18,7 +18,7 @@ You can customize the node characteristics of your OpenSearch cluster by using t
 field in the Verrazzano custom resource.  When installing Verrazzano, you can use this field to specify a list of Helm
 value overrides for the OpenSearch configuration.
 
-These Helm overrides let you to customize the following node characteristics:
+These Helm overrides let you customize the following node characteristics:
 * Number of node replicas.
 * Memory request size per node.
 * Storage request size (data nodes only).
