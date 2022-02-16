@@ -18,7 +18,7 @@ The following table describes the fields in the Verrazzano custom resource perta
 | `spec.components.istio.ingress.kubernetes.affinity` | The pod affinity definition expressed as a standard Kubernetes [affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) definition.  The default configuration spreads the Istio gateway pods across the available nodes. <pre>spec:<br>  components:<br>    istio:<br>      ingress:<br>        kubernetes:<br>          affinity:<br>            podAntiAffinity:<br>              preferredDuringSchedulingIgnoredDuringExecution:<br>                - weight: 100<br>                  podAffinityTerm:<br>                    labelSelector:<br>                      matchExpressions:<br>                        - key: app<br>                          operator: In<br>                          values:<br>                            - istio-ingressgateway<br>                    topologyKey: kubernetes.io/hostname</pre> |
 
 The following example customizes a Verrazzano `prod` profile as follows:
-* Increases the replicas count to `3` for istio-ingressgateway and istio-egressgateway
+* Increases the replicas count to `3` for `istio-ingressgateway` and `istio-egressgateway`
 * Changes the `podAffinity` configuration to use `requiredDuringSchedulingIgnoredDuringExecution` for `istio-ingressgateway` and `istio-egressgateway`
 
  ```
