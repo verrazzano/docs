@@ -54,6 +54,7 @@ spec:
 ## Components
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
+| `authPRoxy` | [AuthProxyComponent](#authproxy-component) | The AuthProxy component configuration.  | No |
 | `certManager` | [CertManagerComponent](#certmanager-component) | The cert-manager component configuration.  | No |
 | `dns` | [DNSComponent](#dns-component) | The DNS component configuration.  | No |
 | `ingress` | [IngressComponent](#ingress-component) | The ingress component configuration. | No |
@@ -65,6 +66,19 @@ spec:
 | `kibana` | [OpenSearchDashboardsComponent](#opensearch-dashboards-component) | The OpenSearch Dashboards component configuration. | No |
 | `grafana` | [GrafanaComponent](#grafana-component) | The Grafana component configuration. | No |
 | `kiali` | [KialiComponent](#kiali-component) | The Kiali component configuration. | No |
+
+### AuthProxy Component
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `enabled` | Boolean | If true, then AuthProxy will be installed. | No |
+| `kubernetes` | [AuthProxyKubernetes](#authproxy-kubernetes-configuration) | The Kubernetes resources than can be configured for AuthProxy. | No |
+
+#### AuthProxy Kubernetes Configuration
+
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `replicas` | uint32 | The number of pods to replicate. | No |
+| `affinity` | [affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) | A Kubernetes affinity definition. | No |
 
 ### CertManager Component
 | Field | Type | Description | Required
@@ -160,13 +174,13 @@ spec:
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `kubernetes` | [IstioKubernetes](#istio-kubernetes-configuration) | The Kubernetes resources than can be configured for an Istio Ingress Gateway | No |
+| `kubernetes` | [IstioKubernetes](#istio-kubernetes-configuration) | The Kubernetes resources than can be configured for an Istio Ingress Gateway. | No |
 
 #### Istio Egress Configuration
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `kubernetes` | [IstioKubernetes](#istio-kubernetes-configuration) | The Kubernetes resources than can be configured for an Istio Egress Gateway | No |
+| `kubernetes` | [IstioKubernetes](#istio-kubernetes-configuration) | The Kubernetes resources than can be configured for an Istio Egress Gateway. | No |
 
 #### Istio Kubernetes Configuration
 
@@ -174,7 +188,6 @@ spec:
 | --- | --- | --- | --- |
 | `replicas` | uint32 | The number of pods to replicate. | No |
 | `affinity` | [affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) | A Kubernetes affinity definition. | No |
-
 
 #### Istio Install Args
 | Name | Type | ValueType | Description | Required
