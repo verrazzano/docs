@@ -1,51 +1,45 @@
+---
 title: "Customize Istio"
 description: "Customize Istio Gateways"
 linkTitle: Istio
 weight: 6
 draft: false
- ---
+---
 
 Verrazzano Istio gateways can be customized for High Availability by specifying replicas and affinity.
 
-The default affinity configuration for all installation profiles is to allocate a replica to each node using podAntiAffinity.
-The example below is for the ingress gateway
- ```
-             podAntiAffinity:
-               preferredDuringSchedulingIgnoredDuringExecution:
-                 - weight: 100
-                   podAffinityTerm:
-                     labelSelector:
-                       matchExpressions:
-                         - key: app
-                           operator: In
-                           values:
-                             - istio-ingressgateway
-                     topologyKey: kubernetes.io/hostname
- ```
-The default gateway (ingress and egress) pod replicas are
-* Prod Profile                -   2 replicas of each gateway
-* Dev/Managed-cluster Profile -   1 replica of each gateway
+The following table describes the fields in the Verrazzano custom resource pertaining to the Istio gateways configuration.
 
-The following is an example of overriding the defaults in a verrazzano yaml
+| Name                                                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+|-----------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `spec.components.istio.egress.kubernetes.replicas`  | The number of pods to replicate.  The default is 2 for the `prod` profile and 1 for all other profiles.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| `spec.components.istio.egress.kubernetes.affinity`  | The pod affinity definition expressed as a standard Kubernetes [Affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) definition.  The default configuration spreads the Istio gateway pods across the available nodes. <pre>spec:<br>  components:<br>    istio:<br>      ingress:<br>        kubernetes:<br>          affinity:<br>            podAntiAffinity:<br>              preferredDuringSchedulingIgnoredDuringExecution:<br>                - weight: 100<br>                  podAffinityTerm:<br>                    labelSelector:<br>                      matchExpressions:<br>                        - key: app<br>                          operator: In<br>                          values:<br>                            - istio-egressgateway<br>                    topologyKey: kubernetes.io/hostname</pre>  |
+| `spec.components.istio.ingress.kubernetes.replicas` | The number of pods to replicate.  The default is 2 for the `prod` profile and 1 for all other profiles.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| `spec.components.istio.ingress.kubernetes.affinity` | The pod affinity definition expressed as a standard Kubernetes [Affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) definition.  The default configuration spreads the Istio gateway pods across the available nodes. <pre>spec:<br>  components:<br>    istio:<br>      ingress:<br>        kubernetes:<br>          affinity:<br>            podAntiAffinity:<br>              preferredDuringSchedulingIgnoredDuringExecution:<br>                - weight: 100<br>                  podAffinityTerm:<br>                    labelSelector:<br>                      matchExpressions:<br>                        - key: app<br>                          operator: In<br>                          values:<br>                            - istio-ingressgateway<br>                    topologyKey: kubernetes.io/hostname</pre> |
+
+
+
+
+The following is an example that customizes a Verrazzano `dev` profile as follows:
+* Increases the replicas count to 3 for istio-ingressgateway and istio-egressgateway
+* Changes the podAffinity configuration to use requiredDuringSchedulingIgnoredDuringExecution for istio-ingressgateway and istio-egressgateway
+
  ```
  apiVersion: install.verrazzano.io/v1alpha1
  kind: Verrazzano
  metadata:
-   name: istio-overrides
+   name: example-verrazzano
  spec:
    profile: dev
    components:
      istio:
-       enabled: true
        ingress:
          kubernetes:
            replicas: 3
            affinity:
-             podAffinity: {}
              podAntiAffinity:
-               preferredDuringSchedulingIgnoredDuringExecution:
+               requiredDuringSchedulingIgnoredDuringExecution:
                  - weight: 25
-                   podAffinityTerm:
                      labelSelector:
                        matchExpressions:
                          - key: app
@@ -55,18 +49,15 @@ The following is an example of overriding the defaults in a verrazzano yaml
                      topologyKey: kubernetes.io/hostname
        egress:
          kubernetes:
-           replicas: 4
+           replicas: 3
            affinity:
-             podAffinity: {}
              podAntiAffinity:
-               preferredDuringSchedulingIgnoredDuringExecution:
-                 - weight: 75
-                   podAffinityTerm:
-                     labelSelector:
-                       matchExpressions:
-                         - key: app
-                           operator: In
-                           values:
-                             - istio-egressgateway
-                     topologyKey: kubernetes.io/hostname
+               requiredDuringSchedulingIgnoredDuringExecution:
+                 - labelSelector:
+                     matchExpressions:
+                       - key: app
+                         operator: In
+                         values:
+                           - istio-egressgateway
+                   topologyKey: kubernetes.io/hostname
  ```
