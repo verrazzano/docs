@@ -151,7 +151,30 @@ spec:
 ### Istio Component
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
+| `enabled` | Boolean | If true, then Istio will be installed. | No |
+| `istioIngress` | [IstioIngress](#istio-ingress-configuration) | The Istio Ingress Gateway configuration. | No |
+| `istioEgress` | [IstioEgress](#istio-egress-configuration) | The Istio Egress Gateway configuration. | No |
 | `istioInstallArgs` | [IstioInstallArgs](#istio-install-args) list | A list of values to use during Istio installation.  Each argument is specified as either a `name/value` or `name/valueList` pair. | No |
+
+#### Istio Ingress Configuration
+
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `kubernetes` | [IstioKubernetes](#istio-kubernetes-configuration) | The Kubernetes resources than can be configured for an Istio Ingress Gateway | No |
+
+#### Istio Egress Configuration
+
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `kubernetes` | [IstioKubernetes](#istio-kubernetes-configuration) | The Kubernetes resources than can be configured for an Istio Egress Gateway | No |
+
+#### Istio Kubernetes Configuration
+
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `replicas` | uint32 | The number of pods to replicate. | No |
+| `affinity` | [affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) | A Kubernetes affinity definition. | No |
+
 
 #### Istio Install Args
 | Name | Type | ValueType | Description | Required
