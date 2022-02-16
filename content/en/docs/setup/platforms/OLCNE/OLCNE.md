@@ -241,11 +241,11 @@ Use these target port values for the NGINX Ingress Controller load balancer back
 `ingress-controller-nginx-ingress-controller` | TCP   | 443                     | TBD         |  
 
 ##### **Backend for application load balancer**
-Get the target ports for the Istio Ingress Gateway service using the following command:
+Get the target ports for the Istio ingress gateway service using the following command:
 ```
 kubectl get service  istio-ingressgateway  -n  istio-system
 ```
-Use these port values for the Istio Ingress Gateway load balancer backend.
+Use these port values for the Istio ingress gateway load balancer backend.
 
 | Service Name                                  | Type  |  External Port          | Target Port |
 |-----------------------------------------------|-------|-------------------------|-------------|

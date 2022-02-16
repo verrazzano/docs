@@ -166,21 +166,21 @@ spec:
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `enabled` | Boolean | If true, then Istio will be installed. | No |
-| `istioIngress` | [IstioIngress](#istio-ingress-configuration) | The Istio Ingress Gateway configuration. | No |
-| `istioEgress` | [IstioEgress](#istio-egress-configuration) | The Istio Egress Gateway configuration. | No |
+| `istioIngress` | [IstioIngress](#istio-ingress-configuration) | The Istio ingress gateway configuration. | No |
+| `istioEgress` | [IstioEgress](#istio-egress-configuration) | The Istio egress gateway configuration. | No |
 | `istioInstallArgs` | [IstioInstallArgs](#istio-install-args) list | A list of values to use during Istio installation.  Each argument is specified as either a `name/value` or `name/valueList` pair. | No |
 
 #### Istio Ingress Configuration
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `kubernetes` | [IstioKubernetes](#istio-kubernetes-configuration) | The Kubernetes resources than can be configured for an Istio Ingress Gateway. | No |
+| `kubernetes` | [IstioKubernetes](#istio-kubernetes-configuration) | The Kubernetes resources than can be configured for an Istio ingress gateway. | No |
 
 #### Istio Egress Configuration
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `kubernetes` | [IstioKubernetes](#istio-kubernetes-configuration) | The Kubernetes resources than can be configured for an Istio Egress Gateway. | No |
+| `kubernetes` | [IstioKubernetes](#istio-kubernetes-configuration) | The Kubernetes resources than can be configured for an Istio egress gateway. | No |
 
 #### Istio Kubernetes Configuration
 
@@ -192,8 +192,8 @@ spec:
 #### Istio Install Args
 | Name | Type | ValueType | Description | Required
 | --- | --- | --- | --- | --- |
-| `gateways.istio-ingressgateway.externalIPs` | [NameValue](#name-value)  | string list | The external IP address used by the Istio Ingress Gateway. |  No |
-| `gateways.istio-ingressgateway.serviceAnnotations.*` | [NameValue](#name-value) | string | Annotations used for the Istio Ingress Gateway.  For sample usage, see [Customize Ingress](/docs/setup/customizing/ingress/). |  No |
+| `gateways.istio-ingressgateway.externalIPs` | [NameValue](#name-value)  | string list | The external IP address used by the Istio ingress gateway. |  No |
+| `gateways.istio-ingressgateway.serviceAnnotations.*` | [NameValue](#name-value) | string | Annotations used for the Istio ingress gateway.  For sample usage, see [Customize Ingress](/docs/setup/customizing/ingress/). |  No |
 
 
 ### Fluentd Component
