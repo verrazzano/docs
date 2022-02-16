@@ -77,7 +77,44 @@ For convenience, there is a helper script available
 you can point at an existing OCI configuration file and it will create the secret for you. The script allows you to
 override the default configuration file location, profile name, and the name of the secret.
 
-After you have created the API secret, you need to configure the name of the secret in the Verrazzano custom resource,
+{{< /tab >}}
+{{< /tabs >}}
+
+## Installing Verrazzano
+OCI Logging is enabled in your cluster when installing Verrazzano. The Verrazzano installation custom resource has fields
+for specifying two custom logs: one for system logs and one for application logs. Here is an example Verrazzano
+installation YAML file for each type of credential.
+Note that the API references Kibana, upcoming releases will use OpenSearch Dashboards in the public API.
+
+{{< tabs tabTotal="2" tabID="2" tabName1="Instance Principal Credentials" tabName2="User API Credentials">}}
+{{< tab tabNum="1" >}}
+<br>
+
+```
+apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: vz-oci-logging
+spec:
+  profile: dev
+  components:
+    fluentd:
+      enabled: true
+      oci:
+        systemLogId: ocid1.log.oc1.iad.system.example
+        defaultAppLogId: ocid1.log.oc1.iad.app.example
+    elasticsearch:
+      enabled: false
+    kibana:
+      enabled: false
+```
+<br/>
+
+{{< /tab >}}
+{{< tab tabNum="2" >}}
+<br>
+
+When using user API credentials, you need to configure the name of the secret in the Verrazzano custom resource,
 under the OCI section of the Fluentd component settings. Extending the example custom resource from earlier,
 your YAML file should look something like this.
 
@@ -101,33 +138,7 @@ spec:
       enabled: false
 ```
 
-The name of the secret must match the secret you created earlier.
-
-{{< /tab >}}
-{{< /tabs >}}
-
-## Installing Verrazzano
-OCI Logging is enabled in your cluster when installing Verrazzano. The Verrazzano installation custom resource has fields for specifying two custom logs: one for system logs and one for application logs. Here is an example Verrazzano installation YAML file.
-Note that the API references Kibana, upcoming releases will use OpenSearch Dashboards in the public API.
-
-```
-apiVersion: install.verrazzano.io/v1alpha1
-kind: Verrazzano
-metadata:
-  name: vz-oci-logging
-spec:
-  profile: dev
-  components:
-    fluentd:
-      enabled: true
-      oci:
-        systemLogId: ocid1.log.oc1.iad.system.example
-        defaultAppLogId: ocid1.log.oc1.iad.app.example
-    elasticsearch:
-      enabled: false
-    kibana:
-      enabled: false
-```
+The `apiSecret` value must match the secret you created earlier when configuring the user API credentials.
 
 ## Overriding the default log objects
 You can override the OCI Log object on an individual namespace. To specify a log identifier on a namespace, add an annotation named `verrazzano.io/oci-log-id` to the namespace. The value of the annotation is the OCI Log object identifier.
