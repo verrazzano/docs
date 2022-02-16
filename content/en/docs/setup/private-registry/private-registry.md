@@ -17,7 +17,7 @@ To obtain the required Verrazzano images and install from your private registry,
    * In your browser, go to [Oracle Software Delivery Cloud](https://edelivery.oracle.com) and log in with your credentials.
    * In the drop-down menu next to the search bar, select **Download Package**.
    * In the search bar, enter `Verrazzano Enterprise Container Platform` and click **Search**.
-   * Select the `DLP: Oracle Verrazzano Enterprise Edition 1.0` link.  This will add it to your download queue.
+   * Select the `DLP: Oracle Verrazzano Enterprise Edition {{<download_package_version>}}` link.  This will add it to your download queue.
    * Select the **Continue** link.
    * Accept the license agreement and click **Continue**.
    * Download the file:
@@ -29,11 +29,11 @@ To obtain the required Verrazzano images and install from your private registry,
    * Go to the expanded archive directory.
    * (Optional) Validate the checksum and the TAR file match.  For example,
      ```
-     $ shasum -c  verrazzano_1.0.0.tar.gz.sha256
+     $ shasum -c  verrazzano_{{<download_package_full_version>}}.tar.gz.sha256
 
      # Sample output
-     verrazzano_1.0.0.tar.gz: OK
+     verrazzano_{{<download_package_full_version>}}.tar.gz: OK
      ```
-   * Expand the TAR file, for example, `tar xvf verrazzano_1.0.0.tar.gz`.
+   * Expand the TAR file, for example, `tar xvf verrazzano_{{<download_package_full_version>}}.tar.gz`.
 3. Load the product images into your private registry and install Verrazzano using the instructions in the `README.md`
    file that is packaged with the TAR file.
