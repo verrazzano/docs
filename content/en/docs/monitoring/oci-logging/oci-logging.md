@@ -11,12 +11,12 @@ all the logs in your tenancy. You can configure Verrazzano to send logs to OCI L
 For general information, see [OCI Logging Overview](https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/loggingoverview.htm).
 
 ## Set up custom logs
-Verrazzano can send its logs to OCI custom Logs. You will need to provide two OCI Log identifiers in your Verrazzano
+Verrazzano can send its logs to OCI custom logs. You will need to provide two OCI Log identifiers in your Verrazzano
 installation resource - one for Verrazzano system logs and one for application logs. Follow the steps in
 [Creating Custom Logs](https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/custom_logs.htm) to create two
 custom logs. **Do not** create an agent configuration when creating a custom log, otherwise the log records will be duplicated.
 
-## Configuring credentials
+## Configure credentials
 The Fluentd plug-in included with Verrazzano will use OCI instance principal authentication by default. Optionally, you
 can configure Verrazzano with a user API signing key. API signing key authentication is required to send logs to
 OCI Logging if the cluster is running outside of OCI.
@@ -80,7 +80,7 @@ override the default configuration file location, profile name, and the name of 
 {{< /tab >}}
 {{< /tabs >}}
 
-## Installing Verrazzano
+## Install Verrazzano
 OCI Logging is enabled in your cluster when installing Verrazzano. The Verrazzano installation custom resource has fields
 for specifying two custom logs: one for system logs and one for application logs. Here is an example Verrazzano
 installation YAML file for each type of credential.
@@ -142,7 +142,7 @@ The `apiSecret` value must match the secret you created earlier when configuring
 {{< /tab >}}
 {{< /tabs >}}
 
-## Overriding the default log objects
+## Override the default log objects
 You can override the OCI Log object on an individual namespace. To specify a log identifier on a namespace, add an annotation named `verrazzano.io/oci-log-id` to the namespace. The value of the annotation is the OCI Log object identifier.
 
 Here is an example namespace.
@@ -164,9 +164,10 @@ status:
   phase: Active
 ```
 
-Note that if you add and subsequently remove the annotation then the logs will revert to the default OCI Log object specified in the Verrazzano custom resource.
+Note that if you add and subsequently remove the annotation, then the logs will revert to the default OCI Log object
+specified in the Verrazzano custom resource.
 
-## Searching logs
+## Search logs
 To search Verrazzano logs, you can use the OCI Console, OCI CLI, or OCI SDK.
 
 For example, using the OCI CLI to search the system logs for records emitted by the `verrazzano-application-operator` container.
@@ -192,6 +193,6 @@ If you are not able to view Verrazzano logs in OCI Logging, then check the Fluen
 ```
 $ kubectl logs -n verrazzano-system -l app=fluentd --tail=-1
 ```
-If you see "not authorized" error messages, then there is likely a problem with the OCI Dynamic Group or IAM policy that is preventing the Fluentd plug-in from communicating with the OCI API.
+If you see `not authorized` error messages, then there is likely a problem with the OCI Dynamic Group or IAM policy that is preventing the Fluentd plug-in from communicating with the OCI API.
 
 To ensure the appropriate permissions are in place, review the OCI Logging [required permissions](https://docs.oracle.com/en-us/iaas/Content/Logging/Task/managinglogs.htm#required_permissions_logs_groups) documentation.
