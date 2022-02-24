@@ -11,7 +11,7 @@ Verrazzano sets up the following load balancers on Kubernetes at installation:
 * Load balancer for Istio ingress
 
 Verrazzano allows customizing the load balancers allocated by Oracle Container Engine (OKE) using annotations defined by OKE.
-You can find a detailed discussion of the different load balancer customization annotations in the OKE documentation
+For a detailed description of different load balancer customization annotations, see the OKE documentation
 [here](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingloadbalancer.htm).
 
 This document describes how to use these annotations to customize the following settings for Verrazzano load balancers:
@@ -65,7 +65,7 @@ spec:
         value: "10Mbps"
 ```
 
-### Using private IP addresses with a load balancer
+### Use private IP addresses with a load balancer
 
 At installation, Verrazzano lets you customize the IP address and subnet of the load balancers created.  This is achieved
 using OKE annotations on the NGINX and Istio load balancer services, as documented 
