@@ -90,12 +90,15 @@ Follow these preregistration setup steps:
              Environment:    staging
              Provider:       letsEncrypt
        ```
-     * To check the `ca.crt` field of the `system-tls` secret
+     * To check the `ca.crt` field of the Verrazzano TLS secret
        in the `verrazzano-system` namespace on the managed cluster:
        ```
        # On the managed cluster
+       $ export VZ_ENV_NAME=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
+            get verrazzano -o jsonpath='{ .items[0].spec.environmentName}')
+       $ export VZ_TLS_SECRET="${VZ_ENV_NAME:-default}"-secret
        $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
-            -n verrazzano-system get secret system-tls -o jsonpath='{.data.ca\.crt}'
+            -n verrazzano-system get secret $VZ_TLS_SECRET -o jsonpath='{.data.ca\.crt}'
        ```
        If this value is empty, then your managed cluster is using certificates signed by a well-known certificate
        authority. Otherwise, your managed cluster is using self-signed certificates.
@@ -116,8 +119,11 @@ CA certificate is saved in an environment variable called `MGD_CA_CERT`. Then us
 
 ```
 # On the managed cluster
-$ MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
-     get secret system-tls \
+$ export VZ_ENV_NAME=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
+     get verrazzano -o jsonpath='{ .items[0].spec.environmentName}')
+$ export VZ_TLS_SECRET="${VZ_ENV_NAME:-default}"-secret
+$ export MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
+     get secret $VZ_TLS_SECRET \
      -n verrazzano-system \
      -o jsonpath="{.data.ca\.crt}" | base64 --decode)
 $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
@@ -147,7 +153,7 @@ CA certificate is saved in an environment variable called `MGD_CA_CERT`. Then us
 
 ```
 # On the admin cluster
-$ MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+$ export MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
      get secret tls-ca-additional \
      -n cattle-system \
      -o jsonpath="{.data.ca-additional\.pem}" | base64 --decode)
