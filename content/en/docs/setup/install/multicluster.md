@@ -90,7 +90,7 @@ Follow these preregistration setup steps:
              Environment:    staging
              Provider:       letsEncrypt
        ```
-     * To check the `ca.crt` field of the verrazzano TLS secret
+     * To check the `ca.crt` field of the Verrazzano TLS secret
        in the `verrazzano-system` namespace on the managed cluster:
        ```
        # On the managed cluster
