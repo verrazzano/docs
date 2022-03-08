@@ -5,6 +5,20 @@ weight: 13
 draft: false
 ---
 
+### v1.1.2
+Fixes:
+- Fixed install to create `verrazzano-monitors` group correctly.
+- Fixed install to enable network access to Prometheus for Kiali.
+- Updated SpringBoot example image to address CVEs.
+- Updated Kibana image to address CVEs.
+- Updated Elasticsearch image to address CVEs.
+- Fixed Verrazzano failing to install when specifing a custom CA certificate.
+- Updated Keycloak image to address CVEs.
+- Fixed Verrazzano failing to install when CR certificate specifies acme production mode.
+- Added support for using private DNS and instance principals with OCI DNS.
+- Fixed Verrazzano failing to uninstall in a private registry configuration due to a missing Rancher image.
+- Updated Verrazzano to use the Rancher v2.5.9 Helm chart.
+
 ### v1.1.1
 Fixes:
 - Elasticsearch and Keycloak images were updated to address CVEs.
