@@ -12,7 +12,7 @@ Fixes:
 - Updated SpringBoot example image to address CVEs.
 - Updated Kibana image to address CVEs.
 - Updated Elasticsearch image to address CVEs.
-- Fixed Verrazzano failing to install when specifing a custom CA certificate.
+- Fixed Verrazzano failing to install when specifying a custom CA certificate.
 - Updated Keycloak image to address CVEs.
 - Fixed Verrazzano failing to install when CR certificate specifies acme production mode.
 - Added support for using private DNS and instance principals with OCI DNS.
