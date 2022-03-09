@@ -14,7 +14,7 @@ Fixes:
 - Updated Elasticsearch image to address CVEs.
 - Fixed Verrazzano failing to install when specifying a custom CA certificate.
 - Updated Keycloak image to address CVEs.
-- Fixed Verrazzano failing to install when CR certificate specifies an ACME production environment.
+- Fixed Verrazzano failing to install when the `spec.components.certManager.certificate.acme.environment` field was set to `production` in the Verrazzano CR.
 - Added support for using private DNS and instance principals with OCI DNS.
 - Fixed Verrazzano failing to uninstall in a private registry configuration due to a missing Rancher image.
 - Updated Verrazzano to use the Rancher v2.5.9 Helm chart.
