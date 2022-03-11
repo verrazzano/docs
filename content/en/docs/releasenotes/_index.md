@@ -12,10 +12,10 @@ Features:
   - Replaced Elasticsearch and Kibana with Opensearch and Opensearch Dashboard.
   - Updated Opensearch `prod` profile data node configuration to 3 replicas.
   - Enhanced Fluentd parsing/filtering rules for Verrazzano system logs.
-- Added support for using `instance_principal` auth with using OCI DNS.
+- Added support for using `instance_principal` authorization with using OCI DNS.
 - Added support for metrics integration with non-OAM applications.
-- Added support for scaling Istio Gateways and setting Affinity.
-- Added support for scaling Verrazzano AuthProxy and setting Affinity.
+- Added support for scaling Istio gateways and setting affinity.
+- Added support for scaling Verrazzano AuthProxy and setting affinity.
 - Component version updates:
   - External DNS v0.10.2.
   - MySQL v8.0.28.
@@ -27,14 +27,14 @@ Features:
   
 Fixes:
 
-- Fixed Keycloak issue creating incorrect verrazzano-monitors group on install
-- Fixed Verrazzano failing to uninstall in a private registry configuration due to a missing Rancher image
-- Fixed Rancher install when tls-ca-additional secret is not present
-- Fixed Opensearch parsing errors of `trait` field
-- Fixed Custom CA certs support
-- Fixed issue requeuing unsupported traits in the Verrazzano Application Operator, and update OAM Operator
-- Aligned Helidon workload service port names with Istio conventions to avoid protocol defaulting to TCP in all cases
-- Added ability to set a DestinationRule with HTTP Cookie for session affinity
+- Fixed Keycloak issue creating incorrect `verrazzano-monitors` group on installation.
+- Fixed Verrazzano failing to uninstall in a private registry configuration due to a missing Rancher image.
+- Fixed Rancher install when `tls-ca-additional` secret is not present.
+- Fixed Opensearch parsing errors of `trait` field.
+- Fixed Custom CA certificates support.
+- Fixed issue requeuing unsupported traits in the Verrazzano Application Operator, and updated the OAM Operator.
+- Aligned Helidon workload service port names with Istio conventions to avoid protocol defaulting to TCP in all cases.
+- Added ability to set a DestinationRule with HTTP Cookie for session affinity.
 
 Known Issues:
 
