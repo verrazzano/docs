@@ -506,7 +506,7 @@ tododomain-adminserver   4/4     Running   0          5m
 
 1. Get the generated host name for the application.
    ```
-   $ kubectl get gateway tododomain-tododomain-appconf-gw \
+   $ kubectl get gateways.networking.istio.io tododomain-tododomain-appconf-gw \
        -n tododomain \
        -o jsonpath={.spec.servers[0].hosts[0]}
 

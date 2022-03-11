@@ -39,7 +39,7 @@ In the sample configuration, the IngressTrait `hello-helidon-ingress` is set on 
 
 For example, with the sample application configuration successfully deployed, the application will be accessible with the `path` specified in the IngressTrait and the generated host name.
 ```
-$ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath={.spec.servers[0].hosts[0]})
+$ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath={.spec.servers[0].hosts[0]})
 $ echo $HOST
 hello-helidon-appconf.hello-helidon.11.22.33.44.nip.io
 
@@ -91,7 +91,7 @@ IngressDestination specifies a specific destination host and port for the ingres
 
 {{< alert title="NOTE" color="warning" >}}
 If there are multiple ports defined for a service, then the destination port must be specified OR
-the service port name must have the prefix "http". 
+the service port name must have the prefix "http".
 {{< /alert >}}
 
 #### IngressSecurity
