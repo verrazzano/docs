@@ -25,13 +25,9 @@
         &lt;p&gt;The following instructions show you how to install Verrazzano in a
 single Kubernetes cluster.&lt;/p&gt;
 &lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
-&lt;p&gt;Verrazzano requires the following:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;A Kubernetes cluster and a compatible &lt;code&gt;kubectl&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.  This is sufficient to install the development profile
-of Verrazzano.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient for deploying your
-applications.&lt;/li&gt;
-&lt;li&gt;For a list of the software versions supported and installed by Verrazzano, see &lt;a href=&#34;../../../docs/setup/versions/&#34;&gt;Software Versions&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Find the Verrazzano prerequisite requirements &lt;a href=&#34;../../../docs/setup/prereqs/&#34;&gt;here&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Review the list of the &lt;a href=&#34;../../../docs/setup/prereqs/#supported-software-versions&#34;&gt;software versions supported&lt;/a&gt; and &lt;a href=&#34;../../../docs/setup/prereqs/#installed-components&#34;&gt;installed&lt;/a&gt; by Verrazzano.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;prepare-for-the-install&#34;&gt;Prepare for the install&lt;/h2&gt;
 &lt;p&gt;Before installing Verrazzano, see instructions on preparing &lt;a href=&#34;../../../docs/setup/platforms/&#34;&gt;Kubernetes platforms&lt;/a&gt;.&lt;/p&gt;
@@ -44,7 +40,8 @@ custom resource, you can install, uninstall, and upgrade Verrazzano installation
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Deploy the Verrazzano platform operator.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/master/operator.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f 
+https://github.com/verrazzano/verrazzano/releases/download/master/operator.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the deployment to complete.&lt;/p&gt;
@@ -66,14 +63,23 @@ verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114
 &lt;p&gt;Verrazzano supports the following installation profiles:  development (&lt;code&gt;dev&lt;/code&gt;), production (&lt;code&gt;prod&lt;/code&gt;), and
 managed cluster (&lt;code&gt;managed-cluster&lt;/code&gt;).  For more information on profiles, see
 &lt;a href=&#34;../../../docs/setup/install/profiles/&#34;&gt;Installation Profiles&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;This page shows how to create a basic Verrazzano installation using&lt;/p&gt;
+&lt;p&gt;This page shows how to create a basic Verrazzano installation using:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;The development (&lt;code&gt;dev&lt;/code&gt;) installation profile&lt;/li&gt;
 &lt;li&gt;Wildcard-DNS, where DNS is provided by &lt;a href=&#34;https://nip.io&#34;&gt;nip.io&lt;/a&gt; (the default)&lt;/li&gt;
 &lt;/ul&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    Because the &lt;code&gt;dev&lt;/code&gt; profile installs self-signed certificates, when installing Verrazzano on macOS, you might see: &lt;strong&gt;Your connection is not private&lt;/strong&gt;. For a workaround, see this &lt;a href=&#34;../../../docs/faq/faq/#enable-google-chrome-to-accept-self-signed-verrazzano-certificates&#34;&gt;FAQ&lt;/a&gt;.
+
+&lt;/div&gt;
+
 &lt;p&gt;For a complete description of Verrazzano configuration options, see the
 &lt;a href=&#34;../../../docs/reference/api/verrazzano/verrazzano/&#34;&gt;Verrazzano Custom Resource Definition&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;To use other DNS options, see the &lt;a href=&#34;../../../docs/setup/install/customizing/dns/&#34;&gt;Customzing DNS&lt;/a&gt; page for more details.&lt;/p&gt;
+&lt;p&gt;To use other DNS options, see the &lt;a href=&#34;../../../docs/setup/customizing/dns/&#34;&gt;Customzing DNS&lt;/a&gt; page for more details.&lt;/p&gt;
 &lt;h4 id=&#34;install-verrazzano&#34;&gt;Install Verrazzano&lt;/h4&gt;
 &lt;p&gt;To create a Verrazzano installation as described in the previous section, run the following commands:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ kubectl apply -f - &amp;lt;&amp;lt;EOF
@@ -119,7 +125,7 @@ vmi-system-prometheus-0-859fcd87dc-m5ws9           3/3     Running   0          
 weblogic-operator-646756c75c-hgz6j                 2/2     Running   0          49m
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;optional-run-the-example-applications&#34;&gt;(Optional) Run the example applications&lt;/h2&gt;
 &lt;p&gt;Example applications are located &lt;a href=&#34;../../../docs/samples/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;h5 id=&#34;to-get-the-consoles-urls-and-credentials-see-access-verrazzanohahahugoshortcode-s9-hbhb&#34;&gt;To get the consoles URLs and credentials, see &lt;a href=&#34;../../../docs/operations/&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/h5&gt;
+&lt;h5 id=&#34;to-get-the-consoles-urls-and-credentials-see-access-verrazzanohahahugoshortcode-s12-hbhb&#34;&gt;To get the consoles URLs and credentials, see &lt;a href=&#34;../../../docs/operations/&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/h5&gt;
 
       </description>
     </item>
@@ -149,12 +155,12 @@ customized as needed.&lt;/p&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;prod&lt;/code&gt;&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Full install, production configuration.&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Default profile:&lt;br/&gt;- Full installation.&lt;br/&gt;- Persistent storage. &lt;br/&gt;- Production Elasticsearch cluster topology.&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Default profile:&lt;br/&gt;- Full installation.&lt;br/&gt;- Persistent storage. &lt;br/&gt;- Production OpenSearch cluster topology.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;dev&lt;/code&gt;&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Development or evaluation configuration.&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Lightweight installation:&lt;br/&gt;- For evaluation purposes.&lt;br/&gt;- No persistence.&lt;br/&gt;- Single-node Elasticsearch cluster topology.&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Lightweight installation:&lt;br/&gt;- For evaluation purposes.&lt;br/&gt;- No persistence.&lt;br/&gt;- Single-node OpenSearch cluster topology.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;managed-cluster&lt;/code&gt;&lt;/td&gt;
@@ -170,7 +176,7 @@ Verrazzano custom resource.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
-  name: my-verrazzano
+  name: example-verrazzano
 spec:
   profile: dev
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To use a different profile, simply replace &lt;code&gt;dev&lt;/code&gt; with &lt;code&gt;prod&lt;/code&gt; or &lt;code&gt;managed-cluster&lt;/code&gt;.&lt;/p&gt;
@@ -197,7 +203,7 @@ spec:
       resources:
         requests:
           storage: 8Gi
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For details on how to customize Verrazzano components, see &lt;a href=&#34;../../../docs/setup/install/customizing/&#34;&gt;Customize an Installation&lt;/a&gt;.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For details on how to customize Verrazzano components, see &lt;a href=&#34;../../../docs/setup/customizing/&#34;&gt;Customize an Installation&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;profile-configurations&#34;&gt;Profile configurations&lt;/h2&gt;
 &lt;p&gt;The following table lists the Verrazzano components that are installed with each profile.  Note that you can
 customize any Verrazzano installation, regardless of the profile.&lt;/p&gt;
@@ -242,7 +248,7 @@ customize any Verrazzano installation, regardless of the profile.&lt;/p&gt;
 &lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;Elasticsearch&lt;/td&gt;
+&lt;td&gt;OpenSearch&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
@@ -254,7 +260,7 @@ customize any Verrazzano installation, regardless of the profile.&lt;/p&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;Kibana&lt;/td&gt;
+&lt;td&gt;OpenSearch Dashboards&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
@@ -307,14 +313,14 @@ customize any Verrazzano installation, regardless of the profile.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;kibana-and-elasticsearch-configurations&#34;&gt;Kibana and Elasticsearch configurations&lt;/h3&gt;
-&lt;p&gt;The following table describes the Kibana and Elasticsearch cluster topology in each profile.&lt;/p&gt;
+&lt;h3 id=&#34;opensearch-dashboards-and-opensearch-configurations&#34;&gt;OpenSearch Dashboards and OpenSearch configurations&lt;/h3&gt;
+&lt;p&gt;The following table describes the OpenSearch Dashboards and OpenSearch cluster topology in each profile.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
 &lt;th&gt;Profile&lt;/th&gt;
-&lt;th align=&#34;left&#34;&gt;Elasticsearch&lt;/th&gt;
-&lt;th align=&#34;left&#34;&gt;Kibana&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;OpenSearch&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;OpenSearch Dashboards&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
@@ -340,7 +346,7 @@ customize any Verrazzano installation, regardless of the profile.&lt;/p&gt;
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
 
-    Elasticsearch containers are configured to use 75% of the configured request memory for the Java min/max heap settings.
+    OpenSearch containers are configured to use 75% of the configured request memory for the Java min/max heap settings.
 
 &lt;/div&gt;
 
@@ -369,7 +375,7 @@ all profiles unless overridden).&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;For details on how to customize Verrazzano components, see &lt;a href=&#34;../../../docs/setup/install/customizing/&#34;&gt;Customize an Installation&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;For details on how to customize Verrazzano components, see &lt;a href=&#34;../../../docs/setup/customizing/&#34;&gt;Customize an Installation&lt;/a&gt;.&lt;/p&gt;
 
       </description>
     </item>
@@ -460,11 +466,14 @@ $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
       Provider:       letsEncrypt
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;To check the &lt;code&gt;ca.crt&lt;/code&gt; field of the &lt;code&gt;system-tls&lt;/code&gt; secret
+&lt;p&gt;To check the &lt;code&gt;ca.crt&lt;/code&gt; field of the Verrazzano TLS secret
 in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace on the managed cluster:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;# On the managed cluster
+$ export VZ_ENV_NAME=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
+     get verrazzano -o jsonpath=&#39;{ .items[0].spec.environmentName}&#39;)
+$ export VZ_TLS_SECRET=&amp;quot;${VZ_ENV_NAME:-default}&amp;quot;-secret
 $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
-     -n verrazzano-system get secret system-tls -o jsonpath=&#39;{.data.ca\.crt}&#39;
+     -n verrazzano-system get secret $VZ_TLS_SECRET -o jsonpath=&#39;{.data.ca\.crt}&#39;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If this value is empty, then your managed cluster is using certificates signed by a well-known certificate
 authority. Otherwise, your managed cluster is using self-signed certificates.&lt;/p&gt;
 &lt;nav&gt;
@@ -543,8 +552,11 @@ certificate of the managed cluster as the value of the &lt;code&gt;cacrt&lt;/cod
 CA certificate is saved in an environment variable called &lt;code&gt;MGD_CA_CERT&lt;/code&gt;. Then use the &lt;code&gt;--dry-run&lt;/code&gt; option of the
 &lt;code&gt;kubectl&lt;/code&gt; command to generate the &lt;code&gt;managed1.yaml&lt;/code&gt; file.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;# On the managed cluster
-$ MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
-     get secret system-tls \
+$ export VZ_ENV_NAME=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
+     get verrazzano -o jsonpath=&#39;{ .items[0].spec.environmentName}&#39;)
+$ export VZ_TLS_SECRET=&amp;quot;${VZ_ENV_NAME:-default}&amp;quot;-secret
+$ export MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
+     get secret $VZ_TLS_SECRET \
      -n verrazzano-system \
      -o jsonpath=&amp;quot;{.data.ca\.crt}&amp;quot; | base64 --decode)
 $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
@@ -580,7 +592,7 @@ certificate of the managed cluster as the value of the &lt;code&gt;cacrt&lt;/cod
 CA certificate is saved in an environment variable called &lt;code&gt;MGD_CA_CERT&lt;/code&gt;. Then use the &lt;code&gt;--dry-run&lt;/code&gt; option of the
 &lt;code&gt;kubectl&lt;/code&gt; command to generate the &lt;code&gt;managed1.yaml&lt;/code&gt; file.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;# On the admin cluster
-$ MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+$ export MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
      get secret tls-ca-additional \
      -n cattle-system \
      -o jsonpath=&amp;quot;{.data.ca-additional\.pem}&amp;quot; | base64 --decode)
@@ -835,19 +847,19 @@ $ VZPASS=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
 $ curl -k --user verrazzano:${VZPASS} &amp;quot;${prometheusUrl}/api/v1/query?query=node_disk_io_time_seconds_total&amp;quot;
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;verify-that-managed-cluster-logs-are-being-collected&#34;&gt;Verify that managed cluster logs are being collected&lt;/h3&gt;
 &lt;p&gt;Verify that the admin cluster is collecting logs from the managed cluster.  The output will include records which have the name of the managed cluster in the &lt;code&gt;cluster_name&lt;/code&gt; field.&lt;/p&gt;
-&lt;p&gt;You can find the Kibana UI URL for your cluster by following the instructions for &lt;a href=&#34;../../../docs/operations/&#34;&gt;Accessing Verrazzano&lt;/a&gt;.
+&lt;p&gt;You can find the OpenSearch Dashboards UI URL for your cluster by following the instructions for &lt;a href=&#34;../../../docs/operations/&#34;&gt;Accessing Verrazzano&lt;/a&gt;.
 Create an index for &lt;code&gt;verrazzano-namespace-verrazzano-system&lt;/code&gt;.  Some log records will have the &lt;code&gt;cluster_name&lt;/code&gt; field populated with the name of
 the managed cluster.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Sample output of a Kibana screen&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;../../../docs/images/multicluster/kibana-multicluster.png&#34; alt=&#34;Kibana&#34;&gt;&lt;/p&gt;
-&lt;p&gt;An alternative approach to using the Kibana UI is to query Elasticsearch from the command line.  Here is an example of how to obtain log records from the command line.  Search the output of the query for responses that have the &lt;code&gt;cluster_name&lt;/code&gt; field set to the name of the managed cluster.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Sample output of a OpenSearch Dashboards screen&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../../docs/images/multicluster/opensearch-multicluster.png&#34; alt=&#34;OpenSearch Dashboards&#34;&gt;&lt;/p&gt;
+&lt;p&gt;An alternative approach to using the OpenSearch Dashboards UI is to query OpenSearch from the command line.  Here is an example of how to obtain log records from the command line.  Search the output of the query for responses that have the &lt;code&gt;cluster_name&lt;/code&gt; field set to the name of the managed cluster.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;# On the admin cluster
-$ KIBANA_URL=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+$ OSD_URL=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
                  get verrazzano -o jsonpath=&#39;{.items[0].status.instance.kibanaUrl}&#39;)
 $ VZPASS=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
            get secret verrazzano --namespace verrazzano-system \
            -o jsonpath={.data.password} | base64 --decode; echo)
-$ curl -k --user verrazzano:${VZPASS} -X POST -H &#39;kbn-xsrf: true&#39; &amp;quot;${KIBANA_URL}/elasticsearch/verrazzano-namespace-verrazzano-system/_search?size=25&amp;quot;
+$ curl -k --user verrazzano:${VZPASS} -X POST -H &#39;kbn-xsrf: true&#39; &amp;quot;${OSD_URL}/elasticsearch/verrazzano-namespace-verrazzano-system/_search?size=25&amp;quot;
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;run-applications-in-multicluster-verrazzano&#34;&gt;Run applications in multicluster Verrazzano&lt;/h2&gt;
 &lt;p&gt;The Verrazzano multicluster setup is now complete and you can deploy applications by following the &lt;a href=&#34;../../../docs/samples/multicluster/hello-helidon/&#34;&gt;Multicluster Hello World Helidon&lt;/a&gt; example application.&lt;/p&gt;
 &lt;h2 id=&#34;use-the-admin-cluster-ui&#34;&gt;Use the admin cluster UI&lt;/h2&gt;
@@ -859,19 +871,6 @@ $ curl -k --user verrazzano:${VZPASS} -X POST -H &#39;kbn-xsrf: true&#39; &amp;q
 &lt;li&gt;Applications located on this admin cluster, or any of its registered managed clusters, or both.&lt;/li&gt;
 &lt;/ul&gt;
 
-      </description>
-    </item>
-    
-    <item>
-      <title>Docs: Customize Installations</title>
-      <link>/docs/setup/install/customizing/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/docs/setup/install/customizing/</guid>
-      <description>
-        
-        
-        
       </description>
     </item>
     

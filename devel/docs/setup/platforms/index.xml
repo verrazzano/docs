@@ -629,9 +629,9 @@ Use these target port values for the NGINX Ingress Controller load balancer back
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h5 id=&#34;backend-for-application-load-balancer&#34;&gt;&lt;strong&gt;Backend for application load balancer&lt;/strong&gt;&lt;/h5&gt;
-&lt;p&gt;Get the target ports for the Istio Ingress Gateway service using the following command:&lt;/p&gt;
+&lt;p&gt;Get the target ports for the Istio ingress gateway service using the following command:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;kubectl get service  istio-ingressgateway  -n  istio-system
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Use these port values for the Istio Ingress Gateway load balancer backend.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Use these port values for the Istio ingress gateway load balancer backend.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -819,14 +819,14 @@ installation time.&lt;/p&gt;
 &lt;p&gt;Kind images are prebuilt for each release.  To find images suitable for a given release, check the
 &lt;a href=&#34;https://github.com/kubernetes-sigs/kind/releases&#34;&gt;release notes&lt;/a&gt; for your Kind version (check with &lt;code&gt;kind version&lt;/code&gt;).
 There you&amp;rsquo;ll find a complete listing of images created for a Kind release.&lt;/p&gt;
-&lt;p&gt;The following example references a Kubernetes v1.18.8-based image built for Kind v0.9.0.  Replace that image
+&lt;p&gt;The following example references a Kubernetes v1.21.1-based image built for Kind v0.11.1.  Replace that image
 with one suitable for the Kind release you are using.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ kind create cluster --config - &amp;lt;&amp;lt;EOF
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
   - role: control-plane
-    image: kindest/node:v1.18.8@sha256:f4bcc97a0ad6e7abaf3f643d890add7efe6ee4ab90baeb374b4f41a4c95567eb
+    image: kindest/node:v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6
     kubeadmConfigPatches:
       - |
         kind: ClusterConfiguration
@@ -861,7 +861,7 @@ kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
   - role: control-plane
-    image: kindest/node:v1.18.8@sha256:f4bcc97a0ad6e7abaf3f643d890add7efe6ee4ab90baeb374b4f41a4c95567eb
+    image: kindest/node:v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6 
     kubeadmConfigPatches:
       - |
         kind: ClusterConfiguration
@@ -877,11 +877,11 @@ EOF
 &lt;p&gt;By default, Kind does not provide an implementation of network load balancers (&lt;a href=&#34;https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/&#34;&gt;Services of type LoadBalancer&lt;/a&gt;).
 &lt;a href=&#34;https://metallb.universe.tf/&#34;&gt;MetalLB&lt;/a&gt; offers a network load balancer implementation.&lt;/p&gt;
 &lt;p&gt;To install MetalLB:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/namespace.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.11.0/manifests/namespace.yaml
 $ kubectl create secret generic \
     -n metallb-system memberlist \
     --from-literal=secretkey=&amp;quot;$(openssl rand -base64 128)&amp;quot;
-$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.9.5/manifests/metallb.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.11.0/manifests/metallb.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For further details, see the MetalLB &lt;a href=&#34;https://metallb.universe.tf/installation/#installation-by-manifest&#34;&gt;installation guide&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;MetalLB is idle until configured.  Configure MetalLB in Layer 2 mode and give it control over a range of IP addresses in the &lt;code&gt;kind&lt;/code&gt; Docker network.
 In versions v0.7.0 and earlier, Kind uses Docker&amp;rsquo;s default bridge network; in versions v0.8.0 and later, it creates its own bridge network in Kind.&lt;/p&gt;
@@ -942,7 +942,7 @@ inside and outside your Kubernetes cluster. This would include specifics of your
 &lt;p&gt;It is possible to use a Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/services-networking/service/#nodeport&#34;&gt;Service of type NodePort&lt;/a&gt; to test aspects of Verrazzano.
 This requires a good working knowledge of networking and has limited use cases.&lt;/p&gt;
 &lt;h2 id=&#34;customizations&#34;&gt;Customizations&lt;/h2&gt;
-&lt;p&gt;Verrazzano is highly customizable.  If your Kubernetes implementation requires a custom configuration, see &lt;a href=&#34;../../../docs/setup/install/customizing/&#34;&gt;Customize Installations&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Verrazzano is highly customizable.  If your Kubernetes implementation requires a custom configuration, see &lt;a href=&#34;../../../docs/setup/customizing/&#34;&gt;Customize Installations&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
 &lt;p&gt;To continue, see the &lt;a href=&#34;../../../docs/setup/install/installation/#install-the-verrazzano-platform-operator&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
 

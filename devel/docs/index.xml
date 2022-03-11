@@ -230,7 +230,7 @@ that collectively provide and support the application.&lt;/p&gt;
 &lt;p&gt;After deploying the application, configure DNS to resolve the application&amp;rsquo;s
 ingress DNS name to the application&amp;rsquo;s load balancer IP address.
 The generated host name is obtained by querying Kubernetes for the gateway:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get gateway hello-helidon-hello-helidon-appconf-gw \
+&lt;pre&gt;&lt;code&gt;$ kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-appconf-gw \
     -n hello-helidon \
     -o jsonpath=&#39;{.spec.servers[0].hosts[0]}&#39;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The load balancer IP is obtained by querying Kubernetes for the
@@ -286,10 +286,10 @@ vmi-system-prometheus-0-7f89d54fbf-brg6x           3/3     Running   0          
 monitoring stack created by Verrazzano for the deployed applications.&lt;/p&gt;
 &lt;p&gt;The monitoring infrastructure comprises several components:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;vmi-system-es&lt;/code&gt; - Elasticsearch for log collection&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;vmi-system-es&lt;/code&gt; - OpenSearch for log collection&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;vmi-system-grafana&lt;/code&gt; - Grafana for metric visualization&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;vms-system-kiali&lt;/code&gt; - Kiali for management console of &lt;code&gt;istio&lt;/code&gt; service mesh&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;vmi-system-kibana&lt;/code&gt; - Kibana for log visualization&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;vmi-system-kibana&lt;/code&gt; - OpenSearch Dashboards for log visualization&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;vmi-system-prometheus&lt;/code&gt; - Prometheus for metric collection&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p/&gt;
@@ -308,7 +308,7 @@ If DNS was not configured, then use the alternative commands.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Save the host name and IP address of the load balancer exposing the application&amp;rsquo;s REST service endpoints for later.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw \
+&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-appconf-gw \
       -n hello-helidon \
       -o jsonpath=&#39;{.spec.servers[0].hosts[0]}&#39;)
 $ ADDRESS=$(kubectl get service \
@@ -382,17 +382,19 @@ with firewalls that validate &lt;code&gt;HTTP Host&lt;/code&gt; headers.&lt;/li&
 &lt;/ol&gt;
 &lt;h3 id=&#34;access-the-applications-logs&#34;&gt;Access the application&amp;rsquo;s logs&lt;/h3&gt;
 &lt;p&gt;Deployed applications have log collection enabled.
-These logs are collected using Elasticsearch and can be accessed using Kibana.
-Elasticsearch and Kibana are examples of infrastructure Verrazzano creates in support of an application as a result of applying an application configuration.&lt;/p&gt;
-&lt;p&gt;Determine the URL to access Kibana:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KIBANA_HOST=$(kubectl get ingress \
+These logs are collected using OpenSearch and can be accessed using OpenSearch Dashboards.
+OpenSearch and OpenSearch Dashboards are examples of infrastructure Verrazzano creates in support of an application as a
+result of applying an application configuration. For more information on creating an index pattern
+and visualizing the log data collected in OpenSearch, see &lt;a href=&#34;../docs/monitoring/logs/#opensearch-dashboards&#34;&gt;OpenSearch Dashboards&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Determine the URL to access OpenSearch Dashboards:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ OSD_HOST=$(kubectl get ingress \
      -n verrazzano-system vmi-system-kibana \
      -o jsonpath=&#39;{.spec.rules[0].host}&#39;)
-$ KIBANA_URL=&amp;quot;https://${KIBANA_HOST}&amp;quot;
-$ echo &amp;quot;${KIBANA_URL}&amp;quot;
-$ open &amp;quot;${KIBANA_URL}&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The user name to access Kibana defaults to &lt;code&gt;verrazzano&lt;/code&gt; during the Verrazzano installation.&lt;/p&gt;
-&lt;p&gt;Determine the password to access Kibana:&lt;/p&gt;
+$ OSD_URL=&amp;quot;https://${OSD_HOST}&amp;quot;
+$ echo &amp;quot;${OSD_URL}&amp;quot;
+$ open &amp;quot;${OSD_URL}&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The user name to access OpenSearch Dashboards defaults to &lt;code&gt;verrazzano&lt;/code&gt; during the Verrazzano installation.&lt;/p&gt;
+&lt;p&gt;Determine the password to access OpenSearch Dashboards:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ echo $(kubectl get secret \
       -n verrazzano-system verrazzano \
       -o jsonpath={.data.password} | base64 \
@@ -400,7 +402,9 @@ $ open &amp;quot;${KIBANA_URL}&amp;quot;
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;access-the-applications-metrics&#34;&gt;Access the application&amp;rsquo;s metrics&lt;/h3&gt;
 &lt;p&gt;Deployed applications have metric collection enabled.
 Grafana can be used to access these metrics collected by Prometheus.
-Prometheus and Grafana are additional components Verrazzano creates as a result of applying an application configuration.&lt;/p&gt;
+Prometheus and Grafana are additional components Verrazzano creates as a result of
+applying an application configuration. For more information on visualizing Prometheus
+metrics data, see &lt;a href=&#34;../docs/monitoring/metrics/metrics/#grafana&#34;&gt;Grafana&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Determine the URL to access Grafana:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ GRAFANA_HOST=$(kubectl get ingress \
       -n verrazzano-system vmi-system-grafana \
@@ -540,10 +544,10 @@ For example, when processed, an IngressTrait will create related Gateway, Virtua
     
     <item>
       <title>Docs: Customize DNS</title>
-      <link>/docs/setup/install/customizing/dns/</link>
+      <link>/docs/setup/customizing/dns/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/docs/setup/install/customizing/dns/</guid>
+      <guid>/docs/setup/customizing/dns/</guid>
       <description>
         
         
@@ -630,7 +634,7 @@ field in the Verrazzano custom resource to either &lt;code&gt;nip.io&lt;/code&gt
 &lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
-  name: my-verrazzano
+  name: example-verrazzano
 spec:
   profile: dev
   environmentName: default
@@ -665,7 +669,7 @@ conditionally installed when OCI DNS is configured for DNS management in Verrazz
 &lt;p&gt;You must have control of a DNS domain.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;You must have an OCI DNS Service Zone that is configured to manage records for that domain.&lt;/p&gt;
+&lt;p&gt;You must have an OCI DNS Service Zone that is configured to manage records for that domain. Verrazzano also supports the use of both GLOBAL and PRIVATE OCI DNS zones.&lt;/p&gt;
 &lt;p&gt;A DNS Service Zone is a distinct portion of a domain namespace. You must ensure that the zone is appropriately associated with a parent domain.
 For example, an appropriate zone name for parent domain &lt;code&gt;example.com&lt;/code&gt; is &lt;code&gt;us.example.com&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;To create an OCI DNS zone using the OCI CLI:&lt;/p&gt;
@@ -720,6 +724,11 @@ configuration profile.&lt;/p&gt;
     ...
     -----END RSA PRIVATE KEY-----
   fingerprint: 12:d3:4c:gh:fd:9e:27:g8:b9:0d:9f:00:22:33:c3:gg
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Verrazzano also supports the use of instance principals to communicate with OCI in order to create or update OCI DNS records.
+Instance principal requires some prerequisites that can be found &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;When using instance principals, your &lt;code&gt;oci.yaml&lt;/code&gt; file will look as follows:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;auth:
+  authtype: instance_principal
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then, you can create a generic Kubernetes secret in the cluster&amp;rsquo;s &lt;code&gt;verrazzano-install&lt;/code&gt; namespace using &lt;code&gt;kubectl&lt;/code&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ kubectl create secret generic -n verrazzano-install &amp;lt;secret-name&amp;gt; --from-file=&amp;lt;path-to-oci-yaml-file&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For example, to create a secret named &lt;code&gt;oci&lt;/code&gt; from a file &lt;code&gt;oci.yaml&lt;/code&gt;, do the following:&lt;/p&gt;
@@ -743,6 +752,7 @@ usage: ./create_oci_config_secret.sh [-o oci_config_file] [-s config_file_sectio
   -s config_file_section     The properties section within the OCI configuration file.  Default is DEFAULT
   -k secret_name             The secret name containing the OCI configuration.  Default is oci
   -c context_name            The kubectl context to use
+  -a auth_type               The auth_type to be used to access OCI. Valid values are user_principal/instance_principal. Default is user_principal.
   -h                         Help
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For example, to have the script create the YAML file using your &lt;code&gt;[DEFAULT]&lt;/code&gt; OCI CLI profile and then create a Kubernetes secret
 named &lt;code&gt;oci&lt;/code&gt;, you can run the script with no arguments, as follows:&lt;/p&gt;
@@ -750,6 +760,9 @@ named &lt;code&gt;oci&lt;/code&gt;, you can run the script with no arguments, as
 secret/oci created
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The following example creates a secret &lt;code&gt;myoci&lt;/code&gt; using an OCI CLI profile named &lt;code&gt;[dev]&lt;/code&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ ./create_oci_config_secret.sh -s dev -k myoci
+secret/myoci created
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;When using instance principals all other parameters will be ignored automatically. The following example creates a secret &lt;code&gt;myoci&lt;/code&gt; using OCI instance principal:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ ./create_oci_config_secret.sh -a instance_principal
 secret/myoci created
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;installation&#34;&gt;Installation&lt;/h3&gt;
 &lt;p&gt;After the OCI API secret is created, create a Verrazzano custom resource for the installation that is configured to use OCI
@@ -766,11 +779,27 @@ custom resource spec:&lt;/p&gt;
 &lt;li&gt;&lt;code&gt;spec.components.dns.oci.dnsZoneCompartmentOCID&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;spec.components.dns.oci.dnsZoneOCID&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;spec.components.dns.oci.dnsZoneName&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;spec.components.dns.oci.dnsScope&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;The field &lt;code&gt;spec.components.dns.oci.ociConfigSecret&lt;/code&gt; should reference the secret created earlier. For details on the
 OCI DNS configuration settings, see &lt;a href=&#34;../docs/reference/api/verrazzano/verrazzano#dns-oci&#34;&gt;&lt;code&gt;spec.components.dns.oci&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;For example, a custom resource for a &lt;code&gt;prod&lt;/code&gt; installation profile using OCI DNS might look as follows, yielding
 a domain of &lt;code&gt;myenv.example.com&lt;/code&gt; (OCI identifiers redacted):&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: example-verrazzano
+spec:
+  profile: prod
+  environmentName: myenv
+  components:
+    dns:
+      oci:
+        ociConfigSecret: oci
+        dnsZoneCompartmentOCID: ocid1.compartment.oc1..compartment-ocid
+        dnsZoneOCID: ocid1.dns-zone.oc1..zone-ocid
+        dnsZoneName: example.com
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If using a private DNS zone, then the same &lt;code&gt;prod&lt;/code&gt; installation profile using OCI DNS will look as follows:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
@@ -785,6 +814,7 @@ spec:
         dnsZoneCompartmentOCID: ocid1.compartment.oc1..compartment-ocid
         dnsZoneOCID: ocid1.dns-zone.oc1..zone-ocid
         dnsZoneName: example.com
+        dnsScope: PRIVATE
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;After the custom resource is ready, apply it using &lt;code&gt;kubectl apply -f &amp;lt;path-to-custom-resource-file&amp;gt;&lt;/code&gt;.&lt;/p&gt;
 
 
@@ -865,13 +895,9 @@ set to &lt;code&gt;example.com&lt;/code&gt;, the A records would need to be set 
         &lt;p&gt;The following instructions show you how to install Verrazzano in a
 single Kubernetes cluster.&lt;/p&gt;
 &lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
-&lt;p&gt;Verrazzano requires the following:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;A Kubernetes cluster and a compatible &lt;code&gt;kubectl&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.  This is sufficient to install the development profile
-of Verrazzano.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient for deploying your
-applications.&lt;/li&gt;
-&lt;li&gt;For a list of the software versions supported and installed by Verrazzano, see &lt;a href=&#34;../docs/setup/versions/&#34;&gt;Software Versions&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Find the Verrazzano prerequisite requirements &lt;a href=&#34;../docs/setup/prereqs/&#34;&gt;here&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Review the list of the &lt;a href=&#34;../docs/setup/prereqs/#supported-software-versions&#34;&gt;software versions supported&lt;/a&gt; and &lt;a href=&#34;../docs/setup/prereqs/#installed-components&#34;&gt;installed&lt;/a&gt; by Verrazzano.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;prepare-for-the-install&#34;&gt;Prepare for the install&lt;/h2&gt;
 &lt;p&gt;Before installing Verrazzano, see instructions on preparing &lt;a href=&#34;../docs/setup/platforms/&#34;&gt;Kubernetes platforms&lt;/a&gt;.&lt;/p&gt;
@@ -884,7 +910,8 @@ custom resource, you can install, uninstall, and upgrade Verrazzano installation
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Deploy the Verrazzano platform operator.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/master/operator.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f 
+https://github.com/verrazzano/verrazzano/releases/download/master/operator.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the deployment to complete.&lt;/p&gt;
@@ -906,14 +933,23 @@ verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114
 &lt;p&gt;Verrazzano supports the following installation profiles:  development (&lt;code&gt;dev&lt;/code&gt;), production (&lt;code&gt;prod&lt;/code&gt;), and
 managed cluster (&lt;code&gt;managed-cluster&lt;/code&gt;).  For more information on profiles, see
 &lt;a href=&#34;../docs/setup/install/profiles/&#34;&gt;Installation Profiles&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;This page shows how to create a basic Verrazzano installation using&lt;/p&gt;
+&lt;p&gt;This page shows how to create a basic Verrazzano installation using:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;The development (&lt;code&gt;dev&lt;/code&gt;) installation profile&lt;/li&gt;
 &lt;li&gt;Wildcard-DNS, where DNS is provided by &lt;a href=&#34;https://nip.io&#34;&gt;nip.io&lt;/a&gt; (the default)&lt;/li&gt;
 &lt;/ul&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    Because the &lt;code&gt;dev&lt;/code&gt; profile installs self-signed certificates, when installing Verrazzano on macOS, you might see: &lt;strong&gt;Your connection is not private&lt;/strong&gt;. For a workaround, see this &lt;a href=&#34;../docs/faq/faq/#enable-google-chrome-to-accept-self-signed-verrazzano-certificates&#34;&gt;FAQ&lt;/a&gt;.
+
+&lt;/div&gt;
+
 &lt;p&gt;For a complete description of Verrazzano configuration options, see the
 &lt;a href=&#34;../docs/reference/api/verrazzano/verrazzano/&#34;&gt;Verrazzano Custom Resource Definition&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;To use other DNS options, see the &lt;a href=&#34;../docs/setup/install/customizing/dns/&#34;&gt;Customzing DNS&lt;/a&gt; page for more details.&lt;/p&gt;
+&lt;p&gt;To use other DNS options, see the &lt;a href=&#34;../docs/setup/customizing/dns/&#34;&gt;Customzing DNS&lt;/a&gt; page for more details.&lt;/p&gt;
 &lt;h4 id=&#34;install-verrazzano&#34;&gt;Install Verrazzano&lt;/h4&gt;
 &lt;p&gt;To create a Verrazzano installation as described in the previous section, run the following commands:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ kubectl apply -f - &amp;lt;&amp;lt;EOF
@@ -959,7 +995,7 @@ vmi-system-prometheus-0-859fcd87dc-m5ws9           3/3     Running   0          
 weblogic-operator-646756c75c-hgz6j                 2/2     Running   0          49m
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;optional-run-the-example-applications&#34;&gt;(Optional) Run the example applications&lt;/h2&gt;
 &lt;p&gt;Example applications are located &lt;a href=&#34;../docs/samples/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;h5 id=&#34;to-get-the-consoles-urls-and-credentials-see-access-verrazzanohahahugoshortcode-s9-hbhb&#34;&gt;To get the consoles URLs and credentials, see &lt;a href=&#34;../docs/operations/&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/h5&gt;
+&lt;h5 id=&#34;to-get-the-consoles-urls-and-credentials-see-access-verrazzanohahahugoshortcode-s12-hbhb&#34;&gt;To get the consoles URLs and credentials, see &lt;a href=&#34;../docs/operations/&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/h5&gt;
 
       </description>
     </item>
@@ -1074,15 +1110,303 @@ output:&lt;/p&gt;
     </item>
     
     <item>
-      <title>Docs: Software Versions</title>
-      <link>/docs/setup/versions/</link>
+      <title>Docs: OCI Logging Service</title>
+      <link>/docs/monitoring/oci-logging/oci-logging/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/docs/setup/versions/</guid>
+      <guid>/docs/monitoring/oci-logging/oci-logging/</guid>
       <description>
         
         
-        &lt;h2 id=&#34;supported-software-versions&#34;&gt;Supported Software Versions&lt;/h2&gt;
+        &lt;p&gt;The Oracle Cloud Infrastructure (OCI) Logging service is a highly scalable and fully managed single pane of glass for
+all the logs in your tenancy. You can configure Verrazzano to send logs to OCI Logging instead of OpenSearch.
+For general information, see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/loggingoverview.htm&#34;&gt;OCI Logging Overview&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;set-up-custom-logs&#34;&gt;Set up custom logs&lt;/h2&gt;
+&lt;p&gt;Verrazzano can send its logs to OCI custom logs. You will need to provide two OCI Log identifiers in your Verrazzano
+installation resource - one for Verrazzano system logs and one for application logs. Follow the steps in
+&lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/custom_logs.htm&#34;&gt;Creating Custom Logs&lt;/a&gt; to create two
+custom logs. &lt;strong&gt;Do not&lt;/strong&gt; create an agent configuration when creating a custom log, otherwise the log records will be duplicated.&lt;/p&gt;
+&lt;h2 id=&#34;configure-credentials&#34;&gt;Configure credentials&lt;/h2&gt;
+&lt;p&gt;The Fluentd plug-in included with Verrazzano will use OCI instance principal authentication by default. Optionally, you
+can configure Verrazzano with a user API signing key. API signing key authentication is required to send logs to
+OCI Logging if the cluster is running outside of OCI.&lt;/p&gt;
+&lt;nav&gt;
+	&lt;div class=&#34;nav nav-tabs&#34; id=&#34;nav-tab&#34; role=&#34;tablist&#34;&gt;
+
+		
+		
+
+		
+		
+		
+
+		
+
+		&lt;a class=&#34;nav-item nav-link active&#34; id=&#34;nav-1&#34; data-toggle=&#34;tab&#34; href=&#34;#tab11&#34; role=&#34;tab&#34;
+		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Instance Principal Credentials&lt;/a&gt;
+
+		
+		
+
+		
+		
+		
+
+		
+
+		&lt;a class=&#34;nav-item nav-link&#34; id=&#34;nav-1&#34; data-toggle=&#34;tab&#34; href=&#34;#tab12&#34; role=&#34;tab&#34;
+		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;false&#34;&gt;User API Credentials&lt;/a&gt;
+
+		
+		
+
+	&lt;/div&gt;
+&lt;/nav&gt;
+
+&lt;div class=&#34;tab-content&#34; id=&#34;1&#34;&gt;
+
+
+
+
+
+
+
+
+&lt;div class=&#34;tab-pane fade show active&#34; id=&#34;tab11&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName1&#34;&gt;
+
+	&lt;br&gt;
+&lt;p&gt;Create a dynamic group that includes the compute instances in your cluster&amp;rsquo;s node pools and assign the appropriate policy,
+so that the dynamic group is allowed to send log entries to the custom logs you created earlier. Pay close attention to
+the &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Task/managinglogs.htm#required_permissions_logs_groups&#34;&gt;required permissions&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;If the dynamic group and policy are configured incorrectly, then Fluentd will fail to send logs to OCI Logging.&lt;/p&gt;
+&lt;br/&gt;
+
+
+&lt;/div&gt;
+
+
+
+
+
+
+
+
+
+&lt;div class=&#34;tab-pane fade&#34; id=&#34;tab12&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName2&#34;&gt;
+
+	&lt;br&gt;
+&lt;p&gt;If you do not already have an API signing key, then see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm&#34;&gt;Required Keys and OCIDS&lt;/a&gt;
+in the OCI documentation. You need to create an OCI configuration file with the credential details and then use that
+configuration file to create a secret. The following requirements must be met for Fluentd OCI Logging to work:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The profile name in the OCI configuration file must be &lt;code&gt;DEFAULT&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;key_file&lt;/code&gt; path in the OCI configuration file must be &lt;code&gt;/root/.oci/key&lt;/code&gt;. The actual key file does not need to be in
+that location, because you will be providing the actual key file location in a secret.&lt;/li&gt;
+&lt;li&gt;The user associated with the API key must have the appropriate OCI Identity and Access Management (IAM) policy
+in place to allow the Fluentd plug-in to send logs to OCI. See &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Identity/Reference/loggingpolicyreference.htm&#34;&gt;Details for Logging&lt;/a&gt;
+in the OCI documentation for the IAM policies used by the OCI Logging service.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;After the Verrazzano platform operator has been installed, create an opaque secret in the &lt;code&gt;verrazzano-install&lt;/code&gt; namespace
+from the OCI configuration and private key files. The key for the configuration file must be &lt;code&gt;config&lt;/code&gt; and the key
+for the private key file data must be &lt;code&gt;key&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Here is an example &lt;code&gt;kubectl&lt;/code&gt; command that will create the secret.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl create secret generic oci-fluentd -n verrazzano-install \
+      --from-file=config=/home/myuser/oci_config --from-file=key=/home/myuser/keys/oci_api.pem
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The secret should look something like this.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: v1
+data:
+  config: W0RFRkFVTFRdCnVzZXI9b2NpZDEudXN...
+  key: LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS...
+kind: Secret
+metadata:
+  name: oci-fluentd
+  namespace: verrazzano-install
+type: Opaque
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For convenience, there is a helper script available
+&lt;a href=&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/scripts/install/create_oci_fluentd_secret.sh&#34;&gt;here&lt;/a&gt; that
+you can point at an existing OCI configuration file and it will create the secret for you. The script allows you to
+override the default configuration file location, profile name, and the name of the secret.&lt;/p&gt;
+
+
+&lt;/div&gt;
+
+
+
+
+
+&lt;/div&gt;
+&lt;h2 id=&#34;install-verrazzano&#34;&gt;Install Verrazzano&lt;/h2&gt;
+&lt;p&gt;OCI Logging is enabled in your cluster when installing Verrazzano. The Verrazzano installation custom resource has fields
+for specifying two custom logs: one for system logs and one for application logs. Here is an example Verrazzano
+installation YAML file for each type of credential.
+Note that the API references Kibana, upcoming releases will use OpenSearch Dashboards in the public API.&lt;/p&gt;
+&lt;nav&gt;
+	&lt;div class=&#34;nav nav-tabs&#34; id=&#34;nav-tab&#34; role=&#34;tablist&#34;&gt;
+
+		
+		
+
+		
+		
+		
+
+		
+
+		&lt;a class=&#34;nav-item nav-link active&#34; id=&#34;nav-2&#34; data-toggle=&#34;tab&#34; href=&#34;#tab21&#34; role=&#34;tab&#34;
+		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Instance Principal Credentials&lt;/a&gt;
+
+		
+		
+
+		
+		
+		
+
+		
+
+		&lt;a class=&#34;nav-item nav-link&#34; id=&#34;nav-2&#34; data-toggle=&#34;tab&#34; href=&#34;#tab22&#34; role=&#34;tab&#34;
+		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;false&#34;&gt;User API Credentials&lt;/a&gt;
+
+		
+		
+
+	&lt;/div&gt;
+&lt;/nav&gt;
+
+&lt;div class=&#34;tab-content&#34; id=&#34;2&#34;&gt;
+
+
+
+
+
+
+
+
+&lt;div class=&#34;tab-pane fade show active&#34; id=&#34;tab21&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName1&#34;&gt;
+
+	&lt;br&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: vz-oci-logging
+spec:
+  profile: dev
+  components:
+    fluentd:
+      enabled: true
+      oci:
+        systemLogId: ocid1.log.oc1.iad.system.example
+        defaultAppLogId: ocid1.log.oc1.iad.app.example
+    elasticsearch:
+      enabled: false
+    kibana:
+      enabled: false
+&lt;/code&gt;&lt;/pre&gt;&lt;br/&gt;
+
+
+&lt;/div&gt;
+
+
+
+
+
+
+
+
+
+&lt;div class=&#34;tab-pane fade&#34; id=&#34;tab22&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName2&#34;&gt;
+
+	&lt;br&gt;
+&lt;p&gt;When using user API credentials, you need to configure the name of the secret in the Verrazzano custom resource,
+under the OCI section of the Fluentd component settings. Your YAML file should look something like this.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: vz-oci-logging
+spec:
+  profile: dev
+  components:
+    fluentd:
+      enabled: true
+      oci:
+        systemLogId: ocid1.log.oc1.iad.system.example
+        defaultAppLogId: ocid1.log.oc1.iad.app.example
+        apiSecret: oci-fluentd
+    elasticsearch:
+      enabled: false
+    kibana:
+      enabled: false
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The &lt;code&gt;apiSecret&lt;/code&gt; value must match the secret you created earlier when configuring the user API credentials.&lt;/p&gt;
+
+
+&lt;/div&gt;
+
+
+
+
+
+&lt;/div&gt;
+&lt;h2 id=&#34;override-the-default-log-objects&#34;&gt;Override the default log objects&lt;/h2&gt;
+&lt;p&gt;You can override the OCI Log object on an individual namespace. To specify a log identifier on a namespace, add an annotation named &lt;code&gt;verrazzano.io/oci-log-id&lt;/code&gt; to the namespace. The value of the annotation is the OCI Log object identifier.&lt;/p&gt;
+&lt;p&gt;Here is an example namespace.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    verrazzano.io/oci-log-id: ocid1.log.oc1.iad.ns.app.example
+  creationTimestamp: &amp;quot;2022-01-14T15:09:19Z&amp;quot;
+  labels:
+    istio-injection: enabled
+    verrazzano-managed: &amp;quot;true&amp;quot;
+  name: example
+spec:
+  finalizers:
+  - kubernetes
+status:
+  phase: Active
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that if you add and subsequently remove the annotation, then the logs will revert to the default OCI Log object
+specified in the Verrazzano custom resource.&lt;/p&gt;
+&lt;h2 id=&#34;search-logs&#34;&gt;Search logs&lt;/h2&gt;
+&lt;p&gt;To search Verrazzano logs, you can use the OCI Console, OCI CLI, or OCI SDK.&lt;/p&gt;
+&lt;p&gt;For example, using the OCI CLI to search the system logs for records emitted by the &lt;code&gt;verrazzano-application-operator&lt;/code&gt; container.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ oci logging-search search-logs --search-query=\
+     &amp;quot;search \&amp;quot;ocid1.compartment.oc1..example/ocid1.loggroup.oc1.iad.example/ocid1.log.oc1.iad.example\&amp;quot; | \
+     where \&amp;quot;data\&amp;quot;.\&amp;quot;kubernetes.container_name\&amp;quot; = &#39;verrazzano-application-operator&#39; | sort by datetime desc&amp;quot; \
+     --time-start 2021-12-07 --time-end 2021-12-17
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Search for all application log records in the &lt;code&gt;springboot&lt;/code&gt; namespace.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ oci logging-search search-logs --search-query=\
+     &amp;quot;search \&amp;quot;ocid1.compartment.oc1..example/ocid1.loggroup.oc1.iad.example/ocid1.log.oc1.iad.example\&amp;quot; | \
+     where \&amp;quot;data\&amp;quot;.\&amp;quot;kubernetes.namespace_name\&amp;quot; = &#39;springboot&#39; | sort by datetime desc&amp;quot; \
+     --time-start 2021-12-07 --time-end 2021-12-17
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For more information on searching logs, see the &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Reference/query_language_specification.htm&#34;&gt;Logging Query Language Specification&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h2&gt;
+&lt;p&gt;If you are not able to view Verrazzano logs in OCI Logging, then check the Fluentd container logs in the cluster to see if there are errors.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl logs -n verrazzano-system -l app=fluentd --tail=-1
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you see &lt;code&gt;not authorized&lt;/code&gt; error messages, then there is likely a problem with the OCI Dynamic Group or IAM policy that is preventing the Fluentd plug-in from communicating with the OCI API.&lt;/p&gt;
+&lt;p&gt;To ensure the appropriate permissions are in place, review the OCI Logging &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Task/managinglogs.htm#required_permissions_logs_groups&#34;&gt;required permissions&lt;/a&gt; documentation.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Prerequisites</title>
+      <link>/docs/setup/prereqs/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/prereqs/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano requires the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A Kubernetes cluster and a compatible &lt;code&gt;kubectl&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.  This is sufficient to install the development profile
+of Verrazzano.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient for deploying your
+applications.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;supported-hardware&#34;&gt;Supported Hardware&lt;/h2&gt;
+&lt;p&gt;Verrazzano requires x86-64; other architectures are not supported.&lt;/p&gt;
+&lt;h2 id=&#34;supported-software-versions&#34;&gt;Supported Software Versions&lt;/h2&gt;
 &lt;p&gt;Verrazzano supports the following software versions.&lt;/p&gt;
 &lt;h3 id=&#34;kubernetes&#34;&gt;Kubernetes&lt;/h3&gt;
 &lt;p&gt;You can install Verrazzano on the following Kubernetes versions.&lt;/p&gt;
@@ -1100,15 +1424,15 @@ output:&lt;/p&gt;
 &lt;tr&gt;
 &lt;td&gt;1.0&lt;/td&gt;
 &lt;td&gt;2021-08-02&lt;/td&gt;
-&lt;td&gt;1.0.3&lt;/td&gt;
-&lt;td&gt;2021-11-06&lt;/td&gt;
+&lt;td&gt;1.0.4&lt;/td&gt;
+&lt;td&gt;2021-12-20&lt;/td&gt;
 &lt;td&gt;1.18, 1.19, 1.20&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;1.1&lt;/td&gt;
 &lt;td&gt;2021-12-16&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;1.1.2&lt;/td&gt;
+&lt;td&gt;2022-03-09&lt;/td&gt;
 &lt;td&gt;1.19, 1.20, 1.21&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -1147,8 +1471,8 @@ component with its version and a brief description.&lt;/p&gt;
 &lt;td&gt;Assists with deploying and managing Coherence clusters.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;Elasticsearch&lt;/td&gt;
-&lt;td&gt;7.10.2&lt;/td&gt;
+&lt;td&gt;OpenSearch&lt;/td&gt;
+&lt;td&gt;1.2.3&lt;/td&gt;
 &lt;td&gt;Provides a distributed, multitenant-capable full-text search engine.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1159,7 +1483,7 @@ component with its version and a brief description.&lt;/p&gt;
 &lt;tr&gt;
 &lt;td&gt;Fluentd&lt;/td&gt;
 &lt;td&gt;1.12.3&lt;/td&gt;
-&lt;td&gt;Collects logs and sends them to Elasticsearch.&lt;/td&gt;
+&lt;td&gt;Collects logs and sends them to OpenSearch.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Grafana&lt;/td&gt;
@@ -1182,9 +1506,9 @@ component with its version and a brief description.&lt;/p&gt;
 &lt;td&gt;Management console for the Istio service mesh.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;Kibana&lt;/td&gt;
-&lt;td&gt;7.10.2&lt;/td&gt;
-&lt;td&gt;Provides search and data visualization capabilities for data indexed in Elasticsearch.&lt;/td&gt;
+&lt;td&gt;OpenSearch Dashboards&lt;/td&gt;
+&lt;td&gt;1.2.0&lt;/td&gt;
+&lt;td&gt;Provides search and data visualization capabilities for data indexed in OpenSearch.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;MySQL&lt;/td&gt;
@@ -1218,7 +1542,7 @@ component with its version and a brief description.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;WebLogic Kubernetes Operator&lt;/td&gt;
-&lt;td&gt;3.3.6&lt;/td&gt;
+&lt;td&gt;3.3.7&lt;/td&gt;
 &lt;td&gt;Assists with deploying and managing WebLogic domains.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -1291,10 +1615,14 @@ component with its version and a brief description.&lt;/p&gt;
 &lt;h3 id=&#34;linux-instructions&#34;&gt;Linux Instructions&lt;/h3&gt;
 &lt;p&gt;Use these instructions to obtain the analysis tools on Linux machines.&lt;/p&gt;
 &lt;h4 id=&#34;download-the-tooling&#34;&gt;Download the tooling:&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt; $ wget https://github.com/verrazzano/verrazzano/releases/download/master/k8s-dump-cluster.sh
- $ wget https://github.com/verrazzano/verrazzano/releases/download/master/k8s-dump-cluster.sh.sha256
- $ wget https://github.com/verrazzano/verrazzano/releases/download/master/verrazzano-analysis-linux-amd64.tar.gz
- $ wget https://github.com/verrazzano/verrazzano/releases/download/master/verrazzano-analysis-linux-amd64.tar.gz.sha256
+&lt;pre&gt;&lt;code&gt; $ wget 
+https://github.com/verrazzano/verrazzano/releases/download/master/k8s-dump-cluster.sh
+ $ wget 
+https://github.com/verrazzano/verrazzano/releases/download/master/k8s-dump-cluster.sh.sha256
+ $ wget 
+https://github.com/verrazzano/verrazzano/releases/download/master/verrazzano-analysis-linux-amd64.tar.gz
+ $ wget 
+https://github.com/verrazzano/verrazzano/releases/download/master/verrazzano-analysis-linux-amd64.tar.gz.sha256
 &lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;verify-the-downloaded-files&#34;&gt;Verify the downloaded files:&lt;/h4&gt;
 &lt;pre&gt;&lt;code&gt; $ sha256sum -c k8s-dump-cluster.sh.sha256
  $ sha256sum -c verrazzano-analysis-linux-amd64.tar.gz.sha256
@@ -1318,10 +1646,14 @@ component with its version and a brief description.&lt;/p&gt;
 &lt;h3 id=&#34;mac-instructions&#34;&gt;Mac Instructions&lt;/h3&gt;
 &lt;p&gt;Use these instructions to obtain the analysis tools on Mac machines.&lt;/p&gt;
 &lt;h4 id=&#34;download-the-tooling&#34;&gt;Download the tooling:&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt; $ wget https://github.com/verrazzano/verrazzano/releases/download/master/k8s-dump-cluster.sh
- $ wget https://github.com/verrazzano/verrazzano/releases/download/master/k8s-dump-cluster.sh.sha256
- $ wget https://github.com/verrazzano/verrazzano/releases/download/master/verrazzano-analysis-darwin-amd64.tar.gz
- $ wget https://github.com/verrazzano/verrazzano/releases/download/master/verrazzano-analysis-darwin-amd64.tar.gz.sha256
+&lt;pre&gt;&lt;code&gt; $ wget 
+https://github.com/verrazzano/verrazzano/releases/download/master/k8s-dump-cluster.sh
+ $ wget 
+https://github.com/verrazzano/verrazzano/releases/download/master/k8s-dump-cluster.sh.sha256
+ $ wget 
+https://github.com/verrazzano/verrazzano/releases/download/master/verrazzano-analysis-darwin-amd64.tar.gz
+ $ wget 
+https://github.com/verrazzano/verrazzano/releases/download/master/verrazzano-analysis-darwin-amd64.tar.gz.sha256
 &lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;verify-the-downloaded-files&#34;&gt;Verify the downloaded files:&lt;/h4&gt;
 &lt;pre&gt;&lt;code&gt; $ shasum -a 256 -c k8s-dump-cluster.sh.sha256
  $ shasum -a 256 -c verrazzano-analysis-darwin-amd64.tar.gz.sha256
@@ -1561,10 +1893,10 @@ to be granted access to the namespaces governed by the project. Two types of sub
     
     <item>
       <title>Docs: Customize Certificates</title>
-      <link>/docs/setup/install/customizing/certificates/</link>
+      <link>/docs/setup/customizing/certificates/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/docs/setup/install/customizing/certificates/</guid>
+      <guid>/docs/setup/customizing/certificates/</guid>
       <description>
         
         
@@ -1642,11 +1974,11 @@ automated issuance of certificates signed by a trusted authority.  This is manag
 field in the Verrazzano custom resource.&lt;/p&gt;
 
 
-&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
 
     Using LetsEncrypt for certificates also requires using OCI DNS for DNS management.
-For details, see the &lt;a href=&#34;../docs/setup/install/customizing/dns/&#34;&gt;Customize DNS&lt;/a&gt; page.
+For details, see the &lt;a href=&#34;../docs/setup/customizing/dns/&#34;&gt;Customize DNS&lt;/a&gt; page.
 
 &lt;/div&gt;
 
@@ -1758,7 +2090,7 @@ spec:
                       pathType: Prefix
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the sample configuration, the IngressTrait &lt;code&gt;hello-helidon-ingress&lt;/code&gt; is set on the &lt;code&gt;hello-helidon-component&lt;/code&gt; application component and defines an ingress rule that configures a path and path type.  This exposes a route for external access to the application.  Note that because no &lt;code&gt;hosts&lt;/code&gt; list is given for the &lt;a href=&#34;#ingressrule&#34;&gt;IngressRule&lt;/a&gt;, a DNS host name is automatically generated.&lt;/p&gt;
 &lt;p&gt;For example, with the sample application configuration successfully deployed, the application will be accessible with the &lt;code&gt;path&lt;/code&gt; specified in the IngressTrait and the generated host name.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath={.spec.servers[0].hosts[0]})
+&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath={.spec.servers[0].hosts[0]})
 $ echo $HOST
 hello-helidon-appconf.hello-helidon.11.22.33.44.nip.io
 
@@ -1970,12 +2302,12 @@ customized as needed.&lt;/p&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;prod&lt;/code&gt;&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Full install, production configuration.&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Default profile:&lt;br/&gt;- Full installation.&lt;br/&gt;- Persistent storage. &lt;br/&gt;- Production Elasticsearch cluster topology.&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Default profile:&lt;br/&gt;- Full installation.&lt;br/&gt;- Persistent storage. &lt;br/&gt;- Production OpenSearch cluster topology.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;dev&lt;/code&gt;&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Development or evaluation configuration.&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Lightweight installation:&lt;br/&gt;- For evaluation purposes.&lt;br/&gt;- No persistence.&lt;br/&gt;- Single-node Elasticsearch cluster topology.&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Lightweight installation:&lt;br/&gt;- For evaluation purposes.&lt;br/&gt;- No persistence.&lt;br/&gt;- Single-node OpenSearch cluster topology.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;managed-cluster&lt;/code&gt;&lt;/td&gt;
@@ -1991,7 +2323,7 @@ Verrazzano custom resource.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
-  name: my-verrazzano
+  name: example-verrazzano
 spec:
   profile: dev
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To use a different profile, simply replace &lt;code&gt;dev&lt;/code&gt; with &lt;code&gt;prod&lt;/code&gt; or &lt;code&gt;managed-cluster&lt;/code&gt;.&lt;/p&gt;
@@ -2018,7 +2350,7 @@ spec:
       resources:
         requests:
           storage: 8Gi
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For details on how to customize Verrazzano components, see &lt;a href=&#34;../docs/setup/install/customizing/&#34;&gt;Customize an Installation&lt;/a&gt;.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For details on how to customize Verrazzano components, see &lt;a href=&#34;../docs/setup/customizing/&#34;&gt;Customize an Installation&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;profile-configurations&#34;&gt;Profile configurations&lt;/h2&gt;
 &lt;p&gt;The following table lists the Verrazzano components that are installed with each profile.  Note that you can
 customize any Verrazzano installation, regardless of the profile.&lt;/p&gt;
@@ -2063,7 +2395,7 @@ customize any Verrazzano installation, regardless of the profile.&lt;/p&gt;
 &lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;Elasticsearch&lt;/td&gt;
+&lt;td&gt;OpenSearch&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
@@ -2075,7 +2407,7 @@ customize any Verrazzano installation, regardless of the profile.&lt;/p&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;Kibana&lt;/td&gt;
+&lt;td&gt;OpenSearch Dashboards&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
@@ -2128,14 +2460,14 @@ customize any Verrazzano installation, regardless of the profile.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;kibana-and-elasticsearch-configurations&#34;&gt;Kibana and Elasticsearch configurations&lt;/h3&gt;
-&lt;p&gt;The following table describes the Kibana and Elasticsearch cluster topology in each profile.&lt;/p&gt;
+&lt;h3 id=&#34;opensearch-dashboards-and-opensearch-configurations&#34;&gt;OpenSearch Dashboards and OpenSearch configurations&lt;/h3&gt;
+&lt;p&gt;The following table describes the OpenSearch Dashboards and OpenSearch cluster topology in each profile.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
 &lt;th&gt;Profile&lt;/th&gt;
-&lt;th align=&#34;left&#34;&gt;Elasticsearch&lt;/th&gt;
-&lt;th align=&#34;left&#34;&gt;Kibana&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;OpenSearch&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;OpenSearch Dashboards&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
@@ -2161,7 +2493,7 @@ customize any Verrazzano installation, regardless of the profile.&lt;/p&gt;
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
 
-    Elasticsearch containers are configured to use 75% of the configured request memory for the Java min/max heap settings.
+    OpenSearch containers are configured to use 75% of the configured request memory for the Java min/max heap settings.
 
 &lt;/div&gt;
 
@@ -2190,7 +2522,7 @@ all profiles unless overridden).&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;For details on how to customize Verrazzano components, see &lt;a href=&#34;../docs/setup/install/customizing/&#34;&gt;Customize an Installation&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;For details on how to customize Verrazzano components, see &lt;a href=&#34;../docs/setup/customizing/&#34;&gt;Customize an Installation&lt;/a&gt;.&lt;/p&gt;
 
       </description>
     </item>
@@ -2347,7 +2679,7 @@ all profiles unless overridden).&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
-  name: my-verrazzano
+  name: example-verrazzano
 spec:
   ...
   security:
@@ -2484,6 +2816,7 @@ $ docker run --name tododb \
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Use the Oracle WebLogic Server Configuration Wizard to create a domain called &lt;code&gt;tododomain&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: This example assumes that the on premises WebLogic Server domain is on Linux.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Launch &lt;code&gt;$ORACLE_HOME/oracle_common/common/bin/config.sh&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;Select &lt;strong&gt;Create a new domain&lt;/strong&gt;.&lt;/li&gt;
@@ -2843,10 +3176,10 @@ tododomain-adminserver   4/4     Running   0          5m
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Get the generated host name for the application.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get gateway tododomain-tododomain-appconf-gw \
+&lt;pre&gt;&lt;code&gt;$ kubectl get gateways.networking.istio.io tododomain-tododomain-appconf-gw \
     -n tododomain \
     -o jsonpath={.spec.servers[0].hosts[0]}
-   
+
 # Sample output
 tododomain-appconf.tododomain.11.22.33.44.nip.io
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
@@ -2991,6 +3324,247 @@ In order for the Fluentd DaemonSet to collect the custom logs, the Fluentd confi
 &lt;td&gt;&lt;code&gt;loggingImage&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
 &lt;td&gt;The name of the custom Fluentd image.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Metrics Template Custom Resource Definition</title>
+      <link>/docs/reference/api/verrazzano/metricstemplate/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/reference/api/verrazzano/metricstemplate/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The Metrics Template CRD contains the metrics configuration for default Kubernetes workloads.
+Here is the default Metrics Template that Verrazzano installs.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: app.verrazzano.io/v1alpha1
+kind: MetricsTemplate
+metadata:
+  name: standard-k8s-metrics-template
+  namespace: verrazzano-system
+spec:
+  workloadSelector:
+    apiGroups: [&amp;quot;apps&amp;quot;, &amp;quot;&amp;quot;]
+    apiVersions: [&amp;quot;v1&amp;quot;]
+    resources: [&amp;quot;deployment&amp;quot;, &amp;quot;statefulset&amp;quot;, &amp;quot;replicaset&amp;quot;, &amp;quot;pod&amp;quot;]
+  prometheusConfig:
+    targetConfigMap:
+      namespace: verrazzano-system
+      name: vmi-system-prometheus-config
+    scrapeConfigTemplate: |
+      kubernetes_sd_configs:
+        - namespaces:
+            names:
+            - {{`{{.workload.metadata.namespace}}`}}
+          role: pod
+      relabel_configs:
+        - action: replace
+          replacement: local
+          source_labels: null
+          target_label: verrazzano_cluster
+        - action: keep
+          regex: {{`{{index .workload.metadata.labels &amp;quot;app.verrazzano.io/workload&amp;quot;}}`}};true
+          source_labels:
+            - __meta_kubernetes_pod_label_app_verrazzano_io_workload
+            - __meta_kubernetes_pod_annotation_prometheus_io_scrape
+        - action: replace
+          regex: ([^:]+)(?::\d+)?;(\d+)
+          replacement: $1:$2
+          source_labels:
+            - __address__
+            - __meta_kubernetes_pod_annotation_prometheus_io_port
+          target_label: __address__
+        - action: replace
+          regex: (.*)
+          source_labels:
+            - __meta_kubernetes_pod_annotation_prometheus_io_path
+          target_label: __metrics_path__
+        - action: replace
+          regex: (.*)
+          replacement: $1
+          source_labels:
+            - __meta_kubernetes_namespace
+          target_label: namespace
+        - action: labelmap
+          regex: __meta_kubernetes_pod_label_(.+)
+        - action: replace
+          source_labels:
+            - __meta_kubernetes_pod_name
+          target_label: pod_name
+        - action: labeldrop
+          regex: (controller_revision_hash)
+        - action: replace
+          regex: .*/(.*)$
+          replacement: $1
+          source_labels:
+            - name
+          target_label: webapp
+      scheme: https
+      {{`{{ if eq ( index .namespace.metadata.labels &amp;quot;istio-injection&amp;quot; ) &amp;quot;enabled&amp;quot; }}`}}
+      tls_config:
+        ca_file: /etc/istio-certs/root-cert.pem
+        cert_file: /etc/istio-certs/cert-chain.pem
+        insecure_skip_verify: true
+        key_file: /etc/istio-certs/key.pem
+      {{`{{ end }}`}}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For more information on using the Metrics Template, see &lt;a href=&#34;../docs/monitoring/metrics/metrics/#metrics-template&#34;&gt;Metrics Template&lt;/a&gt;.&lt;/p&gt;
+&lt;h4 id=&#34;metricstemplate&#34;&gt;MetricsTemplate&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;apiVersion&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;app.verrazzano.io/v1alpha1&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;kind&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;MetricsTemplate&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;metadata&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ObjectMeta&lt;/td&gt;
+&lt;td&gt;Refer to the Kubernetes API documentation for fields of metadata.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#metricstemplatespec&#34;&gt;MetricsTemplateSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The desired state of a metrics trait.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;metricstemplatespec&#34;&gt;MetricsTemplateSpec&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;workloadSelector&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#workloadselector&#34;&gt;WorkloadSelector&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Selector for target workloads.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;prometheusConfig&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#prometheusconfig&#34;&gt;PrometheusConfig&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Prometheus configuration details.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;workloadselector&#34;&gt;WorkloadSelector&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;namespaceSelector&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors&#34;&gt;LabelSelector&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Scopes the template to a namespace.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;objectSelector&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors&#34;&gt;LabelSelector&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Scopes the template to a specific workload object.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;apiGroups&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;[]string&lt;/td&gt;
+&lt;td&gt;Scopes the template to given API Groups.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;apiVersions&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;[]string&lt;/td&gt;
+&lt;td&gt;Scopes the template to given API Versions.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;resources&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;[]string&lt;/td&gt;
+&lt;td&gt;Scopes the template to given API Resources.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;prometheusconfig&#34;&gt;PrometheusConfig&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;targetConfigMap&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#targetconfigmap&#34;&gt;TargetConfigMap&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Identity of the ConfigMap to be updated with the scrape configuration specified in &lt;code&gt;scrapeConfigTemplate&lt;/code&gt;.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;scrapeConfigTemplate&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;Scrape configuration template to be added to the Prometheus configuration.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;targetconfigmap&#34;&gt;TargetConfigMap&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;namespace&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;Namespace of the ConfigMap to be updated with the scrape target configuration.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;name&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;Name of the ConfigMap to be updated with the scrape target configuration.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -3920,9 +4494,9 @@ NGINX Ingress Controller.&lt;/p&gt;
 &lt;p&gt;The following lists the Verrazzano system components which are accessed through the NGINX Ingress Controller
 from a client external to the cluster:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Elasticsearch&lt;/li&gt;
+&lt;li&gt;OpenSearch&lt;/li&gt;
 &lt;li&gt;Keycloak&lt;/li&gt;
-&lt;li&gt;Kibana&lt;/li&gt;
+&lt;li&gt;OpenSearch Dashboards&lt;/li&gt;
 &lt;li&gt;Grafana&lt;/li&gt;
 &lt;li&gt;Prometheus&lt;/li&gt;
 &lt;li&gt;Rancher&lt;/li&gt;
@@ -3953,8 +4527,8 @@ outside the cluster.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Fluentd&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Elasticsearch&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Fluentd on the managed cluster calls Elasticsearch on the admin cluster.&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;OpenSearch&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Fluentd on the managed cluster calls OpenSearch on the admin cluster.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Prometheus&lt;/td&gt;
@@ -3986,7 +4560,7 @@ inside the cluster, with the following exceptions:&lt;/p&gt;
 &lt;li&gt;Envoy to Istiod: The Envoy proxies all make requests to the Istio control plane to get dynamic configuration, and such.
 This includes both the gateways and the mesh sidecar proxies. That traffic is not shown.&lt;/li&gt;
 &lt;li&gt;Traffic within a component is not shown, for example, traffic between
-Elasticsearch Pods.&lt;/li&gt;
+OpenSearch Pods.&lt;/li&gt;
 &lt;li&gt;Prometheus scraping traffic is shown in the second table.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;table&gt;
@@ -4005,8 +4579,8 @@ Elasticsearch Pods.&lt;/li&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Fluentd&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Elasticsearch&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Fluentd sends data to Elasticsearch.&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;OpenSearch&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Fluentd sends data to OpenSearch.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Grafana&lt;/td&gt;
@@ -4014,9 +4588,9 @@ Elasticsearch Pods.&lt;/li&gt;
 &lt;td align=&#34;left&#34;&gt;UI for Prometheus data.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;Kibana&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Elasticsearch&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;UI for Elasticsearch.&lt;/td&gt;
+&lt;td&gt;OpenSearch Dashboards&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;OpenSearch&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;UI for OpenSearch.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;NGINX Ingress Controller&lt;/td&gt;
@@ -4041,7 +4615,7 @@ Elasticsearch Pods.&lt;/li&gt;
 &lt;tr&gt;
 &lt;td&gt;Verrazzano Authentication Proxy&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;VMI components&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Access UIs for Kibana, Grafana, and such.&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Access UIs for OpenSearch Dashboards, Grafana, and such.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Verrazzano Authentication Proxy&lt;/td&gt;
@@ -4090,7 +4664,7 @@ Elasticsearch Pods.&lt;/li&gt;
 &lt;td align=&#34;left&#34;&gt;Kubernetes metrics.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Elasticsearch&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;OpenSearch&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Envoy metrics.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -4118,7 +4692,7 @@ Elasticsearch Pods.&lt;/li&gt;
 &lt;td align=&#34;left&#34;&gt;Envoy metrics.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;left&#34;&gt;Kibana&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;OpenSearch Dashboards&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Envoy metrics.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -4345,28 +4919,28 @@ The following table shows which proxies are used and in which Pod they run.&lt;/
 &lt;td align=&#34;left&#34;&gt;Envoy&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;&lt;code&gt;vmi-system-es-master-*&lt;/code&gt;&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;&lt;code&gt;verrazzano-system&lt;/code&gt;&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Elasticsearch in the Istio mesh.&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;OpenSearch in the Istio mesh.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Istio mesh sidecar&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Envoy&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;&lt;code&gt;vmi-system-es-data-*&lt;/code&gt;&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;&lt;code&gt;verrazzano-system&lt;/code&gt;&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Elasticsearch in the Istio mesh.&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;OpenSearch in the Istio mesh.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Istio mesh sidecar&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Envoy&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;&lt;code&gt;vmi-system-es-ingest-*&lt;/code&gt;&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;&lt;code&gt;verrazzano-system&lt;/code&gt;&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Elasticsearch in the Istio mesh.&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;OpenSearch in the Istio mesh.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Istio mesh sidecar&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Envoy&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;&lt;code&gt;vmi-system-kibana-*&lt;/code&gt;&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;&lt;code&gt;verrazzano-system&lt;/code&gt;&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Kibana in the Istio mesh.&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;OpenSearch Dashboards in the Istio mesh.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Istio mesh sidecar&lt;/td&gt;
@@ -4426,8 +5000,8 @@ All of these requests go through the NGINX Ingress Controller on the respective 
 &lt;td&gt;Managed&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Fluentd&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Admin&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Elasticsearch&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Fluentd sends logs to Elasticsearch.&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;OpenSearch&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Fluentd sends logs to OpenSearch.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Managed&lt;/td&gt;
@@ -4544,7 +5118,7 @@ Here is a sample Verrazzano custom resource file that uses OCI DNS.  See other e
 &lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
-  name: my-verrazzano
+  name: example-verrazzano
 spec:
   environmentName: env
   profile: prod
@@ -4649,6 +5223,12 @@ spec:
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
+&lt;td&gt;&lt;code&gt;authProxy&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#authproxy-component&#34;&gt;AuthProxyComponent&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The AuthProxy component configuration.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
 &lt;td&gt;&lt;code&gt;certManager&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;#certmanager-component&#34;&gt;CertManagerComponent&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The cert-manager component configuration.&lt;/td&gt;
@@ -4686,8 +5266,8 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;elasticsearch&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#elasticsearch-component&#34;&gt;ElasticsearchComponent&lt;/a&gt;&lt;/td&gt;
-&lt;td&gt;The Elasticsearch component configuration.&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#opensearch-component&#34;&gt;OpenSearchComponent&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The OpenSearch component configuration.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -4698,8 +5278,8 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;kibana&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#kibana-component&#34;&gt;KibanaComponent&lt;/a&gt;&lt;/td&gt;
-&lt;td&gt;The Kibana component configuration.&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#opensearch-dashboards-component&#34;&gt;OpenSearchDashboardsComponent&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The OpenSearch Dashboards component configuration.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -4712,6 +5292,56 @@ spec:
 &lt;td&gt;&lt;code&gt;kiali&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;#kiali-component&#34;&gt;KialiComponent&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The Kiali component configuration.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;authproxy-component&#34;&gt;AuthProxy Component&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;enabled&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Boolean&lt;/td&gt;
+&lt;td&gt;If true, then AuthProxy will be installed.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;kubernetes&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#authproxy-kubernetes-configuration&#34;&gt;AuthProxyKubernetes&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The Kubernetes resources than can be configured for AuthProxy.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;authproxy-kubernetes-configuration&#34;&gt;AuthProxy Kubernetes Configuration&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;replicas&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;uint32&lt;/td&gt;
+&lt;td&gt;The number of pods to replicate.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;affinity&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity&#34;&gt;Affinity&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;A Kubernetes affinity definition.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -4895,6 +5525,12 @@ spec:
 &lt;td&gt;Name of OCI DNS zone.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;dnsScope&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;Scope of the OCI DNS zone (PRIVATE, GLOBAL). If not specified, then defaults to GLOBAL.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h4 id=&#34;dns-external&#34;&gt;DNS External&lt;/h4&gt;
@@ -4977,7 +5613,7 @@ spec:
 &lt;td&gt;&lt;code&gt;controller.service.annotations.*&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;#name-value&#34;&gt;NameValue&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;Annotations used for NGINX Ingress Controller.  For sample usage, see &lt;a href=&#34;../docs/setup/install/customizing/ingress/&#34;&gt;Customize Ingress&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;Annotations used for NGINX Ingress Controller.  For sample usage, see &lt;a href=&#34;../docs/setup/customizing/ingress/&#34;&gt;Customize Ingress&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -5053,19 +5689,19 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;name&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;The name of a Helm override for a Verrazzano component chart, specified with a &lt;code&gt;—set&lt;/code&gt; flag on the Helm command line, for example, &lt;code&gt;helm install --set name=value&lt;/code&gt;. For more information about chart overrides, see &lt;a href=&#34;../docs/setup/install/customizing/ingress/&#34;&gt;Customize Ingress&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;The name of a Helm override for a Verrazzano component chart, specified with a &lt;code&gt;—set&lt;/code&gt; flag on the Helm command line, for example, &lt;code&gt;helm install --set name=value&lt;/code&gt;. For more information about chart overrides, see &lt;a href=&#34;../docs/setup/customizing/ingress/&#34;&gt;Customize Ingress&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;value&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;The value of a Helm override for a Verrazzano component chart, specified with a &lt;code&gt;—set&lt;/code&gt; flag on the Helm command line, for example, &lt;code&gt;helm install --set name=value&lt;/code&gt;. Either &lt;code&gt;value&lt;/code&gt; or &lt;code&gt;valueList&lt;/code&gt; must be specified. For more information about chart overrides, see &lt;a href=&#34;../docs/setup/install/customizing/ingress/&#34;&gt;Customize Ingress&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;The value of a Helm override for a Verrazzano component chart, specified with a &lt;code&gt;—set&lt;/code&gt; flag on the Helm command line, for example, &lt;code&gt;helm install --set name=value&lt;/code&gt;. Either &lt;code&gt;value&lt;/code&gt; or &lt;code&gt;valueList&lt;/code&gt; must be specified. For more information about chart overrides, see &lt;a href=&#34;../docs/setup/customizing/ingress/&#34;&gt;Customize Ingress&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;valueList&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string list&lt;/td&gt;
-&lt;td&gt;The list of Helm override values for a Verrazzano component, each specified with a &lt;code&gt;—set&lt;/code&gt; flag on the Helm command line, for example, &lt;code&gt;helm install --set name[0]=&amp;lt;first element of valueList&amp;gt; —set name[1]=&amp;lt;second element of valueList&amp;gt;&lt;/code&gt;. Either &lt;code&gt;value&lt;/code&gt; or &lt;code&gt;valueList&lt;/code&gt; must be specified. For more information about chart overrides, see &lt;a href=&#34;../docs/setup/install/customizing/ingress/&#34;&gt;Customize Ingress&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;The list of Helm override values for a Verrazzano component, each specified with a &lt;code&gt;—set&lt;/code&gt; flag on the Helm command line, for example, &lt;code&gt;helm install --set name[0]=&amp;lt;first element of valueList&amp;gt; —set name[1]=&amp;lt;second element of valueList&amp;gt;&lt;/code&gt;. Either &lt;code&gt;value&lt;/code&gt; or &lt;code&gt;valueList&lt;/code&gt; must be specified. For more information about chart overrides, see &lt;a href=&#34;../docs/setup/customizing/ingress/&#34;&gt;Customize Ingress&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -5088,9 +5724,90 @@ spec:
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
+&lt;td&gt;&lt;code&gt;enabled&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Boolean&lt;/td&gt;
+&lt;td&gt;If true, then Istio will be installed.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;istioIngress&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#istio-ingress-configuration&#34;&gt;IstioIngress&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The Istio ingress gateway configuration.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;istioEgress&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#istio-egress-configuration&#34;&gt;IstioEgress&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The Istio egress gateway configuration.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
 &lt;td&gt;&lt;code&gt;istioInstallArgs&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;#istio-install-args&#34;&gt;IstioInstallArgs&lt;/a&gt; list&lt;/td&gt;
 &lt;td&gt;A list of values to use during Istio installation.  Each argument is specified as either a &lt;code&gt;name/value&lt;/code&gt; or &lt;code&gt;name/valueList&lt;/code&gt; pair.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;istio-ingress-configuration&#34;&gt;Istio Ingress Configuration&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;kubernetes&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#istio-kubernetes-configuration&#34;&gt;IstioKubernetes&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The Kubernetes resources than can be configured for an Istio ingress gateway.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;istio-egress-configuration&#34;&gt;Istio Egress Configuration&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;kubernetes&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#istio-kubernetes-configuration&#34;&gt;IstioKubernetes&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The Kubernetes resources than can be configured for an Istio egress gateway.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;istio-kubernetes-configuration&#34;&gt;Istio Kubernetes Configuration&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;replicas&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;uint32&lt;/td&gt;
+&lt;td&gt;The number of pods to replicate.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;affinity&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity&#34;&gt;Affinity&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;A Kubernetes affinity definition.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -5111,14 +5828,14 @@ spec:
 &lt;td&gt;&lt;code&gt;gateways.istio-ingressgateway.externalIPs&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;#name-value&#34;&gt;NameValue&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;string list&lt;/td&gt;
-&lt;td&gt;The external IP address used by the Istio Ingress Gateway.&lt;/td&gt;
+&lt;td&gt;The external IP address used by the Istio ingress gateway.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;gateways.istio-ingressgateway.serviceAnnotations.*&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;#name-value&#34;&gt;NameValue&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;Annotations used for the Istio Ingress Gateway.  For sample usage, see &lt;a href=&#34;../docs/setup/install/customizing/ingress/&#34;&gt;Customize Ingress&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;Annotations used for the Istio ingress gateway.  For sample usage, see &lt;a href=&#34;../docs/setup/customizing/ingress/&#34;&gt;Customize Ingress&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -5135,6 +5852,12 @@ spec:
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
+&lt;td&gt;&lt;code&gt;enabled&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Boolean&lt;/td&gt;
+&lt;td&gt;If true, then Fluentd will be installed.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
 &lt;td&gt;&lt;code&gt;extraVolumeMounts&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;#extra-volume-mount&#34;&gt;ExtraVolumeMount&lt;/a&gt; list&lt;/td&gt;
 &lt;td&gt;A list of host path volume mounts in addition to &lt;code&gt;/var/log&lt;/code&gt; into the Fluentd DaemonSet. The Fluentd component collects log files in the &lt;code&gt;/var/log/containers&lt;/code&gt; directory of Kubernetes worker nodes. The &lt;code&gt;/var/log/containers&lt;/code&gt; directory may contain symbolic links to files located outside the &lt;code&gt;/var/log&lt;/code&gt; directory. If the host path directory containing the log files is located outside of &lt;code&gt;/var/log&lt;/code&gt;, the Fluentd DaemonSet must have the volume mount of that directory to collect the logs.&lt;/td&gt;
@@ -5143,13 +5866,19 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;elasticsearchURL&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;The target Elasticsearch URLs.  Specify this option in &lt;a href=&#34;https://docs.fluentd.org/output/elasticsearch#hosts-optional&#34;&gt;this format&lt;/a&gt;.  The default &lt;code&gt;http://vmi-system-es-ingest-oidc:8775&lt;/code&gt; is the VMI Elasticsearch URL.&lt;/td&gt;
+&lt;td&gt;The target OpenSearch URLs.  Specify this option in &lt;a href=&#34;https://docs.fluentd.org/output/elasticsearch#hosts-optional&#34;&gt;this format&lt;/a&gt;.  The default &lt;code&gt;http://vmi-system-es-ingest-oidc:8775&lt;/code&gt; is the VMI OpenSearch URL.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;elasticsearchSecret&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;The secret containing the credentials for connecting to Elasticsearch.  This secret needs to be created in the &lt;code&gt;verrazzano-install&lt;/code&gt; namespace prior to creating the Verrazzano custom resource.  Specify the Elasticsearch login credentials in the &lt;code&gt;username&lt;/code&gt; and &lt;code&gt;password&lt;/code&gt; fields in this secret.  Specify the CA for verifying the Elasticsearch certificate in the &lt;code&gt;ca-bundle&lt;/code&gt; field, if applicable.  The default &lt;code&gt;verrazzano&lt;/code&gt; is the secret for connecting to the VMI Elasticsearch.&lt;/td&gt;
+&lt;td&gt;The secret containing the credentials for connecting to OpenSearch.  This secret needs to be created in the &lt;code&gt;verrazzano-install&lt;/code&gt; namespace prior to creating the Verrazzano custom resource.  Specify the OpenSearch login credentials in the &lt;code&gt;username&lt;/code&gt; and &lt;code&gt;password&lt;/code&gt; fields in this secret.  Specify the CA for verifying the OpenSearch certificate in the &lt;code&gt;ca-bundle&lt;/code&gt; field, if applicable.  The default &lt;code&gt;verrazzano&lt;/code&gt; is the secret for connecting to the VMI OpenSearch.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;oci&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#oci-logging-configuration&#34;&gt;OCILoggingConfiguration&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The OCI Logging configuration.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -5181,6 +5910,37 @@ spec:
 &lt;td&gt;&lt;code&gt;readOnly&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;Boolean&lt;/td&gt;
 &lt;td&gt;Specifies if the volume mount is read-only, defaults to &lt;code&gt;true&lt;/code&gt;.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;oci-logging-configuration&#34;&gt;OCI Logging Configuration&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;systemLogId&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The OCID of the OCI Log that will collect system logs.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;defaultAppLogId&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The OCID of the OCI Log that will collect application logs.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;apiSecret&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The name of the secret containing the OCI API configuration and private key.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -5229,7 +5989,7 @@ spec:
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;elasticsearch-component&#34;&gt;Elasticsearch Component&lt;/h3&gt;
+&lt;h3 id=&#34;opensearch-component&#34;&gt;OpenSearch Component&lt;/h3&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -5243,18 +6003,18 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;enabled&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;Boolean&lt;/td&gt;
-&lt;td&gt;If true, then Elasticsearch will be installed.&lt;/td&gt;
+&lt;td&gt;If true, then OpenSearch will be installed.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;installArgs&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#elasticsearch-install-args&#34;&gt;ElasticsearchInstallArgs&lt;/a&gt; list&lt;/td&gt;
-&lt;td&gt;A list of values to use during Elasticsearch installation.  Each argument is specified as either a &lt;code&gt;name/value&lt;/code&gt; or &lt;code&gt;name/valueList&lt;/code&gt; pair.  For sample usage, see &lt;a href=&#34;../docs/setup/install/customizing/elasticsearch/&#34;&gt;Customize Elasticsearch&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#opensearch-install-args&#34;&gt;OpenSearchInstallArgs&lt;/a&gt; list&lt;/td&gt;
+&lt;td&gt;A list of values to use during OpenSearch installation.  Each argument is specified as either a &lt;code&gt;name/value&lt;/code&gt; or &lt;code&gt;name/valueList&lt;/code&gt; pair.  For sample usage, see &lt;a href=&#34;../docs/setup/customizing/opensearch/&#34;&gt;Customize OpenSearch&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;elasticsearch-install-args&#34;&gt;Elasticsearch Install Args&lt;/h4&gt;
+&lt;h4 id=&#34;opensearch-install-args&#34;&gt;OpenSearch Install Args&lt;/h4&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -5317,7 +6077,7 @@ spec:
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;kibana-component&#34;&gt;Kibana Component&lt;/h3&gt;
+&lt;h3 id=&#34;opensearch-dashboards-component&#34;&gt;OpenSearch Dashboards Component&lt;/h3&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -5331,7 +6091,7 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;enabled&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;Boolean&lt;/td&gt;
-&lt;td&gt;If true, then Kibana will be installed.&lt;/td&gt;
+&lt;td&gt;If true, then OpenSearch Dashboards will be installed.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -5623,7 +6383,7 @@ spec:
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h3 id=&#34;verrazzanoweblogicworkload&#34;&gt;VerrazzanoWebLogicWorkload&lt;/h3&gt;
-&lt;p&gt;The VerrazzanoWebLogicWorkload custom resource contains the configuration information for a WebLogic &lt;a href=&#34;https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md&#34;&gt;Domain&lt;/a&gt; workload within Verrazzano.  Here is a sample component that specifies a VerrazzanoWebLogicWorkload.  To deploy an example application that demonstrates this workload type, see the ToDo List &lt;a href=&#34;../docs/guides/lift-and-shift/lift-and-shift/&#34;&gt;Lift-and-Shift&lt;/a&gt; application.&lt;/p&gt;
+&lt;p&gt;The VerrazzanoWebLogicWorkload custom resource contains the configuration information for a WebLogic &lt;a href=&#34;https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md&#34;&gt;Domain&lt;/a&gt; workload within Verrazzano.  Here is a sample component that specifies a VerrazzanoWebLogicWorkload.  To deploy an example application that demonstrates this workload type, see the ToDo List &lt;a href=&#34;../docs/guides/lift-and-shift/lift-and-shift/&#34;&gt;Lift-and-Shift&lt;/a&gt; application.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
 kind: Component
 metadata:
@@ -5720,7 +6480,7 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;template&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;https://pkg.go.dev/k8s.io/apimachinery/pkg/runtime#RawExtension&#34;&gt;RawExtension&lt;/a&gt;&lt;/td&gt;
-&lt;td&gt;The metadata and spec for the underlying WebLogic &lt;a href=&#34;https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md&#34;&gt;Domain&lt;/a&gt; resource.&lt;/td&gt;
+&lt;td&gt;The metadata and spec for the underlying WebLogic &lt;a href=&#34;https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md&#34;&gt;Domain&lt;/a&gt; resource.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -6137,41 +6897,6 @@ spec:
     </item>
     
     <item>
-      <title>Docs: Known Issues</title>
-      <link>/docs/troubleshooting/troubleshooting/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/docs/troubleshooting/troubleshooting/</guid>
-      <description>
-        
-        
-        &lt;h4 id=&#34;oke-missing-security-list-ingress-rules&#34;&gt;OKE Missing Security List Ingress Rules&lt;/h4&gt;
-&lt;p&gt;The install scripts perform a check, which attempts access through the ingress ports.  If the check fails, then the install will exit and you will see error messages like this:&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;ERROR: Port 443 is NOT accessible on ingress(132.145.66.80)!  Check that security lists include an ingress rule for the node port 31739.&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;On an OKE install, this may indicate that there is a missing ingress rule or rules.  To verify and fix the issue, do the following:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Get the ports for the &lt;code&gt;LoadBalancer&lt;/code&gt; services.
-&lt;ul&gt;
-&lt;li&gt;Run &lt;code&gt;kubectl get services -A&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Note the ports for the &lt;code&gt;LoadBalancer&lt;/code&gt; type services.  For example &lt;code&gt;80:31541/TCP,443:31739/TCP&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Check the security lists in the OCI Console.
-&lt;ul&gt;
-&lt;li&gt;Go to &lt;code&gt;Networking/Virtual Cloud Networks&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Select the related VCN.&lt;/li&gt;
-&lt;li&gt;Go to the &lt;code&gt;Security Lists&lt;/code&gt; for the VCN.&lt;/li&gt;
-&lt;li&gt;Select the security list named &lt;code&gt;oke-wkr-...&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Check the ingress rules for the security list.  There should be one rule for each of the destination ports named in the &lt;code&gt;LoadBalancer&lt;/code&gt; services.  In the above example, the destination ports are &lt;code&gt;31541&lt;/code&gt; &amp;amp; &lt;code&gt;31739&lt;/code&gt;. We would expect the ingress rule for &lt;code&gt;31739&lt;/code&gt; to be missing because it was named in the &lt;code&gt;ERROR&lt;/code&gt; output.&lt;/li&gt;
-&lt;li&gt;If a rule is missing, then add it by clicking &lt;code&gt;Add Ingress Rules&lt;/code&gt; and filling in the source CIDR and destination port range (missing port).  Use the existing rules as a guide.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-
-      </description>
-    </item>
-    
-    <item>
       <title>Docs: Network Security</title>
       <link>/docs/networking/security/net-security/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -6302,35 +7027,35 @@ The ports shown are Pod ports, which is what NetworkPolicies require.&lt;/p&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;Elasticsearch&lt;/td&gt;
+&lt;td&gt;OpenSearch&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;8775&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;NGINX Ingress&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Access from external client.&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;Elasticsearch&lt;/td&gt;
+&lt;td&gt;OpenSearch&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;8775&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Fluentd&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Access from Fluentd.&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;Elasticsearch&lt;/td&gt;
+&lt;td&gt;OpenSearch&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;9200&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Kibana, Internal&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Elasticsearch data port.&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;OpenSearch Dashboards, Internal&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;OpenSearch data port.&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;Elasticsearch&lt;/td&gt;
+&lt;td&gt;OpenSearch&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;9300&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Internal&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Elasticsearch cluster port.&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;OpenSearch cluster port.&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;Elasticsearch&lt;/td&gt;
+&lt;td&gt;OpenSearch&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;15090&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Prometheus&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Envoy metrics scraping.&lt;/td&gt;
@@ -6547,9 +7272,7 @@ Likewise, the egress policy is only needed if you restrict egress. The following
 &lt;h3 id=&#34;networkpolicies-for-envoy-sidecar-proxies&#34;&gt;NetworkPolicies for Envoy sidecar proxies&lt;/h3&gt;
 &lt;p&gt;As mentioned, Envoy sidecar proxies run in both system component pods and application pods.  Each proxy sends requests
 to the Istio control plane pod, &lt;code&gt;istiod&lt;/code&gt;, for a variety of reasons. During installation, Verrazzano creates a NetworkPolicy
-named &lt;code&gt;istiod-access&lt;/code&gt; in the &lt;code&gt;istio-system&lt;/code&gt; namespace to give ingress to system component sidecar proxies.  For applications,
-Verrazzano creates a per-application NetworkPolicy in the &lt;code&gt;istio-system&lt;/code&gt; namespace to allow the same access to &lt;code&gt;istiod&lt;/code&gt;.
-When the application is deleted, Verrazzano will delete the policy.&lt;/p&gt;
+named &lt;code&gt;istiod-access&lt;/code&gt; in the &lt;code&gt;istio-system&lt;/code&gt; namespace to give ingress to system component and application sidecar proxies.&lt;/p&gt;
 &lt;h2 id=&#34;mtls&#34;&gt;mTLS&lt;/h2&gt;
 &lt;p&gt;Istio can be enabled to use mTLS between services in the mesh, and also between the Istio gateways and Envoy sidecar proxies.
 There are various options to customize mTLS usage, for example it can be disabled on a per-port level.  The Istio
@@ -6593,10 +7316,11 @@ as Coherence Pods, are labeled at runtime with &lt;code&gt;sidecar.istio.io/inje
 &lt;h2 id=&#34;components-in-the-mesh&#34;&gt;Components in the mesh&lt;/h2&gt;
 &lt;p&gt;The following Verrazzano components are in the mesh and use mTLS for all service to service communication.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Elasticsearch&lt;/li&gt;
+&lt;li&gt;OpenSearch&lt;/li&gt;
 &lt;li&gt;Fluentd&lt;/li&gt;
 &lt;li&gt;Grafana&lt;/li&gt;
-&lt;li&gt;Kibana&lt;/li&gt;
+&lt;li&gt;Kiali&lt;/li&gt;
+&lt;li&gt;OpenSearch Dashboards&lt;/li&gt;
 &lt;li&gt;Keycloak&lt;/li&gt;
 &lt;li&gt;MySQL&lt;/li&gt;
 &lt;li&gt;NGINX Ingress Controller&lt;/li&gt;
@@ -6617,10 +7341,11 @@ access Keycloak:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Verrazzano Authentication Proxy&lt;/li&gt;
 &lt;li&gt;Verrazzano Console&lt;/li&gt;
-&lt;li&gt;Elasticsearch&lt;/li&gt;
+&lt;li&gt;OpenSearch&lt;/li&gt;
 &lt;li&gt;Prometheus&lt;/li&gt;
 &lt;li&gt;Grafana&lt;/li&gt;
-&lt;li&gt;Kibana&lt;/li&gt;
+&lt;li&gt;Kiali&lt;/li&gt;
+&lt;li&gt;OpenSearch Dashboards&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;prometheus&#34;&gt;Prometheus&lt;/h3&gt;
 &lt;p&gt;Although Prometheus is in the mesh, it is configured to use the Envoy sidecar and mTLS only when communicating with
@@ -6706,6 +7431,134 @@ the &lt;code&gt;principals&lt;/code&gt; section to permit that access.&lt;/p&gt;
     </item>
     
     <item>
+      <title>Docs: Customize Load Balancers on OKE</title>
+      <link>/docs/setup/customizing/ociloadbalancerips/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/customizing/ociloadbalancerips/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano sets up the following load balancers on Kubernetes at installation:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Load balancer for NGINX ingress&lt;/li&gt;
+&lt;li&gt;Load balancer for Istio ingress&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Verrazzano allows customizing the load balancers allocated by Oracle Container Engine (OKE) using annotations defined by OKE.
+For a detailed description of different load balancer customization annotations, see the OKE documentation
+&lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingloadbalancer.htm&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This document describes how to use these annotations to customize the following settings for Verrazzano load balancers:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Load balancer shape&lt;/li&gt;
+&lt;li&gt;Private IP address and subnet placement&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;customize-the-load-balancer-shape&#34;&gt;Customize the load balancer shape&lt;/h3&gt;
+&lt;p&gt;At installation, Verrazzano lets you customize the shape and size of the load balancers created.
+OCI offers a flexible load balancer which uses Dynamic Shape:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;10 Mbps&lt;/li&gt;
+&lt;li&gt;100 Mbps&lt;/li&gt;
+&lt;li&gt;400 Mbps&lt;/li&gt;
+&lt;li&gt;8,000 Mbps&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For more details on service limits and shape, see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Balance/Tasks/managingloadbalancer.htm#console&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;For example, you can set up an NGINX load balancer with &lt;code&gt;10Mbps&lt;/code&gt; as follows:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;install.verrazzano.io/v1alpha1&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;Verrazzano&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;example-verrazzano&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;profile&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;dev&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;environmentName&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;default&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;components&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;ingress&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;LoadBalancer&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;nginxInstallArgs&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;controller.service.annotations.&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;service\.beta\.kubernetes\.io/oci-load-balancer-shape&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;10Mbps&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;   
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For example, you can set up an Istio load balancer with &lt;code&gt;10Mbps&lt;/code&gt; as follows:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;install.verrazzano.io/v1alpha1&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;Verrazzano&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;example-verrazzano&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;profile&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;dev&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;environmentName&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;default&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;components&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;ingress&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;LoadBalancer&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;istioInstallArgs&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;gateways.istio-ingressgateway.serviceAnnotations.&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;service\.beta\.kubernetes\.io/oci-load-balancer-shape&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;10Mbps&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;use-private-ip-addresses-with-a-load-balancer&#34;&gt;Use private IP addresses with a load balancer&lt;/h3&gt;
+&lt;p&gt;At installation, Verrazzano lets you customize the IP address and subnet of the load balancers created.  This is achieved
+using OKE annotations on the NGINX and Istio load balancer services, as documented
+&lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingloadbalancer.htm#Creating2&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The following example configures the NGINX load balancer service to have a private load balancer IP address on the
+private subnet identified by OCID &lt;code&gt;ocid1.subnet.oc1.phx.aaaa..sdjxa&lt;/code&gt;, and uses the default (public) load balancer
+configuration for Istio:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;install.verrazzano.io/v1alpha1&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;Verrazzano&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;example-verrazzano&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;profile&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;dev&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;environmentName&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;default&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;components&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;ingress&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;LoadBalancer&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;nginxInstallArgs&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;controller.service.annotations.&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;service\.beta\.kubernetes\.io/oci-load-balancer-internal&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;controller.service.annotations.&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;service\.beta\.kubernetes\.io/oci-load-balancer-subnet1&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;ocid1.subnet.oc1.phx.aaaa..sdjxa&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The following example configures the Istio ingress gateway service to have a private load balancer IP address on the private
+subnet identified by OCID &lt;code&gt;ocid1.subnet.oc1.phx.aaaa..sdjxa&lt;/code&gt;, and uses the default (public) load balancer configuration
+for NGINX:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;install.verrazzano.io/v1alpha1&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;Verrazzano&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;example-verrazzano&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;profile&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;dev&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;environmentName&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;default&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;components&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;ingress&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;LoadBalancer&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;istio&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;istioInstallArgs&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;gateways.istio-ingressgateway.serviceAnnotations.&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;service\.beta\.kubernetes\.io/oci-load-balancer-internal&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;gateways.istio-ingressgateway.serviceAnnotations.&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;service\.beta\.kubernetes\.io/oci-load-balancer-subnet1&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;ocid1.subnet.oc1.phx.aaaa..sdjxa&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The following example configures both NGINX and Istio to have a private load balancer IP address on the private subnet
+identified by OCID &lt;code&gt;ocid1.subnet.oc1.phx.aaaa..sdjxa&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;install.verrazzano.io/v1alpha1&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;Verrazzano&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;example-verrazzano&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;profile&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;dev&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;environmentName&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;default&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;components&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;ingress&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;LoadBalancer&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;nginxInstallArgs&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;controller.service.annotations.&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;service\.beta\.kubernetes\.io/oci-load-balancer-internal&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;controller.service.annotations.&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;service\.beta\.kubernetes\.io/oci-load-balancer-subnet1&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;ocid1.subnet.oc1.phx.aaaa..sdjxa&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;istio&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;istioInstallArgs&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;gateways.istio-ingressgateway.serviceAnnotations.&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;service\.beta\.kubernetes\.io/oci-load-balancer-internal&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;gateways.istio-ingressgateway.serviceAnnotations.&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;service\.beta\.kubernetes\.io/oci-load-balancer-subnet1&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;ocid1.subnet.oc1.phx.aaaa..sdjxa&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Coherence Workload</title>
       <link>/docs/applications/workloads/coherence/coherence/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -6720,8 +7573,8 @@ is a standalone Coherence cluster, independent from other Coherence clusters in 
 at &lt;a href=&#34;https://oracle.github.io/coherence-operator/docs/latest&#34;&gt;Coherence Operator&lt;/a&gt;.  The Coherence operator
 uses a CRD, coherence.oracle.com (Coherence resource), to represent a Coherence cluster.  When a Verrazzano
 application with Coherence is provisioned, Verrazzano configures the default logging and
-metrics for the Coherence cluster.  Logs are sent to Elasticsearch and metrics to Prometheus.&lt;br&gt;
-You can view this telemetry data using the Kibana and Grafana consoles.&lt;/p&gt;
+metrics for the Coherence cluster.  Logs are sent to OpenSearch and metrics to Prometheus.&lt;br&gt;
+You can view this telemetry data using the OpenSearch Dashboards and Grafana consoles.&lt;/p&gt;
 &lt;h2 id=&#34;oam-component&#34;&gt;OAM Component&lt;/h2&gt;
 &lt;p&gt;The custom resource YAML file for the Coherence cluster is specified as a VerrazzanoCoherenceWorkload custom resource.
 In the following example, everything under the &lt;code&gt;spec:&lt;/code&gt; section is standard Coherence resource YAML that you would typically use
@@ -6793,12 +7646,12 @@ deleting the ApplicationConfiguration resource entirely.&lt;/p&gt;
 &lt;/div&gt;
 
 &lt;h2 id=&#34;logging&#34;&gt;Logging&lt;/h2&gt;
-&lt;p&gt;When a Coherence cluster is provisioned, Verrazzano configures it to send logs to Elasticsearch.  This is done by
+&lt;p&gt;When a Coherence cluster is provisioned, Verrazzano configures it to send logs to OpenSearch.  This is done by
 injecting Fluentd sidecar configuration into the Coherence resource. The Coherence operator will create the pod with the
 Fluentd sidecar.  This sidecar periodically copies the Coherence logs from &lt;code&gt;/logs&lt;/code&gt; to stdout, enabling the Fluentd DaemonSet
-in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace to send the logs to Elasticsearch.  Note that the Fluend sidecar running in the Coherence
-pod never communicates with Elasticsearch or any other network endpoint.&lt;/p&gt;
-&lt;p&gt;The logs are placed in a per-namespace Elasticsearch index named &lt;code&gt;verrazzano-namespace-&amp;lt;namespace&amp;gt;&lt;/code&gt;,
+in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace to send the logs to OpenSearch.  Note that the Fluend sidecar running in the Coherence
+pod never communicates with OpenSearch or any other network endpoint.&lt;/p&gt;
+&lt;p&gt;The logs are placed in a per-namespace OpenSearch index named &lt;code&gt;verrazzano-namespace-&amp;lt;namespace&amp;gt;&lt;/code&gt;,
 for example: &lt;code&gt;verrazzano-namespace-sockshop&lt;/code&gt;.  All logs from Coherence pods in the same namespace will
 go into the same index, even for different applications.  This is standard behavior and there is no way to disable or change it.&lt;/p&gt;
 &lt;p&gt;Each log record has some Coherence and application fields, along with the log message itself.  For example:&lt;/p&gt;
@@ -7009,8 +7862,8 @@ we recommend that you specify &lt;code&gt;replicaCount&lt;/code&gt; defined on M
 
 &lt;h3 id=&#34;logging&#34;&gt;Logging&lt;/h3&gt;
 &lt;p&gt;When a containerized Helidon application is provisioned on Verrazzano, Verrazzano will configure the default logging
-and send logs to Elasticsearch. Logs can be viewed using the Kibana console.&lt;/p&gt;
-&lt;p&gt;The logs are placed in a per-namespace Elasticsearch index named &lt;code&gt;verrazzano-namespace-&amp;lt;namespace&amp;gt;&lt;/code&gt;,
+and send logs to OpenSearch. Logs can be viewed using the OpenSearch Dashboards console.&lt;/p&gt;
+&lt;p&gt;The logs are placed in a per-namespace OpenSearch index named &lt;code&gt;verrazzano-namespace-&amp;lt;namespace&amp;gt;&lt;/code&gt;,
 for example: &lt;code&gt;verrazzano-namespace-hello-helidon&lt;/code&gt;.  All logs from containerized Helidon application pods in the same namespace will
 go into the same index, even for different applications.  This is standard behavior and there is no way to disable or change it.&lt;/p&gt;
 &lt;h3 id=&#34;metrics&#34;&gt;Metrics&lt;/h3&gt;
@@ -7050,6 +7903,18 @@ It uses OAM resources to define the application deployment.&lt;/p&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/oracle/coherence-micronaut-sockshop-sample&#34;&gt;Coherence and Micronaut&lt;/a&gt; in the &lt;code&gt;micronaut&lt;/code&gt; subdirectory.&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/oracle/coherence-spring-sockshop-sample&#34;&gt;Coherence and Spring&lt;/a&gt; in the &lt;code&gt;spring&lt;/code&gt; subdirectory.&lt;/li&gt;
 &lt;/ul&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    &lt;p&gt;To run this application in the default namespace:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$kubectl label namespace default verrazzano-managed=true
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you chose the default namespace, you can skip Step 1. and ignore the &lt;code&gt;-n&lt;/code&gt; option in the rest of the commands.&lt;/p&gt;
+
+
+&lt;/div&gt;
+
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Create a namespace for the Sock Shop application and add a label identifying the namespace as managed by Verrazzano.&lt;/p&gt;
@@ -7115,8 +7980,8 @@ $ kubectl label namespace sockshop verrazzano-managed=true
 &lt;div class=&#34;tab-pane fade show active&#34; id=&#34;tab31&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName1&#34;&gt;
 
 	   &lt;br&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/helidon/sock-shop-comp.yaml
-$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/helidon/sock-shop-app.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/helidon/sock-shop-comp.yaml -n sockshop
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/helidon/sock-shop-app.yaml -n sockshop
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;/div&gt;
@@ -7132,8 +7997,8 @@ $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/maste
 &lt;div class=&#34;tab-pane fade&#34; id=&#34;tab32&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName2&#34;&gt;
 
 	   &lt;br&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/micronaut/sock-shop-comp.yaml
-$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/micronaut/sock-shop-app.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/micronaut/sock-shop-comp.yaml -n sockshop
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/micronaut/sock-shop-app.yaml -n sockshop
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;/div&gt;
@@ -7149,8 +8014,8 @@ $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/maste
 &lt;div class=&#34;tab-pane fade&#34; id=&#34;tab33&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName3&#34;&gt;
 
 	   &lt;br&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/spring/sock-shop-comp.yaml
-$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/spring/sock-shop-app.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/spring/sock-shop-comp.yaml -n sockshop
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/spring/sock-shop-app.yaml -n sockshop
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;/div&gt;
@@ -7184,7 +8049,7 @@ ports, and such.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Get the generated host name for the application.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateway \
+&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateways.networking.istio.io \
      -n sockshop \
      -o jsonpath={.items[0].spec.servers[0].hosts[0]})
 $ echo $HOST
@@ -7264,64 +8129,8 @@ before deploying the Sock Shop application.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;A variety of endpoints associated with the deployed application, are available to further explore the logs, metrics, and such.&lt;/p&gt;
-&lt;p&gt;Accessing them may require the following:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Run this command to get the password that was generated for the telemetry components:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get secret \
-   --namespace verrazzano-system verrazzano \
-   -o jsonpath={.data.password} | base64 \
-   --decode; echo
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The associated user name is &lt;code&gt;verrazzano&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;You will have to accept the certificates associated with the endpoints.&lt;/p&gt;
-&lt;p&gt;You can retrieve the list of available ingresses with following command:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt; $ kubectl get ingress -n verrazzano-system
-
- # Sample output
- NAME                    CLASS    HOSTS                                                 ADDRESS       PORTS     AGE
- verrazzano-ingress      &amp;lt;none&amp;gt;   verrazzano.default.11.22.33.44.nip.io                 11.22.33.44   80, 443   7d
- vmi-system-es-ingest    &amp;lt;none&amp;gt;   elasticsearch.vmi.system.default.11.22.33.44.nip.io   11.22.33.44   80, 443   7d
- vmi-system-grafana      &amp;lt;none&amp;gt;   grafana.vmi.system.default.11.22.33.44.nip.io         11.22.33.44   80, 443   7d
- vmi-system-kiali        &amp;lt;none&amp;gt;   kiali.vmi.system.default.11.22.33.44.nip.io           11.22.33.44   80, 443   7d
- vmi-system-kibana       &amp;lt;none&amp;gt;   kibana.vmi.system.default.11.22.33.44.nip.io          11.22.33.44   80, 443   7d
- vmi-system-prometheus   &amp;lt;none&amp;gt;   prometheus.vmi.system.default.11.22.33.44.nip.io      11.22.33.44   80, 443   7d
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Using the ingress host information, some of the endpoints available are:&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;th&gt;Address&lt;/th&gt;
-&lt;th&gt;Credentials&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;Kibana&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-kibana ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Grafana&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-grafana ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Prometheus&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-prometheus ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Kiali&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-kiali ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;A variety of endpoints associated with the deployed application, are available to further explore the logs, metrics, and such.
+You can access them according to the directions &lt;a href=&#34;../docs/operations/#get-the-consoles-urls&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h2&gt;
@@ -7408,8 +8217,8 @@ $ kubectl get IngressTrait -n sockshop
 &lt;div class=&#34;tab-pane fade show active&#34; id=&#34;tab41&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName1&#34;&gt;
 
 	   &lt;br&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/helidon/sock-shop-comp.yaml
-$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/helidon/sock-shop-app.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/helidon/sock-shop-comp.yaml -n sockshop
+$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/helidon/sock-shop-app.yaml -n sockshop
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;/div&gt;
@@ -7425,8 +8234,8 @@ $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/mast
 &lt;div class=&#34;tab-pane fade&#34; id=&#34;tab42&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName2&#34;&gt;
 
 	   &lt;br&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/micronaut/sock-shop-comp.yaml
-$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/micronaut/sock-shop-app.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/micronaut/sock-shop-comp.yaml -n sockshop
+$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/micronaut/sock-shop-app.yaml -n sockshop
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;/div&gt;
@@ -7442,8 +8251,8 @@ $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/mast
 &lt;div class=&#34;tab-pane fade&#34; id=&#34;tab43&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName3&#34;&gt;
 
 	   &lt;br&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/spring/sock-shop-comp.yaml
-$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/spring/sock-shop-app.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/spring/sock-shop-comp.yaml -n sockshop
+$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/spring/sock-shop-app.yaml -n sockshop
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;/div&gt;
@@ -7464,28 +8273,59 @@ $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/mast
     </item>
     
     <item>
-      <title>Docs: Uninstall</title>
-      <link>/docs/setup/uninstall/uninstall/</link>
+      <title>Docs: Customize AuthProxy</title>
+      <link>/docs/setup/customizing/authproxy/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/docs/setup/uninstall/uninstall/</guid>
+      <guid>/docs/setup/customizing/authproxy/</guid>
       <description>
         
         
-        &lt;p&gt;To delete a Verrazzano installation, delete the Verrazzano custom resource you used to
-install it into your cluster.&lt;/p&gt;
-&lt;p&gt;The following example starts a deletion of a Verrazzano installation in the background, and then
-uses the &lt;code&gt;kubectl logs -f&lt;/code&gt; command to tail the Console output of the pod performing the uninstall:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;# Get the name of the Verrazzano custom resource
-$ MYVZ=$(kubectl  get vz -o jsonpath=&amp;quot;{.items[0].metadata.name}&amp;quot;)
-
-# Delete the Verrazzano custom resource
-$ kubectl delete verrazzano $MYVZ --wait=false
-$ kubectl logs -n verrazzano-install \
-    -f $(kubectl get pod \
-    -n verrazzano-install \
-    -l job-name=verrazzano-uninstall-${MYVZ} \
-    -o jsonpath=&amp;quot;{.items[0].metadata.name}&amp;quot;)
+        &lt;p&gt;The Verrazzano AuthProxy component enables authentication and authorization for Keycloak users accessing Verrazzano resources.  You can customize the AuthProxy component using settings in the Verrazzano custom resource.&lt;/p&gt;
+&lt;p&gt;The following table describes the fields in the Verrazzano custom resource pertaining to the &lt;a href=&#34;../docs/reference/api/verrazzano/verrazzano/#authproxy-component&#34;&gt;AuthProxy component&lt;/a&gt;.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Path to Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec.components.authProxy.kubernetes.replicas&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;The number of pods to replicate.  The default is &lt;code&gt;2&lt;/code&gt; for the &lt;code&gt;prod&lt;/code&gt; profile and &lt;code&gt;1&lt;/code&gt; for all other profiles.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec.components.authProxy.kubernetes.affinity&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;The pod affinity definition expressed as a standard Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity&#34;&gt;affinity&lt;/a&gt; definition.  The default configuration spreads the AuthProxy pods across the available nodes. &lt;pre&gt;spec:&lt;br&gt;  components:&lt;br&gt;    authProxy:&lt;br&gt;      kubernetes:&lt;br&gt;        affinity:&lt;br&gt;          podAntiAffinity:&lt;br&gt;            preferredDuringSchedulingIgnoredDuringExecution:&lt;br&gt;              - weight: 100&lt;br&gt;                podAffinityTerm:&lt;br&gt;                  labelSelector:&lt;br&gt;                    matchExpressions:&lt;br&gt;                      - key: app&lt;br&gt;                        operator: In&lt;br&gt;                        values:&lt;br&gt;                          - verrazzano-authproxy&lt;br&gt;                  topologyKey: kubernetes.io/hostname&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;The following example customizes a Verrazzano &lt;code&gt;prod&lt;/code&gt; profile as follows:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Increases the replicas count to &lt;code&gt;3&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Changes the &lt;code&gt;podAffinity&lt;/code&gt; configuration to use &lt;code&gt;requiredDuringSchedulingIgnoredDuringExecution&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: example-verrazzano
+spec:
+  profile: prod
+  components:
+    authproxy:
+      kubernetes:
+        replicas: 3
+        affinity:
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - verrazzano-authproxy
+                topologyKey: kubernetes.io/hostname
 &lt;/code&gt;&lt;/pre&gt;
       </description>
     </item>
@@ -7610,7 +8450,7 @@ $ kubectl logs -n verrazzano-install \
 &lt;h3 id=&#34;steps&#34;&gt;Steps&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;Review the messages from the supporting details for the exact limits, and delete unused load balancers.&lt;/li&gt;
-&lt;li&gt;If available, use a different load balancer shape. See &lt;a href=&#34;../docs/setup/install/customizing/ingress/&#34;&gt;Customizing Ingress&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;If available, use a different load balancer shape. See &lt;a href=&#34;../docs/setup/customizing/ingress/&#34;&gt;Customizing Ingress&lt;/a&gt;.&lt;/li&gt;
 &lt;li&gt;Refer to the OCI documentation on &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/General/Concepts/servicelimits.htm#&#34;&gt;Service Limits&lt;/a&gt;.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3 id=&#34;related-information&#34;&gt;Related information&lt;/h3&gt;
@@ -7802,11 +8642,14 @@ $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
       Provider:       letsEncrypt
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;To check the &lt;code&gt;ca.crt&lt;/code&gt; field of the &lt;code&gt;system-tls&lt;/code&gt; secret
+&lt;p&gt;To check the &lt;code&gt;ca.crt&lt;/code&gt; field of the Verrazzano TLS secret
 in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace on the managed cluster:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;# On the managed cluster
+$ export VZ_ENV_NAME=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
+     get verrazzano -o jsonpath=&#39;{ .items[0].spec.environmentName}&#39;)
+$ export VZ_TLS_SECRET=&amp;quot;${VZ_ENV_NAME:-default}&amp;quot;-secret
 $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
-     -n verrazzano-system get secret system-tls -o jsonpath=&#39;{.data.ca\.crt}&#39;
+     -n verrazzano-system get secret $VZ_TLS_SECRET -o jsonpath=&#39;{.data.ca\.crt}&#39;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If this value is empty, then your managed cluster is using certificates signed by a well-known certificate
 authority. Otherwise, your managed cluster is using self-signed certificates.&lt;/p&gt;
 &lt;nav&gt;
@@ -7885,8 +8728,11 @@ certificate of the managed cluster as the value of the &lt;code&gt;cacrt&lt;/cod
 CA certificate is saved in an environment variable called &lt;code&gt;MGD_CA_CERT&lt;/code&gt;. Then use the &lt;code&gt;--dry-run&lt;/code&gt; option of the
 &lt;code&gt;kubectl&lt;/code&gt; command to generate the &lt;code&gt;managed1.yaml&lt;/code&gt; file.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;# On the managed cluster
-$ MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
-     get secret system-tls \
+$ export VZ_ENV_NAME=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
+     get verrazzano -o jsonpath=&#39;{ .items[0].spec.environmentName}&#39;)
+$ export VZ_TLS_SECRET=&amp;quot;${VZ_ENV_NAME:-default}&amp;quot;-secret
+$ export MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
+     get secret $VZ_TLS_SECRET \
      -n verrazzano-system \
      -o jsonpath=&amp;quot;{.data.ca\.crt}&amp;quot; | base64 --decode)
 $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
@@ -7922,7 +8768,7 @@ certificate of the managed cluster as the value of the &lt;code&gt;cacrt&lt;/cod
 CA certificate is saved in an environment variable called &lt;code&gt;MGD_CA_CERT&lt;/code&gt;. Then use the &lt;code&gt;--dry-run&lt;/code&gt; option of the
 &lt;code&gt;kubectl&lt;/code&gt; command to generate the &lt;code&gt;managed1.yaml&lt;/code&gt; file.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;# On the admin cluster
-$ MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+$ export MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
      get secret tls-ca-additional \
      -n cattle-system \
      -o jsonpath=&amp;quot;{.data.ca-additional\.pem}&amp;quot; | base64 --decode)
@@ -8177,19 +9023,19 @@ $ VZPASS=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
 $ curl -k --user verrazzano:${VZPASS} &amp;quot;${prometheusUrl}/api/v1/query?query=node_disk_io_time_seconds_total&amp;quot;
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;verify-that-managed-cluster-logs-are-being-collected&#34;&gt;Verify that managed cluster logs are being collected&lt;/h3&gt;
 &lt;p&gt;Verify that the admin cluster is collecting logs from the managed cluster.  The output will include records which have the name of the managed cluster in the &lt;code&gt;cluster_name&lt;/code&gt; field.&lt;/p&gt;
-&lt;p&gt;You can find the Kibana UI URL for your cluster by following the instructions for &lt;a href=&#34;../docs/operations/&#34;&gt;Accessing Verrazzano&lt;/a&gt;.
+&lt;p&gt;You can find the OpenSearch Dashboards UI URL for your cluster by following the instructions for &lt;a href=&#34;../docs/operations/&#34;&gt;Accessing Verrazzano&lt;/a&gt;.
 Create an index for &lt;code&gt;verrazzano-namespace-verrazzano-system&lt;/code&gt;.  Some log records will have the &lt;code&gt;cluster_name&lt;/code&gt; field populated with the name of
 the managed cluster.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Sample output of a Kibana screen&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;../docs/images/multicluster/kibana-multicluster.png&#34; alt=&#34;Kibana&#34;&gt;&lt;/p&gt;
-&lt;p&gt;An alternative approach to using the Kibana UI is to query Elasticsearch from the command line.  Here is an example of how to obtain log records from the command line.  Search the output of the query for responses that have the &lt;code&gt;cluster_name&lt;/code&gt; field set to the name of the managed cluster.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Sample output of a OpenSearch Dashboards screen&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../docs/images/multicluster/opensearch-multicluster.png&#34; alt=&#34;OpenSearch Dashboards&#34;&gt;&lt;/p&gt;
+&lt;p&gt;An alternative approach to using the OpenSearch Dashboards UI is to query OpenSearch from the command line.  Here is an example of how to obtain log records from the command line.  Search the output of the query for responses that have the &lt;code&gt;cluster_name&lt;/code&gt; field set to the name of the managed cluster.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;# On the admin cluster
-$ KIBANA_URL=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+$ OSD_URL=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
                  get verrazzano -o jsonpath=&#39;{.items[0].status.instance.kibanaUrl}&#39;)
 $ VZPASS=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
            get secret verrazzano --namespace verrazzano-system \
            -o jsonpath={.data.password} | base64 --decode; echo)
-$ curl -k --user verrazzano:${VZPASS} -X POST -H &#39;kbn-xsrf: true&#39; &amp;quot;${KIBANA_URL}/elasticsearch/verrazzano-namespace-verrazzano-system/_search?size=25&amp;quot;
+$ curl -k --user verrazzano:${VZPASS} -X POST -H &#39;kbn-xsrf: true&#39; &amp;quot;${OSD_URL}/elasticsearch/verrazzano-namespace-verrazzano-system/_search?size=25&amp;quot;
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;run-applications-in-multicluster-verrazzano&#34;&gt;Run applications in multicluster Verrazzano&lt;/h2&gt;
 &lt;p&gt;The Verrazzano multicluster setup is now complete and you can deploy applications by following the &lt;a href=&#34;../docs/samples/multicluster/hello-helidon/&#34;&gt;Multicluster Hello World Helidon&lt;/a&gt; example application.&lt;/p&gt;
 &lt;h2 id=&#34;use-the-admin-cluster-ui&#34;&gt;Use the admin cluster UI&lt;/h2&gt;
@@ -8285,50 +9131,6 @@ $ curl -k --user verrazzano:${VZPASS} -X POST -H &#39;kbn-xsrf: true&#39; &amp;q
 &lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Verrazzano can create network policies that can be used to limit the ports and protocols that pods use for network communication. Network policies provide additional security but they are enforced only if you install a Kubernetes Container Network Interface (CNI) plug-in that enforces them, such as Calico. For an example on OKE, see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengsettingupcalico.htm&#34;&gt;Installing Calico and Setting Up Network Policies&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
 &lt;p&gt;To continue, see the &lt;a href=&#34;../docs/setup/install/installation/#install-the-verrazzano-platform-operator&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Docs: Pending Pods</title>
-      <link>/docs/troubleshooting/diagnostictools/analysisadvice/pendingpods/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/docs/troubleshooting/diagnostictools/analysisadvice/pendingpods/</guid>
-      <description>
-        
-        
-        &lt;h3 id=&#34;summary&#34;&gt;Summary&lt;/h3&gt;
-&lt;p&gt;Analysis detected that there were pods which were in a pending state without detecting other specific issues related to them.&lt;/p&gt;
-&lt;h3 id=&#34;steps&#34;&gt;Steps&lt;/h3&gt;
-&lt;p&gt;Review the analysis data. At a minimum, this should indicate which pods are being impacted and it might give other clues on the root cause.&lt;/p&gt;
-&lt;h3 id=&#34;related-information&#34;&gt;Related information&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/tasks/debug-application-cluster/troubleshooting/&#34;&gt;Kubernetes Troubleshooting&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Docs: Problem Pods</title>
-      <link>/docs/troubleshooting/diagnostictools/analysisadvice/podproblemsnotreported/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/docs/troubleshooting/diagnostictools/analysisadvice/podproblemsnotreported/</guid>
-      <description>
-        
-        
-        &lt;h3 id=&#34;summary&#34;&gt;Summary&lt;/h3&gt;
-&lt;p&gt;Analysis detected that there were pods which were not in a running, succeeded, or pending state.&lt;/p&gt;
-&lt;p&gt;The analysis was not able to determine a specific root cause, however, it might have supplied data that is related to the pods in question.
-The root cause might be obvious from the supporting data, but the analysis tool isn&amp;rsquo;t isolating the specific scenario yet.&lt;/p&gt;
-&lt;h3 id=&#34;steps&#34;&gt;Steps&lt;/h3&gt;
-&lt;p&gt;Review the analysis data. At a minimum, it should indicate which pods are being impacted and it might give other clues on the root cause.&lt;/p&gt;
-&lt;h3 id=&#34;related-information&#34;&gt;Related information&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/tasks/debug-application-cluster/troubleshooting/&#34;&gt;Kubernetes Troubleshooting&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
 
       </description>
     </item>

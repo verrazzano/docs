@@ -17,23 +17,26 @@
 <link rel="icon" type="image/png" href="../../../../../favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="../../../../../favicons/android-192x192.png" sizes="192x192">
 
-<title>Customize Ingress | Verrazzano Enterprise Container Platform</title>
-<meta name="description" content="A hybrid multi-cloud Kubernetes based Enterprise Container Platform for running both cloud-native and traditional applications"><meta property="og:title" content="Customize Ingress" />
-<meta property="og:description" content="Customize Verrazzano NGINX and Istio ingress installation settings" />
+<title>Metrics Template Custom Resource Definition | Verrazzano Enterprise Container Platform</title>
+<meta name="description" content="A hybrid multi-cloud Kubernetes based Enterprise Container Platform for running both cloud-native and traditional applications"><meta property="og:title" content="Metrics Template Custom Resource Definition" />
+<meta property="og:description" content="The Metrics Template CRD contains the metrics configuration for default Kubernetes workloads. Here is the default Metrics Template that Verrazzano installs.
+apiVersion: app.verrazzano.io/v1alpha1 kind: MetricsTemplate metadata: name: standard-k8s-metrics-template namespace: verrazzano-system spec: workloadSelector: apiGroups: [&quot;apps&quot;, &quot;&quot;] apiVersions: [&quot;v1&quot;] resources: [&quot;deployment&quot;, &quot;statefulset&quot;, &quot;replicaset&quot;, &quot;pod&quot;] prometheusConfig: targetConfigMap: namespace: verrazzano-system name: vmi-system-prometheus-config scrapeConfigTemplate: | kubernetes_sd_configs: - namespaces: names: - {{`{{.workload.metadata.namespace}}`}} role: pod relabel_configs: - action: replace replacement: local source_labels: null target_label: verrazzano_cluster - action: keep regex: {{`{{index ." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/docs/setup/install/customizing/ingress/" />
-<meta property="article:modified_time" content="2021-11-22T14:11:58-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
-<meta itemprop="name" content="Customize Ingress">
-<meta itemprop="description" content="Customize Verrazzano NGINX and Istio ingress installation settings">
-<meta itemprop="dateModified" content="2021-11-22T14:11:58-05:00" />
-<meta itemprop="wordCount" content="119">
+<meta property="og:url" content="/docs/reference/api/verrazzano/metricstemplate/" />
+<meta property="article:modified_time" content="2022-02-08T13:37:13-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta itemprop="name" content="Metrics Template Custom Resource Definition">
+<meta itemprop="description" content="The Metrics Template CRD contains the metrics configuration for default Kubernetes workloads. Here is the default Metrics Template that Verrazzano installs.
+apiVersion: app.verrazzano.io/v1alpha1 kind: MetricsTemplate metadata: name: standard-k8s-metrics-template namespace: verrazzano-system spec: workloadSelector: apiGroups: [&quot;apps&quot;, &quot;&quot;] apiVersions: [&quot;v1&quot;] resources: [&quot;deployment&quot;, &quot;statefulset&quot;, &quot;replicaset&quot;, &quot;pod&quot;] prometheusConfig: targetConfigMap: namespace: verrazzano-system name: vmi-system-prometheus-config scrapeConfigTemplate: | kubernetes_sd_configs: - namespaces: names: - {{`{{.workload.metadata.namespace}}`}} role: pod relabel_configs: - action: replace replacement: local source_labels: null target_label: verrazzano_cluster - action: keep regex: {{`{{index .">
+<meta itemprop="dateModified" content="2022-02-08T13:37:13-05:00" />
+<meta itemprop="wordCount" content="360">
 
 
 
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Customize Ingress"/>
-<meta name="twitter:description" content="Customize Verrazzano NGINX and Istio ingress installation settings"/>
+<meta name="twitter:title" content="Metrics Template Custom Resource Definition"/>
+<meta name="twitter:description" content="The Metrics Template CRD contains the metrics configuration for default Kubernetes workloads. Here is the default Metrics Template that Verrazzano installs.
+apiVersion: app.verrazzano.io/v1alpha1 kind: MetricsTemplate metadata: name: standard-k8s-metrics-template namespace: verrazzano-system spec: workloadSelector: apiGroups: [&quot;apps&quot;, &quot;&quot;] apiVersions: [&quot;v1&quot;] resources: [&quot;deployment&quot;, &quot;statefulset&quot;, &quot;replicaset&quot;, &quot;pod&quot;] prometheusConfig: targetConfigMap: namespace: verrazzano-system name: vmi-system-prometheus-config scrapeConfigTemplate: | kubernetes_sd_configs: - namespaces: names: - {{`{{.workload.metadata.namespace}}`}} role: pod relabel_configs: - action: replace replacement: local source_labels: null target_label: verrazzano_cluster - action: keep regex: {{`{{index ."/>
 
 
 
@@ -106,7 +109,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.7665de9398fc41a92cff50faea58b9a9.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.a0ec8bd73c83cfbc4c48ff4433100329.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -133,7 +136,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.7665de9398fc41a92cff50faea58b9a9.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.a0ec8bd73c83cfbc4c48ff4433100329.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -160,12 +163,12 @@ if (!doNotTrack) {
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsquickstart-li">
   <a href="../../../../../docs/quickstart/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsquickstart"><span class="">Quick Start</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docssetup-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docssetup-li">
   <a href="../../../../../docs/setup/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssetup"><span class="">Setup</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupversions-li">
-  <a href="../../../../../docs/setup/versions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupversions"><span class="">Software Versions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docssetupplatforms-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupprereqs-li">
+  <a href="../../../../../docs/setup/prereqs/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupprereqs"><span class="">Prerequisites</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docssetupplatforms-li">
   <a href="../../../../../docs/setup/platforms/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssetupplatforms"><span class="">Platform Setup</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupplatformsocioci-li">
@@ -178,42 +181,48 @@ if (!doNotTrack) {
   <a href="../../../../../docs/setup/platforms/generic/generic/" title="Generic Kubernetes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupplatformsgenericgeneric"><span class="">Generic</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docssetupinstall-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docssetupinstall-li">
   <a href="../../../../../docs/setup/install/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssetupinstall"><span class="">Install</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupinstallinstallation-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupinstallinstallation-li">
   <a href="../../../../../docs/setup/install/installation/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupinstallinstallation"><span class="">Install Guide</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupinstallprofiles-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupinstallprofiles-li">
   <a href="../../../../../docs/setup/install/profiles/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupinstallprofiles"><span class="">Installation Profiles</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupinstallmulticluster-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupinstallmulticluster-li">
   <a href="../../../../../docs/setup/install/multicluster/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupinstallmulticluster"><span class="">Install Multicluster Verrazzano</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docssetupinstallcustomizing-li">
-  <a href="../../../../../docs/setup/install/customizing/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssetupinstallcustomizing"><span class="">Customize Installations</span></a>
-  <ul class="ul-4 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupinstallcustomizingdns-li">
-  <a href="../../../../../docs/setup/install/customizing/dns/" title="Customize DNS" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupinstallcustomizingdns"><span class="">DNS</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupinstallcustomizingcertificates-li">
-  <a href="../../../../../docs/setup/install/customizing/certificates/" title="Customize Certificates" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupinstallcustomizingcertificates"><span class="">Certificates</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupinstallcustomizingelasticsearch-li">
-  <a href="../../../../../docs/setup/install/customizing/elasticsearch/" title="Customize Elasticsearch" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupinstallcustomizingelasticsearch"><span class="">Elasticsearch</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docssetupinstallcustomizingingress-li">
-  <a href="../../../../../docs/setup/install/customizing/ingress/" title="Customize Ingress" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-docssetupinstallcustomizingingress"><span class="td-sidebar-nav-active-item">Ingress</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupinstallcustomizingstorage-li">
-  <a href="../../../../../docs/setup/install/customizing/storage/" title="Customize Persistent Storage" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupinstallcustomizingstorage"><span class="">Persistent Storage</span></a>
 </li>
   </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docssetupcustomizing-li">
+  <a href="../../../../../docs/setup/customizing/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssetupcustomizing"><span class="">Customize Installations</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupcustomizingdns-li">
+  <a href="../../../../../docs/setup/customizing/dns/" title="Customize DNS" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupcustomizingdns"><span class="">DNS</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupcustomizingcertificates-li">
+  <a href="../../../../../docs/setup/customizing/certificates/" title="Customize Certificates" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupcustomizingcertificates"><span class="">Certificates</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupcustomizingociloadbalancerips-li">
+  <a href="../../../../../docs/setup/customizing/ociloadbalancerips/" title="Customize Load Balancers on OKE" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupcustomizingociloadbalancerips"><span class="">OKE Load Balancers</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupcustomizingauthproxy-li">
+  <a href="../../../../../docs/setup/customizing/authproxy/" title="Customize AuthProxy" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupcustomizingauthproxy"><span class="">AuthProxy</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupcustomizingistio-li">
+  <a href="../../../../../docs/setup/customizing/istio/" title="Customize Istio" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupcustomizingistio"><span class="">Istio</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupcustomizingopensearch-li">
+  <a href="../../../../../docs/setup/customizing/opensearch/" title="Customize OpenSearch" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupcustomizingopensearch"><span class="">OpenSearch</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupcustomizingingress-li">
+  <a href="../../../../../docs/setup/customizing/ingress/" title="Customize Ingress" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupcustomizingingress"><span class="">Ingress</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupcustomizingstorage-li">
+  <a href="../../../../../docs/setup/customizing/storage/" title="Customize Persistent Storage" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupcustomizingstorage"><span class="">Persistent Storage</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupuninstalluninstall-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupuninstalluninstall-li">
   <a href="../../../../../docs/setup/uninstall/uninstall/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupuninstalluninstall"><span class="">Uninstall</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docssetupupgrade-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docssetupupgrade-li">
   <a href="../../../../../docs/setup/upgrade/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssetupupgrade"><span class="">Upgrade</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupupgrademulticluster-li">
   <a href="../../../../../docs/setup/upgrade/multicluster/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssetupupgrademulticluster"><span class="">Upgrade Multicluster Verrazzano</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupprivate-registryprivate-registry-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupprivate-registryprivate-registry-li">
   <a href="../../../../../docs/setup/private-registry/private-registry/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupprivate-registryprivate-registry"><span class="">Use a Private Registry</span></a>
 </li>
   </ul>
@@ -273,6 +282,8 @@ if (!doNotTrack) {
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsmonitoringlogs-li">
   <a href="../../../../../docs/monitoring/logs/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsmonitoringlogs"><span class="">Logging</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsmonitoringoci-loggingoci-logging-li">
+  <a href="../../../../../docs/monitoring/oci-logging/oci-logging/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsmonitoringoci-loggingoci-logging"><span class="">OCI Logging Service</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsmonitoringmetricsmetrics-li">
   <a href="../../../../../docs/monitoring/metrics/metrics/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsmonitoringmetricsmetrics"><span class="">Metrics</span></a>
 </li>
@@ -320,10 +331,10 @@ if (!doNotTrack) {
   </ul>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingtroubleshooting-li">
-  <a href="../../../../../docs/troubleshooting/troubleshooting/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingtroubleshooting"><span class="">Known Issues</span></a>
 </li>
   </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsfaqfaq-li">
+  <a href="../../../../../docs/faq/faq/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsfaqfaq"><span class="">FAQ</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsguides-li">
   <a href="../../../../../docs/guides/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsguides"><span class="">Guides</span></a>
   <ul class="ul-2 foldable">
@@ -354,11 +365,11 @@ if (!doNotTrack) {
   <a href="../../../../../docs/samples/multicluster/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssamplesmulticluster"><span class="">Multicluster</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssamplesmulticlusterhello-helidon-li">
-  <a href="../../../../../docs/samples/multicluster/hello-helidon/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssamplesmulticlusterhello-helidon"><span class=""></span></a>
+  <a href="../../../../../docs/samples/multicluster/hello-helidon/" title="Multicluster Hello World Helidon" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssamplesmulticlusterhello-helidon"><span class="">Hello World Helidon</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssamplesmulticlustersock-shop-li">
-  <a href="../../../../../docs/samples/multicluster/sock-shop/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssamplesmulticlustersock-shop"><span class=""></span></a>
+  <a href="../../../../../docs/samples/multicluster/sock-shop/" title="Multicluster Helidon Sock Shop" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssamplesmulticlustersock-shop"><span class="">Helidon Sock Shop</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssamplesmulticlustertodo-list-li">
-  <a href="../../../../../docs/samples/multicluster/todo-list/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssamplesmulticlustertodo-list"><span class=""></span></a>
+  <a href="../../../../../docs/samples/multicluster/todo-list/" title="Multicluster ToDo List" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssamplesmulticlustertodo-list"><span class="">ToDo List</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssampleshelidon-config-li">
@@ -367,37 +378,39 @@ if (!doNotTrack) {
   <a href="../../../../../docs/samples/hello-helidon/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssampleshello-helidon"><span class=""></span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsreference-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docsreference-li">
   <a href="../../../../../docs/reference/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsreference"><span class="">Reference</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docsreferenceapi-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docsreferenceapi-li">
   <a href="../../../../../docs/reference/api/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsreferenceapi"><span class="">API</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapioamingresstrait-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsreferenceapioamingresstrait-li">
   <a href="../../../../../docs/reference/api/oam/ingresstrait/" title="IngressTrait Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapioamingresstrait"><span class="">IngressTrait CRD</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapioamloggingtrait-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsreferenceapioamloggingtrait-li">
   <a href="../../../../../docs/reference/api/oam/loggingtrait/" title="LoggingTrait Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapioamloggingtrait"><span class="">LoggingTrait CRD</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapioammetricstrait-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsreferenceapiverrazzanometricstemplate-li">
+  <a href="../../../../../docs/reference/api/verrazzano/metricstemplate/" title="Metrics Template Custom Resource Definition" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapiverrazzanometricstemplate"><span class="td-sidebar-nav-active-item">MetricsTemplate CRD</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsreferenceapioammetricstrait-li">
   <a href="../../../../../docs/reference/api/oam/metricstrait/" title="MetricsTrait Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapioammetricstrait"><span class="">MetricsTrait CRD</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapimulticlustermulticlusterapplicationconfiguration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsreferenceapimulticlustermulticlusterapplicationconfiguration-li">
   <a href="../../../../../docs/reference/api/multicluster/multiclusterapplicationconfiguration/" title="MultiClusterApplicationConfiguration Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlustermulticlusterapplicationconfiguration"><span class="">MultiClusterApplicationConfiguration CRD</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapimulticlustermulticlustercomponent-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsreferenceapimulticlustermulticlustercomponent-li">
   <a href="../../../../../docs/reference/api/multicluster/multiclustercomponent/" title="MultiClusterComponent Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlustermulticlustercomponent"><span class="">MultiClusterComponent CRD</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapimulticlustermulticlusterconfigmap-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsreferenceapimulticlustermulticlusterconfigmap-li">
   <a href="../../../../../docs/reference/api/multicluster/multiclusterconfigmap/" title="MultiClusterConfigMap Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlustermulticlusterconfigmap"><span class="">MultiClusterConfigMap CRD</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapimulticlustermulticlusterresourcestatus-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsreferenceapimulticlustermulticlusterresourcestatus-li">
   <a href="../../../../../docs/reference/api/multicluster/multiclusterresourcestatus/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlustermulticlusterresourcestatus"><span class="">MultiClusterResourceStatus Subresource</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapimulticlustermulticlustersecret-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsreferenceapimulticlustermulticlustersecret-li">
   <a href="../../../../../docs/reference/api/multicluster/multiclustersecret/" title="MultiClusterSecret Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlustermulticlustersecret"><span class="">MultiClusterSecret CRD</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapimulticlusterplacement-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsreferenceapimulticlusterplacement-li">
   <a href="../../../../../docs/reference/api/multicluster/placement/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlusterplacement"><span class="">Placement Subresource</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapiverrazzanoverrazzano-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsreferenceapiverrazzanoverrazzano-li">
   <a href="../../../../../docs/reference/api/verrazzano/verrazzano/" title="Verrazzano Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapiverrazzanoverrazzano"><span class="">Verrazzano CRD</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapioamworkloads-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsreferenceapioamworkloads-li">
   <a href="../../../../../docs/reference/api/oam/workloads/" title="Verrazzano Workload Custom Resource Definitions" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapioamworkloads"><span class="">Verrazzano Workload CRDs</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapimulticlusterverrazzanomanagedcluster-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsreferenceapimulticlusterverrazzanomanagedcluster-li">
   <a href="../../../../../docs/reference/api/multicluster/verrazzanomanagedcluster/" title="VerrazzanoManagedCluster Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlusterverrazzanomanagedcluster"><span class="">VerrazzanoManagedCluster CRD</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapimulticlusterverrazzanoproject-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsreferenceapimulticlusterverrazzanoproject-li">
   <a href="../../../../../docs/reference/api/multicluster/verrazzanoproject/" title="VerrazzanoProject Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlusterverrazzanoproject"><span class="">VerrazzanoProject CRD</span></a>
 </li>
   </ul>
@@ -473,9 +486,6 @@ if (!doNotTrack) {
 
 
 
-
-
-
 <li class="breadcrumb-item" >
 	<a href="../../../../../docs/">Documentation</a>
 </li>
@@ -484,28 +494,21 @@ if (!doNotTrack) {
 
 
 <li class="breadcrumb-item" >
-	<a href="../../../../../docs/setup/">Setup</a>
+	<a href="../../../../../docs/reference/">Reference</a>
 </li>
 
 
 
 
 <li class="breadcrumb-item" >
-	<a href="../../../../../docs/setup/install/">Install</a>
-</li>
-
-
-
-
-<li class="breadcrumb-item" >
-	<a href="../../../../../docs/setup/install/customizing/">Customize Installations</a>
+	<a href="../../../../../docs/reference/api/">API</a>
 </li>
 
 
 
 
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="../../../../../docs/setup/install/customizing/ingress/">Ingress</a>
+	<a href="../../../../../docs/reference/api/verrazzano/metricstemplate/">MetricsTemplate CRD</a>
 </li>
 
 	</ol>
@@ -513,8 +516,8 @@ if (!doNotTrack) {
 
             
 <div class="td-content">
-	<h1>Customize Ingress</h1>
-	<div class="lead">Customize Verrazzano NGINX and Istio ingress installation settings</div>
+	<h1>Metrics Template Custom Resource Definition</h1>
+	
 	<header class="article-meta">
 		
 		
@@ -530,36 +533,234 @@ if (!doNotTrack) {
 		
 		
 	</header>    
-	<p>Verrazzano uses NGINX for ingress to Verrazzano system components and Istio for application ingress.
-You can customize the NGINX and Istio ingress installation configurations using Helm overrides specified in the
-Verrazzano custom resource. For example, the following Verrazzano custom resource overrides the shape
-of an OCI load balancer for both NGINX and Istio ingresses:</p>
-<pre><code>apiVersion: install.verrazzano.io/v1alpha1
-kind: Verrazzano
+	<p>The Metrics Template CRD contains the metrics configuration for default Kubernetes workloads.
+Here is the default Metrics Template that Verrazzano installs.</p>
+<pre><code>apiVersion: app.verrazzano.io/v1alpha1
+kind: MetricsTemplate
 metadata:
-  name: custom-lb-settings
+  name: standard-k8s-metrics-template
+  namespace: verrazzano-system
 spec:
-  profile: prod
-  components:
-    ingress:
-      type: LoadBalancer
-      nginxInstallArgs:
-      - name: controller.service.annotations.&quot;service\.beta\.kubernetes\.io/oci-load-balancer-shape&quot;
-        value: &quot;10Mbps&quot;
-    istio:
-      istioInstallArgs:
-      - name: gateways.istio-ingressgateway.serviceAnnotations.&quot;service\.beta\.kubernetes\.io/oci-load-balancer-shape&quot;
-        value: &quot;10Mbps&quot;
-</code></pre><p>The previous entries use dot notation to represent YAML values.</p>
-<p>For example:</p>
-<pre><code>    - name: controller.service.annotations.&quot;service\.beta\.kubernetes\.io/oci-load-balancer-shape&quot;
-      value: &quot;10Mbps&quot;
-</code></pre><p>Is translated into:</p>
-<pre><code>controler:
-   service:
-     annotations:
-       service.beta.kubernetes.io/oci-load-balancer-shape: 10Mbps
-</code></pre><p>For more information about setting component overrides, see <a href="https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing">Customizing the Chart Before Installing</a>.</p>
+  workloadSelector:
+    apiGroups: [&quot;apps&quot;, &quot;&quot;]
+    apiVersions: [&quot;v1&quot;]
+    resources: [&quot;deployment&quot;, &quot;statefulset&quot;, &quot;replicaset&quot;, &quot;pod&quot;]
+  prometheusConfig:
+    targetConfigMap:
+      namespace: verrazzano-system
+      name: vmi-system-prometheus-config
+    scrapeConfigTemplate: |
+      kubernetes_sd_configs:
+        - namespaces:
+            names:
+            - {{`{{.workload.metadata.namespace}}`}}
+          role: pod
+      relabel_configs:
+        - action: replace
+          replacement: local
+          source_labels: null
+          target_label: verrazzano_cluster
+        - action: keep
+          regex: {{`{{index .workload.metadata.labels &quot;app.verrazzano.io/workload&quot;}}`}};true
+          source_labels:
+            - __meta_kubernetes_pod_label_app_verrazzano_io_workload
+            - __meta_kubernetes_pod_annotation_prometheus_io_scrape
+        - action: replace
+          regex: ([^:]+)(?::\d+)?;(\d+)
+          replacement: $1:$2
+          source_labels:
+            - __address__
+            - __meta_kubernetes_pod_annotation_prometheus_io_port
+          target_label: __address__
+        - action: replace
+          regex: (.*)
+          source_labels:
+            - __meta_kubernetes_pod_annotation_prometheus_io_path
+          target_label: __metrics_path__
+        - action: replace
+          regex: (.*)
+          replacement: $1
+          source_labels:
+            - __meta_kubernetes_namespace
+          target_label: namespace
+        - action: labelmap
+          regex: __meta_kubernetes_pod_label_(.+)
+        - action: replace
+          source_labels:
+            - __meta_kubernetes_pod_name
+          target_label: pod_name
+        - action: labeldrop
+          regex: (controller_revision_hash)
+        - action: replace
+          regex: .*/(.*)$
+          replacement: $1
+          source_labels:
+            - name
+          target_label: webapp
+      scheme: https
+      {{`{{ if eq ( index .namespace.metadata.labels &quot;istio-injection&quot; ) &quot;enabled&quot; }}`}}
+      tls_config:
+        ca_file: /etc/istio-certs/root-cert.pem
+        cert_file: /etc/istio-certs/cert-chain.pem
+        insecure_skip_verify: true
+        key_file: /etc/istio-certs/key.pem
+      {{`{{ end }}`}}
+</code></pre><p>For more information on using the Metrics Template, see <a href="../../../../../docs/monitoring/metrics/metrics/#metrics-template">Metrics Template</a>.</p>
+<h4 id="metricstemplate">MetricsTemplate</h4>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>apiVersion</code></td>
+<td>string</td>
+<td><code>app.verrazzano.io/v1alpha1</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>kind</code></td>
+<td>string</td>
+<td>MetricsTemplate</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>metadata</code></td>
+<td>ObjectMeta</td>
+<td>Refer to the Kubernetes API documentation for fields of metadata.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>spec</code></td>
+<td><a href="#metricstemplatespec">MetricsTemplateSpec</a></td>
+<td>The desired state of a metrics trait.</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<h4 id="metricstemplatespec">MetricsTemplateSpec</h4>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>workloadSelector</code></td>
+<td><a href="#workloadselector">WorkloadSelector</a></td>
+<td>Selector for target workloads.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>prometheusConfig</code></td>
+<td><a href="#prometheusconfig">PrometheusConfig</a></td>
+<td>Prometheus configuration details.</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<h4 id="workloadselector">WorkloadSelector</h4>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>namespaceSelector</code></td>
+<td><a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors">LabelSelector</a></td>
+<td>Scopes the template to a namespace.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>objectSelector</code></td>
+<td><a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors">LabelSelector</a></td>
+<td>Scopes the template to a specific workload object.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>apiGroups</code></td>
+<td>[]string</td>
+<td>Scopes the template to given API Groups.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>apiVersions</code></td>
+<td>[]string</td>
+<td>Scopes the template to given API Versions.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>resources</code></td>
+<td>[]string</td>
+<td>Scopes the template to given API Resources.</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<h4 id="prometheusconfig">PrometheusConfig</h4>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>targetConfigMap</code></td>
+<td><a href="#targetconfigmap">TargetConfigMap</a></td>
+<td>Identity of the ConfigMap to be updated with the scrape configuration specified in <code>scrapeConfigTemplate</code>.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>scrapeConfigTemplate</code></td>
+<td>string</td>
+<td>Scrape configuration template to be added to the Prometheus configuration.</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<h4 id="targetconfigmap">TargetConfigMap</h4>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>namespace</code></td>
+<td>string</td>
+<td>Namespace of the ConfigMap to be updated with the scrape target configuration.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>Name of the ConfigMap to be updated with the scrape target configuration.</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
 
 	
 		<style>
@@ -686,7 +887,7 @@ spec:
         
       </div>
       <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
-        <small class="text-white">&copy; 2021 Oracle and/or its affiliates</small>
+        <small class="text-white">&copy; 2022 Oracle and/or its affiliates</small>
         
 	
 		

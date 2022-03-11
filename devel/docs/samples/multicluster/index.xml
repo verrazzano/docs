@@ -14,7 +14,7 @@
     
     
     <item>
-      <title>Docs: </title>
+      <title>Docs: Multicluster Hello World Helidon</title>
       <link>/docs/samples/multicluster/hello-helidon/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -22,8 +22,7 @@
       <description>
         
         
-        &lt;h1 id=&#34;multicluster-hello-world-helidon&#34;&gt;Multicluster Hello World Helidon&lt;/h1&gt;
-&lt;p&gt;The Hello World Helidon example is a Helidon-based service that returns a &amp;ldquo;Hello World&amp;rdquo; response when invoked. The example application is specified using Open Application Model (OAM) component and application configuration YAML files, and then deployed by applying those files.  This example shows how to deploy the Hello World Helidon application in a multicluster environment.&lt;/p&gt;
+        &lt;p&gt;The Hello World Helidon example is a Helidon-based service that returns a &amp;ldquo;Hello World&amp;rdquo; response when invoked. The example application is specified using Open Application Model (OAM) component and application configuration YAML files, and then deployed by applying those files.  This example shows how to deploy the Hello World Helidon application in a multicluster environment.&lt;/p&gt;
 &lt;h2 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h2&gt;
 &lt;p&gt;Create a multicluster Verrazzano installation with one admin and one managed cluster, and register the managed cluster, by following the instructions &lt;a href=&#34;../../../docs/setup/install/multicluster/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Set up the following environment variables to point to the &lt;code&gt;kubeconfig&lt;/code&gt; for the admin and managed clusters.&lt;/p&gt;
@@ -154,7 +153,7 @@ $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 delete namespace hello-helidon
     </item>
     
     <item>
-      <title>Docs: </title>
+      <title>Docs: Multicluster Helidon Sock Shop</title>
       <link>/docs/samples/multicluster/sock-shop/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -162,8 +161,7 @@ $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 delete namespace hello-helidon
       <description>
         
         
-        &lt;h1 id=&#34;multicluster-helidon-sock-shop&#34;&gt;Multicluster Helidon Sock Shop&lt;/h1&gt;
-&lt;p&gt;This example application provides a &lt;a href=&#34;https://helidon.io&#34;&gt;Helidon&lt;/a&gt; implementation of the &lt;a href=&#34;https://microservices-demo.github.io/&#34;&gt;Sock Shop Microservices Demo Application&lt;/a&gt;.
+        &lt;p&gt;This example application provides a &lt;a href=&#34;https://helidon.io&#34;&gt;Helidon&lt;/a&gt; implementation of the &lt;a href=&#34;https://microservices-demo.github.io/&#34;&gt;Sock Shop Microservices Demo Application&lt;/a&gt;.
 It uses OAM resources to define the application deployment in a multicluster environment.&lt;/p&gt;
 &lt;h2 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h2&gt;
 &lt;ul&gt;
@@ -320,42 +318,7 @@ $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get IngressTrait -n mc-sockshop
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;A variety of endpoints are available to further explore the logs, metrics, and such, associated with
-the deployed Sock Shop application.  Accessing them may require the following:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Run this command to get the password that was generated for the telemetry components:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN get secret \
-    --namespace verrazzano-system verrazzano \
-    -o jsonpath={.data.password} | base64 \
-    --decode; echo
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The associated user name is &lt;code&gt;verrazzano&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;You will have to accept the certificates associated with the endpoints.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;You can retrieve the list of available ingresses with following command:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get ingress -n verrazzano-system
-NAME                    CLASS    HOSTS                                              ADDRESS       PORTS     AGE
-verrazzano-ingress      &amp;lt;none&amp;gt;   verrazzano.default.10.11.12.13.nip.io              10.11.12.13   80, 443   32m
-vmi-system-prometheus   &amp;lt;none&amp;gt;   prometheus.vmi.system.default.10.11.12.13.nip.io   10.11.12.13   80, 443   32m
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Using the ingress host information, some of the endpoints available are:&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;th&gt;Address&lt;/th&gt;
-&lt;th&gt;Credentials&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;Prometheus&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-prometheus ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
+the deployed Sock Shop application.  You can access them according to the directions &lt;a href=&#34;../../../docs/operations/#get-the-consoles-urls&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;undeploy-the-sock-shop-application&#34;&gt;Undeploy the Sock Shop application&lt;/h2&gt;
@@ -386,7 +349,7 @@ $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 delete namespace mc-sockshop
     </item>
     
     <item>
-      <title>Docs: </title>
+      <title>Docs: Multicluster ToDo List</title>
       <link>/docs/samples/multicluster/todo-list/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -394,8 +357,7 @@ $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 delete namespace mc-sockshop
       <description>
         
         
-        &lt;h1 id=&#34;todo-list&#34;&gt;ToDo List&lt;/h1&gt;
-&lt;p&gt;ToDo List is an example application containing a WebLogic component.
+        &lt;p&gt;ToDo List is an example application containing a WebLogic component.
 For more information and the source code of this application, see the &lt;a href=&#34;https://github.com/verrazzano/examples&#34;&gt;Verrazzano Examples&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h2&gt;
 &lt;ul&gt;
@@ -531,62 +493,7 @@ with an edit field and an &lt;strong&gt;Add&lt;/strong&gt; button that lets add 
 &lt;li&gt;
 &lt;p&gt;A variety of endpoints associated with
 the deployed ToDo List application, are available to further explore the logs, metrics, and such.
-Accessing them may require the following:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Run this command to get the password that was generated for the telemetry components:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN get secret \
-    --namespace verrazzano-system verrazzano -o jsonpath={.data.password} | base64 \
-    --decode; echo
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The associated user name is &lt;code&gt;verrazzano&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;You will have to accept the certificates associated with the endpoints.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;You can retrieve the list of available ingresses with following command:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN get ingress -n verrazzano-system
-
-# Sample output
-NAME                    CLASS    HOSTS                                                 ADDRESS       PORTS     AGE
-verrazzano-ingress      &amp;lt;none&amp;gt;   verrazzano.default.11.22.33.44.nip.io                 11.22.33.44   80, 443   7d
-vmi-system-es-ingest    &amp;lt;none&amp;gt;   elasticsearch.vmi.system.default.11.22.33.44.nip.io   11.22.33.44   80, 443   7d
-vmi-system-grafana      &amp;lt;none&amp;gt;   grafana.vmi.system.default.11.22.33.44.nip.io         11.22.33.44   80, 443   7d
-vmi-system-kiali        &amp;lt;none&amp;gt;   kiali.vmi.system.default.11.22.33.44.nip.io           11.22.33.44   80, 443   7d
-vmi-system-kibana       &amp;lt;none&amp;gt;   kibana.vmi.system.default.11.22.33.44.nip.io          11.22.33.44   80, 443   7d
-vmi-system-prometheus   &amp;lt;none&amp;gt;   prometheus.vmi.system.default.11.22.33.44.nip.io      11.22.33.44   80, 443   7d
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Using the ingress host information, some of the endpoints available are:&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;th&gt;Address&lt;/th&gt;
-&lt;th&gt;Credentials&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;Kibana&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-kibana ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Grafana&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-grafana ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Prometheus&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-prometheus ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Kiali&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-kiali ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
+You can access them according to the directions &lt;a href=&#34;../../../docs/operations/#get-the-consoles-urls&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h2&gt;

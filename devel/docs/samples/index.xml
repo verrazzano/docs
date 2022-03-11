@@ -54,6 +54,18 @@ It uses OAM resources to define the application deployment.&lt;/p&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/oracle/coherence-micronaut-sockshop-sample&#34;&gt;Coherence and Micronaut&lt;/a&gt; in the &lt;code&gt;micronaut&lt;/code&gt; subdirectory.&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/oracle/coherence-spring-sockshop-sample&#34;&gt;Coherence and Spring&lt;/a&gt; in the &lt;code&gt;spring&lt;/code&gt; subdirectory.&lt;/li&gt;
 &lt;/ul&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    &lt;p&gt;To run this application in the default namespace:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$kubectl label namespace default verrazzano-managed=true
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you chose the default namespace, you can skip Step 1. and ignore the &lt;code&gt;-n&lt;/code&gt; option in the rest of the commands.&lt;/p&gt;
+
+
+&lt;/div&gt;
+
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Create a namespace for the Sock Shop application and add a label identifying the namespace as managed by Verrazzano.&lt;/p&gt;
@@ -119,8 +131,8 @@ $ kubectl label namespace sockshop verrazzano-managed=true
 &lt;div class=&#34;tab-pane fade show active&#34; id=&#34;tab31&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName1&#34;&gt;
 
 	   &lt;br&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/helidon/sock-shop-comp.yaml
-$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/helidon/sock-shop-app.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/helidon/sock-shop-comp.yaml -n sockshop
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/helidon/sock-shop-app.yaml -n sockshop
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;/div&gt;
@@ -136,8 +148,8 @@ $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/maste
 &lt;div class=&#34;tab-pane fade&#34; id=&#34;tab32&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName2&#34;&gt;
 
 	   &lt;br&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/micronaut/sock-shop-comp.yaml
-$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/micronaut/sock-shop-app.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/micronaut/sock-shop-comp.yaml -n sockshop
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/micronaut/sock-shop-app.yaml -n sockshop
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;/div&gt;
@@ -153,8 +165,8 @@ $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/maste
 &lt;div class=&#34;tab-pane fade&#34; id=&#34;tab33&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName3&#34;&gt;
 
 	   &lt;br&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/spring/sock-shop-comp.yaml
-$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/spring/sock-shop-app.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/spring/sock-shop-comp.yaml -n sockshop
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/spring/sock-shop-app.yaml -n sockshop
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;/div&gt;
@@ -188,7 +200,7 @@ ports, and such.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Get the generated host name for the application.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateway \
+&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateways.networking.istio.io \
      -n sockshop \
      -o jsonpath={.items[0].spec.servers[0].hosts[0]})
 $ echo $HOST
@@ -268,64 +280,8 @@ before deploying the Sock Shop application.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;A variety of endpoints associated with the deployed application, are available to further explore the logs, metrics, and such.&lt;/p&gt;
-&lt;p&gt;Accessing them may require the following:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Run this command to get the password that was generated for the telemetry components:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get secret \
-   --namespace verrazzano-system verrazzano \
-   -o jsonpath={.data.password} | base64 \
-   --decode; echo
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The associated user name is &lt;code&gt;verrazzano&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;You will have to accept the certificates associated with the endpoints.&lt;/p&gt;
-&lt;p&gt;You can retrieve the list of available ingresses with following command:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt; $ kubectl get ingress -n verrazzano-system
-
- # Sample output
- NAME                    CLASS    HOSTS                                                 ADDRESS       PORTS     AGE
- verrazzano-ingress      &amp;lt;none&amp;gt;   verrazzano.default.11.22.33.44.nip.io                 11.22.33.44   80, 443   7d
- vmi-system-es-ingest    &amp;lt;none&amp;gt;   elasticsearch.vmi.system.default.11.22.33.44.nip.io   11.22.33.44   80, 443   7d
- vmi-system-grafana      &amp;lt;none&amp;gt;   grafana.vmi.system.default.11.22.33.44.nip.io         11.22.33.44   80, 443   7d
- vmi-system-kiali        &amp;lt;none&amp;gt;   kiali.vmi.system.default.11.22.33.44.nip.io           11.22.33.44   80, 443   7d
- vmi-system-kibana       &amp;lt;none&amp;gt;   kibana.vmi.system.default.11.22.33.44.nip.io          11.22.33.44   80, 443   7d
- vmi-system-prometheus   &amp;lt;none&amp;gt;   prometheus.vmi.system.default.11.22.33.44.nip.io      11.22.33.44   80, 443   7d
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Using the ingress host information, some of the endpoints available are:&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;th&gt;Address&lt;/th&gt;
-&lt;th&gt;Credentials&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;Kibana&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-kibana ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Grafana&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-grafana ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Prometheus&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-prometheus ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Kiali&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-kiali ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;A variety of endpoints associated with the deployed application, are available to further explore the logs, metrics, and such.
+You can access them according to the directions &lt;a href=&#34;../../docs/operations/#get-the-consoles-urls&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h2&gt;
@@ -412,8 +368,8 @@ $ kubectl get IngressTrait -n sockshop
 &lt;div class=&#34;tab-pane fade show active&#34; id=&#34;tab41&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName1&#34;&gt;
 
 	   &lt;br&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/helidon/sock-shop-comp.yaml
-$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/helidon/sock-shop-app.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/helidon/sock-shop-comp.yaml -n sockshop
+$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/helidon/sock-shop-app.yaml -n sockshop
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;/div&gt;
@@ -429,8 +385,8 @@ $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/mast
 &lt;div class=&#34;tab-pane fade&#34; id=&#34;tab42&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName2&#34;&gt;
 
 	   &lt;br&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/micronaut/sock-shop-comp.yaml
-$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/micronaut/sock-shop-app.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/micronaut/sock-shop-comp.yaml -n sockshop
+$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/micronaut/sock-shop-app.yaml -n sockshop
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;/div&gt;
@@ -446,8 +402,8 @@ $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/mast
 &lt;div class=&#34;tab-pane fade&#34; id=&#34;tab43&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName3&#34;&gt;
 
 	   &lt;br&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/spring/sock-shop-comp.yaml
-$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/spring/sock-shop-app.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/spring/sock-shop-comp.yaml -n sockshop
+$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/sock-shop/spring/sock-shop-app.yaml -n sockshop
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;/div&gt;
@@ -481,6 +437,18 @@ $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/mast
 &lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The Spring Boot example application deployment files are contained in the Verrazzano project located at &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/springboot-app&lt;/code&gt;, where &lt;code&gt;VERRAZZANO_HOME&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
 &lt;h2 id=&#34;deploy-the-spring-boot-application&#34;&gt;Deploy the Spring Boot application&lt;/h2&gt;
 &lt;p&gt;This example provides a simple web application developed using &lt;a href=&#34;https://spring.io/guides/gs/spring-boot/&#34;&gt;Spring Boot&lt;/a&gt;. For more information and the source code of this application, see the &lt;a href=&#34;https://github.com/verrazzano/examples&#34;&gt;Verrazzano Examples&lt;/a&gt;.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    &lt;p&gt;To run this application in the default namespace:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$kubectl label namespace default verrazzano-managed=true istio-injection=enabled
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you chose the default namespace, you can skip Step 1. and ignore the &lt;code&gt;-n&lt;/code&gt; option in the rest of the commands.&lt;/p&gt;
+
+
+&lt;/div&gt;
+
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Create a namespace for the Spring Boot application and add a label identifying the namespace as managed by Verrazzano.&lt;/p&gt;
@@ -489,8 +457,8 @@ $ kubectl label namespace springboot verrazzano-managed=true istio-injection=ena
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;To deploy the application, apply the Spring Boot OAM resources.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/springboot-app/springboot-comp.yaml
-$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/springboot-app/springboot-app.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/springboot-app/springboot-comp.yaml -n springboot
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/springboot-app/springboot-app.yaml -n springboot
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the Spring Boot application to be ready.&lt;/p&gt;
@@ -505,7 +473,7 @@ $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/maste
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Get the generated host name for the application.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateway \
+&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateways.networking.istio.io \
      -n springboot \
      -o jsonpath={.items[0].spec.servers[0].hosts[0]})
 $ echo $HOST
@@ -571,72 +539,16 @@ before deploying the Spring Boot application.&lt;/p&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;A variety of endpoints associated with the deployed application, are available to further explore the logs, metrics, and such.&lt;/p&gt;
-&lt;p&gt;Accessing them may require the following:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Run this command to get the password that was generated for the telemetry components:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get secret \
-   --namespace verrazzano-system verrazzano \
-   -o jsonpath={.data.password} | base64 \
-   --decode; echo
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The associated user name is &lt;code&gt;verrazzano&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;You will have to accept the certificates associated with the endpoints.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;You can retrieve the list of available ingresses with following command:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get ingress -n verrazzano-system
-
-# Sample output
-NAME                    CLASS    HOSTS                                                 ADDRESS       PORTS     AGE
-verrazzano-ingress      &amp;lt;none&amp;gt;   verrazzano.default.11.22.33.44.nip.io                 11.22.33.44   80, 443   7d
-vmi-system-es-ingest    &amp;lt;none&amp;gt;   elasticsearch.vmi.system.default.11.22.33.44.nip.io   11.22.33.44   80, 443   7d
-vmi-system-grafana      &amp;lt;none&amp;gt;   grafana.vmi.system.default.11.22.33.44.nip.io         11.22.33.44   80, 443   7d
-vmi-system-kiali        &amp;lt;none&amp;gt;   kiali.vmi.system.default.11.22.33.44.nip.io           11.22.33.44   80, 443   7d
-vmi-system-kibana       &amp;lt;none&amp;gt;   kibana.vmi.system.default.11.22.33.44.nip.io          11.22.33.44   80, 443   7d
-vmi-system-prometheus   &amp;lt;none&amp;gt;   prometheus.vmi.system.default.11.22.33.44.nip.io      11.22.33.44   80, 443   7d
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Using the ingress host information, some of the endpoints available are:&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;th&gt;Address&lt;/th&gt;
-&lt;th&gt;Credentials&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;Kibana&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-kibana ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Grafana&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-grafana ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Prometheus&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-prometheus ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Kiali&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-kiali ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
+&lt;p&gt;A variety of endpoints associated with the deployed application, are available to further explore the logs, metrics, and such.
+You can access them according to the directions &lt;a href=&#34;../../docs/operations/#get-the-consoles-urls&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;undeploy-the-application&#34;&gt;Undeploy the application&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;To undeploy the application, delete the Spring Boot OAM resources.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/springboot-app/springboot-app.yaml
-$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/springboot-app/springboot-comp.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/springboot-app/springboot-app.yaml -n springboot
+$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/springboot-app/springboot-comp.yaml -n springboot
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Delete the namespace &lt;code&gt;springboot&lt;/code&gt; after the application pod is terminated.&lt;/p&gt;
@@ -857,6 +769,18 @@ $ kubectl delete ClusterRole oam-kubernetes-runtime-ingresses
 &lt;h2 id=&#34;deploy-the-todo-list-application&#34;&gt;Deploy the ToDo List application&lt;/h2&gt;
 &lt;p&gt;ToDo List is an example application containing a WebLogic component.
 For more information and the source code of this application, see the &lt;a href=&#34;https://github.com/verrazzano/examples&#34;&gt;Verrazzano Examples&lt;/a&gt;.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    &lt;p&gt;To run this application in the default namespace:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$kubectl label namespace default verrazzano-managed=true istio-injection=enabled
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you chose the default namespace, you can skip Step 1. and ignore the &lt;code&gt;-n&lt;/code&gt; option in the rest of the commands.&lt;/p&gt;
+
+
+&lt;/div&gt;
+
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Create a namespace for the ToDo List example and add a label identifying the namespace as managed by Verrazzano.&lt;/p&gt;
@@ -895,8 +819,8 @@ For the source code of this application, see the &lt;a href=&#34;https://github.
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;To deploy the application, apply the example resources.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/todo-list/todo-list-components.yaml
-$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/todo-list/todo-list-application.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/todo-list/todo-list-components.yaml -n todo-list
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/todo-list/todo-list-application.yaml -n todo-list
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the ToDo List application to be ready. You can monitor its progress by listing pods and inspecting the output, or
@@ -912,7 +836,7 @@ $ kubectl wait pod \
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Get the generated host name for the application.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateway \
+&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateways.networking.istio.io \
      -n todo-list \
      -o jsonpath=&#39;{.items[0].spec.servers[0].hosts[0]}&#39;)
 $ echo $HOST
@@ -973,63 +897,7 @@ with an edit field and an &lt;strong&gt;Add&lt;/strong&gt; button that lets you 
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;A variety of endpoints associated with the deployed ToDo List application, are available to further explore the logs, metrics, and such.
-Accessing them may require the following:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Run this command to get the password that was generated for the telemetry components:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get secret \
-    --namespace verrazzano-system verrazzano \
-    -o jsonpath=&#39;{.data.password}&#39; | base64 \
-    --decode; echo
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The associated user name is &lt;code&gt;verrazzano&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;You will have to accept the certificates associated with the endpoints.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;You can retrieve the list of available ingresses with following command:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get ingress -n verrazzano-system
-
-# Sample output
-NAME                    CLASS    HOSTS                                                 ADDRESS       PORTS     AGE
-verrazzano-ingress      &amp;lt;none&amp;gt;   verrazzano.default.11.22.33.44.nip.io                 11.22.33.44   80, 443   7d
-vmi-system-es-ingest    &amp;lt;none&amp;gt;   elasticsearch.vmi.system.default.11.22.33.44.nip.io   11.22.33.44   80, 443   7d
-vmi-system-grafana      &amp;lt;none&amp;gt;   grafana.vmi.system.default.11.22.33.44.nip.io         11.22.33.44   80, 443   7d
-vmi-system-kiali        &amp;lt;none&amp;gt;   kiali.vmi.system.default.11.22.33.44.nip.io           11.22.33.44   80, 443   7d
-vmi-system-kibana       &amp;lt;none&amp;gt;   kibana.vmi.system.default.11.22.33.44.nip.io          11.22.33.44   80, 443   7d
-vmi-system-prometheus   &amp;lt;none&amp;gt;   prometheus.vmi.system.default.11.22.33.44.nip.io      11.22.33.44   80, 443   7d
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Using the ingress host information, some of the endpoints available are:&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;th&gt;Address&lt;/th&gt;
-&lt;th&gt;Credentials&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;Kibana&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-kibana ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Grafana&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-grafana ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Prometheus&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-prometheus ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Kiali&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-kiali ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
+You can access them according to the directions &lt;a href=&#34;../../docs/operations/#get-the-consoles-urls&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;access-the-weblogic-server-administration-console&#34;&gt;Access the WebLogic Server Administration Console&lt;/h2&gt;
@@ -1091,8 +959,8 @@ tododomain-adminserver   4/4     Running   0          19h
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;To undeploy the application, delete the ToDo List OAM resources.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/todo-list/todo-list-application.yaml
-$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/todo-list/todo-list-components.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/todo-list/todo-list-application.yaml -n todo-list
+$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/todo-list/todo-list-components.yaml -n todo-list
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Delete the namespace &lt;code&gt;todo-list&lt;/code&gt; after the application pods are terminated. The secrets created for the WebLogic domain also will be deleted.&lt;/p&gt;
@@ -1153,6 +1021,18 @@ and has a JSF web UI running on WebLogic Server.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;For more information and the source code of this application, see the &lt;a href=&#34;https://github.com/verrazzano/examples&#34;&gt;Verrazzano Examples&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;deploy-the-example-application&#34;&gt;Deploy the example application&lt;/h2&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    &lt;p&gt;To run this application in the default namespace:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$kubectl label namespace default verrazzano-managed=true istio-injection=enabled
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you chose the default namespace, you can skip Step 1. and ignore the &lt;code&gt;-n&lt;/code&gt; option in the rest of the commands.&lt;/p&gt;
+
+
+&lt;/div&gt;
+
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Create a namespace for the example and add a label identifying the namespace as managed by Verrazzano.&lt;/p&gt;
@@ -1196,8 +1076,8 @@ If you want to use secret names that are different from what is specified in the
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;To deploy the application, apply the example resources.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/bobs-books/bobs-books-comp.yaml
-$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/bobs-books/bobs-books-app.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/bobs-books/bobs-books-comp.yaml -n bobs-books
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/bobs-books/bobs-books-app.yaml -n bobs-books
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for all of the pods in the Bob&amp;rsquo;s Books example application to be ready.
@@ -1225,7 +1105,7 @@ $ echo $ADDRESS
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Get the generated host name for the application.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateway bobs-books-bobs-books-gw \
+&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateways.networking.istio.io bobs-books-bobs-books-gw \
     -n bobs-books \
     -o jsonpath=&#39;{.spec.servers[0].hosts[0]}&#39;)
 $ echo $HOST
@@ -1352,8 +1232,8 @@ roberts-coherence-1                                 2/2     Running   0         
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;To undeploy the application, delete the Bob&amp;rsquo;s Books OAM resources.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/bobs-books/bobs-books-app.yaml
-$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/bobs-books/bobs-books-comp.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/bobs-books/bobs-books-app.yaml -n bobs-books
+$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/bobs-books/bobs-books-comp.yaml -n bobs-books
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Delete the namespace &lt;code&gt;bobs-books&lt;/code&gt; after the application pods are terminated. The secrets created for the WebLogic domain also will be deleted.&lt;/p&gt;
@@ -1373,29 +1253,7 @@ $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/mast
       <description>
         
         
-        &lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Example&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;a href=&#34;../../docs/samples/multicluster/hello-helidon/&#34;&gt;hello-helidon&lt;/a&gt;&lt;/td&gt;
-&lt;td&gt;Hello World Helidon example deployed to a multicluster environment. The example also demonstrates how to change the placement of the application to a different cluster.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;a href=&#34;../../docs/samples/multicluster/sock-shop/&#34;&gt;sock-shop&lt;/a&gt;&lt;/td&gt;
-&lt;td&gt;Implementation of the &lt;a href=&#34;https://microservices-demo.github.io/&#34;&gt;Sock Shop Microservices Demo Application&lt;/a&gt; deployed to a multicluster environment.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;a href=&#34;../../docs/samples/multicluster/todo-list/&#34;&gt;todo-list&lt;/a&gt;&lt;/td&gt;
-&lt;td&gt;ToDo List is an example application containing a WebLogic component deployed to a multicluster environment.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
+        &lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
 &lt;p&gt;Prior to running the multicluster examples, complete the multicluster installation and managed cluster registration documented
 &lt;a href=&#34;../../docs/setup/install/multicluster/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
@@ -1417,6 +1275,18 @@ $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/mast
 &lt;p&gt;Install Verrazzano by following the &lt;a href=&#34;../../docs/setup/install/installation/&#34;&gt;installation&lt;/a&gt; instructions.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The Hello World Helidon configuration example application deployment files are contained in the Verrazzano project located at &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/helidon-config&lt;/code&gt;, where &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
 &lt;h2 id=&#34;deploy-the-hello-config-world-helidon-application&#34;&gt;Deploy the Hello Config World Helidon application&lt;/h2&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    &lt;p&gt;To run this application in the default namespace:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$kubectl label namespace default verrazzano-managed=true istio-injection=enabled
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you chose the default namespace, you can skip Step 1. and ignore the &lt;code&gt;-n&lt;/code&gt; option in the rest of the commands.&lt;/p&gt;
+
+
+&lt;/div&gt;
+
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Create a namespace for the application and add a label identifying the namespace as managed by Verrazzano.&lt;/p&gt;
@@ -1425,8 +1295,8 @@ $ kubectl label namespace helidon-config verrazzano-managed=true istio-injection
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;To deploy the application, apply the &lt;code&gt;helidon-config&lt;/code&gt; OAM resources.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/helidon-config/helidon-config-comp.yaml
-$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/helidon-config/helidon-config-app.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/helidon-config/helidon-config-comp.yaml -n helidon-config
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/helidon-config/helidon-config-app.yaml -n helidon-config
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the application to be ready.&lt;/p&gt;
@@ -1445,7 +1315,7 @@ ports, and such.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Get the generated host name for the application.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateway helidon-config-helidon-config-appconf-gw \
+&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateways.networking.istio.io helidon-config-helidon-config-appconf-gw \
      -n helidon-config \
      -o jsonpath={.spec.servers[0].hosts[0]})
 $ echo $HOST
@@ -1500,64 +1370,8 @@ before deploying the &lt;code&gt;helidon-config&lt;/code&gt; application.&lt;/li
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;A variety of endpoints associated with the deployed application, are available to further explore the logs, metrics, and such.&lt;/p&gt;
-&lt;p&gt;Accessing them may require the following:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Run this command to get the password that was generated for the telemetry components:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get secret \
-   --namespace verrazzano-system verrazzano \
-   -o jsonpath={.data.password} | base64 \
-   --decode; echo
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The associated user name is &lt;code&gt;verrazzano&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;You will have to accept the certificates associated with the endpoints.&lt;/p&gt;
-&lt;p&gt;You can retrieve the list of available ingresses with following command:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get ingress -n verrazzano-system
-
-# Sample output
-NAME                    CLASS    HOSTS                                                 ADDRESS       PORTS     AGE
-verrazzano-ingress      &amp;lt;none&amp;gt;   verrazzano.default.11.22.33.44.nip.io                 11.22.33.44   80, 443   7d
-vmi-system-es-ingest    &amp;lt;none&amp;gt;   elasticsearch.vmi.system.default.11.22.33.44.nip.io   11.22.33.44   80, 443   7d
-vmi-system-grafana      &amp;lt;none&amp;gt;   grafana.vmi.system.default.11.22.33.44.nip.io         11.22.33.44   80, 443   7d
-vmi-system-kiali        &amp;lt;none&amp;gt;   kiali.vmi.system.default.11.22.33.44.nip.io           11.22.33.44   80, 443   7d
-vmi-system-kibana       &amp;lt;none&amp;gt;   kibana.vmi.system.default.11.22.33.44.nip.io          11.22.33.44   80, 443   7d
-vmi-system-prometheus   &amp;lt;none&amp;gt;   prometheus.vmi.system.default.11.22.33.44.nip.io      11.22.33.44   80, 443   7d
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Using the ingress host information, some of the endpoints available are:&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;th&gt;Address&lt;/th&gt;
-&lt;th&gt;Credentials&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;Kibana&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-kibana ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Grafana&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-grafana ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Prometheus&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-prometheus ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Kiali&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-kiali ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;A variety of endpoints associated with the deployed application, are available to further explore the logs, metrics, and such. You
+can access them according to the directions &lt;a href=&#34;../../docs/operations/#get-the-consoles-urls&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h2&gt;
@@ -1581,8 +1395,8 @@ Note that this may take a few minutes and that you may see some of the services 
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;To undeploy the application, delete the Hello Config World Helidon OAM resources.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/helidon-config/helidon-config-app.yaml
-$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/helidon-config/helidon-config-comp.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/helidon-config/helidon-config-app.yaml -n helidon-config
+$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/helidon-config/helidon-config-comp.yaml -n helidon-config
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Delete the namespace &lt;code&gt;helidon-config&lt;/code&gt; after the application pod is terminated.&lt;/p&gt;
@@ -1608,16 +1422,28 @@ $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/mast
 &lt;p&gt;Install Verrazzano by following the &lt;a href=&#34;../../docs/setup/install/installation/&#34;&gt;installation&lt;/a&gt; instructions.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The Hello World Helidon example application deployment files are contained in the Verrazzano project located at &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/hello-helidon&lt;/code&gt;, where &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
 &lt;h2 id=&#34;deploy-the-hello-world-helidon-application&#34;&gt;Deploy the Hello World Helidon application&lt;/h2&gt;
+
+
+&lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    &lt;p&gt;To run this application in the default namespace:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$kubectl label namespace default verrazzano-managed=true istio-injection=enabled
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you chose the default namespace, you can skip Step 1. and ignore the &lt;code&gt;-n&lt;/code&gt; option in the rest of the commands.&lt;/p&gt;
+
+
+&lt;/div&gt;
+
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;Create a namespace for the application and add a label identifying the namespace as managed by Verrazzano.&lt;/p&gt;
+&lt;p&gt;To run the application in a namespace other than default namespace, create a namespace for the application and add a label identifying the namespace as managed by Verrazzano.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ kubectl create namespace hello-helidon
 $ kubectl label namespace hello-helidon verrazzano-managed=true istio-injection=enabled
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;To deploy the application, apply the &lt;code&gt;hello-helidon&lt;/code&gt; OAM resources.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-comp.yaml
-$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-app.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-comp.yaml -n hello-helidon
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-app.yaml -n hello-helidon
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the application to be ready.&lt;/p&gt;
@@ -1637,7 +1463,7 @@ ports, and such.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Get the generated host name for the application.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw \
+&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-appconf-gw \
      -n hello-helidon \
      -o jsonpath=&#39;{.spec.servers[0].hosts[0]}&#39;)
 $ echo $HOST
@@ -1692,64 +1518,8 @@ before deploying the &lt;code&gt;hello-helidon&lt;/code&gt; application.&lt;/li&
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;A variety of endpoints associated with the deployed application, are available to further explore the logs, metrics, and such.&lt;/p&gt;
-&lt;p&gt;Accessing them may require the following:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Run this command to get the password that was generated for the telemetry components:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get secret \
-   --namespace verrazzano-system verrazzano \
-   -o jsonpath={.data.password} | base64 \
-   --decode; echo
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The associated user name is &lt;code&gt;verrazzano&lt;/code&gt;.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;You will have to accept the certificates associated with the endpoints.&lt;/p&gt;
-&lt;p&gt;You can retrieve the list of available ingresses with following command:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get ingress -n verrazzano-system
-
-# Sample output
-NAME                    CLASS    HOSTS                                                 ADDRESS       PORTS     AGE
-verrazzano-ingress      &amp;lt;none&amp;gt;   verrazzano.default.11.22.33.44.nip.io                 11.22.33.44   80, 443   7d
-vmi-system-es-ingest    &amp;lt;none&amp;gt;   elasticsearch.vmi.system.default.11.22.33.44.nip.io   11.22.33.44   80, 443   7d
-vmi-system-grafana      &amp;lt;none&amp;gt;   grafana.vmi.system.default.11.22.33.44.nip.io         11.22.33.44   80, 443   7d
-vmi-system-kiali        &amp;lt;none&amp;gt;   kiali.vmi.system.default.11.22.33.44.nip.io           11.22.33.44   80, 443   7d
-vmi-system-kibana       &amp;lt;none&amp;gt;   kibana.vmi.system.default.11.22.33.44.nip.io          11.22.33.44   80, 443   7d
-vmi-system-prometheus   &amp;lt;none&amp;gt;   prometheus.vmi.system.default.11.22.33.44.nip.io      11.22.33.44   80, 443   7d
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Using the ingress host information, some of the endpoints available are:&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;th&gt;Address&lt;/th&gt;
-&lt;th&gt;Credentials&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;Kibana&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-kibana ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Grafana&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-grafana ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Prometheus&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-prometheus ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Kiali&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;https://[vmi-system-kiali ingress host]&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;/&lt;code&gt;telemetry-password&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;A variety of endpoints associated with the deployed application, are available to further explore the logs, metrics, and such.
+You can access them according to the directions &lt;a href=&#34;../../docs/operations/#get-the-consoles-urls&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h2&gt;
@@ -1773,8 +1543,8 @@ Note that this may take a few minutes and that you may see some of the services 
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;To undeploy the application, delete the Hello World Helidon OAM resources.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-app.yaml
-$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-comp.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-app.yaml -n hello-helidon
+$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/hello-helidon/hello-helidon-comp.yaml -n hello-helidon
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Delete the namespace &lt;code&gt;hello-helidon&lt;/code&gt; after the application pod is terminated.&lt;/p&gt;

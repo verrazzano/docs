@@ -52,7 +52,7 @@ spec:
                       pathType: Prefix
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the sample configuration, the IngressTrait &lt;code&gt;hello-helidon-ingress&lt;/code&gt; is set on the &lt;code&gt;hello-helidon-component&lt;/code&gt; application component and defines an ingress rule that configures a path and path type.  This exposes a route for external access to the application.  Note that because no &lt;code&gt;hosts&lt;/code&gt; list is given for the &lt;a href=&#34;#ingressrule&#34;&gt;IngressRule&lt;/a&gt;, a DNS host name is automatically generated.&lt;/p&gt;
 &lt;p&gt;For example, with the sample application configuration successfully deployed, the application will be accessible with the &lt;code&gt;path&lt;/code&gt; specified in the IngressTrait and the generated host name.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath={.spec.servers[0].hosts[0]})
+&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath={.spec.servers[0].hosts[0]})
 $ echo $HOST
 hello-helidon-appconf.hello-helidon.11.22.33.44.nip.io
 
@@ -346,6 +346,247 @@ In order for the Fluentd DaemonSet to collect the custom logs, the Fluentd confi
 &lt;td&gt;&lt;code&gt;loggingImage&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
 &lt;td&gt;The name of the custom Fluentd image.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Metrics Template Custom Resource Definition</title>
+      <link>/docs/reference/api/verrazzano/metricstemplate/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/reference/api/verrazzano/metricstemplate/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The Metrics Template CRD contains the metrics configuration for default Kubernetes workloads.
+Here is the default Metrics Template that Verrazzano installs.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: app.verrazzano.io/v1alpha1
+kind: MetricsTemplate
+metadata:
+  name: standard-k8s-metrics-template
+  namespace: verrazzano-system
+spec:
+  workloadSelector:
+    apiGroups: [&amp;quot;apps&amp;quot;, &amp;quot;&amp;quot;]
+    apiVersions: [&amp;quot;v1&amp;quot;]
+    resources: [&amp;quot;deployment&amp;quot;, &amp;quot;statefulset&amp;quot;, &amp;quot;replicaset&amp;quot;, &amp;quot;pod&amp;quot;]
+  prometheusConfig:
+    targetConfigMap:
+      namespace: verrazzano-system
+      name: vmi-system-prometheus-config
+    scrapeConfigTemplate: |
+      kubernetes_sd_configs:
+        - namespaces:
+            names:
+            - {{`{{.workload.metadata.namespace}}`}}
+          role: pod
+      relabel_configs:
+        - action: replace
+          replacement: local
+          source_labels: null
+          target_label: verrazzano_cluster
+        - action: keep
+          regex: {{`{{index .workload.metadata.labels &amp;quot;app.verrazzano.io/workload&amp;quot;}}`}};true
+          source_labels:
+            - __meta_kubernetes_pod_label_app_verrazzano_io_workload
+            - __meta_kubernetes_pod_annotation_prometheus_io_scrape
+        - action: replace
+          regex: ([^:]+)(?::\d+)?;(\d+)
+          replacement: $1:$2
+          source_labels:
+            - __address__
+            - __meta_kubernetes_pod_annotation_prometheus_io_port
+          target_label: __address__
+        - action: replace
+          regex: (.*)
+          source_labels:
+            - __meta_kubernetes_pod_annotation_prometheus_io_path
+          target_label: __metrics_path__
+        - action: replace
+          regex: (.*)
+          replacement: $1
+          source_labels:
+            - __meta_kubernetes_namespace
+          target_label: namespace
+        - action: labelmap
+          regex: __meta_kubernetes_pod_label_(.+)
+        - action: replace
+          source_labels:
+            - __meta_kubernetes_pod_name
+          target_label: pod_name
+        - action: labeldrop
+          regex: (controller_revision_hash)
+        - action: replace
+          regex: .*/(.*)$
+          replacement: $1
+          source_labels:
+            - name
+          target_label: webapp
+      scheme: https
+      {{`{{ if eq ( index .namespace.metadata.labels &amp;quot;istio-injection&amp;quot; ) &amp;quot;enabled&amp;quot; }}`}}
+      tls_config:
+        ca_file: /etc/istio-certs/root-cert.pem
+        cert_file: /etc/istio-certs/cert-chain.pem
+        insecure_skip_verify: true
+        key_file: /etc/istio-certs/key.pem
+      {{`{{ end }}`}}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For more information on using the Metrics Template, see &lt;a href=&#34;../../../docs/monitoring/metrics/metrics/#metrics-template&#34;&gt;Metrics Template&lt;/a&gt;.&lt;/p&gt;
+&lt;h4 id=&#34;metricstemplate&#34;&gt;MetricsTemplate&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;apiVersion&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;app.verrazzano.io/v1alpha1&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;kind&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;MetricsTemplate&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;metadata&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ObjectMeta&lt;/td&gt;
+&lt;td&gt;Refer to the Kubernetes API documentation for fields of metadata.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#metricstemplatespec&#34;&gt;MetricsTemplateSpec&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The desired state of a metrics trait.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;metricstemplatespec&#34;&gt;MetricsTemplateSpec&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;workloadSelector&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#workloadselector&#34;&gt;WorkloadSelector&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Selector for target workloads.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;prometheusConfig&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#prometheusconfig&#34;&gt;PrometheusConfig&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Prometheus configuration details.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;workloadselector&#34;&gt;WorkloadSelector&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;namespaceSelector&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors&#34;&gt;LabelSelector&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Scopes the template to a namespace.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;objectSelector&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors&#34;&gt;LabelSelector&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Scopes the template to a specific workload object.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;apiGroups&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;[]string&lt;/td&gt;
+&lt;td&gt;Scopes the template to given API Groups.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;apiVersions&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;[]string&lt;/td&gt;
+&lt;td&gt;Scopes the template to given API Versions.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;resources&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;[]string&lt;/td&gt;
+&lt;td&gt;Scopes the template to given API Resources.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;prometheusconfig&#34;&gt;PrometheusConfig&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;targetConfigMap&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#targetconfigmap&#34;&gt;TargetConfigMap&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Identity of the ConfigMap to be updated with the scrape configuration specified in &lt;code&gt;scrapeConfigTemplate&lt;/code&gt;.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;scrapeConfigTemplate&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;Scrape configuration template to be added to the Prometheus configuration.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;targetconfigmap&#34;&gt;TargetConfigMap&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;namespace&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;Namespace of the ConfigMap to be updated with the scrape target configuration.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;name&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;Name of the ConfigMap to be updated with the scrape target configuration.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -1260,7 +1501,7 @@ Here is a sample Verrazzano custom resource file that uses OCI DNS.  See other e
 &lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
-  name: my-verrazzano
+  name: example-verrazzano
 spec:
   environmentName: env
   profile: prod
@@ -1365,6 +1606,12 @@ spec:
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
+&lt;td&gt;&lt;code&gt;authProxy&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#authproxy-component&#34;&gt;AuthProxyComponent&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The AuthProxy component configuration.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
 &lt;td&gt;&lt;code&gt;certManager&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;#certmanager-component&#34;&gt;CertManagerComponent&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The cert-manager component configuration.&lt;/td&gt;
@@ -1402,8 +1649,8 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;elasticsearch&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#elasticsearch-component&#34;&gt;ElasticsearchComponent&lt;/a&gt;&lt;/td&gt;
-&lt;td&gt;The Elasticsearch component configuration.&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#opensearch-component&#34;&gt;OpenSearchComponent&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The OpenSearch component configuration.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1414,8 +1661,8 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;kibana&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#kibana-component&#34;&gt;KibanaComponent&lt;/a&gt;&lt;/td&gt;
-&lt;td&gt;The Kibana component configuration.&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#opensearch-dashboards-component&#34;&gt;OpenSearchDashboardsComponent&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The OpenSearch Dashboards component configuration.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1428,6 +1675,56 @@ spec:
 &lt;td&gt;&lt;code&gt;kiali&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;#kiali-component&#34;&gt;KialiComponent&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The Kiali component configuration.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;authproxy-component&#34;&gt;AuthProxy Component&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;enabled&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Boolean&lt;/td&gt;
+&lt;td&gt;If true, then AuthProxy will be installed.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;kubernetes&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#authproxy-kubernetes-configuration&#34;&gt;AuthProxyKubernetes&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The Kubernetes resources than can be configured for AuthProxy.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;authproxy-kubernetes-configuration&#34;&gt;AuthProxy Kubernetes Configuration&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;replicas&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;uint32&lt;/td&gt;
+&lt;td&gt;The number of pods to replicate.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;affinity&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity&#34;&gt;Affinity&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;A Kubernetes affinity definition.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -1611,6 +1908,12 @@ spec:
 &lt;td&gt;Name of OCI DNS zone.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;dnsScope&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;Scope of the OCI DNS zone (PRIVATE, GLOBAL). If not specified, then defaults to GLOBAL.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h4 id=&#34;dns-external&#34;&gt;DNS External&lt;/h4&gt;
@@ -1693,7 +1996,7 @@ spec:
 &lt;td&gt;&lt;code&gt;controller.service.annotations.*&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;#name-value&#34;&gt;NameValue&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;Annotations used for NGINX Ingress Controller.  For sample usage, see &lt;a href=&#34;../../../docs/setup/install/customizing/ingress/&#34;&gt;Customize Ingress&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;Annotations used for NGINX Ingress Controller.  For sample usage, see &lt;a href=&#34;../../../docs/setup/customizing/ingress/&#34;&gt;Customize Ingress&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1769,19 +2072,19 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;name&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;The name of a Helm override for a Verrazzano component chart, specified with a &lt;code&gt;—set&lt;/code&gt; flag on the Helm command line, for example, &lt;code&gt;helm install --set name=value&lt;/code&gt;. For more information about chart overrides, see &lt;a href=&#34;../../../docs/setup/install/customizing/ingress/&#34;&gt;Customize Ingress&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;The name of a Helm override for a Verrazzano component chart, specified with a &lt;code&gt;—set&lt;/code&gt; flag on the Helm command line, for example, &lt;code&gt;helm install --set name=value&lt;/code&gt;. For more information about chart overrides, see &lt;a href=&#34;../../../docs/setup/customizing/ingress/&#34;&gt;Customize Ingress&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;value&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;The value of a Helm override for a Verrazzano component chart, specified with a &lt;code&gt;—set&lt;/code&gt; flag on the Helm command line, for example, &lt;code&gt;helm install --set name=value&lt;/code&gt;. Either &lt;code&gt;value&lt;/code&gt; or &lt;code&gt;valueList&lt;/code&gt; must be specified. For more information about chart overrides, see &lt;a href=&#34;../../../docs/setup/install/customizing/ingress/&#34;&gt;Customize Ingress&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;The value of a Helm override for a Verrazzano component chart, specified with a &lt;code&gt;—set&lt;/code&gt; flag on the Helm command line, for example, &lt;code&gt;helm install --set name=value&lt;/code&gt;. Either &lt;code&gt;value&lt;/code&gt; or &lt;code&gt;valueList&lt;/code&gt; must be specified. For more information about chart overrides, see &lt;a href=&#34;../../../docs/setup/customizing/ingress/&#34;&gt;Customize Ingress&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;valueList&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string list&lt;/td&gt;
-&lt;td&gt;The list of Helm override values for a Verrazzano component, each specified with a &lt;code&gt;—set&lt;/code&gt; flag on the Helm command line, for example, &lt;code&gt;helm install --set name[0]=&amp;lt;first element of valueList&amp;gt; —set name[1]=&amp;lt;second element of valueList&amp;gt;&lt;/code&gt;. Either &lt;code&gt;value&lt;/code&gt; or &lt;code&gt;valueList&lt;/code&gt; must be specified. For more information about chart overrides, see &lt;a href=&#34;../../../docs/setup/install/customizing/ingress/&#34;&gt;Customize Ingress&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;The list of Helm override values for a Verrazzano component, each specified with a &lt;code&gt;—set&lt;/code&gt; flag on the Helm command line, for example, &lt;code&gt;helm install --set name[0]=&amp;lt;first element of valueList&amp;gt; —set name[1]=&amp;lt;second element of valueList&amp;gt;&lt;/code&gt;. Either &lt;code&gt;value&lt;/code&gt; or &lt;code&gt;valueList&lt;/code&gt; must be specified. For more information about chart overrides, see &lt;a href=&#34;../../../docs/setup/customizing/ingress/&#34;&gt;Customize Ingress&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1804,9 +2107,90 @@ spec:
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
+&lt;td&gt;&lt;code&gt;enabled&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Boolean&lt;/td&gt;
+&lt;td&gt;If true, then Istio will be installed.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;istioIngress&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#istio-ingress-configuration&#34;&gt;IstioIngress&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The Istio ingress gateway configuration.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;istioEgress&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#istio-egress-configuration&#34;&gt;IstioEgress&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The Istio egress gateway configuration.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
 &lt;td&gt;&lt;code&gt;istioInstallArgs&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;#istio-install-args&#34;&gt;IstioInstallArgs&lt;/a&gt; list&lt;/td&gt;
 &lt;td&gt;A list of values to use during Istio installation.  Each argument is specified as either a &lt;code&gt;name/value&lt;/code&gt; or &lt;code&gt;name/valueList&lt;/code&gt; pair.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;istio-ingress-configuration&#34;&gt;Istio Ingress Configuration&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;kubernetes&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#istio-kubernetes-configuration&#34;&gt;IstioKubernetes&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The Kubernetes resources than can be configured for an Istio ingress gateway.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;istio-egress-configuration&#34;&gt;Istio Egress Configuration&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;kubernetes&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#istio-kubernetes-configuration&#34;&gt;IstioKubernetes&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The Kubernetes resources than can be configured for an Istio egress gateway.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;istio-kubernetes-configuration&#34;&gt;Istio Kubernetes Configuration&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;replicas&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;uint32&lt;/td&gt;
+&lt;td&gt;The number of pods to replicate.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;affinity&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity&#34;&gt;Affinity&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;A Kubernetes affinity definition.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -1827,14 +2211,14 @@ spec:
 &lt;td&gt;&lt;code&gt;gateways.istio-ingressgateway.externalIPs&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;#name-value&#34;&gt;NameValue&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;string list&lt;/td&gt;
-&lt;td&gt;The external IP address used by the Istio Ingress Gateway.&lt;/td&gt;
+&lt;td&gt;The external IP address used by the Istio ingress gateway.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;gateways.istio-ingressgateway.serviceAnnotations.*&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;#name-value&#34;&gt;NameValue&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;Annotations used for the Istio Ingress Gateway.  For sample usage, see &lt;a href=&#34;../../../docs/setup/install/customizing/ingress/&#34;&gt;Customize Ingress&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;Annotations used for the Istio ingress gateway.  For sample usage, see &lt;a href=&#34;../../../docs/setup/customizing/ingress/&#34;&gt;Customize Ingress&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -1851,6 +2235,12 @@ spec:
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
+&lt;td&gt;&lt;code&gt;enabled&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Boolean&lt;/td&gt;
+&lt;td&gt;If true, then Fluentd will be installed.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
 &lt;td&gt;&lt;code&gt;extraVolumeMounts&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;#extra-volume-mount&#34;&gt;ExtraVolumeMount&lt;/a&gt; list&lt;/td&gt;
 &lt;td&gt;A list of host path volume mounts in addition to &lt;code&gt;/var/log&lt;/code&gt; into the Fluentd DaemonSet. The Fluentd component collects log files in the &lt;code&gt;/var/log/containers&lt;/code&gt; directory of Kubernetes worker nodes. The &lt;code&gt;/var/log/containers&lt;/code&gt; directory may contain symbolic links to files located outside the &lt;code&gt;/var/log&lt;/code&gt; directory. If the host path directory containing the log files is located outside of &lt;code&gt;/var/log&lt;/code&gt;, the Fluentd DaemonSet must have the volume mount of that directory to collect the logs.&lt;/td&gt;
@@ -1859,13 +2249,19 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;elasticsearchURL&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;The target Elasticsearch URLs.  Specify this option in &lt;a href=&#34;https://docs.fluentd.org/output/elasticsearch#hosts-optional&#34;&gt;this format&lt;/a&gt;.  The default &lt;code&gt;http://vmi-system-es-ingest-oidc:8775&lt;/code&gt; is the VMI Elasticsearch URL.&lt;/td&gt;
+&lt;td&gt;The target OpenSearch URLs.  Specify this option in &lt;a href=&#34;https://docs.fluentd.org/output/elasticsearch#hosts-optional&#34;&gt;this format&lt;/a&gt;.  The default &lt;code&gt;http://vmi-system-es-ingest-oidc:8775&lt;/code&gt; is the VMI OpenSearch URL.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;elasticsearchSecret&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;The secret containing the credentials for connecting to Elasticsearch.  This secret needs to be created in the &lt;code&gt;verrazzano-install&lt;/code&gt; namespace prior to creating the Verrazzano custom resource.  Specify the Elasticsearch login credentials in the &lt;code&gt;username&lt;/code&gt; and &lt;code&gt;password&lt;/code&gt; fields in this secret.  Specify the CA for verifying the Elasticsearch certificate in the &lt;code&gt;ca-bundle&lt;/code&gt; field, if applicable.  The default &lt;code&gt;verrazzano&lt;/code&gt; is the secret for connecting to the VMI Elasticsearch.&lt;/td&gt;
+&lt;td&gt;The secret containing the credentials for connecting to OpenSearch.  This secret needs to be created in the &lt;code&gt;verrazzano-install&lt;/code&gt; namespace prior to creating the Verrazzano custom resource.  Specify the OpenSearch login credentials in the &lt;code&gt;username&lt;/code&gt; and &lt;code&gt;password&lt;/code&gt; fields in this secret.  Specify the CA for verifying the OpenSearch certificate in the &lt;code&gt;ca-bundle&lt;/code&gt; field, if applicable.  The default &lt;code&gt;verrazzano&lt;/code&gt; is the secret for connecting to the VMI OpenSearch.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;oci&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#oci-logging-configuration&#34;&gt;OCILoggingConfiguration&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;The OCI Logging configuration.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -1897,6 +2293,37 @@ spec:
 &lt;td&gt;&lt;code&gt;readOnly&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;Boolean&lt;/td&gt;
 &lt;td&gt;Specifies if the volume mount is read-only, defaults to &lt;code&gt;true&lt;/code&gt;.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;oci-logging-configuration&#34;&gt;OCI Logging Configuration&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;systemLogId&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The OCID of the OCI Log that will collect system logs.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;defaultAppLogId&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The OCID of the OCI Log that will collect application logs.&lt;/td&gt;
+&lt;td&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;apiSecret&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The name of the secret containing the OCI API configuration and private key.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -1945,7 +2372,7 @@ spec:
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;elasticsearch-component&#34;&gt;Elasticsearch Component&lt;/h3&gt;
+&lt;h3 id=&#34;opensearch-component&#34;&gt;OpenSearch Component&lt;/h3&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -1959,18 +2386,18 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;enabled&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;Boolean&lt;/td&gt;
-&lt;td&gt;If true, then Elasticsearch will be installed.&lt;/td&gt;
+&lt;td&gt;If true, then OpenSearch will be installed.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;installArgs&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#elasticsearch-install-args&#34;&gt;ElasticsearchInstallArgs&lt;/a&gt; list&lt;/td&gt;
-&lt;td&gt;A list of values to use during Elasticsearch installation.  Each argument is specified as either a &lt;code&gt;name/value&lt;/code&gt; or &lt;code&gt;name/valueList&lt;/code&gt; pair.  For sample usage, see &lt;a href=&#34;../../../docs/setup/install/customizing/elasticsearch/&#34;&gt;Customize Elasticsearch&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#opensearch-install-args&#34;&gt;OpenSearchInstallArgs&lt;/a&gt; list&lt;/td&gt;
+&lt;td&gt;A list of values to use during OpenSearch installation.  Each argument is specified as either a &lt;code&gt;name/value&lt;/code&gt; or &lt;code&gt;name/valueList&lt;/code&gt; pair.  For sample usage, see &lt;a href=&#34;../../../docs/setup/customizing/opensearch/&#34;&gt;Customize OpenSearch&lt;/a&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;elasticsearch-install-args&#34;&gt;Elasticsearch Install Args&lt;/h4&gt;
+&lt;h4 id=&#34;opensearch-install-args&#34;&gt;OpenSearch Install Args&lt;/h4&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -2033,7 +2460,7 @@ spec:
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;kibana-component&#34;&gt;Kibana Component&lt;/h3&gt;
+&lt;h3 id=&#34;opensearch-dashboards-component&#34;&gt;OpenSearch Dashboards Component&lt;/h3&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -2047,7 +2474,7 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;enabled&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;Boolean&lt;/td&gt;
-&lt;td&gt;If true, then Kibana will be installed.&lt;/td&gt;
+&lt;td&gt;If true, then OpenSearch Dashboards will be installed.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -2339,7 +2766,7 @@ spec:
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h3 id=&#34;verrazzanoweblogicworkload&#34;&gt;VerrazzanoWebLogicWorkload&lt;/h3&gt;
-&lt;p&gt;The VerrazzanoWebLogicWorkload custom resource contains the configuration information for a WebLogic &lt;a href=&#34;https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md&#34;&gt;Domain&lt;/a&gt; workload within Verrazzano.  Here is a sample component that specifies a VerrazzanoWebLogicWorkload.  To deploy an example application that demonstrates this workload type, see the ToDo List &lt;a href=&#34;../../../docs/guides/lift-and-shift/lift-and-shift/&#34;&gt;Lift-and-Shift&lt;/a&gt; application.&lt;/p&gt;
+&lt;p&gt;The VerrazzanoWebLogicWorkload custom resource contains the configuration information for a WebLogic &lt;a href=&#34;https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md&#34;&gt;Domain&lt;/a&gt; workload within Verrazzano.  Here is a sample component that specifies a VerrazzanoWebLogicWorkload.  To deploy an example application that demonstrates this workload type, see the ToDo List &lt;a href=&#34;../../../docs/guides/lift-and-shift/lift-and-shift/&#34;&gt;Lift-and-Shift&lt;/a&gt; application.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
 kind: Component
 metadata:
@@ -2436,7 +2863,7 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;template&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;https://pkg.go.dev/k8s.io/apimachinery/pkg/runtime#RawExtension&#34;&gt;RawExtension&lt;/a&gt;&lt;/td&gt;
-&lt;td&gt;The metadata and spec for the underlying WebLogic &lt;a href=&#34;https://github.com/oracle/weblogic-kubernetes-operator/blob/master/docs/domains/Domain.md&#34;&gt;Domain&lt;/a&gt; resource.&lt;/td&gt;
+&lt;td&gt;The metadata and spec for the underlying WebLogic &lt;a href=&#34;https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md&#34;&gt;Domain&lt;/a&gt; resource.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;

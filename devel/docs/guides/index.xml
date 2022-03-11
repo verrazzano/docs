@@ -230,7 +230,7 @@ that collectively provide and support the application.&lt;/p&gt;
 &lt;p&gt;After deploying the application, configure DNS to resolve the application&amp;rsquo;s
 ingress DNS name to the application&amp;rsquo;s load balancer IP address.
 The generated host name is obtained by querying Kubernetes for the gateway:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get gateway hello-helidon-hello-helidon-appconf-gw \
+&lt;pre&gt;&lt;code&gt;$ kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-appconf-gw \
     -n hello-helidon \
     -o jsonpath=&#39;{.spec.servers[0].hosts[0]}&#39;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The load balancer IP is obtained by querying Kubernetes for the
@@ -286,10 +286,10 @@ vmi-system-prometheus-0-7f89d54fbf-brg6x           3/3     Running   0          
 monitoring stack created by Verrazzano for the deployed applications.&lt;/p&gt;
 &lt;p&gt;The monitoring infrastructure comprises several components:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;vmi-system-es&lt;/code&gt; - Elasticsearch for log collection&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;vmi-system-es&lt;/code&gt; - OpenSearch for log collection&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;vmi-system-grafana&lt;/code&gt; - Grafana for metric visualization&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;vms-system-kiali&lt;/code&gt; - Kiali for management console of &lt;code&gt;istio&lt;/code&gt; service mesh&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;vmi-system-kibana&lt;/code&gt; - Kibana for log visualization&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;vmi-system-kibana&lt;/code&gt; - OpenSearch Dashboards for log visualization&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;vmi-system-prometheus&lt;/code&gt; - Prometheus for metric collection&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p/&gt;
@@ -308,7 +308,7 @@ If DNS was not configured, then use the alternative commands.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Save the host name and IP address of the load balancer exposing the application&amp;rsquo;s REST service endpoints for later.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw \
+&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-appconf-gw \
       -n hello-helidon \
       -o jsonpath=&#39;{.spec.servers[0].hosts[0]}&#39;)
 $ ADDRESS=$(kubectl get service \
@@ -382,17 +382,19 @@ with firewalls that validate &lt;code&gt;HTTP Host&lt;/code&gt; headers.&lt;/li&
 &lt;/ol&gt;
 &lt;h3 id=&#34;access-the-applications-logs&#34;&gt;Access the application&amp;rsquo;s logs&lt;/h3&gt;
 &lt;p&gt;Deployed applications have log collection enabled.
-These logs are collected using Elasticsearch and can be accessed using Kibana.
-Elasticsearch and Kibana are examples of infrastructure Verrazzano creates in support of an application as a result of applying an application configuration.&lt;/p&gt;
-&lt;p&gt;Determine the URL to access Kibana:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ KIBANA_HOST=$(kubectl get ingress \
+These logs are collected using OpenSearch and can be accessed using OpenSearch Dashboards.
+OpenSearch and OpenSearch Dashboards are examples of infrastructure Verrazzano creates in support of an application as a
+result of applying an application configuration. For more information on creating an index pattern
+and visualizing the log data collected in OpenSearch, see &lt;a href=&#34;../../docs/monitoring/logs/#opensearch-dashboards&#34;&gt;OpenSearch Dashboards&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Determine the URL to access OpenSearch Dashboards:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ OSD_HOST=$(kubectl get ingress \
      -n verrazzano-system vmi-system-kibana \
      -o jsonpath=&#39;{.spec.rules[0].host}&#39;)
-$ KIBANA_URL=&amp;quot;https://${KIBANA_HOST}&amp;quot;
-$ echo &amp;quot;${KIBANA_URL}&amp;quot;
-$ open &amp;quot;${KIBANA_URL}&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The user name to access Kibana defaults to &lt;code&gt;verrazzano&lt;/code&gt; during the Verrazzano installation.&lt;/p&gt;
-&lt;p&gt;Determine the password to access Kibana:&lt;/p&gt;
+$ OSD_URL=&amp;quot;https://${OSD_HOST}&amp;quot;
+$ echo &amp;quot;${OSD_URL}&amp;quot;
+$ open &amp;quot;${OSD_URL}&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The user name to access OpenSearch Dashboards defaults to &lt;code&gt;verrazzano&lt;/code&gt; during the Verrazzano installation.&lt;/p&gt;
+&lt;p&gt;Determine the password to access OpenSearch Dashboards:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ echo $(kubectl get secret \
       -n verrazzano-system verrazzano \
       -o jsonpath={.data.password} | base64 \
@@ -400,7 +402,9 @@ $ open &amp;quot;${KIBANA_URL}&amp;quot;
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;access-the-applications-metrics&#34;&gt;Access the application&amp;rsquo;s metrics&lt;/h3&gt;
 &lt;p&gt;Deployed applications have metric collection enabled.
 Grafana can be used to access these metrics collected by Prometheus.
-Prometheus and Grafana are additional components Verrazzano creates as a result of applying an application configuration.&lt;/p&gt;
+Prometheus and Grafana are additional components Verrazzano creates as a result of
+applying an application configuration. For more information on visualizing Prometheus
+metrics data, see &lt;a href=&#34;../../docs/monitoring/metrics/metrics/#grafana&#34;&gt;Grafana&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Determine the URL to access Grafana:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ GRAFANA_HOST=$(kubectl get ingress \
       -n verrazzano-system vmi-system-grafana \
@@ -549,6 +553,7 @@ $ docker run --name tododb \
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Use the Oracle WebLogic Server Configuration Wizard to create a domain called &lt;code&gt;tododomain&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: This example assumes that the on premises WebLogic Server domain is on Linux.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Launch &lt;code&gt;$ORACLE_HOME/oracle_common/common/bin/config.sh&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;Select &lt;strong&gt;Create a new domain&lt;/strong&gt;.&lt;/li&gt;
@@ -908,10 +913,10 @@ tododomain-adminserver   4/4     Running   0          5m
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Get the generated host name for the application.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get gateway tododomain-tododomain-appconf-gw \
+&lt;pre&gt;&lt;code&gt;$ kubectl get gateways.networking.istio.io tododomain-tododomain-appconf-gw \
     -n tododomain \
     -o jsonpath={.spec.servers[0].hosts[0]}
-   
+
 # Sample output
 tododomain-appconf.tododomain.11.22.33.44.nip.io
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
@@ -1132,7 +1137,7 @@ fluentd
 &lt;pre&gt;&lt;code&gt;kubectl logs -n &amp;lt;application-namespace&amp;gt; &amp;lt;application-pod-name&amp;gt; fluentd
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;Follow the instructions at &lt;a href=&#34;../../docs/monitoring/logs/&#34;&gt;Verrazzano Logging&lt;/a&gt; to ensure that the &lt;a href=&#34;../../docs/monitoring/logs/#fluentd-daemonset&#34;&gt;Fluentd DaemonSet&lt;/a&gt; collected the logs from stdout.
-These logs will appear in the Verrazzano-managed &lt;a href=&#34;../../docs/monitoring/logs/#elasticsearch&#34;&gt;ElasticSearch&lt;/a&gt; and &lt;a href=&#34;../../docs/monitoring/logs/#kibana&#34;&gt;Kibana&lt;/a&gt;.&lt;/li&gt;
+These logs will appear in the Verrazzano-managed &lt;a href=&#34;../../docs/monitoring/logs/#opensearch&#34;&gt;OpenSearch&lt;/a&gt; and &lt;a href=&#34;../../docs/monitoring/logs/#opensearch-dashboards&#34;&gt;OpenSearch Dashboards&lt;/a&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 
       </description>
