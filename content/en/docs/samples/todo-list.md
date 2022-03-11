@@ -10,7 +10,7 @@ description: "An example application containing a WebLogic component"
 * To download the example image, you must first accept the license agreement.
   * In a browser, navigate to https://container-registry.oracle.com/ and sign in.
   * Search for `example-todo` and `weblogic`.
-  * For each one: 
+  * For each one:
      * Select the image name in the results.
      * From the drop-down menu, select your language and click Continue.
      * Then read and accept the license agreement.
@@ -93,7 +93,7 @@ you can use the `kubectl wait` command. You may need to repeat the `kubectl wait
 
 1. Get the generated host name for the application.
    ```
-   $ HOST=$(kubectl get gateway \
+   $ HOST=$(kubectl get gateways.networking.istio.io \
         -n todo-list \
         -o jsonpath='{.items[0].spec.servers[0].hosts[0]}')
    $ echo $HOST

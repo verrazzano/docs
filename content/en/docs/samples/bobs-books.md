@@ -127,7 +127,7 @@ For more information and the source code of this application, see the [Verrazzan
 
 1. Get the generated host name for the application.
    ```
-   $ HOST=$(kubectl get gateway bobs-books-bobs-books-gw \
+   $ HOST=$(kubectl get gateways.networking.istio.io bobs-books-bobs-books-gw \
        -n bobs-books \
        -o jsonpath='{.spec.servers[0].hosts[0]}')
    $ echo $HOST
