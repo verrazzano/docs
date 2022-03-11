@@ -4,6 +4,41 @@ linkTitle: Release Notes
 weight: 13
 draft: false
 ---
+### v1.2.0
+Features:
+
+- Logging enhancements:
+  - Added support for OCI Logging integration.
+  - Replaced Elasticsearch and Kibana with Opensearch and Opensearch Dashboard.
+  - Updated Opensearch `prod` profile data node configuration to 3 replicas.
+  - Enhanced Fluentd parsing/filtering rules for Verrazzano system logs.
+- Added support for using `instance_principal` authorization with using OCI DNS.
+- Added support for metrics integration with non-OAM applications.
+- Added support for scaling Istio gateways and setting affinity.
+- Added support for scaling Verrazzano AuthProxy and setting affinity.
+- Component version updates:
+  - External DNS v0.10.2.
+  - MySQL v8.0.28.
+  - Grafana v7.5.11.
+  - Prometheus v2.31.1.
+  - Opensearch v1.2.3 (replaces Elasticsearch).
+  - Opensearch Dashboards v1.2.0 (replaces Kibana).
+  - WebLogic Kubernetes Operator v3.3.7.
+  
+Fixes:
+
+- Fixed Keycloak issue creating incorrect `verrazzano-monitors` group on installation.
+- Fixed Verrazzano failing to uninstall in a private registry configuration due to a missing Rancher image.
+- Fixed Rancher install when `tls-ca-additional` secret is not present.
+- Fixed Opensearch parsing errors of `trait` field.
+- Fixed Custom CA certificates support.
+- Fixed issue requeuing unsupported traits in the Verrazzano Application Operator, and updated the OAM Operator.
+- Aligned Helidon workload service port names with Istio conventions to avoid protocol defaulting to TCP in all cases.
+- Added ability to set a DestinationRule with HTTP Cookie for session affinity.
+
+Known Issues:
+
+- Importing a Kubernetes v1.21 cluster into Rancher might not work properly. Rancher does not currently support Kubernetes v1.21.
 
 ### v1.1.1
 Fixes:
