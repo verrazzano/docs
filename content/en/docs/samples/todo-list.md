@@ -10,7 +10,7 @@ description: "An example application containing a WebLogic component"
 * To download the example image, you must first accept the license agreement.
   * In a browser, navigate to https://container-registry.oracle.com/ and sign in.
   * Search for `example-todo` and `weblogic`.
-  * For each one: 
+  * For each one:
      * Select the image name in the results.
      * From the drop-down menu, select your language and click Continue.
      * Then read and accept the license agreement.
@@ -140,42 +140,7 @@ you can use the `kubectl wait` command. You may need to repeat the `kubectl wait
        with an edit field and an **Add** button that lets you add tasks.
 
 1. A variety of endpoints associated with the deployed ToDo List application, are available to further explore the logs, metrics, and such.
-   Accessing them may require the following:
-
-   * Run this command to get the password that was generated for the telemetry components:
-     ```
-     $ kubectl get secret \
-         --namespace verrazzano-system verrazzano \
-         -o jsonpath='{.data.password}' | base64 \
-         --decode; echo
-     ```
-     The associated user name is `verrazzano`.
-
-   * You will have to accept the certificates associated with the endpoints.
-
-   You can retrieve the list of available ingresses with following command:
-
-   ```
-   $ kubectl get ingress -n verrazzano-system
-
-   # Sample output
-   NAME                    CLASS    HOSTS                                                 ADDRESS       PORTS     AGE
-   verrazzano-ingress      <none>   verrazzano.default.11.22.33.44.nip.io                 11.22.33.44   80, 443   7d
-   vmi-system-es-ingest    <none>   elasticsearch.vmi.system.default.11.22.33.44.nip.io   11.22.33.44   80, 443   7d
-   vmi-system-grafana      <none>   grafana.vmi.system.default.11.22.33.44.nip.io         11.22.33.44   80, 443   7d
-   vmi-system-kiali        <none>   kiali.vmi.system.default.11.22.33.44.nip.io           11.22.33.44   80, 443   7d
-   vmi-system-kibana       <none>   kibana.vmi.system.default.11.22.33.44.nip.io          11.22.33.44   80, 443   7d
-   vmi-system-prometheus   <none>   prometheus.vmi.system.default.11.22.33.44.nip.io      11.22.33.44   80, 443   7d
-   ```
-
-   Using the ingress host information, some of the endpoints available are:
-
-   | Description | Address | Credentials |
-   | ----------- | ------- | ----------- |
-   | Kibana      | `https://[vmi-system-kibana ingress host]`     | `verrazzano`/`telemetry-password` |
-   | Grafana     | `https://[vmi-system-grafana ingress host]`    | `verrazzano`/`telemetry-password` |
-   | Prometheus  | `https://[vmi-system-prometheus ingress host]` | `verrazzano`/`telemetry-password` |
-   | Kiali | `https://[vmi-system-kiali ingress host]` | `verrazzano`/`telemetry-password` |
+   You can access them according to the directions [here]({{< relref "/docs/operations/#get-the-consoles-urls" >}}).
 
 ## Access the WebLogic Server Administration Console
 
