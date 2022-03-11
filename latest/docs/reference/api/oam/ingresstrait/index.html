@@ -23,11 +23,11 @@
 apiVersion: core.oam.dev/v1alpha2 kind: ApplicationConfiguration metadata: name: hello-helidon-appconf namespace: hello-helidon annotations: version: v1.0.0 description: &quot;Hello Helidon application&quot; spec: components: - componentName: hello-helidon-component traits: - trait: apiVersion: oam.verrazzano.io/v1alpha1 kind: MetricsTrait spec: scraper: verrazzano-system/vmi-system-prometheus-0 - trait: apiVersion: oam." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/reference/api/oam/ingresstrait/" />
-<meta property="article:modified_time" content="2021-10-27T09:04:01+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-03-11T11:00:42-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="IngressTrait Custom Resource Definition">
 <meta itemprop="description" content="The IngressTrait custom resource contains the configuration of host and path rules for traffic routing to an application. Here is a sample ApplicationConfiguration that specifies an IngressTrait. To deploy an example application that demonstrates this IngressTrait, see Hello World Helidon.
 apiVersion: core.oam.dev/v1alpha2 kind: ApplicationConfiguration metadata: name: hello-helidon-appconf namespace: hello-helidon annotations: version: v1.0.0 description: &quot;Hello Helidon application&quot; spec: components: - componentName: hello-helidon-component traits: - trait: apiVersion: oam.verrazzano.io/v1alpha1 kind: MetricsTrait spec: scraper: verrazzano-system/vmi-system-prometheus-0 - trait: apiVersion: oam.">
-<meta itemprop="dateModified" content="2021-10-27T09:04:01+05:30" />
+<meta itemprop="dateModified" content="2022-03-11T11:00:42-05:00" />
 <meta itemprop="wordCount" content="565">
 
 
@@ -109,7 +109,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.a116a3f64f2557393fbc3e5315555fbb.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.6b7e897e3ae4d8ce72ee0da6b864256a.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -136,7 +136,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.a116a3f64f2557393fbc3e5315555fbb.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.6b7e897e3ae4d8ce72ee0da6b864256a.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -555,7 +555,7 @@ spec:
                       pathType: Prefix
 </code></pre><p>In the sample configuration, the IngressTrait <code>hello-helidon-ingress</code> is set on the <code>hello-helidon-component</code> application component and defines an ingress rule that configures a path and path type.  This exposes a route for external access to the application.  Note that because no <code>hosts</code> list is given for the <a href="#ingressrule">IngressRule</a>, a DNS host name is automatically generated.</p>
 <p>For example, with the sample application configuration successfully deployed, the application will be accessible with the <code>path</code> specified in the IngressTrait and the generated host name.</p>
-<pre><code>$ HOST=$(kubectl get gateway hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath={.spec.servers[0].hosts[0]})
+<pre><code>$ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath={.spec.servers[0].hosts[0]})
 $ echo $HOST
 hello-helidon-appconf.hello-helidon.11.22.33.44.nip.io
 
