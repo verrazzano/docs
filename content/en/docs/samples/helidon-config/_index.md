@@ -45,7 +45,7 @@ Follow these steps to test the endpoints:
 1. Get the generated host name for the application.
 
    ```
-   $ HOST=$(kubectl get gateway helidon-config-helidon-config-appconf-gw \
+   $ HOST=$(kubectl get gateways.networking.istio.io helidon-config-helidon-config-appconf-gw \
         -n helidon-config \
         -o jsonpath={.spec.servers[0].hosts[0]})
    $ echo $HOST

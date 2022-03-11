@@ -327,7 +327,7 @@ To access the endpoints for a Java EE application deployed as part of a Verrazza
 Then, you can access the endpoint using the Istio gateway, as described in Step 8. [Access the ToDo List application]({{< relref "/docs/samples/todo-list.md" >}}).
 
 ```
-$ HOST=$(kubectl get gateway -n todo-list -o jsonpath={.items[0].spec.servers[0].hosts[0]})
+$ HOST=$(kubectl get gateways.networking.istio.io -n todo-list -o jsonpath={.items[0].spec.servers[0].hosts[0]})
 $ ADDRESS=$(kubectl get service -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 $ curl -sk https://${HOST}/todo/ --resolve ${HOST}:443:${ADDRESS}
 ```

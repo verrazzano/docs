@@ -40,7 +40,7 @@ This example provides a simple web application developed using [Spring Boot](htt
 
 1. Get the generated host name for the application.
    ```
-   $ HOST=$(kubectl get gateway \
+   $ HOST=$(kubectl get gateways.networking.istio.io \
         -n springboot \
         -o jsonpath={.items[0].spec.servers[0].hosts[0]})
    $ echo $HOST
