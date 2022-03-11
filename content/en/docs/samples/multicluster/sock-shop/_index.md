@@ -175,33 +175,7 @@ Follow these steps to test the endpoints:
     users-coh-0      2/2     Running   0          38m
    ```
 1. A variety of endpoints are available to further explore the logs, metrics, and such, associated with
-the deployed Sock Shop application.  Accessing them may require the following:
-
-    - Run this command to get the password that was generated for the telemetry components:
-        ```
-        $ kubectl --kubeconfig $KUBECONFIG_ADMIN get secret \
-            --namespace verrazzano-system verrazzano \
-            -o jsonpath={.data.password} | base64 \
-            --decode; echo
-        ```
-        The associated user name is `verrazzano`.
-
-    - You will have to accept the certificates associated with the endpoints.
-
-    You can retrieve the list of available ingresses with following command:
-
-    ```
-    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get ingress -n verrazzano-system
-    NAME                    CLASS    HOSTS                                              ADDRESS       PORTS     AGE
-    verrazzano-ingress      <none>   verrazzano.default.10.11.12.13.nip.io              10.11.12.13   80, 443   32m
-    vmi-system-prometheus   <none>   prometheus.vmi.system.default.10.11.12.13.nip.io   10.11.12.13   80, 443   32m
-     ```  
-
-    Using the ingress host information, some of the endpoints available are:
-
-    | Description| Address | Credentials |
-    | --- | --- | --- |
-    | Prometheus | `https://[vmi-system-prometheus ingress host]` | `verrazzano`/`telemetry-password` |    
+the deployed Sock Shop application.  You can access them according to the directions [here]({{< relref "/docs/operations/#get-the-consoles-urls" >}}).
 
 ## Undeploy the Sock Shop application
 
