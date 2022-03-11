@@ -597,7 +597,7 @@ Do not label a namespace which is managed by the pre-existing WebLogic Kubernete
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;...&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Then, you can access the endpoint using the Istio gateway, as described in Step 8. &lt;a href=&#34;../../../docs/samples/todo-list/&#34;&gt;Access the ToDo List application&lt;/a&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateway -n todo-list -o jsonpath={.items[0].spec.servers[0].hosts[0]})
+&lt;pre&gt;&lt;code&gt;$ HOST=$(kubectl get gateways.networking.istio.io -n todo-list -o jsonpath={.items[0].spec.servers[0].hosts[0]})
 $ ADDRESS=$(kubectl get service -n istio-system istio-ingressgateway -o jsonpath=&#39;{.status.loadBalancer.ingress[0].ip}&#39;)
 $ curl -sk https://${HOST}/todo/ --resolve ${HOST}:443:${ADDRESS}
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;references&#34;&gt;References&lt;/h2&gt;
