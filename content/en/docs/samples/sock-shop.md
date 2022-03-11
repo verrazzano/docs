@@ -96,7 +96,7 @@ Follow these steps to test the endpoints:
 
 1. Get the generated host name for the application.
    ```
-   $ HOST=$(kubectl get gateway \
+   $ HOST=$(kubectl get gateways.networking.istio.io \
         -n sockshop \
         -o jsonpath={.items[0].spec.servers[0].hosts[0]})
    $ echo $HOST
