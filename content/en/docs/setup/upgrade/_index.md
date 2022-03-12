@@ -30,23 +30,23 @@ Currently, there is no way to roll back either the platform operator update or t
 
 Upgrading an existing Verrazzano installation is a two-step process:
 
-* Upgrade the Verrazzano platform operator to the [Verrazzano release version](https://github.com/verrazzano/verrazzano/releases/) to which you want to upgrade.
-* Update the Verrazzano installation.  
+* Update the Verrazzano platform operator to the [Verrazzano release version](https://github.com/verrazzano/verrazzano/releases/) to which you want to upgrade.
+* Upgrade the Verrazzano installation.  
 
-### Upgrade the Verrazzano platform operator
-In order to upgrade an existing Verrazzano installation, you must first upgrade the [Verrazzano platform operator](https://github.com/verrazzano/verrazzano).
+### Update the Verrazzano platform operator
+In order to upgrade an existing Verrazzano installation, you must first update the [Verrazzano platform operator](https://github.com/verrazzano/verrazzano).
 
-1. Upgrade the Verrazzano platform operator.
+1. Update the Verrazzano platform operator.
 
    **NOTE:** If you are using a private container registry, then to update the platform operator, follow the instructions at [Use a Private Registry]({{< relref "/docs/setup/private-registry/private-registry.md" >}}).
 
-   To upgrade to the latest version:
+   To update to the latest version:
 
    ```
    $ kubectl apply -f {{<release_asset_url operator.yaml>}}
    ```
 
-   To upgrade to a specific version, where `<version>` is the desired version:
+   To update to a specific version, where `<version>` is the desired version:
 
    ```
    $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/<version>/operator.yaml
@@ -79,6 +79,12 @@ Verrazzano Platform Operator.
 
 **NOTE:** You may only change the version field during an upgrade; changes to other fields or component configurations are not supported at this time.
 
+In one simple step, you can upgrade to a specified version of Verrazzano using this command:
+
+   ```
+   $ kubectl patch vz example-verrazzano -p '{"spec":{"version":"{{<release_version>}}"}}' --type=merge
+   ```
+Alternatively, you can upgrade the Verrazzano installation using the following steps:
 1. Update the `Verrazzano` resource to the desired version.
 
       To upgrade the Verrazzano components, you must update the `version` field in your `Verrazzano` resource spec to
@@ -123,6 +129,29 @@ Verrazzano Platform Operator.
        --timeout=10m \
        --for=condition=UpgradeComplete verrazzano/example-verrazzano
    ```
+If an error occurs, check the log output:
+```
+$ kubectl logs -n verrazzano-install \
+    -f $(kubectl get pod \
+    -n verrazzano-install \
+    -l app=verrazzano-platform-operator \
+    -o jsonpath="{.items[0].metadata.name}") | grep '"operation":"install"'
+```
+If an upgrade fails, you'll see this:
+```
+$ kubectl get vz
+
+# Sample output
+NAME                 STATUS          VERSION
+example-verrazzano   UpgradeFailed   v1.1.1
+```
+You can restart the upgrade by setting the annotation `verrazzano.io/upgrade-retry-version` to any unique value.  For example:
+```
+$ kubectl patch vz example-verrazzano -p '{"metadata":{"annotations":
+{"verrazzano.io/upgrade-retry-version":"v1.1.2-1"}
+
+}}' --type=merge
+```
 
 ## Verify the upgrade
 
