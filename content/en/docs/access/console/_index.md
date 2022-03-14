@@ -3,6 +3,8 @@ title: "Verrazzano Console"
 description: "Use its intuitive user interface to interact with applications and configurations in your Verrazzano environment."
 weight: 11
 draft: false
+aliases:
+    - /docs/operations/console
 ---
 
 
