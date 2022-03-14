@@ -127,7 +127,7 @@ spec:
 ## OpenSearch Dashboards
 OpenSearch Dashboards is a visualization dashboard for the content indexed on an OpenSearch cluster.  Verrazzano creates a OpenSearch Dashboards deployment to provide a user interface for querying and visualizing the log data collected in OpenSearch.
 
-To access the OpenSearch Dashboards console, read [Access Verrazzano]({{< relref "/docs/operations/_index.md" >}}).
+To access the OpenSearch Dashboards console, read [Access Verrazzano]({{< relref "/docs/access/_index.md" >}}).
 
 To see the records of an OpenSearch index through OpenSearch Dashboards, create an index pattern to filter for records under the desired index.  
 
