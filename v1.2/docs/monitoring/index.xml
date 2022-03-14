@@ -1,0 +1,675 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Verrazzano Enterprise Container Platform – Monitoring &amp; Logging</title>
+    <link>/docs/monitoring/</link>
+    <description>Recent content in Monitoring &amp; Logging on Verrazzano Enterprise Container Platform</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="/docs/monitoring/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: Logging</title>
+      <link>/docs/monitoring/logs/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/monitoring/logs/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The Verrazzano logging stack consists of Fluentd, OpenSearch, and OpenSearch Dashboards components.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Fluentd: a log aggregator that collects, processes, and formats logs from Kubernetes clusters.&lt;/li&gt;
+&lt;li&gt;OpenSearch: a scalable search and analytics engine for storing Kubernetes logs.&lt;/li&gt;
+&lt;li&gt;OpenSearch Dashboards: a visualization layer that provides a user interface to query and visualize collected logs.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;As shown in the following diagram, logs written to stdout by a container running on Kubernetes are picked up by the kubelet service running on that node and written to &lt;code&gt;/var/log/containers&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../docs/images/logging.png&#34; alt=&#34;Logging&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;fluentd-sidecar&#34;&gt;Fluentd sidecar&lt;/h2&gt;
+&lt;p&gt;For components with multiple log streams or that cannot log to stdout, Verrazzano deploys a Fluentd sidecar which parses and translates the log stream.  The resulting log is sent to stdout of the sidecar container and then written to &lt;code&gt;/var/log/containers&lt;/code&gt; by the kubelet service.&lt;/p&gt;
+&lt;p&gt;For example, in a WebLogic deployment, &lt;code&gt;AdminServer.log&lt;/code&gt; is consumed, translated, and written to stdout by the Fluentd sidecar.  You can view these logs using &lt;code&gt;kubectl&lt;/code&gt; on the container named &lt;code&gt;fluentd-stdout-sidecar&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl logs tododomain-adminserver \
+   -n todo-list \
+   -c fluentd-stdout-sidecar
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The Verrazzano Fluentd Docker image comes with these plug-ins:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/fluent-plugins-nursery/fluent-plugin-concat&#34;&gt;fluent-plugin-concat&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/lunardial/fluent-plugin-dedot_filter&#34;&gt;fluent-plugin-dedot_filter&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/GoogleCloudPlatform/fluent-plugin-detect-exceptions&#34;&gt;fluent-plugin-detect-exceptions &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.fluentd.org/output/elasticsearch&#34;&gt;fluent-plugin-elasticsearch&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/fluent/fluent-plugin-grok-parser&#34;&gt;fluent-plugin-grok-parser&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://rubygems.org/gems/fluent-plugin-json-in-json-2&#34;&gt;fluent-plugin-json-in-json-2&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/fabric8io/fluent-plugin-kubernetes_metadata_filter&#34;&gt;fluent-plugin-kubernetes_metadata_filter&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/repeatedly/fluent-plugin-multi-format-parser&#34;&gt;fluent-plugin-multi-format-parser&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/fluent/fluent-plugin-parser-cri&#34;&gt;fluent-plugin-parser-cri&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/fluent/fluent-plugin-prometheus&#34;&gt;fluent-plugin-prometheus&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/repeatedly/fluent-plugin-record-modifier&#34;&gt;fluent-plugin-record-modifier&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/fluent/fluent-plugin-rewrite-tag-filter&#34;&gt;fluent-plugin-rewrite-tag-filter&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/fluent-plugin-systemd/fluent-plugin-systemd&#34;&gt;fluent-plugin-systemd&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/oracle/fluent-plugin-oci-logging&#34;&gt;fluent-plugin-oci-logging&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The Verrazzano Fluentd Docker image also has two local default plug-ins, &lt;code&gt;kubernetes_parser&lt;/code&gt; and &lt;code&gt;kubernetes_multiline_parser&lt;/code&gt;.
+These plug-ins help to parse Kubernetes management log files.&lt;/p&gt;
+&lt;p&gt;Here are example use cases for these plug-ins:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# ---- fluentd.conf ----
+# kubernetes parser
+&amp;lt;source&amp;gt;
+  @type tail
+  path ./kubelet.log
+  read_from_head yes
+  tag kubelet
+  &amp;lt;parse&amp;gt;
+     @type multiline_kubernetes
+  &amp;lt;/parse&amp;gt;
+&amp;lt;/source&amp;gt;
+
+# kubernetes multi-line parser
+&amp;lt;source&amp;gt;
+  @type tail
+  path ./kubelet.log
+  read_from_head yes
+  tag kubelet
+  &amp;lt;parse&amp;gt;
+     @type multiline_kubernetes
+  &amp;lt;/parse&amp;gt;
+&amp;lt;/source&amp;gt;
+# ----   EOF      ----
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For more details, see the &lt;a href=&#34;https://github.com/verrazzano/fluentd-kubernetes-daemonset/tree/oracle-build-from-source-v1.12/docker-image/v1.12/oraclelinux-elasticsearch7/plugins&#34;&gt;Fluentd plugins&lt;/a&gt; folder.&lt;/p&gt;
+&lt;h2 id=&#34;fluentd-daemonset&#34;&gt;Fluentd DaemonSet&lt;/h2&gt;
+&lt;p&gt;Verrazzano deploys a Fluentd DaemonSet which runs one Fluentd replica per node in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace.
+Each instance pulls logs from the node&amp;rsquo;s &lt;code&gt;/var/log/containers&lt;/code&gt; directory and writes them to the target OpenSearch index.  The index name is based on the namespace associated with the record, using this format: &lt;code&gt;verrazzano-namespace-&amp;lt;record namespace&amp;gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;For example, &lt;code&gt;vmi-system-kibana&lt;/code&gt; logs written to &lt;code&gt;/var/log/containers&lt;/code&gt; will be pulled by Fluentd and written to OpenSearch.  The index used is named &lt;code&gt;verrazzano-namespace-verrazzano-system&lt;/code&gt; because the VMI runs in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace.&lt;/p&gt;
+&lt;p&gt;The same approach is used for both system and application logs.&lt;/p&gt;
+&lt;h2 id=&#34;opensearch&#34;&gt;OpenSearch&lt;/h2&gt;
+&lt;p&gt;Verrazzano creates an OpenSearch deployment as the store and search engine for the logs processed by Fluentd.  Records written by Fluentd can be queried using the OpenSearch REST API.&lt;/p&gt;
+&lt;p&gt;For example, you can use &lt;code&gt;curl&lt;/code&gt; to get all of the OpenSearch indexes. First, you must get the password for the &lt;code&gt;verrazzano&lt;/code&gt; user and the host for the VMI OpenSearch.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ PASS=$(kubectl get secret \
+    --namespace verrazzano-system verrazzano \
+    -o jsonpath={.data.password} | base64 \
+    --decode; echo)
+$ HOST=$(kubectl get ingress \
+    -n verrazzano-system vmi-system-es-ingest \
+    -o jsonpath={.spec.rules[0].host})
+
+$ curl -ik \
+   --user verrazzano:$PASS https://$HOST/_cat/indices
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To see all of the records for a specific index, do the following:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ INDEX=verrazzano-namespace-todo-list
+
+$ curl -ik \
+    --user verrazzano:$PASS https://$HOST/$INDEX/_doc/_search?q=message:*
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Verrazzano provides support for &lt;a href=&#34;../../docs/setup/install/profiles/&#34;&gt;Installation Profiles&lt;/a&gt;. The production profile (&lt;code&gt;prod&lt;/code&gt;), which is the default, provides a 3-node OpenSearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile (&lt;code&gt;dev&lt;/code&gt;) provides a single node OpenSearch and no persistent storage for the VMI. The &lt;code&gt;managed-cluster&lt;/code&gt; profile does not install OpenSearch or OpenSearch Dashboards in the local cluster; all logs are forwarded to the admin cluster&amp;rsquo;s OpenSearch instance.&lt;/p&gt;
+&lt;p&gt;If you want the logs sent to an external OpenSearch, instead of the default VMI OpenSearch, specify &lt;code&gt;elasticsearchURL&lt;/code&gt; and &lt;code&gt;elasticsearchSecret&lt;/code&gt; in the &lt;a href=&#34;../../docs/reference/api/verrazzano/verrazzano/#fluentd-component&#34;&gt;Fluentd&lt;/a&gt; Component configuration in your Verrazzano custom resource.&lt;/p&gt;
+&lt;p&gt;The following is an example of a Verrazzano custom resource to send the logs to the OpenSearch endpoint &lt;code&gt;https://external-es.default.172.18.0.231.nip.io&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: default
+spec:
+  components:
+    fluentd:
+      elasticsearchURL: https://external-es.default.172.18.0.231.nip.io
+      elasticsearchSecret: external-es-secret
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;opensearch-dashboards&#34;&gt;OpenSearch Dashboards&lt;/h2&gt;
+&lt;p&gt;OpenSearch Dashboards is a visualization dashboard for the content indexed on an OpenSearch cluster.  Verrazzano creates a OpenSearch Dashboards deployment to provide a user interface for querying and visualizing the log data collected in OpenSearch.&lt;/p&gt;
+&lt;p&gt;To access the OpenSearch Dashboards console, read &lt;a href=&#34;../../docs/operations/&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To see the records of an OpenSearch index through OpenSearch Dashboards, create an index pattern to filter for records under the desired index.&lt;/p&gt;
+&lt;p&gt;For example, to see the log records of a WebLogic application deployed to the &lt;code&gt;todo-list&lt;/code&gt; namespace, create an index pattern of &lt;code&gt;verrazzano-namespace-todo-*&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../docs/images/opensearch.png&#34; alt=&#34;OpenSearch Dashboards&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;log-rotation&#34;&gt;Log rotation&lt;/h2&gt;
+&lt;p&gt;We recommend configuring log rotation for OpenSearch using a periodic job to purge or snapshot old records.
+A basic implementation of log rotation is provided in the following example, implemented using a Kubernetes CronJob.
+To install the log rotation example on your cluster, save the snippet into a file and make the following modifications:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Substitue the value of &lt;code&gt;OPENSEARCH_HOST&lt;/code&gt; with your specific OpenSearch HTTPS endpoint.&lt;/li&gt;
+&lt;li&gt;By default, the CronJob deletes the last 7 days of data. You may customize this by modifying the query in the ConfigMap.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: log-rotate
+  namespace: verrazzano-system
+  labels:
+    app: log-rotate
+spec:
+  # Rotate logs every day at midnight
+  schedule: &amp;quot;0 0 * * *&amp;quot;
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: log-rotate
+          annotations:
+            sidecar.istio.io/inject: &amp;quot;false&amp;quot;
+        spec:
+          containers:
+          - name: log-rotate
+            args:
+            - /bin/sh
+            - -c
+            - /opt/script/rotate
+            env:
+            - name: &amp;quot;OPENSEARCH_HOST&amp;quot;
+              value: &amp;quot;https://elasticsearch.vmi.system.default.172.18.0.151.nip.io&amp;quot;
+            - name: OPENSEARCH_USER
+              valueFrom:
+                secretKeyRef:
+                  key: username
+                  name: verrazzano
+                  optional: true
+            - name: OPENSEARCH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: verrazzano
+                  optional: true
+            image: ghcr.io/oracle/oraclelinux:7-slim
+            imagePullPolicy: IfNotPresent
+            volumeMounts:
+            - mountPath: /opt/script
+              name: log-rotate          
+          restartPolicy: OnFailure
+          volumes:
+          - configMap:
+              defaultMode: 0777
+              name: log-rotate
+            name: log-rotate
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: log-rotate
+  namespace: verrazzano-system
+  labels:
+    app: log-rotate
+data:
+  rotate: |
+    #!/bin/bash
+    curl -v --silent -k -u &amp;quot;$OPENSEARCH_USER:$OPENSEARCH_PASSWORD&amp;quot; -X POST &amp;quot;$OPENSEARCH_HOST/verrazzano-*/_delete_by_query&amp;quot; -H &#39;Content-Type: application/json&#39; -d&#39;
+    {
+      &amp;quot;query&amp;quot;: {
+        &amp;quot;bool&amp;quot;: {
+          &amp;quot;filter&amp;quot;: [
+            {
+              &amp;quot;range&amp;quot;: {
+                &amp;quot;@timestamp&amp;quot;: {
+                  &amp;quot;lt&amp;quot;: &amp;quot;now-7d&amp;quot;
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+    &#39;
+&lt;/code&gt;&lt;/pre&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: OCI Logging Service</title>
+      <link>/docs/monitoring/oci-logging/oci-logging/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/monitoring/oci-logging/oci-logging/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The Oracle Cloud Infrastructure (OCI) Logging service is a highly scalable and fully managed single pane of glass for
+all the logs in your tenancy. You can configure Verrazzano to send logs to OCI Logging instead of OpenSearch.
+For general information, see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/loggingoverview.htm&#34;&gt;OCI Logging Overview&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;set-up-custom-logs&#34;&gt;Set up custom logs&lt;/h2&gt;
+&lt;p&gt;Verrazzano can send its logs to OCI custom logs. You will need to provide two OCI Log identifiers in your Verrazzano
+installation resource - one for Verrazzano system logs and one for application logs. Follow the steps in
+&lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/custom_logs.htm&#34;&gt;Creating Custom Logs&lt;/a&gt; to create two
+custom logs. &lt;strong&gt;Do not&lt;/strong&gt; create an agent configuration when creating a custom log, otherwise the log records will be duplicated.&lt;/p&gt;
+&lt;h2 id=&#34;configure-credentials&#34;&gt;Configure credentials&lt;/h2&gt;
+&lt;p&gt;The Fluentd plug-in included with Verrazzano will use OCI instance principal authentication by default. Optionally, you
+can configure Verrazzano with a user API signing key. API signing key authentication is required to send logs to
+OCI Logging if the cluster is running outside of OCI.&lt;/p&gt;
+&lt;nav&gt;
+	&lt;div class=&#34;nav nav-tabs&#34; id=&#34;nav-tab&#34; role=&#34;tablist&#34;&gt;
+
+		
+		
+
+		
+		
+		
+
+		
+
+		&lt;a class=&#34;nav-item nav-link active&#34; id=&#34;nav-1&#34; data-toggle=&#34;tab&#34; href=&#34;#tab11&#34; role=&#34;tab&#34;
+		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Instance Principal Credentials&lt;/a&gt;
+
+		
+		
+
+		
+		
+		
+
+		
+
+		&lt;a class=&#34;nav-item nav-link&#34; id=&#34;nav-1&#34; data-toggle=&#34;tab&#34; href=&#34;#tab12&#34; role=&#34;tab&#34;
+		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;false&#34;&gt;User API Credentials&lt;/a&gt;
+
+		
+		
+
+	&lt;/div&gt;
+&lt;/nav&gt;
+
+&lt;div class=&#34;tab-content&#34; id=&#34;1&#34;&gt;
+
+
+
+
+
+
+
+
+&lt;div class=&#34;tab-pane fade show active&#34; id=&#34;tab11&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName1&#34;&gt;
+
+	&lt;br&gt;
+&lt;p&gt;Create a dynamic group that includes the compute instances in your cluster&amp;rsquo;s node pools and assign the appropriate policy,
+so that the dynamic group is allowed to send log entries to the custom logs you created earlier. Pay close attention to
+the &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Task/managinglogs.htm#required_permissions_logs_groups&#34;&gt;required permissions&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;If the dynamic group and policy are configured incorrectly, then Fluentd will fail to send logs to OCI Logging.&lt;/p&gt;
+&lt;br/&gt;
+
+
+&lt;/div&gt;
+
+
+
+
+
+
+
+
+
+&lt;div class=&#34;tab-pane fade&#34; id=&#34;tab12&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName2&#34;&gt;
+
+	&lt;br&gt;
+&lt;p&gt;If you do not already have an API signing key, then see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm&#34;&gt;Required Keys and OCIDS&lt;/a&gt;
+in the OCI documentation. You need to create an OCI configuration file with the credential details and then use that
+configuration file to create a secret. The following requirements must be met for Fluentd OCI Logging to work:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The profile name in the OCI configuration file must be &lt;code&gt;DEFAULT&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;key_file&lt;/code&gt; path in the OCI configuration file must be &lt;code&gt;/root/.oci/key&lt;/code&gt;. The actual key file does not need to be in
+that location, because you will be providing the actual key file location in a secret.&lt;/li&gt;
+&lt;li&gt;The user associated with the API key must have the appropriate OCI Identity and Access Management (IAM) policy
+in place to allow the Fluentd plug-in to send logs to OCI. See &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Identity/Reference/loggingpolicyreference.htm&#34;&gt;Details for Logging&lt;/a&gt;
+in the OCI documentation for the IAM policies used by the OCI Logging service.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;After the Verrazzano platform operator has been installed, create an opaque secret in the &lt;code&gt;verrazzano-install&lt;/code&gt; namespace
+from the OCI configuration and private key files. The key for the configuration file must be &lt;code&gt;config&lt;/code&gt; and the key
+for the private key file data must be &lt;code&gt;key&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Here is an example &lt;code&gt;kubectl&lt;/code&gt; command that will create the secret.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl create secret generic oci-fluentd -n verrazzano-install \
+      --from-file=config=/home/myuser/oci_config --from-file=key=/home/myuser/keys/oci_api.pem
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The secret should look something like this.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: v1
+data:
+  config: W0RFRkFVTFRdCnVzZXI9b2NpZDEudXN...
+  key: LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS...
+kind: Secret
+metadata:
+  name: oci-fluentd
+  namespace: verrazzano-install
+type: Opaque
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For convenience, there is a helper script available
+&lt;a href=&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/scripts/install/create_oci_fluentd_secret.sh&#34;&gt;here&lt;/a&gt; that
+you can point at an existing OCI configuration file and it will create the secret for you. The script allows you to
+override the default configuration file location, profile name, and the name of the secret.&lt;/p&gt;
+
+
+&lt;/div&gt;
+
+
+
+
+
+&lt;/div&gt;
+&lt;h2 id=&#34;install-verrazzano&#34;&gt;Install Verrazzano&lt;/h2&gt;
+&lt;p&gt;OCI Logging is enabled in your cluster when installing Verrazzano. The Verrazzano installation custom resource has fields
+for specifying two custom logs: one for system logs and one for application logs. Here is an example Verrazzano
+installation YAML file for each type of credential.
+Note that the API references Kibana, upcoming releases will use OpenSearch Dashboards in the public API.&lt;/p&gt;
+&lt;nav&gt;
+	&lt;div class=&#34;nav nav-tabs&#34; id=&#34;nav-tab&#34; role=&#34;tablist&#34;&gt;
+
+		
+		
+
+		
+		
+		
+
+		
+
+		&lt;a class=&#34;nav-item nav-link active&#34; id=&#34;nav-2&#34; data-toggle=&#34;tab&#34; href=&#34;#tab21&#34; role=&#34;tab&#34;
+		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Instance Principal Credentials&lt;/a&gt;
+
+		
+		
+
+		
+		
+		
+
+		
+
+		&lt;a class=&#34;nav-item nav-link&#34; id=&#34;nav-2&#34; data-toggle=&#34;tab&#34; href=&#34;#tab22&#34; role=&#34;tab&#34;
+		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;false&#34;&gt;User API Credentials&lt;/a&gt;
+
+		
+		
+
+	&lt;/div&gt;
+&lt;/nav&gt;
+
+&lt;div class=&#34;tab-content&#34; id=&#34;2&#34;&gt;
+
+
+
+
+
+
+
+
+&lt;div class=&#34;tab-pane fade show active&#34; id=&#34;tab21&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName1&#34;&gt;
+
+	&lt;br&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: vz-oci-logging
+spec:
+  profile: dev
+  components:
+    fluentd:
+      enabled: true
+      oci:
+        systemLogId: ocid1.log.oc1.iad.system.example
+        defaultAppLogId: ocid1.log.oc1.iad.app.example
+    elasticsearch:
+      enabled: false
+    kibana:
+      enabled: false
+&lt;/code&gt;&lt;/pre&gt;&lt;br/&gt;
+
+
+&lt;/div&gt;
+
+
+
+
+
+
+
+
+
+&lt;div class=&#34;tab-pane fade&#34; id=&#34;tab22&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName2&#34;&gt;
+
+	&lt;br&gt;
+&lt;p&gt;When using user API credentials, you need to configure the name of the secret in the Verrazzano custom resource,
+under the OCI section of the Fluentd component settings. Your YAML file should look something like this.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: vz-oci-logging
+spec:
+  profile: dev
+  components:
+    fluentd:
+      enabled: true
+      oci:
+        systemLogId: ocid1.log.oc1.iad.system.example
+        defaultAppLogId: ocid1.log.oc1.iad.app.example
+        apiSecret: oci-fluentd
+    elasticsearch:
+      enabled: false
+    kibana:
+      enabled: false
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The &lt;code&gt;apiSecret&lt;/code&gt; value must match the secret you created earlier when configuring the user API credentials.&lt;/p&gt;
+
+
+&lt;/div&gt;
+
+
+
+
+
+&lt;/div&gt;
+&lt;h2 id=&#34;override-the-default-log-objects&#34;&gt;Override the default log objects&lt;/h2&gt;
+&lt;p&gt;You can override the OCI Log object on an individual namespace. To specify a log identifier on a namespace, add an annotation named &lt;code&gt;verrazzano.io/oci-log-id&lt;/code&gt; to the namespace. The value of the annotation is the OCI Log object identifier.&lt;/p&gt;
+&lt;p&gt;Here is an example namespace.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    verrazzano.io/oci-log-id: ocid1.log.oc1.iad.ns.app.example
+  creationTimestamp: &amp;quot;2022-01-14T15:09:19Z&amp;quot;
+  labels:
+    istio-injection: enabled
+    verrazzano-managed: &amp;quot;true&amp;quot;
+  name: example
+spec:
+  finalizers:
+  - kubernetes
+status:
+  phase: Active
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that if you add and subsequently remove the annotation, then the logs will revert to the default OCI Log object
+specified in the Verrazzano custom resource.&lt;/p&gt;
+&lt;h2 id=&#34;search-logs&#34;&gt;Search logs&lt;/h2&gt;
+&lt;p&gt;To search Verrazzano logs, you can use the OCI Console, OCI CLI, or OCI SDK.&lt;/p&gt;
+&lt;p&gt;For example, using the OCI CLI to search the system logs for records emitted by the &lt;code&gt;verrazzano-application-operator&lt;/code&gt; container.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ oci logging-search search-logs --search-query=\
+     &amp;quot;search \&amp;quot;ocid1.compartment.oc1..example/ocid1.loggroup.oc1.iad.example/ocid1.log.oc1.iad.example\&amp;quot; | \
+     where \&amp;quot;data\&amp;quot;.\&amp;quot;kubernetes.container_name\&amp;quot; = &#39;verrazzano-application-operator&#39; | sort by datetime desc&amp;quot; \
+     --time-start 2021-12-07 --time-end 2021-12-17
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Search for all application log records in the &lt;code&gt;springboot&lt;/code&gt; namespace.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ oci logging-search search-logs --search-query=\
+     &amp;quot;search \&amp;quot;ocid1.compartment.oc1..example/ocid1.loggroup.oc1.iad.example/ocid1.log.oc1.iad.example\&amp;quot; | \
+     where \&amp;quot;data\&amp;quot;.\&amp;quot;kubernetes.namespace_name\&amp;quot; = &#39;springboot&#39; | sort by datetime desc&amp;quot; \
+     --time-start 2021-12-07 --time-end 2021-12-17
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For more information on searching logs, see the &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Reference/query_language_specification.htm&#34;&gt;Logging Query Language Specification&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h2&gt;
+&lt;p&gt;If you are not able to view Verrazzano logs in OCI Logging, then check the Fluentd container logs in the cluster to see if there are errors.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl logs -n verrazzano-system -l app=fluentd --tail=-1
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you see &lt;code&gt;not authorized&lt;/code&gt; error messages, then there is likely a problem with the OCI Dynamic Group or IAM policy that is preventing the Fluentd plug-in from communicating with the OCI API.&lt;/p&gt;
+&lt;p&gt;To ensure the appropriate permissions are in place, review the OCI Logging &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Task/managinglogs.htm#required_permissions_logs_groups&#34;&gt;required permissions&lt;/a&gt; documentation.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Metrics</title>
+      <link>/docs/monitoring/metrics/metrics/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/monitoring/metrics/metrics/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The Verrazzano metrics stack automates metrics aggregation and consists of Prometheus and Grafana components.
+Metrics sources expose system and application metrics.
+The Prometheus components retrieve and store the metrics and Grafana provides dashboards to
+visualize them.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../docs/images/metrics.png&#34; alt=&#34;Metrics&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;metrics-sources&#34;&gt;Metrics sources&lt;/h2&gt;
+&lt;p&gt;The following sections describe metrics sources that Verrazzano provides for OAM and standard Kubernetes applications.&lt;/p&gt;
+&lt;h3 id=&#34;oam&#34;&gt;OAM&lt;/h3&gt;
+&lt;p&gt;Metrics sources produce metrics and expose them to the Kubernetes Prometheus system using annotations in the pods.
+The metrics annotations may differ slightly depending on the resource type.
+The following is an example of the WebLogic Prometheus-related configuration specified in the &lt;code&gt;todo-list&lt;/code&gt; application pod:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;$ kubectl describe pod tododomain-adminserver -n todo-list&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Annotations:  prometheus.io/path: /wls-exporter/metrics
+              prometheus.io/port: 7001
+              prometheus.io/scrape: true
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For other resource types, such as Coherence or Helidon, the annotations would look similar to this:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Annotations:  verrazzano.io/metricsEnabled: true
+              verrazzano.io/metricsPath: /metrics
+              verrazzano.io/metricsPort: 8080
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To look directly at the metrics that are being made available by the metric source, map the port and then access the path.&lt;/p&gt;
+&lt;p&gt;For example, for the previous metric source:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Map the port being used to expose the metrics.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl port-forward tododomain-adminserver 7001:7001 -n todo-list
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Get the user name and password used to access the metrics source from the corresponding secret.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl get secret \
+    --namespace todo-list tododomain-weblogic-credentials \
+    -o jsonpath={.data.username} | base64 \
+    --decode; echo
+$ kubectl get secret \
+    --namespace todo-list tododomain-weblogic-credentials \
+    -o jsonpath={.data.password} | base64 \
+    --decode; echo
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Access the metrics at the exported path, using the user name and password retrieved in the previous step.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ curl -u USERNAME:PASSWORD localhost:7001/wls-exporter/metrics
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;standard-kubernetes-workloads&#34;&gt;Standard Kubernetes workloads&lt;/h3&gt;
+&lt;p&gt;Verrazzano enables metric sources for Kubernetes workloads deployed without OAM components.
+Verrazzano supports the following workload types: Deployments, ReplicaSets, StatefulSets, and Pods.
+To enable metrics for Kubernetes workloads, you must label the workload namespace with &lt;code&gt;verrazzano-managed=true&lt;/code&gt;.&lt;/p&gt;
+&lt;h4 id=&#34;metrics-template&#34;&gt;Metrics Template&lt;/h4&gt;
+&lt;p&gt;A &lt;a href=&#34;../../docs/reference/api/verrazzano/metricstemplate/&#34;&gt;Metrics Template&lt;/a&gt; is a custom resource created by Verrazzano to manage metrics configurations for standard Kubernetes workloads.
+Metrics templates can be placed in the workload namespace or the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace.
+By default, Verrazzano installs a metrics template named &lt;code&gt;standard-k8s-metrics-template&lt;/code&gt; in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace.
+This metrics template handles all the aforementioned workload types.
+If the default metrics template does not meet your requirements, then you can create your own metrics templates to extend and alter its functionality.&lt;/p&gt;
+&lt;p&gt;As outlined in the &lt;a href=&#34;../../docs/reference/api/verrazzano/metricstemplate/&#34;&gt;API&lt;/a&gt;, the metrics template contains a &lt;code&gt;workloadSelector&lt;/code&gt; field that specifies the resources for which the template applies.
+If you want to forgo the workload selection and manually specify a template, you can add the annotation &lt;code&gt;app.verrazzano.io/metrics=&amp;lt;template-name&amp;gt;&lt;/code&gt;
+to the namespace of the workload or to the workload itself.
+Additionally, you can opt out of metrics for your namespace or workload by setting the annotation &lt;code&gt;app.verrazzano.io/metrics=none&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The template matching precedence is as follows:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;A workload is annotated.&lt;/p&gt;
+&lt;p&gt;a. A template matching the annotation value is found in the workload namespace.&lt;/p&gt;
+&lt;p&gt;b. A template matching the annotation value is found in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace.&lt;/p&gt;
+&lt;p&gt;c. No template is found, an error is recorded, and metrics are not processed for this workload.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;A workload namespace is annotated.&lt;/p&gt;
+&lt;p&gt;a. A template matching the annotation value is found in the workload namespace.&lt;/p&gt;
+&lt;p&gt;b. A template matching the annotation value is found in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace.&lt;/p&gt;
+&lt;p&gt;c. No template is found, an error is recorded, and metrics are not processed for this namespace.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;No annotation is present.&lt;/p&gt;
+&lt;p&gt;a. A template in the workload namespace matches the workload through the &lt;code&gt;workloadSelector&lt;/code&gt; field.&lt;/p&gt;
+&lt;p&gt;b. A template in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace matches the workload through the &lt;code&gt;workloadSelector&lt;/code&gt; field.&lt;/p&gt;
+&lt;p&gt;c. No templates match the workload and metrics are not processed for this workload.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;If a workload with no annotations matches multiple templates in a namespace, there is no guaranteed precedence in template matching.
+If this is the case, it is more reliable to specify the template you require by using an annotation.&lt;/p&gt;
+&lt;p&gt;To verify that the metrics template process was successful, follow these steps:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Access the &lt;a href=&#34;../../docs/operations/&#34;&gt;Prometheus console&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;From the console, use the navigation bar to access Status/Targets.&lt;/li&gt;
+&lt;li&gt;On this page, you will see a target name with this formatting: &lt;code&gt;&amp;lt;workload-namespace&amp;gt;_&amp;lt;workload-name&amp;gt;_&amp;lt;workload-type&amp;gt;&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Copy this job name for use in future queries.&lt;/li&gt;
+&lt;li&gt;Verify that the State of this target is &lt;code&gt;UP&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Next, use the navigation bar to access the Graph.&lt;/li&gt;
+&lt;li&gt;Here, use the job name you copied to construct this expression: &lt;code&gt;{job=&amp;quot;&amp;lt;job_name&amp;gt;&amp;quot;}&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Use the graph to execute this expression and verify that you see application metrics appear.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;prometheus-overrides&#34;&gt;Prometheus overrides&lt;/h4&gt;
+&lt;p&gt;The &lt;code&gt;standard-k8s-metrics-template&lt;/code&gt; metrics template installed by Verrazzano uses the following pod annotations to populate the Prometheus configuration.
+If not specified, Verrazzano will use these default values:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Annotations:  prometheus.io/path: /metrics
+              prometheus.io/port: 8080
+              prometheus.io/scrape: true
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To alter these values, annotate the workload pod with the corresponding annotations.
+For example, if you want to change the metrics path, then add the following to a Deployment definition:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;apps/v1&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;Deployment&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-helidon-deployment&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;namespace&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-helidon&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;annotations&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;app.verrazzano.io/metrics&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;standard-k8s-metrics-template&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;template&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# add path annotation to the pod template&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;annotations&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;prometheus.io/path&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;/custom/metrics/path&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;prometheus-configuration&#34;&gt;Prometheus configuration&lt;/h4&gt;
+&lt;p&gt;If you want to create your own metrics template, you will need to construct a &lt;a href=&#34;https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config&#34;&gt;Prometheus &lt;code&gt;scrape config&lt;/code&gt;&lt;/a&gt;.
+The &lt;code&gt;scrape config&lt;/code&gt; uses &lt;a href=&#34;https://pkg.go.dev/text/template&#34;&gt;Go Templates&lt;/a&gt; to generate configuration values based on Kubernetes resources.
+You can reference values in the &lt;code&gt;workload&lt;/code&gt; and &lt;code&gt;namespace&lt;/code&gt; definitions for use in the &lt;code&gt;scrape config&lt;/code&gt;.
+For example, the default &lt;code&gt;scrape config&lt;/code&gt; references the workload namespace field through this reference: &lt;code&gt;.workload.metadata.namespace&lt;/code&gt;.
+Do not include the &lt;code&gt;job_name&lt;/code&gt; field in your &lt;code&gt;scrape config&lt;/code&gt; as it will be generated by Verrazzano.
+For guidance on how to construct a Prometheus &lt;code&gt;scrape config&lt;/code&gt;, reference the &lt;code&gt;scrapeConfigTemplate&lt;/code&gt; section in the &lt;a href=&#34;../../docs/reference/api/verrazzano/metricstemplate/&#34;&gt;Metrics Template&lt;/a&gt; example.&lt;/p&gt;
+&lt;h3 id=&#34;metrics-server&#34;&gt;Metrics server&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Single pod per cluster.&lt;/li&gt;
+&lt;li&gt;Named &lt;code&gt;vmi-system-prometheus-*&lt;/code&gt; in &lt;code&gt;verrazzano-system&lt;/code&gt; namespace.&lt;/li&gt;
+&lt;li&gt;Discovers exposed metrics source endpoints.&lt;/li&gt;
+&lt;li&gt;Scrapes metrics from metrics sources.&lt;/li&gt;
+&lt;li&gt;Responsible for exposing all metrics.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;grafana&#34;&gt;Grafana&lt;/h2&gt;
+&lt;p&gt;Grafana provides visualization for your Prometheus metric data.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Single pod per cluster.&lt;/li&gt;
+&lt;li&gt;Named &lt;code&gt;vmi-system-grafana-*&lt;/code&gt; in &lt;code&gt;verrazzano-system&lt;/code&gt; namespace.&lt;/li&gt;
+&lt;li&gt;Provides dashboards for metrics visualization.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To access Grafana:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Get the hostname from the Grafana ingress.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl get ingress vmi-system-grafana -n verrazzano-system
+
+# Sample output
+NAME                 CLASS    HOSTS                                              ADDRESS          PORTS     AGE
+vmi-system-grafana   &amp;lt;none&amp;gt;   grafana.vmi.system.default.123.456.789.10.nip.io   123.456.789.10   80, 443   26h
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Get the password for the user &lt;code&gt;verrazzano&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl get secret \
+    --namespace verrazzano-system verrazzano \
+    -o jsonpath={.data.password} | base64 \
+    --decode; echo
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Access Grafana in a browser using the previous hostname.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Log in using the &lt;code&gt;verrazzano&lt;/code&gt; user and the previous password.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;../../docs/images/grafana-initial-page.png&#34; alt=&#34;Grafana&#34;&gt;&lt;/p&gt;
+&lt;p&gt;From here, you can select an existing dashboard or create a new dashboard.
+To select an existing dashboard, use the drop-down list in the top left corner.
+The initial value of this list is &lt;code&gt;Home&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;To view host level metrics, select &lt;code&gt;Host Metrics&lt;/code&gt;. This will provide system metrics for all
+of the nodes in your cluster.&lt;/p&gt;
+&lt;p&gt;To view the application metrics for the &lt;code&gt;todo-list&lt;/code&gt; example application, select &lt;code&gt;WebLogic Server Dashboard&lt;/code&gt;
+because the &lt;code&gt;todo-list&lt;/code&gt; application is a WebLogic application.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../docs/images/grafana-weblogic-dashboard.png&#34; alt=&#34;WebLogicDashboard&#34;&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

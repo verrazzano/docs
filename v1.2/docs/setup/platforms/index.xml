@@ -1,0 +1,953 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Verrazzano Enterprise Container Platform – Platform Setup</title>
+    <link>/docs/setup/platforms/</link>
+    <description>Recent content in Platform Setup on Verrazzano Enterprise Container Platform</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="/docs/setup/platforms/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: OCI Container Engine for Kubernetes (OKE)</title>
+      <link>/docs/setup/platforms/oci/oci/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/platforms/oci/oci/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;prepare-for-the-oci-install&#34;&gt;Prepare for the OCI install&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Create the &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm&#34;&gt;OKE&lt;/a&gt; cluster using the OCI Console or by some other means.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;For &lt;code&gt;SHAPE&lt;/code&gt;, an OKE cluster with 3 nodes of &lt;code&gt;VM.Standard2.4&lt;/code&gt; &lt;a href=&#34;https://www.oracle.com/cloud/compute/virtual-machines.html&#34;&gt;OCI compute instance shape&lt;/a&gt; has proven sufficient to install Verrazzano and deploy the &lt;a href=&#34;../../../docs/samples/bobs-books/&#34;&gt;Bob&amp;rsquo;s Books&lt;/a&gt; example application.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Follow the instructions provided by OKE to download the Kubernetes configuration file for your cluster, and set the following &lt;code&gt;ENV&lt;/code&gt; variable:&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;   $ export KUBECONFIG=&amp;lt;path to valid Kubernetes config&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;Optional, if your organization requires the use of a private registry to the Docker images installed by Verrazzano, see &lt;a href=&#34;../../../docs/setup/private-registry/private-registry/&#34;&gt;Use a Private Registry&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Verrazzano can create network policies that can be used to limit the ports and protocols that pods use for network communication. Network policies provide additional security but they are enforced only if you install a Kubernetes Container Network Interface (CNI) plug-in that enforces them, such as Calico. For an example on OKE, see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengsettingupcalico.htm&#34;&gt;Installing Calico and Setting Up Network Policies&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
+&lt;p&gt;To continue, see the &lt;a href=&#34;../../../docs/setup/install/installation/#install-the-verrazzano-platform-operator&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Oracle Linux Cloud Native Environment (OLCNE)</title>
+      <link>/docs/setup/platforms/olcne/olcne/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/platforms/olcne/olcne/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;prepare-for-the-oclne-install&#34;&gt;Prepare for the OCLNE install&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/&#34;&gt;Oracle Linux Cloud Native Environment&lt;/a&gt; can be installed in several different types of environments.
+These range from physical, on-premises hardware to virtualized cloud infrastructure.
+The Oracle Linux Cloud Native Environment installation instructions assume that networking and compute resources already exist.
+The basic infrastructure requirements are a network with a public and private subnet
+and a set of hosts connected to those networks.&lt;/p&gt;
+&lt;h3 id=&#34;oci-example&#34;&gt;OCI example&lt;/h3&gt;
+&lt;p&gt;The following is an example of OCI infrastructure that can be used to evaluate Verrazzano installed on Oracle Linux Cloud Native Environment.
+If other environments are used, the capacity and configuration should be similar.&lt;/p&gt;
+&lt;p&gt;You can use the VCN Wizard of the OCI Console to automatically create most of the described network infrastructure.
+Additional security lists/rules, as detailed below, need to be added manually.
+All CIDR values provided are examples and can be customized as required.&lt;/p&gt;
+&lt;h3 id=&#34;virtual-cloud-network-for-example-cidr-1000016&#34;&gt;Virtual Cloud Network (for example, CIDR 10.0.0.0/16)&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Public Subnet (for example, CIDR 10.0.0.0/24)&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Security List / Ingress Rules&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Stateless&lt;/th&gt;
+&lt;th&gt;Destination&lt;/th&gt;
+&lt;th&gt;Protocol&lt;/th&gt;
+&lt;th&gt;Source Ports&lt;/th&gt;
+&lt;th&gt;Destination Ports&lt;/th&gt;
+&lt;th&gt;Type &amp;amp; Code&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ICMP&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;3, 4&lt;/td&gt;
+&lt;td&gt;ICMP errors&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.0.0/16&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ICMP&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;ICMP errors&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;22&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;SSH&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;80&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;HTTP load balancer&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;443&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;HTTPS load balancer&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Security List / Egress Rules&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Stateless&lt;/th&gt;
+&lt;th&gt;Destination&lt;/th&gt;
+&lt;th&gt;Protocol&lt;/th&gt;
+&lt;th&gt;Source Ports&lt;/th&gt;
+&lt;th&gt;Destination Ports&lt;/th&gt;
+&lt;th&gt;Type &amp;amp; Code&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;22&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;SSH&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;30080&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;HTTP load balancer&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;30443&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;HTTPS load balancer&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;31380&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;HTTP load balancer&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;31390&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;HTTPS load balancer&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;Private Subnet (for example, CIDR 10.0.1.0/24)&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Security List / Ingress Rules&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Stateless&lt;/th&gt;
+&lt;th&gt;Destination&lt;/th&gt;
+&lt;th&gt;Protocol&lt;/th&gt;
+&lt;th&gt;Source Ports&lt;/th&gt;
+&lt;th&gt;Destination Ports&lt;/th&gt;
+&lt;th&gt;Type &amp;amp; Code&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ICMP&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;3, 4&lt;/td&gt;
+&lt;td&gt;ICMP errors&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.0.0/16&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;ICMP&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;ICMP errors&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.0.0/16&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;22&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;SSH&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.0.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;30080&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;HTTP load balancer&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.0.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;30443&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;HTTPS load balancer&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.0.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;31380&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;HTTP load balancer&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.0.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;31390&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;HTTPS load balancer&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;UDP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;111&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;NFS&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;111&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;NFS&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;UDP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;2048&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;NFS&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;2048-2050&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;NFS&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;2379-2380&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Kubernetes etcd&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;6443&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Kubernetes API Server&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;6446&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;MySQL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;8090-8091&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;OLCNE Platform Agent&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;UDP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;8472&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Flannel&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;All&lt;/td&gt;
+&lt;td&gt;10250-10255&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Kubernetes Kublet&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Security List / Egress Rules&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Stateless&lt;/th&gt;
+&lt;th&gt;Destination&lt;/th&gt;
+&lt;th&gt;Protocol&lt;/th&gt;
+&lt;th&gt;Source Ports&lt;/th&gt;
+&lt;th&gt;Destination Ports&lt;/th&gt;
+&lt;th&gt;Type and Code&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;10.0.0.0/0&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;All egress traffic&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;DHCP Options&lt;/strong&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;DNS Type&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Internet and VCN Resolver&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;Route Tables&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Public Subnet Route Table Rules&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Destination&lt;/th&gt;
+&lt;th&gt;Target&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Internet Gateway&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Private Subnet Route Table Rules&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Destination&lt;/th&gt;
+&lt;th&gt;Target&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;0.0.0.0/0&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;NAT Gateway&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;All OCI Services&lt;/td&gt;
+&lt;td&gt;Service Gateway&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;Internet Gateway&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NAT Gateway&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Service Gateway&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The following compute resources adhere to the guidelines provided in the Oracle Linux Cloud Native Environment &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.1/start/&#34;&gt;Getting Started&lt;/a&gt; guide.
+The attributes indicated (for example, Subnet, RAM, Shape, and Image) are recommendations that have been tested.
+Other values can be used if required.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Compute Instances&lt;/strong&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Role&lt;/th&gt;
+&lt;th&gt;Subnet&lt;/th&gt;
+&lt;th&gt;Suggested RAM&lt;/th&gt;
+&lt;th&gt;Compatible VM Shape&lt;/th&gt;
+&lt;th&gt;Compatible VM Image&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;SSH Jump Host&lt;/td&gt;
+&lt;td&gt;Public&lt;/td&gt;
+&lt;td&gt;8GB&lt;/td&gt;
+&lt;td&gt;VM.Standard.E2.1&lt;/td&gt;
+&lt;td&gt;Oracle Linux 7.8&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;OLCNE Operator Host&lt;/td&gt;
+&lt;td&gt;Private&lt;/td&gt;
+&lt;td&gt;16GB&lt;/td&gt;
+&lt;td&gt;VM.Standard.E2.2&lt;/td&gt;
+&lt;td&gt;Oracle Linux 7.8&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Kubernetes Control Plane Node&lt;/td&gt;
+&lt;td&gt;Private&lt;/td&gt;
+&lt;td&gt;32GB&lt;/td&gt;
+&lt;td&gt;VM.Standard.E2.4&lt;/td&gt;
+&lt;td&gt;Oracle Linux 7.8&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Kubernetes Worker Node 1&lt;/td&gt;
+&lt;td&gt;Private&lt;/td&gt;
+&lt;td&gt;32GB&lt;/td&gt;
+&lt;td&gt;VM.Standard.E2.4&lt;/td&gt;
+&lt;td&gt;Oracle Linux 7.8&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Kubernetes Worker Node 2&lt;/td&gt;
+&lt;td&gt;Private&lt;/td&gt;
+&lt;td&gt;32GB&lt;/td&gt;
+&lt;td&gt;VM.Standard.E2.4&lt;/td&gt;
+&lt;td&gt;Oracle Linux 7.8&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Kubernetes Worker Node 3&lt;/td&gt;
+&lt;td&gt;Private&lt;/td&gt;
+&lt;td&gt;32GB&lt;/td&gt;
+&lt;td&gt;VM.Standard.E2.4&lt;/td&gt;
+&lt;td&gt;Oracle Linux 7.8&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;do-the-olcne-install&#34;&gt;Do the OLCNE install&lt;/h2&gt;
+&lt;p&gt;Deploy Oracle Linux Cloud Native Environment with the Kubernetes module, following instructions from the &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.1/start/install-module-deploy.html&#34;&gt;Getting Started&lt;/a&gt; guide.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Use a single Kubernetes control plane node.&lt;/li&gt;
+&lt;li&gt;Skip the Kubernetes API load balancer (&lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.1/start/install-lb.html&#34;&gt;3.4.3&lt;/a&gt;).&lt;/li&gt;
+&lt;li&gt;Use private CA certificates (&lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.1/start/certs-private.html&#34;&gt;3.5.3&lt;/a&gt;).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;prepare-for-the-verrazzano-install&#34;&gt;Prepare for the Verrazzano install&lt;/h2&gt;
+&lt;p&gt;A Verrazzano Oracle Linux Cloud Native Environment deployment requires:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A default storage provider that supports &amp;ldquo;Multiple Read/Write&amp;rdquo; mounts. For example, an NFS service like:
+&lt;ul&gt;
+&lt;li&gt;Oracle Cloud Infrastructure File Storage Service.&lt;/li&gt;
+&lt;li&gt;A hardware-based storage system that provides NFS capabilities.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Load balancers in front of the worker nodes in the cluster.&lt;/li&gt;
+&lt;li&gt;DNS records that reference the load balancers.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The target ports for the load balancer backends cannot be determined until you install Verrazzano.&lt;br&gt;
+You can create the load balancers before you install, but post-installation configuration is required.&lt;/p&gt;
+&lt;p&gt;Examples for meeting these requirements follow.&lt;/p&gt;
+&lt;h3 id=&#34;storage&#34;&gt;Storage&lt;/h3&gt;
+&lt;p&gt;Verrazzano requires persistent storage for several components.
+This persistent storage is provided by a default storage class.
+A number of persistent storage providers exist for Kubernetes.
+This guide will focus on pre-allocated persistent volumes.
+In particular, the provided samples will illustrate the use of OCI&amp;rsquo;s NFS File System.&lt;/p&gt;
+&lt;h4 id=&#34;oci-example-1&#34;&gt;OCI example&lt;/h4&gt;
+&lt;p&gt;Before storage can be exposed to Kubernetes, it must be created.
+In OCI, this is done using File System resources.
+Using the OCI Console, create a new File System.
+Within the new File System, create an Export.
+Remember the value used for  &lt;code&gt;Export Path&lt;/code&gt; as it will be used later.
+Also note the Mount Target&amp;rsquo;s &lt;code&gt;IP Address&lt;/code&gt; for use later.&lt;/p&gt;
+&lt;p&gt;After the exports have been created, referenced persistent volume folders (for example, &lt;code&gt;/example/pv0001&lt;/code&gt;) will need to be created.
+In OCI, this can be done by mounting the export on one of the Kubernetes worker nodes and creating the folders.
+In the following example, the value &lt;code&gt;/example&lt;/code&gt; is the &lt;code&gt;Export Path&lt;/code&gt; and &lt;code&gt;10.0.1.8&lt;/code&gt; is the Mount Target&amp;rsquo;s &lt;code&gt;IP Address&lt;/code&gt;.
+The following command should be run on one of the Kubernetes worker nodes.
+This will result in the creation of nine persistent volume folders.
+The reason for nine persistent volume folders is covered in the next section.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ sudo mount 10.0.1.8:/example /mnt
+$ for x in {0001..0009}; do sudo mkdir -p /mnt/pv${x} &amp;amp;&amp;amp; sudo chmod 777 /mnt/pv${x}; done
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;persistent-volumes&#34;&gt;Persistent Volumes&lt;/h4&gt;
+&lt;p&gt;A default Kubernetes storage class is required by Verrazzano.
+When using pre-allocated PersistentVolumes, for example NFS, persistent volumes should be declared as following.
+The value for &lt;code&gt;name&lt;/code&gt; may be customized but will need to match the PersistentVolume &lt;code&gt;storageClassName&lt;/code&gt; value later.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Create a default StorageClass
+&lt;pre&gt;&lt;code&gt;$ cat &amp;lt;&amp;lt; EOF | kubectl apply -f -
+  apiVersion: storage.k8s.io/v1
+  kind: StorageClass
+  metadata:
+    name: example-nfs
+    annotations:
+      storageclass.kubernetes.io/is-default-class: &amp;quot;true&amp;quot;
+  provisioner: kubernetes.io/no-provisioner
+  volumeBindingMode: WaitForFirstConsumer
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;Create the required number of PersistentVolume resources.
+The Verrazzano system requires five persistent volumes for itself.
+The following command creates nine persistent volumes.
+The value for &lt;code&gt;storageClassName&lt;/code&gt; must match the above &lt;code&gt;StorageClass&lt;/code&gt; name.
+The values for &lt;code&gt;name&lt;/code&gt; may be customized.
+The value for &lt;code&gt;path&lt;/code&gt; must match the &lt;code&gt;Export Path&lt;/code&gt; of the Export from above, combined with the persistent volume folder from above.
+The value for &lt;code&gt;server&lt;/code&gt; must be changed to match the location of your file system server.
+&lt;pre&gt;&lt;code&gt;$ for n in {0001..0009}; do cat &amp;lt;&amp;lt; EOF | kubectl apply -f -
+  apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    name: pv${n}
+  spec:
+    storageClassName: example-nfs
+    accessModes:
+      - ReadWriteOnce
+      - ReadWriteMany
+    capacity:
+      storage: 50Gi
+    nfs:
+      path: /example/pv${n}
+      server: 10.0.1.8
+    volumeMode: Filesystem
+    persistentVolumeReclaimPolicy: Recycle
+EOF
+done
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;load-balancers&#34;&gt;Load Balancers&lt;/h3&gt;
+&lt;p&gt;Verrazzano on Oracle Linux Cloud Native Environment uses external load balancer services.
+These will not automatically be provided by Verrazzano or Kubernetes.
+Two load balancers must be deployed outside of the subnet used for the Kubernetes cluster.
+One load balancer is for management traffic and the other for application traffic.&lt;/p&gt;
+&lt;p&gt;Specific steps will differ for each load balancer provider, but a generic configuration and an OCI example follow.&lt;/p&gt;
+&lt;h4 id=&#34;generic-configuration&#34;&gt;Generic configuration:&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Target Host: Host names of Kubernetes worker nodes&lt;/li&gt;
+&lt;li&gt;Target Ports: See table&lt;/li&gt;
+&lt;li&gt;External Ports: See table&lt;/li&gt;
+&lt;li&gt;Distribution: Round-robin&lt;/li&gt;
+&lt;li&gt;Health Check: TCP&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;backend-for-management-load-balancer&#34;&gt;&lt;strong&gt;Backend for management load balancer&lt;/strong&gt;&lt;/h5&gt;
+&lt;p&gt;You must install Verrazzano to get the target ports for each load balancer backend.
+In the following table, those ports are marked TBD. Run the following command to get the target
+ports for the NGINX Ingress Controller:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kubectl get service ingress-controller-ingress-nginx-controller -n ingress-nginx
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the &lt;code&gt;PORT(S)&lt;/code&gt; column you will see the target port associated with port 80 and 443, for example: &lt;code&gt;80:30080/TCP,443:30443&lt;/code&gt;.&lt;br&gt;
+Use these target port values for the NGINX Ingress Controller load balancer backend.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Service Name&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;External Port&lt;/th&gt;
+&lt;th&gt;Target Port&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;ingress-controller-nginx-ingress-controller&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;80&lt;/td&gt;
+&lt;td&gt;TBD&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;ingress-controller-nginx-ingress-controller&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;443&lt;/td&gt;
+&lt;td&gt;TBD&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h5 id=&#34;backend-for-application-load-balancer&#34;&gt;&lt;strong&gt;Backend for application load balancer&lt;/strong&gt;&lt;/h5&gt;
+&lt;p&gt;Get the target ports for the Istio ingress gateway service using the following command:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;kubectl get service  istio-ingressgateway  -n  istio-system
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Use these port values for the Istio ingress gateway load balancer backend.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Service Name&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;External Port&lt;/th&gt;
+&lt;th&gt;Target Port&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;istio-ingressgateway&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;80&lt;/td&gt;
+&lt;td&gt;TBD&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;istio-ingressgateway&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;TCP&lt;/td&gt;
+&lt;td&gt;443&lt;/td&gt;
+&lt;td&gt;TBD&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;oci-example-2&#34;&gt;OCI example&lt;/h4&gt;
+&lt;p&gt;The following details can be used to create OCI load balancers for accessing application and management user interfaces, respectively.
+These load balancers will route HTTP/HTTPS traffic from the Internet to the private subnet.
+If load balancers are desired, then they should be created now even though the application and management endpoints will be installed later.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: In the following list, the using port 0 for the health check indicates that the backend ports should be used.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Application Load Balancer: Public Subnet
+&lt;ul&gt;
+&lt;li&gt;Listeners
+&lt;ul&gt;
+&lt;li&gt;HTTP Listener: Protocol TCP, Port 80&lt;/li&gt;
+&lt;li&gt;HTTPS Listener: Protocol TCP, Port 443&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Backend Sets
+&lt;ul&gt;
+&lt;li&gt;HTTP Backend Sets:
+&lt;ul&gt;
+&lt;li&gt;Health Check: Protocol TCP, Port 0&lt;/li&gt;
+&lt;li&gt;Backends: Kubernetes Worker Nodes, Port TBD, Distribution Policy Weighted Round Robin&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;HTTPS Backend Sets
+&lt;ul&gt;
+&lt;li&gt;Health Check: Protocol TCP, Port 0&lt;/li&gt;
+&lt;li&gt;Backends: Kubernetes Worker Nodes, Port TBD, Distribution Policy Weighted Round Robin&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Management Load Balancer: Public Subnet
+&lt;ul&gt;
+&lt;li&gt;Listeners
+&lt;ul&gt;
+&lt;li&gt;HTTP Listener: Protocol TCP, Port 80&lt;/li&gt;
+&lt;li&gt;HTTPS Listener: Protocol TCP, Port 443&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Backend Sets
+&lt;ul&gt;
+&lt;li&gt;HTTP Backend Sets:
+&lt;ul&gt;
+&lt;li&gt;Health Check: Protocol TCP, Port 0&lt;/li&gt;
+&lt;li&gt;Backends: Kubernetes Worker Nodes, Port TBD, Distribution Policy Weighted Round Robin&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;HTTPS Backend Sets
+&lt;ul&gt;
+&lt;li&gt;Health Check: Protocol TCP, Port 0&lt;/li&gt;
+&lt;li&gt;Backends: Kubernetes Worker Nodes, Port TBD, Distribution Policy Weighted Round Robin&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;dns&#34;&gt;DNS&lt;/h3&gt;
+&lt;p&gt;When using the Verrazzano&lt;code&gt;spec.components.dns.external&lt;/code&gt; DNS type, the installer searches the DNS zone you provide for two specific A records.
+These are used to configure the cluster and should refer to external addresses of the load balancers in the previous step.
+The A records will need to be created manually.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: At this time, the only supported deployment for Oracle Linux Cloud Native Environment is the external DNS type.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Record&lt;/th&gt;
+&lt;th&gt;Use&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;ingress-mgmt&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Set as the &lt;code&gt;.spec.externalIPs&lt;/code&gt; value of the &lt;code&gt;ingress-controller-nginx-ingress-controller&lt;/code&gt; service.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;ingress-verrazzano&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Set as the &lt;code&gt;.spec.externalIPs&lt;/code&gt; value of the &lt;code&gt;istio-ingressgateway&lt;/code&gt; service.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;For example:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;198.51.100.10                                   A       ingress-mgmt.myenv.example.com.
+203.0.113.10                                    A       ingress-verrazzano.myenv.example.com.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Verrazzano installation will result in a number of management services that need to point to the &lt;code&gt;ingress-mgmt&lt;/code&gt; address.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;verrazzano.myenv.example.com                    CNAME   ingress-mgmt.myenv.example.com.
+keycloak.myenv.example.com                      CNAME   ingress-mgmt.myenv.example.com.
+rancher.myenv.example.com                       CNAME   ingress-mgmt.myenv.example.com.
+
+grafana.vmi.system.myenv.example.com            CNAME   ingress-mgmt.myenv.example.com.
+prometheus.vmi.system.myenv.example.com         CNAME   ingress-mgmt.myenv.example.com.
+kiali.vmi.system.myenv.example.com              CNAME   ingress-mgmt.myenv.example.com.
+kibana.vmi.system.myenv.example.com             CNAME   ingress-mgmt.myenv.example.com.
+elasticsearch.vmi.system.myenv.example.com      CNAME   ingress-mgmt.myenv.example.com.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For simplicity, an administrator may want to create &lt;a href=&#34;https://tools.ietf.org/html/rfc1034#section-4.3.3&#34;&gt;wildcard DNS records&lt;/a&gt; for the management addresses:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;*.system.myenv.example.com                      CNAME   ingress-mgmt.myenv.example.com.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;OR&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;*.myenv.example.com                             CNAME   ingress-mgmt.myenv.example.com.
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;oci-example-3&#34;&gt;OCI example&lt;/h4&gt;
+&lt;p&gt;DNS is configured in OCI by creating DNS zones in the OCI Console.
+When creating a DNS zone, use these values:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Method: Manual&lt;/li&gt;
+&lt;li&gt;Zone Name: &lt;code&gt;&amp;lt;dns-suffix&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Zone Type: Primary&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The value for &lt;code&gt;&amp;lt;dns-suffix&amp;gt;&lt;/code&gt; excludes the environment (for example, use the &lt;code&gt;example.com&lt;/code&gt; portion of &lt;code&gt;myenv.example.com&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;DNS A records must be manually added to the zone and published using values described above.
+DNS CNAME records, in the same way.&lt;/p&gt;
+&lt;p&gt;During the Verrazzano install, these steps should be performed on the Oracle Linux Cloud Native Environment operator node.&lt;/p&gt;
+&lt;p&gt;Edit the sample Verrazzano custom resource &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/platform-operator/config/samples/install-olcne.yaml&#34;&gt;install-olcne.yaml&lt;/a&gt; file and provide these configuration settings for your OLCNE environment:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The value for &lt;code&gt;spec.environmentName&lt;/code&gt; is a unique DNS subdomain for the cluster (for example, &lt;code&gt;myenv&lt;/code&gt; in &lt;code&gt;myenv.example.com&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;The value for &lt;code&gt;spec.components.dns.external.suffix&lt;/code&gt; is the remainder of the DNS domain (for example, &lt;code&gt;example.com&lt;/code&gt; in &lt;code&gt;myenv.example.com&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;Under &lt;code&gt;spec.components.ingress.nginxInstallArgs&lt;/code&gt;, the value for &lt;code&gt;controller.service.externalIPs&lt;/code&gt; is the IP address of &lt;code&gt;ingress-mgmt.&amp;lt;myenv&amp;gt;.&amp;lt;example.com&amp;gt;&lt;/code&gt; configured during DNS set up.&lt;/li&gt;
+&lt;li&gt;Under  &lt;code&gt;spec.components.istio.istioInstallArgs&lt;/code&gt;, the value for &lt;code&gt;gateways.istio-ingressgateway.externalIPs&lt;/code&gt; is the IP address of &lt;code&gt;ingress-verrazzano.&amp;lt;myenv&amp;gt;.&amp;lt;example.com&amp;gt;&lt;/code&gt; configured during DNS set up.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You will install Verrazzano using the &lt;code&gt;external&lt;/code&gt; DNS type (the example custom resource for OLCNE is already configured to use &lt;code&gt;spec.components.dns.external&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;Set the following environment variable:&lt;/p&gt;
+&lt;p&gt;The value for &lt;code&gt;&amp;lt;path to valid Kubernetes config&amp;gt;&lt;/code&gt; is typically &lt;code&gt;${HOME}/.kube/config&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ export KUBECONFIG=$VERRAZZANO_KUBECONFIG
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
+&lt;p&gt;To continue, see the &lt;a href=&#34;../../../docs/setup/install/installation/#install-the-verrazzano-platform-operator&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Kind</title>
+      <link>/docs/setup/platforms/kind/kind/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/platforms/kind/kind/</guid>
+      <description>
+        
+        
+        &lt;p&gt;&lt;a href=&#34;https://kind.sigs.k8s.io/&#34;&gt;Kind&lt;/a&gt; is a tool for running local Kubernetes clusters using Docker container “nodes”.  Follow
+these instructions to prepare a Kind cluster for running Verrazzano.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    Kind is not recommended for use on macOS and Windows because the Docker network is not directly exposed
+to the host.
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Install &lt;a href=&#34;https://docs.docker.com/install/&#34;&gt;Docker&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Install &lt;a href=&#34;https://kind.sigs.k8s.io/docs/user/quick-start/#installation&#34;&gt;Kind&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;prepare-the-kind-cluster&#34;&gt;Prepare the Kind cluster&lt;/h2&gt;
+&lt;p&gt;To prepare the Kind cluster for use with Verrazzano, you must create the cluster and then install and configure
+&lt;a href=&#34;https://metallb.universe.tf/&#34;&gt;MetalLB&lt;/a&gt; in that cluster.&lt;/p&gt;
+&lt;p&gt;You can create the Kind cluster in two ways: with or without image caching; image caching can speed up your
+installation time.&lt;/p&gt;
+&lt;h3 id=&#34;create-a-kind-cluster&#34;&gt;Create a Kind cluster&lt;/h3&gt;
+&lt;p&gt;Kind images are prebuilt for each release.  To find images suitable for a given release, check the
+&lt;a href=&#34;https://github.com/kubernetes-sigs/kind/releases&#34;&gt;release notes&lt;/a&gt; for your Kind version (check with &lt;code&gt;kind version&lt;/code&gt;).
+There you&amp;rsquo;ll find a complete listing of images created for a Kind release.&lt;/p&gt;
+&lt;p&gt;The following example references a Kubernetes v1.21.1-based image built for Kind v0.11.1.  Replace that image
+with one suitable for the Kind release you are using.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kind create cluster --config - &amp;lt;&amp;lt;EOF
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+    image: kindest/node:v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6
+    kubeadmConfigPatches:
+      - |
+        kind: ClusterConfiguration
+        apiServer:
+          extraArgs:
+            &amp;quot;service-account-issuer&amp;quot;: &amp;quot;kubernetes.default.svc&amp;quot;
+            &amp;quot;service-account-signing-key-file&amp;quot;: &amp;quot;/etc/kubernetes/pki/sa.key&amp;quot;
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;create-a-kind-cluster-with-image-caching&#34;&gt;Create a Kind cluster with image caching&lt;/h3&gt;
+&lt;p&gt;While developing or experimenting with Verrazzano, you might destroy and re-create your Kind cluster multiple
+times.  To speed up Verrazzano installation, follow these steps to ensure that the image cache used by
+containerd inside a Kind cluster, is preserved across clusters. Subsequent installations will be faster
+because they will not need to pull the images again.&lt;/p&gt;
+&lt;p&gt;1. Create a named Docker volume that will be used for the image cache, and note its &lt;code&gt;Mountpoint&lt;/code&gt; path. In this example, the volume is named &lt;code&gt;containerd&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ docker volume create containerd
+
+$ docker volume inspect containerd
+
+#Sample output
+{
+    &amp;quot;CreatedAt&amp;quot;: &amp;quot;2021-01-11T16:27:47Z&amp;quot;,
+    &amp;quot;Driver&amp;quot;: &amp;quot;local&amp;quot;,
+    &amp;quot;Labels&amp;quot;: {},
+    &amp;quot;Mountpoint&amp;quot;: &amp;quot;/var/lib/docker/volumes/containerd/_data&amp;quot;,
+    &amp;quot;Name&amp;quot;: &amp;quot;containerd&amp;quot;,
+    &amp;quot;Options&amp;quot;: {},
+    &amp;quot;Scope&amp;quot;: &amp;quot;local&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;2. Specify the &lt;code&gt;Mountpoint&lt;/code&gt; path obtained, as the &lt;code&gt;hostPath&lt;/code&gt; under &lt;code&gt;extraMounts&lt;/code&gt; in your Kind configuration file, with a &lt;code&gt;containerPath&lt;/code&gt; of &lt;code&gt;/var/lib/containerd&lt;/code&gt;, which is the default containerd image caching location inside the Kind container. An example of the modified Kind configuration is shown in the following &lt;code&gt;create cluster&lt;/code&gt; command:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kind create cluster --config - &amp;lt;&amp;lt;EOF
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+    image: kindest/node:v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6 
+    kubeadmConfigPatches:
+      - |
+        kind: ClusterConfiguration
+        apiServer:
+          extraArgs:
+            &amp;quot;service-account-issuer&amp;quot;: &amp;quot;kubernetes.default.svc&amp;quot;
+            &amp;quot;service-account-signing-key-file&amp;quot;: &amp;quot;/etc/kubernetes/pki/sa.key&amp;quot;
+    extraMounts:
+      - hostPath: /var/lib/docker/volumes/containerd/_data
+        containerPath: /var/lib/containerd #This is the location of the image cache inside the Kind container
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;install-and-configure-metallb&#34;&gt;Install and configure MetalLB&lt;/h2&gt;
+&lt;p&gt;By default, Kind does not provide an implementation of network load balancers (&lt;a href=&#34;https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/&#34;&gt;Services of type LoadBalancer&lt;/a&gt;).
+&lt;a href=&#34;https://metallb.universe.tf/&#34;&gt;MetalLB&lt;/a&gt; offers a network load balancer implementation.&lt;/p&gt;
+&lt;p&gt;To install MetalLB:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.11.0/manifests/namespace.yaml
+$ kubectl create secret generic \
+    -n metallb-system memberlist \
+    --from-literal=secretkey=&amp;quot;$(openssl rand -base64 128)&amp;quot;
+$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.11.0/manifests/metallb.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For further details, see the MetalLB &lt;a href=&#34;https://metallb.universe.tf/installation/#installation-by-manifest&#34;&gt;installation guide&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;MetalLB is idle until configured.  Configure MetalLB in Layer 2 mode and give it control over a range of IP addresses in the &lt;code&gt;kind&lt;/code&gt; Docker network.
+In versions v0.7.0 and earlier, Kind uses Docker&amp;rsquo;s default bridge network; in versions v0.8.0 and later, it creates its own bridge network in Kind.&lt;/p&gt;
+&lt;p&gt;To determine the subnet of the &lt;code&gt;kind&lt;/code&gt; Docker network in Kind v0.8.0 and later:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ docker inspect kind | jq &#39;.[0].IPAM.Config[0].Subnet&#39; -r
+
+# Sample output
+172.18.0.0/16
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To determine the subnet of the &lt;code&gt;kind&lt;/code&gt; Docker network in Kind v0.7.0 and earlier:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ docker inspect bridge | jq &#39;.[0].IPAM.Config[0].Subnet&#39; -r
+
+# Sample output
+172.17.0.0/16
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For use by MetalLB, assign a range of IP addresses at the end of the &lt;code&gt;kind&lt;/code&gt; network&amp;rsquo;s subnet CIDR range.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f - &amp;lt;&amp;lt;-EOF
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: metallb-system
+  name: config
+data:
+  config: |
+    address-pools:
+    - name: my-ip-space
+      protocol: layer2
+      addresses:
+      - 172.18.0.230-172.18.0.250
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
+&lt;p&gt;To continue, see the &lt;a href=&#34;../../../docs/setup/install/installation/#install-the-verrazzano-platform-operator&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Generic Kubernetes</title>
+      <link>/docs/setup/platforms/generic/generic/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/platforms/generic/generic/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;prepare-for-the-generic-install&#34;&gt;Prepare for the generic install&lt;/h2&gt;
+&lt;p&gt;Verrazzano requires that your Kubernetes cluster provides an implementation of network load balancers (&lt;a href=&#34;https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/&#34;&gt;Services of type LoadBalancer&lt;/a&gt;) for a production environment. If your generic Kubernetes implementation provides this feature, then you can use a default configuration
+of the Verrazzano custom resource with no customizations and follow the &lt;a href=&#34;../../../docs/setup/install/installation/#install-the-verrazzano-platform-operator&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    Remember to not overlap network Classless Inter-Domain Routing (CIDR) blocks when designing and implementing your Kubernetes cluster, proper routing relies on that.
+
+&lt;/div&gt;
+
+&lt;p&gt;You can install a load balancer, such as &lt;a href=&#34;https://metallb.universe.tf/&#34;&gt;MetalLB&lt;/a&gt;. This setup requires knowledge of networking both
+inside and outside your Kubernetes cluster. This would include specifics of your &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/&#34;&gt;Container Network Interface&lt;/a&gt; (CNI) implementation, IP address allocation schemes, and routing that go beyond the scope of this documentation. For a Kind implementation, see &lt;a href=&#34;../../../docs/setup/platforms/kind/kind/#install-and-configure-metallb&#34;&gt;Install and configure MetalLB&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;It is possible to use a Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/services-networking/service/#nodeport&#34;&gt;Service of type NodePort&lt;/a&gt; to test aspects of Verrazzano.
+This requires a good working knowledge of networking and has limited use cases.&lt;/p&gt;
+&lt;h2 id=&#34;customizations&#34;&gt;Customizations&lt;/h2&gt;
+&lt;p&gt;Verrazzano is highly customizable.  If your Kubernetes implementation requires a custom configuration, see &lt;a href=&#34;../../../docs/setup/customizing/&#34;&gt;Customize Installations&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
+&lt;p&gt;To continue, see the &lt;a href=&#34;../../../docs/setup/install/installation/#install-the-verrazzano-platform-operator&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>
