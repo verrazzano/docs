@@ -105,7 +105,7 @@ $ kubectl logs -n verrazzano-install \
 For more help troubleshooting the installation, see [Analysis Advice]({{< relref "/docs/troubleshooting/diagnostictools/analysisadvice/" >}}).
 
 After the installation is complete, you can use the console URLs.
-For more information on how to access the Verrazzano consoles, see [Access Verrazzano]({{< relref "/docs/operations/" >}}).
+For more information on how to access the Verrazzano consoles, see [Access Verrazzano]({{< relref "/docs/access/" >}}).
 ## Verify the install
 
 Verrazzano installs multiple objects in multiple namespaces. In the `verrazzano-system` namespaces, all the pods in the `Running` state, does not guarantee, but likely indicates that Verrazzano is up and running.
@@ -132,4 +132,4 @@ weblogic-operator-646756c75c-hgz6j                 2/2     Running   0          
 ## (Optional) Run the example applications
 Example applications are located [here]({{< relref "/docs/samples/_index.md" >}}).
 
-##### To get the consoles URLs and credentials, see [Access Verrazzano]({{< relref "/docs/operations/_index.md" >}}).
+##### To get the consoles URLs and credentials, see [Access Verrazzano]({{< relref "/docs/access/_index.md" >}}).

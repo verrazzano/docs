@@ -180,7 +180,7 @@ Follow these steps to test the endpoints:
     users-coh-0      2/2     Running   0          38m
    ```
 1. A variety of endpoints are available to further explore the logs, metrics, and such, associated with
-the deployed Sock Shop application.  You can access them according to the directions [here]({{< relref "/docs/operations/#get-the-consoles-urls" >}}).
+the deployed Sock Shop application.  You can access them according to the directions [here]({{< relref "/docs/access/#get-the-consoles-urls" >}}).
 
 ## Undeploy the Sock Shop application
 
