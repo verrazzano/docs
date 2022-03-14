@@ -40,7 +40,8 @@ custom resource, you can install, uninstall, and upgrade Verrazzano installation
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Deploy the Verrazzano platform operator.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v1.1.2/operator.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f 
+https://github.com/verrazzano/verrazzano/releases/download/master/operator.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the deployment to complete.&lt;/p&gt;
@@ -102,7 +103,7 @@ you want to install.&lt;/p&gt;
     -o jsonpath=&amp;quot;{.items[0].metadata.name}&amp;quot;) | grep &#39;&amp;quot;operation&amp;quot;:&amp;quot;install&amp;quot;&#39;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For more help troubleshooting the installation, see &lt;a href=&#34;../../../docs/troubleshooting/diagnostictools/analysisadvice/&#34;&gt;Analysis Advice&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;After the installation is complete, you can use the console URLs.
-For more information on how to access the Verrazzano consoles, see &lt;a href=&#34;../../../docs/operations/&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/p&gt;
+For more information on how to access the Verrazzano consoles, see &lt;a href=&#34;../../../docs/access/&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;verify-the-install&#34;&gt;Verify the install&lt;/h2&gt;
 &lt;p&gt;Verrazzano installs multiple objects in multiple namespaces. In the &lt;code&gt;verrazzano-system&lt;/code&gt; namespaces, all the pods in the &lt;code&gt;Running&lt;/code&gt; state, does not guarantee, but likely indicates that Verrazzano is up and running.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ kubectl get pods -n verrazzano-system
@@ -124,7 +125,7 @@ vmi-system-prometheus-0-859fcd87dc-m5ws9           3/3     Running   0          
 weblogic-operator-646756c75c-hgz6j                 2/2     Running   0          49m
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;optional-run-the-example-applications&#34;&gt;(Optional) Run the example applications&lt;/h2&gt;
 &lt;p&gt;Example applications are located &lt;a href=&#34;../../../docs/samples/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;h5 id=&#34;to-get-the-consoles-urls-and-credentials-see-access-verrazzanohahahugoshortcode-s12-hbhb&#34;&gt;To get the consoles URLs and credentials, see &lt;a href=&#34;../../../docs/operations/&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/h5&gt;
+&lt;h5 id=&#34;to-get-the-consoles-urls-and-credentials-see-access-verrazzanohahahugoshortcode-s12-hbhb&#34;&gt;To get the consoles URLs and credentials, see &lt;a href=&#34;../../../docs/access/&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/h5&gt;
 
       </description>
     </item>
@@ -154,12 +155,12 @@ customized as needed.&lt;/p&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;prod&lt;/code&gt;&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Full install, production configuration.&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Default profile:&lt;br/&gt;- Full installation.&lt;br/&gt;- Persistent storage. &lt;br/&gt;- Production Elasticsearch cluster topology.&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Default profile:&lt;br/&gt;- Full installation.&lt;br/&gt;- Persistent storage. &lt;br/&gt;- Production OpenSearch cluster topology.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;dev&lt;/code&gt;&lt;/td&gt;
 &lt;td align=&#34;left&#34;&gt;Development or evaluation configuration.&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Lightweight installation:&lt;br/&gt;- For evaluation purposes.&lt;br/&gt;- No persistence.&lt;br/&gt;- Single-node Elasticsearch cluster topology.&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Lightweight installation:&lt;br/&gt;- For evaluation purposes.&lt;br/&gt;- No persistence.&lt;br/&gt;- Single-node OpenSearch cluster topology.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;managed-cluster&lt;/code&gt;&lt;/td&gt;
@@ -247,7 +248,7 @@ customize any Verrazzano installation, regardless of the profile.&lt;/p&gt;
 &lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;Elasticsearch&lt;/td&gt;
+&lt;td&gt;OpenSearch&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
@@ -259,7 +260,7 @@ customize any Verrazzano installation, regardless of the profile.&lt;/p&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;Kibana&lt;/td&gt;
+&lt;td&gt;OpenSearch Dashboards&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
 &lt;td align=&#34;center&#34;&gt;✔️&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
@@ -312,14 +313,14 @@ customize any Verrazzano installation, regardless of the profile.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3 id=&#34;kibana-and-elasticsearch-configurations&#34;&gt;Kibana and Elasticsearch configurations&lt;/h3&gt;
-&lt;p&gt;The following table describes the Kibana and Elasticsearch cluster topology in each profile.&lt;/p&gt;
+&lt;h3 id=&#34;opensearch-dashboards-and-opensearch-configurations&#34;&gt;OpenSearch Dashboards and OpenSearch configurations&lt;/h3&gt;
+&lt;p&gt;The following table describes the OpenSearch Dashboards and OpenSearch cluster topology in each profile.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
 &lt;th&gt;Profile&lt;/th&gt;
-&lt;th align=&#34;left&#34;&gt;Elasticsearch&lt;/th&gt;
-&lt;th align=&#34;left&#34;&gt;Kibana&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;OpenSearch&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;OpenSearch Dashboards&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
@@ -345,7 +346,7 @@ customize any Verrazzano installation, regardless of the profile.&lt;/p&gt;
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
 
-    Elasticsearch containers are configured to use 75% of the configured request memory for the Java min/max heap settings.
+    OpenSearch containers are configured to use 75% of the configured request memory for the Java min/max heap settings.
 
 &lt;/div&gt;
 
@@ -820,13 +821,13 @@ status:
 When you perform the registration steps, Verrazzano also registers the managed cluster with Rancher.
 View the Rancher UI on the admin cluster. If the registration with Rancher was successful, then your cluster will be
 listed in Rancher&amp;rsquo;s list of clusters, and will be in &lt;code&gt;Active&lt;/code&gt; state. You can find the Rancher UI URL for your
-cluster by following the instructions for &lt;a href=&#34;../../../docs/operations/&#34;&gt;Accessing Verrazzano&lt;/a&gt;.&lt;/p&gt;
+cluster by following the instructions for &lt;a href=&#34;../../../docs/access/&#34;&gt;Accessing Verrazzano&lt;/a&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3 id=&#34;verify-that-managed-cluster-metrics-are-being-collected&#34;&gt;Verify that managed cluster metrics are being collected&lt;/h3&gt;
 &lt;p&gt;Verify that the admin cluster is collecting metrics from the managed cluster.  The Prometheus output will include
 records that contain the name of the Verrazzano cluster (labeled as &lt;code&gt;verrazzano_cluster&lt;/code&gt;).&lt;/p&gt;
-&lt;p&gt;You can find the Prometheus UI URL for your cluster by following the instructions for &lt;a href=&#34;../../../docs/operations/&#34;&gt;Accessing Verrazzano&lt;/a&gt;.
+&lt;p&gt;You can find the Prometheus UI URL for your cluster by following the instructions for &lt;a href=&#34;../../../docs/access/&#34;&gt;Accessing Verrazzano&lt;/a&gt;.
 Execute a query for a metric (for example, &lt;code&gt;node_disk_io_time_seconds_total&lt;/code&gt;).&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Sample output of a Prometheus query&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;../../../docs/images/multicluster/prometheus-multicluster.png&#34; alt=&#34;Prometheus&#34;&gt;&lt;/p&gt;
@@ -840,19 +841,19 @@ $ VZPASS=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
 $ curl -k --user verrazzano:${VZPASS} &amp;quot;${prometheusUrl}/api/v1/query?query=node_disk_io_time_seconds_total&amp;quot;
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;verify-that-managed-cluster-logs-are-being-collected&#34;&gt;Verify that managed cluster logs are being collected&lt;/h3&gt;
 &lt;p&gt;Verify that the admin cluster is collecting logs from the managed cluster.  The output will include records which have the name of the managed cluster in the &lt;code&gt;cluster_name&lt;/code&gt; field.&lt;/p&gt;
-&lt;p&gt;You can find the Kibana UI URL for your cluster by following the instructions for &lt;a href=&#34;../../../docs/operations/&#34;&gt;Accessing Verrazzano&lt;/a&gt;.
+&lt;p&gt;You can find the OpenSearch Dashboards UI URL for your cluster by following the instructions for &lt;a href=&#34;../../../docs/access/&#34;&gt;Accessing Verrazzano&lt;/a&gt;.
 Create an index for &lt;code&gt;verrazzano-namespace-verrazzano-system&lt;/code&gt;.  Some log records will have the &lt;code&gt;cluster_name&lt;/code&gt; field populated with the name of
 the managed cluster.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Sample output of a Kibana screen&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;../../../docs/images/multicluster/kibana-multicluster.png&#34; alt=&#34;Kibana&#34;&gt;&lt;/p&gt;
-&lt;p&gt;An alternative approach to using the Kibana UI is to query Elasticsearch from the command line.  Here is an example of how to obtain log records from the command line.  Search the output of the query for responses that have the &lt;code&gt;cluster_name&lt;/code&gt; field set to the name of the managed cluster.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Sample output of a OpenSearch Dashboards screen&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../../docs/images/multicluster/opensearch-multicluster.png&#34; alt=&#34;OpenSearch Dashboards&#34;&gt;&lt;/p&gt;
+&lt;p&gt;An alternative approach to using the OpenSearch Dashboards UI is to query OpenSearch from the command line.  Here is an example of how to obtain log records from the command line.  Search the output of the query for responses that have the &lt;code&gt;cluster_name&lt;/code&gt; field set to the name of the managed cluster.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;# On the admin cluster
-$ KIBANA_URL=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+$ OSD_URL=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
                  get verrazzano -o jsonpath=&#39;{.items[0].status.instance.kibanaUrl}&#39;)
 $ VZPASS=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
            get secret verrazzano --namespace verrazzano-system \
            -o jsonpath={.data.password} | base64 --decode; echo)
-$ curl -k --user verrazzano:${VZPASS} -X POST -H &#39;kbn-xsrf: true&#39; &amp;quot;${KIBANA_URL}/elasticsearch/verrazzano-namespace-verrazzano-system/_search?size=25&amp;quot;
+$ curl -k --user verrazzano:${VZPASS} -X POST -H &#39;kbn-xsrf: true&#39; &amp;quot;${OSD_URL}/elasticsearch/verrazzano-namespace-verrazzano-system/_search?size=25&amp;quot;
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;run-applications-in-multicluster-verrazzano&#34;&gt;Run applications in multicluster Verrazzano&lt;/h2&gt;
 &lt;p&gt;The Verrazzano multicluster setup is now complete and you can deploy applications by following the &lt;a href=&#34;../../../docs/samples/multicluster/hello-helidon/&#34;&gt;Multicluster Hello World Helidon&lt;/a&gt; example application.&lt;/p&gt;
 &lt;h2 id=&#34;use-the-admin-cluster-ui&#34;&gt;Use the admin cluster UI&lt;/h2&gt;

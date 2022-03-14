@@ -212,7 +212,7 @@ assuming that you have the OCI CLI installed and a valid OCI CLI profile with th
 &lt;p&gt;First, download the &lt;code&gt;create_oci_config_secret.sh&lt;/code&gt; script:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ curl \
     -o ./create_oci_config_secret.sh \
-    https://raw.githubusercontent.com/verrazzano/verrazzano/v1.1.2/platform-operator/scripts/install/create_oci_config_secret.sh
+    https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/scripts/install/create_oci_config_secret.sh
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Next, set your &lt;code&gt;KUBECONFIG&lt;/code&gt; environment variable to point to your cluster and run &lt;code&gt;create_oci_config_secret.sh -h&lt;/code&gt;
 to display the script options:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ chmod +x create_oci_config_secret.sh
@@ -241,7 +241,7 @@ DNS, and reference the secret you created.&lt;/p&gt;
 &lt;p&gt;As a starting point, download the sample Verrazzano custom resource &lt;code&gt;install-oci.yaml&lt;/code&gt; file for OCI DNS:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ curl \
     -o ./install-oci.yaml \
-    https://raw.githubusercontent.com/verrazzano/verrazzano/release-1.1/platform-operator/config/samples/install-oci.yaml
+    https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/config/samples/install-oci.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Edit the &lt;code&gt;install-oci.yaml&lt;/code&gt; file to provide values for the following configuration settings in the
 custom resource spec:&lt;/p&gt;
 &lt;ul&gt;
@@ -643,32 +643,171 @@ identified by OCID &lt;code&gt;ocid1.subnet.oc1.phx.aaaa..sdjxa&lt;/code&gt;:&lt
     </item>
     
     <item>
-      <title>Docs: Customize Elasticsearch</title>
-      <link>/docs/setup/customizing/elasticsearch/</link>
+      <title>Docs: Customize AuthProxy</title>
+      <link>/docs/setup/customizing/authproxy/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/docs/setup/customizing/elasticsearch/</guid>
+      <guid>/docs/setup/customizing/authproxy/</guid>
       <description>
         
         
-        &lt;p&gt;Verrazzano supports two cluster topologies for an Elasticsearch cluster:&lt;/p&gt;
+        &lt;p&gt;The Verrazzano AuthProxy component enables authentication and authorization for Keycloak users accessing Verrazzano resources.  You can customize the AuthProxy component using settings in the Verrazzano custom resource.&lt;/p&gt;
+&lt;p&gt;The following table describes the fields in the Verrazzano custom resource pertaining to the &lt;a href=&#34;../../../docs/reference/api/verrazzano/verrazzano/#authproxy-component&#34;&gt;AuthProxy component&lt;/a&gt;.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Path to Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec.components.authProxy.kubernetes.replicas&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;The number of pods to replicate.  The default is &lt;code&gt;2&lt;/code&gt; for the &lt;code&gt;prod&lt;/code&gt; profile and &lt;code&gt;1&lt;/code&gt; for all other profiles.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec.components.authProxy.kubernetes.affinity&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;The pod affinity definition expressed as a standard Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity&#34;&gt;affinity&lt;/a&gt; definition.  The default configuration spreads the AuthProxy pods across the available nodes. &lt;pre&gt;spec:&lt;br&gt;  components:&lt;br&gt;    authProxy:&lt;br&gt;      kubernetes:&lt;br&gt;        affinity:&lt;br&gt;          podAntiAffinity:&lt;br&gt;            preferredDuringSchedulingIgnoredDuringExecution:&lt;br&gt;              - weight: 100&lt;br&gt;                podAffinityTerm:&lt;br&gt;                  labelSelector:&lt;br&gt;                    matchExpressions:&lt;br&gt;                      - key: app&lt;br&gt;                        operator: In&lt;br&gt;                        values:&lt;br&gt;                          - verrazzano-authproxy&lt;br&gt;                  topologyKey: kubernetes.io/hostname&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;The following example customizes a Verrazzano &lt;code&gt;prod&lt;/code&gt; profile as follows:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Increases the replicas count to &lt;code&gt;3&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Changes the &lt;code&gt;podAffinity&lt;/code&gt; configuration to use &lt;code&gt;requiredDuringSchedulingIgnoredDuringExecution&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: example-verrazzano
+spec:
+  profile: prod
+  components:
+    authproxy:
+      kubernetes:
+        replicas: 3
+        affinity:
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - verrazzano-authproxy
+                topologyKey: kubernetes.io/hostname
+&lt;/code&gt;&lt;/pre&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Customize Istio</title>
+      <link>/docs/setup/customizing/istio/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/customizing/istio/</guid>
+      <description>
+        
+        
+        &lt;p&gt;You can customize Verrazzano Istio component using settings in the Verrazzano custom resource.&lt;/p&gt;
+&lt;p&gt;The following table describes the fields in the Verrazzano custom resource pertaining to the &lt;a href=&#34;../../../docs/reference/api/verrazzano/verrazzano/#istio-component&#34;&gt;Istio component&lt;/a&gt;.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Path to Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec.components.istio.egress.kubernetes.replicas&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;The number of pods to replicate.  The default is &lt;code&gt;2&lt;/code&gt; for the &lt;code&gt;prod&lt;/code&gt; profile and &lt;code&gt;1&lt;/code&gt; for all other profiles.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec.components.istio.egress.kubernetes.affinity&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;The pod affinity definition expressed as a standard Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity&#34;&gt;affinity&lt;/a&gt; definition.  The default configuration spreads the Istio gateway pods across the available nodes. &lt;pre&gt;spec:&lt;br&gt;  components:&lt;br&gt;    istio:&lt;br&gt;      egress:&lt;br&gt;        kubernetes:&lt;br&gt;          affinity:&lt;br&gt;            podAntiAffinity:&lt;br&gt;              preferredDuringSchedulingIgnoredDuringExecution:&lt;br&gt;                - weight: 100&lt;br&gt;                  podAffinityTerm:&lt;br&gt;                    labelSelector:&lt;br&gt;                      matchExpressions:&lt;br&gt;                        - key: app&lt;br&gt;                          operator: In&lt;br&gt;                          values:&lt;br&gt;                            - istio-egressgateway&lt;br&gt;                    topologyKey: kubernetes.io/hostname&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec.components.istio.ingress.kubernetes.replicas&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;The number of pods to replicate.  The default is &lt;code&gt;2&lt;/code&gt; for the &lt;code&gt;prod&lt;/code&gt; profile and &lt;code&gt;1&lt;/code&gt; for all other profiles.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;spec.components.istio.ingress.kubernetes.affinity&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;The pod affinity definition expressed as a standard Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity&#34;&gt;affinity&lt;/a&gt; definition.  The default configuration spreads the Istio gateway pods across the available nodes. &lt;pre&gt;spec:&lt;br&gt;  components:&lt;br&gt;    istio:&lt;br&gt;      ingress:&lt;br&gt;        kubernetes:&lt;br&gt;          affinity:&lt;br&gt;            podAntiAffinity:&lt;br&gt;              preferredDuringSchedulingIgnoredDuringExecution:&lt;br&gt;                - weight: 100&lt;br&gt;                  podAffinityTerm:&lt;br&gt;                    labelSelector:&lt;br&gt;                      matchExpressions:&lt;br&gt;                        - key: app&lt;br&gt;                          operator: In&lt;br&gt;                          values:&lt;br&gt;                            - istio-ingressgateway&lt;br&gt;                    topologyKey: kubernetes.io/hostname&lt;/pre&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;The following example customizes a Verrazzano &lt;code&gt;prod&lt;/code&gt; profile as follows:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Increases the replicas count to &lt;code&gt;3&lt;/code&gt; for &lt;code&gt;istio-ingressgateway&lt;/code&gt; and &lt;code&gt;istio-egressgateway&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Changes the &lt;code&gt;podAffinity&lt;/code&gt; configuration to use &lt;code&gt;requiredDuringSchedulingIgnoredDuringExecution&lt;/code&gt; for &lt;code&gt;istio-ingressgateway&lt;/code&gt; and &lt;code&gt;istio-egressgateway&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: example-verrazzano
+spec:
+  profile: prod
+  components:
+    istio:
+      ingress:
+        kubernetes:
+          replicas: 3
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - weight: 25
+                    labelSelector:
+                      matchExpressions:
+                        - key: app
+                          operator: In
+                          values:
+                            - istio-ingressgateway
+                    topologyKey: kubernetes.io/hostname
+      egress:
+        kubernetes:
+          replicas: 3
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: app
+                        operator: In
+                        values:
+                          - istio-egressgateway
+                  topologyKey: kubernetes.io/hostname
+&lt;/code&gt;&lt;/pre&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Customize OpenSearch</title>
+      <link>/docs/setup/customizing/opensearch/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/customizing/opensearch/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano supports two cluster topologies for an OpenSearch cluster:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;A single-node cluster (master, ingest, and data roles performed by a single node).&lt;/li&gt;
 &lt;li&gt;A multi-node cluster configuration with separate master, data, and ingest nodes.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;a href=&#34;../../../docs/setup/install/profiles/&#34;&gt;Installation Profiles&lt;/a&gt; describes the default Elasticsearch cluster
+&lt;p&gt;&lt;a href=&#34;../../../docs/setup/install/profiles/&#34;&gt;Installation Profiles&lt;/a&gt; describes the default OpenSearch cluster
 configurations provided by Verrazzano.&lt;/p&gt;
-&lt;p&gt;You can customize the node characteristics of your Elasticsearch cluster by using the
-&lt;a href=&#34;../../../docs/reference/api/verrazzano/verrazzano/#elasticsearch-component&#34;&gt;spec.components.elasticsearch.installArgs&lt;/a&gt;
+&lt;p&gt;You can customize the node characteristics of your OpenSearch cluster by using the
+&lt;a href=&#34;../../../docs/reference/api/verrazzano/verrazzano/#opensearch-component&#34;&gt;spec.components.elasticsearch.installArgs&lt;/a&gt;
 field in the Verrazzano custom resource.  When installing Verrazzano, you can use this field to specify a list of Helm
-value overrides for the Elasticsearch configuration.&lt;/p&gt;
-&lt;p&gt;These Helm overrides let you to customize the following node characteristics:&lt;/p&gt;
+value overrides for the OpenSearch configuration.&lt;/p&gt;
+&lt;p&gt;These Helm overrides let you customize the following node characteristics:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Number of node replicas.&lt;/li&gt;
 &lt;li&gt;Memory request size per node.&lt;/li&gt;
 &lt;li&gt;Storage request size (data nodes only).&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;The following table lists the Helm values in the Verrazzano system chart related to Elasticsearch nodes.&lt;/p&gt;
+&lt;p&gt;The following table lists the Helm values in the Verrazzano system chart related to OpenSearch nodes.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -707,8 +846,9 @@ value overrides for the Elasticsearch configuration.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;The following example overrides the &lt;code&gt;dev&lt;/code&gt; installation profile, Elasticsearch configuration (a single-node cluster with
-1Gi of memory and ephemeral storage) to use a multi-node cluster with persistent storage:&lt;/p&gt;
+&lt;p&gt;The following example overrides the &lt;code&gt;dev&lt;/code&gt; installation profile, OpenSearch configuration (a single-node cluster with
+1Gi of memory and ephemeral storage) to use a multi-node cluster with persistent storage. Note that the public API references Elasticsearch,
+the API will change to OpenSearch in an upcoming release.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
@@ -767,14 +907,10 @@ requested amount of memory:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;Containers:
   es-data:
     Container ID:  containerd://cc01f24b107da0e1e90a05a49c7fd969761f59a81316fa01f7cc56a166684628
-    Image:         ghcr.io/verrazzano/elasticsearch:7.6.1-20201130145440-5c76ab1
+    Image:         ghcr.io/verrazzano/opensearch:1.2.3-20220207214930-833b159de83
     Image ID:      ghcr.io/verrazzano/elasticsearch@sha256:3d2cbb539f9ebba991c6f36db4fbaa9dc9c03e6192a28787869f7850cc2bd66c
     Ports:         9200/TCP, 9300/TCP
     Host Ports:    0/TCP, 0/TCP
-    Args:
-      elasticsearch
-      -E
-      logger.org.elasticsearch=INFO
     State:          Running
       Started:      Thu, 29 Jul 2021 06:04:17 +0000
     Ready:          True
@@ -839,7 +975,7 @@ spec:
         
         &lt;p&gt;The following components allow persistent storage:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Elasticsearch&lt;/li&gt;
+&lt;li&gt;OpenSearch&lt;/li&gt;
 &lt;li&gt;Prometheus&lt;/li&gt;
 &lt;li&gt;Grafana&lt;/li&gt;
 &lt;li&gt;Keycloak/MySQL&lt;/li&gt;
@@ -862,8 +998,8 @@ defaults to customize your persistence settings.&lt;/p&gt;
 &lt;h2 id=&#34;customize-persistent-storage&#34;&gt;Customize persistent storage&lt;/h2&gt;
 &lt;p&gt;The following components can use persistent storage:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Elasticsearch&lt;/li&gt;
-&lt;li&gt;Kibana&lt;/li&gt;
+&lt;li&gt;OpenSearch&lt;/li&gt;
+&lt;li&gt;OpenSearch Dashboards&lt;/li&gt;
 &lt;li&gt;Prometheus&lt;/li&gt;
 &lt;li&gt;Grafana&lt;/li&gt;
 &lt;li&gt;Keycloak&lt;/li&gt;
@@ -871,7 +1007,7 @@ defaults to customize your persistence settings.&lt;/p&gt;
 &lt;p&gt;You can customize the persistence settings for these components through the
 &lt;a href=&#34;../../../docs/reference/api/verrazzano/verrazzano/#verrazzanospec&#34;&gt;VerrazzanoSpec&lt;/a&gt;, as follows:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Overriding the persistence settings for all components (Keycloak, Grafana, Prometheus, Elasticsearch, and Kibana) by using the &lt;code&gt;defaultVolumeSource&lt;/code&gt; field.&lt;/li&gt;
+&lt;li&gt;Overriding the persistence settings for all components (Keycloak, Grafana, Prometheus, OpenSearch, and OpenSearch Dashboards) by using the &lt;code&gt;defaultVolumeSource&lt;/code&gt; field.&lt;/li&gt;
 &lt;li&gt;Overriding the persistence settings for Keycloak by using the &lt;code&gt;volumeSource&lt;/code&gt; field on that component&amp;rsquo;s configuration.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;You can set the global &lt;code&gt;defaultVolumeSource&lt;/code&gt; and component-level &lt;code&gt;volumeSource&lt;/code&gt; fields to one of the following values:&lt;/p&gt;
