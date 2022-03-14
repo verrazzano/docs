@@ -3,6 +3,8 @@ title: "Verrazzano Console"
 description: "Use its intuitive user interface to interact with applications and configurations in your Verrazzano environment."
 weight: 11
 draft: false
+aliases:
+    - /docs/operations/console
 ---
 
 
@@ -20,4 +22,4 @@ Using the Verrazzano Console, you can:
 Selecting an application, project, or Component will open a detailed view of the associated child resources.
 In the central metadata section, you'll find detailed information about the Verrazzano resource being displayed.
 
-For information on how to access the Verrazzano Console, see [Get the consoles URLs]({{< relref "/docs/operations/#get-the-consoles-urls" >}}).
+For information on how to access the Verrazzano Console, see [Get the consoles URLs]({{< relref "/docs/access/#get-the-consoles-urls" >}}).
