@@ -38,7 +38,7 @@ Fixes:
 
 Known Issues:
 
-- Importing a Kubernetes v1.21 cluster into Rancher might not work properly. Rancher does not currently support Kubernetes v1.21.
+- Importing a Kubernetes v1.22 cluster into Rancher might not work properly. Rancher does not currently support Kubernetes v1.22.
 
 ### v1.1.1
 Fixes:
