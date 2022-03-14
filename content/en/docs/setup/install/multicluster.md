@@ -329,14 +329,14 @@ You can perform all the verification steps on the admin cluster.
    When you perform the registration steps, Verrazzano also registers the managed cluster with Rancher.
    View the Rancher UI on the admin cluster. If the registration with Rancher was successful, then your cluster will be
    listed in Rancher's list of clusters, and will be in `Active` state. You can find the Rancher UI URL for your
-   cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/access/_index.md" >}}).
+   cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/operations/_index.md" >}}).
 
 ### Verify that managed cluster metrics are being collected
 
 Verify that the admin cluster is collecting metrics from the managed cluster.  The Prometheus output will include
 records that contain the name of the Verrazzano cluster (labeled as `verrazzano_cluster`).
 
-You can find the Prometheus UI URL for your cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/access/_index.md" >}}).
+You can find the Prometheus UI URL for your cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/operations/_index.md" >}}).
 Execute a query for a metric (for example, `node_disk_io_time_seconds_total`).
 
 **Sample output of a Prometheus query**
@@ -358,7 +358,7 @@ An alternative approach to using the Prometheus UI is to query metrics from the 
 
 Verify that the admin cluster is collecting logs from the managed cluster.  The output will include records which have the name of the managed cluster in the `cluster_name` field.
 
-You can find the OpenSearch Dashboards UI URL for your cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/access/_index.md" >}}).
+You can find the Kibana UI URL for your cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/operations/_index.md" >}}).
 Create an index for `verrazzano-namespace-verrazzano-system`.  Some log records will have the `cluster_name` field populated with the name of
 the managed cluster.
 
