@@ -141,7 +141,7 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 
 1. A variety of endpoints associated with
    the deployed ToDo List application, are available to further explore the logs, metrics, and such.
-   You can access them according to the directions [here]({{< relref "/docs/operations/#get-the-consoles-urls" >}}).
+   You can access them according to the directions [here]({{< relref "/docs/access/#get-the-consoles-urls" >}}).
 
 ## Troubleshooting
 
