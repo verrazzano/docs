@@ -93,7 +93,7 @@ $ kubectl wait \
 To use a different profile with the above example, set the `VZ_PROFILE` environment variable to the name of the profile
 you want to install.
 
-If an error occurs, check the log output of the installation. The Verrazzano operator launches a Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) to install Verrazzano.  You can view the installation logs from that job with the following command:
+If an error occurs, check the log output of the installation. You can view the logs with the following command:
 
 ```
 $ kubectl logs -n verrazzano-install \

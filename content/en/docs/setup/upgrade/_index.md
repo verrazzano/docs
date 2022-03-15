@@ -43,8 +43,7 @@ In order to upgrade an existing Verrazzano installation, you must first update t
    To update to the latest version:
 
    ```
-   $ kubectl apply -f \
-      {{<release_asset_url operator.yaml>}}
+   $ kubectl apply -f {{<release_asset_url operator.yaml>}}
    ```
 
    To update to a specific version, where `<version>` is the desired version:
@@ -130,8 +129,7 @@ Alternatively, you can upgrade the Verrazzano installation using the following s
        --timeout=10m \
        --for=condition=UpgradeComplete verrazzano/example-verrazzano
    ```
-If an error occurs, check the log output. The Verrazzano operator launches a Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) to upgrade Verrazzano.
-You can view the logs from that job with the following command:
+If an error occurs, check the log output. You can view the logs with the following command:
 
 ```
 $ kubectl logs -n verrazzano-install \
@@ -152,10 +150,7 @@ example-verrazzano   UpgradeFailed   v1.1.1
 ```
 You can restart the upgrade by setting the annotation `verrazzano.io/upgrade-retry-version` to any unique value.  For example:
 ```
-$ kubectl patch vz example-verrazzano -p '{"metadata":{"annotations":
-{"verrazzano.io/upgrade-retry-version":"v1.1.2-1"}
-
-}}' --type=merge
+$ kubectl patch vz example-verrazzano -p '{"metadata":{"annotations": {"verrazzano.io/upgrade-retry-version":"v1.1.2-1"} }}' --type=merge
 ```
 
 ## Verify the upgrade
