@@ -134,7 +134,7 @@ If an error occurs, check the log output. You can view the logs with the followi
 ```
 $ kubectl logs -n verrazzano-install \
     -f $(kubectl get pod \
-    -n example-verrazzano \
+    -n verrazzano-install \
     -l app=verrazzano-platform-operator \
     -o jsonpath="{.items[0].metadata.name}") | grep '^{.*}$' \
     | jq -r '."@timestamp" as $timestamp | "\($timestamp) \(.level) \(.message)"'
