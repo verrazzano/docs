@@ -93,14 +93,17 @@ $ kubectl wait \
 To use a different profile with the above example, set the `VZ_PROFILE` environment variable to the name of the profile
 you want to install.
 
-If an error occurs, check the log output of the installation:
+If an error occurs, check the log output of the installation. The Verrazzano operator launches a Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) to install Verrazzano.  You can view the installation logs from that job with the following command:
+
 ```
 $ kubectl logs -n verrazzano-install \
     -f $(kubectl get pod \
     -n verrazzano-install \
     -l app=verrazzano-platform-operator \
-    -o jsonpath="{.items[0].metadata.name}") | grep '"operation":"install"'
+    -o jsonpath="{.items[0].metadata.name}") | grep '^{.*}$' \
+    | jq -r '."@timestamp" as $timestamp | "\($timestamp) \(.level) \(.message)"'
 ```
+
 
 For more help troubleshooting the installation, see [Analysis Advice]({{< relref "/docs/troubleshooting/diagnostictools/analysisadvice/" >}}).
 
