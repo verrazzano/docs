@@ -22,11 +22,11 @@
 <meta property="og:description" content="How to install Verrazzano" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/install/installation/" />
-<meta property="article:modified_time" content="2022-03-14T11:53:13-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-03-16T07:59:21-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 <meta itemprop="name" content="Install Guide">
 <meta itemprop="description" content="How to install Verrazzano">
-<meta itemprop="dateModified" content="2022-03-14T11:53:13-04:00" />
-<meta itemprop="wordCount" content="575">
+<meta itemprop="dateModified" content="2022-03-16T07:59:21-04:00" />
+<meta itemprop="wordCount" content="595">
 
 
 
@@ -106,7 +106,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.2798fb6352f574e595a47d61c291af3b.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.dad77d4c01a5ab6d4bf2f479bed3ba31.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -133,7 +133,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.2798fb6352f574e595a47d61c291af3b.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.dad77d4c01a5ab6d4bf2f479bed3ba31.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -563,8 +563,7 @@ custom resource, you can install, uninstall, and upgrade Verrazzano installation
 <ol>
 <li>
 <p>Deploy the Verrazzano platform operator.</p>
-<pre><code>$ kubectl apply -f 
-https://github.com/verrazzano/verrazzano/releases/download/v1.2.0/operator.yaml
+<pre><code>$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v1.2.0/operator.yaml
 </code></pre></li>
 <li>
 <p>Wait for the deployment to complete.</p>
@@ -618,12 +617,13 @@ $ kubectl wait \
     --for=condition=InstallComplete verrazzano/example-verrazzano
 </code></pre><p>To use a different profile with the above example, set the <code>VZ_PROFILE</code> environment variable to the name of the profile
 you want to install.</p>
-<p>If an error occurs, check the log output of the installation:</p>
+<p>If an error occurs, check the log output of the installation. You can view the logs with the following command:</p>
 <pre><code>$ kubectl logs -n verrazzano-install \
     -f $(kubectl get pod \
     -n verrazzano-install \
     -l app=verrazzano-platform-operator \
-    -o jsonpath=&quot;{.items[0].metadata.name}&quot;) | grep '&quot;operation&quot;:&quot;install&quot;'
+    -o jsonpath=&quot;{.items[0].metadata.name}&quot;) | grep '^{.*}$' \
+    | jq -r '.&quot;@timestamp&quot; as $timestamp | &quot;\($timestamp) \(.level) \(.message)&quot;'
 </code></pre><p>For more help troubleshooting the installation, see <a href="../../../../docs/troubleshooting/diagnostictools/analysisadvice/">Analysis Advice</a>.</p>
 <p>After the installation is complete, you can use the console URLs.
 For more information on how to access the Verrazzano consoles, see <a href="../../../../docs/access/">Access Verrazzano</a>.</p>
