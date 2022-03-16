@@ -129,14 +129,17 @@ Alternatively, you can upgrade the Verrazzano installation using the following s
        --timeout=10m \
        --for=condition=UpgradeComplete verrazzano/example-verrazzano
    ```
-If an error occurs, check the log output:
+If an error occurs, check the log output. You can view the logs with the following command:
+
 ```
 $ kubectl logs -n verrazzano-install \
     -f $(kubectl get pod \
     -n verrazzano-install \
     -l app=verrazzano-platform-operator \
-    -o jsonpath="{.items[0].metadata.name}") | grep '"operation":"install"'
+    -o jsonpath="{.items[0].metadata.name}") | grep '^{.*}$' \
+    | jq -r '."@timestamp" as $timestamp | "\($timestamp) \(.level) \(.message)"'
 ```
+
 If an upgrade fails, you'll see this:
 ```
 $ kubectl get vz
@@ -147,10 +150,7 @@ example-verrazzano   UpgradeFailed   v1.1.1
 ```
 You can restart the upgrade by setting the annotation `verrazzano.io/upgrade-retry-version` to any unique value.  For example:
 ```
-$ kubectl patch vz example-verrazzano -p '{"metadata":{"annotations":
-{"verrazzano.io/upgrade-retry-version":"v1.1.2-1"}
-
-}}' --type=merge
+$ kubectl patch vz example-verrazzano -p '{"metadata":{"annotations": {"verrazzano.io/upgrade-retry-version":"v1.1.2-1"} }}' --type=merge
 ```
 
 ## Verify the upgrade
