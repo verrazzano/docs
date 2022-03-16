@@ -101,7 +101,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.2798fb6352f574e595a47d61c291af3b.json"
+  data-offline-search-index-json-src="../../../offline-search-index.dad77d4c01a5ab6d4bf2f479bed3ba31.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -128,7 +128,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.2798fb6352f574e595a47d61c291af3b.json"
+  data-offline-search-index-json-src="../../../offline-search-index.dad77d4c01a5ab6d4bf2f479bed3ba31.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -558,8 +558,7 @@ Currently, there is no way to roll back either the platform operator update or t
 <p>Update the Verrazzano platform operator.</p>
 <p><strong>NOTE:</strong> If you are using a private container registry, then to update the platform operator, follow the instructions at <a href="../../../docs/setup/private-registry/private-registry/">Use a Private Registry</a>.</p>
 <p>To update to the latest version:</p>
-<pre><code>$ kubectl apply -f 
-https://github.com/verrazzano/verrazzano/releases/download/v1.2.0/operator.yaml
+<pre><code>$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v1.2.0/operator.yaml
 </code></pre><p>To update to a specific version, where <code>&lt;version&gt;</code> is the desired version:</p>
 <pre><code>$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/&lt;version&gt;/operator.yaml
 </code></pre></li>
@@ -616,12 +615,13 @@ corresponding to a valid <a href="https://github.com/verrazzano/verrazzano/relea
     --for=condition=UpgradeComplete verrazzano/example-verrazzano
 </code></pre></li>
 </ol>
-<p>If an error occurs, check the log output:</p>
+<p>If an error occurs, check the log output. You can view the logs with the following command:</p>
 <pre><code>$ kubectl logs -n verrazzano-install \
     -f $(kubectl get pod \
     -n verrazzano-install \
     -l app=verrazzano-platform-operator \
-    -o jsonpath=&quot;{.items[0].metadata.name}&quot;) | grep '&quot;operation&quot;:&quot;install&quot;'
+    -o jsonpath=&quot;{.items[0].metadata.name}&quot;) | grep '^{.*}$' \
+    | jq -r '.&quot;@timestamp&quot; as $timestamp | &quot;\($timestamp) \(.level) \(.message)&quot;'
 </code></pre><p>If an upgrade fails, you&rsquo;ll see this:</p>
 <pre><code>$ kubectl get vz
 
@@ -629,10 +629,7 @@ corresponding to a valid <a href="https://github.com/verrazzano/verrazzano/relea
 NAME                 STATUS          VERSION
 example-verrazzano   UpgradeFailed   v1.1.1
 </code></pre><p>You can restart the upgrade by setting the annotation <code>verrazzano.io/upgrade-retry-version</code> to any unique value.  For example:</p>
-<pre><code>$ kubectl patch vz example-verrazzano -p '{&quot;metadata&quot;:{&quot;annotations&quot;:
-{&quot;verrazzano.io/upgrade-retry-version&quot;:&quot;v1.1.2-1&quot;}
-
-}}' --type=merge
+<pre><code>$ kubectl patch vz example-verrazzano -p '{&quot;metadata&quot;:{&quot;annotations&quot;: {&quot;verrazzano.io/upgrade-retry-version&quot;:&quot;v1.1.2-1&quot;} }}' --type=merge
 </code></pre><h2 id="verify-the-upgrade">Verify the upgrade</h2>
 <p>Check that all the pods in the <code>verrazzano-system</code> namespace are in the <code>Running</code> state.  While the upgrade is in progress,
 you may see some pods terminating and restarting as newer versions of components are applied, for example:</p>

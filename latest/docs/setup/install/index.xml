@@ -40,8 +40,7 @@ custom resource, you can install, uninstall, and upgrade Verrazzano installation
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Deploy the Verrazzano platform operator.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl apply -f 
-https://github.com/verrazzano/verrazzano/releases/download/v1.2.0/operator.yaml
+&lt;pre&gt;&lt;code&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v1.2.0/operator.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the deployment to complete.&lt;/p&gt;
@@ -95,12 +94,13 @@ $ kubectl wait \
     --for=condition=InstallComplete verrazzano/example-verrazzano
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To use a different profile with the above example, set the &lt;code&gt;VZ_PROFILE&lt;/code&gt; environment variable to the name of the profile
 you want to install.&lt;/p&gt;
-&lt;p&gt;If an error occurs, check the log output of the installation:&lt;/p&gt;
+&lt;p&gt;If an error occurs, check the log output of the installation. You can view the logs with the following command:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ kubectl logs -n verrazzano-install \
     -f $(kubectl get pod \
     -n verrazzano-install \
     -l app=verrazzano-platform-operator \
-    -o jsonpath=&amp;quot;{.items[0].metadata.name}&amp;quot;) | grep &#39;&amp;quot;operation&amp;quot;:&amp;quot;install&amp;quot;&#39;
+    -o jsonpath=&amp;quot;{.items[0].metadata.name}&amp;quot;) | grep &#39;^{.*}$&#39; \
+    | jq -r &#39;.&amp;quot;@timestamp&amp;quot; as $timestamp | &amp;quot;\($timestamp) \(.level) \(.message)&amp;quot;&#39;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For more help troubleshooting the installation, see &lt;a href=&#34;../../../docs/troubleshooting/diagnostictools/analysisadvice/&#34;&gt;Analysis Advice&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;After the installation is complete, you can use the console URLs.
 For more information on how to access the Verrazzano consoles, see &lt;a href=&#34;../../../docs/access/&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/p&gt;
