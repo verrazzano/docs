@@ -93,9 +93,7 @@ To install Verrazzano:
         verrazzano/example-verrazzano
     ```
 
-1. (Optional) View the installation logs.
-
-    The Verrazzano operator launches a Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) to install Verrazzano.  You can view the installation logs from that job with the following command:
+1. (Optional) View the installation logs. You can view the logs with the following command:
 
     ```
     $ kubectl logs -n verrazzano-install \
