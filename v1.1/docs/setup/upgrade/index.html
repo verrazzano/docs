@@ -620,10 +620,7 @@ corresponding to a valid <a href="https://github.com/verrazzano/verrazzano/relea
 NAME                 STATUS          VERSION
 example-verrazzano   UpgradeFailed   v1.1.1
 </code></pre><p>You can restart the upgrade by setting the annotation <code>verrazzano.io/upgrade-retry-version</code> to any unique value.  For example:</p>
-<pre><code>$ kubectl patch vz example-verrazzano -p '{&quot;metadata&quot;:{&quot;annotations&quot;:
-{&quot;verrazzano.io/upgrade-retry-version&quot;:&quot;v1.1.2-1&quot;}
-
-}}' --type=merge
+<pre><code>$ kubectl patch vz example-verrazzano -p '{&quot;metadata&quot;:{&quot;annotations&quot;: {&quot;verrazzano.io/upgrade-retry-version&quot;:&quot;v1.1.2-1&quot;} }}' --type=merge
 </code></pre><h2 id="verify-the-upgrade">Verify the upgrade</h2>
 <p>Check that all the pods in the <code>verrazzano-system</code> namespace are in the <code>Running</code> state.  While the upgrade is in progress,
 you may see some pods terminating and restarting as newer versions of components are applied, for example:</p>
