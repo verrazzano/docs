@@ -147,10 +147,7 @@ example-verrazzano   UpgradeFailed   v1.1.1
 ```
 You can restart the upgrade by setting the annotation `verrazzano.io/upgrade-retry-version` to any unique value.  For example:
 ```
-$ kubectl patch vz example-verrazzano -p '{"metadata":{"annotations":
-{"verrazzano.io/upgrade-retry-version":"v1.1.2-1"}
-
-}}' --type=merge
+$ kubectl patch vz example-verrazzano -p '{"metadata":{"annotations": {"verrazzano.io/upgrade-retry-version":"v1.1.2-1"} }}' --type=merge
 ```
 
 ## Verify the upgrade
