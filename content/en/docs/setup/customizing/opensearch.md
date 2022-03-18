@@ -29,6 +29,7 @@ The following table lists the Helm values in the Verrazzano system chart related
 | ------------- |:-------------
 | `nodes.master.replicas` | Number of master node replicas.
 | `nodes.master.requests.memory` | Memory request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity).
+| `nodes.master.requests.storage` | Storage request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity).
 | `nodes.ingest.replicas` | Number of ingest node replicas.
 | `nodes.ingest.requests.memory` | Memory request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity).
 | `nodes.data.replicas` | Number of data node replicas.
@@ -53,6 +54,8 @@ spec:
         value: "1"
       - name: nodes.master.requests.memory
         value: "1G"
+      - name: nodes.master.requests.storage
+        value: "5Gi"
       - name: nodes.ingest.replicas
         value: "1"
       - name: nodes.ingest.requests.memory

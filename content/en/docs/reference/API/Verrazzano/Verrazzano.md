@@ -242,6 +242,7 @@ spec:
 | --- | --- | --- | --- | --- |
 | `nodes.master.replicas` | [NameValue](#name-value) | string  | The number of master node replicas. |  No |
 | `nodes.master.requests.memory` | [NameValue](#name-value) |  string  | The master node memory request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity). |  No |
+| `nodes.master.requests.storage` | [NameValue](#name-value) |  string  | The master storage request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity). |  No |
 | `nodes.ingest.replicas` | [NameValue](#name-value) | string  | The number of ingest node replicas. |  No |
 | `nodes.ingest.requests.memory` | [NameValue](#name-value) |  string  | The ingest node memory request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity). |  No |
 | `nodes.data.replicas` | [NameValue](#name-value) | string  | The number of data node replicas. |  No |
