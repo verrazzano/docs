@@ -1,6 +1,8 @@
 ---
 title: "Customize OpenSearch"
 description: "Learn how to customize your OpenSearch cluster configuration"
+aliases:
+    - /docs/setup/customizing/elasticsearch
 linkTitle: OpenSearch
 weight: 8
 draft: false
