@@ -82,6 +82,16 @@ To install Verrazzano:
       name: example-verrazzano
     spec:
       profile: dev
+      defaultVolumeSource:
+        persistentVolumeClaim:
+          claimName: verrazzano-storage
+      volumeClaimSpecTemplates:
+        - metadata:
+            name: verrazzano-storage
+          spec:
+            resources:
+              requests:
+                storage: 2Gi
     EOF
     ```
 
