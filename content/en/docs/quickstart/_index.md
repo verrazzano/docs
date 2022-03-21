@@ -84,10 +84,10 @@ To install Verrazzano:
       profile: dev
       defaultVolumeSource:
         persistentVolumeClaim:
-          claimName: dev-storage
+          claimName: verrazzano-storage
       volumeClaimSpecTemplates:
         - metadata:
-            name: dev-storage
+            name: verrazzano-storage
           spec:
             resources:
               requests:
