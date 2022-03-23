@@ -16,10 +16,11 @@ where a `helm upgrade` command can be issued for the component.  Typically, patc
 images with newer versions.
 
 ## Application and system pod restarts
-Upgrading Verrazzano 1.0.x to 1.1.0 will result in an upgrade of Istio from 1.7.3 to 1.10.4.  Because of this, all the pods
-in the Istio mesh need to be restarted so that the new Envoy proxy sidecar can be injected into the pods.  This includes both Verrazzano
-applications, along with Verrazzano system pods, such as the NGINX Ingress Controller.  For WebLogic workloads, Verrazzano will shut down
-every domain, do the upgrade, then start every domain.  For all other workloads, Verrazzano will perform a rolling restart
+If Verrazzano has a new version of Istio, then all the pods with Istio proxy sidecars
+need to be restarted.  This is done so that the new version of the proxy sidecar can be injected into the pods.
+All Verrazzano pods containing Istio proxy sidecars will be restarted.  This includes Verrazzano system pods,
+such as the NGINX Ingress Controller, along with Verrazzano applications.  For WebLogic workloads, Verrazzano
+will shut down every domain, do the upgrade, then start every domain.  For all other workloads, Verrazzano will perform a rolling restart
 when the upgrade is complete.  There is no user involvement related to restarting applications; it is done automatically during upgrade.
 
 ## Upgrade steps
@@ -129,29 +130,6 @@ Alternatively, you can upgrade the Verrazzano installation using the following s
        --timeout=10m \
        --for=condition=UpgradeComplete verrazzano/example-verrazzano
    ```
-If an error occurs, check the log output. You can view the logs with the following command:
-
-```
-$ kubectl logs -n verrazzano-install \
-    -f $(kubectl get pod \
-    -n verrazzano-install \
-    -l app=verrazzano-platform-operator \
-    -o jsonpath="{.items[0].metadata.name}") | grep '^{.*}$' \
-    | jq -r '."@timestamp" as $timestamp | "\($timestamp) \(.level) \(.message)"'
-```
-
-If an upgrade fails, you'll see this:
-```
-$ kubectl get vz
-
-# Sample output
-NAME                 STATUS          VERSION
-example-verrazzano   UpgradeFailed   v1.1.1
-```
-You can restart the upgrade by setting the annotation `verrazzano.io/upgrade-retry-version` to any unique value.  For example:
-```
-$ kubectl patch vz example-verrazzano -p '{"metadata":{"annotations": {"verrazzano.io/upgrade-retry-version":"v1.1.2-1"} }}' --type=merge
-```
 
 ## Verify the upgrade
 
@@ -187,4 +165,31 @@ $ kubectl get pods -n todo-list
 NAME                     READY   STATUS    RESTARTS   AGE
 mysql-67575d8954-d4vkm   2/2     Running   0          39h
 tododomain-adminserver   4/4     Running   0          39h
+```
+
+## Upgrade failures
+
+In Verrazzano 1.3 and later, upgrade will continue to run until it succeeds or until you delete the Verrazzano CR.  In previous versions,
+upgrade could fail and transition to the `UpgradeFailed` state.  If that happens, and you updated the Verrazzano platform operator to 1.3+,
+then the Verrazzano CR will transition to `UpgradePaused`.  To continue with the upgrade, you must change the CR version to the current
+version of the Verrazzano platform operator.  The following steps illustrate this scenario:
+
+1. You install Verrazzano 1.1.2.
+2. You upgrade to 1.2.0 by changing the Verrazzano CR version field to v1.2.0.
+3. The upgrade failed for some reason and the Verrazzano CR state transitions to `UpgradeFailed`.
+4. You update the Verrazzano platform operator to 1.3.0.
+5. The Verrazzano CR state transitions to `UpgradePaused`.
+6. You change the Verrazzano CR version field to v1.3.0.
+7. The Verrazzano CR state transitions to `Upgrading` and stays in that state until it completes, then it transitions to `UpgradeComplete`.  
+
+
+To see detailed progress of the upgrade, view the logs with the following command:
+
+```
+$ kubectl logs -n verrazzano-install \
+    -f $(kubectl get pod \
+    -n verrazzano-install \
+    -l app=verrazzano-platform-operator \
+    -o jsonpath="{.items[0].metadata.name}") | grep '^{.*}$' \
+    | jq -r '."@timestamp" as $timestamp | "\($timestamp) \(.level) \(.message)"'
 ```
