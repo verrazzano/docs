@@ -178,12 +178,12 @@ version of the Verrazzano platform operator.  The following steps illustrate thi
 2. You upgrade to to 1.2.0 by changing the Verrazzano CR version field to v1.2.0.
 3. The upgrade failed for some reason and the Verrazzano CR state transitions to `UpgradeFailed`.
 4. You update the Verrazzano platform operator to 1.3.0.
-5. The Verrazzano CR state transitions to UpgradePaused.
+5. The Verrazzano CR state transitions to `UpgradePaused`.
 6. You change the Verrazzano CR version field to v1.3.0.
 7. The Verrazzano CR state transitions to `Upgrading` and stays in that state until it completes, then it transitions to `UpgradeComplete`.  
 
 
-For detailed upgrade information, uou can view the logs with the following command to see detailed progress of the upgrade:
+For detailed upgrade information, you can view the logs with the following command to see detailed progress of the upgrade:
 
 ```
 $ kubectl logs -n verrazzano-install \
