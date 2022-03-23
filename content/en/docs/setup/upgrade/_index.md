@@ -170,12 +170,12 @@ tododomain-adminserver   4/4     Running   0          39h
 ## Upgrade failures
 
 In Verrazzano 1.3 and later, upgrade will continue to run until it succeeds or until you delete the Verrazzano CR.  In previous versions,
-upgrade could fail and transition to the `UpgradeFailed` state.  If that happens, and you updated the Verrazzano Platform Operator to 1.3+,
+upgrade could fail and transition to the `UpgradeFailed` state.  If that happens, and you updated the Verrazzano platform operator to 1.3+,
 then the Verrazzano CR will transition to `UpgradePaused`.  To continue with the upgrade, you must change the CR version to the current
 version of the Verrazzano platform operator.  The following steps illustrate this scenario:
 
 1. You install Verrazzano 1.1.2.
-2. You upgrade to to 1.2.0 by changing the Verrazzano CR version field to v1.2.0.
+2. You upgrade to 1.2.0 by changing the Verrazzano CR version field to v1.2.0.
 3. The upgrade failed for some reason and the Verrazzano CR state transitions to `UpgradeFailed`.
 4. You update the Verrazzano platform operator to 1.3.0.
 5. The Verrazzano CR state transitions to `UpgradePaused`.
