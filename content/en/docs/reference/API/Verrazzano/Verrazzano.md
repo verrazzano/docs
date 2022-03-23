@@ -52,20 +52,21 @@ spec:
 | `spec` | [PersistentVolumeClaimSpec](https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/persistent-volume-claim-v1/#PersistentVolumeClaimSpec) | A `PersistentVolumeClaimSpec` template that can be referenced by a Component to override its default storage settings for a profile.  At present, only a subset of the `resources.requests` object are honored depending on the component. | No |  
 
 ## Components
-| Field | Type | Description | Required
-| --- | --- | --- | --- |
-| `authProxy` | [AuthProxyComponent](#authproxy-component) | The AuthProxy component configuration.  | No |
-| `certManager` | [CertManagerComponent](#certmanager-component) | The cert-manager component configuration.  | No |
-| `dns` | [DNSComponent](#dns-component) | The DNS component configuration.  | No |
-| `ingress` | [IngressComponent](#ingress-component) | The ingress component configuration. | No |
-| `istio` | [IstioComponent](#istio-component) | The Istio component configuration. | No |
-| `fluentd` | [FluentdComponent](#fluentd-component) | The Fluentd component configuration. | No |
-| `keycloak` | [KeycloakComponent](#keycloak-component) | The Keycloak component configuration. | No |
-| `elasticsearch` | [OpenSearchComponent](#opensearch-component) | The OpenSearch component configuration. | No |
-| `prometheus` | [PrometheusComponent](#prometheus-component) | The Prometheus component configuration. | No |
-| `kibana` | [OpenSearchDashboardsComponent](#opensearch-dashboards-component) | The OpenSearch Dashboards component configuration. | No |
-| `grafana` | [GrafanaComponent](#grafana-component) | The Grafana component configuration. | No |
-| `kiali` | [KialiComponent](#kiali-component) | The Kiali component configuration. | No |
+| Field                | Type                                                              | Description                                        | Required |
+|----------------------|-------------------------------------------------------------------|----------------------------------------------------|----------|
+| `authProxy`          | [AuthProxyComponent](#authproxy-component)                        | The AuthProxy component configuration.             | No       |
+| `certManager`        | [CertManagerComponent](#certmanager-component)                    | The cert-manager component configuration.          | No       |
+| `dns`                | [DNSComponent](#dns-component)                                    | The DNS component configuration.                   | No       |
+| `ingress`            | [IngressComponent](#ingress-component)                            | The ingress component configuration.               | No       |
+| `istio`              | [IstioComponent](#istio-component)                                | The Istio component configuration.                 | No       |
+| `fluentd`            | [FluentdComponent](#fluentd-component)                            | The Fluentd component configuration.               | No       |
+| `keycloak`           | [KeycloakComponent](#keycloak-component)                          | The Keycloak component configuration.              | No       |
+| `elasticsearch`      | [OpenSearchComponent](#opensearch-component)                      | The OpenSearch component configuration.            | No       |
+| `prometheus`         | [PrometheusComponent](#prometheus-component)                      | The Prometheus component configuration.            | No       |
+| `kibana`             | [OpenSearchDashboardsComponent](#opensearch-dashboards-component) | The OpenSearch Dashboards component configuration. | No       |
+| `grafana`            | [GrafanaComponent](#grafana-component)                            | The Grafana component configuration.               | No       |
+| `kiali`              | [KialiComponent](#kiali-component)                                | The Kiali component configuration.                 | No       |
+| `prometheusOperator` | [PrometheusOperatorComponent](#prometheus-operator-component)     | The Prometheus Operator component configuration.   | No       |
 
 ### AuthProxy Component
 | Field | Type | Description | Required
@@ -269,3 +270,8 @@ spec:
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `enabled` | Boolean | If true, then Kiali will be installed. | No |
+
+### Prometheus Operator Component
+| Field     | Type    | Description                                              | Required |
+|-----------|---------|----------------------------------------------------------|----------|
+| `enabled` | Boolean | If true, then the Prometheus Operator will be installed. | No       |
