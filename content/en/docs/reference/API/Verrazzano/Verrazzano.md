@@ -255,7 +255,7 @@ spec:
 | Field | Type | Description | Required
 | --- | --- | --- | --- | --- |
 | `policyName` | string | Name of the Index State Management policy. | Yes |
-| `indexPattern` | string | Index pattern that the policy will attach to. This can be an index name or pattern like `my-index-*`. | Yes |
+| `indexPattern` | string | Index pattern to which the policy will attach. This can be an index name or pattern like `my-index-*`. | Yes |
 | `minIndexAge` | [Time](https://opensearch.org/docs/1.3/opensearch/units/) | Amount of time until a managed index is deleted. Default is 7 days (7d). | No |
 | `rollover` | [Rollover](#opensearch-index-management-rollover) | Index rollover settings. | No |
 

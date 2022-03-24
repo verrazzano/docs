@@ -15,7 +15,7 @@ Verrazzano supports two cluster topologies for an OpenSearch cluster:
 [Installation Profiles](/docs/setup/install/profiles/) describes the default OpenSearch cluster
 configurations provided by Verrazzano.  
 
-## Configure Cluster Topology
+## Configure cluster topology
 
 You can customize the node characteristics of your OpenSearch cluster by using the
 [spec.components.elasticsearch.installArgs](/docs/reference/api/verrazzano/verrazzano/#opensearch-component)
@@ -126,7 +126,7 @@ Containers:
       memory:   1500M
 ```
 
-## Configure Index State Management Policies
+## Configure Index State Management policies
 
 [Index State Management](https://opensearch.org/docs/1.3/im-plugin/ism/index/) policies configure OpenSearch to manage the data in your indices. 
 Policies can be used to automatically rollover and prune old data, preventing your OpenSearch
@@ -134,7 +134,7 @@ cluster from running out of disk space.
 
 The following policy example configures OpenSearch to manage indices matching the pattern `my-app-*`. The data in these indices will be
 automatically pruned every 14 days, and will be rolled over if an index meets at least one of the following criteria:
-- Is 3 or more days old.
+- Is three or more days old.
 - Contains 1,000 documents or more.
 - Is 10GB in size or larger.
 
