@@ -1,12 +1,12 @@
 ---
-title: "Opensearch Scaling and Resizing"
-linkTitle: "Opensearch Scaling and Resizing"
-description: "Scaling and Resizing Opensearch to restore healthy status"
+title: "Elasticsearch Scaling and Resizing"
+linkTitle: "Elasticsearch Scaling and Resizing"
+description: "Scaling and Resizing Elasticsearch to restore healthy status"
 weight: 1
 draft: false
 ---
 
-This document describes how to recover an Opensearch cluster's health after it becomes unhealthy due to unassigned shards or disk pressure.
+This document describes how to recover an Elasticsearch cluster's health after it becomes unhealthy due to unassigned shards or disk pressure.
 
 This document describes how to scale up the cluster's data nodes and increase the size of the volumes. Being that the volume size change in the Verrazzano Operator also effects the master nodes volume size, additional steps must be taken to address the volume resizing of a StatefulSet.
 ```
@@ -21,7 +21,7 @@ Change the following portion by increasing the number of ES_DATA_NODE_REPLICAS t
 - name: ES_DATA_STORAGE
   value: "200"
 ```
-**Scaling Opensearch Data Nodes**
+**Scaling Elasticsearch Data Nodes**
 
 Wait for the new data node pod to become ready and check the health of the cluster:
 ```
