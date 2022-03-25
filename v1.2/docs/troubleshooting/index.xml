@@ -215,6 +215,153 @@ output:&lt;/p&gt;
     </item>
     
     <item>
+      <title>Docs: OpenSearch Scaling and Resizing</title>
+      <link>/docs/troubleshooting/troubleshooting-elasticsearch/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/troubleshooting/troubleshooting-elasticsearch/</guid>
+      <description>
+        
+        
+        &lt;p&gt;This document describes how to recover an OpenSearch cluster&amp;rsquo;s health after it becomes unhealthy due to unassigned shards or disk pressure.&lt;/p&gt;
+&lt;p&gt;It also describes how to scale up the cluster&amp;rsquo;s data nodes and increase the size of the volumes. Because the volume size change in the Verrazzano operator also affects the master nodes volume size, you must take additional steps to address the volume resizing of a StatefulSet.&lt;/p&gt;
+&lt;p&gt;First:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# Edit the Verrazzano operator
+$ kubectl -n verrazzano-system edit deploy verrazzano-operator
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then, change the following portion by increasing the number of &lt;code&gt;ES_DATA_NODE_REPLICAS&lt;/code&gt; to &lt;code&gt;3&lt;/code&gt;, and the &lt;code&gt;ES_DATA_STORAGE&lt;/code&gt; to &lt;code&gt;200Gi&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;- name: ES_DATA_NODE_REPLICAS
+  value: &amp;quot;3&amp;quot;
+
+- name: ES_DATA_STORAGE
+  value: &amp;quot;200&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;scaling-opensearch-data-nodes&#34;&gt;Scaling OpenSearch data nodes&lt;/h2&gt;
+&lt;p&gt;Follow this procedure to scale the OpenSearch data nodes.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Wait for the new data node pod to become ready and then check the health of the cluster:
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
+
+$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/indices
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;When you have a green state, replace the original data node &lt;code&gt;-0&lt;/code&gt; pods:
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=0
+$ kubectl -n verrazzano-system scale deploy verrazzano-monitoring-operator --replicas=0
+$ kubectl -n verrazzano-system delete pod/vmi-system-es-data-0-xxxxxxxxx-xxxx pvc/vmi-system-es-data-0
+$ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=1
+$ kubectl -n verrazzano-system scale deploy verrazzano-monitoring-operator --replicas=1
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;Wait for the new data node pod to become ready and then check the health of the cluster:
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
+
+$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/indices
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;When you have a green state, replace the original data node &lt;code&gt;-1&lt;/code&gt; pods:
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=0
+$ kubectl -n verrazzano-system scale deploy verrazzano-monitoring-operator --replicas=0
+$ kubectl -n verrazzano-system delete pod/vmi-system-es-data-1-xxxxxxxxx-xxxx pvc/vmi-system-es-data-1
+$ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=1
+$ kubectl -n verrazzano-system scale deploy verrazzano-monitoring-operator --replicas=1
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;Wait for the new data node pod to become ready and then check the health of the cluster:
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
+
+$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/indices
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;You should now have three data nodes that are healthy and at 200GB volumes.&lt;/p&gt;
+&lt;h2 id=&#34;address-the-master-nodes-statefulset&#34;&gt;Address the master nodes&amp;rsquo; StatefulSet&lt;/h2&gt;
+&lt;p&gt;Now to address the master nodes. Because you cannot directly change the size of the volume associated
+with a volume template in a StatefulSet, you must follow this procedure:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;First:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=0
+$ kubectl -n verrazzano-system scale deploy verrazzano-monitoring-operator --replicas=0
+$ kubectl -n verrazzano-system get sts vmi-system-es-master -o yaml &amp;gt; vmi-system-es-master.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Edit the file created in the previous command, vmi-system-es-master.yaml&lt;/p&gt;
+&lt;p&gt;a. Remove the lines starting with:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;creationTimestamp:
+generation:
+resourceVersion:
+selfLink:
+uid:
+status:
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;b. Remove every line below status:&lt;/p&gt;
+&lt;p&gt;c. Edit the section to increase the storage to the same value that you used for the Verrazzano operator:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;storage: 200Gi
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;d. Save that file.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The following command will delete the StatefulSet, but allow the associated pods to continue to run.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system delete sts vmi-system-es-master --cascade=orphan
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Then run this command to recreate the StatefulSet with the new volume size defined:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system apply -f vmi-system-es-master.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The next steps are to delete the existing master node pods, one at a time, allowing the cluster to become healthy before moving on to the next node:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system delete pod/vmi-system-es-master-0 pvc/elasticsearch-master-vmi-system-es-master-0
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Wait for the new master node pod to become ready and then check the health of the cluster:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
+
+$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/indices
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;When the cluster is healthy, continue to the next master node:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system delete pod/vmi-system-es-master-1 pvc/elasticsearch-master-vmi-system-es-master-1
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Wait for the new master node pod to become ready and then check the health of the cluster:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
+
+$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/indices
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;When the cluster is healthy, continue to the next master node:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system delete pod/vmi-system-es-master-2 pvc/elasticsearch-master-vmi-system-es-master-2
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Wait for the new master node pod to become ready and then check the health of the cluster:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
+
+$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/indices
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;When the cluster is healthy rescale the operators:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=1
+$ kubectl -n verrazzano-system scale deploy verrazzano-monitoring-operator --replicas=1
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;update-the-verrazzano-custom-resource&#34;&gt;Update the Verrazzano Custom Resource&lt;/h2&gt;
+&lt;p&gt;Now you will edit the Verrazzano CR, so that when you upgrade, the above changes will not be overwritten. Follow this procedure:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Get the namespace and name of the Verrazzano CR:
+&lt;pre&gt;&lt;code&gt;$ kubectl get vz -A
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;Edit the Verrazzano CR:
+&lt;pre&gt;&lt;code&gt;$ kubectl -n &amp;lt;namespace&amp;gt; edit vz &amp;lt;name&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;a. Alter to include the following:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;spec:
+  components:
+    elasticsearch:
+      installArgs:
+      - name: nodes.data.replicas
+        value: &amp;quot;3&amp;quot;
+      - name: nodes.data.requests.storage
+        value: 200Gi
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;b. Save the changes.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This completes the process.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Diagnostic Tools</title>
       <link>/docs/troubleshooting/diagnostictools/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

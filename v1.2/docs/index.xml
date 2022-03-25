@@ -1389,6 +1389,153 @@ specified in the Verrazzano custom resource.&lt;/p&gt;
     </item>
     
     <item>
+      <title>Docs: OpenSearch Scaling and Resizing</title>
+      <link>/docs/troubleshooting/troubleshooting-elasticsearch/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/troubleshooting/troubleshooting-elasticsearch/</guid>
+      <description>
+        
+        
+        &lt;p&gt;This document describes how to recover an OpenSearch cluster&amp;rsquo;s health after it becomes unhealthy due to unassigned shards or disk pressure.&lt;/p&gt;
+&lt;p&gt;It also describes how to scale up the cluster&amp;rsquo;s data nodes and increase the size of the volumes. Because the volume size change in the Verrazzano operator also affects the master nodes volume size, you must take additional steps to address the volume resizing of a StatefulSet.&lt;/p&gt;
+&lt;p&gt;First:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# Edit the Verrazzano operator
+$ kubectl -n verrazzano-system edit deploy verrazzano-operator
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then, change the following portion by increasing the number of &lt;code&gt;ES_DATA_NODE_REPLICAS&lt;/code&gt; to &lt;code&gt;3&lt;/code&gt;, and the &lt;code&gt;ES_DATA_STORAGE&lt;/code&gt; to &lt;code&gt;200Gi&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;- name: ES_DATA_NODE_REPLICAS
+  value: &amp;quot;3&amp;quot;
+
+- name: ES_DATA_STORAGE
+  value: &amp;quot;200&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;scaling-opensearch-data-nodes&#34;&gt;Scaling OpenSearch data nodes&lt;/h2&gt;
+&lt;p&gt;Follow this procedure to scale the OpenSearch data nodes.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Wait for the new data node pod to become ready and then check the health of the cluster:
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
+
+$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/indices
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;When you have a green state, replace the original data node &lt;code&gt;-0&lt;/code&gt; pods:
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=0
+$ kubectl -n verrazzano-system scale deploy verrazzano-monitoring-operator --replicas=0
+$ kubectl -n verrazzano-system delete pod/vmi-system-es-data-0-xxxxxxxxx-xxxx pvc/vmi-system-es-data-0
+$ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=1
+$ kubectl -n verrazzano-system scale deploy verrazzano-monitoring-operator --replicas=1
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;Wait for the new data node pod to become ready and then check the health of the cluster:
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
+
+$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/indices
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;When you have a green state, replace the original data node &lt;code&gt;-1&lt;/code&gt; pods:
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=0
+$ kubectl -n verrazzano-system scale deploy verrazzano-monitoring-operator --replicas=0
+$ kubectl -n verrazzano-system delete pod/vmi-system-es-data-1-xxxxxxxxx-xxxx pvc/vmi-system-es-data-1
+$ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=1
+$ kubectl -n verrazzano-system scale deploy verrazzano-monitoring-operator --replicas=1
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;Wait for the new data node pod to become ready and then check the health of the cluster:
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
+
+$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/indices
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;You should now have three data nodes that are healthy and at 200GB volumes.&lt;/p&gt;
+&lt;h2 id=&#34;address-the-master-nodes-statefulset&#34;&gt;Address the master nodes&amp;rsquo; StatefulSet&lt;/h2&gt;
+&lt;p&gt;Now to address the master nodes. Because you cannot directly change the size of the volume associated
+with a volume template in a StatefulSet, you must follow this procedure:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;First:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=0
+$ kubectl -n verrazzano-system scale deploy verrazzano-monitoring-operator --replicas=0
+$ kubectl -n verrazzano-system get sts vmi-system-es-master -o yaml &amp;gt; vmi-system-es-master.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Edit the file created in the previous command, vmi-system-es-master.yaml&lt;/p&gt;
+&lt;p&gt;a. Remove the lines starting with:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;creationTimestamp:
+generation:
+resourceVersion:
+selfLink:
+uid:
+status:
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;b. Remove every line below status:&lt;/p&gt;
+&lt;p&gt;c. Edit the section to increase the storage to the same value that you used for the Verrazzano operator:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;storage: 200Gi
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;d. Save that file.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The following command will delete the StatefulSet, but allow the associated pods to continue to run.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system delete sts vmi-system-es-master --cascade=orphan
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Then run this command to recreate the StatefulSet with the new volume size defined:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system apply -f vmi-system-es-master.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The next steps are to delete the existing master node pods, one at a time, allowing the cluster to become healthy before moving on to the next node:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system delete pod/vmi-system-es-master-0 pvc/elasticsearch-master-vmi-system-es-master-0
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Wait for the new master node pod to become ready and then check the health of the cluster:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
+
+$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/indices
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;When the cluster is healthy, continue to the next master node:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system delete pod/vmi-system-es-master-1 pvc/elasticsearch-master-vmi-system-es-master-1
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Wait for the new master node pod to become ready and then check the health of the cluster:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
+
+$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/indices
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;When the cluster is healthy, continue to the next master node:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system delete pod/vmi-system-es-master-2 pvc/elasticsearch-master-vmi-system-es-master-2
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Wait for the new master node pod to become ready and then check the health of the cluster:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
+
+$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/indices
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;When the cluster is healthy rescale the operators:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=1
+$ kubectl -n verrazzano-system scale deploy verrazzano-monitoring-operator --replicas=1
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;update-the-verrazzano-custom-resource&#34;&gt;Update the Verrazzano Custom Resource&lt;/h2&gt;
+&lt;p&gt;Now you will edit the Verrazzano CR, so that when you upgrade, the above changes will not be overwritten. Follow this procedure:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Get the namespace and name of the Verrazzano CR:
+&lt;pre&gt;&lt;code&gt;$ kubectl get vz -A
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;Edit the Verrazzano CR:
+&lt;pre&gt;&lt;code&gt;$ kubectl -n &amp;lt;namespace&amp;gt; edit vz &amp;lt;name&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;a. Alter to include the following:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;spec:
+  components:
+    elasticsearch:
+      installArgs:
+      - name: nodes.data.replicas
+        value: &amp;quot;3&amp;quot;
+      - name: nodes.data.requests.storage
+        value: 200Gi
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;b. Save the changes.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This completes the process.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Prerequisites</title>
       <link>/docs/setup/prereqs/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -9092,38 +9239,6 @@ $ curl -k --user verrazzano:${VZPASS} -X POST -H &#39;kbn-xsrf: true&#39; &amp;q
 &lt;p&gt;Also, you can configure Keycloak to delegate authentication to an external user store, such as Active Directory or an LDAP server.&lt;/p&gt;
 &lt;p&gt;Because Keycloak is not configured as an authentication provider for the Kubernetes API, authenticating Keycloak users to Kubernetes requires the use of a proxy that impersonates Keycloak users when making Kubernetes API requests. For more information about the Verrazzano authentication proxy, see &lt;a href=&#34;../docs/security/proxies/proxies/&#34;&gt;Verrazzano Proxies&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Keycloak is also used when authenticating to the Verrazzano Console and the various Verrazzano Monitoring Instance (VMI) logging and metrics consoles. The Verrazzano Console uses the OpenID Connect (OIDC) PKCE flow to authenticate users against Keycloak and obtain ID and access tokens. Authentication for VMI consoles is provided by the Verrazzano authentication proxy, which also uses PKCE to authenticate users, validates the resulting tokens, and authorizes incoming requests. For more information about the Verrazzano authentication proxy, see &lt;a href=&#34;../docs/security/proxies/proxies/&#34;&gt;Verrazzano Proxies&lt;/a&gt;.&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Docs: OCI Container Engine for Kubernetes (OKE)</title>
-      <link>/docs/setup/platforms/oci/oci/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/docs/setup/platforms/oci/oci/</guid>
-      <description>
-        
-        
-        &lt;h2 id=&#34;prepare-for-the-oci-install&#34;&gt;Prepare for the OCI install&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Create the &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm&#34;&gt;OKE&lt;/a&gt; cluster using the OCI Console or by some other means.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;For &lt;code&gt;SHAPE&lt;/code&gt;, an OKE cluster with 3 nodes of &lt;code&gt;VM.Standard2.4&lt;/code&gt; &lt;a href=&#34;https://www.oracle.com/cloud/compute/virtual-machines.html&#34;&gt;OCI compute instance shape&lt;/a&gt; has proven sufficient to install Verrazzano and deploy the &lt;a href=&#34;../docs/samples/bobs-books/&#34;&gt;Bob&amp;rsquo;s Books&lt;/a&gt; example application.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Follow the instructions provided by OKE to download the Kubernetes configuration file for your cluster, and set the following &lt;code&gt;ENV&lt;/code&gt; variable:&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;   $ export KUBECONFIG=&amp;lt;path to valid Kubernetes config&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
-&lt;li&gt;Optional, if your organization requires the use of a private registry to the Docker images installed by Verrazzano, see &lt;a href=&#34;../docs/setup/private-registry/private-registry/&#34;&gt;Use a Private Registry&lt;/a&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Verrazzano can create network policies that can be used to limit the ports and protocols that pods use for network communication. Network policies provide additional security but they are enforced only if you install a Kubernetes Container Network Interface (CNI) plug-in that enforces them, such as Calico. For an example on OKE, see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengsettingupcalico.htm&#34;&gt;Installing Calico and Setting Up Network Policies&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
-&lt;p&gt;To continue, see the &lt;a href=&#34;../docs/setup/install/installation/#install-the-verrazzano-platform-operator&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
 
       </description>
     </item>
