@@ -15,6 +15,8 @@ Verrazzano supports two cluster topologies for an OpenSearch cluster:
 [Installation Profiles](/docs/setup/install/profiles/) describes the default OpenSearch cluster
 configurations provided by Verrazzano.  
 
+## Configure cluster topology
+
 You can customize the node characteristics of your OpenSearch cluster by using the
 [spec.components.elasticsearch.installArgs](/docs/reference/api/verrazzano/verrazzano/#opensearch-component)
 field in the Verrazzano custom resource.  When installing Verrazzano, you can use this field to specify a list of Helm
@@ -42,11 +44,11 @@ The following example overrides the `dev` installation profile, OpenSearch confi
 1Gi of memory and ephemeral storage) to use a multi-node cluster with persistent storage. Note that the public API references Elasticsearch, 
 the API will change to OpenSearch in an upcoming release.
 
-```
+```yaml
 apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
-  name: custom-es-example
+  name: custom-opensearch-example
 spec:
   profile: dev
   components:
@@ -122,4 +124,35 @@ Containers:
     Restart Count:  0
     Requests:
       memory:   1500M
+```
+
+## Configure Index State Management policies
+
+[Index State Management](https://opensearch.org/docs/1.3/im-plugin/ism/index/) policies configure OpenSearch to manage the data in your indices. 
+Policies can be used to automatically rollover and prune old data, preventing your OpenSearch
+cluster from running out of disk space.
+
+The following policy example configures OpenSearch to manage indices matching the pattern `my-app-*`. The data in these indices will be
+automatically pruned every 14 days, and will be rolled over if an index meets at least one of the following criteria:
+- Is three or more days old.
+- Contains 1,000 documents or more.
+- Is 10GB in size or larger.
+
+```yaml
+apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: custom-opensearch-example
+spec:
+  profile: dev
+  components:
+    elasticsearch:
+      policies:
+        - policyName: my-app
+          indexPattern: my-app-*
+          minIndexAge: 14d
+          rollover:
+            minIndexAge: 3d
+            minDocCount: 1000
+            minSize: 10Gb
 ```

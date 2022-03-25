@@ -237,6 +237,7 @@ spec:
 | --- | --- | --- | --- |
 | `enabled` | Boolean | If true, then OpenSearch will be installed. | No |
 | `installArgs` | [OpenSearchInstallArgs](#opensearch-install-args) list | A list of values to use during OpenSearch installation.  Each argument is specified as either a `name/value` or `name/valueList` pair.  For sample usage, see [Customize OpenSearch](/docs/setup/customizing/opensearch/).| No |
+| `policies` | [Policy](#opensearch-index-management-policies) list | A list of [Index State Management]({{<opensearch_docs_url>}}/im-plugin/ism/index/) policies to enable on OpenSearch. | No |
 
 #### OpenSearch Install Args
 | Name | Type | ValueType | Description | Required
@@ -250,6 +251,20 @@ spec:
 | `nodes.data.requests.memory` | [NameValue](#name-value) |  string  | The data node memory request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity). |  No |
 | `nodes.data.requests.storage` | [NameValue](#name-value) |  string  | The data storage request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity). |  No |
 
+#### OpenSearch Index Management Policies
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `policyName` | string | Name of the Index State Management policy. | Yes |
+| `indexPattern` | string | An Index Pattern is an index name or pattern like `my-index-*`. If an index matches the pattern, the associated policy will attach to the index. | Yes |
+| `minIndexAge` | [Time]({{<opensearch_docs_url>}}/opensearch/units/) | Amount of time until a managed index is deleted. Default is 7 days (7d). | No |
+| `rollover` | [Rollover](#opensearch-index-management-rollover) | Index rollover settings. | No |
+
+#### OpenSearch Index Management Rollover
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `minIndexAge` | [Time]({{<opensearch_docs_url>}}/opensearch/units/) | Amount of time until a managed index is rolled over. Default is 1 day (1d). | No |
+| `minSize` | [Bytes]({{<opensearch_docs_url>}}/opensearch/units/) | The size at which a managed index is rolled over. | No |
+| `minDocCount` | uint32 | Amount of documents in a managed index that triggers a rollover. | No |
 
 ### OpenSearch Dashboards Component
 | Field | Type | Description | Required
