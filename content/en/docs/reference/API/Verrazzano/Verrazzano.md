@@ -253,7 +253,7 @@ spec:
 
 #### OpenSearch Index Management Policies
 | Field | Type | Description | Required
-| --- | --- | --- | --- | --- |
+| --- | --- | --- | --- |
 | `policyName` | string | Name of the Index State Management policy. | Yes |
 | `indexPattern` | string | An Index Pattern is an index name or pattern like `my-index-*`. If an index matches the pattern, the associated policy will attach to the index. | Yes |
 | `minIndexAge` | [Time]({{<opensearch_docs_url>}}/opensearch/units/) | Amount of time until a managed index is deleted. Default is 7 days (7d). | No |
@@ -261,7 +261,7 @@ spec:
 
 #### OpenSearch Index Management Rollover
 | Field | Type | Description | Required
-| --- | --- | --- | --- | --- |
+| --- | --- | --- | --- |
 | `minIndexAge` | [Time]({{<opensearch_docs_url>}}/opensearch/units/) | Amount of time until a managed index is rolled over. Default is 1 day (1d). | No |
 | `minSize` | [Bytes]({{<opensearch_docs_url>}}/opensearch/units/) | The size at which a managed index is rolled over. | No |
 | `minDocCount` | uint32 | Amount of documents in a managed index that triggers a rollover. | No |
