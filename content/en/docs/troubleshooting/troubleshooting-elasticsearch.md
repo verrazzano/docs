@@ -25,7 +25,7 @@ Then, change the following portion by increasing the number of `ES_DATA_NODE_REP
 ```
 ## Scaling Elasticsearch data nodes
 
-Follow this procedure to scale the OpenSearch data nodes.
+Follow this procedure to scale the Elasticsearch data nodes.
 
 1. Wait for the new data node pod to become ready and then check the health of the cluster:
    ```
