@@ -136,4 +136,28 @@ with a volume template in a StatefulSet, you must follow this procedure:
     $ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=1
     $ kubectl -n verrazzano-system scale deploy verrazzano-monitoring-operator --replicas=1
     ```
+## Update the Verrazzano Custom Resource
+Now you will edit the Verrazzano CR, so that when you upgrade, the above changes will not be overwritten. Follow this procedure:
+
+1. Get the namespace and name of the Verrazzano CR
+   ```
+   $ kubectl get vz -A
+   ```
+2. Edit the Verrazzano CR
+   ```
+   $ kubectl -n <namespace> edit vz <name>
+   ```
+   a. Alter to include the following:
+   ```
+   spec:
+     components:
+       elasticsearch:
+         installArgs:
+         - name: nodes.data.replicas
+           value: "3"
+         - name: nodes.data.requests.storage
+           value: 200Gi
+   ```
+   b. Save the changes
+
 This completes the process.
