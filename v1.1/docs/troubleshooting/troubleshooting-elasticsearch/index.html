@@ -17,23 +17,23 @@
 <link rel="icon" type="image/png" href="../../../favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="../../../favicons/android-192x192.png" sizes="192x192">
 
-<title>Multicluster Verrazzano | Verrazzano Enterprise Container Platform</title>
-<meta name="description" content="A hybrid multi-cloud Kubernetes based Enterprise Container Platform for running both cloud-native and traditional applications"><meta property="og:title" content="Multicluster Verrazzano" />
-<meta property="og:description" content="Troubleshoot issues with multicluster setup and applications" />
+<title>Elasticsearch Scaling and Resizing | Verrazzano Enterprise Container Platform</title>
+<meta name="description" content="A hybrid multi-cloud Kubernetes based Enterprise Container Platform for running both cloud-native and traditional applications"><meta property="og:title" content="Elasticsearch Scaling and Resizing" />
+<meta property="og:description" content="Scaling and resizing Elasticsearch to restore healthy status" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/docs/troubleshooting/troubleshooting-multicluster/" />
-<meta property="article:modified_time" content="2021-11-22T14:11:58-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
-<meta itemprop="name" content="Multicluster Verrazzano">
-<meta itemprop="description" content="Troubleshoot issues with multicluster setup and applications">
-<meta itemprop="dateModified" content="2021-11-22T14:11:58-05:00" />
-<meta itemprop="wordCount" content="662">
+<meta property="og:url" content="/docs/troubleshooting/troubleshooting-elasticsearch/" />
+<meta property="article:modified_time" content="2022-03-25T10:53:26-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta itemprop="name" content="Elasticsearch Scaling and Resizing">
+<meta itemprop="description" content="Scaling and resizing Elasticsearch to restore healthy status">
+<meta itemprop="dateModified" content="2022-03-25T10:53:26-04:00" />
+<meta itemprop="wordCount" content="802">
 
 
 
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Multicluster Verrazzano"/>
-<meta name="twitter:description" content="Troubleshoot issues with multicluster setup and applications"/>
+<meta name="twitter:title" content="Elasticsearch Scaling and Resizing"/>
+<meta name="twitter:description" content="Scaling and resizing Elasticsearch to restore healthy status"/>
 
 
 
@@ -284,10 +284,10 @@ if (!doNotTrack) {
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docstroubleshootingtroubleshooting-application-deployment-li">
   <a href="../../../docs/troubleshooting/troubleshooting-application-deployment/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingtroubleshooting-application-deployment"><span class="">Application Deployment</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docstroubleshootingtroubleshooting-elasticsearch-li">
-  <a href="../../../docs/troubleshooting/troubleshooting-elasticsearch/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingtroubleshooting-elasticsearch"><span class="">Elasticsearch Scaling and Resizing</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docstroubleshootingtroubleshooting-multicluster-li">
-  <a href="../../../docs/troubleshooting/troubleshooting-multicluster/" title="Multicluster Verrazzano" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingtroubleshooting-multicluster"><span class="td-sidebar-nav-active-item">Multicluster</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docstroubleshootingtroubleshooting-elasticsearch-li">
+  <a href="../../../docs/troubleshooting/troubleshooting-elasticsearch/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingtroubleshooting-elasticsearch"><span class="td-sidebar-nav-active-item">Elasticsearch Scaling and Resizing</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docstroubleshootingtroubleshooting-multicluster-li">
+  <a href="../../../docs/troubleshooting/troubleshooting-multicluster/" title="Multicluster Verrazzano" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingtroubleshooting-multicluster"><span class="">Multicluster</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docstroubleshootingdiagnostictools-li">
   <a href="../../../docs/troubleshooting/diagnostictools/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docstroubleshootingdiagnostictools"><span class="">Diagnostic Tools</span></a>
   <ul class="ul-3 foldable">
@@ -438,9 +438,9 @@ if (!doNotTrack) {
   <ul>
     <li>
       <ul>
-        <li><a href="#verify-managed-cluster-registration-and-connectivity">Verify managed cluster registration and connectivity</a></li>
-        <li><a href="#verify-verrazzanoproject-placement">Verify VerrazzanoProject placement</a></li>
-        <li><a href="#check-the-multicluster-resource-status">Check the multicluster resource status</a></li>
+        <li><a href="#scaling-elasticsearch-data-nodes">Scaling Elasticsearch data nodes</a></li>
+        <li><a href="#address-the-master-nodes-statefulset">Address the master nodes&rsquo; StatefulSet</a></li>
+        <li><a href="#update-the-verrazzano-custom-resource">Update the Verrazzano Custom Resource</a></li>
       </ul>
     </li>
   </ul>
@@ -501,7 +501,7 @@ if (!doNotTrack) {
 
 
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="../../../docs/troubleshooting/troubleshooting-multicluster/">Multicluster</a>
+	<a href="../../../docs/troubleshooting/troubleshooting-elasticsearch/">Elasticsearch Scaling and Resizing</a>
 </li>
 
 	</ol>
@@ -509,8 +509,8 @@ if (!doNotTrack) {
 
             
 <div class="td-content">
-	<h1>Multicluster Verrazzano</h1>
-	<div class="lead">Troubleshoot issues with multicluster setup and applications</div>
+	<h1>Elasticsearch Scaling and Resizing</h1>
+	<div class="lead">Scaling and resizing Elasticsearch to restore healthy status</div>
 	<header class="article-meta">
 		
 		
@@ -526,102 +526,140 @@ if (!doNotTrack) {
 		
 		
 	</header>    
-	<p>This document describes some common problems you might encounter when using multicluster Verrazzano, and how to troubleshoot them.</p>
-<p>If you created multicluster resources in the admin cluster, and specified a <code>placement</code> value in a managed cluster,
-then those resources will get created in that managed cluster. If they do not get created in the managed cluster, then
-use the following steps to troubleshoot:</p>
-<ul>
-<li>Verify that the managed cluster is registered correctly and can connect to the admin cluster.</li>
-<li>Verify that the VerrazzanoProject for the resource&rsquo;s namespace, also has a <code>placement</code> in that managed cluster.</li>
-<li>Check the multicluster resource&rsquo;s status field on the admin cluster to know what the status of that resource is
-on each managed cluster to which it is targeted.</li>
-</ul>
-<h2 id="verify-managed-cluster-registration-and-connectivity">Verify managed cluster registration and connectivity</h2>
-<p>You can verify that a managed cluster was successfully registered with an admin cluster by viewing the
-corresponding VerrazzanoManagedCluster (VMC) resource on the admin cluster. For example, to verify that a managed cluster
-named <code>managed1</code> was successfully registered:</p>
-<pre><code># on the admin cluster
-$ kubectl get verrazzanomanagedcluster managed1 \
-    -n verrazzano-mc \
-    -o yaml
-</code></pre><p>Partial sample output from the previous command:</p>
-<pre><code>  status:
-    conditions:
-    - lastTransitionTime: &quot;2021-06-22T21:03:27Z&quot;
-      message: Ready
-      status: &quot;True&quot;
-      type: Ready
-    lastAgentConnectTime: &quot;2021-06-22T21:06:04Z&quot;
-    ... other fields ...
-</code></pre><p>Check the <code>lastAgentConnectTime</code> in the status of the VMC resource. This is the last time at which the
-managed cluster connected to the admin cluster. If this value is not present, then the managed cluster named <code>managed1</code>
-never successfully connected to the admin cluster. This could be due to several reasons:</p>
+	<p>This document describes how to recover an Elasticsearch cluster&rsquo;s health after it becomes unhealthy due to unassigned shards or disk pressure.</p>
+<p>It also describes how to scale up the cluster&rsquo;s data nodes and increase the size of the volumes. Because the volume size change in the Verrazzano operator also affects the master nodes volume size, you must take additional steps to address the volume resizing of a StatefulSet.</p>
+<p>First:</p>
+<pre><code># Edit the Verrazzano operator
+$ kubectl -n verrazzano-system edit deploy verrazzano-operator
+</code></pre><p>Then, change the following portion by increasing the number of <code>ES_DATA_NODE_REPLICAS</code> to <code>3</code>, and the <code>ES_DATA_STORAGE</code> to <code>200Gi</code>:</p>
+<pre><code>- name: ES_DATA_NODE_REPLICAS
+  value: &quot;3&quot;
+
+- name: ES_DATA_STORAGE
+  value: &quot;200&quot;
+</code></pre><h2 id="scaling-elasticsearch-data-nodes">Scaling Elasticsearch data nodes</h2>
+<p>Follow this procedure to scale the Elasticsearch data nodes.</p>
+<ol>
+<li>Wait for the new data node pod to become ready and then check the health of the cluster:
+<pre><code>$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
+
+$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/indices
+</code></pre></li>
+<li>When you have a green state, replace the original data node <code>-0</code> pods:
+<pre><code>$ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=0
+$ kubectl -n verrazzano-system scale deploy verrazzano-monitoring-operator --replicas=0
+$ kubectl -n verrazzano-system delete pod/vmi-system-es-data-0-xxxxxxxxx-xxxx pvc/vmi-system-es-data-0
+$ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=1
+$ kubectl -n verrazzano-system scale deploy verrazzano-monitoring-operator --replicas=1
+</code></pre></li>
+<li>Wait for the new data node pod to become ready and then check the health of the cluster:
+<pre><code>$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
+
+$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/indices
+</code></pre></li>
+<li>When you have a green state, replace the original data node <code>-1</code> pods:
+<pre><code>$ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=0
+$ kubectl -n verrazzano-system scale deploy verrazzano-monitoring-operator --replicas=0
+$ kubectl -n verrazzano-system delete pod/vmi-system-es-data-1-xxxxxxxxx-xxxx pvc/vmi-system-es-data-1
+$ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=1
+$ kubectl -n verrazzano-system scale deploy verrazzano-monitoring-operator --replicas=1
+</code></pre></li>
+<li>Wait for the new data node pod to become ready and then check the health of the cluster:
+<pre><code>$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
+
+$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/indices
+</code></pre></li>
+</ol>
+<p>You should now have three data nodes that are healthy and at 200GB volumes.</p>
+<h2 id="address-the-master-nodes-statefulset">Address the master nodes&rsquo; StatefulSet</h2>
+<p>Now to address the master nodes. Because you cannot directly change the size of the volume associated
+with a volume template in a StatefulSet, you must follow this procedure:</p>
 <ol>
 <li>
-<p>The managed cluster registration process step of applying the registration YAML on the managed cluster,
-was not completed. For the complete setup instructions, see <a href="../../../docs/setup/install/multicluster/">here</a>.</p>
+<p>First:</p>
+<pre><code>$ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=0
+$ kubectl -n verrazzano-system scale deploy verrazzano-monitoring-operator --replicas=0
+$ kubectl -n verrazzano-system get sts vmi-system-es-master -o yaml &gt; vmi-system-es-master.yaml
+</code></pre></li>
+<li>
+<p>Edit the file created in the previous command, vmi-system-es-master.yaml</p>
+<p>a. Remove the lines starting with:</p>
+<pre><code>creationTimestamp:
+generation:
+resourceVersion:
+selfLink:
+uid:
+status:
+</code></pre><p>b. Remove every line below status:</p>
+<p>c. Edit the section to increase the storage to the same value that you used for the Verrazzano operator:</p>
+<pre><code>storage: 200Gi
+</code></pre><p>d. Save that file.</p>
 </li>
 <li>
-<p>The managed cluster does not have network connectivity to the admin cluster. The managed cluster will attempt to
-connect to the admin cluster at regular intervals, and any errors will be reported in the
-<code>verrazzano-application-operator</code> pod&rsquo;s log on the <em>managed</em> cluster. View the logs using the following command.</p>
-</li>
+<p>The following command will delete the StatefulSet, but allow the associated pods to continue to run.</p>
+<pre><code>$ kubectl -n verrazzano-system delete sts vmi-system-es-master --cascade=orphan
+</code></pre></li>
+<li>
+<p>Then run this command to recreate the StatefulSet with the new volume size defined:</p>
+<pre><code>$ kubectl -n verrazzano-system apply -f vmi-system-es-master.yaml
+</code></pre></li>
+<li>
+<p>The next steps are to delete the existing master node pods, one at a time, allowing the cluster to become healthy before moving on to the next node:</p>
+<pre><code>$ kubectl -n verrazzano-system delete pod/vmi-system-es-master-0 pvc/elasticsearch-master-vmi-system-es-master-0
+</code></pre></li>
+<li>
+<p>Wait for the new master node pod to become ready and then check the health of the cluster:</p>
+<pre><code>$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
+
+$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/indices
+</code></pre></li>
+<li>
+<p>When the cluster is healthy, continue to the next master node:</p>
+<pre><code>$ kubectl -n verrazzano-system delete pod/vmi-system-es-master-1 pvc/elasticsearch-master-vmi-system-es-master-1
+</code></pre></li>
+<li>
+<p>Wait for the new master node pod to become ready and then check the health of the cluster:</p>
+<pre><code>$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
+
+$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/indices
+</code></pre></li>
+<li>
+<p>When the cluster is healthy, continue to the next master node:</p>
+<pre><code>$ kubectl -n verrazzano-system delete pod/vmi-system-es-master-2 pvc/elasticsearch-master-vmi-system-es-master-2
+</code></pre></li>
+<li>
+<p>Wait for the new master node pod to become ready and then check the health of the cluster:</p>
+<pre><code>$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
+
+$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/indices
+</code></pre></li>
+<li>
+<p>When the cluster is healthy rescale the operators:</p>
+<pre><code>$ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=1
+$ kubectl -n verrazzano-system scale deploy verrazzano-monitoring-operator --replicas=1
+</code></pre></li>
 </ol>
-<pre><code># on the managed cluster
-$ kubectl logs \
-    -n verrazzano-system \
-    -l app=verrazzano-application-operator
-</code></pre><p>If these logs reveal that there is a connectivity issue, check the admin cluster Kubernetes server address that
-you provided during registration and ensure that it is correct, and that it is reachable from the managed cluster. If it
-is incorrect, then you will need to repeat the managed cluster registration process described in the setup instructions
-<a href="../../../docs/setup/install/multicluster/">here</a>.</p>
-<h2 id="verify-verrazzanoproject-placement">Verify VerrazzanoProject placement</h2>
-<p>For Verrazzano to create an application namespace in a managed cluster, that namespace must be part of a VerrazzanoProject
-that:</p>
+<h2 id="update-the-verrazzano-custom-resource">Update the Verrazzano Custom Resource</h2>
+<p>Now you will edit the Verrazzano CR, so that when you upgrade, the above changes will not be overwritten. Follow this procedure:</p>
 <ol>
-<li>Includes that namespace.</li>
-<li>Has a <code>placement</code> value that includes that managed cluster.</li>
-</ol>
-<p>View the details of the project that corresponds to your application&rsquo;s namespace. In the example command that follows, the
-project name is assumed to be <code>myproject</code>. All projects are expected to be created in the <code>verrazzano-mc</code> namespace.</p>
-<pre><code># on the admin cluster
-$ kubectl get verrazzanoproject myproject \
-    -n verrazzano-mc \
-    -o yaml
-</code></pre><p>The following partial sample output is for a project that will result in the namespace <code>mynamespace</code> being created on the managed
-cluster <code>managed1</code>.</p>
+<li>Get the namespace and name of the Verrazzano CR:
+<pre><code>$ kubectl get vz -A
+</code></pre></li>
+<li>Edit the Verrazzano CR:
+<pre><code>$ kubectl -n &lt;namespace&gt; edit vz &lt;name&gt;
+</code></pre><p>a. Alter to include the following:</p>
 <pre><code>spec:
-  placement:
-    clusters:
-    - name: managed1
-  template:
-    namespaces:
-    - metadata:
-        name: mynamespace
-....other fields....
-</code></pre><h2 id="check-the-multicluster-resource-status">Check the multicluster resource status</h2>
-<p>On the admin cluster, each multicluster resource&rsquo;s status field is updated with the status of the underlying resource
-on each managed cluster in which it is placed.</p>
-<p>The following example command shows how to view the status of a MultiClusterApplicationConfiguration named <code>myapp</code>, in
-the namespace <code>mynamespace</code>, that has a <code>placement</code> value that includes the managed cluster <code>managed1</code></p>
-<pre><code>$ kubectl get multiclusterapplicationconfiguration myapp \
-    -n mynamespace \
-    -o yaml
-</code></pre><p>The status of the underlying resource in each cluster specified in the placement is shown in the following partial sample
-output:</p>
-<pre><code>  status:
-    clusters:
-    - lastUpdateTime: &quot;2021-06-22T21:05:04Z&quot;
-      message: OAM Application Configuration created
-      name: managed1
-      state: Succeeded
-    conditions:
-    - lastTransitionTime: &quot;2021-06-22T21:03:58Z&quot;
-      message: OAM Application Configuration created
-      status: &quot;True&quot;
-      type: DeployComplete
-    state: Succeeded
-</code></pre><p>The status message contains additional information on the operation&rsquo;s success or failure.</p>
+  components:
+    elasticsearch:
+      installArgs:
+      - name: nodes.data.replicas
+        value: &quot;3&quot;
+      - name: nodes.data.requests.storage
+        value: 200Gi
+</code></pre><p>b. Save the changes.</p>
+</li>
+</ol>
+<p>This completes the process.</p>
 
 	
 		<style>
