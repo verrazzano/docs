@@ -48,7 +48,7 @@ the API will change to OpenSearch in an upcoming release.
 apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
-  name: custom-es-example
+  name: custom-opensearch-example
 spec:
   profile: dev
   components:
@@ -142,7 +142,7 @@ automatically pruned every 14 days, and will be rolled over if an index meets at
 apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
-  name: custom-es-example
+  name: custom-opensearch-example
 spec:
   profile: dev
   components:
