@@ -67,3 +67,4 @@ component with its version and a brief description.
 | Rancher                      | 2.5.9   | Manages multiple Kubernetes clusters.                                                |
 | WebLogic Kubernetes Operator | 3.3.7   | Assists with deploying and managing WebLogic domains.                                |
 | Prometheus Operator          | 0.49.0  | Provides management for Prometheus monitoring tools.                                 |
+| Prometheus Adapter           | 0.9.1   | Provides metrics in support of pod autoscaling.                                      |

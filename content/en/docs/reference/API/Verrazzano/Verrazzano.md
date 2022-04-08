@@ -67,6 +67,7 @@ spec:
 | `grafana`            | [GrafanaComponent](#grafana-component)                            | The Grafana component configuration.               | No       |
 | `kiali`              | [KialiComponent](#kiali-component)                                | The Kiali component configuration.                 | No       |
 | `prometheusOperator` | [PrometheusOperatorComponent](#prometheus-operator-component)     | The Prometheus Operator component configuration.   | No       |
+| `prometheusAdapter`  | [PrometheusAdapterComponent](#prometheus-adapter-component)       | The Prometheus Adapter component configuration.    | No       |
 
 ### AuthProxy Component
 | Field | Type | Description | Required
@@ -290,3 +291,8 @@ spec:
 | Field     | Type    | Description                                              | Required |
 |-----------|---------|----------------------------------------------------------|----------|
 | `enabled` | Boolean | If true, then the Prometheus Operator will be installed. | No       |
+
+### Prometheus Adapter Component
+| Field     | Type    | Description                                              | Required |
+|-----------|---------|----------------------------------------------------------|----------|
+| `enabled` | Boolean | If true, then the Prometheus Adapter will be installed.  | No       |
