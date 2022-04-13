@@ -68,7 +68,7 @@ spec:
 | `kiali`              | [KialiComponent](#kiali-component)                                | The Kiali component configuration.                 | No       |
 | `prometheusOperator` | [PrometheusOperatorComponent](#prometheus-operator-component)     | The Prometheus Operator component configuration.   | No       |
 | `prometheusAdapter`  | [PrometheusAdapterComponent](#prometheus-adapter-component)       | The Prometheus Adapter component configuration.    | No       |
-
+| `kubeStateMetrics`   | [KubeStateMetricsComponent](#kube-state-metrics-component)        | The Prometheus Adapter component configuration.    | No       |
 ### AuthProxy Component
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
@@ -296,3 +296,8 @@ spec:
 | Field     | Type    | Description                                              | Required |
 |-----------|---------|----------------------------------------------------------|----------|
 | `enabled` | Boolean | If true, then the Prometheus Adapter will be installed.  | No       |
+
+### Kube State Metrics Component
+| Field     | Type    | Description                                         | Required |
+|-----------|---------|-----------------------------------------------------|----------|
+| `enabled` | Boolean | If true, then kube-state-metrics will be installed. | No       |
