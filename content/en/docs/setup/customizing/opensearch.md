@@ -22,7 +22,7 @@ You can customize the node characteristics of your OpenSearch cluster by using t
 field in the Verrazzano custom resource.  When installing or upgrading Verrazzano, you can use this field to
 define an OpenSearch cluster using node groups.
 
-Backwards compatibility for Helm overrides can be configured using [spec.components.elasticsearch.installArgs](/docs/reference/api/verrazzano/verrazzano/#opensearch-install-args)),
+To support backwards compatibility, Helm overrides can be configured using [spec.components.elasticsearch.installArgs](/docs/reference/api/verrazzano/verrazzano/#opensearch-install-args)),
 though it is recommended to configure your cluster using `nodes` instead.
 
 The following example overrides the `dev` installation profile, OpenSearch configuration (a single-node cluster with
