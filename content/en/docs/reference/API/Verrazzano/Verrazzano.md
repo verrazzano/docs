@@ -239,8 +239,35 @@ spec:
 | `enabled` | Boolean | If true, then OpenSearch will be installed. | No |
 | `installArgs` | [OpenSearchInstallArgs](#opensearch-install-args) list | A list of values to use during OpenSearch installation.  Each argument is specified as either a `name/value` or `name/valueList` pair.  For sample usage, see [Customize OpenSearch](/docs/setup/customizing/opensearch/).| No |
 | `policies` | [Policy](#opensearch-index-management-policies) list | A list of [Index State Management]({{<opensearch_docs_url>}}/im-plugin/ism/index/) policies to enable on OpenSearch. | No |
+| `nodes` | [Node](#opensearch-node-groups) list | A list of OpenSearch node groups. | No |
+
+#### OpenSearch Node Groups
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `name` | string | Name of the node group. | Yes |
+| `replicas` | integer | Node group replica count. | No |
+| `roles` | list | Role(s) that nodes in the group will assume. May be "master", "data", and/or "ingest" | Yes |
+| `storage` | [Storage](#opensearch-node-group-storage) | Storage settings for the node group. | No |
+| `resources` | [Resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) | Kubernetes container resources for nodes in the node group. | No |
+
+#### OpenSearch Node Group Storage
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `size` | string | Node group storage size expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity). | Yes |
+
+#### OpenSearch Index Management Policies
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `policyName` | string | Name of the Index State Management policy. | Yes |
+| `indexPattern` | string | An Index Pattern is an index name or pattern like `my-index-*`. If an index matches the pattern, the associated policy will attach to the index. | Yes |
+| `minIndexAge` | [Time]({{<opensearch_docs_url>}}/opensearch/units/) | Amount of time until a managed index is deleted. Default is 7 days (7d). | No |
+| `rollover` | [Rollover](#opensearch-index-management-rollover) | Index rollover settings. | No |
 
 #### OpenSearch Install Args
+
+Users are recommended to use [OpenSearch Node Groups](#opensearch-node-groups) to configure OpenSearch instead of install args. 
+Install Args continue to be supported for backwards compatibility.
+
 | Name | Type | ValueType | Description | Required
 | --- | --- | --- | --- | --- |
 | `nodes.master.replicas` | [NameValue](#name-value) | string  | The number of master node replicas. |  No |
@@ -251,14 +278,6 @@ spec:
 | `nodes.data.replicas` | [NameValue](#name-value) | string  | The number of data node replicas. |  No |
 | `nodes.data.requests.memory` | [NameValue](#name-value) |  string  | The data node memory request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity). |  No |
 | `nodes.data.requests.storage` | [NameValue](#name-value) |  string  | The data storage request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity). |  No |
-
-#### OpenSearch Index Management Policies
-| Field | Type | Description | Required
-| --- | --- | --- | --- |
-| `policyName` | string | Name of the Index State Management policy. | Yes |
-| `indexPattern` | string | An Index Pattern is an index name or pattern like `my-index-*`. If an index matches the pattern, the associated policy will attach to the index. | Yes |
-| `minIndexAge` | [Time]({{<opensearch_docs_url>}}/opensearch/units/) | Amount of time until a managed index is deleted. Default is 7 days (7d). | No |
-| `rollover` | [Rollover](#opensearch-index-management-rollover) | Index rollover settings. | No |
 
 #### OpenSearch Index Management Rollover
 | Field | Type | Description | Required
