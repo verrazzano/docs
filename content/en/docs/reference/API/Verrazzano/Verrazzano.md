@@ -246,7 +246,7 @@ spec:
 | --- | --- | --- | --- |
 | `name` | string | Name of the node group. | Yes |
 | `replicas` | integer | Node group replica count. | No |
-| `roles` | list | Role(s) that nodes in the group will assume. May be "master", "data", and/or "ingest" | Yes |
+| `roles` | list | Role(s) that nodes in the group will assume. May be `master`, `data`, and/or `ingest`. | Yes |
 | `storage` | [Storage](#opensearch-node-group-storage) | Storage settings for the node group. | No |
 | `resources` | [Resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) | Kubernetes container resources for nodes in the node group. | No |
 
@@ -260,13 +260,12 @@ spec:
 | --- | --- | --- | --- |
 | `policyName` | string | Name of the Index State Management policy. | Yes |
 | `indexPattern` | string | An Index Pattern is an index name or pattern like `my-index-*`. If an index matches the pattern, the associated policy will attach to the index. | Yes |
-| `minIndexAge` | [Time]({{<opensearch_docs_url>}}/opensearch/units/) | Amount of time until a managed index is deleted. Default is 7 days (7d). | No |
+| `minIndexAge` | [Time]({{<opensearch_docs_url>}}/opensearch/units/) | Amount of time until a managed index is deleted. Default is seven days (7d). | No |
 | `rollover` | [Rollover](#opensearch-index-management-rollover) | Index rollover settings. | No |
 
 #### OpenSearch Install Args
 
-Users are recommended to use [OpenSearch Node Groups](#opensearch-node-groups) to configure OpenSearch instead of install args. 
-Install Args continue to be supported for backwards compatibility.
+To configure OpenSearch, instead of using install args, Oracle recommnds that you use [OpenSearch Node Groups](#opensearch-node-groups).
 
 | Name | Type | ValueType | Description | Required
 | --- | --- | --- | --- | --- |
