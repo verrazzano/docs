@@ -18,112 +18,102 @@ configurations provided by Verrazzano.
 ## Configure cluster topology
 
 You can customize the node characteristics of your OpenSearch cluster by using the
-[spec.components.elasticsearch.installArgs](/docs/reference/api/verrazzano/verrazzano/#opensearch-component)
-field in the Verrazzano custom resource.  When installing Verrazzano, you can use this field to specify a list of Helm
-value overrides for the OpenSearch configuration.
+[spec.components.elasticsearch.nodes](/docs/reference/api/verrazzano/verrazzano/#opensearch-component)
+field in the Verrazzano custom resource.  When installing or upgrading Verrazzano, you can use this field to
+define an OpenSearch cluster using node groups.
 
-These Helm overrides let you customize the following node characteristics:
-* Number of node replicas.
-* Memory request size per node.
-* Storage request size (data nodes only).
-
-The following table lists the Helm values in the Verrazzano system chart related to OpenSearch nodes.
-
-| Name | Description
-| ------------- |:-------------
-| `nodes.master.replicas` | Number of master node replicas.
-| `nodes.master.requests.memory` | Memory request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity).
-| `nodes.master.requests.storage` | Storage request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity).
-| `nodes.ingest.replicas` | Number of ingest node replicas.
-| `nodes.ingest.requests.memory` | Memory request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity).
-| `nodes.data.replicas` | Number of data node replicas.
-| `nodes.data.requests.memory` | Memory request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity).
-| `nodes.data.requests.storage` | Storage request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity).
+To support backward compatibility, Helm overrides can be configured using [spec.components.elasticsearch.installArgs](/docs/reference/api/verrazzano/verrazzano/#opensearch-install-args)),
+though it is recommended to configure your cluster using `nodes` instead.
 
 The following example overrides the `dev` installation profile, OpenSearch configuration (a single-node cluster with
-1Gi of memory and ephemeral storage) to use a multi-node cluster with persistent storage. Note that the public API references Elasticsearch, 
-the API will change to OpenSearch in an upcoming release.
+1Gi of memory and ephemeral storage) to use a multi-node cluster (three master nodes, and three combination data/ingest nodes) with persistent storage.
+Note that the public API references Elasticsearch, the API will change to OpenSearch in an upcoming release.
 
 ```yaml
 apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
   name: custom-opensearch-example
-spec:
+spec:`````
   profile: dev
   components:
     elasticsearch:
+      nodes:
+        - name: master
+          replicas: 3
+          roles:
+            - master
+          storage:
+            size: 50Gi
+          resources:
+            requests:
+              memory: 1.5Gi
+        - name: data-ingest
+          replicas: 3
+          roles:
+            - data
+            - ingest
+          storage:
+            size: 100Gi
+          resources:
+            requests:
+              memory: 1Gi
+            
+      # Override the default cluster settings, since we are providing our own topology.  
       installArgs:
       - name: nodes.master.replicas
-        value: "1"
-      - name: nodes.master.requests.memory
-        value: "1G"
-      - name: nodes.master.requests.storage
-        value: "5Gi"
+        value: "0"
       - name: nodes.ingest.replicas
-        value: "1"
-      - name: nodes.ingest.requests.memory
-        value: "1G"
+        value: "0"
       - name: nodes.data.replicas
-        value: "3"
-      - name: nodes.data.requests.memory
-        value: "1.5G"
-      - name: nodes.data.requests.storage
-        value: "10Gi"
+        value: "0"
 ```
 
 Listing the pods and persistent volumes in the `verrazzano-system` namespace for the previous configuration
 shows the expected nodes are running with the appropriate data volumes:
 
 ```
-$ kubectl  get pvc,pod -n verrazzano-system
+$ kubectl get pvc,pod -l verrazzano-component=opensearch -n verrazzano-system
 
 # Sample output
-NAME                                                                STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
-persistentvolumeclaim/elasticsearch-master-vmi-system-es-master-0   Bound    pvc-8ffff457-4d72-4a72-89ba-2cdcb8eade38   10Gi       RWO            standard       6m51s
-persistentvolumeclaim/vmi-system-es-data                            Bound    pvc-e32c2182-46ba-4789-b577-195874b3dd69   10Gi       RWO            standard       6m53s
-persistentvolumeclaim/vmi-system-es-data-1                          Bound    pvc-67789196-d688-4d06-b074-77655a913552   10Gi       RWO            standard       6m53s
-persistentvolumeclaim/vmi-system-es-data-2                          Bound    pvc-43e07e3e-0713-4ab1-ac3f-812069c35cbb   10Gi       RWO            standard       6m53s
+NAME                                                             STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+persistentvolumeclaim/elasticsearch-master-vmi-system-master-0   Bound    pvc-9ace042a-dd68-4975-816d-f2ca0dc4d9d8   50Gi       RWO            standard       5m22s
+persistentvolumeclaim/elasticsearch-master-vmi-system-master-1   Bound    pvc-8bf68c2c-235e-4bd5-8741-5a5cd3453934   50Gi       RWO            standard       5m21s
+persistentvolumeclaim/elasticsearch-master-vmi-system-master-2   Bound    pvc-da8a48b1-5762-4669-98f0-8479f30043fc   50Gi       RWO            standard       5m21s
+persistentvolumeclaim/vmi-system-data-ingest                     Bound    pvc-7ad9f275-632b-4aac-b7bf-c5115215937c   100Gi      RWO            standard       5m23s
+persistentvolumeclaim/vmi-system-data-ingest-1                   Bound    pvc-8a293e51-2c20-4cae-916b-1ce46a780403   100Gi      RWO            standard       5m23s
+persistentvolumeclaim/vmi-system-data-ingest-2                   Bound    pvc-0025fcef-1d8c-4307-977c-3921545c6730   100Gi      RWO            standard       5m22s
 
-NAME                                                   READY   STATUS    RESTARTS   AGE
-pod/coherence-operator-6986d6cf95-6b58p                1/1     Running   2          7m3s
-pod/fluentd-fn28c                                      2/2     Running   2          7m12s
-pod/oam-kubernetes-runtime-679c6f6775-79tvm            1/1     Running   0          5m11s
-pod/verrazzano-api-58c5f65c8-6zbpc                     2/2     Running   0          7m12s
-pod/verrazzano-application-operator-5766b899fd-9fjhb   1/1     Running   0          4m55s
-pod/verrazzano-console-6599854544-pw56c                2/2     Running   0          7m12s
-pod/verrazzano-monitoring-operator-55877766d4-9ktvh    1/1     Running   0          7m12s
-pod/verrazzano-operator-75b5cd49fc-68cm4               1/1     Running   0          7m12s
-pod/vmi-system-es-data-0-5884cfb84d-hn8xg              2/2     Running   0          6m52s
-pod/vmi-system-es-data-1-679775494f-pdwzf              2/2     Running   0          6m52s
-pod/vmi-system-es-data-2-5886d745c5-6pscm              2/2     Running   0          6m52s
-pod/vmi-system-es-ingest-795749ddd8-cs4pc              3/3     Running   0          6m52s
-pod/vmi-system-es-master-0                             2/2     Running   0          6m51s
-pod/vmi-system-grafana-b94fcbb67-ktwf8                 3/3     Running   0          6m52s
-pod/vmi-system-kibana-6594cfccc-j8gp5                  3/3     Running   0          6m51s
-pod/vmi-system-prometheus-0-75864fc668-s5xv8           4/4     Running   0          44s
-pod/weblogic-operator-5bd7bb6fb5-wz5cr                 2/2     Running   0          6m30s
+NAME                                                   READY   STATUS     RESTARTS   AGE
+pod/coherence-operator-6ffb6bbd4d-bpssc                1/1     Running    1          8m2s
+pod/fluentd-ndshl                                      2/2     Running    0          5m51s
+pod/oam-kubernetes-runtime-85cfd899d8-z9gv6            1/1     Running    0          8m14s
+pod/verrazzano-application-operator-5fbcdf6655-72tw9   1/1     Running    0          7m49s
+pod/verrazzano-authproxy-5f9d479455-5bvvt              2/2     Running    0          7m43s
+pod/verrazzano-console-5b857d7b47-djbrk                2/2     Running    0          5m51s
+pod/verrazzano-monitoring-operator-b4b446567-pgnfw     2/2     Running    0          5m51s
+pod/vmi-system-data-ingest-0-5485dcd95d-rkhvk          2/2     Running    0          5m21s
+pod/vmi-system-data-ingest-1-8d7db6489-kdhbv           2/2     Running    1          5m21s
+pod/vmi-system-data-ingest-2-699d6bdd9c-z7nzx          2/2     Running    0          5m21s
+pod/vmi-system-grafana-7947cdd84b-b7mks                2/2     Running    0          5m21s
+pod/vmi-system-kiali-6c7bd6658b-d2zq9                  2/2     Running    0          5m37s
+pod/vmi-system-kibana-7d47f65dfc-zhjxp                 2/2     Running    0          5m21s
+pod/vmi-system-master-0                                2/2     Running    0          5m21s
+pod/vmi-system-master-1                                2/2     Running    0          5m21s
+pod/vmi-system-master-2                                2/2     Running    0          5m21s
+pod/vmi-system-prometheus-0-5fd9d66b4c-x57sv           3/3     Running    0          5m21s
+pod/weblogic-operator-666b548749-lj66t                 2/2     Running    0          7m48s
 ```
 
-Note that the `master` node uses the same amount of persistent storage as is configured for the data nodes.
-
-Running the command `kubectl describe pod -n verrazzano-system vmi-system-es-data-0-5884cfb84d-hn8xg` shows the
+Running the command `kubectl describe pod -n verrazzano-system vmi-system-data-ingest-0-5485dcd95d-rkhvk` shows the
 requested amount of memory:
 
 ```
 Containers:
   es-data:
-    Container ID:  containerd://cc01f24b107da0e1e90a05a49c7fd969761f59a81316fa01f7cc56a166684628
-    Image:         ghcr.io/verrazzano/opensearch:1.2.3-20220207214930-833b159de83
-    Image ID:      ghcr.io/verrazzano/elasticsearch@sha256:3d2cbb539f9ebba991c6f36db4fbaa9dc9c03e6192a28787869f7850cc2bd66c
-    Ports:         9200/TCP, 9300/TCP
-    Host Ports:    0/TCP, 0/TCP
-    State:          Running
-      Started:      Thu, 29 Jul 2021 06:04:17 +0000
-    Ready:          True
-    Restart Count:  0
+    ...
     Requests:
-      memory:   1500M
+      memory:   1Gi
 ```
 
 ## Configure Index State Management policies
