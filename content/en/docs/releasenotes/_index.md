@@ -4,6 +4,26 @@ linkTitle: Release Notes
 weight: 13
 draft: false
 ---
+
+### v1.2.1
+Fixes:
+
+- Fixed upgrade issue with private registry.
+- Fixed bug of the public image of WebLogic Monitoring Exporter being used in a private registry configuration.
+- Fixed intermittent upgrade failure while upgrading from Verrazzano v1.0.2 to v1.2.0.
+- Fixed console UI error when viewing WebLogic applications.
+- Fixed console UI error when displaying an application that is targeted to a managed cluster that has not completed the registration process.
+- Fixed console UI issue of not displaying the traits for an OAM application.
+- Fixed bug of verrazzano-application-operator pod continually crashing and restarting.
+- Fixed bug of the WebLogic workload logHome value being ignored and always using /scratch/log.
+- Fixed bug of Prometheus not scraping metrics in Verrazzano managed namespaces that do not have Istio injection enabled.
+- The Verrazzano operators no longer have watches on resources in the kube-system namespace.
+- Updated Keycloak image to address CVEs.
+
+Known Issues:
+
+- Importing a Kubernetes v1.21 cluster into Rancher might not work properly. Rancher does not currently support Kubernetes v1.21.
+
 ### v1.2.0
 Features:
 
