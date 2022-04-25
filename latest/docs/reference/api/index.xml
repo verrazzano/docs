@@ -427,13 +427,15 @@ spec:
           source_labels:
             - name
           target_label: webapp
+      {{`{{ if index .namespace.metadata.labels &amp;quot;istio-injection&amp;quot; }}`}}
+      {{`{{ if eq (index .namespace.metadata.labels &amp;quot;istio-injection&amp;quot; ) &amp;quot;enabled&amp;quot; }}`}}
       scheme: https
-      {{`{{ if eq ( index .namespace.metadata.labels &amp;quot;istio-injection&amp;quot; ) &amp;quot;enabled&amp;quot; }}`}}
       tls_config:
         ca_file: /etc/istio-certs/root-cert.pem
         cert_file: /etc/istio-certs/cert-chain.pem
         insecure_skip_verify: true
         key_file: /etc/istio-certs/key.pem
+      {{`{{ end }}`}}
       {{`{{ end }}`}}
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For more information on using the Metrics Template, see &lt;a href=&#34;../../../docs/monitoring/metrics/metrics/#metrics-template&#34;&gt;Metrics Template&lt;/a&gt;.&lt;/p&gt;
 &lt;h4 id=&#34;metricstemplate&#34;&gt;MetricsTemplate&lt;/h4&gt;
@@ -1497,7 +1499,7 @@ spec:
         
         &lt;p&gt;The Verrazzano custom resource contains the configuration information for an installation.
 Here is a sample Verrazzano custom resource file that uses OCI DNS.  See other examples
-&lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.2.0/platform-operator/config/samples&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.2.1/platform-operator/config/samples&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
