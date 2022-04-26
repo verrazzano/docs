@@ -31,7 +31,7 @@ spec:
 Jaeger is installed using the Jaeger Custom Resource Definition. The following example shows you how to install Jaeger inside the Istio mesh using the 
 Verrazzano system OpenSearch cluster as a tracing backend.
 
-Before creating the Jaeger instance, create a secret containing the OpenSearch username and password.
+Before creating the Jaeger instance, create a secret containing the OpenSearch user name and password.
 Jaeger will use these credentials to connect to OpenSearch:
 
 ```
