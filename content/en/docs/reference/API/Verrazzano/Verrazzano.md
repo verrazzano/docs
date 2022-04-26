@@ -60,6 +60,7 @@ spec:
 | `ingress`            | [IngressComponent](#ingress-component)                            | The ingress component configuration.               | No       |
 | `istio`              | [IstioComponent](#istio-component)                                | The Istio component configuration.                 | No       |
 | `fluentd`            | [FluentdComponent](#fluentd-component)                            | The Fluentd component configuration.               | No       |
+| `jaegerOperator`    | [JaegerOperatorComponent](#jaeger-operator-component)              | The Jaeger Operator component configuration.       | No       |
 | `keycloak`           | [KeycloakComponent](#keycloak-component)                          | The Keycloak component configuration.              | No       |
 | `elasticsearch`      | [OpenSearchComponent](#opensearch-component)                      | The OpenSearch component configuration.            | No       |
 | `prometheus`         | [PrometheusComponent](#prometheus-component)                      | The Prometheus component configuration.            | No       |
@@ -206,6 +207,11 @@ spec:
 | `elasticsearchURL` | string | The target OpenSearch URLs.  Specify this option in [this format](https://docs.fluentd.org/output/elasticsearch#hosts-optional).  The default `http://vmi-system-es-ingest-oidc:8775` is the VMI OpenSearch URL. | No |
 | `elasticsearchSecret` | string | The secret containing the credentials for connecting to OpenSearch.  This secret needs to be created in the `verrazzano-install` namespace prior to creating the Verrazzano custom resource.  Specify the OpenSearch login credentials in the `username` and `password` fields in this secret.  Specify the CA for verifying the OpenSearch certificate in the `ca-bundle` field, if applicable.  The default `verrazzano` is the secret for connecting to the VMI OpenSearch. | No |
 | `oci` | [OCILoggingConfiguration](#oci-logging-configuration) | The OCI Logging configuration. | No |
+
+### Jaeger Operator Component
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `enabled` | Boolean | If true, then Jaeger Operator will be installed. | No |
 
 #### Extra Volume Mount
 | Field | Type | Description | Required
