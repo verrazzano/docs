@@ -6,7 +6,7 @@ weight: 1
 draft: false
 ---
 
-Jaeger is a distributed tracing system, used for monitoring and troubleshooting microservices. 
+Jaeger is a distributed tracing system used for monitoring and troubleshooting microservices. 
 For more information on Jaeger, visit the [Jaeger website](https://www.jaegertracing.io/).
 
 ## Install Jaeger Operator
@@ -28,16 +28,19 @@ spec:
 
 ## Install Jaeger using the Jaeger Operator
 
-Jaeger is installed using the Jaeger Custom Resource Definition. An example is provided below to install Jaeger inside the Istio mesh using the 
+Jaeger is installed using the Jaeger Custom Resource Definition. The following example shows you how to install Jaeger inside the Istio mesh using the 
 Verrazzano system OpenSearch cluster as a tracing backend.
 
-Before creating the Jaeger instance, create a secret that Jaeger will use to load OpenSearch credentials from, using your OpenSearch username and password:
+Before creating the Jaeger instance, create a secret containing the OpenSearch username and password.
+Jaeger will use these credentials to connect to OpenSearch:
 
 ```
 kubectl create secret generic jaeger-secret \
   --from-literal=ES_PASSWORD=<OPENSEARCH PASSWORD> \
   --from-literal=ES_USERNAME=<OPENSEARCH USERNAME>
 ```
+
+Use the following YAML to create the Jaeger resource:
 
 ```yaml
 apiVersion: jaegertracing.io/v1
@@ -75,6 +78,21 @@ spec:
         secretName: system-tls-es-ingest
 ```
 
+The Jaeger Operator will create services for query and collection. After applying the example resource, you should see similar output by listing 
+Jaeger resources:
+```
+$ kubectl get services,deployments -l app.kubernetes.io/instance=verrazzano-prod -n verrazzano-system
+
+NAME                                         TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)                                  AGE
+service/verrazzano-prod-collector            ClusterIP   10.96.76.108   <none>        9411/TCP,14250/TCP,14267/TCP,14268/TCP   52m
+service/verrazzano-prod-collector-headless   ClusterIP   None           <none>        9411/TCP,14250/TCP,14267/TCP,14268/TCP   52m
+service/verrazzano-prod-query                ClusterIP   10.96.205.8    <none>        16686/TCP,16685/TCP                      52m
+
+NAME                                        READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/verrazzano-prod-collector   1/1     1            1           52m
+deployment.apps/verrazzano-prod-query       1/1     1            1           52m
+```
+
 ## Configure an application to export traces to Jaeger
 
 If your application is configured to use tracing libraries, Jaeger can be instructed to export those traces using annotations.
@@ -82,10 +100,10 @@ To export traces, annotate your applications with the `"sidecar.jaegertracing.io
 This annotation instructs Jaeger to inject an agent sidecar into application pods. Make sure to use your Jaeger instance name
 to ensure traces are exported to the correct Jaeger instance.
 
-From the above example, the annotation is `"sidecar.jaegertracing.io/injected": verrazzano-prod`
+From the previous example, the annotation is `"sidecar.jaegertracing.io/injected": verrazzano-prod`
 
 ## View traces on the Jaeger UI
 
-The UI can be viewed by port forwarding the Jaeger query service, or configured to use an ingress controller for HTTPS access.
-Jaeger configuration can be explored in more detail using the 
+You can view the UI by port forwarding the Jaeger query service or by configuring an ingress controller for HTTPS access.
+Explore the Jaeger configuration in more detail using the
 [Jaeger Custom Resource Documentation](https://www.jaegertracing.io/docs/1.33/operator/#configuring-the-custom-resource).
