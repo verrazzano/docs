@@ -74,19 +74,22 @@ Here are example use cases for these plug-ins:
 # ----   EOF      ----
 ```
 
-For more details, see the [Fluentd plugins](https://github.com/verrazzano/fluentd-kubernetes-daemonset/tree/oracle-build-from-source-v1.12/docker-image/v1.12/oraclelinux-elasticsearch7/plugins) folder.
+For more details, see the [Fluentd plugins](https://github.com/verrazzano/fluentd-kubernetes-daemonset/tree/oracle-build-from-source-v1.14/docker-image/v1.14/oraclelinux-elasticsearch7/plugins) folder.
 
 ## Fluentd DaemonSet
 Verrazzano deploys a Fluentd DaemonSet which runs one Fluentd replica per node in the `verrazzano-system` namespace.
-Each instance pulls logs from the node's `/var/log/containers` directory and writes them to the target OpenSearch index.  The index name is based on the namespace associated with the record, using this format: `verrazzano-namespace-<record namespace>`.
+Each instance pulls logs from the node's `/var/log/containers` directory and writes them to the target OpenSearch data stream.
+Verrazzano system applications receive special handling, and write their logs to the `verrazzano-system` data stream.
+Verrazzano application logs are exported to a data stream based on the application's namespace, following this format: `verrazzano-application-<application namespace>`.
 
-For example, `vmi-system-kibana` logs written to `/var/log/containers` will be pulled by Fluentd and written to OpenSearch.  The index used is named `verrazzano-namespace-verrazzano-system` because the VMI runs in the `verrazzano-system` namespace.
+For example, `vmi-system-kibana` logs written to `/var/log/containers` will be pulled by Fluentd and written to OpenSearch.  The logs are exported
+to the `verrazzano-system` data stream, because `vmi-system-kibana` is a Verrazzano system application. For a non-system application, if it is in the `myapp` namespace,
+its logs will be exported to the `verrazzano-application-myapp` data stream.
 
-The same approach is used for both system and application logs.
 ## OpenSearch
-Verrazzano creates an OpenSearch deployment as the store and search engine for the logs processed by Fluentd.  Records written by Fluentd can be queried using the OpenSearch REST API.
+Verrazzano creates an OpenSearch cluster as the store and search engine for the logs processed by Fluentd.  Records written by Fluentd can be queried using the OpenSearch REST API.
 
-For example, you can use `curl` to get all of the OpenSearch indexes. First, you must get the password for the `verrazzano` user and the host for the VMI OpenSearch.
+For example, you can use `curl` to get all of the OpenSearch data streams. First, you must get the password for the `verrazzano` user and the host for the VMI OpenSearch.
 ```
 $ PASS=$(kubectl get secret \
     --namespace verrazzano-system verrazzano \
@@ -97,15 +100,15 @@ $ HOST=$(kubectl get ingress \
     -o jsonpath={.spec.rules[0].host})
 
 $ curl -ik \
-   --user verrazzano:$PASS https://$HOST/_cat/indices
+   --user verrazzano:$PASS https://$HOST/_data_stream
 ```
 
-To see all of the records for a specific index, do the following:
+To see all of the records for a specific data stream, do the following:
 ```
-$ INDEX=verrazzano-namespace-todo-list
+$ DATA_STREAM=verrazzano-application-todo-list
 
 $ curl -ik \
-    --user verrazzano:$PASS https://$HOST/$INDEX/_doc/_search?q=message:*
+    --user verrazzano:$PASS https://$HOST/$DATA_STREAM/_search?q=message:*
 ```
 
 Verrazzano provides support for [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}}). The production profile (`prod`), which is the default, provides a 3-node OpenSearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile (`dev`) provides a single node OpenSearch and no persistent storage for the VMI. The `managed-cluster` profile does not install OpenSearch or OpenSearch Dashboards in the local cluster; all logs are forwarded to the admin cluster's OpenSearch instance.
@@ -129,16 +132,18 @@ OpenSearch Dashboards is a visualization dashboard for the content indexed on an
 
 To access the OpenSearch Dashboards console, read [Access Verrazzano]({{< relref "/docs/access/_index.md" >}}).
 
-To see the records of an OpenSearch index through OpenSearch Dashboards, create an index pattern to filter for records under the desired index.  
+To see the records of an OpenSearch index or data stream through OpenSearch Dashboards, create an index pattern to filter for records under the desired data stream or index.  
 
-For example, to see the log records of a WebLogic application deployed to the `todo-list` namespace, create an index pattern of `verrazzano-namespace-todo-*`.
+For example, to see the log records of a WebLogic application deployed to the `todo-list` namespace, create an index pattern of `verrazzano-application-todo-*`.
 
-![OpenSearch Dashboards](/docs/images/opensearch.png)
+![OpenSearch Dashboards](/docs/images/opensearch-dashboards-todo.png)
 
 ## Log rotation
 
-We recommend configuring log rotation for OpenSearch using a periodic job to purge or snapshot old records.
-A basic implementation of log rotation is provided in the following example, implemented using a Kubernetes CronJob.
+We recommend configuring log rotation for OpenSearch using Index State Management (ISM) or a periodic job to purge or snapshot old records.
+For information on configuring OpenSearch ISM, see the [ISM setup page]({{< relref "/docs/setup/customizing/opensearch#configure-index-state-management-policies" >}})
+
+A basic implementation of job-based log rotation (not using ISM) is provided in the following example, implemented using a Kubernetes CronJob.
 To install the log rotation example on your cluster, save the snippet into a file and make the following modifications:
 
 - Substitue the value of `OPENSEARCH_HOST` with your specific OpenSearch HTTPS endpoint.

@@ -135,9 +135,9 @@ we recommend that you specify `replicaCount` defined on ManualScalerTrait and le
 When a containerized Helidon application is provisioned on Verrazzano, Verrazzano will configure the default logging
 and send logs to OpenSearch. Logs can be viewed using the OpenSearch Dashboards console.
 
-The logs are placed in a per-namespace OpenSearch index named `verrazzano-namespace-<namespace>`,
-for example: `verrazzano-namespace-hello-helidon`.  All logs from containerized Helidon application pods in the same namespace will
-go into the same index, even for different applications.  This is standard behavior and there is no way to disable or change it.
+The logs are placed in a per-namespace OpenSearch data stream named `verrazzano-application-<namespace>`,
+for example: `verrazzano-application-hello-helidon`.  All logs from containerized Helidon application pods in the same namespace will
+go into the same data stream, even for different applications.  This is standard behavior and there is no way to disable or change it.
 
 ### Metrics
 
