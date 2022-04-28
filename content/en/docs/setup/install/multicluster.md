@@ -359,7 +359,7 @@ An alternative approach to using the Prometheus UI is to query metrics from the 
 Verify that the admin cluster is collecting logs from the managed cluster.  The output will include records which have the name of the managed cluster in the `cluster_name` field.
 
 You can find the OpenSearch Dashboards UI URL for your cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/access/_index.md" >}}).
-Searching the `verrazzano-system` data stream for log records with the `cluster_name` set to the managed cluster name yields logs for the manage cluster.
+Searching the `verrazzano-system` data stream for log records with the `cluster_name` set to the managed cluster name yields logs for the managed cluster.
 
 **Sample output of a OpenSearch Dashboards screen**
 

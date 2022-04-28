@@ -84,7 +84,7 @@ Verrazzano application logs are exported to a data stream based on the applicati
 
 For example, `vmi-system-kibana` logs written to `/var/log/containers` will be pulled by Fluentd and written to OpenSearch.  The logs are exported
 to the `verrazzano-system` data stream, because `vmi-system-kibana` is a Verrazzano system application. For a non-system application, if it is in the `myapp` namespace,
-its logs will be exported to the `verrazzano-application-myapp` data stream.
+then its logs will be exported to the `verrazzano-application-myapp` data stream.
 
 ## OpenSearch
 Verrazzano creates an OpenSearch cluster as the store and search engine for the logs processed by Fluentd.  Records written by Fluentd can be queried using the OpenSearch REST API.
@@ -141,7 +141,7 @@ For example, to see the log records of a WebLogic application deployed to the `t
 ## Log rotation
 
 We recommend configuring log rotation for OpenSearch using Index State Management (ISM) or a periodic job to purge or snapshot old records.
-For information on configuring OpenSearch ISM, see the [ISM setup page]({{< relref "/docs/setup/customizing/opensearch#configure-index-state-management-policies" >}})
+For information on configuring OpenSearch ISM, see the [ISM setup page]({{< relref "/docs/setup/customizing/opensearch#configure-index-state-management-policies" >}}).
 
 A basic implementation of job-based log rotation (not using ISM) is provided in the following example, implemented using a Kubernetes CronJob.
 To install the log rotation example on your cluster, save the snippet into a file and make the following modifications:

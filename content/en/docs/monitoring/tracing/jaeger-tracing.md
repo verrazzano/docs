@@ -95,7 +95,7 @@ deployment.apps/verrazzano-prod-query       1/1     1            1           52m
 
 ## Configure an application to export traces to Jaeger
 
-If your application is configured to use tracing libraries, or in the Istio mesh, Jaeger can be instructed to export those traces using annotations.
+If your application is configured to use tracing libraries, or in the Istio mesh, you can instruct Jaeger to export those traces using annotations.
 To export traces, annotate your applications with the `"sidecar.jaegertracing.io/injected": "true"` annotation.
 
 ## View traces on the Jaeger UI
