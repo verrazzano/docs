@@ -359,8 +359,7 @@ An alternative approach to using the Prometheus UI is to query metrics from the 
 Verify that the admin cluster is collecting logs from the managed cluster.  The output will include records which have the name of the managed cluster in the `cluster_name` field.
 
 You can find the OpenSearch Dashboards UI URL for your cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/access/_index.md" >}}).
-Create an index for `verrazzano-namespace-verrazzano-system`.  Some log records will have the `cluster_name` field populated with the name of
-the managed cluster.
+Searching the `verrazzano-system` data stream for log records with the `cluster_name` set to the managed cluster name yields logs for the managed cluster.
 
 **Sample output of a OpenSearch Dashboards screen**
 
@@ -374,7 +373,7 @@ An alternative approach to using the OpenSearch Dashboards UI is to query OpenSe
    $ VZPASS=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
               get secret verrazzano --namespace verrazzano-system \
               -o jsonpath={.data.password} | base64 --decode; echo)
-   $ curl -k --user verrazzano:${VZPASS} -X POST -H 'kbn-xsrf: true' "${OSD_URL}/elasticsearch/verrazzano-namespace-verrazzano-system/_search?size=25"
+   $ curl -k --user verrazzano:${VZPASS} -X POST -H 'kbn-xsrf: true' "${OSD_URL}/elasticsearch/verrazzano-system/_search?size=25"
    ```
 
 ## Run applications in multicluster Verrazzano

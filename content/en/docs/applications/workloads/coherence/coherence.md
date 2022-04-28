@@ -100,9 +100,9 @@ Fluentd sidecar.  This sidecar periodically copies the Coherence logs from `/log
 in the `verrazzano-system` namespace to send the logs to OpenSearch.  Note that the Fluend sidecar running in the Coherence
 pod never communicates with OpenSearch or any other network endpoint.
 
-The logs are placed in a per-namespace OpenSearch index named `verrazzano-namespace-<namespace>`,
-for example: `verrazzano-namespace-sockshop`.  All logs from Coherence pods in the same namespace will
-go into the same index, even for different applications.  This is standard behavior and there is no way to disable or change it.
+The logs are placed in a per-namespace OpenSearch data stream named `verrazzano-application-<namespace>`,
+for example: `verrazzano-application-sockshop`.  All logs from Coherence pods in the same namespace will
+go into the same data stream, even for different applications.  This is standard behavior and there is no way to disable or change it.
 
 Each log record has some Coherence and application fields, along with the log message itself.  For example:
 ```
