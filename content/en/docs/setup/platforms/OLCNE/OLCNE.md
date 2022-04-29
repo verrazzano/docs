@@ -252,6 +252,7 @@ Use these port values for the Istio ingress gateway load balancer backend.
 | `istio-ingressgateway`                        | TCP   | 80                      | TBD         |
 | `istio-ingressgateway`                        | TCP   | 443                     | TBD         |
 
+
 #### OCI example
 The following details can be used to create OCI load balancers for accessing application and management user interfaces, respectively.
 These load balancers will route HTTP/HTTPS traffic from the Internet to the private subnet.
@@ -358,7 +359,9 @@ Set the following environment variable:
 
 The value for `<path to valid Kubernetes config>` is typically `${HOME}/.kube/config`.
 
+```
 $ export KUBECONFIG=$VERRAZZANO_KUBECONFIG
+```
 
 {{% alert title="NOTE" color="warning" %}}
 When a Cloud Load Balancer is setup as an Application Load Balancer in Verrazzano, it is possible that [SNI](https://www.cloudflare.com/en-in/learning/ssl/what-is-sni/) is not forwarded from the Load Balancer to the `istio-ingressgateway` as described in this [link](https://istio.io/latest/docs/ops/common-problems/network-issues/?_ga=2.71843408.277402657.1650537788-2065972972.1650537788#configuring-sni-routing-when-not-sending-sni). This may result in traffic not getting routed to the application service. In order to make it work, we need to edit the `Gateway` resource and add `*` to the `hosts` list.
