@@ -358,7 +358,6 @@ You will install Verrazzano using the `external` DNS type (the example custom re
 Set the following environment variable:
 
 The value for `<path to valid Kubernetes config>` is typically `${HOME}/.kube/config`.
-
 ```
 $ export KUBECONFIG=$VERRAZZANO_KUBECONFIG
 ```
