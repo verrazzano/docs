@@ -14,4 +14,4 @@ Analysis detected that there were pods which had issues due to failures to pull 
 2. Confirm that the image name, digest, and tag are correctly specified.
 
 ### Related information
-* [Kubernetes Troubleshooting](https://kubernetes.io/docs/tasks/debug-application-cluster/troubleshooting/)
+* [Kubernetes Troubleshooting](https://kubernetes.io/docs/tasks/debug/)

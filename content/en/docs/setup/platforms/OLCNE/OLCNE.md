@@ -6,7 +6,7 @@ weight: 7
 draft: false
 ---
 
-## Prepare for the Oracle Cloud Native Environment install
+## Prepare for the Oracle Cloud Native Environment installation
 [Oracle Cloud Native Environment](https://docs.oracle.com/en/operating-systems/olcne/) can be installed in several different types of environments.
 These range from physical, on-premises hardware to virtualized cloud infrastructure.
 The Oracle Cloud Native Environment installation instructions assume that networking and compute resources already exist.
@@ -102,7 +102,7 @@ Private Subnet Route Table Rules
 
 **Service Gateway**
 
-The following compute resources adhere to the guidelines provided in the [Oracle Cloud Native Environment: Getting Started](https://docs.oracle.com/en/operating-systems/olcne/).
+The following compute resources adhere to the guidelines provided in [Oracle Cloud Native Environment: Getting Started](https://docs.oracle.com/en/operating-systems/olcne/).
 The attributes indicated (for example, Subnet, RAM, Shape, and Image) are recommendations that have been tested.
 Other values can be used if required.
 
@@ -118,12 +118,12 @@ Other values can be used if required.
 | Kubernetes Worker Node 3      | Private | 32GB          | VM.Standard.E2.4    | Oracle Linux 7.8    |
 
 ## Install Oracle Cloud Native Environment
-Deploy Oracle Cloud Native Environment with the Kubernetes module, following instructions from the [Oracle Cloud Native Environment: Getting Started](https://docs.oracle.com/en/operating-systems/olcne/) guide.
+Deploy Oracle Cloud Native Environment with the Kubernetes module, following instructions from [Oracle Cloud Native Environment: Getting Started](https://docs.oracle.com/en/operating-systems/olcne/).
 * Use a single Kubernetes control plane node.
 * Skip the Kubernetes API load balancer ([3.4.3](https://docs.oracle.com/en/operating-systems/olcne/1.1/start/install-lb.html)).
 * Use private CA certificates ([3.5.3](https://docs.oracle.com/en/operating-systems/olcne/1.1/start/certs-private.html)).
 
-## Prepare for the Verrazzano install
+## Prepare for the Verrazzano installation
 
 A Verrazzano Oracle Cloud Native Environment deployment requires:
 * A default storage provider that supports "Multiple Read/Write" mounts. For example, an NFS service like:
@@ -230,7 +230,7 @@ You must install Verrazzano to get the target ports for each load balancer backe
 In the following table, those ports are marked TBD. Run the following command to get the target
 ports for the NGINX Ingress Controller:
 ```
-kubectl get service ingress-controller-ingress-nginx-controller -n ingress-nginx
+$ kubectl get service ingress-controller-ingress-nginx-controller -n ingress-nginx
 ```
 In the `PORT(S)` column you will see the target port associated with port 80 and 443, for example: `80:30080/TCP,443:30443`.  
 Use these target port values for the NGINX Ingress Controller load balancer backend.
@@ -243,7 +243,7 @@ Use these target port values for the NGINX Ingress Controller load balancer back
 ##### Backend for application load balancer
 Get the target ports for the Istio ingress gateway service using the following command:
 ```
-kubectl get service  istio-ingressgateway  -n  istio-system
+$ kubectl get service  istio-ingressgateway  -n  istio-system
 ```
 Use these port values for the Istio ingress gateway load balancer backend.
 

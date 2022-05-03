@@ -19,7 +19,7 @@ custom logs. **Do not** create an agent configuration when creating a custom log
 ## Configure credentials
 The Fluentd plug-in included with Verrazzano will use Oracle Cloud Infrastructure instance principal authentication by default. Optionally, you
 can configure Verrazzano with a user API signing key. API signing key authentication is required to send logs to
-Oracle Cloud Infrastructure Logging if the cluster is running outside of  Oracle Cloud Infrastructure.
+Oracle Cloud Infrastructure Logging if the cluster is running outside of Oracle Cloud Infrastructure.
 
 {{< tabs tabTotal="2" tabID="1" tabName1="Instance Principal Credentials" tabName2="User API Credentials">}}
 {{< tab tabNum="1" >}}
@@ -37,14 +37,14 @@ If the dynamic group and policy are configured incorrectly, then Fluentd will fa
 {{< tab tabNum="2" >}}
 <br>
 
-If you do not already have an API signing key, then see [Required Keys and OCIDS](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm)
+If you do not already have an API signing key, then see [Required Keys and OCIDs](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm)
 in the Oracle Cloud Infrastructure documentation. You need to create an Oracle Cloud Infrastructure configuration file with the credential details and then use that
 configuration file to create a secret. The following requirements must be met for Fluentd Oracle Cloud Infrastructure Logging to work:
 1. The profile name in the Oracle Cloud Infrastructure configuration file must be `DEFAULT`.
 1. The `key_file` path in the Oracle Cloud Infrastructure configuration file must be `/root/.oci/key`. The actual key file does not need to be in
    that location, because you will be providing the actual key file location in a secret.
 1. The user associated with the API key must have the appropriate Oracle Cloud Infrastructure Identity and Access Management (IAM) policy
-in place to allow the Fluentd plug-in to send logs to  Oracle Cloud Infrastructure. See [Details for Logging](https://docs.oracle.com/en-us/iaas/Content/Identity/Reference/loggingpolicyreference.htm)
+in place to allow the Fluentd plug-in to send logs to Oracle Cloud Infrastructure. See [Details for Logging](https://docs.oracle.com/en-us/iaas/Content/Identity/Reference/loggingpolicyreference.htm)
 in the Oracle Cloud Infrastructure documentation for the IAM policies used by the Oracle Cloud Infrastructure Logging service.
 
 After the Verrazzano platform operator has been installed, create an opaque secret in the `verrazzano-install` namespace

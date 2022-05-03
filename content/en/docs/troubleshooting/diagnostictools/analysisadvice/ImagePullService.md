@@ -20,4 +20,4 @@ The service might be unreachable or might be incorrect.
 ### Related information
 * [GitHub Status](https://www.githubstatus.com/)
 * [Oracle Cloud Infrastructure Status](https://ocistatus.oraclecloud.com/)
-* [Kubernetes Troubleshooting](https://kubernetes.io/docs/tasks/debug-application-cluster/troubleshooting/)
+* [Kubernetes Troubleshooting](https://kubernetes.io/docs/tasks/debug/)

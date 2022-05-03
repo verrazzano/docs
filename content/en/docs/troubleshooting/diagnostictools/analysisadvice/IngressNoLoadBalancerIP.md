@@ -17,4 +17,4 @@ Refer to the platform-specific environment setup for your platform [here]({{< re
 
 ### Related information
 * [Platform Setup]({{< relref "/docs/setup/platforms/_index.md" >}})
-* [Kubernetes Troubleshooting](https://kubernetes.io/docs/tasks/debug-application-cluster/troubleshooting/)
+* [Kubernetes Troubleshooting](https://kubernetes.io/docs/tasks/debug/)

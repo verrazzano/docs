@@ -18,5 +18,5 @@ The root cause appears to be that the load balancer service limit has been reach
 
 ### Related information
 * [Platform Setup]({{< relref "/docs/setup/platforms/_index.md" >}})
-* [Kubernetes Troubleshooting](https://kubernetes.io/docs/tasks/debug-application-cluster/troubleshooting/)
+* [Kubernetes Troubleshooting](https://kubernetes.io/docs/tasks/debug/)
 * [More information on load balancers](https://docs.oracle.com/en-us/iaas/Content/Balance/Concepts/balanceoverview.htm)
