@@ -35,7 +35,7 @@ Before creating the Jaeger instance, create a secret containing the OpenSearch u
 Jaeger will use these credentials to connect to OpenSearch:
 
 ```
-kubectl create secret generic jaeger-secret \
+$ kubectl create secret generic jaeger-secret \
   --from-literal=ES_PASSWORD=<OPENSEARCH PASSWORD> \
   --from-literal=ES_USERNAME=<OPENSEARCH USERNAME>
 ```
@@ -105,7 +105,7 @@ Explore the Jaeger configuration in more detail using the
 [Jaeger Custom Resource Documentation](https://www.jaegertracing.io/docs/1.33/operator/#configuring-the-custom-resource).
 
 
-## Configure the Istio mesh to use Jaeger Tracing
+## Configure the Istio mesh to use Jaeger tracing
 
 Istio mesh traffic can be viewed by enabling Istio's distributed tracing integration. Traces from the Istio mesh provide observability on application traffic
 that passes through Istio's ingress and egress gateways.
@@ -132,7 +132,7 @@ After enabling tracing, Istio will automatically configure itself with the Jaege
 and any new Istio-injected pods will begin exporting traces to Jaeger. Existing pods require a restart 
 to pull the new Istio configuration and start sending traces.
 
-By default, Istio samples traces at a 1% rate, meaning 1 in 100 requests will be traced in Jaeger.
+Istio's default sampling rate is 1%, meaning 1 in 100 requests will be traced in Jaeger.
 If you want a different sampling rate, configure your desired rate using the `meshConfig.defaultConfig.tracing.sampling` Istio install argument:
 
 ```yaml
