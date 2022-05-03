@@ -214,7 +214,7 @@ data:
     </item>
     
     <item>
-      <title>Docs: OCI Logging Service</title>
+      <title>Docs: Oracle Cloud Infrastructure Logging Service</title>
       <link>/docs/monitoring/oci-logging/oci-logging/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -222,18 +222,18 @@ data:
       <description>
         
         
-        &lt;p&gt;The Oracle Cloud Infrastructure (OCI) Logging service is a highly scalable and fully managed single pane of glass for
-all the logs in your tenancy. You can configure Verrazzano to send logs to OCI Logging instead of OpenSearch.
-For general information, see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/loggingoverview.htm&#34;&gt;OCI Logging Overview&lt;/a&gt;.&lt;/p&gt;
+        &lt;p&gt;The Oracle Cloud Infrastructure Logging service is a highly scalable and fully managed single pane of glass for
+all the logs in your tenancy. You can configure Verrazzano to send logs to Oracle Cloud Infrastructure Logging instead of OpenSearch.
+For general information, see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/loggingoverview.htm&#34;&gt;Oracle Cloud Infrastructure Logging Overview&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;set-up-custom-logs&#34;&gt;Set up custom logs&lt;/h2&gt;
-&lt;p&gt;Verrazzano can send its logs to OCI custom logs. You will need to provide two OCI Log identifiers in your Verrazzano
+&lt;p&gt;Verrazzano can send its logs to Oracle Cloud Infrastructure custom logs. You will need to provide two Oracle Cloud Infrastructure Log identifiers in your Verrazzano
 installation resource - one for Verrazzano system logs and one for application logs. Follow the steps in
 &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/custom_logs.htm&#34;&gt;Creating Custom Logs&lt;/a&gt; to create two
 custom logs. &lt;strong&gt;Do not&lt;/strong&gt; create an agent configuration when creating a custom log, otherwise the log records will be duplicated.&lt;/p&gt;
 &lt;h2 id=&#34;configure-credentials&#34;&gt;Configure credentials&lt;/h2&gt;
-&lt;p&gt;The Fluentd plug-in included with Verrazzano will use OCI instance principal authentication by default. Optionally, you
+&lt;p&gt;The Fluentd plug-in included with Verrazzano will use Oracle Cloud Infrastructure instance principal authentication by default. Optionally, you
 can configure Verrazzano with a user API signing key. API signing key authentication is required to send logs to
-OCI Logging if the cluster is running outside of OCI.&lt;/p&gt;
+Oracle Cloud Infrastructure Logging if the cluster is running outside of Oracle Cloud Infrastructure.&lt;/p&gt;
 &lt;nav&gt;
 	&lt;div class=&#34;nav nav-tabs&#34; id=&#34;nav-tab&#34; role=&#34;tablist&#34;&gt;
 
@@ -282,7 +282,7 @@ OCI Logging if the cluster is running outside of OCI.&lt;/p&gt;
 &lt;p&gt;Create a dynamic group that includes the compute instances in your cluster&amp;rsquo;s node pools and assign the appropriate policy,
 so that the dynamic group is allowed to send log entries to the custom logs you created earlier. Pay close attention to
 the &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Task/managinglogs.htm#required_permissions_logs_groups&#34;&gt;required permissions&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;If the dynamic group and policy are configured incorrectly, then Fluentd will fail to send logs to OCI Logging.&lt;/p&gt;
+&lt;p&gt;If the dynamic group and policy are configured incorrectly, then Fluentd will fail to send logs to Oracle Cloud Infrastructure Logging.&lt;/p&gt;
 &lt;br/&gt;
 
 
@@ -299,19 +299,19 @@ the &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Task/mana
 &lt;div class=&#34;tab-pane fade&#34; id=&#34;tab12&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName2&#34;&gt;
 
 	&lt;br&gt;
-&lt;p&gt;If you do not already have an API signing key, then see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm&#34;&gt;Required Keys and OCIDS&lt;/a&gt;
-in the OCI documentation. You need to create an OCI configuration file with the credential details and then use that
-configuration file to create a secret. The following requirements must be met for Fluentd OCI Logging to work:&lt;/p&gt;
+&lt;p&gt;If you do not already have an API signing key, then see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm&#34;&gt;Required Keys and OCIDs&lt;/a&gt;
+in the Oracle Cloud Infrastructure documentation. You need to create an Oracle Cloud Infrastructure configuration file with the credential details and then use that
+configuration file to create a secret. The following requirements must be met for Fluentd Oracle Cloud Infrastructure Logging to work:&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;The profile name in the OCI configuration file must be &lt;code&gt;DEFAULT&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;The &lt;code&gt;key_file&lt;/code&gt; path in the OCI configuration file must be &lt;code&gt;/root/.oci/key&lt;/code&gt;. The actual key file does not need to be in
+&lt;li&gt;The profile name in the Oracle Cloud Infrastructure configuration file must be &lt;code&gt;DEFAULT&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;key_file&lt;/code&gt; path in the Oracle Cloud Infrastructure configuration file must be &lt;code&gt;/root/.oci/key&lt;/code&gt;. The actual key file does not need to be in
 that location, because you will be providing the actual key file location in a secret.&lt;/li&gt;
-&lt;li&gt;The user associated with the API key must have the appropriate OCI Identity and Access Management (IAM) policy
-in place to allow the Fluentd plug-in to send logs to OCI. See &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Identity/Reference/loggingpolicyreference.htm&#34;&gt;Details for Logging&lt;/a&gt;
-in the OCI documentation for the IAM policies used by the OCI Logging service.&lt;/li&gt;
+&lt;li&gt;The user associated with the API key must have the appropriate Oracle Cloud Infrastructure Identity and Access Management (IAM) policy
+in place to allow the Fluentd plug-in to send logs to Oracle Cloud Infrastructure. See &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Identity/Reference/loggingpolicyreference.htm&#34;&gt;Details for Logging&lt;/a&gt;
+in the Oracle Cloud Infrastructure documentation for the IAM policies used by the Oracle Cloud Infrastructure Logging service.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;After the Verrazzano platform operator has been installed, create an opaque secret in the &lt;code&gt;verrazzano-install&lt;/code&gt; namespace
-from the OCI configuration and private key files. The key for the configuration file must be &lt;code&gt;config&lt;/code&gt; and the key
+from the Oracle Cloud Infrastructure configuration and private key files. The key for the configuration file must be &lt;code&gt;config&lt;/code&gt; and the key
 for the private key file data must be &lt;code&gt;key&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Here is an example &lt;code&gt;kubectl&lt;/code&gt; command that will create the secret.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ kubectl create secret generic oci-fluentd -n verrazzano-install \
@@ -328,7 +328,7 @@ metadata:
 type: Opaque
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For convenience, there is a helper script available
 &lt;a href=&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/v1.2.1/platform-operator/scripts/install/create_oci_fluentd_secret.sh&#34;&gt;here&lt;/a&gt; that
-you can point at an existing OCI configuration file and it will create the secret for you. The script allows you to
+you can point at an existing Oracle Cloud Infrastructure configuration file and it will create the secret for you. The script allows you to
 override the default configuration file location, profile name, and the name of the secret.&lt;/p&gt;
 
 
@@ -340,7 +340,7 @@ override the default configuration file location, profile name, and the name of 
 
 &lt;/div&gt;
 &lt;h2 id=&#34;install-verrazzano&#34;&gt;Install Verrazzano&lt;/h2&gt;
-&lt;p&gt;OCI Logging is enabled in your cluster when installing Verrazzano. The Verrazzano installation custom resource has fields
+&lt;p&gt;Oracle Cloud Infrastructure Logging is enabled in your cluster when installing Verrazzano. The Verrazzano installation custom resource has fields
 for specifying two custom logs: one for system logs and one for application logs. Here is an example Verrazzano
 installation YAML file for each type of credential.
 Note that the API references Kibana, upcoming releases will use OpenSearch Dashboards in the public API.&lt;/p&gt;
@@ -422,7 +422,7 @@ spec:
 
 	&lt;br&gt;
 &lt;p&gt;When using user API credentials, you need to configure the name of the secret in the Verrazzano custom resource,
-under the OCI section of the Fluentd component settings. Your YAML file should look something like this.&lt;/p&gt;
+under the Oracle Cloud Infrastructure section of the Fluentd component settings. Your YAML file should look something like this.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
@@ -451,7 +451,7 @@ spec:
 
 &lt;/div&gt;
 &lt;h2 id=&#34;override-the-default-log-objects&#34;&gt;Override the default log objects&lt;/h2&gt;
-&lt;p&gt;You can override the OCI Log object on an individual namespace. To specify a log identifier on a namespace, add an annotation named &lt;code&gt;verrazzano.io/oci-log-id&lt;/code&gt; to the namespace. The value of the annotation is the OCI Log object identifier.&lt;/p&gt;
+&lt;p&gt;You can override the Oracle Cloud Infrastructure Log object on an individual namespace. To specify a log identifier on a namespace, add an annotation named &lt;code&gt;verrazzano.io/oci-log-id&lt;/code&gt; to the namespace. The value of the annotation is the Oracle Cloud Infrastructure Log object identifier.&lt;/p&gt;
 &lt;p&gt;Here is an example namespace.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: v1
 kind: Namespace
@@ -468,11 +468,11 @@ spec:
   - kubernetes
 status:
   phase: Active
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that if you add and subsequently remove the annotation, then the logs will revert to the default OCI Log object
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that if you add and subsequently remove the annotation, then the logs will revert to the default Oracle Cloud Infrastructure Log object
 specified in the Verrazzano custom resource.&lt;/p&gt;
 &lt;h2 id=&#34;search-logs&#34;&gt;Search logs&lt;/h2&gt;
-&lt;p&gt;To search Verrazzano logs, you can use the OCI Console, OCI CLI, or OCI SDK.&lt;/p&gt;
-&lt;p&gt;For example, using the OCI CLI to search the system logs for records emitted by the &lt;code&gt;verrazzano-application-operator&lt;/code&gt; container.&lt;/p&gt;
+&lt;p&gt;To search Verrazzano logs, you can use the Oracle Cloud Infrastructure Console, Oracle Cloud Infrastructure CLI, or Oracle Cloud Infrastructure SDK.&lt;/p&gt;
+&lt;p&gt;For example, using the Oracle Cloud Infrastructure CLI to search the system logs for records emitted by the &lt;code&gt;verrazzano-application-operator&lt;/code&gt; container.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ oci logging-search search-logs --search-query=\
      &amp;quot;search \&amp;quot;ocid1.compartment.oc1..example/ocid1.loggroup.oc1.iad.example/ocid1.log.oc1.iad.example\&amp;quot; | \
      where \&amp;quot;data\&amp;quot;.\&amp;quot;kubernetes.container_name\&amp;quot; = &#39;verrazzano-application-operator&#39; | sort by datetime desc&amp;quot; \
@@ -484,10 +484,10 @@ specified in the Verrazzano custom resource.&lt;/p&gt;
      --time-start 2021-12-07 --time-end 2021-12-17
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For more information on searching logs, see the &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Reference/query_language_specification.htm&#34;&gt;Logging Query Language Specification&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h2&gt;
-&lt;p&gt;If you are not able to view Verrazzano logs in OCI Logging, then check the Fluentd container logs in the cluster to see if there are errors.&lt;/p&gt;
+&lt;p&gt;If you are not able to view Verrazzano logs in Oracle Cloud Infrastructure Logging, then check the Fluentd container logs in the cluster to see if there are errors.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ kubectl logs -n verrazzano-system -l app=fluentd --tail=-1
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you see &lt;code&gt;not authorized&lt;/code&gt; error messages, then there is likely a problem with the OCI Dynamic Group or IAM policy that is preventing the Fluentd plug-in from communicating with the OCI API.&lt;/p&gt;
-&lt;p&gt;To ensure the appropriate permissions are in place, review the OCI Logging &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Task/managinglogs.htm#required_permissions_logs_groups&#34;&gt;required permissions&lt;/a&gt; documentation.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you see &lt;code&gt;not authorized&lt;/code&gt; error messages, then there is likely a problem with the Oracle Cloud Infrastructure Dynamic Group or IAM policy that is preventing the Fluentd plug-in from communicating with the Oracle Cloud Infrastructure API.&lt;/p&gt;
+&lt;p&gt;To ensure the appropriate permissions are in place, review the Oracle Cloud Infrastructure Logging &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Task/managinglogs.htm#required_permissions_logs_groups&#34;&gt;required permissions&lt;/a&gt; documentation.&lt;/p&gt;
 
       </description>
     </item>
