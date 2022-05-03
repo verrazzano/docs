@@ -16,7 +16,7 @@ On an OKE install, this may indicate that there is a missing ingress rule or rul
   1. Get the ports for the `LoadBalancer` services.
      * Run `kubectl get services -A`.
      * Note the ports for the `LoadBalancer` type services.  For example `80:31541/TCP,443:31739/TCP`.
-  2. Check the security lists in the OCI Console.
+  2. Check the security lists in the Oracle Cloud Infrastructure Console.
      * Go to `Networking/Virtual Cloud Networks`.
      * Select the related VCN.
      * Go to the `Security Lists` for the VCN.

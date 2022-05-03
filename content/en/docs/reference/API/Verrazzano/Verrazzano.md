@@ -6,7 +6,7 @@ draft: false
 ---
 
 The Verrazzano custom resource contains the configuration information for an installation.
-Here is a sample Verrazzano custom resource file that uses OCI DNS.  See other examples
+Here is a sample Verrazzano custom resource file that uses Oracle Cloud Infrastructure DNS.  See other examples
 [here]( {{< release_source_url path=platform-operator/config/samples >}} ).
 
 ```
@@ -107,7 +107,7 @@ spec:
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `wildcard` | [DNS-Wilcard](#dns-wildcard) | Wildcard DNS configuration. This is the default with a domain of `nip.io`. | No |
-| `oci` | [DNS-OCI](#dns-oci) | OCI DNS configuration. | No |
+| `oci` | [DNS-OCI](#dns-oci) | Oracle Cloud Infrastructure DNS configuration. | No |
 | `external` | [DNS-External](#dns-external) | External DNS configuration. | No |
 
 #### DNS Wildcard
@@ -115,14 +115,14 @@ spec:
 | --- | --- | --- | --- |
 | `domain` | string | The type of wildcard DNS domain. For example, `nip.io`, `sslip.io`, and such. |  Yes |
 
-#### DNS OCI
+#### DNS Oracle Cloud Infrastructure
 | Field | Type | Description                                                                                                                                                                                                                                                       | Required
 | --- | --- |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| --- |
-| `ociConfigSecret` | string | Name of the OCI configuration secret.  Generate a secret based on the OCI configuration profile you want to use.  You can specify a profile other than DEFAULT and specify the secret name.  See instructions by running `./install/create_oci_config_secret.sh`. | Yes |
-| `dnsZoneCompartmentOCID` | string | The OCI DNS compartment OCID.                                                                                                                                                                                                                                     |  Yes |
-| `dnsZoneOCID` | string | The OCI DNS zone OCID.                                                                                                                                                                                                                                            |  Yes |
-| `dnsZoneName` | string | Name of OCI DNS zone.                                                                                                                                                                                                                                             |  Yes |
-| `dnsScope` | string | Scope of the OCI DNS zone (PRIVATE, GLOBAL). If not specified, then defaults to GLOBAL.                                                                                                                                                                           | No |
+| `ociConfigSecret` | string | Name of the Oracle Cloud Infrastructure configuration secret.  Generate a secret based on the Oracle Cloud Infrastructure configuration profile you want to use.  You can specify a profile other than DEFAULT and specify the secret name.  See instructions by running `./install/create_oci_config_secret.sh`. | Yes |
+| `dnsZoneCompartmentOCID` | string | The Oracle Cloud Infrastructure DNS compartment. OCID.                                                                                                                                                                                                                                     |  Yes |
+| `dnsZoneOCID` | string | The Oracle Cloud Infrastructure DNS zone. OCID.                                                                                                                                                                                                                                            |  Yes |
+| `dnsZoneName` | string | Name of Oracle Cloud Infrastructure DNS. zone.                                                                                                                                                                                                                                             |  Yes |
+| `dnsScope` | string | Scope of the Oracle Cloud Infrastructure DNS zone (PRIVATE, GLOBAL). If not specified, then defaults to GLOBAL.                                                                                                                                                                           | No |
 #### DNS External
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
@@ -203,7 +203,7 @@ spec:
 | `extraVolumeMounts` | [ExtraVolumeMount](#extra-volume-mount) list | A list of host path volume mounts in addition to `/var/log` into the Fluentd DaemonSet. The Fluentd component collects log files in the `/var/log/containers` directory of Kubernetes worker nodes. The `/var/log/containers` directory may contain symbolic links to files located outside the `/var/log` directory. If the host path directory containing the log files is located outside of `/var/log`, the Fluentd DaemonSet must have the volume mount of that directory to collect the logs. | No |
 | `elasticsearchURL` | string | The target OpenSearch URLs.  Specify this option in [this format](https://docs.fluentd.org/output/elasticsearch#hosts-optional).  The default `http://vmi-system-es-ingest-oidc:8775` is the VMI OpenSearch URL. | No |
 | `elasticsearchSecret` | string | The secret containing the credentials for connecting to OpenSearch.  This secret needs to be created in the `verrazzano-install` namespace prior to creating the Verrazzano custom resource.  Specify the OpenSearch login credentials in the `username` and `password` fields in this secret.  Specify the CA for verifying the OpenSearch certificate in the `ca-bundle` field, if applicable.  The default `verrazzano` is the secret for connecting to the VMI OpenSearch. | No |
-| `oci` | [OCILoggingConfiguration](#oci-logging-configuration) | The OCI Logging configuration. | No |
+| `oci` | [OCILoggingConfiguration](#oci-logging-configuration) | The Oracle Cloud Infrastructure Logging configuration. | No |
 
 #### Extra Volume Mount
 | Field | Type | Description | Required
@@ -212,13 +212,13 @@ spec:
 | `destination` | string | The destination path on the Fluentd Container, defaults to the `source` host path. |  No |
 | `readOnly` | Boolean | Specifies if the volume mount is read-only, defaults to `true`. |  No |
 
-#### OCI Logging Configuration
+#### Oracle Cloud Infrastructure Logging Configuration
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `systemLogId` | string | The OCID of the OCI Log that will collect system logs. | Yes |
-| `defaultAppLogId` | string | The OCID of the OCI Log that will collect application logs. | Yes |
-| `apiSecret` | string | The name of the secret containing the OCI API configuration and private key. | No |
+| `systemLogId` | string | The OCID of the Oracle Cloud Infrastructure Log that will collect system logs. | Yes |
+| `defaultAppLogId` | string | The OCID of the Oracle Cloud Infrastructure Log that will collect application logs. | Yes |
+| `apiSecret` | string | The name of the secret containing the Oracle Cloud Infrastructure API configuration and private key. | No |
 
 ### Keycloak Component
 | Field | Type | Description | Required

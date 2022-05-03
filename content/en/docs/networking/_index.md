@@ -27,7 +27,7 @@ NGINX Ingress Controller, where TLS is terminated.  From there, the traffic is r
 to one of the system components in the mesh over mTLS, or using HTTP to a system component,
 outside the mesh.  
 
-Application traffic enters a second OCI load balancer over TLS and is routed to the
+Application traffic enters a second Oracle Cloud Infrastructure load balancer over TLS and is routed to the
 Istio ingress gateway, where TLS is terminated. From there, the traffic is routed
 to one of several applications using mTLS.
 

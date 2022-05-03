@@ -31,7 +31,7 @@ To reach Pods from outside a cluster, an external IP address must be exposed usi
 service.  Verrazzano creates two LoadBalancer services, one for system component traffic
 and another for application traffic. The specifics of how the service gets traffic into the cluster
 depends on the underlying Kubernetes platform.  With Oracle OKE, creating a LoadBalancer type service will
-result in an OCI load balancer being created and configured to load balance to a set of Pods.
+result in an Oracle Cloud Infrastructure load balancer being created and configured to load balance to a set of Pods.
 
 ### Ingress for system components
 To provide ingress to system components, Verrazzano installs a NGINX Ingress Controller,
@@ -52,7 +52,7 @@ $ kubectl get service -n ingress-nginx
 ingress-controller-ingress-nginx-controller           LoadBalancer
 ```
 
-Using the OKE example, traffic entering the OCI load balancer is routed to the NGINX load
+Using the OKE example, traffic entering the Oracle Cloud Infrastructure load balancer is routed to the NGINX load
 balancer, then routed from there to the Pods belonging to the services described in the Ingress.
 
 ### Ingress for applications
@@ -78,7 +78,7 @@ $ kubectl get service -n istio-system
 # Sample output
 istio-ingressgateway   LoadBalancer
 ```
-Again, referring to the OKE use case, this means that there will another OCI load balancer created,
+Again, referring to the OKE use case, this means that there will another Oracle Cloud Infrastructure load balancer created,
 routing traffic to the Istio ingress gateway Pod, for example, the Envoy proxy.
 
 ### External DNS
