@@ -8,7 +8,7 @@ draft: false
 
 The Oracle Cloud Infrastructure Logging service is a highly scalable and fully managed single pane of glass for
 all the logs in your tenancy. You can configure Verrazzano to send logs to Oracle Cloud Infrastructure Logging instead of OpenSearch.
-For general information, see [Oracle Cloud Infrastructure Logging Overview](https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/loggingoverview.htm).
+For general information, see Oracle Cloud Infrastructure [Logging Overview](https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/loggingoverview.htm).
 
 ## Set up custom logs
 Verrazzano can send its logs to Oracle Cloud Infrastructure custom logs. You will need to provide two Oracle Cloud Infrastructure Log identifiers in your Verrazzano
