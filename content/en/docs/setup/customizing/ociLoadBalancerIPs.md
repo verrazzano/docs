@@ -21,7 +21,7 @@ This document describes how to use these annotations to customize the following 
 ### Customize the load balancer shape  
 
 At installation, Verrazzano lets you customize the shape and size of the load balancers created.
-OCI offers a flexible load balancer which uses Dynamic Shape:
+Oracle Cloud Infrastructure offers a flexible load balancer which uses Dynamic Shape:
 * 10 Mbps
 * 100 Mbps
 * 400 Mbps
@@ -68,11 +68,11 @@ spec:
 ### Use private IP addresses with a load balancer
 
 At installation, Verrazzano lets you customize the IP address and subnet of the load balancers created.  This is achieved
-using OKE annotations on the NGINX and Istio load balancer services, as documented 
+using OKE annotations on the NGINX and Istio load balancer services, as documented
 [here](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingloadbalancer.htm#Creating2).
 
-The following example configures the NGINX load balancer service to have a private load balancer IP address on the 
-private subnet identified by OCID `ocid1.subnet.oc1.phx.aaaa..sdjxa`, and uses the default (public) load balancer 
+The following example configures the NGINX load balancer service to have a private load balancer IP address on the
+private subnet identified by OCID `ocid1.subnet.oc1.phx.aaaa..sdjxa`, and uses the default (public) load balancer
 configuration for Istio:
 
 ```yaml
@@ -93,8 +93,8 @@ spec:
         value: "ocid1.subnet.oc1.phx.aaaa..sdjxa"
 ```
 
-The following example configures the Istio ingress gateway service to have a private load balancer IP address on the private 
-subnet identified by OCID `ocid1.subnet.oc1.phx.aaaa..sdjxa`, and uses the default (public) load balancer configuration 
+The following example configures the Istio ingress gateway service to have a private load balancer IP address on the private
+subnet identified by OCID `ocid1.subnet.oc1.phx.aaaa..sdjxa`, and uses the default (public) load balancer configuration
 for NGINX:
 
 ```yaml
@@ -116,7 +116,7 @@ spec:
           value: "ocid1.subnet.oc1.phx.aaaa..sdjxa"
 ```
 
-The following example configures both NGINX and Istio to have a private load balancer IP address on the private subnet 
+The following example configures both NGINX and Istio to have a private load balancer IP address on the private subnet
 identified by OCID `ocid1.subnet.oc1.phx.aaaa..sdjxa`:
 
 ```yaml
