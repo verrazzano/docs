@@ -1,16 +1,16 @@
 ---
-title: OCI Container Engine for Kubernetes (OKE)
+title: Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE)
 description: Instructions for setting up an Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE) cluster for Verrazzano
 linkTitle: OKE
 Weight: 5
 draft: false
 ---
 
-## Prepare for the OCI install
+## Prepare for the Oracle Cloud Infrastructure install
 
-* Create the [OKE](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm) cluster using the OCI Console or by some other means.  
+* Create the [OKE](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm) cluster using the Oracle Cloud Infrastructure Console or by some other means.  
 
-* For `SHAPE`, an OKE cluster with 3 nodes of `VM.Standard2.4` [OCI compute instance shape](https://www.oracle.com/cloud/compute/virtual-machines.html) has proven sufficient to install Verrazzano and deploy the [Bob's Books]({{< relref "/docs/samples/bobs-books.md" >}}) example application.
+* For `SHAPE`, an OKE cluster with 3 nodes of `VM.Standard2.4` Oracle Cloud Infrastructure [compute instance shape](https://www.oracle.com/cloud/compute/virtual-machines.html) has proven sufficient to install Verrazzano and deploy the [Bob's Books]({{< relref "/docs/samples/bobs-books.md" >}}) example application.
 
 * Follow the instructions provided by OKE to download the Kubernetes configuration file for your cluster, and set the following `ENV` variable:
 

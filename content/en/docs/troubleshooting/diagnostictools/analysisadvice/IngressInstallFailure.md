@@ -16,4 +16,4 @@ Review the analysis data, which might help identify the issue.
 ### Related information
 * [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}})
 * [Platform Setup]({{< relref "/docs/setup/platforms/_index.md" >}})
-* [Kubernetes Troubleshooting](https://kubernetes.io/docs/tasks/debug-application-cluster/troubleshooting/)
+* [Kubernetes Troubleshooting](https://kubernetes.io/docs/tasks/debug/)
