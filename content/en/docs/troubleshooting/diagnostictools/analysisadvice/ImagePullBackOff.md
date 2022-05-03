@@ -18,5 +18,5 @@ The analysis was not able to identify a specific root cause, however, it might h
 
 ### Related information
 * [GitHub Status](https://www.githubstatus.com/)
-* [OCI Status](https://ocistatus.oraclecloud.com/)
+* [Oracle Cloud Infrastructure Status](https://ocistatus.oraclecloud.com/)
 * [Kubernetes Troubleshooting](https://kubernetes.io/docs/tasks/debug-application-cluster/troubleshooting/)

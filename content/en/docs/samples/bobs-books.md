@@ -180,7 +180,7 @@ It is recommended that the WebLogic Server Administration Console _not_ be expos
    ```
    $ kubectl port-forward pods/bobs-bookstore-adminserver 7001:7001 -n bobs-books
    ```
-   **NOTE**: If you are using the OCI Cloud Shell to run `kubectl`, in order to access the WebLogic Server Administration Console using port forwarding, you will need to run `kubectl` on another machine.
+   **NOTE**: If you are using the Oracle Cloud Infrastructure Cloud Shell to run `kubectl`, in order to access the WebLogic Server Administration Console using port forwarding, you will need to run `kubectl` on another machine.
 
 1. Access the WebLogic Server Administration Console from your browser.
    ```
@@ -193,7 +193,7 @@ It is recommended that the WebLogic Server Administration Console _not_ be expos
    ```
    $ kubectl port-forward pods/bobbys-front-end-adminserver 7001:7001 -n bobs-books
    ```
-   **NOTE**: If you are using the OCI Cloud Shell to run `kubectl`, in order to access the WebLogic Server Administration Console using port forwarding, you will need to run `kubectl` on another machine.
+   **NOTE**: If you are using the Oracle Cloud Infrastructure Cloud Shell to run `kubectl`, in order to access the WebLogic Server Administration Console using port forwarding, you will need to run `kubectl` on another machine.
 
 1. Access the WebLogic Server Administration Console from your browser.
    ```
