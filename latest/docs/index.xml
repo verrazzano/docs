@@ -589,7 +589,7 @@ Verrazzano will create &lt;code&gt;sales.us.example.com&lt;/code&gt; as the DNS 
 		
 
 		&lt;a class=&#34;nav-item nav-link&#34; id=&#34;nav-1&#34; data-toggle=&#34;tab&#34; href=&#34;#tab12&#34; role=&#34;tab&#34;
-		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;false&#34;&gt;OCI DNS&lt;/a&gt;
+		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;false&#34;&gt;Oracle Cloud Infrastructure DNS&lt;/a&gt;
 
 		
 		
@@ -658,31 +658,31 @@ spec:
 &lt;div class=&#34;tab-pane fade&#34; id=&#34;tab12&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName2&#34;&gt;
 
 	&lt;br&gt;
-&lt;p&gt;Verrazzano can directly manage records in &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm&#34;&gt;Oracle OCI DNS&lt;/a&gt;
+&lt;p&gt;Verrazzano can directly manage records in &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm&#34;&gt;Oracle Oracle Cloud Infrastructure DNS&lt;/a&gt;
 when configured to use the &lt;a href=&#34;../docs/reference/api/verrazzano/verrazzano#dns-oci&#34;&gt;&lt;code&gt;spec.components.dns.oci&lt;/code&gt;&lt;/a&gt; field.  This is achieved
 through the &lt;a href=&#34;https://github.com/kubernetes-sigs/external-dns&#34;&gt;External DNS Service&lt;/a&gt;, which is a component that is
-conditionally installed when OCI DNS is configured for DNS management in Verrazzano.&lt;/p&gt;
+conditionally installed when Oracle Cloud Infrastructure DNS is configured for DNS management in Verrazzano.&lt;/p&gt;
 &lt;h3 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h3&gt;
-&lt;p&gt;The following prerequisites must be met before using OCI DNS with Verrazzano:&lt;/p&gt;
+&lt;p&gt;The following prerequisites must be met before using Oracle Cloud Infrastructure DNS with Verrazzano:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;You must have control of a DNS domain.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;You must have an OCI DNS Service Zone that is configured to manage records for that domain. Verrazzano also supports the use of both GLOBAL and PRIVATE OCI DNS zones.&lt;/p&gt;
+&lt;p&gt;You must have an Oracle Cloud Infrastructure DNS Service Zone that is configured to manage records for that domain. Verrazzano also supports the use of both GLOBAL and PRIVATE Oracle Cloud Infrastructure DNS zones.&lt;/p&gt;
 &lt;p&gt;A DNS Service Zone is a distinct portion of a domain namespace. You must ensure that the zone is appropriately associated with a parent domain.
 For example, an appropriate zone name for parent domain &lt;code&gt;example.com&lt;/code&gt; is &lt;code&gt;us.example.com&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;To create an OCI DNS zone using the OCI CLI:&lt;/p&gt;
+&lt;p&gt;To create an Oracle Cloud Infrastructure DNS zone using the Oracle Cloud Infrastructure CLI:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ oci dns zone create \
     -c &amp;lt;compartment ocid&amp;gt; \
     --name &amp;lt;zone-name-prefix&amp;gt;.example.com \
     --zone-type PRIMARY
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To create an OCI DNS zone using the OCI Console, see
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To create an Oracle Cloud Infrastructure DNS zone using the Oracle Cloud Infrastructure Console, see
 &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/DNS/Tasks/managingdnszones.htm&#34;&gt;Managing DNS Service Zones&lt;/a&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;You must have a valid OCI API signing key that can be used to communicate with OCI DNS in your tenancy.&lt;/p&gt;
-&lt;p&gt;For example, you can create an API signing key using the OCI CLI:&lt;/p&gt;
+&lt;p&gt;You must have a valid Oracle Cloud Infrastructure API signing key that can be used to communicate with Oracle Cloud Infrastructure DNS in your tenancy.&lt;/p&gt;
+&lt;p&gt;For example, you can create an API signing key using the Oracle Cloud Infrastructure CLI:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;  $ oci setup keys --key-name myapikey
   Enter a passphrase for your private key (empty for no passphrase):
   Public key written to: /Users/jdoe/.oci/myapikey_public.pem
@@ -695,15 +695,15 @@ For example, an appropriate zone name for parent domain &lt;code&gt;example.com&
       &#39;How to upload the public key&#39;:
 
           https://docs.cloud.oracle.com/Content/API/Concepts/apisigningkey.htm#How2
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;After the key pair has been created, you must upload the public key to your account in your OCI tenancy.   For details, see
-the OCI documentation, &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm&#34;&gt;Required Keys and OCIDs&lt;/a&gt;.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;After the key pair has been created, you must upload the public key to your account in your Oracle Cloud Infrastructure tenancy.   For details, see
+the Oracle Cloud Infrastructure documentation, &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm&#34;&gt;Required Keys and OCIDs&lt;/a&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;create-an-oci-api-secret-in-the-target-cluster&#34;&gt;Create an OCI API secret in the target cluster&lt;/h3&gt;
-&lt;p&gt;To communicate with OCI DNS to manage DNS records, Verrazzano needs to be made aware of the necessary API credentials.&lt;br&gt;
+&lt;h3 id=&#34;create-an-oracle-cloud-infrastructure-api-secret-in-the-target-cluster&#34;&gt;Create an Oracle Cloud Infrastructure API secret in the target cluster&lt;/h3&gt;
+&lt;p&gt;To communicate with Oracle Cloud Infrastructure DNS to manage DNS records, Verrazzano needs to be made aware of the necessary API credentials.&lt;br&gt;
 A generic Kubernetes secret must be created in the cluster&amp;rsquo;s &lt;code&gt;verrazzano-install&lt;/code&gt; namespace with the required credentials.
 That secret must then be referenced by the custom resource that is used to install Verrazzano.&lt;/p&gt;
-&lt;p&gt;After you have an OCI API key ready for use, create a YAML file, &lt;code&gt;oci.yaml&lt;/code&gt;, with the API credentials in the form:&lt;/p&gt;
+&lt;p&gt;After you have an Oracle Cloud Infrastructure API key ready for use, create a YAML file, &lt;code&gt;oci.yaml&lt;/code&gt;, with the API credentials in the form:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;auth:
   region: &amp;lt;oci-region&amp;gt;
   tenancy: &amp;lt;oci-tenancy-ocid&amp;gt;
@@ -711,8 +711,8 @@ That secret must then be referenced by the custom resource that is used to insta
   key: |
     &amp;lt;oci-api-private-key-file-contents&amp;gt;
   fingerprint: &amp;lt;oci-api-private-key-fingerprint&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This information typically can be found in your OCI CLI config file or in the OCI Console.  The
-&lt;code&gt;&amp;lt;oci-api-private-key-file-contents&amp;gt;&lt;/code&gt; contents are the PEM-encoded contents of the &lt;code&gt;key_file&lt;/code&gt; value within the OCI CLI
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This information typically can be found in your Oracle Cloud Infrastructure CLI config file or in the Oracle Cloud Infrastructure Console.  The
+&lt;code&gt;&amp;lt;oci-api-private-key-file-contents&amp;gt;&lt;/code&gt; contents are the PEM-encoded contents of the &lt;code&gt;key_file&lt;/code&gt; value within the Oracle Cloud Infrastructure CLI
 configuration profile.&lt;/p&gt;
 &lt;p&gt;For example, your &lt;code&gt;oci.yaml&lt;/code&gt; file will look similar to the following:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;auth:
@@ -724,7 +724,7 @@ configuration profile.&lt;/p&gt;
     ...
     -----END RSA PRIVATE KEY-----
   fingerprint: 12:d3:4c:gh:fd:9e:27:g8:b9:0d:9f:00:22:33:c3:gg
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Verrazzano also supports the use of instance principals to communicate with OCI in order to create or update OCI DNS records.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Verrazzano also supports the use of instance principals to communicate with Oracle Cloud Infrastructure in order to create or update Oracle Cloud Infrastructure DNS records.
 Instance principal requires some prerequisites that can be found &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;When using instance principals, your &lt;code&gt;oci.yaml&lt;/code&gt; file will look as follows:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;auth:
@@ -734,10 +734,10 @@ Instance principal requires some prerequisites that can be found &lt;a href=&#34
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For example, to create a secret named &lt;code&gt;oci&lt;/code&gt; from a file &lt;code&gt;oci.yaml&lt;/code&gt;, do the following:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ kubectl create secret generic -n verrazzano-install oci --from-file=oci.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This secret will later be referenced from the Verrazzano custom resource used during installation.&lt;/p&gt;
-&lt;h3 id=&#34;use-a-verrazzano-helper-script-to-create-an-oci-secret&#34;&gt;Use a Verrazzano helper script to create an OCI secret&lt;/h3&gt;
-&lt;p&gt;Verrazzano also provides a helper script to create the necessary Kubernetes secret based on your OCI CLI config file,
-assuming that you have the OCI CLI installed and a valid OCI CLI profile with the required API key information. The script
-&lt;code&gt;create_oci_config_secret.sh&lt;/code&gt; reads your OCI CLI configuration file to create the secret.&lt;/p&gt;
+&lt;h3 id=&#34;use-a-verrazzano-helper-script-to-create-an-oracle-cloud-infrastructure-secret&#34;&gt;Use a Verrazzano helper script to create an Oracle Cloud Infrastructure secret&lt;/h3&gt;
+&lt;p&gt;Verrazzano also provides a helper script to create the necessary Kubernetes secret based on your Oracle Cloud Infrastructure CLI config file,
+assuming that you have the Oracle Cloud Infrastructure CLI installed and a valid Oracle Cloud Infrastructure CLI profile with the required API key information. The script
+&lt;code&gt;create_oci_config_secret.sh&lt;/code&gt; reads your Oracle Cloud Infrastructure CLI configuration file to create the secret.&lt;/p&gt;
 &lt;p&gt;First, download the &lt;code&gt;create_oci_config_secret.sh&lt;/code&gt; script:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ curl \
     -o ./create_oci_config_secret.sh \
@@ -748,26 +748,26 @@ to display the script options:&lt;/p&gt;
 $ export KUBECONFIG=&amp;lt;kubeconfig-file&amp;gt;
 $ ./create_oci_config_secret.sh  -h
 usage: ./create_oci_config_secret.sh [-o oci_config_file] [-s config_file_section]
-  -o oci_config_file         The full path to the OCI configuration file (default ~/.oci/config)
-  -s config_file_section     The properties section within the OCI configuration file.  Default is DEFAULT
-  -k secret_name             The secret name containing the OCI configuration.  Default is oci
+  -o oci_config_file         The full path to the Oracle Cloud Infrastructure configuration file (default ~/.oci/config)
+  -s config_file_section     The properties section within the Oracle Cloud Infrastructure configuration file.  Default is DEFAULT
+  -k secret_name             The secret name containing the Oracle Cloud Infrastructure configuration.  Default is oci
   -c context_name            The kubectl context to use
-  -a auth_type               The auth_type to be used to access OCI. Valid values are user_principal/instance_principal. Default is user_principal.
+  -a auth_type               The auth_type to be used to access Oracle Cloud Infrastructure. Valid values are user_principal/instance_principal. Default is user_principal.
   -h                         Help
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For example, to have the script create the YAML file using your &lt;code&gt;[DEFAULT]&lt;/code&gt; OCI CLI profile and then create a Kubernetes secret
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For example, to have the script create the YAML file using your &lt;code&gt;[DEFAULT]&lt;/code&gt; Oracle Cloud Infrastructure CLI profile and then create a Kubernetes secret
 named &lt;code&gt;oci&lt;/code&gt;, you can run the script with no arguments, as follows:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ ./create_oci_config_secret.sh
 secret/oci created
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The following example creates a secret &lt;code&gt;myoci&lt;/code&gt; using an OCI CLI profile named &lt;code&gt;[dev]&lt;/code&gt;:&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The following example creates a secret &lt;code&gt;myoci&lt;/code&gt; using an Oracle Cloud Infrastructure CLI profile named &lt;code&gt;[dev]&lt;/code&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ ./create_oci_config_secret.sh -s dev -k myoci
 secret/myoci created
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;When using instance principals all other parameters will be ignored automatically. The following example creates a secret &lt;code&gt;myoci&lt;/code&gt; using OCI instance principal:&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;When using instance principals all other parameters will be ignored automatically. The following example creates a secret &lt;code&gt;myoci&lt;/code&gt; using Oracle Cloud Infrastructure instance principal:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ ./create_oci_config_secret.sh -a instance_principal
 secret/myoci created
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;installation&#34;&gt;Installation&lt;/h3&gt;
-&lt;p&gt;After the OCI API secret is created, create a Verrazzano custom resource for the installation that is configured to use OCI
+&lt;p&gt;After the Oracle Cloud Infrastructure API secret is created, create a Verrazzano custom resource for the installation that is configured to use Oracle Cloud Infrastructure
 DNS, and reference the secret you created.&lt;/p&gt;
-&lt;p&gt;As a starting point, download the sample Verrazzano custom resource &lt;code&gt;install-oci.yaml&lt;/code&gt; file for OCI DNS:&lt;/p&gt;
+&lt;p&gt;As a starting point, download the sample Verrazzano custom resource &lt;code&gt;install-oci.yaml&lt;/code&gt; file for Oracle Cloud Infrastructure DNS:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ curl \
     -o ./install-oci.yaml \
     https://raw.githubusercontent.com/verrazzano/verrazzano/v1.2.1/platform-operator/config/samples/install-oci.yaml
@@ -782,9 +782,9 @@ custom resource spec:&lt;/p&gt;
 &lt;li&gt;&lt;code&gt;spec.components.dns.oci.dnsScope&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;The field &lt;code&gt;spec.components.dns.oci.ociConfigSecret&lt;/code&gt; should reference the secret created earlier. For details on the
-OCI DNS configuration settings, see &lt;a href=&#34;../docs/reference/api/verrazzano/verrazzano#dns-oci&#34;&gt;&lt;code&gt;spec.components.dns.oci&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;For example, a custom resource for a &lt;code&gt;prod&lt;/code&gt; installation profile using OCI DNS might look as follows, yielding
-a domain of &lt;code&gt;myenv.example.com&lt;/code&gt; (OCI identifiers redacted):&lt;/p&gt;
+Oracle Cloud Infrastructure DNS configuration settings, see &lt;a href=&#34;../docs/reference/api/verrazzano/verrazzano#dns-oci&#34;&gt;&lt;code&gt;spec.components.dns.oci&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;For example, a custom resource for a &lt;code&gt;prod&lt;/code&gt; installation profile using Oracle Cloud Infrastructure DNS might look as follows, yielding
+a domain of &lt;code&gt;myenv.example.com&lt;/code&gt; (Oracle Cloud Infrastructure identifiers redacted):&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
@@ -799,7 +799,7 @@ spec:
         dnsZoneCompartmentOCID: ocid1.compartment.oc1..compartment-ocid
         dnsZoneOCID: ocid1.dns-zone.oc1..zone-ocid
         dnsZoneName: example.com
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If using a private DNS zone, then the same &lt;code&gt;prod&lt;/code&gt; installation profile using OCI DNS will look as follows:&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If using a private DNS zone, then the same &lt;code&gt;prod&lt;/code&gt; installation profile using Oracle Cloud Infrastructure DNS will look as follows:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
@@ -869,7 +869,7 @@ set to &lt;code&gt;example.com&lt;/code&gt;, the A records would need to be set 
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This example assumes that load balancers exist for &lt;code&gt;ingress-mgmt&lt;/code&gt; on &lt;code&gt;198.51.100.10&lt;/code&gt; and for &lt;code&gt;ingress-verrazzano&lt;/code&gt; on
 &lt;code&gt;203.0.113.10&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;For a more complete example, see the documentation for setting up Verrazzano on the
-&lt;a href=&#34;../docs/setup/platforms/olcne/olcne/&#34;&gt;OLCNE Platform&lt;/a&gt;.&lt;/p&gt;
+&lt;a href=&#34;../docs/setup/platforms/olcne/olcne/&#34;&gt;Oracle Cloud Native Environment Platform&lt;/a&gt;.&lt;/p&gt;
 
 
 &lt;/div&gt;
@@ -1110,285 +1110,6 @@ output:&lt;/p&gt;
     </item>
     
     <item>
-      <title>Docs: OCI Logging Service</title>
-      <link>/docs/monitoring/oci-logging/oci-logging/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/docs/monitoring/oci-logging/oci-logging/</guid>
-      <description>
-        
-        
-        &lt;p&gt;The Oracle Cloud Infrastructure (OCI) Logging service is a highly scalable and fully managed single pane of glass for
-all the logs in your tenancy. You can configure Verrazzano to send logs to OCI Logging instead of OpenSearch.
-For general information, see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/loggingoverview.htm&#34;&gt;OCI Logging Overview&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;set-up-custom-logs&#34;&gt;Set up custom logs&lt;/h2&gt;
-&lt;p&gt;Verrazzano can send its logs to OCI custom logs. You will need to provide two OCI Log identifiers in your Verrazzano
-installation resource - one for Verrazzano system logs and one for application logs. Follow the steps in
-&lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/custom_logs.htm&#34;&gt;Creating Custom Logs&lt;/a&gt; to create two
-custom logs. &lt;strong&gt;Do not&lt;/strong&gt; create an agent configuration when creating a custom log, otherwise the log records will be duplicated.&lt;/p&gt;
-&lt;h2 id=&#34;configure-credentials&#34;&gt;Configure credentials&lt;/h2&gt;
-&lt;p&gt;The Fluentd plug-in included with Verrazzano will use OCI instance principal authentication by default. Optionally, you
-can configure Verrazzano with a user API signing key. API signing key authentication is required to send logs to
-OCI Logging if the cluster is running outside of OCI.&lt;/p&gt;
-&lt;nav&gt;
-	&lt;div class=&#34;nav nav-tabs&#34; id=&#34;nav-tab&#34; role=&#34;tablist&#34;&gt;
-
-		
-		
-
-		
-		
-		
-
-		
-
-		&lt;a class=&#34;nav-item nav-link active&#34; id=&#34;nav-1&#34; data-toggle=&#34;tab&#34; href=&#34;#tab11&#34; role=&#34;tab&#34;
-		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Instance Principal Credentials&lt;/a&gt;
-
-		
-		
-
-		
-		
-		
-
-		
-
-		&lt;a class=&#34;nav-item nav-link&#34; id=&#34;nav-1&#34; data-toggle=&#34;tab&#34; href=&#34;#tab12&#34; role=&#34;tab&#34;
-		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;false&#34;&gt;User API Credentials&lt;/a&gt;
-
-		
-		
-
-	&lt;/div&gt;
-&lt;/nav&gt;
-
-&lt;div class=&#34;tab-content&#34; id=&#34;1&#34;&gt;
-
-
-
-
-
-
-
-
-&lt;div class=&#34;tab-pane fade show active&#34; id=&#34;tab11&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName1&#34;&gt;
-
-	&lt;br&gt;
-&lt;p&gt;Create a dynamic group that includes the compute instances in your cluster&amp;rsquo;s node pools and assign the appropriate policy,
-so that the dynamic group is allowed to send log entries to the custom logs you created earlier. Pay close attention to
-the &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Task/managinglogs.htm#required_permissions_logs_groups&#34;&gt;required permissions&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;If the dynamic group and policy are configured incorrectly, then Fluentd will fail to send logs to OCI Logging.&lt;/p&gt;
-&lt;br/&gt;
-
-
-&lt;/div&gt;
-
-
-
-
-
-
-
-
-
-&lt;div class=&#34;tab-pane fade&#34; id=&#34;tab12&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName2&#34;&gt;
-
-	&lt;br&gt;
-&lt;p&gt;If you do not already have an API signing key, then see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm&#34;&gt;Required Keys and OCIDS&lt;/a&gt;
-in the OCI documentation. You need to create an OCI configuration file with the credential details and then use that
-configuration file to create a secret. The following requirements must be met for Fluentd OCI Logging to work:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;The profile name in the OCI configuration file must be &lt;code&gt;DEFAULT&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;The &lt;code&gt;key_file&lt;/code&gt; path in the OCI configuration file must be &lt;code&gt;/root/.oci/key&lt;/code&gt;. The actual key file does not need to be in
-that location, because you will be providing the actual key file location in a secret.&lt;/li&gt;
-&lt;li&gt;The user associated with the API key must have the appropriate OCI Identity and Access Management (IAM) policy
-in place to allow the Fluentd plug-in to send logs to OCI. See &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Identity/Reference/loggingpolicyreference.htm&#34;&gt;Details for Logging&lt;/a&gt;
-in the OCI documentation for the IAM policies used by the OCI Logging service.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;After the Verrazzano platform operator has been installed, create an opaque secret in the &lt;code&gt;verrazzano-install&lt;/code&gt; namespace
-from the OCI configuration and private key files. The key for the configuration file must be &lt;code&gt;config&lt;/code&gt; and the key
-for the private key file data must be &lt;code&gt;key&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;Here is an example &lt;code&gt;kubectl&lt;/code&gt; command that will create the secret.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl create secret generic oci-fluentd -n verrazzano-install \
-      --from-file=config=/home/myuser/oci_config --from-file=key=/home/myuser/keys/oci_api.pem
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The secret should look something like this.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;apiVersion: v1
-data:
-  config: W0RFRkFVTFRdCnVzZXI9b2NpZDEudXN...
-  key: LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS...
-kind: Secret
-metadata:
-  name: oci-fluentd
-  namespace: verrazzano-install
-type: Opaque
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For convenience, there is a helper script available
-&lt;a href=&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/v1.2.1/platform-operator/scripts/install/create_oci_fluentd_secret.sh&#34;&gt;here&lt;/a&gt; that
-you can point at an existing OCI configuration file and it will create the secret for you. The script allows you to
-override the default configuration file location, profile name, and the name of the secret.&lt;/p&gt;
-
-
-&lt;/div&gt;
-
-
-
-
-
-&lt;/div&gt;
-&lt;h2 id=&#34;install-verrazzano&#34;&gt;Install Verrazzano&lt;/h2&gt;
-&lt;p&gt;OCI Logging is enabled in your cluster when installing Verrazzano. The Verrazzano installation custom resource has fields
-for specifying two custom logs: one for system logs and one for application logs. Here is an example Verrazzano
-installation YAML file for each type of credential.
-Note that the API references Kibana, upcoming releases will use OpenSearch Dashboards in the public API.&lt;/p&gt;
-&lt;nav&gt;
-	&lt;div class=&#34;nav nav-tabs&#34; id=&#34;nav-tab&#34; role=&#34;tablist&#34;&gt;
-
-		
-		
-
-		
-		
-		
-
-		
-
-		&lt;a class=&#34;nav-item nav-link active&#34; id=&#34;nav-2&#34; data-toggle=&#34;tab&#34; href=&#34;#tab21&#34; role=&#34;tab&#34;
-		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Instance Principal Credentials&lt;/a&gt;
-
-		
-		
-
-		
-		
-		
-
-		
-
-		&lt;a class=&#34;nav-item nav-link&#34; id=&#34;nav-2&#34; data-toggle=&#34;tab&#34; href=&#34;#tab22&#34; role=&#34;tab&#34;
-		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;false&#34;&gt;User API Credentials&lt;/a&gt;
-
-		
-		
-
-	&lt;/div&gt;
-&lt;/nav&gt;
-
-&lt;div class=&#34;tab-content&#34; id=&#34;2&#34;&gt;
-
-
-
-
-
-
-
-
-&lt;div class=&#34;tab-pane fade show active&#34; id=&#34;tab21&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName1&#34;&gt;
-
-	&lt;br&gt;
-&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
-kind: Verrazzano
-metadata:
-  name: vz-oci-logging
-spec:
-  profile: dev
-  components:
-    fluentd:
-      enabled: true
-      oci:
-        systemLogId: ocid1.log.oc1.iad.system.example
-        defaultAppLogId: ocid1.log.oc1.iad.app.example
-    elasticsearch:
-      enabled: false
-    kibana:
-      enabled: false
-&lt;/code&gt;&lt;/pre&gt;&lt;br/&gt;
-
-
-&lt;/div&gt;
-
-
-
-
-
-
-
-
-
-&lt;div class=&#34;tab-pane fade&#34; id=&#34;tab22&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName2&#34;&gt;
-
-	&lt;br&gt;
-&lt;p&gt;When using user API credentials, you need to configure the name of the secret in the Verrazzano custom resource,
-under the OCI section of the Fluentd component settings. Your YAML file should look something like this.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
-kind: Verrazzano
-metadata:
-  name: vz-oci-logging
-spec:
-  profile: dev
-  components:
-    fluentd:
-      enabled: true
-      oci:
-        systemLogId: ocid1.log.oc1.iad.system.example
-        defaultAppLogId: ocid1.log.oc1.iad.app.example
-        apiSecret: oci-fluentd
-    elasticsearch:
-      enabled: false
-    kibana:
-      enabled: false
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The &lt;code&gt;apiSecret&lt;/code&gt; value must match the secret you created earlier when configuring the user API credentials.&lt;/p&gt;
-
-
-&lt;/div&gt;
-
-
-
-
-
-&lt;/div&gt;
-&lt;h2 id=&#34;override-the-default-log-objects&#34;&gt;Override the default log objects&lt;/h2&gt;
-&lt;p&gt;You can override the OCI Log object on an individual namespace. To specify a log identifier on a namespace, add an annotation named &lt;code&gt;verrazzano.io/oci-log-id&lt;/code&gt; to the namespace. The value of the annotation is the OCI Log object identifier.&lt;/p&gt;
-&lt;p&gt;Here is an example namespace.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;apiVersion: v1
-kind: Namespace
-metadata:
-  annotations:
-    verrazzano.io/oci-log-id: ocid1.log.oc1.iad.ns.app.example
-  creationTimestamp: &amp;quot;2022-01-14T15:09:19Z&amp;quot;
-  labels:
-    istio-injection: enabled
-    verrazzano-managed: &amp;quot;true&amp;quot;
-  name: example
-spec:
-  finalizers:
-  - kubernetes
-status:
-  phase: Active
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that if you add and subsequently remove the annotation, then the logs will revert to the default OCI Log object
-specified in the Verrazzano custom resource.&lt;/p&gt;
-&lt;h2 id=&#34;search-logs&#34;&gt;Search logs&lt;/h2&gt;
-&lt;p&gt;To search Verrazzano logs, you can use the OCI Console, OCI CLI, or OCI SDK.&lt;/p&gt;
-&lt;p&gt;For example, using the OCI CLI to search the system logs for records emitted by the &lt;code&gt;verrazzano-application-operator&lt;/code&gt; container.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ oci logging-search search-logs --search-query=\
-     &amp;quot;search \&amp;quot;ocid1.compartment.oc1..example/ocid1.loggroup.oc1.iad.example/ocid1.log.oc1.iad.example\&amp;quot; | \
-     where \&amp;quot;data\&amp;quot;.\&amp;quot;kubernetes.container_name\&amp;quot; = &#39;verrazzano-application-operator&#39; | sort by datetime desc&amp;quot; \
-     --time-start 2021-12-07 --time-end 2021-12-17
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Search for all application log records in the &lt;code&gt;springboot&lt;/code&gt; namespace.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ oci logging-search search-logs --search-query=\
-     &amp;quot;search \&amp;quot;ocid1.compartment.oc1..example/ocid1.loggroup.oc1.iad.example/ocid1.log.oc1.iad.example\&amp;quot; | \
-     where \&amp;quot;data\&amp;quot;.\&amp;quot;kubernetes.namespace_name\&amp;quot; = &#39;springboot&#39; | sort by datetime desc&amp;quot; \
-     --time-start 2021-12-07 --time-end 2021-12-17
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For more information on searching logs, see the &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Reference/query_language_specification.htm&#34;&gt;Logging Query Language Specification&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h2&gt;
-&lt;p&gt;If you are not able to view Verrazzano logs in OCI Logging, then check the Fluentd container logs in the cluster to see if there are errors.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl logs -n verrazzano-system -l app=fluentd --tail=-1
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you see &lt;code&gt;not authorized&lt;/code&gt; error messages, then there is likely a problem with the OCI Dynamic Group or IAM policy that is preventing the Fluentd plug-in from communicating with the OCI API.&lt;/p&gt;
-&lt;p&gt;To ensure the appropriate permissions are in place, review the OCI Logging &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Task/managinglogs.htm#required_permissions_logs_groups&#34;&gt;required permissions&lt;/a&gt; documentation.&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
       <title>Docs: OpenSearch Scaling and Resizing</title>
       <link>/docs/troubleshooting/troubleshooting-elasticsearch/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -1531,6 +1252,285 @@ $ kubectl -n verrazzano-system scale deploy verrazzano-monitoring-operator --rep
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;This completes the process.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Oracle Cloud Infrastructure Logging Service</title>
+      <link>/docs/monitoring/oci-logging/oci-logging/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/monitoring/oci-logging/oci-logging/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The Oracle Cloud Infrastructure Logging service is a highly scalable and fully managed single pane of glass for
+all the logs in your tenancy. You can configure Verrazzano to send logs to Oracle Cloud Infrastructure Logging instead of OpenSearch.
+For general information, see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/loggingoverview.htm&#34;&gt;Oracle Cloud Infrastructure Logging Overview&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;set-up-custom-logs&#34;&gt;Set up custom logs&lt;/h2&gt;
+&lt;p&gt;Verrazzano can send its logs to Oracle Cloud Infrastructure custom logs. You will need to provide two Oracle Cloud Infrastructure Log identifiers in your Verrazzano
+installation resource - one for Verrazzano system logs and one for application logs. Follow the steps in
+&lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/custom_logs.htm&#34;&gt;Creating Custom Logs&lt;/a&gt; to create two
+custom logs. &lt;strong&gt;Do not&lt;/strong&gt; create an agent configuration when creating a custom log, otherwise the log records will be duplicated.&lt;/p&gt;
+&lt;h2 id=&#34;configure-credentials&#34;&gt;Configure credentials&lt;/h2&gt;
+&lt;p&gt;The Fluentd plug-in included with Verrazzano will use Oracle Cloud Infrastructure instance principal authentication by default. Optionally, you
+can configure Verrazzano with a user API signing key. API signing key authentication is required to send logs to
+Oracle Cloud Infrastructure Logging if the cluster is running outside of Oracle Cloud Infrastructure.&lt;/p&gt;
+&lt;nav&gt;
+	&lt;div class=&#34;nav nav-tabs&#34; id=&#34;nav-tab&#34; role=&#34;tablist&#34;&gt;
+
+		
+		
+
+		
+		
+		
+
+		
+
+		&lt;a class=&#34;nav-item nav-link active&#34; id=&#34;nav-1&#34; data-toggle=&#34;tab&#34; href=&#34;#tab11&#34; role=&#34;tab&#34;
+		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Instance Principal Credentials&lt;/a&gt;
+
+		
+		
+
+		
+		
+		
+
+		
+
+		&lt;a class=&#34;nav-item nav-link&#34; id=&#34;nav-1&#34; data-toggle=&#34;tab&#34; href=&#34;#tab12&#34; role=&#34;tab&#34;
+		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;false&#34;&gt;User API Credentials&lt;/a&gt;
+
+		
+		
+
+	&lt;/div&gt;
+&lt;/nav&gt;
+
+&lt;div class=&#34;tab-content&#34; id=&#34;1&#34;&gt;
+
+
+
+
+
+
+
+
+&lt;div class=&#34;tab-pane fade show active&#34; id=&#34;tab11&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName1&#34;&gt;
+
+	&lt;br&gt;
+&lt;p&gt;Create a dynamic group that includes the compute instances in your cluster&amp;rsquo;s node pools and assign the appropriate policy,
+so that the dynamic group is allowed to send log entries to the custom logs you created earlier. Pay close attention to
+the &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Task/managinglogs.htm#required_permissions_logs_groups&#34;&gt;required permissions&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;If the dynamic group and policy are configured incorrectly, then Fluentd will fail to send logs to Oracle Cloud Infrastructure Logging.&lt;/p&gt;
+&lt;br/&gt;
+
+
+&lt;/div&gt;
+
+
+
+
+
+
+
+
+
+&lt;div class=&#34;tab-pane fade&#34; id=&#34;tab12&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName2&#34;&gt;
+
+	&lt;br&gt;
+&lt;p&gt;If you do not already have an API signing key, then see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm&#34;&gt;Required Keys and OCIDs&lt;/a&gt;
+in the Oracle Cloud Infrastructure documentation. You need to create an Oracle Cloud Infrastructure configuration file with the credential details and then use that
+configuration file to create a secret. The following requirements must be met for Fluentd Oracle Cloud Infrastructure Logging to work:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The profile name in the Oracle Cloud Infrastructure configuration file must be &lt;code&gt;DEFAULT&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;key_file&lt;/code&gt; path in the Oracle Cloud Infrastructure configuration file must be &lt;code&gt;/root/.oci/key&lt;/code&gt;. The actual key file does not need to be in
+that location, because you will be providing the actual key file location in a secret.&lt;/li&gt;
+&lt;li&gt;The user associated with the API key must have the appropriate Oracle Cloud Infrastructure Identity and Access Management (IAM) policy
+in place to allow the Fluentd plug-in to send logs to Oracle Cloud Infrastructure. See &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Identity/Reference/loggingpolicyreference.htm&#34;&gt;Details for Logging&lt;/a&gt;
+in the Oracle Cloud Infrastructure documentation for the IAM policies used by the Oracle Cloud Infrastructure Logging service.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;After the Verrazzano platform operator has been installed, create an opaque secret in the &lt;code&gt;verrazzano-install&lt;/code&gt; namespace
+from the Oracle Cloud Infrastructure configuration and private key files. The key for the configuration file must be &lt;code&gt;config&lt;/code&gt; and the key
+for the private key file data must be &lt;code&gt;key&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Here is an example &lt;code&gt;kubectl&lt;/code&gt; command that will create the secret.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl create secret generic oci-fluentd -n verrazzano-install \
+      --from-file=config=/home/myuser/oci_config --from-file=key=/home/myuser/keys/oci_api.pem
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The secret should look something like this.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: v1
+data:
+  config: W0RFRkFVTFRdCnVzZXI9b2NpZDEudXN...
+  key: LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS...
+kind: Secret
+metadata:
+  name: oci-fluentd
+  namespace: verrazzano-install
+type: Opaque
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For convenience, there is a helper script available
+&lt;a href=&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/v1.2.1/platform-operator/scripts/install/create_oci_fluentd_secret.sh&#34;&gt;here&lt;/a&gt; that
+you can point at an existing Oracle Cloud Infrastructure configuration file and it will create the secret for you. The script allows you to
+override the default configuration file location, profile name, and the name of the secret.&lt;/p&gt;
+
+
+&lt;/div&gt;
+
+
+
+
+
+&lt;/div&gt;
+&lt;h2 id=&#34;install-verrazzano&#34;&gt;Install Verrazzano&lt;/h2&gt;
+&lt;p&gt;Oracle Cloud Infrastructure Logging is enabled in your cluster when installing Verrazzano. The Verrazzano installation custom resource has fields
+for specifying two custom logs: one for system logs and one for application logs. Here is an example Verrazzano
+installation YAML file for each type of credential.
+Note that the API references Kibana, upcoming releases will use OpenSearch Dashboards in the public API.&lt;/p&gt;
+&lt;nav&gt;
+	&lt;div class=&#34;nav nav-tabs&#34; id=&#34;nav-tab&#34; role=&#34;tablist&#34;&gt;
+
+		
+		
+
+		
+		
+		
+
+		
+
+		&lt;a class=&#34;nav-item nav-link active&#34; id=&#34;nav-2&#34; data-toggle=&#34;tab&#34; href=&#34;#tab21&#34; role=&#34;tab&#34;
+		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Instance Principal Credentials&lt;/a&gt;
+
+		
+		
+
+		
+		
+		
+
+		
+
+		&lt;a class=&#34;nav-item nav-link&#34; id=&#34;nav-2&#34; data-toggle=&#34;tab&#34; href=&#34;#tab22&#34; role=&#34;tab&#34;
+		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;false&#34;&gt;User API Credentials&lt;/a&gt;
+
+		
+		
+
+	&lt;/div&gt;
+&lt;/nav&gt;
+
+&lt;div class=&#34;tab-content&#34; id=&#34;2&#34;&gt;
+
+
+
+
+
+
+
+
+&lt;div class=&#34;tab-pane fade show active&#34; id=&#34;tab21&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName1&#34;&gt;
+
+	&lt;br&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: vz-oci-logging
+spec:
+  profile: dev
+  components:
+    fluentd:
+      enabled: true
+      oci:
+        systemLogId: ocid1.log.oc1.iad.system.example
+        defaultAppLogId: ocid1.log.oc1.iad.app.example
+    elasticsearch:
+      enabled: false
+    kibana:
+      enabled: false
+&lt;/code&gt;&lt;/pre&gt;&lt;br/&gt;
+
+
+&lt;/div&gt;
+
+
+
+
+
+
+
+
+
+&lt;div class=&#34;tab-pane fade&#34; id=&#34;tab22&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName2&#34;&gt;
+
+	&lt;br&gt;
+&lt;p&gt;When using user API credentials, you need to configure the name of the secret in the Verrazzano custom resource,
+under the Oracle Cloud Infrastructure section of the Fluentd component settings. Your YAML file should look something like this.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: vz-oci-logging
+spec:
+  profile: dev
+  components:
+    fluentd:
+      enabled: true
+      oci:
+        systemLogId: ocid1.log.oc1.iad.system.example
+        defaultAppLogId: ocid1.log.oc1.iad.app.example
+        apiSecret: oci-fluentd
+    elasticsearch:
+      enabled: false
+    kibana:
+      enabled: false
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The &lt;code&gt;apiSecret&lt;/code&gt; value must match the secret you created earlier when configuring the user API credentials.&lt;/p&gt;
+
+
+&lt;/div&gt;
+
+
+
+
+
+&lt;/div&gt;
+&lt;h2 id=&#34;override-the-default-log-objects&#34;&gt;Override the default log objects&lt;/h2&gt;
+&lt;p&gt;You can override the Oracle Cloud Infrastructure Log object on an individual namespace. To specify a log identifier on a namespace, add an annotation named &lt;code&gt;verrazzano.io/oci-log-id&lt;/code&gt; to the namespace. The value of the annotation is the Oracle Cloud Infrastructure Log object identifier.&lt;/p&gt;
+&lt;p&gt;Here is an example namespace.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    verrazzano.io/oci-log-id: ocid1.log.oc1.iad.ns.app.example
+  creationTimestamp: &amp;quot;2022-01-14T15:09:19Z&amp;quot;
+  labels:
+    istio-injection: enabled
+    verrazzano-managed: &amp;quot;true&amp;quot;
+  name: example
+spec:
+  finalizers:
+  - kubernetes
+status:
+  phase: Active
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that if you add and subsequently remove the annotation, then the logs will revert to the default Oracle Cloud Infrastructure Log object
+specified in the Verrazzano custom resource.&lt;/p&gt;
+&lt;h2 id=&#34;search-logs&#34;&gt;Search logs&lt;/h2&gt;
+&lt;p&gt;To search Verrazzano logs, you can use the Oracle Cloud Infrastructure Console, Oracle Cloud Infrastructure CLI, or Oracle Cloud Infrastructure SDK.&lt;/p&gt;
+&lt;p&gt;For example, using the Oracle Cloud Infrastructure CLI to search the system logs for records emitted by the &lt;code&gt;verrazzano-application-operator&lt;/code&gt; container.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ oci logging-search search-logs --search-query=\
+     &amp;quot;search \&amp;quot;ocid1.compartment.oc1..example/ocid1.loggroup.oc1.iad.example/ocid1.log.oc1.iad.example\&amp;quot; | \
+     where \&amp;quot;data\&amp;quot;.\&amp;quot;kubernetes.container_name\&amp;quot; = &#39;verrazzano-application-operator&#39; | sort by datetime desc&amp;quot; \
+     --time-start 2021-12-07 --time-end 2021-12-17
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Search for all application log records in the &lt;code&gt;springboot&lt;/code&gt; namespace.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ oci logging-search search-logs --search-query=\
+     &amp;quot;search \&amp;quot;ocid1.compartment.oc1..example/ocid1.loggroup.oc1.iad.example/ocid1.log.oc1.iad.example\&amp;quot; | \
+     where \&amp;quot;data\&amp;quot;.\&amp;quot;kubernetes.namespace_name\&amp;quot; = &#39;springboot&#39; | sort by datetime desc&amp;quot; \
+     --time-start 2021-12-07 --time-end 2021-12-17
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For more information on searching logs, see the &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Reference/query_language_specification.htm&#34;&gt;Logging Query Language Specification&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h2&gt;
+&lt;p&gt;If you are not able to view Verrazzano logs in Oracle Cloud Infrastructure Logging, then check the Fluentd container logs in the cluster to see if there are errors.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ kubectl logs -n verrazzano-system -l app=fluentd --tail=-1
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you see &lt;code&gt;not authorized&lt;/code&gt; error messages, then there is likely a problem with the Oracle Cloud Infrastructure Dynamic Group or IAM policy that is preventing the Fluentd plug-in from communicating with the Oracle Cloud Infrastructure API.&lt;/p&gt;
+&lt;p&gt;To ensure the appropriate permissions are in place, review the Oracle Cloud Infrastructure Logging &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Task/managinglogs.htm#required_permissions_logs_groups&#34;&gt;required permissions&lt;/a&gt; documentation.&lt;/p&gt;
 
       </description>
     </item>
@@ -2052,7 +2052,7 @@ following ways:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Let Verrazzano generate a self-signed CA (the default).&lt;/li&gt;
 &lt;li&gt;Configure a CA that you provide.&lt;/li&gt;
-&lt;li&gt;Configure &lt;a href=&#34;https://letsencrypt.org/&#34;&gt;LetsEncrypt&lt;/a&gt; as the certificate issuer (requires &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm&#34;&gt;OCI DNS&lt;/a&gt;).&lt;/li&gt;
+&lt;li&gt;Configure &lt;a href=&#34;https://letsencrypt.org/&#34;&gt;LetsEncrypt&lt;/a&gt; as the certificate issuer (requires &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm&#34;&gt;Oracle Cloud Infrastructure DNS&lt;/a&gt;).&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;In all cases, Verrazzano uses &lt;a href=&#34;https://cert-manager.io/&#34;&gt;CertManager&lt;/a&gt; to manage the creation of certificates.&lt;/p&gt;
 
@@ -2123,7 +2123,7 @@ field in the Verrazzano custom resource.&lt;/p&gt;
 &lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
 
-    Using LetsEncrypt for certificates also requires using OCI DNS for DNS management.
+    Using LetsEncrypt for certificates also requires using Oracle Cloud Infrastructure DNS for DNS management.
 For details, see the &lt;a href=&#34;../docs/setup/customizing/dns/&#34;&gt;Customize DNS&lt;/a&gt; page.
 
 &lt;/div&gt;
@@ -2135,7 +2135,7 @@ ACME provider with the following values in the Verrazzano custom resource:&lt;/p
 &lt;li&gt;Set the &lt;code&gt;spec.components.certManager.certificate.acme.emailAddress&lt;/code&gt; field to a valid email address for the &lt;code&gt;letsEncrypt&lt;/code&gt; account.&lt;/li&gt;
 &lt;li&gt;(Optional) Set the &lt;code&gt;spec.components.certManager.certificate.acme.environment&lt;/code&gt; field to either &lt;code&gt;staging&lt;/code&gt; or &lt;code&gt;production&lt;/code&gt; (the default).&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;The following example configures Verrazzano to use the LetsEncrypt &lt;code&gt;production&lt;/code&gt; environment by default, with OCI DNS
+&lt;p&gt;The following example configures Verrazzano to use the LetsEncrypt &lt;code&gt;production&lt;/code&gt; environment by default, with Oracle Cloud Infrastructure DNS
 for DNS record management:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
@@ -2155,7 +2155,7 @@ spec:
         dnsZoneCompartmentOCID: ocid1.compartment.oc1.....
         dnsZoneOCID: ocid1.dns-zone.oc1.....
         dnsZoneName: example.com
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The following example configures Verrazzano to use the LetsEncrypt &lt;code&gt;staging&lt;/code&gt; environment with OCI DNS:&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The following example configures Verrazzano to use the LetsEncrypt &lt;code&gt;staging&lt;/code&gt; environment with Oracle Cloud Infrastructure DNS:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
@@ -3343,7 +3343,7 @@ tododomain-appconf.tododomain.11.22.33.44.nip.io
 &lt;li&gt;
 &lt;p&gt;Set up port forwarding.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;$ kubectl port-forward pods/tododomain-adminserver 7001:7001 -n tododomain
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: If you are using the OCI Cloud Shell to run &lt;code&gt;kubectl&lt;/code&gt;, in order to access the WebLogic Server Administration Console using port forwarding, you will need to run &lt;code&gt;kubectl&lt;/code&gt; on another machine.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: If you are using the Oracle Cloud Infrastructure Cloud Shell to run &lt;code&gt;kubectl&lt;/code&gt;, in order to access the WebLogic Server Administration Console using port forwarding, you will need to run &lt;code&gt;kubectl&lt;/code&gt; on another machine.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Access the WebLogic Server Administration Console from your browser.&lt;/p&gt;
@@ -4589,7 +4589,7 @@ is in the context of a Verrazzano installation.&lt;/p&gt;
 service.  Verrazzano creates two LoadBalancer services, one for system component traffic
 and another for application traffic. The specifics of how the service gets traffic into the cluster
 depends on the underlying Kubernetes platform.  With Oracle OKE, creating a LoadBalancer type service will
-result in an OCI load balancer being created and configured to load balance to a set of Pods.&lt;/p&gt;
+result in an Oracle Cloud Infrastructure load balancer being created and configured to load balance to a set of Pods.&lt;/p&gt;
 &lt;h3 id=&#34;ingress-for-system-components&#34;&gt;Ingress for system components&lt;/h3&gt;
 &lt;p&gt;To provide ingress to system components, Verrazzano installs a NGINX Ingress Controller,
 which includes a NGINX load balancer.  Verrazzano also creates Kubernetes
@@ -4605,7 +4605,7 @@ the ingress route information, and such.&lt;/p&gt;
 
 # Sample output
 ingress-controller-ingress-nginx-controller           LoadBalancer
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Using the OKE example, traffic entering the OCI load balancer is routed to the NGINX load
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Using the OKE example, traffic entering the Oracle Cloud Infrastructure load balancer is routed to the NGINX load
 balancer, then routed from there to the Pods belonging to the services described in the Ingress.&lt;/p&gt;
 &lt;h3 id=&#34;ingress-for-applications&#34;&gt;Ingress for applications&lt;/h3&gt;
 &lt;p&gt;Verrazzano also provides ingress into applications, but uses an Istio ingress gateway, which is
@@ -4627,7 +4627,7 @@ Istio egress gateway, which is a ClusterIP service.&lt;/p&gt;
 
 # Sample output
 istio-ingressgateway   LoadBalancer
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Again, referring to the OKE use case, this means that there will another OCI load balancer created,
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Again, referring to the OKE use case, this means that there will another Oracle Cloud Infrastructure load balancer created,
 routing traffic to the Istio ingress gateway Pod, for example, the Envoy proxy.&lt;/p&gt;
 &lt;h3 id=&#34;external-dns&#34;&gt;External DNS&lt;/h3&gt;
 &lt;p&gt;When you install Verrazzano, you can optionally specify an external DNS for your domain.  If you do that,
@@ -5261,7 +5261,7 @@ the NGINX Ingress Controller on the managed cluster.&lt;/p&gt;
         
         
         &lt;p&gt;The Verrazzano custom resource contains the configuration information for an installation.
-Here is a sample Verrazzano custom resource file that uses OCI DNS.  See other examples
+Here is a sample Verrazzano custom resource file that uses Oracle Cloud Infrastructure DNS.  See other examples
 &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.2.1/platform-operator/config/samples&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
@@ -5608,7 +5608,7 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;oci&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;#dns-oci&#34;&gt;DNS-OCI&lt;/a&gt;&lt;/td&gt;
-&lt;td&gt;OCI DNS configuration.&lt;/td&gt;
+&lt;td&gt;Oracle Cloud Infrastructure DNS configuration.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -5638,7 +5638,7 @@ spec:
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;dns-oci&#34;&gt;DNS OCI&lt;/h4&gt;
+&lt;h4 id=&#34;dns-oracle-cloud-infrastructure&#34;&gt;DNS Oracle Cloud Infrastructure&lt;/h4&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -5652,31 +5652,31 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;ociConfigSecret&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;Name of the OCI configuration secret.  Generate a secret based on the OCI configuration profile you want to use.  You can specify a profile other than DEFAULT and specify the secret name.  See instructions by running &lt;code&gt;./install/create_oci_config_secret.sh&lt;/code&gt;.&lt;/td&gt;
+&lt;td&gt;Name of the Oracle Cloud Infrastructure configuration secret.  Generate a secret based on the Oracle Cloud Infrastructure configuration profile you want to use.  You can specify a profile other than DEFAULT and specify the secret name.  See instructions by running &lt;code&gt;./install/create_oci_config_secret.sh&lt;/code&gt;.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;dnsZoneCompartmentOCID&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;The OCI DNS compartment OCID.&lt;/td&gt;
+&lt;td&gt;The Oracle Cloud Infrastructure DNS compartment. OCID.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;dnsZoneOCID&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;The OCI DNS zone OCID.&lt;/td&gt;
+&lt;td&gt;The Oracle Cloud Infrastructure DNS zone. OCID.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;dnsZoneName&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;Name of OCI DNS zone.&lt;/td&gt;
+&lt;td&gt;Name of Oracle Cloud Infrastructure DNS. zone.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;dnsScope&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;Scope of the OCI DNS zone (PRIVATE, GLOBAL). If not specified, then defaults to GLOBAL.&lt;/td&gt;
+&lt;td&gt;Scope of the Oracle Cloud Infrastructure DNS zone (PRIVATE, GLOBAL). If not specified, then defaults to GLOBAL.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -6026,7 +6026,7 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;oci&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;#oci-logging-configuration&#34;&gt;OCILoggingConfiguration&lt;/a&gt;&lt;/td&gt;
-&lt;td&gt;The OCI Logging configuration.&lt;/td&gt;
+&lt;td&gt;The Oracle Cloud Infrastructure Logging configuration.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -6062,7 +6062,7 @@ spec:
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;oci-logging-configuration&#34;&gt;OCI Logging Configuration&lt;/h4&gt;
+&lt;h4 id=&#34;oracle-cloud-infrastructure-logging-configuration&#34;&gt;Oracle Cloud Infrastructure Logging Configuration&lt;/h4&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -6076,19 +6076,19 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;systemLogId&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;The OCID of the OCI Log that will collect system logs.&lt;/td&gt;
+&lt;td&gt;The OCID of the Oracle Cloud Infrastructure Log that will collect system logs.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;defaultAppLogId&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;The OCID of the OCI Log that will collect application logs.&lt;/td&gt;
+&lt;td&gt;The OCID of the Oracle Cloud Infrastructure Log that will collect application logs.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;apiSecret&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;The name of the secret containing the OCI API configuration and private key.&lt;/td&gt;
+&lt;td&gt;The name of the secret containing the Oracle Cloud Infrastructure API configuration and private key.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -7602,7 +7602,7 @@ For a detailed description of different load balancer customization annotations,
 &lt;/ul&gt;
 &lt;h3 id=&#34;customize-the-load-balancer-shape&#34;&gt;Customize the load balancer shape&lt;/h3&gt;
 &lt;p&gt;At installation, Verrazzano lets you customize the shape and size of the load balancers created.
-OCI offers a flexible load balancer which uses Dynamic Shape:&lt;/p&gt;
+Oracle Cloud Infrastructure offers a flexible load balancer which uses Dynamic Shape:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;10 Mbps&lt;/li&gt;
 &lt;li&gt;100 Mbps&lt;/li&gt;
@@ -8498,8 +8498,8 @@ spec:
 &lt;h3 id=&#34;related-information&#34;&gt;Related information&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.githubstatus.com/&#34;&gt;GitHub Status&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://ocistatus.oraclecloud.com/&#34;&gt;OCI Status&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/tasks/debug-application-cluster/troubleshooting/&#34;&gt;Kubernetes Troubleshooting&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://ocistatus.oraclecloud.com/&#34;&gt;Oracle Cloud Infrastructure Status&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/tasks/debug/&#34;&gt;Kubernetes Troubleshooting&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
       </description>
@@ -8523,7 +8523,7 @@ spec:
 &lt;/ol&gt;
 &lt;h3 id=&#34;related-information&#34;&gt;Related information&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/tasks/debug-application-cluster/troubleshooting/&#34;&gt;Kubernetes Troubleshooting&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/tasks/debug/&#34;&gt;Kubernetes Troubleshooting&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
       </description>
@@ -8576,8 +8576,8 @@ spec:
 &lt;h3 id=&#34;related-information&#34;&gt;Related information&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.githubstatus.com/&#34;&gt;GitHub Status&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://ocistatus.oraclecloud.com/&#34;&gt;OCI Status&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/tasks/debug-application-cluster/troubleshooting/&#34;&gt;Kubernetes Troubleshooting&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://ocistatus.oraclecloud.com/&#34;&gt;Oracle Cloud Infrastructure Status&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/tasks/debug/&#34;&gt;Kubernetes Troubleshooting&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
       </description>
@@ -8599,12 +8599,12 @@ spec:
 &lt;ol&gt;
 &lt;li&gt;Review the messages from the supporting details for the exact limits, and delete unused load balancers.&lt;/li&gt;
 &lt;li&gt;If available, use a different load balancer shape. See &lt;a href=&#34;../docs/setup/customizing/ingress/&#34;&gt;Customizing Ingress&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;Refer to the OCI documentation on &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/General/Concepts/servicelimits.htm#&#34;&gt;Service Limits&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Refer to the Oracle Cloud Infrastructure documentation on &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/General/Concepts/servicelimits.htm#&#34;&gt;Service Limits&lt;/a&gt;.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3 id=&#34;related-information&#34;&gt;Related information&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;../docs/setup/platforms/&#34;&gt;Platform Setup&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/tasks/debug-application-cluster/troubleshooting/&#34;&gt;Kubernetes Troubleshooting&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/tasks/debug/&#34;&gt;Kubernetes Troubleshooting&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Balance/Concepts/balanceoverview.htm&#34;&gt;More information on load balancers&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -8628,14 +8628,14 @@ spec:
 &lt;h3 id=&#34;related-information&#34;&gt;Related information&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;../docs/setup/platforms/&#34;&gt;Platform Setup&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/tasks/debug-application-cluster/troubleshooting/&#34;&gt;Kubernetes Troubleshooting&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/tasks/debug/&#34;&gt;Kubernetes Troubleshooting&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
       </description>
     </item>
     
     <item>
-      <title>Docs: Ingress Controller OCI IP Limit Exceeded</title>
+      <title>Docs: Ingress Controller Oracle Cloud Infrastructure IP Limit Exceeded</title>
       <link>/docs/troubleshooting/diagnostictools/analysisadvice/ingressociiplimitexceeded/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -8645,11 +8645,11 @@ spec:
         
         &lt;h3 id=&#34;summary&#34;&gt;Summary&lt;/h3&gt;
 &lt;p&gt;Analysis detected that the Verrazzano installation failed while installing the NGINX Ingress Controller.&lt;/p&gt;
-&lt;p&gt;The root cause appears to be that an OCI IP non-ephemeral address limit has been reached.&lt;/p&gt;
+&lt;p&gt;The root cause appears to be that an Oracle Cloud Infrastructure IP non-ephemeral address limit has been reached.&lt;/p&gt;
 &lt;h3 id=&#34;steps&#34;&gt;Steps&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;Review the messages from the supporting details for the exact limit.&lt;/li&gt;
-&lt;li&gt;Refer to the OCI documentation related to managing &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingpublicIPs.htm#overview&#34;&gt;IP Addresses&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Refer to the Oracle Cloud Infrastructure documentation related to managing &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Network/Tasks/managingpublicIPs.htm#overview&#34;&gt;IP Addresses&lt;/a&gt;.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3 id=&#34;related-information&#34;&gt;Related information&lt;/h3&gt;
 &lt;ul&gt;
@@ -8675,7 +8675,7 @@ spec:
 &lt;h3 id=&#34;related-information&#34;&gt;Related information&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;../docs/setup/install/installation/&#34;&gt;Installation Guide&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/tasks/debug-application-cluster/troubleshooting/&#34;&gt;Kubernetes Troubleshooting&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/tasks/debug/&#34;&gt;Kubernetes Troubleshooting&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
       </description>
@@ -8698,7 +8698,7 @@ spec:
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;../docs/setup/install/installation/&#34;&gt;Installation Guide&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;../docs/setup/platforms/&#34;&gt;Platform Setup&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/tasks/debug-application-cluster/troubleshooting/&#34;&gt;Kubernetes Troubleshooting&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/tasks/debug/&#34;&gt;Kubernetes Troubleshooting&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
       </description>
@@ -9221,7 +9221,7 @@ $ curl -k --user verrazzano:${VZPASS} -X POST -H &#39;kbn-xsrf: true&#39; &amp;q
 &lt;h3 id=&#34;related-information&#34;&gt;Related information&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;../docs/setup/install/installation/&#34;&gt;Installation Guide&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/tasks/debug-application-cluster/troubleshooting/&#34;&gt;Kubernetes Troubleshooting&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/tasks/debug/&#34;&gt;Kubernetes Troubleshooting&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
       </description>
