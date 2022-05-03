@@ -103,3 +103,53 @@ To export traces, annotate your applications with the `"sidecar.jaegertracing.io
 You can view the UI by port forwarding the Jaeger query service or by configuring an ingress controller for HTTPS access.
 Explore the Jaeger configuration in more detail using the
 [Jaeger Custom Resource Documentation](https://www.jaegertracing.io/docs/1.33/operator/#configuring-the-custom-resource).
+
+
+## Configure the Istio mesh to use Jaeger Tracing
+
+Istio mesh traffic can be viewed by enabling Istio's distributed tracing integration. Traces from the Istio mesh provide observability on application traffic
+that passes through Istio's ingress and egress gateways.
+
+Istio tracing is disabled by default. To turn on traces, customize your Istio component like the following example.
+
+```yaml
+apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: verrazzano
+spec:
+  profile: prod
+  components:
+    jaegerOperator:
+      enabled: true
+    istio:
+      istioInstallArgs:
+        - name: "meshConfig.enableTracing"
+          value: "true"
+```
+
+After enabling tracing, Istio will automatically configure itself with the Jaeger endpoint in your cluster, 
+and any new Istio-injected pods will begin exporting traces to Jaeger. Existing pods require a restart 
+to pull the new Istio configuration and start sending traces.
+
+By default, Istio samples traces at a 1% rate, meaning 1 in 100 requests will be traced in Jaeger.
+If you want a different sampling rate, configure your desired rate using the `meshConfig.defaultConfig.tracing.sampling` Istio install argument:
+
+```yaml
+apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: verrazzano
+spec:
+  profile: prod
+  components:
+    jaegerOperator:
+      enabled: true
+    istio:
+      istioInstallArgs:
+        - name: "meshConfig.enableTracing"
+          value: "true"
+        # 25% of Istio traces will be sampled.  
+        - name: "meshConfig.defaultConfig.tracing.sampling"
+          value: "25.0"
+```
