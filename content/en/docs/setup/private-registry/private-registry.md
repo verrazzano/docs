@@ -37,3 +37,14 @@ To obtain the required Verrazzano images and install from your private registry,
    * Expand the TAR file, for example, `tar xvf verrazzano_{{<download_package_full_version>}}.tar.gz`.
 3. Load the product images into your private registry and install Verrazzano using the instructions in the `README.md`
    file that is packaged with the TAR file.
+
+## Configuring access to an insecure private registry
+
+A private docker registry is called an [insecure registry](https://docs.docker.com/registry/insecure/) when it is configured for access using a self signed certificate or over an unencrypted HTTP connection.Depending on the platform, there could be some additional configuration required for installing Verrazzano with an insecure registry.
+ 
+For example, for the [OLCNE platform]({{< relref "/docs/setup/platforms/OLCNE/OLCNE.md" >}}), the insecure registries must be configured in `/etc/containers/registries.conf` as follows on the worker nodes:
+ ```
+ [registries]
+    [registries.insecure]
+      registries = ["insecure-registry-1:1001/registry1","insecure-registry-2:1001/registry2"]
+ ```
