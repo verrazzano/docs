@@ -360,7 +360,7 @@ The value for `<path to valid Kubernetes config>` is typically `${HOME}/.kube/co
 $ export KUBECONFIG=$VERRAZZANO_KUBECONFIG
 ```
 
-## Configure Istio Gateway resource for non-SNI requests
+##### Configure Istio Gateway resource for non-SNI requests
 
 When a cloud load balancer is set up as an application load balancer in Verrazzano, it is possible that [SNI](https://www.cloudflare.com/en-in/learning/ssl/what-is-sni/) is not forwarded from the load balancer to the `istio-ingressgateway` as described [here](https://istio.io/latest/docs/ops/common-problems/network-issues/?_ga=2.71843408.277402657.1650537788-2065972972.1650537788#configuring-sni-routing-when-not-sending-sni). This may result in traffic not getting routed to the application service. To make it work, you need to edit the `Gateway` resource and add `*` to the `hosts` list.
 ```
