@@ -25,9 +25,9 @@ $ kubectl logs -n verrazzano-install \
     -l job-name=verrazzano-uninstall-${MYVZ} \
     -o jsonpath="{.items[0].metadata.name}")
 ```
-{{% alert title="NOTE" color="warning" %}}
-Verrazzano requires `PersistentVolumes` for several of its components. These `PersistentVolumes` are recycled by Kubernetes. As explained in this [link](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#recycle), some Kubernetes platforms like [OLCNE](/docs/setup/platforms/OLCNE/OLCNE.md) can have a custom recycle Pod defined. This Pod could require access to images which may not be available to the environment. For example in case of [local registry setup](/docs/setup/private-registry/private-registry/) without access to public internet, the Pod defined in the preceding link will fail to start because it will not be able to pull the public `k8s.gcr.io/busybox` image. In such cases, it is required to have the specified container image locally on the Kubernetes node or in the local registry and use the argument `--pv-recycler-pod-template-filepath-nfs` to specify a custom pod template for the recycler. 
-For example, to configure the recycler pod template on an OLCNE based Verrazzano cluster,
+## Configuring custom recycler POD Template
+Verrazzano requires `PersistentVolumes` for several of its components. These `PersistentVolumes` are recycled by Kubernetes. As explained [here](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#recycle), some Kubernetes platforms like [OLCNE]({{< relref "/docs/setup/platforms/OLCNE/OLCNE.md" >}}) can have a custom recycle Pod defined. This Pod could require access to images which may not be available to the environment. For example, in the case of [local registry setup]({{< relref "/docs/setup/private-registry/private-registry/" >}}) without access to the public internet, the Pod previously defined will fail to start because it will not be able to pull the public `k8s.gcr.io/busybox` image. In such cases, it is required to have the specified container image locally on the Kubernetes node or in the local registry and use the argument `--pv-recycler-pod-template-filepath-nfs` to specify a custom pod template for the recycler. 
+ For example, to configure the recycler pod template on an OLCNE based Verrazzano cluster:
 1. Configure the the recycler pod template as a `ConfigMap` entry.
     ```
     apiVersion: v1
@@ -57,11 +57,13 @@ For example, to configure the recycler pod template on an OLCNE based Verrazzano
             - name: vol
             mountPath: /scrub
     ```
-2. Edit the `kube-controller-manager` Pod in `kube-system` namespace.
+2. Edit the `kube-controller-manager` Pod in the `kube-system` namespace.
     ```
-    kubectl edit pod kube-controller-manager-xxxxx -n kube-system
+    $ kubectl edit pod kube-controller-manager-xxxxx -n kube-system
     ```
-3. Add the `recycler-pod-config` as a `volume` and the `recycler-pod.yaml` as a `volumeMount` to the `kube-controller-manager` pod. Also add the `--pv-recycler-pod-template-filepath-nfs` with value as path to `recycler-pod.yaml` in the pod.
+3. Add the `recycler-pod-config` as a `volume` to the Pod spec.
+4. Add the `recycler-pod.yaml` as a `volumeMount` to the Pod spec. 
+5. Add the `--pv-recycler-pod-template-filepath-nfs` with value as `mountPath` of `recycler-pod.yaml` in the pod.
     ```
     apiVersion: v1
     kind: Pod
@@ -85,5 +87,4 @@ For example, to configure the recycler pod template on an OLCNE based Verrazzano
     - name: recycler-config-volume
         configMap:
             name: recycler-pod-config
-    ``` 
-{{% /alert %}}
+    ```

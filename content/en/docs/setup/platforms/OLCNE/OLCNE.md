@@ -283,13 +283,11 @@ If load balancers are desired, then they should be created now even though the a
       * Health Check: Protocol TCP, Port 0
       * Backends: Kubernetes Worker Nodes, Port TBD, Distribution Policy Weighted Round Robin
 
-{{% alert title="NOTE" color="warning" %}}
-To configure a HTTPS listener or a HTTPS Backend, a SSL Certificate needs to be configured as described in [SSL Certificate for Load Balancers](https://docs.oracle.com/en-us/iaas/Content/Balance/Tasks/managingcertificates.htm).
+#### Configuring Self-Signed Certificate for Load Balancer
+To configure an HTTPS listener or an HTTPS Backend, you must configure an SSL certificate as described in [SSL Certificate for Load Balancers](https://docs.oracle.com/en-us/iaas/Content/Balance/Tasks/managingcertificates.htm).
 
-When the SSL Certificate being configured as the Load Balancer Managed Certificate is a Self-Signed Certificate, then the Certificate should also be added as the CA Certificate on the <i>Add Certificate</i> screen in OCI Console.
+When the SSL certificate being configured as the Load Balancer Managed Certificate is a self-signed certificate, then the certificate should also be added as the CA certificate on the <i>Add Certificate</i> page in the OCI Console.
 ![](/docs/images/olcne-lb-self-signed-cert.png)
-
-{{% /alert %}}
 
 ### DNS
 When using the Verrazzano`spec.components.dns.external` DNS type, the installer searches the DNS zone you provide for two specific A records.
@@ -362,8 +360,9 @@ The value for `<path to valid Kubernetes config>` is typically `${HOME}/.kube/co
 $ export KUBECONFIG=$VERRAZZANO_KUBECONFIG
 ```
 
-{{% alert title="NOTE" color="warning" %}}
-When a Cloud Load Balancer is setup as an Application Load Balancer in Verrazzano, it is possible that [SNI](https://www.cloudflare.com/en-in/learning/ssl/what-is-sni/) is not forwarded from the Load Balancer to the `istio-ingressgateway` as described in this [link](https://istio.io/latest/docs/ops/common-problems/network-issues/?_ga=2.71843408.277402657.1650537788-2065972972.1650537788#configuring-sni-routing-when-not-sending-sni). This may result in traffic not getting routed to the application service. In order to make it work, we need to edit the `Gateway` resource and add `*` to the `hosts` list.
+## Configure Istio Gateway resource for non-SNI requests
+
+When a cloud load balancer is set up as an application load balancer in Verrazzano, it is possible that [SNI](https://www.cloudflare.com/en-in/learning/ssl/what-is-sni/) is not forwarded from the load balancer to the `istio-ingressgateway` as described [here](https://istio.io/latest/docs/ops/common-problems/network-issues/?_ga=2.71843408.277402657.1650537788-2065972972.1650537788#configuring-sni-routing-when-not-sending-sni). This may result in traffic not getting routed to the application service. To make it work, you need to edit the `Gateway` resource and add `*` to the `hosts` list.
 ```
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
@@ -375,9 +374,6 @@ spec:
   - hosts:
     - '*'
     - ...
-``` 
-{{% /alert %}}
-```
 ```
 
 ## Next steps
