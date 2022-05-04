@@ -22,4 +22,4 @@ Analysis detected that there were nodes reporting insufficient memory.
 
 ### Related information
 * [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}})
-* [Kubernetes Troubleshooting](https://kubernetes.io/docs/tasks/debug-application-cluster/troubleshooting/)
+* [Kubernetes Troubleshooting](https://kubernetes.io/docs/tasks/debug/)

@@ -12,7 +12,7 @@ following ways:
 
 * Let Verrazzano generate a self-signed CA (the default).
 * Configure a CA that you provide.
-* Configure [LetsEncrypt](https://letsencrypt.org/) as the certificate issuer (requires [OCI DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm)).
+* Configure [LetsEncrypt](https://letsencrypt.org/) as the certificate issuer (requires [Oracle Cloud Infrastructure DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm)).
 
 In all cases, Verrazzano uses [CertManager](https://cert-manager.io/) to manage the creation of certificates.
 
@@ -88,7 +88,7 @@ automated issuance of certificates signed by a trusted authority.  This is manag
 field in the Verrazzano custom resource.
 
 {{< alert title="NOTE" color="primary" >}}
-Using LetsEncrypt for certificates also requires using OCI DNS for DNS management.
+Using LetsEncrypt for certificates also requires using Oracle Cloud Infrastructure DNS for DNS management.
 For details, see the [Customize DNS](/docs/setup/customizing/dns/) page.
 {{< /alert >}}
 
@@ -99,7 +99,7 @@ ACME provider with the following values in the Verrazzano custom resource:
 * Set the `spec.components.certManager.certificate.acme.emailAddress` field to a valid email address for the `letsEncrypt` account.
 * (Optional) Set the `spec.components.certManager.certificate.acme.environment` field to either `staging` or `production` (the default).
 
-The following example configures Verrazzano to use the LetsEncrypt `production` environment by default, with OCI DNS
+The following example configures Verrazzano to use the LetsEncrypt `production` environment by default, with Oracle Cloud Infrastructure DNS
 for DNS record management:
 
 ```
@@ -123,7 +123,7 @@ spec:
         dnsZoneName: example.com
 ```
 
-The following example configures Verrazzano to use the LetsEncrypt `staging` environment with OCI DNS:
+The following example configures Verrazzano to use the LetsEncrypt `staging` environment with Oracle Cloud Infrastructure DNS:
 
 ```
 apiVersion: install.verrazzano.io/v1alpha1

@@ -22,7 +22,7 @@ section of the custom resource, to form the full DNS domain name used to access 
 For example, if `spec.environmentName` is set to `sales` and the domain is configured in `spec.components.dns` as `us.example.com`,
 Verrazzano will create `sales.us.example.com` as the DNS domain for the installation.
 
-{{< tabs tabTotal="3" tabID="1" tabName1="Wildcard DNS" tabName2="OCI DNS" tabName3="Custom DNS">}}
+{{< tabs tabTotal="3" tabID="1" tabName1="Wildcard DNS" tabName2="Oracle Cloud Infrastructure DNS" tabName3="Custom DNS">}}
 {{< tab tabNum="1" >}}
 <br>
 
@@ -62,22 +62,22 @@ spec:
 {{< tab tabNum="2" >}}
 <br>
 
-Verrazzano can directly manage records in [Oracle OCI DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm)
+Verrazzano can directly manage records in [Oracle Oracle Cloud Infrastructure DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm)
 when configured to use the [`spec.components.dns.oci`](/docs/reference/api/verrazzano/verrazzano#dns-oci) field.  This is achieved
 through the [External DNS Service](https://github.com/kubernetes-sigs/external-dns), which is a component that is
-conditionally installed when OCI DNS is configured for DNS management in Verrazzano.
+conditionally installed when Oracle Cloud Infrastructure DNS is configured for DNS management in Verrazzano.
 
 ### Prerequisites
 
-The following prerequisites must be met before using OCI DNS with Verrazzano:
+The following prerequisites must be met before using Oracle Cloud Infrastructure DNS with Verrazzano:
 
 * You must have control of a DNS domain.
-* You must have an OCI DNS Service Zone that is configured to manage records for that domain. Verrazzano also supports the use of both GLOBAL and PRIVATE OCI DNS zones.
+* You must have an Oracle Cloud Infrastructure DNS Service Zone that is configured to manage records for that domain. Verrazzano also supports the use of both GLOBAL and PRIVATE Oracle Cloud Infrastructure DNS zones.
 
   A DNS Service Zone is a distinct portion of a domain namespace. You must ensure that the zone is appropriately associated with a parent domain.
   For example, an appropriate zone name for parent domain `example.com` is `us.example.com`.
 
-  To create an OCI DNS zone using the OCI CLI:
+  To create an Oracle Cloud Infrastructure DNS zone using the Oracle Cloud Infrastructure CLI:
   ```
   $ oci dns zone create \
       -c <compartment ocid> \
@@ -85,12 +85,12 @@ The following prerequisites must be met before using OCI DNS with Verrazzano:
       --zone-type PRIMARY
   ```
 
-  To create an OCI DNS zone using the OCI Console, see
+  To create an Oracle Cloud Infrastructure DNS zone using the Oracle Cloud Infrastructure Console, see
   [Managing DNS Service Zones](https://docs.oracle.com/en-us/iaas/Content/DNS/Tasks/managingdnszones.htm).
 
-* You must have a valid OCI API signing key that can be used to communicate with OCI DNS in your tenancy.  
+* You must have a valid Oracle Cloud Infrastructure API signing key that can be used to communicate with Oracle Cloud Infrastructure DNS in your tenancy.  
 
-  For example, you can create an API signing key using the OCI CLI:
+  For example, you can create an API signing key using the Oracle Cloud Infrastructure CLI:
 
   ```
     $ oci setup keys --key-name myapikey
@@ -107,16 +107,16 @@ The following prerequisites must be met before using OCI DNS with Verrazzano:
             https://docs.cloud.oracle.com/Content/API/Concepts/apisigningkey.htm#How2
   ```
 
-  After the key pair has been created, you must upload the public key to your account in your OCI tenancy.   For details, see
-  the OCI documentation, [Required Keys and OCIDs](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm).
+  After the key pair has been created, you must upload the public key to your account in your Oracle Cloud Infrastructure tenancy.   For details, see
+  the Oracle Cloud Infrastructure documentation, [Required Keys and OCIDs](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm).
 
-### Create an OCI API secret in the target cluster
+### Create an Oracle Cloud Infrastructure API secret in the target cluster
 
-To communicate with OCI DNS to manage DNS records, Verrazzano needs to be made aware of the necessary API credentials.  
+To communicate with Oracle Cloud Infrastructure DNS to manage DNS records, Verrazzano needs to be made aware of the necessary API credentials.  
 A generic Kubernetes secret must be created in the cluster's `verrazzano-install` namespace with the required credentials.
 That secret must then be referenced by the custom resource that is used to install Verrazzano.  
 
-After you have an OCI API key ready for use, create a YAML file, `oci.yaml`, with the API credentials in the form:
+After you have an Oracle Cloud Infrastructure API key ready for use, create a YAML file, `oci.yaml`, with the API credentials in the form:
 
 ```
 auth:
@@ -128,8 +128,8 @@ auth:
   fingerprint: <oci-api-private-key-fingerprint>
 ```
 
-This information typically can be found in your OCI CLI config file or in the OCI Console.  The
-`<oci-api-private-key-file-contents>` contents are the PEM-encoded contents of the `key_file` value within the OCI CLI
+This information typically can be found in your Oracle Cloud Infrastructure CLI config file or in the Oracle Cloud Infrastructure Console.  The
+`<oci-api-private-key-file-contents>` contents are the PEM-encoded contents of the `key_file` value within the Oracle Cloud Infrastructure CLI
 configuration profile.
 
 For example, your `oci.yaml` file will look similar to the following:
@@ -146,7 +146,7 @@ auth:
   fingerprint: 12:d3:4c:gh:fd:9e:27:g8:b9:0d:9f:00:22:33:c3:gg
 ```
 
-Verrazzano also supports the use of instance principals to communicate with OCI in order to create or update OCI DNS records. 
+Verrazzano also supports the use of instance principals to communicate with Oracle Cloud Infrastructure in order to create or update Oracle Cloud Infrastructure DNS records.
 Instance principal requires some prerequisites that can be found [here](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm).
 
 When using instance principals, your `oci.yaml` file will look as follows:
@@ -170,11 +170,11 @@ $ kubectl create secret generic -n verrazzano-install oci --from-file=oci.yaml
 
 This secret will later be referenced from the Verrazzano custom resource used during installation.
 
-### Use a Verrazzano helper script to create an OCI secret
+### Use a Verrazzano helper script to create an Oracle Cloud Infrastructure secret
 
-Verrazzano also provides a helper script to create the necessary Kubernetes secret based on your OCI CLI config file,
-assuming that you have the OCI CLI installed and a valid OCI CLI profile with the required API key information. The script
-`create_oci_config_secret.sh` reads your OCI CLI configuration file to create the secret.
+Verrazzano also provides a helper script to create the necessary Kubernetes secret based on your Oracle Cloud Infrastructure CLI config file,
+assuming that you have the Oracle Cloud Infrastructure CLI installed and a valid Oracle Cloud Infrastructure CLI profile with the required API key information. The script
+`create_oci_config_secret.sh` reads your Oracle Cloud Infrastructure CLI configuration file to create the secret.
 
 First, download the `create_oci_config_secret.sh` script:
 
@@ -191,15 +191,15 @@ $ chmod +x create_oci_config_secret.sh
 $ export KUBECONFIG=<kubeconfig-file>
 $ ./create_oci_config_secret.sh  -h
 usage: ./create_oci_config_secret.sh [-o oci_config_file] [-s config_file_section]
-  -o oci_config_file         The full path to the OCI configuration file (default ~/.oci/config)
-  -s config_file_section     The properties section within the OCI configuration file.  Default is DEFAULT
-  -k secret_name             The secret name containing the OCI configuration.  Default is oci
+  -o oci_config_file         The full path to the Oracle Cloud Infrastructure configuration file (default ~/.oci/config)
+  -s config_file_section     The properties section within the Oracle Cloud Infrastructure configuration file.  Default is DEFAULT
+  -k secret_name             The secret name containing the Oracle Cloud Infrastructure configuration.  Default is oci
   -c context_name            The kubectl context to use
-  -a auth_type               The auth_type to be used to access OCI. Valid values are user_principal/instance_principal. Default is user_principal.
+  -a auth_type               The auth_type to be used to access Oracle Cloud Infrastructure. Valid values are user_principal/instance_principal. Default is user_principal.
   -h                         Help
 ```
 
-For example, to have the script create the YAML file using your `[DEFAULT]` OCI CLI profile and then create a Kubernetes secret
+For example, to have the script create the YAML file using your `[DEFAULT]` Oracle Cloud Infrastructure CLI profile and then create a Kubernetes secret
 named `oci`, you can run the script with no arguments, as follows:
 
 ```
@@ -207,14 +207,14 @@ $ ./create_oci_config_secret.sh
 secret/oci created
 ```
 
-The following example creates a secret `myoci` using an OCI CLI profile named `[dev]`:
+The following example creates a secret `myoci` using an Oracle Cloud Infrastructure CLI profile named `[dev]`:
 
 ```
 $ ./create_oci_config_secret.sh -s dev -k myoci
 secret/myoci created
 ```
 
-When using instance principals all other parameters will be ignored automatically. The following example creates a secret `myoci` using OCI instance principal:
+When using instance principals all other parameters will be ignored automatically. The following example creates a secret `myoci` using Oracle Cloud Infrastructure instance principal:
 
 ```
 $ ./create_oci_config_secret.sh -a instance_principal
@@ -223,10 +223,10 @@ secret/myoci created
 
 ### Installation
 
-After the OCI API secret is created, create a Verrazzano custom resource for the installation that is configured to use OCI
+After the Oracle Cloud Infrastructure API secret is created, create a Verrazzano custom resource for the installation that is configured to use Oracle Cloud Infrastructure
 DNS, and reference the secret you created.
 
-As a starting point, download the sample Verrazzano custom resource `install-oci.yaml` file for OCI DNS:
+As a starting point, download the sample Verrazzano custom resource `install-oci.yaml` file for Oracle Cloud Infrastructure DNS:
 
 ```
 $ curl \
@@ -245,10 +245,10 @@ custom resource spec:
 * `spec.components.dns.oci.dnsScope`
 
 The field `spec.components.dns.oci.ociConfigSecret` should reference the secret created earlier. For details on the
-OCI DNS configuration settings, see [`spec.components.dns.oci`](/docs/reference/api/verrazzano/verrazzano#dns-oci).
+Oracle Cloud Infrastructure DNS configuration settings, see [`spec.components.dns.oci`](/docs/reference/api/verrazzano/verrazzano#dns-oci).
 
-For example, a custom resource for a `prod` installation profile using OCI DNS might look as follows, yielding
-a domain of `myenv.example.com` (OCI identifiers redacted):
+For example, a custom resource for a `prod` installation profile using Oracle Cloud Infrastructure DNS might look as follows, yielding
+a domain of `myenv.example.com` (Oracle Cloud Infrastructure identifiers redacted):
 
 ```
 apiVersion: install.verrazzano.io/v1alpha1
@@ -267,7 +267,7 @@ spec:
         dnsZoneName: example.com
 ```
 
-If using a private DNS zone, then the same `prod` installation profile using OCI DNS will look as follows:
+If using a private DNS zone, then the same `prod` installation profile using Oracle Cloud Infrastructure DNS will look as follows:
 
 ```
 apiVersion: install.verrazzano.io/v1alpha1
@@ -328,6 +328,6 @@ This example assumes that load balancers exist for `ingress-mgmt` on `198.51.100
 `203.0.113.10`.
 
 For a more complete example, see the documentation for setting up Verrazzano on the
-[OLCNE Platform](/docs/setup/platforms/olcne/olcne/).
+[Oracle Cloud Native Environment Platform](/docs/setup/platforms/olcne/olcne/).
 {{< /tab >}}
 {{< /tabs >}}
