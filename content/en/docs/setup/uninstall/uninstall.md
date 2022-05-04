@@ -61,9 +61,9 @@ Verrazzano requires `PersistentVolumes` for several of its components. These `Pe
     ```
     $ kubectl edit pod kube-controller-manager-xxxxx -n kube-system
     ```
-3. Add the `recycler-pod-config` as a `volume` to the Pod spec.
-4. Add the `recycler-pod.yaml` as a `volumeMount` to the Pod spec. 
-5. Add the `--pv-recycler-pod-template-filepath-nfs` with value as `mountPath` of `recycler-pod.yaml` in the pod.
+3. Add the ConfigMap `recycler-pod-config` as a `volume` to the Pod spec.
+4. Add the ConfigMap entry `recycler-pod.yaml` as a `volumeMount` to the Pod spec. 
+5. Add the `--pv-recycler-pod-template-filepath-nfs` argument to the `command`, with value as `mountPath` of `recycler-pod.yaml` in the pod.
     ```
     apiVersion: v1
     kind: Pod

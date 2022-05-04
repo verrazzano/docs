@@ -283,7 +283,7 @@ If load balancers are desired, then they should be created now even though the a
       * Health Check: Protocol TCP, Port 0
       * Backends: Kubernetes Worker Nodes, Port TBD, Distribution Policy Weighted Round Robin
 
-#### Configuring Self-Signed Certificate for Load Balancer
+#### Configuring Self-Signed Certificate for the Load Balancer
 To configure an HTTPS listener or an HTTPS Backend, you must configure an SSL certificate as described in [SSL Certificate for Load Balancers](https://docs.oracle.com/en-us/iaas/Content/Balance/Tasks/managingcertificates.htm).
 
 When the SSL certificate being configured as the Load Balancer Managed Certificate is a self-signed certificate, then the certificate should also be added as the CA certificate on the <i>Add Certificate</i> page in the OCI Console.
