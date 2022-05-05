@@ -100,14 +100,14 @@ Follow these preregistration setup steps:
        If this value is empty, then your managed cluster is using certificates signed by a well-known certificate
        authority. Otherwise, your managed cluster is using self-signed certificates.
 
-       {{< tabs tabTotal="3" tabID="2" tabName1="Well-known CA" tabName2="Self-Signed" tabName3="LetsEncrypt Staging" >}}
-       {{< tab tabNum="1" >}}
+     {{< tabs tabTotal="3" >}}
+     {{< tab tabName="Well-known CA" >}}
 <br>
 
 In this case, no additional configuration is necessary.
 
      {{< /tab >}}
-     {{< tab tabNum="2" >}}
+     {{< tab tabName="Self-Signed" >}}
 
 If the managed cluster certificates are self-signed, create a file called `managed1.yaml` containing the CA
 certificate of the managed cluster as the value of the `cacrt` field. In the following commands, the managed cluster's
@@ -138,7 +138,7 @@ Create a Secret on the *admin* cluster that contains the CA certificate for the 
    $ rm managed1.yaml
    ```
      {{< /tab >}}
-     {{< tab tabNum="3" >}}
+     {{< tab tabName="LetsEncrypt Staging" >}}
 
 If the managed cluster certificates are LetsEncrypt staging, then create a file called `managed1.yaml` containing the CA
 certificate of the managed cluster as the value of the `cacrt` field. In the following commands, the managed cluster's
@@ -176,8 +176,8 @@ $ rm managed1.yaml
 1. Use the following instructions to obtain the Kubernetes API server address for the admin cluster. This address must
    be accessible from the managed cluster.
 
-   {{< tabs tabTotal="2" tabID="3" tabName1="Most Kubernetes Clusters" tabName2="Kind Clusters" >}}
-   {{< tab tabNum="1" >}}
+   {{< tabs tabTotal="2" >}}
+   {{< tab tabName="Most Kubernetes Clusters" >}}
 <br>
 
 For most types of Kubernetes clusters, except for Kind clusters, you can find the externally accessible API server
@@ -206,7 +206,7 @@ export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
 ```
 
    {{< /tab >}}
-   {{< tab tabNum="2" >}}
+   {{< tab tabName="Kind Clusters" >}}
 <br>
 
 Kind clusters run within a Docker container. If your admin and managed clusters are Kind clusters, the API server

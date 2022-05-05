@@ -14,8 +14,8 @@ Verrazzano provides tooling which assists in troubleshooting issues in your envi
 ## Tools Setup
 These tools are available for Linux and Mac: https://github.com/verrazzano/verrazzano/releases/.
 
-{{< tabs tabTotal="2" tabID="1" tabName1="Linux" tabName2="Mac"  >}}
-{{< tab tabNum="1" >}}
+{{< tabs tabTotal="2" >}}
+{{< tab tabName="Linux" >}}
 <br>
 
 ### Linux Instructions
@@ -41,7 +41,7 @@ Use these instructions to obtain the analysis tools on Linux machines.
    $ tar xvf verrazzano-analysis-linux-amd64.tar.gz
   ```
 {{< /tab >}}
-{{< tab tabNum="2" >}}
+{{< tab tabName="macOS" >}}
 <br>
 
 ### Mac Instructions
