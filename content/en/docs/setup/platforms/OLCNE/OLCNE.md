@@ -209,6 +209,71 @@ The value for `name` may be customized but will need to match the PersistentVolu
   done
   ```
 
+#### Configuring custom recycler Pod template
+
+When a Verrazzano installation is [deleted]({{< relref "/docs/setup/uninstall/private-registry.md" >}}), the `PersistentVolumes` created in preceding section are recycled by Kubernetes. As explained [here](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#recycle), Kubernetes platforms like Oracle Cloud Native Environment can have a custom recycle Pod defined. This Pod could require access to images which may not be available to the environment. For example, in the case of [local registry setup]({{< relref "/docs/setup/private-registry/private-registry.md" >}}) without access to the public Internet, the Pod previously defined will fail to start because it will not be able to pull the public `k8s.gcr.io/busybox` image. In such cases, it is required to have the specified container image locally on the Kubernetes node or in the local registry and use the argument `--pv-recycler-pod-template-filepath-nfs` to specify a custom pod template for the recycler. 
+ For example, to configure the recycler pod template on an Oracle Cloud Native Environment based Verrazzano cluster:
+1. Configure the recycler pod template as a `ConfigMap` entry.
+    ```
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+    name: recycler-pod-config
+    namespace: kube-system
+    data:
+    recycler-pod.yaml: |
+        apiVersion: v1
+        kind: Pod
+        metadata:
+        name: pv-recycler
+        namespace: default
+        spec:
+        restartPolicy: Never
+        volumes:
+        - name: vol
+            hostPath:
+            path: /any/path/it/will/be/replaced
+        containers:
+        - name: pv-recycler
+            # busybox image from local registry
+            image: "local-registry/busybox"
+            command: ["/bin/sh", "-c", "test -e /scrub && rm -rf /scrub/..?* /scrub/.[!.]* /scrub/*  && test -z \"$(ls -A /scrub)\" || exit 1"]
+            volumeMounts:
+            - name: vol
+            mountPath: /scrub
+    ```
+2. Edit the `kube-controller-manager` Pod in the `kube-system` namespace.
+    ```
+    $ kubectl edit pod kube-controller-manager-xxxxx -n kube-system
+    ```
+3. Add the ConfigMap `recycler-pod-config` as a `volume` to the Pod spec.
+4. Add the ConfigMap entry `recycler-pod.yaml` as a `volumeMount` to the Pod spec. 
+5. Add the `--pv-recycler-pod-template-filepath-nfs` argument to the `command`, with value as `mountPath` of `recycler-pod.yaml` in the pod.
+    ```
+    apiVersion: v1
+    kind: Pod
+    ...
+    spec:
+    containers:
+    - command:
+        - kube-controller-manager
+        - --allocate-node-cidrs=true
+        ...
+        - --pv-recycler-pod-template-filepath-nfs=/etc/recycler-pod.yaml
+        ...
+        volumeMounts:
+        ...
+        - name: recycler-config-volume
+        mountPath: /etc/recycler-pod.yaml
+        subPath: recycler-pod.yaml   
+    ...
+    volumes:
+    ...
+    - name: recycler-config-volume
+        configMap:
+            name: recycler-pod-config
+    ```
+
 ### Load Balancers
 Verrazzano on Oracle Cloud Native Environment uses external load balancer services.
 These will not automatically be provided by Verrazzano or Kubernetes.
@@ -284,9 +349,9 @@ If load balancers are desired, then they should be created now even though the a
       * Backends: Kubernetes Worker Nodes, Port TBD, Distribution Policy Weighted Round Robin
 
 #### Configuring Self-Signed Certificate for the Load Balancer
-To configure an HTTPS listener or an HTTPS Backend, you must configure an SSL certificate as described in [SSL Certificate for Load Balancers](https://docs.oracle.com/en-us/iaas/Content/Balance/Tasks/managingcertificates.htm).
+To configure an HTTPS listener or an HTTPS backend, you must configure an SSL certificate as described in [SSL Certificate for Load Balancers](https://docs.oracle.com/en-us/iaas/Content/Balance/Tasks/managingcertificates.htm).
 
-When the SSL certificate being configured as the Load Balancer Managed Certificate is a self-signed certificate, then the certificate should also be added as the CA certificate on the <i>Add Certificate</i> page in the OCI Console.
+When the SSL certificate being configured as the Load Balancer Managed Certificate is a self-signed certificate, then the certificate should also be added as the CA certificate on the <i>Add Certificate</i> page in the Oracle Cloud Infrastructure Console.
 ![](/docs/images/olcne-lb-self-signed-cert.png)
 
 ### DNS
