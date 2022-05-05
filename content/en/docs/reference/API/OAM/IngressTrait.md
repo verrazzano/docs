@@ -47,6 +47,43 @@ $ curl -sk -X GET https://${HOST}/greet
 ```
 Alternatively, specific host names can be given in an [IngressRule](#ingressrule).  Doing this implies that a secret and certificate have been created for the specific hosts and the secret name has been specified in the associated [IngressSecurity](#ingresssecurity) `secretName` field.
 
+Load balancer session affinity is configured using an HTTP cookie in a destination rule. Here is an updated sample ApplicationConfiguration that includes a destination rule with an HTTP cookie.
+
+```
+apiVersion: core.oam.dev/v1alpha2
+kind: ApplicationConfiguration
+metadata:
+  name: hello-helidon-appconf
+  namespace: hello-helidon
+  annotations:
+    version: v1.0.0
+    description: "Hello Helidon application"
+spec:
+  components:
+    - componentName: hello-helidon-component
+      traits:
+        - trait:
+            apiVersion: oam.verrazzano.io/v1alpha1
+            kind: MetricsTrait
+            spec:
+                scraper: verrazzano-system/vmi-system-prometheus-0
+        - trait:
+            apiVersion: oam.verrazzano.io/v1alpha1
+            kind: IngressTrait
+            metadata:
+              name: hello-helidon-ingress
+            spec:
+              rules:
+                - paths:
+                    - path: "/greet"
+                      pathType: Prefix
+                - destination:
+                    httpCookie:
+                      name: sessioncookie
+                      path: "/"
+                      ttl: 600
+```
+
 #### IngressTrait
 
 | Field | Type | Description | Required
@@ -88,11 +125,21 @@ IngressDestination specifies a specific destination host and port for the ingres
 | --- | --- | --- | --- |
 | `host` | string | Destination host. | No |
 | `port` | uint32 | Destination port. | No |
+| `httpCookie` | [HttpCookie](#httpcookie) | Session affinity cookie. | No |
 
 {{< alert title="NOTE" color="warning" >}}
 If there are multiple ports defined for a service, then the destination port must be specified OR
 the service port name must have the prefix "http".
 {{< /alert >}}
+
+#### HttpCookie
+HttpCookie specifies a session affinity cookie for an ingress trait.
+
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `name` | string | The name of the HTTP cookie. | No |
+| `path` | string | The path of the HTTP cookie. | No |
+| `ttl` | uint32 | The lifetime of the HTTP cookie (in seconds). | No |
 
 #### IngressSecurity
 IngressSecurity specifies the secret containing the certificate securing the transport for an ingress trait.
