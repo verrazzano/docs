@@ -211,10 +211,10 @@ The value for `name` may be customized but will need to match the PersistentVolu
 
 #### Configuring custom recycler Pod template
 
-When a Verrazzano installation is [deleted]({{< relref "/docs/setup/uninstall/uninstall.md" >}}), the `PersistentVolumes` created in preceding section are recycled by Kubernetes. As explained [here](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#recycle), Kubernetes platforms like Oracle Cloud Native Environment can have a custom recycle Pod defined. This Pod could require access to images which may not be available to the environment. For example, in the case of [local registry setup]({{< relref "/docs/setup/private-registry/private-registry.md" >}}) without access to the public Internet, the Pod previously defined will fail to start because it will not be able to pull the public `k8s.gcr.io/busybox` image. In such cases, it is required to have the specified container image locally on the Kubernetes node or in the local registry and use the argument `--pv-recycler-pod-template-filepath-nfs` to specify a custom pod template for the recycler.
+When a Verrazzano installation is [deleted]({{< relref "/docs/setup/uninstall/uninstall.md" >}}), the `PersistentVolumes` created in the preceding section are recycled by Kubernetes. As explained [here](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#recycle), Kubernetes platforms like Oracle Cloud Native Environment can have a custom recycler Pod defined. This Pod could require access to images which may not be available to the environment. For example, in the case of [local registry setup]({{< relref "/docs/setup/private-registry/private-registry.md" >}}) without access to the public Internet, the Pod previously defined will fail to start because it will not be able to pull the public `k8s.gcr.io/busybox` image. In such cases, it is required to have the specified container image locally on the Kubernetes node or in the local registry and use the argument `--pv-recycler-pod-template-filepath-nfs` to specify a custom Pod template for the recycler.
 
-For example, to configure the recycler pod template on an Oracle Cloud Native Environment based Verrazzano cluster:
-1. Configure the recycler pod template as a `ConfigMap` entry.
+For example, to configure the recycler Pod template on an Oracle Cloud Native Environment based Verrazzano cluster:
+1. Configure the recycler Pod template as a `ConfigMap` entry.
     ```
     apiVersion: v1
     kind: ConfigMap
@@ -249,7 +249,7 @@ For example, to configure the recycler pod template on an Oracle Cloud Native En
     ```
 3. Add the ConfigMap `recycler-pod-config` as a `volume` to the Pod spec.
 4. Add the ConfigMap entry `recycler-pod.yaml` as a `volumeMount` to the Pod spec. 
-5. Add the `--pv-recycler-pod-template-filepath-nfs` argument to the `command`, with value as `mountPath` of `recycler-pod.yaml` in the pod.
+5. Add the `--pv-recycler-pod-template-filepath-nfs` argument to the `command`, with value as `mountPath` of `recycler-pod.yaml` in the Pod.
     ```
     apiVersion: v1
     kind: Pod
@@ -275,7 +275,7 @@ For example, to configure the recycler pod template on an Oracle Cloud Native En
             name: recycler-pod-config
     ```
 
-### Load Balancers
+### Load balancers
 Verrazzano on Oracle Cloud Native Environment uses external load balancer services.
 These will not automatically be provided by Verrazzano or Kubernetes.
 Two load balancers must be deployed outside of the subnet used for the Kubernetes cluster.
@@ -320,7 +320,7 @@ Use these port values for the Istio ingress gateway load balancer backend.
 
 
 #### Oracle Cloud Infrastructure example
-The following details can be used to create Oracle Cloud Infrastructure load balancers for accessing application and management user interfaces, respectively.
+You can use the following details to create Oracle Cloud Infrastructure load balancers for accessing application and management user interfaces, respectively.
 These load balancers will route HTTP/HTTPS traffic from the Internet to the private subnet.
 If load balancers are desired, then they should be created now even though the application and management endpoints will be installed later.
 
@@ -349,7 +349,7 @@ If load balancers are desired, then they should be created now even though the a
       * Health Check: Protocol TCP, Port 0
       * Backends: Kubernetes Worker Nodes, Port TBD, Distribution Policy Weighted Round Robin
 
-#### Configuring Self-Signed Certificate for the Load Balancer
+#### Configuring self-signed certificate for the load balancer
 To configure an HTTPS listener or an HTTPS backend, you must configure an SSL certificate as described in [SSL Certificate for Load Balancers](https://docs.oracle.com/en-us/iaas/Content/Balance/Tasks/managingcertificates.htm).
 
 When the SSL certificate being configured as the Load Balancer Managed Certificate is a self-signed certificate, then the certificate should also be added as the CA certificate on the <i>Add Certificate</i> page in the Oracle Cloud Infrastructure Console.
