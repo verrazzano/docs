@@ -22,8 +22,8 @@ section of the custom resource, to form the full DNS domain name used to access 
 For example, if `spec.environmentName` is set to `sales` and the domain is configured in `spec.components.dns` as `us.example.com`,
 Verrazzano will create `sales.us.example.com` as the DNS domain for the installation.
 
-{{< tabs tabTotal="3" tabID="1" tabName1="Wildcard DNS" tabName2="Oracle Cloud Infrastructure DNS" tabName3="Custom DNS">}}
-{{< tab tabNum="1" >}}
+{{< tabs tabTotal="3" >}}
+{{< tab tabName="Wildcard DNS" >}}
 <br>
 
 Verrazzano can be configured to use either the [nip.io](https://nip.io/) or [sslip.io](https://sslip.io) free wildcard DNS services.
@@ -59,7 +59,7 @@ spec:
 <br/>
 
 {{< /tab >}}
-{{< tab tabNum="2" >}}
+{{< tab tabName="Oracle Cloud Infrastructure DNS" >}}
 <br>
 
 Verrazzano can directly manage records in [Oracle Oracle Cloud Infrastructure DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm)
@@ -291,7 +291,7 @@ spec:
 After the custom resource is ready, apply it using `kubectl apply -f <path-to-custom-resource-file>`.
 
 {{< /tab >}}
-{{< tab tabNum="3" >}}
+{{< tab tabName="Custom DNS" >}}
 <br>
 
 You can specify your own externally managed, custom DNS domain.  In this scenario, you manage your own DNS

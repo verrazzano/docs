@@ -37,8 +37,8 @@ It uses OAM resources to define the application deployment.
 
 1. To deploy the application, apply the Sock Shop OAM resources.  Choose to deploy either the `helidon`, `micronaut`, or `spring` variant.
 
-   {{< tabs tabTotal="3" tabID="3" tabName1="Helidon" tabName2="Micronaut" tabName3="Spring">}}
-   {{< tab tabNum="1" >}}
+   {{< tabs tabTotal="3" >}}
+   {{< tab tabName="Helidon" >}}
    <br>
 
    ```
@@ -46,7 +46,7 @@ It uses OAM resources to define the application deployment.
    $ kubectl apply -f {{< release_source_url raw=true path=examples/sock-shop/helidon/sock-shop-app.yaml >}} -n sockshop
    ```
    {{< /tab >}}
-   {{< tab tabNum="2" >}}
+   {{< tab tabName="Micronaut" >}}
    <br>
 
    ```
@@ -54,7 +54,7 @@ It uses OAM resources to define the application deployment.
    $ kubectl apply -f {{< release_source_url raw=true path=examples/sock-shop/micronaut/sock-shop-app.yaml >}} -n sockshop
    ```
    {{< /tab >}}
-   {{< tab tabNum="3" >}}
+   {{< tab tabName="Spring" >}}
    <br>
 
    ```
@@ -207,8 +207,9 @@ You can access them according to the directions [here]({{< relref "/docs/access/
 
 1. To undeploy the application, delete the Sock Shop OAM resources.  Choose to undeploy either the `helidon`, `micronaut`, or `spring` variant.
 
-   {{< tabs tabTotal="3" tabID="4" tabName1="Helidon" tabName2="Micronaut" tabName3="Spring">}}
-   {{< tab tabNum="1" >}}
+
+   {{< tabs tabTotal="3" >}}
+   {{< tab tabName="Helidon" >}}
    <br>
 
    ```
@@ -216,7 +217,7 @@ You can access them according to the directions [here]({{< relref "/docs/access/
    $ kubectl delete -f {{< release_source_url raw=true path=examples/sock-shop/helidon/sock-shop-app.yaml >}} -n sockshop
    ```
    {{< /tab >}}
-   {{< tab tabNum="2" >}}
+   {{< tab tabName="Micronaut" >}}
    <br>
 
    ```
@@ -224,7 +225,7 @@ You can access them according to the directions [here]({{< relref "/docs/access/
    $ kubectl delete -f {{< release_source_url raw=true path=examples/sock-shop/micronaut/sock-shop-app.yaml >}} -n sockshop
    ```
    {{< /tab >}}
-   {{< tab tabNum="3" >}}
+   {{< tab tabName="Spring" >}}
    <br>
 
    ```
