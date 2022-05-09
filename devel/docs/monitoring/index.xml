@@ -14,6 +14,132 @@
     
     
     <item>
+      <title>Docs: Jaeger Tracing</title>
+      <link>/docs/monitoring/tracing/jaeger-tracing/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/monitoring/tracing/jaeger-tracing/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Jaeger is a distributed tracing system used for monitoring and troubleshooting microservices.
+For more information on Jaeger, visit the &lt;a href=&#34;https://www.jaegertracing.io/&#34;&gt;Jaeger website&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;install-jaeger-operator&#34;&gt;Install Jaeger Operator&lt;/h2&gt;
+&lt;p&gt;To install the Jaeger Operator, enable the &lt;code&gt;jaegerOperator&lt;/code&gt; component in your Verrazzano resource. Here is
+an example YAML file that enables the Jaeger Operator.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;install.verrazzano.io/v1alpha1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;Verrazzano&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;verrazzano&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;profile&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;prod&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;components&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;jaegerOperator&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;enabled&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;install-jaeger-using-the-jaeger-operator&#34;&gt;Install Jaeger using the Jaeger Operator&lt;/h2&gt;
+&lt;p&gt;Jaeger is installed using the Jaeger Custom Resource Definition. The following example shows you how to install Jaeger inside the Istio mesh using the
+Verrazzano system OpenSearch cluster as a tracing backend.&lt;/p&gt;
+&lt;p&gt;Before creating the Jaeger instance, create a secret containing the OpenSearch user name and password.
+Jaeger will use these credentials to connect to OpenSearch:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl create secret generic jaeger-secret \
+  --from-literal=ES_PASSWORD=&amp;lt;OPENSEARCH PASSWORD&amp;gt; \
+  --from-literal=ES_USERNAME=&amp;lt;OPENSEARCH USERNAME&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Use the following YAML to create the Jaeger resource:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;jaegertracing.io/v1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;Jaeger&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;verrazzano-prod&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;namespace&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;verrazzano-system&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;annotations&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;sidecar.istio.io/inject&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;strategy&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;production&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;storage&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Jaeger Elasticsearch storage is compatible with Verrazzano OpenSearch.&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;elasticsearch&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;esIndexCleaner&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;enabled&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;numberOfDays&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#0000cf;font-weight:bold&#34;&gt;7&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;schedule&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;* * * * *&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;options&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;es&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Enter your OpenSearch cluster endpoint here.&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;server-urls&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;https://elasticsearch.vmi.system.default.172.18.0.151.nip.io&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;index-prefix&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;jaeger&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;tls&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;ca&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;/verrazzano/certificates/ca.crt&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;secretName&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;jaeger-secret&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;volumeMounts&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;certificates&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;mountPath&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;/verrazzano/certificates/&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;readOnly&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;volumes&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;certificates&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;secret&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Jaeger should use the client TLS secret for OpenSearch. This is the default secret name for Verrazzano OpenSearch.&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;secretName&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;system-tls-es-ingest&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The Jaeger Operator will create services for query and collection. After applying the example resource, you should see similar output by listing
+Jaeger resources:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get services,deployments -l app.kubernetes.io/instance=verrazzano-prod -n verrazzano-system
+
+NAME                                         TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)                                  AGE
+service/verrazzano-prod-collector            ClusterIP   10.96.76.108   &amp;lt;none&amp;gt;        9411/TCP,14250/TCP,14267/TCP,14268/TCP   52m
+service/verrazzano-prod-collector-headless   ClusterIP   None           &amp;lt;none&amp;gt;        9411/TCP,14250/TCP,14267/TCP,14268/TCP   52m
+service/verrazzano-prod-query                ClusterIP   10.96.205.8    &amp;lt;none&amp;gt;        16686/TCP,16685/TCP                      52m
+
+NAME                                        READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/verrazzano-prod-collector   1/1     1            1           52m
+deployment.apps/verrazzano-prod-query       1/1     1            1           52m
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;configure-an-application-to-export-traces-to-jaeger&#34;&gt;Configure an application to export traces to Jaeger&lt;/h2&gt;
+&lt;p&gt;If your application is configured to use tracing libraries, or in the Istio mesh, you can instruct Jaeger to export those traces using annotations.
+To export traces, annotate your applications with the &lt;code&gt;&amp;quot;sidecar.jaegertracing.io/injected&amp;quot;: &amp;quot;true&amp;quot;&lt;/code&gt; annotation.&lt;/p&gt;
+&lt;h2 id=&#34;view-traces-on-the-jaeger-ui&#34;&gt;View traces on the Jaeger UI&lt;/h2&gt;
+&lt;p&gt;You can view the UI by port forwarding the Jaeger query service or by configuring an ingress controller for HTTPS access.
+Explore the Jaeger configuration in more detail using the
+&lt;a href=&#34;https://www.jaegertracing.io/docs/1.33/operator/#configuring-the-custom-resource&#34;&gt;Jaeger Custom Resource Documentation&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;configure-the-istio-mesh-to-use-jaeger-tracing&#34;&gt;Configure the Istio mesh to use Jaeger tracing&lt;/h2&gt;
+&lt;p&gt;Istio mesh traffic can be viewed by enabling Istio&amp;rsquo;s distributed tracing integration. Traces from the Istio mesh provide observability on application traffic
+that passes through Istio&amp;rsquo;s ingress and egress gateways.&lt;/p&gt;
+&lt;p&gt;Istio tracing is disabled by default. To turn on traces, customize your Istio component like the following example.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;install.verrazzano.io/v1alpha1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;Verrazzano&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;verrazzano&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;profile&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;prod&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;components&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;jaegerOperator&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;enabled&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;istio&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;istioInstallArgs&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;meshConfig.enableTracing&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;After enabling tracing, Istio will automatically configure itself with the Jaeger endpoint in your cluster,
+and any new Istio-injected pods will begin exporting traces to Jaeger. Existing pods require a restart
+to pull the new Istio configuration and start sending traces.&lt;/p&gt;
+&lt;p&gt;Istio&amp;rsquo;s default sampling rate is 1%, meaning 1 in 100 requests will be traced in Jaeger.
+If you want a different sampling rate, configure your desired rate using the &lt;code&gt;meshConfig.defaultConfig.tracing.sampling&lt;/code&gt; Istio install argument:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;install.verrazzano.io/v1alpha1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;Verrazzano&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;verrazzano&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;profile&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;prod&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;components&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;jaegerOperator&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;enabled&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;istio&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;istioInstallArgs&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;meshConfig.enableTracing&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# 25% of Istio traces will be sampled.  &lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;- &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;meshConfig.defaultConfig.tracing.sampling&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;          &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;25.0&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Logging</title>
       <link>/docs/monitoring/logs/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -33,7 +159,7 @@
 &lt;h2 id=&#34;fluentd-sidecar&#34;&gt;Fluentd sidecar&lt;/h2&gt;
 &lt;p&gt;For components with multiple log streams or that cannot log to stdout, Verrazzano deploys a Fluentd sidecar which parses and translates the log stream.  The resulting log is sent to stdout of the sidecar container and then written to &lt;code&gt;/var/log/containers&lt;/code&gt; by the kubelet service.&lt;/p&gt;
 &lt;p&gt;For example, in a WebLogic deployment, &lt;code&gt;AdminServer.log&lt;/code&gt; is consumed, translated, and written to stdout by the Fluentd sidecar.  You can view these logs using &lt;code&gt;kubectl&lt;/code&gt; on the container named &lt;code&gt;fluentd-stdout-sidecar&lt;/code&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl logs tododomain-adminserver \
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl logs tododomain-adminserver \
    -n todo-list \
    -c fluentd-stdout-sidecar
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The Verrazzano Fluentd Docker image comes with these plug-ins:&lt;/p&gt;
@@ -56,7 +182,7 @@
 &lt;p&gt;The Verrazzano Fluentd Docker image also has two local default plug-ins, &lt;code&gt;kubernetes_parser&lt;/code&gt; and &lt;code&gt;kubernetes_multiline_parser&lt;/code&gt;.
 These plug-ins help to parse Kubernetes management log files.&lt;/p&gt;
 &lt;p&gt;Here are example use cases for these plug-ins:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;# ---- fluentd.conf ----
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# ---- fluentd.conf ----
 # kubernetes parser
 &amp;lt;source&amp;gt;
   @type tail
@@ -79,16 +205,19 @@ These plug-ins help to parse Kubernetes management log files.&lt;/p&gt;
   &amp;lt;/parse&amp;gt;
 &amp;lt;/source&amp;gt;
 # ----   EOF      ----
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For more details, see the &lt;a href=&#34;https://github.com/verrazzano/fluentd-kubernetes-daemonset/tree/oracle-build-from-source-v1.12/docker-image/v1.12/oraclelinux-elasticsearch7/plugins&#34;&gt;Fluentd plugins&lt;/a&gt; folder.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For more details, see the &lt;a href=&#34;https://github.com/verrazzano/fluentd-kubernetes-daemonset/tree/oracle-build-from-source-v1.14/docker-image/v1.14/oraclelinux-elasticsearch7/plugins&#34;&gt;Fluentd plugins&lt;/a&gt; folder.&lt;/p&gt;
 &lt;h2 id=&#34;fluentd-daemonset&#34;&gt;Fluentd DaemonSet&lt;/h2&gt;
 &lt;p&gt;Verrazzano deploys a Fluentd DaemonSet which runs one Fluentd replica per node in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace.
-Each instance pulls logs from the node&amp;rsquo;s &lt;code&gt;/var/log/containers&lt;/code&gt; directory and writes them to the target OpenSearch index.  The index name is based on the namespace associated with the record, using this format: &lt;code&gt;verrazzano-namespace-&amp;lt;record namespace&amp;gt;&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;For example, &lt;code&gt;vmi-system-kibana&lt;/code&gt; logs written to &lt;code&gt;/var/log/containers&lt;/code&gt; will be pulled by Fluentd and written to OpenSearch.  The index used is named &lt;code&gt;verrazzano-namespace-verrazzano-system&lt;/code&gt; because the VMI runs in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace.&lt;/p&gt;
-&lt;p&gt;The same approach is used for both system and application logs.&lt;/p&gt;
+Each instance pulls logs from the node&amp;rsquo;s &lt;code&gt;/var/log/containers&lt;/code&gt; directory and writes them to the target OpenSearch data stream.
+Verrazzano system applications receive special handling, and write their logs to the &lt;code&gt;verrazzano-system&lt;/code&gt; data stream.
+Verrazzano application logs are exported to a data stream based on the application&amp;rsquo;s namespace, following this format: &lt;code&gt;verrazzano-application-&amp;lt;application namespace&amp;gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;For example, &lt;code&gt;vmi-system-kibana&lt;/code&gt; logs written to &lt;code&gt;/var/log/containers&lt;/code&gt; will be pulled by Fluentd and written to OpenSearch.  The logs are exported
+to the &lt;code&gt;verrazzano-system&lt;/code&gt; data stream, because &lt;code&gt;vmi-system-kibana&lt;/code&gt; is a Verrazzano system application. For a non-system application, if it is in the &lt;code&gt;myapp&lt;/code&gt; namespace,
+then its logs will be exported to the &lt;code&gt;verrazzano-application-myapp&lt;/code&gt; data stream.&lt;/p&gt;
 &lt;h2 id=&#34;opensearch&#34;&gt;OpenSearch&lt;/h2&gt;
-&lt;p&gt;Verrazzano creates an OpenSearch deployment as the store and search engine for the logs processed by Fluentd.  Records written by Fluentd can be queried using the OpenSearch REST API.&lt;/p&gt;
-&lt;p&gt;For example, you can use &lt;code&gt;curl&lt;/code&gt; to get all of the OpenSearch indexes. First, you must get the password for the &lt;code&gt;verrazzano&lt;/code&gt; user and the host for the VMI OpenSearch.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ PASS=$(kubectl get secret \
+&lt;p&gt;Verrazzano creates an OpenSearch cluster as the store and search engine for the logs processed by Fluentd.  Records written by Fluentd can be queried using the OpenSearch REST API.&lt;/p&gt;
+&lt;p&gt;For example, you can use &lt;code&gt;curl&lt;/code&gt; to get all of the OpenSearch data streams. First, you must get the password for the &lt;code&gt;verrazzano&lt;/code&gt; user and the host for the VMI OpenSearch.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ PASS=$(kubectl get secret \
     --namespace verrazzano-system verrazzano \
     -o jsonpath={.data.password} | base64 \
     --decode; echo)
@@ -97,16 +226,16 @@ $ HOST=$(kubectl get ingress \
     -o jsonpath={.spec.rules[0].host})
 
 $ curl -ik \
-   --user verrazzano:$PASS https://$HOST/_cat/indices
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To see all of the records for a specific index, do the following:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ INDEX=verrazzano-namespace-todo-list
+   --user verrazzano:$PASS https://$HOST/_data_stream
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To see all of the records for a specific data stream, do the following:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ DATA_STREAM=verrazzano-application-todo-list
 
 $ curl -ik \
-    --user verrazzano:$PASS https://$HOST/$INDEX/_doc/_search?q=message:*
+    --user verrazzano:$PASS https://$HOST/$DATA_STREAM/_search?q=message:*
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Verrazzano provides support for &lt;a href=&#34;../../docs/setup/install/profiles/&#34;&gt;Installation Profiles&lt;/a&gt;. The production profile (&lt;code&gt;prod&lt;/code&gt;), which is the default, provides a 3-node OpenSearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile (&lt;code&gt;dev&lt;/code&gt;) provides a single node OpenSearch and no persistent storage for the VMI. The &lt;code&gt;managed-cluster&lt;/code&gt; profile does not install OpenSearch or OpenSearch Dashboards in the local cluster; all logs are forwarded to the admin cluster&amp;rsquo;s OpenSearch instance.&lt;/p&gt;
 &lt;p&gt;If you want the logs sent to an external OpenSearch, instead of the default VMI OpenSearch, specify &lt;code&gt;elasticsearchURL&lt;/code&gt; and &lt;code&gt;elasticsearchSecret&lt;/code&gt; in the &lt;a href=&#34;../../docs/reference/api/verrazzano/verrazzano/#fluentd-component&#34;&gt;Fluentd&lt;/a&gt; Component configuration in your Verrazzano custom resource.&lt;/p&gt;
 &lt;p&gt;The following is an example of a Verrazzano custom resource to send the logs to the OpenSearch endpoint &lt;code&gt;https://external-es.default.172.18.0.231.nip.io&lt;/code&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
   name: default
@@ -118,18 +247,19 @@ spec:
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;opensearch-dashboards&#34;&gt;OpenSearch Dashboards&lt;/h2&gt;
 &lt;p&gt;OpenSearch Dashboards is a visualization dashboard for the content indexed on an OpenSearch cluster.  Verrazzano creates a OpenSearch Dashboards deployment to provide a user interface for querying and visualizing the log data collected in OpenSearch.&lt;/p&gt;
 &lt;p&gt;To access the OpenSearch Dashboards console, read &lt;a href=&#34;../../docs/access/&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;To see the records of an OpenSearch index through OpenSearch Dashboards, create an index pattern to filter for records under the desired index.&lt;/p&gt;
-&lt;p&gt;For example, to see the log records of a WebLogic application deployed to the &lt;code&gt;todo-list&lt;/code&gt; namespace, create an index pattern of &lt;code&gt;verrazzano-namespace-todo-*&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;../../docs/images/opensearch.png&#34; alt=&#34;OpenSearch Dashboards&#34;&gt;&lt;/p&gt;
+&lt;p&gt;To see the records of an OpenSearch index or data stream through OpenSearch Dashboards, create an index pattern to filter for records under the desired data stream or index.&lt;/p&gt;
+&lt;p&gt;For example, to see the log records of a WebLogic application deployed to the &lt;code&gt;todo-list&lt;/code&gt; namespace, create an index pattern of &lt;code&gt;verrazzano-application-todo-*&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../docs/images/opensearch-dashboards-todo.png&#34; alt=&#34;OpenSearch Dashboards&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;log-rotation&#34;&gt;Log rotation&lt;/h2&gt;
-&lt;p&gt;We recommend configuring log rotation for OpenSearch using a periodic job to purge or snapshot old records.
-A basic implementation of log rotation is provided in the following example, implemented using a Kubernetes CronJob.
+&lt;p&gt;We recommend configuring log rotation for OpenSearch using Index State Management (ISM) or a periodic job to purge or snapshot old records.
+For information on configuring OpenSearch ISM, see the &lt;a href=&#34;../../docs/setup/customizing/opensearch/#configure-index-state-management-policies&#34;&gt;ISM setup page&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;A basic implementation of job-based log rotation (not using ISM) is provided in the following example, implemented using a Kubernetes CronJob.
 To install the log rotation example on your cluster, save the snippet into a file and make the following modifications:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Substitue the value of &lt;code&gt;OPENSEARCH_HOST&lt;/code&gt; with your specific OpenSearch HTTPS endpoint.&lt;/li&gt;
 &lt;li&gt;By default, the CronJob deletes the last 7 days of data. You may customize this by modifying the query in the ConfigMap.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;pre&gt;&lt;code&gt;apiVersion: batch/v1beta1
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
   name: log-rotate
@@ -138,7 +268,7 @@ metadata:
     app: log-rotate
 spec:
   # Rotate logs every day at midnight
-  schedule: &amp;quot;0 0 * * *&amp;quot;
+  schedule: &amp;#34;0 0 * * *&amp;#34;
   jobTemplate:
     spec:
       template:
@@ -146,7 +276,7 @@ spec:
           labels:
             app: log-rotate
           annotations:
-            sidecar.istio.io/inject: &amp;quot;false&amp;quot;
+            sidecar.istio.io/inject: &amp;#34;false&amp;#34;
         spec:
           containers:
           - name: log-rotate
@@ -155,8 +285,8 @@ spec:
             - -c
             - /opt/script/rotate
             env:
-            - name: &amp;quot;OPENSEARCH_HOST&amp;quot;
-              value: &amp;quot;https://elasticsearch.vmi.system.default.172.18.0.151.nip.io&amp;quot;
+            - name: &amp;#34;OPENSEARCH_HOST&amp;#34;
+              value: &amp;#34;https://elasticsearch.vmi.system.default.172.18.0.151.nip.io&amp;#34;
             - name: OPENSEARCH_USER
               valueFrom:
                 secretKeyRef:
@@ -192,15 +322,15 @@ metadata:
 data:
   rotate: |
     #!/bin/bash
-    curl -v --silent -k -u &amp;quot;$OPENSEARCH_USER:$OPENSEARCH_PASSWORD&amp;quot; -X POST &amp;quot;$OPENSEARCH_HOST/verrazzano-*/_delete_by_query&amp;quot; -H &#39;Content-Type: application/json&#39; -d&#39;
+    curl -v --silent -k -u &amp;#34;$OPENSEARCH_USER:$OPENSEARCH_PASSWORD&amp;#34; -X POST &amp;#34;$OPENSEARCH_HOST/verrazzano-*/_delete_by_query&amp;#34; -H &amp;#39;Content-Type: application/json&amp;#39; -d&amp;#39;
     {
-      &amp;quot;query&amp;quot;: {
-        &amp;quot;bool&amp;quot;: {
-          &amp;quot;filter&amp;quot;: [
+      &amp;#34;query&amp;#34;: {
+        &amp;#34;bool&amp;#34;: {
+          &amp;#34;filter&amp;#34;: [
             {
-              &amp;quot;range&amp;quot;: {
-                &amp;quot;@timestamp&amp;quot;: {
-                  &amp;quot;lt&amp;quot;: &amp;quot;now-7d&amp;quot;
+              &amp;#34;range&amp;#34;: {
+                &amp;#34;@timestamp&amp;#34;: {
+                  &amp;#34;lt&amp;#34;: &amp;#34;now-7d&amp;#34;
                 }
               }
             }
@@ -208,13 +338,13 @@ data:
         }
       }
     }
-    &#39;
+    &amp;#39;
 &lt;/code&gt;&lt;/pre&gt;
       </description>
     </item>
     
     <item>
-      <title>Docs: OCI Logging Service</title>
+      <title>Docs: Oracle Cloud Infrastructure Logging Service</title>
       <link>/docs/monitoring/oci-logging/oci-logging/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -222,67 +352,58 @@ data:
       <description>
         
         
-        &lt;p&gt;The Oracle Cloud Infrastructure (OCI) Logging service is a highly scalable and fully managed single pane of glass for
-all the logs in your tenancy. You can configure Verrazzano to send logs to OCI Logging instead of OpenSearch.
-For general information, see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/loggingoverview.htm&#34;&gt;OCI Logging Overview&lt;/a&gt;.&lt;/p&gt;
+        &lt;p&gt;The Oracle Cloud Infrastructure Logging service is a highly scalable and fully managed single pane of glass for
+all the logs in your tenancy. You can configure Verrazzano to send logs to Oracle Cloud Infrastructure Logging instead of OpenSearch.
+For general information, see Oracle Cloud Infrastructure &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/loggingoverview.htm&#34;&gt;Logging Overview&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;set-up-custom-logs&#34;&gt;Set up custom logs&lt;/h2&gt;
-&lt;p&gt;Verrazzano can send its logs to OCI custom logs. You will need to provide two OCI Log identifiers in your Verrazzano
+&lt;p&gt;Verrazzano can send its logs to Oracle Cloud Infrastructure custom logs. You will need to provide two Oracle Cloud Infrastructure Log identifiers in your Verrazzano
 installation resource - one for Verrazzano system logs and one for application logs. Follow the steps in
 &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/custom_logs.htm&#34;&gt;Creating Custom Logs&lt;/a&gt; to create two
 custom logs. &lt;strong&gt;Do not&lt;/strong&gt; create an agent configuration when creating a custom log, otherwise the log records will be duplicated.&lt;/p&gt;
 &lt;h2 id=&#34;configure-credentials&#34;&gt;Configure credentials&lt;/h2&gt;
-&lt;p&gt;The Fluentd plug-in included with Verrazzano will use OCI instance principal authentication by default. Optionally, you
+&lt;p&gt;The Fluentd plug-in included with Verrazzano will use Oracle Cloud Infrastructure instance principal authentication by default. Optionally, you
 can configure Verrazzano with a user API signing key. API signing key authentication is required to send logs to
-OCI Logging if the cluster is running outside of OCI.&lt;/p&gt;
+Oracle Cloud Infrastructure Logging if the cluster is running outside of Oracle Cloud Infrastructure.&lt;/p&gt;
 &lt;nav&gt;
 	&lt;div class=&#34;nav nav-tabs&#34; id=&#34;nav-tab&#34; role=&#34;tablist&#34;&gt;
 
 		
 		
-
-		
-		
-		
-
-		
-
-		&lt;a class=&#34;nav-item nav-link active&#34; id=&#34;nav-1&#34; data-toggle=&#34;tab&#34; href=&#34;#tab11&#34; role=&#34;tab&#34;
-		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Instance Principal Credentials&lt;/a&gt;
-
-		
-		
-
-		
 		
 		
 
 		
 
-		&lt;a class=&#34;nav-item nav-link&#34; id=&#34;nav-1&#34; data-toggle=&#34;tab&#34; href=&#34;#tab12&#34; role=&#34;tab&#34;
-		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;false&#34;&gt;User API Credentials&lt;/a&gt;
+		&lt;a class=&#34;nav-item nav-link  active &#34;
+		   id=&#34;nav-beacfd&#34; data-toggle=&#34;tab&#34; href=&#34;#beacfd&#34;
+		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;InstancePrincipalCredentials&lt;/a&gt;
 
 		
+
+		&lt;a class=&#34;nav-item nav-link &#34;
+		   id=&#34;nav-dcabfe&#34; data-toggle=&#34;tab&#34; href=&#34;#dcabfe&#34;
+		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;UserAPICredentials&lt;/a&gt;
+
 		
 
 	&lt;/div&gt;
 &lt;/nav&gt;
 
-&lt;div class=&#34;tab-content&#34; id=&#34;1&#34;&gt;
+&lt;div class=&#34;tab-content&#34; id=&#34;nav-tab-content&#34;&gt;
+
+	
 
 
 
 
 
-
-
-
-&lt;div class=&#34;tab-pane fade show active&#34; id=&#34;tab11&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;beacfd&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;Create a dynamic group that includes the compute instances in your cluster&amp;rsquo;s node pools and assign the appropriate policy,
 so that the dynamic group is allowed to send log entries to the custom logs you created earlier. Pay close attention to
 the &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Task/managinglogs.htm#required_permissions_logs_groups&#34;&gt;required permissions&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;If the dynamic group and policy are configured incorrectly, then Fluentd will fail to send logs to OCI Logging.&lt;/p&gt;
+&lt;p&gt;If the dynamic group and policy are configured incorrectly, then Fluentd will fail to send logs to Oracle Cloud Infrastructure Logging.&lt;/p&gt;
 &lt;br/&gt;
 
 
@@ -293,31 +414,28 @@ the &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Task/mana
 
 
 
-
-
-
-&lt;div class=&#34;tab-pane fade&#34; id=&#34;tab12&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName2&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;dcabfe&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
-&lt;p&gt;If you do not already have an API signing key, then see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm&#34;&gt;Required Keys and OCIDS&lt;/a&gt;
-in the OCI documentation. You need to create an OCI configuration file with the credential details and then use that
-configuration file to create a secret. The following requirements must be met for Fluentd OCI Logging to work:&lt;/p&gt;
+&lt;p&gt;If you do not already have an API signing key, then see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm&#34;&gt;Required Keys and OCIDs&lt;/a&gt;
+in the Oracle Cloud Infrastructure documentation. You need to create an Oracle Cloud Infrastructure configuration file with the credential details and then use that
+configuration file to create a secret. The following requirements must be met for Fluentd Oracle Cloud Infrastructure Logging to work:&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;The profile name in the OCI configuration file must be &lt;code&gt;DEFAULT&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;The &lt;code&gt;key_file&lt;/code&gt; path in the OCI configuration file must be &lt;code&gt;/root/.oci/key&lt;/code&gt;. The actual key file does not need to be in
+&lt;li&gt;The profile name in the Oracle Cloud Infrastructure configuration file must be &lt;code&gt;DEFAULT&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;key_file&lt;/code&gt; path in the Oracle Cloud Infrastructure configuration file must be &lt;code&gt;/root/.oci/key&lt;/code&gt;. The actual key file does not need to be in
 that location, because you will be providing the actual key file location in a secret.&lt;/li&gt;
-&lt;li&gt;The user associated with the API key must have the appropriate OCI Identity and Access Management (IAM) policy
-in place to allow the Fluentd plug-in to send logs to OCI. See &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Identity/Reference/loggingpolicyreference.htm&#34;&gt;Details for Logging&lt;/a&gt;
-in the OCI documentation for the IAM policies used by the OCI Logging service.&lt;/li&gt;
+&lt;li&gt;The user associated with the API key must have the appropriate Oracle Cloud Infrastructure Identity and Access Management (IAM) policy
+in place to allow the Fluentd plug-in to send logs to Oracle Cloud Infrastructure. See &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Identity/Reference/loggingpolicyreference.htm&#34;&gt;Details for Logging&lt;/a&gt;
+in the Oracle Cloud Infrastructure documentation for the IAM policies used by the Oracle Cloud Infrastructure Logging service.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;After the Verrazzano platform operator has been installed, create an opaque secret in the &lt;code&gt;verrazzano-install&lt;/code&gt; namespace
-from the OCI configuration and private key files. The key for the configuration file must be &lt;code&gt;config&lt;/code&gt; and the key
+from the Oracle Cloud Infrastructure configuration and private key files. The key for the configuration file must be &lt;code&gt;config&lt;/code&gt; and the key
 for the private key file data must be &lt;code&gt;key&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Here is an example &lt;code&gt;kubectl&lt;/code&gt; command that will create the secret.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl create secret generic oci-fluentd -n verrazzano-install \
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl create secret generic oci-fluentd -n verrazzano-install \
       --from-file=config=/home/myuser/oci_config --from-file=key=/home/myuser/keys/oci_api.pem
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The secret should look something like this.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;apiVersion: v1
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: v1
 data:
   config: W0RFRkFVTFRdCnVzZXI9b2NpZDEudXN...
   key: LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS...
@@ -328,7 +446,7 @@ metadata:
 type: Opaque
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For convenience, there is a helper script available
 &lt;a href=&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/scripts/install/create_oci_fluentd_secret.sh&#34;&gt;here&lt;/a&gt; that
-you can point at an existing OCI configuration file and it will create the secret for you. The script allows you to
+you can point at an existing Oracle Cloud Infrastructure configuration file and it will create the secret for you. The script allows you to
 override the default configuration file location, profile name, and the name of the secret.&lt;/p&gt;
 
 
@@ -336,11 +454,9 @@ override the default configuration file location, profile name, and the name of 
 
 
 
-
-
 &lt;/div&gt;
 &lt;h2 id=&#34;install-verrazzano&#34;&gt;Install Verrazzano&lt;/h2&gt;
-&lt;p&gt;OCI Logging is enabled in your cluster when installing Verrazzano. The Verrazzano installation custom resource has fields
+&lt;p&gt;Oracle Cloud Infrastructure Logging is enabled in your cluster when installing Verrazzano. The Verrazzano installation custom resource has fields
 for specifying two custom logs: one for system logs and one for application logs. Here is an example Verrazzano
 installation YAML file for each type of credential.
 Note that the API references Kibana, upcoming releases will use OpenSearch Dashboards in the public API.&lt;/p&gt;
@@ -349,47 +465,38 @@ Note that the API references Kibana, upcoming releases will use OpenSearch Dashb
 
 		
 		
-
-		
-		
-		
-
-		
-
-		&lt;a class=&#34;nav-item nav-link active&#34; id=&#34;nav-2&#34; data-toggle=&#34;tab&#34; href=&#34;#tab21&#34; role=&#34;tab&#34;
-		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Instance Principal Credentials&lt;/a&gt;
-
-		
-		
-
-		
 		
 		
 
 		
 
-		&lt;a class=&#34;nav-item nav-link&#34; id=&#34;nav-2&#34; data-toggle=&#34;tab&#34; href=&#34;#tab22&#34; role=&#34;tab&#34;
-		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;false&#34;&gt;User API Credentials&lt;/a&gt;
+		&lt;a class=&#34;nav-item nav-link  active &#34;
+		   id=&#34;nav-dbcfae&#34; data-toggle=&#34;tab&#34; href=&#34;#dbcfae&#34;
+		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;InstancePrincipalCredentials&lt;/a&gt;
 
 		
+
+		&lt;a class=&#34;nav-item nav-link &#34;
+		   id=&#34;nav-dafecb&#34; data-toggle=&#34;tab&#34; href=&#34;#dafecb&#34;
+		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;UserAPICredentials&lt;/a&gt;
+
 		
 
 	&lt;/div&gt;
 &lt;/nav&gt;
 
-&lt;div class=&#34;tab-content&#34; id=&#34;2&#34;&gt;
+&lt;div class=&#34;tab-content&#34; id=&#34;nav-tab-content&#34;&gt;
+
+	
 
 
 
 
 
-
-
-
-&lt;div class=&#34;tab-pane fade show active&#34; id=&#34;tab21&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;dbcfae&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
-&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
   name: vz-oci-logging
@@ -415,15 +522,12 @@ spec:
 
 
 
-
-
-
-&lt;div class=&#34;tab-pane fade&#34; id=&#34;tab22&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName2&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;dafecb&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;When using user API credentials, you need to configure the name of the secret in the Verrazzano custom resource,
-under the OCI section of the Fluentd component settings. Your YAML file should look something like this.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+under the Oracle Cloud Infrastructure section of the Fluentd component settings. Your YAML file should look something like this.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
   name: vz-oci-logging
@@ -447,47 +551,45 @@ spec:
 
 
 
-
-
 &lt;/div&gt;
 &lt;h2 id=&#34;override-the-default-log-objects&#34;&gt;Override the default log objects&lt;/h2&gt;
-&lt;p&gt;You can override the OCI Log object on an individual namespace. To specify a log identifier on a namespace, add an annotation named &lt;code&gt;verrazzano.io/oci-log-id&lt;/code&gt; to the namespace. The value of the annotation is the OCI Log object identifier.&lt;/p&gt;
+&lt;p&gt;You can override the Oracle Cloud Infrastructure Log object on an individual namespace. To specify a log identifier on a namespace, add an annotation named &lt;code&gt;verrazzano.io/oci-log-id&lt;/code&gt; to the namespace. The value of the annotation is the Oracle Cloud Infrastructure Log object identifier.&lt;/p&gt;
 &lt;p&gt;Here is an example namespace.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;apiVersion: v1
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: v1
 kind: Namespace
 metadata:
   annotations:
     verrazzano.io/oci-log-id: ocid1.log.oc1.iad.ns.app.example
-  creationTimestamp: &amp;quot;2022-01-14T15:09:19Z&amp;quot;
+  creationTimestamp: &amp;#34;2022-01-14T15:09:19Z&amp;#34;
   labels:
     istio-injection: enabled
-    verrazzano-managed: &amp;quot;true&amp;quot;
+    verrazzano-managed: &amp;#34;true&amp;#34;
   name: example
 spec:
   finalizers:
   - kubernetes
 status:
   phase: Active
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that if you add and subsequently remove the annotation, then the logs will revert to the default OCI Log object
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Note that if you add and subsequently remove the annotation, then the logs will revert to the default Oracle Cloud Infrastructure Log object
 specified in the Verrazzano custom resource.&lt;/p&gt;
 &lt;h2 id=&#34;search-logs&#34;&gt;Search logs&lt;/h2&gt;
-&lt;p&gt;To search Verrazzano logs, you can use the OCI Console, OCI CLI, or OCI SDK.&lt;/p&gt;
-&lt;p&gt;For example, using the OCI CLI to search the system logs for records emitted by the &lt;code&gt;verrazzano-application-operator&lt;/code&gt; container.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ oci logging-search search-logs --search-query=\
-     &amp;quot;search \&amp;quot;ocid1.compartment.oc1..example/ocid1.loggroup.oc1.iad.example/ocid1.log.oc1.iad.example\&amp;quot; | \
-     where \&amp;quot;data\&amp;quot;.\&amp;quot;kubernetes.container_name\&amp;quot; = &#39;verrazzano-application-operator&#39; | sort by datetime desc&amp;quot; \
+&lt;p&gt;To search Verrazzano logs, you can use the Oracle Cloud Infrastructure Console, Oracle Cloud Infrastructure CLI, or Oracle Cloud Infrastructure SDK.&lt;/p&gt;
+&lt;p&gt;For example, using the Oracle Cloud Infrastructure CLI to search the system logs for records emitted by the &lt;code&gt;verrazzano-application-operator&lt;/code&gt; container.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ oci logging-search search-logs --search-query=\
+     &amp;#34;search \&amp;#34;ocid1.compartment.oc1..example/ocid1.loggroup.oc1.iad.example/ocid1.log.oc1.iad.example\&amp;#34; | \
+     where \&amp;#34;data\&amp;#34;.\&amp;#34;kubernetes.container_name\&amp;#34; = &amp;#39;verrazzano-application-operator&amp;#39; | sort by datetime desc&amp;#34; \
      --time-start 2021-12-07 --time-end 2021-12-17
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Search for all application log records in the &lt;code&gt;springboot&lt;/code&gt; namespace.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ oci logging-search search-logs --search-query=\
-     &amp;quot;search \&amp;quot;ocid1.compartment.oc1..example/ocid1.loggroup.oc1.iad.example/ocid1.log.oc1.iad.example\&amp;quot; | \
-     where \&amp;quot;data\&amp;quot;.\&amp;quot;kubernetes.namespace_name\&amp;quot; = &#39;springboot&#39; | sort by datetime desc&amp;quot; \
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ oci logging-search search-logs --search-query=\
+     &amp;#34;search \&amp;#34;ocid1.compartment.oc1..example/ocid1.loggroup.oc1.iad.example/ocid1.log.oc1.iad.example\&amp;#34; | \
+     where \&amp;#34;data\&amp;#34;.\&amp;#34;kubernetes.namespace_name\&amp;#34; = &amp;#39;springboot&amp;#39; | sort by datetime desc&amp;#34; \
      --time-start 2021-12-07 --time-end 2021-12-17
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For more information on searching logs, see the &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Reference/query_language_specification.htm&#34;&gt;Logging Query Language Specification&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h2&gt;
-&lt;p&gt;If you are not able to view Verrazzano logs in OCI Logging, then check the Fluentd container logs in the cluster to see if there are errors.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl logs -n verrazzano-system -l app=fluentd --tail=-1
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you see &lt;code&gt;not authorized&lt;/code&gt; error messages, then there is likely a problem with the OCI Dynamic Group or IAM policy that is preventing the Fluentd plug-in from communicating with the OCI API.&lt;/p&gt;
-&lt;p&gt;To ensure the appropriate permissions are in place, review the OCI Logging &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Task/managinglogs.htm#required_permissions_logs_groups&#34;&gt;required permissions&lt;/a&gt; documentation.&lt;/p&gt;
+&lt;p&gt;If you are not able to view Verrazzano logs in Oracle Cloud Infrastructure Logging, then check the Fluentd container logs in the cluster to see if there are errors.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl logs -n verrazzano-system -l app=fluentd --tail=-1
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If you see &lt;code&gt;not authorized&lt;/code&gt; error messages, then there is likely a problem with the Oracle Cloud Infrastructure Dynamic Group or IAM policy that is preventing the Fluentd plug-in from communicating with the Oracle Cloud Infrastructure API.&lt;/p&gt;
+&lt;p&gt;To ensure the appropriate permissions are in place, review the Oracle Cloud Infrastructure Logging &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Task/managinglogs.htm#required_permissions_logs_groups&#34;&gt;required permissions&lt;/a&gt; documentation.&lt;/p&gt;
 
       </description>
     </item>
@@ -513,11 +615,11 @@ visualize them.&lt;/p&gt;
 The metrics annotations may differ slightly depending on the resource type.
 The following is an example of the WebLogic Prometheus-related configuration specified in the &lt;code&gt;todo-list&lt;/code&gt; application pod:&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;$ kubectl describe pod tododomain-adminserver -n todo-list&lt;/code&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;Annotations:  prometheus.io/path: /wls-exporter/metrics
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Annotations:  prometheus.io/path: /wls-exporter/metrics
               prometheus.io/port: 7001
               prometheus.io/scrape: true
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For other resource types, such as Coherence or Helidon, the annotations would look similar to this:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;Annotations:  verrazzano.io/metricsEnabled: true
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Annotations:  verrazzano.io/metricsEnabled: true
               verrazzano.io/metricsPath: /metrics
               verrazzano.io/metricsPort: 8080
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To look directly at the metrics that are being made available by the metric source, map the port and then access the path.&lt;/p&gt;
@@ -525,11 +627,11 @@ The following is an example of the WebLogic Prometheus-related configuration spe
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;Map the port being used to expose the metrics.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl port-forward tododomain-adminserver 7001:7001 -n todo-list
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl port-forward tododomain-adminserver 7001:7001 -n todo-list
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Get the user name and password used to access the metrics source from the corresponding secret.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get secret \
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get secret \
     --namespace todo-list tododomain-weblogic-credentials \
     -o jsonpath={.data.username} | base64 \
     --decode; echo
@@ -540,7 +642,7 @@ $ kubectl get secret \
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Access the metrics at the exported path, using the user name and password retrieved in the previous step.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ curl -u USERNAME:PASSWORD localhost:7001/wls-exporter/metrics
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ curl -u USERNAME:PASSWORD localhost:7001/wls-exporter/metrics
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;standard-kubernetes-workloads&#34;&gt;Standard Kubernetes workloads&lt;/h3&gt;
@@ -594,25 +696,25 @@ If this is the case, it is more reliable to specify the template you require by 
 &lt;h4 id=&#34;prometheus-overrides&#34;&gt;Prometheus overrides&lt;/h4&gt;
 &lt;p&gt;The &lt;code&gt;standard-k8s-metrics-template&lt;/code&gt; metrics template installed by Verrazzano uses the following pod annotations to populate the Prometheus configuration.
 If not specified, Verrazzano will use these default values:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;Annotations:  prometheus.io/path: /metrics
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Annotations:  prometheus.io/path: /metrics
               prometheus.io/port: 8080
               prometheus.io/scrape: true
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To alter these values, annotate the workload pod with the corresponding annotations.
 For example, if you want to change the metrics path, then add the following to a Deployment definition:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;apps/v1&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;Deployment&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-helidon-deployment&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;namespace&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;hello-helidon&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;annotations&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;app.verrazzano.io/metrics&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;standard-k8s-metrics-template&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;template&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# add path annotation to the pod template&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;annotations&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;prometheus.io/path&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;/custom/metrics/path&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;prometheus-configuration&#34;&gt;Prometheus configuration&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;apps/v1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;Deployment&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;hello-helidon-deployment&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;namespace&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;hello-helidon&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;annotations&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;app.verrazzano.io/metrics&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;standard-k8s-metrics-template&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;template&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# add path annotation to the pod template&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;annotations&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;prometheus.io/path&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;/custom/metrics/path&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;prometheus-configuration&#34;&gt;Prometheus configuration&lt;/h4&gt;
 &lt;p&gt;If you want to create your own metrics template, you will need to construct a &lt;a href=&#34;https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config&#34;&gt;Prometheus &lt;code&gt;scrape config&lt;/code&gt;&lt;/a&gt;.
 The &lt;code&gt;scrape config&lt;/code&gt; uses &lt;a href=&#34;https://pkg.go.dev/text/template&#34;&gt;Go Templates&lt;/a&gt; to generate configuration values based on Kubernetes resources.
 You can reference values in the &lt;code&gt;workload&lt;/code&gt; and &lt;code&gt;namespace&lt;/code&gt; definitions for use in the &lt;code&gt;scrape config&lt;/code&gt;.
@@ -638,7 +740,7 @@ For guidance on how to construct a Prometheus &lt;code&gt;scrape config&lt;/code
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;Get the hostname from the Grafana ingress.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get ingress vmi-system-grafana -n verrazzano-system
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get ingress vmi-system-grafana -n verrazzano-system
 
 # Sample output
 NAME                 CLASS    HOSTS                                              ADDRESS          PORTS     AGE
@@ -646,7 +748,7 @@ vmi-system-grafana   &amp;lt;none&amp;gt;   grafana.vmi.system.default.123.456.7
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Get the password for the user &lt;code&gt;verrazzano&lt;/code&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get secret \
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get secret \
     --namespace verrazzano-system verrazzano \
     -o jsonpath={.data.password} | base64 \
     --decode; echo
