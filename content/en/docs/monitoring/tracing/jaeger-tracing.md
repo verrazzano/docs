@@ -2,7 +2,7 @@
 title: "Jaeger Tracing"
 linkTitle: Jaeger Tracing
 description: "Configure Jaeger to capture application traces"
-weight: 2
+weight: 4
 draft: false
 ---
 

@@ -2,7 +2,7 @@
 title: "Metrics"
 linkTitle: Metrics
 description: "Understand Verrazzano metrics gathering and viewing"
-weight: 1
+weight: 3
 draft: false
 ---
 

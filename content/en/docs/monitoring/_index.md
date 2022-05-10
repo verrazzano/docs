@@ -1,6 +1,6 @@
 ---
-title: "Monitoring & Logging"
-description: "View monitoring and diagnostic metrics"
+title: "Logging & Monitoring"
+description: "View logging, monitoring, and diagnostic metrics"
 weight: 9
 draft: false
 ---
