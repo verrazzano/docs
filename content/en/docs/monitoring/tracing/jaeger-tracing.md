@@ -2,11 +2,11 @@
 title: "Jaeger Tracing"
 linkTitle: Jaeger Tracing
 description: "Configure Jaeger to capture application traces"
-weight: 1
+weight: 4
 draft: false
 ---
 
-Jaeger is a distributed tracing system used for monitoring and troubleshooting microservices. 
+Jaeger is a distributed tracing system used for monitoring and troubleshooting microservices.
 For more information on Jaeger, visit the [Jaeger website](https://www.jaegertracing.io/).
 
 ## Install Jaeger Operator
@@ -28,7 +28,7 @@ spec:
 
 ## Install Jaeger using the Jaeger Operator
 
-Jaeger is installed using the Jaeger Custom Resource Definition. The following example shows you how to install Jaeger inside the Istio mesh using the 
+Jaeger is installed using the Jaeger Custom Resource Definition. The following example shows you how to install Jaeger inside the Istio mesh using the
 Verrazzano system OpenSearch cluster as a tracing backend.
 
 Before creating the Jaeger instance, create a secret containing the OpenSearch user name and password.
@@ -78,7 +78,7 @@ spec:
         secretName: system-tls-es-ingest
 ```
 
-The Jaeger Operator will create services for query and collection. After applying the example resource, you should see similar output by listing 
+The Jaeger Operator will create services for query and collection. After applying the example resource, you should see similar output by listing
 Jaeger resources:
 ```
 $ kubectl get services,deployments -l app.kubernetes.io/instance=verrazzano-prod -n verrazzano-system
@@ -128,8 +128,8 @@ spec:
           value: "true"
 ```
 
-After enabling tracing, Istio will automatically configure itself with the Jaeger endpoint in your cluster, 
-and any new Istio-injected pods will begin exporting traces to Jaeger. Existing pods require a restart 
+After enabling tracing, Istio will automatically configure itself with the Jaeger endpoint in your cluster,
+and any new Istio-injected pods will begin exporting traces to Jaeger. Existing pods require a restart
 to pull the new Istio configuration and start sending traces.
 
 Istio's default sampling rate is 1%, meaning 1 in 100 requests will be traced in Jaeger.
