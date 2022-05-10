@@ -34,7 +34,7 @@ apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
   name: custom-opensearch-example
-spec:`````
+spec:
   profile: dev
   components:
     elasticsearch:
