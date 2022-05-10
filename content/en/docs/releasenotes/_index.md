@@ -8,10 +8,10 @@ draft: false
 ### v1.2.2
 Fixes:
 
-- Resolved an issue with the Grafana Dashboards for Helidon in multicluster setup
-- Resolved an issue with naming the ingress authorization policy
-- Resolved an issue with AuthProxy pods being evicted due to ephemeral storage
-- Resolved an issue with the length of the cookie TTL in the ingress trait
+- Resolved an issue with the Grafana Dashboards for Helidon in multicluster setup.
+- Resolved an issue with naming the ingress Istio Authorization Policy.
+- Resolved an issue with AuthProxy pods being evicted due to ephemeral storage.
+- Resolved an issue with the length of the cookie TTL in the ingress trait.
 
 ### v1.2.1
 Fixes:
