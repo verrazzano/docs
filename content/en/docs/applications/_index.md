@@ -277,7 +277,16 @@ spec:
                 ...
 ```
 
-The `oam-kubernetes-runtime` operator has a limited set of privileges by default.
+The `oam-kubernetes-runtime` operator has the following limited set of cluster role privileges by default.
+
+| API Groups | Resources | Verbs |
+| --- | --- | --- |
+| | `configmaps`, `events`, `services` | `create`, `delete`, `deletecollection`, `get`, `list`, `patch`, `update`, `watch` |
+| | `persistentvolumeclaims` |  `create`, `delete`, `deletecollection`, `get`, `list`, `patch`, `update` |
+| `apps` | `deployments`, `controllerrevisions` |  `create`, `delete`, `deletecollection`, `get`, `list`, `patch`, `update`, `watch` |
+| `core.oam.dev` | `*` |  `create`, `delete`, `deletecollection`, `get`, `list`, `patch`, `update`, `watch` |
+| `oam.verrazzano.io` | `*` |  `create`, `delete`, `deletecollection`, `get`, `list`, `patch`, `update`, `watch` |
+
 Your cluster administrator may need to grant the `oam-kubernetes-runtime` operator additional privileges to enable the use of some Kubernetes resources as workloads or Traits.
 Create additional roles and role bindings for the specific resources to be embedded as workloads or Traits.
 The following examples of ClusterRole and ClusterRoleBinding show how `oam-kubernetes-runtime` can be granted privileges to manage Ingress resources.
