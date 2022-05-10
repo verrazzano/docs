@@ -37,7 +37,8 @@ Jaeger will use these credentials to connect to OpenSearch:
 ```
 $ kubectl create secret generic jaeger-secret \
   --from-literal=ES_PASSWORD=<OPENSEARCH PASSWORD> \
-  --from-literal=ES_USERNAME=<OPENSEARCH USERNAME>
+  --from-literal=ES_USERNAME=<OPENSEARCH USERNAME> \
+  -n verrazzano-system
 ```
 
 Use the following YAML to create the Jaeger resource:
