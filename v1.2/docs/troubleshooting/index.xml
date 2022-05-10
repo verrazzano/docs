@@ -35,27 +35,27 @@ These are then used to generate additional child and related resources.&lt;/p&gt
 &lt;h3 id=&#34;review-oam-kubernetes-runtime-operator-status&#34;&gt;Review &lt;code&gt;oam-kubernetes-runtime&lt;/code&gt; operator status&lt;/h3&gt;
 &lt;p&gt;For application deployment to succeed, the &lt;code&gt;oam-kubernetes-runtime&lt;/code&gt; pod must have a status of Running.&lt;/p&gt;
 &lt;p&gt;Use the following command to get the pod status.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get pods \
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get pods \
     -n verrazzano-system \
     -l app.kubernetes.io/name=oam-kubernetes-runtime
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If the pod status is not Running, then see the following instructions for reviewing the &lt;code&gt;oam-kubernetes-runtime&lt;/code&gt; pod logs.&lt;/p&gt;
 &lt;h3 id=&#34;review-verrazzano-application-operator-operator-status&#34;&gt;Review &lt;code&gt;verrazzano-application-operator&lt;/code&gt; operator status&lt;/h3&gt;
 &lt;p&gt;For application deployment to succeed, the &lt;code&gt;verrazzano-application-operator&lt;/code&gt; pod must have a status of Running.&lt;/p&gt;
 &lt;p&gt;Use the following command to get the pod status.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get pods \
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get pods \
     -n verrazzano-system \
     -l app=verrazzano-application-operator
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If the pod status is not Running, then see the following instructions for reviewing the &lt;code&gt;verrazzano-application-operator&lt;/code&gt; logs.&lt;/p&gt;
 &lt;h3 id=&#34;review-oam-kubernetes-runtime-operator-logs&#34;&gt;Review &lt;code&gt;oam-kubernetes-runtime&lt;/code&gt; operator logs&lt;/h3&gt;
 &lt;p&gt;Review the &lt;code&gt;oam-kubernetes-runtime&lt;/code&gt; pod logs for any indication that pod startup or the generation of workloads or traits has failed.&lt;/p&gt;
 &lt;p&gt;Use the following command to get the logs.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl logs \
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl logs \
     -n verrazzano-system \
     -l app.kubernetes.io/name=oam-kubernetes-runtime
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;review-verrazzano-application-operator-logs&#34;&gt;Review &lt;code&gt;verrazzano-application-operator&lt;/code&gt; logs&lt;/h3&gt;
 &lt;p&gt;Review the &lt;code&gt;verrazzano-application-operator&lt;/code&gt; logs for any indication that pod startup or resource generation has failed.&lt;/p&gt;
 &lt;p&gt;Use the following command to get the logs.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl logs \
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl logs \
     -n verrazzano-system \
     -l app=verrazzano-application-operator
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;review-generated-workload-resources&#34;&gt;Review generated workload resources&lt;/h3&gt;
@@ -65,7 +65,7 @@ In turn, the VerrazzanoHelidonWorkload workload resource will be processed and r
 &lt;p&gt;If the expected workload resource, for example VerrazzanoHelidonWorkload, is missing, then review the &lt;code&gt;oam-kubernetes-runtime&lt;/code&gt; logs.
 If the expected related resources, for example Deployment or Service, are missing, then review the &lt;code&gt;verrazzano-application-operator&lt;/code&gt; logs.&lt;/p&gt;
 &lt;p&gt;The following commands are examples of checking for the resources related to a VerrazzanoHelidonWorkload deployment.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get -n hello-helidon verrazzanohelidonworkload hello-helidon-workload
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get -n hello-helidon verrazzanohelidonworkload hello-helidon-workload
 $ kubectl get -n hello-helidon deployment hello-helidon-deployment
 $ kubectl get -n hello-helidon service hello-helidon-deployment
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;review-generated-trait-resources&#34;&gt;Review generated Trait resources&lt;/h3&gt;
@@ -75,7 +75,7 @@ In turn, the IngressTrait resource will be processed and result in the generatio
 &lt;p&gt;If the expected Trait resource, for example IngressTrait, is missing, then review the &lt;code&gt;oam-kubernetes-runtime&lt;/code&gt; logs.
 If the expected related resources, for example Certificate, Gateway, and VirtualService, are missing, then review the &lt;code&gt;verrazzano-application-operator&lt;/code&gt; logs.&lt;/p&gt;
 &lt;p&gt;The following commands are examples of checking for the resources related to an IngressTrait.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get -n hello-helidon ingresstrait hello-helidon-ingress
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get -n hello-helidon ingresstrait hello-helidon-ingress
 $ kubectl get -n istio-system Certificate hello-helidon-hello-helidon-appconf-cert
 $ kubectl get -n hello-helidon gateway hello-helidon-hello-helidon-appconf-gw
 $ kubectl get -n hello-helidon virtualservice hello-helidon-ingress-rule-0-vs
@@ -83,23 +83,23 @@ $ kubectl get -n hello-helidon virtualservice hello-helidon-ingress-rule-0-vs
 &lt;p&gt;The use of generic Kubernetes resources as workloads and traits can result in deployment failures if privileges are insufficient.
 In this case, the &lt;code&gt;oam-kubernetes-runtime&lt;/code&gt; logs will contain errors containing the term &lt;code&gt;forbidden&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;The following command shows how to query for this type of failure message.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl logs \
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl logs \
     -n verrazzano-system \
     -l app.kubernetes.io/name=oam-kubernetes-runtime | grep forbidden
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;check-resource-owners&#34;&gt;Check resource owners&lt;/h3&gt;
 &lt;p&gt;Kubernetes maintains the child to parent relationship within metadata fields.&lt;/p&gt;
 &lt;p&gt;The following example returns the parent of the IngressTrait, named &lt;code&gt;hello-helidon-ingress&lt;/code&gt;, in the &lt;code&gt;hello-helidon&lt;/code&gt; namespace.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get IngressTrait \
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get IngressTrait \
     -n hello-helidon hello-helidon-ingress \
-    -o jsonpath=&#39;{range .metadata.ownerReferences[*]}{.name}{&amp;quot;\n&amp;quot;}{end}&#39;
+    -o jsonpath=&amp;#39;{range .metadata.ownerReferences[*]}{.name}{&amp;#34;\n&amp;#34;}{end}&amp;#39;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The results of this command can help identify the lineage of a given resource.&lt;/p&gt;
 &lt;h3 id=&#34;check-related-resources&#34;&gt;Check related resources&lt;/h3&gt;
 &lt;p&gt;Some resources also record the related resources affected during their processing.
 For example, when processed, an IngressTrait will create related Gateway, VirtualService, and Certificate resources.&lt;/p&gt;
 &lt;p&gt;The following command is an example of how to obtain the related resources of an IngressTraits.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get IngressTrait \
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get IngressTrait \
     -n hello-helidon hello-helidon-ingress \
-    -o jsonpath=&#39;{range .status.resources[*]}{.kind}: {.name}{&amp;quot;\n&amp;quot;}{end}&#39;
+    -o jsonpath=&amp;#39;{range .status.resources[*]}{.kind}: {.name}{&amp;#34;\n&amp;#34;}{end}&amp;#39;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The results of this command can help identify which other resources, the given resource affected.&lt;/p&gt;
 
       </description>
@@ -128,18 +128,18 @@ on each managed cluster to which it is targeted.&lt;/li&gt;
 &lt;p&gt;You can verify that a managed cluster was successfully registered with an admin cluster by viewing the
 corresponding VerrazzanoManagedCluster (VMC) resource on the admin cluster. For example, to verify that a managed cluster
 named &lt;code&gt;managed1&lt;/code&gt; was successfully registered:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;# on the admin cluster
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# on the admin cluster
 $ kubectl get verrazzanomanagedcluster managed1 \
     -n verrazzano-mc \
     -o yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Partial sample output from the previous command:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;  status:
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;  status:
     conditions:
-    - lastTransitionTime: &amp;quot;2021-06-22T21:03:27Z&amp;quot;
+    - lastTransitionTime: &amp;#34;2021-06-22T21:03:27Z&amp;#34;
       message: Ready
-      status: &amp;quot;True&amp;quot;
+      status: &amp;#34;True&amp;#34;
       type: Ready
-    lastAgentConnectTime: &amp;quot;2021-06-22T21:06:04Z&amp;quot;
+    lastAgentConnectTime: &amp;#34;2021-06-22T21:06:04Z&amp;#34;
     ... other fields ...
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Check the &lt;code&gt;lastAgentConnectTime&lt;/code&gt; in the status of the VMC resource. This is the last time at which the
 managed cluster connected to the admin cluster. If this value is not present, then the managed cluster named &lt;code&gt;managed1&lt;/code&gt;
@@ -155,7 +155,7 @@ connect to the admin cluster at regular intervals, and any errors will be report
 &lt;code&gt;verrazzano-application-operator&lt;/code&gt; pod&amp;rsquo;s log on the &lt;em&gt;managed&lt;/em&gt; cluster. View the logs using the following command.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;pre&gt;&lt;code&gt;# on the managed cluster
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# on the managed cluster
 $ kubectl logs \
     -n verrazzano-system \
     -l app=verrazzano-application-operator
@@ -172,13 +172,13 @@ that:&lt;/p&gt;
 &lt;/ol&gt;
 &lt;p&gt;View the details of the project that corresponds to your application&amp;rsquo;s namespace. In the example command that follows, the
 project name is assumed to be &lt;code&gt;myproject&lt;/code&gt;. All projects are expected to be created in the &lt;code&gt;verrazzano-mc&lt;/code&gt; namespace.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;# on the admin cluster
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# on the admin cluster
 $ kubectl get verrazzanoproject myproject \
     -n verrazzano-mc \
     -o yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The following partial sample output is for a project that will result in the namespace &lt;code&gt;mynamespace&lt;/code&gt; being created on the managed
 cluster &lt;code&gt;managed1&lt;/code&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;spec:
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;spec:
   placement:
     clusters:
     - name: managed1
@@ -192,21 +192,21 @@ cluster &lt;code&gt;managed1&lt;/code&gt;.&lt;/p&gt;
 on each managed cluster in which it is placed.&lt;/p&gt;
 &lt;p&gt;The following example command shows how to view the status of a MultiClusterApplicationConfiguration named &lt;code&gt;myapp&lt;/code&gt;, in
 the namespace &lt;code&gt;mynamespace&lt;/code&gt;, that has a &lt;code&gt;placement&lt;/code&gt; value that includes the managed cluster &lt;code&gt;managed1&lt;/code&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get multiclusterapplicationconfiguration myapp \
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get multiclusterapplicationconfiguration myapp \
     -n mynamespace \
     -o yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The status of the underlying resource in each cluster specified in the placement is shown in the following partial sample
 output:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;  status:
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;  status:
     clusters:
-    - lastUpdateTime: &amp;quot;2021-06-22T21:05:04Z&amp;quot;
+    - lastUpdateTime: &amp;#34;2021-06-22T21:05:04Z&amp;#34;
       message: OAM Application Configuration created
       name: managed1
       state: Succeeded
     conditions:
-    - lastTransitionTime: &amp;quot;2021-06-22T21:03:58Z&amp;quot;
+    - lastTransitionTime: &amp;#34;2021-06-22T21:03:58Z&amp;#34;
       message: OAM Application Configuration created
-      status: &amp;quot;True&amp;quot;
+      status: &amp;#34;True&amp;#34;
       type: DeployComplete
     state: Succeeded
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The status message contains additional information on the operation&amp;rsquo;s success or failure.&lt;/p&gt;
@@ -226,43 +226,43 @@ output:&lt;/p&gt;
         &lt;p&gt;This document describes how to recover an OpenSearch cluster&amp;rsquo;s health after it becomes unhealthy due to unassigned shards or disk pressure.&lt;/p&gt;
 &lt;p&gt;It also describes how to scale up the cluster&amp;rsquo;s data nodes and increase the size of the volumes. Because the volume size change in the Verrazzano operator also affects the master nodes volume size, you must take additional steps to address the volume resizing of a StatefulSet.&lt;/p&gt;
 &lt;p&gt;First:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;# Edit the Verrazzano operator
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# Edit the Verrazzano operator
 $ kubectl -n verrazzano-system edit deploy verrazzano-operator
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then, change the following portion by increasing the number of &lt;code&gt;ES_DATA_NODE_REPLICAS&lt;/code&gt; to &lt;code&gt;3&lt;/code&gt;, and the &lt;code&gt;ES_DATA_STORAGE&lt;/code&gt; to &lt;code&gt;200Gi&lt;/code&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;- name: ES_DATA_NODE_REPLICAS
-  value: &amp;quot;3&amp;quot;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;- name: ES_DATA_NODE_REPLICAS
+  value: &amp;#34;3&amp;#34;
 
 - name: ES_DATA_STORAGE
-  value: &amp;quot;200&amp;quot;
+  value: &amp;#34;200&amp;#34;
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;scaling-opensearch-data-nodes&#34;&gt;Scaling OpenSearch data nodes&lt;/h2&gt;
 &lt;p&gt;Follow this procedure to scale the OpenSearch data nodes.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Wait for the new data node pod to become ready and then check the health of the cluster:
-&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
 
 $ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/indices
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;When you have a green state, replace the original data node &lt;code&gt;-0&lt;/code&gt; pods:
-&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=0
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=0
 $ kubectl -n verrazzano-system scale deploy verrazzano-monitoring-operator --replicas=0
 $ kubectl -n verrazzano-system delete pod/vmi-system-es-data-0-xxxxxxxxx-xxxx pvc/vmi-system-es-data-0
 $ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=1
 $ kubectl -n verrazzano-system scale deploy verrazzano-monitoring-operator --replicas=1
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;Wait for the new data node pod to become ready and then check the health of the cluster:
-&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
 
 $ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/indices
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;When you have a green state, replace the original data node &lt;code&gt;-1&lt;/code&gt; pods:
-&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=0
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=0
 $ kubectl -n verrazzano-system scale deploy verrazzano-monitoring-operator --replicas=0
 $ kubectl -n verrazzano-system delete pod/vmi-system-es-data-1-xxxxxxxxx-xxxx pvc/vmi-system-es-data-1
 $ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=1
 $ kubectl -n verrazzano-system scale deploy verrazzano-monitoring-operator --replicas=1
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;Wait for the new data node pod to become ready and then check the health of the cluster:
-&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
 
 $ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/indices
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
@@ -274,14 +274,14 @@ with a volume template in a StatefulSet, you must follow this procedure:&lt;/p&g
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;First:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=0
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=0
 $ kubectl -n verrazzano-system scale deploy verrazzano-monitoring-operator --replicas=0
 $ kubectl -n verrazzano-system get sts vmi-system-es-master -o yaml &amp;gt; vmi-system-es-master.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Edit the file created in the previous command, vmi-system-es-master.yaml&lt;/p&gt;
 &lt;p&gt;a. Remove the lines starting with:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;creationTimestamp:
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;creationTimestamp:
 generation:
 resourceVersion:
 selfLink:
@@ -289,50 +289,50 @@ uid:
 status:
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;b. Remove every line below status:&lt;/p&gt;
 &lt;p&gt;c. Edit the section to increase the storage to the same value that you used for the Verrazzano operator:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;storage: 200Gi
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;storage: 200Gi
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;d. Save that file.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;The following command will delete the StatefulSet, but allow the associated pods to continue to run.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system delete sts vmi-system-es-master --cascade=orphan
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl -n verrazzano-system delete sts vmi-system-es-master --cascade=orphan
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Then run this command to recreate the StatefulSet with the new volume size defined:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system apply -f vmi-system-es-master.yaml
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl -n verrazzano-system apply -f vmi-system-es-master.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;The next steps are to delete the existing master node pods, one at a time, allowing the cluster to become healthy before moving on to the next node:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system delete pod/vmi-system-es-master-0 pvc/elasticsearch-master-vmi-system-es-master-0
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl -n verrazzano-system delete pod/vmi-system-es-master-0 pvc/elasticsearch-master-vmi-system-es-master-0
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the new master node pod to become ready and then check the health of the cluster:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
 
 $ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/indices
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;When the cluster is healthy, continue to the next master node:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system delete pod/vmi-system-es-master-1 pvc/elasticsearch-master-vmi-system-es-master-1
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl -n verrazzano-system delete pod/vmi-system-es-master-1 pvc/elasticsearch-master-vmi-system-es-master-1
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the new master node pod to become ready and then check the health of the cluster:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
 
 $ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/indices
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;When the cluster is healthy, continue to the next master node:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system delete pod/vmi-system-es-master-2 pvc/elasticsearch-master-vmi-system-es-master-2
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl -n verrazzano-system delete pod/vmi-system-es-master-2 pvc/elasticsearch-master-vmi-system-es-master-2
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the new master node pod to become ready and then check the health of the cluster:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/health
 
 $ kubectl -n verrazzano-system exec -it vmi-system-es-master-0 -- curl http://127.0.0.1:9200/_cat/indices
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;When the cluster is healthy rescale the operators:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=1
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl -n verrazzano-system scale deploy verrazzano-operator --replicas=1
 $ kubectl -n verrazzano-system scale deploy verrazzano-monitoring-operator --replicas=1
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ol&gt;
@@ -340,21 +340,20 @@ $ kubectl -n verrazzano-system scale deploy verrazzano-monitoring-operator --rep
 &lt;p&gt;Now you will edit the Verrazzano CR, so that when you upgrade, the above changes will not be overwritten. Follow this procedure:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Get the namespace and name of the Verrazzano CR:
-&lt;pre&gt;&lt;code&gt;$ kubectl get vz -A
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get vz -A
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;Edit the Verrazzano CR:
-&lt;pre&gt;&lt;code&gt;$ kubectl -n &amp;lt;namespace&amp;gt; edit vz &amp;lt;name&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;a. Alter to include the following:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;spec:
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl -n &amp;lt;namespace&amp;gt; edit vz &amp;lt;name&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;a. Alter to include the following:
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;spec:
   components:
     elasticsearch:
       installArgs:
       - name: nodes.data.replicas
-        value: &amp;quot;3&amp;quot;
+        value: &amp;#34;3&amp;#34;
       - name: nodes.data.requests.storage
         value: 200Gi
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;b. Save the changes.&lt;/p&gt;
-&lt;/li&gt;
+&lt;/code&gt;&lt;/pre&gt;b. Save the changes.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;This completes the process.&lt;/p&gt;
 
