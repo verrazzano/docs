@@ -37,7 +37,8 @@ Jaeger will use these credentials to connect to OpenSearch:
 ```
 $ kubectl create secret generic jaeger-secret \
   --from-literal=ES_PASSWORD=<OPENSEARCH PASSWORD> \
-  --from-literal=ES_USERNAME=<OPENSEARCH USERNAME>
+  --from-literal=ES_USERNAME=<OPENSEARCH USERNAME> \
+  -n verrazzano-system
 ```
 
 Use the following YAML to create the Jaeger resource:
@@ -95,8 +96,25 @@ deployment.apps/verrazzano-prod-query       1/1     1            1           52m
 
 ## Configure an application to export traces to Jaeger
 
-If your application is configured to use tracing libraries, or in the Istio mesh, you can instruct Jaeger to export those traces using annotations.
-To export traces, annotate your applications with the `"sidecar.jaegertracing.io/injected": "true"` annotation.
+The Jaeger agent sidecar is injected to application pods by the
+`"sidecar.jaegertracing.io/inject": "true"` annotation. You may apply this annotation to namespaces or pod controllers such as Deployments.
+The subsequent snippet shows how to annotate an OAM component for Jaeger agent injection.
+
+```yaml
+apiVersion: core.oam.dev/v1alpha2
+kind: Component
+metadata:
+  name: example-component
+spec:
+  workload:
+    apiVersion: core.oam.dev/v1alpha2
+    kind: ContainerizedWorkload
+    metadata:
+      name: example-workload
+      annotations:
+        # The component's Deployment will carry the Jaeger annotation.
+        "sidecar.jaegertracing.io/inject": "true"
+```
 
 ## View traces on the Jaeger UI
 
