@@ -134,7 +134,7 @@ spec:
 ### Ingress Component
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `type` | string | The ingress type.  Valid values are `LoadBalancer` and `NodePort`.  The default value is `LoadBalancer`.  |  Yes |
+| `type` | string | The ingress type.  Valid values are `LoadBalancer` and `NodePort`.  The default value is `LoadBalancer`.  |  No |
 | `nginxInstallArgs` |  [NGINXInstallArgs](#nginx-install-args) list | A list of values to use during NGINX installation. | No |
 | `ports` | [PortConfig](#port-config) list | The list port configurations used by the ingress. | No |
 
@@ -177,6 +177,8 @@ spec:
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
+| `type` | string | The Istio ingress type.  Valid values are `LoadBalancer` and `NodePort`.  The default value is `LoadBalancer`.  |  No |
+| `ports` | [PortConfig](#port-config) list | The list port configurations used by the Istio ingress. | No |
 | `kubernetes` | [IstioKubernetes](#istio-kubernetes-configuration) | The Kubernetes resources than can be configured for an Istio ingress gateway. | No |
 
 #### Istio Egress Configuration
