@@ -96,8 +96,8 @@ deployment.apps/verrazzano-prod-query       1/1     1            1           52m
 
 ## Configure an application to export traces to Jaeger
 
-The Jaeger agent sidecar is injected to application pods by 
-`"sidecar.jaegertracing.io/inject": "true"` annotation. You may apply this annotation to namespaces, or pod controllers such as Deployments.
+The Jaeger agent sidecar is injected to application pods by the
+`"sidecar.jaegertracing.io/inject": "true"` annotation. You may apply this annotation to namespaces or pod controllers such as Deployments.
 The subsequent snippet shows how to annotate an OAM component for Jaeger agent injection.
 
 ```yaml
