@@ -247,6 +247,7 @@ For example, to configure the recycler Pod template on an Oracle Cloud Native En
     ```
     $ kubectl edit pod kube-controller-manager-xxxxx -n kube-system
     ```
+   Alternatively, you can also edit the manifest at `/etc/kubernetes/manifests/kube-controller-manager.yaml` on control-plane node.
 3. Add the ConfigMap `recycler-pod-config` as a `volume` to the Pod spec.
 4. Add the ConfigMap entry `recycler-pod.yaml` as a `volumeMount` to the Pod spec. 
 5. Add the `--pv-recycler-pod-template-filepath-nfs` argument to the `command`, with value as `mountPath` of `recycler-pod.yaml` in the Pod.
