@@ -2,7 +2,7 @@
 title: "Oracle Cloud Infrastructure Logging Service"
 linkTitle: Oracle Cloud Infrastructure Logging Service
 description: "Learn how to send Verrazzano logs to the Oracle Cloud Infrastructure Logging service"
-weight: 1
+weight: 2
 draft: false
 ---
 
@@ -21,8 +21,8 @@ The Fluentd plug-in included with Verrazzano will use Oracle Cloud Infrastructur
 can configure Verrazzano with a user API signing key. API signing key authentication is required to send logs to
 Oracle Cloud Infrastructure Logging if the cluster is running outside of Oracle Cloud Infrastructure.
 
-{{< tabs tabTotal="2" tabID="1" tabName1="Instance Principal Credentials" tabName2="User API Credentials">}}
-{{< tab tabNum="1" >}}
+{{< tabs tabTotal="2" >}}
+{{< tab tabName="Instance Principal Credentials" >}}
 <br>
 
 Create a dynamic group that includes the compute instances in your cluster's node pools and assign the appropriate policy,
@@ -34,7 +34,7 @@ If the dynamic group and policy are configured incorrectly, then Fluentd will fa
 <br/>
 
 {{< /tab >}}
-{{< tab tabNum="2" >}}
+{{< tab tabName="User API Credentials" >}}
 <br>
 
 If you do not already have an API signing key, then see [Required Keys and OCIDs](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm)
@@ -86,8 +86,8 @@ for specifying two custom logs: one for system logs and one for application logs
 installation YAML file for each type of credential.
 Note that the API references Kibana, upcoming releases will use OpenSearch Dashboards in the public API.
 
-{{< tabs tabTotal="2" tabID="2" tabName1="Instance Principal Credentials" tabName2="User API Credentials">}}
-{{< tab tabNum="1" >}}
+{{< tabs tabTotal="2" >}}
+{{< tab tabName="Instance Principal Credentials" >}}
 <br>
 
 ```
@@ -111,7 +111,7 @@ spec:
 <br/>
 
 {{< /tab >}}
-{{< tab tabNum="2" >}}
+{{< tab tabName="User API Credentials" >}}
 <br>
 
 When using user API credentials, you need to configure the name of the secret in the Verrazzano custom resource,

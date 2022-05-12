@@ -2,11 +2,11 @@
 title: "Jaeger Tracing"
 linkTitle: Jaeger Tracing
 description: "Configure Jaeger to capture application traces"
-weight: 1
+weight: 4
 draft: false
 ---
 
-Jaeger is a distributed tracing system used for monitoring and troubleshooting microservices. 
+Jaeger is a distributed tracing system used for monitoring and troubleshooting microservices.
 For more information on Jaeger, visit the [Jaeger website](https://www.jaegertracing.io/).
 
 ## Install Jaeger Operator
@@ -28,7 +28,7 @@ spec:
 
 ## Install Jaeger using the Jaeger Operator
 
-Jaeger is installed using the Jaeger Custom Resource Definition. The following example shows you how to install Jaeger inside the Istio mesh using the 
+Jaeger is installed using the Jaeger Custom Resource Definition. The following example shows you how to install Jaeger inside the Istio mesh using the
 Verrazzano system OpenSearch cluster as a tracing backend.
 
 Before creating the Jaeger instance, create a secret containing the OpenSearch user name and password.
@@ -37,7 +37,8 @@ Jaeger will use these credentials to connect to OpenSearch:
 ```
 $ kubectl create secret generic jaeger-secret \
   --from-literal=ES_PASSWORD=<OPENSEARCH PASSWORD> \
-  --from-literal=ES_USERNAME=<OPENSEARCH USERNAME>
+  --from-literal=ES_USERNAME=<OPENSEARCH USERNAME> \
+  -n verrazzano-system
 ```
 
 Use the following YAML to create the Jaeger resource:
@@ -78,7 +79,7 @@ spec:
         secretName: system-tls-es-ingest
 ```
 
-The Jaeger Operator will create services for query and collection. After applying the example resource, you should see similar output by listing 
+The Jaeger Operator will create services for query and collection. After applying the example resource, you should see similar output by listing
 Jaeger resources:
 ```
 $ kubectl get services,deployments -l app.kubernetes.io/instance=verrazzano-prod -n verrazzano-system
@@ -95,8 +96,25 @@ deployment.apps/verrazzano-prod-query       1/1     1            1           52m
 
 ## Configure an application to export traces to Jaeger
 
-If your application is configured to use tracing libraries, or in the Istio mesh, you can instruct Jaeger to export those traces using annotations.
-To export traces, annotate your applications with the `"sidecar.jaegertracing.io/injected": "true"` annotation.
+The Jaeger agent sidecar is injected to application pods by the
+`"sidecar.jaegertracing.io/inject": "true"` annotation. You may apply this annotation to namespaces or pod controllers such as Deployments.
+The subsequent snippet shows how to annotate an OAM component for Jaeger agent injection.
+
+```yaml
+apiVersion: core.oam.dev/v1alpha2
+kind: Component
+metadata:
+  name: example-component
+spec:
+  workload:
+    apiVersion: core.oam.dev/v1alpha2
+    kind: ContainerizedWorkload
+    metadata:
+      name: example-workload
+      annotations:
+        # The component's Deployment will carry the Jaeger annotation.
+        "sidecar.jaegertracing.io/inject": "true"
+```
 
 ## View traces on the Jaeger UI
 
@@ -128,8 +146,8 @@ spec:
           value: "true"
 ```
 
-After enabling tracing, Istio will automatically configure itself with the Jaeger endpoint in your cluster, 
-and any new Istio-injected pods will begin exporting traces to Jaeger. Existing pods require a restart 
+After enabling tracing, Istio will automatically configure itself with the Jaeger endpoint in your cluster,
+and any new Istio-injected pods will begin exporting traces to Jaeger. Existing pods require a restart
 to pull the new Istio configuration and start sending traces.
 
 Istio's default sampling rate is 1%, meaning 1 in 100 requests will be traced in Jaeger.
