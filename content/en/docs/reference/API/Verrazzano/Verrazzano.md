@@ -134,7 +134,7 @@ spec:
 ### Ingress Component
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `type` | string | The ingress type.  Valid values are `LoadBalancer` and `NodePort`.  The default value is `LoadBalancer`. The `controller.service.externalIPs` must be specified in [NGINXInstallArgs](#nginx-install-args) if the ingress type is `NodePort`. For sample usage, see [External Load Balancers](/docs/setup/customizing/externallbs/). | No |
+| `type` | string | The ingress type.  Valid values are `LoadBalancer` and `NodePort`.  The default value is `LoadBalancer`. If the ingress type is `NodePort`, a valid and accessible IP address must be specified using the `controller.service.externalIPs` key in [NGINXInstallArgs](#nginx-install-args). For sample usage, see [External Load Balancers]({{< relref "/docs/setup/customizing/externalLBs.md" >}}). | No |
 | `nginxInstallArgs` |  [NGINXInstallArgs](#nginx-install-args) list | A list of values to use during NGINX installation. | No |
 | `ports` | [PortConfig](#port-config) list | The list port configurations used by the ingress. | No |
 
@@ -177,7 +177,7 @@ spec:
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `type` | string | The Istio ingress type.  Valid values are `LoadBalancer` and `NodePort`.  The default value is `LoadBalancer`. The `gateways.istio-ingressgateway.externalIPs` must be specified in [IstioInstallArgs](#istio-install-args) if the Istio ingress type is `NodePort`. For sample usage, see [External Load Balancers](/docs/setup/customizing/externallbs/). | No |
+| `type` | string | The Istio ingress type.  Valid values are `LoadBalancer` and `NodePort`.  The default value is `LoadBalancer`. If the Istio ingress type is `NodePort`, a valid and accessible IP address must be specified using the `gateways.istio-ingressgateway.externalIPs` key in [IstioInstallArgs](#istio-install-args). For sample usage, see [External Load Balancers]({{< relref "/docs/setup/customizing/externalLBs.md" >}}). | No |
 | `ports` | [PortConfig](#port-config) list | The list port configurations used by the Istio ingress. | No |
 | `kubernetes` | [IstioKubernetes](#istio-kubernetes-configuration) | The Kubernetes resources than can be configured for an Istio ingress gateway. | No |
 
