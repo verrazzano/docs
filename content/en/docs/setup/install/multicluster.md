@@ -146,12 +146,12 @@ CA certificate is saved in an environment variable called `MGD_CA_CERT`. Then us
 `kubectl` command to generate the `managed1.yaml` file.
 
 ```
-# On the admin cluster
-$ export MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+# On the managed cluster
+$ export MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
      get secret tls-ca-additional \
      -n cattle-system \
      -o jsonpath="{.data.ca-additional\.pem}" | base64 --decode)
-$ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
   create secret generic "ca-secret-managed1" \
   -n verrazzano-mc \
   --from-literal=cacrt="$MGD_CA_CERT" \
