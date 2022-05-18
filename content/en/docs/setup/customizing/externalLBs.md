@@ -20,13 +20,13 @@ The following is an example of using external load balancers for both system and
 
 * External load balancer for system ingress
 
-This load balancer must have a listener set up on port `443` with `TCP` protocol.  
-The backend set for this listener needs to include the Kubernetes cluster node IP addresses on a port you pick, for example, `31443`.
+  - This load balancer must have a listener set up on port `443` with `TCP` protocol.
+  - The backend set for this listener needs to include the Kubernetes cluster node IP addresses on a port you pick, for example, `31443`.
 
 * External load balancer for application ingress
 
-This load balancer must have a listener set up on port `443` with `TCP` protocol.  
-The backend set for this listener needs to include the Kubernetes cluster node IP addresses on a port you pick, for example, `32443`.
+  - This load balancer must have a listener set up on port `443` with `TCP` protocol.
+  - The backend set for this listener needs to include the Kubernetes cluster node IP addresses on a port you pick, for example, `32443`.
 
 ### Verrazzano installation options
 
