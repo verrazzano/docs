@@ -39,20 +39,17 @@ installation profile. A managed cluster has the following additional characteris
     - The VerrazzanoProject has a `placement` value that includes this managed cluster.
     - The resource itself has a `placement` value that includes this managed cluster.
 
-## Verrazzano multicluster resources
-Verrazzano includes several multicluster resource definitions for resources that may be targeted for placement in one
-or more clusters: [MultiClusterApplicationConfiguration]({{< relref "/docs/reference/api/multicluster/multiclusterapplicationconfiguration" >}}),
-[MultiClusterComponent]({{< relref "/docs/reference/api/multicluster/multiclustercomponent" >}}),
-[MultiClusterConfigMap]({{< relref "/docs/reference/api/multicluster/multiclusterconfigmap" >}}),
-and [MultiClusterSecret]({{< relref "/docs/reference/api/multicluster/multiclustersecret" >}}).
+## Verrazzano multicluster applications
+Verrazzano includes a [MultiClusterApplicationConfiguration]({{< relref "/docs/reference/api/multicluster/multiclusterapplicationconfiguration" >}})
+resource definition for applications that may be targeted for placement in one or more clusters. 
 
-
-- Each multicluster resource type serves as a wrapper for an underlying resource type.
-- A multicluster resource additionally allows the `placement` of the underlying resource to be specified as a list of
-  names of the clusters in which the resource must be placed.
-- Multicluster resources are created in the admin cluster, in a namespace that is part of a VerrazzanoProject,
-  and targeted for `placement` in either the local admin cluster or a remote managed cluster.
-- A multicluster resource is said to be part of a VerrazzanoProject if it is in a namespace that is governed
+- A MultiClusterApplicationConfiguration is a wrapper for an ApplicationConfiguration, and additionally allows the
+  `placement` of the underlying resource to be specified as a list of names of the clusters in which the
+  ApplicationConfiguration must be placed.
+- MultiClusterApplicationConfiguration resources, along with their associated Component and Secret resources, are
+  created in the admin cluster, in a namespace that is part of a VerrazzanoProject, and targeted for `placement`
+  in either the local admin cluster or a remote managed cluster.
+- A multicluster application is considered part of a VerrazzanoProject if it is in a namespace that is governed
   by that VerrazzanoProject.
 
 ## Managed cluster registration
