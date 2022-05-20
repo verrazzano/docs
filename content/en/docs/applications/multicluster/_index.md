@@ -49,7 +49,7 @@ resource definition for applications that may be targeted for placement in one o
 - MultiClusterApplicationConfiguration resources, along with their associated Component and Secret resources, are
   created in the admin cluster, in a namespace that is part of a VerrazzanoProject, and targeted for `placement`
   in either the local admin cluster or a remote managed cluster.
-- A multicluster application is said to be part of a VerrazzanoProject if it is in a namespace that is governed
+- A multicluster application is considered part of a VerrazzanoProject if it is in a namespace that is governed
   by that VerrazzanoProject.
 
 ## Managed cluster registration
