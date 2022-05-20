@@ -44,8 +44,8 @@ Verrazzano includes a [MultiClusterApplicationConfiguration]({{< relref "/docs/r
 resource definition for applications that may be targeted for placement in one or more clusters. 
 
 - A MultiClusterApplicationConfiguration is a wrapper for an ApplicationConfiguration, and additionally allows the
-  `placement` of the underlying resource to be specified as a list of names of the clusters in which the resource must
-  be placed.
+  `placement` of the underlying resource to be specified as a list of names of the clusters in which the
+  ApplicationConfiguration must be placed.
 - MultiClusterApplicationConfiguration resources, along with their associated Component and Secret resources, are
   created in the admin cluster, in a namespace that is part of a VerrazzanoProject, and targeted for `placement`
   in either the local admin cluster or a remote managed cluster.
