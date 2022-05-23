@@ -58,7 +58,40 @@ hello-helidon-appconf.hello-helidon.11.22.33.44.nip.io
 
 $ curl -sk -X GET https://${HOST}/greet
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Alternatively, specific host names can be given in an &lt;a href=&#34;#ingressrule&#34;&gt;IngressRule&lt;/a&gt;.  Doing this implies that a secret and certificate have been created for the specific hosts and the secret name has been specified in the associated &lt;a href=&#34;#ingresssecurity&#34;&gt;IngressSecurity&lt;/a&gt; &lt;code&gt;secretName&lt;/code&gt; field.&lt;/p&gt;
-&lt;h4 id=&#34;ingresstrait&#34;&gt;IngressTrait&lt;/h4&gt;
+&lt;p&gt;Load balancer session affinity is configured using an HTTP cookie in a destination rule. Here is an updated sample ApplicationConfiguration that includes a destination rule with an HTTP cookie.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
+kind: ApplicationConfiguration
+metadata:
+  name: hello-helidon-appconf
+  namespace: hello-helidon
+  annotations:
+    version: v1.0.0
+    description: &amp;#34;Hello Helidon application&amp;#34;
+spec:
+  components:
+    - componentName: hello-helidon-component
+      traits:
+        - trait:
+            apiVersion: oam.verrazzano.io/v1alpha1
+            kind: MetricsTrait
+            spec:
+                scraper: verrazzano-system/vmi-system-prometheus-0
+        - trait:
+            apiVersion: oam.verrazzano.io/v1alpha1
+            kind: IngressTrait
+            metadata:
+              name: hello-helidon-ingress
+            spec:
+              rules:
+                - paths:
+                    - path: &amp;#34;/greet&amp;#34;
+                      pathType: Prefix
+                - destination:
+                    httpCookie:
+                      name: sessioncookie
+                      path: &amp;#34;/&amp;#34;
+                      ttl: 600
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;ingresstrait&#34;&gt;IngressTrait&lt;/h4&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -203,6 +236,12 @@ $ curl -sk -X GET https://${HOST}/greet
 &lt;td&gt;Destination port.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;httpCookie&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#httpcookie&#34;&gt;HttpCookie&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;Session affinity cookie.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 
@@ -215,6 +254,38 @@ the service port name must have the prefix &amp;ldquo;http&amp;rdquo;.
 
 &lt;/div&gt;
 
+&lt;h4 id=&#34;httpcookie&#34;&gt;HttpCookie&lt;/h4&gt;
+&lt;p&gt;HttpCookie specifies a session affinity cookie for an ingress trait.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Type&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;th&gt;Required&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;name&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The name of the HTTP cookie.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;path&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The path of the HTTP cookie.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;ttl&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;uint32&lt;/td&gt;
+&lt;td&gt;The lifetime of the HTTP cookie (in seconds).&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 &lt;h4 id=&#34;ingresssecurity&#34;&gt;IngressSecurity&lt;/h4&gt;
 &lt;p&gt;IngressSecurity specifies the secret containing the certificate securing the transport for an ingress trait.&lt;/p&gt;
 &lt;table&gt;
@@ -1974,8 +2045,8 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;type&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;The ingress type.  Valid values are &lt;code&gt;LoadBalancer&lt;/code&gt; and &lt;code&gt;NodePort&lt;/code&gt;.  The default value is &lt;code&gt;LoadBalancer&lt;/code&gt;.&lt;/td&gt;
-&lt;td&gt;Yes&lt;/td&gt;
+&lt;td&gt;The ingress type.  Valid values are &lt;code&gt;LoadBalancer&lt;/code&gt; and &lt;code&gt;NodePort&lt;/code&gt;.  The default value is &lt;code&gt;LoadBalancer&lt;/code&gt;. If the ingress type is &lt;code&gt;NodePort&lt;/code&gt;, a valid and accessible IP address must be specified using the &lt;code&gt;controller.service.externalIPs&lt;/code&gt; key in &lt;a href=&#34;#nginx-install-args&#34;&gt;NGINXInstallArgs&lt;/a&gt;. For sample usage, see &lt;a href=&#34;../../../docs/setup/customizing/externallbs/&#34;&gt;External Load Balancers&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;nginxInstallArgs&lt;/code&gt;&lt;/td&gt;
@@ -2168,6 +2239,18 @@ spec:
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;type&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;string&lt;/td&gt;
+&lt;td&gt;The Istio ingress type.  Valid values are &lt;code&gt;LoadBalancer&lt;/code&gt; and &lt;code&gt;NodePort&lt;/code&gt;.  The default value is &lt;code&gt;LoadBalancer&lt;/code&gt;. If the Istio ingress type is &lt;code&gt;NodePort&lt;/code&gt;, a valid and accessible IP address must be specified using the &lt;code&gt;gateways.istio-ingressgateway.externalIPs&lt;/code&gt; key in &lt;a href=&#34;#istio-install-args&#34;&gt;IstioInstallArgs&lt;/a&gt;. For sample usage, see &lt;a href=&#34;../../../docs/setup/customizing/externallbs/&#34;&gt;External Load Balancers&lt;/a&gt;.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;ports&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#port-config&#34;&gt;PortConfig&lt;/a&gt; list&lt;/td&gt;
+&lt;td&gt;The list port configurations used by the Istio ingress.&lt;/td&gt;
+&lt;td&gt;No&lt;/td&gt;
+&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;kubernetes&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;#istio-kubernetes-configuration&#34;&gt;IstioKubernetes&lt;/a&gt;&lt;/td&gt;

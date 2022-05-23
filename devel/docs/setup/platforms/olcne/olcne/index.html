@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/platforms/olcne/olcne/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-05-03T12:41:53-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-05-16T17:45:44+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Oracle Cloud Native Environment">
 <meta itemprop="description" content="Instructions for setting up an Oracle Cloud Native Environment cluster for Verrazzano">
-<meta itemprop="dateModified" content="2022-05-03T12:41:53-04:00" />
-<meta itemprop="wordCount" content="1987">
+<meta itemprop="dateModified" content="2022-05-16T17:45:44+05:30" />
+<meta itemprop="wordCount" content="2464">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Oracle Cloud Native Environment"/>
 <meta name="twitter:description" content="Instructions for setting up an Oracle Cloud Native Environment cluster for Verrazzano"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.3a750fb4a18c2c4ac8a577f35e6a091f.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.5ea8b7e602f15ad7b45440da5b07eca4.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.3a750fb4a18c2c4ac8a577f35e6a091f.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.5ea8b7e602f15ad7b45440da5b07eca4.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -190,6 +190,8 @@ if (!doNotTrack) {
   <a href="../../../../../docs/setup/customizing/ingress/" title="Customize Ingress" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupcustomizingingress"><span class="">Ingress</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupcustomizingstorage-li">
   <a href="../../../../../docs/setup/customizing/storage/" title="Customize Persistent Storage" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupcustomizingstorage"><span class="">Persistent Storage</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupcustomizingexternallbs-li">
+  <a href="../../../../../docs/setup/customizing/externallbs/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupcustomizingexternallbs"><span class="">External Load Balancers</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupuninstalluninstall-li">
@@ -257,16 +259,16 @@ if (!doNotTrack) {
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsmonitoring-li">
-  <a href="../../../../../docs/monitoring/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsmonitoring"><span class="">Monitoring &amp; Logging</span></a>
+  <a href="../../../../../docs/monitoring/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsmonitoring"><span class="">Logging &amp; Monitoring</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsmonitoringtracingjaeger-tracing-li">
-  <a href="../../../../../docs/monitoring/tracing/jaeger-tracing/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsmonitoringtracingjaeger-tracing"><span class="">Jaeger Tracing</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsmonitoringlogs-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsmonitoringlogs-li">
   <a href="../../../../../docs/monitoring/logs/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsmonitoringlogs"><span class="">Logging</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsmonitoringoci-loggingoci-logging-li">
   <a href="../../../../../docs/monitoring/oci-logging/oci-logging/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsmonitoringoci-loggingoci-logging"><span class="">Oracle Cloud Infrastructure Logging Service</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsmonitoringmetricsmetrics-li">
   <a href="../../../../../docs/monitoring/metrics/metrics/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsmonitoringmetricsmetrics"><span class="">Metrics</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsmonitoringtracingjaeger-tracing-li">
+  <a href="../../../../../docs/monitoring/tracing/jaeger-tracing/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsmonitoringtracingjaeger-tracing"><span class="">Jaeger Tracing</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docstroubleshooting-li">
@@ -1020,7 +1022,69 @@ EOF
 done
 </code></pre></li>
 </ul>
-<h3 id="load-balancers">Load Balancers</h3>
+<h4 id="configuring-custom-recycler-pod-template">Configuring custom recycler Pod template</h4>
+<p>When a Verrazzano installation is <a href="../../../../../docs/setup/uninstall/uninstall/">deleted</a>, the <code>PersistentVolumes</code> created in the preceding section are recycled by Kubernetes. As explained <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/#recycle">here</a>, Kubernetes platforms like Oracle Cloud Native Environment can have a custom recycler Pod defined. This Pod could require access to images which may not be available to the environment. For example, in the case of <a href="../../../../../docs/setup/private-registry/private-registry/">local registry setup</a> without access to the public Internet, the Pod previously defined will fail to start because it will not be able to pull the public <code>k8s.gcr.io/busybox</code> image. In such cases, it is required to have the specified container image locally on the Kubernetes node or in the local registry and use the argument <code>--pv-recycler-pod-template-filepath-nfs</code> to specify a custom Pod template for the recycler.</p>
+<p>For example, to configure the recycler Pod template on an Oracle Cloud Native Environment based Verrazzano cluster:</p>
+<ol>
+<li>Configure the recycler Pod template as a <code>ConfigMap</code> entry.
+<pre tabindex="0"><code>apiVersion: v1
+kind: ConfigMap
+metadata:
+name: recycler-pod-config
+namespace: kube-system
+data:
+recycler-pod.yaml: |
+    apiVersion: v1
+    kind: Pod
+    metadata:
+    name: pv-recycler
+    namespace: default
+    spec:
+    restartPolicy: Never
+    volumes:
+    - name: vol
+        hostPath:
+        path: /any/path/it/will/be/replaced
+    containers:
+    - name: pv-recycler
+        # busybox image from local registry
+        image: &#34;local-registry/busybox&#34;
+        command: [&#34;/bin/sh&#34;, &#34;-c&#34;, &#34;test -e /scrub &amp;&amp; rm -rf /scrub/..?* /scrub/.[!.]* /scrub/*  &amp;&amp; test -z \&#34;$(ls -A /scrub)\&#34; || exit 1&#34;]
+        volumeMounts:
+        - name: vol
+        mountPath: /scrub
+</code></pre></li>
+<li>Edit the <code>kube-controller-manager</code> Pod in the <code>kube-system</code> namespace.
+<pre tabindex="0"><code>$ kubectl edit pod kube-controller-manager-xxxxx -n kube-system
+</code></pre>Alternatively, you can edit the manifest file at <code>/etc/kubernetes/manifests/kube-controller-manager.yaml</code> on the control-plane node.</li>
+<li>Add the ConfigMap <code>recycler-pod-config</code> as a <code>volume</code> to the Pod spec.</li>
+<li>Add the ConfigMap entry <code>recycler-pod.yaml</code> as a <code>volumeMount</code> to the Pod spec.</li>
+<li>Add the <code>--pv-recycler-pod-template-filepath-nfs</code> argument to the <code>command</code>, with value as <code>mountPath</code> of <code>recycler-pod.yaml</code> in the Pod.
+<pre tabindex="0"><code>apiVersion: v1
+kind: Pod
+...
+spec:
+containers:
+- command:
+    - kube-controller-manager
+    - --allocate-node-cidrs=true
+    ...
+    - --pv-recycler-pod-template-filepath-nfs=/etc/recycler-pod.yaml
+    ...
+    volumeMounts:
+    ...
+    - name: recycler-config-volume
+    mountPath: /etc/recycler-pod.yaml
+    subPath: recycler-pod.yaml   
+...
+volumes:
+...
+- name: recycler-config-volume
+    configMap:
+        name: recycler-pod-config
+</code></pre></li>
+</ol>
+<h3 id="load-balancers">Load balancers</h3>
 <p>Verrazzano on Oracle Cloud Native Environment uses external load balancer services.
 These will not automatically be provided by Verrazzano or Kubernetes.
 Two load balancers must be deployed outside of the subnet used for the Kubernetes cluster.
@@ -1094,7 +1158,7 @@ Use these target port values for the NGINX Ingress Controller load balancer back
 </tbody>
 </table>
 <h4 id="oracle-cloud-infrastructure-example-2">Oracle Cloud Infrastructure example</h4>
-<p>The following details can be used to create Oracle Cloud Infrastructure load balancers for accessing application and management user interfaces, respectively.
+<p>You can use the following details to create Oracle Cloud Infrastructure load balancers for accessing application and management user interfaces, respectively.
 These load balancers will route HTTP/HTTPS traffic from the Internet to the private subnet.
 If load balancers are desired, then they should be created now even though the application and management endpoints will be installed later.</p>
 <p><strong>NOTE</strong>: In the following list, the using port 0 for the health check indicates that the backend ports should be used.</p>
@@ -1152,6 +1216,10 @@ If load balancers are desired, then they should be created now even though the a
 </ul>
 </li>
 </ul>
+<h4 id="configuring-self-signed-certificate-for-the-load-balancer">Configuring self-signed certificate for the load balancer</h4>
+<p>To configure an HTTPS listener or an HTTPS backend, you must configure an SSL certificate as described in <a href="https://docs.oracle.com/en-us/iaas/Content/Balance/Tasks/managingcertificates.htm">SSL Certificate for Load Balancers</a>.</p>
+<p>When the SSL certificate being configured as the Load Balancer Managed Certificate is a self-signed certificate, then the certificate should also be added as the CA certificate on the <i>Add Certificate</i> page in the Oracle Cloud Infrastructure Console.
+<img src="../../../../../docs/images/olcne-lb-self-signed-cert.png" alt=""></p>
 <h3 id="dns">DNS</h3>
 <p>When using the Verrazzano<code>spec.components.dns.external</code> DNS type, the installer searches the DNS zone you provide for two specific A records.
 These are used to configure the cluster and should refer to external addresses of the load balancers in the previous step.
@@ -1215,6 +1283,18 @@ DNS CNAME records, in the same way.</p>
 <p>Set the following environment variable:</p>
 <p>The value for <code>&lt;path to valid Kubernetes config&gt;</code> is typically <code>${HOME}/.kube/config</code>.</p>
 <pre tabindex="0"><code>$ export KUBECONFIG=$VERRAZZANO_KUBECONFIG
+</code></pre><h5 id="configure-istio-gateway-resource-for-non-sni-requests">Configure Istio Gateway resource for non-SNI requests</h5>
+<p>When a cloud load balancer is set up as an application load balancer in Verrazzano, it is possible that <a href="https://www.cloudflare.com/en-in/learning/ssl/what-is-sni/">SNI</a> is not forwarded from the load balancer to the <code>istio-ingressgateway</code> as described <a href="https://istio.io/latest/docs/ops/common-problems/network-issues/?_ga=2.71843408.277402657.1650537788-2065972972.1650537788#configuring-sni-routing-when-not-sending-sni">here</a>. This may result in traffic not getting routed to the application service. To make it work, you need to edit the <code>Gateway</code> resource and add <code>*</code> to the <code>hosts</code> list.</p>
+<pre tabindex="0"><code>apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+...
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - hosts:
+    - &#39;*&#39;
+    - ...
 </code></pre><h2 id="next-steps">Next steps</h2>
 <p>To continue, see the <a href="../../../../../docs/setup/install/installation/#install-the-verrazzano-platform-operator">Installation Guide</a>.</p>
 
