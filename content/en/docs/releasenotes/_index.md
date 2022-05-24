@@ -14,11 +14,11 @@ Features:
 
 Component version updates:
 
-- Cert-Manager v1.7.1
+- cert-manager v1.7.1
 - Coherence Operator 3.2.5
 - Istio v1.13.2
 - Kiali v1.42.0
-- Nginx Ingress Controller v1.1.1
+- NGINX Ingress Controller v1.1.1
 - Node Exporter v1.3.1
 - Prometheus v2.34.0
 - Rancher v2.6.4
@@ -28,7 +28,7 @@ Components Added:
 
 - AlertManager v0.24.0
 - Jaeger v1.32.0
-- Kube State Metrics v2.4.2
+- kube-state-metrics v2.4.2
 - Prometheus Adapter v0.9.1
 - Prometheus Operator v0.55.1
 - Prometheus Pushgateway v1.4.2
