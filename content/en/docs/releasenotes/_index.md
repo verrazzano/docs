@@ -4,6 +4,40 @@ linkTitle: Release Notes
 weight: 13
 draft: false
 ---
+### v1.3.0
+Features:
+
+- Post-Install Updates: Configurations for DNS, certificate management, logging, ingress and Opensearch cluster configuration can be updated after a Verrazzano installation.
+- Added Jaeger Distributed Tracing.
+- Support for Kubernetes v1.22 and v1.23.
+- kube-prometheus-stack components are now part of Verrazzano and can be enabled if desired. These include Prometheus Operator, AlertManager, kube-state-metrics etc.
+
+Component version updates:
+
+- Cert-Manager v1.7.1
+- Coherence Operator 3.2.5
+- Istio v1.13.2
+- Kiali v1.42.0
+- Nginx Ingress Controller v1.1.1
+- Node Exporter v1.3.1
+- Prometheus v2.34.0
+- Rancher v2.6.4
+- WebLogic Kubernetes Operator v3.4.0
+
+Components Added:
+
+- AlertManager v0.24.0
+- Jaeger v1.32.0
+- Kube State Metrics v2.4.2
+- Prometheus Adapter v0.9.1
+- Prometheus Operator v0.55.1
+- Prometheus Pushgateway v1.4.2
+
+Fixes:
+
+- Resolved an issue in the console UI with displaying multi-cluster applications when a managed cluster is partially registered.
+- Resolved an issue in the console UI with the display of the bobs-books sample WebLogic application.
+- Resolved an issue with exporting WebLogic application metrics in a private registry installation of Verrazzano.
 
 ### v1.2.2
 Fixes:
