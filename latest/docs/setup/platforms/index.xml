@@ -583,7 +583,69 @@ EOF
 done
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;load-balancers&#34;&gt;Load Balancers&lt;/h3&gt;
+&lt;h4 id=&#34;configuring-custom-recycler-pod-template&#34;&gt;Configuring custom recycler Pod template&lt;/h4&gt;
+&lt;p&gt;When a Verrazzano installation is &lt;a href=&#34;../../../docs/setup/uninstall/uninstall/&#34;&gt;deleted&lt;/a&gt;, the &lt;code&gt;PersistentVolumes&lt;/code&gt; created in the preceding section are recycled by Kubernetes. As explained &lt;a href=&#34;https://kubernetes.io/docs/concepts/storage/persistent-volumes/#recycle&#34;&gt;here&lt;/a&gt;, Kubernetes platforms like Oracle Cloud Native Environment can have a custom recycler Pod defined. This Pod could require access to images which may not be available to the environment. For example, in the case of &lt;a href=&#34;../../../docs/setup/private-registry/private-registry/&#34;&gt;local registry setup&lt;/a&gt; without access to the public Internet, the Pod previously defined will fail to start because it will not be able to pull the public &lt;code&gt;k8s.gcr.io/busybox&lt;/code&gt; image. In such cases, it is required to have the specified container image locally on the Kubernetes node or in the local registry and use the argument &lt;code&gt;--pv-recycler-pod-template-filepath-nfs&lt;/code&gt; to specify a custom Pod template for the recycler.&lt;/p&gt;
+&lt;p&gt;For example, to configure the recycler Pod template on an Oracle Cloud Native Environment based Verrazzano cluster:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Configure the recycler Pod template as a &lt;code&gt;ConfigMap&lt;/code&gt; entry.
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: v1
+kind: ConfigMap
+metadata:
+name: recycler-pod-config
+namespace: kube-system
+data:
+recycler-pod.yaml: |
+    apiVersion: v1
+    kind: Pod
+    metadata:
+    name: pv-recycler
+    namespace: default
+    spec:
+    restartPolicy: Never
+    volumes:
+    - name: vol
+        hostPath:
+        path: /any/path/it/will/be/replaced
+    containers:
+    - name: pv-recycler
+        # busybox image from local registry
+        image: &amp;#34;local-registry/busybox&amp;#34;
+        command: [&amp;#34;/bin/sh&amp;#34;, &amp;#34;-c&amp;#34;, &amp;#34;test -e /scrub &amp;amp;&amp;amp; rm -rf /scrub/..?* /scrub/.[!.]* /scrub/*  &amp;amp;&amp;amp; test -z \&amp;#34;$(ls -A /scrub)\&amp;#34; || exit 1&amp;#34;]
+        volumeMounts:
+        - name: vol
+        mountPath: /scrub
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;Edit the &lt;code&gt;kube-controller-manager&lt;/code&gt; Pod in the &lt;code&gt;kube-system&lt;/code&gt; namespace.
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl edit pod kube-controller-manager-xxxxx -n kube-system
+&lt;/code&gt;&lt;/pre&gt;Alternatively, you can edit the manifest file at &lt;code&gt;/etc/kubernetes/manifests/kube-controller-manager.yaml&lt;/code&gt; on the control-plane node.&lt;/li&gt;
+&lt;li&gt;Add the ConfigMap &lt;code&gt;recycler-pod-config&lt;/code&gt; as a &lt;code&gt;volume&lt;/code&gt; to the Pod spec.&lt;/li&gt;
+&lt;li&gt;Add the ConfigMap entry &lt;code&gt;recycler-pod.yaml&lt;/code&gt; as a &lt;code&gt;volumeMount&lt;/code&gt; to the Pod spec.&lt;/li&gt;
+&lt;li&gt;Add the &lt;code&gt;--pv-recycler-pod-template-filepath-nfs&lt;/code&gt; argument to the &lt;code&gt;command&lt;/code&gt;, with value as &lt;code&gt;mountPath&lt;/code&gt; of &lt;code&gt;recycler-pod.yaml&lt;/code&gt; in the Pod.
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: v1
+kind: Pod
+...
+spec:
+containers:
+- command:
+    - kube-controller-manager
+    - --allocate-node-cidrs=true
+    ...
+    - --pv-recycler-pod-template-filepath-nfs=/etc/recycler-pod.yaml
+    ...
+    volumeMounts:
+    ...
+    - name: recycler-config-volume
+    mountPath: /etc/recycler-pod.yaml
+    subPath: recycler-pod.yaml   
+...
+volumes:
+...
+- name: recycler-config-volume
+    configMap:
+        name: recycler-pod-config
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;load-balancers&#34;&gt;Load balancers&lt;/h3&gt;
 &lt;p&gt;Verrazzano on Oracle Cloud Native Environment uses external load balancer services.
 These will not automatically be provided by Verrazzano or Kubernetes.
 Two load balancers must be deployed outside of the subnet used for the Kubernetes cluster.
@@ -657,7 +719,7 @@ Use these target port values for the NGINX Ingress Controller load balancer back
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h4 id=&#34;oracle-cloud-infrastructure-example-2&#34;&gt;Oracle Cloud Infrastructure example&lt;/h4&gt;
-&lt;p&gt;The following details can be used to create Oracle Cloud Infrastructure load balancers for accessing application and management user interfaces, respectively.
+&lt;p&gt;You can use the following details to create Oracle Cloud Infrastructure load balancers for accessing application and management user interfaces, respectively.
 These load balancers will route HTTP/HTTPS traffic from the Internet to the private subnet.
 If load balancers are desired, then they should be created now even though the application and management endpoints will be installed later.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: In the following list, the using port 0 for the health check indicates that the backend ports should be used.&lt;/p&gt;
@@ -715,6 +777,10 @@ If load balancers are desired, then they should be created now even though the a
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
+&lt;h4 id=&#34;configuring-self-signed-certificate-for-the-load-balancer&#34;&gt;Configuring self-signed certificate for the load balancer&lt;/h4&gt;
+&lt;p&gt;To configure an HTTPS listener or an HTTPS backend, you must configure an SSL certificate as described in &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Balance/Tasks/managingcertificates.htm&#34;&gt;SSL Certificate for Load Balancers&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;When the SSL certificate being configured as the Load Balancer Managed Certificate is a self-signed certificate, then the certificate should also be added as the CA certificate on the &lt;i&gt;Add Certificate&lt;/i&gt; page in the Oracle Cloud Infrastructure Console.
+&lt;img src=&#34;../../../docs/images/olcne-lb-self-signed-cert.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;dns&#34;&gt;DNS&lt;/h3&gt;
 &lt;p&gt;When using the Verrazzano&lt;code&gt;spec.components.dns.external&lt;/code&gt; DNS type, the installer searches the DNS zone you provide for two specific A records.
 These are used to configure the cluster and should refer to external addresses of the load balancers in the previous step.
@@ -767,7 +833,7 @@ When creating a DNS zone, use these values:&lt;/p&gt;
 &lt;p&gt;DNS A records must be manually added to the zone and published using values described above.
 DNS CNAME records, in the same way.&lt;/p&gt;
 &lt;p&gt;During the Verrazzano install, these steps should be performed on the Oracle Cloud Native Environment operator node.&lt;/p&gt;
-&lt;p&gt;Edit the sample Verrazzano custom resource &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.2.2/platform-operator/config/samples/install-olcne.yaml&#34;&gt;install-olcne.yaml&lt;/a&gt; file and provide these configuration settings for your Oracle Cloud Native Environment:&lt;/p&gt;
+&lt;p&gt;Edit the sample Verrazzano custom resource &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.3.0/platform-operator/config/samples/install-olcne.yaml&#34;&gt;install-olcne.yaml&lt;/a&gt; file and provide these configuration settings for your Oracle Cloud Native Environment:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;The value for &lt;code&gt;spec.environmentName&lt;/code&gt; is a unique DNS subdomain for the cluster (for example, &lt;code&gt;myenv&lt;/code&gt; in &lt;code&gt;myenv.example.com&lt;/code&gt;).&lt;/li&gt;
 &lt;li&gt;The value for &lt;code&gt;spec.components.dns.external.suffix&lt;/code&gt; is the remainder of the DNS domain (for example, &lt;code&gt;example.com&lt;/code&gt; in &lt;code&gt;myenv.example.com&lt;/code&gt;).&lt;/li&gt;
@@ -778,6 +844,18 @@ DNS CNAME records, in the same way.&lt;/p&gt;
 &lt;p&gt;Set the following environment variable:&lt;/p&gt;
 &lt;p&gt;The value for &lt;code&gt;&amp;lt;path to valid Kubernetes config&amp;gt;&lt;/code&gt; is typically &lt;code&gt;${HOME}/.kube/config&lt;/code&gt;.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ export KUBECONFIG=$VERRAZZANO_KUBECONFIG
+&lt;/code&gt;&lt;/pre&gt;&lt;h5 id=&#34;configure-istio-gateway-resource-for-non-sni-requests&#34;&gt;Configure Istio Gateway resource for non-SNI requests&lt;/h5&gt;
+&lt;p&gt;When a cloud load balancer is set up as an application load balancer in Verrazzano, it is possible that &lt;a href=&#34;https://www.cloudflare.com/en-in/learning/ssl/what-is-sni/&#34;&gt;SNI&lt;/a&gt; is not forwarded from the load balancer to the &lt;code&gt;istio-ingressgateway&lt;/code&gt; as described &lt;a href=&#34;https://istio.io/latest/docs/ops/common-problems/network-issues/?_ga=2.71843408.277402657.1650537788-2065972972.1650537788#configuring-sni-routing-when-not-sending-sni&#34;&gt;here&lt;/a&gt;. This may result in traffic not getting routed to the application service. To make it work, you need to edit the &lt;code&gt;Gateway&lt;/code&gt; resource and add &lt;code&gt;*&lt;/code&gt; to the &lt;code&gt;hosts&lt;/code&gt; list.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+...
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - hosts:
+    - &amp;#39;*&amp;#39;
+    - ...
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
 &lt;p&gt;To continue, see the &lt;a href=&#34;../../../docs/setup/install/installation/#install-the-verrazzano-platform-operator&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
 

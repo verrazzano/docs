@@ -40,7 +40,7 @@ custom resource, you can install, uninstall, and upgrade Verrazzano installation
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Deploy the Verrazzano platform operator.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v1.2.2/operator.yaml
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v1.3.0/operator.yaml
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Wait for the deployment to complete.&lt;/p&gt;
@@ -448,109 +448,93 @@ The admin cluster scrapes metrics from the managed cluster&amp;rsquo;s Prometheu
 Verrazzano installation uses self-signed certificates or LetsEncrypt staging certificates, then the admin
 cluster will need the managed cluster&amp;rsquo;s CA certificate to make an &lt;code&gt;https&lt;/code&gt; connection.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Depending on whether the Verrazzano installation on the managed cluster uses
-self-signed certificates, LetsEncrypt staging certificates, or certificates signed by a well-known
-certificate authority, choose the appropriate instructions.&lt;/li&gt;
-&lt;li&gt;If you are unsure what type of certificates are used, use the following instructions.
-&lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;To check if the &lt;code&gt;verrazzano&lt;/code&gt; resource is configured to use LetsEncrypt staging certificates:&lt;/p&gt;
+&lt;p&gt;Depending on whether the Verrazzano installation on the managed cluster uses
+self-signed certificates, LetsEncrypt staging certificates, or certificates signed by a well-known
+certificate authority, choose the appropriate instructions.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;If you are unsure what type of certificates are used, use the following instructions.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;To check if the &lt;code&gt;verrazzano&lt;/code&gt; resource is configured to use LetsEncrypt staging certificates:
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the managed cluster
 $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
      describe verrazzano
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If the output contains the following information, then LetsEncrypt staging certificates are being used.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;If the output contains the following information, then LetsEncrypt staging certificates are being used.
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Cert Manager:
   Certificate:
     Acme:
       Environment:    staging
       Provider:       letsEncrypt
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;To check the &lt;code&gt;ca.crt&lt;/code&gt; field of the &lt;code&gt;system-tls&lt;/code&gt; secret
-in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace on the managed cluster:&lt;/p&gt;
+&lt;li&gt;To check the &lt;code&gt;ca.crt&lt;/code&gt; field of the &lt;code&gt;verrazzano-tls&lt;/code&gt; secret
+in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace on the managed cluster:
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the managed cluster
 $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
-     -n verrazzano-system get secret system-tls -o jsonpath=&amp;#39;{.data.ca\.crt}&amp;#39;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If this value is empty, then your managed cluster is using certificates signed by a well-known certificate
-authority. Otherwise, your managed cluster is using self-signed certificates.&lt;/p&gt;
+     -n verrazzano-system get secret verrazzano-tls -o jsonpath=&amp;#39;{.data.ca\.crt}&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;If this value is empty, then your managed cluster is using certificates signed by a well-known certificate
+authority. Otherwise, your managed cluster is using self-signed certificates.&lt;/li&gt;
+&lt;/ul&gt;
 &lt;nav&gt;
 	&lt;div class=&#34;nav nav-tabs&#34; id=&#34;nav-tab&#34; role=&#34;tablist&#34;&gt;
 
 		
 		
-
-		
-		
-		
-
-		
-
-		&lt;a class=&#34;nav-item nav-link active&#34; id=&#34;nav-2&#34; data-toggle=&#34;tab&#34; href=&#34;#tab21&#34; role=&#34;tab&#34;
-		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Well-known CA&lt;/a&gt;
-
-		
-		
-
-		
 		
 		
 
 		
 
-		&lt;a class=&#34;nav-item nav-link&#34; id=&#34;nav-2&#34; data-toggle=&#34;tab&#34; href=&#34;#tab22&#34; role=&#34;tab&#34;
-		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;false&#34;&gt;Self-Signed&lt;/a&gt;
-
-		
-		
-
-		
-		
-		
+		&lt;a class=&#34;nav-item nav-link  active &#34;
+		   id=&#34;nav-aefdbc&#34; data-toggle=&#34;tab&#34; href=&#34;#aefdbc&#34;
+		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Well-knownCA&lt;/a&gt;
 
 		
 
-		&lt;a class=&#34;nav-item nav-link&#34; id=&#34;nav-2&#34; data-toggle=&#34;tab&#34; href=&#34;#tab23&#34; role=&#34;tab&#34;
-		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;false&#34;&gt;LetsEncrypt Staging&lt;/a&gt;
+		&lt;a class=&#34;nav-item nav-link &#34;
+		   id=&#34;nav-dfbcae&#34; data-toggle=&#34;tab&#34; href=&#34;#dfbcae&#34;
+		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Self-Signed&lt;/a&gt;
 
 		
+
+		&lt;a class=&#34;nav-item nav-link &#34;
+		   id=&#34;nav-bceadf&#34; data-toggle=&#34;tab&#34; href=&#34;#bceadf&#34;
+		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;LetsEncryptStaging&lt;/a&gt;
+
 		
 
 	&lt;/div&gt;
 &lt;/nav&gt;
 
-&lt;div class=&#34;tab-content&#34; id=&#34;2&#34;&gt;
+&lt;div class=&#34;tab-content&#34; id=&#34;nav-tab-content&#34;&gt;
+
+	
+     
 
 
-       
 
 
-
-
-
-&lt;div class=&#34;tab-pane fade show active&#34; id=&#34;tab21&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;aefdbc&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;In this case, no additional configuration is necessary.
 
 &lt;/div&gt;
 
-
-
      
 
 
 
 
-
-&lt;div class=&#34;tab-pane fade&#34; id=&#34;tab22&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName2&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;dfbcae&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;p&gt;If the managed cluster certificates are self-signed, create a file called &lt;code&gt;managed1.yaml&lt;/code&gt; containing the CA
 certificate of the managed cluster as the value of the &lt;code&gt;cacrt&lt;/code&gt; field. In the following commands, the managed cluster&amp;rsquo;s
 CA certificate is saved in an environment variable called &lt;code&gt;MGD_CA_CERT&lt;/code&gt;. Then use the &lt;code&gt;--dry-run&lt;/code&gt; option of the
 &lt;code&gt;kubectl&lt;/code&gt; command to generate the &lt;code&gt;managed1.yaml&lt;/code&gt; file.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the managed cluster
-$ MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
-     get secret system-tls \
+$ export MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
+     get secret verrazzano-tls \
      -n verrazzano-system \
      -o jsonpath=&amp;#34;{.data.ca\.crt}&amp;#34; | base64 --decode)
 $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
@@ -571,26 +555,23 @@ $ rm managed1.yaml
 
 &lt;/div&gt;
 
-
-
      
 
 
 
 
-
-&lt;div class=&#34;tab-pane fade&#34; id=&#34;tab23&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName3&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;bceadf&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;p&gt;If the managed cluster certificates are LetsEncrypt staging, then create a file called &lt;code&gt;managed1.yaml&lt;/code&gt; containing the CA
 certificate of the managed cluster as the value of the &lt;code&gt;cacrt&lt;/code&gt; field. In the following commands, the managed cluster&amp;rsquo;s
 CA certificate is saved in an environment variable called &lt;code&gt;MGD_CA_CERT&lt;/code&gt;. Then use the &lt;code&gt;--dry-run&lt;/code&gt; option of the
 &lt;code&gt;kubectl&lt;/code&gt; command to generate the &lt;code&gt;managed1.yaml&lt;/code&gt; file.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the admin cluster
-$ MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the managed cluster
+$ export MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
      get secret tls-ca-additional \
      -n cattle-system \
      -o jsonpath=&amp;#34;{.data.ca-additional\.pem}&amp;#34; | base64 --decode)
-$ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
   create secret generic &amp;#34;ca-secret-managed1&amp;#34; \
   -n verrazzano-mc \
   --from-literal=cacrt=&amp;#34;$MGD_CA_CERT&amp;#34; \
@@ -608,13 +589,9 @@ $ rm managed1.yaml
 
 &lt;/div&gt;
 
-
-
      
 
 &lt;/div&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
@@ -626,44 +603,35 @@ be accessible from the managed cluster.&lt;/p&gt;
 
 		
 		
-
-		
-		
-		
-
-		
-
-		&lt;a class=&#34;nav-item nav-link active&#34; id=&#34;nav-3&#34; data-toggle=&#34;tab&#34; href=&#34;#tab31&#34; role=&#34;tab&#34;
-		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Most Kubernetes Clusters&lt;/a&gt;
-
-		
-		
-
-		
 		
 		
 
 		
 
-		&lt;a class=&#34;nav-item nav-link&#34; id=&#34;nav-3&#34; data-toggle=&#34;tab&#34; href=&#34;#tab32&#34; role=&#34;tab&#34;
-		   aria-controls=&#34;nav-home&#34; aria-selected=&#34;false&#34;&gt;Kind Clusters&lt;/a&gt;
+		&lt;a class=&#34;nav-item nav-link  active &#34;
+		   id=&#34;nav-ebdcaf&#34; data-toggle=&#34;tab&#34; href=&#34;#ebdcaf&#34;
+		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;MostKubernetesClusters&lt;/a&gt;
 
 		
+
+		&lt;a class=&#34;nav-item nav-link &#34;
+		   id=&#34;nav-eafbdc&#34; data-toggle=&#34;tab&#34; href=&#34;#eafbdc&#34;
+		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;KindClusters&lt;/a&gt;
+
 		
 
 	&lt;/div&gt;
 &lt;/nav&gt;
 
-&lt;div class=&#34;tab-content&#34; id=&#34;3&#34;&gt;
+&lt;div class=&#34;tab-content&#34; id=&#34;nav-tab-content&#34;&gt;
 
-
+	
    
 
 
 
 
-
-&lt;div class=&#34;tab-pane fade show active&#34; id=&#34;tab31&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;ebdcaf&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;For most types of Kubernetes clusters, except for Kind clusters, you can find the externally accessible API server
@@ -689,15 +657,12 @@ value of the ADMIN_K8S_SERVER_ADDRESS variable to this URL.&lt;/p&gt;
 
 &lt;/div&gt;
 
-
-
    
 
 
 
 
-
-&lt;div class=&#34;tab-pane fade&#34; id=&#34;tab32&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-tabName2&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;eafbdc&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;Kind clusters run within a Docker container. If your admin and managed clusters are Kind clusters, the API server
@@ -712,8 +677,6 @@ value of the ADMIN_K8S_SERVER_ADDRESS variable to this URL.&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;/div&gt;
-
-
 
    
 
@@ -842,8 +805,7 @@ $ curl -k --user verrazzano:${VZPASS} &amp;#34;${prometheusUrl}/api/v1/query?que
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;verify-that-managed-cluster-logs-are-being-collected&#34;&gt;Verify that managed cluster logs are being collected&lt;/h3&gt;
 &lt;p&gt;Verify that the admin cluster is collecting logs from the managed cluster.  The output will include records which have the name of the managed cluster in the &lt;code&gt;cluster_name&lt;/code&gt; field.&lt;/p&gt;
 &lt;p&gt;You can find the OpenSearch Dashboards UI URL for your cluster by following the instructions for &lt;a href=&#34;../../../docs/access/&#34;&gt;Accessing Verrazzano&lt;/a&gt;.
-Create an index for &lt;code&gt;verrazzano-namespace-verrazzano-system&lt;/code&gt;.  Some log records will have the &lt;code&gt;cluster_name&lt;/code&gt; field populated with the name of
-the managed cluster.&lt;/p&gt;
+Searching the &lt;code&gt;verrazzano-system&lt;/code&gt; data stream for log records with the &lt;code&gt;cluster_name&lt;/code&gt; set to the managed cluster name yields logs for the managed cluster.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Sample output of a OpenSearch Dashboards screen&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;../../../docs/images/multicluster/opensearch-multicluster.png&#34; alt=&#34;OpenSearch Dashboards&#34;&gt;&lt;/p&gt;
 &lt;p&gt;An alternative approach to using the OpenSearch Dashboards UI is to query OpenSearch from the command line.  Here is an example of how to obtain log records from the command line.  Search the output of the query for responses that have the &lt;code&gt;cluster_name&lt;/code&gt; field set to the name of the managed cluster.&lt;/p&gt;
@@ -853,7 +815,7 @@ $ OSD_URL=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN 
 $ VZPASS=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
            get secret verrazzano --namespace verrazzano-system \
            -o jsonpath={.data.password} | base64 --decode; echo)
-$ curl -k --user verrazzano:${VZPASS} -X POST -H &amp;#39;kbn-xsrf: true&amp;#39; &amp;#34;${OSD_URL}/elasticsearch/verrazzano-namespace-verrazzano-system/_search?size=25&amp;#34;
+$ curl -k --user verrazzano:${VZPASS} -X POST -H &amp;#39;kbn-xsrf: true&amp;#39; &amp;#34;${OSD_URL}/elasticsearch/verrazzano-system/_search?size=25&amp;#34;
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;run-applications-in-multicluster-verrazzano&#34;&gt;Run applications in multicluster Verrazzano&lt;/h2&gt;
 &lt;p&gt;The Verrazzano multicluster setup is now complete and you can deploy applications by following the &lt;a href=&#34;../../../docs/samples/multicluster/hello-helidon/&#34;&gt;Multicluster Hello World Helidon&lt;/a&gt; example application.&lt;/p&gt;
 &lt;h2 id=&#34;use-the-admin-cluster-ui&#34;&gt;Use the admin cluster UI&lt;/h2&gt;

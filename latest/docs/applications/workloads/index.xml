@@ -106,9 +106,9 @@ injecting Fluentd sidecar configuration into the Coherence resource. The Coheren
 Fluentd sidecar.  This sidecar periodically copies the Coherence logs from &lt;code&gt;/logs&lt;/code&gt; to stdout, enabling the Fluentd DaemonSet
 in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace to send the logs to OpenSearch.  Note that the Fluend sidecar running in the Coherence
 pod never communicates with OpenSearch or any other network endpoint.&lt;/p&gt;
-&lt;p&gt;The logs are placed in a per-namespace OpenSearch index named &lt;code&gt;verrazzano-namespace-&amp;lt;namespace&amp;gt;&lt;/code&gt;,
-for example: &lt;code&gt;verrazzano-namespace-sockshop&lt;/code&gt;.  All logs from Coherence pods in the same namespace will
-go into the same index, even for different applications.  This is standard behavior and there is no way to disable or change it.&lt;/p&gt;
+&lt;p&gt;The logs are placed in a per-namespace OpenSearch data stream named &lt;code&gt;verrazzano-application-&amp;lt;namespace&amp;gt;&lt;/code&gt;,
+for example: &lt;code&gt;verrazzano-application-sockshop&lt;/code&gt;.  All logs from Coherence pods in the same namespace will
+go into the same data stream, even for different applications.  This is standard behavior and there is no way to disable or change it.&lt;/p&gt;
 &lt;p&gt;Each log record has some Coherence and application fields, along with the log message itself.  For example:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt; kubernetes.labels.coherenceCluster        SockShop
  kubernetes.labels.app_oam_dev/name        sockshop-appconf
@@ -122,14 +122,14 @@ there are two ways to configure the Coherence metrics endpoint.  Coherence has a
 enable.  If your application serves metrics from its own endpoint, such as a Helidon application, then do not use the native
 Coherence metrics endpoint.  To see the difference, examine the &lt;code&gt;socks-shop&lt;/code&gt; and &lt;code&gt;bobs-books&lt;/code&gt; examples.&lt;/p&gt;
 &lt;h3 id=&#34;bobs-books&#34;&gt;Bobs Books&lt;/h3&gt;
-&lt;p&gt;The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.2.2/examples/bobs-books&#34;&gt;bobs-books&lt;/a&gt; example uses the default
+&lt;p&gt;The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.3.0/examples/bobs-books&#34;&gt;bobs-books&lt;/a&gt; example uses the default
 Coherence metrics endpoint, so the configuration must enable this feature, shown in the following metrics section of the
-&lt;code&gt;roberts-coherence&lt;/code&gt; component in the YAML file, &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.2.2/examples/bobs-books/bobs-books-comp.yaml&#34;&gt;bobs-books-comp.yaml&lt;/a&gt;.&lt;/p&gt;
+&lt;code&gt;roberts-coherence&lt;/code&gt; component in the YAML file, &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.3.0/examples/bobs-books/bobs-books-comp.yaml&#34;&gt;bobs-books-comp.yaml&lt;/a&gt;.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-...&#34; data-lang=&#34;...&#34;&gt;          coherence:
             metrics:
               enabled: true
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;sock-shop&#34;&gt;Sock Shop&lt;/h3&gt;
-&lt;p&gt;The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.2.2/examples/sock-shop&#34;&gt;sock-shop&lt;/a&gt; example, which is a Helidon
+&lt;p&gt;The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.3.0/examples/sock-shop&#34;&gt;sock-shop&lt;/a&gt; example, which is a Helidon
 application with embedded Coherence, explicitly specifies the metrics port 7001 and doesn&amp;rsquo;t enable Coherence metrics.  Coherence
 metrics still will be scraped, but not at the default endpoint.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;          ports:
@@ -318,9 +318,9 @@ we recommend that you specify &lt;code&gt;replicaCount&lt;/code&gt; defined on M
 &lt;h3 id=&#34;logging&#34;&gt;Logging&lt;/h3&gt;
 &lt;p&gt;When a containerized Helidon application is provisioned on Verrazzano, Verrazzano will configure the default logging
 and send logs to OpenSearch. Logs can be viewed using the OpenSearch Dashboards console.&lt;/p&gt;
-&lt;p&gt;The logs are placed in a per-namespace OpenSearch index named &lt;code&gt;verrazzano-namespace-&amp;lt;namespace&amp;gt;&lt;/code&gt;,
-for example: &lt;code&gt;verrazzano-namespace-hello-helidon&lt;/code&gt;.  All logs from containerized Helidon application pods in the same namespace will
-go into the same index, even for different applications.  This is standard behavior and there is no way to disable or change it.&lt;/p&gt;
+&lt;p&gt;The logs are placed in a per-namespace OpenSearch data stream named &lt;code&gt;verrazzano-application-&amp;lt;namespace&amp;gt;&lt;/code&gt;,
+for example: &lt;code&gt;verrazzano-application-hello-helidon&lt;/code&gt;.  All logs from containerized Helidon application pods in the same namespace will
+go into the same data stream, even for different applications.  This is standard behavior and there is no way to disable or change it.&lt;/p&gt;
 &lt;h3 id=&#34;metrics&#34;&gt;Metrics&lt;/h3&gt;
 &lt;p&gt;Verrazzano uses Prometheus to scrape metrics from containerized Helidon application pods. Like logging, metrics scraping is also
 enabled during provisioning. Metrics can be viewed using the Grafana console.&lt;/p&gt;
