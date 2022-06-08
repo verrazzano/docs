@@ -201,7 +201,7 @@ AuthorizationRule matches requests from a list of request principals that access
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `from` | [AuthorizationRuleFrom](#authorizationrulefrom) | Specifies the request principals for access to a request. An asterik (“*”) will match when the value is not empty, for example, if any request principal is found in the request.|  Yes |
+| `from` | [AuthorizationRuleFrom](#authorizationrulefrom) | Specifies the request principals for access to a request. An asterisk (“*”) will match when the value is not empty, for example, if any request principal is found in the request.|  Yes |
 | `when` | [AuthorizationRuleCondition](#authorizationrulecondition) | Specifies a list of additional conditions for access to a request. |  No |
 
 #### AuthorizationRuleFrom
