@@ -19,29 +19,29 @@ Troubleshooting application deployments should follow three general steps:
 ### Review `oam-kubernetes-runtime` operator status
 For application deployment to succeed, the `oam-kubernetes-runtime` pod must have a status of Running.
 
-Use the following command to get the pod status.
+Use the following command to get the pod status:
 ```
 $ kubectl get pods \
     -n verrazzano-system \
     -l app.kubernetes.io/name=oam-kubernetes-runtime
 ```
-If the pod status is not Running, then see the following instructions for reviewing the `oam-kubernetes-runtime` pod logs.
+If the pod status is not Running, then see the instructions for [reviewing the `oam-kubernetes-runtime`](#review-oam-kubernetes-runtime-operator-logs) pod logs.
 
 ### Review `verrazzano-application-operator` operator status
 For application deployment to succeed, the `verrazzano-application-operator` pod must have a status of Running.
 
-Use the following command to get the pod status.
+Use the following command to get the pod status:
 ```
 $ kubectl get pods \
     -n verrazzano-system \
     -l app=verrazzano-application-operator
 ```
-If the pod status is not Running, then see the following instructions for reviewing the `verrazzano-application-operator` logs.
+If the pod status is not Running, then see the instructions for [reviewing the `verrazzano-application-operator`](#review-verrazzano-application-operator-logs) logs.
 
 ### Review `oam-kubernetes-runtime` operator logs
 Review the `oam-kubernetes-runtime` pod logs for any indication that pod startup or the generation of workloads or traits has failed.
 
-Use the following command to get the logs.
+Use the following command to get the logs:
 ```
 $ kubectl logs \
     -n verrazzano-system \
@@ -51,7 +51,7 @@ $ kubectl logs \
 ### Review `verrazzano-application-operator` logs
 Review the `verrazzano-application-operator` logs for any indication that pod startup or resource generation has failed.
 
-Use the following command to get the logs.
+Use the following command to get the logs:
 ```
 $ kubectl logs \
     -n verrazzano-system \
@@ -66,7 +66,7 @@ In turn, the VerrazzanoHelidonWorkload workload resource will be processed and r
 If the expected workload resource, for example VerrazzanoHelidonWorkload, is missing, then review the `oam-kubernetes-runtime` logs.
 If the expected related resources, for example Deployment or Service, are missing, then review the `verrazzano-application-operator` logs.
 
-The following commands are examples of checking for the resources related to a VerrazzanoHelidonWorkload deployment.
+The following commands are examples of checking for the resources related to a VerrazzanoHelidonWorkload deployment:
 ```
 $ kubectl get -n hello-helidon verrazzanohelidonworkload hello-helidon-workload
 $ kubectl get -n hello-helidon deployment hello-helidon-deployment
@@ -81,7 +81,7 @@ In turn, the IngressTrait resource will be processed and result in the generatio
 If the expected Trait resource, for example IngressTrait, is missing, then review the `oam-kubernetes-runtime` logs.
 If the expected related resources, for example Certificate, Gateway, and VirtualService, are missing, then review the `verrazzano-application-operator` logs.
 
-The following commands are examples of checking for the resources related to an IngressTrait.
+The following commands are examples of checking for the resources related to an IngressTrait:
 ```
 $ kubectl get -n hello-helidon ingresstrait hello-helidon-ingress
 $ kubectl get -n istio-system Certificate hello-helidon-hello-helidon-appconf-cert
@@ -93,7 +93,7 @@ $ kubectl get -n hello-helidon virtualservice hello-helidon-ingress-rule-0-vs
 The use of generic Kubernetes resources as workloads and traits can result in deployment failures if privileges are insufficient.
 In this case, the `oam-kubernetes-runtime` logs will contain errors containing the term `forbidden`.
 
-The following command shows how to query for this type of failure message.
+The following command shows how to query for this type of failure message:
 ```
 $ kubectl logs \
     -n verrazzano-system \
@@ -103,7 +103,7 @@ $ kubectl logs \
 ### Check resource owners
 Kubernetes maintains the child to parent relationship within metadata fields.
 
-The following example returns the parent of the IngressTrait, named `hello-helidon-ingress`, in the `hello-helidon` namespace.
+The following example returns the parent of the IngressTrait, named `hello-helidon-ingress`, in the `hello-helidon` namespace:
 ```
 $ kubectl get IngressTrait \
     -n hello-helidon hello-helidon-ingress \
@@ -115,7 +115,7 @@ The results of this command can help identify the lineage of a given resource.
 Some resources also record the related resources affected during their processing.
 For example, when processed, an IngressTrait will create related Gateway, VirtualService, and Certificate resources.
 
-The following command is an example of how to obtain the related resources of an IngressTraits.
+The following command is an example of how to obtain the related resources of an IngressTraits:
 ```
 $ kubectl get IngressTrait \
     -n hello-helidon hello-helidon-ingress \

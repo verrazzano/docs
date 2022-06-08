@@ -69,7 +69,7 @@ endpoint accepts the `POST` HTTP request method.
 environment, such as OKE.  Other environments or deployments may require alternative mechanisms for retrieving addresses,
 ports, and such.
 
-Follow these steps to test the endpoints:
+Follow these steps to test the endpoints.
 
 1. Get the generated host name for the application.
    ```
@@ -93,7 +93,7 @@ Follow these steps to test the endpoints:
    11.22.33.44
    ```   
 
-1. Access the Sock Shop example application:
+1. Access the Sock Shop example application.
 
    * **Using the command line**
 
@@ -188,7 +188,7 @@ Regardless of its location, to undeploy the application,
 delete the application resources and the project from the admin cluster.
 Undeploy affects all clusters in which the application is located.
 
-1. To undeploy the application, delete the Sock Shop OAM resources.
+1. To undeploy the application, delete the Sock Shop OAM resources:
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
      -f {{< release_source_url raw=true path=examples/multicluster/sock-shop/sock-shop-app.yaml >}}

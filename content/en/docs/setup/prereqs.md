@@ -8,14 +8,14 @@ draft: false
 
 Verrazzano requires the following:
 - A Kubernetes cluster and a compatible `kubectl`.
-- At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.  This is sufficient to install the development profile
+- At least two CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.  This is sufficient to install the development profile
   of Verrazzano.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient for deploying your
   applications.
 
-## Supported Hardware
+## Supported hardware
 Verrazzano requires x86-64; other architectures are not supported.
 
-## Supported Software Versions
+## Supported software versions
 Verrazzano supports the following software versions.
 
 ### Kubernetes
@@ -44,18 +44,18 @@ See the Coherence versions supported [here](https://oracle.github.io/coherence-o
 Verrazzano supports all versions of Helidon.  For more information, see [Helidon](https://helidon.io) and
  [Helidon Commercial Offerings](https://support.oracle.com/knowledge/Middleware/2645279_1.html).
 
-## Installed Components
-Verrazzano installs a curated set of open source components.  The following table lists each open source
-component with its version and a brief description.
+## Installed components
+Verrazzano installs a curated set of open source components.  The following table lists each
+component, its version, and a brief description.
 
 | Component                    | Version | Description                                                                          |
 |------------------------------|---------|--------------------------------------------------------------------------------------|
-| alert-manager                | 0.24.0  | Handles alerts sent by client applications such as the Prometheus server.            |
+| alert-manager                | 0.24.0  | Handles alerts sent by client applications, such as the Prometheus server.            |
 | cert-manager                 | 1.7.1   | Automates the management and issuance of TLS certificates.                           |
 | Coherence Operator           | 3.2.5   | Assists with deploying and managing Coherence clusters.                              |
 | ExternalDNS                  | 0.10.2  | Synchronizes exposed Kubernetes Services and ingresses with DNS providers.           |
 | Fluentd                      | 1.12.3  | Collects logs and sends them to OpenSearch.                                          |
-| Grafana                      | 7.5.11  | Tool to help you study, analyze, and monitor metrics.                                |
+| Grafana                      | 7.5.11  | Tool to help you examine, analyze, and monitor metrics.                                |
 | Istio                        | 1.13.2  | Service mesh that layers transparently onto existing distributed applications.       |
 | Jaeger                       | 1.32.0  | Distributed tracing system for monitoring and troubleshooting distributed systems.   |
 | Keycloak                     | 15.0.2  | Provides single sign-on with Identity and Access Management.                         |

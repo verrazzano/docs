@@ -22,7 +22,7 @@ These tools are available for Linux and Mac: https://github.com/verrazzano/verra
 
 Use these instructions to obtain the analysis tools on Linux machines.  
 
-#### Download the tooling:
+#### Download the tooling
   ```
    $ wget {{<release_asset_url k8s-dump-cluster.sh>}}
    $ wget {{<release_asset_url k8s-dump-cluster.sh.sha256>}}
@@ -30,13 +30,13 @@ Use these instructions to obtain the analysis tools on Linux machines.
    $ wget {{<release_asset_url verrazzano-analysis-linux-amd64.tar.gz.sha256>}}
   ```
 
-#### Verify the downloaded files:
+#### Verify the downloaded files
   ```
    $ sha256sum -c k8s-dump-cluster.sh.sha256
    $ sha256sum -c verrazzano-analysis-linux-amd64.tar.gz.sha256
   ```
 
-#### Unpack the `verrazzano-analysis` binary:
+#### Unpack the `verrazzano-analysis` binary
   ```
    $ tar xvf verrazzano-analysis-linux-amd64.tar.gz
   ```
@@ -48,20 +48,20 @@ Use these instructions to obtain the analysis tools on Linux machines.
 
 Use these instructions to obtain the analysis tools on Mac machines.
 
-#### Download the tooling:
+#### Download the tooling
   ```
    $ wget {{<release_asset_url k8s-dump-cluster.sh>}}
    $ wget {{<release_asset_url k8s-dump-cluster.sh.sha256>}}
    $ wget {{<release_asset_url verrazzano-analysis-darwin-amd64.tar.gz>}}
    $ wget {{<release_asset_url verrazzano-analysis-darwin-amd64.tar.gz.sha256>}}
   ```
-#### Verify the downloaded files:
+#### Verify the downloaded files
   ```
    $ shasum -a 256 -c k8s-dump-cluster.sh.sha256
    $ shasum -a 256 -c verrazzano-analysis-darwin-amd64.tar.gz.sha256
   ```
 
-#### Unpack the `verrazzano-analysis` binary:
+#### Unpack the `verrazzano-analysis` binary
   ```
    $ tar xvf verrazzano-analysis-darwin-amd64.tar.gz
   ```

@@ -22,7 +22,7 @@ You can customize the node characteristics of your OpenSearch cluster by using t
 field in the Verrazzano custom resource.  When installing or upgrading Verrazzano, you can use this field to
 define an OpenSearch cluster using node groups.
 
-To support backward compatibility, Helm overrides can be configured using [spec.components.elasticsearch.installArgs](/docs/reference/api/verrazzano/verrazzano/#opensearch-install-args)),
+To support backward compatibility, Helm overrides can be configured using [spec.components.elasticsearch.installArgs](/docs/reference/api/verrazzano/verrazzano/#opensearch-install-args),
 though it is recommended to configure your cluster using `nodes` instead.
 
 The following example overrides the `dev` installation profile, OpenSearch configuration (a single-node cluster with
@@ -58,7 +58,7 @@ spec:
           resources:
             requests:
               memory: 1Gi
-            
+
       # Override the default cluster settings, since we are providing our own topology.  
       installArgs:
       - name: nodes.master.replicas
@@ -118,7 +118,7 @@ Containers:
 
 ## Configure Index State Management policies
 
-[Index State Management](https://opensearch.org/docs/1.3/im-plugin/ism/index/) policies configure OpenSearch to manage the data in your indices. 
+[Index State Management](https://opensearch.org/docs/1.3/im-plugin/ism/index/) policies configure OpenSearch to manage the data in your indices.
 Policies can be used to automatically rollover and prune old data, preventing your OpenSearch
 cluster from running out of disk space.
 

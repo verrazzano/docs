@@ -24,7 +24,7 @@ does not show Prometheus scraping.
 
 Verrazzano system traffic enters a platform load balancer over TLS and is routed to the
 NGINX Ingress Controller, where TLS is terminated.  From there, the traffic is routed
-to one of the system components in the mesh over mTLS, or using HTTP to a system component,
+to one of the system components in the mesh over mutual TLS authentication (mTLS), or using HTTP to a system component,
 outside the mesh.  
 
 Application traffic enters a second Oracle Cloud Infrastructure load balancer over TLS and is routed to the

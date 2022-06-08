@@ -18,8 +18,8 @@ The following is an example of Oracle Cloud Infrastructure that can be used to e
 If other environments are used, the capacity and configuration should be similar.
 
 You can use the VCN Wizard of the Oracle Cloud Infrastructure Console to automatically create most of the described network infrastructure.
-Additional security lists/rules, as detailed below, need to be added manually.
-All CIDR values provided are examples and can be customized as required.
+Additional security lists/rules, as detailed in the following sections, need to be added manually.
+All Classless Inter-Domain Routing (CIDR) values provided are examples and can be customized as required.
 
 ### Virtual Cloud Network (for example, CIDR 10.0.0.0/16)
 **Public Subnet (for example, CIDR 10.0.0.0/24)**
@@ -145,25 +145,25 @@ This guide will focus on pre-allocated persistent volumes.
 In particular, the provided samples will illustrate the use of Oracle Cloud Infrastructure's File System.
 
 #### Oracle Cloud Infrastructure example  
-Before storage can be exposed to Kubernetes, it must be created.
-In Oracle Cloud Infrastructure, this is done using File System resources.
+Before storage can be exposed to Kubernetes, you must create it.
+In Oracle Cloud Infrastructure, you do this using File System resources.
 Using the Oracle Cloud Infrastructure Console, create a new File System.
 Within the new File System, create an Export.
-Remember the value used for  `Export Path` as it will be used later.
-Also note the Mount Target's `IP Address` for use later.
+Remember the `Export Path` value because you will use it later.
+Also note the Mount Target's `IP Address`.
 
-After the exports have been created, referenced persistent volume folders (for example, `/example/pv0001`) will need to be created.
-In Oracle Cloud Infrastructure, this can be done by mounting the export on one of the Kubernetes worker nodes and creating the folders.
+After the exports have been created, you will need to create referenced persistent volume folders (for example, `/example/pv0001`).
+In Oracle Cloud Infrastructure, you can do this by mounting the export on one of the Kubernetes worker nodes and creating the folders.
 In the following example, the value `/example` is the `Export Path` and `10.0.1.8` is the Mount Target's `IP Address`.
-The following command should be run on one of the Kubernetes worker nodes.
+Run the following command on one of the Kubernetes worker nodes.
 This will result in the creation of nine persistent volume folders.
-The reason for nine persistent volume folders is covered in the next section.
+
 ```
 $ sudo mount 10.0.1.8:/example /mnt
 $ for x in {0001..0009}; do sudo mkdir -p /mnt/pv${x} && sudo chmod 777 /mnt/pv${x}; done
 ```
 
-#### Persistent Volumes
+#### Persistent volumes
 A default Kubernetes storage class is required by Verrazzano.
 When using pre-allocated PersistentVolumes, for example NFS, persistent volumes should be declared as following.
 The value for `name` may be customized but will need to match the PersistentVolume `storageClassName` value later.
@@ -183,10 +183,10 @@ The value for `name` may be customized but will need to match the PersistentVolu
 * Create the required number of PersistentVolume resources.
   The Verrazzano system requires five persistent volumes for itself.
   The following command creates nine persistent volumes.
-  The value for `storageClassName` must match the above `StorageClass` name.
+  The value for `storageClassName` must match the previously defined `StorageClass` name.
   The values for `name` may be customized.
-  The value for `path` must match the `Export Path` of the Export from above, combined with the persistent volume folder from above.
-  The value for `server` must be changed to match the location of your file system server.  
+  The value for `path` must match the `Export Path` of the Export mentioned earlier, combined with the persistent volume folder from before.
+  Change the value for `server` to match the location of your file system server.  
   ```
   $ for n in {0001..0009}; do cat << EOF | kubectl apply -f -
     apiVersion: v1
@@ -249,7 +249,7 @@ For example, to configure the recycler Pod template on an Oracle Cloud Native En
     ```
    Alternatively, you can edit the manifest file at `/etc/kubernetes/manifests/kube-controller-manager.yaml` on the control-plane node.
 3. Add the ConfigMap `recycler-pod-config` as a `volume` to the Pod spec.
-4. Add the ConfigMap entry `recycler-pod.yaml` as a `volumeMount` to the Pod spec. 
+4. Add the ConfigMap entry `recycler-pod.yaml` as a `volumeMount` to the Pod spec.
 5. Add the `--pv-recycler-pod-template-filepath-nfs` argument to the `command`, with value as `mountPath` of `recycler-pod.yaml` in the Pod.
     ```
     apiVersion: v1
@@ -404,19 +404,19 @@ When creating a DNS zone, use these values:
 
 The value for `<dns-suffix>` excludes the environment (for example, use the `example.com` portion of `myenv.example.com`).
 
-DNS A records must be manually added to the zone and published using values described above.
+DNS A records must be manually added to the zone and published using values described previously.
 DNS CNAME records, in the same way.
 
 
 
-During the Verrazzano install, these steps should be performed on the Oracle Cloud Native Environment operator node.
+During the Verrazzano installation, these steps should be performed on the Oracle Cloud Native Environment operator node.
 
 Edit the sample Verrazzano custom resource [install-olcne.yaml]( {{< release_source_url path=platform-operator/config/samples/install-olcne.yaml >}} ) file and provide these configuration settings for your Oracle Cloud Native Environment:
 
 - The value for `spec.environmentName` is a unique DNS subdomain for the cluster (for example, `myenv` in `myenv.example.com`).
 - The value for `spec.components.dns.external.suffix` is the remainder of the DNS domain (for example, `example.com` in `myenv.example.com`).
 - Under `spec.components.ingress.nginxInstallArgs`, the value for `controller.service.externalIPs` is the IP address of `ingress-mgmt.<myenv>.<example.com>` configured during DNS set up.
-- Under  `spec.components.istio.istioInstallArgs`, the value for `gateways.istio-ingressgateway.externalIPs` is the IP address of `ingress-verrazzano.<myenv>.<example.com>` configured during DNS set up.
+- Under  `spec.components.istio.istioInstallArgs`, the value for `gateways.istio-ingressgateway.externalIPs` is the IP address of `ingress-verrazzano.<myenv>.<example.com>` configured during DNS setup.
 
 You will install Verrazzano using the `external` DNS type (the example custom resource for Oracle Cloud Native Environment is already configured to use `spec.components.dns.external`).
 

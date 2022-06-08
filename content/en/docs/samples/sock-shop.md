@@ -16,7 +16,7 @@ Install Verrazzano by following the [installation]({{< relref "/docs/setup/insta
 ## Deploy the Sock Shop application
 
 This example application provides various implementations of the [Sock Shop Microservices Demo Application](https://microservices-demo.github.io/).
-It uses OAM resources to define the application deployment.
+It uses OAM resources to define the application deployment:
 
 * [Coherence and Helidon](https://github.com/oracle/coherence-helidon-sockshop-sample) in the `helidon` subdirectory.
 * [Coherence and Micronaut](https://github.com/oracle/coherence-micronaut-sockshop-sample) in the `micronaut` subdirectory.
@@ -24,9 +24,9 @@ It uses OAM resources to define the application deployment.
 
 {{< alert title="NOTE" color="primary" >}}To run this application in the default namespace:
    ```
-   $kubectl label namespace default verrazzano-managed=true
+   $ kubectl label namespace default verrazzano-managed=true
    ```
-   If you chose the default namespace, you can skip Step 1. and ignore the `-n` option in the rest of the commands.
+   If you chose the default namespace, you can skip Step 1 and ignore the `-n` option in the rest of the commands.
 {{< /alert >}}
 
 1. Create a namespace for the Sock Shop application and add a label identifying the namespace as managed by Verrazzano.
@@ -92,7 +92,7 @@ endpoint accepts the `POST` HTTP request method.
 environment, such as OKE.  Other environments or deployments may require alternative mechanisms for retrieving addresses,
 ports, and such.
 
-Follow these steps to test the endpoints:
+Follow these steps to test the endpoints.
 
 1. Get the generated host name for the application.
    ```
@@ -116,7 +116,7 @@ Follow these steps to test the endpoints:
    11.22.33.44
    ```   
 
-1. Access the Sock Shop application:
+1. Access the Sock Shop application.
 
    * **Using the command line**
 

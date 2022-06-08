@@ -117,14 +117,14 @@ If a workload with no annotations matches multiple templates in a namespace, the
 If this is the case, it is more reliable to specify the template you require by using an annotation.
 
 To verify that the metrics template process was successful, follow these steps:
-- Access the [Prometheus console]({{< relref "/docs/access/_index.md" >}}).
-- From the console, use the navigation bar to access Status/Targets.
-- On this page, you will see a target name with this formatting: `<workload-namespace>_<workload-name>_<workload-type>`.
-- Copy this job name for use in future queries.
-- Verify that the State of this target is `UP`.
-- Next, use the navigation bar to access the Graph.
-- Here, use the job name you copied to construct this expression: `{job="<job_name>"}`
-- Use the graph to execute this expression and verify that you see application metrics appear.
+1. Access the [Prometheus console]({{< relref "/docs/access/_index.md" >}}).
+1. From the console, use the navigation bar to access Status/Targets.
+1. On this page, you will see a target name with this formatting: `<workload-namespace>_<workload-name>_<workload-type>`.
+1. Copy this job name for use in future queries.
+1. Verify that the State of this target is `UP`.
+1. Next, use the navigation bar to access the Graph.
+1. Here, use the job name you copied to construct this expression: `{job="<job_name>"}`
+1. Use the graph to execute this expression and verify that you see application metrics appear.
 
 #### Prometheus overrides
 
@@ -183,7 +183,7 @@ Grafana provides visualization for your Prometheus metric data.
 
 To access Grafana:
 
-- Get the hostname from the Grafana ingress.
+1. Get the host name from the Grafana ingress.
    ```
    $ kubectl get ingress vmi-system-grafana -n verrazzano-system
 
@@ -192,15 +192,15 @@ To access Grafana:
    vmi-system-grafana   <none>   grafana.vmi.system.default.123.456.789.10.nip.io   123.456.789.10   80, 443   26h
    ```
 
-- Get the password for the user `verrazzano`.
+1. Get the password for the user `verrazzano`.
    ```
    $ kubectl get secret \
        --namespace verrazzano-system verrazzano \
        -o jsonpath={.data.password} | base64 \
        --decode; echo
    ```
-- Access Grafana in a browser using the previous hostname.
-- Log in using the `verrazzano` user and the previous password.
+1. Access Grafana in a browser using the previous host name.
+1. Log in using the `verrazzano` user and the previous password.
 
 ![Grafana](/docs/images/grafana-initial-page.png)
 
