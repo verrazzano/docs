@@ -144,8 +144,8 @@ spec:
 | `controller.service.externalIPs` | [NameValue](#name-value)  | string list | The external IP address used by the NGINX Ingress Controller. |  No |
 | `controller.service.externalTrafficPolicy` | [NameValue](#name-value) | string  | Preserves the client source IP address. See [Bare-metal considerations](https://kubernetes.github.io/ingress-nginx/deploy/baremetal/). |  No |
 | `controller.service.annotations.*` | [NameValue](#name-value) | string  | Annotations used for NGINX Ingress Controller.  For sample usage, see [Customize Ingress](/docs/setup/customizing/ingress/). |  No |
-| `controller.autoscaling.enabled` | [NameValue](#name-value) |  Boolean | If true, then enable horizonal pod autoscaler.  Default `"false"`. |  No |
-| `controller.autoscaling.minReplicas` | [NameValue](#name-value) | string | Minimum replicas used for autoscaling.  Default `"1"`. |  No |
+| `controller.autoscaling.enabled` | [NameValue](#name-value) |  Boolean | If true, then enable horizonal pod autoscaler.  Default `false`. |  No |
+| `controller.autoscaling.minReplicas` | [NameValue](#name-value) | string | Minimum replicas used for autoscaling.  Default `1`. |  No |
 
 
 #### Port Config
@@ -199,8 +199,8 @@ spec:
 | --- | --- | --- | --- | --- |
 | `gateways.istio-ingressgateway.externalIPs` | [NameValue](#name-value)  | string list | The external IP address used by the Istio ingress gateway. |  No |
 | `gateways.istio-ingressgateway.serviceAnnotations.*` | [NameValue](#name-value) | string | Annotations used for the Istio ingress gateway.  For sample usage, see [Customize Ingress](/docs/setup/customizing/ingress/). |  No |
-| `meshConfig.enableTracing` | [NameValue](#name-value)  | string | If `"true"`, Istio will export tracing when Jaeger is installed. Defaults to `false`. |  No |
-| `meshConfig.defaultConfig.tracing.sampling` | [NameValue](#name-value)  | string | Sampling rate for Istio tracing. Defaults to `1`, meaning a 1% sampling rate. |  No |
+| `meshConfig.enableTracing` | [NameValue](#name-value)  | string | If `"true"`, Istio will export tracing when Jaeger is installed. Defaults to `"false"`. |  No |
+| `meshConfig.defaultConfig.tracing.sampling` | [NameValue](#name-value)  | string | Sampling rate for Istio tracing. Defaults to `"1"`, meaning a 1% sampling rate. |  No |
 
 ### Fluentd Component
 | Field | Type | Description | Required
