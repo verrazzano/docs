@@ -12,7 +12,7 @@ For general information, see Oracle Cloud Infrastructure [Logging Overview](http
 
 ## Set up custom logs
 Verrazzano can send its logs to Oracle Cloud Infrastructure custom logs. You will need to provide two Oracle Cloud Infrastructure Log identifiers in your Verrazzano
-installation resource - one for Verrazzano system logs and one for application logs. Follow the steps in
+installation resource: one for Verrazzano system logs and one for application logs. Follow the steps in
 [Creating Custom Logs](https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/custom_logs.htm) to create two
 custom logs. **Do not** create an agent configuration when creating a custom log, otherwise the log records will be duplicated.
 
@@ -39,7 +39,9 @@ If the dynamic group and policy are configured incorrectly, then Fluentd will fa
 
 If you do not already have an API signing key, then see [Required Keys and OCIDs](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm)
 in the Oracle Cloud Infrastructure documentation. You need to create an Oracle Cloud Infrastructure configuration file with the credential details and then use that
-configuration file to create a secret. The following requirements must be met for Fluentd Oracle Cloud Infrastructure Logging to work:
+configuration file to create a secret.
+
+The following requirements must be met for Fluentd Oracle Cloud Infrastructure Logging to work:
 1. The profile name in the Oracle Cloud Infrastructure configuration file must be `DEFAULT`.
 1. The `key_file` path in the Oracle Cloud Infrastructure configuration file must be `/root/.oci/key`. The actual key file does not need to be in
    that location, because you will be providing the actual key file location in a secret.

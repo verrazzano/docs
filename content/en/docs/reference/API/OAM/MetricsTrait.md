@@ -4,7 +4,7 @@ linkTitle: MetricsTrait CRD
 weight: 2
 draft: false
 ---
-The MetricsTrait custom resource contains the configuration information needed to enable metrics for an application component.  Component workloads configured with a MetricsTrait are setup to emit metrics through an endpoint that are scraped by a given Prometheus deployment.  Here is a sample ApplicationConfiguration that specifies a MetricsTrait.  To deploy an example application that demonstrates a MetricsTrait, see [Hello World Helidon]({{< relref "/docs/samples/hello-helidon/" >}}).
+The MetricsTrait custom resource contains the configuration information needed to enable metrics for an application component.  Component workloads configured with a MetricsTrait are set up to emit metrics through an endpoint that are scraped by a given Prometheus deployment.  Here is a sample ApplicationConfiguration that specifies a MetricsTrait.  To deploy an example application that demonstrates a MetricsTrait, see [Hello World Helidon]({{< relref "/docs/samples/hello-helidon/" >}}).
 
 Note that if an ApplicationConfiguration does not specify a MetricsTrait, then a default MetricsTrait will be generated with values appropriate for the workload type.
 ```
@@ -72,7 +72,7 @@ MetricsTraitSpec specifies the desired state of a metrics trait.
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `port` | integer | The HTTP port for the related metrics endpoint. Defaults to 8080. | No |
+| `port` | integer | The HTTP port for the related metrics endpoint. Defaults to `8080`. | No |
 | `path` | string | The HTTP path for the related metrics endpoint. Defaults to `/metrics`. | No |
 | `secret` | string | The name of an opaque secret (for example, user name and password) within the workload’s namespace for metrics endpoint access. | No |
 | `scraper` | string | The Prometheus deployment used to scrape the related metrics endpoints. Defaults to `verrazzano-system/vmi-system-prometheus-0`. | No |

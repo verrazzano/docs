@@ -6,11 +6,11 @@ Weight: 5
 draft: false
 ---
 
-## Prepare for the Oracle Cloud Infrastructure install
+## Prepare for the Oracle Cloud Infrastructure installation
 
 * Create the [OKE](https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm) cluster using the Oracle Cloud Infrastructure Console or by some other means.  
 
-* For `SHAPE`, an OKE cluster with 3 nodes of `VM.Standard2.4` Oracle Cloud Infrastructure [compute instance shape](https://www.oracle.com/cloud/compute/virtual-machines.html) has proven sufficient to install Verrazzano and deploy the [Bob's Books]({{< relref "/docs/samples/bobs-books.md" >}}) example application.
+* For `SHAPE`, an OKE cluster with three nodes of `VM.Standard2.4` Oracle Cloud Infrastructure [compute instance shape](https://www.oracle.com/cloud/compute/virtual-machines.html) has proven sufficient to install Verrazzano and deploy the [Bob's Books]({{< relref "/docs/samples/bobs-books.md" >}}) example application.
 
 * Follow the instructions provided by OKE to download the Kubernetes configuration file for your cluster, and set the following `ENV` variable:
 

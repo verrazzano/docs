@@ -30,7 +30,7 @@ Verrazzano supports application definition using [Open Application Model (OAM)](
 are composed of [components](https://github.com/oam-dev/spec/blob/master/3.component_model.md) and
 [application configurations](https://github.com/oam-dev/spec/blob/master/7.application.md).
 
-Helidon applications are first class citizen in Verrazzano with specialized Helidon workload support, for example,
+Helidon applications are first class citizens in Verrazzano with specialized Helidon workload support, for example,
 VerrazzanoHelidonWorkload. VerrazzanoHelidonWorkload is supported as part of `verrazzano-application-operator` in the
 Verrazzano installation and no additional operator setup or installation is required. VerrazzanoHelidonWorkload also supports all
 the traits and scopes defined by Verrazzano along with core ones defined by the OAM specification.

@@ -87,7 +87,7 @@ In the initial steps, you create a sample domain that represents your on-premise
 
 1. Use the Oracle WebLogic Server Configuration Wizard to create a domain called `tododomain`.
 
-   **NOTE**: This example assumes that the on premises WebLogic Server domain is on Linux.
+   **NOTE**: This example assumes that the on-premises WebLogic Server domain is on Linux.
    * Launch `$ORACLE_HOME/oracle_common/common/bin/config.sh`.
    * Select **Create a new domain**.
    * Specify a `Domain Location` of `<oracle home>/user_projects/domains/tododomain` and click **Next**.
@@ -99,7 +99,7 @@ In the initial steps, you create a sample domain that represents your on-premise
    * Click **Create**.
    * After it has completed, click **Next**, then **Finish**.
 
-1. To start the newly created domain, run the domain's start.
+1. To start the newly created domain, run the domain's start script.
 
     ```
      $ $ORACLE_HOME/user_projects/domains/tododomain/bin/startWebLogic.sh
@@ -161,7 +161,7 @@ Using the WebLogic Server Administration Console, log in and add a data source c
 2. Using the WebLogic Server Administration Console, deploy the ToDo List application.  
 
    - In the left pane in the Console, select **Deployments** and click **Install**.
-   - Use the navigation links or provide the file path to `todo.war` typically `<repo>/todo-list/target`.  For example, if you cloned the examples
+   - Use the navigation links or provide the file path to `todo.war`, typically `<repo>/todo-list/target`.  For example, if you cloned the examples.
      repository in your `$HOME` directory, the location should be `$HOME/examples/examples/todo-list/target/todo.war`.
    - Click **Next** twice, then **Finish**.
 

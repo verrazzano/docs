@@ -7,7 +7,7 @@ draft: false
 ---
 
 Jaeger is a distributed tracing system used for monitoring and troubleshooting microservices.
-For more information on Jaeger, visit the [Jaeger website](https://www.jaegertracing.io/).
+For more information on Jaeger, see the [Jaeger website](https://www.jaegertracing.io/).
 
 ## Install Jaeger Operator
 
@@ -125,10 +125,10 @@ Explore the Jaeger configuration in more detail using the
 
 ## Configure the Istio mesh to use Jaeger tracing
 
-Istio mesh traffic can be viewed by enabling Istio's distributed tracing integration. Traces from the Istio mesh provide observability on application traffic
+You can view Istio mesh traffic by enabling Istio's distributed tracing integration. Traces from the Istio mesh provide observability on application traffic
 that passes through Istio's ingress and egress gateways.
 
-Istio tracing is disabled by default. To turn on traces, customize your Istio component like the following example.
+Istio tracing is disabled by default. To turn on traces, customize your Istio component like the following example:
 
 ```yaml
 apiVersion: install.verrazzano.io/v1alpha1
@@ -151,7 +151,7 @@ and any new Istio-injected pods will begin exporting traces to Jaeger. Existing 
 to pull the new Istio configuration and start sending traces.
 
 Istio's default sampling rate is 1%, meaning 1 in 100 requests will be traced in Jaeger.
-If you want a different sampling rate, configure your desired rate using the `meshConfig.defaultConfig.tracing.sampling` Istio install argument:
+If you want a different sampling rate, configure your desired rate using the `meshConfig.defaultConfig.tracing.sampling` Istio installation argument:
 
 ```yaml
 apiVersion: install.verrazzano.io/v1alpha1

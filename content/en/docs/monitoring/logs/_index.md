@@ -144,7 +144,7 @@ We recommend configuring log rotation for OpenSearch using Index State Managemen
 For information on configuring OpenSearch ISM, see the [ISM setup page]({{< relref "/docs/setup/customizing/opensearch#configure-index-state-management-policies" >}}).
 
 A basic implementation of job-based log rotation (not using ISM) is provided in the following example, implemented using a Kubernetes CronJob.
-To install the log rotation example on your cluster, save the snippet into a file and make the following modifications:
+To install the log rotation example on your cluster, save the snippet to a file and make the following modifications:
 
 - Substitue the value of `OPENSEARCH_HOST` with your specific OpenSearch HTTPS endpoint.
 - By default, the CronJob deletes the last 7 days of data. You may customize this by modifying the query in the ConfigMap.

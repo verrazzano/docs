@@ -1,4 +1,4 @@
----
+previous---
 title: "Install Guide"
 description: "How to install Verrazzano"
 weight: 1
@@ -90,7 +90,7 @@ $ kubectl wait \
     --for=condition=InstallComplete verrazzano/example-verrazzano
 ```
 
-To use a different profile with the above example, set the `VZ_PROFILE` environment variable to the name of the profile
+To use a different profile with the previous example, set the `VZ_PROFILE` environment variable to the name of the profile
 you want to install.
 
 If an error occurs, check the log output of the installation. You can view the logs with the following command:

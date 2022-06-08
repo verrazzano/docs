@@ -52,7 +52,7 @@ The default bindings can be overridden by specifying one or more Kubernetes Subj
 
 ### Default system role bindings
 
-Verrazzano creates role bindings for system users during installation. The default role bindings are listed below.
+Verrazzano creates role bindings for system users during installation. The default role bindings are listed as follows:
 
 | Role | Default Binding Subject |
 | ---- | ----------------------- |
@@ -61,7 +61,7 @@ Verrazzano creates role bindings for system users during installation. The defau
 
 ### Default project role bindings
 
-Verrazzano creates role bindings for project users at project creation or update. The default role bindings are listed below.
+Verrazzano creates role bindings for project users at project creation or update. The default role bindings are listed as follows:
 
 | Role | Default Binding Subject |
 | ---- | ----------------------- |
@@ -101,7 +101,7 @@ You can specify multiple subjects for both admin and monitor roles. You can also
 
 ### Override project role bindings
 
-To override the set of subjects that are bound to Verrazzano (and Kubernetes) roles for a project, add the Subjects to the VerrazzanoProject CR for the project, as shown in the example below.
+To override the set of subjects that are bound to Verrazzano (and Kubernetes) roles for a project, add the Subjects to the VerrazzanoProject CR for the project, as shown in the following example.
 
 Note that the generated role bindings will be updated if you update the VerrazzanoProject CR and change the subjects specified for either role.
 
