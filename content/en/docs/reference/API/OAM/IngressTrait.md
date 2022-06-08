@@ -201,20 +201,20 @@ AuthorizationRule matches requests from a list of request principals that access
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `from` | [AuthorizationRuleFrom](#authorizationrulefrom) | Specifies the request principals for access to a request. A “*” will match when value is not empty, i.e. if any request principal is found in the request.|  Yes |
+| `from` | [AuthorizationRuleFrom](#authorizationrulefrom) | Specifies the request principals for access to a request. An asterik (“*”) will match when the value is not empty, for example, if any request principal is found in the request.|  Yes |
 | `when` | [AuthorizationRuleCondition](#authorizationrulecondition) | Specifies a list of additional conditions for access to a request. |  No |
 
 #### AuthorizationRuleFrom
-Provides a list of request principals
+Provides a list of request principals.
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `requestPrincipals` | string array | Specifies the request principals for access to a request. |  Yes |
 
 #### AuthorizationRuleCondition
-Provides additional required attributes for authorization
+Provides additional required attributes for authorization.
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `key` | string  | The name of a request attribute |  Yes |
-| `values` | string array  | A list of allowed values for the attribute |  Yes |
+| `key` | string  | The name of a request attribute. |  Yes |
+| `values` | string array  | A list of allowed values for the attribute. |  Yes |
