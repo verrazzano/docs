@@ -1,4 +1,4 @@
-previous---
+---
 title: "Install Guide"
 description: "How to install Verrazzano"
 weight: 1
