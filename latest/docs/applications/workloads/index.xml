@@ -231,7 +231,7 @@ portability across multiple runtimes.&lt;/li&gt;
 &lt;p&gt;Verrazzano supports application definition using &lt;a href=&#34;https://oam.dev/&#34;&gt;Open Application Model (OAM)&lt;/a&gt;. Verrrazzano applications
 are composed of &lt;a href=&#34;https://github.com/oam-dev/spec/blob/master/3.component_model.md&#34;&gt;components&lt;/a&gt; and
 &lt;a href=&#34;https://github.com/oam-dev/spec/blob/master/7.application.md&#34;&gt;application configurations&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Helidon applications are first class citizen in Verrazzano with specialized Helidon workload support, for example,
+&lt;p&gt;Helidon applications are first class citizens in Verrazzano with specialized Helidon workload support, for example,
 VerrazzanoHelidonWorkload. VerrazzanoHelidonWorkload is supported as part of &lt;code&gt;verrazzano-application-operator&lt;/code&gt; in the
 Verrazzano installation and no additional operator setup or installation is required. VerrazzanoHelidonWorkload also supports all
 the traits and scopes defined by Verrazzano along with core ones defined by the OAM specification.&lt;/p&gt;
@@ -405,7 +405,7 @@ Do not label a namespace which is managed by the pre-existing WebLogic Kubernete
 &lt;/ol&gt;
 &lt;p&gt;Scale-in and scale-out a WebLogic domain by modifying the OAM Component replicas count. Delete the WebLogic domain by deleting the OAM application or removing the component from the application.&lt;/p&gt;
 &lt;h2 id=&#34;istio-integration&#34;&gt;Istio integration&lt;/h2&gt;
-&lt;p&gt;Verrazzano creates all WebLogic domain pods in an Istio mesh; all WebLogic network traffic uses &lt;a href=&#34;https://codeburst.io/mutual-tls-authentication-mtls-de-mystified-11fa2a52e9cf&#34;&gt;mTLS&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Verrazzano creates all WebLogic domain pods in an Istio mesh; all WebLogic network traffic uses mutual TLS authentication &lt;a href=&#34;https://codeburst.io/mutual-tls-authentication-mtls-de-mystified-11fa2a52e9cf&#34;&gt;(mTLS)&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;The Envoy proxy sidecar exists in front of workloads for each service providing security, load balancing, metrics, and such. Traffic in and out of the pod goes through the proxy.&lt;/p&gt;
 &lt;p&gt;If the namespace is labeled &lt;code&gt;istio-injection=enabled&lt;/code&gt;, then Istio puts the WebLogic domain in the Istio mesh. You should label all the namespaces &lt;code&gt;istio-injection=enabled&lt;/code&gt; where the WebLogic domain is to be created, or WebLogic domain creation will fail. Also, you can label the namespaces when using &lt;code&gt;VerrazzanoProject&lt;/code&gt;, which by default, assigns the label to all the namespaces associated with the project. In the WebLogic Domain CR, the Verrazzano application operator sets the Istio enabled field.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;v1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
@@ -540,7 +540,7 @@ Do not label a namespace which is managed by the pre-existing WebLogic Kubernete
 &lt;ul&gt;
 &lt;li&gt;To deploy and run the WebLogic domain image in Verrazzano, create the VerrazzanoWebLogicWorkload component that specifies the definition and parameters for the WebLogic domain contained in the image.&lt;/li&gt;
 &lt;li&gt;For an example VerrazzanoWebLogicWorkload Component resource created for a sample WebLogic domain, see the &lt;a href=&#34;../../../docs/reference/api/oam/workloads/#verrazzanoweblogicworkload&#34;&gt;todo-domain&lt;/a&gt; example.&lt;/li&gt;
-&lt;li&gt;For all the option supported by the WebLogic domain configuration, see &lt;a href=&#34;https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md&#34;&gt;Domain.md&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;For all the options supported by the WebLogic domain configuration, see &lt;a href=&#34;https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md&#34;&gt;Domain.md&lt;/a&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Step 3. Create ApplicationConfiguration for WebLogic application.&lt;/p&gt;
 &lt;ul&gt;
@@ -549,7 +549,7 @@ Do not label a namespace which is managed by the pre-existing WebLogic Kubernete
 &lt;/ul&gt;
 &lt;p&gt;Step 4. Verify the domain.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Verrazzano creates the underlying domain Kubernetes resource from the VerrazzanoWebLogicWorkload component which is then processed by the WebLogic Kubernetes Operator to create the Administration and Managed Server pods, and deploy the applications and resources associated with the WebLogic domain.&lt;/li&gt;
+&lt;li&gt;Verrazzano creates the underlying domain Kubernetes resource from the VerrazzanoWebLogicWorkload component, which is then processed by the WebLogic Kubernetes Operator to create the Administration and Managed Server pods, and deploy the applications and resources associated with the WebLogic domain.&lt;/li&gt;
 &lt;li&gt;To verify that the WebLogic domain is up and running, follow the steps found &lt;a href=&#34;https://oracle.github.io/weblogic-kubernetes-operator/samples/domains/domain-home-in-image/#verify-the-domain&#34;&gt;here&lt;/a&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;database-connections&#34;&gt;Database connections&lt;/h2&gt;
