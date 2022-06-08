@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/networking/security/net-security/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-02-10T12:34:04-08:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-06-08T11:22:38-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Network Security">
 <meta itemprop="description" content="Learn about Verrazzano network security">
-<meta itemprop="dateModified" content="2022-02-10T12:34:04-08:00" />
-<meta itemprop="wordCount" content="2306">
+<meta itemprop="dateModified" content="2022-06-08T11:22:38-04:00" />
+<meta itemprop="wordCount" content="2315">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Network Security"/>
 <meta name="twitter:description" content="Learn about Verrazzano network security"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.5ea8b7e602f15ad7b45440da5b07eca4.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.0280be41c4e4d9137fe8ae906d482d21.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.5ea8b7e602f15ad7b45440da5b07eca4.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.0280be41c4e4d9137fe8ae906d482d21.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -423,7 +423,7 @@ if (!doNotTrack) {
     <li>
       <ul>
         <li><a href="#networkpolicies">NetworkPolicies</a></li>
-        <li><a href="#mtls">mTLS</a></li>
+        <li><a href="#mutual-tls-authentication-mtls">Mutual TLS authentication (mTLS)</a></li>
         <li><a href="#tls">TLS</a></li>
         <li><a href="#istio-mesh">Istio mesh</a></li>
         <li><a href="#components-in-the-mesh">Components in the mesh</a></li>
@@ -499,7 +499,7 @@ Verrazzano does not manage or secure traffic for the Kubernetes cluster itself, 
 non-Verrazzano services or applications running in the cluster. Traffic is secured at two levels in the network stack:</p>
 <ul>
 <li>ISO Layer 3/4: Using NetworkPolicies to control IP access to Pods.</li>
-<li>ISO Layer 6: Using TLS and mTLS to provide authentication, confidentiality,
+<li>ISO Layer 6: Using TLS and mutual TLS authentication (mTLS) to provide authentication, confidentiality,
 and integrity for connections within the cluster, and for external connections.</li>
 </ul>
 <h2 id="networkpolicies">NetworkPolicies</h2>
@@ -508,7 +508,7 @@ Kubernetes has a NetworkPolicy resource that provides network level 3 and 4 secu
 restricting both ingress and egress IP traffic for a set of Pods in a namespace.  Verrazzano configures all
 system components with NetworkPolicies to control ingress.  Egress is not restricted.</p>
 <p><strong>NOTE:</strong> A NetworkPolicy resource needs a NetworkPolicy controller to implement the policy, otherwise the
-policy has no effect.  You must install a Kubernetes CNI plug-in that provides a NetworkPolicy controller,
+policy has no effect.  You must install a Kubernetes Container Network Interface (CNI) plug-in that provides a NetworkPolicy controller,
 such as Calico, before installing Verrazzano, or else the policies are ignored.</p>
 <h3 id="networkpolicies-for-system-components">NetworkPolicies for system components</h3>
 <p>Verrazzano installs a set of NetworkPolicies for system components to control ingress into the Pods.
@@ -563,98 +563,98 @@ The ports shown are Pod ports, which is what NetworkPolicies require.</p>
 <td>Verrazzano Application Operator</td>
 <td style="text-align:left">9443</td>
 <td style="text-align:left">Kubernetes API Server</td>
-<td style="text-align:left">Webhook entrypoint.</td>
+<td style="text-align:left">Webhook entrypoint</td>
 <td></td>
 </tr>
 <tr>
 <td>Verrazzano Platform Operator</td>
 <td style="text-align:left">9443</td>
 <td style="text-align:left">Kubernetes API Server</td>
-<td style="text-align:left">Webhook entrypoint.</td>
+<td style="text-align:left">Webhook entrypoint</td>
 <td></td>
 </tr>
 <tr>
 <td>Verrazzano Console</td>
 <td style="text-align:left">8000</td>
 <td style="text-align:left">NGINX Ingress</td>
-<td style="text-align:left">Access from external client.</td>
+<td style="text-align:left">Access from external client</td>
 <td></td>
 </tr>
 <tr>
 <td>Verrazzano Console</td>
 <td style="text-align:left">15090</td>
 <td style="text-align:left">Prometheus</td>
-<td style="text-align:left">Prometheus scraping.</td>
+<td style="text-align:left">Prometheus scraping</td>
 <td></td>
 </tr>
 <tr>
 <td>Verrazzano Authentication Proxy</td>
 <td style="text-align:left">8775</td>
 <td style="text-align:left">NGINX Ingress</td>
-<td style="text-align:left">Access from external client.</td>
+<td style="text-align:left">Access from external client</td>
 <td></td>
 </tr>
 <tr>
 <td>Verrazzano Authentication Proxy</td>
 <td style="text-align:left">15090</td>
 <td style="text-align:left">Prometheus</td>
-<td style="text-align:left">Prometheus scraping.</td>
+<td style="text-align:left">Prometheus scraping</td>
 <td></td>
 </tr>
 <tr>
 <td>cert-manager</td>
 <td style="text-align:left">9402</td>
 <td style="text-align:left">Prometheus</td>
-<td style="text-align:left">Prometheus scraping.</td>
+<td style="text-align:left">Prometheus scraping</td>
 <td></td>
 </tr>
 <tr>
 <td>Coherence Operator</td>
 <td style="text-align:left">9443</td>
 <td style="text-align:left">Prometheus</td>
-<td style="text-align:left">Webhook entrypoint.</td>
+<td style="text-align:left">Webhook entrypoint</td>
 <td></td>
 </tr>
 <tr>
 <td>OpenSearch</td>
 <td style="text-align:left">8775</td>
 <td style="text-align:left">NGINX Ingress</td>
-<td style="text-align:left">Access from external client.</td>
+<td style="text-align:left">Access from external client</td>
 <td></td>
 </tr>
 <tr>
 <td>OpenSearch</td>
 <td style="text-align:left">8775</td>
 <td style="text-align:left">Fluentd</td>
-<td style="text-align:left">Access from Fluentd.</td>
+<td style="text-align:left">Access from Fluentd</td>
 <td></td>
 </tr>
 <tr>
 <td>OpenSearch</td>
 <td style="text-align:left">9200</td>
 <td style="text-align:left">OpenSearch Dashboards, Internal</td>
-<td style="text-align:left">OpenSearch data port.</td>
+<td style="text-align:left">OpenSearch data port</td>
 <td></td>
 </tr>
 <tr>
 <td>OpenSearch</td>
 <td style="text-align:left">9300</td>
 <td style="text-align:left">Internal</td>
-<td style="text-align:left">OpenSearch cluster port.</td>
+<td style="text-align:left">OpenSearch cluster port</td>
 <td></td>
 </tr>
 <tr>
 <td>OpenSearch</td>
 <td style="text-align:left">15090</td>
 <td style="text-align:left">Prometheus</td>
-<td style="text-align:left">Envoy metrics scraping.</td>
+<td style="text-align:left">Envoy metrics scraping</td>
 <td></td>
 </tr>
 <tr>
 <td>Istio control plane</td>
 <td style="text-align:left">15012</td>
 <td style="text-align:left">Envoy</td>
-<td style="text-align:left">Envoy access to <code>istiod</code>.</td>
+<td style="text-align:left">Envoy access to <code>istiod</code></td>
 <td></td>
 </tr>
 <tr>
@@ -668,98 +668,98 @@ The ports shown are Pod ports, which is what NetworkPolicies require.</p>
 <td>Istio control plane</td>
 <td style="text-align:left">15017</td>
 <td style="text-align:left">Kubernetes API Server</td>
-<td style="text-align:left">Webhook entrypoint.</td>
+<td style="text-align:left">Webhook entrypoint</td>
 <td></td>
 </tr>
 <tr>
 <td>Istio ingress gateway</td>
 <td style="text-align:left">8443</td>
 <td style="text-align:left">External</td>
-<td style="text-align:left">Application ingress.</td>
+<td style="text-align:left">Application ingress</td>
 <td></td>
 </tr>
 <tr>
 <td>Istio ingress gateway</td>
 <td style="text-align:left">15090</td>
 <td style="text-align:left">Prometheus</td>
-<td style="text-align:left">Prometheus scraping.</td>
+<td style="text-align:left">Prometheus scraping</td>
 <td></td>
 </tr>
 <tr>
 <td>Istio egress gateway</td>
 <td style="text-align:left">8443</td>
 <td style="text-align:left">Mesh services</td>
-<td style="text-align:left">Application egress.</td>
+<td style="text-align:left">Application egress</td>
 <td></td>
 </tr>
 <tr>
 <td>Istio egress gateway</td>
 <td style="text-align:left">15090</td>
 <td style="text-align:left">Prometheus</td>
-<td style="text-align:left">Prometheus scraping.</td>
+<td style="text-align:left">Prometheus scraping</td>
 <td></td>
 </tr>
 <tr>
 <td>Keycloak</td>
 <td style="text-align:left">8080</td>
 <td style="text-align:left">NGINX Ingress</td>
-<td style="text-align:left">Access from external client.</td>
+<td style="text-align:left">Access from external client</td>
 <td></td>
 </tr>
 <tr>
 <td>Keycloak</td>
 <td style="text-align:left">15090</td>
 <td style="text-align:left">Prometheus</td>
-<td style="text-align:left">Prometheus scraping.</td>
+<td style="text-align:left">Prometheus scraping</td>
 <td></td>
 </tr>
 <tr>
 <td>MySql</td>
 <td style="text-align:left">15090</td>
 <td style="text-align:left">Prometheus</td>
-<td style="text-align:left">Prometheus scraping.</td>
+<td style="text-align:left">Prometheus scraping</td>
 <td></td>
 </tr>
 <tr>
 <td>MySql</td>
 <td style="text-align:left">3306</td>
 <td style="text-align:left">Keycloak</td>
-<td style="text-align:left">Keycloak datastore.</td>
+<td style="text-align:left">Keycloak datastore</td>
 <td></td>
 </tr>
 <tr>
 <td>Node exporter</td>
 <td style="text-align:left">9100</td>
 <td style="text-align:left">Prometheus</td>
-<td style="text-align:left">Prometheus scraping.</td>
+<td style="text-align:left">Prometheus scraping</td>
 <td></td>
 </tr>
 <tr>
 <td>Rancher</td>
 <td style="text-align:left">80</td>
 <td style="text-align:left">NGINX Ingress</td>
-<td style="text-align:left">Access from external client.</td>
+<td style="text-align:left">Access from external client</td>
 <td></td>
 </tr>
 <tr>
 <td>Rancher</td>
 <td style="text-align:left">9443</td>
 <td style="text-align:left">Kubernetes API Server</td>
-<td style="text-align:left">Webhook entrypoint.</td>
+<td style="text-align:left">Webhook entrypoint</td>
 <td></td>
 </tr>
 <tr>
 <td>Prometheus</td>
 <td style="text-align:left">8775</td>
 <td style="text-align:left">NGINX Ingress</td>
-<td style="text-align:left">Access from external client.</td>
+<td style="text-align:left">Access from external client</td>
 <td></td>
 </tr>
 <tr>
 <td>Prometheus</td>
 <td style="text-align:left">9090</td>
 <td style="text-align:left">Grafana</td>
-<td style="text-align:left">Acccess for Grafana UI.</td>
+<td style="text-align:left">Acccess for Grafana UI</td>
 <td></td>
 </tr>
 </tbody>
@@ -862,7 +862,7 @@ Likewise, the egress policy is only needed if you restrict egress. The following
 <p>As mentioned, Envoy sidecar proxies run in both system component pods and application pods.  Each proxy sends requests
 to the Istio control plane pod, <code>istiod</code>, for a variety of reasons. During installation, Verrazzano creates a NetworkPolicy
 named <code>istiod-access</code> in the <code>istio-system</code> namespace to give ingress to system component and application sidecar proxies.</p>
-<h2 id="mtls">mTLS</h2>
+<h2 id="mutual-tls-authentication-mtls">Mutual TLS authentication (mTLS)</h2>
 <p>Istio can be enabled to use mTLS between services in the mesh, and also between the Istio gateways and Envoy sidecar proxies.
 There are various options to customize mTLS usage, for example it can be disabled on a per-port level.  The Istio
 control plane, Istiod, is a CA and provides key and certificate rotation for the Envoy proxies, both gateways and sidecars.</p>

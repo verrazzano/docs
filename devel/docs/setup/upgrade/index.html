@@ -90,7 +90,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.5ea8b7e602f15ad7b45440da5b07eca4.json"
+  data-offline-search-index-json-src="../../../offline-search-index.0280be41c4e4d9137fe8ae906d482d21.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -112,7 +112,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.5ea8b7e602f15ad7b45440da5b07eca4.json"
+  data-offline-search-index-json-src="../../../offline-search-index.0280be41c4e4d9137fe8ae906d482d21.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -540,7 +540,7 @@ verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114
 </ol>
 <h3 id="upgrade-verrazzano">Upgrade Verrazzano</h3>
 <p>To upgrade the Verrazzano installation, you need to change the version of your installed Verrazzano resource to the version supported by the
-Verrazzano Platform Operator.</p>
+Verrazzano platform operator.</p>
 <p><strong>NOTE:</strong> You may only change the version field during an upgrade; changes to other fields or component configurations are not supported at this time.</p>
 <p>In one simple step, you can upgrade to a specified version of Verrazzano using this command:</p>
 <pre tabindex="0"><code>$ kubectl patch vz example-verrazzano -p &#39;{&#34;spec&#34;:{&#34;version&#34;:&#34;master&#34;}}&#39; --type=merge
@@ -611,12 +611,21 @@ then the Verrazzano CR will transition to <code>UpgradePaused</code>.  To contin
 version of the Verrazzano platform operator.  The following steps illustrate this scenario:</p>
 <ol>
 <li>You install Verrazzano 1.1.2.</li>
-<li>You upgrade to 1.2.0 by changing the Verrazzano CR version field to v1.2.0.</li>
-<li>The upgrade failed for some reason and the Verrazzano CR state transitions to <code>UpgradeFailed</code>.</li>
-<li>You update the Verrazzano platform operator to 1.3.0.</li>
+<li>You upgrade to 1.2.0 by changing the Verrazzano CR version field to v1.2.0.
+<ul>
+<li>For some reason, the upgrade failed and the Verrazzano CR state transitions to <code>UpgradeFailed</code>.</li>
+</ul>
+</li>
+<li>You update the Verrazzano platform operator to 1.3.0.
+<ul>
 <li>The Verrazzano CR state transitions to <code>UpgradePaused</code>.</li>
-<li>You change the Verrazzano CR version field to v1.3.0.</li>
+</ul>
+</li>
+<li>You change the Verrazzano CR version field to v1.3.0.
+<ul>
 <li>The Verrazzano CR state transitions to <code>Upgrading</code> and stays in that state until it completes, then it transitions to <code>UpgradeComplete</code>.</li>
+</ul>
+</li>
 </ol>
 <p>To see detailed progress of the upgrade, view the logs with the following command:</p>
 <pre tabindex="0"><code>$ kubectl logs -n verrazzano-install \

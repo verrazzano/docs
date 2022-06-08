@@ -22,13 +22,13 @@
       <description>
         
         
-        &lt;h2 id=&#34;prepare-for-the-oracle-cloud-infrastructure-install&#34;&gt;Prepare for the Oracle Cloud Infrastructure install&lt;/h2&gt;
+        &lt;h2 id=&#34;prepare-for-the-oracle-cloud-infrastructure-installation&#34;&gt;Prepare for the Oracle Cloud Infrastructure installation&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;Create the &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm&#34;&gt;OKE&lt;/a&gt; cluster using the Oracle Cloud Infrastructure Console or by some other means.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;For &lt;code&gt;SHAPE&lt;/code&gt;, an OKE cluster with 3 nodes of &lt;code&gt;VM.Standard2.4&lt;/code&gt; Oracle Cloud Infrastructure &lt;a href=&#34;https://www.oracle.com/cloud/compute/virtual-machines.html&#34;&gt;compute instance shape&lt;/a&gt; has proven sufficient to install Verrazzano and deploy the &lt;a href=&#34;../../../docs/samples/bobs-books/&#34;&gt;Bob&amp;rsquo;s Books&lt;/a&gt; example application.&lt;/p&gt;
+&lt;p&gt;For &lt;code&gt;SHAPE&lt;/code&gt;, an OKE cluster with three nodes of &lt;code&gt;VM.Standard2.4&lt;/code&gt; Oracle Cloud Infrastructure &lt;a href=&#34;https://www.oracle.com/cloud/compute/virtual-machines.html&#34;&gt;compute instance shape&lt;/a&gt; has proven sufficient to install Verrazzano and deploy the &lt;a href=&#34;../../../docs/samples/bobs-books/&#34;&gt;Bob&amp;rsquo;s Books&lt;/a&gt; example application.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Follow the instructions provided by OKE to download the Kubernetes configuration file for your cluster, and set the following &lt;code&gt;ENV&lt;/code&gt; variable:&lt;/p&gt;
@@ -64,8 +64,8 @@ and a set of hosts connected to those networks.&lt;/p&gt;
 &lt;p&gt;The following is an example of Oracle Cloud Infrastructure that can be used to evaluate Verrazzano installed on Oracle Cloud Native Environment.
 If other environments are used, the capacity and configuration should be similar.&lt;/p&gt;
 &lt;p&gt;You can use the VCN Wizard of the Oracle Cloud Infrastructure Console to automatically create most of the described network infrastructure.
-Additional security lists/rules, as detailed below, need to be added manually.
-All CIDR values provided are examples and can be customized as required.&lt;/p&gt;
+Additional security lists/rules, as detailed in the following sections, need to be added manually.
+All Classless Inter-Domain Routing (CIDR) values provided are examples and can be customized as required.&lt;/p&gt;
 &lt;h3 id=&#34;virtual-cloud-network-for-example-cidr-1000016&#34;&gt;Virtual Cloud Network (for example, CIDR 10.0.0.0/16)&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;Public Subnet (for example, CIDR 10.0.0.0/24)&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Security List / Ingress Rules&lt;/p&gt;
@@ -524,21 +524,20 @@ A number of persistent storage providers exist for Kubernetes.
 This guide will focus on pre-allocated persistent volumes.
 In particular, the provided samples will illustrate the use of Oracle Cloud Infrastructure&amp;rsquo;s File System.&lt;/p&gt;
 &lt;h4 id=&#34;oracle-cloud-infrastructure-example-1&#34;&gt;Oracle Cloud Infrastructure example&lt;/h4&gt;
-&lt;p&gt;Before storage can be exposed to Kubernetes, it must be created.
-In Oracle Cloud Infrastructure, this is done using File System resources.
+&lt;p&gt;Before storage can be exposed to Kubernetes, you must create it.
+In Oracle Cloud Infrastructure, you do this using File System resources.
 Using the Oracle Cloud Infrastructure Console, create a new File System.
 Within the new File System, create an Export.
-Remember the value used for  &lt;code&gt;Export Path&lt;/code&gt; as it will be used later.
-Also note the Mount Target&amp;rsquo;s &lt;code&gt;IP Address&lt;/code&gt; for use later.&lt;/p&gt;
-&lt;p&gt;After the exports have been created, referenced persistent volume folders (for example, &lt;code&gt;/example/pv0001&lt;/code&gt;) will need to be created.
-In Oracle Cloud Infrastructure, this can be done by mounting the export on one of the Kubernetes worker nodes and creating the folders.
+Remember the &lt;code&gt;Export Path&lt;/code&gt; value because you will use it later.
+Also note the Mount Target&amp;rsquo;s &lt;code&gt;IP Address&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;After the exports have been created, you will need to create referenced persistent volume folders (for example, &lt;code&gt;/example/pv0001&lt;/code&gt;).
+In Oracle Cloud Infrastructure, you can do this by mounting the export on one of the Kubernetes worker nodes and creating the folders.
 In the following example, the value &lt;code&gt;/example&lt;/code&gt; is the &lt;code&gt;Export Path&lt;/code&gt; and &lt;code&gt;10.0.1.8&lt;/code&gt; is the Mount Target&amp;rsquo;s &lt;code&gt;IP Address&lt;/code&gt;.
-The following command should be run on one of the Kubernetes worker nodes.
-This will result in the creation of nine persistent volume folders.
-The reason for nine persistent volume folders is covered in the next section.&lt;/p&gt;
+Run the following command on one of the Kubernetes worker nodes.
+This will result in the creation of nine persistent volume folders.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ sudo mount 10.0.1.8:/example /mnt
 $ for x in {0001..0009}; do sudo mkdir -p /mnt/pv${x} &amp;amp;&amp;amp; sudo chmod 777 /mnt/pv${x}; done
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;persistent-volumes&#34;&gt;Persistent Volumes&lt;/h4&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;persistent-volumes&#34;&gt;Persistent volumes&lt;/h4&gt;
 &lt;p&gt;A default Kubernetes storage class is required by Verrazzano.
 When using pre-allocated PersistentVolumes, for example NFS, persistent volumes should be declared as following.
 The value for &lt;code&gt;name&lt;/code&gt; may be customized but will need to match the PersistentVolume &lt;code&gt;storageClassName&lt;/code&gt; value later.&lt;/p&gt;
@@ -558,10 +557,10 @@ EOF
 &lt;li&gt;Create the required number of PersistentVolume resources.
 The Verrazzano system requires five persistent volumes for itself.
 The following command creates nine persistent volumes.
-The value for &lt;code&gt;storageClassName&lt;/code&gt; must match the above &lt;code&gt;StorageClass&lt;/code&gt; name.
+The value for &lt;code&gt;storageClassName&lt;/code&gt; must match the previously defined &lt;code&gt;StorageClass&lt;/code&gt; name.
 The values for &lt;code&gt;name&lt;/code&gt; may be customized.
-The value for &lt;code&gt;path&lt;/code&gt; must match the &lt;code&gt;Export Path&lt;/code&gt; of the Export from above, combined with the persistent volume folder from above.
-The value for &lt;code&gt;server&lt;/code&gt; must be changed to match the location of your file system server.
+The value for &lt;code&gt;path&lt;/code&gt; must match the &lt;code&gt;Export Path&lt;/code&gt; of the Export mentioned earlier, combined with the persistent volume folder from before.
+Change the value for &lt;code&gt;server&lt;/code&gt; to match the location of your file system server.
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ for n in {0001..0009}; do cat &amp;lt;&amp;lt; EOF | kubectl apply -f -
   apiVersion: v1
   kind: PersistentVolume
@@ -830,15 +829,15 @@ When creating a DNS zone, use these values:&lt;/p&gt;
 &lt;li&gt;Zone Type: Primary&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;The value for &lt;code&gt;&amp;lt;dns-suffix&amp;gt;&lt;/code&gt; excludes the environment (for example, use the &lt;code&gt;example.com&lt;/code&gt; portion of &lt;code&gt;myenv.example.com&lt;/code&gt;).&lt;/p&gt;
-&lt;p&gt;DNS A records must be manually added to the zone and published using values described above.
+&lt;p&gt;DNS A records must be manually added to the zone and published using values described previously.
 DNS CNAME records, in the same way.&lt;/p&gt;
-&lt;p&gt;During the Verrazzano install, these steps should be performed on the Oracle Cloud Native Environment operator node.&lt;/p&gt;
+&lt;p&gt;During the Verrazzano installation, these steps should be performed on the Oracle Cloud Native Environment operator node.&lt;/p&gt;
 &lt;p&gt;Edit the sample Verrazzano custom resource &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/platform-operator/config/samples/install-olcne.yaml&#34;&gt;install-olcne.yaml&lt;/a&gt; file and provide these configuration settings for your Oracle Cloud Native Environment:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;The value for &lt;code&gt;spec.environmentName&lt;/code&gt; is a unique DNS subdomain for the cluster (for example, &lt;code&gt;myenv&lt;/code&gt; in &lt;code&gt;myenv.example.com&lt;/code&gt;).&lt;/li&gt;
 &lt;li&gt;The value for &lt;code&gt;spec.components.dns.external.suffix&lt;/code&gt; is the remainder of the DNS domain (for example, &lt;code&gt;example.com&lt;/code&gt; in &lt;code&gt;myenv.example.com&lt;/code&gt;).&lt;/li&gt;
 &lt;li&gt;Under &lt;code&gt;spec.components.ingress.nginxInstallArgs&lt;/code&gt;, the value for &lt;code&gt;controller.service.externalIPs&lt;/code&gt; is the IP address of &lt;code&gt;ingress-mgmt.&amp;lt;myenv&amp;gt;.&amp;lt;example.com&amp;gt;&lt;/code&gt; configured during DNS set up.&lt;/li&gt;
-&lt;li&gt;Under  &lt;code&gt;spec.components.istio.istioInstallArgs&lt;/code&gt;, the value for &lt;code&gt;gateways.istio-ingressgateway.externalIPs&lt;/code&gt; is the IP address of &lt;code&gt;ingress-verrazzano.&amp;lt;myenv&amp;gt;.&amp;lt;example.com&amp;gt;&lt;/code&gt; configured during DNS set up.&lt;/li&gt;
+&lt;li&gt;Under  &lt;code&gt;spec.components.istio.istioInstallArgs&lt;/code&gt;, the value for &lt;code&gt;gateways.istio-ingressgateway.externalIPs&lt;/code&gt; is the IP address of &lt;code&gt;ingress-verrazzano.&amp;lt;myenv&amp;gt;.&amp;lt;example.com&amp;gt;&lt;/code&gt; configured during DNS setup.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;You will install Verrazzano using the &lt;code&gt;external&lt;/code&gt; DNS type (the example custom resource for Oracle Cloud Native Environment is already configured to use &lt;code&gt;spec.components.dns.external&lt;/code&gt;).&lt;/p&gt;
 &lt;p&gt;Set the following environment variable:&lt;/p&gt;
@@ -1016,7 +1015,7 @@ of the Verrazzano custom resource with no customizations and follow the &lt;a hr
 &lt;/div&gt;
 
 &lt;p&gt;You can install a load balancer, such as &lt;a href=&#34;https://metallb.universe.tf/&#34;&gt;MetalLB&lt;/a&gt;. This setup requires knowledge of networking both
-inside and outside your Kubernetes cluster. This would include specifics of your &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/&#34;&gt;Container Network Interface&lt;/a&gt; (CNI) implementation, IP address allocation schemes, and routing that go beyond the scope of this documentation. For a Kind implementation, see &lt;a href=&#34;../../../docs/setup/platforms/kind/kind/#install-and-configure-metallb&#34;&gt;Install and configure MetalLB&lt;/a&gt;.&lt;/p&gt;
+inside and outside your Kubernetes cluster. This would include specifics of your &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/&#34;&gt;Container Network Interface&lt;/a&gt; (CNI) implementation, IP address allocation schemes, and routing that goes beyond the scope of this documentation. For a Kind implementation, see &lt;a href=&#34;../../../docs/setup/platforms/kind/kind/#install-and-configure-metallb&#34;&gt;Install and configure MetalLB&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;It is possible to use a Kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/services-networking/service/#nodeport&#34;&gt;Service of type NodePort&lt;/a&gt; to test aspects of Verrazzano.
 This requires a good working knowledge of networking and has limited use cases.&lt;/p&gt;
 &lt;h2 id=&#34;customizations&#34;&gt;Customizations&lt;/h2&gt;

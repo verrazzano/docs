@@ -25,13 +25,13 @@
         &lt;p&gt;Verrazzano requires the following:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;A Kubernetes cluster and a compatible &lt;code&gt;kubectl&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;At least 2 CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.  This is sufficient to install the development profile
+&lt;li&gt;At least two CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.  This is sufficient to install the development profile
 of Verrazzano.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient for deploying your
 applications.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;supported-hardware&#34;&gt;Supported Hardware&lt;/h2&gt;
+&lt;h2 id=&#34;supported-hardware&#34;&gt;Supported hardware&lt;/h2&gt;
 &lt;p&gt;Verrazzano requires x86-64; other architectures are not supported.&lt;/p&gt;
-&lt;h2 id=&#34;supported-software-versions&#34;&gt;Supported Software Versions&lt;/h2&gt;
+&lt;h2 id=&#34;supported-software-versions&#34;&gt;Supported software versions&lt;/h2&gt;
 &lt;p&gt;Verrazzano supports the following software versions.&lt;/p&gt;
 &lt;h3 id=&#34;kubernetes&#34;&gt;Kubernetes&lt;/h3&gt;
 &lt;p&gt;You can install Verrazzano on the following Kubernetes versions.&lt;/p&gt;
@@ -67,6 +67,13 @@ applications.&lt;/li&gt;
 &lt;td&gt;2022-05-10&lt;/td&gt;
 &lt;td&gt;1.19, 1.20, 1.21&lt;/td&gt;
 &lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;1.3&lt;/td&gt;
+&lt;td&gt;2022-05-24&lt;/td&gt;
+&lt;td&gt;1.3.0&lt;/td&gt;
+&lt;td&gt;2022-05-24&lt;/td&gt;
+&lt;td&gt;1.21, 1.22, 1.23&lt;/td&gt;
+&lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;For more information, see &lt;a href=&#34;https://kubernetes.io/releases/&#34;&gt;Kubernetes Release Documentation&lt;/a&gt;.
@@ -80,9 +87,9 @@ See the Coherence versions supported &lt;a href=&#34;https://oracle.github.io/co
 &lt;h3 id=&#34;helidon&#34;&gt;Helidon&lt;/h3&gt;
 &lt;p&gt;Verrazzano supports all versions of Helidon.  For more information, see &lt;a href=&#34;https://helidon.io&#34;&gt;Helidon&lt;/a&gt; and
 &lt;a href=&#34;https://support.oracle.com/knowledge/Middleware/2645279_1.html&#34;&gt;Helidon Commercial Offerings&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;installed-components&#34;&gt;Installed Components&lt;/h2&gt;
-&lt;p&gt;Verrazzano installs a curated set of open source components.  The following table lists each open source
-component with its version and a brief description.&lt;/p&gt;
+&lt;h2 id=&#34;installed-components&#34;&gt;Installed components&lt;/h2&gt;
+&lt;p&gt;Verrazzano installs a curated set of open source components.  The following table lists each
+component, its version, and a brief description.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -92,6 +99,11 @@ component with its version and a brief description.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;alert-manager&lt;/td&gt;
+&lt;td&gt;0.24.0&lt;/td&gt;
+&lt;td&gt;Handles alerts sent by client applications, such as the Prometheus server.&lt;/td&gt;
+&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;cert-manager&lt;/td&gt;
 &lt;td&gt;1.7.1&lt;/td&gt;
@@ -115,7 +127,7 @@ component with its version and a brief description.&lt;/p&gt;
 &lt;tr&gt;
 &lt;td&gt;Grafana&lt;/td&gt;
 &lt;td&gt;7.5.11&lt;/td&gt;
-&lt;td&gt;Tool to help you study, analyze, and monitor metrics.&lt;/td&gt;
+&lt;td&gt;Tool to help you examine, analyze, and monitor metrics.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Istio&lt;/td&gt;
@@ -123,7 +135,7 @@ component with its version and a brief description.&lt;/p&gt;
 &lt;td&gt;Service mesh that layers transparently onto existing distributed applications.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;Jaegar&lt;/td&gt;
+&lt;td&gt;Jaeger&lt;/td&gt;
 &lt;td&gt;1.32.0&lt;/td&gt;
 &lt;td&gt;Distributed tracing system for monitoring and troubleshooting distributed systems.&lt;/td&gt;
 &lt;/tr&gt;
@@ -337,7 +349,7 @@ verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114
 &lt;/ol&gt;
 &lt;h3 id=&#34;upgrade-verrazzano&#34;&gt;Upgrade Verrazzano&lt;/h3&gt;
 &lt;p&gt;To upgrade the Verrazzano installation, you need to change the version of your installed Verrazzano resource to the version supported by the
-Verrazzano Platform Operator.&lt;/p&gt;
+Verrazzano platform operator.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; You may only change the version field during an upgrade; changes to other fields or component configurations are not supported at this time.&lt;/p&gt;
 &lt;p&gt;In one simple step, you can upgrade to a specified version of Verrazzano using this command:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl patch vz example-verrazzano -p &amp;#39;{&amp;#34;spec&amp;#34;:{&amp;#34;version&amp;#34;:&amp;#34;master&amp;#34;}}&amp;#39; --type=merge
@@ -408,12 +420,21 @@ then the Verrazzano CR will transition to &lt;code&gt;UpgradePaused&lt;/code&gt;
 version of the Verrazzano platform operator.  The following steps illustrate this scenario:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;You install Verrazzano 1.1.2.&lt;/li&gt;
-&lt;li&gt;You upgrade to 1.2.0 by changing the Verrazzano CR version field to v1.2.0.&lt;/li&gt;
-&lt;li&gt;The upgrade failed for some reason and the Verrazzano CR state transitions to &lt;code&gt;UpgradeFailed&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;You update the Verrazzano platform operator to 1.3.0.&lt;/li&gt;
+&lt;li&gt;You upgrade to 1.2.0 by changing the Verrazzano CR version field to v1.2.0.
+&lt;ul&gt;
+&lt;li&gt;For some reason, the upgrade failed and the Verrazzano CR state transitions to &lt;code&gt;UpgradeFailed&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;You update the Verrazzano platform operator to 1.3.0.
+&lt;ul&gt;
 &lt;li&gt;The Verrazzano CR state transitions to &lt;code&gt;UpgradePaused&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;You change the Verrazzano CR version field to v1.3.0.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;You change the Verrazzano CR version field to v1.3.0.
+&lt;ul&gt;
 &lt;li&gt;The Verrazzano CR state transitions to &lt;code&gt;Upgrading&lt;/code&gt; and stays in that state until it completes, then it transitions to &lt;code&gt;UpgradeComplete&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;To see detailed progress of the upgrade, view the logs with the following command:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl logs -n verrazzano-install \

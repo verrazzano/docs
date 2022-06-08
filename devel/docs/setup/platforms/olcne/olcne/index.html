@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/platforms/olcne/olcne/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-05-16T17:45:44+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-06-08T11:22:38-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Oracle Cloud Native Environment">
 <meta itemprop="description" content="Instructions for setting up an Oracle Cloud Native Environment cluster for Verrazzano">
-<meta itemprop="dateModified" content="2022-05-16T17:45:44+05:30" />
-<meta itemprop="wordCount" content="2464">
+<meta itemprop="dateModified" content="2022-06-08T11:22:38-04:00" />
+<meta itemprop="wordCount" content="2448">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Oracle Cloud Native Environment"/>
 <meta name="twitter:description" content="Instructions for setting up an Oracle Cloud Native Environment cluster for Verrazzano"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.5ea8b7e602f15ad7b45440da5b07eca4.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.0280be41c4e4d9137fe8ae906d482d21.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.5ea8b7e602f15ad7b45440da5b07eca4.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.0280be41c4e4d9137fe8ae906d482d21.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -503,8 +503,8 @@ and a set of hosts connected to those networks.</p>
 <p>The following is an example of Oracle Cloud Infrastructure that can be used to evaluate Verrazzano installed on Oracle Cloud Native Environment.
 If other environments are used, the capacity and configuration should be similar.</p>
 <p>You can use the VCN Wizard of the Oracle Cloud Infrastructure Console to automatically create most of the described network infrastructure.
-Additional security lists/rules, as detailed below, need to be added manually.
-All CIDR values provided are examples and can be customized as required.</p>
+Additional security lists/rules, as detailed in the following sections, need to be added manually.
+All Classless Inter-Domain Routing (CIDR) values provided are examples and can be customized as required.</p>
 <h3 id="virtual-cloud-network-for-example-cidr-1000016">Virtual Cloud Network (for example, CIDR 10.0.0.0/16)</h3>
 <p><strong>Public Subnet (for example, CIDR 10.0.0.0/24)</strong></p>
 <p>Security List / Ingress Rules</p>
@@ -963,21 +963,20 @@ A number of persistent storage providers exist for Kubernetes.
 This guide will focus on pre-allocated persistent volumes.
 In particular, the provided samples will illustrate the use of Oracle Cloud Infrastructure&rsquo;s File System.</p>
 <h4 id="oracle-cloud-infrastructure-example-1">Oracle Cloud Infrastructure example</h4>
-<p>Before storage can be exposed to Kubernetes, it must be created.
-In Oracle Cloud Infrastructure, this is done using File System resources.
+<p>Before storage can be exposed to Kubernetes, you must create it.
+In Oracle Cloud Infrastructure, you do this using File System resources.
 Using the Oracle Cloud Infrastructure Console, create a new File System.
 Within the new File System, create an Export.
-Remember the value used for  <code>Export Path</code> as it will be used later.
-Also note the Mount Target&rsquo;s <code>IP Address</code> for use later.</p>
-<p>After the exports have been created, referenced persistent volume folders (for example, <code>/example/pv0001</code>) will need to be created.
-In Oracle Cloud Infrastructure, this can be done by mounting the export on one of the Kubernetes worker nodes and creating the folders.
+Remember the <code>Export Path</code> value because you will use it later.
+Also note the Mount Target&rsquo;s <code>IP Address</code>.</p>
+<p>After the exports have been created, you will need to create referenced persistent volume folders (for example, <code>/example/pv0001</code>).
+In Oracle Cloud Infrastructure, you can do this by mounting the export on one of the Kubernetes worker nodes and creating the folders.
 In the following example, the value <code>/example</code> is the <code>Export Path</code> and <code>10.0.1.8</code> is the Mount Target&rsquo;s <code>IP Address</code>.
-The following command should be run on one of the Kubernetes worker nodes.
-This will result in the creation of nine persistent volume folders.
-The reason for nine persistent volume folders is covered in the next section.</p>
+Run the following command on one of the Kubernetes worker nodes.
+This will result in the creation of nine persistent volume folders.</p>
 <pre tabindex="0"><code>$ sudo mount 10.0.1.8:/example /mnt
 $ for x in {0001..0009}; do sudo mkdir -p /mnt/pv${x} &amp;&amp; sudo chmod 777 /mnt/pv${x}; done
-</code></pre><h4 id="persistent-volumes">Persistent Volumes</h4>
+</code></pre><h4 id="persistent-volumes">Persistent volumes</h4>
 <p>A default Kubernetes storage class is required by Verrazzano.
 When using pre-allocated PersistentVolumes, for example NFS, persistent volumes should be declared as following.
 The value for <code>name</code> may be customized but will need to match the PersistentVolume <code>storageClassName</code> value later.</p>
@@ -997,10 +996,10 @@ EOF
 <li>Create the required number of PersistentVolume resources.
 The Verrazzano system requires five persistent volumes for itself.
 The following command creates nine persistent volumes.
-The value for <code>storageClassName</code> must match the above <code>StorageClass</code> name.
+The value for <code>storageClassName</code> must match the previously defined <code>StorageClass</code> name.
 The values for <code>name</code> may be customized.
-The value for <code>path</code> must match the <code>Export Path</code> of the Export from above, combined with the persistent volume folder from above.
-The value for <code>server</code> must be changed to match the location of your file system server.
+The value for <code>path</code> must match the <code>Export Path</code> of the Export mentioned earlier, combined with the persistent volume folder from before.
+Change the value for <code>server</code> to match the location of your file system server.
 <pre tabindex="0"><code>$ for n in {0001..0009}; do cat &lt;&lt; EOF | kubectl apply -f -
   apiVersion: v1
   kind: PersistentVolume
@@ -1269,15 +1268,15 @@ When creating a DNS zone, use these values:</p>
 <li>Zone Type: Primary</li>
 </ul>
 <p>The value for <code>&lt;dns-suffix&gt;</code> excludes the environment (for example, use the <code>example.com</code> portion of <code>myenv.example.com</code>).</p>
-<p>DNS A records must be manually added to the zone and published using values described above.
+<p>DNS A records must be manually added to the zone and published using values described previously.
 DNS CNAME records, in the same way.</p>
-<p>During the Verrazzano install, these steps should be performed on the Oracle Cloud Native Environment operator node.</p>
+<p>During the Verrazzano installation, these steps should be performed on the Oracle Cloud Native Environment operator node.</p>
 <p>Edit the sample Verrazzano custom resource <a href="https://github.com/verrazzano/verrazzano/blob/master/platform-operator/config/samples/install-olcne.yaml">install-olcne.yaml</a> file and provide these configuration settings for your Oracle Cloud Native Environment:</p>
 <ul>
 <li>The value for <code>spec.environmentName</code> is a unique DNS subdomain for the cluster (for example, <code>myenv</code> in <code>myenv.example.com</code>).</li>
 <li>The value for <code>spec.components.dns.external.suffix</code> is the remainder of the DNS domain (for example, <code>example.com</code> in <code>myenv.example.com</code>).</li>
 <li>Under <code>spec.components.ingress.nginxInstallArgs</code>, the value for <code>controller.service.externalIPs</code> is the IP address of <code>ingress-mgmt.&lt;myenv&gt;.&lt;example.com&gt;</code> configured during DNS set up.</li>
-<li>Under  <code>spec.components.istio.istioInstallArgs</code>, the value for <code>gateways.istio-ingressgateway.externalIPs</code> is the IP address of <code>ingress-verrazzano.&lt;myenv&gt;.&lt;example.com&gt;</code> configured during DNS set up.</li>
+<li>Under  <code>spec.components.istio.istioInstallArgs</code>, the value for <code>gateways.istio-ingressgateway.externalIPs</code> is the IP address of <code>ingress-verrazzano.&lt;myenv&gt;.&lt;example.com&gt;</code> configured during DNS setup.</li>
 </ul>
 <p>You will install Verrazzano using the <code>external</code> DNS type (the example custom resource for Oracle Cloud Native Environment is already configured to use <code>spec.components.dns.external</code>).</p>
 <p>Set the following environment variable:</p>
