@@ -144,8 +144,8 @@ spec:
 | `controller.service.externalIPs` | [NameValue](#name-value)  | string list | The external IP address used by the NGINX Ingress Controller. |  No |
 | `controller.service.externalTrafficPolicy` | [NameValue](#name-value) | string  | Preserves the client source IP address. See [Bare-metal considerations](https://kubernetes.github.io/ingress-nginx/deploy/baremetal/). |  No |
 | `controller.service.annotations.*` | [NameValue](#name-value) | string  | Annotations used for NGINX Ingress Controller.  For sample usage, see [Customize Ingress](/docs/setup/customizing/ingress/). |  No |
-| `controller.autoscaling.enabled` | [NameValue](#name-value) |  Boolean | If true, then enable horizonal pod autoscaler.  Default `false`. |  No |
-| `controller.autoscaling.minReplicas` | [NameValue](#name-value) | string | Minimum replicas used for autoscaling.  Default `1`. |  No |
+| `controller.autoscaling.enabled` | [NameValue](#name-value) |  Boolean | If true, then enable horizonal pod autoscaler.  Default `"false"`. |  No |
+| `controller.autoscaling.minReplicas` | [NameValue](#name-value) | string | Minimum replicas used for autoscaling.  Default `"1"`. |  No |
 
 
 #### Port Config
