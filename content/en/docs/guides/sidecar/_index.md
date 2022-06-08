@@ -186,13 +186,13 @@ The example Fluentd configuration volume is mounted at `/fluentd/etc/`. While th
 
 ## Deploy the Fluentd sidecar
 
-Now that the resources have been configured, you can deploy the application. Follow steps 1 through 3 in the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) example application instructions.
-Replace the deployment commands in step 4 with your locally edited YAML files:
+Now that the resources have been configured, you can deploy the application. Follow Steps 1 through 3 in the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) example application instructions.
+Replace the deployment commands in Step 4 with your locally edited YAML files:
 ```
 $ kubectl apply -f todo-list-components.yaml
 $ kubectl apply -f todo-list-application.yaml
 ```
-Now, follow the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) instructions from step 5 onward, as needed.
+Now, follow the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) instructions from Step 5 onward, as needed.
 
 To verify that a deployment successfully created a custom Fluentd sidecar:
 - Verify that the container name exists on the WebLogic application pod.
@@ -204,7 +204,7 @@ To verify that a deployment successfully created a custom Fluentd sidecar:
   ```
 - Verify that the Fluentd sidecar is redirecting logs to stdout.
   ```
-  kubectl logs -n <application-namespace> <application-pod-name> fluentd
+  $ kubectl logs -n <application-namespace> <application-pod-name> fluentd
   ```
 - Follow the instructions at [Verrazzano Logging]({{< relref "/docs/monitoring/logs" >}}) to ensure that the [Fluentd DaemonSet]({{< relref "/docs/monitoring/logs/#fluentd-daemonset" >}}) collected the logs from stdout.
   These logs will appear in the Verrazzano-managed [OpenSearch]({{< relref "/docs/monitoring/logs#opensearch" >}}) and [OpenSearch Dashboards]({{< relref "/docs/monitoring/logs#opensearch-dashboards" >}}).

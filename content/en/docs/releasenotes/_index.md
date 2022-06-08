@@ -7,10 +7,10 @@ draft: false
 ### v1.3.0
 Features:
 
-- Post-Installation updates: Configurations for DNS, certificate management, logging, ingress and Opensearch cluster configuration can be updated after a Verrazzano installation.
+- Post-installation updates: Configurations for DNS, certificate management, logging, ingress, and OpenSearch cluster configuration can be updated after a Verrazzano installation.
 - Added Jaeger Distributed Tracing.
 - Support for Kubernetes v1.22 and v1.23.
-- kube-prometheus-stack components are now part of Verrazzano and can be enabled; these include Prometheus Operator, AlertManager, kube-state-metrics, and such.
+- kube-prometheus-stack components are now part of Verrazzano and can be enabled, these include: Prometheus Operator, AlertManager, kube-state-metrics, and such.
 
 Component version updates:
 
@@ -91,7 +91,7 @@ Fixes:
 
 - Fixed Keycloak issue creating incorrect `verrazzano-monitors` group on installation.
 - Fixed Verrazzano failing to uninstall in a private registry configuration due to a missing Rancher image.
-- Fixed Rancher install when `tls-ca-additional` secret is not present.
+- Fixed Rancher installation when `tls-ca-additional` secret is not present.
 - Fixed Opensearch parsing errors of `trait` field.
 - Fixed Custom CA certificates support.
 - Fixed issue requeuing unsupported traits in the Verrazzano Application Operator, and updated the OAM Operator.
@@ -172,7 +172,7 @@ Fixes:
 - Fixes/improvements for the install/upgrade process, including:
   - Install/upgrade jobs now run in the ``verrazzano-install`` namespace.
   - Added Rancher registration status to the VerrazzanoManagedCluster status.
-  - Updated OKE troubleshooting URL in install log.
+  - Updated OKE troubleshooting URL in installation log.
   - Fixed ExternalIP handling during Istio install.
 - Fixed Elasticsearch status yellow due to unassigned_shards.
 - Webhook now disallows multicluster resources that are not in a VerrazzanoProject namespace.
@@ -332,7 +332,7 @@ Features:
     Oracle Cloud Infrastructure DNS certificates are issued using Let's Encrypt, or the end user can provide certificates.
   - Updated to Coherence Operator v3.1.3.
   - Updates for running Verrazzano on Kubernetes 1.19 and 1.20.
-  - RBAC roles and role bindings created at install time.
+  - RBAC roles and role bindings created at installation.
   - Added instance information to status of Verrazzano custom resource; can be used to obtain instance URLs.
   - Updated to Istio v1.7.3.
 
@@ -377,7 +377,7 @@ spec:
 
 ### v0.6.0
 - Features:
-    - In-cluster installer which replaces client-side install scripts.
+    - In-cluster installer which replaces client-side installation scripts.
     - Added installation profiles; in this release, there are two: production and development.
     - Verrazzano system components now emit JSON structured logs.
 - Fixes:

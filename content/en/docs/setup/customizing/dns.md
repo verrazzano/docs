@@ -99,13 +99,9 @@ The following prerequisites must be met before using Oracle Cloud Infrastructure
     Private key written to: /Users/jdoe/.oci/myapikey.pem
     Public key fingerprint: 39:08:44:69:9f:f5:73:86:7a:46:d8:ad:34:4f:95:29
 
-
-        If you haven't already uploaded your API signing public key through the
-        console, follow the instructions on the page linked below in the section
-        'How to upload the public key':
-
-            https://docs.cloud.oracle.com/Content/API/Concepts/apisigningkey.htm#How2
   ```
+  If you haven't already uploaded your API signing public key through the
+  console, follow the instructions in this section, [How to upload the public key](https://docs.cloud.oracle.com/Content/API/Concepts/apisigningkey.htm#How2).
 
   After the key pair has been created, you must upload the public key to your account in your Oracle Cloud Infrastructure tenancy.   For details, see
   the Oracle Cloud Infrastructure documentation, [Required Keys and OCIDs](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm).

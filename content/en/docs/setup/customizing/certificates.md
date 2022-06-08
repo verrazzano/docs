@@ -154,7 +154,7 @@ self-signed certificates.  They are typically not used in production environment
 
 ### LetsEncrypt staging versus production
 
-LetsEncrypt provides rate-limits on generated certificates to ensure fair usage across all clients.  The
+LetsEncrypt provides rate limits on generated certificates to ensure fair usage across all clients.  The
 `production` environment limits can be exceeded more frequently in environments where Verrazzano may be being
 installed or reinstalled frequently (like a test environment).  This can result in failed installations due to
 rate limit exceptions on certificate generation.

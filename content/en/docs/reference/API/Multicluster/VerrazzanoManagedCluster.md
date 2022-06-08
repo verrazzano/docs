@@ -33,7 +33,7 @@ VerrazzanoManagedClusterSpec specifies a managed cluster to associate with an ad
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `description` | string | The description of the managed cluster. | No |
-| `caSecret` | string | The name of a Secret that contains the CA certificate of the managed cluster. This is used to configure the admin cluster to scrape metrics from the Prometheus endpoint on the managed cluster. See the steps 3 and 4 in [instructions]({{< relref "../../../setup/install/multicluster/#preregistration-setup" >}}) for how to create this Secret.| Yes |
+| `caSecret` | string | The name of a Secret that contains the CA certificate of the managed cluster. This is used to configure the admin cluster to scrape metrics from the Prometheus endpoint on the managed cluster. See the pre-registration [instructions]({{< relref "../../../setup/install/multicluster/#preregistration-setup" >}}) for how to create this Secret.| Yes |
 | `serviceAccount` | string | The name of the ServiceAccount that was generated for the managed cluster. This field is managed by a Verrazzano Kubernetes operator. | No |
 | `managedClusterManifestSecret` | string | The name of the Secret containing generated YAML manifest file to be applied by the user to the managed cluster. This field is managed by a Verrazzano Kubernetes operator. | No |
 
