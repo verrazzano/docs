@@ -6,8 +6,10 @@ draft: false
 ---
 The MultiClusterComponent custom resource is an envelope used to distribute `core.oam.dev/v1alpha2/Component` resources in a multicluster environment.
 
-**NOTE**: Starting with Verrazzano v1.1.0, it is preferred that the MultiClusterComponent custom resource not be used; instead
+{{< alert title="NOTE" color="warning" >}}
+Starting with Verrazzano v1.1.0, it is preferred that the MultiClusterComponent custom resource not be used; instead
 directly use `core.oam.dev/v1alpha2/Component` resources in your application.  See the example application, [Multicluster ToDo List]({{< relref "/docs/samples/multicluster/todo-list/" >}}), which directly uses `core.oam.dev/v1alpha2/Component` resources.
+{{< /alert >}}
 
 Here is a sample MultiClusterComponent that specifies a OAM Component resource to create on the cluster named `managed1`.
 

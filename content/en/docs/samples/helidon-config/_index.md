@@ -13,9 +13,9 @@ Install Verrazzano by following the [installation]({{< relref "/docs/setup/insta
 
 {{< alert title="NOTE" color="primary" >}}To run this application in the default namespace:
    ```
-   $kubectl label namespace default verrazzano-managed=true istio-injection=enabled
+   $ kubectl label namespace default verrazzano-managed=true istio-injection=enabled
    ```
-   If you chose the default namespace, you can skip Step 1. and ignore the `-n` option in the rest of the commands.
+   If you chose the default namespace, you can skip Step 1 and ignore the `-n` option in the rest of the commands.
 {{< /alert >}}
 
 1. Create a namespace for the application and add a label identifying the namespace as managed by Verrazzano.
@@ -71,7 +71,7 @@ Follow these steps to test the endpoints:
    11.22.33.44
    ```   
 
-1. Access the application:
+1. Access the application.
 
    * **Using the command line**
      ```

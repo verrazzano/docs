@@ -10,7 +10,7 @@ Verrazzano does not manage or secure traffic for the Kubernetes cluster itself, 
 non-Verrazzano services or applications running in the cluster. Traffic is secured at two levels in the network stack:
 
 - ISO Layer 3/4: Using NetworkPolicies to control IP access to Pods.
-- ISO Layer 6: Using TLS and mTLS to provide authentication, confidentiality,
+- ISO Layer 6: Using TLS and mutual TLS authentication (mTLS) to provide authentication, confidentiality,
 and integrity for connections within the cluster, and for external connections.
 
 ## NetworkPolicies
@@ -20,7 +20,7 @@ restricting both ingress and egress IP traffic for a set of Pods in a namespace.
 system components with NetworkPolicies to control ingress.  Egress is not restricted.
 
 **NOTE:** A NetworkPolicy resource needs a NetworkPolicy controller to implement the policy, otherwise the
-policy has no effect.  You must install a Kubernetes CNI plug-in that provides a NetworkPolicy controller,
+policy has no effect.  You must install a Kubernetes Container Network Interface (CNI) plug-in that provides a NetworkPolicy controller,
 such as Calico, before installing Verrazzano, or else the policies are ignored.
 
 ### NetworkPolicies for system components
@@ -68,35 +68,35 @@ The ports shown are Pod ports, which is what NetworkPolicies require.
 
 | Component  | Pod Port           | From  | Description |
 | ------------- |:------------- |:------------- |:----- |:-------------:|
-| Verrazzano Application Operator | 9443 | Kubernetes API Server  | Webhook entrypoint.
-| Verrazzano Platform Operator | 9443 | Kubernetes API Server  | Webhook entrypoint.
-| Verrazzano Console | 8000 | NGINX Ingress |  Access from external client.
-| Verrazzano Console | 15090 | Prometheus | Prometheus scraping.
-| Verrazzano Authentication Proxy | 8775 | NGINX Ingress | Access from external client.
-| Verrazzano Authentication Proxy | 15090 | Prometheus | Prometheus scraping.
-| cert-manager| 9402 | Prometheus | Prometheus scraping.
-| Coherence Operator | 9443 | Prometheus | Webhook entrypoint.
-| OpenSearch | 8775 | NGINX Ingress | Access from external client.
-| OpenSearch | 8775 | Fluentd | Access from Fluentd.
-| OpenSearch | 9200 | OpenSearch Dashboards, Internal | OpenSearch data port.
-| OpenSearch | 9300 | Internal | OpenSearch cluster port.  
-| OpenSearch | 15090 | Prometheus | Envoy metrics scraping.
-| Istio control plane | 15012 | Envoy | Envoy access to `istiod`.
+| Verrazzano Application Operator | 9443 | Kubernetes API Server  | Webhook entrypoint
+| Verrazzano Platform Operator | 9443 | Kubernetes API Server  | Webhook entrypoint
+| Verrazzano Console | 8000 | NGINX Ingress |  Access from external client
+| Verrazzano Console | 15090 | Prometheus | Prometheus scraping
+| Verrazzano Authentication Proxy | 8775 | NGINX Ingress | Access from external client
+| Verrazzano Authentication Proxy | 15090 | Prometheus | Prometheus scraping
+| cert-manager| 9402 | Prometheus | Prometheus scraping
+| Coherence Operator | 9443 | Prometheus | Webhook entrypoint
+| OpenSearch | 8775 | NGINX Ingress | Access from external client
+| OpenSearch | 8775 | Fluentd | Access from Fluentd
+| OpenSearch | 9200 | OpenSearch Dashboards, Internal | OpenSearch data port
+| OpenSearch | 9300 | Internal | OpenSearch cluster port  
+| OpenSearch | 15090 | Prometheus | Envoy metrics scraping
+| Istio control plane | 15012 | Envoy | Envoy access to `istiod`
 | Istio control plane | 15014 | Prometheus | Prometheus scraping.
-| Istio control plane | 15017 | Kubernetes API Server  | Webhook entrypoint.
-| Istio ingress gateway | 8443 | External | Application ingress.
-| Istio ingress gateway| 15090 | Prometheus | Prometheus scraping.
-| Istio egress gateway | 8443 | Mesh services | Application egress.
-| Istio egress gateway| 15090 | Prometheus | Prometheus scraping.
-| Keycloak| 8080 | NGINX Ingress | Access from external client.
-| Keycloak| 15090 | Prometheus | Prometheus scraping.
-| MySql| 15090 | Prometheus | Prometheus scraping.
-| MySql| 3306 | Keycloak | Keycloak datastore.
-| Node exporter| 9100 | Prometheus | Prometheus scraping.
-| Rancher | 80 | NGINX Ingress | Access from external client.
-| Rancher | 9443 |  Kubernetes API Server  | Webhook entrypoint.
-| Prometheus | 8775 | NGINX Ingress | Access from external client.
-| Prometheus | 9090 | Grafana | Acccess for Grafana UI.
+| Istio control plane | 15017 | Kubernetes API Server  | Webhook entrypoint
+| Istio ingress gateway | 8443 | External | Application ingress
+| Istio ingress gateway| 15090 | Prometheus | Prometheus scraping
+| Istio egress gateway | 8443 | Mesh services | Application egress
+| Istio egress gateway| 15090 | Prometheus | Prometheus scraping
+| Keycloak| 8080 | NGINX Ingress | Access from external client
+| Keycloak| 15090 | Prometheus | Prometheus scraping
+| MySql| 15090 | Prometheus | Prometheus scraping
+| MySql| 3306 | Keycloak | Keycloak datastore
+| Node exporter| 9100 | Prometheus | Prometheus scraping
+| Rancher | 80 | NGINX Ingress | Access from external client
+| Rancher | 9443 |  Kubernetes API Server  | Webhook entrypoint
+| Prometheus | 8775 | NGINX Ingress | Access from external client
+| Prometheus | 9090 | Grafana | Acccess for Grafana UI
 
 ### NetworkPolicies for applications
 By default, applications do not have NetworkPolicies that restrict ingress into the application or egress from it.
@@ -199,7 +199,7 @@ As mentioned, Envoy sidecar proxies run in both system component pods and applic
 to the Istio control plane pod, `istiod`, for a variety of reasons. During installation, Verrazzano creates a NetworkPolicy
 named `istiod-access` in the `istio-system` namespace to give ingress to system component and application sidecar proxies.
 
-## mTLS
+## Mutual TLS authentication (mTLS)
 Istio can be enabled to use mTLS between services in the mesh, and also between the Istio gateways and Envoy sidecar proxies.
 There are various options to customize mTLS usage, for example it can be disabled on a per-port level.  The Istio
 control plane, Istiod, is a CA and provides key and certificate rotation for the Envoy proxies, both gateways and sidecars.

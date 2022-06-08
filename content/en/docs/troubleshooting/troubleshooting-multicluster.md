@@ -48,7 +48,7 @@ was not completed. For the complete setup instructions, see [here]({{< relref "/
 
 1. The managed cluster does not have network connectivity to the admin cluster. The managed cluster will attempt to
 connect to the admin cluster at regular intervals, and any errors will be reported in the
-`verrazzano-application-operator` pod's log on the _managed_ cluster. View the logs using the following command.
+`verrazzano-application-operator` pod's log on the _managed_ cluster. View the logs using the following command:
 
 ```
 # on the managed cluster
@@ -98,7 +98,7 @@ On the admin cluster, each multicluster resource's status field is updated with 
 on each managed cluster in which it is placed.
 
 The following example command shows how to view the status of a MultiClusterApplicationConfiguration named `myapp`, in
-the namespace `mynamespace`, that has a `placement` value that includes the managed cluster `managed1`
+the namespace `mynamespace`, that has a `placement` value that includes the managed cluster `managed1`.
 ```
 $ kubectl get multiclusterapplicationconfiguration myapp \
     -n mynamespace \

@@ -27,9 +27,9 @@ For more information and the source code of this application, see the [Verrazzan
 
 {{< alert title="NOTE" color="primary" >}}To run this application in the default namespace:
    ```
-   $kubectl label namespace default verrazzano-managed=true istio-injection=enabled
+   $ kubectl label namespace default verrazzano-managed=true istio-injection=enabled
    ```
-   If you chose the default namespace, you can skip Step 1. and ignore the `-n` option in the rest of the commands.
+   If you chose the default namespace, you can skip Step 1 and ignore the `-n` option in the rest of the commands.
 {{< /alert >}}
 
 1. Create a namespace for the ToDo List example and add a label identifying the namespace as managed by Verrazzano.
@@ -113,7 +113,7 @@ you can use the `kubectl wait` command. You may need to repeat the `kubectl wait
    10.11.12.13
    ```   
 
-1. Access the ToDo List application:
+1. Access the ToDo List application.
 
    * **Using the command line**
      ```

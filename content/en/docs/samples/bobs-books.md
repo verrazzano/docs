@@ -42,9 +42,9 @@ For more information and the source code of this application, see the [Verrazzan
 
 {{< alert title="NOTE" color="primary" >}}To run this application in the default namespace:
    ```
-   $kubectl label namespace default verrazzano-managed=true istio-injection=enabled
+   $ kubectl label namespace default verrazzano-managed=true istio-injection=enabled
    ```
-   If you chose the default namespace, you can skip Step 1. and ignore the `-n` option in the rest of the commands.
+   If you chose the default namespace, you can skip Step 1 and ignore the `-n` option in the rest of the commands.
 {{< /alert >}}   
 
 1. Create a namespace for the example and add a label identifying the namespace as managed by Verrazzano.
@@ -166,7 +166,7 @@ For more information and the source code of this application, see the [Verrazzan
 
       * Bob's order manager UI at `https://<your-bobs-orders-host.your.domain>/`.
 
-## Access the applications using the WLS Administration Console
+## Access the applications using the WebLogic Server Administration Console
 
 Use the WebLogic Server Administration Console to access the applications as follows.
 

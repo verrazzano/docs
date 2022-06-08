@@ -112,8 +112,8 @@ outside the cluster.
 
 | Component  | Destination | Description |
 | ------------- |:------------- |:-------------
-| cert-manager | Let's Encrypt | Get signed certificate.
-| ExternalDNS | External DNS | Create and delete DNS entries in an external DNS.
+| cert-manager | Let's Encrypt | Gets signed certificate.
+| ExternalDNS | External DNS | Creates and deletes DNS entries in an external DNS.
 | Fluentd | OpenSearch | Fluentd on the managed cluster calls OpenSearch on the admin cluster.
 | Prometheus | Prometheus | Prometheus on the admin cluster scrapes metrics from Prometheus on the managed cluster.
 | Rancher Agent | Rancher | Rancher agent on the managed cluster sends requests to Rancher on the admin cluster.
@@ -132,21 +132,21 @@ OpenSearch Pods.
 
 | Component  | Destination | Description |
 | ------------- |:------------- |:-------------
-| cert-manager | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
+| cert-manager | Kubernetes API server | Performs CRUD operations on Kubernetes resources.
 | Fluentd | OpenSearch | Fluentd sends data to OpenSearch.
 | Grafana | Prometheus | UI for Prometheus data.
 | OpenSearch Dashboards | OpenSearch | UI for OpenSearch.
-| NGINX Ingress Controller | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
-| Istio | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
-| Rancher | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
+| NGINX Ingress Controller | Kubernetes API server | Performs CRUD operations on Kubernetes resources.
+| Istio | Kubernetes API server | Performs CRUD operations on Kubernetes resources.
+| Rancher | Kubernetes API server | Performs CRUD operations on Kubernetes resources.
 | Verrazzano Authentication Proxy | Keycloak | Calls Keycloak for token authentication.
 | Verrazzano Authentication Proxy | VMI components | Access UIs for OpenSearch Dashboards, Grafana, and such.
-| Verrazzano Authentication Proxy | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
-| Verrazzano Application Operator | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
-| Verrazzano Monitoring Operator | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
-| Verrazzano Operator | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
-| Verrazzano Platform Operator | Kubernetes API server | Perform CRUD operations on Kubernetes resources.
-| Verrazzano Platform Operator | Rancher| Register the managed cluster with Rancher.
+| Verrazzano Authentication Proxy | Kubernetes API server | Performs CRUD operations on Kubernetes resources.
+| Verrazzano Application Operator | Kubernetes API server | Performs CRUD operations on Kubernetes resources.
+| Verrazzano Monitoring Operator | Kubernetes API server | Performs CRUD operations on Kubernetes resources.
+| Verrazzano Operator | Kubernetes API server | Performs CRUD operations on Kubernetes resources.
+| Verrazzano Platform Operator | Kubernetes API server | Performs CRUD operations on Kubernetes resources.
+| Verrazzano Platform Operator | Rancher| Registers the managed cluster with Rancher.
 
 
 #### Prometheus scraping traffic
@@ -154,25 +154,25 @@ This table shows Prometheus traffic for each system component scrape target.
 
  Target | Description |
 |:------------- |:-------------
-| cadvisor | Kubernetes metrics.
-| OpenSearch | Envoy metrics.
-| Grafana | Envoy metrics.
-| Istiod | Istio control plane metrics.
-| Istiod | Envoy metrics.
-| Istio egress gateway | Envoy metrics.
-| Istio ingress gateway | Envoy metrics.
-| Keycloak |Envoy metrics.
-| OpenSearch Dashboards | Envoy metrics.
-| MySQL | Envoy metrics.
-| NGINX Ingress Controller | Envoy metrics.
-| NGINX Ingress Controller | NGINX metrics.
-| NGINX default back end | Envoy metrics.
-| Node exporter | Node metrics.
-| Prometheus | Envoy metrics.
-| Prometheus | Prometheus metrics.
-| Verrazzano Console | Envoy metrics.
-| Verrazzano API | Envoy metrics.
-| WebLogic operator | Envoy metrics.
+| cadvisor | Kubernetes metrics
+| OpenSearch | Envoy metrics
+| Grafana | Envoy metrics
+| Istiod | Istio control plane metrics
+| Istiod | Envoy metrics
+| Istio egress gateway | Envoy metrics
+| Istio ingress gateway | Envoy metrics
+| Keycloak |Envoy metrics
+| OpenSearch Dashboards | Envoy metrics
+| MySQL | Envoy metrics
+| NGINX Ingress Controller | Envoy metrics
+| NGINX Ingress Controller | NGINX metrics
+| NGINX default back end | Envoy metrics
+| Node exporter | Node metrics
+| Prometheus | Envoy metrics
+| Prometheus | Prometheus metrics
+| Verrazzano Console | Envoy metrics
+| Verrazzano API | Envoy metrics
+| WebLogic operator | Envoy metrics
 
 #### Webhooks
 Several of the system components are controllers, and some of those have webhooks.
@@ -279,7 +279,7 @@ The following table shows which proxies are used and in which Pod they run.
 | Usage  | Proxy | Pod | Namespace | Description |
 | ------------- |:------------- |:------------- |:------------- |:-------------
 | System ingress | NGINX | `ingress-controller-ingress-nginx-controller-*` | `ingress-nginx` | Provides external access to Verrazzano system components.
-| Verrazzano authentication proxy | NGINX | `verrazzano-authproxy-*` | `verrazzano-system` | Verrazzano authentication proxy server for Kubernetes API and SSO.
+| Verrazzano authentication proxy | NGINX | `verrazzano-authproxy-*` | `verrazzano-system` | Verrazzano authentication proxy server for Kubernetes API and Single Sign-On (SSO).
 | Application ingress | Envoy | `istio-ingressgateway-*` | `istio-system` | Provides external access to Verrazzano applications.
 | Application egress | Envoy | `istio-egressgateway-*` | `istio-system` | Provides control of application egress traffic.
 | Istio mesh sidecar | Envoy  | `ingress-controller-ingress-nginx-controller-*` | `ingress-nginx` | NGINX Ingress Controller in the Istio mesh.
@@ -307,7 +307,7 @@ All of these requests go through the NGINX Ingress Controller on the respective 
 
 | Source Cluster | Source Component | Destination Cluster | Destination Component | Description
 | ------------- |:------------- |:------------- |:------------- |:-------------
-| Admin | Prometheus | Managed | Prometheus | Scape metrics on managed clusters.
+| Admin | Prometheus | Managed | Prometheus | Scapes metrics on managed clusters.
 | Admin | Verrazzano Console | Managed | Verrazzano Authentication Proxy | Admin cluster proxy sends Kubernetes API requests to managed cluster proxy.
 | Managed | Fluentd | Admin | OpenSearch | Fluentd sends logs to OpenSearch.
 | Managed | Rancher Agent | Admin | Rancher | Rancher Agent sends requests Rancher.
@@ -325,7 +325,7 @@ On the admin cluster, the authentication proxy connects to in-cluster Keycloak, 
 On the managed cluster, the authentication proxy connects to Keycloak on the admin cluster through the NGINX Ingress
 Controller running on the admin cluster.
 
-For SSO, the authentication proxy also needs to send requests to Keycloak, either in-cluster or through the cluster ingress. When a
+For Single Sign-On (SSO), the authentication proxy also needs to send requests to Keycloak, either in-cluster or through the cluster ingress. When a
 request comes into the authentication proxy without an authentication header, the proxy sends a request to Keycloak
 through the NGINX Ingress Controller, so the request exits the cluster.  Otherwise, if the authentication proxy is on the admin cluster, then the request is
 sent directly to Keycloak within the cluster.  If the authentication proxy is on the managed

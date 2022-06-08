@@ -66,7 +66,7 @@ Scale-in and scale-out a WebLogic domain by modifying the OAM Component replicas
 
 ## Istio integration
 
-Verrazzano creates all WebLogic domain pods in an Istio mesh; all WebLogic network traffic uses [mTLS](https://codeburst.io/mutual-tls-authentication-mtls-de-mystified-11fa2a52e9cf).
+Verrazzano creates all WebLogic domain pods in an Istio mesh; all WebLogic network traffic uses mutual TLS authentication [(mTLS)](https://codeburst.io/mutual-tls-authentication-mtls-de-mystified-11fa2a52e9cf).
 
 
 
@@ -267,14 +267,14 @@ Step 1. Create a WebLogic domain image.
 Step 2. Create a VerrazzanoWebLogicWorkload component.
    - To deploy and run the WebLogic domain image in Verrazzano, create the VerrazzanoWebLogicWorkload component that specifies the definition and parameters for the WebLogic domain contained in the image.
    - For an example VerrazzanoWebLogicWorkload Component resource created for a sample WebLogic domain, see the [todo-domain]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) example.
-   - For all the option supported by the WebLogic domain configuration, see [Domain.md](https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md).
+   - For all the options supported by the WebLogic domain configuration, see [Domain.md](https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md).
 
 Step 3. Create ApplicationConfiguration for WebLogic application.
    - Next, create an ApplicationConfiguration that uses the VerrazzanoWebLogicWorkload component you created for the WebLogic domain.
    - For an example ApplicationConfiguration using a VerrazzanoWebLogicWorkload component, see the [ToDo List]({{< relref "/docs/samples/todo-list.md" >}}) example application.
 
 Step 4. Verify the domain.
-   - Verrazzano creates the underlying domain Kubernetes resource from the VerrazzanoWebLogicWorkload component which is then processed by the WebLogic Kubernetes Operator to create the Administration and Managed Server pods, and deploy the applications and resources associated with the WebLogic domain.
+   - Verrazzano creates the underlying domain Kubernetes resource from the VerrazzanoWebLogicWorkload component, which is then processed by the WebLogic Kubernetes Operator to create the Administration and Managed Server pods, and deploy the applications and resources associated with the WebLogic domain.
    - To verify that the WebLogic domain is up and running, follow the steps found [here](https://oracle.github.io/weblogic-kubernetes-operator/samples/domains/domain-home-in-image/#verify-the-domain).
 
 

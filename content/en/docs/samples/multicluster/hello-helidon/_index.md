@@ -77,7 +77,7 @@ By default, the application is located on the managed cluster called `managed1`.
    ```
    This environment variable is used in subsequent steps.
 
-1. To change their placement, patch the `hello-helidon` multicluster application configuration.
+1. To change its placement, patch the `hello-helidon` multicluster application configuration.
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN patch mcappconf hello-helidon-appconf \
        -n hello-helidon \

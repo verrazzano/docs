@@ -115,7 +115,7 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
    11.22.33.44
    ```   
 
-1. Access the ToDo List example application:
+1. Access the ToDo List example application.
 
    * **Using the command line**
      ```

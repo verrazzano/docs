@@ -69,7 +69,7 @@ spec:
 | `kiali`              | [KialiComponent](#kiali-component)                                | The Kiali component configuration.                 | No       |
 | `prometheusOperator` | [PrometheusOperatorComponent](#prometheus-operator-component)     | The Prometheus Operator component configuration.   | No       |
 | `prometheusAdapter`  | [PrometheusAdapterComponent](#prometheus-adapter-component)       | The Prometheus Adapter component configuration.    | No       |
-| `kubeStateMetrics`   | [KubeStateMetricsComponent](#kube-state-metrics-component)        | The Prometheus Adapter component configuration.    | No       |
+| `kubeStateMetrics`   | [KubeStateMetricsComponent](#kube-state-metrics-component)        | The kube-state-metrics component configuration.    | No       |
 ### AuthProxy Component
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
@@ -125,7 +125,7 @@ spec:
 | `dnsZoneCompartmentOCID` | string | The Oracle Cloud Infrastructure DNS compartment OCID.                                                                                                                                                                                                                                     |  Yes |
 | `dnsZoneOCID` | string | The Oracle Cloud Infrastructure DNS zone OCID.                                                                                                                                                                                                                                            |  Yes |
 | `dnsZoneName` | string | Name of Oracle Cloud Infrastructure DNS zone.                                                                                                                                                                                                                                             |  Yes |
-| `dnsScope` | string | Scope of the Oracle Cloud Infrastructure DNS zone (PRIVATE, GLOBAL). If not specified, then defaults to GLOBAL.                                                                                                                                                                           | No |
+| `dnsScope` | string | Scope of the Oracle Cloud Infrastructure DNS zone (`PRIVATE`, `GLOBAL`). If not specified, then defaults to `GLOBAL`.                                                                                                                                                                           | No |
 #### DNS External
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
@@ -144,8 +144,8 @@ spec:
 | `controller.service.externalIPs` | [NameValue](#name-value)  | string list | The external IP address used by the NGINX Ingress Controller. |  No |
 | `controller.service.externalTrafficPolicy` | [NameValue](#name-value) | string  | Preserves the client source IP address. See [Bare-metal considerations](https://kubernetes.github.io/ingress-nginx/deploy/baremetal/). |  No |
 | `controller.service.annotations.*` | [NameValue](#name-value) | string  | Annotations used for NGINX Ingress Controller.  For sample usage, see [Customize Ingress](/docs/setup/customizing/ingress/). |  No |
-| `controller.autoscaling.enabled` | [NameValue](#name-value) |  Boolean | If true, then enable horizonal pod autoscaler.  Default false. |  No |
-| `controller.autoscaling.minReplicas` | [NameValue](#name-value) | string | Minimum replicas used for autoscaling.  Default 1. |  No |
+| `controller.autoscaling.enabled` | [NameValue](#name-value) |  Boolean | If true, then enable horizonal pod autoscaler.  Default `false`. |  No |
+| `controller.autoscaling.minReplicas` | [NameValue](#name-value) | string | Minimum replicas used for autoscaling.  Default `1`. |  No |
 
 
 #### Port Config
@@ -154,7 +154,7 @@ spec:
 | `name` | string | The port name.|  No |
 | `port` | string | The port value. |  Yes |
 | `targetPort` | string | The target port value. The default is same as the port value. |  Yes |
-| `protocol` | string | The protocol used by the port.  TCP is the default. |  No |
+| `protocol` | string | The protocol used by the port.  `TCP` is the default. |  No |
 | `nodePort` | string | The `nodePort` value. |  No |
 
 #### Name Value
@@ -269,12 +269,12 @@ spec:
 | --- | --- | --- | --- |
 | `policyName` | string | Name of the Index State Management policy. | Yes |
 | `indexPattern` | string | An Index Pattern is an index name or pattern like `my-index-*`. If an index matches the pattern, the associated policy will attach to the index. | Yes |
-| `minIndexAge` | [Time]({{<opensearch_docs_url>}}/opensearch/units/) | Amount of time until a managed index is deleted. Default is seven days (7d). | No |
+| `minIndexAge` | [Time]({{<opensearch_docs_url>}}/opensearch/units/) | Amount of time until a managed index is deleted. Default is seven days (`7d`). | No |
 | `rollover` | [Rollover](#opensearch-index-management-rollover) | Index rollover settings. | No |
 
 #### OpenSearch Install Args
 
-To configure OpenSearch, instead of using install args, Oracle recommnds that you use [OpenSearch Node Groups](#opensearch-node-groups).
+To configure OpenSearch, instead of using install args, Oracle recommends that you use [OpenSearch Node Groups](#opensearch-node-groups).
 
 | Name | Type | ValueType | Description | Required
 | --- | --- | --- | --- | --- |
@@ -290,7 +290,7 @@ To configure OpenSearch, instead of using install args, Oracle recommnds that yo
 #### OpenSearch Index Management Rollover
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `minIndexAge` | [Time]({{<opensearch_docs_url>}}/opensearch/units/) | Amount of time until a managed index is rolled over. Default is 1 day (1d). | No |
+| `minIndexAge` | [Time]({{<opensearch_docs_url>}}/opensearch/units/) | Amount of time until a managed index is rolled over. Default is 1 day (`1d`). | No |
 | `minSize` | [Bytes]({{<opensearch_docs_url>}}/opensearch/units/) | The size at which a managed index is rolled over. | No |
 | `minDocCount` | uint32 | Amount of documents in a managed index that triggers a rollover. | No |
 
