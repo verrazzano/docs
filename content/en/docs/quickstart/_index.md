@@ -120,7 +120,7 @@ The [Hello World Helidon]({{< relref "/docs/samples/hello-helidon/_index.md" >}}
 example application provides a simple *Hello World* REST service written with [Helidon](https://helidon.io).
 For more information and the code of this application, see the [Verrazzano Examples](https://github.com/verrazzano/examples).
 
-To deploy the Hello World Helidon example application.
+To deploy the Hello World Helidon example application:
 
 
 
@@ -173,7 +173,7 @@ enabled for Istio.
 
 ## Uninstall the example application
 
-To uninstall the Hello World Helidon example application.
+To uninstall the Hello World Helidon example application:
 
 1. Delete the Verrazzano application resources.
 
