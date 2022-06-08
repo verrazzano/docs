@@ -68,7 +68,7 @@ SecuritySpec defines the security configuration for a project.
 #### NetworkPolicyTemplate
 NetworkPolicyTemplate contains the metadata and specification of the underlying NetworkPolicy.
 {{< alert title="NOTE" color="warning" >}}
-To an add application NetworkPolicy, see [NetworkPolicies for applications]({{< relref "/docs/networking/security/net-security.md#networkpolicies-for-applications" >}}).
+To add an application NetworkPolicy, see [NetworkPolicies for applications]({{< relref "/docs/networking/security/net-security.md#networkpolicies-for-applications" >}}).
 {{< /alert >}}
 
 | Field | Type | Description | Required
