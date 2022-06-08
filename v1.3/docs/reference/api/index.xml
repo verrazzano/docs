@@ -677,7 +677,7 @@ spec:
       <description>
         
         
-        &lt;p&gt;The MetricsTrait custom resource contains the configuration information needed to enable metrics for an application component.  Component workloads configured with a MetricsTrait are setup to emit metrics through an endpoint that are scraped by a given Prometheus deployment.  Here is a sample ApplicationConfiguration that specifies a MetricsTrait.  To deploy an example application that demonstrates a MetricsTrait, see &lt;a href=&#34;../../../docs/samples/hello-helidon/&#34;&gt;Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
+        &lt;p&gt;The MetricsTrait custom resource contains the configuration information needed to enable metrics for an application component.  Component workloads configured with a MetricsTrait are set up to emit metrics through an endpoint that are scraped by a given Prometheus deployment.  Here is a sample ApplicationConfiguration that specifies a MetricsTrait.  To deploy an example application that demonstrates a MetricsTrait, see &lt;a href=&#34;../../../docs/samples/hello-helidon/&#34;&gt;Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Note that if an ApplicationConfiguration does not specify a MetricsTrait, then a default MetricsTrait will be generated with values appropriate for the workload type.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
 kind: ApplicationConfiguration
@@ -776,7 +776,7 @@ $ curl -sk \
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;port&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;integer&lt;/td&gt;
-&lt;td&gt;The HTTP port for the related metrics endpoint. Defaults to 8080.&lt;/td&gt;
+&lt;td&gt;The HTTP port for the related metrics endpoint. Defaults to &lt;code&gt;8080&lt;/code&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -969,8 +969,16 @@ spec:
         
         
         &lt;p&gt;The MultiClusterComponent custom resource is an envelope used to distribute &lt;code&gt;core.oam.dev/v1alpha2/Component&lt;/code&gt; resources in a multicluster environment.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Starting with Verrazzano v1.1.0, it is preferred that the MultiClusterComponent custom resource not be used; instead
-directly use &lt;code&gt;core.oam.dev/v1alpha2/Component&lt;/code&gt; resources in your application.  See the example application, &lt;a href=&#34;../../../docs/samples/multicluster/todo-list/&#34;&gt;Multicluster ToDo List&lt;/a&gt;, which directly uses &lt;code&gt;core.oam.dev/v1alpha2/Component&lt;/code&gt; resources.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    Starting with Verrazzano v1.1.0, it is preferred that the MultiClusterComponent custom resource not be used; instead
+directly use &lt;code&gt;core.oam.dev/v1alpha2/Component&lt;/code&gt; resources in your application.  See the example application, &lt;a href=&#34;../../../docs/samples/multicluster/todo-list/&#34;&gt;Multicluster ToDo List&lt;/a&gt;, which directly uses &lt;code&gt;core.oam.dev/v1alpha2/Component&lt;/code&gt; resources.
+
+&lt;/div&gt;
+
 &lt;p&gt;Here is a sample MultiClusterComponent that specifies a OAM Component resource to create on the cluster named &lt;code&gt;managed1&lt;/code&gt;.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: clusters.verrazzano.io/v1alpha1
 kind: MultiClusterComponent
@@ -1112,9 +1120,17 @@ spec:
         
         
         &lt;p&gt;The MultiClusterConfigMap custom resource is an envelope used to distribute Kubernetes ConfigMap resources in a multicluster environment.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Starting with Verrazzano v1.1.0, it is preferred that the MultiClusterConfigMap custom resource not be used; instead
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    Starting with Verrazzano v1.1.0, it is preferred that the MultiClusterConfigMap custom resource not be used; instead
 directly use &lt;code&gt;core.oam.dev/v1alpha2/Component&lt;/code&gt; to define ConfigMap resources in your application.
-See the example application, &lt;a href=&#34;../../../docs/samples/multicluster/todo-list/&#34;&gt;Multicluster ToDo List&lt;/a&gt;, which uses &lt;code&gt;core.oam.dev/v1alpha2/Component&lt;/code&gt; resources to define ConfigMaps.&lt;/p&gt;
+See the example application, &lt;a href=&#34;../../../docs/samples/multicluster/todo-list/&#34;&gt;Multicluster ToDo List&lt;/a&gt;, which uses &lt;code&gt;core.oam.dev/v1alpha2/Component&lt;/code&gt; resources to define ConfigMaps.
+
+&lt;/div&gt;
+
 &lt;p&gt;Here is a sample MultiClusterConfigMap that specifies a Kubernetes ConfigMap to create on the cluster named &lt;code&gt;managed1&lt;/code&gt;.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: clusters.verrazzano.io/v1alpha1
 kind: MultiClusterConfigMap
@@ -1375,9 +1391,17 @@ spec:
         
         
         &lt;p&gt;The MultiClusterSecret custom resource is an envelope used to distribute Kubernetes Secret resources in a multicluster environment.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Starting with Verrazzano v1.1.0, it is preferred that the MultiClusterSecret custom resource not be used; instead
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    Starting with Verrazzano v1.1.0, it is preferred that the MultiClusterSecret custom resource not be used; instead
 specify secrets in the MultiClusterApplicationConfiguration resource.
-See the example application, &lt;a href=&#34;../../../docs/samples/multicluster/todo-list/&#34;&gt;Multicluster ToDo List&lt;/a&gt; where secrets are specified in a MultiClusterApplicationConfiguration resource.&lt;/p&gt;
+See the example application, &lt;a href=&#34;../../../docs/samples/multicluster/todo-list/&#34;&gt;Multicluster ToDo List&lt;/a&gt; where secrets are specified in a MultiClusterApplicationConfiguration resource.
+
+&lt;/div&gt;
+
 &lt;p&gt;Here is a sample MultiClusterSecret that specifies a Kubernetes secret to create on the cluster named &lt;code&gt;managed1&lt;/code&gt;.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: clusters.verrazzano.io/v1alpha1
 kind: MultiClusterSecret
@@ -1770,7 +1794,7 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;kubeStateMetrics&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;#kube-state-metrics-component&#34;&gt;KubeStateMetricsComponent&lt;/a&gt;&lt;/td&gt;
-&lt;td&gt;The Prometheus Adapter component configuration.&lt;/td&gt;
+&lt;td&gt;The kube-state-metrics component configuration.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -2007,7 +2031,7 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;dnsScope&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;Scope of the Oracle Cloud Infrastructure DNS zone (PRIVATE, GLOBAL). If not specified, then defaults to GLOBAL.&lt;/td&gt;
+&lt;td&gt;Scope of the Oracle Cloud Infrastructure DNS zone (&lt;code&gt;PRIVATE&lt;/code&gt;, &lt;code&gt;GLOBAL&lt;/code&gt;). If not specified, then defaults to &lt;code&gt;GLOBAL&lt;/code&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -2099,14 +2123,14 @@ spec:
 &lt;td&gt;&lt;code&gt;controller.autoscaling.enabled&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;#name-value&#34;&gt;NameValue&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;Boolean&lt;/td&gt;
-&lt;td&gt;If true, then enable horizonal pod autoscaler.  Default false.&lt;/td&gt;
+&lt;td&gt;If true, then enable horizonal pod autoscaler.  Default &lt;code&gt;false&lt;/code&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;controller.autoscaling.minReplicas&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;#name-value&#34;&gt;NameValue&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;Minimum replicas used for autoscaling.  Default 1.&lt;/td&gt;
+&lt;td&gt;Minimum replicas used for autoscaling.  Default &lt;code&gt;1&lt;/code&gt;.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -2143,7 +2167,7 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;protocol&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;The protocol used by the port.  TCP is the default.&lt;/td&gt;
+&lt;td&gt;The protocol used by the port.  &lt;code&gt;TCP&lt;/code&gt; is the default.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2638,7 +2662,7 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;minIndexAge&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;https://opensearch.org/docs/1.2/opensearch/units/&#34;&gt;Time&lt;/a&gt;&lt;/td&gt;
-&lt;td&gt;Amount of time until a managed index is deleted. Default is seven days (7d).&lt;/td&gt;
+&lt;td&gt;Amount of time until a managed index is deleted. Default is seven days (&lt;code&gt;7d&lt;/code&gt;).&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -2650,7 +2674,7 @@ spec:
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h4 id=&#34;opensearch-install-args&#34;&gt;OpenSearch Install Args&lt;/h4&gt;
-&lt;p&gt;To configure OpenSearch, instead of using install args, Oracle recommnds that you use &lt;a href=&#34;#opensearch-node-groups&#34;&gt;OpenSearch Node Groups&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To configure OpenSearch, instead of using install args, Oracle recommends that you use &lt;a href=&#34;#opensearch-node-groups&#34;&gt;OpenSearch Node Groups&lt;/a&gt;.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -2734,7 +2758,7 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;minIndexAge&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;&lt;a href=&#34;https://opensearch.org/docs/1.2/opensearch/units/&#34;&gt;Time&lt;/a&gt;&lt;/td&gt;
-&lt;td&gt;Amount of time until a managed index is rolled over. Default is 1 day (1d).&lt;/td&gt;
+&lt;td&gt;Amount of time until a managed index is rolled over. Default is 1 day (&lt;code&gt;1d&lt;/code&gt;).&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -3301,7 +3325,7 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;caSecret&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;The name of a Secret that contains the CA certificate of the managed cluster. This is used to configure the admin cluster to scrape metrics from the Prometheus endpoint on the managed cluster. See the steps 3 and 4 in &lt;a href=&#34;../../../docs/setup/install/multicluster/#preregistration-setup&#34;&gt;instructions&lt;/a&gt; for how to create this Secret.&lt;/td&gt;
+&lt;td&gt;The name of a Secret that contains the CA certificate of the managed cluster. This is used to configure the admin cluster to scrape metrics from the Prometheus endpoint on the managed cluster. See the pre-registration &lt;a href=&#34;../../../docs/setup/install/multicluster/#preregistration-setup&#34;&gt;instructions&lt;/a&gt; for how to create this Secret.&lt;/td&gt;
 &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -3574,7 +3598,7 @@ spec:
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
 &lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
 
-    To add application NetworkPolicy, see &lt;a href=&#34;../../../docs/networking/security/net-security/#networkpolicies-for-applications&#34;&gt;NetworkPolicies for applications&lt;/a&gt;.
+    To add an application NetworkPolicy, see &lt;a href=&#34;../../../docs/networking/security/net-security/#networkpolicies-for-applications&#34;&gt;NetworkPolicies for applications&lt;/a&gt;.
 
 &lt;/div&gt;
 &lt;/p&gt;

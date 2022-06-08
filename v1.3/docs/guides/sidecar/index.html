@@ -90,7 +90,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.eafa1d73c6357e0766758037c9194f40.json"
+  data-offline-search-index-json-src="../../../offline-search-index.5128971278c9d7f8eda27b5d9f21db7c.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -112,7 +112,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.eafa1d73c6357e0766758037c9194f40.json"
+  data-offline-search-index-json-src="../../../offline-search-index.5128971278c9d7f8eda27b5d9f21db7c.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -642,11 +642,11 @@ This ConfigMap must be deployed before or with all other application resources.<
 Thus, any sidecar containers are limited to log access under that directory. As shown previously, the <code>shared-log-file</code> volume is mounted at <code>/scratch</code> for this reason.</p>
 <p>The example Fluentd configuration volume is mounted at <code>/fluentd/etc/</code>. While this path is more flexible, the <code>FLUEND_ARGS</code> environment variable needs to be updated accordingly.</p>
 <h2 id="deploy-the-fluentd-sidecar">Deploy the Fluentd sidecar</h2>
-<p>Now that the resources have been configured, you can deploy the application. Follow steps 1 through 3 in the <a href="../../../docs/samples/todo-list/">ToDo List</a> example application instructions.
-Replace the deployment commands in step 4 with your locally edited YAML files:</p>
+<p>Now that the resources have been configured, you can deploy the application. Follow Steps 1 through 3 in the <a href="../../../docs/samples/todo-list/">ToDo List</a> example application instructions.
+Replace the deployment commands in Step 4 with your locally edited YAML files:</p>
 <pre tabindex="0"><code>$ kubectl apply -f todo-list-components.yaml
 $ kubectl apply -f todo-list-application.yaml
-</code></pre><p>Now, follow the <a href="../../../docs/samples/todo-list/">ToDo List</a> instructions from step 5 onward, as needed.</p>
+</code></pre><p>Now, follow the <a href="../../../docs/samples/todo-list/">ToDo List</a> instructions from Step 5 onward, as needed.</p>
 <p>To verify that a deployment successfully created a custom Fluentd sidecar:</p>
 <ul>
 <li>Verify that the container name exists on the WebLogic application pod.
@@ -656,7 +656,7 @@ fluentd
 ...
 </code></pre></li>
 <li>Verify that the Fluentd sidecar is redirecting logs to stdout.
-<pre tabindex="0"><code>kubectl logs -n &lt;application-namespace&gt; &lt;application-pod-name&gt; fluentd
+<pre tabindex="0"><code>$ kubectl logs -n &lt;application-namespace&gt; &lt;application-pod-name&gt; fluentd
 </code></pre></li>
 <li>Follow the instructions at <a href="../../../docs/monitoring/logs/">Verrazzano Logging</a> to ensure that the <a href="../../../docs/monitoring/logs/#fluentd-daemonset">Fluentd DaemonSet</a> collected the logs from stdout.
 These logs will appear in the Verrazzano-managed <a href="../../../docs/monitoring/logs/#opensearch">OpenSearch</a> and <a href="../../../docs/monitoring/logs/#opensearch-dashboards">OpenSearch Dashboards</a>.</li>

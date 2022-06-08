@@ -552,7 +552,7 @@ $ docker run --name tododb \
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Use the Oracle WebLogic Server Configuration Wizard to create a domain called &lt;code&gt;tododomain&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: This example assumes that the on premises WebLogic Server domain is on Linux.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: This example assumes that the on-premises WebLogic Server domain is on Linux.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Launch &lt;code&gt;$ORACLE_HOME/oracle_common/common/bin/config.sh&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;Select &lt;strong&gt;Create a new domain&lt;/strong&gt;.&lt;/li&gt;
@@ -567,7 +567,7 @@ $ docker run --name tododb \
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;To start the newly created domain, run the domain&amp;rsquo;s start.&lt;/p&gt;
+&lt;p&gt;To start the newly created domain, run the domain&amp;rsquo;s start script.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt; $ $ORACLE_HOME/user_projects/domains/tododomain/bin/startWebLogic.sh
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
@@ -637,7 +637,7 @@ file to another location, as WDT may ignore it during the model creation phase.&
 &lt;p&gt;Using the WebLogic Server Administration Console, deploy the ToDo List application.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;In the left pane in the Console, select &lt;strong&gt;Deployments&lt;/strong&gt; and click &lt;strong&gt;Install&lt;/strong&gt;.&lt;/li&gt;
-&lt;li&gt;Use the navigation links or provide the file path to &lt;code&gt;todo.war&lt;/code&gt; typically &lt;code&gt;&amp;lt;repo&amp;gt;/todo-list/target&lt;/code&gt;.  For example, if you cloned the examples
+&lt;li&gt;Use the navigation links or provide the file path to &lt;code&gt;todo.war&lt;/code&gt;, typically &lt;code&gt;&amp;lt;repo&amp;gt;/todo-list/target&lt;/code&gt;.  For example, if you cloned the examples
 repository in your &lt;code&gt;$HOME&lt;/code&gt; directory, the location should be &lt;code&gt;$HOME/examples/examples/todo-list/target/todo.war&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;Click &lt;strong&gt;Next&lt;/strong&gt; twice, then &lt;strong&gt;Finish&lt;/strong&gt;.&lt;/li&gt;
 &lt;/ul&gt;
@@ -1118,11 +1118,11 @@ This ConfigMap must be deployed before or with all other application resources.&
 Thus, any sidecar containers are limited to log access under that directory. As shown previously, the &lt;code&gt;shared-log-file&lt;/code&gt; volume is mounted at &lt;code&gt;/scratch&lt;/code&gt; for this reason.&lt;/p&gt;
 &lt;p&gt;The example Fluentd configuration volume is mounted at &lt;code&gt;/fluentd/etc/&lt;/code&gt;. While this path is more flexible, the &lt;code&gt;FLUEND_ARGS&lt;/code&gt; environment variable needs to be updated accordingly.&lt;/p&gt;
 &lt;h2 id=&#34;deploy-the-fluentd-sidecar&#34;&gt;Deploy the Fluentd sidecar&lt;/h2&gt;
-&lt;p&gt;Now that the resources have been configured, you can deploy the application. Follow steps 1 through 3 in the &lt;a href=&#34;../../docs/samples/todo-list/&#34;&gt;ToDo List&lt;/a&gt; example application instructions.
-Replace the deployment commands in step 4 with your locally edited YAML files:&lt;/p&gt;
+&lt;p&gt;Now that the resources have been configured, you can deploy the application. Follow Steps 1 through 3 in the &lt;a href=&#34;../../docs/samples/todo-list/&#34;&gt;ToDo List&lt;/a&gt; example application instructions.
+Replace the deployment commands in Step 4 with your locally edited YAML files:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f todo-list-components.yaml
 $ kubectl apply -f todo-list-application.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Now, follow the &lt;a href=&#34;../../docs/samples/todo-list/&#34;&gt;ToDo List&lt;/a&gt; instructions from step 5 onward, as needed.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Now, follow the &lt;a href=&#34;../../docs/samples/todo-list/&#34;&gt;ToDo List&lt;/a&gt; instructions from Step 5 onward, as needed.&lt;/p&gt;
 &lt;p&gt;To verify that a deployment successfully created a custom Fluentd sidecar:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Verify that the container name exists on the WebLogic application pod.
@@ -1132,7 +1132,7 @@ fluentd
 ...
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;Verify that the Fluentd sidecar is redirecting logs to stdout.
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;kubectl logs -n &amp;lt;application-namespace&amp;gt; &amp;lt;application-pod-name&amp;gt; fluentd
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl logs -n &amp;lt;application-namespace&amp;gt; &amp;lt;application-pod-name&amp;gt; fluentd
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;Follow the instructions at &lt;a href=&#34;../../docs/monitoring/logs/&#34;&gt;Verrazzano Logging&lt;/a&gt; to ensure that the &lt;a href=&#34;../../docs/monitoring/logs/#fluentd-daemonset&#34;&gt;Fluentd DaemonSet&lt;/a&gt; collected the logs from stdout.
 These logs will appear in the Verrazzano-managed &lt;a href=&#34;../../docs/monitoring/logs/#opensearch&#34;&gt;OpenSearch&lt;/a&gt; and &lt;a href=&#34;../../docs/monitoring/logs/#opensearch-dashboards&#34;&gt;OpenSearch Dashboards&lt;/a&gt;.&lt;/li&gt;
