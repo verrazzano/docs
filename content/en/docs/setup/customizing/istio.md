@@ -6,6 +6,7 @@ weight: 6
 draft: false
 ---
 
+Verrazzano uses Istio to provide application ingress as well as to facilitate mTLS cluster communication.
 You can customize Verrazzano Istio component using settings in the Verrazzano custom resource.
 
 The following table describes the fields in the Verrazzano custom resource pertaining to the [Istio component]({{< relref "/docs/reference/API/Verrazzano/Verrazzano.md#istio-component" >}}).
@@ -58,3 +59,34 @@ The following example customizes a Verrazzano `prod` profile as follows:
                            - istio-egressgateway
                    topologyKey: kubernetes.io/hostname
  ```
+
+Istio can also be customized using [Overrides](({{< relref "/docs/reference/API/Verrazzano/Verrazzano.md#override" >}})).
+To do this, define an IstioOperator resource to be passed in as an override. The following example overrides the shape
+of an Oracle Cloud Infrastructure load balancer used by Istio for the ingress gateway.
+```yaml
+apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: example-verrazzano
+spec:
+  profile: prod
+  components:
+    istio:
+      overrides:
+        - values:
+            apiVersion: install.istio.io/v1alpha1
+            kind: IstioOperator
+            spec:
+              components:
+                ingressGateways:
+                - name: istio-ingressgateway
+                  k8s:
+                    serviceAnnotations:
+                      service.beta.kubernetes.io/oci-load-balancer-shape: 10Mbps
+```
+
+When overriding values in the ingress gateway or the egress gateway it is necessary to specify the name,
+so either `istio-ingressgateway`, or `istio-egressgateway`.
+
+Verrazzano can accept any valid IstioOperator Custom Resource as an override. The IstioOperator API I can be reference
+in the [istio.io/api/operator/v1alpha1 package](https://pkg.go.dev/istio.io/api/operator/v1alpha1).
