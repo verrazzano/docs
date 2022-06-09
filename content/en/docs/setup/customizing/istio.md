@@ -73,16 +73,16 @@ spec:
   components:
     istio:
       overrides:
-        - values:
-            apiVersion: install.istio.io/v1alpha1
-            kind: IstioOperator
-            spec:
-              components:
-                ingressGateways:
-                - name: istio-ingressgateway
-                  k8s:
-                    serviceAnnotations:
-                      service.beta.kubernetes.io/oci-load-balancer-shape: 10Mbps
+      - values:
+          apiVersion: install.istio.io/v1alpha1
+          kind: IstioOperator
+          spec:
+            components:
+              ingressGateways:
+              - name: istio-ingressgateway
+                k8s:
+                  serviceAnnotations:
+                    service.beta.kubernetes.io/oci-load-balancer-shape: 10Mbps
 ```
 
 When overriding values in the ingress gateway or the egress gateway it is necessary to specify the name,
