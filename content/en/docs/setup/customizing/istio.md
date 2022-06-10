@@ -60,7 +60,7 @@ The following example customizes a Verrazzano `prod` profile as follows:
                    topologyKey: kubernetes.io/hostname
  ```
 
-You can also customize Istio using [Overrides](({{< relref "/docs/reference/API/Verrazzano/Verrazzano.md#override" >}})).
+You can also customize Istio using [Overrides]({{< relref "/docs/reference/API/Verrazzano/Verrazzano.md#override" >}}).
 To do this, define an IstioOperator resource to be passed in as an override. The following example overrides the shape
 of an Oracle Cloud Infrastructure load balancer used by Istio for the ingress gateway.
 ```yaml

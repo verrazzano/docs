@@ -8,7 +8,7 @@ draft: false
 
 Verrazzano uses NGINX for ingress to Verrazzano system components.
 You can customize the NGINX configuration using Overrides specified in the Verrazzano custom resource. 
-[Overrides](({{< relref "/docs/reference/API/Verrazzano/Verrazzano.md#override" >}})) can be specified as inline YAML
+[Overrides]({{< relref "/docs/reference/API/Verrazzano/Verrazzano.md#override" >}}) can be specified as inline YAML
 or embedded in a ConfigMap or Secret.
 For example, the following Verrazzano custom resource overrides the autoscaling
 configuration for the NGINX Ingress Controller.
