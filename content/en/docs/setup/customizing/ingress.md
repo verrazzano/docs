@@ -1,17 +1,15 @@
 ---
 title: Customize Ingress
-description: Customize Verrazzano NGINX ingress controller installation settings
+description: Customize Verrazzano NGINX and Istio ingress installation settings
 linkTitle: Ingress
 Weight: 9
 draft: false
 ---
 
-Verrazzano uses NGINX for ingress to Verrazzano system components.
-You can customize the NGINX configuration using Overrides specified in the Verrazzano custom resource. 
-[Overrides]({{< relref "/docs/reference/API/Verrazzano/Verrazzano.md#override" >}}) can be specified as inline YAML
-or embedded in a ConfigMap or Secret.
-For example, the following Verrazzano custom resource overrides the autoscaling
-configuration for the NGINX Ingress Controller.
+Verrazzano uses NGINX for ingress to Verrazzano system components and Istio for application ingress.
+You can customize the NGINX and Istio ingress installation configurations using Helm overrides specified in the
+Verrazzano custom resource. For example, the following Verrazzano custom resource overrides the shape
+of an Oracle Cloud Infrastructure load balancer for both NGINX and Istio ingresses:
 
 ```
 apiVersion: install.verrazzano.io/v1alpha1
@@ -23,14 +21,28 @@ spec:
   components:
     ingress:
       type: LoadBalancer
-      overrides:
-      - values:
-          controller:
-            autoscaling:
-              enabled: "true"
-              minReplicas: 3
+      nginxInstallArgs:
+      - name: controller.service.annotations."service\.beta\.kubernetes\.io/oci-load-balancer-shape"
+        value: "10Mbps"
+    istio:
+      istioInstallArgs:
+      - name: gateways.istio-ingressgateway.serviceAnnotations."service\.beta\.kubernetes\.io/oci-load-balancer-shape"
+        value: "10Mbps"
 ```
 
-For more information about setting component overrides, see [Customizing the Chart Before Installing](https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing).
+The previous entries use dot notation to represent YAML values.  
 
-You can find NGINX values available for customizing in the `values.yaml` file in the [ingress-nginx Helm Chart](https://github.com/verrazzano/verrazzano/blob/master/platform-operator/thirdparty/charts/ingress-nginx/values.yaml)
+For example:
+```
+    - name: controller.service.annotations."service\.beta\.kubernetes\.io/oci-load-balancer-shape"
+      value: "10Mbps"
+```
+Is translated into:
+
+```
+controler:
+   service:
+     annotations:
+       service.beta.kubernetes.io/oci-load-balancer-shape: 10Mbps
+```
+For more information about setting component overrides, see [Customizing the Chart Before Installing](https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing).
