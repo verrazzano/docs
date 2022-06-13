@@ -75,6 +75,8 @@ spec:
 | --- | --- | --- | --- |
 | `enabled` | Boolean | If true, then AuthProxy will be installed. | No |
 | `kubernetes` | [AuthProxyKubernetes](#authproxy-kubernetes-configuration) | The Kubernetes resources than can be configured for AuthProxy. | No |
+| `monitorChanges` | Boolean | If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to `true`. | No |
+| `overrides` | [Overrides](#overrides) list | List of Overrides for the default `values.yaml` file for the component Helm chart. If you pass in multiple Overrides that reference the same values, then Verrazzano will use the final one. You can find all possible values [here]( {{< release_source_url path=platform-operator/helm_config/charts/verrazzano-authproxy/values.yaml >}} ) and invalid values will be ignored. | No |
 
 #### AuthProxy Kubernetes Configuration
 
@@ -87,6 +89,8 @@ spec:
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `certificate` | [Certificate](#certificate) | The certificate configuration. | No |
+| `monitorChanges` | Boolean | If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to `true`. | No |
+| `overrides` | [Overrides](#overrides) list | List of Overrides for the default `values.yaml` file for the component Helm chart. If you pass in multiple Overrides that reference the same values, then Verrazzano will use the final one. You can find all possible values [here]( {{< release_source_url path=platform-operator/thirdparty/charts/cert-manager/values.yaml  >}} ) and invalid values will be ignored. | No |
 
 #### Certificate
 | Field | Type | Description | Required
@@ -112,6 +116,8 @@ spec:
 | `wildcard` | [DNS-Wilcard](#dns-wildcard) | Wildcard DNS configuration. This is the default with a domain of `nip.io`. | No |
 | `oci` | [DNS-OCI](#dns-oci) | Oracle Cloud Infrastructure DNS configuration. | No |
 | `external` | [DNS-External](#dns-external) | External DNS configuration. | No |
+| `monitorChanges` | Boolean | If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to `true`. | No |
+| `overrides` | [Overrides](#overrides) list | List of Overrides for the default `values.yaml` file for the component Helm chart. If you pass in multiple Overrides that reference the same values, then Verrazzano will use the final one. You can find all possible values [here]( {{< release_source_url path=platform-operator/thirdparty/charts/external-dns/values.yaml >}} ) and invalid values will be ignored. | No |
 
 #### DNS Wildcard
 | Field | Type | Description | Required
@@ -137,6 +143,8 @@ spec:
 | `type` | string | The ingress type.  Valid values are `LoadBalancer` and `NodePort`.  The default value is `LoadBalancer`. If the ingress type is `NodePort`, a valid and accessible IP address must be specified using the `controller.service.externalIPs` key in [NGINXInstallArgs](#nginx-install-args). For sample usage, see [External Load Balancers]({{< relref "/docs/setup/customizing/externalLBs.md" >}}). | No |
 | `nginxInstallArgs` |  [NGINXInstallArgs](#nginx-install-args) list | A list of values to use during NGINX installation. | No |
 | `ports` | [PortConfig](#port-config) list | The list port configurations used by the ingress. | No |
+| `monitorChanges` | Boolean | If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to `true`. | No |
+| `overrides` | [Overrides](#overrides) list | List of Overrides for the default `values.yaml` file for the component Helm chart. If you pass in multiple Overrides that reference the same values, then Verrazzano will use the final one. You can find all possible values [here]( {{< release_source_url path=platform-operator/thirdparty/charts/ingress-nginx/values.yaml >}} ) and invalid values will be ignored. | No |
 
 #### NGINX Install Args
 | Name | Type | ValueType | Description | Required
@@ -172,6 +180,8 @@ spec:
 | `istioIngress` | [IstioIngress](#istio-ingress-configuration) | The Istio ingress gateway configuration. | No |
 | `istioEgress` | [IstioEgress](#istio-egress-configuration) | The Istio egress gateway configuration. | No |
 | `istioInstallArgs` | [IstioInstallArgs](#istio-install-args) list | A list of values to use during Istio installation.  Each argument is specified as either a `name/value` or `name/valueList` pair. | No |
+| `monitorChanges` | Boolean | If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to `true`. | No |
+| `overrides` | [Overrides](#overrides) list | List of Overrides for default IstioOperator. If you pass in multiple Overrides that reference the same values, then Verrazzano will use the final one. You can find all possible values [here]( {{https://istio.io/v1.13/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec}} ). Passing through an invalid IstioOperator resource will result in an error. | No |
 
 #### Istio Ingress Configuration
 
@@ -210,6 +220,8 @@ spec:
 | `elasticsearchURL` | string | The target OpenSearch URLs.  Specify this option in [this format](https://docs.fluentd.org/output/elasticsearch#hosts-optional).  The default `http://vmi-system-es-ingest-oidc:8775` is the VMI OpenSearch URL. | No |
 | `elasticsearchSecret` | string | The secret containing the credentials for connecting to OpenSearch.  This secret needs to be created in the `verrazzano-install` namespace prior to creating the Verrazzano custom resource.  Specify the OpenSearch login credentials in the `username` and `password` fields in this secret.  Specify the CA for verifying the OpenSearch certificate in the `ca-bundle` field, if applicable.  The default `verrazzano` is the secret for connecting to the VMI OpenSearch. | No |
 | `oci` | [OCILoggingConfiguration](#oci-logging-configuration) | The Oracle Cloud Infrastructure Logging configuration. | No |
+| `monitorChanges` | Boolean | If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to `true`. | No |
+| `overrides` | [Overrides](#overrides) list | List of Overrides for the default `values.yaml` file for the component Helm chart. If you pass in multiple Overrides that reference the same values, then Verrazzano will use the final one. You can find all possible values [here]( {{< release_source_url path=platform-operator/helm_config/charts/verrazzano/values.yaml >}} ) and invalid values will be ignored. | No |
 
 ### Jaeger Operator Component
 | Field | Type | Description | Required
@@ -236,11 +248,15 @@ spec:
 | --- | --- | --- | --- |
 | `enabled` | Boolean | If true, then Keycloak will be installed. | No |
 | `mysql` | [MySQLComponent](#mysql-component) | Contains the MySQL component configuration needed for Keycloak. | No
+| `monitorChanges` | Boolean | If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to `true`. | No |
+| `overrides` | [Overrides](#overrides) list | List of Overrides for the default `values.yaml` file for the component Helm chart. If you pass in multiple Overrides that reference the same values, then Verrazzano will use the final one. You can find all possible values [here]( {{< release_source_url path=platform-operator/thirdparty/charts/keycloak/values.yaml >}} ) and invalid values will be ignored. | No |
 
 ### MySQL Component
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `volumeSource` | [VolumeSource](https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/) | Defines the type of volume to be used for persistence for Keycloak/MySQL, and can be one of either [EmptyDirVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#emptydirvolumesource-v1-core) or [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core). If [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core) is declared, then the `claimName` must reference the name of a `VolumeClaimSpecTemplate` declared in the `volumeClaimSpecTemplates` section. | No
+| `monitorChanges` | Boolean | If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to `true`. | No |
+| `overrides` | [Overrides](#overrides) list | List of Overrides for the default `values.yaml` file for the component Helm chart. If you pass in multiple Overrides that reference the same values, then Verrazzano will use the final one. You can find all possible values [here]( {{< release_source_url path=platform-operator/thirdparty/charts/mysql/values.yaml >}} ) and invalid values will be ignored. | No |
 
 ### OpenSearch Component
 | Field | Type | Description | Required
@@ -313,18 +329,33 @@ To configure OpenSearch, instead of using install args, Oracle recommends that y
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `enabled` | Boolean | If true, then Kiali will be installed. | No |
+| `monitorChanges` | Boolean | If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to `true`. | No |
+| `overrides` | [Overrides](#overrides) list | List of Overrides for the default `values.yaml` file for the component Helm chart. If you pass in multiple Overrides that reference the same values, then Verrazzano will use the final one. You can find all possible values [here]( {{< release_source_url path=platform-operator/thirdparty/charts/kiali-server/values.yaml >}} ) and invalid values will be ignored. | No |
 
 ### Prometheus Operator Component
 | Field     | Type    | Description                                              | Required |
 |-----------|---------|----------------------------------------------------------|----------|
 | `enabled` | Boolean | If true, then the Prometheus Operator will be installed. | No       |
+| `monitorChanges` | Boolean | If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to `true`. | No |
+| `overrides` | [Overrides](#overrides) list | List of Overrides for the default `values.yaml` file for the component Helm chart. If you pass in multiple Overrides that reference the same values, then Verrazzano will use the final one. You can find all possible values [here]( {{< release_source_url path=platform-operator/thirdparty/charts/prometheus-community/kube-prometheus-stack/values.yaml >}} ) and invalid values will be ignored. | No |
 
 ### Prometheus Adapter Component
 | Field     | Type    | Description                                              | Required |
 |-----------|---------|----------------------------------------------------------|----------|
 | `enabled` | Boolean | If true, then the Prometheus Adapter will be installed.  | No       |
+| `monitorChanges` | Boolean | If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to `true`. | No |
+| `overrides` | [Overrides](#overrides) list | List of Overrides for the default `values.yaml` file for the component Helm chart. If you pass in multiple Overrides that reference the same values, then Verrazzano will use the final one. You can find all possible values [here]( {{< release_source_url path=platform-operator/thirdparty/charts/prometheus-community/prometheus-adapter/values.yaml >}} ) and invalid values will be ignored. | No |
 
 ### Kube State Metrics Component
 | Field     | Type    | Description                                         | Required |
 |-----------|---------|-----------------------------------------------------|----------|
 | `enabled` | Boolean | If true, then kube-state-metrics will be installed. | No       |
+| `monitorChanges` | Boolean | If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to `true`. | No |
+| `overrides` | [Overrides](#overrides) list | List of Overrides for the default `values.yaml` file for the component Helm chart. If you pass in multiple Overrides that reference the same values, then Verrazzano will use the final one. You can find all possible values [here]( {{< release_source_url path=platform-operator/thirdparty/charts/prometheus-community/kube-state-metrics/values.yaml >}} ) and invalid values will be ignored. | No |
+
+### Overrides
+| Field | Type | Description | Required
+| --- | --- | --- | --- |
+| `configMapRef` | [ConfigMapKeySelector](https://pkg.go.dev/k8s.io/api/core/v1@v0.23.5#ConfigMapKeySelector) | Selector for ConfigMap containing override data. | No |
+| `secretRef` | [SecretKeySelector](https://pkg.go.dev/k8s.io/api/core/v1@v0.23.5#SecretKeySelector) | Selector for Secret containing override data. | No |
+| `values` | [JSON](https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1@v0.23.5#JSON) | Configure overrides using inline YAML. | No |

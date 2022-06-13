@@ -40,7 +40,7 @@ For example:
 Is translated into:
 
 ```
-controler:
+controller:
    service:
      annotations:
        service.beta.kubernetes.io/oci-load-balancer-shape: 10Mbps
