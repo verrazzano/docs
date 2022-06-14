@@ -70,7 +70,12 @@ pipeline {
         }
 
         stage('Publish documentation to gh-pages') {
-            when { equals expected: true, actual: params.PUBLISH_TO_GH_PAGES }
+            when {
+                anyOf {
+                    branch 'master'
+                    equals expected: true, actual: params.PUBLISH_TO_GH_PAGES }
+                }
+            }
             steps {
                 sh """
                     echo "run site publisher"
