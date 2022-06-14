@@ -27,13 +27,13 @@ apiVersion: install.verrazzano.io/v1alpha1 kind: Verrazzano metadata: name: exam
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/reference/api/verrazzano/verrazzano/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-06-08T11:22:38-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-06-13T15:45:03-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Verrazzano Custom Resource Definition">
 <meta itemprop="description" content="The Verrazzano custom resource contains the configuration information for an installation. Here is a sample Verrazzano custom resource file that uses Oracle Cloud Infrastructure DNS. See other examples here.
 apiVersion: install.verrazzano.io/v1alpha1 kind: Verrazzano metadata: name: example-verrazzano spec: environmentName: env profile: prod components: certManager: certificate: acme: provider: letsEncrypt emailAddress: emailAddress@example.com dns: oci: ociConfigSecret: oci dnsZoneCompartmentOCID: dnsZoneCompartmentOcid dnsZoneOCID: dnsZoneOcid dnsZoneName: my.dns.zone.name ingress: type: LoadBalancer VerrazzanoSpec    Field Type Description Required     environmentName string Name of the installation.">
-<meta itemprop="dateModified" content="2022-06-08T11:22:38-04:00" />
-<meta itemprop="wordCount" content="2218">
+<meta itemprop="dateModified" content="2022-06-13T15:45:03-04:00" />
+<meta itemprop="wordCount" content="3051">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Verrazzano Custom Resource Definition"/>
 <meta name="twitter:description" content="The Verrazzano custom resource contains the configuration information for an installation. Here is a sample Verrazzano custom resource file that uses Oracle Cloud Infrastructure DNS. See other examples here.
@@ -98,7 +98,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.0280be41c4e4d9137fe8ae906d482d21.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.a2af33d0ba99c52b7146560352239232.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -120,7 +120,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.0280be41c4e4d9137fe8ae906d482d21.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.a2af33d0ba99c52b7146560352239232.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -726,6 +726,18 @@ spec:
 <td>The Kubernetes resources than can be configured for AuthProxy.</td>
 <td>No</td>
 </tr>
+<tr>
+<td><code>monitorChanges</code></td>
+<td>Boolean</td>
+<td>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>overrides</code></td>
+<td><a href="#overrides">Overrides</a> list</td>
+<td>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. If you pass in multiple Overrides that reference the same values, then Verrazzano will use the final one. You can find all possible values <a href="https://github.com/verrazzano/verrazzano/blob/master/platform-operator/helm_config/charts/verrazzano-authproxy/values.yaml">here</a> and invalid values will be ignored.</td>
+<td>No</td>
+</tr>
 </tbody>
 </table>
 <h4 id="authproxy-kubernetes-configuration">AuthProxy Kubernetes Configuration</h4>
@@ -768,6 +780,18 @@ spec:
 <td><code>certificate</code></td>
 <td><a href="#certificate">Certificate</a></td>
 <td>The certificate configuration.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>monitorChanges</code></td>
+<td>Boolean</td>
+<td>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>overrides</code></td>
+<td><a href="#overrides">Overrides</a> list</td>
+<td>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. If you pass in multiple Overrides that reference the same values, then Verrazzano will use the final one. You can find all possible values <a href="https://github.com/verrazzano/verrazzano/blob/master/platform-operator/thirdparty/charts/cert-manager/values.yaml">here</a> and invalid values will be ignored.</td>
 <td>No</td>
 </tr>
 </tbody>
@@ -874,6 +898,18 @@ spec:
 <td><code>external</code></td>
 <td><a href="#dns-external">DNS-External</a></td>
 <td>External DNS configuration.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>monitorChanges</code></td>
+<td>Boolean</td>
+<td>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>overrides</code></td>
+<td><a href="#overrides">Overrides</a> list</td>
+<td>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. If you pass in multiple Overrides that reference the same values, then Verrazzano will use the final one. You can find all possible values <a href="https://github.com/verrazzano/verrazzano/blob/master/platform-operator/thirdparty/charts/external-dns/values.yaml">here</a> and invalid values will be ignored.</td>
 <td>No</td>
 </tr>
 </tbody>
@@ -986,6 +1022,18 @@ spec:
 <td><code>ports</code></td>
 <td><a href="#port-config">PortConfig</a> list</td>
 <td>The list port configurations used by the ingress.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>monitorChanges</code></td>
+<td>Boolean</td>
+<td>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>overrides</code></td>
+<td><a href="#overrides">Overrides</a> list</td>
+<td>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. If you pass in multiple Overrides that reference the same values, then Verrazzano will use the final one. You can find all possible values <a href="https://github.com/verrazzano/verrazzano/blob/master/platform-operator/thirdparty/charts/ingress-nginx/values.yaml">here</a> and invalid values will be ignored.</td>
 <td>No</td>
 </tr>
 </tbody>
@@ -1154,6 +1202,18 @@ spec:
 <td>A list of values to use during Istio installation.  Each argument is specified as either a <code>name/value</code> or <code>name/valueList</code> pair.</td>
 <td>No</td>
 </tr>
+<tr>
+<td><code>monitorChanges</code></td>
+<td>Boolean</td>
+<td>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>overrides</code></td>
+<td><a href="#overrides">Overrides</a> list</td>
+<td>List of Overrides for default IstioOperator. If you pass in multiple Overrides that reference the same values, then Verrazzano will use the final one. You can find all possible values <a href="%7B%7Bhttps://istio.io/v1.13/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec%7D%7D">here</a>. Passing through an invalid IstioOperator resource will result in an error.</td>
+<td>No</td>
+</tr>
 </tbody>
 </table>
 <h4 id="istio-ingress-configuration">Istio Ingress Configuration</h4>
@@ -1314,6 +1374,18 @@ spec:
 <td>The Oracle Cloud Infrastructure Logging configuration.</td>
 <td>No</td>
 </tr>
+<tr>
+<td><code>monitorChanges</code></td>
+<td>Boolean</td>
+<td>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>overrides</code></td>
+<td><a href="#overrides">Overrides</a> list</td>
+<td>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. If you pass in multiple Overrides that reference the same values, then Verrazzano will use the final one. You can find all possible values <a href="https://github.com/verrazzano/verrazzano/blob/master/platform-operator/helm_config/charts/verrazzano/values.yaml">here</a> and invalid values will be ignored.</td>
+<td>No</td>
+</tr>
 </tbody>
 </table>
 <h3 id="jaeger-operator-component">Jaeger Operator Component</h3>
@@ -1420,6 +1492,18 @@ spec:
 <td>Contains the MySQL component configuration needed for Keycloak.</td>
 <td>No</td>
 </tr>
+<tr>
+<td><code>monitorChanges</code></td>
+<td>Boolean</td>
+<td>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>overrides</code></td>
+<td><a href="#overrides">Overrides</a> list</td>
+<td>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. If you pass in multiple Overrides that reference the same values, then Verrazzano will use the final one. You can find all possible values <a href="https://github.com/verrazzano/verrazzano/blob/master/platform-operator/thirdparty/charts/keycloak/values.yaml">here</a> and invalid values will be ignored.</td>
+<td>No</td>
+</tr>
 </tbody>
 </table>
 <h3 id="mysql-component">MySQL Component</h3>
@@ -1437,6 +1521,18 @@ spec:
 <td><code>volumeSource</code></td>
 <td><a href="https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/">VolumeSource</a></td>
 <td>Defines the type of volume to be used for persistence for Keycloak/MySQL, and can be one of either <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#emptydirvolumesource-v1-core">EmptyDirVolumeSource</a> or <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core">PersistentVolumeClaimVolumeSource</a>. If <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core">PersistentVolumeClaimVolumeSource</a> is declared, then the <code>claimName</code> must reference the name of a <code>VolumeClaimSpecTemplate</code> declared in the <code>volumeClaimSpecTemplates</code> section.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>monitorChanges</code></td>
+<td>Boolean</td>
+<td>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>overrides</code></td>
+<td><a href="#overrides">Overrides</a> list</td>
+<td>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. If you pass in multiple Overrides that reference the same values, then Verrazzano will use the final one. You can find all possible values <a href="https://github.com/verrazzano/verrazzano/blob/master/platform-operator/thirdparty/charts/mysql/values.yaml">here</a> and invalid values will be ignored.</td>
 <td>No</td>
 </tr>
 </tbody>
@@ -1753,6 +1849,18 @@ spec:
 <td>If true, then Kiali will be installed.</td>
 <td>No</td>
 </tr>
+<tr>
+<td><code>monitorChanges</code></td>
+<td>Boolean</td>
+<td>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>overrides</code></td>
+<td><a href="#overrides">Overrides</a> list</td>
+<td>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. If you pass in multiple Overrides that reference the same values, then Verrazzano will use the final one. You can find all possible values <a href="https://github.com/verrazzano/verrazzano/blob/master/platform-operator/thirdparty/charts/kiali-server/values.yaml">here</a> and invalid values will be ignored.</td>
+<td>No</td>
+</tr>
 </tbody>
 </table>
 <h3 id="prometheus-operator-component">Prometheus Operator Component</h3>
@@ -1770,6 +1878,18 @@ spec:
 <td><code>enabled</code></td>
 <td>Boolean</td>
 <td>If true, then the Prometheus Operator will be installed.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>monitorChanges</code></td>
+<td>Boolean</td>
+<td>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>overrides</code></td>
+<td><a href="#overrides">Overrides</a> list</td>
+<td>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. If you pass in multiple Overrides that reference the same values, then Verrazzano will use the final one. You can find all possible values <a href="https://github.com/verrazzano/verrazzano/blob/master/platform-operator/thirdparty/charts/prometheus-community/kube-prometheus-stack/values.yaml">here</a> and invalid values will be ignored.</td>
 <td>No</td>
 </tr>
 </tbody>
@@ -1791,6 +1911,18 @@ spec:
 <td>If true, then the Prometheus Adapter will be installed.</td>
 <td>No</td>
 </tr>
+<tr>
+<td><code>monitorChanges</code></td>
+<td>Boolean</td>
+<td>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>overrides</code></td>
+<td><a href="#overrides">Overrides</a> list</td>
+<td>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. If you pass in multiple Overrides that reference the same values, then Verrazzano will use the final one. You can find all possible values <a href="https://github.com/verrazzano/verrazzano/blob/master/platform-operator/thirdparty/charts/prometheus-community/prometheus-adapter/values.yaml">here</a> and invalid values will be ignored.</td>
+<td>No</td>
+</tr>
 </tbody>
 </table>
 <h3 id="kube-state-metrics-component">Kube State Metrics Component</h3>
@@ -1808,6 +1940,49 @@ spec:
 <td><code>enabled</code></td>
 <td>Boolean</td>
 <td>If true, then kube-state-metrics will be installed.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>monitorChanges</code></td>
+<td>Boolean</td>
+<td>If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to <code>true</code>.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>overrides</code></td>
+<td><a href="#overrides">Overrides</a> list</td>
+<td>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. If you pass in multiple Overrides that reference the same values, then Verrazzano will use the final one. You can find all possible values <a href="https://github.com/verrazzano/verrazzano/blob/master/platform-operator/thirdparty/charts/prometheus-community/kube-state-metrics/values.yaml">here</a> and invalid values will be ignored.</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<h3 id="overrides">Overrides</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>configMapRef</code></td>
+<td><a href="https://pkg.go.dev/k8s.io/api/core/v1@v0.23.5#ConfigMapKeySelector">ConfigMapKeySelector</a></td>
+<td>Selector for ConfigMap containing override data.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>secretRef</code></td>
+<td><a href="https://pkg.go.dev/k8s.io/api/core/v1@v0.23.5#SecretKeySelector">SecretKeySelector</a></td>
+<td>Selector for Secret containing override data.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>values</code></td>
+<td><a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1@v0.23.5#JSON">JSON</a></td>
+<td>Configure overrides using inline YAML.</td>
 <td>No</td>
 </tr>
 </tbody>
