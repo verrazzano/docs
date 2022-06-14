@@ -73,7 +73,7 @@ pipeline {
             when {
                 anyOf {
                     branch 'master'
-                    equals expected: true, actual: params.PUBLISH_TO_GH_PAGES }
+                    equals expected: true, actual: params.PUBLISH_TO_GH_PAGES
                 }
             }
             steps {
