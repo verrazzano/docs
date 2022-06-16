@@ -111,32 +111,24 @@ The directory structure created by the `k8s-dump-cluster.sh` tool, for a specifi
           services.json
           verrazzano-managed-clusters.json
           verrazzano-projects.json
-          verrazzano_resources.json
           virtualservices.json
           weblogic-domains.json
           directory per pod (a directory at this level is assumed to represent a specific pod)
             logs.txt (includes logs for all containers and initContainers)
-        api-resources.out
-        application-configurations.json
         cluster-issuers.txt
-        coherence.json
         configmap_list.out
         crd.json
         es_indexes.out
-        gateways.json
         helm-ls.json
         helm-version.out
         images-on-nodes.csv
         ingress.json
-        ingress-traits.json
         kubectl-version.json
-        namespace_list.out
         network-policies.json
         network-policies.txt
         nodes.json
         pv.json
-        verrazzano_resources.out
-        virtualservices.json
+        verrazzano_resources.json
 
 The script shows the `kubectl` and `helm` commands which are run. The basic structure, shown previously, is formed by running the command, `$ kubectl cluster-info dump --all-namespaces`, with additional data captured into that directory structure.
 
