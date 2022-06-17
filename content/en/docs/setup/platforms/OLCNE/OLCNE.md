@@ -31,49 +31,44 @@ Security List / Ingress Rules
 | No       | `0.0.0.0/0`  | ICMP    |               |                   | 3, 4      | ICMP errors        |
 | No       | `10.0.0.0/16`| ICMP    |               |                   | 3         | ICMP errors        |
 | No       | `0.0.0.0/0`  | TCP     | All           | 22                |           | SSH                |
-| No       | `0.0.0.0/0`  | TCP     | All           | 80                |           | HTTP load balancer |
 | No       | `0.0.0.0/0`  | TCP     | All           | 443               |           | HTTPS load balancer |
 
 
 Security List / Egress Rules
 
-|Stateless|Destination|Protocol|Source Ports|Destination Ports|Type & Code|Description        |
-|---------|-----------|--------|------------|-----------------|-----------|-------------------|
-|No       |`10.0.1.0/24`|TCP     |All         |22               |           |SSH                |
-|No       |`10.0.1.0/24`|TCP     |All         |30080            |           |HTTP load balancer |
-|No       |`10.0.1.0/24`|TCP     |All         |30443            |           |HTTPS load balancer|
-|No       |`10.0.1.0/24`|TCP     |All         |31380            |           |HTTP load balancer |
-|No       |`10.0.1.0/24`|TCP     |All         |31390            |           |HTTPS load balancer|
+|Stateless|Destination|Protocol|Source Ports| Destination Ports |Type & Code|Description        |
+|---------|-----------|--------|------------|-------------------|-----------|-------------------|
+|No       |`10.0.1.0/24`|TCP     |All         | 22                |           |SSH                |
+|No       |`10.0.1.0/24`|TCP     |All         | 31443             |           |HTTPS load balancer|
+|No       |`10.0.1.0/24`|TCP     |All         | 32443             |           |HTTPS load balancer|
 
 **Private Subnet (for example, CIDR 10.0.1.0/24)**
 
 Security List / Ingress Rules
 
-|Stateless|Destination|Protocol|Source Ports|Destination Ports|Type & Code|Description          |
-|---------|-----------|--------|------------|-----------------|-----------|---------------------|
-|No       |`0.0.0.0/0`  |ICMP    |            |                 |3, 4       |ICMP errors          |
-|No       |`10.0.0.0/16`|ICMP    |            |                 |3          |ICMP errors          |
-|No       |`10.0.0.0/16`|TCP     |All         |22               |           |SSH                  |
-|No       |`10.0.0.0/24`|TCP     |All         |30080            |           |HTTP load balancer   |
-|No       |`10.0.0.0/24`|TCP     |All         |30443            |           |HTTPS load balancer  |
-|No       |`10.0.0.0/24`|TCP     |All         |31380            |           |HTTP load balancer   |
-|No       |`10.0.0.0/24`|TCP     |All         |31390            |           |HTTPS load balancer  |
-|No       |`10.0.1.0/24`UDP      |All         |111              |           |NFS                  |
-|No       |`10.0.1.0/24`|TCP     |All         |111              |           |NFS                  |
-|No       |`10.0.1.0/24`|UDP     |All         |2048             |           |NFS                  |
-|No       |`10.0.1.0/24`|TCP     |All         |2048-2050        |           |NFS                  |
-|No       |`10.0.1.0/24`|TCP     |All         |2379-2380        |           |Kubernetes etcd      |
-|No       |`10.0.1.0/24`|TCP     |All         |6443             |           |Kubernetes API Server|
-|No       |`10.0.1.0/24`|TCP     |All         |6446             |           |MySQL                |
-|No       |`10.0.1.0/24`|TCP     |All         |8090-8091        |           |Oracle Cloud Native Environment Platform Agent |
-|No       |`10.0.1.0/24`|UDP     |All         |8472             |           |Flannel              |
-|No       |`10.0.1.0/24`|TCP     |All         |10250-10255      |           |Kubernetes Kublet    |
+|Stateless| Destination   | Protocol | Source Ports | Destination Ports | Type & Code |Description          |
+|---------|---------------|----------|--------------|-------------------|------------|---------------------|
+|No       | `0.0.0.0/0`   | ICMP     |              |                   | 3, 4       |ICMP errors          |
+|No       | `10.0.0.0/16` | ICMP     |              |                   | 3          |ICMP errors          |
+|No       | `10.0.0.0/16` | TCP      | All          | 22                |            |SSH                  |
+|No       | `10.0.0.0/24` | TCP      | All          | 31443             |            |HTTPS load balancer  |
+|No       | `10.0.0.0/24` | TCP      | All          | 32443             |            |HTTPS load balancer  |
+|No       | `10.0.1.0/24` | UDP      | All          | 111               |            |NFS                  |
+|No       | `10.0.1.0/24` | TCP      | All          | 111               |            |NFS                  |
+|No       | `10.0.1.0/24` | UDP      | All          | 2048              |            |NFS                  |
+|No       | `10.0.1.0/24` | TCP      | All          | 2048-2050         |            |NFS                  |
+|No       | `10.0.1.0/24` | TCP      | All          | 2379-2380         |            |Kubernetes etcd      |
+|No       | `10.0.1.0/24` | TCP      | All          | 6443              |            |Kubernetes API Server|
+|No       | `10.0.1.0/24` | TCP      | All          | 6446              |            |MySQL                |
+|No       | `10.0.1.0/24` | TCP      | All          | 8090-8091         |            |Oracle Cloud Native Environment Platform Agent |
+|No       | `10.0.1.0/24` | UDP      | All          | 8472              |            |Flannel              |
+|No       | `10.0.1.0/24` | TCP      | All          | 10250-10255       |            |Kubernetes Kublet    |
 
 Security List / Egress Rules
 
-|Stateless|Destination|Protocol|Source Ports|Destination Ports|Type and Code|Description       |
-|---------|-----------|--------|------------|-----------------|-------------|------------------|
-|No       |`10.0.0.0/0` |TCP     |            |                 |             |All egress traffic|
+|Stateless| Destination   |Protocol|Source Ports|Destination Ports|Type and Code|Description       |
+|---------|---------------|--------|------------|-----------------|-------------|------------------|
+|No       | `10.0.0.0/16` |TCP     |            |                 |             |All egress traffic|
 
 **DHCP Options**
 
@@ -110,18 +105,18 @@ Other values can be used if required.
 
 | Role                          | Subnet  | Suggested RAM | Compatible VM Shape | Compatible VM Image |
 |-------------------------------|---------|---------------|---------------------|---------------------|
-| SSH Jump Host                 | Public  | 8GB           | VM.Standard.E2.1    | Oracle Linux 7.8    |
-| Oracle Cloud Native Environment Operator Host           | Private | 16GB          | VM.Standard.E2.2    | Oracle Linux 7.8    |
-| Kubernetes Control Plane Node | Private | 32GB          | VM.Standard.E2.4    | Oracle Linux 7.8    |
-| Kubernetes Worker Node 1      | Private | 32GB          | VM.Standard.E2.4    | Oracle Linux 7.8    |
-| Kubernetes Worker Node 2      | Private | 32GB          | VM.Standard.E2.4    | Oracle Linux 7.8    |
-| Kubernetes Worker Node 3      | Private | 32GB          | VM.Standard.E2.4    | Oracle Linux 7.8    |
+| SSH Jump Host                 | Public  | 8GB           | VM.Standard3.Flex    | Oracle Linux 7.9    |
+| Oracle Cloud Native Environment Operator Host           | Private | 16GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
+| Kubernetes Control Plane Node | Private | 32GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
+| Kubernetes Worker Node 1      | Private | 32GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
+| Kubernetes Worker Node 2      | Private | 32GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
+| Kubernetes Worker Node 3      | Private | 32GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
 
 ## Install Oracle Cloud Native Environment
 Deploy Oracle Cloud Native Environment with the Kubernetes module, following instructions from [Oracle Cloud Native Environment: Getting Started](https://docs.oracle.com/en/operating-systems/olcne/).
 * Use a single Kubernetes control plane node.
-* Skip the Kubernetes API load balancer ([3.4.3](https://docs.oracle.com/en/operating-systems/olcne/1.1/start/install-lb.html)).
-* Use private CA certificates ([3.5.3](https://docs.oracle.com/en/operating-systems/olcne/1.1/start/certs-private.html)).
+* Skip the Kubernetes API load balancer ([load balancer](https://docs.oracle.com/en/operating-systems/olcne/1.5/start/install.html#install-lb)).
+* Use private CA certificates ([private certs](https://docs.oracle.com/en/operating-systems/olcne/1.5/start/install.html#certs-private)).
 
 ## Prepare for the Verrazzano installation
 
@@ -131,9 +126,6 @@ A Verrazzano Oracle Cloud Native Environment deployment requires:
     * A hardware-based storage system that provides NFS capabilities.
 * Load balancers in front of the worker nodes in the cluster.
 * DNS records that reference the load balancers.
-
-**NOTE**: The target ports for the load balancer backends cannot be determined until you install Verrazzano.  
-You can create the load balancers before you install, but post-installation configuration is required.
 
 Examples for meeting these requirements follow.
 
@@ -282,86 +274,16 @@ These will not automatically be provided by Verrazzano or Kubernetes.
 Two load balancers must be deployed outside of the subnet used for the Kubernetes cluster.
 One load balancer is for management traffic and the other for application traffic.
 
-Specific steps will differ for each load balancer provider, but a generic configuration and an Oracle Cloud Infrastructure example follow.
+Specific steps will differ for each load balancer provider. 
+Instructions for Oracle Cloud Infrastructure example:
+1. Create a LoadBalancer and it should be in the same VCN as the kubernetes cluster nodes.
+2. For the listener and backend set ports refer to [External Load Balancers document]({{< relref "/docs/setup/customizing/externalLBs.md" >}}).
 
-#### Generic configuration:
-
-* Target Host: Host names of Kubernetes worker nodes
-* Target Ports: See table
-* External Ports: See table
-* Distribution: Round-robin
-* Health Check: TCP
-
-##### Backend for management load balancer
-You must install Verrazzano to get the target ports for each load balancer backend.
-In the following table, those ports are marked TBD. Run the following command to get the target
-ports for the NGINX Ingress Controller:
-```
-$ kubectl get service ingress-controller-ingress-nginx-controller -n ingress-nginx
-```
-In the `PORT(S)` column you will see the target port associated with port 80 and 443, for example: `80:30080/TCP,443:30443`.  
-Use these target port values for the NGINX Ingress Controller load balancer backend.
-
-| Service Name                                  | Type  |  External Port          | Target Port |
-|---------------------------------------------|-------|-------------------------|-------------|
-`ingress-controller-nginx-ingress-controller` | TCP   | 80                      | TBD         |  
-`ingress-controller-nginx-ingress-controller` | TCP   | 443                     | TBD         |  
-
-##### Backend for application load balancer
-Get the target ports for the Istio ingress gateway service using the following command:
-```
-$ kubectl get service  istio-ingressgateway  -n  istio-system
-```
-Use these port values for the Istio ingress gateway load balancer backend.
-
-| Service Name                                  | Type  |  External Port          | Target Port |
-|-----------------------------------------------|-------|-------------------------|-------------|
-| `istio-ingressgateway`                        | TCP   | 80                      | TBD         |
-| `istio-ingressgateway`                        | TCP   | 443                     | TBD         |
-
-
-#### Oracle Cloud Infrastructure example
-You can use the following details to create Oracle Cloud Infrastructure load balancers for accessing application and management user interfaces, respectively.
-These load balancers will route HTTP/HTTPS traffic from the Internet to the private subnet.
-If load balancers are desired, then they should be created now even though the application and management endpoints will be installed later.
-
-**NOTE**: In the following list, the using port 0 for the health check indicates that the backend ports should be used.
-
-* Application Load Balancer: Public Subnet
-  * Listeners
-    * HTTP Listener: Protocol TCP, Port 80
-    * HTTPS Listener: Protocol TCP, Port 443
-  * Backend Sets
-    * HTTP Backend Sets:
-      * Health Check: Protocol TCP, Port 0
-      * Backends: Kubernetes Worker Nodes, Port TBD, Distribution Policy Weighted Round Robin
-    * HTTPS Backend Sets
-      * Health Check: Protocol TCP, Port 0
-      * Backends: Kubernetes Worker Nodes, Port TBD, Distribution Policy Weighted Round Robin
-* Management Load Balancer: Public Subnet
-  * Listeners
-    * HTTP Listener: Protocol TCP, Port 80
-    * HTTPS Listener: Protocol TCP, Port 443
-  * Backend Sets
-    * HTTP Backend Sets:
-      * Health Check: Protocol TCP, Port 0
-      * Backends: Kubernetes Worker Nodes, Port TBD, Distribution Policy Weighted Round Robin
-    * HTTPS Backend Sets
-      * Health Check: Protocol TCP, Port 0
-      * Backends: Kubernetes Worker Nodes, Port TBD, Distribution Policy Weighted Round Robin
-
-#### Configuring self-signed certificate for the load balancer
-To configure an HTTPS listener or an HTTPS backend, you must configure an SSL certificate as described in [SSL Certificate for Load Balancers](https://docs.oracle.com/en-us/iaas/Content/Balance/Tasks/managingcertificates.htm).
-
-When the SSL certificate being configured as the Load Balancer Managed Certificate is a self-signed certificate, then the certificate should also be added as the CA certificate on the <i>Add Certificate</i> page in the Oracle Cloud Infrastructure Console.
-![](/docs/images/olcne-lb-self-signed-cert.png)
 
 ### DNS
 When using the Verrazzano`spec.components.dns.external` DNS type, the installer searches the DNS zone you provide for two specific A records.
 These are used to configure the cluster and should refer to external addresses of the load balancers in the previous step.
 The A records will need to be created manually.
-
-**NOTE**: At this time, the only supported deployment for Oracle Cloud Native Environment is the external DNS type.
 
 |Record             | Use                                                                                              |
 |-------------------|--------------------------------------------------------------------------------------------------|
@@ -374,7 +296,7 @@ For example:
 203.0.113.10                                    A       ingress-verrazzano.myenv.example.com.
 ```
 
-Verrazzano installation will result in a number of management services that need to point to the `ingress-mgmt` address.
+When using externlaDNS, the following DNS CNAME records need to be added and should point to the `ingress-mgmt` address.
 ```
 verrazzano.myenv.example.com                    CNAME   ingress-mgmt.myenv.example.com.
 keycloak.myenv.example.com                      CNAME   ingress-mgmt.myenv.example.com.
@@ -393,7 +315,7 @@ For simplicity, an administrator may want to create [wildcard DNS records](https
 ```
 OR
 ```
-*.myenv.example.com                             CNAME   ingress-mgmt.myenv.example.com.
+*.myenv.example.com                             CNAME   ingress-verrazzano.myenv.example.com.
 ```
 #### Oracle Cloud Infrastructure example
 DNS is configured in Oracle Cloud Infrastructure by creating DNS zones in the Oracle Cloud Infrastructure Console.
