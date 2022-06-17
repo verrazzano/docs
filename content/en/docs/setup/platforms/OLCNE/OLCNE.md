@@ -275,9 +275,9 @@ Two load balancers must be deployed outside of the subnet used for the Kubernete
 One load balancer is for management traffic and the other for application traffic.
 
 Specific steps will differ for each load balancer provider. 
-Instructions for Oracle Cloud Infrastructure example:
-1. Create a LoadBalancer and it should be in the same VCN as the kubernetes cluster nodes.
-2. For the listener and backend set ports refer to [External Load Balancers document]({{< relref "/docs/setup/customizing/externalLBs.md" >}}).
+Instructions for the Oracle Cloud Infrastructure example:
+1. Create a load balancer; and it should be in the same VCN as the Kubernetes cluster nodes.
+2. For the listener and backend set ports, refer to [External Load Balancers]({{< relref "/docs/setup/customizing/externalLBs.md" >}}).
 
 
 ### DNS
@@ -296,7 +296,7 @@ For example:
 203.0.113.10                                    A       ingress-verrazzano.myenv.example.com.
 ```
 
-When using externlaDNS, the following DNS CNAME records need to be added and should point to the `ingress-mgmt` address.
+When using externalDNS, the following DNS CNAME records need to be added and should point to the `ingress-mgmt` address.
 ```
 verrazzano.myenv.example.com                    CNAME   ingress-mgmt.myenv.example.com.
 keycloak.myenv.example.com                      CNAME   ingress-mgmt.myenv.example.com.
