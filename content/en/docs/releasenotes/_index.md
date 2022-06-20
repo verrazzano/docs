@@ -4,6 +4,17 @@ linkTitle: Release Notes
 weight: 13
 draft: false
 ---
+### v1.3.1
+Fixes:
+
+- Resolved an issue where Verrazzano uninstall deleted additional namespaces when deleting Rancher components
+- Added liveness probe for the AuthProxy NGINX server
+- Added support for using Services as Workloads
+- Added support for arbitrary Helm values overrides
+- Added support for post-install Helm upgrades to ConfigMaps, Secrets, and values in the Verrazzano CR
+- Added support for JWT authentication and authorization policy specification for an applicaiton
+- Added support for Prometheus ServiceMonitor and PodMonitor CRs using Prometheus Operator
+
 ### v1.3.0
 Features:
 
