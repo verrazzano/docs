@@ -281,6 +281,8 @@ Instructions for the Oracle Cloud Infrastructure example:
 
 
 ### DNS
+Both magic DNS and external DNS are supported in Oracle Cloud Native Environment.
+
 When using the Verrazzano`spec.components.dns.external` DNS type, the installer searches the DNS zone you provide for two specific A records.
 These are used to configure the cluster and should refer to external addresses of the load balancers in the previous step.
 The A records will need to be created manually.
@@ -308,12 +310,7 @@ kiali.vmi.system.myenv.example.com              CNAME   ingress-mgmt.myenv.examp
 kibana.vmi.system.myenv.example.com             CNAME   ingress-mgmt.myenv.example.com.
 elasticsearch.vmi.system.myenv.example.com      CNAME   ingress-mgmt.myenv.example.com.
 ```
-
-For simplicity, an administrator may want to create [wildcard DNS records](https://tools.ietf.org/html/rfc1034#section-4.3.3) for the management addresses:
-```
-*.system.myenv.example.com                      CNAME   ingress-mgmt.myenv.example.com.
-```
-OR
+For accessing applications, the following CNAME records need to be added.
 ```
 *.myenv.example.com                             CNAME   ingress-verrazzano.myenv.example.com.
 ```
@@ -327,9 +324,7 @@ When creating a DNS zone, use these values:
 The value for `<dns-suffix>` excludes the environment (for example, use the `example.com` portion of `myenv.example.com`).
 
 DNS A records must be manually added to the zone and published using values described previously.
-DNS CNAME records, in the same way.
-
-
+DNS CNAME records also must be addedd manually, in the same way.
 
 During the Verrazzano installation, these steps should be performed on the Oracle Cloud Native Environment operator node.
 
