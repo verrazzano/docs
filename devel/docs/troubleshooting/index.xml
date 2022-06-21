@@ -124,6 +124,9 @@ use the following steps to troubleshoot:&lt;/p&gt;
 &lt;li&gt;Check the multicluster resource&amp;rsquo;s status field on the admin cluster to know what the status of that resource is
 on each managed cluster to which it is targeted.&lt;/li&gt;
 &lt;/ul&gt;
+&lt;p&gt;If you update the &lt;a href=&#34;../../docs/setup/customizing/dns/&#34;&gt;DNS&lt;/a&gt; of the admin cluster and notice that the
+managed cluster status is unavailable in the Rancher console, along with the error &lt;code&gt;x509: certificate is valid for &amp;lt;rancher new url&amp;gt;, not &amp;lt;rancher old url&amp;gt;&lt;/code&gt; seen in the &lt;code&gt;cattle-cluster-agent&lt;/code&gt; (Rancher Agent) logs on the
+managed cluster, then re-register the managed cluster, as described &lt;a href=&#34;#re-register-the-managed-cluster&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;verify-managed-cluster-registration-and-connectivity&#34;&gt;Verify managed cluster registration and connectivity&lt;/h2&gt;
 &lt;p&gt;You can verify that a managed cluster was successfully registered with an admin cluster by viewing the
 corresponding VerrazzanoManagedCluster (VMC) resource on the admin cluster. For example, to verify that a managed cluster
@@ -210,6 +213,45 @@ output:&lt;/p&gt;
       type: DeployComplete
     state: Succeeded
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The status message contains additional information on the operation&amp;rsquo;s success or failure.&lt;/p&gt;
+&lt;h2 id=&#34;re-register-the-managed-cluster&#34;&gt;Re-register the managed cluster&lt;/h2&gt;
+&lt;p&gt;Perform the following steps to re-register the managed cluster with the admin cluster. The cluster against which to run
+the command is indicated in each code block.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;On the admin cluster, export the register YAML file newly created on the admin cluster to re-register the
+managed cluster.
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the admin cluster
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+    get secret verrazzano-cluster-managed1-manifest \
+    -n verrazzano-mc \
+    -o jsonpath={.data.yaml} | base64 --decode &amp;gt; register_new.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;On the managed cluster, apply the registration file exported in the previous step.
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the managed cluster
+$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
+    apply -f register_new.yaml
+
+# Once the command succeeds, you may delete the register_new.yaml file
+$ rm register_new.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;On the admin cluster, run &lt;code&gt;kubectl patch clusters.management.cattle.io&lt;/code&gt; to trigger redeployment of the Rancher agent
+on the managed cluster.
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the admin cluster
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+    get clusters.management.cattle.io
+
+# Sample output
+NAME      AGE
+c-mzb2h   4h48m
+local     4h56m
+
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \ 
+    patch clusters.management.cattle.io &amp;lt;the managed cluster name from the above output&amp;gt; \
+    -p &amp;#39;{&amp;#34;status&amp;#34;:{&amp;#34;agentImage&amp;#34;:&amp;#34;dummy&amp;#34;}}&amp;#39; --type merge
+
+# Sample output
+cluster.management.cattle.io/c-mzb2h patched
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
 
       </description>
     </item>
