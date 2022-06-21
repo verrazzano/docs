@@ -10,7 +10,7 @@ Fixes:
 - Resolved an issue where the Verrazzano uninstall deleted additional namespaces when deleting Rancher components.
 - Added liveness probe for the AuthProxy NGINX server.
 - Added support for using Services as workloads.
-- Added support for post install updates to arbitrary helm value overrides sources such as ConfigMaps, Secrets and Values referenced in the Verrazzano CR.
+- Added support for post-installation updates to arbitrary Helm value overrides sources, such as ConfigMaps, Secrets, and Values referenced in the Verrazzano CR.
 - Added support for JWT authentication and authorization policy specification for applications.
 - Added support for Prometheus ServiceMonitor and PodMonitor CRs deployed using Prometheus Operator.
 - Updated Keycloak image to fix CVEs.
