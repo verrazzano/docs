@@ -221,7 +221,7 @@ spec:
 | `elasticsearchSecret` | string | The secret containing the credentials for connecting to OpenSearch.  This secret needs to be created in the `verrazzano-install` namespace prior to creating the Verrazzano custom resource.  Specify the OpenSearch login credentials in the `username` and `password` fields in this secret.  Specify the CA for verifying the OpenSearch certificate in the `ca-bundle` field, if applicable.  The default `verrazzano` is the secret for connecting to the VMI OpenSearch. | No |
 | `oci` | [OCILoggingConfiguration](#oci-logging-configuration) | The Oracle Cloud Infrastructure Logging configuration. | No |
 | `monitorChanges` | Boolean | If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to `true`. | No |
-| `overrides` | [Overrides](#overrides) list | List of Overrides for the default `values.yaml` file for the component Helm chart. If you pass in multiple Overrides that reference the same values, then Verrazzano will use the final one. You can find all possible values [here]( {{< release_source_url path=platform-operator/helm_config/charts/verrazzano/values.yaml >}} ) and invalid values will be ignored. | No |
+| `overrides` | [Overrides](#overrides) list | List of Overrides for the default `values.yaml` file for the component Helm chart. If you pass in multiple Overrides that reference the same values, then Verrazzano will use the final one. You can find all possible values [here]( {{< release_source_url path=platform-operator/helm_config/charts/verrazzano-fluentd/values.yaml >}} ) and invalid values will be ignored. | No |
 
 ### Jaeger Operator Component
 | Field | Type | Description | Required
