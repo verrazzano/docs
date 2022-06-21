@@ -8,8 +8,8 @@ draft: false
 Fixes:
 
 - Resolved an issue where the Verrazzano uninstall deleted additional namespaces when deleting Rancher components.
-- Added liveness probe for the AuthProxy NGINX server.
 - Fixed IngressTrait Controller to support Services as workloads.
+- Added liveness probe for the AuthProxy NGINX server.
 - Added support for dynamic configuration overrides to Verrazzano components from various monitored sources, including ConfigMaps, Secrets, and Values referenced in the Verrazzano CR.
 - Added support for JWT authentication and authorization policy specification for applications.
 - Added support for Prometheus ServiceMonitor and PodMonitor CRs deployed using Prometheus Operator.
