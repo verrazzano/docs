@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/troubleshooting/troubleshooting-multicluster/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-06-08T11:33:16-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-06-21T21:15:03+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Multicluster Verrazzano">
 <meta itemprop="description" content="Troubleshoot issues with multicluster setup and applications">
-<meta itemprop="dateModified" content="2022-06-08T11:33:16-04:00" />
-<meta itemprop="wordCount" content="662">
+<meta itemprop="dateModified" content="2022-06-21T21:15:03+05:30" />
+<meta itemprop="wordCount" content="907">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Multicluster Verrazzano"/>
 <meta name="twitter:description" content="Troubleshoot issues with multicluster setup and applications"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.5128971278c9d7f8eda27b5d9f21db7c.json"
+  data-offline-search-index-json-src="../../../offline-search-index.f5b01416c7a5cfee42a38476d94b1ec1.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.5128971278c9d7f8eda27b5d9f21db7c.json"
+  data-offline-search-index-json-src="../../../offline-search-index.f5b01416c7a5cfee42a38476d94b1ec1.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -425,6 +425,7 @@ if (!doNotTrack) {
         <li><a href="#verify-managed-cluster-registration-and-connectivity">Verify managed cluster registration and connectivity</a></li>
         <li><a href="#verify-verrazzanoproject-placement">Verify VerrazzanoProject placement</a></li>
         <li><a href="#check-the-multicluster-resource-status">Check the multicluster resource status</a></li>
+        <li><a href="#re-register-the-managed-cluster">Re-register the managed cluster</a></li>
       </ul>
     </li>
   </ul>
@@ -499,6 +500,9 @@ use the following steps to troubleshoot:</p>
 <li>Check the multicluster resource&rsquo;s status field on the admin cluster to know what the status of that resource is
 on each managed cluster to which it is targeted.</li>
 </ul>
+<p>If you update the <a href="../../../docs/setup/customizing/dns/">DNS</a> of the admin cluster and notice that the
+managed cluster status is unavailable in the Rancher console, along with the error <code>x509: certificate is valid for &lt;rancher new url&gt;, not &lt;rancher old url&gt;</code> seen in the <code>cattle-cluster-agent</code> (Rancher Agent) logs on the
+managed cluster, then re-register the managed cluster, as described <a href="#re-register-the-managed-cluster">here</a>.</p>
 <h2 id="verify-managed-cluster-registration-and-connectivity">Verify managed cluster registration and connectivity</h2>
 <p>You can verify that a managed cluster was successfully registered with an admin cluster by viewing the
 corresponding VerrazzanoManagedCluster (VMC) resource on the admin cluster. For example, to verify that a managed cluster
@@ -585,6 +589,45 @@ output:</p>
       type: DeployComplete
     state: Succeeded
 </code></pre><p>The status message contains additional information on the operation&rsquo;s success or failure.</p>
+<h2 id="re-register-the-managed-cluster">Re-register the managed cluster</h2>
+<p>Perform the following steps to re-register the managed cluster with the admin cluster. The cluster against which to run
+the command is indicated in each code block.</p>
+<ol>
+<li>On the admin cluster, export the register YAML file newly created on the admin cluster to re-register the
+managed cluster.
+<pre tabindex="0"><code># On the admin cluster
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+    get secret verrazzano-cluster-managed1-manifest \
+    -n verrazzano-mc \
+    -o jsonpath={.data.yaml} | base64 --decode &gt; register_new.yaml
+</code></pre></li>
+<li>On the managed cluster, apply the registration file exported in the previous step.
+<pre tabindex="0"><code># On the managed cluster
+$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
+    apply -f register_new.yaml
+
+# Once the command succeeds, you may delete the register_new.yaml file
+$ rm register_new.yaml
+</code></pre></li>
+<li>On the admin cluster, run <code>kubectl patch clusters.management.cattle.io</code> to trigger redeployment of the Rancher agent
+on the managed cluster.
+<pre tabindex="0"><code># On the admin cluster
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+    get clusters.management.cattle.io
+
+# Sample output
+NAME      AGE
+c-mzb2h   4h48m
+local     4h56m
+
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \ 
+    patch clusters.management.cattle.io &lt;the managed cluster name from the above output&gt; \
+    -p &#39;{&#34;status&#34;:{&#34;agentImage&#34;:&#34;dummy&#34;}}&#39; --type merge
+
+# Sample output
+cluster.management.cattle.io/c-mzb2h patched
+</code></pre></li>
+</ol>
 
 	
 		<style>
