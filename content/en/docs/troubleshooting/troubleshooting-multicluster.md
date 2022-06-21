@@ -142,7 +142,7 @@ the command is indicated in each code block.
        -n verrazzano-mc \
        -o jsonpath={.data.yaml} | base64 --decode > register_new.yaml
    ```
-2. On the managed cluster, apply the registration file exported in the previous step, on the managed cluster.
+2. On the managed cluster, apply the registration file exported in the previous step.
    ```
    # On the managed cluster
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
@@ -151,8 +151,8 @@ the command is indicated in each code block.
    # Once the command succeeds, you may delete the register_new.yaml file
    $ rm register_new.yaml
    ```
-3. On the admin cluster, run `kubectl patch clusters.management.cattle.io` on the admin cluster to trigger redeployment
-   of the Rancher agent on the managed cluster.
+3. On the admin cluster, run `kubectl patch clusters.management.cattle.io` to trigger redeployment of the Rancher agent
+   on the managed cluster.
    ```
    # On the admin cluster
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
