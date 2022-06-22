@@ -181,7 +181,7 @@ spec:
 | `istioEgress` | [IstioEgress](#istio-egress-configuration) | The Istio egress gateway configuration. | No |
 | `istioInstallArgs` | [IstioInstallArgs](#istio-install-args) list | A list of values to use during Istio installation.  Each argument is specified as either a `name/value` or `name/valueList` pair. | No |
 | `monitorChanges` | Boolean | If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to `true`. | No |
-| `overrides` | [Overrides](#overrides) list | List of Overrides for default IstioOperator. Lower Overrides have precedence over the ones above them. You can find all possible values [here]( {{https://istio.io/v1.13/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec}} ). Passing through an invalid IstioOperator resource will result in an error. | No |
+| `overrides` | [Overrides](#overrides) list | List of Overrides for default IstioOperator. Lower Overrides have precedence over the ones above them. You can find all possible values [here](https://istio.io/v1.13/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec). Passing through an invalid IstioOperator resource will result in an error. | No |
 
 #### Istio Ingress Configuration
 
