@@ -281,7 +281,7 @@ Instructions for the Oracle Cloud Infrastructure example:
 
 
 ### DNS
-Both wildcard DNS and external DNS are supported in Oracle Cloud Native Environment. If using wildcard DNS, skip this section and go to [Next steps](#next steps)
+Both wildcard DNS and external DNS are supported in Oracle Cloud Native Environment. If using wildcard DNS, skip this section and go to [Next steps](#next-steps).
 
 When using the Verrazzano`spec.components.dns.external` DNS type, the installer searches the DNS zone you provide for two specific A records.
 These are used to configure the cluster and should refer to external addresses of the load balancers in the previous step.
