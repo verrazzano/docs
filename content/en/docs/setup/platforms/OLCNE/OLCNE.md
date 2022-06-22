@@ -42,7 +42,7 @@ Security List / Egress Rules
 |No       |`10.0.1.0/24`|TCP     |All         | 31443             |           |HTTPS load balancer|
 |No       |`10.0.1.0/24`|TCP     |All         | 32443             |           |HTTPS load balancer|
 
-**Private Subnet for kubernetes cluster(for example, CIDR 10.0.1.0/24)**
+**Private Subnet for Kubernetes cluster (for example, CIDR 10.0.1.0/24)**
 
 Security List / Ingress Rules
 
