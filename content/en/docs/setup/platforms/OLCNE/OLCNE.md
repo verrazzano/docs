@@ -281,7 +281,7 @@ Instructions for the Oracle Cloud Infrastructure example:
 
 
 ### DNS
-Both magic DNS and external DNS are supported in Oracle Cloud Native Environment.
+Both wildcard DNS and external DNS are supported in Oracle Cloud Native Environment. If using wildcard DNS, skip this section and go to [Next steps](#next steps)
 
 When using the Verrazzano`spec.components.dns.external` DNS type, the installer searches the DNS zone you provide for two specific A records.
 These are used to configure the cluster and should refer to external addresses of the load balancers in the previous step.
@@ -294,8 +294,8 @@ The A records will need to be created manually.
 
 For example:
 ```
-198.51.100.10                                   A       ingress-mgmt.myenv.example.com.
-203.0.113.10                                    A       ingress-verrazzano.myenv.example.com.
+11.22.33.44                                   A       ingress-mgmt.myenv.example.com.
+11.22.33.55                                    A       ingress-verrazzano.myenv.example.com.
 ```
 
 When using externalDNS, the following DNS CNAME records need to be added and should point to the `ingress-mgmt` address.

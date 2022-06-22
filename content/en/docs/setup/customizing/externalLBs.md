@@ -75,5 +75,5 @@ spec:
       istioInstallArgs:
       - name: gateways.istio-ingressgateway.externalIPs
         valueList:
-        - 55.66.77.88
+        - 11.22.33.55
 ```
