@@ -22,7 +22,7 @@ Additional security lists/rules, as detailed in the following sections, need to 
 All Classless Inter-Domain Routing (CIDR) values provided are examples and can be customized as required.
 
 ### Virtual Cloud Network (for example, CIDR 10.0.0.0/16)
-**Public Subnet (for example, CIDR 10.0.0.0/24)**
+**Public Subnet for Load balancer (for example, CIDR 10.0.0.0/24)**
 
 Security List / Ingress Rules
 
@@ -42,7 +42,7 @@ Security List / Egress Rules
 |No       |`10.0.1.0/24`|TCP     |All         | 31443             |           |HTTPS load balancer|
 |No       |`10.0.1.0/24`|TCP     |All         | 32443             |           |HTTPS load balancer|
 
-**Private Subnet (for example, CIDR 10.0.1.0/24)**
+**Private Subnet for kubernetes cluster(for example, CIDR 10.0.1.0/24)**
 
 Security List / Ingress Rules
 
@@ -201,73 +201,6 @@ The value for `name` may be customized but will need to match the PersistentVolu
   done
   ```
 
-#### Configuring custom recycler Pod template
-
-When a Verrazzano installation is [deleted]({{< relref "/docs/setup/uninstall/uninstall.md" >}}), the `PersistentVolumes` created in the preceding section are recycled by Kubernetes. As explained [here](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#recycle), Kubernetes platforms like Oracle Cloud Native Environment can have a custom recycler Pod defined. This Pod could require access to images which may not be available to the environment. For example, in the case of [local registry setup]({{< relref "/docs/setup/private-registry/private-registry.md" >}}) without access to the public Internet, the Pod previously defined will fail to start because it will not be able to pull the public `k8s.gcr.io/busybox` image. In such cases, it is required to have the specified container image locally on the Kubernetes node or in the local registry and use the argument `--pv-recycler-pod-template-filepath-nfs` to specify a custom Pod template for the recycler.
-
-For example, to configure the recycler Pod template on an Oracle Cloud Native Environment based Verrazzano cluster:
-1. Configure the recycler Pod template as a `ConfigMap` entry.
-    ```
-    apiVersion: v1
-    kind: ConfigMap
-    metadata:
-    name: recycler-pod-config
-    namespace: kube-system
-    data:
-    recycler-pod.yaml: |
-        apiVersion: v1
-        kind: Pod
-        metadata:
-        name: pv-recycler
-        namespace: default
-        spec:
-        restartPolicy: Never
-        volumes:
-        - name: vol
-            hostPath:
-            path: /any/path/it/will/be/replaced
-        containers:
-        - name: pv-recycler
-            # busybox image from local registry
-            image: "local-registry/busybox"
-            command: ["/bin/sh", "-c", "test -e /scrub && rm -rf /scrub/..?* /scrub/.[!.]* /scrub/*  && test -z \"$(ls -A /scrub)\" || exit 1"]
-            volumeMounts:
-            - name: vol
-            mountPath: /scrub
-    ```
-2. Edit the `kube-controller-manager` Pod in the `kube-system` namespace.
-    ```
-    $ kubectl edit pod kube-controller-manager-xxxxx -n kube-system
-    ```
-   Alternatively, you can edit the manifest file at `/etc/kubernetes/manifests/kube-controller-manager.yaml` on the control-plane node.
-3. Add the ConfigMap `recycler-pod-config` as a `volume` to the Pod spec.
-4. Add the ConfigMap entry `recycler-pod.yaml` as a `volumeMount` to the Pod spec.
-5. Add the `--pv-recycler-pod-template-filepath-nfs` argument to the `command`, with value as `mountPath` of `recycler-pod.yaml` in the Pod.
-    ```
-    apiVersion: v1
-    kind: Pod
-    ...
-    spec:
-    containers:
-    - command:
-        - kube-controller-manager
-        - --allocate-node-cidrs=true
-        ...
-        - --pv-recycler-pod-template-filepath-nfs=/etc/recycler-pod.yaml
-        ...
-        volumeMounts:
-        ...
-        - name: recycler-config-volume
-        mountPath: /etc/recycler-pod.yaml
-        subPath: recycler-pod.yaml   
-    ...
-    volumes:
-    ...
-    - name: recycler-config-volume
-        configMap:
-            name: recycler-pod-config
-    ```
-
 ### Load balancers
 Verrazzano on Oracle Cloud Native Environment uses external load balancer services.
 These will not automatically be provided by Verrazzano or Kubernetes.
@@ -276,7 +209,7 @@ One load balancer is for management traffic and the other for application traffi
 
 Specific steps will differ for each load balancer provider. 
 Instructions for the Oracle Cloud Infrastructure example:
-1. Create a load balancer; and it should be in the same VCN as the Kubernetes cluster nodes.
+1. Create a load balancer to use the public subnet of the VCN described earlier.
 2. For the listener and backend set ports, refer to [External Load Balancers]({{< relref "/docs/setup/customizing/externalLBs.md" >}}).
 
 
@@ -295,7 +228,7 @@ The A records will need to be created manually.
 For example:
 ```
 11.22.33.44                                   A       ingress-mgmt.myenv.example.com.
-11.22.33.55                                    A       ingress-verrazzano.myenv.example.com.
+11.22.33.55                                   A       ingress-verrazzano.myenv.example.com.
 ```
 
 When using externalDNS, the following DNS CNAME records need to be added and should point to the `ingress-mgmt` address.
