@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/platforms/olcne/olcne/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-06-08T11:22:38-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-06-22T14:50:18-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Oracle Cloud Native Environment">
 <meta itemprop="description" content="Instructions for setting up an Oracle Cloud Native Environment cluster for Verrazzano">
-<meta itemprop="dateModified" content="2022-06-08T11:22:38-04:00" />
-<meta itemprop="wordCount" content="2448">
+<meta itemprop="dateModified" content="2022-06-22T14:50:18-04:00" />
+<meta itemprop="wordCount" content="1649">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Oracle Cloud Native Environment"/>
 <meta name="twitter:description" content="Instructions for setting up an Oracle Cloud Native Environment cluster for Verrazzano"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.26160ef6340b0e476d29a6f6de3e423a.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.a1ba968712eb096afbe27c7e3d74581b.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.26160ef6340b0e476d29a6f6de3e423a.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.a1ba968712eb096afbe27c7e3d74581b.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -508,7 +508,7 @@ If other environments are used, the capacity and configuration should be similar
 Additional security lists/rules, as detailed in the following sections, need to be added manually.
 All Classless Inter-Domain Routing (CIDR) values provided are examples and can be customized as required.</p>
 <h3 id="virtual-cloud-network-for-example-cidr-1000016">Virtual Cloud Network (for example, CIDR 10.0.0.0/16)</h3>
-<p><strong>Public Subnet (for example, CIDR 10.0.0.0/24)</strong></p>
+<p><strong>Public Subnet for Load balancer (for example, CIDR 10.0.0.0/24)</strong></p>
 <p>Security List / Ingress Rules</p>
 <table>
 <thead>
@@ -549,15 +549,6 @@ All Classless Inter-Domain Routing (CIDR) values provided are examples and can b
 <td>22</td>
 <td></td>
 <td>SSH</td>
-</tr>
-<tr>
-<td>No</td>
-<td><code>0.0.0.0/0</code></td>
-<td>TCP</td>
-<td>All</td>
-<td>80</td>
-<td></td>
-<td>HTTP load balancer</td>
 </tr>
 <tr>
 <td>No</td>
@@ -598,16 +589,7 @@ All Classless Inter-Domain Routing (CIDR) values provided are examples and can b
 <td><code>10.0.1.0/24</code></td>
 <td>TCP</td>
 <td>All</td>
-<td>30080</td>
-<td></td>
-<td>HTTP load balancer</td>
-</tr>
-<tr>
-<td>No</td>
-<td><code>10.0.1.0/24</code></td>
-<td>TCP</td>
-<td>All</td>
-<td>30443</td>
+<td>31443</td>
 <td></td>
 <td>HTTPS load balancer</td>
 </tr>
@@ -616,22 +598,13 @@ All Classless Inter-Domain Routing (CIDR) values provided are examples and can b
 <td><code>10.0.1.0/24</code></td>
 <td>TCP</td>
 <td>All</td>
-<td>31380</td>
-<td></td>
-<td>HTTP load balancer</td>
-</tr>
-<tr>
-<td>No</td>
-<td><code>10.0.1.0/24</code></td>
-<td>TCP</td>
-<td>All</td>
-<td>31390</td>
+<td>32443</td>
 <td></td>
 <td>HTTPS load balancer</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Private Subnet (for example, CIDR 10.0.1.0/24)</strong></p>
+<p><strong>Private Subnet for Kubernetes cluster (for example, CIDR 10.0.1.0/24)</strong></p>
 <p>Security List / Ingress Rules</p>
 <table>
 <thead>
@@ -678,16 +651,7 @@ All Classless Inter-Domain Routing (CIDR) values provided are examples and can b
 <td><code>10.0.0.0/24</code></td>
 <td>TCP</td>
 <td>All</td>
-<td>30080</td>
-<td></td>
-<td>HTTP load balancer</td>
-</tr>
-<tr>
-<td>No</td>
-<td><code>10.0.0.0/24</code></td>
-<td>TCP</td>
-<td>All</td>
-<td>30443</td>
+<td>31443</td>
 <td></td>
 <td>HTTPS load balancer</td>
 </tr>
@@ -696,27 +660,18 @@ All Classless Inter-Domain Routing (CIDR) values provided are examples and can b
 <td><code>10.0.0.0/24</code></td>
 <td>TCP</td>
 <td>All</td>
-<td>31380</td>
-<td></td>
-<td>HTTP load balancer</td>
-</tr>
-<tr>
-<td>No</td>
-<td><code>10.0.0.0/24</code></td>
-<td>TCP</td>
-<td>All</td>
-<td>31390</td>
+<td>32443</td>
 <td></td>
 <td>HTTPS load balancer</td>
 </tr>
 <tr>
 <td>No</td>
-<td><code>10.0.1.0/24</code>UDP</td>
+<td><code>10.0.1.0/24</code></td>
+<td>UDP</td>
 <td>All</td>
 <td>111</td>
 <td></td>
 <td>NFS</td>
-<td></td>
 </tr>
 <tr>
 <td>No</td>
@@ -817,7 +772,7 @@ All Classless Inter-Domain Routing (CIDR) values provided are examples and can b
 <tbody>
 <tr>
 <td>No</td>
-<td><code>10.0.0.0/0</code></td>
+<td><code>10.0.0.0/16</code></td>
 <td>TCP</td>
 <td></td>
 <td></td>
@@ -896,43 +851,43 @@ Other values can be used if required.</p>
 <td>SSH Jump Host</td>
 <td>Public</td>
 <td>8GB</td>
-<td>VM.Standard.E2.1</td>
-<td>Oracle Linux 7.8</td>
+<td>VM.Standard3.Flex</td>
+<td>Oracle Linux 7.9</td>
 </tr>
 <tr>
 <td>Oracle Cloud Native Environment Operator Host</td>
 <td>Private</td>
 <td>16GB</td>
-<td>VM.Standard.E2.2</td>
-<td>Oracle Linux 7.8</td>
+<td>VM.Standard3.Flex</td>
+<td>Oracle Linux 7.9</td>
 </tr>
 <tr>
 <td>Kubernetes Control Plane Node</td>
 <td>Private</td>
 <td>32GB</td>
-<td>VM.Standard.E2.4</td>
-<td>Oracle Linux 7.8</td>
+<td>VM.Standard3.Flex</td>
+<td>Oracle Linux 7.9</td>
 </tr>
 <tr>
 <td>Kubernetes Worker Node 1</td>
 <td>Private</td>
 <td>32GB</td>
-<td>VM.Standard.E2.4</td>
-<td>Oracle Linux 7.8</td>
+<td>VM.Standard3.Flex</td>
+<td>Oracle Linux 7.9</td>
 </tr>
 <tr>
 <td>Kubernetes Worker Node 2</td>
 <td>Private</td>
 <td>32GB</td>
-<td>VM.Standard.E2.4</td>
-<td>Oracle Linux 7.8</td>
+<td>VM.Standard3.Flex</td>
+<td>Oracle Linux 7.9</td>
 </tr>
 <tr>
 <td>Kubernetes Worker Node 3</td>
 <td>Private</td>
 <td>32GB</td>
-<td>VM.Standard.E2.4</td>
-<td>Oracle Linux 7.8</td>
+<td>VM.Standard3.Flex</td>
+<td>Oracle Linux 7.9</td>
 </tr>
 </tbody>
 </table>
@@ -940,8 +895,8 @@ Other values can be used if required.</p>
 <p>Deploy Oracle Cloud Native Environment with the Kubernetes module, following instructions from <a href="https://docs.oracle.com/en/operating-systems/olcne/">Oracle Cloud Native Environment: Getting Started</a>.</p>
 <ul>
 <li>Use a single Kubernetes control plane node.</li>
-<li>Skip the Kubernetes API load balancer (<a href="https://docs.oracle.com/en/operating-systems/olcne/1.1/start/install-lb.html">3.4.3</a>).</li>
-<li>Use private CA certificates (<a href="https://docs.oracle.com/en/operating-systems/olcne/1.1/start/certs-private.html">3.5.3</a>).</li>
+<li>Skip the Kubernetes API load balancer (<a href="https://docs.oracle.com/en/operating-systems/olcne/1.5/start/install.html#install-lb">load balancer</a>).</li>
+<li>Use private CA certificates (<a href="https://docs.oracle.com/en/operating-systems/olcne/1.5/start/install.html#certs-private">private certs</a>).</li>
 </ul>
 <h2 id="prepare-for-the-verrazzano-installation">Prepare for the Verrazzano installation</h2>
 <p>A Verrazzano Oracle Cloud Native Environment deployment requires:</p>
@@ -955,8 +910,6 @@ Other values can be used if required.</p>
 <li>Load balancers in front of the worker nodes in the cluster.</li>
 <li>DNS records that reference the load balancers.</li>
 </ul>
-<p><strong>NOTE</strong>: The target ports for the load balancer backends cannot be determined until you install Verrazzano.<br>
-You can create the load balancers before you install, but post-installation configuration is required.</p>
 <p>Examples for meeting these requirements follow.</p>
 <h3 id="storage">Storage</h3>
 <p>Verrazzano requires persistent storage for several components.
@@ -1023,209 +976,22 @@ EOF
 done
 </code></pre></li>
 </ul>
-<h4 id="configuring-custom-recycler-pod-template">Configuring custom recycler Pod template</h4>
-<p>When a Verrazzano installation is <a href="../../../../../docs/setup/uninstall/uninstall/">deleted</a>, the <code>PersistentVolumes</code> created in the preceding section are recycled by Kubernetes. As explained <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/#recycle">here</a>, Kubernetes platforms like Oracle Cloud Native Environment can have a custom recycler Pod defined. This Pod could require access to images which may not be available to the environment. For example, in the case of <a href="../../../../../docs/setup/private-registry/private-registry/">local registry setup</a> without access to the public Internet, the Pod previously defined will fail to start because it will not be able to pull the public <code>k8s.gcr.io/busybox</code> image. In such cases, it is required to have the specified container image locally on the Kubernetes node or in the local registry and use the argument <code>--pv-recycler-pod-template-filepath-nfs</code> to specify a custom Pod template for the recycler.</p>
-<p>For example, to configure the recycler Pod template on an Oracle Cloud Native Environment based Verrazzano cluster:</p>
-<ol>
-<li>Configure the recycler Pod template as a <code>ConfigMap</code> entry.
-<pre tabindex="0"><code>apiVersion: v1
-kind: ConfigMap
-metadata:
-name: recycler-pod-config
-namespace: kube-system
-data:
-recycler-pod.yaml: |
-    apiVersion: v1
-    kind: Pod
-    metadata:
-    name: pv-recycler
-    namespace: default
-    spec:
-    restartPolicy: Never
-    volumes:
-    - name: vol
-        hostPath:
-        path: /any/path/it/will/be/replaced
-    containers:
-    - name: pv-recycler
-        # busybox image from local registry
-        image: &#34;local-registry/busybox&#34;
-        command: [&#34;/bin/sh&#34;, &#34;-c&#34;, &#34;test -e /scrub &amp;&amp; rm -rf /scrub/..?* /scrub/.[!.]* /scrub/*  &amp;&amp; test -z \&#34;$(ls -A /scrub)\&#34; || exit 1&#34;]
-        volumeMounts:
-        - name: vol
-        mountPath: /scrub
-</code></pre></li>
-<li>Edit the <code>kube-controller-manager</code> Pod in the <code>kube-system</code> namespace.
-<pre tabindex="0"><code>$ kubectl edit pod kube-controller-manager-xxxxx -n kube-system
-</code></pre>Alternatively, you can edit the manifest file at <code>/etc/kubernetes/manifests/kube-controller-manager.yaml</code> on the control-plane node.</li>
-<li>Add the ConfigMap <code>recycler-pod-config</code> as a <code>volume</code> to the Pod spec.</li>
-<li>Add the ConfigMap entry <code>recycler-pod.yaml</code> as a <code>volumeMount</code> to the Pod spec.</li>
-<li>Add the <code>--pv-recycler-pod-template-filepath-nfs</code> argument to the <code>command</code>, with value as <code>mountPath</code> of <code>recycler-pod.yaml</code> in the Pod.
-<pre tabindex="0"><code>apiVersion: v1
-kind: Pod
-...
-spec:
-containers:
-- command:
-    - kube-controller-manager
-    - --allocate-node-cidrs=true
-    ...
-    - --pv-recycler-pod-template-filepath-nfs=/etc/recycler-pod.yaml
-    ...
-    volumeMounts:
-    ...
-    - name: recycler-config-volume
-    mountPath: /etc/recycler-pod.yaml
-    subPath: recycler-pod.yaml   
-...
-volumes:
-...
-- name: recycler-config-volume
-    configMap:
-        name: recycler-pod-config
-</code></pre></li>
-</ol>
 <h3 id="load-balancers">Load balancers</h3>
 <p>Verrazzano on Oracle Cloud Native Environment uses external load balancer services.
 These will not automatically be provided by Verrazzano or Kubernetes.
 Two load balancers must be deployed outside of the subnet used for the Kubernetes cluster.
 One load balancer is for management traffic and the other for application traffic.</p>
-<p>Specific steps will differ for each load balancer provider, but a generic configuration and an Oracle Cloud Infrastructure example follow.</p>
-<h4 id="generic-configuration">Generic configuration:</h4>
-<ul>
-<li>Target Host: Host names of Kubernetes worker nodes</li>
-<li>Target Ports: See table</li>
-<li>External Ports: See table</li>
-<li>Distribution: Round-robin</li>
-<li>Health Check: TCP</li>
-</ul>
-<h5 id="backend-for-management-load-balancer">Backend for management load balancer</h5>
-<p>You must install Verrazzano to get the target ports for each load balancer backend.
-In the following table, those ports are marked TBD. Run the following command to get the target
-ports for the NGINX Ingress Controller:</p>
-<pre tabindex="0"><code>$ kubectl get service ingress-controller-ingress-nginx-controller -n ingress-nginx
-</code></pre><p>In the <code>PORT(S)</code> column you will see the target port associated with port 80 and 443, for example: <code>80:30080/TCP,443:30443</code>.<br>
-Use these target port values for the NGINX Ingress Controller load balancer backend.</p>
-<table>
-<thead>
-<tr>
-<th>Service Name</th>
-<th>Type</th>
-<th>External Port</th>
-<th>Target Port</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>ingress-controller-nginx-ingress-controller</code></td>
-<td>TCP</td>
-<td>80</td>
-<td>TBD</td>
-</tr>
-<tr>
-<td><code>ingress-controller-nginx-ingress-controller</code></td>
-<td>TCP</td>
-<td>443</td>
-<td>TBD</td>
-</tr>
-</tbody>
-</table>
-<h5 id="backend-for-application-load-balancer">Backend for application load balancer</h5>
-<p>Get the target ports for the Istio ingress gateway service using the following command:</p>
-<pre tabindex="0"><code>$ kubectl get service  istio-ingressgateway  -n  istio-system
-</code></pre><p>Use these port values for the Istio ingress gateway load balancer backend.</p>
-<table>
-<thead>
-<tr>
-<th>Service Name</th>
-<th>Type</th>
-<th>External Port</th>
-<th>Target Port</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>istio-ingressgateway</code></td>
-<td>TCP</td>
-<td>80</td>
-<td>TBD</td>
-</tr>
-<tr>
-<td><code>istio-ingressgateway</code></td>
-<td>TCP</td>
-<td>443</td>
-<td>TBD</td>
-</tr>
-</tbody>
-</table>
-<h4 id="oracle-cloud-infrastructure-example-2">Oracle Cloud Infrastructure example</h4>
-<p>You can use the following details to create Oracle Cloud Infrastructure load balancers for accessing application and management user interfaces, respectively.
-These load balancers will route HTTP/HTTPS traffic from the Internet to the private subnet.
-If load balancers are desired, then they should be created now even though the application and management endpoints will be installed later.</p>
-<p><strong>NOTE</strong>: In the following list, the using port 0 for the health check indicates that the backend ports should be used.</p>
-<ul>
-<li>Application Load Balancer: Public Subnet
-<ul>
-<li>Listeners
-<ul>
-<li>HTTP Listener: Protocol TCP, Port 80</li>
-<li>HTTPS Listener: Protocol TCP, Port 443</li>
-</ul>
-</li>
-<li>Backend Sets
-<ul>
-<li>HTTP Backend Sets:
-<ul>
-<li>Health Check: Protocol TCP, Port 0</li>
-<li>Backends: Kubernetes Worker Nodes, Port TBD, Distribution Policy Weighted Round Robin</li>
-</ul>
-</li>
-<li>HTTPS Backend Sets
-<ul>
-<li>Health Check: Protocol TCP, Port 0</li>
-<li>Backends: Kubernetes Worker Nodes, Port TBD, Distribution Policy Weighted Round Robin</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Management Load Balancer: Public Subnet
-<ul>
-<li>Listeners
-<ul>
-<li>HTTP Listener: Protocol TCP, Port 80</li>
-<li>HTTPS Listener: Protocol TCP, Port 443</li>
-</ul>
-</li>
-<li>Backend Sets
-<ul>
-<li>HTTP Backend Sets:
-<ul>
-<li>Health Check: Protocol TCP, Port 0</li>
-<li>Backends: Kubernetes Worker Nodes, Port TBD, Distribution Policy Weighted Round Robin</li>
-</ul>
-</li>
-<li>HTTPS Backend Sets
-<ul>
-<li>Health Check: Protocol TCP, Port 0</li>
-<li>Backends: Kubernetes Worker Nodes, Port TBD, Distribution Policy Weighted Round Robin</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h4 id="configuring-self-signed-certificate-for-the-load-balancer">Configuring self-signed certificate for the load balancer</h4>
-<p>To configure an HTTPS listener or an HTTPS backend, you must configure an SSL certificate as described in <a href="https://docs.oracle.com/en-us/iaas/Content/Balance/Tasks/managingcertificates.htm">SSL Certificate for Load Balancers</a>.</p>
-<p>When the SSL certificate being configured as the Load Balancer Managed Certificate is a self-signed certificate, then the certificate should also be added as the CA certificate on the <i>Add Certificate</i> page in the Oracle Cloud Infrastructure Console.
-<img src="../../../../../docs/images/olcne-lb-self-signed-cert.png" alt=""></p>
+<p>Specific steps will differ for each load balancer provider.
+Instructions for the Oracle Cloud Infrastructure example:</p>
+<ol>
+<li>Create a load balancer to use the public subnet of the VCN described earlier.</li>
+<li>For the listener and backend set ports, refer to <a href="../../../../../docs/setup/customizing/externallbs/">External Load Balancers</a>.</li>
+</ol>
 <h3 id="dns">DNS</h3>
+<p>Both wildcard DNS and external DNS are supported in Oracle Cloud Native Environment. If using wildcard DNS, skip this section and go to <a href="#next-steps">Next steps</a>.</p>
 <p>When using the Verrazzano<code>spec.components.dns.external</code> DNS type, the installer searches the DNS zone you provide for two specific A records.
 These are used to configure the cluster and should refer to external addresses of the load balancers in the previous step.
 The A records will need to be created manually.</p>
-<p><strong>NOTE</strong>: At this time, the only supported deployment for Oracle Cloud Native Environment is the external DNS type.</p>
 <table>
 <thead>
 <tr>
@@ -1245,9 +1011,9 @@ The A records will need to be created manually.</p>
 </tbody>
 </table>
 <p>For example:</p>
-<pre tabindex="0"><code>198.51.100.10                                   A       ingress-mgmt.myenv.example.com.
-203.0.113.10                                    A       ingress-verrazzano.myenv.example.com.
-</code></pre><p>Verrazzano installation will result in a number of management services that need to point to the <code>ingress-mgmt</code> address.</p>
+<pre tabindex="0"><code>11.22.33.44                                   A       ingress-mgmt.myenv.example.com.
+11.22.33.55                                   A       ingress-verrazzano.myenv.example.com.
+</code></pre><p>When using externalDNS, the following DNS CNAME records need to be added and should point to the <code>ingress-mgmt</code> address.</p>
 <pre tabindex="0"><code>verrazzano.myenv.example.com                    CNAME   ingress-mgmt.myenv.example.com.
 keycloak.myenv.example.com                      CNAME   ingress-mgmt.myenv.example.com.
 rancher.myenv.example.com                       CNAME   ingress-mgmt.myenv.example.com.
@@ -1257,11 +1023,9 @@ prometheus.vmi.system.myenv.example.com         CNAME   ingress-mgmt.myenv.examp
 kiali.vmi.system.myenv.example.com              CNAME   ingress-mgmt.myenv.example.com.
 kibana.vmi.system.myenv.example.com             CNAME   ingress-mgmt.myenv.example.com.
 elasticsearch.vmi.system.myenv.example.com      CNAME   ingress-mgmt.myenv.example.com.
-</code></pre><p>For simplicity, an administrator may want to create <a href="https://tools.ietf.org/html/rfc1034#section-4.3.3">wildcard DNS records</a> for the management addresses:</p>
-<pre tabindex="0"><code>*.system.myenv.example.com                      CNAME   ingress-mgmt.myenv.example.com.
-</code></pre><p>OR</p>
-<pre tabindex="0"><code>*.myenv.example.com                             CNAME   ingress-mgmt.myenv.example.com.
-</code></pre><h4 id="oracle-cloud-infrastructure-example-3">Oracle Cloud Infrastructure example</h4>
+</code></pre><p>For accessing applications, the following CNAME records need to be added.</p>
+<pre tabindex="0"><code>*.myenv.example.com                             CNAME   ingress-verrazzano.myenv.example.com.
+</code></pre><h4 id="oracle-cloud-infrastructure-example-2">Oracle Cloud Infrastructure example</h4>
 <p>DNS is configured in Oracle Cloud Infrastructure by creating DNS zones in the Oracle Cloud Infrastructure Console.
 When creating a DNS zone, use these values:</p>
 <ul>
@@ -1271,7 +1035,7 @@ When creating a DNS zone, use these values:</p>
 </ul>
 <p>The value for <code>&lt;dns-suffix&gt;</code> excludes the environment (for example, use the <code>example.com</code> portion of <code>myenv.example.com</code>).</p>
 <p>DNS A records must be manually added to the zone and published using values described previously.
-DNS CNAME records, in the same way.</p>
+DNS CNAME records also must be addedd manually, in the same way.</p>
 <p>During the Verrazzano installation, these steps should be performed on the Oracle Cloud Native Environment operator node.</p>
 <p>Edit the sample Verrazzano custom resource <a href="https://github.com/verrazzano/verrazzano/blob/master/platform-operator/config/samples/install-olcne.yaml">install-olcne.yaml</a> file and provide these configuration settings for your Oracle Cloud Native Environment:</p>
 <ul>

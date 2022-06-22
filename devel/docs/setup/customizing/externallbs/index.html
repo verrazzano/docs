@@ -19,21 +19,21 @@
 <link rel="icon" type="image/png" href="../../../../favicons/android-192x192.png" sizes="192x192">
 
 <title>External Load Balancers | Verrazzano Enterprise Container Platform</title>
-<meta name="description" content="External load balancers for Verrazzano system and application endpoints">
+<meta name="description" content="External load balancers for Verrazzano management and application endpoints">
 <meta property="og:title" content="External Load Balancers" />
-<meta property="og:description" content="External load balancers for Verrazzano system and application endpoints" />
+<meta property="og:description" content="External load balancers for Verrazzano management and application endpoints" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/customizing/externallbs/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-05-18T15:31:52-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-06-22T14:50:18-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="External Load Balancers">
-<meta itemprop="description" content="External load balancers for Verrazzano system and application endpoints">
-<meta itemprop="dateModified" content="2022-05-18T15:31:52-04:00" />
+<meta itemprop="description" content="External load balancers for Verrazzano management and application endpoints">
+<meta itemprop="dateModified" content="2022-06-22T14:50:18-04:00" />
 <meta itemprop="wordCount" content="341">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="External Load Balancers"/>
-<meta name="twitter:description" content="External load balancers for Verrazzano system and application endpoints"/>
+<meta name="twitter:description" content="External load balancers for Verrazzano management and application endpoints"/>
 
 
 
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.26160ef6340b0e476d29a6f6de3e423a.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.a1ba968712eb096afbe27c7e3d74581b.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.26160ef6340b0e476d29a6f6de3e423a.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.a1ba968712eb096afbe27c7e3d74581b.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -466,7 +466,7 @@ if (!doNotTrack) {
             
 <div class="td-content">
 	<h1>External Load Balancers</h1>
-	<div class="lead">External load balancers for Verrazzano system and application endpoints</div>
+	<div class="lead">External load balancers for Verrazzano management and application endpoints</div>
 	<header class="article-meta">
 		
 
@@ -489,11 +489,11 @@ if (!doNotTrack) {
 </ul>
 <p>By default, Verrazzano automatically creates them as Kubernetes managed load balancers.</p>
 <p>However, users do have the options to use their own external load balancers.  They can pick and choose to replace either or both load balancers.</p>
-<p>The following is an example of using external load balancers for both system and application ingress.</p>
+<p>The following is an example of using external load balancers for both management and application ingress.</p>
 <h3 id="prepare-the-external-load-balancers">Prepare the external load balancers</h3>
 <ul>
 <li>
-<p>External load balancer for system ingress</p>
+<p>External load balancer for management ingress</p>
 <ul>
 <li>This load balancer must have a listener set up on port <code>443</code> with <code>TCP</code> protocol.</li>
 <li>The backend set for this listener needs to include the Kubernetes cluster node IP addresses on a port you pick, for example, <code>31443</code>.</li>
@@ -510,10 +510,10 @@ if (!doNotTrack) {
 <h3 id="verrazzano-installation-options">Verrazzano installation options</h3>
 <ul>
 <li>
-<p>External load balancer for system ingress</p>
+<p>External load balancer for management ingress</p>
 <ul>
 <li>Set <code>NodePort</code> as the ingress type in <a href="../../../../docs/reference/api/verrazzano/verrazzano/#ingress-component">Ingress Component</a>.</li>
-<li>Set <code>controller.service.externalIPs</code> with the IP address for the external system load balancer in <a href="../../../../docs/reference/api/verrazzano/verrazzano/#nginx-install-args">NGINX Install Args</a>.</li>
+<li>Set <code>controller.service.externalIPs</code> with the IP address for the external management load balancer in <a href="../../../../docs/reference/api/verrazzano/verrazzano/#nginx-install-args">NGINX Install Args</a>.</li>
 <li>Set <code>ports</code> in <a href="../../../../docs/reference/api/verrazzano/verrazzano/#ingress-component">Ingress Component</a> with a <a href="../../../../docs/reference/api/verrazzano/verrazzano/#port-config">PortConfig</a> that has <code>443</code> as <code>port</code>, <code>31443</code> as <code>nodePort</code>, <code>https</code> as <code>targetPort</code>, and <code>TCP</code> as <code>protocol</code>.</li>
 </ul>
 </li>
@@ -526,7 +526,7 @@ if (!doNotTrack) {
 </ul>
 </li>
 </ul>
-<h3 id="example-custom-resource-with-system-and-application-external-load-balancers">Example Custom Resource with system and application external load balancers</h3>
+<h3 id="example-custom-resource-with-management-and-application-external-load-balancers">Example Custom Resource with management and application external load balancers</h3>
 <pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
@@ -557,7 +557,7 @@ spec:
       istioInstallArgs:
       - name: gateways.istio-ingressgateway.externalIPs
         valueList:
-        - 55.66.77.88
+        - 11.22.33.55
 </code></pre>
 	
 		<style>
