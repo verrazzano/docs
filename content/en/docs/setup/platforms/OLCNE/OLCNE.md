@@ -117,8 +117,8 @@ Deploy Oracle Cloud Native Environment with the Kubernetes module, following ins
 * Use a single Kubernetes control plane node.
 * Skip the Kubernetes API load balancer ([load balancer](https://docs.oracle.com/en/operating-systems/olcne/1.5/start/install.html#install-lb)).
 * Use private CA certificates ([private certs](https://docs.oracle.com/en/operating-systems/olcne/1.5/start/install.html#certs-private)).
-* Install a Kubernetes network load balancer implementation such as [OCI-CCM](https://docs.oracle.com/en/operating-systems/olcne/1.5/lb/oci.html#oci) or [MetalLB](https://docs.oracle.com/en/operating-systems/olcne/1.5/lb/metallb.html#metallb)
-* Install a Container Storage Interface Driver such as [OCI-CCM](https://docs.oracle.com/en/operating-systems/olcne/1.5/storage/oci.html#oci) or [Gluster](https://docs.oracle.com/en/operating-systems/olcne/1.5/storage/gluster.html#gluster)
+* Install a Kubernetes network load balancer implementation, such as [OCI-CCM](https://docs.oracle.com/en/operating-systems/olcne/1.5/lb/oci.html#oci) or [MetalLB](https://docs.oracle.com/en/operating-systems/olcne/1.5/lb/metallb.html#metallb).
+* Install a Container Storage Interface Driver, such as [OCI-CCM](https://docs.oracle.com/en/operating-systems/olcne/1.5/storage/oci.html#oci) or [Gluster](https://docs.oracle.com/en/operating-systems/olcne/1.5/storage/gluster.html#gluster).
 
 ## Next steps
 

@@ -12,7 +12,7 @@ Verrazzano sets up the following load balancers on Kubernetes at installation:
 
 Verrazzano allows customizing the load balancers allocated by Oracle Cloud Infrastructure (OCI) using annotations defined by
 the  OCI Cloud Controller Manager (OCI-CCM).  For a detailed description of different load balancer customization annotations, see the
-OKE documentation [here](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingloadbalancer.htm).
+documentation [here](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingloadbalancer.htm).
 
 This document describes how to use these annotations to customize the following settings for Verrazzano load balancers:
 * Load balancer shape
