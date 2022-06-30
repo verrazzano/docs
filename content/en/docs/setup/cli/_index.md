@@ -32,7 +32,7 @@ Validate the `vz` binary against the checksum file:
 
 #### Unpack the `vz` binary
   ```shell
-   $ tar xvf vz-linux-amd64.tar.gz /usr/local/bin/vz
+   $ tar xvf vz-linux-amd64.tar.gz -C /usr/local/bin
   ```
 
 #### Test to ensure that the version you installed is up-to-date
@@ -44,7 +44,7 @@ Validate the `vz` binary against the checksum file:
 <br>
 
 
-Use these instructions to install the Verrazzano CLI on Mac ARM64 machines.
+Use these instructions to install the Verrazzano CLI on Mac AMD64 machines.
 
 #### Download the latest release
   ```shell
@@ -63,7 +63,7 @@ Validate the `vz` binary against the checksum file:
 
 #### Unpack the `vz` binary
   ```shell
-   $ tar xvf vz-darwin-amd64.tar.gz /usr/local/bin/vz
+   $ tar xvf vz-darwin-amd64.tar.gz -C /usr/local/bin
   ```
 
 #### Test to ensure that the version you installed is up-to-date
