@@ -17,13 +17,13 @@ Use these instructions to install the Verrazzano CLI on Linux AMD64 machines.
 
 #### Download the latest release
   ```shell
-   $ wget {{<release_asset_url vz-linux-amd64.tar.gz>}}
+   $ curl -LO {{<release_asset_url vz-linux-amd64.tar.gz>}}
   ```
 
 #### Validate the binary (optional)
 Download the `vz` checksum file:
   ```shell
-   $ wget {{<release_asset_url vz-linux-amd64.tar.gz.sha256>}}
+   $ curl -LO {{<release_asset_url vz-linux-amd64.tar.gz.sha256>}}
   ```
 Validate the `vz` binary against the checksum file:
   ```shell
@@ -48,13 +48,13 @@ Use these instructions to install the Verrazzano CLI on Mac AMD64 machines.
 
 #### Download the latest release
   ```shell
-   $ wget {{<release_asset_url vz-darwin-amd64.tar.gz>}}
+   $ curl -LO {{<release_asset_url vz-darwin-amd64.tar.gz>}}
   ```
 
 #### Validate the binary (optional)
 Download the `vz` checksum file:
   ```shell
-   $ wget {{<release_asset_url vz-darwin-amd64.tar.gz.sha256>}}
+   $ curl -LO {{<release_asset_url vz-darwin-amd64.tar.gz.sha256>}}
   ```
 Validate the `vz` binary against the checksum file:
   ```shell
