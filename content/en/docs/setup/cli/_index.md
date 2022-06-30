@@ -38,6 +38,14 @@ Validate the `vz` binary against the checksum file:
    $ vz version
   ```
 
+The resulting output should be similar to the following:
+
+```shell
+Version: v1.4.0
+BuildDate: 2022-06-29T15:51:25Z
+GitCommit: dcbe5e68256699c12f845f3c032c5419780b4fa3
+```
+
 ## Use the `vz` CLI
 
 Verrazzano provides a command-line tool for managing a Verrazzano environment, using the Verrazzano and Kubernetes API.
@@ -54,8 +62,8 @@ vz [command] [flags]
 
 ### Available commands
 
-| Command   | Definition                                                 |
-|-----------|------------------------------------------------------------|
+| Command     | Definition                                                 |
+|-------------|------------------------------------------------------------|
 | `analyze`   | Analyze cluster                                            |
 | `help`      | Help about any command                                     |
 | `install`   | Install Verrazzano                                         |
@@ -68,8 +76,8 @@ vz [command] [flags]
 
 These flags apply to all the commands.
 
-| Flag                | Definition                                |
-|---------------------|-------------------------------------------|
+| Flag                  | Definition                                 |
+|-----------------------|--------------------------------------------|
 | `--context string`    | The name of the kubeconfig context to use. |
-| `-h`, `--help`        | Help for `vz`.                               |
+| `-h`, `--help`        | Help for `vz`.                             |
 | `--kubeconfig string` | Path to the kubeconfig file to use.        |
