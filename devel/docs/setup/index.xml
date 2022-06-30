@@ -234,6 +234,108 @@ component, its version, and a brief description.&lt;/p&gt;
     </item>
     
     <item>
+      <title>Docs: CLI Setup</title>
+      <link>/docs/setup/cli/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/cli/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The Verrazzano command-line tool, &lt;code&gt;vz&lt;/code&gt;, is available for Linux and Mac systems.
+Download the binary you want from the &lt;a href=&#34;https://github.com/verrazzano/verrazzano/releases/&#34;&gt;Releases&lt;/a&gt; page.&lt;/p&gt;
+&lt;h2 id=&#34;install-the-vz-cli&#34;&gt;Install the &lt;code&gt;vz&lt;/code&gt; CLI&lt;/h2&gt;
+&lt;p&gt;These instructions demonstrate installing the CLI on Linux AMD64 machines.&lt;/p&gt;
+&lt;h3 id=&#34;download-the-latest-release&#34;&gt;Download the latest release&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; $ curl -LO https://github.com/verrazzano/verrazzano/releases/download/master/vz-linux-amd64.tar.gz
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;validate-the-binary-optional&#34;&gt;Validate the binary (optional)&lt;/h3&gt;
+&lt;p&gt;Download the &lt;code&gt;vz&lt;/code&gt; checksum file:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; $ curl -LO https://github.com/verrazzano/verrazzano/releases/download/master/vz-linux-amd64.tar.gz.sha256
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Validate the &lt;code&gt;vz&lt;/code&gt; binary against the checksum file:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; $ sha256sum -c vz-linux-amd64.tar.gz.sha256
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;unpack-the-vz-binary&#34;&gt;Unpack the &lt;code&gt;vz&lt;/code&gt; binary&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; $ tar xvf vz-linux-amd64.tar.gz -C /usr/local/bin
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;test-to-ensure-that-the-version-you-installed-is-up-to-date&#34;&gt;Test to ensure that the version you installed is up-to-date&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; $ vz version
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The resulting output should be similar to the following:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Version: v1.4.0
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;BuildDate: 2022-06-29T15:51:25Z
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;GitCommit: dcbe5e68256699c12f845f3c032c5419780b4fa3
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;use-the-vz-cli&#34;&gt;Use the &lt;code&gt;vz&lt;/code&gt; CLI&lt;/h2&gt;
+&lt;p&gt;Verrazzano provides a command-line tool for managing a Verrazzano environment, using the Verrazzano and Kubernetes API.&lt;/p&gt;
+&lt;p&gt;Common use cases include installing, upgrading, and uninstalling Verrazzano,
+as well as analyzing failures in a running Verrazzano environment.&lt;/p&gt;
+&lt;h3 id=&#34;usage-information&#34;&gt;Usage information&lt;/h3&gt;
+&lt;p&gt;Use the following syntax to run &lt;code&gt;vz&lt;/code&gt; commands from your terminal window:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;vz &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;[&lt;/span&gt;command&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;[&lt;/span&gt;flags&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;available-commands&#34;&gt;Available commands&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Command&lt;/th&gt;
+&lt;th&gt;Definition&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;analyze&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Analyze cluster&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;help&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Help about any command&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;install&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Install Verrazzano&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;status&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Status of the Verrazzano installation and access endpoints&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;uninstall&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Uninstall Verrazzano&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;upgrade&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Upgrade Verrazzano&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;version&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Verrazzano version information&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;available-flags&#34;&gt;Available Flags&lt;/h3&gt;
+&lt;p&gt;These flags apply to all the commands.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Flag&lt;/th&gt;
+&lt;th&gt;Definition&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;--context string&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;The name of the kubeconfig context to use.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-h&lt;/code&gt;, &lt;code&gt;--help&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Help for &lt;code&gt;vz&lt;/code&gt;.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;--kubeconfig string&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Path to the kubeconfig file to use.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Install</title>
       <link>/docs/setup/install/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
