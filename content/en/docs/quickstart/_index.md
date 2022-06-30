@@ -12,11 +12,13 @@ The Quick Start assumes that you have already installed a
 platforms for installing Verrazzano, see [Platform Setup]({{< relref "/docs/setup/platforms/_index.md" >}}).
 
 - Find the Verrazzano prerequisite requirements [here]({{< relref "/docs/setup/prereqs.md" >}}).
+- Install  the [Verrazzano CLI]({{< relref "docs/setup/cli/_index.md" >}}).
 - Review the list of the [software versions supported]({{< relref "/docs/setup/prereqs.md#supported-software-versions" >}}) and [installed]({{< relref "/docs/setup/prereqs.md#installed-components" >}}) by Verrazzano.
-- For detailed installation instructions, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}}).
+- For detailed Verrazzano installation instructions, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}}).
 
+**NOTE**: If you just created the cluster, then you must wait until your nodes reach Ready status before installing Verrazzano.
 
-## Install the Verrazzano platform operator
+## Install Verrazzano
 
 Verrazzano provides a Kubernetes [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
 to manage the life cycle of Verrazzano installations.  The operator works with a
@@ -24,37 +26,6 @@ to manage the life cycle of Verrazzano installations.  The operator works with a
 You can install, uninstall, and update Verrazzano installations by updating the
 [Verrazzano custom resource]({{< relref "/docs/reference/api/verrazzano/verrazzano.md" >}}).
 The [Verrazzano platform operator](https://github.com/verrazzano/verrazzano) controller will apply the configuration from the custom resource to the cluster for you.
-
-**NOTE**: If you just created the cluster, then you must wait until your nodes reach Ready status before installing Verrazzano.
-
-To install the Verrazzano platform operator:
-
-1. Deploy the Verrazzano platform operator.
-    ```
-    $ kubectl apply -f {{<release_asset_url operator.yaml>}}
-    ```
-
-1. Wait for the deployment to complete.
-
-    ```
-    $ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
-
-    # Sample output
-    deployment "verrazzano-platform-operator" successfully rolled out
-    ```
-
-1. Confirm that the operator pod is correctly defined and running.
-
-    ```
-    $ kubectl -n verrazzano-install get pods
-
-    # Sample output
-    NAME                                            READY   STATUS    RESTARTS   AGE
-    verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
-    ```
-
-## Install Verrazzano
-
 
 You install Verrazzano by creating a Verrazzano custom resource in
 your Kubernetes cluster.  Verrazzano currently supports a default production (`prod`)
@@ -70,12 +41,11 @@ The development profile has the following characteristics:
 {{< alert title="NOTE" color="warning" >}}Because the `dev` profile installs self-signed certificates, when installing Verrazzano on macOS, you might see: **Your connection is not private**. For a workaround, see this [FAQ]({{< relref "/docs/faq/FAQ#enable-google-chrome-to-accept-self-signed-verrazzano-certificates" >}}).
 {{< /alert >}}
 
-To install Verrazzano:
+### Install Verrazzano using the [Verrazzano CLI]({{< relref "docs/setup/cli/_index.md" >}})
 
-1. Install Verrazzano with its `dev` profile.
-
+1. Install Verrazzano with its `dev` profile:
     ```
-    $ kubectl apply -f - <<EOF
+    $ vz install -f - <<EOF
     apiVersion: install.verrazzano.io/v1alpha1
     kind: Verrazzano
     metadata:
@@ -95,24 +65,9 @@ To install Verrazzano:
     EOF
     ```
 
-1. Wait for the installation to complete.
-    ```
-    $ kubectl wait \
-        --timeout=20m \
-        --for=condition=InstallComplete \
-        verrazzano/example-verrazzano
-    ```
-
-1. (Optional) View the installation logs. You can view the logs with the following command:
-
-    ```
-    $ kubectl logs -n verrazzano-install \
-        -f $(kubectl get pod \
-        -n verrazzano-install \
-        -l app=verrazzano-platform-operator \
-        -o jsonpath="{.items[0].metadata.name}") | grep '^{.*}$' \
-        | jq -r '."@timestamp" as $timestamp | "\($timestamp) \(.level) \(.message)"'
-    ```
+2. Wait for the installation to complete.
+   Installation logs will be streamed to the command window until the installation has completed
+   or until the default timeout (30m) has been reached.
 
 ## Deploy an example application
 
@@ -173,8 +128,6 @@ enabled for Istio.
 
 ## Uninstall the example application
 
-To uninstall the Hello World Helidon example application:
-
 1. Delete the Verrazzano application resources.
 
    ```
@@ -202,32 +155,16 @@ To uninstall the Hello World Helidon example application:
 
 ## Uninstall Verrazzano
 
-To uninstall Verrazzano:
-
-1. Delete the Verrazzano custom resource.
+1. Delete the Verrazzano custom resource. This will uninstall the Verrazzano Platform Operator and all of the currently installed components.
 
     ```
-    $ kubectl delete verrazzano example-verrazzano
+    $ vz uninstall
     ```
 
-   {{< alert title="NOTE" color="tip" >}}
-   This command blocks until the uninstall has completed.  To follow the progress,
-   you can view the uninstall logs.
-   {{< /alert >}}
+2. Wait for the uninstall to complete.
+The Verrazzano operator launches a Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) to delete the Verrazzano installation.  
+The uninstall logs from that job will be streamed to the command window until the uninstall has completed or until the default timeout (20m) has been reached.
 
-1. (Optional) View the uninstall logs.
-
-    The Verrazzano operator launches a Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) to delete the Verrazzano installation.  You can view the uninstall logs from that job with the following command:
-
-    ```
-    $ kubectl logs -n verrazzano-install -f \
-        $( \
-          kubectl get pod \
-              -n verrazzano-install \
-              -l job-name=verrazzano-uninstall-example-verrazzano \
-              -o jsonpath="{.items[0].metadata.name}" \
-        )
-    ```
 ## Next steps
 
 See the [Verrazzano Example Applications]({{< relref "/docs/samples/_index.md" >}}).
