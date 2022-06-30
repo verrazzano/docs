@@ -1,7 +1,7 @@
 ---
 title: Use a Private Registry
 description: Instructions for setting up Verrazzano using a private container registry
-Weight: 7
+Weight: 8
 draft: false
 ---
 
@@ -41,7 +41,7 @@ To obtain the required Verrazzano images and install from your private registry,
 ## Configuring access to an insecure private registry
 
 A private Docker registry is called an [insecure registry](https://docs.docker.com/registry/insecure/) when it is configured for access using a self-signed certificate or over an unencrypted HTTP connection. Depending on the platform, there could be some additional configuration required for installing Verrazzano with an insecure registry.
- 
+
 For example, for the [Oracle Cloud Native Environment platform]({{< relref "/docs/setup/platforms/OLCNE/OLCNE.md" >}}), the insecure registries must be configured in `/etc/containers/registries.conf` as follows on the worker nodes:
  ```
  [registries]
