@@ -91,7 +91,7 @@ To verify that the metrics are being collected for your workload, follow these s
 Metrics Traits use Service Monitors which require [Services](https://kubernetes.io/docs/concepts/services-networking/service/) for metrics collection.
 If you are unable to verify metrics collection, you might need to manually create a Service for the workload.
 
-For more information on Prometheus solutions, see [Troubleshooting Prometheus](/docs/troubleshooting/troubleshooting-prometheus.md)
+For more information on Prometheus solutions, see [Troubleshooting Prometheus](/docs/troubleshooting/troubleshooting-prometheus.md).
 
 #### Legacy workloads
 

@@ -28,11 +28,11 @@ For more information, see this GitHub [issue](https://github.com/prometheus-comm
 ### Metrics Trait Service Monitor not discovered
 
 Metrics Traits use Service Monitors which requires a Service to collect metrics.
-If your OAM workload is created with a Metrics Trait and no Ingress Trait, a Service might not be generated for your workload and will need to be created manually
+If your OAM workload is created with a Metrics Trait and no Ingress Trait, a Service might not be generated for your workload and will need to be created manually.
 
 This troubleshooting example will be using the `hello-helidon` application:
 
-Verify a Service Monitor exists for your application workload.
+Verify a Service Monitor exists for your application workload:
 ```
 $ kubectl get servicemonitors -n hello-helidon
 ```
