@@ -90,7 +90,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../offline-search-index.77679eb0907378d5214600f4406354db.json"
+  data-offline-search-index-json-src="../../offline-search-index.a22b89d933af57a142ae2b8251a5ddf3.json"
   data-offline-search-base-href="../../"
   data-offline-search-max-results="10"
 >
@@ -112,7 +112,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../offline-search-index.77679eb0907378d5214600f4406354db.json"
+  data-offline-search-index-json-src="../../offline-search-index.a22b89d933af57a142ae2b8251a5ddf3.json"
   data-offline-search-base-href="../../"
   data-offline-search-max-results="10"
 >
@@ -659,13 +659,14 @@ The values used to create are either explicitly provided in the Trait or are der
 </span></span></span></code></pre></div><p>See the <a href="../../docs/reference/api/oam/ingresstrait/">API documentation</a> for details.</p>
 <h3 id="metricstrait">MetricsTrait</h3>
 <p>The MetricsTrait provides a simplified integration with the Prometheus service included in the Verrazzano platform.
-The <code>verrazzano-application-operator</code> processes each MetricsTrait and does two things:</p>
+The <code>verrazzano-application-operator</code> processes each MetricsTrait and does these things:</p>
 <ul>
 <li>Updates the workload&rsquo;s annotations to provide metrics source information.</li>
-<li>Updates the Prometheus&rsquo; metrics scrape configuration with metrics scrape targets.
+<li>For the Verrazzano Prometheus instance, creates a Service Monitor or Pod Monitor for the target workload.</li>
+<li>For an external Prometheus instance, updates the metrics scrape configuration with metrics scrape targets.
 The Verrazzano platform will automatically apply a MetricsTrait to every Component with a supported workload.</li>
 </ul>
-<p>The following sample shows the a MetricsTrait that was automatically applied.</p>
+<p>The following sample shows a MetricsTrait that was automatically applied.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">core.oam.dev/v1alpha2</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">ApplicationConfiguration</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">...</span><span style="color:#f8f8f8;text-decoration:underline">

@@ -19,25 +19,27 @@
 <link rel="icon" type="image/png" href="../../../../../favicons/android-192x192.png" sizes="192x192">
 
 <title>Metrics Template Custom Resource Definition | Verrazzano Enterprise Container Platform</title>
-<meta name="description" content="The Metrics Template CRD contains the metrics configuration for default Kubernetes workloads.
-Here is the default Metrics Template that Verrazzano …">
+<meta name="description" content="Due to the integration of the Prometheus Operator, the Metrics Template will no longer be used to provide metrics from default Kubernetes workloads. …">
 <meta property="og:title" content="Metrics Template Custom Resource Definition" />
-<meta property="og:description" content="The Metrics Template CRD contains the metrics configuration for default Kubernetes workloads. Here is the default Metrics Template that Verrazzano installs.
-apiVersion: app.verrazzano.io/v1alpha1 kind: MetricsTemplate metadata: name: standard-k8s-metrics-template namespace: verrazzano-system spec: workloadSelector: apiGroups: [&#34;apps&#34;, &#34;&#34;] apiVersions: [&#34;v1&#34;] resources: [&#34;deployment&#34;, &#34;statefulset&#34;, &#34;replicaset&#34;, &#34;pod&#34;] prometheusConfig: targetConfigMap: namespace: verrazzano-system name: vmi-system-prometheus-config scrapeConfigTemplate: | kubernetes_sd_configs: - namespaces: names: - {{`{{.workload.metadata.namespace}}`}} role: pod relabel_configs: - action: replace replacement: local source_labels: null target_label: verrazzano_cluster - action: keep regex: {{`{{index ." />
+<meta property="og:description" content="Due to the integration of the Prometheus Operator, the Metrics Template will no longer be used to provide metrics from default Kubernetes workloads. Instead, we recommend using Service Monitors and Pod Monitors.
+For more information on setting up metrics for Kubernetes workloads, see Verrazzano metrics.
+MetricsTemplate    Field Type Description Required     apiVersion string app.verrazzano.io/v1alpha1 Yes   kind string MetricsTemplate Yes   metadata ObjectMeta Refer to the Kubernetes API documentation for fields of metadata." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/reference/api/verrazzano/metricstemplate/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-03-28T12:31:49-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-07-01T12:20:25-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Metrics Template Custom Resource Definition">
-<meta itemprop="description" content="The Metrics Template CRD contains the metrics configuration for default Kubernetes workloads. Here is the default Metrics Template that Verrazzano installs.
-apiVersion: app.verrazzano.io/v1alpha1 kind: MetricsTemplate metadata: name: standard-k8s-metrics-template namespace: verrazzano-system spec: workloadSelector: apiGroups: [&#34;apps&#34;, &#34;&#34;] apiVersions: [&#34;v1&#34;] resources: [&#34;deployment&#34;, &#34;statefulset&#34;, &#34;replicaset&#34;, &#34;pod&#34;] prometheusConfig: targetConfigMap: namespace: verrazzano-system name: vmi-system-prometheus-config scrapeConfigTemplate: | kubernetes_sd_configs: - namespaces: names: - {{`{{.workload.metadata.namespace}}`}} role: pod relabel_configs: - action: replace replacement: local source_labels: null target_label: verrazzano_cluster - action: keep regex: {{`{{index .">
-<meta itemprop="dateModified" content="2022-03-28T12:31:49-04:00" />
-<meta itemprop="wordCount" content="368">
+<meta itemprop="description" content="Due to the integration of the Prometheus Operator, the Metrics Template will no longer be used to provide metrics from default Kubernetes workloads. Instead, we recommend using Service Monitors and Pod Monitors.
+For more information on setting up metrics for Kubernetes workloads, see Verrazzano metrics.
+MetricsTemplate    Field Type Description Required     apiVersion string app.verrazzano.io/v1alpha1 Yes   kind string MetricsTemplate Yes   metadata ObjectMeta Refer to the Kubernetes API documentation for fields of metadata.">
+<meta itemprop="dateModified" content="2022-07-01T12:20:25-04:00" />
+<meta itemprop="wordCount" content="224">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Metrics Template Custom Resource Definition"/>
-<meta name="twitter:description" content="The Metrics Template CRD contains the metrics configuration for default Kubernetes workloads. Here is the default Metrics Template that Verrazzano installs.
-apiVersion: app.verrazzano.io/v1alpha1 kind: MetricsTemplate metadata: name: standard-k8s-metrics-template namespace: verrazzano-system spec: workloadSelector: apiGroups: [&#34;apps&#34;, &#34;&#34;] apiVersions: [&#34;v1&#34;] resources: [&#34;deployment&#34;, &#34;statefulset&#34;, &#34;replicaset&#34;, &#34;pod&#34;] prometheusConfig: targetConfigMap: namespace: verrazzano-system name: vmi-system-prometheus-config scrapeConfigTemplate: | kubernetes_sd_configs: - namespaces: names: - {{`{{.workload.metadata.namespace}}`}} role: pod relabel_configs: - action: replace replacement: local source_labels: null target_label: verrazzano_cluster - action: keep regex: {{`{{index ."/>
+<meta name="twitter:description" content="Due to the integration of the Prometheus Operator, the Metrics Template will no longer be used to provide metrics from default Kubernetes workloads. Instead, we recommend using Service Monitors and Pod Monitors.
+For more information on setting up metrics for Kubernetes workloads, see Verrazzano metrics.
+MetricsTemplate    Field Type Description Required     apiVersion string app.verrazzano.io/v1alpha1 Yes   kind string MetricsTemplate Yes   metadata ObjectMeta Refer to the Kubernetes API documentation for fields of metadata."/>
 
 
 
@@ -98,7 +100,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.77679eb0907378d5214600f4406354db.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.a22b89d933af57a142ae2b8251a5ddf3.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -120,7 +122,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.77679eb0907378d5214600f4406354db.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.a22b89d933af57a142ae2b8251a5ddf3.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -490,81 +492,9 @@ if (!doNotTrack) {
 
 		
 	</header>    
-	<p>The Metrics Template CRD contains the metrics configuration for default Kubernetes workloads.
-Here is the default Metrics Template that Verrazzano installs.</p>
-<pre tabindex="0"><code>apiVersion: app.verrazzano.io/v1alpha1
-kind: MetricsTemplate
-metadata:
-  name: standard-k8s-metrics-template
-  namespace: verrazzano-system
-spec:
-  workloadSelector:
-    apiGroups: [&#34;apps&#34;, &#34;&#34;]
-    apiVersions: [&#34;v1&#34;]
-    resources: [&#34;deployment&#34;, &#34;statefulset&#34;, &#34;replicaset&#34;, &#34;pod&#34;]
-  prometheusConfig:
-    targetConfigMap:
-      namespace: verrazzano-system
-      name: vmi-system-prometheus-config
-    scrapeConfigTemplate: |
-      kubernetes_sd_configs:
-        - namespaces:
-            names:
-            - {{`{{.workload.metadata.namespace}}`}}
-          role: pod
-      relabel_configs:
-        - action: replace
-          replacement: local
-          source_labels: null
-          target_label: verrazzano_cluster
-        - action: keep
-          regex: {{`{{index .workload.metadata.labels &#34;app.verrazzano.io/workload&#34;}}`}};true
-          source_labels:
-            - __meta_kubernetes_pod_label_app_verrazzano_io_workload
-            - __meta_kubernetes_pod_annotation_prometheus_io_scrape
-        - action: replace
-          regex: ([^:]+)(?::\d+)?;(\d+)
-          replacement: $1:$2
-          source_labels:
-            - __address__
-            - __meta_kubernetes_pod_annotation_prometheus_io_port
-          target_label: __address__
-        - action: replace
-          regex: (.*)
-          source_labels:
-            - __meta_kubernetes_pod_annotation_prometheus_io_path
-          target_label: __metrics_path__
-        - action: replace
-          regex: (.*)
-          replacement: $1
-          source_labels:
-            - __meta_kubernetes_namespace
-          target_label: namespace
-        - action: labelmap
-          regex: __meta_kubernetes_pod_label_(.+)
-        - action: replace
-          source_labels:
-            - __meta_kubernetes_pod_name
-          target_label: pod_name
-        - action: labeldrop
-          regex: (controller_revision_hash)
-        - action: replace
-          regex: .*/(.*)$
-          replacement: $1
-          source_labels:
-            - name
-          target_label: webapp
-      {{`{{ if index .namespace.metadata.labels &#34;istio-injection&#34; }}`}}
-      {{`{{ if eq (index .namespace.metadata.labels &#34;istio-injection&#34; ) &#34;enabled&#34; }}`}}
-      scheme: https
-      tls_config:
-        ca_file: /etc/istio-certs/root-cert.pem
-        cert_file: /etc/istio-certs/cert-chain.pem
-        insecure_skip_verify: true
-        key_file: /etc/istio-certs/key.pem
-      {{`{{ end }}`}}
-      {{`{{ end }}`}}
-</code></pre><p>For more information on using the Metrics Template, see <a href="../../../../../docs/monitoring/metrics/metrics/#metrics-template">Metrics Template</a>.</p>
+	<p>Due to the integration of the Prometheus Operator, the Metrics Template will no longer be used to provide metrics from default Kubernetes workloads.
+Instead, we recommend using <a href="https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#servicemonitor">Service Monitors</a> and <a href="https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#podmonitor">Pod Monitors</a>.</p>
+<p>For more information on setting up metrics for Kubernetes workloads, see <a href="../../../../../docs/monitoring/metrics/metrics/">Verrazzano metrics</a>.</p>
 <h4 id="metricstemplate">MetricsTemplate</h4>
 <table>
 <thead>
