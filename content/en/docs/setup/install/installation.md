@@ -20,7 +20,7 @@ Before installing Verrazzano, see instructions on preparing [Kubernetes platform
 
 **NOTE**: Verrazzano can create network policies that can be used to limit the ports and protocols that pods use for network communication. Network policies provide additional security but they are enforced only if you install a Kubernetes Container Network Interface (CNI) plug-in that enforces them, such as Calico. For instructions on how to install a CNI plug-in, see the documentation for your Kubernetes cluster.
 
-You can install Verrazzano using the [Verrazzano CLI] or with [kubectl](https://kubernetes.io/docs/reference/kubectl/kubectl/). See the following respective directions.
+You can install Verrazzano using the [Verrazzano CLI]({{< relref "docs/setup/cli/_index.md" >}}) or with [kubectl](https://kubernetes.io/docs/reference/kubectl/kubectl/). See the following respective sections.
 
 {{< tabs tabTotal="2" >}}
 {{< tab tabName="vz" >}}
