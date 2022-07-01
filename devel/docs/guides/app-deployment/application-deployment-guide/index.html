@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/guides/app-deployment/application-deployment-guide/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-03-11T10:52:56-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-07-01T11:37:44-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Application Deployment Guide">
 <meta itemprop="description" content="A guide for deploying an example application on Verrazzano">
-<meta itemprop="dateModified" content="2022-03-11T10:52:56-05:00" />
-<meta itemprop="wordCount" content="1974">
+<meta itemprop="dateModified" content="2022-07-01T11:37:44-04:00" />
+<meta itemprop="wordCount" content="2000">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Application Deployment Guide"/>
 <meta name="twitter:description" content="A guide for deploying an example application on Verrazzano"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.94f2c96e63a4bb418748cbb553686477.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.77679eb0907378d5214600f4406354db.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.94f2c96e63a4bb418748cbb553686477.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.77679eb0907378d5214600f4406354db.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -280,6 +280,8 @@ if (!doNotTrack) {
   <a href="../../../../docs/troubleshooting/troubleshooting-application-deployment/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingtroubleshooting-application-deployment"><span class="">Application Deployment</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingtroubleshooting-multicluster-li">
   <a href="../../../../docs/troubleshooting/troubleshooting-multicluster/" title="Multicluster Verrazzano" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingtroubleshooting-multicluster"><span class="">Multicluster</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingtroubleshooting-prometheus-li">
+  <a href="../../../../docs/troubleshooting/troubleshooting-prometheus/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingtroubleshooting-prometheus"><span class="">Prometheus</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docstroubleshootingdiagnostictools-li">
   <a href="../../../../docs/troubleshooting/diagnostictools/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docstroubleshootingdiagnostictools"><span class="">Diagnostic Tools</span></a>
   <ul class="ul-3 foldable">
@@ -753,8 +755,14 @@ vmi-system-es-master-0                             2/2     Running   0          
 vmi-system-grafana-799d79648d-wsdp4                2/2     Running   0          47m
 vmi-system-kiali-574c6dd94d-f49jv                  2/2     Running   0          51m
 vmi-system-kibana-77f8d998f4-zzvqr                 2/2     Running   0          47m
-vmi-system-prometheus-0-7f89d54fbf-brg6x           3/3     Running   0          45m
-</code></pre><p>These pods in the <code>verrazzano-system</code> namespace constitute a
+</code></pre><pre tabindex="0"><code>$ kubectl get pods -n verrazzano-monitoring
+
+# Sample output
+NAME                                                   READY   STATUS    RESTARTS   AGE
+prometheus-node-exporter-fstc7                         1/1     Running   0          14h
+prometheus-operator-kube-p-operator-857fb66b74-szv4h   1/1     Running   0          14h
+prometheus-prometheus-operator-kube-p-prometheus-0     3/3     Running   0          14h
+</code></pre><p>These pods in the <code>verrazzano-system</code> and <code>verrazzano-monitoring</code> namespaces constitute a
 monitoring stack created by Verrazzano for the deployed applications.</p>
 <p>The monitoring infrastructure comprises several components:</p>
 <ul>
@@ -762,7 +770,7 @@ monitoring stack created by Verrazzano for the deployed applications.</p>
 <li><code>vmi-system-grafana</code> - Grafana for metric visualization</li>
 <li><code>vms-system-kiali</code> - Kiali for management console of <code>istio</code> service mesh</li>
 <li><code>vmi-system-kibana</code> - OpenSearch Dashboards for log visualization</li>
-<li><code>vmi-system-prometheus</code> - Prometheus for metric collection</li>
+<li><code>prometheus-prometheus-operator-kube-p-prometheus</code> - Prometheus for metric collection</li>
 </ul>
 <p/>
 </li>
