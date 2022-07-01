@@ -88,6 +88,11 @@ To verify that the metrics are being collected for your workload, follow these s
 7. Here, use the job name you copied to construct this expression: `{job="<job_name>"}`
 8. Use the graph to execute this expression and verify that you see application metrics appear.
 
+Metrics Traits use Service Monitors which require [Services](https://kubernetes.io/docs/concepts/services-networking/service/) for metrics collection.
+If you are unable to verify metrics collection, you might need to manually create a Service for the workload.
+
+For more information on Prometheus solutions, see [Troubleshooting Prometheus](/docs/troubleshooting/troubleshooting-prometheus.md).
+
 #### Legacy workloads
 
 Standard Kubernetes workloads that were metrics sources in earlier versions of Verrazzano (1.3.x or older), will continue
