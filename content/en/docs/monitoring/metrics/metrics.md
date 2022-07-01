@@ -70,8 +70,8 @@ For example, for the previous metric source:
 ### Standard Kubernetes workloads
 
 Verrazzano supports enabling metric sources for Kubernetes workloads deployed without OAM components.
-To enable metrics for Kubernetes workloads, you must create a ServiceMonitor or PodMonitor as applicable. 
-For details on ServiceMonitor and PodMonitor, refer to the [Prometheus Operator documentation](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/getting-started.md). 
+To enable metrics for Kubernetes workloads, you must create a Service Monitor or Pod Monitor as applicable. 
+For details on Service Monitor and Pod Monitor, refer to the [Prometheus Operator documentation](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/getting-started.md). 
 
 When creating the ServiceMonitor or PodMonitor for your workload, include the label `release`, with the value
 `prometheus-operator` on the monitor resource.
@@ -94,7 +94,7 @@ Standard Kubernetes workloads that were metrics sources in earlier versions of V
 to be supported when upgrading to later versions of Verrazzano.
 
 For workloads that used the legacy default metrics template, Verrazzano will create a ServiceMonitor in the workload's
-namespace, to ensure that metrics continue to be scraped. You can make any ongoing changes to the metrics source configuration,
+namespace, to ensure that metrics continue to be scraped. You can make any ongoing changes to the metrics source configuration
 by editing the ServiceMonitor.
 
 For workloads that used a legacy custom metrics template, Verrazzano will configure the Prometheus Operator to ensure
@@ -102,8 +102,8 @@ that metrics continue to be scraped.
 
 ### Metrics server
 
-- Verrazzano installs Prometheus Operator in the `verrazzano-monitoring` namespace. 
-- A single Prometheus pod is created by Prometheus Operator, in the same namespace.
+- Verrazzano installs the Prometheus Operator in the `verrazzano-monitoring` namespace. 
+- A single Prometheus pod is created by Prometheus Operator in the same namespace.
 - Discovers exposed metrics source endpoints.
 - Scrapes metrics from metrics sources.
 - Responsible for exposing all metrics.
