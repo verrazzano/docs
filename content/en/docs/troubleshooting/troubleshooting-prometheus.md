@@ -30,7 +30,7 @@ For more information, see this GitHub [issue](https://github.com/prometheus-comm
 Metrics Traits use Service Monitors which requires a Service to collect metrics.
 If your OAM workload is created with a Metrics Trait and no Ingress Trait, a Service might not be generated for your workload and will need to be created manually.
 
-This troubleshooting example will be using the `hello-helidon` application:
+This troubleshooting example uses the `hello-helidon` application:
 
 Verify a Service Monitor exists for your application workload:
 ```
@@ -60,4 +60,4 @@ spec:
       targetPort: 8080
 ```
 
-Once you've completed these steps, you can [verify metrics collection](/docs/monitoring/metrics/metrics.md#verify-metrics-collection) has succeeded. 
+After you've completed these steps, you can [verify metrics collection](/docs/monitoring/metrics/metrics.md#verify-metrics-collection) has succeeded. 
