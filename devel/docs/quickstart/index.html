@@ -90,7 +90,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../offline-search-index.bf9c3f27a27a0b774131c72171e745d4.json"
+  data-offline-search-index-json-src="../../offline-search-index.94f2c96e63a4bb418748cbb553686477.json"
   data-offline-search-base-href="../../"
   data-offline-search-max-results="10"
 >
@@ -112,7 +112,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../offline-search-index.bf9c3f27a27a0b774131c72171e745d4.json"
+  data-offline-search-index-json-src="../../offline-search-index.94f2c96e63a4bb418748cbb553686477.json"
   data-offline-search-base-href="../../"
   data-offline-search-max-results="10"
 >
@@ -423,7 +423,6 @@ if (!doNotTrack) {
     <li>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#install-the-verrazzano-platform-operator">Install the Verrazzano platform operator</a></li>
         <li><a href="#install-verrazzano">Install Verrazzano</a></li>
         <li><a href="#deploy-an-example-application">Deploy an example application</a></li>
         <li><a href="#uninstall-the-example-application">Uninstall the example application</a></li>
@@ -496,40 +495,18 @@ if (!doNotTrack) {
 platforms for installing Verrazzano, see <a href="../../docs/setup/platforms/">Platform Setup</a>.</p>
 <ul>
 <li>Find the Verrazzano prerequisite requirements <a href="../../docs/setup/prereqs/">here</a>.</li>
+<li>Install  the <a href="../../docs/setup/cli/">Verrazzano CLI</a>.</li>
 <li>Review the list of the <a href="../../docs/setup/prereqs/#supported-software-versions">software versions supported</a> and <a href="../../docs/setup/prereqs/#installed-components">installed</a> by Verrazzano.</li>
-<li>For detailed installation instructions, see the <a href="../../docs/setup/install/installation/">Installation Guide</a>.</li>
+<li>For detailed Verrazzano installation instructions, see the <a href="../../docs/setup/install/installation/">Installation Guide</a>.</li>
 </ul>
-<h2 id="install-the-verrazzano-platform-operator">Install the Verrazzano platform operator</h2>
+<p><strong>NOTE</strong>: If you just created the cluster, then you must wait until your nodes reach Ready status before installing Verrazzano.</p>
+<h2 id="install-verrazzano">Install Verrazzano</h2>
 <p>Verrazzano provides a Kubernetes <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/operator/">operator</a>
 to manage the life cycle of Verrazzano installations.  The operator works with a
 <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">custom resource</a> defined in the cluster.
 You can install, uninstall, and update Verrazzano installations by updating the
 <a href="../../docs/reference/api/verrazzano/verrazzano/">Verrazzano custom resource</a>.
 The <a href="https://github.com/verrazzano/verrazzano">Verrazzano platform operator</a> controller will apply the configuration from the custom resource to the cluster for you.</p>
-<p><strong>NOTE</strong>: If you just created the cluster, then you must wait until your nodes reach Ready status before installing Verrazzano.</p>
-<p>To install the Verrazzano platform operator:</p>
-<ol>
-<li>
-<p>Deploy the Verrazzano platform operator.</p>
-<pre tabindex="0"><code>$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/master/operator.yaml
-</code></pre></li>
-<li>
-<p>Wait for the deployment to complete.</p>
-<pre tabindex="0"><code>$ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
-
-# Sample output
-deployment &#34;verrazzano-platform-operator&#34; successfully rolled out
-</code></pre></li>
-<li>
-<p>Confirm that the operator pod is correctly defined and running.</p>
-<pre tabindex="0"><code>$ kubectl -n verrazzano-install get pods
-
-# Sample output
-NAME                                            READY   STATUS    RESTARTS   AGE
-verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
-</code></pre></li>
-</ol>
-<h2 id="install-verrazzano">Install Verrazzano</h2>
 <p>You install Verrazzano by creating a Verrazzano custom resource in
 your Kubernetes cluster.  Verrazzano currently supports a default production (<code>prod</code>)
 profile and a development (<code>dev</code>) profile suitable for evaluation.</p>
@@ -550,11 +527,11 @@ profile and a development (<code>dev</code>) profile suitable for evaluation.</p
 
 </div>
 
-<p>To install Verrazzano:</p>
+<h3 id="install-verrazzano-using-the-verrazzano-clihahahugoshortcode-s8-hbhb">Install Verrazzano using the <a href="../../docs/setup/cli/">Verrazzano CLI</a></h3>
 <ol>
 <li>
-<p>Install Verrazzano with its <code>dev</code> profile.</p>
-<pre tabindex="0"><code>$ kubectl apply -f - &lt;&lt;EOF
+<p>Install Verrazzano with its <code>dev</code> profile:</p>
+<pre tabindex="0"><code>$ vz install -f - &lt;&lt;EOF
 apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
@@ -574,21 +551,10 @@ spec:
 EOF
 </code></pre></li>
 <li>
-<p>Wait for the installation to complete.</p>
-<pre tabindex="0"><code>$ kubectl wait \
-    --timeout=20m \
-    --for=condition=InstallComplete \
-    verrazzano/example-verrazzano
-</code></pre></li>
-<li>
-<p>(Optional) View the installation logs. You can view the logs with the following command:</p>
-<pre tabindex="0"><code>$ kubectl logs -n verrazzano-install \
-    -f $(kubectl get pod \
-    -n verrazzano-install \
-    -l app=verrazzano-platform-operator \
-    -o jsonpath=&#34;{.items[0].metadata.name}&#34;) | grep &#39;^{.*}$&#39; \
-    | jq -r &#39;.&#34;@timestamp&#34; as $timestamp | &#34;\($timestamp) \(.level) \(.message)&#34;&#39;
-</code></pre></li>
+<p>Wait for the installation to complete.
+Installation logs will be streamed to the command window until the installation has completed
+or until the default timeout (30m) has been reached.</p>
+</li>
 </ol>
 <h2 id="deploy-an-example-application">Deploy an example application</h2>
 <p>The <a href="../../docs/samples/hello-helidon/">Hello World Helidon</a>
@@ -636,7 +602,6 @@ namespace to be ready.</p>
 </code></pre></li>
 </ol>
 <h2 id="uninstall-the-example-application">Uninstall the example application</h2>
-<p>To uninstall the Hello World Helidon example application:</p>
 <ol>
 <li>
 <p>Delete the Verrazzano application resources.</p>
@@ -659,33 +624,16 @@ Error from server (NotFound): namespaces &#34;hello-helidon&#34; not found
 </code></pre></li>
 </ol>
 <h2 id="uninstall-verrazzano">Uninstall Verrazzano</h2>
-<p>To uninstall Verrazzano:</p>
 <ol>
 <li>
-<p>Delete the Verrazzano custom resource.</p>
-<pre tabindex="0"><code>$ kubectl delete verrazzano example-verrazzano
-</code></pre>
-
-<div class="alert alert-tip" role="alert">
-<h4 class="alert-heading">NOTE</h4>
-
-    This command blocks until the uninstall has completed.  To follow the progress,
-you can view the uninstall logs.
-
-</div>
-
-</li>
-<li>
-<p>(Optional) View the uninstall logs.</p>
-<p>The Verrazzano operator launches a Kubernetes <a href="https://kubernetes.io/docs/concepts/workloads/controllers/job/">job</a> to delete the Verrazzano installation.  You can view the uninstall logs from that job with the following command:</p>
-<pre tabindex="0"><code>$ kubectl logs -n verrazzano-install -f \
-    $( \
-      kubectl get pod \
-          -n verrazzano-install \
-          -l job-name=verrazzano-uninstall-example-verrazzano \
-          -o jsonpath=&#34;{.items[0].metadata.name}&#34; \
-    )
+<p>Delete the Verrazzano custom resource. This will uninstall the Verrazzano platform operator and all of the currently installed components.</p>
+<pre tabindex="0"><code>$ vz uninstall
 </code></pre></li>
+<li>
+<p>Wait for the uninstall to complete.
+The Verrazzano operator launches a Kubernetes <a href="https://kubernetes.io/docs/concepts/workloads/controllers/job/">job</a> to delete the Verrazzano installation.<br>
+The uninstall logs from that job will be streamed to the command window until the uninstall has completed or until the default timeout (20m) has been reached.</p>
+</li>
 </ol>
 <h2 id="next-steps">Next steps</h2>
 <p>See the <a href="../../docs/samples/">Verrazzano Example Applications</a>.</p>

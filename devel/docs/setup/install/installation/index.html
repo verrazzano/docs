@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/install/installation/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-06-08T11:22:38-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-07-01T11:24:43-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Install Guide">
 <meta itemprop="description" content="How to install Verrazzano">
-<meta itemprop="dateModified" content="2022-06-08T11:22:38-04:00" />
-<meta itemprop="wordCount" content="595">
+<meta itemprop="dateModified" content="2022-07-01T11:24:43-04:00" />
+<meta itemprop="wordCount" content="837">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Install Guide"/>
 <meta name="twitter:description" content="How to install Verrazzano"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.bf9c3f27a27a0b774131c72171e745d4.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.94f2c96e63a4bb418748cbb553686477.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.bf9c3f27a27a0b774131c72171e745d4.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.94f2c96e63a4bb418748cbb553686477.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -427,11 +427,9 @@ if (!doNotTrack) {
     <li>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#prepare-for-the-install">Prepare for the install</a></li>
-        <li><a href="#install-the-verrazzano-platform-operator">Install the Verrazzano platform operator</a></li>
-        <li><a href="#perform-the-install">Perform the install</a></li>
-        <li><a href="#verify-the-install">Verify the install</a></li>
-        <li><a href="#optional-run-the-example-applications">(Optional) Run the example applications</a></li>
+        <li><a href="#prepare-for-the-installation">Prepare for the installation</a></li>
+        <li><a href="#verify-the-installation">Verify the installation</a></li>
+        <li><a href="#next-steps">Next steps</a></li>
       </ul>
     </li>
   </ul>
@@ -506,9 +504,105 @@ single Kubernetes cluster.</p>
 <li>Find the Verrazzano prerequisite requirements <a href="../../../../docs/setup/prereqs/">here</a>.</li>
 <li>Review the list of the <a href="../../../../docs/setup/prereqs/#supported-software-versions">software versions supported</a> and <a href="../../../../docs/setup/prereqs/#installed-components">installed</a> by Verrazzano.</li>
 </ul>
-<h2 id="prepare-for-the-install">Prepare for the install</h2>
-<p>Before installing Verrazzano, see instructions on preparing <a href="../../../../docs/setup/platforms/">Kubernetes platforms</a>.</p>
+<h2 id="prepare-for-the-installation">Prepare for the installation</h2>
+<p>Before installing Verrazzano, see instructions on preparing <a href="../../../../docs/setup/platforms/">Kubernetes platforms</a> and installing the <a href="../../../../docs/setup/cli/">Verrazzano CLI</a> (optional).</p>
 <p><strong>NOTE</strong>: Verrazzano can create network policies that can be used to limit the ports and protocols that pods use for network communication. Network policies provide additional security but they are enforced only if you install a Kubernetes Container Network Interface (CNI) plug-in that enforces them, such as Calico. For instructions on how to install a CNI plug-in, see the documentation for your Kubernetes cluster.</p>
+<p>You can install Verrazzano using the <a href="../../../../docs/setup/cli/">Verrazzano CLI</a> or with <a href="https://kubernetes.io/docs/reference/kubectl/kubectl/">kubectl</a>. See the following respective sections.</p>
+<nav>
+	<div class="nav nav-tabs" id="nav-tab" role="tablist">
+
+		
+		
+		
+		
+
+		
+
+		<a class="nav-item nav-link  active "
+		   id="nav-fecbda" data-toggle="tab" href="#fecbda"
+		   role="tab" aria-controls="nav-home" aria-selected="true">vz</a>
+
+		
+
+		<a class="nav-item nav-link "
+		   id="nav-bfdcea" data-toggle="tab" href="#bfdcea"
+		   role="tab" aria-controls="nav-home" aria-selected="true">kubectl</a>
+
+		
+
+	</div>
+</nav>
+
+<div class="tab-content" id="nav-tab-content">
+
+	
+
+
+
+
+
+<div class="tab-pane fade show active " id="fecbda" role="tabpanel" aria-labelledby="nav-1">
+
+	<br>
+<p>Verrazzano provides a platform <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/operator/">operator</a>
+to manage the life cycle of Verrazzano installations.  Using the <a href="../../../../docs/reference/api/verrazzano/verrazzano/">Verrazzano</a>
+custom resource, you can install, uninstall, and upgrade Verrazzano installations.</p>
+<h2 id="perform-the-installation">Perform the installation</h2>
+<p>Verrazzano supports the following installation profiles:  development (<code>dev</code>), production (<code>prod</code>), and
+managed cluster (<code>managed-cluster</code>).  For more information, see
+<a href="../../../../docs/setup/install/profiles/">Installation Profiles</a>.</p>
+<p>This document shows how to create a basic Verrazzano installation using:</p>
+<ul>
+<li>The development (<code>dev</code>) installation profile</li>
+<li>Wildcard-DNS, where DNS is provided by <a href="https://nip.io">nip.io</a> (the default)</li>
+</ul>
+<p><strong>NOTE</strong>: Because the <code>dev</code> profile installs self-signed certificates, when installing Verrazzano on macOS, you might see: <strong>Your connection is not private</strong>. For a workaround, see this <a href="../../../../docs/faq/faq/#enable-google-chrome-to-accept-self-signed-verrazzano-certificates">FAQ</a>.</p>
+<p>For a complete description of Verrazzano configuration options, see the
+<a href="../../../../docs/reference/api/verrazzano/verrazzano/">Verrazzano Custom Resource Definition</a>.</p>
+<p>To use other DNS options, see <a href="../../../../docs/setup/customizing/dns/">Customizing DNS</a> for more details.</p>
+<h4 id="install-verrazzano">Install Verrazzano</h4>
+<p>To create a Verrazzano installation as described in the previous section, run the following commands:</p>
+<ol>
+<li>
+<p>Install Verrazzano with its <code>dev</code> profile.</p>
+<pre tabindex="0"><code>$ vz install -f - &lt;&lt;EOF
+apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: example-verrazzano
+spec:
+  profile: dev
+  defaultVolumeSource:
+    persistentVolumeClaim:
+      claimName: verrazzano-storage
+  volumeClaimSpecTemplates:
+    - metadata:
+        name: verrazzano-storage
+      spec:
+        resources:
+          requests:
+            storage: 2Gi
+EOF
+</code></pre></li>
+<li>
+<p>Wait for the installation to complete.
+Installation logs will be streamed to the command window until the installation has completed
+or until the default timeout (30m) has been reached.</p>
+</li>
+</ol>
+<p>To use a different profile with the previous example, set the <code>VZ_PROFILE</code> environment variable to the name of the profile you want to install.</p>
+
+
+</div>
+
+
+
+
+
+
+<div class="tab-pane fade show " id="bfdcea" role="tabpanel" aria-labelledby="nav-1">
+
+	<br>
 <h2 id="install-the-verrazzano-platform-operator">Install the Verrazzano platform operator</h2>
 <p>Verrazzano provides a platform <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/operator/">operator</a>
 to manage the life cycle of Verrazzano installations.  Using the <a href="../../../../docs/reference/api/verrazzano/verrazzano/">Verrazzano</a>
@@ -535,27 +629,19 @@ NAME                                            READY   STATUS    RESTARTS   AGE
 verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
 </code></pre></li>
 </ol>
-<h2 id="perform-the-install">Perform the install</h2>
+<h2 id="perform-the-installation">Perform the installation</h2>
 <p>Verrazzano supports the following installation profiles:  development (<code>dev</code>), production (<code>prod</code>), and
-managed cluster (<code>managed-cluster</code>).  For more information on profiles, see
+managed cluster (<code>managed-cluster</code>).  For more information, see
 <a href="../../../../docs/setup/install/profiles/">Installation Profiles</a>.</p>
-<p>This page shows how to create a basic Verrazzano installation using:</p>
+<p>This document shows how to create a basic Verrazzano installation using:</p>
 <ul>
 <li>The development (<code>dev</code>) installation profile</li>
 <li>Wildcard-DNS, where DNS is provided by <a href="https://nip.io">nip.io</a> (the default)</li>
 </ul>
-
-
-<div class="alert alert-warning" role="alert">
-<h4 class="alert-heading">NOTE</h4>
-
-    Because the <code>dev</code> profile installs self-signed certificates, when installing Verrazzano on macOS, you might see: <strong>Your connection is not private</strong>. For a workaround, see this <a href="../../../../docs/faq/faq/#enable-google-chrome-to-accept-self-signed-verrazzano-certificates">FAQ</a>.
-
-</div>
-
+<p><strong>NOTE</strong>: Because the <code>dev</code> profile installs self-signed certificates, when installing Verrazzano on macOS, you might see: <strong>Your connection is not private</strong>. For a workaround, see this <a href="../../../../docs/faq/faq/#enable-google-chrome-to-accept-self-signed-verrazzano-certificates">FAQ</a>.</p>
 <p>For a complete description of Verrazzano configuration options, see the
 <a href="../../../../docs/reference/api/verrazzano/verrazzano/">Verrazzano Custom Resource Definition</a>.</p>
-<p>To use other DNS options, see the <a href="../../../../docs/setup/customizing/dns/">Customzing DNS</a> page for more details.</p>
+<p>To use other DNS options, see <a href="../../../../docs/setup/customizing/dns/">Customzing DNS</a> for more details.</p>
 <h4 id="install-verrazzano">Install Verrazzano</h4>
 <p>To create a Verrazzano installation as described in the previous section, run the following commands:</p>
 <pre tabindex="0"><code>$ kubectl apply -f - &lt;&lt;EOF
@@ -578,10 +664,14 @@ you want to install.</p>
     -l app=verrazzano-platform-operator \
     -o jsonpath=&#34;{.items[0].metadata.name}&#34;) | grep &#39;^{.*}$&#39; \
     | jq -r &#39;.&#34;@timestamp&#34; as $timestamp | &#34;\($timestamp) \(.level) \(.message)&#34;&#39;
-</code></pre><p>For more help troubleshooting the installation, see <a href="../../../../docs/troubleshooting/diagnostictools/analysisadvice/">Analysis Advice</a>.</p>
-<p>After the installation is complete, you can use the console URLs.
-For more information on how to access the Verrazzano consoles, see <a href="../../../../docs/access/">Access Verrazzano</a>.</p>
-<h2 id="verify-the-install">Verify the install</h2>
+</code></pre>
+
+</div>
+
+
+
+</div>
+<h2 id="verify-the-installation">Verify the installation</h2>
 <p>Verrazzano installs multiple objects in multiple namespaces. In the <code>verrazzano-system</code> namespaces, all the pods in the <code>Running</code> state, does not guarantee, but likely indicates that Verrazzano is up and running.</p>
 <pre tabindex="0"><code>$ kubectl get pods -n verrazzano-system
 
@@ -600,9 +690,11 @@ vmi-system-kiali-5949966fb8-465s8                  2/2     Running   0          
 vmi-system-kibana-86b894d8f6-q4vb5                 2/2     Running   0          45m
 vmi-system-prometheus-0-859fcd87dc-m5ws9           3/3     Running   0          44m
 weblogic-operator-646756c75c-hgz6j                 2/2     Running   0          49m
-</code></pre><h2 id="optional-run-the-example-applications">(Optional) Run the example applications</h2>
-<p>Example applications are located <a href="../../../../docs/samples/">here</a>.</p>
-<h5 id="to-get-the-consoles-urls-and-credentials-see-access-verrazzanohahahugoshortcode-s12-hbhb">To get the consoles URLs and credentials, see <a href="../../../../docs/access/">Access Verrazzano</a>.</h5>
+</code></pre><p>For installation troubleshooting help, see the <a href="../../../../docs/troubleshooting/diagnostictools/analysisadvice/">Analysis Advice</a>.</p>
+<p>After the installation is complete, you can use the Verrazzano consoles.
+For information on how to get the consoles URLs and credentials, see <a href="../../../../docs/access/">Access Verrazzano</a>.</p>
+<h2 id="next-steps">Next steps</h2>
+<p>(Optional) Run the example applications located <a href="../../../../docs/samples/">here</a>.</p>
 
 	
 		<style>
