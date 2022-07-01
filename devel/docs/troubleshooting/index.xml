@@ -275,6 +275,30 @@ itself. Depending on the type of cluster, certain metrics may be disabled by def
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then, restart the &lt;code&gt;kube-proxy&lt;/code&gt; pods:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete pod -l k8s-app=kube-proxy -n kube-system
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For more information, see this GitHub &lt;a href=&#34;https://github.com/prometheus-community/helm-charts/issues/204&#34;&gt;issue&lt;/a&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;metrics-trait-service-monitor-not-discovered&#34;&gt;Metrics Trait Service Monitor not discovered&lt;/h3&gt;
+&lt;p&gt;Metrics Traits use Service Monitors which requires a Service to collect metrics.
+If your OAM workload is created with a Metrics Trait and no Ingress Trait, a Service might not be generated for your workload and will need to be created manually.&lt;/p&gt;
+&lt;p&gt;This troubleshooting example uses the &lt;code&gt;hello-helidon&lt;/code&gt; application:&lt;/p&gt;
+&lt;p&gt;Verify a Service Monitor exists for your application workload:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get servicemonitors -n hello-helidon
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Verify a Service exists for your application workload:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get services -n hello-helidon
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If no Service exists, create one manually.
+This example uses the default Prometheus port:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: v1
+kind: Service
+metadata:
+  name: hello-helidon-service
+  namespace: hello-helidon
+spec:
+  selector:
+    app: hello-helidon
+  ports:
+    - name: tcp-hello-helidon
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;After you&amp;rsquo;ve completed these steps, you can &lt;a href=&#34;../../docs/monitoring/metrics/metrics.md#verify-metrics-collection&#34;&gt;verify metrics collection&lt;/a&gt; has succeeded.&lt;/p&gt;
 
       </description>
     </item>

@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/troubleshooting/troubleshooting-prometheus/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-07-01T11:37:44-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-07-01T14:24:51-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Prometheus">
 <meta itemprop="description" content="Troubleshoot Prometheus issues">
-<meta itemprop="dateModified" content="2022-07-01T11:37:44-04:00" />
-<meta itemprop="wordCount" content="118">
+<meta itemprop="dateModified" content="2022-07-01T14:24:51-04:00" />
+<meta itemprop="wordCount" content="251">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Prometheus"/>
 <meta name="twitter:description" content="Troubleshoot Prometheus issues"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.a22b89d933af57a142ae2b8251a5ddf3.json"
+  data-offline-search-index-json-src="../../../offline-search-index.42e5fbcb3c1da773083ba5ac9dcff37b.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.a22b89d933af57a142ae2b8251a5ddf3.json"
+  data-offline-search-index-json-src="../../../offline-search-index.42e5fbcb3c1da773083ba5ac9dcff37b.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -493,6 +493,30 @@ itself. Depending on the type of cluster, certain metrics may be disabled by def
 </code></pre><p>Then, restart the <code>kube-proxy</code> pods:</p>
 <pre tabindex="0"><code>$ kubectl delete pod -l k8s-app=kube-proxy -n kube-system
 </code></pre><p>For more information, see this GitHub <a href="https://github.com/prometheus-community/helm-charts/issues/204">issue</a>.</p>
+<h3 id="metrics-trait-service-monitor-not-discovered">Metrics Trait Service Monitor not discovered</h3>
+<p>Metrics Traits use Service Monitors which requires a Service to collect metrics.
+If your OAM workload is created with a Metrics Trait and no Ingress Trait, a Service might not be generated for your workload and will need to be created manually.</p>
+<p>This troubleshooting example uses the <code>hello-helidon</code> application:</p>
+<p>Verify a Service Monitor exists for your application workload:</p>
+<pre tabindex="0"><code>$ kubectl get servicemonitors -n hello-helidon
+</code></pre><p>Verify a Service exists for your application workload:</p>
+<pre tabindex="0"><code>$ kubectl get services -n hello-helidon
+</code></pre><p>If no Service exists, create one manually.
+This example uses the default Prometheus port:</p>
+<pre tabindex="0"><code>apiVersion: v1
+kind: Service
+metadata:
+  name: hello-helidon-service
+  namespace: hello-helidon
+spec:
+  selector:
+    app: hello-helidon
+  ports:
+    - name: tcp-hello-helidon
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+</code></pre><p>After you&rsquo;ve completed these steps, you can <a href="../../../docs/monitoring/metrics/metrics.md#verify-metrics-collection">verify metrics collection</a> has succeeded.</p>
 
 	
 		<style>
