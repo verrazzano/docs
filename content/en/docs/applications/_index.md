@@ -211,9 +211,10 @@ See the [API documentation]({{< relref "/docs/reference/api/oam/ingresstrait.md"
 
 ### MetricsTrait
 The MetricsTrait provides a simplified integration with the Prometheus service included in the Verrazzano platform.
-The `verrazzano-application-operator` processes each MetricsTrait and does two things:
+The `verrazzano-application-operator` processes each MetricsTrait and does three things:
 - Updates the workload's annotations to provide metrics source information.
-- Updates the Prometheus' metrics scrape configuration with metrics scrape targets.
+- Creates a Service Monitor or Pod Monitor for the target workload
+- Updates an external Prometheus' metrics scrape configuration with metrics scrape targets.
 The Verrazzano platform will automatically apply a MetricsTrait to every Component with a supported workload.
 
 The following sample shows the a MetricsTrait that was automatically applied.

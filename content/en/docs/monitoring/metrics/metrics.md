@@ -70,10 +70,8 @@ For example, for the previous metric source:
 ### Standard Kubernetes workloads
 
 Verrazzano supports enabling metric sources for Kubernetes workloads deployed without OAM components.
-Verrazzano supports the following workload types: Deployments, ReplicaSets, StatefulSets, and Pods.
-To enable metrics for Kubernetes workloads, you must label the workload namespace with `verrazzano-managed=true`, and
-create ServiceMonitor or PodMonitor resources as applicable, for your workloads. For details on ServiceMonitor and
-PodMonitor, refer to the [Prometheus Operator documentation](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/getting-started.md). 
+To enable metrics for Kubernetes workloads, you must create a ServiceMonitor or PodMonitor as applicable. 
+For details on ServiceMonitor and PodMonitor, refer to the [Prometheus Operator documentation](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/getting-started.md). 
 
 When creating the ServiceMonitor or PodMonitor for your workload, include the label `release`, with the value
 `prometheus-operator` on the monitor resource.
@@ -83,8 +81,8 @@ When creating the ServiceMonitor or PodMonitor for your workload, include the la
 To verify that the metrics are being collected for your workload, follow these steps:
 1. Access the [Prometheus console]({{< relref "/docs/access/_index.md" >}}).
 2. From the console, use the navigation bar to access Status/Targets.
-3. On this page, you will see a target name with this formatting: `<monitor-type>/<workload-namespace>_<workload-name>_<workload-type>`, where "monitor-type" may be serviceMonitor or podMonitor, depending on the type of monitor resource you created for your workload.
-4. Copy this job name for use in future queries.
+3. On this page, you will see a target name with this formatting: `<monitor-type>/<workload-namespace>_<workload-name>_<workload-type>`, where "monitor-type" may be Service Monitor or Pod Monitor.
+4. Copy this job name from the target labels for use in future queries.
 5. Verify that the State of this target is `UP`.
 6. Next, use the navigation bar to access the Graph.
 7. Here, use the job name you copied to construct this expression: `{job="<job_name>"}`
