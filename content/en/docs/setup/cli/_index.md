@@ -48,7 +48,7 @@ GitCommit: dcbe5e68256699c12f845f3c032c5419780b4fa3
 
 ## Use the `vz` CLI
 
-Verrazzano provides a command-line tool for managing a Verrazzano environment, using the Verrazzano and Kubernetes API.
+Verrazzano provides a command-line tool for managing a Verrazzano environment using the Verrazzano and Kubernetes API.
 
 Common use cases include installing, upgrading, and uninstalling Verrazzano,
 as well as analyzing failures in a running Verrazzano environment.

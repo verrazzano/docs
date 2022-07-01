@@ -155,7 +155,7 @@ enabled for Istio.
 
 ## Uninstall Verrazzano
 
-1. Delete the Verrazzano custom resource. This will uninstall the Verrazzano Platform Operator and all of the currently installed components.
+1. Delete the Verrazzano custom resource. This will uninstall the Verrazzano platform operator and all of the currently installed components.
 
     ```
     $ vz uninstall
