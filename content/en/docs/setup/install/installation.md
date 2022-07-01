@@ -14,11 +14,75 @@ single Kubernetes cluster.
 - Review the list of the [software versions supported]({{< relref "/docs/setup/prereqs.md#supported-software-versions" >}}) and [installed]({{< relref "/docs/setup/prereqs.md#installed-components" >}}) by Verrazzano.
 
 
-## Prepare for the install
+## Prepare for the installation
 
-Before installing Verrazzano, see instructions on preparing [Kubernetes platforms]({{< relref "/docs/setup/platforms/" >}}).
+Before installing Verrazzano, see instructions on preparing [Kubernetes platforms]({{< relref "/docs/setup/platforms/" >}}) and installing the [Verrazzano CLI]({{< relref "docs/setup/cli/_index.md" >}}) (optional).
 
 **NOTE**: Verrazzano can create network policies that can be used to limit the ports and protocols that pods use for network communication. Network policies provide additional security but they are enforced only if you install a Kubernetes Container Network Interface (CNI) plug-in that enforces them, such as Calico. For instructions on how to install a CNI plug-in, see the documentation for your Kubernetes cluster.
+
+You can install Verrazzano using the [Verrazzano CLI]({{< relref "docs/setup/cli/_index.md" >}}) or with [kubectl](https://kubernetes.io/docs/reference/kubectl/kubectl/). See the following respective sections.
+
+{{< tabs tabTotal="2" >}}
+{{< tab tabName="vz" >}}
+<br>
+
+Verrazzano provides a platform [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
+to manage the life cycle of Verrazzano installations.  Using the [Verrazzano]({{< relref "/docs/reference/api/verrazzano/verrazzano.md" >}})
+custom resource, you can install, uninstall, and upgrade Verrazzano installations.
+
+## Perform the installation
+
+Verrazzano supports the following installation profiles:  development (`dev`), production (`prod`), and
+managed cluster (`managed-cluster`).  For more information, see
+[Installation Profiles]({{< relref "/docs/setup/install/profiles.md"  >}}).
+
+This document shows how to create a basic Verrazzano installation using:
+
+* The development (`dev`) installation profile
+* Wildcard-DNS, where DNS is provided by [nip.io](https://nip.io) (the default)
+
+**NOTE**: Because the `dev` profile installs self-signed certificates, when installing Verrazzano on macOS, you might see: **Your connection is not private**. For a workaround, see this [FAQ]({{< relref "/docs/faq/FAQ#enable-google-chrome-to-accept-self-signed-verrazzano-certificates" >}}).
+
+For a complete description of Verrazzano configuration options, see the
+[Verrazzano Custom Resource Definition]({{< relref "/docs/reference/api/verrazzano/verrazzano.md" >}}).
+
+To use other DNS options, see [Customizing DNS](/docs/setup/customizing/dns/) for more details.
+
+#### Install Verrazzano
+
+To create a Verrazzano installation as described in the previous section, run the following commands:
+
+1. Install Verrazzano with its `dev` profile.
+    ```
+    $ vz install -f - <<EOF
+    apiVersion: install.verrazzano.io/v1alpha1
+    kind: Verrazzano
+    metadata:
+      name: example-verrazzano
+    spec:
+      profile: dev
+      defaultVolumeSource:
+        persistentVolumeClaim:
+          claimName: verrazzano-storage
+      volumeClaimSpecTemplates:
+        - metadata:
+            name: verrazzano-storage
+          spec:
+            resources:
+              requests:
+                storage: 2Gi
+    EOF
+    ```
+
+2. Wait for the installation to complete.
+   Installation logs will be streamed to the command window until the installation has completed
+   or until the default timeout (30m) has been reached.
+
+To use a different profile with the previous example, set the `VZ_PROFILE` environment variable to the name of the profile you want to install.
+
+{{< /tab >}}
+{{< tab tabName="kubectl" >}}
+<br>
 
 ## Install the Verrazzano platform operator
 
@@ -53,24 +117,23 @@ To install the Verrazzano platform operator:
     verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
     ```
 
-## Perform the install
+## Perform the installation
 
 Verrazzano supports the following installation profiles:  development (`dev`), production (`prod`), and
-managed cluster (`managed-cluster`).  For more information on profiles, see
+managed cluster (`managed-cluster`).  For more information, see
 [Installation Profiles]({{< relref "/docs/setup/install/profiles.md"  >}}).
 
-This page shows how to create a basic Verrazzano installation using:
+This document shows how to create a basic Verrazzano installation using:
 
 * The development (`dev`) installation profile
 * Wildcard-DNS, where DNS is provided by [nip.io](https://nip.io) (the default)
 
-{{< alert title="NOTE" color="warning" >}}Because the `dev` profile installs self-signed certificates, when installing Verrazzano on macOS, you might see: **Your connection is not private**. For a workaround, see this [FAQ]({{< relref "/docs/faq/FAQ#enable-google-chrome-to-accept-self-signed-verrazzano-certificates" >}}).
-{{< /alert >}}
+**NOTE**: Because the `dev` profile installs self-signed certificates, when installing Verrazzano on macOS, you might see: **Your connection is not private**. For a workaround, see this [FAQ]({{< relref "/docs/faq/FAQ#enable-google-chrome-to-accept-self-signed-verrazzano-certificates" >}}).
 
 For a complete description of Verrazzano configuration options, see the
 [Verrazzano Custom Resource Definition]({{< relref "/docs/reference/api/verrazzano/verrazzano.md" >}}).
 
-To use other DNS options, see the [Customzing DNS](/docs/setup/customizing/dns/) page for more details.
+To use other DNS options, see [Customzing DNS](/docs/setup/customizing/dns/) for more details.
 
 #### Install Verrazzano
 
@@ -103,13 +166,11 @@ $ kubectl logs -n verrazzano-install \
     -o jsonpath="{.items[0].metadata.name}") | grep '^{.*}$' \
     | jq -r '."@timestamp" as $timestamp | "\($timestamp) \(.level) \(.message)"'
 ```
+{{< /tab >}}
+{{< /tabs >}}
 
 
-For more help troubleshooting the installation, see [Analysis Advice]({{< relref "/docs/troubleshooting/diagnostictools/analysisadvice/" >}}).
-
-After the installation is complete, you can use the console URLs.
-For more information on how to access the Verrazzano consoles, see [Access Verrazzano]({{< relref "/docs/access/" >}}).
-## Verify the install
+## Verify the installation
 
 Verrazzano installs multiple objects in multiple namespaces. In the `verrazzano-system` namespaces, all the pods in the `Running` state, does not guarantee, but likely indicates that Verrazzano is up and running.
 ```
@@ -132,7 +193,11 @@ vmi-system-prometheus-0-859fcd87dc-m5ws9           3/3     Running   0          
 weblogic-operator-646756c75c-hgz6j                 2/2     Running   0          49m
 ```
 
-## (Optional) Run the example applications
-Example applications are located [here]({{< relref "/docs/samples/_index.md" >}}).
+For installation troubleshooting help, see the [Analysis Advice]({{< relref "/docs/troubleshooting/diagnostictools/analysisadvice/" >}}).
 
-##### To get the consoles URLs and credentials, see [Access Verrazzano]({{< relref "/docs/access/_index.md" >}}).
+After the installation is complete, you can use the Verrazzano consoles.
+For information on how to get the consoles URLs and credentials, see [Access Verrazzano]({{< relref "/docs/access/" >}}).
+
+## Next steps
+
+(Optional) Run the example applications located [here]({{< relref "/docs/samples/_index.md" >}}).
