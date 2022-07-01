@@ -81,7 +81,7 @@ When creating the ServiceMonitor or PodMonitor for your workload, include the la
 To verify that the metrics are being collected for your workload, follow these steps:
 1. Access the [Prometheus console]({{< relref "/docs/access/_index.md" >}}).
 2. From the console, use the navigation bar to access Status/Targets.
-3. On this page, you will see a target name with this formatting: `<monitor-type>/<workload-namespace>_<workload-name>_<workload-type>`, where "monitor-type" may be Service Monitor or Pod Monitor.
+3. On this page, you will see a target name with this formatting: `<monitor-type>/<workload-namespace>_<workload-name>_<workload-type>`, where "monitor-type" may be serviceMonitor or podMonitor.
 4. Copy this job name from the target labels for use in future queries.
 5. Verify that the State of this target is `UP`.
 6. Next, use the navigation bar to access the Graph.
