@@ -311,10 +311,19 @@ and enabled for Istio.
    vmi-system-grafana-799d79648d-wsdp4                2/2     Running   0          47m
    vmi-system-kiali-574c6dd94d-f49jv                  2/2     Running   0          51m
    vmi-system-kibana-77f8d998f4-zzvqr                 2/2     Running   0          47m
-   vmi-system-prometheus-0-7f89d54fbf-brg6x           3/3     Running   0          45m
    ```
 
-   These pods in the `verrazzano-system` namespace constitute a
+   ```
+   $ kubectl get pods -n verrazzano-monitoring
+
+   # Sample output
+   NAME                                                   READY   STATUS    RESTARTS   AGE
+   prometheus-node-exporter-fstc7                         1/1     Running   0          14h
+   prometheus-operator-kube-p-operator-857fb66b74-szv4h   1/1     Running   0          14h
+   prometheus-prometheus-operator-kube-p-prometheus-0     3/3     Running   0          14h
+   ```
+
+   These pods in the `verrazzano-system` and `verrazzano-monitoring` namespaces constitute a
    monitoring stack created by Verrazzano for the deployed applications.
 
    The monitoring infrastructure comprises several components:
@@ -322,7 +331,7 @@ and enabled for Istio.
    * `vmi-system-grafana` - Grafana for metric visualization
    * `vms-system-kiali` - Kiali for management console of `istio` service mesh
    * `vmi-system-kibana` - OpenSearch Dashboards for log visualization
-   * `vmi-system-prometheus` - Prometheus for metric collection
+   * `prometheus-prometheus-operator-kube-p-prometheus` - Prometheus for metric collection
    <p/>
 
 1. Diagnose failures.
