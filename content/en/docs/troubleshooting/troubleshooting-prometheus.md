@@ -24,3 +24,40 @@ $ kubectl delete pod -l k8s-app=kube-proxy -n kube-system
 ```
 
 For more information, see this GitHub [issue](https://github.com/prometheus-community/helm-charts/issues/204).
+
+### Metrics Trait Service Monitor not discovered
+
+Metrics Traits use Service Monitors which requires a Service to collect metrics.
+If your OAM workload is created with a Metrics Trait and no Ingress Trait, a Service might not be generated for your workload and will need to be created manually
+
+This troubleshooting example will be using the `hello-helidon` application:
+
+Verify a Service Monitor exists for your application workload.
+```
+$ kubectl get servicemonitors -n hello-helidon
+```
+
+Verify a Service exists for your application workload:
+```
+$ kubectl get services -n hello-helidon
+```
+
+If no Service exists, create one manually.
+This example uses the default Prometheus port:
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-helidon-service
+  namespace: hello-helidon
+spec:
+  selector:
+    app: hello-helidon
+  ports:
+    - name: tcp-hello-helidon
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+```
+
+Once you've completed these steps, you can [verify metrics collection](/docs/monitoring/metrics/metrics.md#verify-metrics-collection) has succeeded. 
