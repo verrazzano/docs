@@ -160,7 +160,7 @@ Alternatively, you can upgrade the Verrazzano installation using the following s
 
    ```
    $ kubectl wait \
-       --timeout=10m \
+       --timeout=30m \
        --for=condition=UpgradeComplete verrazzano/example-verrazzano
    ```
 {{< /tab >}}
