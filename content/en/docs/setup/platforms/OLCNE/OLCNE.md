@@ -91,17 +91,11 @@ Private Subnet Route Table Rules
 | `0.0.0.0/0`     | NAT Gateway    |
 | All Oracle Cloud Infrastructure Services| Service Gateway|
 
-**Internet Gateway**
-
-**NAT Gateway**
-
-**Service Gateway**
+### Compute Instances
 
 The following compute resources adhere to the guidelines provided in [Oracle Cloud Native Environment: Getting Started](https://docs.oracle.com/en/operating-systems/olcne/).
 The attributes indicated (for example, Subnet, RAM, Shape, and Image) are recommendations that have been tested.
 Other values can be used if required.
-
-**Compute Instances**
 
 | Role                          | Subnet  | Suggested RAM | Compatible VM Shape | Compatible VM Image |
 |-------------------------------|---------|---------------|---------------------|---------------------|
