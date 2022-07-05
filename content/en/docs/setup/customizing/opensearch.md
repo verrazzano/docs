@@ -101,7 +101,6 @@ pod/vmi-system-kibana-7d47f65dfc-zhjxp                 2/2     Running    0     
 pod/vmi-system-master-0                                2/2     Running    0          5m21s
 pod/vmi-system-master-1                                2/2     Running    0          5m21s
 pod/vmi-system-master-2                                2/2     Running    0          5m21s
-pod/vmi-system-prometheus-0-5fd9d66b4c-x57sv           3/3     Running    0          5m21s
 pod/weblogic-operator-666b548749-lj66t                 2/2     Running    0          7m48s
 ```
 
