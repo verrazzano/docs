@@ -25,7 +25,17 @@ See the following respective sections.
 2. Wait for the uninstall to complete.
    The Verrazzano operator launches a Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) to delete the Verrazzano installation.  
    The uninstall logs from that job will be streamed to the command window until the uninstall has completed or until the default timeout (20m) has been reached.
+   The following is an example of the output:
+   ```shell
+   Uninstalling Verrazzano
+   Waiting for verrazzano-uninstall-verrazzano to be ready before starting uninstall - 2 seconds
 
+   2022-07-05 20:09:13 UTC Retrieving the access token from Rancher at rancher.default.172.18.0.231.nip.io
+   2022-07-05 20:09:14 UTC Updating https://rancher.default.172.18.0.231.nip.io/v3/clusters/local
+   2022-07-05 20:09:14 UTC Status: 200
+   2022-07-05 20:09:15 UTC Rancher cluster is still in state: removing
+   ...
+   ```
 {{< /tab >}}
 {{< tab tabName="kubectl" >}}
 <br>
