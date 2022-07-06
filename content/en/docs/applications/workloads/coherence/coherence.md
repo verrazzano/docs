@@ -157,11 +157,11 @@ to the ApplicationConfiguration for each component, specifying the metrics port 
 
 ### Prometheus configuration
 Prometheus is configured via the Prometheus Operator to scrape application targets.  During application deployment,
-Verrazzano creates/updates ServiceMonitor(s) based on the MetricsTrait specified in the ApplicationConfiguration. When
-the application is deleted, Verrazzano removes the ServiceMonitor(s) so that metrics are no longer collected for it.
+Verrazzano creates/updates Service Monitors based on the MetricsTrait specified in the ApplicationConfiguration. When
+the application is deleted, Verrazzano removes the Service Monitors so that metrics are no longer collected for it.
 
-Here is an example of the`sock-shop` Prometheus ServiceMonitor for `catalog-coh` in the application namespace.  
-Notice that services with labels certain labels are targeted.  Prometheus Operator will find the ServiceMonitor and
+Here is an example of the`sock-shop` Prometheus Service Monitor resource for `catalog-coh` in the application namespace.  
+Notice that services with labels certain labels are targeted.  Prometheus Operator will find the Service Monitor and
 generate the scrape configuration to be used by Prometheus.
 ```
 apiVersion: monitoring.coreos.com/v1
