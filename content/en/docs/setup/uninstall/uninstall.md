@@ -25,6 +25,7 @@ See the following respective sections.
 2. Wait for the uninstall to complete.
    The Verrazzano operator launches a Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) to delete the Verrazzano installation.  
    The uninstall logs from that job will be streamed to the command window until the uninstall has completed or until the default timeout (20m) has been reached.
+
    The following is an example of the output:
    ```shell
    Uninstalling Verrazzano
@@ -52,6 +53,10 @@ uses the `kubectl logs -f` command to tail the output of the pod performing the 
 
    ```shell
    $ kubectl delete verrazzano $MYVZ --wait=false
+      ```
+3. View the logs and wait for uninstall to complete.
+
+   ```shell
    $ kubectl logs -n verrazzano-install \
        -f $(kubectl get pod \
        -n verrazzano-install \
