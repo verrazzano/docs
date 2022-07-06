@@ -293,7 +293,6 @@ The following table shows which proxies are used and in which Pod they run.
 | Istio mesh sidecar | Envoy  | `vmi-system-es-data-*` | `verrazzano-system` | OpenSearch in the Istio mesh.
 | Istio mesh sidecar | Envoy  | `vmi-system-es-ingest-*` | `verrazzano-system` | OpenSearch in the Istio mesh.
 | Istio mesh sidecar | Envoy  | `vmi-system-kibana-*` | `verrazzano-system` | OpenSearch Dashboards in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `vmi-system-prometheus-*` | `verrazzano-system` | Prometheus in the Istio mesh.
 | Istio mesh sidecar | Envoy  | `vmi-system-grafana-*` | `verrazzano-system` | Grafana in the Istio mesh.
 | Istio mesh sidecar | Envoy  | `weblogic-operator-*` | `verrazzano-system` | WebLogic operator in the Istio mesh.
 
