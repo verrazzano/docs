@@ -36,6 +36,7 @@ See the following respective sections.
 {{< /tab >}}
 {{< tab tabName="kubectl" >}}
 <br>
+
 To delete a Verrazzano installation, delete the Verrazzano custom resource you used to
 install it into your cluster.
 
