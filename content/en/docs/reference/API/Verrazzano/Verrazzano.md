@@ -314,9 +314,9 @@ To configure OpenSearch, instead of using install args, Oracle recommends that y
 | `enabled` | Boolean | If true, then OpenSearch Dashboards will be installed. | No |
 
 ### Prometheus Component
-| Field | Type | Description                                                                                                                                                                                                                | Required
-| --- | --- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| --- |
-| `enabled` | Boolean | If true, then Prometheus will be installed. Defaults to `true`. This is a legacy setting - the preferred way to configure Prometheus is using the [prometheusOperator](#prometheus-operator-component) component. | No |
+| Field | Type | Description                                                                                                                                                                                                      | Required
+| --- | --- |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| --- |
+| `enabled` | Boolean | If true, then Prometheus will be installed. Defaults to `true`. This is a legacy setting; the preferred way to configure Prometheus is using the [prometheusOperator](#prometheus-operator-component) component. | No |
 
 ### Grafana Component
 | Field | Type | Description | Required

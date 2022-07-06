@@ -68,9 +68,9 @@ $ curl -sk \
 #### MetricsTraitSpec
 MetricsTraitSpec specifies the desired state of a metrics trait.
 
-| Field | Type | Description                                                                                                                                  | Required
-| --- | --- |----------------------------------------------------------------------------------------------------------------------------------------------| --- |
-| `port` | integer | The HTTP port for the related metrics endpoint. Defaults to `8080`.                                                                          | No |
-| `path` | string | The HTTP path for the related metrics endpoint. Defaults to `/metrics`.                                                                      | No |
-| `secret` | string | The name of an opaque secret (for example, user name and password) within the workload’s namespace for metrics endpoint access.              | No |
-| `scraper` | string | The Prometheus deployment used to scrape the related metrics endpoints. By default the Verrazzano Prometheus is used to scrape the endpoint. | No |
+| Field | Type | Description                                                                                                                                                      | Required
+| --- | --- |------------------------------------------------------------------------------------------------------------------------------------------------------------------| --- |
+| `port` | integer | The HTTP port for the related metrics endpoint. Defaults to `8080`.                                                                                              | No |
+| `path` | string | The HTTP path for the related metrics endpoint. Defaults to `/metrics`.                                                                                          | No |
+| `secret` | string | The name of an opaque secret (for example, user name and password) within the workload’s namespace for metrics endpoint access.                                  | No |
+| `scraper` | string | The Prometheus deployment used to scrape the related metrics endpoints. By default, the Verrazzano-supplied Prometheus component is used to scrape the endpoint. | No |

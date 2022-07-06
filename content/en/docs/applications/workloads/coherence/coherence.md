@@ -156,8 +156,8 @@ to the ApplicationConfiguration for each component, specifying the metrics port 
 ```
 
 ### Prometheus configuration
-Prometheus is configured via the Prometheus Operator to scrape application targets.  During application deployment,
-Verrazzano creates/updates Service Monitors based on the MetricsTrait specified in the ApplicationConfiguration. When 
+Prometheus is configured using the Prometheus Operator to scrape application targets.  During application deployment,
+Verrazzano creates or updates Service Monitors based on the MetricsTrait specified in the ApplicationConfiguration.  When
 the application is deleted, Verrazzano removes the Service Monitors so that metrics are no longer collected for it.
 
 Here is an example of the `sock-shop` Prometheus Service Monitor resource for `catalog-coh` in the application namespace.  
