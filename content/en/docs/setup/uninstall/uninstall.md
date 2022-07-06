@@ -43,17 +43,20 @@ See the following respective sections.
 The following example starts a deletion of a Verrazzano installation in the background and then
 uses the `kubectl logs -f` command to tail the output of the pod performing the uninstall.
 
-```
-# Get the name of the Verrazzano custom resource
-$ MYVZ=$(kubectl  get vz -o jsonpath="{.items[0].metadata.name}")
+1. Get the name of the Verrazzano custom resource.
 
-# Delete the Verrazzano custom resource
-$ kubectl delete verrazzano $MYVZ --wait=false
-$ kubectl logs -n verrazzano-install \
-    -f $(kubectl get pod \
-    -n verrazzano-install \
-    -l job-name=verrazzano-uninstall-${MYVZ} \
-    -o jsonpath="{.items[0].metadata.name}")
-```
+   ```shell
+   $ MYVZ=$(kubectl  get vz -o jsonpath="{.items[0].metadata.name}")
+   ```
+2. Delete the Verrazzano custom resource.
+
+   ```shell
+   $ kubectl delete verrazzano $MYVZ --wait=false
+   $ kubectl logs -n verrazzano-install \
+       -f $(kubectl get pod \
+       -n verrazzano-install \
+       -l job-name=verrazzano-uninstall-${MYVZ} \
+       -o jsonpath="{.items[0].metadata.name}")
+   ```
 {{< /tab >}}
 {{< /tabs >}}
