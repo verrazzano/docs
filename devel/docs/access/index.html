@@ -90,7 +90,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../offline-search-index.07b27adc02e07bc57683e625533d318e.json"
+  data-offline-search-index-json-src="../../offline-search-index.c7482c0d8f2a698a2fc175f995a3ad1c.json"
   data-offline-search-base-href="../../"
   data-offline-search-max-results="10"
 >
@@ -112,7 +112,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../offline-search-index.07b27adc02e07bc57683e625533d318e.json"
+  data-offline-search-index-json-src="../../offline-search-index.c7482c0d8f2a698a2fc175f995a3ad1c.json"
   data-offline-search-base-href="../../"
   data-offline-search-max-results="10"
 >
@@ -490,10 +490,80 @@ if (!doNotTrack) {
 	</header>
 	<h2 id="get-the-consoles-urls">Get the consoles URLs</h2>
 <p>Verrazzano installs several consoles. The endpoints for an installation are stored in the <code>Status</code> field of the
-installed Verrazzano Custom Resource. You can get the endpoints for these consoles by issuing the following command
-and examining the <code>Status.Instance</code> field:</p>
-<p><code>$ kubectl get vz -o yaml</code></p>
-<p>The resulting output is similar to the following (abbreviated to show only the relevant portions):</p>
+installed Verrazzano Custom Resource.</p>
+<p>You can access the installation endpoints using the <a href="../../docs/setup/install/installation/">Verrazzano CLI</a> or with <a href="https://kubernetes.io/docs/reference/kubectl/kubectl/">kubectl</a>.
+See the following respective sections.</p>
+<nav>
+	<div class="nav nav-tabs" id="nav-tab" role="tablist">
+
+		
+		
+		
+		
+
+		
+
+		<a class="nav-item nav-link  active "
+		   id="nav-deafcb" data-toggle="tab" href="#deafcb"
+		   role="tab" aria-controls="nav-home" aria-selected="true">vz</a>
+
+		
+
+		<a class="nav-item nav-link "
+		   id="nav-abcedf" data-toggle="tab" href="#abcedf"
+		   role="tab" aria-controls="nav-home" aria-selected="true">kubectl</a>
+
+		
+
+	</div>
+</nav>
+
+<div class="tab-content" id="nav-tab-content">
+
+	
+
+
+
+
+
+<div class="tab-pane fade show active " id="deafcb" role="tabpanel" aria-labelledby="nav-1">
+
+	<br>
+You can get the endpoints for these consoles by issuing the following command
+and examining the <code>Status.Instance</code> field:
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ vz status
+</span></span></code></pre></div><p>The resulting output is similar to the following:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>Verrazzano Status
+</span></span><span style="display:flex;"><span>  Name: verrazzano
+</span></span><span style="display:flex;"><span>  Namespace: default
+</span></span><span style="display:flex;"><span>  Version: 1.3.1
+</span></span><span style="display:flex;"><span>  State: Ready
+</span></span><span style="display:flex;"><span>  Profile: dev
+</span></span><span style="display:flex;"><span>  Access Endpoints:
+</span></span><span style="display:flex;"><span>    Console URL: https://verrazzano.default.172.18.0.231.nip.io
+</span></span><span style="display:flex;"><span>    Grafana URL: https://grafana.vmi.system.default.172.18.0.231.nip.io
+</span></span><span style="display:flex;"><span>    Keycloak URL: https://keycloak.default.172.18.0.231.nip.io
+</span></span><span style="display:flex;"><span>    Kiali URL: https://kiali.vmi.system.default.172.18.0.231.nip.io
+</span></span><span style="display:flex;"><span>    Kibana URL: https://kibana.vmi.system.default.172.18.0.231.nip.io
+</span></span><span style="display:flex;"><span>    OpenSearch URL: https://elasticsearch.vmi.system.default.172.18.0.231.nip.io
+</span></span><span style="display:flex;"><span>    Prometheus URL: https://prometheus.vmi.system.default.172.18.0.231.nip.io
+</span></span><span style="display:flex;"><span>    Rancher URL: https://rancher.default.172.18.0.231.nip.io
+</span></span></code></pre></div>
+
+</div>
+
+
+
+
+
+
+<div class="tab-pane fade show " id="abcedf" role="tabpanel" aria-labelledby="nav-1">
+
+	<br>
+You can get the endpoints for these consoles by issuing the following command
+and examining the <code>Status.Instance</code> field:
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl get vz -o yaml
+</span></span></code></pre></div><p>The resulting output is similar to the following (abbreviated to show only the relevant portions):</p>
 <pre tabindex="0"><code>  ...
   status:
     conditions:
@@ -527,7 +597,14 @@ and examining the <code>Status.Instance</code> field:</p>
 &#34;prometheusUrl&#34;: &#34;https://prometheus.vmi.system.default.11.22.33.44.nip.io&#34;,
 &#34;rancherUrl&#34;: &#34;https://rancher.default.11.22.33.44.nip.io&#34;
 }
-</code></pre><h2 id="get-consoles-credentials">Get consoles credentials</h2>
+</code></pre>
+
+</div>
+
+
+
+</div>
+<h2 id="get-consoles-credentials">Get consoles credentials</h2>
 <p>You will need the credentials to access the consoles installed by Verrazzano.</p>
 <h3 id="consoles-accessed-by-the-same-user-namepassword">Consoles accessed by the same user name/password</h3>
 <ul>

@@ -90,7 +90,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.07b27adc02e07bc57683e625533d318e.json"
+  data-offline-search-index-json-src="../../../offline-search-index.c7482c0d8f2a698a2fc175f995a3ad1c.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -112,7 +112,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.07b27adc02e07bc57683e625533d318e.json"
+  data-offline-search-index-json-src="../../../offline-search-index.c7482c0d8f2a698a2fc175f995a3ad1c.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -512,6 +512,72 @@ when the upgrade is complete.  There is no user involvement related to restartin
 The platform operator contains the newer component charts and image versions, so it must be updated prior to upgrading the installation.
 Updating the platform operator has no effect on an existing installation until you initiate the Verrazzano installation upgrade.
 Currently, there is no way to roll back either the platform operator update or the Verrazzano installation upgrade.</p>
+<p>You can upgrade Verrazzano using the  <a href="../../../docs/setup/install/installation/">Verrazzano CLI</a> or with <a href="https://kubernetes.io/docs/reference/kubectl/kubectl/">kubectl</a>.
+See the following respective sections.</p>
+<nav>
+	<div class="nav nav-tabs" id="nav-tab" role="tablist">
+
+		
+		
+		
+		
+
+		
+
+		<a class="nav-item nav-link  active "
+		   id="nav-adbcef" data-toggle="tab" href="#adbcef"
+		   role="tab" aria-controls="nav-home" aria-selected="true">vz</a>
+
+		
+
+		<a class="nav-item nav-link "
+		   id="nav-adcefb" data-toggle="tab" href="#adcefb"
+		   role="tab" aria-controls="nav-home" aria-selected="true">kubectl</a>
+
+		
+
+	</div>
+</nav>
+
+<div class="tab-content" id="nav-tab-content">
+
+	
+
+
+
+
+
+<div class="tab-pane fade show active " id="adbcef" role="tabpanel" aria-labelledby="nav-1">
+
+	<br>
+<h2 id="upgrade-verrazzano">Upgrade Verrazzano</h2>
+<p>In one simple step, you can upgrade to a specified version of Verrazzano using this command:</p>
+<ol>
+<li>
+<p>Update the <code>Verrazzano</code> resource to the desired version.</p>
+<p>To update to the latest version (default):</p>
+<pre tabindex="0"><code>$ vz upgrade
+</code></pre><p>To update to a specific version, where <code>&lt;version&gt;</code> is the desired version:</p>
+<pre tabindex="0"><code>$ vz upgrade --version &lt;version&gt;
+</code></pre></li>
+<li>
+<p>Wait for the upgrade to complete.
+Upgrade logs will be streamed to the command window until the upgrade has completed
+or until the default timeout (30m) has been reached.</p>
+</li>
+</ol>
+
+
+</div>
+
+
+
+
+
+
+<div class="tab-pane fade show " id="adcefb" role="tabpanel" aria-labelledby="nav-1">
+
+	<br>
 <p>Upgrading an existing Verrazzano installation is a two-step process:</p>
 <ul>
 <li>Update the Verrazzano platform operator to the <a href="https://github.com/verrazzano/verrazzano/releases/">Verrazzano release version</a> to which you want to upgrade.</li>
@@ -547,7 +613,7 @@ verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114
 <h3 id="upgrade-verrazzano">Upgrade Verrazzano</h3>
 <p>To upgrade the Verrazzano installation, you need to change the version of your installed Verrazzano resource to the version supported by the
 Verrazzano platform operator.</p>
-<p><strong>NOTE:</strong> You may only change the version field during an upgrade; changes to other fields or component configurations are not supported at this time.</p>
+<p><strong>NOTE:</strong> You may only change the <code>version</code> field during an upgrade; changes to other fields or component configurations are not supported at this time.</p>
 <p>In one simple step, you can upgrade to a specified version of Verrazzano using this command:</p>
 <pre tabindex="0"><code>$ kubectl patch vz example-verrazzano -p &#39;{&#34;spec&#34;:{&#34;version&#34;:&#34;master&#34;}}&#39; --type=merge
 </code></pre><p>Alternatively, you can upgrade the Verrazzano installation using the following steps:</p>
@@ -558,9 +624,9 @@ Verrazzano platform operator.</p>
 match the version supported by the platform operator to which you upgraded and apply it to the cluster.</p>
 <p>The value of the <code>version</code> field in the resource spec must be a <a href="https://semver.org/">Semantic Versioning</a> value
 corresponding to a valid <a href="https://github.com/verrazzano/verrazzano/releases/">Verrazzano release version</a>.</p>
-<p>You can update the resource by doing one of the following:</p>
-<p>a. Editing the YAML file you used to install Verrazzano and setting the version field to the latest version.</p>
-<p>For example, to upgrade to <code>master</code>, your YAML file should be edited to add or update the version field:</p>
+<p>To update the resource, do one of the following:</p>
+<p>a. Edit the YAML file you used to install Verrazzano and set the <code>version</code> field to the latest version.</p>
+<p>For example, to upgrade to <code>master</code>, your YAML file should be edited to add or update the <code>version</code> field.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">install.verrazzano.io/v1alpha1</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">Verrazzano</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
@@ -568,19 +634,26 @@ corresponding to a valid <a href="https://github.com/verrazzano/verrazzano/relea
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">profile</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">dev</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">version</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">master</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span></code></pre></div><p>Then apply the resource to the cluster (if you have not edited the resource in-place using <code>kubectl edit</code>):</p>
+</span></span></span></code></pre></div><p>Then, apply the resource to the cluster (if you have not edited the resource in-place using <code>kubectl edit</code>).</p>
 <pre tabindex="0"><code>$ kubectl apply -f example-verrazzano.yaml
-</code></pre><p>b. Editing the <code>Verrazzano</code> resource directly using <code>kubectl</code> and setting the version field directly, for example:</p>
+</code></pre><p>b. Edit the <code>Verrazzano</code> resource directly using <code>kubectl</code> and set the <code>version</code> field directly, for example:</p>
 <pre tabindex="0"><code>$ kubectl edit verrazzano example-verrazzano
 # In the resource editor, add or update the version field to &#34;version: master&#34;, then save.
 </code></pre></li>
 <li>
-<p>Wait for the upgrade to complete:</p>
+<p>Wait for the upgrade to complete.</p>
 <pre tabindex="0"><code>$ kubectl wait \
-    --timeout=10m \
+    --timeout=30m \
     --for=condition=UpgradeComplete verrazzano/example-verrazzano
 </code></pre></li>
 </ol>
+
+
+</div>
+
+
+
+</div>
 <h2 id="verify-the-upgrade">Verify the upgrade</h2>
 <p>Check that all the pods in the <code>verrazzano-system</code> namespace are in the <code>Running</code> state.  While the upgrade is in progress,
 you may see some pods terminating and restarting as newer versions of components are applied, for example:</p>
