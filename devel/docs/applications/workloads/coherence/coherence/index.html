@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/applications/workloads/coherence/coherence/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-04-28T07:08:00-07:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-07-06T15:09:02-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Coherence Workload">
 <meta itemprop="description" content="Use a Coherence workload in an application">
-<meta itemprop="dateModified" content="2022-04-28T07:08:00-07:00" />
-<meta itemprop="wordCount" content="1235">
+<meta itemprop="dateModified" content="2022-07-06T15:09:02-04:00" />
+<meta itemprop="wordCount" content="1234">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Coherence Workload"/>
 <meta name="twitter:description" content="Use a Coherence workload in an application"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.a50c5ef4a9bca07bddcb2e7303f22bad.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.1bceb19add832fd2c1f71faf5e656a84.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.a50c5ef4a9bca07bddcb2e7303f22bad.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.1bceb19add832fd2c1f71faf5e656a84.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -626,39 +626,51 @@ to the ApplicationConfiguration for each component, specifying the metrics port 
             spec:
               port: 7001
 </code></pre><h3 id="prometheus-configuration">Prometheus configuration</h3>
-<p>Prometheus is configured to scrape targets using the ConfigMaps in the <code>verrazzano-system</code> namespace.  During application deployments,
-Verrazzano updates the <code>vmi-system-prometheus-config</code> ConfigMap and adds targets for the application pods.  Verrazzano also annotates
-those pods to match the expected annotations in the ConfigMap. When the application is deleted, Verrazzano removes the targets from
-the ConfigMap.  You do not need to manually modify the ConfigMap or annotate the application pods.</p>
-<p>Here is an example of the<code>sock-shop</code> Prometheus ConfigMap section for <code>catalog</code>.  Notice that pods in the <code>sock-shop</code> namespace with labels <code>app_oam_dev_name</code>
-and <code>app_oam_dev_component</code> are targeted.  Prometheus will find those pods and then look at the pod annotations, <code>verrazzano_io/metricsEnabled</code>, <code>verrazzano_io/metricsPath</code>,
-and  <code>verrazzano_io/metricsPort</code> for scrape configuration.</p>
-<pre tabindex="0"><code>- job_name: sockshop-appconf_default_sockshop_catalog
-  ...
-  kubernetes_sd_configs:
-  - role: pod
-    namespaces:
-      names:
-      - sockshop
-  relabel_configs:
-  - source_labels: [__meta_kubernetes_pod_annotation_verrazzano_io_metricsEnabled,
-      __meta_kubernetes_pod_label_app_oam_dev_name, __meta_kubernetes_pod_label_app_oam_dev_component]
-  ...  
-  - source_labels: [__meta_kubernetes_pod_annotation_verrazzano_io_metricsPath]
-  ...
-  - source_labels: [__address__, __meta_kubernetes_pod_annotation_verrazzano_io_metricsPort]
-</code></pre><p>Here is the corresponding <code>catalog</code> pod labels and annotations.</p>
-<pre tabindex="0"><code>kind: Pod
+<p>Prometheus is configured using the Prometheus Operator to scrape application targets.  During application deployment,
+Verrazzano creates or updates Service Monitors based on the MetricsTrait specified in the ApplicationConfiguration.  When
+the application is deleted, Verrazzano removes the Service Monitors so that metrics are no longer collected for it.</p>
+<p>Here is an example of the <code>sock-shop</code> Prometheus Service Monitor resource for <code>catalog-coh</code> in the application namespace.<br>
+Notice that services with certain labels are targeted.  Prometheus Operator will find the Service Monitor and
+generate the scrape configuration to be used by Prometheus.</p>
+<pre tabindex="0"><code>apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  ....
+  name: catalog-coh-metrics
+  namespace: sockshop
+  ....
+spec:
+  endpoints:
+  - bearerTokenSecret:
+      key: &#34;&#34;
+    port: metrics
+    relabelings:
+    - action: labeldrop
+      regex: (endpoint|instance|job|service)
+  namespaceSelector: {}
+  selector:
+    matchLabels:
+      coherenceCluster: SockShop
+      coherenceComponent: coherence-service
+      coherenceDeployment: catalog-coh
+      coherencePort: metrics
+      coherenceRole: Catalog
+</code></pre><p>Here are the labels on the corresponding <code>catalog-coh-metrics</code> service.</p>
+<pre tabindex="0"><code>kind: Service
 metadata:
   labels:
-    ...
-    app.oam.dev/component: catalog
-    app.oam.dev/name: sockshop-appconf
-  annotations:
-    ...
-    verrazzano.io/metricsEnabled: &#34;true&#34;
-    verrazzano.io/metricsPath: /metrics
-    verrazzano.io/metricsPort: &#34;7001&#34;
+    coherenceCluster: SockShop
+    coherenceComponent: coherence-service
+    coherenceDeployment: catalog-coh
+    coherencePort: metrics
+    coherenceRole: Catalog
+spec:
+  ports:
+  - name: metrics
+    port: 9612
+    protocol: TCP
+    targetPort: 9612
+  ....
 </code></pre><h2 id="istio-integration">Istio integration</h2>
 <p>Verrazzano ensures that Coherence clusters are not included in an Istio mesh, even if the namespace has the <code>istio-injection: enabled</code> label.
 This is done by adding the <code>sidecar.istio.io/inject: &quot;false&quot;</code> annotation to the Coherence resource, resulting in Coherence pods being

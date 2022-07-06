@@ -37,11 +37,6 @@ spec:
       traits:
         - trait:
             apiVersion: oam.verrazzano.io/v1alpha1
-            kind: MetricsTrait
-            spec:
-                scraper: verrazzano-system/vmi-system-prometheus-0
-        - trait:
-            apiVersion: oam.verrazzano.io/v1alpha1
             kind: IngressTrait
             metadata:
               name: hello-helidon-ingress
@@ -73,11 +68,6 @@ spec:
       traits:
         - trait:
             apiVersion: oam.verrazzano.io/v1alpha1
-            kind: MetricsTrait
-            spec:
-                scraper: verrazzano-system/vmi-system-prometheus-0
-        - trait:
-            apiVersion: oam.verrazzano.io/v1alpha1
             kind: IngressTrait
             metadata:
               name: hello-helidon-ingress
@@ -104,11 +94,6 @@ spec:
   components:
     - componentName: hello-helidon-component
       traits:
-        - trait:
-            apiVersion: oam.verrazzano.io/v1alpha1
-            kind: MetricsTrait
-            spec:
-              scraper: verrazzano-system/vmi-system-prometheus-0
         - trait:
             apiVersion: oam.verrazzano.io/v1alpha1
             kind: IngressTrait
@@ -757,8 +742,6 @@ spec:
         - trait:
             apiVersion: oam.verrazzano.io/v1alpha1
             kind: MetricsTrait
-            spec:
-                scraper: verrazzano-system/vmi-system-prometheus-0
         - trait:
             apiVersion: oam.verrazzano.io/v1alpha1
             kind: IngressTrait
@@ -857,7 +840,7 @@ $ curl -sk \
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;scraper&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;The Prometheus deployment used to scrape the related metrics endpoints. Defaults to &lt;code&gt;verrazzano-system/vmi-system-prometheus-0&lt;/code&gt;.&lt;/td&gt;
+&lt;td&gt;The Prometheus deployment used to scrape the related metrics endpoints. By default, the Verrazzano-supplied Prometheus component is used to scrape the endpoint.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -895,8 +878,6 @@ spec:
             - trait:
                 apiVersion: oam.verrazzano.io/v1alpha1
                 kind: MetricsTrait
-                spec:
-                  scraper: verrazzano-system/vmi-system-prometheus-0
             - trait:
                 apiVersion: oam.verrazzano.io/v1alpha1
                 kind: IngressTrait
@@ -2955,7 +2936,7 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;enabled&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;Boolean&lt;/td&gt;
-&lt;td&gt;If true, then Prometheus will be installed.&lt;/td&gt;
+&lt;td&gt;If true, then Prometheus will be installed. Defaults to &lt;code&gt;true&lt;/code&gt;. This is a legacy setting; the preferred way to configure Prometheus is using the &lt;a href=&#34;#prometheus-operator-component&#34;&gt;prometheusOperator&lt;/a&gt; component.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;

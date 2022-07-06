@@ -22,21 +22,21 @@
 <meta name="description" content="The IngressTrait custom resource contains the configuration of host and path rules for traffic routing to an application.  Here is a sample …">
 <meta property="og:title" content="IngressTrait Custom Resource Definition" />
 <meta property="og:description" content="The IngressTrait custom resource contains the configuration of host and path rules for traffic routing to an application. Here is a sample ApplicationConfiguration that specifies an IngressTrait. To deploy an example application that demonstrates this IngressTrait, see Hello World Helidon.
-apiVersion: core.oam.dev/v1alpha2 kind: ApplicationConfiguration metadata: name: hello-helidon-appconf namespace: hello-helidon annotations: version: v1.0.0 description: &#34;Hello Helidon application&#34; spec: components: - componentName: hello-helidon-component traits: - trait: apiVersion: oam.verrazzano.io/v1alpha1 kind: MetricsTrait spec: scraper: verrazzano-system/vmi-system-prometheus-0 - trait: apiVersion: oam." />
+apiVersion: core.oam.dev/v1alpha2 kind: ApplicationConfiguration metadata: name: hello-helidon-appconf namespace: hello-helidon annotations: version: v1.0.0 description: &#34;Hello Helidon application&#34; spec: components: - componentName: hello-helidon-component traits: - trait: apiVersion: oam.verrazzano.io/v1alpha1 kind: IngressTrait metadata: name: hello-helidon-ingress spec: rules: - paths: - path: &#34;/greet&#34; pathType: Prefix In the sample configuration, the IngressTrait hello-helidon-ingress is set on the hello-helidon-component application component and defines an ingress rule that configures a path and path type." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/reference/api/oam/ingresstrait/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-06-08T07:29:06-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-07-06T15:09:02-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="IngressTrait Custom Resource Definition">
 <meta itemprop="description" content="The IngressTrait custom resource contains the configuration of host and path rules for traffic routing to an application. Here is a sample ApplicationConfiguration that specifies an IngressTrait. To deploy an example application that demonstrates this IngressTrait, see Hello World Helidon.
-apiVersion: core.oam.dev/v1alpha2 kind: ApplicationConfiguration metadata: name: hello-helidon-appconf namespace: hello-helidon annotations: version: v1.0.0 description: &#34;Hello Helidon application&#34; spec: components: - componentName: hello-helidon-component traits: - trait: apiVersion: oam.verrazzano.io/v1alpha1 kind: MetricsTrait spec: scraper: verrazzano-system/vmi-system-prometheus-0 - trait: apiVersion: oam.">
-<meta itemprop="dateModified" content="2022-06-08T07:29:06-04:00" />
-<meta itemprop="wordCount" content="987">
+apiVersion: core.oam.dev/v1alpha2 kind: ApplicationConfiguration metadata: name: hello-helidon-appconf namespace: hello-helidon annotations: version: v1.0.0 description: &#34;Hello Helidon application&#34; spec: components: - componentName: hello-helidon-component traits: - trait: apiVersion: oam.verrazzano.io/v1alpha1 kind: IngressTrait metadata: name: hello-helidon-ingress spec: rules: - paths: - path: &#34;/greet&#34; pathType: Prefix In the sample configuration, the IngressTrait hello-helidon-ingress is set on the hello-helidon-component application component and defines an ingress rule that configures a path and path type.">
+<meta itemprop="dateModified" content="2022-07-06T15:09:02-04:00" />
+<meta itemprop="wordCount" content="960">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="IngressTrait Custom Resource Definition"/>
 <meta name="twitter:description" content="The IngressTrait custom resource contains the configuration of host and path rules for traffic routing to an application. Here is a sample ApplicationConfiguration that specifies an IngressTrait. To deploy an example application that demonstrates this IngressTrait, see Hello World Helidon.
-apiVersion: core.oam.dev/v1alpha2 kind: ApplicationConfiguration metadata: name: hello-helidon-appconf namespace: hello-helidon annotations: version: v1.0.0 description: &#34;Hello Helidon application&#34; spec: components: - componentName: hello-helidon-component traits: - trait: apiVersion: oam.verrazzano.io/v1alpha1 kind: MetricsTrait spec: scraper: verrazzano-system/vmi-system-prometheus-0 - trait: apiVersion: oam."/>
+apiVersion: core.oam.dev/v1alpha2 kind: ApplicationConfiguration metadata: name: hello-helidon-appconf namespace: hello-helidon annotations: version: v1.0.0 description: &#34;Hello Helidon application&#34; spec: components: - componentName: hello-helidon-component traits: - trait: apiVersion: oam.verrazzano.io/v1alpha1 kind: IngressTrait metadata: name: hello-helidon-ingress spec: rules: - paths: - path: &#34;/greet&#34; pathType: Prefix In the sample configuration, the IngressTrait hello-helidon-ingress is set on the hello-helidon-component application component and defines an ingress rule that configures a path and path type."/>
 
 
 
@@ -97,7 +97,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.a50c5ef4a9bca07bddcb2e7303f22bad.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.1bceb19add832fd2c1f71faf5e656a84.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -119,7 +119,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.a50c5ef4a9bca07bddcb2e7303f22bad.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.1bceb19add832fd2c1f71faf5e656a84.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -504,11 +504,6 @@ spec:
       traits:
         - trait:
             apiVersion: oam.verrazzano.io/v1alpha1
-            kind: MetricsTrait
-            spec:
-                scraper: verrazzano-system/vmi-system-prometheus-0
-        - trait:
-            apiVersion: oam.verrazzano.io/v1alpha1
             kind: IngressTrait
             metadata:
               name: hello-helidon-ingress
@@ -540,11 +535,6 @@ spec:
       traits:
         - trait:
             apiVersion: oam.verrazzano.io/v1alpha1
-            kind: MetricsTrait
-            spec:
-                scraper: verrazzano-system/vmi-system-prometheus-0
-        - trait:
-            apiVersion: oam.verrazzano.io/v1alpha1
             kind: IngressTrait
             metadata:
               name: hello-helidon-ingress
@@ -571,11 +561,6 @@ spec:
   components:
     - componentName: hello-helidon-component
       traits:
-        - trait:
-            apiVersion: oam.verrazzano.io/v1alpha1
-            kind: MetricsTrait
-            spec:
-              scraper: verrazzano-system/vmi-system-prometheus-0
         - trait:
             apiVersion: oam.verrazzano.io/v1alpha1
             kind: IngressTrait

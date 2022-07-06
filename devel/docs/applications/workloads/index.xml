@@ -148,39 +148,51 @@ to the ApplicationConfiguration for each component, specifying the metrics port 
             spec:
               port: 7001
 &lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;prometheus-configuration&#34;&gt;Prometheus configuration&lt;/h3&gt;
-&lt;p&gt;Prometheus is configured to scrape targets using the ConfigMaps in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace.  During application deployments,
-Verrazzano updates the &lt;code&gt;vmi-system-prometheus-config&lt;/code&gt; ConfigMap and adds targets for the application pods.  Verrazzano also annotates
-those pods to match the expected annotations in the ConfigMap. When the application is deleted, Verrazzano removes the targets from
-the ConfigMap.  You do not need to manually modify the ConfigMap or annotate the application pods.&lt;/p&gt;
-&lt;p&gt;Here is an example of the&lt;code&gt;sock-shop&lt;/code&gt; Prometheus ConfigMap section for &lt;code&gt;catalog&lt;/code&gt;.  Notice that pods in the &lt;code&gt;sock-shop&lt;/code&gt; namespace with labels &lt;code&gt;app_oam_dev_name&lt;/code&gt;
-and &lt;code&gt;app_oam_dev_component&lt;/code&gt; are targeted.  Prometheus will find those pods and then look at the pod annotations, &lt;code&gt;verrazzano_io/metricsEnabled&lt;/code&gt;, &lt;code&gt;verrazzano_io/metricsPath&lt;/code&gt;,
-and  &lt;code&gt;verrazzano_io/metricsPort&lt;/code&gt; for scrape configuration.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;- job_name: sockshop-appconf_default_sockshop_catalog
-  ...
-  kubernetes_sd_configs:
-  - role: pod
-    namespaces:
-      names:
-      - sockshop
-  relabel_configs:
-  - source_labels: [__meta_kubernetes_pod_annotation_verrazzano_io_metricsEnabled,
-      __meta_kubernetes_pod_label_app_oam_dev_name, __meta_kubernetes_pod_label_app_oam_dev_component]
-  ...  
-  - source_labels: [__meta_kubernetes_pod_annotation_verrazzano_io_metricsPath]
-  ...
-  - source_labels: [__address__, __meta_kubernetes_pod_annotation_verrazzano_io_metricsPort]
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Here is the corresponding &lt;code&gt;catalog&lt;/code&gt; pod labels and annotations.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;kind: Pod
+&lt;p&gt;Prometheus is configured using the Prometheus Operator to scrape application targets.  During application deployment,
+Verrazzano creates or updates Service Monitors based on the MetricsTrait specified in the ApplicationConfiguration.  When
+the application is deleted, Verrazzano removes the Service Monitors so that metrics are no longer collected for it.&lt;/p&gt;
+&lt;p&gt;Here is an example of the &lt;code&gt;sock-shop&lt;/code&gt; Prometheus Service Monitor resource for &lt;code&gt;catalog-coh&lt;/code&gt; in the application namespace.&lt;br&gt;
+Notice that services with certain labels are targeted.  Prometheus Operator will find the Service Monitor and
+generate the scrape configuration to be used by Prometheus.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  ....
+  name: catalog-coh-metrics
+  namespace: sockshop
+  ....
+spec:
+  endpoints:
+  - bearerTokenSecret:
+      key: &amp;#34;&amp;#34;
+    port: metrics
+    relabelings:
+    - action: labeldrop
+      regex: (endpoint|instance|job|service)
+  namespaceSelector: {}
+  selector:
+    matchLabels:
+      coherenceCluster: SockShop
+      coherenceComponent: coherence-service
+      coherenceDeployment: catalog-coh
+      coherencePort: metrics
+      coherenceRole: Catalog
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Here are the labels on the corresponding &lt;code&gt;catalog-coh-metrics&lt;/code&gt; service.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;kind: Service
 metadata:
   labels:
-    ...
-    app.oam.dev/component: catalog
-    app.oam.dev/name: sockshop-appconf
-  annotations:
-    ...
-    verrazzano.io/metricsEnabled: &amp;#34;true&amp;#34;
-    verrazzano.io/metricsPath: /metrics
-    verrazzano.io/metricsPort: &amp;#34;7001&amp;#34;
+    coherenceCluster: SockShop
+    coherenceComponent: coherence-service
+    coherenceDeployment: catalog-coh
+    coherencePort: metrics
+    coherenceRole: Catalog
+spec:
+  ports:
+  - name: metrics
+    port: 9612
+    protocol: TCP
+    targetPort: 9612
+  ....
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;istio-integration&#34;&gt;Istio integration&lt;/h2&gt;
 &lt;p&gt;Verrazzano ensures that Coherence clusters are not included in an Istio mesh, even if the namespace has the &lt;code&gt;istio-injection: enabled&lt;/code&gt; label.
 This is done by adding the &lt;code&gt;sidecar.istio.io/inject: &amp;quot;false&amp;quot;&lt;/code&gt; annotation to the Coherence resource, resulting in Coherence pods being
@@ -478,7 +490,7 @@ Do not label a namespace which is managed by the pre-existing WebLogic Kubernete
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;verrazzano.io/istio&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;todo-appconf&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;weblogic-metrics&#34;&gt;WebLogic metrics&lt;/h2&gt;
 &lt;p&gt;Prometheus scrapes each WebLogic pod on the metrics port periodically.&lt;/p&gt;
-&lt;p&gt;If the trait doesn’t exist, Verrazzano will inject the &lt;code&gt;MetricsTrait&lt;/code&gt; into &lt;code&gt;AppConfig&lt;/code&gt;. The WebLogic Monitoring Exporter sidecar provides the metrics endpoint. If it doesn’t already exist, Verrazzano will inject the default Monitoring Exporter configuration into the WebLogic Domain CR. The Verrazzano application operator updates the Prometheus Configmap with WebLogic targets and Verrazzano installs Grafana dashboards to view WebLogic metrics. The WebLogic Kubernetes Operator configures the Monitoring Exporter using a REST API and labels the pods with metrics-related labels. Metrics are scraped at &lt;code&gt;/metrics&lt;/code&gt; on port 8080.&lt;/p&gt;
+&lt;p&gt;If the trait doesn’t exist, Verrazzano will inject the &lt;code&gt;MetricsTrait&lt;/code&gt; into the &lt;code&gt;ApplicationConfiguration&lt;/code&gt;. The WebLogic Monitoring Exporter sidecar provides the metrics endpoint. If it doesn’t already exist, Verrazzano will inject the default Monitoring Exporter configuration into the WebLogic Domain CR. The Verrazzano application operator creates Prometheus Service Monitors with WebLogic targets and Verrazzano installs Grafana dashboards to view WebLogic metrics. The WebLogic Kubernetes Operator configures the Monitoring Exporter using a REST API and labels the pods with metrics-related labels. Metrics are scraped at &lt;code&gt;/metrics&lt;/code&gt; on port 8080.&lt;/p&gt;
 &lt;h3 id=&#34;appconfig-default-injection&#34;&gt;AppConfig default injection&lt;/h3&gt;
 &lt;p&gt;Review the following example &lt;code&gt;MetricsTrait&lt;/code&gt; from the TodoList &lt;code&gt;ApplicationConfiguration&lt;/code&gt;. If missing from &lt;code&gt;ApplicationConfiguration&lt;/code&gt;, Verrazzano will inject the default &lt;code&gt;MetricsTrait&lt;/code&gt;.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;ApplicationConfiguration&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
