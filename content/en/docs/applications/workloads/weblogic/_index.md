@@ -182,7 +182,7 @@ spec:
 Prometheus scrapes each WebLogic pod on the metrics port periodically.
 
 
-If the trait doesn’t exist, Verrazzano will inject the `MetricsTrait` into `AppConfig`. The WebLogic Monitoring Exporter sidecar provides the metrics endpoint. If it doesn’t already exist, Verrazzano will inject the default Monitoring Exporter configuration into the WebLogic Domain CR. The Verrazzano application operator creates Prometheus service monitors with WebLogic targets and Verrazzano installs Grafana dashboards to view WebLogic metrics. The WebLogic Kubernetes Operator configures the Monitoring Exporter using a REST API and labels the pods with metrics-related labels. Metrics are scraped at `/metrics` on port 8080.
+If the trait doesn’t exist, Verrazzano will inject the `MetricsTrait` into `AppConfig`. The WebLogic Monitoring Exporter sidecar provides the metrics endpoint. If it doesn’t already exist, Verrazzano will inject the default Monitoring Exporter configuration into the WebLogic Domain CR. The Verrazzano application operator creates Prometheus Service Monitors with WebLogic targets and Verrazzano installs Grafana dashboards to view WebLogic metrics. The WebLogic Kubernetes Operator configures the Monitoring Exporter using a REST API and labels the pods with metrics-related labels. Metrics are scraped at `/metrics` on port 8080.
 
 
 ### AppConfig default injection
