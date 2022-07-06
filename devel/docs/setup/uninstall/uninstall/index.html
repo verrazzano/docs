@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/uninstall/uninstall/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-06-30T18:23:15-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-07-06T11:49:53-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Uninstall">
 <meta itemprop="description" content="How to uninstall Verrazzano">
-<meta itemprop="dateModified" content="2022-06-30T18:23:15-04:00" />
-<meta itemprop="wordCount" content="129">
+<meta itemprop="dateModified" content="2022-07-06T11:49:53-04:00" />
+<meta itemprop="wordCount" content="224">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Uninstall"/>
 <meta name="twitter:description" content="How to uninstall Verrazzano"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.c7482c0d8f2a698a2fc175f995a3ad1c.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.a50c5ef4a9bca07bddcb2e7303f22bad.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.c7482c0d8f2a698a2fc175f995a3ad1c.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.a50c5ef4a9bca07bddcb2e7303f22bad.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -483,24 +483,106 @@ if (!doNotTrack) {
 
 		
 	</header>    
-	<p>To delete a Verrazzano installation, delete the Verrazzano custom resource you used to
-install it into your cluster.</p>
-<p><strong>NOTE</strong>: Verrazzano will not delete your applications during uninstall.  You should delete your
-applications before uninstalling Verrazzano.  Your applications are not guaranteed to work after
-you uninstall Verrazzano, even if you reinstall Verrazzano.</p>
-<p>The following example starts a deletion of a Verrazzano installation in the background, and then
-uses the <code>kubectl logs -f</code> command to tail the Console output of the pod performing the uninstall:</p>
-<pre tabindex="0"><code># Get the name of the Verrazzano custom resource
-$ MYVZ=$(kubectl  get vz -o jsonpath=&#34;{.items[0].metadata.name}&#34;)
+	<p>You can uninstall Verrazzano using the <a href="../../../../docs/setup/install/installation/">Verrazzano CLI</a> or with <a href="https://kubernetes.io/docs/reference/kubectl/kubectl/">kubectl</a>.
+See the following respective sections.</p>
+<nav>
+	<div class="nav nav-tabs" id="nav-tab" role="tablist">
 
-# Delete the Verrazzano custom resource
-$ kubectl delete verrazzano $MYVZ --wait=false
-$ kubectl logs -n verrazzano-install \
-    -f $(kubectl get pod \
-    -n verrazzano-install \
-    -l job-name=verrazzano-uninstall-${MYVZ} \
-    -o jsonpath=&#34;{.items[0].metadata.name}&#34;)
-</code></pre>
+		
+		
+		
+		
+
+		
+
+		<a class="nav-item nav-link  active "
+		   id="nav-cbdaef" data-toggle="tab" href="#cbdaef"
+		   role="tab" aria-controls="nav-home" aria-selected="true">vz</a>
+
+		
+
+		<a class="nav-item nav-link "
+		   id="nav-ebcdaf" data-toggle="tab" href="#ebcdaf"
+		   role="tab" aria-controls="nav-home" aria-selected="true">kubectl</a>
+
+		
+
+	</div>
+</nav>
+
+<div class="tab-content" id="nav-tab-content">
+
+	
+
+
+
+
+
+<div class="tab-pane fade show active " id="cbdaef" role="tabpanel" aria-labelledby="nav-1">
+
+	<br>
+<ol>
+<li>
+<p>Uninstall Verrazzano.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ vz uninstall
+</span></span></code></pre></div></li>
+<li>
+<p>Wait for the uninstall to complete.
+The Verrazzano operator launches a Kubernetes <a href="https://kubernetes.io/docs/concepts/workloads/controllers/job/">job</a> to delete the Verrazzano installation.<br>
+The uninstall logs from that job will be streamed to the command window until the uninstall has completed or until the default timeout (20m) has been reached.</p>
+<p>The following is an example of the output:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>Uninstalling Verrazzano
+</span></span><span style="display:flex;"><span>Waiting <span style="color:#204a87;font-weight:bold">for</span> verrazzano-uninstall-verrazzano to be ready before starting uninstall - <span style="color:#0000cf;font-weight:bold">2</span> seconds
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>2022-07-05 20:09:13 UTC Retrieving the access token from Rancher at rancher.default.172.18.0.231.nip.io
+</span></span><span style="display:flex;"><span>2022-07-05 20:09:14 UTC Updating https://rancher.default.172.18.0.231.nip.io/v3/clusters/local
+</span></span><span style="display:flex;"><span>2022-07-05 20:09:14 UTC Status: <span style="color:#0000cf;font-weight:bold">200</span>
+</span></span><span style="display:flex;"><span>2022-07-05 20:09:15 UTC Rancher cluster is still in state: removing
+</span></span><span style="display:flex;"><span>...
+</span></span></code></pre></div></li>
+</ol>
+
+
+</div>
+
+
+
+
+
+
+<div class="tab-pane fade show " id="ebcdaf" role="tabpanel" aria-labelledby="nav-1">
+
+	<br>
+<p>To delete a Verrazzano installation, delete the Verrazzano custom resource you used to
+install it into your cluster.</p>
+<p>The following example starts a deletion of a Verrazzano installation in the background and then
+uses the <code>kubectl logs -f</code> command to tail the output of the pod performing the uninstall.</p>
+<ol>
+<li>
+<p>Get the name of the Verrazzano custom resource.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ <span style="color:#000">MYVZ</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl  get vz -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;{.items[0].metadata.name}&#34;</span><span style="color:#204a87;font-weight:bold">)</span>
+</span></span></code></pre></div></li>
+<li>
+<p>Delete the Verrazzano custom resource.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl delete verrazzano <span style="color:#000">$MYVZ</span> --wait<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87">false</span>
+</span></span></code></pre></div></li>
+<li>
+<p>View the logs and wait for uninstall to complete.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl logs -n verrazzano-install <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>    -f <span style="color:#204a87;font-weight:bold">$(</span>kubectl get pod <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>    -n verrazzano-install <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>    -l job-name<span style="color:#ce5c00;font-weight:bold">=</span>verrazzano-uninstall-<span style="color:#4e9a06">${</span><span style="color:#000">MYVZ</span><span style="color:#4e9a06">}</span> <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>    -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;{.items[0].metadata.name}&#34;</span><span style="color:#204a87;font-weight:bold">)</span>
+</span></span></code></pre></div></li>
+</ol>
+
+
+</div>
+
+
+
+</div>
+
 	
 		<style>
   .feedback--answer {
