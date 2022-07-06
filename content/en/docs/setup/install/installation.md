@@ -189,7 +189,6 @@ vmi-system-es-master-0                             2/2     Running   0          
 vmi-system-grafana-5558d65b46-pxg78                2/2     Running   0          45m
 vmi-system-kiali-5949966fb8-465s8                  2/2     Running   0          48m
 vmi-system-kibana-86b894d8f6-q4vb5                 2/2     Running   0          45m
-vmi-system-prometheus-0-859fcd87dc-m5ws9           3/3     Running   0          44m
 weblogic-operator-646756c75c-hgz6j                 2/2     Running   0          49m
 ```
 

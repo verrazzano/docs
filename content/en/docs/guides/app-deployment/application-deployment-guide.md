@@ -160,8 +160,8 @@ which provides environment specific customizations.
 The following code shows the application configuration for the example used in this guide.
 This resource specifies the deployment of the application to the `hello-helidon` namespace.  Additional runtime features are
 specified using traits, or runtime overlays that augment the workload.  For example, the ingress trait specifies the
-ingress host and path, while the metrics trait provides the Prometheus scraper used to obtain the
-application related metrics.
+ingress host and path, while the metrics trait optionally provides the Prometheus scraper used to obtain the
+application related metrics.  If no metrics trait is specified, the Verrazzano-supplied Prometheus component is used by default.
 
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
@@ -180,7 +180,7 @@ spec:
             apiVersion: oam.verrazzano.io/v1alpha1
             kind: MetricsTrait
             spec:
-                scraper: verrazzano-system/vmi-system-prometheus-0
+              scraper: <optionally specify custom scraper>
         - trait:
             apiVersion: oam.verrazzano.io/v1alpha1
             kind: IngressTrait

@@ -276,26 +276,26 @@ is something you could configure manually, but it is not configured by Verrazzan
 Verrazzano uses network proxies in multiple places.  The two proxy products are Envoy and NGINX.
 The following table shows which proxies are used and in which Pod they run.
 
-| Usage  | Proxy | Pod | Namespace | Description |
-| ------------- |:------------- |:------------- |:------------- |:-------------
-| System ingress | NGINX | `ingress-controller-ingress-nginx-controller-*` | `ingress-nginx` | Provides external access to Verrazzano system components.
-| Verrazzano authentication proxy | NGINX | `verrazzano-authproxy-*` | `verrazzano-system` | Verrazzano authentication proxy server for Kubernetes API and Single Sign-On (SSO).
-| Application ingress | Envoy | `istio-ingressgateway-*` | `istio-system` | Provides external access to Verrazzano applications.
-| Application egress | Envoy | `istio-egressgateway-*` | `istio-system` | Provides control of application egress traffic.
-| Istio mesh sidecar | Envoy  | `ingress-controller-ingress-nginx-controller-*` | `ingress-nginx` | NGINX Ingress Controller in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `ingress-controller-ingress-nginx-defaultbackend-*` | `ingress-nginx` | NGINX default backend in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `fluentd-*` | `verrazzano-system` | Fluentd in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `keycloak-*` | `keycloak` | Keycloak in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `mysql-*` | `keycloak` | MySQL used by Keycloak in the Istio mesh.
-| Istio mesh sidecar | Envoy | `verrazzano-api-*` | `verrazzano-system` | Verrazzano API in the Istio mesh.
-| Istio mesh sidecar | Envoy | `verrazzano-console-*` | `verrazzano-system` | Verrazzano Console in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `vmi-system-es-master-*` | `verrazzano-system` | OpenSearch in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `vmi-system-es-data-*` | `verrazzano-system` | OpenSearch in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `vmi-system-es-ingest-*` | `verrazzano-system` | OpenSearch in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `vmi-system-kibana-*` | `verrazzano-system` | OpenSearch Dashboards in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `vmi-system-prometheus-*` | `verrazzano-system` | Prometheus in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `vmi-system-grafana-*` | `verrazzano-system` | Grafana in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `weblogic-operator-*` | `verrazzano-system` | WebLogic operator in the Istio mesh.
+| Usage  | Proxy | Pod | Namespace               | Description |
+| ------------- |:------------- |:------------- |:------------------------|:-------------
+| System ingress | NGINX | `ingress-controller-ingress-nginx-controller-*` | `ingress-nginx`         | Provides external access to Verrazzano system components.
+| Verrazzano authentication proxy | NGINX | `verrazzano-authproxy-*` | `verrazzano-system`     | Verrazzano authentication proxy server for Kubernetes API and Single Sign-On (SSO).
+| Application ingress | Envoy | `istio-ingressgateway-*` | `istio-system`          | Provides external access to Verrazzano applications.
+| Application egress | Envoy | `istio-egressgateway-*` | `istio-system`          | Provides control of application egress traffic.
+| Istio mesh sidecar | Envoy  | `ingress-controller-ingress-nginx-controller-*` | `ingress-nginx`         | NGINX Ingress Controller in the Istio mesh.
+| Istio mesh sidecar | Envoy  | `ingress-controller-ingress-nginx-defaultbackend-*` | `ingress-nginx`         | NGINX default backend in the Istio mesh.
+| Istio mesh sidecar | Envoy  | `fluentd-*` | `verrazzano-system`     | Fluentd in the Istio mesh.
+| Istio mesh sidecar | Envoy  | `keycloak-*` | `keycloak`              | Keycloak in the Istio mesh.
+| Istio mesh sidecar | Envoy  | `mysql-*` | `keycloak`              | MySQL used by Keycloak in the Istio mesh.
+| Istio mesh sidecar | Envoy | `verrazzano-api-*` | `verrazzano-system`     | Verrazzano API in the Istio mesh.
+| Istio mesh sidecar | Envoy | `verrazzano-console-*` | `verrazzano-system`     | Verrazzano Console in the Istio mesh.
+| Istio mesh sidecar | Envoy  | `vmi-system-es-master-*` | `verrazzano-system`     | OpenSearch in the Istio mesh.
+| Istio mesh sidecar | Envoy  | `vmi-system-es-data-*` | `verrazzano-system`     | OpenSearch in the Istio mesh.
+| Istio mesh sidecar | Envoy  | `vmi-system-es-ingest-*` | `verrazzano-system`     | OpenSearch in the Istio mesh.
+| Istio mesh sidecar | Envoy  | `vmi-system-kibana-*` | `verrazzano-system`     | OpenSearch Dashboards in the Istio mesh.
+| Istio mesh sidecar | Envoy  | `vmi-system-grafana-*` | `verrazzano-system`     | Grafana in the Istio mesh.
+| Istio mesh sidecar | Envoy  | `weblogic-operator-*` | `verrazzano-system`     | WebLogic Kubernetes Operator in the Istio mesh.
+| Istio mesh sidecar | Envoy  | `prometheus-prometheus-operator-kube-p-prometheus-*` | `verrazzano-monitoring` | Prometheus in the Istio mesh.
 
 ## Multicluster
 Some Verrazzano components send traffic between Kubernetes clusters. Those components are the Verrazzano agent,

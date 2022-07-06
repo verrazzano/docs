@@ -27,8 +27,6 @@ spec:
             - trait:
                 apiVersion: oam.verrazzano.io/v1alpha1
                 kind: MetricsTrait
-                spec:
-                  scraper: verrazzano-system/vmi-system-prometheus-0
             - trait:
                 apiVersion: oam.verrazzano.io/v1alpha1
                 kind: IngressTrait

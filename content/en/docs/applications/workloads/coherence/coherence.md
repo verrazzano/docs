@@ -156,44 +156,56 @@ to the ApplicationConfiguration for each component, specifying the metrics port 
 ```
 
 ### Prometheus configuration
-Prometheus is configured to scrape targets using the ConfigMaps in the `verrazzano-system` namespace.  During application deployments,
-Verrazzano updates the `vmi-system-prometheus-config` ConfigMap and adds targets for the application pods.  Verrazzano also annotates
-those pods to match the expected annotations in the ConfigMap. When the application is deleted, Verrazzano removes the targets from
-the ConfigMap.  You do not need to manually modify the ConfigMap or annotate the application pods.
+Prometheus is configured using the Prometheus Operator to scrape application targets.  During application deployment,
+Verrazzano creates or updates Service Monitors based on the MetricsTrait specified in the ApplicationConfiguration.  When
+the application is deleted, Verrazzano removes the Service Monitors so that metrics are no longer collected for it.
 
-Here is an example of the`sock-shop` Prometheus ConfigMap section for `catalog`.  Notice that pods in the `sock-shop` namespace with labels `app_oam_dev_name`
-and `app_oam_dev_component` are targeted.  Prometheus will find those pods and then look at the pod annotations, `verrazzano_io/metricsEnabled`, `verrazzano_io/metricsPath`,
-and  `verrazzano_io/metricsPort` for scrape configuration.
+Here is an example of the `sock-shop` Prometheus Service Monitor resource for `catalog-coh` in the application namespace.  
+Notice that services with certain labels are targeted.  Prometheus Operator will find the Service Monitor and
+generate the scrape configuration to be used by Prometheus.
 ```
-- job_name: sockshop-appconf_default_sockshop_catalog
-  ...
-  kubernetes_sd_configs:
-  - role: pod
-    namespaces:
-      names:
-      - sockshop
-  relabel_configs:
-  - source_labels: [__meta_kubernetes_pod_annotation_verrazzano_io_metricsEnabled,
-      __meta_kubernetes_pod_label_app_oam_dev_name, __meta_kubernetes_pod_label_app_oam_dev_component]
-  ...  
-  - source_labels: [__meta_kubernetes_pod_annotation_verrazzano_io_metricsPath]
-  ...
-  - source_labels: [__address__, __meta_kubernetes_pod_annotation_verrazzano_io_metricsPort]
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  ....
+  name: catalog-coh-metrics
+  namespace: sockshop
+  ....
+spec:
+  endpoints:
+  - bearerTokenSecret:
+      key: ""
+    port: metrics
+    relabelings:
+    - action: labeldrop
+      regex: (endpoint|instance|job|service)
+  namespaceSelector: {}
+  selector:
+    matchLabels:
+      coherenceCluster: SockShop
+      coherenceComponent: coherence-service
+      coherenceDeployment: catalog-coh
+      coherencePort: metrics
+      coherenceRole: Catalog
 ```
 
-Here is the corresponding `catalog` pod labels and annotations.  
+Here are the labels on the corresponding `catalog-coh-metrics` service.  
 ```
-kind: Pod
+kind: Service
 metadata:
   labels:
-    ...
-    app.oam.dev/component: catalog
-    app.oam.dev/name: sockshop-appconf
-  annotations:
-    ...
-    verrazzano.io/metricsEnabled: "true"
-    verrazzano.io/metricsPath: /metrics
-    verrazzano.io/metricsPort: "7001"
+    coherenceCluster: SockShop
+    coherenceComponent: coherence-service
+    coherenceDeployment: catalog-coh
+    coherencePort: metrics
+    coherenceRole: Catalog
+spec:
+  ports:
+  - name: metrics
+    port: 9612
+    protocol: TCP
+    targetPort: 9612
+  ....
 ```
 
 ## Istio integration
