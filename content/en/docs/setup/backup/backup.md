@@ -1,7 +1,7 @@
 ---
-title: "Performing Backup"
-description: "Performing Backup on Verrazzano platform"
-linkTitle: Performing Backup
+title: "Backup Operation"
+description: "Backup component(s) on Verrazzano platform"
+linkTitle: Backup Operation
 weight: 1
 draft: false
 ---
@@ -310,6 +310,13 @@ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/verrazz
 
 They are also available as part of the Velero backup logs.  
 
+### Scheduled Backups 
+
+Velero also supports scheduled backups is used as a repeatable request for the Velero server to perform a backup for a given cron notation. 
+Once created, the Velero Server will start the backup process. 
+It will then wait for the next valid point of the given cron expression and execute the backup process on a repeating basis.
+
+Schedule API is documented [here](https://velero.io/docs/v1.8/api-types/schedule/).  
 
 
 

@@ -1,7 +1,7 @@
 ---
-title: "Enabling Backup Component"
+title: "Backup Component Install"
 description: "Enabling Backup and Recovery component on Verrazzano platform"
-linkTitle: Enabling Backup Component
+linkTitle: Backup Component Install
 weight: 1
 draft: false
 ---
