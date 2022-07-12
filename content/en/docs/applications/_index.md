@@ -5,8 +5,8 @@ weight: 6
 draft: false
 ---
 
-Verrazzano uses the OAM specification to provide a layered approach to describing and deploying applications.
-The [Open Application Model](https://oam.dev/) (OAM) is a specification developed within the [Cloud Native Computing Foundation](https://www.cncf.io/) (CNCF).
+Verrazzano uses the [Open Application Model](https://oam.dev/) (OAM) specification to provide a layered approach to describing and deploying applications.
+OAM is a specification developed within the [Cloud Native Computing Foundation](https://www.cncf.io/) (CNCF).
 Verrazzano is compliant with the [OAM specification version 0.2.1](https://github.com/oam-dev/spec/tree/v0.2.1).
 
 An ApplicationConfiguration is a composition of Components.
@@ -96,7 +96,7 @@ Traits customize Component workloads and generate related resources during deplo
 Verrazzano provides several Traits, for example IngressTrait and MetricsTrait.
 The platform extracts Traits contained within an ApplicationConfiguration during deployment.
 This processing is similar to the extraction of workload content from Component resources.
-Note that for some Kubernetes resources the `oam-kubernetes-runtime` operator may need to be granted create permission.
+Note that for some Kubernetes resources, the `oam-kubernetes-runtime` operator may need to be granted `create` permission.
 
 A Kubernetes operator, for example `verrazzano-application-operator`, processes these extracted Traits and may create additional related resources or may alter related workloads.
 Each Trait implementation will behave differently.
@@ -157,10 +157,10 @@ spec:
 ```
 
 Each Scope type can optionally have an associated ScopeDefinition.
-This provides the platform with additional information about processing the Scope.
-- The Scope's schema.
-- The workload types to which the Scope can be applied.
-- The field within the Scope used to record related Component references.
+This provides the platform with additional information about processing the Scope:
+- The Scope's schema
+- The workload types to which the Scope can be applied
+- The field within the Scope used to record related Component references
 
 A ScopeDefintion is typically provided by the platform, not an end user.
 
@@ -332,7 +332,7 @@ Each controller processes application resources, and generates or updates other 
 Different types of controllers process different levels of application resources.
 
 The ApplicationConfiguration controller processes ApplicationConfiguration and Component resources.
-This controller extracts and stores workload for each Component referenced within ApplicationConfiguration resources.
+This controller extracts and stores a workload for each Component referenced within ApplicationConfiguration resources.
 Verrazzano implements the ApplicationConfiguration controller within the `oam-kubernetes-runtime` operator.
 Similarly, the ApplicationConfiguration controller extracts and stores Trait resources associated with Component resources in the ApplicationConfiguration.
 

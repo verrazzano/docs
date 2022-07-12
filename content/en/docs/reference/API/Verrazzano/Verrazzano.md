@@ -168,9 +168,9 @@ spec:
 #### Name Value
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `name` | string | The name of a Helm override for a Verrazzano component chart, specified with a `—set` flag on the Helm command line, for example, `helm install --set name=value`. For more information about chart overrides, see [Customize Ingress](/docs/setup/customizing/ingress/). |  Yes |
-| `value` | string | The value of a Helm override for a Verrazzano component chart, specified with a `—set` flag on the Helm command line, for example, `helm install --set name=value`. Either `value` or `valueList` must be specified. For more information about chart overrides, see [Customize Ingress](/docs/setup/customizing/ingress/).|  No |
-| `valueList` | string list | The list of Helm override values for a Verrazzano component, each specified with a `—set` flag on the Helm command line, for example, `helm install --set name[0]=<first element of valueList> —set name[1]=<second element of valueList>`. Either `value` or `valueList` must be specified. For more information about chart overrides, see [Customize Ingress](/docs/setup/customizing/ingress/).  |  No |
+| `name` | string | The name of a Helm override for a Verrazzano component chart, specified with a `set` flag on the Helm command line, for example, `helm install --set name=value`. For more information about chart overrides, see [Customize Ingress](/docs/setup/customizing/ingress/). |  Yes |
+| `value` | string | The value of a Helm override for a Verrazzano component chart, specified with a `set` flag on the Helm command line, for example, `helm install --set name=value`. Either `value` or `valueList` must be specified. For more information about chart overrides, see [Customize Ingress](/docs/setup/customizing/ingress/).|  No |
+| `valueList` | string list | The list of Helm override values for a Verrazzano component, each specified with a `set` flag on the Helm command line, for example, `helm install --set name[0]=<first element of valueList> —set name[1]=<second element of valueList>`. Either `value` or `valueList` must be specified. For more information about chart overrides, see [Customize Ingress](/docs/setup/customizing/ingress/).  |  No |
 | `setString` | Boolean | Specifies if the argument requires the Helm `--set-string` command-line flag to override a chart value, for example, `helm install --set-string name=value`. |  No |
 
 ### Istio Component

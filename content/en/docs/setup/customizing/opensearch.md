@@ -27,7 +27,7 @@ though it is recommended to configure your cluster using `nodes` instead.
 
 The following example overrides the `dev` installation profile, OpenSearch configuration (a single-node cluster with
 1Gi of memory and ephemeral storage) to use a multi-node cluster (three master nodes, and three combination data/ingest nodes) with persistent storage.
-Note that the public API references Elasticsearch, the API will change to OpenSearch in an upcoming release.
+Note that the public API references Elasticsearch; the API will change to OpenSearch in an upcoming release.
 
 ```yaml
 apiVersion: install.verrazzano.io/v1alpha1
@@ -59,7 +59,7 @@ spec:
             requests:
               memory: 1Gi
 
-      # Override the default cluster settings, since we are providing our own topology.  
+      # Override the default cluster settings because we are providing our own topology.  
       installArgs:
       - name: nodes.master.replicas
         value: "0"
@@ -70,7 +70,7 @@ spec:
 ```
 
 Listing the pods and persistent volumes in the `verrazzano-system` namespace for the previous configuration
-shows the expected nodes are running with the appropriate data volumes:
+shows the expected nodes are running with the appropriate data volumes.
 
 ```
 $ kubectl get pvc,pod -l verrazzano-component=opensearch -n verrazzano-system
@@ -105,7 +105,7 @@ pod/weblogic-operator-666b548749-lj66t                 2/2     Running    0     
 ```
 
 Running the command `kubectl describe pod -n verrazzano-system vmi-system-data-ingest-0-5485dcd95d-rkhvk` shows the
-requested amount of memory:
+requested amount of memory.
 
 ```
 Containers:
@@ -123,9 +123,9 @@ cluster from running out of disk space.
 
 The following policy example configures OpenSearch to manage indices matching the pattern `my-app-*`. The data in these indices will be
 automatically pruned every 14 days, and will be rolled over if an index meets at least one of the following criteria:
-- Is three or more days old.
-- Contains 1,000 documents or more.
-- Is 10GB in size or larger.
+- Is three or more days old
+- Contains 1,000 documents or more
+- Is 10GB in size or larger
 
 ```yaml
 apiVersion: install.verrazzano.io/v1alpha1

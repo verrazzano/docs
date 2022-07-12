@@ -16,7 +16,7 @@ platforms for installing Verrazzano, see [Platform Setup]({{< relref "/docs/setu
 - Review the list of the [software versions supported]({{< relref "/docs/setup/prereqs.md#supported-software-versions" >}}) and [installed]({{< relref "/docs/setup/prereqs.md#installed-components" >}}) by Verrazzano.
 - For detailed Verrazzano installation instructions, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}}).
 
-**NOTE**: If you just created the cluster, then you must wait until your nodes reach Ready status before installing Verrazzano.
+**NOTE**: If you just created the cluster, then you must wait until your nodes reach `Ready` status before installing Verrazzano.
 
 ## Install Verrazzano
 
@@ -43,7 +43,7 @@ The development profile has the following characteristics:
 
 ### Install Verrazzano using the [Verrazzano CLI]({{< relref "docs/setup/cli/_index.md" >}})
 
-1. Install Verrazzano with its `dev` profile:
+1. Install Verrazzano with its `dev` profile.
     ```
     $ vz install -f - <<EOF
     apiVersion: install.verrazzano.io/v1alpha1
@@ -105,7 +105,7 @@ enabled for Istio.
    # Sample output
    pod/hello-helidon-deployment-78468f5f9c-czmp4 condition met
    ```
-   This creates the Verrazzano OAM Component application resources for the example, waits for the pods in the `hello-helidon`
+   This creates the Verrazzano OAM Component application resources for the example and waits for the pods in the `hello-helidon`
    namespace to be ready.
 
 1.  Save the host name of the load balancer exposing the application's REST service endpoints.

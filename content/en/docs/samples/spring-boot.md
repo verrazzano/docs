@@ -95,10 +95,13 @@ This example provides a simple web application developed using [Spring Boot](htt
      ```
      Then, you can access the application in a browser at `https://springboot.example.com/` and `https://springboot.example.com/facts`.
 
-     If you are using `nip.io`, then you can access the application in a browser using the `HOST` variable (for example, `https://${HOST}/facts`).  If you are going through a proxy, you may need to add `*.nip.io` to the `NO_PROXY` list.
+     - If you are using `nip.io`, then you can access the application in a browser using the `HOST` variable (for example, `https://${HOST}/facts`).  
+     - If you are going through a proxy, you may need to add `*.nip.io` to the `NO_PROXY` list.
 
    * **Using your own DNS name**
-     * Point your own DNS name to the ingress gateway's `EXTERNAL-IP` address.
+
+     Point your own DNS name to the ingress gateway's `EXTERNAL-IP` address.
+
      * In this case, you would need to have edited the `springboot-app.yaml` file
        to use the appropriate value under the `hosts` section (such as `yourhost.your.domain`),
        before deploying the Spring Boot application.
@@ -106,7 +109,7 @@ This example provides a simple web application developed using [Spring Boot](htt
 
        The actuator endpoint is accessible under the path `/actuator` and the Prometheus endpoint exposing metrics data in a format that can be scraped by a Prometheus server is accessible under the path `/actuator/prometheus`.
 
-1. A variety of endpoints associated with the deployed application, are available to further explore the logs, metrics, and such.
+1. A variety of endpoints associated with the deployed application are available to further explore the logs, metrics, and such.
 You can access them according to the directions [here]({{< relref "/docs/access/#get-the-consoles-urls" >}}).
 
 ## Undeploy the application   

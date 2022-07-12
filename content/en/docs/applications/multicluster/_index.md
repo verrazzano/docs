@@ -41,7 +41,7 @@ installation profile. A managed cluster has the following additional characteris
 
 ## Verrazzano multicluster applications
 Verrazzano includes a [MultiClusterApplicationConfiguration]({{< relref "/docs/reference/api/multicluster/multiclusterapplicationconfiguration" >}})
-resource definition for applications that may be targeted for placement in one or more clusters. 
+resource definition for applications that may be targeted for placement in one or more clusters.
 
 - A MultiClusterApplicationConfiguration is a wrapper for an ApplicationConfiguration, and additionally allows the
   `placement` of the underlying resource to be specified as a list of names of the clusters in which the
@@ -76,7 +76,7 @@ When a managed cluster is registered, the following will happen:
   - The endpoint URL that the admin cluster should use to scrape Prometheus metrics from the managed cluster.
   - The date and time of the most recent successful connection from the managed cluster to the admin cluster.
 - For MultiClusterApplicationConfigurations retrieved and unwrapped on a managed cluster, the application logs are
-  sent to OpenSearch on the admin cluster, and may be viewed from the Verrazzano-installed OpenSearch Dashboards UI on the
+  sent to OpenSearch on the admin cluster, and may be viewed from the Verrazzano-installed OpenSearch Dashboards on the
   admin cluster. Likewise, application metrics will be scraped by the admin cluster and available from
   Verrazzano-installed Prometheus on the admin cluster.
 

@@ -135,7 +135,9 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
      ```
      Then, you can access the application in a browser at `https://todo.example.com/todo`.
    * **Using your own DNS name**
-     * Point your own DNS name to the ingress gateway's `EXTERNAL-IP` address.
+
+      Point your own DNS name to the ingress gateway's `EXTERNAL-IP` address.
+      
      * In this case, you would need to have edited the `todo-list-application.yaml` file
        to use the appropriate value under the `hosts` section (such as `yourhost.your.domain`),
        before deploying the ToDo List application.
@@ -145,7 +147,7 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
       with an edit field and an **Add** button that lets add tasks.
 
 1. A variety of endpoints associated with
-   the deployed ToDo List application, are available to further explore the logs, metrics, and such.
+   the deployed ToDo List application are available to further explore the logs, metrics, and such.
    You can access them according to the directions [here]({{< relref "/docs/access/#get-the-consoles-urls" >}}).
 
 ## Troubleshooting

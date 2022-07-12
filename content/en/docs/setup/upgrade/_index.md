@@ -20,8 +20,8 @@ If Verrazzano has a new version of Istio, then all the pods with Istio proxy sid
 need to be restarted.  This is done so that the new version of the proxy sidecar can be injected into the pods.
 All Verrazzano pods containing Istio proxy sidecars will be restarted.  This includes Verrazzano system pods,
 such as the NGINX Ingress Controller, along with Verrazzano applications.  For WebLogic workloads, Verrazzano
-will shut down every domain, do the upgrade, then start every domain.  For all other workloads, Verrazzano will perform a rolling restart
-when the upgrade is complete.  There is no user involvement related to restarting applications; it is done automatically during upgrade.
+will shut down every domain, do the upgrade, then restart every domain.  For all other workloads, Verrazzano will perform a rolling restart
+when the upgrade has completed.  There is no user involvement related to restarting applications; it is done automatically during upgrade.
 
 ## Upgrade steps
 It is important to distinguish between updating the Verrazzano platform operator versus upgrading the Verrazzano installation.
@@ -38,7 +38,7 @@ See the following respective sections.
 
 ## Upgrade Verrazzano
 
-In one simple step, you can upgrade to a specified version of Verrazzano using this command:
+In one simple step, you can upgrade to a specified version of Verrazzano using this command.
 
 1. Update the `Verrazzano` resource to the desired version.
 
@@ -113,12 +113,12 @@ Verrazzano platform operator.
 
 **NOTE:** You may only change the `version` field during an upgrade; changes to other fields or component configurations are not supported at this time.
 
-In one simple step, you can upgrade to a specified version of Verrazzano using this command:
+In one simple step, you can upgrade to a specified version of Verrazzano using this command.
 
    ```
    $ kubectl patch vz example-verrazzano -p '{"spec":{"version":"{{<release_version>}}"}}' --type=merge
    ```
-Alternatively, you can upgrade the Verrazzano installation using the following steps:
+Alternatively, you can upgrade the Verrazzano installation using the following steps.
 1. Update the `Verrazzano` resource to the desired version.
 
       To upgrade the Verrazzano components, you must update the `version` field in your `Verrazzano` resource spec to
@@ -216,7 +216,7 @@ version of the Verrazzano platform operator.  The following steps illustrate thi
    - The Verrazzano CR state transitions to `Upgrading` and stays in that state until it completes, then it transitions to `UpgradeComplete`.  
 
 
-To see detailed progress of the upgrade, view the logs with the following command:
+To see detailed progress of the upgrade, view the logs with the following command.
 
 ```
 $ kubectl logs -n verrazzano-install \

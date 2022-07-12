@@ -50,7 +50,7 @@ To use other DNS options, see [Customizing DNS](/docs/setup/customizing/dns/) fo
 
 #### Install Verrazzano
 
-To create a Verrazzano installation as described in the previous section, run the following commands:
+To create a Verrazzano installation as described in the previous section, run the following commands.
 
 1. Install Verrazzano with its `dev` profile.
     ```
@@ -73,6 +73,7 @@ To create a Verrazzano installation as described in the previous section, run th
                 storage: 2Gi
     EOF
     ```
+    This command installs the Verrazzano platform operator and applies the Verrazzano custom resource.
 
 2. Wait for the installation to complete.
    Installation logs will be streamed to the command window until the installation has completed
@@ -137,7 +138,7 @@ To use other DNS options, see [Customzing DNS](/docs/setup/customizing/dns/) for
 
 #### Install Verrazzano
 
-To create a Verrazzano installation as described in the previous section, run the following commands:
+To create a Verrazzano installation as described in the previous section, run the following commands.
 
 ```
 $ kubectl apply -f - <<EOF
@@ -156,7 +157,7 @@ $ kubectl wait \
 To use a different profile with the previous example, set the `VZ_PROFILE` environment variable to the name of the profile
 you want to install.
 
-If an error occurs, check the log output of the installation. You can view the logs with the following command:
+If an error occurs, check the log output of the installation. You can view the logs with the following command.
 
 ```
 $ kubectl logs -n verrazzano-install \
@@ -194,7 +195,7 @@ weblogic-operator-646756c75c-hgz6j                 2/2     Running   0          
 
 For installation troubleshooting help, see the [Analysis Advice]({{< relref "/docs/troubleshooting/diagnostictools/analysisadvice/" >}}).
 
-After the installation is complete, you can use the Verrazzano consoles.
+After the installation has completed, you can use the Verrazzano consoles.
 For information on how to get the consoles URLs and credentials, see [Access Verrazzano]({{< relref "/docs/access/" >}}).
 
 ## Next steps

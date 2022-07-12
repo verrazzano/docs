@@ -145,11 +145,13 @@ Follow these steps to test the endpoints.
      ```
      Then, you can access the application in a browser at `https://sockshop.example.com/catalogue`.
 
-     If you are using `nip.io`, then you can access the application in a browser using the `HOST` variable (for example, `https://${HOST}/catalogue`).  If you are going through a proxy, you may need to add `*.nip.io` to the `NO_PROXY` list.
+     - If you are using `nip.io`, then you can access the application in a browser using the `HOST` variable (for example, `https://${HOST}/catalogue`).  
+     - If you are going through a proxy, you may need to add `*.nip.io` to the `NO_PROXY` list.
 
    * **Using your own DNS name**
 
-     * Point your own DNS name to the ingress gateway's `EXTERNAL-IP` address.
+      Point your own DNS name to the ingress gateway's `EXTERNAL-IP` address.
+
      * In this case, you would need to edit the `sock-shop-app.yaml` file
        to use the appropriate value under the `hosts` section (such as `yourhost.your.domain`),
        before deploying the Sock Shop application.
