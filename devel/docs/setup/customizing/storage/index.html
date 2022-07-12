@@ -25,11 +25,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/customizing/storage/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-02-10T12:34:04-08:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-07-12T14:05:07-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Customize Persistent Storage">
 <meta itemprop="description" content="Customize persistent storage settings for Verrazzano">
-<meta itemprop="dateModified" content="2022-02-10T12:34:04-08:00" />
+<meta itemprop="dateModified" content="2022-07-12T14:05:07-04:00" />
 <meta itemprop="wordCount" content="672">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Customize Persistent Storage"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.1bceb19add832fd2c1f71faf5e656a84.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.1f475384b8f1ad5aef036f9910e7fa9e.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.1bceb19add832fd2c1f71faf5e656a84.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.1f475384b8f1ad5aef036f9910e7fa9e.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -572,7 +572,7 @@ by either <code>defaultVolumeSource</code> or a specific component&rsquo;s <code
 </ul>
 <h3 id="customize-persistence-globally-using-defaultvolumesource">Customize persistence globally using <code>defaultVolumeSource</code></h3>
 <p>If <code>defaultVolumeSource</code> is configured, then that setting will be used for all components that require storage.</p>
-<p>For example, the following Verrazzano configuration uses the <code>prod</code> profile, but disables persistent storage for all components:</p>
+<p>For example, the following Verrazzano configuration uses the <code>prod</code> profile, but disables persistent storage for all components.</p>
 <pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
@@ -582,7 +582,7 @@ spec:
   defaultVolumeSource:
       emptyDir: {}
 </code></pre><p>The following example uses <code>persistentVolumeClaim</code> to override persistence settings globally for a <code>prod</code> profile, to use
-<code>100Gi</code> volumes for all components, instead of the default of <code>50Gi</code>:</p>
+<code>100Gi</code> volumes for all components, instead of the default of <code>50Gi</code>.</p>
 <pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
@@ -599,7 +599,7 @@ spec:
         resources:
           requests:
             storage: 100Gi
-</code></pre><p>The following example uses a <code>managed-cluster</code> profile but overrides the persistence settings to use ephemeral storage:</p>
+</code></pre><p>The following example uses a <code>managed-cluster</code> profile but overrides the persistence settings to use ephemeral storage.</p>
 <pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
@@ -611,7 +611,7 @@ spec:
 </code></pre><h3 id="customize-persistentvolumeclaim-settings-for-keycloak-using-volumesource">Customize PersistentVolumeClaim settings for Keycloak using <code>volumeSource</code></h3>
 <p>The following example Verrazzano configuration enables a <code>100Gi</code> PersistentVolumeClaim for the MySQL component in Keycloak
 in a <code>dev</code> profile configuration.  This overrides the default of ephemeral storage for Keycloak in that profile, while
-retaining the default storage settings for other components:</p>
+retaining the default storage settings for other components.</p>
 <pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
@@ -645,13 +645,13 @@ spec:
   profile: dev
   defaultVolumeSource:
     persistentVolumeClaim:
-      claimName: vmi     # set storage globally for the metrics stack
+      claimName: vmi     # Set storage globally for the metrics stack
   components:
     keycloak:
       mysql:
         volumeSource:
           persistentVolumeClaim:
-            claimName: mysql  # set storage separately for keycloak&#39;s MySql instance
+            claimName: mysql  # Set storage separately for keycloak&#39;s MySql instance
   volumeClaimSpecTemplates:
     - metadata:
         name: mysql

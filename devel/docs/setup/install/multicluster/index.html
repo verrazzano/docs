@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/install/multicluster/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-06-08T11:22:38-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-07-12T14:05:07-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Install Multicluster Verrazzano">
 <meta itemprop="description" content="How to set up a multicluster Verrazzano environment">
-<meta itemprop="dateModified" content="2022-06-08T11:22:38-04:00" />
-<meta itemprop="wordCount" content="2274">
+<meta itemprop="dateModified" content="2022-07-12T14:05:07-04:00" />
+<meta itemprop="wordCount" content="2273">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Install Multicluster Verrazzano"/>
 <meta name="twitter:description" content="How to set up a multicluster Verrazzano environment"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.1bceb19add832fd2c1f71faf5e656a84.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.1f475384b8f1ad5aef036f9910e7fa9e.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.1bceb19add832fd2c1f71faf5e656a84.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.1f475384b8f1ad5aef036f9910e7fa9e.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -521,7 +521,7 @@ following shows an example of how to set these environment variables.
 <pre tabindex="0"><code>$ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
 $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 
-# lists the contexts in each kubeconfig file
+# Lists the contexts in each kubeconfig file
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN config get-contexts -o=name
 my-admin-cluster-context
 some-other-cluster-context
@@ -544,7 +544,7 @@ steps are performed on the admin cluster and some on the managed cluster. The co
 variables set previously to connect to the appropriate cluster.</p>
 <!-- omit in toc -->
 <h3 id="preregistration-setup">Preregistration setup</h3>
-<p>Before registering the managed cluster, first you&rsquo;ll need to set up the following items:</p>
+<p>Before registering the managed cluster, first you&rsquo;ll need to set up the following items.</p>
 <ul>
 <li>A Secret containing the managed cluster&rsquo;s CA certificate. Note that the <code>cacrt</code> field in this secret can be empty only
 if the managed cluster uses a well-known CA.
@@ -552,7 +552,7 @@ This CA certificate is used by the admin cluster to scrape metrics from the mana
 <li>A ConfigMap containing the externally reachable address of the admin cluster. This will be provided to the managed
 cluster during registration so that it can connect to the admin cluster.</li>
 </ul>
-<p>Follow these preregistration setup steps:</p>
+<p>Follow these preregistration setup steps.</p>
 <ol>
 <li>
 <p>If needed for the admin cluster, obtain the managed cluster&rsquo;s CA certificate.
@@ -598,19 +598,19 @@ authority. Otherwise, your managed cluster is using self-signed certificates.</l
 		
 
 		<a class="nav-item nav-link  active "
-		   id="nav-ebcfda" data-toggle="tab" href="#ebcfda"
-		   role="tab" aria-controls="nav-home" aria-selected="true">Well-knownCA</a>
+		   id="nav-bcdafe" data-toggle="tab" href="#bcdafe"
+		   role="tab" aria-controls="nav-home" aria-selected="true">Well-KnownCA</a>
 
 		
 
 		<a class="nav-item nav-link "
-		   id="nav-eabfdc" data-toggle="tab" href="#eabfdc"
+		   id="nav-cfaedb" data-toggle="tab" href="#cfaedb"
 		   role="tab" aria-controls="nav-home" aria-selected="true">Self-Signed</a>
 
 		
 
 		<a class="nav-item nav-link "
-		   id="nav-afcdeb" data-toggle="tab" href="#afcdeb"
+		   id="nav-fadcbe" data-toggle="tab" href="#fadcbe"
 		   role="tab" aria-controls="nav-home" aria-selected="true">LetsEncryptStaging</a>
 
 		
@@ -626,7 +626,7 @@ authority. Otherwise, your managed cluster is using self-signed certificates.</l
 
 
 
-<div class="tab-pane fade show active " id="ebcfda" role="tabpanel" aria-labelledby="nav-1">
+<div class="tab-pane fade show active " id="bcdafe" role="tabpanel" aria-labelledby="nav-1">
 
 	<br>
 <p>In this case, no additional configuration is necessary.
@@ -638,9 +638,10 @@ authority. Otherwise, your managed cluster is using self-signed certificates.</l
 
 
 
-<div class="tab-pane fade show " id="eabfdc" role="tabpanel" aria-labelledby="nav-1">
+<div class="tab-pane fade show " id="cfaedb" role="tabpanel" aria-labelledby="nav-1">
 
-	<p>If the managed cluster certificates are self-signed, create a file called <code>managed1.yaml</code> containing the CA
+	<br>
+<p>If the managed cluster certificates are self-signed, create a file called <code>managed1.yaml</code> containing the CA
 certificate of the managed cluster as the value of the <code>cacrt</code> field. In the following commands, the managed cluster&rsquo;s
 CA certificate is saved in an environment variable called <code>MGD_CA_CERT</code>. Then use the <code>--dry-run</code> option of the
 <code>kubectl</code> command to generate the <code>managed1.yaml</code> file.</p>
@@ -661,7 +662,7 @@ The <code>managed1.yaml</code> file that was created in the previous step provid
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
      apply -f managed1.yaml
 
-# Once the command succeeds, you may delete the managed1.yaml file
+# After the command succeeds, you may delete the managed1.yaml file
 $ rm managed1.yaml
 </code></pre>
 
@@ -672,9 +673,10 @@ $ rm managed1.yaml
 
 
 
-<div class="tab-pane fade show " id="afcdeb" role="tabpanel" aria-labelledby="nav-1">
+<div class="tab-pane fade show " id="fadcbe" role="tabpanel" aria-labelledby="nav-1">
 
-	<p>If the managed cluster certificates are LetsEncrypt staging, then create a file called <code>managed1.yaml</code> containing the CA
+	<br>
+<p>If the managed cluster certificates are LetsEncrypt staging, then create a file called <code>managed1.yaml</code> containing the CA
 certificate of the managed cluster as the value of the <code>cacrt</code> field. In the following commands, the managed cluster&rsquo;s
 CA certificate is saved in an environment variable called <code>MGD_CA_CERT</code>. Then use the <code>--dry-run</code> option of the
 <code>kubectl</code> command to generate the <code>managed1.yaml</code> file.</p>
@@ -721,13 +723,13 @@ be accessible from the managed cluster.</p>
 		
 
 		<a class="nav-item nav-link  active "
-		   id="nav-aecdbf" data-toggle="tab" href="#aecdbf"
+		   id="nav-ceadfb" data-toggle="tab" href="#ceadfb"
 		   role="tab" aria-controls="nav-home" aria-selected="true">MostKubernetesClusters</a>
 
 		
 
 		<a class="nav-item nav-link "
-		   id="nav-befdca" data-toggle="tab" href="#befdca"
+		   id="nav-daebcf" data-toggle="tab" href="#daebcf"
 		   role="tab" aria-controls="nav-home" aria-selected="true">KindClusters</a>
 
 		
@@ -743,7 +745,7 @@ be accessible from the managed cluster.</p>
 
 
 
-<div class="tab-pane fade show active " id="aecdbf" role="tabpanel" aria-labelledby="nav-1">
+<div class="tab-pane fade show active " id="ceadfb" role="tabpanel" aria-labelledby="nav-1">
 
 	<br>
 <p>For most types of Kubernetes clusters, except for Kind clusters, you can find the externally accessible API server
@@ -763,7 +765,7 @@ contexts:
 ....
 ....
 </code></pre><p>In the output of this command, you can find the URL of the admin cluster API server from the <code>server</code> entry. Set the
-value of the ADMIN_K8S_SERVER_ADDRESS variable to this URL.</p>
+value of the <code>ADMIN_K8S_SERVER_ADDRESS</code> variable to this URL.</p>
 <pre tabindex="0"><code>export ADMIN_K8S_SERVER_ADDRESS=&lt;the server address from the config output&gt;
 </code></pre>
 
@@ -774,7 +776,7 @@ value of the ADMIN_K8S_SERVER_ADDRESS variable to this URL.</p>
 
 
 
-<div class="tab-pane fade show " id="befdca" role="tabpanel" aria-labelledby="nav-1">
+<div class="tab-pane fade show " id="daebcf" role="tabpanel" aria-labelledby="nav-1">
 
 	<br>
 <p>Kind clusters run within a Docker container. If your admin and managed clusters are Kind clusters, the API server
@@ -784,7 +786,7 @@ cluster, which will contain a server address accessible from other Kind clusters
 the same Docker network.</p>
 <pre tabindex="0"><code>$ kind get kubeconfig --internal --name &lt;your-admin-cluster-name&gt; | grep server
 </code></pre><p>In the output of this command, you can find the URL of the admin cluster API server from the <code>server</code> entry. Set the
-value of the ADMIN_K8S_SERVER_ADDRESS variable to this URL.</p>
+value of the <code>ADMIN_K8S_SERVER_ADDRESS</code> variable to this URL.</p>
 <pre tabindex="0"><code>export ADMIN_K8S_SERVER_ADDRESS=&lt;the server address from the config output&gt;
 </code></pre>
 
@@ -854,7 +856,7 @@ $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
 $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
     apply -f register.yaml
 
-# Once the command succeeds, you may delete the register.yaml file
+# After the command succeeds, you may delete the register.yaml file
 $ rm register.yaml
 </code></pre><p>After this step, the managed cluster will begin connecting to the admin cluster periodically. When the managed cluster
 connects to the admin cluster, it will update the <code>Status</code> field of the <code>VerrazzanoManagedCluster</code> resource for this
@@ -866,7 +868,7 @@ then used by the admin cluster to scrape metrics from the managed cluster.</li>
 <li>The API address of the managed cluster, in the <code>apiUrl</code> status field. This is used by the admin cluster&rsquo;s authentication proxy to
 route incoming requests for managed cluster information, to the managed cluster&rsquo;s authentication proxy.</li>
 </ul>
-<h3 id="verify-that-managed-cluster-registration-completed">Verify that managed cluster registration completed</h3>
+<h3 id="verify-that-managed-cluster-registration-has-completed">Verify that managed cluster registration has completed</h3>
 <p>You can perform all the verification steps on the admin cluster.</p>
 <ol>
 <li>
@@ -916,11 +918,11 @@ $ VZPASS=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
 $ curl -k --user verrazzano:${VZPASS} &#34;${prometheusUrl}/api/v1/query?query=node_disk_io_time_seconds_total&#34;
 </code></pre><h3 id="verify-that-managed-cluster-logs-are-being-collected">Verify that managed cluster logs are being collected</h3>
 <p>Verify that the admin cluster is collecting logs from the managed cluster.  The output will include records which have the name of the managed cluster in the <code>cluster_name</code> field.</p>
-<p>You can find the OpenSearch Dashboards UI URL for your cluster by following the instructions for <a href="../../../../docs/access/">Accessing Verrazzano</a>.
+<p>You can find the OpenSearch Dashboards URL for your cluster by following the instructions for <a href="../../../../docs/access/">Accessing Verrazzano</a>.
 Searching the <code>verrazzano-system</code> data stream for log records with the <code>cluster_name</code> set to the managed cluster name yields logs for the managed cluster.</p>
 <p><strong>Sample output of a OpenSearch Dashboards screen</strong></p>
 <p><img src="../../../../docs/images/multicluster/opensearch-multicluster.png" alt="OpenSearch Dashboards"></p>
-<p>An alternative approach to using the OpenSearch Dashboards UI is to query OpenSearch from the command line.  Here is an example of how to obtain log records from the command line.  Search the output of the query for responses that have the <code>cluster_name</code> field set to the name of the managed cluster.</p>
+<p>An alternative approach to using the OpenSearch Dashboards is to query OpenSearch from the command line.  Here is an example of how to obtain log records from the command line.  Search the output of the query for responses that have the <code>cluster_name</code> field set to the name of the managed cluster.</p>
 <pre tabindex="0"><code># On the admin cluster
 $ OSD_URL=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
                  get verrazzano -o jsonpath=&#39;{.items[0].status.instance.kibanaUrl}&#39;)
@@ -935,8 +937,8 @@ $ curl -k --user verrazzano:${VZPASS} -X POST -H &#39;kbn-xsrf: true&#39; &#34;$
 <p>In the Verrazzano UI on the admin cluster, you can view the following:</p>
 <ul>
 <li>The managed clusters registered with this admin cluster.</li>
-<li>VerrazzanoProjects located on this admin cluster, or any of its registered managed clusters, or both.</li>
-<li>Applications located on this admin cluster, or any of its registered managed clusters, or both.</li>
+<li>VerrazzanoProjects located on this admin cluster or any of its registered managed clusters, or both.</li>
+<li>Applications located on this admin cluster or any of its registered managed clusters, or both.</li>
 </ul>
 
 	

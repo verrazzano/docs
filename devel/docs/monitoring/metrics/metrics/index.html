@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/monitoring/metrics/metrics/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-07-01T14:24:51-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-07-12T14:05:07-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Metrics">
 <meta itemprop="description" content="Understand Verrazzano metrics gathering and viewing">
-<meta itemprop="dateModified" content="2022-07-01T14:24:51-04:00" />
-<meta itemprop="wordCount" content="777">
+<meta itemprop="dateModified" content="2022-07-12T14:05:07-04:00" />
+<meta itemprop="wordCount" content="782">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Metrics"/>
 <meta name="twitter:description" content="Understand Verrazzano metrics gathering and viewing"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.1bceb19add832fd2c1f71faf5e656a84.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.1f475384b8f1ad5aef036f9910e7fa9e.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.1bceb19add832fd2c1f71faf5e656a84.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.1f475384b8f1ad5aef036f9910e7fa9e.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -537,17 +537,17 @@ $ kubectl get secret \
 </code></pre></li>
 </ul>
 <h3 id="standard-kubernetes-workloads">Standard Kubernetes workloads</h3>
-<p>Verrazzano supports enabling metric sources for Kubernetes workloads deployed without OAM components.
-To enable metrics for Kubernetes workloads, you must create a Service Monitor or Pod Monitor as applicable.
+<p>Verrazzano supports enabling metric sources for Kubernetes workloads deployed without OAM Components.
+To enable metrics for Kubernetes workloads, you must create a Service Monitor or Pod Monitor, as applicable.
 For details on Service Monitor and Pod Monitor, refer to the <a href="https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/getting-started.md">Prometheus Operator documentation</a>.</p>
-<p>When creating the ServiceMonitor or PodMonitor for your workload, include the label <code>release</code>, with the value
+<p>When creating the Service Monitor or Pod Monitor for your workload, include the label <code>release</code>, with the value
 <code>prometheus-operator</code> on the monitor resource.</p>
 <h4 id="verify-metrics-collection">Verify metrics collection</h4>
-<p>To verify that the metrics are being collected for your workload, follow these steps:</p>
+<p>To verify that the metrics are being collected for your workload, follow these steps.</p>
 <ol>
 <li>Access the <a href="../../../../docs/access/">Prometheus console</a>.</li>
 <li>From the console, use the navigation bar to access Status/Targets.</li>
-<li>On this page, you will see a target name with this formatting: <code>&lt;monitor-type&gt;/&lt;workload-namespace&gt;_&lt;workload-name&gt;_&lt;workload-type&gt;</code>, where &ldquo;monitor-type&rdquo; may be serviceMonitor or podMonitor.</li>
+<li>On this page, you will see a target name with this formatting: <code>&lt;monitor-type&gt;/&lt;workload-namespace&gt;_&lt;workload-name&gt;_&lt;workload-type&gt;</code>, where <code>monitor-type</code> may be serviceMonitor or podMonitor.</li>
 <li>Copy this job name from the target labels for use in future queries.</li>
 <li>Verify that the State of this target is <code>UP</code>.</li>
 <li>Next, use the navigation bar to access the Graph.</li>
@@ -556,13 +556,13 @@ For details on Service Monitor and Pod Monitor, refer to the <a href="https://gi
 </ol>
 <p>Metrics Traits use Service Monitors which require <a href="https://kubernetes.io/docs/concepts/services-networking/service/">Services</a> for metrics collection.
 If you are unable to verify metrics collection, you might need to manually create a Service for the workload.</p>
-<p>For more information on Prometheus solutions, see <a href="../../../../docs/troubleshooting/troubleshooting-prometheus.md">Troubleshooting Prometheus</a>.</p>
+<p>For more information on Prometheus solutions, see <a href="../../../../docs/troubleshooting/troubleshooting-prometheus/">Troubleshooting Prometheus</a>.</p>
 <h4 id="legacy-workloads">Legacy workloads</h4>
-<p>Standard Kubernetes workloads that were metrics sources in earlier versions of Verrazzano (1.3.x or older), will continue
+<p>Standard Kubernetes workloads that were metrics sources in earlier versions of Verrazzano (1.3.x or earlier), will continue
 to be supported when upgrading to later versions of Verrazzano.</p>
-<p>For workloads that used the legacy default metrics template, Verrazzano will create a ServiceMonitor in the workload&rsquo;s
-namespace, to ensure that metrics continue to be scraped. You can make any ongoing changes to the metrics source configuration
-by editing the ServiceMonitor.</p>
+<p>For workloads that used the legacy default metrics template, Verrazzano will create a Service Monitor in the workload&rsquo;s
+namespace to ensure that metrics continue to be scraped. You can make any ongoing changes to the metrics source configuration
+by editing the Service Monitor.</p>
 <p>For workloads that used a legacy custom metrics template, Verrazzano will configure the Prometheus Operator to ensure
 that metrics continue to be scraped.</p>
 <h3 id="metrics-server">Metrics server</h3>
@@ -577,7 +577,7 @@ that metrics continue to be scraped.</p>
 <p>Grafana provides visualization for your Prometheus metric data.</p>
 <ul>
 <li>Single pod per cluster.</li>
-<li>Named <code>vmi-system-grafana-*</code> in <code>verrazzano-system</code> namespace.</li>
+<li>Named <code>vmi-system-grafana-*</code> in the <code>verrazzano-system</code> namespace.</li>
 <li>Provides dashboards for metrics visualization.</li>
 </ul>
 <p>To access Grafana:</p>
@@ -598,13 +598,13 @@ vmi-system-grafana   &lt;none&gt;   grafana.vmi.system.default.123.456.789.10.ni
     --decode; echo
 </code></pre></li>
 <li>
-<p>Access Grafana in a browser using the previous host name.</p>
+<p>Access Grafana in a browser using the host name.</p>
 </li>
 <li>
-<p>Log in using the <code>verrazzano</code> user and the previous password.</p>
+<p>Log in using the <code>verrazzano</code> user and the password.</p>
 </li>
 </ol>
-<p><img src="../../../../docs/images/grafana-initial-page.png" alt="Grafana"></p>
+<p>![Grafana]docs/images/grafana-initial-page.png)</p>
 <p>From here, you can select an existing dashboard or create a new dashboard.
 To select an existing dashboard, use the drop-down list in the top left corner.
 The initial value of this list is <code>Home</code>.</p>
@@ -612,7 +612,7 @@ The initial value of this list is <code>Home</code>.</p>
 of the nodes in your cluster.</p>
 <p>To view the application metrics for the <code>todo-list</code> example application, select <code>WebLogic Server Dashboard</code>
 because the <code>todo-list</code> application is a WebLogic application.</p>
-<p><img src="../../../../docs/images/grafana-weblogic-dashboard.png" alt="WebLogicDashboard"></p>
+<p>![WebLogicDashboard]docs/images/grafana-weblogic-dashboard.png)</p>
 
 	
 		<style>

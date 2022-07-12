@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/private-registry/private-registry/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-06-30T13:43:31-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-07-12T14:05:07-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Use a Private Registry">
 <meta itemprop="description" content="Instructions for setting up Verrazzano using a private container registry">
-<meta itemprop="dateModified" content="2022-06-30T13:43:31-04:00" />
-<meta itemprop="wordCount" content="339">
+<meta itemprop="dateModified" content="2022-07-12T14:05:07-04:00" />
+<meta itemprop="wordCount" content="350">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Use a Private Registry"/>
 <meta name="twitter:description" content="Instructions for setting up Verrazzano using a private container registry"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.1bceb19add832fd2c1f71faf5e656a84.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.1f475384b8f1ad5aef036f9910e7fa9e.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.1bceb19add832fd2c1f71faf5e656a84.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.1f475384b8f1ad5aef036f9910e7fa9e.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -500,13 +500,14 @@ if (!doNotTrack) {
 </ul>
 <p>To obtain the required Verrazzano images and install from your private registry, you must:</p>
 <ol>
-<li>Download the Verrazzano ZIP file from the Oracle Software Delivery Cloud:
+<li>Download the Verrazzano ZIP file from the Oracle Software Delivery Cloud.
 <ul>
-<li>In your browser, go to <a href="https://edelivery.oracle.com">Oracle Software Delivery Cloud</a> and log in with your credentials.</li>
-<li>In the drop-down menu next to the search bar, select <strong>Download Package</strong>.</li>
+<li>In your browser, go to the <a href="https://edelivery.oracle.com">Oracle Software Delivery Cloud</a> and log in with your credentials.</li>
+<li>In the drop-down menu preceding the search bar, select <strong>Download Package</strong>.</li>
 <li>In the search bar, enter <code>Verrazzano Enterprise Container Platform</code> and click <strong>Search</strong>.</li>
 <li>Select the <code>DLP: Oracle Verrazzano Enterprise Edition 1.2</code> link.  This will add it to your download queue.</li>
-<li>Select the <strong>Continue</strong> link.</li>
+<li>At the top of the page, select the <strong>Continue</strong> link.</li>
+<li>Review the Download Queue, then click <strong>Continue</strong>.</li>
 <li>Accept the license agreement and click <strong>Continue</strong>.</li>
 <li>Download the file:
 <ul>
@@ -516,12 +517,11 @@ if (!doNotTrack) {
 </li>
 </ul>
 </li>
-<li>Prepare to do the private registry install:
+<li>Prepare to do the private registry installation.
 <ul>
-<li>Unzip the ZIP archive to a desired directory location.  There will be two files, a compressed TAR file containing the product
+<li>Extract the ZIP archive to a desired directory location.  There will be two files: a compressed TAR file containing the product
 files and a checksum file.</li>
-<li>Go to the expanded archive directory.</li>
-<li>(Optional) Validate the checksum and the TAR file match.  For example,
+<li>(Optional) In the expanded archive directory, validate that the checksum and TAR file match.  For example,
 <pre tabindex="0"><code>$ shasum -c  verrazzano_1.2.0.tar.gz.sha256
 
 # Sample output
@@ -535,7 +535,7 @@ file that is packaged with the TAR file.</li>
 </ol>
 <h2 id="configuring-access-to-an-insecure-private-registry">Configuring access to an insecure private registry</h2>
 <p>A private Docker registry is called an <a href="https://docs.docker.com/registry/insecure/">insecure registry</a> when it is configured for access using a self-signed certificate or over an unencrypted HTTP connection. Depending on the platform, there could be some additional configuration required for installing Verrazzano with an insecure registry.</p>
-<p>For example, for the <a href="../../../../docs/setup/platforms/olcne/olcne/">Oracle Cloud Native Environment platform</a>, the insecure registries must be configured in <code>/etc/containers/registries.conf</code> as follows on the worker nodes:</p>
+<p>For example, for the <a href="../../../../docs/setup/platforms/olcne/olcne/">Oracle Cloud Native Environment platform</a>, insecure registries must be configured in <code>/etc/containers/registries.conf</code> as follows on the worker nodes:</p>
 <pre tabindex="0"><code>[registries]
    [registries.insecure]
      registries = [&#34;insecure-registry-1:1001/registry1&#34;,&#34;insecure-registry-2:1001/registry2&#34;]

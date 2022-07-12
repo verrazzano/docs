@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/networking/traffic/net-traffic/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-07-06T15:09:02-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-07-12T14:05:07-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Network Traffic">
 <meta itemprop="description" content="Understand Verrazzano network traffic">
-<meta itemprop="dateModified" content="2022-07-06T15:09:02-04:00" />
-<meta itemprop="wordCount" content="2321">
+<meta itemprop="dateModified" content="2022-07-12T14:05:07-04:00" />
+<meta itemprop="wordCount" content="2326">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Network Traffic"/>
 <meta name="twitter:description" content="Understand Verrazzano network traffic"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.1bceb19add832fd2c1f71faf5e656a84.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.1f475384b8f1ad5aef036f9910e7fa9e.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.1bceb19add832fd2c1f71faf5e656a84.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.1f475384b8f1ad5aef036f9910e7fa9e.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -499,7 +499,7 @@ if (!doNotTrack) {
 	</header>    
 	<p>Network traffic refers to the data flowing across the network.  In the context of this
 document, it is useful to think of network traffic from two perspectives: traffic
-based on direction and traffic related to component types, system or applications.
+based on direction and traffic related to component types, system, or applications.
 Traffic direction is either north-south traffic, which enters and leaves the cluster,
 or east-west traffic, which stays within the cluster.</p>
 <p>First is a description of getting traffic into the cluster, then how traffic flows after
@@ -512,13 +512,14 @@ Ingress resource. In addition, it might be used to mean network ingress to a con
 Here, it&rsquo;s used to refer to both general ingress into the cluster and the Kubernetes
 Ingress resource.</p>
 <p>During installation, Verrazzano creates the necessary network resources to access both
-system components and applications.  The following ingress and load balancers description
-is in the context of a Verrazzano installation.</p>
+system components and applications.  The following ingress and load balancers descriptions
+are in the context of a Verrazzano installation.</p>
 <h3 id="loadbalancer-services">LoadBalancer Services</h3>
 <p>To reach Pods from outside a cluster, an external IP address must be exposed using a LoadBalancer or NodePort
 service.  Verrazzano creates two LoadBalancer services, one for system component traffic
 and another for application traffic. The specifics of how the service gets traffic into the cluster
-depends on the underlying Kubernetes platform.  With Oracle OKE, creating a LoadBalancer type service will
+depends on the underlying Kubernetes platform.  With Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE),
+creating a LoadBalancer type service will
 result in an Oracle Cloud Infrastructure load balancer being created and configured to load balance to a set of Pods.</p>
 <h3 id="ingress-for-system-components">Ingress for system components</h3>
 <p>To provide ingress to system components, Verrazzano installs a NGINX Ingress Controller,
@@ -816,7 +817,7 @@ OpenSearch Pods.</li>
 </tbody>
 </table>
 <h4 id="webhooks">Webhooks</h4>
-<p>Several of the system components are controllers, and some of those have webhooks.
+<p>Several of the system components are controllers and some of those have webhooks.
 Webhooks are called by the Kubernetes API server on a component HTTPS port
 to validate or mutate API payloads before they reach the API server.</p>
 <p>The following components use webhooks:</p>
@@ -837,7 +838,7 @@ Istio using the Gateway and VirtualService resources.  Verrazzano will create th
 for you when you use an IngressTrait in your ApplicationConfiguration.  The Istio
 ingress gateway created during installation will be shared by all applications in the mesh,
 and the Gateway resource is bound to the Istio ingress gateway that was created
-during installation.  This is done by the selector field in the Gateway:</p>
+during installation.  This is done by the selector field in the Gateway.</p>
 <pre tabindex="0"><code>   selector:
      istio: ingressgateway
 </code></pre><p>Verrazzano creates a Gateway/VirtualService pair for each IngressTrait.
@@ -899,7 +900,7 @@ When deploying Bob&rsquo;s Books, a VirtualService is created for <code>bobbys-f
 no VirtualServices for the other services in the application.  When <code>bobbys-front-end</code> sends requests to
 <code>bobbys-helidon-stock-application</code>, this east-west traffic still goes to <code>bobbys-helidon-stock-application</code> through
 the Envoy sidecar proxies in the source and destination Pods, but there is no VirtualService representing
-<code>bobbys-helidon-stock-application</code>, where you could specify a canary deployment or custom load balancing.  This
+<code>bobbys-helidon-stock-application</code> where you could specify a canary deployment or custom load balancing.  This
 is something you could configure manually, but it is not configured by Verrazzano.</p>
 <h2 id="proxies">Proxies</h2>
 <p>Verrazzano uses network proxies in multiple places.  The two proxy products are Envoy and NGINX.
@@ -1109,7 +1110,7 @@ All of these requests go through the NGINX Ingress Controller on the respective 
 that sends requests to the Kubernetes API server on the admin cluster. The URL for the admin cluster Kubernetes
 API server is registered on the managed cluster by the user.</p>
 <h3 id="verrazzano-authentication-proxy">Verrazzano authentication proxy</h3>
-<p>In a multicluster topology, the Verrazzano authentication proxy runs on both the admin and managed clusters.<br>
+<p>In a multicluster topology, the Verrazzano authentication proxy runs on both the admin and managed clusters.
 On the admin cluster, the authentication proxy connects to in-cluster Keycloak, using the Keycloak Service.
 On the managed cluster, the authentication proxy connects to Keycloak on the admin cluster through the NGINX Ingress
 Controller running on the admin cluster.</p>
@@ -1121,7 +1122,7 @@ cluster, then it must send requests to Keycloak on the admin cluster.</p>
 <h3 id="prometheus">Prometheus</h3>
 <p>A single Prometheus service in the cluster, scrapes metrics from Pods in system components and applications.
 It also scrapes Pods in the Istio mesh using HTTPS, and outside the mesh using HTTP. In the multicluster case,
-the Prometheus on the admin cluster, scrapes metrics from Prometheus on the managed cluster, through
+Prometheus on the admin cluster, scrapes metrics from Prometheus on the managed cluster, through
 the NGINX Ingress Controller on the managed cluster.</p>
 
 	

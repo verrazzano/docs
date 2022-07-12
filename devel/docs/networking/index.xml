@@ -24,7 +24,7 @@
         
         &lt;p&gt;Network traffic refers to the data flowing across the network.  In the context of this
 document, it is useful to think of network traffic from two perspectives: traffic
-based on direction and traffic related to component types, system or applications.
+based on direction and traffic related to component types, system, or applications.
 Traffic direction is either north-south traffic, which enters and leaves the cluster,
 or east-west traffic, which stays within the cluster.&lt;/p&gt;
 &lt;p&gt;First is a description of getting traffic into the cluster, then how traffic flows after
@@ -37,13 +37,14 @@ Ingress resource. In addition, it might be used to mean network ingress to a con
 Here, it&amp;rsquo;s used to refer to both general ingress into the cluster and the Kubernetes
 Ingress resource.&lt;/p&gt;
 &lt;p&gt;During installation, Verrazzano creates the necessary network resources to access both
-system components and applications.  The following ingress and load balancers description
-is in the context of a Verrazzano installation.&lt;/p&gt;
+system components and applications.  The following ingress and load balancers descriptions
+are in the context of a Verrazzano installation.&lt;/p&gt;
 &lt;h3 id=&#34;loadbalancer-services&#34;&gt;LoadBalancer Services&lt;/h3&gt;
 &lt;p&gt;To reach Pods from outside a cluster, an external IP address must be exposed using a LoadBalancer or NodePort
 service.  Verrazzano creates two LoadBalancer services, one for system component traffic
 and another for application traffic. The specifics of how the service gets traffic into the cluster
-depends on the underlying Kubernetes platform.  With Oracle OKE, creating a LoadBalancer type service will
+depends on the underlying Kubernetes platform.  With Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE),
+creating a LoadBalancer type service will
 result in an Oracle Cloud Infrastructure load balancer being created and configured to load balance to a set of Pods.&lt;/p&gt;
 &lt;h3 id=&#34;ingress-for-system-components&#34;&gt;Ingress for system components&lt;/h3&gt;
 &lt;p&gt;To provide ingress to system components, Verrazzano installs a NGINX Ingress Controller,
@@ -341,7 +342,7 @@ OpenSearch Pods.&lt;/li&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h4 id=&#34;webhooks&#34;&gt;Webhooks&lt;/h4&gt;
-&lt;p&gt;Several of the system components are controllers, and some of those have webhooks.
+&lt;p&gt;Several of the system components are controllers and some of those have webhooks.
 Webhooks are called by the Kubernetes API server on a component HTTPS port
 to validate or mutate API payloads before they reach the API server.&lt;/p&gt;
 &lt;p&gt;The following components use webhooks:&lt;/p&gt;
@@ -362,7 +363,7 @@ Istio using the Gateway and VirtualService resources.  Verrazzano will create th
 for you when you use an IngressTrait in your ApplicationConfiguration.  The Istio
 ingress gateway created during installation will be shared by all applications in the mesh,
 and the Gateway resource is bound to the Istio ingress gateway that was created
-during installation.  This is done by the selector field in the Gateway:&lt;/p&gt;
+during installation.  This is done by the selector field in the Gateway.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;   selector:
      istio: ingressgateway
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Verrazzano creates a Gateway/VirtualService pair for each IngressTrait.
@@ -424,7 +425,7 @@ When deploying Bob&amp;rsquo;s Books, a VirtualService is created for &lt;code&g
 no VirtualServices for the other services in the application.  When &lt;code&gt;bobbys-front-end&lt;/code&gt; sends requests to
 &lt;code&gt;bobbys-helidon-stock-application&lt;/code&gt;, this east-west traffic still goes to &lt;code&gt;bobbys-helidon-stock-application&lt;/code&gt; through
 the Envoy sidecar proxies in the source and destination Pods, but there is no VirtualService representing
-&lt;code&gt;bobbys-helidon-stock-application&lt;/code&gt;, where you could specify a canary deployment or custom load balancing.  This
+&lt;code&gt;bobbys-helidon-stock-application&lt;/code&gt; where you could specify a canary deployment or custom load balancing.  This
 is something you could configure manually, but it is not configured by Verrazzano.&lt;/p&gt;
 &lt;h2 id=&#34;proxies&#34;&gt;Proxies&lt;/h2&gt;
 &lt;p&gt;Verrazzano uses network proxies in multiple places.  The two proxy products are Envoy and NGINX.
@@ -634,7 +635,7 @@ All of these requests go through the NGINX Ingress Controller on the respective 
 that sends requests to the Kubernetes API server on the admin cluster. The URL for the admin cluster Kubernetes
 API server is registered on the managed cluster by the user.&lt;/p&gt;
 &lt;h3 id=&#34;verrazzano-authentication-proxy&#34;&gt;Verrazzano authentication proxy&lt;/h3&gt;
-&lt;p&gt;In a multicluster topology, the Verrazzano authentication proxy runs on both the admin and managed clusters.&lt;br&gt;
+&lt;p&gt;In a multicluster topology, the Verrazzano authentication proxy runs on both the admin and managed clusters.
 On the admin cluster, the authentication proxy connects to in-cluster Keycloak, using the Keycloak Service.
 On the managed cluster, the authentication proxy connects to Keycloak on the admin cluster through the NGINX Ingress
 Controller running on the admin cluster.&lt;/p&gt;
@@ -646,7 +647,7 @@ cluster, then it must send requests to Keycloak on the admin cluster.&lt;/p&gt;
 &lt;h3 id=&#34;prometheus&#34;&gt;Prometheus&lt;/h3&gt;
 &lt;p&gt;A single Prometheus service in the cluster, scrapes metrics from Pods in system components and applications.
 It also scrapes Pods in the Istio mesh using HTTPS, and outside the mesh using HTTP. In the multicluster case,
-the Prometheus on the admin cluster, scrapes metrics from Prometheus on the managed cluster, through
+Prometheus on the admin cluster, scrapes metrics from Prometheus on the managed cluster, through
 the NGINX Ingress Controller on the managed cluster.&lt;/p&gt;
 
       </description>
@@ -667,7 +668,7 @@ non-Verrazzano services or applications running in the cluster. Traffic is secur
 &lt;ul&gt;
 &lt;li&gt;ISO Layer 3/4: Using NetworkPolicies to control IP access to Pods.&lt;/li&gt;
 &lt;li&gt;ISO Layer 6: Using TLS and mutual TLS authentication (mTLS) to provide authentication, confidentiality,
-and integrity for connections within the cluster, and for external connections.&lt;/li&gt;
+and integrity for connections within the cluster and for external connections.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;networkpolicies&#34;&gt;NetworkPolicies&lt;/h2&gt;
 &lt;p&gt;By default, all Pods in a Kubernetes cluster have network access to all other Pods in the cluster.
@@ -682,7 +683,7 @@ such as Calico, before installing Verrazzano, or else the policies are ignored.&
 A policy is scoped to a namespace and uses selectors to specify the Pods that the policy applies to, along
 with the ingress and egress rules.  For example, the following policy applies to the Verrazzano API Pod in the
 &lt;code&gt;verrazzano-system&lt;/code&gt; namespace.  This policy allows network traffic from NGINX Ingress Controller on
-port 8775, and from Prometheus on port 15090.  No other Pods can reach those ports or any other ports of the
+port 8775 and from Prometheus on port 15090.  No other Pods can reach those ports or any other ports of the
 Verrazzano API Pod.  Notice that namespace selectors need to be used; the NetworkPolicy resource does not support
 specifying the namespace name.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: networking.k8s.io/v1
@@ -940,10 +941,10 @@ You can configure them for the application namespaces using the NetworkPolicy se
 &lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
 
     &lt;p&gt;Verrazzano requires specific ingress to and egress from application pods. If you add a NetworkPolicy for your application namespace or pods,
-you must add an additional policy to ensure that Verrazzano still has the required access it needs. The ingress policy is only needed if you restrict ingress.
-Likewise, the egress policy is only needed if you restrict egress. The following are the ingress and egress NetworkPolicies:&lt;/p&gt;
+you must add an additional policy to ensure that Verrazzano still has the required access it needs. The ingress policy is needed only if you restrict ingress.
+Likewise, the egress policy is needed only if you restrict egress. The following are the ingress and egress NetworkPolicies:&lt;/p&gt;
 &lt;details&gt;
-&lt;summary&gt;ingress NetworkPolicies&lt;/summary&gt;
+&lt;summary&gt;Ingress NetworkPolicies&lt;/summary&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;  ingress:
   - from:
     - namespaceSelector:
@@ -982,7 +983,7 @@ Likewise, the egress policy is only needed if you restrict egress. The following
           app: weblogic-operator
 &lt;/code&gt;&lt;/pre&gt;&lt;/details&gt;
 &lt;details&gt;
-&lt;summary&gt;egress NetworkPolicies&lt;/summary&gt;
+&lt;summary&gt;Egress NetworkPolicies&lt;/summary&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;  egress:
   - ports:
     - port: 15012
@@ -1109,13 +1110,13 @@ Keycloak.  All the traffic related to scraping metrics, bypasses the sidecar pro
 the service IP address, but rather connects to the scrape target using the Pod IP address.  If the scrape target is in the mesh,
 then HTTPS is used; otherwise, HTTP is used.  For Verrazzano multicluster, Prometheus also connects from the admin cluster
 to the Prometheus server in the managed cluster by using the managed cluster NGINX Ingress, using HTTPS.  Prometheus
-in the managed cluster and never establishes connections to targets outside the cluster.&lt;/p&gt;
+is in the managed cluster and never establishes connections to targets outside the cluster.&lt;/p&gt;
 &lt;p&gt;Because Prometheus is in the mesh, additional configuration is done to allow the Envoy sidecar to be bypassed when scraping Pods.
 This is done with the Prometheus Pod annotation &lt;code&gt;traffic.sidecar.istio.io/includeOutboundIPRanges: &amp;lt;keycloak-service-ip&amp;gt;&lt;/code&gt;.  This
 causes traffic bound for Keycloak to go through the Envoy sidecar, and all other traffic to bypass the sidecar.&lt;/p&gt;
 &lt;h3 id=&#34;weblogic-kubernetes-operator&#34;&gt;WebLogic Kubernetes Operator&lt;/h3&gt;
-&lt;p&gt;When the WebLogic operator creates a domain, it needs to communicate with the Pods in the domain. Verrazzano puts the
-WebLogic operator in the mesh so that it can communicate with the domain Pods using mTLS.  As a result, the WebLogic
+&lt;p&gt;When the WebLogic Kubernetes Operator creates a domain, it needs to communicate with the Pods in the domain. Verrazzano puts the
+operator in the mesh so that it can communicate with the domain Pods using mTLS.  As a result, the WebLogic
 domain must be created in the mesh.&lt;/p&gt;
 &lt;h2 id=&#34;applications-in-the-mesh&#34;&gt;Applications in the mesh&lt;/h2&gt;
 &lt;p&gt;Before you create a Verrazzano application, you should decide if it should be in the mesh.  You control sidecar injection,
@@ -1126,7 +1127,7 @@ then mTLS will be used.  You can change the PeerAuthentication mTLS mode as desi
 Also, if you need to add mTLS port exceptions, you can do this with DestinationRules or by creating another PeerAuthentication
 resource in the application namespace.  Consult the Istio documentation for more information.&lt;/p&gt;
 &lt;h3 id=&#34;weblogic&#34;&gt;WebLogic&lt;/h3&gt;
-&lt;p&gt;When the WebLogic operator creates a domain, it needs to communicate with the Pods in the domain. Verrazzano puts the WebLogic operator
+&lt;p&gt;When the WebLogic Kubernetes Operator creates a domain, it needs to communicate with the Pods in the domain. Verrazzano puts the operator
 in the mesh so that it can communicate with the domain Pods using mTLS.  Because of that, the WebLogic domain must be created in the mesh.
 Also, because mTLS is used, do not configure WebLogic to use TLS.  If you want to use a custom certificate for your application,
 you can specify that in the ApplicationConfiguration, but that TLS connection will be terminated at the Istio ingress gateway, which
@@ -1151,17 +1152,17 @@ Spec:
     Tls:
       Mode:  ISTIO_MUTUAL
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;istio-access-control&#34;&gt;Istio access control&lt;/h2&gt;
-&lt;p&gt;Istio lets you control access to your workload in the mesh, using the AuthorizationPolicy resource. This lets you
+&lt;p&gt;Istio lets you control access to your workload in the mesh using the AuthorizationPolicy resource. This lets you
 control which services or Pods can access your workloads.  Some of these options require mTLS; for more information, see
 &lt;a href=&#34;HTTPS://istio.io/latest/docs/reference/config/security/authorization-policy/&#34;&gt;Authorization Policy&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Verrazzano always creates AuthorizationPolicies for applications, but never for system components.  During application deployment,
+&lt;p&gt;Verrazzano always creates AuthorizationPolicies for applications but never for system components.  During application deployment,
 Verrazzano creates the policy in the application namespace and configures it to allow access from the following:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Other Pods in the application&lt;/li&gt;
 &lt;li&gt;Istio ingress gateway&lt;/li&gt;
 &lt;li&gt;Prometheus scraper&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;This prevents other Pods in the cluster from gaining network access to the application Pods.&lt;br&gt;
+&lt;p&gt;This prevents other Pods in the cluster from gaining network access to the application Pods.
 Istio uses a service identity to determine the identity of the request&amp;rsquo;s origin; for Kubernetes
 this identity is a service account.  Verrazzano creates a per-application AuthorizationPolicy as follows:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;AuthorizationPolicy
@@ -1177,8 +1178,8 @@ spec:
     - cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account
     - cluster.local/ns/verrazzano-system/sa/verrazzano-monitoring-operator
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;weblogic-domain-access&#34;&gt;WebLogic domain access&lt;/h2&gt;
-&lt;p&gt;For WebLogic applications, the WebLogic operator must have access to the domain Pods for two reasons.
-First, it must access the domain servers to get health status; second it must inject configuration into
+&lt;p&gt;For WebLogic applications, the WebLogic Kubernetes Operator must have access to the domain Pods for two reasons.
+First, it must access the domain servers to get health status; second, it must inject configuration into
 the Monitoring Exporter sidecar running in the domain server Pods. When a WebLogic domain is created,
 Verrazzano adds an additional source, &lt;code&gt;cluster.local/ns/verrazzano-system/sa/weblogic-operator-sa&lt;/code&gt; to
 the &lt;code&gt;principals&lt;/code&gt; section to permit that access.&lt;/p&gt;

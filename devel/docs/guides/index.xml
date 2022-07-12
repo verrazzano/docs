@@ -577,7 +577,7 @@ $ docker run --name tododb \
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt; $ $ORACLE_HOME/user_projects/domains/tododomain/bin/startWebLogic.sh
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Access the Console of the newly started domain with your browser, for example, &lt;a href=&#34;http://localhost:7001/console&#34;&gt;http://localhost:7001/console&lt;/a&gt;, and
+&lt;p&gt;Access the WebLogic Server Administration Console of the newly started domain with your browser, for example, &lt;a href=&#34;http://localhost:7001/console&#34;&gt;http://localhost:7001/console&lt;/a&gt;, and
 log in using the administrator credentials you specified.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
@@ -865,7 +865,7 @@ two sample files is shown:&lt;/p&gt;
 &amp;gt;                   URL: &amp;#34;jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb&amp;#34;
 &lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;create-verrazzano-components-for-mysql&#34;&gt;Create Verrazzano components for MySQL&lt;/h4&gt;
 &lt;p&gt;As noted previously, moving a production environment to Verrazzano would require migrating the data as well. While data migration is beyond the scope of this guide, we will still need to include a MySQL instance to be deployed with the application in the Verrazzano environment.&lt;/p&gt;
-&lt;p&gt;To do so, first, we need to create the Verrazzano components for MySQL by applying the &lt;a href=&#34;../mysql-oam.yaml&#34;&gt;mysql-oam.yaml&lt;/a&gt; file in the &lt;code&gt;tododomain&lt;/code&gt; namespace. The components will be deployed as Kubernetes objects when the ToDo List application is deployed by applying the vz-application.yaml file in the next step.&lt;/p&gt;
+&lt;p&gt;To do so, first, we need to create the Verrazzano components for MySQL by applying the &lt;a href=&#34;../mysql-oam.yaml&#34;&gt;mysql-oam.yaml&lt;/a&gt; file in the &lt;code&gt;tododomain&lt;/code&gt; namespace. The components will be deployed as Kubernetes objects when the ToDo List application is deployed by applying the &lt;code&gt;vz-application.yaml&lt;/code&gt; file in the next step.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;Download the &lt;a href=&#34;../mysql-oam.yaml&#34;&gt;mysql-oam.yaml&lt;/a&gt; file.&lt;/p&gt;
@@ -892,7 +892,7 @@ todo-mysql-service      Service         26s
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This will:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Create the application Component resources for the ToDo List application.&lt;/li&gt;
-&lt;li&gt;Deploys the Verrazzano component resources as Kubernetes objects and creates the MySQL instance.&lt;/li&gt;
+&lt;li&gt;Deploy the Verrazzano component resources as Kubernetes objects and create the MySQL instance.&lt;/li&gt;
 &lt;li&gt;Create the application configuration resources that create the instance of the ToDo List application in the Verrazzano cluster.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Wait for the ToDo List example application to be ready.&lt;/p&gt;
@@ -902,7 +902,7 @@ todo-mysql-service      Service         26s
 
 # Expected response
 pod/tododomain-adminserver condition met
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Verify that the pods are in the &lt;code&gt;Running&lt;/code&gt; state:&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Verify that the pods are in the &lt;code&gt;Running&lt;/code&gt; state.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get pod -n tododomain
 
 # Sample output
@@ -985,7 +985,7 @@ $ curl https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/t
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;      &amp;lt;match **&amp;gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;        @type stdout
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;      &amp;lt;/match&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;      
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In order to interact with the &lt;a href=&#34;../../docs/monitoring/logs/#fluentd-daemonset&#34;&gt;Fluentd DaemonSet&lt;/a&gt; that Verrazzano manages, the configuration must redirect logs to stdout, as shown in the match block at the end of the Fluentd config file.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To interact with the &lt;a href=&#34;../../docs/monitoring/logs/#fluentd-daemonset&#34;&gt;Fluentd DaemonSet&lt;/a&gt; that Verrazzano manages, the configuration must redirect logs to stdout, as shown in the match block at the end of the Fluentd configuration file.
 This ConfigMap must be deployed before or with all other application resources.&lt;/p&gt;
 &lt;h2 id=&#34;create-fluentd-custom-sidecar-volumes&#34;&gt;Create Fluentd custom sidecar volumes&lt;/h2&gt;
 &lt;p&gt;Now that the Fluentd configuration ConfigMap is deployed, create volumes to grant Fluentd access to the application logs and the Fluentd configuration file.&lt;/p&gt;

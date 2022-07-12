@@ -90,7 +90,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.1bceb19add832fd2c1f71faf5e656a84.json"
+  data-offline-search-index-json-src="../../../offline-search-index.1f475384b8f1ad5aef036f9910e7fa9e.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -112,7 +112,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.1bceb19add832fd2c1f71faf5e656a84.json"
+  data-offline-search-index-json-src="../../../offline-search-index.1f475384b8f1ad5aef036f9910e7fa9e.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -511,7 +511,7 @@ if (!doNotTrack) {
 <ul>
 <li><a href="https://github.com/fluent-plugins-nursery/fluent-plugin-concat">fluent-plugin-concat</a></li>
 <li><a href="https://github.com/lunardial/fluent-plugin-dedot_filter">fluent-plugin-dedot_filter</a></li>
-<li><a href="https://github.com/GoogleCloudPlatform/fluent-plugin-detect-exceptions">fluent-plugin-detect-exceptions </a></li>
+<li><a href="https://github.com/GoogleCloudPlatform/fluent-plugin-detect-exceptions">fluent-plugin-detect-exceptions</a></li>
 <li><a href="https://docs.fluentd.org/output/elasticsearch">fluent-plugin-elasticsearch</a></li>
 <li><a href="https://github.com/fluent/fluent-plugin-grok-parser">fluent-plugin-grok-parser</a></li>
 <li><a href="https://rubygems.org/gems/fluent-plugin-json-in-json-2">fluent-plugin-json-in-json-2</a></li>
@@ -561,7 +561,7 @@ to the <code>verrazzano-system</code> data stream, because <code>vmi-system-kiba
 then its logs will be exported to the <code>verrazzano-application-myapp</code> data stream.</p>
 <h2 id="opensearch">OpenSearch</h2>
 <p>Verrazzano creates an OpenSearch cluster as the store and search engine for the logs processed by Fluentd.  Records written by Fluentd can be queried using the OpenSearch REST API.</p>
-<p>For example, you can use <code>curl</code> to get all of the OpenSearch data streams. First, you must get the password for the <code>verrazzano</code> user and the host for the VMI OpenSearch.</p>
+<p>For example, you can use <code>curl</code> to get all of the OpenSearch data streams. First, you must get the password for the <code>verrazzano</code> user and the host for the Verrazzano Monitoring Instance (VMI) OpenSearch.</p>
 <pre tabindex="0"><code>$ PASS=$(kubectl get secret \
     --namespace verrazzano-system verrazzano \
     -o jsonpath={.data.password} | base64 \
@@ -577,7 +577,7 @@ $ curl -ik \
 
 $ curl -ik \
     --user verrazzano:$PASS https://$HOST/$DATA_STREAM/_search?q=message:*
-</code></pre><p>Verrazzano provides support for <a href="../../../docs/setup/install/profiles/">Installation Profiles</a>. The production profile (<code>prod</code>), which is the default, provides a 3-node OpenSearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile (<code>dev</code>) provides a single node OpenSearch and no persistent storage for the VMI. The <code>managed-cluster</code> profile does not install OpenSearch or OpenSearch Dashboards in the local cluster; all logs are forwarded to the admin cluster&rsquo;s OpenSearch instance.</p>
+</code></pre><p>Verrazzano provides support for <a href="../../../docs/setup/install/profiles/">Installation Profiles</a>. The production profile (<code>prod</code>), which is the default, provides a 3-node OpenSearch and persistent storage for the VMI. The development profile (<code>dev</code>) provides a single node OpenSearch and no persistent storage for the VMI. The <code>managed-cluster</code> profile does not install OpenSearch or OpenSearch Dashboards in the local cluster; all logs are forwarded to the admin cluster&rsquo;s OpenSearch instance.</p>
 <p>If you want the logs sent to an external OpenSearch, instead of the default VMI OpenSearch, specify <code>elasticsearchURL</code> and <code>elasticsearchSecret</code> in the <a href="../../../docs/reference/api/verrazzano/verrazzano/#fluentd-component">Fluentd</a> Component configuration in your Verrazzano custom resource.</p>
 <p>The following is an example of a Verrazzano custom resource to send the logs to the OpenSearch endpoint <code>https://external-es.default.172.18.0.231.nip.io</code>.</p>
 <pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1alpha1
@@ -591,7 +591,7 @@ spec:
       elasticsearchSecret: external-es-secret
 </code></pre><h2 id="opensearch-dashboards">OpenSearch Dashboards</h2>
 <p>OpenSearch Dashboards is a visualization dashboard for the content indexed on an OpenSearch cluster.  Verrazzano creates a OpenSearch Dashboards deployment to provide a user interface for querying and visualizing the log data collected in OpenSearch.</p>
-<p>To access the OpenSearch Dashboards console, read <a href="../../../docs/access/">Access Verrazzano</a>.</p>
+<p>To access the OpenSearch Dashboards, read <a href="../../../docs/access/">Access Verrazzano</a>.</p>
 <p>To see the records of an OpenSearch index or data stream through OpenSearch Dashboards, create an index pattern to filter for records under the desired data stream or index.</p>
 <p>For example, to see the log records of a WebLogic application deployed to the <code>todo-list</code> namespace, create an index pattern of <code>verrazzano-application-todo-*</code>.</p>
 <p><img src="../../../docs/images/opensearch-dashboards-todo.png" alt="OpenSearch Dashboards"></p>

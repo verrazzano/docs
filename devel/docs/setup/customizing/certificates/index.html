@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/customizing/certificates/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-06-08T11:22:38-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-07-12T14:05:07-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Customize Certificates">
 <meta itemprop="description" content="Customize SSL certificate generation for Verrazzano system endpoints">
-<meta itemprop="dateModified" content="2022-06-08T11:22:38-04:00" />
-<meta itemprop="wordCount" content="717">
+<meta itemprop="dateModified" content="2022-07-12T14:05:07-04:00" />
+<meta itemprop="wordCount" content="715">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Customize Certificates"/>
 <meta name="twitter:description" content="Customize SSL certificate generation for Verrazzano system endpoints"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.1bceb19add832fd2c1f71faf5e656a84.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.1f475384b8f1ad5aef036f9910e7fa9e.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.1bceb19add832fd2c1f71faf5e656a84.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.1f475384b8f1ad5aef036f9910e7fa9e.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -523,11 +523,11 @@ following ways:</p>
 <ul>
 <li>
 <p>(Optional) Create your own signing key pair and CA certificate.</p>
-<p>For example, you can use the <code>openssl</code> CLI to create a key pair for the <code>nip.io</code> domain:</p>
+<p>For example, you can use the <code>openssl</code> CLI to create a key pair for the <code>nip.io</code> domain.</p>
 <pre tabindex="0"><code># Generate a CA private key
 $ openssl genrsa -out tls.key 2048
 
-# Create a self signed certificate, valid for 10yrs with the &#39;signing&#39; option set
+# Create a self-signed certificate, valid for 10yrs with the &#39;signing&#39; option set
 $ openssl req -x509 -new -nodes -key tls.key -subj &#34;/CN=*.nip.io&#34; -days 3650 -reqexts v3_req -extensions v3_ca -out tls.crt
 </code></pre><p>The output of these commands will be two files, <code>tls.key</code> and <code>tls.crt</code>, the key and certificate for your signing key pair.
 These files must be named in that manner for the next step.</p>
@@ -588,7 +588,7 @@ ACME provider with the following values in the Verrazzano custom resource:</p>
 <li>(Optional) Set the <code>spec.components.certManager.certificate.acme.environment</code> field to either <code>staging</code> or <code>production</code> (the default).</li>
 </ul>
 <p>The following example configures Verrazzano to use the LetsEncrypt <code>production</code> environment by default, with Oracle Cloud Infrastructure DNS
-for DNS record management:</p>
+for DNS record management.</p>
 <pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
@@ -607,7 +607,7 @@ spec:
         dnsZoneCompartmentOCID: ocid1.compartment.oc1.....
         dnsZoneOCID: ocid1.dns-zone.oc1.....
         dnsZoneName: example.com
-</code></pre><p>The following example configures Verrazzano to use the LetsEncrypt <code>staging</code> environment with Oracle Cloud Infrastructure DNS:</p>
+</code></pre><p>The following example configures Verrazzano to use the LetsEncrypt <code>staging</code> environment with Oracle Cloud Infrastructure DNS.</p>
 <pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
@@ -639,7 +639,7 @@ self-signed certificates.  They are typically not used in production environment
 
 <h3 id="letsencrypt-staging-versus-production">LetsEncrypt staging versus production</h3>
 <p>LetsEncrypt provides rate limits on generated certificates to ensure fair usage across all clients.  The
-<code>production</code> environment limits can be exceeded more frequently in environments where Verrazzano may be being
+<code>production</code> environment limits can be exceeded more frequently in environments where Verrazzano may be
 installed or reinstalled frequently (like a test environment).  This can result in failed installations due to
 rate limit exceptions on certificate generation.</p>
 <p>In such environments, it is better to use the LetsEncrypt <code>staging</code> environment, which has much higher limits

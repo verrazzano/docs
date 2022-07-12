@@ -90,7 +90,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.1bceb19add832fd2c1f71faf5e656a84.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.1f475384b8f1ad5aef036f9910e7fa9e.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -112,7 +112,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.1bceb19add832fd2c1f71faf5e656a84.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.1f475384b8f1ad5aef036f9910e7fa9e.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -502,8 +502,8 @@ if (!doNotTrack) {
 
 		
 	</header>
-	<p>WebLogic Server is a widely-used enterprise application server for managing Java Enterprise Edition-based applications and is <a href="https://blogs.oracle.com/weblogicserver/weblogic-server-certification-on-kubernetes">certified</a> to run on Kubernetes using the <a href="https://oracle.github.io/weblogic-kubernetes-operator/">WebLogic Kubernetes Operator</a>. The WebLogic Kubernetes Operator manages the WebLogic domain life cycle in Verrazzano. The WebLogic Domain custom resource (CR) specifies the configuration of the WebLogic domain. The operator monitors the WebLogic Domain CR and reconciles the domain by creating, updating, and deleting Kubernetes resources (Pods, Services, and such), as needed. Each pod is a WebLogic Server, an Administration Server or Managed Server.</p>
-<p>The WebLogic Kubernetes Operator is installed in the <code>verrazzano-system</code> namespace and is also part of the <a href="https://istio.io/latest/about/service-mesh/">istio-mesh</a> deployed by Verrazzano.</p>
+	<p>WebLogic Server is a widely-used enterprise application server for managing Java Enterprise Edition-based applications and is <a href="https://blogs.oracle.com/weblogicserver/weblogic-server-certification-on-kubernetes">certified</a> to run on Kubernetes using the <a href="https://oracle.github.io/weblogic-kubernetes-operator/">WebLogic Kubernetes Operator</a>. The WebLogic Kubernetes Operator (the &ldquo;operator&rdquo;) manages the WebLogic domain life cycle in Verrazzano. The WebLogic Domain custom resource (CR) specifies the configuration of the WebLogic domain. The operator monitors the WebLogic Domain CR and reconciles the domain by creating, updating, and deleting Kubernetes resources (Pods, Services, and such), as needed. Each pod is a WebLogic Server Administration Server or Managed Server.</p>
+<p>The operator is installed in the <code>verrazzano-system</code> namespace and is also part of the <a href="https://istio.io/latest/about/service-mesh/">istio-mesh</a> deployed by Verrazzano.</p>
 
 
 <div class="alert alert-warning" role="alert">
@@ -577,7 +577,7 @@ Do not label a namespace which is managed by the pre-existing WebLogic Kubernete
 <p>The Verrazzano installer creates the ingress gateway service. The Ingress gateway is a <code>LoadBalancer</code> service; TLS is terminated at the Istio ingress gateway. Ingress to the WebLogic domain is optional; you can use an <code>IngressTrait</code> to enable it.</p>
 <h4 id="istio-ingress-and-routing-for-a-single-weblogic-domain">Istio ingress and routing for a single WebLogic domain</h4>
 <p>The Istio Gateway resource describes a proxy providing ingress to the Kubernetes cluster and the Istio mesh. The Gateway specifies the host, port, protocol, and so on, and is bound to a gateway service (LoadBalancer/NodePort). <code>VirtualService</code> specifies routes to services and load balancing.</p>
-<p>Example of an Istio <code>Gateway</code> resource:</p>
+<p>Example of an Istio <code>Gateway</code> resource</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">networking.istio.io/v1beta1</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">Gateway</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">…</span><span style="color:#f8f8f8;text-decoration:underline">
@@ -594,7 +594,7 @@ Do not label a namespace which is managed by the pre-existing WebLogic Kubernete
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">tls</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">credentialName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">todo-list-todo-appconf-cert-secret</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#8f5902;font-style:italic">#Secret containing TLS certificate</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">mode</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">SIMPLE</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#8f5902;font-style:italic">#Terminate TLS</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span></code></pre></div><p>Example of an Istio <code>VirtualService</code> resource:</p>
+</span></span></span></code></pre></div><p>Example of an Istio <code>VirtualService</code> resource</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">networking.istio.io/v1beta1</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">VirtualService</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">…</span><span style="color:#f8f8f8;text-decoration:underline">
@@ -636,7 +636,7 @@ Do not label a namespace which is managed by the pre-existing WebLogic Kubernete
 <p>Prometheus scrapes each WebLogic pod on the metrics port periodically.</p>
 <p>If the trait doesn’t exist, Verrazzano will inject the <code>MetricsTrait</code> into the <code>ApplicationConfiguration</code>. The WebLogic Monitoring Exporter sidecar provides the metrics endpoint. If it doesn’t already exist, Verrazzano will inject the default Monitoring Exporter configuration into the WebLogic Domain CR. The Verrazzano application operator creates Prometheus Service Monitors with WebLogic targets and Verrazzano installs Grafana dashboards to view WebLogic metrics. The WebLogic Kubernetes Operator configures the Monitoring Exporter using a REST API and labels the pods with metrics-related labels. Metrics are scraped at <code>/metrics</code> on port 8080.</p>
 <h3 id="appconfig-default-injection">AppConfig default injection</h3>
-<p>Review the following example <code>MetricsTrait</code> from the TodoList <code>ApplicationConfiguration</code>. If missing from <code>ApplicationConfiguration</code>, Verrazzano will inject the default <code>MetricsTrait</code>.</p>
+<p>Review the following example <code>MetricsTrait</code> from the Todo List <code>ApplicationConfiguration</code>. If it&rsquo;s missing from <code>ApplicationConfiguration</code>, Verrazzano will inject the default <code>MetricsTrait</code>.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">ApplicationConfiguration</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">todo-appconf</span><span style="color:#f8f8f8;text-decoration:underline">
@@ -651,7 +651,7 @@ Do not label a namespace which is managed by the pre-existing WebLogic Kubernete
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#000">…</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span></code></pre></div><h3 id="monitoring-exporter-component">Monitoring Exporter Component</h3>
-<p>Review the following example <code>monitoringExporter</code> configuration in OAM Component.</p>
+<p>Review the following example <code>monitoringExporter</code> configuration in the OAM Component.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">workload</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">oam.verrazzano.io/v1alpha1</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">VerrazzanoWebLogicWorkload</span><span style="color:#f8f8f8;text-decoration:underline">
@@ -667,7 +667,7 @@ Do not label a namespace which is managed by the pre-existing WebLogic Kubernete
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">       </span><span style="color:#204a87;font-weight:bold">prefix</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">wls_server_</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">…</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span></code></pre></div><h3 id="pod-annotations">Pod annotations</h3>
-<p>The following annotations can be used for enabling metrics on pods.</p>
+<p>The following annotations can be used for enabling metrics on pods:</p>
 <ul>
 <li><code>prometheus.io/metricsEnabled: &quot;true”</code> - Enables metrics scraping.</li>
 <li><code>prometheus.io/metricsPath: /metrics</code> - Specifies metrics scraping path.</li>
@@ -698,7 +698,7 @@ Do not label a namespace which is managed by the pre-existing WebLogic Kubernete
 <li>For an example VerrazzanoWebLogicWorkload Component resource created for a sample WebLogic domain, see the <a href="../../../../docs/reference/api/oam/workloads/#verrazzanoweblogicworkload">todo-domain</a> example.</li>
 <li>For all the options supported by the WebLogic domain configuration, see <a href="https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md">Domain.md</a>.</li>
 </ul>
-<p>Step 3. Create ApplicationConfiguration for WebLogic application.</p>
+<p>Step 3. Create an ApplicationConfiguration for the WebLogic application.</p>
 <ul>
 <li>Next, create an ApplicationConfiguration that uses the VerrazzanoWebLogicWorkload component you created for the WebLogic domain.</li>
 <li>For an example ApplicationConfiguration using a VerrazzanoWebLogicWorkload component, see the <a href="../../../../docs/samples/todo-list/">ToDo List</a> example application.</li>
@@ -713,7 +713,7 @@ Do not label a namespace which is managed by the pre-existing WebLogic Kubernete
 <p>Step 1. Deploy the database in Verrazzano.</p>
 <ul>
 <li>To deploy a database, you need to create the corresponding Component and ApplicationConfiguration that will run the database in a pod and expose its connection information as a Service.</li>
-<li>For an example, look at the <a href="../../../../docs/samples/todo-list/">tododomain-mysql</a> descriptor.</li>
+<li>For an example, look at the <a href="../../../../docs/guides/lift-and-shift/lift-and-shift/#create-verrazzano-components-for-mysql">tododomain-mysql</a> descriptor.</li>
 </ul>
 <p>Step 2. Create a WebLogic resource ConfigMap.</p>
 <ul>
@@ -733,7 +733,7 @@ Do not label a namespace which is managed by the pre-existing WebLogic Kubernete
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">...</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span></code></pre></div><p>For more details, see the <a href="../../../../docs/samples/todo-list/">ToDo List</a> example application configuration.</p>
 <h2 id="ingresses">Ingresses</h2>
-<p>To access the endpoints for a Java EE application deployed as part of a VerrazzanoWebLogicWorkload component, Verrazzano plets you specify an IngressTrait for the component which is then translated to an <a href="https://istio.io/latest/docs/reference/config/networking/gateway/">Istio ingress gateway</a> and <a href="https://istio.io/latest/docs/reference/config/networking/virtual-service/">VirtualService</a>. For an example, see the <a href="../../../../docs/samples/todo-list/">ToDo List</a> example application, where the IngressTrait is configured for the application endpoint.</p>
+<p>To access the endpoints for a Java EE application deployed as part of a VerrazzanoWebLogicWorkload component, Verrazzano lets you specify an IngressTrait for the component which is then translated to an <a href="https://istio.io/latest/docs/reference/config/networking/gateway/">Istio ingress gateway</a> and <a href="https://istio.io/latest/docs/reference/config/networking/virtual-service/">VirtualService</a>. For an example, see the <a href="../../../../docs/samples/todo-list/">ToDo List</a> example application, where the IngressTrait is configured for the application endpoint.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#000">...</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">trait</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">oam.verrazzano.io/v1alpha1</span><span style="color:#f8f8f8;text-decoration:underline">
@@ -756,7 +756,7 @@ $ curl -sk https://${HOST}/todo/ --resolve ${HOST}:443:${ADDRESS}
 <li><a href="https://github.com/oracle/weblogic-kubernetes-operator/">WebLogic Kubernetes Operator GitHub repository</a></li>
 <li><a href="https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md">WebLogic Domain CR</a></li>
 <li><a href="../../../../docs/applications/workloads/">Verrazzano Application Workloads</a></li>
-<li><a href="../../../../docs/guides/lift-and-shift/lift-and-shift/">Lift and Shift Guide</a></li>
+<li><a href="../../../../docs/guides/lift-and-shift/lift-and-shift/">Lift-and-Shift Guide</a></li>
 </ul>
 
         <div class="section-index">

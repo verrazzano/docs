@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/guides/lift-and-shift/lift-and-shift/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-07-06T15:09:02-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-07-12T14:05:07-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Lift-and-Shift Guide">
 <meta itemprop="description" content="A guide for moving WebLogic Server domains to Verrazzano">
-<meta itemprop="dateModified" content="2022-07-06T15:09:02-04:00" />
-<meta itemprop="wordCount" content="2623">
+<meta itemprop="dateModified" content="2022-07-12T14:05:07-04:00" />
+<meta itemprop="wordCount" content="2626">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Lift-and-Shift Guide"/>
 <meta name="twitter:description" content="A guide for moving WebLogic Server domains to Verrazzano"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.1bceb19add832fd2c1f71faf5e656a84.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.1f475384b8f1ad5aef036f9910e7fa9e.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.1bceb19add832fd2c1f71faf5e656a84.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.1f475384b8f1ad5aef036f9910e7fa9e.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -609,7 +609,7 @@ $ docker run --name tododb \
 <pre tabindex="0"><code> $ $ORACLE_HOME/user_projects/domains/tododomain/bin/startWebLogic.sh
 </code></pre></li>
 <li>
-<p>Access the Console of the newly started domain with your browser, for example, <a href="http://localhost:7001/console">http://localhost:7001/console</a>, and
+<p>Access the WebLogic Server Administration Console of the newly started domain with your browser, for example, <a href="http://localhost:7001/console">http://localhost:7001/console</a>, and
 log in using the administrator credentials you specified.</p>
 </li>
 </ol>
@@ -897,7 +897,7 @@ two sample files is shown:</p>
 &gt;                   URL: &#34;jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb&#34;
 </code></pre><h4 id="create-verrazzano-components-for-mysql">Create Verrazzano components for MySQL</h4>
 <p>As noted previously, moving a production environment to Verrazzano would require migrating the data as well. While data migration is beyond the scope of this guide, we will still need to include a MySQL instance to be deployed with the application in the Verrazzano environment.</p>
-<p>To do so, first, we need to create the Verrazzano components for MySQL by applying the <a href="../mysql-oam.yaml">mysql-oam.yaml</a> file in the <code>tododomain</code> namespace. The components will be deployed as Kubernetes objects when the ToDo List application is deployed by applying the vz-application.yaml file in the next step.</p>
+<p>To do so, first, we need to create the Verrazzano components for MySQL by applying the <a href="../mysql-oam.yaml">mysql-oam.yaml</a> file in the <code>tododomain</code> namespace. The components will be deployed as Kubernetes objects when the ToDo List application is deployed by applying the <code>vz-application.yaml</code> file in the next step.</p>
 <ul>
 <li>
 <p>Download the <a href="../mysql-oam.yaml">mysql-oam.yaml</a> file.</p>
@@ -924,7 +924,7 @@ todo-mysql-service      Service         26s
 </code></pre><p>This will:</p>
 <ul>
 <li>Create the application Component resources for the ToDo List application.</li>
-<li>Deploys the Verrazzano component resources as Kubernetes objects and creates the MySQL instance.</li>
+<li>Deploy the Verrazzano component resources as Kubernetes objects and create the MySQL instance.</li>
 <li>Create the application configuration resources that create the instance of the ToDo List application in the Verrazzano cluster.</li>
 </ul>
 <p>Wait for the ToDo List example application to be ready.</p>
@@ -934,7 +934,7 @@ todo-mysql-service      Service         26s
 
 # Expected response
 pod/tododomain-adminserver condition met
-</code></pre><p>Verify that the pods are in the <code>Running</code> state:</p>
+</code></pre><p>Verify that the pods are in the <code>Running</code> state.</p>
 <pre tabindex="0"><code>$ kubectl get pod -n tododomain
 
 # Sample output

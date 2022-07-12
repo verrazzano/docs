@@ -25,11 +25,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/platforms/kind/kind/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-02-16T08:05:52-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-07-12T14:05:07-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Kind">
 <meta itemprop="description" content="Instructions for setting up a Kind cluster for Verrazzano">
-<meta itemprop="dateModified" content="2022-02-16T08:05:52-05:00" />
+<meta itemprop="dateModified" content="2022-07-12T14:05:07-04:00" />
 <meta itemprop="wordCount" content="631">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Kind"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.1bceb19add832fd2c1f71faf5e656a84.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.1f475384b8f1ad5aef036f9910e7fa9e.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.1bceb19add832fd2c1f71faf5e656a84.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.1f475384b8f1ad5aef036f9910e7fa9e.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -546,7 +546,7 @@ EOF
 times.  To speed up Verrazzano installation, follow these steps to ensure that the image cache used by
 containerd inside a Kind cluster, is preserved across clusters. Subsequent installations will be faster
 because they will not need to pull the images again.</p>
-<p>1. Create a named Docker volume that will be used for the image cache, and note its <code>Mountpoint</code> path. In this example, the volume is named <code>containerd</code>.</p>
+<p>1. Create a named Docker volume that will be used for the image cache and note its <code>mountPoint</code> path. In this example, the volume is named <code>containerd</code>.</p>
 <pre tabindex="0"><code>$ docker volume create containerd
 
 $ docker volume inspect containerd
@@ -561,13 +561,13 @@ $ docker volume inspect containerd
     &#34;Options&#34;: {},
     &#34;Scope&#34;: &#34;local&#34;
 }
-</code></pre><p>2. Specify the <code>Mountpoint</code> path obtained, as the <code>hostPath</code> under <code>extraMounts</code> in your Kind configuration file, with a <code>containerPath</code> of <code>/var/lib/containerd</code>, which is the default containerd image caching location inside the Kind container. An example of the modified Kind configuration is shown in the following <code>create cluster</code> command:</p>
+</code></pre><p>2. Specify the <code>mountPoint</code> path obtained, as the <code>hostPath</code> under <code>extraMounts</code> in your Kind configuration file, with a <code>containerPath</code> of <code>/var/lib/containerd</code>, which is the default containerd image caching location inside the Kind container. An example of the modified Kind configuration is shown in the following <code>create cluster</code> command.</p>
 <pre tabindex="0"><code>$ kind create cluster --config - &lt;&lt;EOF
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
   - role: control-plane
-    image: kindest/node:v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6 
+    image: kindest/node:v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6
     kubeadmConfigPatches:
       - |
         kind: ClusterConfiguration
