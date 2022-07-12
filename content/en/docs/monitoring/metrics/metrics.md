@@ -69,19 +69,19 @@ For example, for the previous metric source:
 
 ### Standard Kubernetes workloads
 
-Verrazzano supports enabling metric sources for Kubernetes workloads deployed without OAM components.
-To enable metrics for Kubernetes workloads, you must create a Service Monitor or Pod Monitor as applicable. 
-For details on Service Monitor and Pod Monitor, refer to the [Prometheus Operator documentation](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/getting-started.md). 
+Verrazzano supports enabling metric sources for Kubernetes workloads deployed without OAM Components.
+To enable metrics for Kubernetes workloads, you must create a Service Monitor or Pod Monitor, as applicable.
+For details on Service Monitor and Pod Monitor, refer to the [Prometheus Operator documentation](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/getting-started.md).
 
-When creating the ServiceMonitor or PodMonitor for your workload, include the label `release`, with the value
+When creating the Service Monitor or Pod Monitor for your workload, include the label `release`, with the value
 `prometheus-operator` on the monitor resource.
 
 #### Verify metrics collection
 
-To verify that the metrics are being collected for your workload, follow these steps:
+To verify that the metrics are being collected for your workload, follow these steps.
 1. Access the [Prometheus console]({{< relref "/docs/access/_index.md" >}}).
 2. From the console, use the navigation bar to access Status/Targets.
-3. On this page, you will see a target name with this formatting: `<monitor-type>/<workload-namespace>_<workload-name>_<workload-type>`, where "monitor-type" may be serviceMonitor or podMonitor.
+3. On this page, you will see a target name with this formatting: `<monitor-type>/<workload-namespace>_<workload-name>_<workload-type>`, where `monitor-type` may be serviceMonitor or podMonitor.
 4. Copy this job name from the target labels for use in future queries.
 5. Verify that the State of this target is `UP`.
 6. Next, use the navigation bar to access the Graph.
@@ -91,23 +91,23 @@ To verify that the metrics are being collected for your workload, follow these s
 Metrics Traits use Service Monitors which require [Services](https://kubernetes.io/docs/concepts/services-networking/service/) for metrics collection.
 If you are unable to verify metrics collection, you might need to manually create a Service for the workload.
 
-For more information on Prometheus solutions, see [Troubleshooting Prometheus](/docs/troubleshooting/troubleshooting-prometheus.md).
+For more information on Prometheus solutions, see [Troubleshooting Prometheus]({{< relref "/docs/troubleshooting/troubleshooting-prometheus.md" >}}).
 
 #### Legacy workloads
 
-Standard Kubernetes workloads that were metrics sources in earlier versions of Verrazzano (1.3.x or older), will continue
+Standard Kubernetes workloads that were metrics sources in earlier versions of Verrazzano (1.3.x or earlier), will continue
 to be supported when upgrading to later versions of Verrazzano.
 
-For workloads that used the legacy default metrics template, Verrazzano will create a ServiceMonitor in the workload's
-namespace, to ensure that metrics continue to be scraped. You can make any ongoing changes to the metrics source configuration
-by editing the ServiceMonitor.
+For workloads that used the legacy default metrics template, Verrazzano will create a Service Monitor in the workload's
+namespace to ensure that metrics continue to be scraped. You can make any ongoing changes to the metrics source configuration
+by editing the Service Monitor.
 
 For workloads that used a legacy custom metrics template, Verrazzano will configure the Prometheus Operator to ensure
 that metrics continue to be scraped.
 
 ### Metrics server
 
-- Verrazzano installs the Prometheus Operator in the `verrazzano-monitoring` namespace. 
+- Verrazzano installs the Prometheus Operator in the `verrazzano-monitoring` namespace.
 - A single Prometheus pod is created by Prometheus Operator in the same namespace.
 - Discovers exposed metrics source endpoints.
 - Scrapes metrics from metrics sources.
@@ -118,7 +118,7 @@ that metrics continue to be scraped.
 Grafana provides visualization for your Prometheus metric data.
 
 - Single pod per cluster.
-- Named `vmi-system-grafana-*` in `verrazzano-system` namespace.
+- Named `vmi-system-grafana-*` in the `verrazzano-system` namespace.
 - Provides dashboards for metrics visualization.
 
 To access Grafana:
@@ -139,10 +139,10 @@ To access Grafana:
        -o jsonpath={.data.password} | base64 \
        --decode; echo
    ```
-1. Access Grafana in a browser using the previous host name.
-1. Log in using the `verrazzano` user and the previous password.
+1. Access Grafana in a browser using the host name.
+1. Log in using the `verrazzano` user and the password.
 
-![Grafana](/docs/images/grafana-initial-page.png)
+![Grafana]docs/images/grafana-initial-page.png)
 
 
 From here, you can select an existing dashboard or create a new dashboard.
@@ -157,4 +157,4 @@ of the nodes in your cluster.
 To view the application metrics for the `todo-list` example application, select `WebLogic Server Dashboard`
 because the `todo-list` application is a WebLogic application.
 
-![WebLogicDashboard](/docs/images/grafana-weblogic-dashboard.png)
+![WebLogicDashboard]docs/images/grafana-weblogic-dashboard.png)

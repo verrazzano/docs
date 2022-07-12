@@ -46,7 +46,7 @@ The Hello World Helidon configuration example implements a REST API endpoint, `/
 environment such as OKE.  Other environments or deployments may require alternative mechanisms for retrieving addresses,
 ports, and such.
 
-Follow these steps to test the endpoints:
+Follow these steps to test the endpoints.
 
 1. Get the generated host name for the application.
 
@@ -95,16 +95,18 @@ Follow these steps to test the endpoints:
      ```
      Then you can access the application in a browser at `https://<host>/config`.
 
-     If you are using `nip.io`, then you can access the application in a browser using the `HOST` variable (for example, `https://${HOST}/config`).  If you are going through a proxy, then you may need to add `*.nip.io` to the `NO_PROXY` list.
+     - If you are using `nip.io`, then you can access the application in a browser using the `HOST` variable (for example, `https://${HOST}/config`).  
+     - If you are going through a proxy, then you may need to add `*.nip.io` to the `NO_PROXY` list.
 
    * **Using your own DNS name**
-     * Point your own DNS name to the ingress gateway's `EXTERNAL-IP` address.
+
+     Point your own DNS name to the ingress gateway's `EXTERNAL-IP` address.
      * In this case, you would need to edit the `helidon-config-app.yaml` file
        to use the appropriate value under the `hosts` section (such as `yourhost.your.domain`),
        before deploying the `helidon-config` application.
      * Then, you can use a browser to access the application at `https://<yourhost.your.domain>/config`.
 
-1. A variety of endpoints associated with the deployed application, are available to further explore the logs, metrics, and such. You
+1. A variety of endpoints associated with the deployed application are available to further explore the logs, metrics, and such. You
 can access them according to the directions [here]({{< relref "/docs/access/#get-the-consoles-urls" >}}).   
 
 

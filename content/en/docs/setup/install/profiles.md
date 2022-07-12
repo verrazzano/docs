@@ -13,13 +13,13 @@ The following table describes the Verrazzano installation profiles.
 
 | Profile  | Description | Characteristics
 | ------------- |:------------- |:-------------
-| `prod` | Full install, production configuration. | Default profile:<br/>- Full installation.<br/>- Persistent storage. <br/>- Production OpenSearch cluster topology.
+| `prod` | Full installation, production configuration. | Default profile:<br/>- Full installation.<br/>- Persistent storage. <br/>- Production OpenSearch cluster topology.
 | `dev` | Development or evaluation configuration. | Lightweight installation:<br/>- For evaluation purposes.<br/>- No persistence.<br/>- Single-node OpenSearch cluster topology.
 | `managed-cluster` | A specialized installation for managed clusters in a multicluster topology. | Minimal installation for a managed cluster:<br/>- Cluster must be registered with an admin cluster to use [multicluster]({{< relref "/docs/concepts/verrazzanomulticluster" >}}) features.
 
 ## Use an installation profile
 
-To use a profile to install Verrazzano, set the profile name in the `profile` field of your
+To specify an installation profile when installing Verrazzano, set the profile name in the `profile` field of your
 Verrazzano custom resource.
 
 For example, to use the `dev` profile:
@@ -33,13 +33,13 @@ spec:
   profile: dev
 ```
 
-To use a different profile, simply replace `dev` with `prod` or `managed-cluster`.
+To use a different profile, replace `dev` with `prod` or `managed-cluster`.
 
 ## Customize an installation profile
 
 You can override the profile settings for any component regardless of the profile.  The following example
 uses a customized `dev` profile to configure a small 8Gi persistent volume for the MySQL instance used by Keycloak to
-provide more stability for the Keycloak service:
+provide more stability for the Keycloak service.
 
 ```
 apiVersion: install.verrazzano.io/v1alpha1

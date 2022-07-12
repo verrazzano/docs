@@ -32,7 +32,7 @@ Install Verrazzano on each Kubernetes cluster.
   $ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
   $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 
-  # lists the contexts in each kubeconfig file
+  # Lists the contexts in each kubeconfig file
   $ kubectl --kubeconfig $KUBECONFIG_ADMIN config get-contexts -o=name
   my-admin-cluster-context
   some-other-cluster-context
@@ -59,14 +59,14 @@ variables set previously to connect to the appropriate cluster.
 <!-- omit in toc -->
 ### Preregistration setup
 
-Before registering the managed cluster, first you'll need to set up the following items:
+Before registering the managed cluster, first you'll need to set up the following items.
 - A Secret containing the managed cluster's CA certificate. Note that the `cacrt` field in this secret can be empty only
   if the managed cluster uses a well-known CA.
   This CA certificate is used by the admin cluster to scrape metrics from the managed cluster, for both applications and Verrazzano components.
 - A ConfigMap containing the externally reachable address of the admin cluster. This will be provided to the managed
   cluster during registration so that it can connect to the admin cluster.
 
-Follow these preregistration setup steps:
+Follow these preregistration setup steps.
 
 1. If needed for the admin cluster, obtain the managed cluster's CA certificate.
    The admin cluster scrapes metrics from the managed cluster's Prometheus endpoint. If the managed cluster
@@ -101,13 +101,14 @@ Follow these preregistration setup steps:
        authority. Otherwise, your managed cluster is using self-signed certificates.
 
      {{< tabs tabTotal="3" >}}
-     {{< tab tabName="Well-known CA" >}}
+     {{< tab tabName="Well-Known CA" >}}
 <br>
 
 In this case, no additional configuration is necessary.
 
      {{< /tab >}}
      {{< tab tabName="Self-Signed" >}}
+<br>
 
 If the managed cluster certificates are self-signed, create a file called `managed1.yaml` containing the CA
 certificate of the managed cluster as the value of the `cacrt` field. In the following commands, the managed cluster's
@@ -134,11 +135,12 @@ Create a Secret on the *admin* cluster that contains the CA certificate for the 
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
         apply -f managed1.yaml
 
-   # Once the command succeeds, you may delete the managed1.yaml file
+   # After the command succeeds, you may delete the managed1.yaml file
    $ rm managed1.yaml
    ```
      {{< /tab >}}
      {{< tab tabName="LetsEncrypt Staging" >}}
+<br>
 
 If the managed cluster certificates are LetsEncrypt staging, then create a file called `managed1.yaml` containing the CA
 certificate of the managed cluster as the value of the `cacrt` field. In the following commands, the managed cluster's
@@ -200,7 +202,7 @@ contexts:
 ....
 ```
 In the output of this command, you can find the URL of the admin cluster API server from the `server` entry. Set the
-value of the ADMIN_K8S_SERVER_ADDRESS variable to this URL.
+value of the `ADMIN_K8S_SERVER_ADDRESS` variable to this URL.
 ```
 export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
 ```
@@ -219,7 +221,7 @@ the same Docker network.
 $ kind get kubeconfig --internal --name <your-admin-cluster-name> | grep server
 ```
 In the output of this command, you can find the URL of the admin cluster API server from the `server` entry. Set the
-value of the ADMIN_K8S_SERVER_ADDRESS variable to this URL.
+value of the `ADMIN_K8S_SERVER_ADDRESS` variable to this URL.
 ```
 export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
 ```
@@ -287,7 +289,7 @@ Apply the registration file exported in the previous step, on the managed cluste
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
        apply -f register.yaml
 
-   # Once the command succeeds, you may delete the register.yaml file
+   # After the command succeeds, you may delete the register.yaml file
    $ rm register.yaml
    ```
    After this step, the managed cluster will begin connecting to the admin cluster periodically. When the managed cluster
@@ -299,7 +301,7 @@ Apply the registration file exported in the previous step, on the managed cluste
    - The API address of the managed cluster, in the `apiUrl` status field. This is used by the admin cluster's authentication proxy to
      route incoming requests for managed cluster information, to the managed cluster's authentication proxy.
 
-### Verify that managed cluster registration completed
+### Verify that managed cluster registration has completed
 You can perform all the verification steps on the admin cluster.
 
 1. Verify that the managed cluster can connect to the admin cluster. View the status of the `VerrazzanoManagedCluster`
@@ -358,14 +360,14 @@ An alternative approach to using the Prometheus UI is to query metrics from the 
 
 Verify that the admin cluster is collecting logs from the managed cluster.  The output will include records which have the name of the managed cluster in the `cluster_name` field.
 
-You can find the OpenSearch Dashboards UI URL for your cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/access/_index.md" >}}).
+You can find the OpenSearch Dashboards URL for your cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/access/_index.md" >}}).
 Searching the `verrazzano-system` data stream for log records with the `cluster_name` set to the managed cluster name yields logs for the managed cluster.
 
 **Sample output of a OpenSearch Dashboards screen**
 
 ![OpenSearch Dashboards](/docs/images/multicluster/opensearch-multicluster.png)
 
-An alternative approach to using the OpenSearch Dashboards UI is to query OpenSearch from the command line.  Here is an example of how to obtain log records from the command line.  Search the output of the query for responses that have the `cluster_name` field set to the name of the managed cluster.
+An alternative approach to using the OpenSearch Dashboards is to query OpenSearch from the command line.  Here is an example of how to obtain log records from the command line.  Search the output of the query for responses that have the `cluster_name` field set to the name of the managed cluster.
    ```
    # On the admin cluster
    $ OSD_URL=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
@@ -387,5 +389,5 @@ The admin cluster serves as a central point from which to register and deploy ap
 In the Verrazzano UI on the admin cluster, you can view the following:
 
 - The managed clusters registered with this admin cluster.
-- VerrazzanoProjects located on this admin cluster, or any of its registered managed clusters, or both.
-- Applications located on this admin cluster, or any of its registered managed clusters, or both.
+- VerrazzanoProjects located on this admin cluster or any of its registered managed clusters, or both.
+- Applications located on this admin cluster or any of its registered managed clusters, or both.

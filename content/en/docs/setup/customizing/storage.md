@@ -70,7 +70,7 @@ Review the following customizing persistent storage examples:
 
 If `defaultVolumeSource` is configured, then that setting will be used for all components that require storage.
 
-For example, the following Verrazzano configuration uses the `prod` profile, but disables persistent storage for all components:
+For example, the following Verrazzano configuration uses the `prod` profile, but disables persistent storage for all components.
 
 ```
 apiVersion: install.verrazzano.io/v1alpha1
@@ -84,7 +84,7 @@ spec:
 ```
 
 The following example uses `persistentVolumeClaim` to override persistence settings globally for a `prod` profile, to use
-`100Gi` volumes for all components, instead of the default of `50Gi`:
+`100Gi` volumes for all components, instead of the default of `50Gi`.
 
 ```
 apiVersion: install.verrazzano.io/v1alpha1
@@ -105,7 +105,7 @@ spec:
             storage: 100Gi
 ```
 
-The following example uses a `managed-cluster` profile but overrides the persistence settings to use ephemeral storage:
+The following example uses a `managed-cluster` profile but overrides the persistence settings to use ephemeral storage.
 
 ```
 apiVersion: install.verrazzano.io/v1alpha1
@@ -122,7 +122,7 @@ spec:
 
 The following example Verrazzano configuration enables a `100Gi` PersistentVolumeClaim for the MySQL component in Keycloak
 in a `dev` profile configuration.  This overrides the default of ephemeral storage for Keycloak in that profile, while
-retaining the default storage settings for other components:
+retaining the default storage settings for other components.
 
 ```
 apiVersion: install.verrazzano.io/v1alpha1
@@ -162,13 +162,13 @@ spec:
   profile: dev
   defaultVolumeSource:
     persistentVolumeClaim:
-      claimName: vmi     # set storage globally for the metrics stack
+      claimName: vmi     # Set storage globally for the metrics stack
   components:
     keycloak:
       mysql:
         volumeSource:
           persistentVolumeClaim:
-            claimName: mysql  # set storage separately for keycloak's MySql instance
+            claimName: mysql  # Set storage separately for keycloak's MySql instance
   volumeClaimSpecTemplates:
     - metadata:
         name: mysql

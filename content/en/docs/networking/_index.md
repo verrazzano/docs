@@ -13,7 +13,7 @@ can also be referred to as components, not to be confused with OAM Components.
 
 All of the system components and applications use the network to some degree.  Verrazzano
 configures networking to provide network security and traffic management.  Network
-settings are configured both at installation and during runtime as applications as are
+settings are configured both at installation and during runtime as applications are
 deployed into the Kubernetes cluster.
 
 ## High-level overview
@@ -32,7 +32,7 @@ Istio ingress gateway, where TLS is terminated. From there, the traffic is route
 to one of several applications using mTLS.
 
 **NOTE**: Applications can be deployed outside the mesh, but the Istio ingress gateway
-will send traffic to them using plaintext.  You need to do some additional configuration to
+will send traffic to them using plain text.  You need to do some additional configuration to
 enable TLS passthrough, as described at [Istio Gateway Passthrough](https://istio.io/latest/docs/tasks/traffic-management/ingress/ingress-sni-passthrough/).
 
 ### High-level network diagram

@@ -95,7 +95,7 @@ Do not delete the Coherence component if the application is still using it.
 
 ## Logging
 When a Coherence cluster is provisioned, Verrazzano configures it to send logs to OpenSearch.  This is done by
-injecting Fluentd sidecar configuration into the Coherence resource. The Coherence operator will create the pod with the
+injecting a Fluentd sidecar configuration into the Coherence resource. The Coherence operator will create the pod with the
 Fluentd sidecar.  This sidecar periodically copies the Coherence logs from `/logs` to stdout, enabling the Fluentd DaemonSet
 in the `verrazzano-system` namespace to send the logs to OpenSearch.  Note that the Fluend sidecar running in the Coherence
 pod never communicates with OpenSearch or any other network endpoint.

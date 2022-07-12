@@ -6,7 +6,7 @@ weight: 2
 draft: false
 ---
 
-The Oracle Cloud Infrastructure Logging service is a highly scalable and fully managed single pane of glass for
+The Oracle Cloud Infrastructure Logging service is a highly scalable and fully managed single view for
 all the logs in your tenancy. You can configure Verrazzano to send logs to Oracle Cloud Infrastructure Logging instead of OpenSearch.
 For general information, see Oracle Cloud Infrastructure [Logging Overview](https://docs.oracle.com/en-us/iaas/Content/Logging/Concepts/loggingoverview.htm).
 
@@ -172,7 +172,7 @@ specified in the Verrazzano custom resource.
 ## Search logs
 To search Verrazzano logs, you can use the Oracle Cloud Infrastructure Console, Oracle Cloud Infrastructure CLI, or Oracle Cloud Infrastructure SDK.
 
-For example, using the Oracle Cloud Infrastructure CLI to search the system logs for records emitted by the `verrazzano-application-operator` container.
+For example, use the Oracle Cloud Infrastructure CLI to search the system logs for records emitted by the `verrazzano-application-operator` container:
 ```
 $ oci logging-search search-logs --search-query=\
      "search \"ocid1.compartment.oc1..example/ocid1.loggroup.oc1.iad.example/ocid1.log.oc1.iad.example\" | \
@@ -180,7 +180,7 @@ $ oci logging-search search-logs --search-query=\
      --time-start 2021-12-07 --time-end 2021-12-17
 ```
 
-Search for all application log records in the `springboot` namespace.
+Search for all application log records in the `springboot` namespace:
 ```
 $ oci logging-search search-logs --search-query=\
      "search \"ocid1.compartment.oc1..example/ocid1.loggroup.oc1.iad.example/ocid1.log.oc1.iad.example\" | \

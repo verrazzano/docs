@@ -13,21 +13,21 @@ You can install Verrazzano using a private Docker-compliant container registry. 
 
 To obtain the required Verrazzano images and install from your private registry, you must:
 
-1. Download the Verrazzano ZIP file from the Oracle Software Delivery Cloud:
-   * In your browser, go to [Oracle Software Delivery Cloud](https://edelivery.oracle.com) and log in with your credentials.
-   * In the drop-down menu next to the search bar, select **Download Package**.
+1. Download the Verrazzano ZIP file from the Oracle Software Delivery Cloud.
+   * In your browser, go to the [Oracle Software Delivery Cloud](https://edelivery.oracle.com) and log in with your credentials.
+   * In the drop-down menu preceding the search bar, select **Download Package**.
    * In the search bar, enter `Verrazzano Enterprise Container Platform` and click **Search**.
    * Select the `DLP: Oracle Verrazzano Enterprise Edition {{<download_package_version>}}` link.  This will add it to your download queue.
-   * Select the **Continue** link.
+   * At the top of the page, select the **Continue** link.
+   * Review the Download Queue, then click **Continue**.
    * Accept the license agreement and click **Continue**.
    * Download the file:
      * To download the ZIP file directly, select the file link in the list.
      * To download the ZIP file using `Oracle Download Manager`, click **Download** and run the `Oracle Download Manager` executable.
-2. Prepare to do the private registry install:
-   * Unzip the ZIP archive to a desired directory location.  There will be two files, a compressed TAR file containing the product
+2. Prepare to do the private registry installation.
+   * Extract the ZIP archive to a desired directory location.  There will be two files: a compressed TAR file containing the product
      files and a checksum file.
-   * Go to the expanded archive directory.
-   * (Optional) Validate the checksum and the TAR file match.  For example,
+   * (Optional) In the expanded archive directory, validate that the checksum and TAR file match.  For example,
      ```
      $ shasum -c  verrazzano_{{<download_package_full_version>}}.tar.gz.sha256
 
@@ -42,7 +42,7 @@ To obtain the required Verrazzano images and install from your private registry,
 
 A private Docker registry is called an [insecure registry](https://docs.docker.com/registry/insecure/) when it is configured for access using a self-signed certificate or over an unencrypted HTTP connection. Depending on the platform, there could be some additional configuration required for installing Verrazzano with an insecure registry.
 
-For example, for the [Oracle Cloud Native Environment platform]({{< relref "/docs/setup/platforms/OLCNE/OLCNE.md" >}}), the insecure registries must be configured in `/etc/containers/registries.conf` as follows on the worker nodes:
+For example, for the [Oracle Cloud Native Environment platform]({{< relref "/docs/setup/platforms/OLCNE/OLCNE.md" >}}), insecure registries must be configured in `/etc/containers/registries.conf` as follows on the worker nodes:
  ```
  [registries]
     [registries.insecure]

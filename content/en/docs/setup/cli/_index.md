@@ -19,11 +19,11 @@ These instructions demonstrate installing the CLI on Linux AMD64 machines.
   ```
 
 ### Validate the binary (optional)
-Download the `vz` checksum file:
+Download the `vz` checksum file.
   ```shell
    $ curl -LO {{<release_asset_url vz-linux-amd64.tar.gz.sha256>}}
   ```
-Validate the `vz` binary against the checksum file:
+Validate the `vz` binary against the checksum file.
   ```shell
    $ sha256sum -c vz-linux-amd64.tar.gz.sha256
   ```
@@ -38,7 +38,7 @@ Validate the `vz` binary against the checksum file:
    $ vz version
   ```
 
-The resulting output should be similar to the following:
+The resulting output should be similar to the following.
 
 ```shell
 Version: v1.4.0
@@ -55,7 +55,7 @@ as well as analyzing failures in a running Verrazzano environment.
 
 ### Usage information
 
-Use the following syntax to run `vz` commands from your terminal window:
+Use the following syntax to run `vz` commands from your terminal window.
 ```shell
 vz [command] [flags]
 ```
@@ -78,6 +78,6 @@ These flags apply to all the commands.
 
 | Flag                  | Definition                                 |
 |-----------------------|--------------------------------------------|
-| `--context string`    | The name of the kubeconfig context to use. |
+| `--context string`    | The name of the `kubeconfig` context to use. |
 | `-h`, `--help`        | Help for `vz`.                             |
-| `--kubeconfig string` | Path to the kubeconfig file to use.        |
+| `--kubeconfig string` | Path to the `kubeconfig` file to use.        |

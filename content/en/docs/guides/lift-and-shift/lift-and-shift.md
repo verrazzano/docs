@@ -104,7 +104,7 @@ In the initial steps, you create a sample domain that represents your on-premise
     ```
      $ $ORACLE_HOME/user_projects/domains/tododomain/bin/startWebLogic.sh
     ```
-1. Access the Console of the newly started domain with your browser, for example, [http://localhost:7001/console](http://localhost:7001/console), and
+1. Access the WebLogic Server Administration Console of the newly started domain with your browser, for example, [http://localhost:7001/console](http://localhost:7001/console), and
    log in using the administrator credentials you specified.
 
 ### Add a data source configuration to access the database
@@ -438,7 +438,7 @@ $ diff vz-application.yaml vz-application-modified.yaml
 
 As noted previously, moving a production environment to Verrazzano would require migrating the data as well. While data migration is beyond the scope of this guide, we will still need to include a MySQL instance to be deployed with the application in the Verrazzano environment.
 
-To do so, first, we need to create the Verrazzano components for MySQL by applying the [mysql-oam.yaml](../mysql-oam.yaml) file in the `tododomain` namespace. The components will be deployed as Kubernetes objects when the ToDo List application is deployed by applying the vz-application.yaml file in the next step.
+To do so, first, we need to create the Verrazzano components for MySQL by applying the [mysql-oam.yaml](../mysql-oam.yaml) file in the `tododomain` namespace. The components will be deployed as Kubernetes objects when the ToDo List application is deployed by applying the `vz-application.yaml` file in the next step.
 
 * Download the [mysql-oam.yaml](../mysql-oam.yaml) file.
 
@@ -472,7 +472,7 @@ $ kubectl apply -f vz-application.yaml
 
 This will:
 * Create the application Component resources for the ToDo List application.
-* Deploys the Verrazzano component resources as Kubernetes objects and creates the MySQL instance.  
+* Deploy the Verrazzano component resources as Kubernetes objects and create the MySQL instance.  
 * Create the application configuration resources that create the instance of the ToDo List application in the Verrazzano cluster.
 
 
@@ -487,7 +487,7 @@ $ kubectl wait pod \
 pod/tododomain-adminserver condition met
 ```
 
-Verify that the pods are in the `Running` state:
+Verify that the pods are in the `Running` state.
 ```
 $ kubectl get pod -n tododomain
 

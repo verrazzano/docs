@@ -18,11 +18,11 @@ The following is an example of Oracle Cloud Infrastructure that can be used to e
 If other environments are used, the capacity and configuration should be similar.
 
 You can use the VCN Wizard of the Oracle Cloud Infrastructure Console to automatically create most of the described network infrastructure.
-Additional security lists/rules, as detailed in the following sections, need to be added manually.
+Additional security lists and rules, as detailed in the following sections, need to be added manually.
 All Classless Inter-Domain Routing (CIDR) values provided are examples and can be customized as required.
 
 ### Virtual Cloud Network (for example, CIDR 10.0.0.0/16)
-**Public Subnet for Load balancer (for example, CIDR 10.0.0.0/24)**
+**Public Subnet for Load Balancer (for example, CIDR 10.0.0.0/24)**
 
 Security List / Ingress Rules
 
@@ -36,13 +36,13 @@ Security List / Ingress Rules
 
 Security List / Egress Rules
 
-|Stateless|Destination|Protocol|Source Ports| Destination Ports |Type & Code|Description        |
+|Stateless| Destination| Protocol| Source Ports| Destination Ports |Type & Code| Description        |
 |---------|-----------|--------|------------|-------------------|-----------|-------------------|
 |No       |`10.0.1.0/24`|TCP     |All         | 22                |           |SSH                |
 |No       |`10.0.1.0/24`|TCP     |All         | 31443             |           |HTTPS load balancer|
 |No       |`10.0.1.0/24`|TCP     |All         | 32443             |           |HTTPS load balancer|
 
-**Private Subnet for Kubernetes cluster (for example, CIDR 10.0.1.0/24)**
+**Private Subnet for Kubernetes Cluster (for example, CIDR 10.0.1.0/24)**
 
 Security List / Ingress Rules
 

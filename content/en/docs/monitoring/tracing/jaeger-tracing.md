@@ -32,7 +32,7 @@ Jaeger is installed using the Jaeger Custom Resource Definition. The following e
 Verrazzano system OpenSearch cluster as a tracing backend.
 
 Before creating the Jaeger instance, create a secret containing the OpenSearch user name and password.
-Jaeger will use these credentials to connect to OpenSearch:
+Jaeger will use these credentials to connect to OpenSearch.
 
 ```
 $ kubectl create secret generic jaeger-secret \
@@ -80,7 +80,7 @@ spec:
 ```
 
 The Jaeger Operator will create services for query and collection. After applying the example resource, you should see similar output by listing
-Jaeger resources:
+Jaeger resources.
 ```
 $ kubectl get services,deployments -l app.kubernetes.io/instance=verrazzano-prod -n verrazzano-system
 
@@ -97,8 +97,8 @@ deployment.apps/verrazzano-prod-query       1/1     1            1           52m
 ## Configure an application to export traces to Jaeger
 
 The Jaeger agent sidecar is injected to application pods by the
-`"sidecar.jaegertracing.io/inject": "true"` annotation. You may apply this annotation to namespaces or pod controllers such as Deployments.
-The subsequent snippet shows how to annotate an OAM component for Jaeger agent injection.
+`"sidecar.jaegertracing.io/inject": "true"` annotation. You may apply this annotation to namespaces or pod controllers, such as Deployments.
+The subsequent snippet shows how to annotate an OAM Component for Jaeger agent injection.
 
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
@@ -151,7 +151,7 @@ and any new Istio-injected pods will begin exporting traces to Jaeger. Existing 
 to pull the new Istio configuration and start sending traces.
 
 Istio's default sampling rate is 1%, meaning 1 in 100 requests will be traced in Jaeger.
-If you want a different sampling rate, configure your desired rate using the `meshConfig.defaultConfig.tracing.sampling` Istio installation argument:
+If you want a different sampling rate, configure your desired rate using the `meshConfig.defaultConfig.tracing.sampling` Istio installation argument.
 
 ```yaml
 apiVersion: install.verrazzano.io/v1alpha1

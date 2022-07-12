@@ -32,7 +32,7 @@ $ kubectl get verrazzanomanagedcluster managed1 \
     -o yaml
 ```
 
-Partial sample output from the previous command:
+Partial sample output from the previous command.
 ```
   status:
     conditions:
@@ -111,7 +111,7 @@ $ kubectl get multiclusterapplicationconfiguration myapp \
 ```
 
 The status of the underlying resource in each cluster specified in the placement is shown in the following partial sample
-output:
+output.
 
 ```
   status:
@@ -133,7 +133,7 @@ The status message contains additional information on the operation's success or
 ## Re-register the managed cluster
 Perform the following steps to re-register the managed cluster with the admin cluster. The cluster against which to run
 the command is indicated in each code block.
-1. On the admin cluster, export the register YAML file newly created on the admin cluster to re-register the 
+1. On the admin cluster, export the register YAML file newly created on the admin cluster to re-register the
    managed cluster.
    ```
    # On the admin cluster
@@ -148,7 +148,7 @@ the command is indicated in each code block.
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
        apply -f register_new.yaml
 
-   # Once the command succeeds, you may delete the register_new.yaml file
+   # After the command succeeds, you may delete the register_new.yaml file
    $ rm register_new.yaml
    ```
 3. On the admin cluster, run `kubectl patch clusters.management.cattle.io` to trigger redeployment of the Rancher agent
@@ -162,8 +162,8 @@ the command is indicated in each code block.
    NAME      AGE
    c-mzb2h   4h48m
    local     4h56m
- 
-   $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \ 
+
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
        patch clusters.management.cattle.io <the managed cluster name from the above output> \
        -p '{"status":{"agentImage":"dummy"}}' --type merge
 
