@@ -38,7 +38,7 @@ spec:
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `environmentName` | string | Name of the installation.  This name is part of the endpoint access URLs that are generated. The default value is `default`. | No  
-| `profile` | string | The installation profile to select.  Valid values are `prod` (production) and `dev` (development).  The default is `prod`. | No |
+| `profile` | string | The installation profile to select.  Valid values are `prod` (production), `dev` (development), and `managed-cluster`.  The default is `prod`. | No |
 | `version` | string | The version to install.  Valid versions can be found [here](https://github.com/verrazzano/verrazzano/releases/).  Defaults to the current version supported by the Verrazzano platform operator. | No |
 | `components` | [Components](#components) | The Verrazzano components.  | No  |
 | `defaultVolumeSource` | [VolumeSource](https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/) | Defines the type of volume to be used for persistence for all components unless overridden, and can be one of either [EmptyDirVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#emptydirvolumesource-v1-core) or [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core). If [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core) is declared, then the `claimName` must reference the name of an existing `VolumeClaimSpecTemplate` declared in the `volumeClaimSpecTemplates` section. | No
