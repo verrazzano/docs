@@ -1,7 +1,7 @@
 ---
-title: "Customize Load Balancers on OKE"
-description: "Customize load balancers on OKE for Verrazzano system and application endpoints"
-linkTitle: OKE Load Balancers
+title: "Customize Load Balancers on OCI"
+description: "Customize load balancers on OCI for Verrazzano system and application endpoints"
+linkTitle: OCI Load Balancers
 weight: 3
 draft: false
 ---
@@ -10,9 +10,9 @@ Verrazzano sets up the following load balancers on Kubernetes at installation:
 * Load balancer for NGINX ingress
 * Load balancer for Istio ingress
 
-Verrazzano allows customizing the load balancers allocated by Oracle Container Engine (OKE) using annotations defined by OKE.
-For a detailed description of different load balancer customization annotations, see the OKE documentation
-[here](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingloadbalancer.htm).
+Verrazzano allows customizing the load balancers allocated by Oracle Cloud Infrastructure (OCI) using annotations defined by
+the  OCI Cloud Controller Manager (OCI-CCM).  For a detailed description of different load balancer customization annotations, see the
+documentation [here](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingloadbalancer.htm).
 
 This document describes how to use these annotations to customize the following settings for Verrazzano load balancers:
 * Load balancer shape
@@ -68,12 +68,12 @@ spec:
 ### Use private IP addresses with a load balancer
 
 At installation, Verrazzano lets you customize the IP address and subnet of the load balancers created.  This is achieved
-using OKE annotations on the NGINX and Istio load balancer services, as documented
+using OCI-CCM annotations on the NGINX and Istio load balancer services, as documented
 [here](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingloadbalancer.htm#Creating2).
 
 The following example configures the NGINX load balancer service to have a private load balancer IP address on the
-private subnet identified by OCID `ocid1.subnet.oc1.phx.aaaa..sdjxa`, and uses the default (public) load balancer
-configuration for Istio:
+private subnet identified by the OCID `ocid1.subnet.oc1.phx.aaaa..sdjxa`, and uses the default (public) load balancer
+configuration for Istio.
 
 ```yaml
 apiVersion: install.verrazzano.io/v1alpha1
@@ -94,8 +94,8 @@ spec:
 ```
 
 The following example configures the Istio ingress gateway service to have a private load balancer IP address on the private
-subnet identified by OCID `ocid1.subnet.oc1.phx.aaaa..sdjxa`, and uses the default (public) load balancer configuration
-for NGINX:
+subnet identified by the OCID `ocid1.subnet.oc1.phx.aaaa..sdjxa`, and uses the default (public) load balancer configuration
+for NGINX.
 
 ```yaml
 apiVersion: install.verrazzano.io/v1alpha1
@@ -117,7 +117,7 @@ spec:
 ```
 
 The following example configures both NGINX and Istio to have a private load balancer IP address on the private subnet
-identified by OCID `ocid1.subnet.oc1.phx.aaaa..sdjxa`:
+identified by the OCID `ocid1.subnet.oc1.phx.aaaa..sdjxa`.
 
 ```yaml
 apiVersion: install.verrazzano.io/v1alpha1

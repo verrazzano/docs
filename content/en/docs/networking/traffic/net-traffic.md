@@ -7,7 +7,7 @@ draft: false
 
 Network traffic refers to the data flowing across the network.  In the context of this
 document, it is useful to think of network traffic from two perspectives: traffic
-based on direction and traffic related to component types, system or applications.
+based on direction and traffic related to component types, system, or applications.
 Traffic direction is either north-south traffic, which enters and leaves the cluster,
 or east-west traffic, which stays within the cluster.
 
@@ -23,14 +23,15 @@ Here, it's used to refer to both general ingress into the cluster and the Kubern
 Ingress resource.
 
 During installation, Verrazzano creates the necessary network resources to access both
-system components and applications.  The following ingress and load balancers description
-is in the context of a Verrazzano installation.
+system components and applications.  The following ingress and load balancers descriptions
+are in the context of a Verrazzano installation.
 
 ### LoadBalancer Services
 To reach Pods from outside a cluster, an external IP address must be exposed using a LoadBalancer or NodePort
 service.  Verrazzano creates two LoadBalancer services, one for system component traffic
 and another for application traffic. The specifics of how the service gets traffic into the cluster
-depends on the underlying Kubernetes platform.  With Oracle OKE, creating a LoadBalancer type service will
+depends on the underlying Kubernetes platform.  With Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE),
+creating a LoadBalancer type service will
 result in an Oracle Cloud Infrastructure load balancer being created and configured to load balance to a set of Pods.
 
 ### Ingress for system components
@@ -175,7 +176,7 @@ This table shows Prometheus traffic for each system component scrape target.
 | WebLogic operator | Envoy metrics
 
 #### Webhooks
-Several of the system components are controllers, and some of those have webhooks.
+Several of the system components are controllers and some of those have webhooks.
 Webhooks are called by the Kubernetes API server on a component HTTPS port
 to validate or mutate API payloads before they reach the API server.
 
@@ -197,7 +198,7 @@ Istio using the Gateway and VirtualService resources.  Verrazzano will create th
 for you when you use an IngressTrait in your ApplicationConfiguration.  The Istio
 ingress gateway created during installation will be shared by all applications in the mesh,
 and the Gateway resource is bound to the Istio ingress gateway that was created
-during installation.  This is done by the selector field in the Gateway:
+during installation.  This is done by the selector field in the Gateway.
 ```
    selector:
      istio: ingressgateway
@@ -269,33 +270,33 @@ When deploying Bob's Books, a VirtualService is created for `bobbys-front-end`, 
 no VirtualServices for the other services in the application.  When `bobbys-front-end` sends requests to
 `bobbys-helidon-stock-application`, this east-west traffic still goes to `bobbys-helidon-stock-application` through
 the Envoy sidecar proxies in the source and destination Pods, but there is no VirtualService representing
-`bobbys-helidon-stock-application`, where you could specify a canary deployment or custom load balancing.  This
+`bobbys-helidon-stock-application` where you could specify a canary deployment or custom load balancing.  This
 is something you could configure manually, but it is not configured by Verrazzano.
 
 ## Proxies
 Verrazzano uses network proxies in multiple places.  The two proxy products are Envoy and NGINX.
 The following table shows which proxies are used and in which Pod they run.
 
-| Usage  | Proxy | Pod | Namespace | Description |
-| ------------- |:------------- |:------------- |:------------- |:-------------
-| System ingress | NGINX | `ingress-controller-ingress-nginx-controller-*` | `ingress-nginx` | Provides external access to Verrazzano system components.
-| Verrazzano authentication proxy | NGINX | `verrazzano-authproxy-*` | `verrazzano-system` | Verrazzano authentication proxy server for Kubernetes API and Single Sign-On (SSO).
-| Application ingress | Envoy | `istio-ingressgateway-*` | `istio-system` | Provides external access to Verrazzano applications.
-| Application egress | Envoy | `istio-egressgateway-*` | `istio-system` | Provides control of application egress traffic.
-| Istio mesh sidecar | Envoy  | `ingress-controller-ingress-nginx-controller-*` | `ingress-nginx` | NGINX Ingress Controller in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `ingress-controller-ingress-nginx-defaultbackend-*` | `ingress-nginx` | NGINX default backend in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `fluentd-*` | `verrazzano-system` | Fluentd in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `keycloak-*` | `keycloak` | Keycloak in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `mysql-*` | `keycloak` | MySQL used by Keycloak in the Istio mesh.
-| Istio mesh sidecar | Envoy | `verrazzano-api-*` | `verrazzano-system` | Verrazzano API in the Istio mesh.
-| Istio mesh sidecar | Envoy | `verrazzano-console-*` | `verrazzano-system` | Verrazzano Console in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `vmi-system-es-master-*` | `verrazzano-system` | OpenSearch in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `vmi-system-es-data-*` | `verrazzano-system` | OpenSearch in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `vmi-system-es-ingest-*` | `verrazzano-system` | OpenSearch in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `vmi-system-kibana-*` | `verrazzano-system` | OpenSearch Dashboards in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `vmi-system-prometheus-*` | `verrazzano-system` | Prometheus in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `vmi-system-grafana-*` | `verrazzano-system` | Grafana in the Istio mesh.
-| Istio mesh sidecar | Envoy  | `weblogic-operator-*` | `verrazzano-system` | WebLogic operator in the Istio mesh.
+| Usage  | Proxy | Pod | Namespace               | Description |
+| ------------- |:------------- |:------------- |:------------------------|:-------------
+| System ingress | NGINX | `ingress-controller-ingress-nginx-controller-*` | `ingress-nginx`         | Provides external access to Verrazzano system components.
+| Verrazzano authentication proxy | NGINX | `verrazzano-authproxy-*` | `verrazzano-system`     | Verrazzano authentication proxy server for Kubernetes API and Single Sign-On (SSO).
+| Application ingress | Envoy | `istio-ingressgateway-*` | `istio-system`          | Provides external access to Verrazzano applications.
+| Application egress | Envoy | `istio-egressgateway-*` | `istio-system`          | Provides control of application egress traffic.
+| Istio mesh sidecar | Envoy  | `ingress-controller-ingress-nginx-controller-*` | `ingress-nginx`         | NGINX Ingress Controller in the Istio mesh.
+| Istio mesh sidecar | Envoy  | `ingress-controller-ingress-nginx-defaultbackend-*` | `ingress-nginx`         | NGINX default backend in the Istio mesh.
+| Istio mesh sidecar | Envoy  | `fluentd-*` | `verrazzano-system`     | Fluentd in the Istio mesh.
+| Istio mesh sidecar | Envoy  | `keycloak-*` | `keycloak`              | Keycloak in the Istio mesh.
+| Istio mesh sidecar | Envoy  | `mysql-*` | `keycloak`              | MySQL used by Keycloak in the Istio mesh.
+| Istio mesh sidecar | Envoy | `verrazzano-api-*` | `verrazzano-system`     | Verrazzano API in the Istio mesh.
+| Istio mesh sidecar | Envoy | `verrazzano-console-*` | `verrazzano-system`     | Verrazzano Console in the Istio mesh.
+| Istio mesh sidecar | Envoy  | `vmi-system-es-master-*` | `verrazzano-system`     | OpenSearch in the Istio mesh.
+| Istio mesh sidecar | Envoy  | `vmi-system-es-data-*` | `verrazzano-system`     | OpenSearch in the Istio mesh.
+| Istio mesh sidecar | Envoy  | `vmi-system-es-ingest-*` | `verrazzano-system`     | OpenSearch in the Istio mesh.
+| Istio mesh sidecar | Envoy  | `vmi-system-kibana-*` | `verrazzano-system`     | OpenSearch Dashboards in the Istio mesh.
+| Istio mesh sidecar | Envoy  | `vmi-system-grafana-*` | `verrazzano-system`     | Grafana in the Istio mesh.
+| Istio mesh sidecar | Envoy  | `weblogic-operator-*` | `verrazzano-system`     | WebLogic Kubernetes Operator in the Istio mesh.
+| Istio mesh sidecar | Envoy  | `prometheus-prometheus-operator-kube-p-prometheus-*` | `verrazzano-monitoring` | Prometheus in the Istio mesh.
 
 ## Multicluster
 Some Verrazzano components send traffic between Kubernetes clusters. Those components are the Verrazzano agent,
@@ -320,7 +321,7 @@ that sends requests to the Kubernetes API server on the admin cluster. The URL f
 API server is registered on the managed cluster by the user.
 
 ### Verrazzano authentication proxy
-In a multicluster topology, the Verrazzano authentication proxy runs on both the admin and managed clusters.  
+In a multicluster topology, the Verrazzano authentication proxy runs on both the admin and managed clusters.
 On the admin cluster, the authentication proxy connects to in-cluster Keycloak, using the Keycloak Service.
 On the managed cluster, the authentication proxy connects to Keycloak on the admin cluster through the NGINX Ingress
 Controller running on the admin cluster.
@@ -334,5 +335,5 @@ cluster, then it must send requests to Keycloak on the admin cluster.
 ### Prometheus
 A single Prometheus service in the cluster, scrapes metrics from Pods in system components and applications.
 It also scrapes Pods in the Istio mesh using HTTPS, and outside the mesh using HTTP. In the multicluster case,
-the Prometheus on the admin cluster, scrapes metrics from Prometheus on the managed cluster, through
+Prometheus on the admin cluster, scrapes metrics from Prometheus on the managed cluster, through
 the NGINX Ingress Controller on the managed cluster.

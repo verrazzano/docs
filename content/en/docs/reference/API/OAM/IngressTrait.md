@@ -21,11 +21,6 @@ spec:
       traits:
         - trait:
             apiVersion: oam.verrazzano.io/v1alpha1
-            kind: MetricsTrait
-            spec:
-                scraper: verrazzano-system/vmi-system-prometheus-0
-        - trait:
-            apiVersion: oam.verrazzano.io/v1alpha1
             kind: IngressTrait
             metadata:
               name: hello-helidon-ingress
@@ -64,11 +59,6 @@ spec:
       traits:
         - trait:
             apiVersion: oam.verrazzano.io/v1alpha1
-            kind: MetricsTrait
-            spec:
-                scraper: verrazzano-system/vmi-system-prometheus-0
-        - trait:
-            apiVersion: oam.verrazzano.io/v1alpha1
             kind: IngressTrait
             metadata:
               name: hello-helidon-ingress
@@ -83,7 +73,7 @@ spec:
                       path: "/"
                       ttl: 600
 ```
-Additionally, an authorization policy limiting access to specific request principals and optionally predicated on additional conditions can be specified for a path.  Request for the path will be limited to matching request principals that meet the defined conditions, otherwise the request will be denied.
+Additionally, an authorization policy limiting access to specific request principals and optionally predicated on additional conditions, can be specified for a path.  Request for the path will be limited to matching request principals that meet the defined conditions, otherwise the request will be denied.
 
 ```
 apiVersion: core.oam.dev/v1alpha2
@@ -98,11 +88,6 @@ spec:
   components:
     - componentName: hello-helidon-component
       traits:
-        - trait:
-            apiVersion: oam.verrazzano.io/v1alpha1
-            kind: MetricsTrait
-            spec:
-              scraper: verrazzano-system/vmi-system-prometheus-0
         - trait:
             apiVersion: oam.verrazzano.io/v1alpha1
             kind: IngressTrait
@@ -155,7 +140,7 @@ IngressPath specifies a specific path to be exposed for an ingress trait.
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `path` | string | If no path is provided, it defaults to `/`. |  No |
+| `path` | string | If no path is provided, it defaults to forward slash (`/`). |  No |
 | `pathType` | string | Path type values are case-sensitive and formatted as follows: <ul><li>`exact`: exact string match</li><li>`prefix`: prefix-based match</li><li>`regex`: regex-based match</li></ul>If the provided ingress path doesn't contain a `pathType`, it defaults to `prefix` if the path is `/` and `exact` otherwise. | No |
 | `authorizationPolicy` | [AuthorizationPolicy](#authorizationpolicy) | Defines the set of rules for authorizing a request. | No |
 
@@ -170,7 +155,7 @@ IngressDestination specifies a specific destination host and port for the ingres
 
 {{< alert title="NOTE" color="warning" >}}
 If there are multiple ports defined for a service, then the destination port must be specified OR
-the service port name must have the prefix "http".
+the service port name must have the prefix `http`.
 {{< /alert >}}
 
 #### HttpCookie
@@ -201,7 +186,7 @@ AuthorizationRule matches requests from a list of request principals that access
 
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
-| `from` | [AuthorizationRuleFrom](#authorizationrulefrom) | Specifies the request principals for access to a request. An asterisk (“*”) will match when the value is not empty, for example, if any request principal is found in the request.|  Yes |
+| `from` | [AuthorizationRuleFrom](#authorizationrulefrom) | Specifies the request principals for access to a request. An asterisk (`*`) will match when the value is not empty, for example, if any request principal is found in the request.|  Yes |
 | `when` | [AuthorizationRuleCondition](#authorizationrulecondition) | Specifies a list of additional conditions for access to a request. |  No |
 
 #### AuthorizationRuleFrom

@@ -11,7 +11,7 @@ non-Verrazzano services or applications running in the cluster. Traffic is secur
 
 - ISO Layer 3/4: Using NetworkPolicies to control IP access to Pods.
 - ISO Layer 6: Using TLS and mutual TLS authentication (mTLS) to provide authentication, confidentiality,
-and integrity for connections within the cluster, and for external connections.
+and integrity for connections within the cluster and for external connections.
 
 ## NetworkPolicies
 By default, all Pods in a Kubernetes cluster have network access to all other Pods in the cluster.
@@ -28,7 +28,7 @@ Verrazzano installs a set of NetworkPolicies for system components to control in
 A policy is scoped to a namespace and uses selectors to specify the Pods that the policy applies to, along
 with the ingress and egress rules.  For example, the following policy applies to the Verrazzano API Pod in the
 `verrazzano-system` namespace.  This policy allows network traffic from NGINX Ingress Controller on
-port 8775, and from Prometheus on port 15090.  No other Pods can reach those ports or any other ports of the
+port 8775 and from Prometheus on port 15090.  No other Pods can reach those ports or any other ports of the
 Verrazzano API Pod.  Notice that namespace selectors need to be used; the NetworkPolicy resource does not support
 specifying the namespace name.
 ```
@@ -104,10 +104,10 @@ You can configure them for the application namespaces using the NetworkPolicy se
 
 {{< alert title="NOTE" color="warning" >}}
 Verrazzano requires specific ingress to and egress from application pods. If you add a NetworkPolicy for your application namespace or pods,
-you must add an additional policy to ensure that Verrazzano still has the required access it needs. The ingress policy is only needed if you restrict ingress.
-Likewise, the egress policy is only needed if you restrict egress. The following are the ingress and egress NetworkPolicies:
+you must add an additional policy to ensure that Verrazzano still has the required access it needs. The ingress policy is needed only if you restrict ingress.
+Likewise, the egress policy is needed only if you restrict egress. The following are the ingress and egress NetworkPolicies:
 <details>
-<summary>ingress NetworkPolicies</summary>
+<summary>Ingress NetworkPolicies</summary>
 
 ```
   ingress:
@@ -150,7 +150,7 @@ Likewise, the egress policy is only needed if you restrict egress. The following
 </details>
 
 <details>
-<summary>egress NetworkPolicies</summary>
+<summary>Egress NetworkPolicies</summary>
 
 ```
   egress:
@@ -288,15 +288,15 @@ Keycloak.  All the traffic related to scraping metrics, bypasses the sidecar pro
 the service IP address, but rather connects to the scrape target using the Pod IP address.  If the scrape target is in the mesh,
 then HTTPS is used; otherwise, HTTP is used.  For Verrazzano multicluster, Prometheus also connects from the admin cluster
 to the Prometheus server in the managed cluster by using the managed cluster NGINX Ingress, using HTTPS.  Prometheus
-in the managed cluster and never establishes connections to targets outside the cluster.
+is in the managed cluster and never establishes connections to targets outside the cluster.
 
 Because Prometheus is in the mesh, additional configuration is done to allow the Envoy sidecar to be bypassed when scraping Pods.
 This is done with the Prometheus Pod annotation `traffic.sidecar.istio.io/includeOutboundIPRanges: <keycloak-service-ip>`.  This
 causes traffic bound for Keycloak to go through the Envoy sidecar, and all other traffic to bypass the sidecar.
 
 ### WebLogic Kubernetes Operator
-When the WebLogic operator creates a domain, it needs to communicate with the Pods in the domain. Verrazzano puts the
-WebLogic operator in the mesh so that it can communicate with the domain Pods using mTLS.  As a result, the WebLogic
+When the WebLogic Kubernetes Operator creates a domain, it needs to communicate with the Pods in the domain. Verrazzano puts the
+operator in the mesh so that it can communicate with the domain Pods using mTLS.  As a result, the WebLogic
 domain must be created in the mesh.
 
 ## Applications in the mesh
@@ -309,7 +309,7 @@ Also, if you need to add mTLS port exceptions, you can do this with DestinationR
 resource in the application namespace.  Consult the Istio documentation for more information.
 
 ### WebLogic
-When the WebLogic operator creates a domain, it needs to communicate with the Pods in the domain. Verrazzano puts the WebLogic operator
+When the WebLogic Kubernetes Operator creates a domain, it needs to communicate with the Pods in the domain. Verrazzano puts the operator
 in the mesh so that it can communicate with the domain Pods using mTLS.  Because of that, the WebLogic domain must be created in the mesh.
 Also, because mTLS is used, do not configure WebLogic to use TLS.  If you want to use a custom certificate for your application,
 you can specify that in the ApplicationConfiguration, but that TLS connection will be terminated at the Istio ingress gateway, which
@@ -339,18 +339,18 @@ Spec:
 ```
 
 ## Istio access control
-Istio lets you control access to your workload in the mesh, using the AuthorizationPolicy resource. This lets you
+Istio lets you control access to your workload in the mesh using the AuthorizationPolicy resource. This lets you
 control which services or Pods can access your workloads.  Some of these options require mTLS; for more information, see
 [Authorization Policy](HTTPS://istio.io/latest/docs/reference/config/security/authorization-policy/).
 
-Verrazzano always creates AuthorizationPolicies for applications, but never for system components.  During application deployment,
+Verrazzano always creates AuthorizationPolicies for applications but never for system components.  During application deployment,
 Verrazzano creates the policy in the application namespace and configures it to allow access from the following:
 
 - Other Pods in the application
 - Istio ingress gateway
 - Prometheus scraper
 
-This prevents other Pods in the cluster from gaining network access to the application Pods.  
+This prevents other Pods in the cluster from gaining network access to the application Pods.
 Istio uses a service identity to determine the identity of the request's origin; for Kubernetes
 this identity is a service account.  Verrazzano creates a per-application AuthorizationPolicy as follows:
 ```
@@ -369,8 +369,8 @@ spec:
 ```
 
 ## WebLogic domain access
-For WebLogic applications, the WebLogic operator must have access to the domain Pods for two reasons.
-First, it must access the domain servers to get health status; second it must inject configuration into
+For WebLogic applications, the WebLogic Kubernetes Operator must have access to the domain Pods for two reasons.
+First, it must access the domain servers to get health status; second, it must inject configuration into
 the Monitoring Exporter sidecar running in the domain server Pods. When a WebLogic domain is created,
 Verrazzano adds an additional source, `cluster.local/ns/verrazzano-system/sa/weblogic-operator-sa` to
 the `principals` section to permit that access.

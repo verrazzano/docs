@@ -37,7 +37,7 @@ data:
       </match>
 
 ```
-In order to interact with the [Fluentd DaemonSet]({{< relref "/docs/monitoring/logs/#fluentd-daemonset" >}}) that Verrazzano manages, the configuration must redirect logs to stdout, as shown in the match block at the end of the Fluentd config file.
+To interact with the [Fluentd DaemonSet]({{< relref "/docs/monitoring/logs/#fluentd-daemonset" >}}) that Verrazzano manages, the configuration must redirect logs to stdout, as shown in the match block at the end of the Fluentd configuration file.
 This ConfigMap must be deployed before or with all other application resources.
 
 ## Create Fluentd custom sidecar volumes

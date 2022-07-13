@@ -15,8 +15,8 @@ Analysis detected that there were nodes reporting insufficient memory.
 
    a. Are the nodes sized correctly for the workload?
 
-      1. For the minimum resources required for installing Verrazzano, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}}).
-      2. Refer to documentation for other applications that you are deploying for resource guidelines and take those into account.
+      - For the minimum resources required for installing Verrazzano, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}}).
+      - Refer to documentation for other applications that you are deploying for resource guidelines and take those into account.
 
    b. Is something unexpected running on the nodes or consuming more memory than expected?
 

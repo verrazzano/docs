@@ -4,13 +4,24 @@ linkTitle: Release Notes
 weight: 13
 draft: false
 ---
+### v1.3.1
+Fixes:
+
+- Resolved an issue where the Verrazzano uninstall deleted additional namespaces when deleting Rancher components.
+- Fixed IngressTrait controller to support Services as component workloads.
+- Added liveness probe for the AuthProxy NGINX server.
+- Added support for dynamic configuration overrides to Verrazzano components from various monitored sources, including ConfigMaps, Secrets, and Values referenced in the Verrazzano CR.
+- Added support for JWT authentication and authorization policy specification for applications.
+- Added support for Prometheus Service Monitor and Pod Monitor CRs deployed using Prometheus Operator.
+- Updated Keycloak image to fix CVEs.
+
 ### v1.3.0
 Features:
 
-- Post-installation updates: Configurations for DNS, certificate management, logging, ingress, and OpenSearch cluster configuration can be updated after a Verrazzano installation.
+- Post-installation updates: configurations for DNS, certificate management, logging, ingress, and OpenSearch cluster configuration can be updated after a Verrazzano installation.
 - Added Jaeger Distributed Tracing.
 - Support for Kubernetes v1.22 and v1.23.
-- kube-prometheus-stack components are now part of Verrazzano and can be enabled, these include: Prometheus Operator, AlertManager, kube-state-metrics, and such.
+- kube-prometheus-stack components are now part of Verrazzano and can be enabled, these include Prometheus Operator, AlertManager, kube-state-metrics, and such.
 
 Component version updates:
 

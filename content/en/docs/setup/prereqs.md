@@ -1,6 +1,6 @@
 ---
 title: "Prerequisites"
-description: "Review the prerequisite requirements, software versions installed and supported by Verrazzano"
+description: "Review the prerequisite requirements, and the software versions installed and supported by Verrazzano"
 weight: 1
 draft: false
 ---
@@ -26,7 +26,7 @@ You can install Verrazzano on the following Kubernetes versions.
 | 1.0        | 2021-08-02   | 1.0.4                | 2021-12-20                | 1.18, 1.19, 1.20 |
 | 1.1        | 2021-12-16   | 1.1.2                | 2022-03-09                | 1.19, 1.20, 1.21 |
 | 1.2        | 2022-03-14   | 1.2.2                | 2022-05-10                | 1.19, 1.20, 1.21 |
-| 1.3        | 2022-05-24   | 1.3.0                | 2022-05-24                | 1.21, 1.22, 1.23 |
+| 1.3        | 2022-05-24   | 1.3.1                | 2022-06-21                | 1.21, 1.22, 1.23 |
 
 For more information, see [Kubernetes Release Documentation](https://kubernetes.io/releases/).
 For platform specific details, see [Verrazzano platform setup]({{< relref "/docs/setup/platforms/_index.md" >}}).
@@ -64,7 +64,7 @@ component, its version, and a brief description.
 | MySQL                        | 8.0.28  | Open source relational database management system used by Keycloak.                  |
 | NGINX Ingress Controller     | 1.1.1   | Traffic management solution for cloud‑native applications in Kubernetes.             |
 | Node Exporter                | 1.3.1   | Prometheus exporter for hardware and OS metrics.                                     |
-| OAM Kubernetes Runtime       | 0.3.0   | Plug-in for implementing Open Application Model (OAM) control plane with Kubernetes. |
+| OAM Kubernetes Runtime       | 0.3.0   | Plug-in for implementing the Open Application Model (OAM) control plane with Kubernetes. |
 | OpenSearch                   | 1.2.3   | Provides a distributed, multitenant-capable full-text search engine.                 |
 | OpenSearch Dashboards        | 1.2.0   | Provides search and data visualization capabilities for data indexed in OpenSearch.  |
 | Prometheus                   | 2.34.0  | Provides event monitoring and alerting.                                              |

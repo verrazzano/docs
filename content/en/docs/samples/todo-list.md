@@ -134,10 +134,13 @@ you can use the `kubectl wait` command. You may need to repeat the `kubectl wait
      ```
      Then, you can access the application in a browser at `https://todo.example.com/todo`.
 
-     If you are using `nip.io`, then you can access the application in a browser using the `HOST` variable (for example, `https://${HOST}/todo`).  If you are going through a proxy, then you may need to add `*.nip.io` to the `NO_PROXY` list.
+     - If you are using `nip.io`, then you can access the application in a browser using the `HOST` variable (for example, `https://${HOST}/todo`).  
+     - If you are going through a proxy, then you may need to add `*.nip.io` to the `NO_PROXY` list.
 
    * **Using your own DNS name**
-     * Point your own DNS name to the ingress gateway's `EXTERNAL-IP` address.
+
+     Point your own DNS name to the ingress gateway's `EXTERNAL-IP` address.
+
      * In this case, you would need to have edited the `todo-list-application.yaml` file
        to use the appropriate value under the `hosts` section (such as `yourhost.your.domain`),
        before deploying the ToDo List application.
@@ -146,7 +149,7 @@ you can use the `kubectl wait` command. You may need to repeat the `kubectl wait
        Accessing the application in a browser opens the page, "Derek's ToDo List",
        with an edit field and an **Add** button that lets you add tasks.
 
-1. A variety of endpoints associated with the deployed ToDo List application, are available to further explore the logs, metrics, and such.
+1. A variety of endpoints associated with the deployed ToDo List application are available to further explore the logs, metrics, and such.
    You can access them according to the directions [here]({{< relref "/docs/access/#get-the-consoles-urls" >}}).
 
 ## Access the WebLogic Server Administration Console
