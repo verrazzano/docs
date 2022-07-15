@@ -27,7 +27,7 @@ spec:
                 replicas: 3
 ```
 
-You can enable Alertmanager using the following Verrazzano custom resource:
+To enable Alertmanager, use the following Verrazzano custom resource:
 
 ```
 apiVersion: install.verrazzano.io/v1alpha1
