@@ -21,7 +21,7 @@ Features:
 - Post-installation updates: configurations for DNS, certificate management, logging, ingress, and OpenSearch cluster configuration can be updated after a Verrazzano installation.
 - Added Jaeger Distributed Tracing.
 - Support for Kubernetes v1.22 and v1.23.
-- kube-prometheus-stack components are now part of Verrazzano and can be enabled, these include Prometheus Operator, AlertManager, kube-state-metrics, and such.
+- kube-prometheus-stack components are now part of Verrazzano and can be enabled, these include Prometheus Operator, Alertmanager, kube-state-metrics, and such.
 
 Component version updates:
 
@@ -37,7 +37,7 @@ Component version updates:
 
 Components added:
 
-- AlertManager v0.24.0
+- Alertmanager v0.24.0
 - Jaeger v1.32.0
 - kube-state-metrics v2.4.2
 - Prometheus Adapter v0.9.1
