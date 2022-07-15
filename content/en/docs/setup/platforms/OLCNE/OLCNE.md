@@ -6,14 +6,32 @@ weight: 7
 draft: false
 ---
 
-## Prepare for the Oracle Cloud Native Environment installation
-[Oracle Cloud Native Environment](https://docs.oracle.com/en/operating-systems/olcne/) can be installed in several different types of environments.
-These range from physical, on-premises hardware to virtualized cloud infrastructure.
-The Oracle Cloud Native Environment installation instructions assume that networking and compute resources already exist.
-The basic infrastructure requirements are a network with a public and private subnet
-and a set of hosts connected to those networks.
 
-### Oracle Cloud Infrastructure example
+## Install Oracle Cloud Native Environment
+Deploy Oracle Cloud Native Environment with the Kubernetes module, following instructions from [Oracle Cloud Native Environment: Getting Started](https://docs.oracle.com/en/operating-systems/olcne/).
+* Use a single Kubernetes control plane node.
+* Skip the Kubernetes API load balancer ([load balancer](https://docs.oracle.com/en/operating-systems/olcne/1.5/start/install.html#install-lb)).
+* Use private CA certificates ([private certs](https://docs.oracle.com/en/operating-systems/olcne/1.5/start/install.html#certs-private)).
+* Install a Kubernetes network load balancer implementation, such as [OCI-CCM](https://docs.oracle.com/en/operating-systems/olcne/1.5/lb/oci.html#oci) or [MetalLB](https://docs.oracle.com/en/operating-systems/olcne/1.5/lb/metallb.html#metallb).
+* Install a Container Storage Interface Driver, such as [OCI-CCM](https://docs.oracle.com/en/operating-systems/olcne/1.5/storage/oci.html#oci) or [Gluster](https://docs.oracle.com/en/operating-systems/olcne/1.5/storage/gluster.html#gluster).
+
+### Notes
+
+The oci-ccm module does not elect a default StorageClass or configure policies for the CSIDrivers that it installs.  A
+reasonable choice is the "oci-bv" StorageClass with its CSIDriver configured with the "File" group policy.
+
+```
+kubectl patch sc oci-bv -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+kubectl patch csidriver blockvolume.csi.oraclecloud.com -p '{"spec": {"fsGroupPolicy": "File"}}'
+```
+
+## Next steps
+
+To continue, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md#install-the-verrazzano-platform-operator" >}}).
+
+## Examples
+
+### Oracle Cloud Infrastructure
 The following is an example of Oracle Cloud Infrastructure that can be used to evaluate Verrazzano installed on Oracle Cloud Native Environment.
 If other environments are used, the capacity and configuration should be similar.
 
@@ -105,15 +123,3 @@ Other values can be used if required.
 | Kubernetes Worker Node 1      | Private | 32GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
 | Kubernetes Worker Node 2      | Private | 32GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
 | Kubernetes Worker Node 3      | Private | 32GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
-
-## Install Oracle Cloud Native Environment
-Deploy Oracle Cloud Native Environment with the Kubernetes module, following instructions from [Oracle Cloud Native Environment: Getting Started](https://docs.oracle.com/en/operating-systems/olcne/).
-* Use a single Kubernetes control plane node.
-* Skip the Kubernetes API load balancer ([load balancer](https://docs.oracle.com/en/operating-systems/olcne/1.5/start/install.html#install-lb)).
-* Use private CA certificates ([private certs](https://docs.oracle.com/en/operating-systems/olcne/1.5/start/install.html#certs-private)).
-* Install a Kubernetes network load balancer implementation, such as [OCI-CCM](https://docs.oracle.com/en/operating-systems/olcne/1.5/lb/oci.html#oci) or [MetalLB](https://docs.oracle.com/en/operating-systems/olcne/1.5/lb/metallb.html#metallb).
-* Install a Container Storage Interface Driver, such as [OCI-CCM](https://docs.oracle.com/en/operating-systems/olcne/1.5/storage/oci.html#oci) or [Gluster](https://docs.oracle.com/en/operating-systems/olcne/1.5/storage/gluster.html#gluster).
-
-## Next steps
-
-To continue, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md#install-the-verrazzano-platform-operator" >}}).
