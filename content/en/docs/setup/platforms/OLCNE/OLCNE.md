@@ -22,7 +22,14 @@ reasonable choice is the "oci-bv" StorageClass with its CSIDriver configured wit
 
 ```
 kubectl patch sc oci-bv -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
-kubectl patch csidriver blockvolume.csi.oraclecloud.com -p '{"spec": {"fsGroupPolicy": "File"}}'
+kubectl apply -f - <<EOF
+apiVersion: storage.k8s.io/v1
+kind: CSIDriver
+metadata:
+  name: blockvolume.csi.oraclecloud.com
+spec:
+  fsGroupPolicy: File
+EOF
 ```
 
 ## Next steps
