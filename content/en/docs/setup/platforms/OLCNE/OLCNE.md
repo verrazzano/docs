@@ -37,8 +37,8 @@ EOF
 To continue, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md#install-the-verrazzano-platform-operator" >}}).
 
 ## Examples
-
-### Oracle Cloud Infrastructure
+<details>
+<summary>Oracle Cloud Infrastructure</summary>
 The following is an example of Oracle Cloud Infrastructure that can be used to evaluate Verrazzano installed on Oracle Cloud Native Environment.
 If other environments are used, the capacity and configuration should be similar.
 
@@ -78,10 +78,6 @@ Security List / Ingress Rules
 |No       | `10.0.0.0/16` | TCP      | All          | 22                |            |SSH                  |
 |No       | `10.0.0.0/24` | TCP      | All          | 31443             |            |HTTPS load balancer  |
 |No       | `10.0.0.0/24` | TCP      | All          | 32443             |            |HTTPS load balancer  |
-|No       | `10.0.1.0/24` | UDP      | All          | 111               |            |NFS                  |
-|No       | `10.0.1.0/24` | TCP      | All          | 111               |            |NFS                  |
-|No       | `10.0.1.0/24` | UDP      | All          | 2048              |            |NFS                  |
-|No       | `10.0.1.0/24` | TCP      | All          | 2048-2050         |            |NFS                  |
 |No       | `10.0.1.0/24` | TCP      | All          | 2379-2380         |            |Kubernetes etcd      |
 |No       | `10.0.1.0/24` | TCP      | All          | 6443              |            |Kubernetes API Server|
 |No       | `10.0.1.0/24` | TCP      | All          | 6446              |            |MySQL                |
@@ -130,3 +126,4 @@ Other values can be used if required.
 | Kubernetes Worker Node 1      | Private | 32GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
 | Kubernetes Worker Node 2      | Private | 32GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
 | Kubernetes Worker Node 3      | Private | 32GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
+</details>
