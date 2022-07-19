@@ -17,8 +17,8 @@ Deploy Oracle Cloud Native Environment with the Kubernetes module, following ins
 
 ### Notes
 
-The oci-ccm module does not elect a default StorageClass or configure policies for the CSIDrivers that it installs.  A
-reasonable choice is the "oci-bv" StorageClass with its CSIDriver configured with the "File" group policy.
+The `oci-ccm` module does not elect a default `StorageClass` or configure policies for the `CSIDrivers` that it installs.  A
+reasonable choice is the `oci-bv` `StorageClass` with its `CSIDriver` configured with the `File` group policy.
 
 ```
 kubectl patch sc oci-bv -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
