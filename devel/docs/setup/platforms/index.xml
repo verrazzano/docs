@@ -54,15 +54,34 @@
       <description>
         
         
-        &lt;h2 id=&#34;prepare-for-the-oracle-cloud-native-environment-installation&#34;&gt;Prepare for the Oracle Cloud Native Environment installation&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/&#34;&gt;Oracle Cloud Native Environment&lt;/a&gt; can be installed in several different types of environments.
-These range from physical, on-premises hardware to virtualized cloud infrastructure.
-The Oracle Cloud Native Environment installation instructions assume that networking and compute resources already exist.
-The basic infrastructure requirements are a network with a public and private subnet
-and a set of hosts connected to those networks.&lt;/p&gt;
-&lt;h3 id=&#34;oracle-cloud-infrastructure-example&#34;&gt;Oracle Cloud Infrastructure example&lt;/h3&gt;
-&lt;p&gt;The following is an example of Oracle Cloud Infrastructure that can be used to evaluate Verrazzano installed on Oracle Cloud Native Environment.
-If other environments are used, the capacity and configuration should be similar.&lt;/p&gt;
+        &lt;h2 id=&#34;install-oracle-cloud-native-environment&#34;&gt;Install Oracle Cloud Native Environment&lt;/h2&gt;
+&lt;p&gt;Deploy Oracle Cloud Native Environment with the Kubernetes module, following instructions from &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.5/start/&#34;&gt;Oracle Cloud Native Environment: Getting Started&lt;/a&gt;.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Use a single Kubernetes control plane node.&lt;/li&gt;
+&lt;li&gt;Skip the Kubernetes API load balancer (&lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.5/start/install.html#install-lb&#34;&gt;load balancer&lt;/a&gt;).&lt;/li&gt;
+&lt;li&gt;Use private CA certificates (&lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.5/start/install.html#certs-private&#34;&gt;private certs&lt;/a&gt;).&lt;/li&gt;
+&lt;li&gt;Install a Kubernetes network load balancer implementation, such as &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.5/lb/oci.html#oci&#34;&gt;OCI-CCM&lt;/a&gt; or &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.5/lb/metallb.html#metallb&#34;&gt;MetalLB&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Install a Container Storage Interface Driver, such as &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.5/storage/oci.html#oci&#34;&gt;OCI-CCM&lt;/a&gt; or &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.5/storage/gluster.html#gluster&#34;&gt;Gluster&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;notes&#34;&gt;Notes&lt;/h3&gt;
+&lt;p&gt;The &lt;code&gt;oci-ccm&lt;/code&gt; module does not elect a default &lt;code&gt;StorageClass&lt;/code&gt; or configure policies for the &lt;code&gt;CSIDrivers&lt;/code&gt; that it installs.  A
+reasonable choice is the &lt;code&gt;oci-bv&lt;/code&gt; &lt;code&gt;StorageClass&lt;/code&gt; with its &lt;code&gt;CSIDriver&lt;/code&gt; configured with the &lt;code&gt;File&lt;/code&gt; group policy.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;kubectl patch sc oci-bv -p &amp;#39;{&amp;#34;metadata&amp;#34;: {&amp;#34;annotations&amp;#34;:{&amp;#34;storageclass.kubernetes.io/is-default-class&amp;#34;:&amp;#34;true&amp;#34;}}}&amp;#39;
+kubectl apply -f - &amp;lt;&amp;lt;EOF
+apiVersion: storage.k8s.io/v1
+kind: CSIDriver
+metadata:
+  name: blockvolume.csi.oraclecloud.com
+spec:
+  fsGroupPolicy: File
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
+&lt;p&gt;To continue, see the &lt;a href=&#34;../../../docs/setup/install/installation/#install-the-verrazzano-platform-operator&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;examples&#34;&gt;Examples&lt;/h2&gt;
+&lt;details&gt;
+&lt;summary&gt;Oracle Cloud Infrastructure&lt;/summary&gt;
+The following is an example of Oracle Cloud Infrastructure that can be used to evaluate Verrazzano installed on Oracle Cloud Native Environment.
+If other environments are used, the capacity and configuration should be similar.
 &lt;p&gt;You can use the VCN Wizard of the Oracle Cloud Infrastructure Console to automatically create most of the described network infrastructure.
 Additional security lists and rules, as detailed in the following sections, need to be added manually.
 All Classless Inter-Domain Routing (CIDR) values provided are examples and can be customized as required.&lt;/p&gt;
@@ -222,42 +241,6 @@ All Classless Inter-Domain Routing (CIDR) values provided are examples and can b
 &lt;td&gt;32443&lt;/td&gt;
 &lt;td&gt;&lt;/td&gt;
 &lt;td&gt;HTTPS load balancer&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;UDP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;111&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;NFS&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;111&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;NFS&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;UDP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;2048&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;NFS&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;2048-2050&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;NFS&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;No&lt;/td&gt;
@@ -447,17 +430,7 @@ Other values can be used if required.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h2 id=&#34;install-oracle-cloud-native-environment&#34;&gt;Install Oracle Cloud Native Environment&lt;/h2&gt;
-&lt;p&gt;Deploy Oracle Cloud Native Environment with the Kubernetes module, following instructions from &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/&#34;&gt;Oracle Cloud Native Environment: Getting Started&lt;/a&gt;.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Use a single Kubernetes control plane node.&lt;/li&gt;
-&lt;li&gt;Skip the Kubernetes API load balancer (&lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.5/start/install.html#install-lb&#34;&gt;load balancer&lt;/a&gt;).&lt;/li&gt;
-&lt;li&gt;Use private CA certificates (&lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.5/start/install.html#certs-private&#34;&gt;private certs&lt;/a&gt;).&lt;/li&gt;
-&lt;li&gt;Install a Kubernetes network load balancer implementation, such as &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.5/lb/oci.html#oci&#34;&gt;OCI-CCM&lt;/a&gt; or &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.5/lb/metallb.html#metallb&#34;&gt;MetalLB&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;Install a Container Storage Interface Driver, such as &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.5/storage/oci.html#oci&#34;&gt;OCI-CCM&lt;/a&gt; or &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.5/storage/gluster.html#gluster&#34;&gt;Gluster&lt;/a&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;next-steps&#34;&gt;Next steps&lt;/h2&gt;
-&lt;p&gt;To continue, see the &lt;a href=&#34;../../../docs/setup/install/installation/#install-the-verrazzano-platform-operator&#34;&gt;Installation Guide&lt;/a&gt;.&lt;/p&gt;
+&lt;/details&gt;
 
       </description>
     </item>
