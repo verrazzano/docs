@@ -58,10 +58,6 @@ Security List / Ingress Rules
 |No       |`10.0.0.0/24`|TCP     |All         |30443            |           |HTTPS load balancer  |
 |No       |`10.0.0.0/24`|TCP     |All         |31380            |           |HTTP load balancer   |
 |No       |`10.0.0.0/24`|TCP     |All         |31390            |           |HTTPS load balancer  |
-|No       |`10.0.1.0/24`UDP      |All         |111              |           |NFS                  |
-|No       |`10.0.1.0/24`|TCP     |All         |111              |           |NFS                  |
-|No       |`10.0.1.0/24`|UDP     |All         |2048             |           |NFS                  |
-|No       |`10.0.1.0/24`|TCP     |All         |2048-2050        |           |NFS                  |
 |No       |`10.0.1.0/24`|TCP     |All         |2379-2380        |           |Kubernetes etcd      |
 |No       |`10.0.1.0/24`|TCP     |All         |6443             |           |Kubernetes API Server|
 |No       |`10.0.1.0/24`|TCP     |All         |6446             |           |MySQL                |
@@ -118,17 +114,32 @@ Other values can be used if required.
 | Kubernetes Worker Node 3      | Private | 32GB          | VM.Standard.E2.4    | Oracle Linux 7.8    |
 
 ## Install Oracle Cloud Native Environment
-Deploy Oracle Cloud Native Environment with the Kubernetes module, following instructions from [Oracle Cloud Native Environment: Getting Started](https://docs.oracle.com/en/operating-systems/olcne/).
+Deploy Oracle Cloud Native Environment 1.4 with the Kubernetes module, following instructions from [Oracle Cloud Native Environment: Getting Started](https://docs.oracle.com/en/operating-systems/olcne/).
 * Use a single Kubernetes control plane node.
 * Skip the Kubernetes API load balancer ([3.4.3](https://docs.oracle.com/en/operating-systems/olcne/1.1/start/install-lb.html)).
 * Use private CA certificates ([3.5.3](https://docs.oracle.com/en/operating-systems/olcne/1.1/start/certs-private.html)).
+* Install a Container Storage Interface Driver, such as [OCI-CSI](https://docs.oracle.com/en/operating-systems/olcne/1.4/storage/oci.html#oci-install) or [Gluster](https://docs.oracle.com/en/operating-systems/olcne/1.4/storage/gluster.html#gluster).
+
+### Notes
+
+The `oci-csi` module does not elect a default `StorageClass` or configure policies for the `CSIDrivers` that it installs.  A
+reasonable choice is the `oci-bv` `StorageClass` with its `CSIDriver` configured with the `File` group policy.
+
+```
+kubectl patch sc oci-bv -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+kubectl apply -f - <<EOF
+apiVersion: storage.k8s.io/v1
+kind: CSIDriver
+metadata:
+  name: blockvolume.csi.oraclecloud.com
+spec:
+  fsGroupPolicy: File
+EOF
+```
 
 ## Prepare for the Verrazzano installation
 
 A Verrazzano Oracle Cloud Native Environment deployment requires:
-* A default storage provider that supports "Multiple Read/Write" mounts. For example, an NFS service like:
-    * Oracle Cloud Infrastructure File Storage Service.
-    * A hardware-based storage system that provides NFS capabilities.
 * Load balancers in front of the worker nodes in the cluster.
 * DNS records that reference the load balancers.
 
@@ -136,78 +147,6 @@ A Verrazzano Oracle Cloud Native Environment deployment requires:
 You can create the load balancers before you install, but post-installation configuration is required.
 
 Examples for meeting these requirements follow.
-
-### Storage
-Verrazzano requires persistent storage for several components.
-This persistent storage is provided by a default storage class.
-A number of persistent storage providers exist for Kubernetes.
-This guide will focus on pre-allocated persistent volumes.
-In particular, the provided samples will illustrate the use of Oracle Cloud Infrastructure's File System.
-
-#### Oracle Cloud Infrastructure example  
-Before storage can be exposed to Kubernetes, it must be created.
-In Oracle Cloud Infrastructure, this is done using File System resources.
-Using the Oracle Cloud Infrastructure Console, create a new File System.
-Within the new File System, create an Export.
-Remember the value used for  `Export Path` as it will be used later.
-Also note the Mount Target's `IP Address` for use later.
-
-After the exports have been created, referenced persistent volume folders (for example, `/example/pv0001`) will need to be created.
-In Oracle Cloud Infrastructure, this can be done by mounting the export on one of the Kubernetes worker nodes and creating the folders.
-In the following example, the value `/example` is the `Export Path` and `10.0.1.8` is the Mount Target's `IP Address`.
-The following command should be run on one of the Kubernetes worker nodes.
-This will result in the creation of nine persistent volume folders.
-The reason for nine persistent volume folders is covered in the next section.
-```
-$ sudo mount 10.0.1.8:/example /mnt
-$ for x in {0001..0009}; do sudo mkdir -p /mnt/pv${x} && sudo chmod 777 /mnt/pv${x}; done
-```
-
-#### Persistent Volumes
-A default Kubernetes storage class is required by Verrazzano.
-When using pre-allocated PersistentVolumes, for example NFS, persistent volumes should be declared as following.
-The value for `name` may be customized but will need to match the PersistentVolume `storageClassName` value later.
-* Create a default StorageClass
-  ```
-  $ cat << EOF | kubectl apply -f -
-    apiVersion: storage.k8s.io/v1
-    kind: StorageClass
-    metadata:
-      name: example-nfs
-      annotations:
-        storageclass.kubernetes.io/is-default-class: "true"
-    provisioner: kubernetes.io/no-provisioner
-    volumeBindingMode: WaitForFirstConsumer
-  EOF
-  ```
-* Create the required number of PersistentVolume resources.
-  The Verrazzano system requires five persistent volumes for itself.
-  The following command creates nine persistent volumes.
-  The value for `storageClassName` must match the above `StorageClass` name.
-  The values for `name` may be customized.
-  The value for `path` must match the `Export Path` of the Export from above, combined with the persistent volume folder from above.
-  The value for `server` must be changed to match the location of your file system server.  
-  ```
-  $ for n in {0001..0009}; do cat << EOF | kubectl apply -f -
-    apiVersion: v1
-    kind: PersistentVolume
-    metadata:
-      name: pv${n}
-    spec:
-      storageClassName: example-nfs
-      accessModes:
-        - ReadWriteOnce
-        - ReadWriteMany
-      capacity:
-        storage: 50Gi
-      nfs:
-        path: /example/pv${n}
-        server: 10.0.1.8
-      volumeMode: Filesystem
-      persistentVolumeReclaimPolicy: Recycle
-  EOF
-  done
-  ```
 
 ### Load Balancers
 Verrazzano on Oracle Cloud Native Environment uses external load balancer services.
