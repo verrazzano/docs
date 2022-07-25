@@ -65,6 +65,7 @@ vz [command] [flags]
 | Command     | Definition                                                 |
 |-------------|------------------------------------------------------------|
 | `analyze`   | Analyze cluster                                            |
+| `bug-report`| Collect information from the cluster to report an issue    | 
 | `help`      | Help about any command                                     |
 | `install`   | Install Verrazzano                                         |
 | `status`    | Status of the Verrazzano installation and access endpoints |
