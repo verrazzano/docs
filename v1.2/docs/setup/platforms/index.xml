@@ -270,42 +270,6 @@ All CIDR values provided are examples and can be customized as required.&lt;/p&g
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;UDP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;111&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;NFS&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;111&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;NFS&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;UDP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;2048&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;NFS&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;TCP&lt;/td&gt;
-&lt;td&gt;All&lt;/td&gt;
-&lt;td&gt;2048-2050&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;td&gt;NFS&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;No&lt;/td&gt;
 &lt;td&gt;&lt;code&gt;10.0.1.0/24&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;TCP&lt;/td&gt;
 &lt;td&gt;All&lt;/td&gt;
@@ -496,93 +460,34 @@ Other values can be used if required.&lt;/p&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;h2 id=&#34;install-oracle-cloud-native-environment&#34;&gt;Install Oracle Cloud Native Environment&lt;/h2&gt;
-&lt;p&gt;Deploy Oracle Cloud Native Environment with the Kubernetes module, following instructions from &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/&#34;&gt;Oracle Cloud Native Environment: Getting Started&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Deploy Oracle Cloud Native Environment 1.4 with the Kubernetes module, following instructions from &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/&#34;&gt;Oracle Cloud Native Environment: Getting Started&lt;/a&gt;.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Use a single Kubernetes control plane node.&lt;/li&gt;
 &lt;li&gt;Skip the Kubernetes API load balancer (&lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.1/start/install-lb.html&#34;&gt;3.4.3&lt;/a&gt;).&lt;/li&gt;
 &lt;li&gt;Use private CA certificates (&lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.1/start/certs-private.html&#34;&gt;3.5.3&lt;/a&gt;).&lt;/li&gt;
+&lt;li&gt;Install a Container Storage Interface Driver, such as &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.4/storage/oci.html#oci-install&#34;&gt;OCI-CSI&lt;/a&gt; or &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.4/storage/gluster.html#gluster&#34;&gt;Gluster&lt;/a&gt;.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;prepare-for-the-verrazzano-installation&#34;&gt;Prepare for the Verrazzano installation&lt;/h2&gt;
+&lt;h3 id=&#34;notes&#34;&gt;Notes&lt;/h3&gt;
+&lt;p&gt;The &lt;code&gt;oci-csi&lt;/code&gt; module does not elect a default &lt;code&gt;StorageClass&lt;/code&gt; or configure policies for the &lt;code&gt;CSIDrivers&lt;/code&gt; that it installs.  A
+reasonable choice is the &lt;code&gt;oci-bv&lt;/code&gt; &lt;code&gt;StorageClass&lt;/code&gt; with its &lt;code&gt;CSIDriver&lt;/code&gt; configured with the &lt;code&gt;File&lt;/code&gt; group policy.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;kubectl patch sc oci-bv -p &amp;#39;{&amp;#34;metadata&amp;#34;: {&amp;#34;annotations&amp;#34;:{&amp;#34;storageclass.kubernetes.io/is-default-class&amp;#34;:&amp;#34;true&amp;#34;}}}&amp;#39;
+kubectl apply -f - &amp;lt;&amp;lt;EOF
+apiVersion: storage.k8s.io/v1
+kind: CSIDriver
+metadata:
+  name: blockvolume.csi.oraclecloud.com
+spec:
+  fsGroupPolicy: File
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;prepare-for-the-verrazzano-installation&#34;&gt;Prepare for the Verrazzano installation&lt;/h2&gt;
 &lt;p&gt;A Verrazzano Oracle Cloud Native Environment deployment requires:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;A default storage provider that supports &amp;ldquo;Multiple Read/Write&amp;rdquo; mounts. For example, an NFS service like:
-&lt;ul&gt;
-&lt;li&gt;Oracle Cloud Infrastructure File Storage Service.&lt;/li&gt;
-&lt;li&gt;A hardware-based storage system that provides NFS capabilities.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
 &lt;li&gt;Load balancers in front of the worker nodes in the cluster.&lt;/li&gt;
 &lt;li&gt;DNS records that reference the load balancers.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The target ports for the load balancer backends cannot be determined until you install Verrazzano.&lt;br&gt;
 You can create the load balancers before you install, but post-installation configuration is required.&lt;/p&gt;
 &lt;p&gt;Examples for meeting these requirements follow.&lt;/p&gt;
-&lt;h3 id=&#34;storage&#34;&gt;Storage&lt;/h3&gt;
-&lt;p&gt;Verrazzano requires persistent storage for several components.
-This persistent storage is provided by a default storage class.
-A number of persistent storage providers exist for Kubernetes.
-This guide will focus on pre-allocated persistent volumes.
-In particular, the provided samples will illustrate the use of Oracle Cloud Infrastructure&amp;rsquo;s File System.&lt;/p&gt;
-&lt;h4 id=&#34;oracle-cloud-infrastructure-example-1&#34;&gt;Oracle Cloud Infrastructure example&lt;/h4&gt;
-&lt;p&gt;Before storage can be exposed to Kubernetes, it must be created.
-In Oracle Cloud Infrastructure, this is done using File System resources.
-Using the Oracle Cloud Infrastructure Console, create a new File System.
-Within the new File System, create an Export.
-Remember the value used for  &lt;code&gt;Export Path&lt;/code&gt; as it will be used later.
-Also note the Mount Target&amp;rsquo;s &lt;code&gt;IP Address&lt;/code&gt; for use later.&lt;/p&gt;
-&lt;p&gt;After the exports have been created, referenced persistent volume folders (for example, &lt;code&gt;/example/pv0001&lt;/code&gt;) will need to be created.
-In Oracle Cloud Infrastructure, this can be done by mounting the export on one of the Kubernetes worker nodes and creating the folders.
-In the following example, the value &lt;code&gt;/example&lt;/code&gt; is the &lt;code&gt;Export Path&lt;/code&gt; and &lt;code&gt;10.0.1.8&lt;/code&gt; is the Mount Target&amp;rsquo;s &lt;code&gt;IP Address&lt;/code&gt;.
-The following command should be run on one of the Kubernetes worker nodes.
-This will result in the creation of nine persistent volume folders.
-The reason for nine persistent volume folders is covered in the next section.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ sudo mount 10.0.1.8:/example /mnt
-$ for x in {0001..0009}; do sudo mkdir -p /mnt/pv${x} &amp;amp;&amp;amp; sudo chmod 777 /mnt/pv${x}; done
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;persistent-volumes&#34;&gt;Persistent Volumes&lt;/h4&gt;
-&lt;p&gt;A default Kubernetes storage class is required by Verrazzano.
-When using pre-allocated PersistentVolumes, for example NFS, persistent volumes should be declared as following.
-The value for &lt;code&gt;name&lt;/code&gt; may be customized but will need to match the PersistentVolume &lt;code&gt;storageClassName&lt;/code&gt; value later.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Create a default StorageClass
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ cat &amp;lt;&amp;lt; EOF | kubectl apply -f -
-  apiVersion: storage.k8s.io/v1
-  kind: StorageClass
-  metadata:
-    name: example-nfs
-    annotations:
-      storageclass.kubernetes.io/is-default-class: &amp;#34;true&amp;#34;
-  provisioner: kubernetes.io/no-provisioner
-  volumeBindingMode: WaitForFirstConsumer
-EOF
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;Create the required number of PersistentVolume resources.
-The Verrazzano system requires five persistent volumes for itself.
-The following command creates nine persistent volumes.
-The value for &lt;code&gt;storageClassName&lt;/code&gt; must match the above &lt;code&gt;StorageClass&lt;/code&gt; name.
-The values for &lt;code&gt;name&lt;/code&gt; may be customized.
-The value for &lt;code&gt;path&lt;/code&gt; must match the &lt;code&gt;Export Path&lt;/code&gt; of the Export from above, combined with the persistent volume folder from above.
-The value for &lt;code&gt;server&lt;/code&gt; must be changed to match the location of your file system server.
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ for n in {0001..0009}; do cat &amp;lt;&amp;lt; EOF | kubectl apply -f -
-  apiVersion: v1
-  kind: PersistentVolume
-  metadata:
-    name: pv${n}
-  spec:
-    storageClassName: example-nfs
-    accessModes:
-      - ReadWriteOnce
-      - ReadWriteMany
-    capacity:
-      storage: 50Gi
-    nfs:
-      path: /example/pv${n}
-      server: 10.0.1.8
-    volumeMode: Filesystem
-    persistentVolumeReclaimPolicy: Recycle
-EOF
-done
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ul&gt;
 &lt;h3 id=&#34;load-balancers&#34;&gt;Load Balancers&lt;/h3&gt;
 &lt;p&gt;Verrazzano on Oracle Cloud Native Environment uses external load balancer services.
 These will not automatically be provided by Verrazzano or Kubernetes.
@@ -656,7 +561,7 @@ Use these target port values for the NGINX Ingress Controller load balancer back
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h4 id=&#34;oracle-cloud-infrastructure-example-2&#34;&gt;Oracle Cloud Infrastructure example&lt;/h4&gt;
+&lt;h4 id=&#34;oracle-cloud-infrastructure-example-1&#34;&gt;Oracle Cloud Infrastructure example&lt;/h4&gt;
 &lt;p&gt;The following details can be used to create Oracle Cloud Infrastructure load balancers for accessing application and management user interfaces, respectively.
 These load balancers will route HTTP/HTTPS traffic from the Internet to the private subnet.
 If load balancers are desired, then they should be created now even though the application and management endpoints will be installed later.&lt;/p&gt;
@@ -755,7 +660,7 @@ elasticsearch.vmi.system.myenv.example.com      CNAME   ingress-mgmt.myenv.examp
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;*.system.myenv.example.com                      CNAME   ingress-mgmt.myenv.example.com.
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;OR&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;*.myenv.example.com                             CNAME   ingress-mgmt.myenv.example.com.
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;oracle-cloud-infrastructure-example-3&#34;&gt;Oracle Cloud Infrastructure example&lt;/h4&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;oracle-cloud-infrastructure-example-2&#34;&gt;Oracle Cloud Infrastructure example&lt;/h4&gt;
 &lt;p&gt;DNS is configured in Oracle Cloud Infrastructure by creating DNS zones in the Oracle Cloud Infrastructure Console.
 When creating a DNS zone, use these values:&lt;/p&gt;
 &lt;ul&gt;
