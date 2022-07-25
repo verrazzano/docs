@@ -9,10 +9,10 @@ draft: false
 
 Verrazzano provides tooling which assists in troubleshooting issues in your environment:
 1. `k8s-dump-cluster.sh`
-2. `verrazzano-analysis`
+2. `vz analyze`
 
 ## Tools Setup
-These tools are available for Linux and Mac: https://github.com/verrazzano/verrazzano/releases/.
+Follow the steps here to setup vz cli: https://verrazzano.io/latest/docs/setup/cli/
 
 {{< tabs tabTotal="2" >}}
 {{< tab tabName="Linux" >}}
@@ -26,20 +26,13 @@ Use these instructions to obtain the analysis tools on Linux machines.
   ```
    $ wget {{<release_asset_url k8s-dump-cluster.sh>}}
    $ wget {{<release_asset_url k8s-dump-cluster.sh.sha256>}}
-   $ wget {{<release_asset_url verrazzano-analysis-linux-amd64.tar.gz>}}
-   $ wget {{<release_asset_url verrazzano-analysis-linux-amd64.tar.gz.sha256>}}
   ```
 
 #### Verify the downloaded files
   ```
    $ sha256sum -c k8s-dump-cluster.sh.sha256
-   $ sha256sum -c verrazzano-analysis-linux-amd64.tar.gz.sha256
   ```
 
-#### Unpack the `verrazzano-analysis` binary
-  ```
-   $ tar xvf verrazzano-analysis-linux-amd64.tar.gz
-  ```
 {{< /tab >}}
 {{< tab tabName="macOS" >}}
 <br>
@@ -52,18 +45,10 @@ Use these instructions to obtain the analysis tools on Mac machines.
   ```
    $ wget {{<release_asset_url k8s-dump-cluster.sh>}}
    $ wget {{<release_asset_url k8s-dump-cluster.sh.sha256>}}
-   $ wget {{<release_asset_url verrazzano-analysis-darwin-amd64.tar.gz>}}
-   $ wget {{<release_asset_url verrazzano-analysis-darwin-amd64.tar.gz.sha256>}}
   ```
 #### Verify the downloaded files
   ```
    $ shasum -a 256 -c k8s-dump-cluster.sh.sha256
-   $ shasum -a 256 -c verrazzano-analysis-darwin-amd64.tar.gz.sha256
-  ```
-
-#### Unpack the `verrazzano-analysis` binary
-  ```
-   $ tar xvf verrazzano-analysis-darwin-amd64.tar.gz
   ```
 
 {{< /tab >}}
@@ -136,15 +121,15 @@ To perform a dump of a cluster into a directory named `my-cluster-dump`:
 
 `$ sh k8s-dump-cluster.sh -d my-cluster-dump`
 
-## Use the `verrazzano-analysis` tool
+## Use the `vz analyze` tool
 
-The `verrazzano-analysis` tool analyzes data from a cluster dump captured using `k8s-dump-cluster.sh`, reports the issues found, and prescribes related actions to take.  These tools are continually evolving with regard to what may be captured, the knowledge base of issues and actions, and the types of analysis that can be performed.
+The `vz analyze` tool analyzes data from a cluster dump captured using `k8s-dump-cluster.sh`, reports the issues found, and prescribes related actions to take.  These tools are continually evolving with regard to what may be captured, the knowledge base of issues and actions, and the types of analysis that can be performed.
 
 Users, developers, and Continuous Integration (CI) can use this tooling to quickly identify the root cause of encountered problems, determine mitigation actions, and provide a sharable report with other users or tooling.
 
 The data that the analysis examines follows the structure created by the corresponding capture tooling. For example, `k8s-dump-cluster.sh` dumps a cluster into a specific structure, which might contain data that you do not want to share. The tooling analyzes the data and provides you with a report, which identifies issues and provides you with actions to take.
 
-The `verrazzano-analysis` tool will find and analyze all cluster dump directories found under a specified root directory. This lets you create a directory to hold the cluster dumps of related clusters into sub-directories which the tool can analyze.
+The `vz analyze` tool will find and analyze all cluster dump directories found under a specified root directory. This lets you create a directory to hold the cluster dumps of related clusters into sub-directories which the tool can analyze.
 
 For example:
 
@@ -160,21 +145,29 @@ The tool analyzes each cluster dump directory found; you need to provide only th
 
 To perform an analysis of the clusters:
 
-`$ verrazzano-analysis my-cluster-dumps`
+`$ vz analyze my-cluster-dumps`
 
 ### Usage information
 
-```
-Usage: verrazzano-analysis [options] captured-data-directory
+Use the following syntax to run `vz` commands from your terminal window.
+```shell
+vz analyze [flags]
 ```
 
-| Parameter | Definition | Default |
-| --- | --- | --- |
-| `-actions` | Include actions in the report. | `true` |
-| `-help` | Display usage help. | |
-| `-info` | Include informational messages. | `true` |
-| `-minConfidence` | Minimum confidence threshold to report for issues, 0-10. | `0` |
-| `-minImpact` | Minimum impact threshold to report for issues, 0-10. | `0` |
-| `-reportFile` | Name of report output file. | Output to stdout. |
-| `-support` | Include support data in the report. | `true` |
-| `-version` | Display tool version. | |
+### Available Options
+
+| Command                  | Definition                                                                          |
+|--------------------------|-------------------------------------------------------------------------------------|
+| `--capture-dir string`   | Directory holding the captured data [Required]                                      |
+| `-h, --help`             | help for analyze                                                                    |
+| `--report-file string`   | Name of report output file. (default stdout)                                        |
+| `--report-format string` | The format of the report output. Valid output format is "simple" (default "simple") |
+
+### Available Flags
+
+These flags apply to all the commands.
+
+| Flag                  | Definition                                   |
+|-----------------------|----------------------------------------------|
+| `--context string`    | The name of the `kubeconfig` context to use. |
+| `--kubeconfig string` | Path to the `kubeconfig` file to use.        |
