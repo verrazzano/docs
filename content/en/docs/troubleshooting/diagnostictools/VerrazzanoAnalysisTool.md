@@ -2,7 +2,7 @@
 title: Verrazzano Analysis Tools
 linkTitle: Verrazzano Analysis Tools
 weight: 1
-description: Use the Verrazzano Analysis Tools to analyze cluster dumps
+description: Use the Verrazzano Analysis Tools to analyze cluster snapshots
 draft: false
 ---
 
@@ -61,10 +61,10 @@ The `k8s-dump-cluster.sh` tool is a shell script which runs various `kubectl` an
 
 Note that the data captured by this script might include sensitive information. This data is under your control; you can choose whether to share it.
 
-The directory structure created by the `k8s-dump-cluster.sh` tool, for a specific cluster dump, appears as follows:
+The directory structure created by the `k8s-dump-cluster.sh` tool, for a specific cluster snapshot, appears as follows:
 
     $ CAPTURE_DIR
-      cluster-dump
+      cluster-snapshot
         directory per namespace (a directory at this level is assumed to represent a namespace)
           acme-orders.json
           application-configurations.json
@@ -117,35 +117,35 @@ The directory structure created by the `k8s-dump-cluster.sh` tool, for a specifi
 
 The script shows the `kubectl` and `helm` commands which are run. The basic structure, shown previously, is formed by running the command, `$ kubectl cluster-info dump --all-namespaces`, with additional data captured into that directory structure.
 
-To perform a dump of a cluster into a directory named `my-cluster-dump`:
+To perform a snapshot of a cluster into a directory named `my-cluster-snapshot`:
 
-`$ sh k8s-dump-cluster.sh -d my-cluster-dump`
+`$ sh k8s-dump-cluster.sh -d my-cluster-snapshot`
 
 ## Use the `vz analyze` tool
 
-The `vz analyze` tool analyzes data from a cluster dump captured using `k8s-dump-cluster.sh`, reports the issues found, and prescribes related actions to take.  These tools are continually evolving with regard to what may be captured, the knowledge base of issues and actions, and the types of analysis that can be performed.
+The `vz analyze` tool analyzes data from a cluster snapshot captured using `k8s-dump-cluster.sh`, reports the issues found, and prescribes related actions to take.  These tools are continually evolving with regard to what may be captured, the knowledge base of issues and actions, and the types of analysis that can be performed.
 
 Users, developers, and Continuous Integration (CI) can use this tooling to quickly identify the root cause of encountered problems, determine mitigation actions, and provide a sharable report with other users or tooling.
 
-The data that the analysis examines follows the structure created by the corresponding capture tooling. For example, `k8s-dump-cluster.sh` dumps a cluster into a specific structure, which might contain data that you do not want to share. The tooling analyzes the data and provides you with a report, which identifies issues and provides you with actions to take.
+The data that the analysis examines follows the structure created by the corresponding capture tooling. For example, `k8s-dump-cluster.sh` takes a snapshot of cluster into a specific structure, which might contain data that you do not want to share. The tooling analyzes the data and provides you with a report, which identifies issues and provides you with actions to take.
 
-The `vz analyze` tool will find and analyze all cluster dump directories found under a specified root directory. This lets you create a directory to hold the cluster dumps of related clusters into sub-directories which the tool can analyze.
+The `vz analyze` tool will find and analyze all cluster snapshot directories found under a specified root directory. This lets you create a directory to hold the cluster snapshots of related clusters into sub-directories which the tool can analyze.
 
 For example:
 
-    my-cluster-dumps
+    my-cluster-snapshots
         CAPTURE_DIR-1
-            cluster-dump
+            cluster-snapshot
                 ...
         CAPTURE_DIR-2
-            cluster-dump
+            cluster-snapshot
                 ...
 
-The tool analyzes each cluster dump directory found; you need to provide only the single root directory.
+The tool analyzes each cluster snapshot directory found; you need to provide only the single root directory.
 
 To perform an analysis of the clusters:
 
-`$ vz analyze my-cluster-dumps`
+`$ vz analyze my-cluster-snapshots`
 
 ### Usage information
 
