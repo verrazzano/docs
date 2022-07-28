@@ -55,7 +55,7 @@ EOF
 ```
 
 ## Deploy the application
-This example provides an web application using a common example application image.
+This example provides a web application using a common example application image.
 When accessed, the application returns the configured text.
 
 1. Create the application namespace and add a label identifying the namespace as managed by Verrazzano.

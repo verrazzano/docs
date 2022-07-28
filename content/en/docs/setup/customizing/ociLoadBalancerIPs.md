@@ -72,8 +72,8 @@ using OCI-CCM annotations on the NGINX and Istio load balancer services, as docu
 [here](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingloadbalancer.htm#Creating2).
 
 The following example configures the NGINX load balancer service to have a private load balancer IP address on the
-private subnet identified by OCID `ocid1.subnet.oc1.phx.aaaa..sdjxa`, and uses the default (public) load balancer
-configuration for Istio:
+private subnet identified by the OCID `ocid1.subnet.oc1.phx.aaaa..sdjxa`, and uses the default (public) load balancer
+configuration for Istio.
 
 ```yaml
 apiVersion: install.verrazzano.io/v1alpha1
@@ -94,8 +94,8 @@ spec:
 ```
 
 The following example configures the Istio ingress gateway service to have a private load balancer IP address on the private
-subnet identified by OCID `ocid1.subnet.oc1.phx.aaaa..sdjxa`, and uses the default (public) load balancer configuration
-for NGINX:
+subnet identified by the OCID `ocid1.subnet.oc1.phx.aaaa..sdjxa`, and uses the default (public) load balancer configuration
+for NGINX.
 
 ```yaml
 apiVersion: install.verrazzano.io/v1alpha1
@@ -117,7 +117,7 @@ spec:
 ```
 
 The following example configures both NGINX and Istio to have a private load balancer IP address on the private subnet
-identified by OCID `ocid1.subnet.oc1.phx.aaaa..sdjxa`:
+identified by the OCID `ocid1.subnet.oc1.phx.aaaa..sdjxa`.
 
 ```yaml
 apiVersion: install.verrazzano.io/v1alpha1

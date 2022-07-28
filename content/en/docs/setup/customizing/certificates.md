@@ -30,12 +30,12 @@ If you want to provide your own CA, you must:
 
 * (Optional) Create your own signing key pair and CA certificate.
 
-  For example, you can use the `openssl` CLI to create a key pair for the `nip.io` domain:
+  For example, you can use the `openssl` CLI to create a key pair for the `nip.io` domain.
   ```
   # Generate a CA private key
   $ openssl genrsa -out tls.key 2048
 
-  # Create a self signed certificate, valid for 10yrs with the 'signing' option set
+  # Create a self-signed certificate, valid for 10yrs with the 'signing' option set
   $ openssl req -x509 -new -nodes -key tls.key -subj "/CN=*.nip.io" -days 3650 -reqexts v3_req -extensions v3_ca -out tls.crt
   ```
   The output of these commands will be two files, `tls.key` and `tls.crt`, the key and certificate for your signing key pair.
@@ -100,7 +100,7 @@ ACME provider with the following values in the Verrazzano custom resource:
 * (Optional) Set the `spec.components.certManager.certificate.acme.environment` field to either `staging` or `production` (the default).
 
 The following example configures Verrazzano to use the LetsEncrypt `production` environment by default, with Oracle Cloud Infrastructure DNS
-for DNS record management:
+for DNS record management.
 
 ```
 apiVersion: install.verrazzano.io/v1alpha1
@@ -123,7 +123,7 @@ spec:
         dnsZoneName: example.com
 ```
 
-The following example configures Verrazzano to use the LetsEncrypt `staging` environment with Oracle Cloud Infrastructure DNS:
+The following example configures Verrazzano to use the LetsEncrypt `staging` environment with Oracle Cloud Infrastructure DNS.
 
 ```
 apiVersion: install.verrazzano.io/v1alpha1
@@ -155,7 +155,7 @@ self-signed certificates.  They are typically not used in production environment
 ### LetsEncrypt staging versus production
 
 LetsEncrypt provides rate limits on generated certificates to ensure fair usage across all clients.  The
-`production` environment limits can be exceeded more frequently in environments where Verrazzano may be being
+`production` environment limits can be exceeded more frequently in environments where Verrazzano may be
 installed or reinstalled frequently (like a test environment).  This can result in failed installations due to
 rate limit exceptions on certificate generation.
 

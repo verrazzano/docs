@@ -41,7 +41,7 @@ To configure Verrazzano to use one of these services, set the
 [`spec.wildcard.domain`](/docs/reference/api/verrazzano/verrazzano#dns-wildcard)
 field in the Verrazzano custom resource to either `nip.io` or `sslip.io`; the default is `nip.io`.
 
-For example, the following configuration uses `sslip.io`, instead of `nip.io`, for wildcard DNS with a `dev` installation profile:
+For example, the following configuration uses `sslip.io`, instead of `nip.io`, for wildcard DNS with a `dev` installation profile.
 
 ```
 apiVersion: install.verrazzano.io/v1alpha1
@@ -90,7 +90,7 @@ The following prerequisites must be met before using Oracle Cloud Infrastructure
 
 * You must have a valid Oracle Cloud Infrastructure API signing key that can be used to communicate with Oracle Cloud Infrastructure DNS in your tenancy.  
 
-  For example, you can create an API signing key using the Oracle Cloud Infrastructure CLI:
+  For example, you can create an API signing key using the Oracle Cloud Infrastructure CLI.
 
   ```
     $ oci setup keys --key-name myapikey
@@ -143,7 +143,7 @@ auth:
 ```
 
 Verrazzano also supports the use of instance principals to communicate with Oracle Cloud Infrastructure in order to create or update Oracle Cloud Infrastructure DNS records.
-Instance principal requires some prerequisites that can be found [here](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm).
+Instance principals require some prerequisites that can be found [here](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm).
 
 When using instance principals, your `oci.yaml` file will look as follows:
 
@@ -168,11 +168,11 @@ This secret will later be referenced from the Verrazzano custom resource used du
 
 ### Use a Verrazzano helper script to create an Oracle Cloud Infrastructure secret
 
-Verrazzano also provides a helper script to create the necessary Kubernetes secret based on your Oracle Cloud Infrastructure CLI config file,
+Verrazzano also provides a helper script to create the necessary Kubernetes secret based on your Oracle Cloud Infrastructure CLI configuration file,
 assuming that you have the Oracle Cloud Infrastructure CLI installed and a valid Oracle Cloud Infrastructure CLI profile with the required API key information. The script
 `create_oci_config_secret.sh` reads your Oracle Cloud Infrastructure CLI configuration file to create the secret.
 
-First, download the `create_oci_config_secret.sh` script:
+First, download the `create_oci_config_secret.sh` script.
 
 ```
 $ curl \
@@ -181,7 +181,7 @@ $ curl \
 ```
 
 Next, set your `KUBECONFIG` environment variable to point to your cluster and run `create_oci_config_secret.sh -h`
-to display the script options:
+to display the script options.
 ```
 $ chmod +x create_oci_config_secret.sh
 $ export KUBECONFIG=<kubeconfig-file>
@@ -203,14 +203,14 @@ $ ./create_oci_config_secret.sh
 secret/oci created
 ```
 
-The following example creates a secret `myoci` using an Oracle Cloud Infrastructure CLI profile named `[dev]`:
+The following example creates a secret `myoci` using an Oracle Cloud Infrastructure CLI profile named `[dev]`.
 
 ```
 $ ./create_oci_config_secret.sh -s dev -k myoci
 secret/myoci created
 ```
 
-When using instance principals all other parameters will be ignored automatically. The following example creates a secret `myoci` using Oracle Cloud Infrastructure instance principal:
+When using instance principals, all other parameters will be ignored automatically. The following example creates a secret `myoci` using Oracle Cloud Infrastructure instance principal.
 
 ```
 $ ./create_oci_config_secret.sh -a instance_principal
@@ -220,9 +220,9 @@ secret/myoci created
 ### Installation
 
 After the Oracle Cloud Infrastructure API secret is created, create a Verrazzano custom resource for the installation that is configured to use Oracle Cloud Infrastructure
-DNS, and reference the secret you created.
+DNS and reference the secret you created.
 
-As a starting point, download the sample Verrazzano custom resource `install-oci.yaml` file for Oracle Cloud Infrastructure DNS:
+As a starting point, download the sample Verrazzano custom resource `install-oci.yaml` file for Oracle Cloud Infrastructure DNS.
 
 ```
 $ curl \

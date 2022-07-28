@@ -33,7 +33,7 @@ are composed of [components](https://github.com/oam-dev/spec/blob/master/3.compo
 Helidon applications are first class citizens in Verrazzano with specialized Helidon workload support, for example,
 VerrazzanoHelidonWorkload. VerrazzanoHelidonWorkload is supported as part of `verrazzano-application-operator` in the
 Verrazzano installation and no additional operator setup or installation is required. VerrazzanoHelidonWorkload also supports all
-the traits and scopes defined by Verrazzano along with core ones defined by the OAM specification.
+the Traits and Scopes defined by Verrazzano along with core ones defined by the OAM specification.
 
 VerrazzanoHelidonWorkload is modeled after [ContainerizedWorkload](https://github.com/oam-dev/spec/blob/v0.2.1/core/workloads/containerized_workload/containerized_workload.md),
 for example, it is used for long-running workloads in containers. However, VerrazzanoHelidonWorkload closely resembles and directly refers to
@@ -50,7 +50,7 @@ application can contain any number of VerrazzanoHelidonWorkload components, wher
 containerized Helidon application, independent of any other in the application.
 
 In the following example, everything under the `spec:` section is the custom resource YAML file for the containerized Helidon application,
-as defined by VerrazzanoHelidonWorkload custom resource. Including this Component reference in your ApplicationConfiguration
+as defined by the VerrazzanoHelidonWorkload custom resource. Including this Component reference in your ApplicationConfiguration
 will result in a new containerized Helidon application being provisioned.
 
 ```yaml
@@ -94,7 +94,7 @@ Typically, you would modify the Deployment and Service resource to make changes 
 like scale in and scale out.  However, in the Verrazzano environment, the containerized Helidon application resource is owned
 by the `verrazzano-application-operator` and will be reconciled to match the component workload resource. Therefore,
 you need to manage the application configuration by modifying the VerrazzanoHelidonWorkload or ApplicationConfiguration resource,
-either by `kubectl edit` or applying new YAML file. Verrazzano will notice that the Component resource change and will update
+either by `kubectl edit` or applying a new YAML file. Verrazzano will notice the Component resource change and will update
 the Deployment and Service resource as needed.
 
 You can add a new VerrazzanoHelidonWorkload to a running application, or remove an existing workload, by modifying
@@ -102,8 +102,8 @@ the ApplicationConfiguration resource and adding or removing the VerrazzanoHelid
 
 ### Scaling
 
-The recommended way to scale containerized Helidon application replicas is to specify [ManualScalerTrait](https://github.com/oam-dev/spec/blob/v0.2.1/core/traits/manual_scaler_trait.md)
-with VerrazzanoHelidonWorkload in ApplicationConfiguration. The following example
+The recommended way to scale containerized Helidon application replicas is to specify a [ManualScalerTrait](https://github.com/oam-dev/spec/blob/v0.2.1/core/traits/manual_scaler_trait.md)
+with the VerrazzanoHelidonWorkload in the ApplicationConfiguration. The following example
 configuration shows the `replicaCount` field that specifies the number of replicas for the application.
 
 ```yaml
@@ -124,16 +124,16 @@ Verrazzano will modify the Deployment resource `replicas` field and the containe
 be scaled accordingly.
 
 {{< alert title="NOTE" color="warning" >}}
-Make sure the `replicas` defined on the VerrazzanoHelidonWorkload component and that `replicaCount` defined on ManualScalerTrait
-for that component matches, or else the DeploymentController in Kubernetes and OAM runtime in `verrazzano-application-operator`
+Make sure the `replicas` defined on the VerrazzanoHelidonWorkload component and that the `replicaCount` defined on the ManualScalerTrait
+for that component match, or else the DeploymentController in Kubernetes and OAM runtime in `verrazzano-application-operator`
 will compete to create a different number of Pods for same containerized Helidon application. To avoid confusion,
-we recommend that you specify `replicaCount` defined on ManualScalerTrait and leave `replicas` undefined on VerrazzanoHelidonWorkload (as it is optional).
+we recommend that you specify `replicaCount` defined on the ManualScalerTrait and leave `replicas` undefined on VerrazzanoHelidonWorkload (as it is optional).
 {{< /alert >}}
 
 ### Logging
 
 When a containerized Helidon application is provisioned on Verrazzano, Verrazzano will configure the default logging
-and send logs to OpenSearch. Logs can be viewed using the OpenSearch Dashboards console.
+and send logs to OpenSearch. You can view the logs using the OpenSearch Dashboards.
 
 The logs are placed in a per-namespace OpenSearch data stream named `verrazzano-application-<namespace>`,
 for example: `verrazzano-application-hello-helidon`.  All logs from containerized Helidon application pods in the same namespace will
@@ -142,17 +142,17 @@ go into the same data stream, even for different applications.  This is standard
 ### Metrics
 
 Verrazzano uses Prometheus to scrape metrics from containerized Helidon application pods. Like logging, metrics scraping is also
-enabled during provisioning. Metrics can be viewed using the Grafana console.
+enabled during provisioning. You can view metrics using the Grafana console.
 
-Verrazzano lets you to customize configuration information needed to enable metrics using [MetricsTrait]({{< relref "/docs/reference/API/OAM/MetricsTrait.md" >}})
-for an application component.
+Using the [MetricsTrait]({{< relref "/docs/reference/API/OAM/MetricsTrait.md" >}}) custom resource, you can customize configuration
+information needed to enable metrics for an application component.
 
 ### Ingress
 
-Verrazzano lets you to configure traffic routing to a containerized Helidon application, using
-[IngressTrait]({{< relref "/docs/reference/API/OAM/IngressTrait.md" >}}) for an application component.
+Using the [IngressTrait]({{< relref "/docs/reference/API/OAM/IngressTrait.md" >}}) custom resource, you can configure traffic
+routing to a containerized Helidon application for an application component.
 
 ## Troubleshooting
 Whenever you have a problem with your Verrazzano Helidon application, there are some basic techniques you
 can use to troubleshoot. [Troubleshooting]({{< relref "/docs/troubleshooting/_index.md" >}}) shows you some simple
-things to try when troubleshooting, as well as how to solve common problems you may encounter.
+things to try, as well as how to solve common problems you may encounter.

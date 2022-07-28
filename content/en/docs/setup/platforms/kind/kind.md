@@ -60,7 +60,7 @@ times.  To speed up Verrazzano installation, follow these steps to ensure that t
 containerd inside a Kind cluster, is preserved across clusters. Subsequent installations will be faster
 because they will not need to pull the images again.
 
-1\. Create a named Docker volume that will be used for the image cache, and note its `Mountpoint` path. In this example, the volume is named `containerd`.
+1\. Create a named Docker volume that will be used for the image cache and note its `mountPoint` path. In this example, the volume is named `containerd`.
 
 ```
 $ docker volume create containerd
@@ -79,7 +79,7 @@ $ docker volume inspect containerd
 }
 ```
 
-2\. Specify the `Mountpoint` path obtained, as the `hostPath` under `extraMounts` in your Kind configuration file, with a `containerPath` of `/var/lib/containerd`, which is the default containerd image caching location inside the Kind container. An example of the modified Kind configuration is shown in the following `create cluster` command:
+2\. Specify the `mountPoint` path obtained, as the `hostPath` under `extraMounts` in your Kind configuration file, with a `containerPath` of `/var/lib/containerd`, which is the default containerd image caching location inside the Kind container. An example of the modified Kind configuration is shown in the following `create cluster` command.
 
 ```
 $ kind create cluster --config - <<EOF
@@ -87,7 +87,7 @@ kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
   - role: control-plane
-    image: kindest/node:v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6 
+    image: kindest/node:v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6
     kubeadmConfigPatches:
       - |
         kind: ClusterConfiguration

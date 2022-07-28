@@ -4,6 +4,12 @@ linkTitle: Release Notes
 weight: 13
 draft: false
 ---
+### v1.3.2
+Fixes:
+
+- Fixed Fluentd pattern to correctly parse `severity` value from WebLogic logs.
+- Fixed IngressTrait to remove the deleted IngressTrait entries from the Istio Gateway.
+
 ### v1.3.1
 Fixes:
 
@@ -12,16 +18,16 @@ Fixes:
 - Added liveness probe for the AuthProxy NGINX server.
 - Added support for dynamic configuration overrides to Verrazzano components from various monitored sources, including ConfigMaps, Secrets, and Values referenced in the Verrazzano CR.
 - Added support for JWT authentication and authorization policy specification for applications.
-- Added support for Prometheus ServiceMonitor and PodMonitor CRs deployed using Prometheus Operator.
+- Added support for Prometheus Service Monitor and Pod Monitor CRs deployed using Prometheus Operator.
 - Updated Keycloak image to fix CVEs.
 
 ### v1.3.0
 Features:
 
-- Post-installation updates: Configurations for DNS, certificate management, logging, ingress, and OpenSearch cluster configuration can be updated after a Verrazzano installation.
+- Post-installation updates: configurations for DNS, certificate management, logging, ingress, and OpenSearch cluster configuration can be updated after a Verrazzano installation.
 - Added Jaeger Distributed Tracing.
 - Support for Kubernetes v1.22 and v1.23.
-- kube-prometheus-stack components are now part of Verrazzano and can be enabled, these include: Prometheus Operator, AlertManager, kube-state-metrics, and such.
+- kube-prometheus-stack components are now part of Verrazzano and can be enabled, these include Prometheus Operator, Alertmanager, kube-state-metrics, and such.
 
 Component version updates:
 
@@ -37,7 +43,7 @@ Component version updates:
 
 Components added:
 
-- AlertManager v0.24.0
+- Alertmanager v0.24.0
 - Jaeger v1.32.0
 - kube-state-metrics v2.4.2
 - Prometheus Adapter v0.9.1

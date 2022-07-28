@@ -31,7 +31,7 @@ The Verrazzano Fluentd Docker image comes with these plug-ins:
 
 - [fluent-plugin-concat](https://github.com/fluent-plugins-nursery/fluent-plugin-concat)
 - [fluent-plugin-dedot_filter](https://github.com/lunardial/fluent-plugin-dedot_filter)
-- [fluent-plugin-detect-exceptions ](https://github.com/GoogleCloudPlatform/fluent-plugin-detect-exceptions)
+- [fluent-plugin-detect-exceptions](https://github.com/GoogleCloudPlatform/fluent-plugin-detect-exceptions)
 - [fluent-plugin-elasticsearch](https://docs.fluentd.org/output/elasticsearch)
 - [fluent-plugin-grok-parser](https://github.com/fluent/fluent-plugin-grok-parser)
 - [fluent-plugin-json-in-json-2](https://rubygems.org/gems/fluent-plugin-json-in-json-2)
@@ -89,7 +89,7 @@ then its logs will be exported to the `verrazzano-application-myapp` data stream
 ## OpenSearch
 Verrazzano creates an OpenSearch cluster as the store and search engine for the logs processed by Fluentd.  Records written by Fluentd can be queried using the OpenSearch REST API.
 
-For example, you can use `curl` to get all of the OpenSearch data streams. First, you must get the password for the `verrazzano` user and the host for the VMI OpenSearch.
+For example, you can use `curl` to get all of the OpenSearch data streams. First, you must get the password for the `verrazzano` user and the host for the Verrazzano Monitoring Instance (VMI) OpenSearch.
 ```
 $ PASS=$(kubectl get secret \
     --namespace verrazzano-system verrazzano \
@@ -111,7 +111,7 @@ $ curl -ik \
     --user verrazzano:$PASS https://$HOST/$DATA_STREAM/_search?q=message:*
 ```
 
-Verrazzano provides support for [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}}). The production profile (`prod`), which is the default, provides a 3-node OpenSearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile (`dev`) provides a single node OpenSearch and no persistent storage for the VMI. The `managed-cluster` profile does not install OpenSearch or OpenSearch Dashboards in the local cluster; all logs are forwarded to the admin cluster's OpenSearch instance.
+Verrazzano provides support for [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}}). The production profile (`prod`), which is the default, provides a 3-node OpenSearch and persistent storage for the VMI. The development profile (`dev`) provides a single node OpenSearch and no persistent storage for the VMI. The `managed-cluster` profile does not install OpenSearch or OpenSearch Dashboards in the local cluster; all logs are forwarded to the admin cluster's OpenSearch instance.
 
 If you want the logs sent to an external OpenSearch, instead of the default VMI OpenSearch, specify `elasticsearchURL` and `elasticsearchSecret` in the [Fluentd]({{< relref "/docs/reference/API/Verrazzano/Verrazzano.md#fluentd-component" >}}) Component configuration in your Verrazzano custom resource.
 
@@ -130,7 +130,7 @@ spec:
 ## OpenSearch Dashboards
 OpenSearch Dashboards is a visualization dashboard for the content indexed on an OpenSearch cluster.  Verrazzano creates a OpenSearch Dashboards deployment to provide a user interface for querying and visualizing the log data collected in OpenSearch.
 
-To access the OpenSearch Dashboards console, read [Access Verrazzano]({{< relref "/docs/access/_index.md" >}}).
+To access the OpenSearch Dashboards, read [Access Verrazzano]({{< relref "/docs/access/_index.md" >}}).
 
 To see the records of an OpenSearch index or data stream through OpenSearch Dashboards, create an index pattern to filter for records under the desired data stream or index.  
 

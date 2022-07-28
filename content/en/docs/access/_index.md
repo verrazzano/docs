@@ -18,8 +18,9 @@ See the following respective sections.
 {{< tabs tabTotal="2" >}}
 {{< tab tabName="vz" >}}
 <br>
+
 You can get the endpoints for these consoles by issuing the following command
-and examining the <code>Status.Instance</code> field:
+and examining the `Status.Instance` field:
 
 ```shell
 $ vz status
@@ -48,8 +49,9 @@ Verrazzano Status
 {{< /tab >}}
 {{< tab tabName="kubectl" >}}
 <br>
+
 You can get the endpoints for these consoles by issuing the following command
-and examining the <code>Status.Instance</code> field:
+and examining the `Status.Instance` field:
 
 ```shell
 $ kubectl get vz -o yaml
@@ -80,7 +82,7 @@ The resulting output is similar to the following (abbreviated to show only the r
       rancherUrl: https://rancher.default.11.22.33.44.nip.io
 ```
 
-If you have `jq` installed, then you can use the following command to get the instance URLs more directly:
+If you have `jq` installed, then you can use the following command to get the instance URLs more directly.
 
 `$ kubectl get vz -o jsonpath="{.items[].status.instance}" | jq .`
 
@@ -105,7 +107,7 @@ The following is an example of the output:
 
 You will need the credentials to access the consoles installed by Verrazzano.
 
-### Consoles accessed by the same user name/password
+### Consoles accessed by the same user name
 - Grafana
 - Prometheus
 - OpenSearch Dashboards
@@ -172,11 +174,11 @@ $ kubectl get secret \
 
 **Update the Verrazzano secret**
 
-Get the base64 encoding for your new password:
+Get the base64 encoding for your new password.
 
 `$ echo -n 'MyNewPwd' | base64`
 
-Update the password in the secret:
+Update the password in the secret.
 
 `$ kubectl edit secret verrazzano -n verrazzano-system`
 

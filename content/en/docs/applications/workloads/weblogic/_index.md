@@ -6,9 +6,9 @@ weight: 6
 draft: false
 ---
 
-WebLogic Server is a widely-used enterprise application server for managing Java Enterprise Edition-based applications and is [certified](https://blogs.oracle.com/weblogicserver/weblogic-server-certification-on-kubernetes) to run on Kubernetes using the [WebLogic Kubernetes Operator](https://oracle.github.io/weblogic-kubernetes-operator/). The WebLogic Kubernetes Operator manages the WebLogic domain life cycle in Verrazzano. The WebLogic Domain custom resource (CR) specifies the configuration of the WebLogic domain. The operator monitors the WebLogic Domain CR and reconciles the domain by creating, updating, and deleting Kubernetes resources (Pods, Services, and such), as needed. Each pod is a WebLogic Server, an Administration Server or Managed Server.
+WebLogic Server is a widely-used enterprise application server for managing Java Enterprise Edition-based applications and is [certified](https://blogs.oracle.com/weblogicserver/weblogic-server-certification-on-kubernetes) to run on Kubernetes using the [WebLogic Kubernetes Operator](https://oracle.github.io/weblogic-kubernetes-operator/). The WebLogic Kubernetes Operator (the "operator") manages the WebLogic domain life cycle in Verrazzano. The WebLogic Domain custom resource (CR) specifies the configuration of the WebLogic domain. The operator monitors the WebLogic Domain CR and reconciles the domain by creating, updating, and deleting Kubernetes resources (Pods, Services, and such), as needed. Each pod is a WebLogic Server Administration Server or Managed Server.
 
-The WebLogic Kubernetes Operator is installed in the `verrazzano-system` namespace and is also part of the [istio-mesh](https://istio.io/latest/about/service-mesh/) deployed by Verrazzano.
+The operator is installed in the `verrazzano-system` namespace and is also part of the [istio-mesh](https://istio.io/latest/about/service-mesh/) deployed by Verrazzano.
 
 {{< alert title="NOTE" color="warning" >}}
 Verrazzano installs an instance of the WebLogic Kubernetes Operator. If you have a pre-existing instance of the operator, namespaces managed by each instance must be mutually exclusive.
@@ -99,7 +99,7 @@ The Istio Gateway resource describes a proxy providing ingress to the Kubernetes
 
 
 
-Example of an Istio `Gateway` resource:
+Example of an Istio `Gateway` resource
 
 ```yaml
 apiVersion: networking.istio.io/v1beta1
@@ -122,7 +122,7 @@ apiVersion: networking.istio.io/v1beta1
 ```
 
 
-Example of an Istio `VirtualService` resource:
+Example of an Istio `VirtualService` resource
 
 ```yaml
 apiVersion: networking.istio.io/v1beta1
@@ -187,7 +187,7 @@ If the trait doesn’t exist, Verrazzano will inject the `MetricsTrait` into the
 
 ### AppConfig default injection
 
-Review the following example `MetricsTrait` from the TodoList `ApplicationConfiguration`. If missing from `ApplicationConfiguration`, Verrazzano will inject the default `MetricsTrait`.
+Review the following example `MetricsTrait` from the Todo List `ApplicationConfiguration`. If it's missing from `ApplicationConfiguration`, Verrazzano will inject the default `MetricsTrait`.
 
 ```yaml
 kind: ApplicationConfiguration
@@ -207,7 +207,7 @@ spec:
 ```
 ### Monitoring Exporter Component
 
-Review the following example `monitoringExporter` configuration in OAM Component.
+Review the following example `monitoringExporter` configuration in the OAM Component.
 
 ```yaml
 workload:
@@ -228,7 +228,7 @@ monitoringExporter:
 
 ### Pod annotations
 
-The following annotations can be used for enabling metrics on pods.
+The following annotations can be used for enabling metrics on pods:
 - `prometheus.io/metricsEnabled: "true”` - Enables metrics scraping.
 - `prometheus.io/metricsPath: /metrics` - Specifies metrics scraping path.
 - `prometheus.io/metricsPort: ”8080"` - Specifies metrics scraping port.
@@ -269,7 +269,7 @@ Step 2. Create a VerrazzanoWebLogicWorkload component.
    - For an example VerrazzanoWebLogicWorkload Component resource created for a sample WebLogic domain, see the [todo-domain]({{< relref "/docs/reference/API/OAM/Workloads#verrazzanoweblogicworkload" >}}) example.
    - For all the options supported by the WebLogic domain configuration, see [Domain.md](https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md).
 
-Step 3. Create ApplicationConfiguration for WebLogic application.
+Step 3. Create an ApplicationConfiguration for the WebLogic application.
    - Next, create an ApplicationConfiguration that uses the VerrazzanoWebLogicWorkload component you created for the WebLogic domain.
    - For an example ApplicationConfiguration using a VerrazzanoWebLogicWorkload component, see the [ToDo List]({{< relref "/docs/samples/todo-list.md" >}}) example application.
 
@@ -284,7 +284,7 @@ Typically, WebLogic applications make database connections using the connection 
 
 Step 1. Deploy the database in Verrazzano.
    - To deploy a database, you need to create the corresponding Component and ApplicationConfiguration that will run the database in a pod and expose its connection information as a Service.
-   - For an example, look at the [tododomain-mysql]({{< relref "/docs/samples/todo-list.md" >}}) descriptor.
+   - For an example, look at the [tododomain-mysql]({{< relref "/docs/guides/lift-and-shift/lift-and-shift.md#create-verrazzano-components-for-mysql" >}}) descriptor.
 
 Step 2. Create a WebLogic resource ConfigMap.
    - Next, create a ConfigMap that will contain the JDBCSystemResource definition with connection information for the database.
@@ -307,7 +307,7 @@ For more details, see the [ToDo List]({{< relref "/docs/samples/todo-list.md" >}
 
 ## Ingresses
 
-To access the endpoints for a Java EE application deployed as part of a VerrazzanoWebLogicWorkload component, Verrazzano plets you specify an IngressTrait for the component which is then translated to an [Istio ingress gateway](https://istio.io/latest/docs/reference/config/networking/gateway/) and [VirtualService](https://istio.io/latest/docs/reference/config/networking/virtual-service/). For an example, see the [ToDo List]({{< relref "/docs/samples/todo-list.md" >}}) example application, where the IngressTrait is configured for the application endpoint.
+To access the endpoints for a Java EE application deployed as part of a VerrazzanoWebLogicWorkload component, Verrazzano lets you specify an IngressTrait for the component which is then translated to an [Istio ingress gateway](https://istio.io/latest/docs/reference/config/networking/gateway/) and [VirtualService](https://istio.io/latest/docs/reference/config/networking/virtual-service/). For an example, see the [ToDo List]({{< relref "/docs/samples/todo-list.md" >}}) example application, where the IngressTrait is configured for the application endpoint.
 
 ```yaml
 ...
@@ -338,4 +338,4 @@ $ curl -sk https://${HOST}/todo/ --resolve ${HOST}:443:${ADDRESS}
 - [WebLogic Kubernetes Operator GitHub repository](https://github.com/oracle/weblogic-kubernetes-operator/)
 - [WebLogic Domain CR](https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md)
 - [Verrazzano Application Workloads]({{< relref "/docs/applications/workloads/" >}})
-- [Lift and Shift Guide]({{< relref "/docs/guides/lift-and-shift/lift-and-shift.md" >}})
+- [Lift-and-Shift Guide]({{< relref "/docs/guides/lift-and-shift/lift-and-shift.md" >}})
