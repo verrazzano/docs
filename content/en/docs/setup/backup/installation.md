@@ -17,7 +17,12 @@ The CLI can be installed on Oracle Linux as shown below
 rpm -ivh https://yum.oracle.com/repo/OracleLinux/OL7/developer/olcne/x86_64/getPackage/velero-1.8.1-1.el7.x86_64.rpm
 ```
 
-### Velero Component Installation 
+### Backup Component Installation 
+
+Verrazzano offers the following operators to backup up and restore persistent data:
+
+- Velero
+- Rancher Backup Operator
 
 The following configuration is an example to enable the backup component with a `dev` installation profile:
 
@@ -32,13 +37,25 @@ spec:
   components:    
     velero:
       enabled: true
+    rancherBackup:
+      enabled: true  
 ```
+**_NOTE:_** `rancherBackup` setting is honoured only in cases when `rancher` is also enabled.
 
-Once installed you can check the pods running under `verrazzano-backup` namespace. 
+Once installed you can check the pods running under `verrazzano-backup` namespace if the component is `velero`. 
+For `rancherBackup` the pods will be created under `cattle-resources-system` namespace.   
 
 ```shell
-kubectl get pod -n velero
+# Sample of pods running after enabling velero component
+kubectl get pod -n verrazzano-backup
 NAME                      READY   STATUS    RESTARTS   AGE
 restic-ndxfk              1/1     Running   0          21h
 velero-5ff8766fd4-xbn4z   1/1     Running   0          21h
+```
+
+```shell
+# Sample of pods running after enabling rancherBackup component
+kubectl get pod -n cattle-resources-system
+NAME                              READY   STATUS    RESTARTS   AGE
+rancher-backup-5c4b985697-xw7md   1/1     Running   0          2d4h
 ```

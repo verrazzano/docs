@@ -1,95 +1,25 @@
 ---
-title: "Restore Operation"
-description: "Restore Component(s) to Verrazzano platform"
+title: "Velero Restore"
+description: "Restore Data and configurations to Verrazzano platform"
 linkTitle: Restore Operation
 weight: 1
 draft: false
 ---
 
-Verrazzano backup component `Velero` helps backup and migrate Kubernetes applications.
-The restore operation allows you to restore all the objects and persistent volumes from a previously created backup.
+Verrazzano offers specialized `hooks` to ensure a consistent restore experience with `Velero`.  More context on hooks can be found [here](https://velero.io/docs/v1.8/backup-hooks/).
 
-### Prerequisites
-
-Before proceeding the following information about object store should be provided as an input:
-
-- Create an Oracle Cloud Object Storage bucket called velero in the root compartment of your Oracle Cloud tenancy.
-  Refer to this [page](https://docs.oracle.com/en-us/iaas/Content/Object/Tasks/managingbuckets.htm#usingconsole) for more information about creating a bucket with Object Storage.
-- Object store prefix name. This will be a child folder under the bucket automatically created by the backup component.
-- Object store region information.
-- Verrazzano backup component requires object store to be Amazon S3 compatible. As a result you need to generate the signing key required to authenticate with Amazon S3.
-  Follow these steps to create a [Customer Secret Key](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm#To4)
-- There have been successful backups taken earlier.
-- The restore can be done on a new Kubernetes cluster or an existing kubernetes cluster as well. 
-
-### Prepare for Backup Or Restore
-
-The following section assumes that the prerequisites have been met and the `Velero` backup component is enabled.
-
-You can now create the following objects as follows:
-
-- Create a file `backup-secret.txt` having the object store credentials as shown below.
-
-```backup-secret.txt
-[default]
-aws_access_key_id=<object store access key>
-aws_secret_access_key=<object store secret key>
-```
-
-- Create a kubernetes secret `verrazzano-backup-creds` in the same namespace where the backup component is enabled. In this case the namespace is `velero`.
-  The secret is consumed by the backup component `Velero` to back up objects to the object store.
-
-```
-kubectl create secret generic -n <backup-namespace> <secret-name> --from-file=<key>=<full_path_to_creds_file>
-
-Example 
-kubectl create secret generic -n verrazzano-backup verrazzano-backup-creds --from-file=cloud=backup-secret.txt
-```
-
-**_NOTE:_** Ensure the `backup-secret.txt` file is cleaned up after the kubernetes secret is created to avoid misuse of sensitive data.
-
-- Create a `BackupStorageLocation` which the backup component will reference for subsequent backups or restores. Below is an example of the `BackupStorageLocation`.
-  Refer this [page](https://velero.io/docs/v1.8/api-types/backupstoragelocation/) for more information.
-
-```yaml
-apiVersion: velero.io/v1
-kind: BackupStorageLocation
-metadata:
-  name: verrazzano-backup-location
-  namespace: verrazzano-backup
-spec:
-  provider: aws
-  objectStorage:
-    bucket: example-verrazzano
-    prefix: backup-demo
-  credential:
-    name: verrazzano-backup-creds
-    key: cloud
-  config:
-    region: us-phoenix-1
-    s3ForcePathStyle: "true"
-    s3Url: https://mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com
-```
-
-
-### Restoring a Component 
-
-At this point you are ready to restore from an existing healthy back up.
-
-We will focus on the component specific restore operations that we have already discussed in the backup section. 
-
-Currently, the following components can be restored with hooks:
+Currently, the following components have in built hooks:
 - MySQL
 - OpenSearch
 
-**_NOTE:_**  Velero restore operation detects whether the component is already running and will skip object creation if objet already exists 
+For all other components refer to `Velero` documentation for [restoring](https://velero.io/docs/v1.8/restore-reference/) data.
 
 
-#### MySQL Restore
+### MySQL Restore
 
 For `MySQL` Verrazzano offers a custom hook that can be used along with `Velero` to perform a restore successfully.
 
-Delete the `keycloak` namespace to initiate a complete MySQL restore
+Delete the `keycloak` namespace to initiate a complete MySQL restore.
 
 ```shell
 kubectl delete namespace keycloak

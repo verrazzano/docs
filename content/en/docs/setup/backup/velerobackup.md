@@ -1,88 +1,20 @@
 ---
-title: "Backup Operation"
-description: "Backup component(s) on Verrazzano platform"
-linkTitle: Backup Operation
+title: "Velero Backup"
+description: "Backup persistent data using the Velero operator"
+linkTitle: Velero Backup
 weight: 1
 draft: false
 ---
 
-Verrazzano backup component `Velero` helps backup and migrate Kubernetes applications. 
-Here are the steps to use [Oracle Cloud Object Storage](https://docs.oracle.com/en-us/iaas/Content/Object/Concepts/objectstorageoverview.htm) as a destination for Verrazzano backups.
+Verrazzano offers specialized `hooks` to ensure a consistent backup experience with `Velero`.  More context on hooks can be found [here](https://velero.io/docs/v1.8/backup-hooks/).
 
-### Prerequisites 
-
-Before proceeding the following information about Object Store should be provided as an input: 
-
-- Create an Oracle Cloud Object Storage bucket in any compartment of your Oracle Cloud tenancy. Make a note of the bucket name and tenancy name for reference.  
-  Refer to this [page](https://docs.oracle.com/en-us/iaas/Content/Object/Tasks/managingbuckets.htm#usingconsole) for more information about creating a bucket with Object Storage. 
-- Object store prefix name. This will be a child folder under the bucket automatically created by the backup component.
-- Object store region information.  
-- Verrazzano backup component requires object store to be Amazon S3 compatible. As a result you need to generate the signing key required to authenticate with Amazon S3.
-  Follow these steps to create a [Customer Secret Key](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm#To4). 
-
-### Prepare for Backup Or Restore 
-
-The following section assumes that the prerequisites have been met and the backup component is enabled. 
-
-You can now create the following objects as follows:
-
-- Create a file `backup-secret.txt` having the object store credentials as shown below. 
-
-```backup-secret.txt
-[default]
-aws_access_key_id=<object store access key>
-aws_secret_access_key=<object store secret key>
-```
-
-- Create a kubernetes secret `verrazzano-backup-creds` in the same namespace where the backup component is enabled. In this case the namespace is `velero`.
-  The secret is consumed by the backup component `Velero` to back up objects to the object store. 
-
-```
-kubectl create secret generic -n <backup-namespace> <secret-name> --from-file=<key>=<full_path_to_creds_file>
-
-Example 
-kubectl create secret generic -n verrazzano-backup verrazzano-backup-creds --from-file=cloud=backup-secret.txt
-```
-
-**_NOTE:_** Ensure the `backup-secret.txt` file is cleaned up after the kubernetes secret is created to avoid misuse of sensitive data.  
-
-- Create a `BackupStorageLocation` which the backup component will reference for subsequent backups. Below is an example of the `BackupStorageLocation`. 
-  Refer this [page](https://velero.io/docs/v1.8/api-types/backupstoragelocation/) for more information.
-
-```yaml
-apiVersion: velero.io/v1
-kind: BackupStorageLocation
-metadata:
-  name: verrazzano-backup-location
-  namespace: verrazzano-backup
-spec:
-  provider: aws
-  objectStorage:
-    bucket: example-verrazzano
-    prefix: backup-demo
-  credential:
-    name: verrazzano-backup-creds
-    key: cloud
-  config:
-    region: us-phoenix-1
-    s3ForcePathStyle: "true"
-    s3Url: https://mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com
-```
-
-
-### Taking a Backup 
-
-At this point you are ready to back up a namespace or a component with Velero. 
-
-For certain components Verrazzano offers specialized `hooks` to ensure backup which can be used in conjunction with Velero as outline [here](https://velero.io/docs/v1.8/backup-hooks/).   
-
-Currently, the following components can be backed up with hooks:
+Currently, the following components have in built hooks:
 - MySQL
-- OpenSearch 
+- OpenSearch
 
-We will now take a look on how to take a component specific backup. 
+For all other components refer to `Velero` documentation for taking [backups](https://velero.io/docs/v1.8/backup-reference/).
 
-#### MySQL Backup 
+### MySQL Backup 
 
 For `MySQL` Verrazzano offers a custom hook that can be used along with `Velero` to perform a backup successfully. 
 
@@ -219,9 +151,9 @@ kubectl get podvolumebackups -n verrazzano-backup
 </details>
 
 
-#### OpenSearch Backup
+### OpenSearch Backup
 
-For `OpenSearch` Verrazzano provides a custom hook that can be used along with `Velero` to perform a backup successfully. 
+For `OpenSearch` Verrazzano provides a custom hook that can be used along with `Velero` while invoking a backup. 
 Due to the nature of transient data handled by OpenSearch, the hook invokes `OpenSearch` snapshot apis to back up and restore data streams appropriately, 
 thereby ensuring there is no loss of data and avoids data corruption as well.
 
@@ -280,14 +212,10 @@ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/verrazz
 
 ### Scheduled Backups 
 
-Velero also supports scheduled backups is used as a repeatable request for the Velero server to perform a backup for a given cron notation. 
-Once created, the Velero Server will start the backup process. 
+Velero also supports a schedule [API](https://velero.io/docs/v1.8/api-types/schedule/). 
+It is a repeatable request is sent to the Velero server to perform a backup for a given cron notation. 
+Once the `schedule` object is created, the Velero Server will start the backup process. 
 It will then wait for the next valid point of the given cron expression and execute the backup process on a repeating basis.
-
-Schedule API is documented [here](https://velero.io/docs/v1.8/api-types/schedule/).  
-
-
-
 
 
 
