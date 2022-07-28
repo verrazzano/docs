@@ -8,7 +8,7 @@ draft: false
 Fixes:
 
 - Fixed AuthProxy to emit access logs.
-- Fixed Console intermittent failures of timing out loading application details.
+- Fixed Verazzano Console intermittent failures of timing out loading application details.
 
 ### v1.3.2
 Fixes:
