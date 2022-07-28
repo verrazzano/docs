@@ -145,7 +145,7 @@ The tool analyzes each cluster snapshot directory found; you need to provide onl
 
 To perform an analysis of the clusters:
 
-`$ vz analyze my-cluster-snapshots`
+`$ vz analyze --capture-dir my-cluster-snapshots`
 
 ### Usage information
 

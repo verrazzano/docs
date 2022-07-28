@@ -1,8 +1,8 @@
 ---
-title: Verrazzano Bug Report Tools
-linkTitle: Verrazzano Bug Report Tools
+title: Verrazzano Bug Report Tool
+linkTitle: Verrazzano Bug Report Tool
 weight: 1
-description: Use the Verrazzano Bug Report Tools to selectively capture the information from cluster and create an archive of it
+description: Use the Verrazzano Bug Report Tool to selectively capture the information from cluster and create an archive of it
 draft: false
 ---
 
@@ -14,62 +14,8 @@ Follow the steps here to setup vz cli: https://verrazzano.io/latest/docs/setup/c
 
 ## Use the `vz bug-report` tool
 
-The `vz bug-report` is a CLI tool which runs various `kubectl` and `helm` commands against a cluster.
-Note that the data captured by this tool might include sensitive information. This data is under your control; you can choose whether to share it.
-
-The directory structure created by the `vz bug-report` tool, for a specific cluster snapshot, appears as follows:
-
-    $ CAPTURE_DIR
-      cluster-snapshot
-        directory per namespace (a directory at this level is assumed to represent a namespace)
-          acme-orders.json
-          application-configurations.json
-          certificate-requests.json
-          cluster-role-bindings.json
-          cluster-roles.json
-          cluster-roles.json
-          coherence.json
-          components.json
-          {CONFIGNAME}.configmap (a file at this level for each configmap in the namespace)
-          daemonsets.json
-          deployments.json
-          events.json
-          gateways.json
-          ingress-traits.json
-          jobs.json
-          multicluster-application-configurations.json
-          multicluster-components.json
-          multicluster-config-maps.json
-          multicluster-logging-scopes.json
-          multicluster-secrets.json
-          namespace.json
-          persistent-volume-claims.json
-          persistent-volumes.json
-          pods.json
-          replicasets.json
-          replication-controllers.json
-          role-bindings.json
-          services.json
-          verrazzano-managed-clusters.json
-          verrazzano-projects.json
-          virtualservices.json
-          weblogic-domains.json
-          directory per pod (a directory at this level is assumed to represent a specific pod)
-            logs.txt (includes logs for all containers and initContainers)
-        cluster-issuers.txt
-        configmap_list.out
-        crd.json
-        es_indexes.out
-        helm-ls.json
-        helm-version.out
-        images-on-nodes.csv
-        ingress.json
-        kubectl-version.json
-        network-policies.json
-        network-policies.txt
-        nodes.json
-        pv.json
-        verrazzano_resources.json
+The `vz bug-report` is a CLI tool captures cluster data based on provided kubeconfig and context. 
+Note that the data captured by this tool might include sensitive information. Please examine the contents of the bug report for any sensitive data before sharing with Verrazzano support / development teams.
 
 To perform a snapshot of a cluster into a tar file named `my-bug-report.tar.gz`:
 
