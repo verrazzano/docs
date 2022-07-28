@@ -1,7 +1,7 @@
 ---
 title: "Velero Restore"
 description: "Restore Data and configurations to Verrazzano platform"
-linkTitle: Restore Operation
+linkTitle: Velero Restore
 weight: 1
 draft: false
 ---

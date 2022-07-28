@@ -13,10 +13,9 @@ Verrazzano offers the following operators for backing up and restoring persisten
 
 Before proceeding to the next section the following information is required as input for both the operators:
 
-- Create an Oracle Cloud Object Storage bucket in any compartment of your Oracle Cloud tenancy. Make a note of the bucket name and tenancy name for reference.  
-  Refer to this [page](https://docs.oracle.com/en-us/iaas/Content/Object/Tasks/managingbuckets.htm#usingconsole) for more information about creating a bucket with Object Storage.
+- Create an Oracle Cloud Object Storage bucket in any compartment of your Oracle Cloud tenancy. Make a note of the bucket name and tenancy name for reference. Refer to this [page](https://docs.oracle.com/en-us/iaas/Content/Object/Tasks/managingbuckets.htm#usingconsole) for more information about creating a bucket with Object Storage.
 
-- Object store prefix name. This will be a child folder under the bucket automatically created by the backup component.
+- Object store prefix name - this will be a child folder under the bucket automatically created by the backup component.
 
 - Object store region information.
 

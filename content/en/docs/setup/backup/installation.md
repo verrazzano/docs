@@ -6,7 +6,7 @@ weight: 1
 draft: false
 ---
 
-Verrazzano uses [velero](https://velero.io/docs/v1.8/) to perform backup and recovery at a component level or as a platform as a whole.
+Verrazzano uses [velero](https://velero.io/docs/v1.8/) and [rancher-backup](https://rancher.com/docs/rancher/v2.5/en/backups/) to perform backup and recovery at a component level or as a platform as a whole.
 
 ### Velero CLI Installation (optional)
 
@@ -19,7 +19,7 @@ rpm -ivh https://yum.oracle.com/repo/OracleLinux/OL7/developer/olcne/x86_64/getP
 
 ### Backup Component Installation 
 
-Verrazzano offers the following operators to backup up and restore persistent data:
+Verrazzano offers the following operators to back up and restore persistent data:
 
 - Velero
 - Rancher Backup Operator
