@@ -45,15 +45,15 @@ For example, the following commands create a bug report by including additional 
 The values specified for the flag --include-namespaces are case-sensitive.
 ```
 
-### Available Options
+### Available options
 
 | Command                            | Definition                                                                                                                                                                                    |
 |------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `-h, --help `                      | help for bug-report                                                                                                                                                                           |
-| `-i, --include-namespaces strings` | A comma separated list of additional namespaces to collect information from the cluster. This flag can be specified multiple times like `--include-namespaces ns1 --include-namespaces ns...` |
-| `-r, --report-file string`         | The report file to be created by bug-report command, as a `.tar.gz` file. Defaults to `bug-report.tar.gz` in the current directory.                                                             |
+| `-i, --include-namespaces strings` | A comma-separated list of additional namespaces to collect information from the cluster. This flag can be specified multiple times, such as `--include-namespaces ns1 --include-namespaces ns...` |
+| `-r, --report-file string`         | The report file to be created by `bug-report` command, as a `.tar.gz` file. Defaults to `bug-report.tar.gz` in the current directory.                                                           |
 
-### Available Flags
+### Available flags
 
 These flags apply to all the commands.
 

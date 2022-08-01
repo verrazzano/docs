@@ -9,10 +9,10 @@ draft: false
 
 Verrazzano provides tooling which assists in troubleshooting issues in your environment:
 1. `k8s-dump-cluster.sh`
-2. `vz analyze`
+2. `vz analyze` - a command-line tool
 
 ## Tools Setup
-Follow the steps here to setup vz cli: https://verrazzano.io/latest/docs/setup/cli/
+To set up the `vz` command-line tool, follow the steps [here]({{< relref "/setup/cli/_index.md" >}})
 
 {{< tabs tabTotal="2" >}}
 {{< tab tabName="Linux" >}}
@@ -127,7 +127,7 @@ The `vz analyze` tool analyzes data from a cluster snapshot captured using `k8s-
 
 Users, developers, and Continuous Integration (CI) can use this tooling to quickly identify the root cause of encountered problems, determine mitigation actions, and provide a sharable report with other users or tooling.
 
-The data that the analysis examines follows the structure created by the corresponding capture tooling. For example, `k8s-dump-cluster.sh` takes a snapshot of cluster into a specific structure, which might contain data that you do not want to share. The tooling analyzes the data and provides you with a report, which identifies issues and provides you with actions to take.
+The data that the analysis examines follows the structure created by the corresponding capture tooling. For example, `k8s-dump-cluster.sh` takes a snapshot of a cluster and places it into a specific structure. The tooling analyzes the data and provides you with a report, which identifies issues and provides you with actions to take.
 
 The `vz analyze` tool will find and analyze all cluster snapshot directories found under a specified root directory. This lets you create a directory to hold the cluster snapshots of related clusters into sub-directories which the tool can analyze.
 
@@ -154,16 +154,16 @@ Use the following syntax to run `vz` commands from your terminal window.
 vz analyze [flags]
 ```
 
-### Available Options
+### Available options
 
 | Command                  | Definition                                                                          |
 |--------------------------|-------------------------------------------------------------------------------------|
-| `--capture-dir string`   | Directory holding the captured data [Required]                                      |
-| `-h, --help`             | help for analyze                                                                    |
+| `--capture-dir string`   | Directory holding the captured data. (Required)                                      | 
+| `-h, --help`             | help for analyze.                                                                   |
 | `--report-file string`   | Name of report output file. (default stdout)                                        |
 | `--report-format string` | The format of the report output. Valid output format is "simple" (default "simple") |
 
-### Available Flags
+### Available flags
 
 These flags apply to all the commands.
 
