@@ -12,6 +12,7 @@ Using the Verrazzano Console, you can:
 - Find general information about your Verrazzano environment, such as Status and Version.
 - Access the installed Rancher and Keycloak consoles.
 - Access OpenSearch Dashboards, Grafana, Prometheus, and OpenSearch telemetry data.
+- Access the Jaeger UI if the Jaeger Operator is enabled in the Verrazzano custom resource.
 - View applications, projects, and Components resources.
 - In a multicluster environment, view clusters.
 - Use the breadcrumbs for quick and easy navigation.

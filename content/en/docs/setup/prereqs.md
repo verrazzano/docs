@@ -57,7 +57,7 @@ component, its version, and a brief description.
 | Fluentd                      | 1.12.3  | Collects logs and sends them to OpenSearch.                                          |
 | Grafana                      | 7.5.11  | Tool to help you examine, analyze, and monitor metrics.                                |
 | Istio                        | 1.13.2  | Service mesh that layers transparently onto existing distributed applications.       |
-| Jaeger                       | 1.32.0  | Distributed tracing system for monitoring and troubleshooting distributed systems.   |
+| Jaeger                       | 1.34.1  | Distributed tracing system for monitoring and troubleshooting distributed systems.   |
 | Keycloak                     | 15.0.2  | Provides single sign-on with Identity and Access Management.                         |
 | Kiali                        | 1.42.0  | Management console for the Istio service mesh.                                       |
 | kube-state-metrics           | 2.4.2   | Provides metrics about the state of Kubernetes API objects.                          |
