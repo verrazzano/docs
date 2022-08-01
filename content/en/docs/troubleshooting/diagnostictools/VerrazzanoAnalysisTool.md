@@ -12,7 +12,7 @@ Verrazzano provides tooling which assists in troubleshooting issues in your envi
 2. `vz analyze` - a command-line tool
 
 ## Tools Setup
-To set up the `vz` command-line tool, follow the steps [here] ({{< relref "docs/setup/cli/_index.md" >}})
+To set up the `vz` command-line tool, follow the steps [here]({{< relref "docs/setup/cli/_index.md" >}})
 
 {{< tabs tabTotal="2" >}}
 {{< tab tabName="Linux" >}}
