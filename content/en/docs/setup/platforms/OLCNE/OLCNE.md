@@ -32,10 +32,6 @@ spec:
 EOF
 ```
 
-## Next steps
-
-To continue, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md#install-the-verrazzano-platform-operator" >}}).
-
 ## Examples
 <details>
 <summary>Oracle Cloud Infrastructure</summary>
@@ -127,3 +123,7 @@ Other values can be used if required.
 | Kubernetes Worker Node 2      | Private | 32GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
 | Kubernetes Worker Node 3      | Private | 32GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
 </details>
+
+## Next steps
+
+To continue, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md#install-the-verrazzano-platform-operator" >}}).

@@ -6,7 +6,7 @@ weight: 3
 draft: false
 ---
 
-You may want to add additional sidecars to Verrazzano workloads; you may use any image or sidecar container. This guide will serve as an introduction by showing you how to create a custom Fluentd sidecar for application logs.
+You may want to add additional sidecars to Verrazzano workloads; you can use any image or sidecar container. This guide will serve as an introduction by showing you how to create a custom Fluentd sidecar for application logs.
 
 Verrazzano creates and manages a Fluentd sidecar injection for each WebLogic pod. This allows application logs to interact with the cluster-wide Fluentd DaemonSet.
 However, these resources are not currently configurable and additional containers are required to customize the Fluentd configuration file and the container image.
