@@ -1,7 +1,7 @@
 ---
-title: High Availability Configuration
+title: Configure High Availability
 description: Using the `prod` profile to achieve a high availability installation
-linkTitle: High Availability
+linkTitle: Configure High Availability
 Weight: 5
 draft: false
 ---
