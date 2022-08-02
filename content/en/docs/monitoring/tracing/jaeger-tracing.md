@@ -147,15 +147,15 @@ spec:
 
 ### Jaeger Operator Helm chart values that cannot be overridden
 
-Following Jaeger Operator Helm values are not supported to be overridden in the Verrazzano custom resource:
+The following Jaeger Operator Helm values are not supported to be overridden in the Verrazzano custom resource:
 - `nameOverride`
 - `fullnameOverride`
 - `serviceAccount.name`
 - `ingress.enabled`
 - `jaeger.spec.storage.dependencies.enabled`
 
-**Note** - Verrazzano does not support [Jaeger Spark dependencies](https://github.com/jaegertracing/spark-dependencies)
-and hence the Helm chart value `jaeger.spec.storage.dependencies.enabled`, which is set to false for the Jaeger
+**Note:** - Verrazzano does not support [Jaeger Spark dependencies](https://github.com/jaegertracing/spark-dependencies)
+and hence the Helm chart value `jaeger.spec.storage.dependencies.enabled`, which is set to `false` for the Jaeger
 instance managed by Verrazzano, cannot be overridden.
 
 ## Configure an application to export traces to Jaeger
