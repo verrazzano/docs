@@ -8,8 +8,8 @@ draft: false
 
 Verrazzano requires the following:
 - A Kubernetes cluster and a compatible `kubectl`.
-- `dev` profile - At least two CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes. Depending on the resource requirements of the applications you deploy, this may or may not be sufficient for deploying your applications.
-- `prod` profile - At least four CPUs, 100GB disk storage, and 32GB RAM available on the Kubernetes worker nodes.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient for deploying your applications.
+- `dev` profile - At least two CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes. Depending on the resource requirements of the applications you deploy, this may or may not be sufficient.
+- `prod` profile - At least four CPUs, 100GB disk storage, and 32GB RAM available on the Kubernetes worker nodes.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient.
 
 ## Supported hardware
 Verrazzano requires x86-64; other architectures are not supported.
