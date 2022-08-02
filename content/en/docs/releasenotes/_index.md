@@ -4,6 +4,18 @@ linkTitle: Release Notes
 weight: 13
 draft: false
 ---
+### v1.3.3
+Fixes:
+
+- Fixed AuthProxy to emit access logs.
+- Fixed Verazzano Console intermittent failures of timing out loading application details.
+
+### v1.3.2
+Fixes:
+
+- Fixed Fluentd pattern to correctly parse `severity` value from WebLogic logs.
+- Fixed IngressTrait to remove the deleted IngressTrait entries from the Istio Gateway.
+
 ### v1.3.1
 Fixes:
 
