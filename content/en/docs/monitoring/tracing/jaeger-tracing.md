@@ -42,28 +42,28 @@ deployment.apps/jaeger-operator-jaeger-collector   1/1     1            1       
 deployment.apps/jaeger-operator-jaeger-query       1/1     1            1           79m
 ```
 
-## Customizing Jaeger
+## Customize Jaeger
 
-Verrazzano installs Jaeger Operator and Jaeger using the
+Verrazzano installs the Jaeger Operator and Jaeger using the
 [jaeger-operator](https://github.com/jaegertracing/helm-charts/tree/main/charts/jaeger-operator) Helm chart.
 Using Helm overrides specified in the Verrazzano custom resource, you can customize the installation configuration.
 For more information about setting component overrides, see [Customizing the Chart Before Installing](https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing).
 
-### Customizing a Jaeger instance to use an external OpenSearch or Elasticsearch for storage
+### Customize a Jaeger instance to use an external OpenSearch or Elasticsearch for storage
 
-The default Jaeger instance can be used with an external OpenSearch cluster. The following example shows you how to
+You can use the default Jaeger instance with an external OpenSearch cluster. The following example shows you how to
 configure Jaeger Operator Helm overrides in the Verrazzano custom resource to use an external OpenSearch cluster
-with TLS CA certificate mounted from a volume and user/password stored in a secret. See
-[Jaeger documentation](https://www.jaegertracing.io/docs/latest/operator/#external-elasticsearch) for more details.
+with a TLS CA certificate mounted from a volume and the user/password stored in a secret. For more details, see the
+[Jaeger documentation](https://www.jaegertracing.io/docs/latest/operator/#external-elasticsearch).
 
-1. Create a secret containing the OpenSearch credentials and certificates in the `verrazzano-install` namespace prior
-   to creating the Verrazzano custom resource. Jaeger will use these credentials to connect to OpenSearch.
+1. Prior to creating the Verrazzano custom resource, create a secret containing the OpenSearch credentials and
+   certificates in the `verrazzano-install` namespace. Jaeger will use these credentials to connect to OpenSearch.
    ```
    $ kubectl create secret generic jaeger-secret \
     --from-literal=ES_PASSWORD=<OPENSEARCH PASSWORD> \
     --from-literal=ES_USERNAME=<OPENSEARCH USERNAME> \
     --from-file=ca-bundle=<path to the file containing CA certs> \
-    -n verrazzano-monitoring
+    -n verrazzano-install
    ```
 1. Use the Verrazzano custom resource to update the Jaeger resource:
 
@@ -102,12 +102,11 @@ spec:
                       secretName: jaeger-secret
 ```
 
-### Enabling Service Performance Monitoring experimental feature
+### Enable the Service Performance Monitoring experimental feature
 
-To enable Jaeger [Service Performance Monitoring](https://www.jaegertracing.io/docs/latest/spm/) experimental feature in
-the default Jaeger instance created by Verrazzano, use the following Verrazzano custom resource. Verrazzano
-automatically sets `jaeger.spec.query.options.prometheus.server-url` to the Prometheus server URL managed by Verrazzano
-if any.
+To enable the Jaeger [Service Performance Monitoring](https://www.jaegertracing.io/docs/latest/spm/) experimental
+feature in the default Jaeger instance created by Verrazzano, use the following Verrazzano custom resource. Verrazzano
+sets `jaeger.spec.query.options.prometheus.server-url` to the Prometheus server URL managed by Verrazzano, if it exists.
 
 ```yaml
 apiVersion: install.verrazzano.io/v1alpha1
