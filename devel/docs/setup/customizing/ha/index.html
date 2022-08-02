@@ -18,22 +18,22 @@
 <link rel="icon" type="image/png" href="../../../../favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="../../../../favicons/android-192x192.png" sizes="192x192">
 
-<title>Lift-and-Shift Guide | Verrazzano Enterprise Container Platform</title>
-<meta name="description" content="A guide for moving WebLogic Server domains to Verrazzano">
-<meta property="og:title" content="Lift-and-Shift Guide" />
-<meta property="og:description" content="A guide for moving WebLogic Server domains to Verrazzano" />
+<title>Configure High Availability | Verrazzano Enterprise Container Platform</title>
+<meta name="description" content="Achieve high availability using the `prod` profile">
+<meta property="og:title" content="Configure High Availability" />
+<meta property="og:description" content="Achieve high availability using the `prod` profile" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/docs/guides/lift-and-shift/lift-and-shift/" /><meta property="article:section" content="docs" />
+<meta property="og:url" content="/docs/setup/customizing/ha/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-07-12T14:05:07-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-08-02T09:25:44-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
-<meta itemprop="name" content="Lift-and-Shift Guide">
-<meta itemprop="description" content="A guide for moving WebLogic Server domains to Verrazzano">
-<meta itemprop="dateModified" content="2022-07-12T14:05:07-04:00" />
-<meta itemprop="wordCount" content="2626">
+<meta itemprop="name" content="Configure High Availability">
+<meta itemprop="description" content="Achieve high availability using the `prod` profile">
+<meta itemprop="dateModified" content="2022-08-02T09:25:44-04:00" />
+<meta itemprop="wordCount" content="106">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Lift-and-Shift Guide"/>
-<meta name="twitter:description" content="A guide for moving WebLogic Server domains to Verrazzano"/>
+<meta name="twitter:title" content="Configure High Availability"/>
+<meta name="twitter:description" content="Achieve high availability using the `prod` profile"/>
 
 
 
@@ -142,12 +142,12 @@ if (!doNotTrack) {
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsquickstart-li">
   <a href="../../../../docs/quickstart/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsquickstart"><span class="">Quick Start</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docssetup-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docssetup-li">
   <a href="../../../../docs/setup/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssetup"><span class="">Setup</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupprereqs-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupprereqs-li">
   <a href="../../../../docs/setup/prereqs/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupprereqs"><span class="">Prerequisites</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docssetupplatforms-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docssetupplatforms-li">
   <a href="../../../../docs/setup/platforms/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssetupplatforms"><span class="">Platform Setup</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupplatformsocioci-li">
@@ -160,9 +160,9 @@ if (!doNotTrack) {
   <a href="../../../../docs/setup/platforms/generic/generic/" title="Generic Kubernetes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupplatformsgenericgeneric"><span class="">Generic</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupcli-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupcli-li">
   <a href="../../../../docs/setup/cli/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssetupcli"><span class="">CLI Setup</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docssetupinstall-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docssetupinstall-li">
   <a href="../../../../docs/setup/install/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssetupinstall"><span class="">Install</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupinstallinstallation-li">
@@ -173,43 +173,43 @@ if (!doNotTrack) {
   <a href="../../../../docs/setup/install/multicluster/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupinstallmulticluster"><span class="">Install Multicluster Verrazzano</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docssetupcustomizing-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docssetupcustomizing-li">
   <a href="../../../../docs/setup/customizing/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssetupcustomizing"><span class="">Customize Installations</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupcustomizingdns-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupcustomizingdns-li">
   <a href="../../../../docs/setup/customizing/dns/" title="Customize DNS" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupcustomizingdns"><span class="">DNS</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupcustomizingcertificates-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupcustomizingcertificates-li">
   <a href="../../../../docs/setup/customizing/certificates/" title="Customize Certificates" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupcustomizingcertificates"><span class="">Certificates</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupcustomizingociloadbalancerips-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupcustomizingociloadbalancerips-li">
   <a href="../../../../docs/setup/customizing/ociloadbalancerips/" title="Customize Load Balancers on OCI" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupcustomizingociloadbalancerips"><span class="">OCI Load Balancers</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupcustomizingauthproxy-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupcustomizingauthproxy-li">
   <a href="../../../../docs/setup/customizing/authproxy/" title="Customize AuthProxy" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupcustomizingauthproxy"><span class="">AuthProxy</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupcustomizingistio-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupcustomizingistio-li">
   <a href="../../../../docs/setup/customizing/istio/" title="Customize Istio" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupcustomizingistio"><span class="">Istio</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupcustomizingopensearch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupcustomizingopensearch-li">
   <a href="../../../../docs/setup/customizing/opensearch/" title="Customize OpenSearch" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupcustomizingopensearch"><span class="">OpenSearch</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupcustomizingingress-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupcustomizingingress-li">
   <a href="../../../../docs/setup/customizing/ingress/" title="Customize Ingress" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupcustomizingingress"><span class="">Ingress</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupcustomizingprometheus-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupcustomizingprometheus-li">
   <a href="../../../../docs/setup/customizing/prometheus/" title="Customize Prometheus" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupcustomizingprometheus"><span class="">Prometheus</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupcustomizingstorage-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupcustomizingstorage-li">
   <a href="../../../../docs/setup/customizing/storage/" title="Customize Persistent Storage" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupcustomizingstorage"><span class="">Persistent Storage</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupcustomizingha-li">
-  <a href="../../../../docs/setup/customizing/ha/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupcustomizingha"><span class="">Configure High Availability</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupcustomizingexternallbs-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docssetupcustomizingha-li">
+  <a href="../../../../docs/setup/customizing/ha/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-docssetupcustomizingha"><span class="td-sidebar-nav-active-item">Configure High Availability</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupcustomizingexternallbs-li">
   <a href="../../../../docs/setup/customizing/externallbs/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupcustomizingexternallbs"><span class="">External Load Balancers</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupuninstalluninstall-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupuninstalluninstall-li">
   <a href="../../../../docs/setup/uninstall/uninstall/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupuninstalluninstall"><span class="">Uninstall</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docssetupupgrade-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docssetupupgrade-li">
   <a href="../../../../docs/setup/upgrade/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssetupupgrade"><span class="">Upgrade</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupupgrademulticluster-li">
   <a href="../../../../docs/setup/upgrade/multicluster/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssetupupgrademulticluster"><span class="">Upgrade Multicluster Verrazzano</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupprivate-registryprivate-registry-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupprivate-registryprivate-registry-li">
   <a href="../../../../docs/setup/private-registry/private-registry/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupprivate-registryprivate-registry"><span class="">Use a Private Registry</span></a>
 </li>
   </ul>
@@ -328,14 +328,14 @@ if (!doNotTrack) {
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsfaqfaq-li">
   <a href="../../../../docs/faq/faq/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsfaqfaq"><span class="">FAQ</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docsguides-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsguides-li">
   <a href="../../../../docs/guides/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsguides"><span class="">Guides</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesapp-deploymentapplication-deployment-guide-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsguidesapp-deploymentapplication-deployment-guide-li">
   <a href="../../../../docs/guides/app-deployment/application-deployment-guide/" title="Application Deployment Guide" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesapp-deploymentapplication-deployment-guide"><span class="">Application Deployment</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsguideslift-and-shiftlift-and-shift-li">
-  <a href="../../../../docs/guides/lift-and-shift/lift-and-shift/" title="Lift-and-Shift Guide" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-docsguideslift-and-shiftlift-and-shift"><span class="td-sidebar-nav-active-item">Lift-and-Shift</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidessidecar-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsguideslift-and-shiftlift-and-shift-li">
+  <a href="../../../../docs/guides/lift-and-shift/lift-and-shift/" title="Lift-and-Shift Guide" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsguideslift-and-shiftlift-and-shift"><span class="">Lift-and-Shift</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsguidessidecar-li">
   <a href="../../../../docs/guides/sidecar/" title="Deploy a Kubernetes Sidecar with Verrazzano" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsguidessidecar"><span class="">Deploy Custom Sidecars</span></a>
 </li>
   </ul>
@@ -428,19 +428,6 @@ if (!doNotTrack) {
             
 
 
-<div class="td-toc"><nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#overview">Overview</a></li>
-        <li><a href="#what-you-need">What you need</a></li>
-        <li><a href="#initial-steps">Initial steps</a></li>
-        <li><a href="#lift-and-shift-steps">Lift and Shift steps</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav></div>
-
 
 
             
@@ -474,17 +461,20 @@ if (!doNotTrack) {
     <a href="../../../../docs/">Documentation</a>
   </li>
   <li class="breadcrumb-item">
-    <a href="../../../../docs/guides/">Guides</a>
+    <a href="../../../../docs/setup/">Setup</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="../../../../docs/setup/customizing/">Customize Installations</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="../../../../docs/guides/lift-and-shift/lift-and-shift/">Lift-and-Shift</a>
+    <a href="../../../../docs/setup/customizing/ha/">Configure High Availability</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>Lift-and-Shift Guide</h1>
-	<div class="lead">A guide for moving WebLogic Server domains to Verrazzano</div>
+	<h1>Configure High Availability</h1>
+	<div class="lead">Achieve high availability using the <code>prod</code> profile</div>
 	<header class="article-meta">
 		
 
@@ -500,493 +490,16 @@ if (!doNotTrack) {
 
 		
 	</header>    
-	<p>This guide describes how to move (&ldquo;Lift-and-Shift&rdquo;) an on-premises WebLogic Server domain to a cloud environment running Kubernetes using Verrazzano.</p>
-<h2 id="overview">Overview</h2>
-<p>The <a href="#initial-steps">Initial steps</a> create a very simple on-premises domain that you will move to Kubernetes.  The sample domain is the starting point for the lift and shift process; it contains one application (ToDo List) and one data source.  First, you&rsquo;ll configure the database and the WebLogic Server domain.  Then, in <a href="#lift-and-shift-steps">Lift and Shift</a>, you will move the domain to Kubernetes with Verrazzano.  This guide does not include the setup of the networking that would be needed to access an on-premises database, nor does it document how to migrate a database to the cloud.</p>
-<h2 id="what-you-need">What you need</h2>
+	<p>The <a href="https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/ha/ha.yaml">ha.yaml</a> file shows you how the <code>prod</code> profile can be extended to configure a highly available Verrazzano installation. The increased replica counts, along with the affinity rules inherited from the <code>prod</code> profile, ensure that the pods of each component are distributed across the Kubernetes cluster nodes.  There would be no loss of service if a cluster node became unavailable.</p>
+<p>When using <a href="https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/ha/ha.yaml">ha.yaml</a>, consider the following:</p>
 <ul>
-<li>
-<p>The <a href="https://git-scm.com/downloads">Git</a> command-line tool and access to <a href="https://github.com">GitHub</a></p>
-</li>
-<li>
-<p><a href="https://hub.docker.com/_/mysql">MySQL Database 8.x</a> - a database server</p>
-</li>
-<li>
-<p><a href="https://www.oracle.com/middleware/technologies/weblogic-server-downloads.html">WebLogic Server 12.2.1.4.0</a> - an application server; Note that all WebLogic Server installers are supported <em>except</em> the Quick Installer.</p>
-</li>
-<li>
-<p><a href="https://maven.apache.org/download.cgi">Maven</a> - to build the application</p>
-</li>
-<li>
-<p><a href="https://github.com/oracle/weblogic-deploy-tooling/releases">WebLogic Deploy Tooling</a> (WDT) - v1.9.15 or later, to convert the WebLogic Server domain to and from metadata</p>
-</li>
-<li>
-<p><a href="https://github.com/oracle/weblogic-image-tool/releases">WebLogic Image Tool</a> (WIT) - v1.9.13 or later, to build the Docker image</p>
-</li>
+<li>It does not ensure a fault-tolerant environment.</li>
+<li>Additional customizations may be required for your environment.</li>
+<li>Running additional replicas of components will increase resource requirements.</li>
 </ul>
-<h2 id="initial-steps">Initial steps</h2>
-<p>In the initial steps, you create a sample domain that represents your on-premises WebLogic Server domain.</p>
-<h3 id="create-a-database-using-mysql-called-tododb">Create a database using MySQL called <code>tododb</code></h3>
-<ol>
-<li>
-<p>Download the <a href="https://hub.docker.com/_/mysql">MySQL image</a> from Docker Hub.</p>
-<pre tabindex="0"><code>$ docker pull mysql:latest
-</code></pre></li>
-<li>
-<p>Start the container database (and optionally mount a volume for data).</p>
-<pre tabindex="0"><code>$ export MYSQL_USER=&lt;your-mysql-username&gt;
-$ export MYSQL_PASSWORD=&lt;your-mysql-password&gt;
-$ export MYSQL_ROOT_PASSWORD=&lt;your-mysql-rootpassword&gt;
-$ docker run --name tododb \
-  -p 3306:3306 \
-  -e MYSQL_USER=$MYSQL_USER \
-  -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
-  -e MYSQL_DATABASE=tododb \
-  -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD \
-  -d mysql:latest
-</code></pre></li>
-<li>
-<p>Start a MySQL client to change the password algorithm to <code>mysql_native_password</code>.</p>
-<ul>
-<li>Assuming the database server is running, start a database CLI client.
-<pre tabindex="0"><code>$ docker exec \
-   -it tododb mysql \
-   -uroot \
-   -p
-</code></pre></li>
-<li>When prompted for the password, enter the password for the root user.</li>
-<li>After being connected, run the <code>ALTER</code> command at the MySQL prompt.
-<pre tabindex="0"><code>$ ALTER USER &#39;&lt;your-mysql-username&gt;&#39;@&#39;%&#39; identified with mysql_native_password by &#39;&lt;your-mysql-password&gt;&#39;;
-</code></pre></li>
-</ul>
-</li>
-</ol>
-<h3 id="create-a-weblogic-server-domain">Create a WebLogic Server domain</h3>
-<ol>
-<li>
-<p>If you do not have WebLogic Server 12.2.1.4.0 installed, install it now.</p>
-<ul>
-<li>
-<p>Choose the <code>GENERIC</code> installer from <a href="https://www.oracle.com/middleware/technologies/weblogic-server-downloads.html">WebLogic Server Downloads</a> and follow the documented installation instructions.</p>
-</li>
-<li>
-<p>Be aware of these domain limitations:</p>
-<ul>
-<li>There are two supported domain types, single server and single cluster.</li>
-<li>Domains must use:
-<ul>
-<li>The default value <code>AdminServer</code> for <code>AdminServerName</code>.</li>
-<li>WebLogic Server listen port for the Administration Server: <code>7001</code>.</li>
-<li>WebLogic Server listen port for the Managed Server: <code>8001</code>.</li>
-<li>Note that these are all standard WebLogic Server default values.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p>Save the installer after you have finished; you will need it to build the Docker image.</p>
-</li>
-<li>
-<p>To make copying commands easier, define an environment variable for <code>ORACLE_HOME</code> that points to the directory where you installed WebLogic Server 12.2.1.4.0.  For example:</p>
-<pre tabindex="0"><code>$ export ORACLE_HOME=$HOME/Oracle/Middleware/Oracle_Home
-</code></pre></li>
-</ul>
-</li>
-<li>
-<p>Use the Oracle WebLogic Server Configuration Wizard to create a domain called <code>tododomain</code>.</p>
-<p><strong>NOTE</strong>: This example assumes that the on-premises WebLogic Server domain is on Linux.</p>
-<ul>
-<li>Launch <code>$ORACLE_HOME/oracle_common/common/bin/config.sh</code>.</li>
-<li>Select <strong>Create a new domain</strong>.</li>
-<li>Specify a <code>Domain Location</code> of <code>&lt;oracle home&gt;/user_projects/domains/tododomain</code> and click <strong>Next</strong>.</li>
-<li>Select the <strong>Basic WebLogic Server Domain [wlserver]</strong> template and click <strong>Next</strong>.</li>
-<li>Enter the password for the administrative user and click <strong>Next</strong>.</li>
-<li>Accept the defaults for <code>Domain Mode</code> and <code>JDK</code>, and click <strong>Next</strong>.</li>
-<li>Select <strong>Administration Server</strong> and click <strong>Next</strong>.</li>
-<li>Ensure that the server name is <code>AdminServer</code> and click <strong>Next</strong>.</li>
-<li>Click <strong>Create</strong>.</li>
-<li>After it has completed, click <strong>Next</strong>, then <strong>Finish</strong>.</li>
-</ul>
-</li>
-<li>
-<p>To start the newly created domain, run the domain&rsquo;s start script.</p>
-<pre tabindex="0"><code> $ $ORACLE_HOME/user_projects/domains/tododomain/bin/startWebLogic.sh
-</code></pre></li>
-<li>
-<p>Access the WebLogic Server Administration Console of the newly started domain with your browser, for example, <a href="http://localhost:7001/console">http://localhost:7001/console</a>, and
-log in using the administrator credentials you specified.</p>
-</li>
-</ol>
-<h3 id="add-a-data-source-configuration-to-access-the-database">Add a data source configuration to access the database</h3>
-<p>Using the WebLogic Server Administration Console, log in and add a data source configuration to access the MySQL database. During the data source configuration, you can accept the default values for most fields, but the following fields are required to match the application and database settings you used when you created the MySQL database.</p>
-<ol>
-<li>
-<p>In the left pane in the Console, expand <strong>Services</strong> and select <strong>Data Sources</strong>.</p>
-</li>
-<li>
-<p>On the Summary of JDBC Data Sources page, click <strong>New</strong> and select <strong>Generic Data Source</strong>.</p>
-</li>
-<li>
-<p>On the JDBC Data Sources page, enter or select the following information:</p>
-<ul>
-<li>Name: <code>tododb</code></li>
-<li>JNDI Name: <code>jdbc/ToDoDB</code></li>
-<li>Database Type: <code>MySQL</code></li>
-</ul>
-</li>
-<li>
-<p>Click <strong>Next</strong> and then click <strong>Next</strong> two more times.</p>
-</li>
-<li>
-<p>On the Create a New JDBC Data Source page, enter the following information:</p>
-<ul>
-<li>Database Name: <code>tododb</code></li>
-<li>Host name: <code>localhost</code></li>
-<li>Database Port: <code>3306</code></li>
-<li>Database User Name: <code>&lt;your-mysql-username&gt;</code></li>
-<li>Password: <code>&lt;your-mysql-password&gt;</code></li>
-<li>Confirm Password: <code>&lt;your-mysql-password&gt;</code></li>
-</ul>
-</li>
-<li>
-<p>Click <strong>Next</strong>.</p>
-</li>
-<li>
-<p>Select <strong>Test Configuration</strong>, and make sure you see &ldquo;Connection Test Succeeded&rdquo; in the <code>Messages</code> field of the Console.</p>
-<p><img src="../../../../docs/images/jdbc-connection-test.png" alt="Connection test"></p>
-</li>
-<li>
-<p>Click <strong>Next</strong>.</p>
-</li>
-<li>
-<p>On the Select Targets page, select <code>AdminServer</code>.</p>
-</li>
-<li>
-<p>Click <strong>Finish</strong> to complete the configuration.</p>
-</li>
-</ol>
-<h3 id="build-and-deploy-the-application">Build and deploy the application</h3>
-<ol>
-<li>
-<p>Using Maven, build this project to produce <code>todo.war</code>.</p>
-<p><strong>NOTE</strong>: You should clone this repo outside of <code>$ORACLE_HOME</code> or copy the WAR
-file to another location, as WDT may ignore it during the model creation phase.</p>
-<pre tabindex="0"><code> $ git clone https://github.com/verrazzano/examples.git
- $ cd examples/todo-list/
- $ mvn clean package
-</code></pre></li>
-<li>
-<p>Using the WebLogic Server Administration Console, deploy the ToDo List application.</p>
-<ul>
-<li>In the left pane in the Console, select <strong>Deployments</strong> and click <strong>Install</strong>.</li>
-<li>Use the navigation links or provide the file path to <code>todo.war</code>, typically <code>&lt;repo&gt;/todo-list/target</code>.  For example, if you cloned the examples
-repository in your <code>$HOME</code> directory, the location should be <code>$HOME/examples/examples/todo-list/target/todo.war</code>.</li>
-<li>Click <strong>Next</strong> twice, then <strong>Finish</strong>.</li>
-</ul>
-<p><strong>NOTE</strong>: The remaining steps assume that the application context is <code>todo</code>.</p>
-</li>
-</ol>
-<h3 id="initialize-the-database">Initialize the database</h3>
-<p>After the application is deployed and running in WebLogic Server, access the <code>http://localhost:7001/todo/rest/items/init</code>
-REST service to create the database table used by the application. In addition to creating the application table,
-the <code>init</code> service also will load four sample items into the table.</p>
-<p>If you get an error here, go back to the Select Targets page in the WebLogic Server Administration Console and make sure
-that you selected <code>AdminServer</code> as the data source target.</p>
-<h3 id="access-the-application">Access the application</h3>
-<ul>
-<li>Access the application at <code>http://localhost:7001/todo/index.html</code>.</li>
-</ul>
-<p><img src="../../../../docs/images/ToDoList.png" alt="ToDoList"></p>
-<ul>
-<li>Add a few entries or delete some.</li>
-<li>After verifying the application and database, you may shut down the local WebLogic Server domain.</li>
-</ul>
-<h2 id="lift-and-shift-steps">Lift and Shift steps</h2>
-<p>The following steps will move the sample domain to Kubernetes with Verrazzano.</p>
-<h3 id="create-a-wdt-model">Create a WDT Model</h3>
-<ul>
-<li>If you have not already done so, download v1.9.15 or later of <a href="https://github.com/oracle/weblogic-deploy-tooling/releases">WebLogic Deploy Tooling</a> (WDT) from GitHub.</li>
-<li>Unzip the installer <code>weblogic-deploy.zip</code> file so that you can access <code>bin/discoverDomain.sh</code>.</li>
-<li>To make copying commands easier, define an environment variable for <code>WDT_HOME</code> that points to the directory where you installed WebLogic Deploy Tooling.
-<pre tabindex="0"><code> $ export WDT_HOME=/install/directory
-</code></pre></li>
-</ul>
-<p>For example, to get the latest version:</p>
-<pre tabindex="0"><code>$ curl -OL https://github.com/oracle/weblogic-deploy-tooling/releases/latest/download/weblogic-deploy.zip
-$ unzip  weblogic-deploy.zip
-$ cd weblogic-deploy
-$ export WDT_HOME=$(pwd)
-</code></pre><p>To create a reusable model of the application and domain, use WDT to create a metadata model of the domain.</p>
-<ul>
-<li>First, create an output directory to hold the generated scripts and models.</li>
-<li>Then, run WDT <code>discoverDomain</code>.
-<pre tabindex="0"><code>$ mkdir v8o
-$ $WDT_HOME/bin/discoverDomain.sh \
-  -oracle_home $ORACLE_HOME \
-  -domain_home /path/to/domain/dir \
-  -model_file ./v8o/wdt-model.yaml \
-  -archive_file ./v8o/wdt-archive.zip \
-  -target vz \
-  -output_dir v8o
-</code></pre></li>
-</ul>
-<p>You will find the following files in <code>./v8o</code>:</p>
-<ul>
-<li><code>create_k8s_secrets.sh</code> - A helper script with <code>kubectl</code> commands to apply the Kubernetes secrets needed for this domain</li>
-<li><code>vz-application.yaml</code> - Verrazzano application configuration and component file</li>
-<li><code>vz_variable.properties</code> - A set of properties extracted from the WDT domain model</li>
-<li><code>wdt-archive.zip</code> - The WDT archive file containing the ToDo List application WAR file</li>
-<li><code>wdt-model.yaml</code> - The WDT model of the WebLogic Server domain</li>
-</ul>
-<p>If you chose to skip the <a href="#access-the-application">Access the application</a> step and did not verify that the ToDo List application was deployed, then you should verify that you see the <code>todo.war</code> file inside the <code>wdt-archive.zip</code> file.  If you do not see the WAR file, there was something wrong in your deployment of the application on WebLogic Server that will require additional troubleshooting in your domain.</p>
-<h3 id="create-a-docker-image">Create a Docker image</h3>
-<p>At this point, the Verrazzano model is just a template for the real model.  The WebLogic Image Tool will
-fill in the placeholders for you, or you can edit the model manually to set the image name and domain home directory.</p>
-<ul>
-<li>If you have not already done so, download <a href="https://github.com/oracle/weblogic-image-tool/releases">WebLogic Image Tool</a> (WIT) from GitHub.</li>
-<li>Unzip the installer <code>imagetool.zip</code> file so that you can access <code>bin/imagetool.sh</code>.</li>
-<li>To make copying commands easier, define an environment variable for <code>WIT_HOME</code> that points to the directory where you installed WebLogic Image Tool.
-<pre tabindex="0"><code> $ export WIT_HOME=/install/directory
-</code></pre></li>
-</ul>
-<p>For example, to get the latest WIT tool:</p>
-<pre tabindex="0"><code>$ curl -OL https://github.com/oracle/weblogic-image-tool/releases/latest/download/imagetool.zip
-$ unzip imagetool.zip
-$ cd imagetool
-$ export WIT_HOME=$(pwd)
-</code></pre><p>You will need a Docker image to run your WebLogic Server domain in Kubernetes.  To use WIT to
-create the Docker image, run <code>imagetool create</code>.  Although WIT will download patches and PSUs for you, it does not yet
-download installers.  Until then, you must download the <a href="https://www.oracle.com/middleware/technologies/weblogic-server-downloads.html">WebLogic Server</a>
-and <a href="https://www.oracle.com/java/technologies/javase/javase8u211-later-archive-downloads.html">Java Development Kit</a> installer
-manually and provide their location to the <code>imagetool cache addInstaller</code> command.</p>
-<pre tabindex="0"><code># The directory created previously to hold the generated scripts and models.
-$ cd v8o
-
-$ $WIT_HOME/bin/imagetool.sh cache addInstaller \
-  --path /path/to/installer/jdk-8u231-linux-x64.tar.gz \
-  --type jdk \
-  --version 8u231
-
-# The installer file name may be slightly different depending on
-# which version of the 12.2.1.4.0 installer that you downloaded, slim or generic.
-$ $WIT_HOME/bin/imagetool.sh cache addInstaller \
-  --path /path/to/installer/fmw_12.2.1.4.0_wls_Disk1_1of1.zip \
-  --type wls \
-  --version 12.2.1.4.0
-
-$ $WIT_HOME/bin/imagetool.sh cache addInstaller \
-  --path /path/to/installer/weblogic-deploy.zip \
-  --type wdt \
-  --version latest
-
-# Paths for the files in this command assume that you are running it from the
-# v8o directory created during the `discoverDomain` step.
-$ $WIT_HOME/bin/imagetool.sh create \
-  --tag your/repo/todo:1 \
-  --version 12.2.1.4.0 \
-  --jdkVersion 8u231 \
-  --wdtModel ./wdt-model.yaml \
-  --wdtArchive ./wdt-archive.zip \
-  --wdtVariables ./vz_variable.properties \
-  --resourceTemplates=./vz-application.yaml \
-  --wdtModelOnly
-</code></pre><p>The <code>imagetool create</code> command will have created a local Docker image and updated the Verrazzano model with the domain home
-and image name.  Check your Docker images for the tag that you used in the <code>create</code> command using <code>docker images</code> from the Docker
-CLI.</p>
-<p>If everything worked correctly, it is time to push that image to the container registry that Verrazzano will use to access
-the image from Kubernetes. You can use the Oracle Cloud Infrastructure Registry (OCIR) as your repository for this
-example, but most Docker compliant registries should work.</p>
-<p>The variables in the <code>vz-application.yaml</code> resource template should be resolved with information from the image tool build.<br>
-Verify this by looking in the <code>v8o/vz-application.yaml</code> file to make sure that the <code>image: {{{imageName}}}</code> value has been
-set with the given <code>--tag</code> value.</p>
-<p>Push the image to your repo.</p>
-<p><strong>NOTE:</strong> The image name must be the same as what is in the <code>vz-application.yaml</code> file under
-<code>spec &gt; workload &gt; spec &gt; image</code> for the <code>tododomain-domain</code> component.</p>
-<pre tabindex="0"><code>$ docker push your/repo/todo:1
-</code></pre><h3 id="deploy-to-verrazzano">Deploy to Verrazzano</h3>
-<p>After the application image has been created, there are several steps required to deploy
-the application into a Verrazzano environment.</p>
-<p>These include:</p>
-<ol>
-<li>Creating and labeling the <code>tododomain</code> namespace.</li>
-<li>Creating the necessary secrets required by the ToDo List application.</li>
-<li>Creating the Verrazzano components such as Service, Deployment, and ConfigMap required by the MySQL instance in the <code>tododomain</code> namespace.</li>
-<li>Updating the <code>vz-application.yaml</code> file to enable the Verrazzano MySQL components in the ToDo List ApplicationConfiguration to deploy as Kubernetes objects.</li>
-<li>Updating the <code>vz-application.yaml</code> file to use the Verrazzano MySQL deployment and (optionally) expose the WebLogic Server Administration Console.</li>
-<li>Applying the <code>vz-application.yaml</code> file.</li>
-</ol>
-<p>The following steps assume that you have a Kubernetes cluster and that <a href="../../../../docs/quickstart/#install-verrazzano">Verrazzano</a> is already installed in that cluster.</p>
-<h4 id="label-the-namespace">Label the namespace</h4>
-<p>Create the <code>tododomain</code> namespace, and add labels to allow the WebLogic Server Kubernetes Operator to manage it and
-enabled for Istio.</p>
-<pre tabindex="0"><code>$ kubectl create namespace tododomain
-$ kubectl label namespace tododomain verrazzano-managed=true istio-injection=enabled
-</code></pre><h4 id="create-the-required-secrets">Create the required secrets</h4>
-<p>If you haven&rsquo;t already done so, edit and run the <code>create_k8s_secrets.sh</code> script to generate the Kubernetes secrets.
-WDT does not discover passwords from your existing domain.  Before running the create secrets script, you will need to
-edit <code>create_k8s_secrets.sh</code> to set the passwords for the WebLogic Server domain and the data source.  In this domain,
-there are a few passwords that you need to enter:</p>
-<ul>
-<li>Administrator credentials</li>
-<li>ToDo database credentials</li>
-</ul>
-<p>For example:</p>
-<pre tabindex="0"><code># Update &lt;admin-user&gt; and &lt;admin-password&gt; for weblogic-credentials
-$ create_paired_k8s_secret weblogic-credentials &lt;your-WLS-username&gt; &lt;your-WLS-password&gt;
-
-# Update &lt;user&gt; and &lt;password&gt; for tododomain-jdbc-tododb
-$ create_paired_k8s_secret jdbc-tododb &lt;your-mysql-username&gt; &lt;your-mysql-password&gt;
-</code></pre><p>Then run the script:</p>
-<pre tabindex="0"><code>$ sh ./create_k8s_secrets.sh
-</code></pre><p>Verrazzano will need a credential to pull the image that you just created, so you need to create one more secret.
-The name for this credential can be changed in the <code>vz-application.yaml</code> file to anything you like, but it defaults to <code>tododomain-registry-credentials</code>.</p>
-<p>Assuming that you leave the name <code>tododomain-registry-credentials</code>, you will need to run a <code>kubectl create secret</code> command similar to the following:</p>
-<pre tabindex="0"><code>$ kubectl create secret docker-registry tododomain-registry-credentials \
-  --docker-server=phx.ocir.io \
-  --docker-email=your.name@example.com \
-  --docker-username=tenancy/username \
-  --docker-password=&#39;passwordForUsername&#39; \
-  --namespace=tododomain
-</code></pre><h4 id="update-the-application-configuration">Update the application configuration</h4>
-<p>Update the generated <code>vz-application.yaml</code> file for the <code>todo</code> application to:</p>
-<ul>
-<li>Update the <code>tododomain-configmap</code> component to use the in-cluster MySQL service URL <code>jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb</code> to access the database.</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">wdt_jdbc.yaml</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000;font-weight:bold">|</span><span style="color:#8f5902;font-style:italic">
-</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">          resources:
-</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">            JDBCSystemResource:
-</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">              &#39;todo-ds&#39;:
-</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">                JdbcResource:
-</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">                  JDBCDriverParams:
-</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">                    # This is the URL of the database used by the WebLogic Server application
-</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">                    URL: &#34;jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb&#34;</span><span style="color:#f8f8f8;text-decoration:underline">          
-</span></span></span></code></pre></div><ul>
-<li>Update the <code>tododomain-appconf</code> ApplicationConfiguration to enable Verrazzano MySQL components to be deployed as Kubernetes objects.</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">core.oam.dev/v1alpha2</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">ApplicationConfiguration</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">tododomain-appconf</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">namespace</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">tododomain</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">annotations</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">version</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">v1.0.0</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">description</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;tododomain application configuration&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">components</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">componentName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">tododomain-domain</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">traits</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span>- <span style="color:#204a87;font-weight:bold">trait</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">oam.verrazzano.io/v1alpha1</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">IngressTrait</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">rules</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                </span>- <span style="color:#204a87;font-weight:bold">paths</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                    </span><span style="color:#8f5902;font-style:italic"># application todo</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                    </span>- <span style="color:#204a87;font-weight:bold">path</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;/todo&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                      </span><span style="color:#204a87;font-weight:bold">pathType</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">Prefix</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">componentName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">tododomain-configmap</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">componentName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">todo-mysql-service</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">componentName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">todo-mysql-deployment</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">componentName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">todo-mysql-configmap</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span></code></pre></div><p>The file  <a href="../vz-application-modified.yaml">vz-application-modified.yaml</a> is an example of a modified <a href="../vz-application.yaml">vz-application.yaml</a> file.  A diff of these
-two sample files is shown:</p>
-<pre tabindex="0"><code>$ diff vz-application.yaml vz-application-modified.yaml
-30a31,33
-&gt;     - componentName: todo-mysql-service
-&gt;     - componentName: todo-mysql-deployment
-&gt;     - componentName: todo-mysql-configmap
-102c105
-&lt;                   URL: &#34;jdbc:mysql://localhost:3306/tododb&#34;
----
-&gt;                   URL: &#34;jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb&#34;
-</code></pre><h4 id="create-verrazzano-components-for-mysql">Create Verrazzano components for MySQL</h4>
-<p>As noted previously, moving a production environment to Verrazzano would require migrating the data as well. While data migration is beyond the scope of this guide, we will still need to include a MySQL instance to be deployed with the application in the Verrazzano environment.</p>
-<p>To do so, first, we need to create the Verrazzano components for MySQL by applying the <a href="../mysql-oam.yaml">mysql-oam.yaml</a> file in the <code>tododomain</code> namespace. The components will be deployed as Kubernetes objects when the ToDo List application is deployed by applying the <code>vz-application.yaml</code> file in the next step.</p>
-<ul>
-<li>
-<p>Download the <a href="../mysql-oam.yaml">mysql-oam.yaml</a> file.</p>
-</li>
-<li>
-<p>Then, apply the YAML file:</p>
-</li>
-</ul>
-<pre tabindex="0"><code>$ kubectl apply -f mysql-oam.yaml
-
-# Expected response
-component.core.oam.dev/todo-mysql-service created
-component.core.oam.dev/todo-mysql-deployment created
-component.core.oam.dev/todo-mysql-configmap created
-</code></pre><pre tabindex="0"><code>$ kubectl get components -ntododomain
-
-# Expected response
-todo-mysql-configmap    ConfigMap       26s
-todo-mysql-deployment   Deployment      26s
-todo-mysql-service      Service         26s
-</code></pre><h4 id="deploy-the-todo-list-application-and-mysql-instance">Deploy the ToDo List application and MySQL instance.</h4>
-<p>Finally, run <code>kubectl apply</code> to apply the Verrazzano components and Verrazzano application configuration files to start your domain.</p>
-<pre tabindex="0"><code>$ kubectl apply -f vz-application.yaml
-</code></pre><p>This will:</p>
-<ul>
-<li>Create the application Component resources for the ToDo List application.</li>
-<li>Deploy the Verrazzano component resources as Kubernetes objects and create the MySQL instance.</li>
-<li>Create the application configuration resources that create the instance of the ToDo List application in the Verrazzano cluster.</li>
-</ul>
-<p>Wait for the ToDo List example application to be ready.</p>
-<pre tabindex="0"><code>$ kubectl wait pod \
-    --for=condition=Ready tododomain-adminserver \
-    -n tododomain
-
-# Expected response
-pod/tododomain-adminserver condition met
-</code></pre><p>Verify that the pods are in the <code>Running</code> state.</p>
-<pre tabindex="0"><code>$ kubectl get pod -n tododomain
-
-# Sample output
-NAME                     READY   STATUS    RESTARTS   AGE
-mysql-55bb4c4565-c8zf5   1/1     Running   0          8m
-tododomain-adminserver   4/4     Running   0          5m
-</code></pre><h4 id="access-the-application-from-your-browser">Access the application from your browser</h4>
-<ol>
-<li>
-<p>Get the generated host name for the application.</p>
-<pre tabindex="0"><code>$ kubectl get gateways.networking.istio.io tododomain-tododomain-appconf-gw \
-    -n tododomain \
-    -o jsonpath={.spec.servers[0].hosts[0]}
-
-# Sample output
-tododomain-appconf.tododomain.11.22.33.44.nip.io
-</code></pre></li>
-<li>
-<p>Initialize the database by accessing the <code>init</code> URL.</p>
-<pre tabindex="0"><code>https://tododomain-appconf.tododomain.11.22.33.44.nip.io/todo/rest/items/init
-</code></pre></li>
-<li>
-<p>Access the application.</p>
-<pre tabindex="0"><code>https://tododomain-appconf.tododomain.11.22.33.44.nip.io/todo
-</code></pre></li>
-</ol>
-<h4 id="access-the-weblogic-server-administration-console">Access the WebLogic Server Administration Console</h4>
-<ol>
-<li>
-<p>Set up port forwarding.</p>
-<pre tabindex="0"><code>$ kubectl port-forward pods/tododomain-adminserver 7001:7001 -n tododomain
-</code></pre><p><strong>NOTE</strong>: If you are using the Oracle Cloud Infrastructure Cloud Shell to run <code>kubectl</code>, in order to access the WebLogic Server Administration Console using port forwarding, you will need to run <code>kubectl</code> on another machine.</p>
-</li>
-<li>
-<p>Access the WebLogic Server Administration Console from your browser.</p>
-<pre tabindex="0"><code>http://localhost:7001/console
-</code></pre></li>
-</ol>
-
-
-<div class="alert alert-warning" role="alert">
-<h4 class="alert-heading">NOTE</h4>
-
-    It is recommended that the WebLogic Server Administration Console <em>not</em> be exposed publicly.
-
-</div>
-
-
+<p>To install the example high availability configuration using the Verrazzano CLI:</p>
+<pre tabindex="0"><code>$ vz install -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/ha/ha.yaml
+</code></pre>
 	
 		<style>
   .feedback--answer {
