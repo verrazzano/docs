@@ -1,5 +1,5 @@
 ---
-title: "Backup and Recovery"
+title: "Backup and Disaster Recovery"
 description: "Verrazzano Backup and Recovery Guide"
 weight: 4
 draft: false

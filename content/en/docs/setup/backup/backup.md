@@ -1,24 +1,75 @@
 ---
-title: "Velero Backup"
-description: "Backup persistent data using the Velero operator"
-linkTitle: Velero Backup
-weight: 1
+title: "Backup"
+description: "Backup component specific persistent data and configurations"
+linkTitle: Backup
+weight: 2
 draft: false
 ---
 
-Verrazzano offers specialized `hooks` to ensure a consistent backup experience with Velero.  More context on hooks can be found [here](https://velero.io/docs/v1.8/backup-hooks/).
+Before proceeding ensure the backup operator(s) is installed and configured properly as indicated  [here](/docs/setup/backup/prerequisites/#rancher-backup-operator-prerequisite).
 
-Currently, the following components have in built hooks:
-- MySQL
-- OpenSearch
+As stated earlier Verrazzano offers [velero](https://velero.io/docs/v1.8/) and [rancher-backup](https://rancher.com/docs/rancher/v2.5/en/backups/) to perform backup and recovery at a component level or as a platform as a whole.
+
+In the following section we will be going over the following configurations:
+
+- [RancherBackup](https://rancher.com/docs/rancher/v2.5/en/backups/) operator to back up persistent data and configuration related to Rancher.
+
+- Velero [hooks](https://velero.io/docs/v1.8/backup-hooks/), that have been implemented to ensure a consistent backup experience for the components: 
+  - MySQL
+  - OpenSearch
+  
 
 For all other components refer to Velero documentation for taking [backups](https://velero.io/docs/v1.8/backup-reference/).
 
-### MySQL Backup 
 
-For `MySQL` Verrazzano offers a custom hook that can be used along with Velero to perform a backup. 
+{{< tabs tabTotal="3" >}}
+{{< tab tabName="RancherBackup" >}}
+<br>
 
-Below example is a sample Velero `Backup` [api](https://velero.io/docs/v1.8/api-types/backup/) object that can be invoked to take a MySQL backup. 
+## Rancher Backup
+
+To initiate a Rancher backup create the following example custom resource YAML that will use S3 compatible object store as a backend.
+
+The app uses the `credentialSecretNamespace` value to determine where to look for the S3 backup secret.
+
+In the [prerequisites](/docs/setup/backup/prerequisites/#rancher-backup-operator-prerequisite) section, we had created the secret in `verrazzano-backup` namespace.
+
+```yaml
+apiVersion: resources.cattle.io/v1
+kind: Backup
+metadata:
+  name: rancher-backup-test
+spec:
+  storageLocation:
+    s3:
+      credentialSecretName: rancher-backup-creds
+      credentialSecretNamespace: verrazzano-backup
+      bucketName: myvz-bucket
+      folder: rancher-backup
+      region: us-phoenix-1
+      endpoint: mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com
+  resourceSetName: rancher-resource-set
+```
+
+Once a Backup custom resource is created, the `rancher-backup` operator calls the kube-apiserver to get the resources predefined with `rancher-backup` CRDs.
+
+The operator then creates the backup file in the .tar.gz format and stores it in the location configured in the Backup resource in storageLocation field.
+
+### Scheduled Backups
+
+Similar to Velero, rancher-backup also allows [scheduled backups](https://rancher.com/docs/rancher/v2.5/en/backups/configuration/backup-config/).  
+
+<br/>
+
+{{< /tab >}}
+{{< tab tabName="Velero MySQL Backup" >}}
+<br>
+
+### Velero MySQL Backup
+
+For `MySQL` Verrazzano offers a custom hook that can be used along with Velero to perform a backup.
+
+Below example is a sample Velero `Backup` [api](https://velero.io/docs/v1.8/api-types/backup/) object that can be invoked to take a MySQL backup.
 
 ```yaml
 apiVersion: velero.io/v1
@@ -51,7 +102,7 @@ spec:
               timeout: 5m
 ```
 
-We can monitor the Velero backup object to understand the progress of our backup. 
+We can monitor the Velero backup object to understand the progress of our backup.
 
 <details>
   <summary>MySQL Backup Progress</summary>
@@ -142,7 +193,7 @@ Restic Backups (specify --details for more information):
 </details>
 
 <details>
-  <summary>POD Volume backup details</summary>
+  <summary>Pod Volume backup details</summary>
 
 ```shell
 # The following command lists all the pod volume backups taken by velero. 
@@ -151,13 +202,27 @@ kubectl get podvolumebackups -n verrazzano-backup
 </details>
 
 
+### Scheduled Backups
+
+Velero also supports a schedule [API](https://velero.io/docs/v1.8/api-types/schedule/).
+It is a repeatable request is sent to the Velero server to perform a backup for a given cron notation.
+Once the `schedule` object is created, the Velero Server will start the backup process.
+It will then wait for the next valid point of the given cron expression and execute the backup process on a repeating basis.
+
+<br/>
+
+
+{{< /tab >}}
+{{< tab tabName="Velero OpenSearch Backup" >}}
+<br>
+
 ### OpenSearch Backup
 
-For OpenSearch Verrazzano provides a custom hook that can be used along with Velero while invoking a backup. 
-Due to the nature of transient data handled by OpenSearch, the hook invokes OpenSearch snapshot apis to back up and restore data streams appropriately, 
+For OpenSearch Verrazzano provides a custom hook that can be used along with Velero while invoking a backup.
+Due to the nature of transient data handled by OpenSearch, the hook invokes OpenSearch snapshot apis to back up and restore data streams appropriately,
 thereby ensuring there is no loss of data and avoids data corruption as well.
 
-Below example is a sample Velero backup [api](https://velero.io/docs/v1.8/api-types/backup/) object that can be invoked to take an OpenSearch backup. 
+Below example is a sample Velero backup [api](https://velero.io/docs/v1.8/api-types/backup/) object that can be invoked to take an OpenSearch backup.
 
 ```yaml
 apiVersion: velero.io/v1
@@ -194,7 +259,7 @@ spec:
               timeout: 10m
 ```
 
-In case of OpenSearch, we are not backing up the `PersistentVolumes` directly. Instead, we are invoking the OpenSearch apis directly to snapshot the data. 
+In case of OpenSearch, we are not backing up the `PersistentVolumes` directly. Instead, we are invoking the OpenSearch apis directly to snapshot the data.
 
 Once the backup is executed, the hook logs can be seen in the `velero backup logs` command. Additionally, the hook logs are also stored under `/tmp` folder in the pod itself.
 
@@ -210,12 +275,11 @@ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/verrazz
 ```
 </details>
 
-### Scheduled Backups 
+### Scheduled Backups
 
-Velero also supports a schedule [API](https://velero.io/docs/v1.8/api-types/schedule/). 
-It is a repeatable request is sent to the Velero server to perform a backup for a given cron notation. 
-Once the `schedule` object is created, the Velero Server will start the backup process. 
+Velero also supports a schedule [API](https://velero.io/docs/v1.8/api-types/schedule/).
+It is a repeatable request is sent to the Velero server to perform a backup for a given cron notation.
+Once the `schedule` object is created, the Velero Server will start the backup process.
 It will then wait for the next valid point of the given cron expression and execute the backup process on a repeating basis.
 
-
-
+<br/>

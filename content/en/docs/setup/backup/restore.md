@@ -1,19 +1,57 @@
 ---
-title: "Velero Restore"
-description: "Restore data and configurations to Verrazzano platform"
-linkTitle: Velero Restore
-weight: 1
+title: Restore
+description: "Restore component specific persistent data and configurations"
+linkTitle: Restore
+weight: 3
 draft: false
 ---
 
-Verrazzano includes specialized `hooks` to ensure a consistent restore experience with Velero.  More context on hooks can be found [here](https://velero.io/docs/v1.8/backup-hooks/).
 
-Currently, the following components have in built hooks:
-- MySQL
-- OpenSearch
+Before proceeding ensure the backup operator(s) is installed and configured properly as indicated  [here](/docs/setup/backup/prerequisites/#rancher-backup-operator-prerequisite).
 
-For all other components refer to `Velero` documentation for [restoring](https://velero.io/docs/v1.8/restore-reference/) data.
+This section also assumes that a successful backup was taken using either Velero or Rancher Backup.  
 
+{{< tabs tabTotal="3" >}}
+{{< tab tabName="RancherRestore" >}}
+<br>
+
+### Rancher Restore
+
+To initiate a Rancher restore, create the following example custom resource YAML.
+
+When a `Restore` custom resource is created, the operator accesses the backup .tar.gz file specified by the `Restore`, and restores the application data from that file.
+
+
+```yaml
+apiVersion: resources.cattle.io/v1
+kind: Restore
+metadata:
+  name: s3-restore
+spec:
+  backupFilename: rancher-backup-test-1111111-2222-3333-2022-07-26T02-44-21Z.tar.gz
+  storageLocation:
+    s3:
+      credentialSecretName: rancher-backup-creds
+      credentialSecretNamespace: verrazzano-backup
+      bucketName: myvz-bucket
+      folder: rancher-backup
+      region: us-phoenix-1
+      endpoint: mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com
+```
+
+The rancher operator rancher-backup scales down the rancher deployment during restore, and scales it back up once the restore completes.
+
+The resources are restored in this order:
+
+- Custom Resource Definitions (CRDs)
+- Cluster-scoped resources
+- Namespaced resources
+
+<br/>
+
+{{< /tab >}}
+{{< tab tabName="Velero MySQL Restore" >}}
+<br>
 
 ### MySQL Restore
 
@@ -136,6 +174,12 @@ kubectl get podvolumerestores -n verrazzano-backup
 ```
 </details>
 
+<br/>
+
+
+{{< /tab >}}
+{{< tab tabName="Velero Opensearch Restore" >}}
+<br>
 
 #### OpenSearch Restore
 
@@ -143,7 +187,7 @@ For OpenSearch Verrazzano offers a custom hook that can be used along with Veler
 Due to the nature of transient data handled by OpenSearch, the hook invokes OpenSearch snapshot apis to back up and restore data streams appropriately,
 thereby ensuring there is no loss of data and avoids data corruption as well.
 
-Delete existing OpenSearch cluster running on the system and all related data. 
+Delete existing OpenSearch cluster running on the system and all related data.
 
 - Scale down `Verrazzano Monitoring Operator`
 
@@ -151,10 +195,10 @@ Delete existing OpenSearch cluster running on the system and all related data.
 kubectl scale deploy -n verrazzano-system verrazzano-monitoring-operator --replicas=0
 ```
 
-- Cleanup OpenSearch components 
+- Cleanup OpenSearch components
 
 ```shell
-# These are sample commands to demonstrate the opensearh restore process.
+# These are sample commands to demonstrate the opensearch restore process.
 
 kubectl delete sts -n verrazzano-system vmi-system-es-master
 kubectl delete deploy -n verrazzano-system vmi-system-es-data-0
@@ -207,8 +251,8 @@ spec:
 
 In case of OpenSearch, during restore we perform the following actions:
 
-- Recreate a new OpenSearch cluster.  
-- Use a `postHook` to invoke the OpenSearch APIs that restores the snapshot data. That way we can get back the indices we had backed up prior to cleaning up. 
+- Recreate a new OpenSearch cluster.
+- Use a `postHook` to invoke the OpenSearch APIs that restores the snapshot data. That way we can get back the indices we had backed up prior to cleaning up.
 
 
 Once the restore is executed, the hook logs can be seen in the `velero restore logs` command. Additionally, the hook logs are also stored under `/tmp` folder in the pod itself.
@@ -229,7 +273,4 @@ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/verrazz
 
 
 
-
-
-
-
+<br/>
