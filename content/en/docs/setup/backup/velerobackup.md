@@ -6,19 +6,19 @@ weight: 1
 draft: false
 ---
 
-Verrazzano offers specialized `hooks` to ensure a consistent backup experience with `Velero`.  More context on hooks can be found [here](https://velero.io/docs/v1.8/backup-hooks/).
+Verrazzano offers specialized `hooks` to ensure a consistent backup experience with Velero.  More context on hooks can be found [here](https://velero.io/docs/v1.8/backup-hooks/).
 
 Currently, the following components have in built hooks:
 - MySQL
 - OpenSearch
 
-For all other components refer to `Velero` documentation for taking [backups](https://velero.io/docs/v1.8/backup-reference/).
+For all other components refer to Velero documentation for taking [backups](https://velero.io/docs/v1.8/backup-reference/).
 
 ### MySQL Backup 
 
-For `MySQL` Verrazzano offers a custom hook that can be used along with `Velero` to perform a backup successfully. 
+For `MySQL` Verrazzano offers a custom hook that can be used along with Velero to perform a backup. 
 
-Below example is a sample `Velero` backup [api](https://velero.io/docs/v1.8/api-types/backup/) object that can be invoked to take a MySQL backup. 
+Below example is a sample Velero `Backup` [api](https://velero.io/docs/v1.8/api-types/backup/) object that can be invoked to take a MySQL backup. 
 
 ```yaml
 apiVersion: velero.io/v1
@@ -35,7 +35,7 @@ spec:
     resources:
       - name: mysql-backup
         includedNamespaces:
-          - keycloak       
+        - keycloak       
         labelSelector:
           matchLabels:
             app: mysql
@@ -153,11 +153,11 @@ kubectl get podvolumebackups -n verrazzano-backup
 
 ### OpenSearch Backup
 
-For `OpenSearch` Verrazzano provides a custom hook that can be used along with `Velero` while invoking a backup. 
-Due to the nature of transient data handled by OpenSearch, the hook invokes `OpenSearch` snapshot apis to back up and restore data streams appropriately, 
+For OpenSearch Verrazzano provides a custom hook that can be used along with Velero while invoking a backup. 
+Due to the nature of transient data handled by OpenSearch, the hook invokes OpenSearch snapshot apis to back up and restore data streams appropriately, 
 thereby ensuring there is no loss of data and avoids data corruption as well.
 
-Below example is a sample `Velero` backup [api](https://velero.io/docs/v1.8/api-types/backup/) object that can be invoked to take an OpenSearch backup. 
+Below example is a sample Velero backup [api](https://velero.io/docs/v1.8/api-types/backup/) object that can be invoked to take an OpenSearch backup. 
 
 ```yaml
 apiVersion: velero.io/v1

@@ -14,7 +14,7 @@ are met before taking a backup.
 
 ### Backing up Rancher
 
-To initiate a Rancher backup create the following example custom resource yaml that will use S3 compatible object store as a backend. 
+To initiate a Rancher backup create the following example custom resource YAML that will use S3 compatible object store as a backend. 
 
 The app uses the `credentialSecretNamespace` value to determine where to look for the S3 backup secret. 
 
@@ -37,10 +37,10 @@ spec:
   resourceSetName: rancher-resource-set
 ```
 
-Once a Backup custom resource is created, the `rancher-backup` operator calls the kube-apiserver to get the resources predefined with `rancher-backup` crds.
+Once a Backup custom resource is created, the `rancher-backup` operator calls the kube-apiserver to get the resources predefined with `rancher-backup` CRDs.
 
-The operator then creates the backup file in the .tar.gz format and stores it in the location configured in the Backup resource.
+The operator then creates the backup file in the .tar.gz format and stores it in the location configured in the Backup resource in storageLocation field.
 
 ### Scheduled Backups
 
-Similar to `Velero` , `rancher-backup` also allows [scheduled backups](https://rancher.com/docs/rancher/v2.5/en/backups/configuration/backup-config/).  
+Similar to Velero, rancher-backup also allows [scheduled backups](https://rancher.com/docs/rancher/v2.5/en/backups/configuration/backup-config/).  

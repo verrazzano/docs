@@ -1,12 +1,12 @@
 ---
 title: "Velero Restore"
-description: "Restore Data and configurations to Verrazzano platform"
+description: "Restore data and configurations to Verrazzano platform"
 linkTitle: Velero Restore
 weight: 1
 draft: false
 ---
 
-Verrazzano offers specialized `hooks` to ensure a consistent restore experience with `Velero`.  More context on hooks can be found [here](https://velero.io/docs/v1.8/backup-hooks/).
+Verrazzano includes specialized `hooks` to ensure a consistent restore experience with Velero.  More context on hooks can be found [here](https://velero.io/docs/v1.8/backup-hooks/).
 
 Currently, the following components have in built hooks:
 - MySQL
@@ -17,7 +17,7 @@ For all other components refer to `Velero` documentation for [restoring](https:/
 
 ### MySQL Restore
 
-For `MySQL` Verrazzano offers a custom hook that can be used along with `Velero` to perform a restore successfully.
+For MySQL Verrazzano offers a custom hook that can be used along with Velero to perform a restore successfully.
 
 Delete the `keycloak` namespace to initiate a complete MySQL restore.
 
@@ -25,7 +25,7 @@ Delete the `keycloak` namespace to initiate a complete MySQL restore.
 kubectl delete namespace keycloak
 ```
 
-Below example of `Velero` restore [api](https://velero.io/docs/v1.8/api-types/restore/) object that can be invoked to perform a MySQL restore.
+Below example of Velero `Restore` [api](https://velero.io/docs/v1.8/api-types/restore/) object that can be invoked to perform a MySQL restore.
 
 ```yaml
 apiVersion: velero.io/v1
@@ -127,23 +127,23 @@ Preserve Service NodePorts:  auto
 </details>
 
 <details>
-  <summary>POD Volume restore details</summary></summary>
+  <summary>Pod Volume restore details</summary></summary>
 
 ```shell
-# The following command lists all the pod volume restores , that were created by velero.. 
+# The following command lists all the pod volume restores, that were created by velero.. 
 kubectl get podvolumerestores -n verrazzano-backup                        
 
 ```
 </details>
 
 
-#### Opensearch Restore
+#### OpenSearch Restore
 
-For `OpenSearch` Verrazzano offers a custom hook that can be used along with `Velero` to perform a backup successfully.
-Due to the nature of transient data handled by Opensearch, the hook invokes `Opensearch` snapshot apis to back up and restore data streams appropriately,
+For OpenSearch Verrazzano offers a custom hook that can be used along with Velero to perform a backup successfully.
+Due to the nature of transient data handled by OpenSearch, the hook invokes OpenSearch snapshot apis to back up and restore data streams appropriately,
 thereby ensuring there is no loss of data and avoids data corruption as well.
 
-Delete existing Opensearch cluster running on the system and all related data. 
+Delete existing OpenSearch cluster running on the system and all related data. 
 
 - Scale down `Verrazzano Monitoring Operator`
 
@@ -151,7 +151,7 @@ Delete existing Opensearch cluster running on the system and all related data.
 kubectl scale deploy -n verrazzano-system verrazzano-monitoring-operator --replicas=0
 ```
 
-- Cleanup Opensearch components 
+- Cleanup OpenSearch components 
 
 ```shell
 # These are sample commands to demonstrate the opensearh restore process.
@@ -166,7 +166,7 @@ kubectl delete pvc -n verrazzano-system vmi-system-es-data-1
 kubectl delete pvc -n verrazzano-system vmi-system-es-data-2
 ```
 
-Below example is `Velero` restore [api](https://velero.io/docs/v1.8/api-types/restore/) object that can be invoked to take an Opensearch restore.
+Below example is Velero restore [api](https://velero.io/docs/v1.8/api-types/restore/) object that can be invoked to take an OpenSearch restore.
 
 ```yaml
 apiVersion: velero.io/v1
@@ -205,17 +205,17 @@ spec:
 
 ```
 
-In case of Opensearch, during restore we perform the following actions:
+In case of OpenSearch, during restore we perform the following actions:
 
-- Recreate a new Opensearch cluster.  
-- Use a `postHook` to invoke the Opensearch APIs that restores the snapshot data. That way we can get back the indices we had backed up prior to cleaning up. 
+- Recreate a new OpenSearch cluster.  
+- Use a `postHook` to invoke the OpenSearch APIs that restores the snapshot data. That way we can get back the indices we had backed up prior to cleaning up. 
 
 
 Once the restore is executed, the hook logs can be seen in the `velero restore logs` command. Additionally, the hook logs are also stored under `/tmp` folder in the pod itself.
 
 
 <details>
-  <summary>Opensearch restore logs</summary></summary>
+  <summary>OpenSearch restore logs</summary></summary>
 
 ```shell
 

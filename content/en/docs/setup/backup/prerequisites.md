@@ -27,7 +27,7 @@ Before proceeding to the next section the following information is required as i
 
 ### Velero Operator Prerequisite
 
-You can now create the following objects as follows:
+You can now create the following objects as shown here:
 
 - Create a file `backup-secret.txt` having the object store credentials as shown below.
 
