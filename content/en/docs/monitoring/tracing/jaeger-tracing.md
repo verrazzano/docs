@@ -13,8 +13,8 @@ For more information on Jaeger, see the [Jaeger website](https://www.jaegertraci
 
 To install the Jaeger Operator, enable the `jaegerOperator` component in your Verrazzano custom resource. Here is
 an example YAML file that enables the Jaeger Operator. Verrazzano installs the Jaeger Operator in the
-`verrazzano-monitoring` namespace. A default Jaeger instance is also created by Jaeger Operator in the same namespace,
-provided OpenSearch and Keycloak components are enabled in the Verrazzano custom resource.
+`verrazzano-monitoring` namespace. If OpenSearch and Keycloak components are enabled in the Verrazzano custom resource,
+then a default Jaeger instance is also created by the Jaeger Operator in the `verrazzano-monitoring` namespace.
 
 ```yaml
 apiVersion: install.verrazzano.io/v1alpha1
@@ -28,7 +28,7 @@ spec:
       enabled: true
 ```
 The Jaeger Operator will create services for query and collection. After applying the Verrazzano custom resource,
-you should see similar output by listing Jaeger resources.
+listing Jaeger resources will show output similar to the following.
 ```
 $ kubectl get services,deployments -l app.kubernetes.io/instance=jaeger-operator-jaeger -n verrazzano-monitoring
 
@@ -44,25 +44,20 @@ deployment.apps/jaeger-operator-jaeger-query       1/1     1            1       
 
 ## Customizing Jaeger
 
-Verrazzano installs Jaeger Operator and Jaeger, using the
+Verrazzano installs Jaeger Operator and Jaeger using the
 [jaeger-operator](https://github.com/jaegertracing/helm-charts/tree/main/charts/jaeger-operator) Helm chart.
-You can customize the installation configuration using Helm overrides specified in the
-Verrazzano custom resource. For more information about setting component overrides, 
-see [Customizing the Chart Before Installing](https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing).
+Using Helm overrides specified in the Verrazzano custom resource, you can customize the installation configuration.
+For more information about setting component overrides, see [Customizing the Chart Before Installing](https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing).
 
-### Customizing Jaeger instance to use an external OpenSearch/Elasticsearch for storage
+### Customizing a Jaeger instance to use an external OpenSearch or Elasticsearch for storage
 
 The default Jaeger instance can be used with an external OpenSearch cluster. The following example shows you how to
 configure Jaeger Operator Helm overrides in the Verrazzano custom resource to use an external OpenSearch cluster
 with TLS CA certificate mounted from a volume and user/password stored in a secret. See
 [Jaeger documentation](https://www.jaegertracing.io/docs/latest/operator/#external-elasticsearch) for more details.
 
-1. Create `verrazzano-monitoring` namespace if not already exists.
-   ```
-   $ kubectl create namespace verrazzano-monitoring
-   ```
-1. Create a secret containing the OpenSearch credentials and certificates. Jaeger will use these credentials to connect
-   to OpenSearch.
+1. Create a secret containing the OpenSearch credentials and certificates in the `verrazzano-install` namespace prior
+   to creating the Verrazzano custom resource. Jaeger will use these credentials to connect to OpenSearch.
    ```
    $ kubectl create secret generic jaeger-secret \
     --from-literal=ES_PASSWORD=<OPENSEARCH PASSWORD> \
@@ -132,7 +127,7 @@ spec:
                     type: prometheus
 ```
 
-### Disabling default Jaeger instance creation
+### Disable default Jaeger instance creation
 
 To disable the default Jaeger instance created by Verrazzano, use the following Verrazzano custom resource:
 
@@ -151,14 +146,14 @@ spec:
               create: false
 ```
 
-### Jaeger Operator Helm chart Values that cannot be overridden
+### Jaeger Operator Helm chart values that cannot be overridden
 
-Following Jaeger Operator Helm overrides are not supported to be overridden in the Verrazzano custom resource:
-- nameOverride
-- fullnameOverride
-- serviceAccount.name
-- ingress.enabled
-- jaeger.spec.storage.dependencies.enabled
+Following Jaeger Operator Helm values are not supported to be overridden in the Verrazzano custom resource:
+- `nameOverride`
+- `fullnameOverride`
+- `serviceAccount.name`
+- `ingress.enabled`
+- `jaeger.spec.storage.dependencies.enabled`
 
 **Note** - Verrazzano does not support [Jaeger Spark dependencies](https://github.com/jaegertracing/spark-dependencies)
 and hence the Helm chart value `jaeger.spec.storage.dependencies.enabled`, which is set to false for the Jaeger
@@ -243,8 +238,9 @@ spec:
 ## Management of Jaeger indices in OpenSearch
 
 To clean old Jaeger data from OpenSearch, Verrazzano uses the [index management](https://www.jaegertracing.io/docs/latest/operator/#elasticsearch-index-cleaner-job)
-provided by Jaeger. By default, a cron job is created to clean old traces from it, the options for it are listed below
-so you can configure it to your use case.
+provided by Jaeger. By default, a cron job with the following default values is created to clean old traces. To
+configure it to your use case, override the following Jaeger spec values in the Verrazzano custom resource with your
+desired values.
 
 ```
 storage:
