@@ -158,8 +158,8 @@ vz analyze [flags]
 
 | Command                  | Definition                                                                          |
 |--------------------------|-------------------------------------------------------------------------------------|
-| `--capture-dir string`   | Directory holding the captured data. (Required)                                      | 
-| `-h, --help`             | help for analyze.                                                                   |
+| `--capture-dir string`   | Directory holding the captured data. (Required)                                     | 
+| `-h, --help`             | Help for `vz analyze` command.                                                      |
 | `--report-file string`   | Name of report output file. (default stdout)                                        |
 | `--report-format string` | The format of the report output. Valid output format is "simple" (default "simple") |
 
