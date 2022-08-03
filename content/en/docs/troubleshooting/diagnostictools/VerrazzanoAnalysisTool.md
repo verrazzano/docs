@@ -17,7 +17,7 @@ Verrazzano provides tooling which assists in troubleshooting issues in your envi
 
 ### Linux Instructions
 
-Use these instructions to obtain the analysis tools on Linux machines.  
+Use these instructions to obtain the cluster snapshot analysis tool on Linux machines.
 
 #### Download the tooling
   ```
@@ -36,7 +36,7 @@ Use these instructions to obtain the analysis tools on Linux machines.
 
 ### Mac Instructions
 
-Use these instructions to obtain the analysis tools on Mac machines.
+Use these instructions to obtain the cluster snapshot analysis tool on Mac machines.
 
 #### Download the tooling
   ```

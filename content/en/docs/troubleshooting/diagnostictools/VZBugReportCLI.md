@@ -6,7 +6,6 @@ description: Use the Bug Report Tool to capture and archive cluster information
 draft: false
 ---
 
-
 Use the `$ vz bug-report` command to selectively capture cluster information and create an archive (`.tar.gz`) file to help diagnose problems. The archive file will help support and development teams analyze issues and provide recommendations.
 
 ## CLI setup
