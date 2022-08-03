@@ -27,8 +27,8 @@ spec:
     jaegerOperator:
       enabled: true
 ```
-The Jaeger Operator will create services for query and collection. After applying the Verrazzano custom resource,
-listing Jaeger resources will show output similar to the following.
+The Jaeger Operator will create `Service` custom resources for query and collection. After applying the Verrazzano
+custom resource, listing Jaeger resources will show output similar to the following.
 ```
 $ kubectl get services,deployments -l app.kubernetes.io/instance=jaeger-operator-jaeger -n verrazzano-monitoring
 
@@ -56,8 +56,9 @@ configure Jaeger Operator Helm overrides in the Verrazzano custom resource to us
 with a TLS CA certificate mounted from a volume and the user/password stored in a secret. For more details, see the
 [Jaeger documentation](https://www.jaegertracing.io/docs/latest/operator/#external-elasticsearch).
 
-1. Prior to creating the Verrazzano custom resource, create a secret containing the OpenSearch credentials and
-   certificates in the `verrazzano-install` namespace. Jaeger will use these credentials to connect to OpenSearch.
+1. Prior to configuring the external OpenSearch for Jaeger in the Verrazzano custom resource, create a secret containing
+   the OpenSearch credentials and certificates in the `verrazzano-install` namespace. Jaeger will use these credentials
+   to connect to OpenSearch.
    ```
    $ kubectl create secret generic jaeger-secret \
     --from-literal=ES_PASSWORD=<OPENSEARCH PASSWORD> \
@@ -107,6 +108,9 @@ spec:
 To enable the Jaeger [Service Performance Monitoring](https://www.jaegertracing.io/docs/latest/spm/) experimental
 feature in the default Jaeger instance created by Verrazzano, use the following Verrazzano custom resource. Verrazzano
 sets `jaeger.spec.query.options.prometheus.server-url` to the Prometheus server URL managed by Verrazzano, if it exists.
+To configure an external Prometheus server for your use case, override `jaeger.spec.query.options.prometheus.server-url`,
+`jaeger.spec.query.options.prometheus.tls.enabled` and `jaeger.spec.query.options.prometheus.tls.ca` appropriately in
+the Verrazzano custom resource. For more details, see the [Jaeger documentation](https://www.jaegertracing.io/docs/latest/deployment/#tls-support-1).
 
 ```yaml
 apiVersion: install.verrazzano.io/v1alpha1
@@ -153,6 +157,9 @@ The following Jaeger Operator Helm values are not supported to be overridden in 
 - `serviceAccount.name`
 - `ingress.enabled`
 - `jaeger.spec.storage.dependencies.enabled`
+
+If you try to override the above Helm values in the Verrazzano custom resource, the request will be rejected and an
+error message returned.
 
 **Note:** - Verrazzano does not support [Jaeger Spark dependencies](https://github.com/jaegertracing/spark-dependencies)
 and hence the Helm chart value `jaeger.spec.storage.dependencies.enabled`, which is set to `false` for the Jaeger
