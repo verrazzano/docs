@@ -60,7 +60,7 @@ spec:
 | `ingress`            | [IngressComponent](#ingress-component)                            | The ingress component configuration.               | No       |
 | `istio`              | [IstioComponent](#istio-component)                                | The Istio component configuration.                 | No       |
 | `fluentd`            | [FluentdComponent](#fluentd-component)                            | The Fluentd component configuration.               | No       |
-| `jaegerOperator`    | [JaegerOperatorComponent](#jaeger-operator-component)              | The Jaeger Operator component configuration.       | No       |
+| `jaegerOperator`     | [JaegerOperatorComponent](#jaeger-operator-component)             | The Jaeger Operator component configuration.       | No       |
 | `keycloak`           | [KeycloakComponent](#keycloak-component)                          | The Keycloak component configuration.              | No       |
 | `elasticsearch`      | [OpenSearchComponent](#opensearch-component)                      | The OpenSearch component configuration.            | No       |
 | `prometheus`         | [PrometheusComponent](#prometheus-component)                      | The Prometheus component configuration.            | No       |
@@ -227,6 +227,8 @@ spec:
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
 | `enabled` | Boolean | If true, then Jaeger Operator will be installed. | No |
+| `monitorChanges` | Boolean | If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to `true`. | No |
+| `overrides` | [Overrides](#overrides) list | List of Overrides for the default `values.yaml` file for the component Helm chart. Lower Overrides have precedence over the ones above them. You can find all possible values [here]( {{< release_source_url path=platform-operator/thirdparty/charts/jaegertracing/jaeger-operator/values.yaml >}} ) and invalid values will be ignored. | No |
 
 #### Extra Volume Mount
 | Field | Type | Description | Required

@@ -38,6 +38,7 @@ Verrazzano Status
   Access Endpoints:
     Console URL: https://verrazzano.default.172.18.0.231.nip.io
     Grafana URL: https://grafana.vmi.system.default.172.18.0.231.nip.io
+    Jaeger URL: https://jaeger.default.172.18.0.231.nip.io
     Keycloak URL: https://keycloak.default.172.18.0.231.nip.io
     Kiali URL: https://kiali.vmi.system.default.172.18.0.231.nip.io
     Kibana URL: https://kibana.vmi.system.default.172.18.0.231.nip.io
@@ -113,6 +114,7 @@ You will need the credentials to access the consoles installed by Verrazzano.
 - OpenSearch Dashboards
 - OpenSearch
 - Kiali
+- Jaeger
 
 **User:**  `verrazzano`
 
