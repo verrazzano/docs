@@ -39,7 +39,7 @@ spec:
       endpoint: mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com
 ```
 
-The rancher operator rancher-backup scales down the rancher deployment during restore, and scales it back up once the restore completes.
+The Rancher operator rancher-backup scales down the Rancher deployment during restore, and scales it back up once the restore completes.
 
 The resources are restored in this order:
 
@@ -97,6 +97,12 @@ spec:
               onError: Fail
 
 ```
+
+The above example will restore the keycloak namespace and the mysql volumes
+- It will recreate the mysql pvcs along with mysql pods
+- The `postHook` will restore the mysql data and ensure there are no inconsistencies.
+- The container on which the hook needs to be executed is identified by the pod label selectors, followed by the container name.
+
 
 **_NOTE:_** The hook needs to be a `postHook` since we want to apply it after the Kubernetes objects are restored.
 
@@ -200,14 +206,10 @@ kubectl scale deploy -n verrazzano-system verrazzano-monitoring-operator --repli
 ```shell
 # These are sample commands to demonstrate the opensearch restore process.
 
-kubectl delete sts -n verrazzano-system vmi-system-es-master
-kubectl delete deploy -n verrazzano-system vmi-system-es-data-0
-kubectl delete deploy -n verrazzano-system vmi-system-es-data-1
-kubectl delete deploy -n verrazzano-system vmi-system-es-data-2
-kubectl delete deploy -n verrazzano-system vmi-system-es-ingest
-kubectl delete pvc -n verrazzano-system vmi-system-es-data
-kubectl delete pvc -n verrazzano-system vmi-system-es-data-1
-kubectl delete pvc -n verrazzano-system vmi-system-es-data-2
+kubectl delete sts -n verrazzano-system -l verrazzano-component=opensearch
+kubectl delete deploy -n verrazzano-system -l verrazzano-component=opensearch
+kubectl delete pvc -n verrazzano-system  -l verrazzano-component=opensearch
+
 ```
 
 Below example is Velero restore [api](https://velero.io/docs/v1.8/api-types/restore/) object that can be invoked to take an OpenSearch restore.
@@ -249,11 +251,14 @@ spec:
 
 ```
 
-In case of OpenSearch, during restore we perform the following actions:
 
-- Recreate a new OpenSearch cluster.
-- Use a `postHook` to invoke the OpenSearch APIs that restores the snapshot data. That way we can get back the indices we had backed up prior to cleaning up.
+The above example will restore an OpenSearch cluster from an existing backup
+- It will recreate a new OpenSearch cluster (with new indexes).
+- The `postHook` will invoke the OpenSearch APIs that restores the snapshot data. 
+- The container on which the hook needs to be executed is identified by the pod label selectors, followed by the container name.
+  In this case its `statefulset.kubernetes.io/pod-name: vmi-system-es-master-0`
 
+**_NOTE:_** The hook needs to be a `postHook` since we want to apply it after the Kubernetes objects are restored.
 
 Once the restore is executed, the hook logs can be seen in the `velero restore logs` command. Additionally, the hook logs are also stored under `/tmp` folder in the pod itself.
 

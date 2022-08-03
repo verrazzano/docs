@@ -102,12 +102,20 @@ spec:
               timeout: 5m
 ```
 
-We can monitor the Velero backup object to understand the progress of our backup.
+The above example will take a backup of the keycloak namespace and mysql data
+- `defaultVolumesToRestic` needs to be `true` so that Velero can back up the mysql PVC. 
+- The hook needs to be `pre` as this wil ensure the operation is performed before the PVC backup is taken .
+- The command used as part of the hook is a shell script which accepts an argument to denote operation and a filename.
+- The container on which the hook needs to be executed is identified by the pod label selectors, followed by the container name.
+
+We can monitor the Velero backup object to understand the progress of our backup.  
 
 <details>
   <summary>MySQL Backup Progress</summary>
 
 ```shell
+# The status in the below putput indicates the backup progress.
+
 velero backup get verrazzano-mysql-backup-example -n verrazzano-backup                                                                   
 NAME                              STATUS       ERRORS   WARNINGS   CREATED                         EXPIRES   STORAGE LOCATION             SELECTOR
 verrazzano-mysql-backup-example   InProgress   0        0          2022-07-07 14:56:32 -0700 PDT   29d       verrazzano-backup-location   <none>
@@ -118,7 +126,7 @@ verrazzano-mysql-backup-example   InProgress   0        0          2022-07-07 14
   <summary>MySQL Backup Object details</summary>
 
 ```shell
-# The backup object details and progress can be viewed by executing the following command
+# The backup object details and progress can be viewed by executing the following command.
 
 velero backup describe verrazzano-mysql-backup-example -n verrazzano-backup
 
@@ -196,7 +204,8 @@ Restic Backups (specify --details for more information):
   <summary>Pod Volume backup details</summary>
 
 ```shell
-# The following command lists all the pod volume backups taken by velero. 
+# The following command lists all the pod volume backups taken by Velero.
+ 
 kubectl get podvolumebackups -n verrazzano-backup 
 ```
 </details>
@@ -205,7 +214,7 @@ kubectl get podvolumebackups -n verrazzano-backup
 ### Scheduled Backups
 
 Velero also supports a schedule [API](https://velero.io/docs/v1.8/api-types/schedule/).
-It is a repeatable request is sent to the Velero server to perform a backup for a given cron notation.
+It is a repeatable request that is sent to the Velero server to perform a backup for a given cron notation.
 Once the `schedule` object is created, the Velero Server will start the backup process.
 It will then wait for the next valid point of the given cron expression and execute the backup process on a repeating basis.
 
@@ -259,9 +268,15 @@ spec:
               timeout: 10m
 ```
 
-In case of OpenSearch, we are not backing up the `PersistentVolumes` directly. Instead, we are invoking the OpenSearch apis directly to snapshot the data.
+The above example will take a backup of the opensearch components
+- In this case we are not backing up the `PersistentVolumes` directly, rather executing a hook that invokes the OpenSearch APIs directly to snapshot the data.
+- `defaultVolumesToRestic` needs to be `false` so that Velero ignores the associated PVC's.
+- The hook can be `pre` or `post` in this case.
+- The command used as part of the hook requires an operation flag and the velero backup name as an input. 
+- The container on which the hook needs to be executed is identified by the pod label selectors, followed by the container name. 
+  In this case its `statefulset.kubernetes.io/pod-name: vmi-system-es-master-0`
 
-Once the backup is executed, the hook logs can be seen in the `velero backup logs` command. Additionally, the hook logs are also stored under `/tmp` folder in the pod itself.
+Once the backup is executed, the hook logs can be seen in the `velero backup logs` command. Additionally, the hook logs are also stored under the `/tmp` folder in the pod itself.
 
 <details>
   <summary>OpenSearch backup logs</summary></summary>
@@ -277,9 +292,9 @@ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/verrazz
 
 ### Scheduled Backups
 
-Velero also supports a schedule [API](https://velero.io/docs/v1.8/api-types/schedule/).
-It is a repeatable request is sent to the Velero server to perform a backup for a given cron notation.
-Once the `schedule` object is created, the Velero Server will start the backup process.
+Velero also supports a `Schedule` [API](https://velero.io/docs/v1.8/api-types/schedule/).
+That is a repeatable request is sent to the Velero server to perform a backup for a given cron notation.
+Once the `Schedule` object is created, the Velero server will start the backup process.
 It will then wait for the next valid point of the given cron expression and execute the backup process on a repeating basis.
 
 <br/>

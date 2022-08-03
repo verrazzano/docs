@@ -40,41 +40,43 @@ spec:
     rancherBackup:
       enabled: true  
 ```
-**_NOTE:_** `rancherBackup` setting is honoured only in cases when `rancher` is also enabled.
+**_NOTE:_** `rancherBackup` will be enabled only in cases when `rancher` is also enabled.
 
-Once installed you can check the pods running under `verrazzano-backup` namespace if the component is `velero`.
-For `rancherBackup` the pods will be created under `cattle-resources-system` namespace.
+Once installed you can check the Velero pods running under `verrazzano-backup` namespace.
+For RancherBackup the pods will be created under `cattle-resources-system` namespace.
 
 ```shell
 # Sample of pods running after enabling velero component
+
 kubectl get pod -n verrazzano-backup
 NAME                      READY   STATUS    RESTARTS   AGE
 restic-ndxfk              1/1     Running   0          21h
 velero-5ff8766fd4-xbn4z   1/1     Running   0          21h
+
 ```
 
 ```shell
 # Sample of pods running after enabling rancherBackup component
+
 kubectl get pod -n cattle-resources-system
 NAME                              READY   STATUS    RESTARTS   AGE
 rancher-backup-5c4b985697-xw7md   1/1     Running   0          2d4h
+
 ```
 
 ### Backup Component Configuration
 
 Before proceeding to the next section the following information is required as input for both the operators:
 
-- Create an Oracle Cloud Object Storage bucket in any compartment of your Oracle Cloud tenancy. Make a note of the bucket name and tenancy name for reference. Refer to this [page](https://docs.oracle.com/en-us/iaas/Content/Object/Tasks/managingbuckets.htm#usingconsole) for more information about creating a bucket with Object Storage.
+- Object store bucket name. Velero and Rancher backup requires object store to be Amazon S3 compatible. Hence, we will need an object storage bucket to begin with.  
+  - This can be an Oracle Cloud Object Storage bucket in any compartment of your Oracle Cloud tenancy. Make a note of the bucket name and tenancy name for reference. Refer to this [page](https://docs.oracle.com/en-us/iaas/Content/Object/Tasks/managingbuckets.htm#usingconsole) for more information about creating a bucket with Object Storage.
+  - For Private clouds, enterprise networks or air gapped environments this could be Minio or equivalent object store solution. 
 
 - Object store prefix name - this will be a child folder under the bucket automatically created by the backup component.
 
 - Object store region information.
 
-- Verrazzano backup component requires object store to be Amazon S3 compatible. As a result you need to generate the signing key required to authenticate with Amazon S3.
-  Follow these steps to create a [Customer Secret Key](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm#To4).
-
-- Ensure the appropriate components are enabled in the Verrazzano CR at the time of [install](/docs/setup/backup/installation/#backup-component-installation).
-
+- A signing key required to authenticate with the Amazon S3 compatible object store. Follow these steps to create a [Customer Secret Key](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm#To4).
 
 
 {{< tabs tabTotal="2" >}}
