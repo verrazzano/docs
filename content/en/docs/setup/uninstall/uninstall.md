@@ -52,11 +52,17 @@ uses the `kubectl logs -f` command to tail the output of the pod performing the 
 
    ```shell
    $ kubectl delete verrazzano $MYVZ 
-      ```
-
-3. Wait for the uninstall to complete.
-   The uninstall logs from the `Verrazzano Platform Operator` will be streamed to the command window until the uninstall has completed or until the default timeout (20m) has been reached.
-
    ```
+If you want to see the uninstall logs during delete, you can view the logs from the `Verrazzano Platform Operator` with the following command:
+
+```
+$ kubectl logs -n verrazzano-install \
+    -f $(kubectl get pod \
+    -n verrazzano-install \
+    -l app=verrazzano-platform-operator \
+    -o jsonpath="{.items[0].metadata.name}") | grep '^{.*}$' \
+    | jq -r '."@timestamp" as $timestamp | "\($timestamp) \(.level) \(.message)"'
+```
+
 {{< /tab >}}
 {{< /tabs >}}
