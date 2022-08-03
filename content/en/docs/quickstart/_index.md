@@ -162,8 +162,7 @@ enabled for Istio.
     ```
 
 2. Wait for the uninstall to complete.
-The Verrazzano operator launches a Kubernetes [job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) to delete the Verrazzano installation.  
-The uninstall logs from that job will be streamed to the command window until the uninstall has completed or until the default timeout (20m) has been reached.
+The uninstall logs from the `Verrazzano Platform Operator` will be streamed to the command window until the uninstall has completed or until the default timeout (20m) has been reached.
 
 ## Next steps
 
