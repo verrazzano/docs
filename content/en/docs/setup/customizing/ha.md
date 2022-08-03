@@ -11,8 +11,8 @@ The [ha.yaml]({{< ghlink raw=true path="examples/ha/ha.yaml" >}}) file shows you
 When using [ha.yaml]({{< ghlink raw=true path="examples/ha/ha.yaml" >}}), consider the following:
 
 * It does not ensure a fault-tolerant environment.
+* Running additional replicas of components will increase resource requirements. At least four CPUs, 100GB disk storage, and 64GB RAM available on the Kubernetes worker nodes is required.
 * Additional customizations may be required for your environment.
-* Running additional replicas of components will increase resource requirements.
 
 To install the example high availability configuration using the Verrazzano CLI:
    ```
