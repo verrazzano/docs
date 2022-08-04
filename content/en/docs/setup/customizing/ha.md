@@ -1,7 +1,7 @@
 ---
 title: Configure High Availability
 description: Achieve high availability using the `prod` profile
-linkTitle: Configure High Availability
+linkTitle: High Availability
 Weight: 11
 draft: false
 ---
