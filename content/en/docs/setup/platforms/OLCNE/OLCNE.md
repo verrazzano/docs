@@ -14,20 +14,32 @@ Deploy Oracle Cloud Native Environment with the Kubernetes module, following ins
 
 ### Notes
 
-The `oci-ccm` module does not elect a default `StorageClass` or configure policies for the `CSIDrivers` that it installs.  A
+1. The `oci-ccm` module does not elect a default `StorageClass` or configure policies for the `CSIDrivers` that it installs.  A
 reasonable choice is the `oci-bv` `StorageClass` with its `CSIDriver` configured with the `File` group policy.
 
-```
-kubectl patch sc oci-bv -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
-kubectl apply -f - <<EOF
-apiVersion: storage.k8s.io/v1
-kind: CSIDriver
-metadata:
-  name: blockvolume.csi.oraclecloud.com
-spec:
-  fsGroupPolicy: File
-EOF
-```
+    ```
+    kubectl patch sc oci-bv -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+    kubectl apply -f - <<EOF
+    apiVersion: storage.k8s.io/v1
+    kind: CSIDriver
+    metadata:
+      name: blockvolume.csi.oraclecloud.com
+    spec:
+      fsGroupPolicy: File
+    EOF
+    ```
+
+2. Unless explicitly configured, the `externalip-validation-webhook-service` defaults to blocking all external IP addresses in the cluster, which causes the
+Verrazzano installation to fail because an IP address cannot be assigned to an ingress controller. When this situation occurs, the Verrazzano Platform Operator logs
+will contain a message similar to this:
+
+    ```
+    admission webhook "validate-externalip.webhook.svc" denied the request: spec.externalIPs:
+        Invalid value: "<external IP address>": externalIP specified is not allowed to use
+    ```
+
+To avoid this error, either disable the `externalip-validation-webhook-service` or configure the service with your load balancer IP addresses prior to installing Verrazzano.
+See [Enabling Access to all externalIPs](https://docs.oracle.com/en/operating-systems/olcne/1.5/orchestration/external-ips.html#ext-ip-disable) for more information.
 
 ## Examples
 <details>
