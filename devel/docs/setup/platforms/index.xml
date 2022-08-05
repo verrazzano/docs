@@ -61,6 +61,8 @@
 &lt;li&gt;Install a Container Storage Interface Driver, such as &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.5/storage/oci.html#oci&#34;&gt;OCI-CCM&lt;/a&gt; or &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.5/storage/gluster.html#gluster&#34;&gt;Gluster&lt;/a&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;notes&#34;&gt;Notes&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
 &lt;p&gt;The &lt;code&gt;oci-ccm&lt;/code&gt; module does not elect a default &lt;code&gt;StorageClass&lt;/code&gt; or configure policies for the &lt;code&gt;CSIDrivers&lt;/code&gt; that it installs.  A
 reasonable choice is the &lt;code&gt;oci-bv&lt;/code&gt; &lt;code&gt;StorageClass&lt;/code&gt; with its &lt;code&gt;CSIDriver&lt;/code&gt; configured with the &lt;code&gt;File&lt;/code&gt; group policy.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;kubectl patch sc oci-bv -p &amp;#39;{&amp;#34;metadata&amp;#34;: {&amp;#34;annotations&amp;#34;:{&amp;#34;storageclass.kubernetes.io/is-default-class&amp;#34;:&amp;#34;true&amp;#34;}}}&amp;#39;
@@ -72,7 +74,18 @@ metadata:
 spec:
   fsGroupPolicy: File
 EOF
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;examples&#34;&gt;Examples&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Unless explicitly configured, the &lt;code&gt;externalip-validation-webhook-service&lt;/code&gt; defaults to blocking all external IP addresses in the cluster, which causes the
+Verrazzano installation to fail because an IP address cannot be assigned to an ingress controller. When this situation occurs, the Verrazzano Platform Operator logs
+will contain a message similar to this:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;admission webhook &amp;#34;validate-externalip.webhook.svc&amp;#34; denied the request: spec.externalIPs:
+    Invalid value: &amp;#34;&amp;lt;external IP address&amp;gt;&amp;#34;: externalIP specified is not allowed to use
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;To avoid this error, either disable the &lt;code&gt;externalip-validation-webhook-service&lt;/code&gt; or configure the service with your load balancer IP addresses prior to installing Verrazzano.
+See &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.5/orchestration/external-ips.html#ext-ip-disable&#34;&gt;Enabling Access to all externalIPs&lt;/a&gt; for more information.&lt;/p&gt;
+&lt;h2 id=&#34;examples&#34;&gt;Examples&lt;/h2&gt;
 &lt;details&gt;
 &lt;summary&gt;Oracle Cloud Infrastructure&lt;/summary&gt;
 The following is an example of Oracle Cloud Infrastructure that can be used to evaluate Verrazzano installed on Oracle Cloud Native Environment.

@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/platforms/olcne/olcne/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-08-05T06:39:19-07:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-08-05T12:01:47-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Oracle Cloud Native Environment">
 <meta itemprop="description" content="Instructions for setting up an Oracle Cloud Native Environment cluster for Verrazzano">
-<meta itemprop="dateModified" content="2022-08-05T06:39:19-07:00" />
-<meta itemprop="wordCount" content="575">
+<meta itemprop="dateModified" content="2022-08-05T12:01:47-04:00" />
+<meta itemprop="wordCount" content="674">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Oracle Cloud Native Environment"/>
 <meta name="twitter:description" content="Instructions for setting up an Oracle Cloud Native Environment cluster for Verrazzano"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.275a1f29ca0d959cc67083a93b6549e1.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.d4d83782869da227d2565c5add1c8de2.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.275a1f29ca0d959cc67083a93b6549e1.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.d4d83782869da227d2565c5add1c8de2.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -509,6 +509,8 @@ if (!doNotTrack) {
 <li>Install a Container Storage Interface Driver, such as <a href="https://docs.oracle.com/en/operating-systems/olcne/1.5/storage/oci.html#oci">OCI-CCM</a> or <a href="https://docs.oracle.com/en/operating-systems/olcne/1.5/storage/gluster.html#gluster">Gluster</a>.</li>
 </ul>
 <h3 id="notes">Notes</h3>
+<ol>
+<li>
 <p>The <code>oci-ccm</code> module does not elect a default <code>StorageClass</code> or configure policies for the <code>CSIDrivers</code> that it installs.  A
 reasonable choice is the <code>oci-bv</code> <code>StorageClass</code> with its <code>CSIDriver</code> configured with the <code>File</code> group policy.</p>
 <pre tabindex="0"><code>kubectl patch sc oci-bv -p &#39;{&#34;metadata&#34;: {&#34;annotations&#34;:{&#34;storageclass.kubernetes.io/is-default-class&#34;:&#34;true&#34;}}}&#39;
@@ -520,7 +522,18 @@ metadata:
 spec:
   fsGroupPolicy: File
 EOF
-</code></pre><h2 id="examples">Examples</h2>
+</code></pre></li>
+<li>
+<p>Unless explicitly configured, the <code>externalip-validation-webhook-service</code> defaults to blocking all external IP addresses in the cluster, which causes the
+Verrazzano installation to fail because an IP address cannot be assigned to an ingress controller. When this situation occurs, the Verrazzano Platform Operator logs
+will contain a message similar to this:</p>
+<pre tabindex="0"><code>admission webhook &#34;validate-externalip.webhook.svc&#34; denied the request: spec.externalIPs:
+    Invalid value: &#34;&lt;external IP address&gt;&#34;: externalIP specified is not allowed to use
+</code></pre></li>
+</ol>
+<p>To avoid this error, either disable the <code>externalip-validation-webhook-service</code> or configure the service with your load balancer IP addresses prior to installing Verrazzano.
+See <a href="https://docs.oracle.com/en/operating-systems/olcne/1.5/orchestration/external-ips.html#ext-ip-disable">Enabling Access to all externalIPs</a> for more information.</p>
+<h2 id="examples">Examples</h2>
 <details>
 <summary>Oracle Cloud Infrastructure</summary>
 The following is an example of Oracle Cloud Infrastructure that can be used to evaluate Verrazzano installed on Oracle Cloud Native Environment.
