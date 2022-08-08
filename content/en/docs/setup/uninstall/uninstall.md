@@ -14,7 +14,7 @@ When you uninstall Verrazzano:
 * The CRDs installed by Verrazzano are not deleted
 * Any applications that were deployed will still exist, but they may not be functional
 
-## Performing the uninstall
+## Perform the uninstall
 
 You can uninstall Verrazzano using the [Verrazzano CLI]({{< relref "/docs/setup/install/installation.md" >}}) or with [kubectl](https://kubernetes.io/docs/reference/kubectl/kubectl/).
 See the following respective sections.
