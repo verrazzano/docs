@@ -2,22 +2,23 @@
 title: Verrazzano Analysis Tools
 linkTitle: Verrazzano Analysis Tools
 weight: 1
-description: Use the Verrazzano Analysis Tools to analyze cluster snapshots
+description: Use the Verrazzano analysis tools to analyze cluster snapshots
 draft: false
 ---
 
 
 Verrazzano provides tooling which assists in troubleshooting issues in your environment:
-1. `k8s-dump-cluster.sh`
-2. `$ vz analyze` - a command-line tool
+1. `k8s-dump-cluster.sh` - a shell script tool
+2. `vz analyze` - a command-line tool
+
+## Download the shell script tool
 
 {{< tabs tabTotal="2" >}}
 {{< tab tabName="Linux" >}}
 <br>
 
-### Linux Instructions
 
-Use these instructions to obtain the cluster snapshot analysis tool on Linux machines.
+Use these instructions to obtain the shell script tool on Linux machines.
 
 #### Download the tooling
   ```
@@ -34,9 +35,8 @@ Use these instructions to obtain the cluster snapshot analysis tool on Linux mac
 {{< tab tabName="macOS" >}}
 <br>
 
-### Mac Instructions
 
-Use these instructions to obtain the cluster snapshot analysis tool on Mac machines.
+Use these instructions to obtain the shell script tool on Mac machines.
 
 #### Download the tooling
   ```
@@ -51,14 +51,12 @@ Use these instructions to obtain the cluster snapshot analysis tool on Mac machi
 {{< /tab >}}
 {{< /tabs >}}
 
-### CLI Setup
-To set up the `$ vz` command-line tool, follow the steps [here]({{< relref "docs/setup/cli/_index.md" >}}).
+## Set up the CLI tool
+To set up the `vz` command-line tool, follow the steps [here]({{< relref "docs/setup/cli/_index.md" >}}).
 
-## Use the `k8s-dump-cluster.sh` tool
+## First, use the `k8s-dump-cluster.sh` tool
 
 The `k8s-dump-cluster.sh` tool is a shell script which runs various `kubectl` and `helm` commands against a cluster.
-
-Note that the data captured by this script might include sensitive information. This data is under your control; you can choose whether to share it.
 
 The directory structure created by the `k8s-dump-cluster.sh` tool, for a specific cluster snapshot, appears as follows:
 
@@ -114,21 +112,23 @@ The directory structure created by the `k8s-dump-cluster.sh` tool, for a specifi
         pv.json
         verrazzano_resources.json
 
+Note that the data captured by this script might include sensitive information; you can choose whether to share it.
+
 The script shows the `kubectl` and `helm` commands which are run. The basic structure, shown previously, is formed by running the command, `$ kubectl cluster-info dump --all-namespaces`, with additional data captured into that directory structure.
 
-To perform a snapshot of a cluster into a directory named `my-cluster-snapshot`:
+To create a cluster snapshot in a directory named `my-cluster-snapshot`:
+```shell
+$ sh k8s-dump-cluster.sh -d my-cluster-snapshot
+```
 
-`$ sh k8s-dump-cluster.sh -d my-cluster-snapshot`
+## Then, use the `vz analyze` tool
 
-## Use the `$ vz analyze` tool
-
-The `$ vz analyze` tool analyzes data from a cluster snapshot captured using `k8s-dump-cluster.sh`, reports the issues found, and prescribes related actions to take.  These tools are continually evolving with regard to what may be captured, the knowledge base of issues and actions, and the types of analysis that can be performed.
-
-Users, developers, and Continuous Integration (CI) can use this tooling to quickly identify the root cause of encountered problems, determine mitigation actions, and provide a sharable report with other users or tooling.
+The `vz analyze` command-line tool analyzes data from a cluster snapshot captured using the shell script tool, reports the issues found, and prescribes related actions to take. Users,
+developers, and Continuous Integration (CI) can use this tooling to quickly identify the root cause of encountered problems, determine mitigation actions, and provide a sharable report with other users or tooling.
 
 The data that the analysis examines follows the structure created by the corresponding capture tooling. For example, `k8s-dump-cluster.sh` takes a snapshot of a cluster and places it into a specific structure. The tooling analyzes the data and provides you with a report, which identifies issues and provides you with actions to take.
 
-The `$ vz analyze` tool will find and analyze all cluster snapshot directories found under a specified root directory. This lets you create a directory to hold the cluster snapshots of related clusters into sub-directories which the tool can analyze.
+The `vz analyze` tool will find and analyze all cluster snapshot directories found under a specified root directory. This lets you create a directory to hold the cluster snapshots of related clusters in sub-directories, which the tool can analyze.
 
 For example:
 
@@ -143,26 +143,27 @@ For example:
 The tool analyzes each cluster snapshot directory found; you need to provide only the single root directory.
 
 To perform an analysis of the clusters:
-
-`$ vz analyze --capture-dir my-cluster-snapshots`
+```shell
+$ vz analyze --capture-dir my-cluster-snapshots
+```
 
 ### Usage information
 
-Use the following syntax to run `$ vz` commands from your terminal window.
+Use the following syntax to run `vz` commands from your terminal window.
 ```shell
 $ vz analyze [flags]
 ```
 
-### Available options
+#### Available options
 
 | Command                  | Definition                                                                           |
 |--------------------------|--------------------------------------------------------------------------------------|
-| `--capture-dir string`   | Directory holding the captured data. (Required)                                      | 
-| `-h, --help`             | Help for `$ vz analyze` command.                                                     |
-| `--report-file string`   | Name of report output file. (Default `stdout`)                                       |
-| `--report-format string` | The format of the report output. Valid output format is "simple". (Default "simple") |
+| `--capture-dir string`   | Directory holding the captured data. (Required)                                      |
+| `-h, --help`             | Help for the `vz analyze` command.                                                   |
+| `--report-file string`   | Name of the report output file. (Default `stdout`)                                       |
+| `--report-format string` | The format of the report. Valid output format is "simple". (Default "simple") |
 
-### Available flags
+#### Available flags
 
 These flags apply to all the commands.
 
