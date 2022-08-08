@@ -19,21 +19,21 @@
 <link rel="icon" type="image/png" href="../../../../favicons/android-192x192.png" sizes="192x192">
 
 <title>Verrazzano Analysis Tools | Verrazzano Enterprise Container Platform</title>
-<meta name="description" content="Use the Verrazzano Analysis Tools to analyze cluster dumps">
+<meta name="description" content="Use the Verrazzano analysis tools to analyze cluster snapshots">
 <meta property="og:title" content="Verrazzano Analysis Tools" />
-<meta property="og:description" content="Use the Verrazzano Analysis Tools to analyze cluster dumps" />
+<meta property="og:description" content="Use the Verrazzano analysis tools to analyze cluster snapshots" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/troubleshooting/diagnostictools/verrazzanoanalysistool/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-06-16T17:43:12+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-08-08T11:00:59-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Verrazzano Analysis Tools">
-<meta itemprop="description" content="Use the Verrazzano Analysis Tools to analyze cluster dumps">
-<meta itemprop="dateModified" content="2022-06-16T17:43:12+05:30" />
-<meta itemprop="wordCount" content="620">
+<meta itemprop="description" content="Use the Verrazzano analysis tools to analyze cluster snapshots">
+<meta itemprop="dateModified" content="2022-08-08T11:00:59-04:00" />
+<meta itemprop="wordCount" content="596">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Verrazzano Analysis Tools"/>
-<meta name="twitter:description" content="Use the Verrazzano Analysis Tools to analyze cluster dumps"/>
+<meta name="twitter:description" content="Use the Verrazzano analysis tools to analyze cluster snapshots"/>
 
 
 
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.5831d504918471fde74ac39c7acb2e58.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.30f0ef887b4962354b07418dd2a9b43e.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.5831d504918471fde74ac39c7acb2e58.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.30f0ef887b4962354b07418dd2a9b43e.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -291,6 +291,8 @@ if (!doNotTrack) {
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docstroubleshootingdiagnostictoolsverrazzanoanalysistool-li">
   <a href="../../../../docs/troubleshooting/diagnostictools/verrazzanoanalysistool/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsverrazzanoanalysistool"><span class="td-sidebar-nav-active-item">Verrazzano Analysis Tools</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docstroubleshootingdiagnostictoolsvzbugreportcli-li">
+  <a href="../../../../docs/troubleshooting/diagnostictools/vzbugreportcli/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsvzbugreportcli"><span class="">Bug Reports</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docstroubleshootingdiagnostictoolsanalysisadvice-li">
   <a href="../../../../docs/troubleshooting/diagnostictools/analysisadvice/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docstroubleshootingdiagnostictoolsanalysisadvice"><span class="">Analysis Advice</span></a>
   <ul class="ul-4 foldable">
@@ -432,9 +434,10 @@ if (!doNotTrack) {
   <ul>
     <li>
       <ul>
-        <li><a href="#tools-setup">Tools Setup</a></li>
-        <li><a href="#use-the-k8s-dump-clustersh-tool">Use the <code>k8s-dump-cluster.sh</code> tool</a></li>
-        <li><a href="#use-the-verrazzano-analysis-tool">Use the <code>verrazzano-analysis</code> tool</a></li>
+        <li><a href="#download-the-shell-script-tool">Download the shell script tool</a></li>
+        <li><a href="#set-up-the-cli-tool">Set up the CLI tool</a></li>
+        <li><a href="#first-use-the-k8s-dump-clustersh-tool">First, use the <code>k8s-dump-cluster.sh</code> tool</a></li>
+        <li><a href="#then-use-the-vz-analyze-tool">Then, use the <code>vz analyze</code> tool</a></li>
       </ul>
     </li>
   </ul>
@@ -486,7 +489,7 @@ if (!doNotTrack) {
             
 <div class="td-content">
 	<h1>Verrazzano Analysis Tools</h1>
-	<div class="lead">Use the Verrazzano Analysis Tools to analyze cluster dumps</div>
+	<div class="lead">Use the Verrazzano analysis tools to analyze cluster snapshots</div>
 	<header class="article-meta">
 		
 
@@ -504,11 +507,10 @@ if (!doNotTrack) {
 	</header>    
 	<p>Verrazzano provides tooling which assists in troubleshooting issues in your environment:</p>
 <ol>
-<li><code>k8s-dump-cluster.sh</code></li>
-<li><code>verrazzano-analysis</code></li>
+<li><code>k8s-dump-cluster.sh</code> - a shell script tool</li>
+<li><code>vz analyze</code> - a command-line tool</li>
 </ol>
-<h2 id="tools-setup">Tools Setup</h2>
-<p>These tools are available for Linux and Mac: <a href="https://github.com/verrazzano/verrazzano/releases/">https://github.com/verrazzano/verrazzano/releases/</a>.</p>
+<h2 id="download-the-shell-script-tool">Download the shell script tool</h2>
 <nav>
 	<div class="nav nav-tabs" id="nav-tab" role="tablist">
 
@@ -520,13 +522,13 @@ if (!doNotTrack) {
 		
 
 		<a class="nav-item nav-link  active "
-		   id="nav-eabfcd" data-toggle="tab" href="#eabfcd"
+		   id="nav-cfedab" data-toggle="tab" href="#cfedab"
 		   role="tab" aria-controls="nav-home" aria-selected="true">Linux</a>
 
 		
 
 		<a class="nav-item nav-link "
-		   id="nav-baecdf" data-toggle="tab" href="#baecdf"
+		   id="nav-cabdfe" data-toggle="tab" href="#cabdfe"
 		   role="tab" aria-controls="nav-home" aria-selected="true">macOS</a>
 
 		
@@ -542,21 +544,15 @@ if (!doNotTrack) {
 
 
 
-<div class="tab-pane fade show active " id="eabfcd" role="tabpanel" aria-labelledby="nav-1">
+<div class="tab-pane fade show active " id="cfedab" role="tabpanel" aria-labelledby="nav-1">
 
 	<br>
-<h3 id="linux-instructions">Linux Instructions</h3>
-<p>Use these instructions to obtain the analysis tools on Linux machines.</p>
+<p>Use these instructions to obtain the shell script tool on Linux machines.</p>
 <h4 id="download-the-tooling">Download the tooling</h4>
 <pre tabindex="0"><code> $ wget https://github.com/verrazzano/verrazzano/releases/download/master/k8s-dump-cluster.sh
  $ wget https://github.com/verrazzano/verrazzano/releases/download/master/k8s-dump-cluster.sh.sha256
- $ wget https://github.com/verrazzano/verrazzano/releases/download/master/verrazzano-analysis-linux-amd64.tar.gz
- $ wget https://github.com/verrazzano/verrazzano/releases/download/master/verrazzano-analysis-linux-amd64.tar.gz.sha256
 </code></pre><h4 id="verify-the-downloaded-files">Verify the downloaded files</h4>
 <pre tabindex="0"><code> $ sha256sum -c k8s-dump-cluster.sh.sha256
- $ sha256sum -c verrazzano-analysis-linux-amd64.tar.gz.sha256
-</code></pre><h4 id="unpack-the-verrazzano-analysis-binary">Unpack the <code>verrazzano-analysis</code> binary</h4>
-<pre tabindex="0"><code> $ tar xvf verrazzano-analysis-linux-amd64.tar.gz
 </code></pre>
 
 </div>
@@ -566,21 +562,15 @@ if (!doNotTrack) {
 
 
 
-<div class="tab-pane fade show " id="baecdf" role="tabpanel" aria-labelledby="nav-1">
+<div class="tab-pane fade show " id="cabdfe" role="tabpanel" aria-labelledby="nav-1">
 
 	<br>
-<h3 id="mac-instructions">Mac Instructions</h3>
-<p>Use these instructions to obtain the analysis tools on Mac machines.</p>
+<p>Use these instructions to obtain the shell script tool on Mac machines.</p>
 <h4 id="download-the-tooling">Download the tooling</h4>
 <pre tabindex="0"><code> $ wget https://github.com/verrazzano/verrazzano/releases/download/master/k8s-dump-cluster.sh
  $ wget https://github.com/verrazzano/verrazzano/releases/download/master/k8s-dump-cluster.sh.sha256
- $ wget https://github.com/verrazzano/verrazzano/releases/download/master/verrazzano-analysis-darwin-amd64.tar.gz
- $ wget https://github.com/verrazzano/verrazzano/releases/download/master/verrazzano-analysis-darwin-amd64.tar.gz.sha256
 </code></pre><h4 id="verify-the-downloaded-files">Verify the downloaded files</h4>
 <pre tabindex="0"><code> $ shasum -a 256 -c k8s-dump-cluster.sh.sha256
- $ shasum -a 256 -c verrazzano-analysis-darwin-amd64.tar.gz.sha256
-</code></pre><h4 id="unpack-the-verrazzano-analysis-binary">Unpack the <code>verrazzano-analysis</code> binary</h4>
-<pre tabindex="0"><code> $ tar xvf verrazzano-analysis-darwin-amd64.tar.gz
 </code></pre>
 
 </div>
@@ -588,12 +578,13 @@ if (!doNotTrack) {
 
 
 </div>
-<h2 id="use-the-k8s-dump-clustersh-tool">Use the <code>k8s-dump-cluster.sh</code> tool</h2>
+<h2 id="set-up-the-cli-tool">Set up the CLI tool</h2>
+<p>To set up the <code>vz</code> command-line tool, follow the steps <a href="../../../../docs/setup/cli/">here</a>.</p>
+<h2 id="first-use-the-k8s-dump-clustersh-tool">First, use the <code>k8s-dump-cluster.sh</code> tool</h2>
 <p>The <code>k8s-dump-cluster.sh</code> tool is a shell script which runs various <code>kubectl</code> and <code>helm</code> commands against a cluster.</p>
-<p>Note that the data captured by this script might include sensitive information. This data is under your control; you can choose whether to share it.</p>
-<p>The directory structure created by the <code>k8s-dump-cluster.sh</code> tool, for a specific cluster dump, appears as follows:</p>
+<p>The directory structure created by the <code>k8s-dump-cluster.sh</code> tool, for a specific cluster snapshot, appears as follows:</p>
 <pre><code>$ CAPTURE_DIR
-  cluster-dump
+  cluster-snapshot
     directory per namespace (a directory at this level is assumed to represent a namespace)
       acme-orders.json
       application-configurations.json
@@ -644,76 +635,74 @@ if (!doNotTrack) {
     pv.json
     verrazzano_resources.json
 </code></pre>
+<p>Note that the data captured by this script might include sensitive information; you can choose whether to share it.</p>
 <p>The script shows the <code>kubectl</code> and <code>helm</code> commands which are run. The basic structure, shown previously, is formed by running the command, <code>$ kubectl cluster-info dump --all-namespaces</code>, with additional data captured into that directory structure.</p>
-<p>To perform a dump of a cluster into a directory named <code>my-cluster-dump</code>:</p>
-<p><code>$ sh k8s-dump-cluster.sh -d my-cluster-dump</code></p>
-<h2 id="use-the-verrazzano-analysis-tool">Use the <code>verrazzano-analysis</code> tool</h2>
-<p>The <code>verrazzano-analysis</code> tool analyzes data from a cluster dump captured using <code>k8s-dump-cluster.sh</code>, reports the issues found, and prescribes related actions to take.  These tools are continually evolving with regard to what may be captured, the knowledge base of issues and actions, and the types of analysis that can be performed.</p>
-<p>Users, developers, and Continuous Integration (CI) can use this tooling to quickly identify the root cause of encountered problems, determine mitigation actions, and provide a sharable report with other users or tooling.</p>
-<p>The data that the analysis examines follows the structure created by the corresponding capture tooling. For example, <code>k8s-dump-cluster.sh</code> dumps a cluster into a specific structure, which might contain data that you do not want to share. The tooling analyzes the data and provides you with a report, which identifies issues and provides you with actions to take.</p>
-<p>The <code>verrazzano-analysis</code> tool will find and analyze all cluster dump directories found under a specified root directory. This lets you create a directory to hold the cluster dumps of related clusters into sub-directories which the tool can analyze.</p>
+<p>To create a cluster snapshot in a directory named <code>my-cluster-snapshot</code>:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ sh k8s-dump-cluster.sh -d my-cluster-snapshot
+</span></span></code></pre></div><h2 id="then-use-the-vz-analyze-tool">Then, use the <code>vz analyze</code> tool</h2>
+<p>The <code>vz analyze</code> command-line tool analyzes data from a cluster snapshot captured using the shell script tool, reports the issues found, and prescribes related actions to take. Users,
+developers, and Continuous Integration (CI) can use this tooling to quickly identify the root cause of encountered problems, determine mitigation actions, and provide a sharable report with other users or tooling.</p>
+<p>The data that the analysis examines follows the structure created by the corresponding capture tooling. For example, <code>k8s-dump-cluster.sh</code> takes a snapshot of a cluster and places it into a specific structure. The tooling analyzes the data and provides you with a report, which identifies issues and provides you with actions to take.</p>
+<p>The <code>vz analyze</code> tool will find and analyze all cluster snapshot directories found under a specified root directory. This lets you create a directory to hold the cluster snapshots of related clusters in sub-directories, which the tool can analyze.</p>
 <p>For example:</p>
-<pre><code>my-cluster-dumps
+<pre><code>my-cluster-snapshots
     CAPTURE_DIR-1
-        cluster-dump
+        cluster-snapshot
             ...
     CAPTURE_DIR-2
-        cluster-dump
+        cluster-snapshot
             ...
 </code></pre>
-<p>The tool analyzes each cluster dump directory found; you need to provide only the single root directory.</p>
+<p>The tool analyzes each cluster snapshot directory found; you need to provide only the single root directory.</p>
 <p>To perform an analysis of the clusters:</p>
-<p><code>$ verrazzano-analysis my-cluster-dumps</code></p>
-<h3 id="usage-information">Usage information</h3>
-<pre tabindex="0"><code>Usage: verrazzano-analysis [options] captured-data-directory
-</code></pre><table>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ vz analyze --capture-dir my-cluster-snapshots
+</span></span></code></pre></div><h3 id="usage-information">Usage information</h3>
+<p>Use the following syntax to run <code>vz</code> commands from your terminal window.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ vz analyze <span style="color:#ce5c00;font-weight:bold">[</span>flags<span style="color:#ce5c00;font-weight:bold">]</span>
+</span></span></code></pre></div><h4 id="available-options">Available options</h4>
+<table>
 <thead>
 <tr>
-<th>Parameter</th>
+<th>Command</th>
 <th>Definition</th>
-<th>Default</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>-actions</code></td>
-<td>Include actions in the report.</td>
-<td><code>true</code></td>
+<td><code>--capture-dir string</code></td>
+<td>Directory holding the captured data. (Required)</td>
 </tr>
 <tr>
-<td><code>-help</code></td>
-<td>Display usage help.</td>
-<td></td>
+<td><code>-h, --help</code></td>
+<td>Help for the <code>vz analyze</code> command.</td>
 </tr>
 <tr>
-<td><code>-info</code></td>
-<td>Include informational messages.</td>
-<td><code>true</code></td>
+<td><code>--report-file string</code></td>
+<td>Name of the report output file. (Default <code>stdout</code>)</td>
 </tr>
 <tr>
-<td><code>-minConfidence</code></td>
-<td>Minimum confidence threshold to report for issues, 0-10.</td>
-<td><code>0</code></td>
+<td><code>--report-format string</code></td>
+<td>The format of the report. Valid output format is &ldquo;simple&rdquo;. (Default &ldquo;simple&rdquo;)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="available-flags">Available flags</h4>
+<p>These flags apply to all the commands.</p>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--context string</code></td>
+<td>The name of the <code>kubeconfig</code> context to use.</td>
 </tr>
 <tr>
-<td><code>-minImpact</code></td>
-<td>Minimum impact threshold to report for issues, 0-10.</td>
-<td><code>0</code></td>
-</tr>
-<tr>
-<td><code>-reportFile</code></td>
-<td>Name of report output file.</td>
-<td>Output to stdout.</td>
-</tr>
-<tr>
-<td><code>-support</code></td>
-<td>Include support data in the report.</td>
-<td><code>true</code></td>
-</tr>
-<tr>
-<td><code>-version</code></td>
-<td>Display tool version.</td>
-<td></td>
+<td><code>--kubeconfig string</code></td>
+<td>Path to the <code>kubeconfig</code> file to use.</td>
 </tr>
 </tbody>
 </table>
