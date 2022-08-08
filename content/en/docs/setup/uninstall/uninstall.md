@@ -6,15 +6,15 @@ weight: 5
 draft: false
 ---
 
-## Uninstall Considerations
-Before uninstalling Verrazzano, you should delete your Verrazzano applications since they may not function properly once uninstall is done.
+## Uninstall considerations
+Before uninstalling Verrazzano, you should delete your Verrazzano applications because they may not function properly after the uninstall is done.
 
 When you uninstall Verrazzano:
 * All of the Verrazzano components are uninstalled
 * The CRDs installed by Verrazzano are not deleted
 * Any applications that were deployed will still exist, but they may not be functional
 
-## Performing the Uninstall
+## Performing the uninstall
 
 You can uninstall Verrazzano using the [Verrazzano CLI]({{< relref "/docs/setup/install/installation.md" >}}) or with [kubectl](https://kubernetes.io/docs/reference/kubectl/kubectl/).
 See the following respective sections.
@@ -53,7 +53,7 @@ uses the `kubectl logs -f` command to tail the output of the pod performing the 
    ```shell
    $ kubectl delete verrazzano $MYVZ 
    ```
-If you want to see the uninstall logs during delete, you can view the logs from the `Verrazzano Platform Operator` with the following command:
+If you want to see the uninstall logs during the deletion, you can view them from the `Verrazzano Platform Operator` with the following command:
 
 ```
 $ kubectl logs -n verrazzano-install \
