@@ -1,15 +1,16 @@
 ---
 title: Restore
-description: "Restore component specific persistent data and configurations"
+description: "Restore component-specific persistent data and configurations"
 linkTitle: Restore
 weight: 3
 draft: false
 ---
 
 
-Before proceeding ensure the backup operator(s) is installed and configured properly as indicated  [here](/docs/setup/backup/prerequisites/#rancher-backup-operator-prerequisite).
+Before proceeding, ensure that the backup component prerequisites are met, as indicated [here]({{< relref "docs/setup/backup/prerequisites.md" >}}).
+This document also assumes that a successful backup was previously made using either Velero or rancher-backup, as shown [here]({{< relref "docs/setup/backup/backup.md" >}}).  
 
-This section also assumes that a successful backup was taken using either Velero or Rancher Backup.  
+Use the following component-specific instructions to restore application data.
 
 {{< tabs tabTotal="3" >}}
 {{< tab tabName="RancherRestore" >}}
@@ -17,9 +18,8 @@ This section also assumes that a successful backup was taken using either Velero
 
 ### Rancher Restore
 
-To initiate a Rancher restore, create the following example custom resource YAML.
-
-When a `Restore` custom resource is created, the operator accesses the backup .tar.gz file specified by the `Restore`, and restores the application data from that file.
+To initiate a Rancher restore, create the following example custom resource YAML file.
+When a `Restore` custom resource is created, the operator accesses the backup `*.tar.gz` file specified and restores the application data from that file.
 
 
 ```yaml
@@ -39,13 +39,13 @@ spec:
       endpoint: mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com
 ```
 
-The Rancher operator rancher-backup scales down the Rancher deployment during restore, and scales it back up once the restore completes.
+The rancher-backup operator scales down the Rancher deployment during the restore operation and scales it back up after the restoration completes.
 
-The resources are restored in this order:
+Resources are restored in this order:
 
 - Custom Resource Definitions (CRDs)
 - Cluster-scoped resources
-- Namespaced resources
+- Namespace resources
 
 <br/>
 
@@ -55,15 +55,15 @@ The resources are restored in this order:
 
 ### MySQL Restore
 
-For MySQL Verrazzano offers a custom hook that can be used along with Velero to perform a restore successfully.
+For MySQL, Verrazzano provides a custom hook that you can use along with Velero, to perform a restore operation.
 
-Delete the `keycloak` namespace to initiate a complete MySQL restore.
+To initiate a complete MySQL restore, first delete the `keycloak` namespace.
 
 ```shell
-kubectl delete namespace keycloak
+$ kubectl delete namespace keycloak
 ```
 
-Below example of Velero `Restore` [api](https://velero.io/docs/v1.8/api-types/restore/) object that can be invoked to perform a MySQL restore.
+To perform a MySQL restore, you can invoke the following example of a Velero `Restore` [API](https://velero.io/docs/v1.8/api-types/restore/) object.
 
 ```yaml
 apiVersion: velero.io/v1
@@ -98,22 +98,22 @@ spec:
 
 ```
 
-The above example will restore the keycloak namespace and the mysql volumes
-- It will recreate the mysql pvcs along with mysql pods
-- The `postHook` will restore the mysql data and ensure there are no inconsistencies.
+The preceding example restores the `keycloak` namespace and the `mysql` volumes.
+- It will recreate the MySQL PVCs along with the MySQL pods.
+- The `postHook` will restore the MySQL data and ensure that there are no inconsistencies.
 - The container on which the hook needs to be executed is identified by the pod label selectors, followed by the container name.
 
 
-**_NOTE:_** The hook needs to be a `postHook` since we want to apply it after the Kubernetes objects are restored.
+**NOTE**: The hook needs to be a `postHook` because it must be applied after the Kubernetes objects are restored.
 
-We can monitor the Velero restore object to understand the progress of our restore.
+To understand the progress of the restore operation, you can monitor the Velero `Restore` object.
 
 <details>
-  <summary>MySQL Restore Progress</summary>
+  <summary>MySQL restore progress</summary>
 
 ```shell
-# The following command allows us to monitor the restore progress.
-velero restore get -n verrazzano-backup                                                           
+# The following command lets you monitor the restore progress
+$ velero restore get -n verrazzano-backup                                                           
 NAME                              BACKUP              STATUS       STARTED                         COMPLETED   ERRORS   WARNINGS   CREATED                         SELECTOR
 verrazano-mysql-restore-example   mysql-backup-test   InProgress   2022-07-07 17:00:33 -0700 PDT   <nil>       0        0          2022-07-07 17:00:33 -0700 PDT   <none>
 ```
@@ -121,14 +121,14 @@ verrazano-mysql-restore-example   mysql-backup-test   InProgress   2022-07-07 17
 </details>
 
 <details>
-  <summary>MySQL Restore Object details</summary>
+  <summary>MySQL Restore object details</summary>
 
 ```shell
-# Command to get details about the restore object.
+# Command to get details about the Restore object
 
-velero restore describe verrazano-mysql-restore-example -n verrazzano-backup
+$ velero restore describe verrazano-mysql-restore-example -n verrazzano-backup
 
-# Sample output 
+# Sample output
 
 Name:         verrazano-mysql-restore-example
 Namespace:    verrazzano-backup
@@ -171,11 +171,11 @@ Preserve Service NodePorts:  auto
 </details>
 
 <details>
-  <summary>Pod Volume restore details</summary></summary>
+  <summary>Pod volume restore details</summary></summary>
 
 ```shell
-# The following command lists all the pod volume restores, that were created by velero.. 
-kubectl get podvolumerestores -n verrazzano-backup                        
+# The following command lists all the pod volume restored, that were created by Velero
+$ kubectl get podvolumerestores -n verrazzano-backup                        
 
 ```
 </details>
@@ -189,30 +189,30 @@ kubectl get podvolumerestores -n verrazzano-backup
 
 #### OpenSearch Restore
 
-For OpenSearch Verrazzano offers a custom hook that can be used along with Velero to perform a backup successfully.
-Due to the nature of transient data handled by OpenSearch, the hook invokes OpenSearch snapshot apis to back up and restore data streams appropriately,
+For OpenSearch, Verrazzano provides a custom hook that you can use along with Velero, to perform a restore operation.
+Due to the nature of transient data handled by OpenSearch, the hook invokes OpenSearch snapshot APIs to back up and restore data streams appropriately,
 thereby ensuring there is no loss of data and avoids data corruption as well.
 
-Delete existing OpenSearch cluster running on the system and all related data.
+To initiate an OpenSearch restore, first delete the existing OpenSearch cluster running on the system and all related data.
 
-- Scale down `Verrazzano Monitoring Operator`
-
-```shell
-kubectl scale deploy -n verrazzano-system verrazzano-monitoring-operator --replicas=0
-```
-
-- Cleanup OpenSearch components
+- Scale down `Verrazzano Monitoring Operator`.
 
 ```shell
-# These are sample commands to demonstrate the opensearch restore process.
+$ kubectl scale deploy -n verrazzano-system verrazzano-monitoring-operator --replicas=0
+```
 
-kubectl delete sts -n verrazzano-system -l verrazzano-component=opensearch
-kubectl delete deploy -n verrazzano-system -l verrazzano-component=opensearch
-kubectl delete pvc -n verrazzano-system  -l verrazzano-component=opensearch
+- Then, clean up the OpenSearch components.
+
+```shell
+# These are sample commands to demonstrate the OpenSearch restore process
+
+$ kubectl delete sts -n verrazzano-system -l verrazzano-component=opensearch
+$ kubectl delete deploy -n verrazzano-system -l verrazzano-component=opensearch
+$ kubectl delete pvc -n verrazzano-system  -l verrazzano-component=opensearch
 
 ```
 
-Below example is Velero restore [api](https://velero.io/docs/v1.8/api-types/restore/) object that can be invoked to take an OpenSearch restore.
+To perform an OpenSearch restore, you can invoke the following example Velero `Restore` [API](https://velero.io/docs/v1.8/api-types/restore/) object.
 
 ```yaml
 apiVersion: velero.io/v1
@@ -252,15 +252,15 @@ spec:
 ```
 
 
-The above example will restore an OpenSearch cluster from an existing backup
+The preceding example will restore an OpenSearch cluster from an existing backup.
 - It will recreate a new OpenSearch cluster (with new indexes).
-- The `postHook` will invoke the OpenSearch APIs that restores the snapshot data. 
+- The `postHook` will invoke the OpenSearch APIs that restores the snapshot data.
 - The container on which the hook needs to be executed is identified by the pod label selectors, followed by the container name.
-  In this case its `statefulset.kubernetes.io/pod-name: vmi-system-es-master-0`
+  In this case, it's `statefulset.kubernetes.io/pod-name: vmi-system-es-master-0`.
 
-**_NOTE:_** The hook needs to be a `postHook` since we want to apply it after the Kubernetes objects are restored.
+**NOTE**: The hook needs to be a `postHook` because it must be applied after the Kubernetes objects are restored.
 
-Once the restore is executed, the hook logs can be seen in the `velero restore logs` command. Additionally, the hook logs are also stored under `/tmp` folder in the pod itself.
+After the restore operation is executed, you can see the hook logs using the `velero restore logs` command. Additionally, the hook logs are stored under the `/tmp` folder in the pod.
 
 
 <details>
@@ -268,11 +268,11 @@ Once the restore is executed, the hook logs can be seen in the `velero restore l
 
 ```shell
 
-# To display the logs from the restore execute the following command
-velero restore logs verrazzano-opensearch-restore -n verrazzano-backup
+# To display the logs from the restore, execute the following command
+$ velero restore logs verrazzano-opensearch-restore -n verrazzano-backup
 
-# To examine the hook logs exec into the pod as shown below
-kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/verrazzano-restore-hook-2357212430.log
+# To examine the hook logs, exec into the pod as shown
+$ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/verrazzano-restore-hook-2357212430.log
 ```
 </details>
 
