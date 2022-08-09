@@ -8,20 +8,12 @@ draft: false
 
 Verrazzano provides [Velero](https://velero.io/docs/v1.8/) and [rancher-backup](https://rancher.com/docs/rancher/v2.5/en/backups/) for backup and recovery at the component and platform level. Use the following instructions to enable and configure these components in your environment.
 
-## Velero CLI installation (optional)
-
-The Velero CLI help you access Velero objects in a more descriptive manner; you can also manage them using `kubectl`.
-
-If desired, install the Velero CLI on Oracle Linux as follows:
-
-```shell
-$ rpm -ivh https://yum.oracle.com/repo/OracleLinux/OL7/developer/olcne/x86_64/getPackage/velero-1.8.1-1.el7.x86_64.rpm
-```
+**NOTE**:  The backup functionality requires Verrazzano to be installed in `prod` mode. 
 
 ## Enable backup components
 
 To back up and restore persistent data, first you must enable the Velero and rancher-backup operator components.
-The following configuration shows how to enable the backup components with a `dev` installation profile.
+The following configuration shows how to enable the backup components with a `prod` installation profile.
 
 ```
 apiVersion: install.verrazzano.io/v1alpha1
@@ -29,7 +21,7 @@ kind: Verrazzano
 metadata:
   name: example-verrazzano
 spec:
-  profile: dev
+  profile: prod
   environmentName: default
   components:    
     velero:
@@ -76,6 +68,21 @@ Next, meet the following prerequisite requirements for both Velero and rancher-b
 - Object store region information.
 
 - A signing key, which is required to authenticate with the Amazon S3 compatible object store. Follow these steps to create a [Customer Secret Key](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm#Working2).
+
+
+
+
+<details>
+  <summary>Velero CLI (optional)</summary>
+
+The Velero CLI help you access Velero objects in a more descriptive manner; you can also manage them using `kubectl`.
+
+If desired, install the Velero CLI on Oracle Linux as follows:
+```shell
+$ rpm -ivh https://yum.oracle.com/repo/OracleLinux/OL7/developer/olcne/x86_64/getPackage/velero-1.8.1-1.el7.x86_64.rpm
+```
+</details>
+
 
 ## Component-specific prerequisites
 
