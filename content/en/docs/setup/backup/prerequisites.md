@@ -8,7 +8,7 @@ draft: false
 
 Verrazzano provides [Velero](https://velero.io/docs/v1.8/) and [rancher-backup](https://rancher.com/docs/rancher/v2.5/en/backups/) for backup and recovery at the component and platform level. Use the following instructions to enable and configure these components in your environment.
 
-**NOTE**:  The backup functionality requires Verrazzano to be installed in `prod` mode. 
+**NOTE**:  The backup functionality requires that you install Verrazzano using the prod (default) profile.
 
 ## Enable backup components
 
@@ -75,7 +75,7 @@ Next, meet the following prerequisite requirements for both Velero and rancher-b
 <details>
   <summary>Velero CLI (optional)</summary>
 
-The Velero CLI help you access Velero objects in a more descriptive manner; you can also manage them using `kubectl`.
+The Velero CLI helps you access Velero objects in a more descriptive manner; you can also manage them using `kubectl`.
 
 If desired, install the Velero CLI on Oracle Linux as follows:
 ```shell
