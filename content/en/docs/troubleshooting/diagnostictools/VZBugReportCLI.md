@@ -33,6 +33,7 @@ $ vz bug-report [flags]
 | `-h, --help `                      | Help for `vz bug-report` command.                                                                                                                                                                  |
 | `-i, --include-namespaces strings` | A comma-separated list of additional namespaces for collecting cluster information. This flag can be specified multiple times, such as `--include-namespaces ns1 --include-namespaces ns...`    |
 | `-r, --report-file string`         | The report file created by the `vz bug-report` command, as a `*.tar.gz` file. Defaults to `bug-report.tar.gz` in the current directory.                                                                |
+| `-v, --verbose`          | Enable verbose output.                                                                                   |
 
 ### Available flags
 
