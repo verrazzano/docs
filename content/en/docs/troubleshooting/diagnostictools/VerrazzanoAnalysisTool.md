@@ -2,23 +2,20 @@
 title: Verrazzano Analysis Tools
 linkTitle: Verrazzano Analysis Tools
 weight: 1
-description: Use the Verrazzano analysis tools to analyze cluster snapshots
+description: Use the Verrazzano analysis tools to analyze live cluster and cluster snapshots
 draft: false
 ---
 
 
-Verrazzano provides tooling which assists in troubleshooting issues in your environment. 
-Use the `vz analyze` tool to analyze a live cluster or analyze a cluster snapshot captured by `vz bug-report` tool. More details about `vz bug-report` available [here]({{< relref "docs/troubleshooting/diagnostictools/VZBugReportCLI.md" >}}).
+Verrazzano provides `vz analyze` command-line tool which assists in troubleshooting issues in your environment. It can be used to analyze a live cluster as well as to analyze a cluster snapshot captured by `vz bug-report` tool. More details about `vz bug-report` available [here]({{< relref "docs/troubleshooting/diagnostictools/VZBugReportCLI.md" >}}).
 
-The `vz analyze` command-line tool analyzes the cluster or data from a cluster snapshot, reports the issues found, and prescribes related actions to take. Users,
-developers, and Continuous Integration (CI) can use this tooling to quickly identify the root cause of encountered problems, determine mitigation actions, and provide a sharable report with other users or tooling.
+The `vz analyze` command-line tool analyzes the cluster or a cluster snapshot, reports the issues found, and prescribes related actions to take. Users, developers, and Continuous Integration (CI) can use this tooling to quickly identify the root cause of encountered problems, determine mitigation actions, and provide a sharable report with other users or tooling.
 
 ## Set up the CLI tool
 To set up the `vz` command-line tool, follow the steps [here]({{< relref "docs/setup/cli/_index.md" >}}).
 
-
 ## Analyze live  cluster
-To analyze the live Kubernetes cluster:
+To analyze a live Kubernetes cluster:
 ```shell
 $ vz analyze
 ```
@@ -58,9 +55,6 @@ To perform an analysis of the clusters under my-cluster-snapshots:
 $ vz analyze --capture-dir my-cluster-snapshots
 ```
 
-The tool analyzes each cluster snapshot directory found; you need to provide only the single root directory.
-
-
 ### Usage information
 
 Use the following syntax to run `vz` commands from your terminal window.
@@ -70,13 +64,13 @@ $ vz analyze [flags]
 
 #### Available options
 
-| Command                  | Definition                                                                                            |
-|--------------------------|-------------------------------------------------------------------------------------------------------|
-| `--capture-dir string`   | Directory holding the captured data.                                                                  |
-| `-h, --help`             | Help for the `vz analyze` command.                                                                    |
-| `--report-file string`   | Name of the report output file. (Default `stdout`)                                                    |
-| `--report-format string` | The format of the report output. Valid report formats are "summary" and "detailed". (default summary) |
-| `-v, --verbose`          | Enable verbose output                                                                                 |
+| Command                  | Definition                                                                                              |
+|--------------------------|---------------------------------------------------------------------------------------------------------|
+| `--capture-dir string`   | Directory holding the captured data.                                                                    |
+| `-h, --help`             | Help for the `vz analyze` command.                                                                      |
+| `--report-file string`   | Name of the report output file. (Default `stdout`)                                                      |
+| `--report-format string` | The format of the report output. Valid report formats are "summary" and "detailed". (default "summary") |
+| `-v, --verbose`          | Enable verbose output                                                                                   |
 
 #### Available flags
 
