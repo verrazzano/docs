@@ -2,20 +2,20 @@
 title: Verrazzano Analysis Tools
 linkTitle: Verrazzano Analysis Tools
 weight: 1
-description: Use the Verrazzano analysis tools to analyze live cluster and cluster snapshots
+description: Use the Verrazzano analysis tools to analyze clusters and cluster snapshots
 draft: false
 ---
 
 
-Verrazzano provides `vz analyze` command-line tool which assists in troubleshooting issues in your environment. It can be used to analyze a live cluster as well as to analyze a cluster snapshot captured by `vz bug-report` tool. More details about `vz bug-report` available [here]({{< relref "docs/troubleshooting/diagnostictools/VZBugReportCLI.md" >}}).
+Verrazzano provides the `vz analyze` command-line tool which assists in troubleshooting issues in your environment. It can be used to analyze a cluster as well as to analyze a cluster snapshot captured by `vz bug-report` tool. More details about `vz bug-report` available [here]({{< relref "docs/troubleshooting/diagnostictools/VZBugReportCLI.md" >}}).
 
 The `vz analyze` command-line tool analyzes the cluster or a cluster snapshot, reports the issues found, and prescribes related actions to take. Users, developers, and Continuous Integration (CI) can use this tooling to quickly identify the root cause of encountered problems, determine mitigation actions, and provide a sharable report with other users or tooling.
 
 ## Set up the CLI tool
 To set up the `vz` command-line tool, follow the steps [here]({{< relref "docs/setup/cli/_index.md" >}}).
 
-## Analyze live  cluster
-To analyze a live Kubernetes cluster:
+## Analyze cluster
+To analyze a Kubernetes cluster:
 ```shell
 $ vz analyze
 ```
@@ -31,12 +31,14 @@ $ vz bug-report my-bug-report.tar.gz
   tar -xvf my-bug-report.tar.gz -C my-cluster-snapshot
 ```
 
-### Use the `vz analyze` tool
+### Use the `vz analyze` tool to analyze the cluster snapshot
 
-To perform an analysis of the clusters under my-cluster-snapshot:
+To perform an analysis of the cluster snapshot under my-cluster-snapshot:
 ```shell
 $ vz analyze --capture-dir my-cluster-snapshot
 ```
+
+### Use the `vz analyze` tool to analyze multiple snapshots
 
 The `vz analyze` tool will find and analyze all cluster snapshot directories found under a specified root directory. This lets you create a directory to hold the cluster snapshots of related clusters in sub-directories, which the tool can analyze.
 
