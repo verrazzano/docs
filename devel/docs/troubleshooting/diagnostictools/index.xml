@@ -22,145 +22,31 @@
       <description>
         
         
-        &lt;p&gt;Verrazzano provides tooling which assists in troubleshooting issues in your environment:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;code&gt;k8s-dump-cluster.sh&lt;/code&gt; - a shell script tool&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;vz analyze&lt;/code&gt; - a command-line tool&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;download-the-shell-script-tool&#34;&gt;Download the shell script tool&lt;/h2&gt;
-&lt;nav&gt;
-	&lt;div class=&#34;nav nav-tabs&#34; id=&#34;nav-tab&#34; role=&#34;tablist&#34;&gt;
-
-		
-		
-		
-		
-
-		
-
-		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-eadcbf&#34; data-toggle=&#34;tab&#34; href=&#34;#eadcbf&#34;
-		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Linux&lt;/a&gt;
-
-		
-
-		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-becadf&#34; data-toggle=&#34;tab&#34; href=&#34;#becadf&#34;
-		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;macOS&lt;/a&gt;
-
-		
-
-	&lt;/div&gt;
-&lt;/nav&gt;
-
-&lt;div class=&#34;tab-content&#34; id=&#34;nav-tab-content&#34;&gt;
-
-	
-
-
-
-
-
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;eadcbf&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
-
-	&lt;br&gt;
-&lt;p&gt;Use these instructions to obtain the shell script tool on Linux machines.&lt;/p&gt;
-&lt;h4 id=&#34;download-the-tooling&#34;&gt;Download the tooling&lt;/h4&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt; $ wget https://github.com/verrazzano/verrazzano/releases/download/master/k8s-dump-cluster.sh
- $ wget https://github.com/verrazzano/verrazzano/releases/download/master/k8s-dump-cluster.sh.sha256
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;verify-the-downloaded-files&#34;&gt;Verify the downloaded files&lt;/h4&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt; $ sha256sum -c k8s-dump-cluster.sh.sha256
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-
-
-
-
-
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;becadf&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
-
-	&lt;br&gt;
-&lt;p&gt;Use these instructions to obtain the shell script tool on Mac machines.&lt;/p&gt;
-&lt;h4 id=&#34;download-the-tooling&#34;&gt;Download the tooling&lt;/h4&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt; $ wget https://github.com/verrazzano/verrazzano/releases/download/master/k8s-dump-cluster.sh
- $ wget https://github.com/verrazzano/verrazzano/releases/download/master/k8s-dump-cluster.sh.sha256
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;verify-the-downloaded-files&#34;&gt;Verify the downloaded files&lt;/h4&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt; $ shasum -a 256 -c k8s-dump-cluster.sh.sha256
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-
-
-&lt;/div&gt;
+        &lt;p&gt;Verrazzano provides the &lt;code&gt;vz analyze&lt;/code&gt; command-line tool, which assists in troubleshooting issues in your environment. You can use it to analyze a cluster as well as, to analyze a cluster snapshot captured by the &lt;code&gt;vz bug-report&lt;/code&gt; tool. For detailed information about &lt;code&gt;vz bug-report&lt;/code&gt;, see &lt;a href=&#34;../../../docs/troubleshooting/diagnostictools/vzbugreportcli/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;vz analyze&lt;/code&gt; command-line tool analyzes the cluster or a cluster snapshot, reports the issues found, and prescribes related actions to take. Users, developers, and Continuous Integration (CI) can use this tooling to quickly identify the root cause of encountered problems, determine mitigation actions, and provide a sharable report with other users or tooling.&lt;/p&gt;
 &lt;h2 id=&#34;set-up-the-cli-tool&#34;&gt;Set up the CLI tool&lt;/h2&gt;
 &lt;p&gt;To set up the &lt;code&gt;vz&lt;/code&gt; command-line tool, follow the steps &lt;a href=&#34;../../../docs/setup/cli/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;first-use-the-k8s-dump-clustersh-tool&#34;&gt;First, use the &lt;code&gt;k8s-dump-cluster.sh&lt;/code&gt; tool&lt;/h2&gt;
-&lt;p&gt;The &lt;code&gt;k8s-dump-cluster.sh&lt;/code&gt; tool is a shell script which runs various &lt;code&gt;kubectl&lt;/code&gt; and &lt;code&gt;helm&lt;/code&gt; commands against a cluster.&lt;/p&gt;
-&lt;p&gt;The directory structure created by the &lt;code&gt;k8s-dump-cluster.sh&lt;/code&gt; tool, for a specific cluster snapshot, appears as follows:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ CAPTURE_DIR
-  cluster-snapshot
-    directory per namespace (a directory at this level is assumed to represent a namespace)
-      acme-orders.json
-      application-configurations.json
-      certificate-requests.json
-      cluster-role-bindings.json
-      cluster-roles.json
-      cluster-roles.json
-      coherence.json
-      components.json
-      {CONFIGNAME}.configmap (a file at this level for each configmap in the namespace)
-      daemonsets.json
-      deployments.json
-      events.json
-      gateways.json
-      ingress-traits.json
-      jobs.json
-      multicluster-application-configurations.json
-      multicluster-components.json
-      multicluster-config-maps.json
-      multicluster-logging-scopes.json
-      multicluster-secrets.json
-      namespace.json
-      persistent-volume-claims.json
-      persistent-volumes.json
-      pods.json
-      replicasets.json
-      replication-controllers.json
-      role-bindings.json
-      services.json
-      verrazzano-managed-clusters.json
-      verrazzano-projects.json
-      virtualservices.json
-      weblogic-domains.json
-      directory per pod (a directory at this level is assumed to represent a specific pod)
-        logs.txt (includes logs for all containers and initContainers)
-    cluster-issuers.txt
-    configmap_list.out
-    crd.json
-    es_indexes.out
-    helm-ls.json
-    helm-version.out
-    images-on-nodes.csv
-    ingress.json
-    kubectl-version.json
-    network-policies.json
-    network-policies.txt
-    nodes.json
-    pv.json
-    verrazzano_resources.json
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Note that the data captured by this script might include sensitive information; you can choose whether to share it.&lt;/p&gt;
-&lt;p&gt;The script shows the &lt;code&gt;kubectl&lt;/code&gt; and &lt;code&gt;helm&lt;/code&gt; commands which are run. The basic structure, shown previously, is formed by running the command, &lt;code&gt;$ kubectl cluster-info dump --all-namespaces&lt;/code&gt;, with additional data captured into that directory structure.&lt;/p&gt;
-&lt;p&gt;To create a cluster snapshot in a directory named &lt;code&gt;my-cluster-snapshot&lt;/code&gt;:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ sh k8s-dump-cluster.sh -d my-cluster-snapshot
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;then-use-the-vz-analyze-tool&#34;&gt;Then, use the &lt;code&gt;vz analyze&lt;/code&gt; tool&lt;/h2&gt;
-&lt;p&gt;The &lt;code&gt;vz analyze&lt;/code&gt; command-line tool analyzes data from a cluster snapshot captured using the shell script tool, reports the issues found, and prescribes related actions to take. Users,
-developers, and Continuous Integration (CI) can use this tooling to quickly identify the root cause of encountered problems, determine mitigation actions, and provide a sharable report with other users or tooling.&lt;/p&gt;
-&lt;p&gt;The data that the analysis examines follows the structure created by the corresponding capture tooling. For example, &lt;code&gt;k8s-dump-cluster.sh&lt;/code&gt; takes a snapshot of a cluster and places it into a specific structure. The tooling analyzes the data and provides you with a report, which identifies issues and provides you with actions to take.&lt;/p&gt;
-&lt;p&gt;The &lt;code&gt;vz analyze&lt;/code&gt; tool will find and analyze all cluster snapshot directories found under a specified root directory. This lets you create a directory to hold the cluster snapshots of related clusters in sub-directories, which the tool can analyze.&lt;/p&gt;
+&lt;h2 id=&#34;analyze-clusters&#34;&gt;Analyze clusters&lt;/h2&gt;
+&lt;p&gt;To analyze a Kubernetes cluster:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz analyze
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;analyze-cluster-snapshots&#34;&gt;Analyze cluster snapshots&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Use the &lt;code&gt;vz bug-report&lt;/code&gt; tool to capture a cluster snapshot.&lt;/p&gt;
+&lt;p&gt;To create a bug report in a TAR file named &lt;code&gt;my-bug-report.tar.gz&lt;/code&gt; and extract it to a directory &lt;code&gt;my-cluster-snapshot&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz bug-report my-bug-report.tar.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  mkdir my-cluster-snapshot
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  tar -xvf my-bug-report.tar.gz -C my-cluster-snapshot
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Use the &lt;code&gt;vz analyze&lt;/code&gt; tool to analyze the cluster snapshot.&lt;/p&gt;
+&lt;p&gt;To perform an analysis of the cluster snapshot under &lt;code&gt;my-cluster-snapshot&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz analyze --capture-dir my-cluster-snapshot
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;use-the-vz-analyze-tool-to-analyze-multiple-snapshots&#34;&gt;Use the &lt;code&gt;vz analyze&lt;/code&gt; tool to analyze multiple snapshots&lt;/h3&gt;
+&lt;p&gt;The &lt;code&gt;vz analyze&lt;/code&gt; tool will find and analyze all cluster snapshot directories found under a specified root directory.
+This lets you create a directory to hold the cluster snapshots of related clusters in subdirectories, which the tool can then analyze.&lt;/p&gt;
 &lt;p&gt;For example:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;my-cluster-snapshots
     CAPTURE_DIR-1
@@ -170,8 +56,7 @@ developers, and Continuous Integration (CI) can use this tooling to quickly iden
         cluster-snapshot
             ...
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The tool analyzes each cluster snapshot directory found; you need to provide only the single root directory.&lt;/p&gt;
-&lt;p&gt;To perform an analysis of the clusters:&lt;/p&gt;
+&lt;p&gt;To perform an analysis of the clusters under &lt;code&gt;my-cluster-snapshots&lt;/code&gt;:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz analyze --capture-dir my-cluster-snapshots
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;usage-information&#34;&gt;Usage information&lt;/h3&gt;
 &lt;p&gt;Use the following syntax to run &lt;code&gt;vz&lt;/code&gt; commands from your terminal window.&lt;/p&gt;
@@ -187,7 +72,7 @@ developers, and Continuous Integration (CI) can use this tooling to quickly iden
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;--capture-dir string&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Directory holding the captured data. (Required)&lt;/td&gt;
+&lt;td&gt;Directory holding the captured data.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;-h, --help&lt;/code&gt;&lt;/td&gt;
@@ -199,7 +84,11 @@ developers, and Continuous Integration (CI) can use this tooling to quickly iden
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;--report-format string&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;The format of the report. Valid output format is &amp;ldquo;simple&amp;rdquo;. (Default &amp;ldquo;simple&amp;rdquo;)&lt;/td&gt;
+&lt;td&gt;The format of the report output. Valid report formats are &amp;ldquo;summary&amp;rdquo; and &amp;ldquo;detailed&amp;rdquo;. (Default &amp;ldquo;summary&amp;rdquo;)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-v, --verbose&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Enable verbose output.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -266,6 +155,10 @@ developers, and Continuous Integration (CI) can use this tooling to quickly iden
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;-r, --report-file string&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;The report file created by the &lt;code&gt;vz bug-report&lt;/code&gt; command, as a &lt;code&gt;*.tar.gz&lt;/code&gt; file. Defaults to &lt;code&gt;bug-report.tar.gz&lt;/code&gt; in the current directory.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-v, --verbose&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Enable verbose output.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;

@@ -19,21 +19,21 @@
 <link rel="icon" type="image/png" href="../../../../favicons/android-192x192.png" sizes="192x192">
 
 <title>Verrazzano Analysis Tools | Verrazzano Enterprise Container Platform</title>
-<meta name="description" content="Use the Verrazzano analysis tools to analyze cluster snapshots">
+<meta name="description" content="Use the Verrazzano analysis tools to analyze clusters and cluster snapshots">
 <meta property="og:title" content="Verrazzano Analysis Tools" />
-<meta property="og:description" content="Use the Verrazzano analysis tools to analyze cluster snapshots" />
+<meta property="og:description" content="Use the Verrazzano analysis tools to analyze clusters and cluster snapshots" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/troubleshooting/diagnostictools/verrazzanoanalysistool/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-08-08T11:00:59-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-08-10T23:00:26+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Verrazzano Analysis Tools">
-<meta itemprop="description" content="Use the Verrazzano analysis tools to analyze cluster snapshots">
-<meta itemprop="dateModified" content="2022-08-08T11:00:59-04:00" />
-<meta itemprop="wordCount" content="596">
+<meta itemprop="description" content="Use the Verrazzano analysis tools to analyze clusters and cluster snapshots">
+<meta itemprop="dateModified" content="2022-08-10T23:00:26+05:30" />
+<meta itemprop="wordCount" content="363">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Verrazzano Analysis Tools"/>
-<meta name="twitter:description" content="Use the Verrazzano analysis tools to analyze cluster snapshots"/>
+<meta name="twitter:description" content="Use the Verrazzano analysis tools to analyze clusters and cluster snapshots"/>
 
 
 
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.5cc497422d575aff2eeb6636e6b46a73.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.58d4dce96667805d62d8d1dc183dccd2.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.5cc497422d575aff2eeb6636e6b46a73.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.58d4dce96667805d62d8d1dc183dccd2.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -445,10 +445,9 @@ if (!doNotTrack) {
   <ul>
     <li>
       <ul>
-        <li><a href="#download-the-shell-script-tool">Download the shell script tool</a></li>
         <li><a href="#set-up-the-cli-tool">Set up the CLI tool</a></li>
-        <li><a href="#first-use-the-k8s-dump-clustersh-tool">First, use the <code>k8s-dump-cluster.sh</code> tool</a></li>
-        <li><a href="#then-use-the-vz-analyze-tool">Then, use the <code>vz analyze</code> tool</a></li>
+        <li><a href="#analyze-clusters">Analyze clusters</a></li>
+        <li><a href="#analyze-cluster-snapshots">Analyze cluster snapshots</a></li>
       </ul>
     </li>
   </ul>
@@ -500,7 +499,7 @@ if (!doNotTrack) {
             
 <div class="td-content">
 	<h1>Verrazzano Analysis Tools</h1>
-	<div class="lead">Use the Verrazzano analysis tools to analyze cluster snapshots</div>
+	<div class="lead">Use the Verrazzano analysis tools to analyze clusters and cluster snapshots</div>
 	<header class="article-meta">
 		
 
@@ -516,145 +515,31 @@ if (!doNotTrack) {
 
 		
 	</header>    
-	<p>Verrazzano provides tooling which assists in troubleshooting issues in your environment:</p>
-<ol>
-<li><code>k8s-dump-cluster.sh</code> - a shell script tool</li>
-<li><code>vz analyze</code> - a command-line tool</li>
-</ol>
-<h2 id="download-the-shell-script-tool">Download the shell script tool</h2>
-<nav>
-	<div class="nav nav-tabs" id="nav-tab" role="tablist">
-
-		
-		
-		
-		
-
-		
-
-		<a class="nav-item nav-link  active "
-		   id="nav-eadcbf" data-toggle="tab" href="#eadcbf"
-		   role="tab" aria-controls="nav-home" aria-selected="true">Linux</a>
-
-		
-
-		<a class="nav-item nav-link "
-		   id="nav-becadf" data-toggle="tab" href="#becadf"
-		   role="tab" aria-controls="nav-home" aria-selected="true">macOS</a>
-
-		
-
-	</div>
-</nav>
-
-<div class="tab-content" id="nav-tab-content">
-
-	
-
-
-
-
-
-<div class="tab-pane fade show active " id="eadcbf" role="tabpanel" aria-labelledby="nav-1">
-
-	<br>
-<p>Use these instructions to obtain the shell script tool on Linux machines.</p>
-<h4 id="download-the-tooling">Download the tooling</h4>
-<pre tabindex="0"><code> $ wget https://github.com/verrazzano/verrazzano/releases/download/master/k8s-dump-cluster.sh
- $ wget https://github.com/verrazzano/verrazzano/releases/download/master/k8s-dump-cluster.sh.sha256
-</code></pre><h4 id="verify-the-downloaded-files">Verify the downloaded files</h4>
-<pre tabindex="0"><code> $ sha256sum -c k8s-dump-cluster.sh.sha256
-</code></pre>
-
-</div>
-
-
-
-
-
-
-<div class="tab-pane fade show " id="becadf" role="tabpanel" aria-labelledby="nav-1">
-
-	<br>
-<p>Use these instructions to obtain the shell script tool on Mac machines.</p>
-<h4 id="download-the-tooling">Download the tooling</h4>
-<pre tabindex="0"><code> $ wget https://github.com/verrazzano/verrazzano/releases/download/master/k8s-dump-cluster.sh
- $ wget https://github.com/verrazzano/verrazzano/releases/download/master/k8s-dump-cluster.sh.sha256
-</code></pre><h4 id="verify-the-downloaded-files">Verify the downloaded files</h4>
-<pre tabindex="0"><code> $ shasum -a 256 -c k8s-dump-cluster.sh.sha256
-</code></pre>
-
-</div>
-
-
-
-</div>
+	<p>Verrazzano provides the <code>vz analyze</code> command-line tool, which assists in troubleshooting issues in your environment. You can use it to analyze a cluster as well as, to analyze a cluster snapshot captured by the <code>vz bug-report</code> tool. For detailed information about <code>vz bug-report</code>, see <a href="../../../../docs/troubleshooting/diagnostictools/vzbugreportcli/">here</a>.</p>
+<p>The <code>vz analyze</code> command-line tool analyzes the cluster or a cluster snapshot, reports the issues found, and prescribes related actions to take. Users, developers, and Continuous Integration (CI) can use this tooling to quickly identify the root cause of encountered problems, determine mitigation actions, and provide a sharable report with other users or tooling.</p>
 <h2 id="set-up-the-cli-tool">Set up the CLI tool</h2>
 <p>To set up the <code>vz</code> command-line tool, follow the steps <a href="../../../../docs/setup/cli/">here</a>.</p>
-<h2 id="first-use-the-k8s-dump-clustersh-tool">First, use the <code>k8s-dump-cluster.sh</code> tool</h2>
-<p>The <code>k8s-dump-cluster.sh</code> tool is a shell script which runs various <code>kubectl</code> and <code>helm</code> commands against a cluster.</p>
-<p>The directory structure created by the <code>k8s-dump-cluster.sh</code> tool, for a specific cluster snapshot, appears as follows:</p>
-<pre><code>$ CAPTURE_DIR
-  cluster-snapshot
-    directory per namespace (a directory at this level is assumed to represent a namespace)
-      acme-orders.json
-      application-configurations.json
-      certificate-requests.json
-      cluster-role-bindings.json
-      cluster-roles.json
-      cluster-roles.json
-      coherence.json
-      components.json
-      {CONFIGNAME}.configmap (a file at this level for each configmap in the namespace)
-      daemonsets.json
-      deployments.json
-      events.json
-      gateways.json
-      ingress-traits.json
-      jobs.json
-      multicluster-application-configurations.json
-      multicluster-components.json
-      multicluster-config-maps.json
-      multicluster-logging-scopes.json
-      multicluster-secrets.json
-      namespace.json
-      persistent-volume-claims.json
-      persistent-volumes.json
-      pods.json
-      replicasets.json
-      replication-controllers.json
-      role-bindings.json
-      services.json
-      verrazzano-managed-clusters.json
-      verrazzano-projects.json
-      virtualservices.json
-      weblogic-domains.json
-      directory per pod (a directory at this level is assumed to represent a specific pod)
-        logs.txt (includes logs for all containers and initContainers)
-    cluster-issuers.txt
-    configmap_list.out
-    crd.json
-    es_indexes.out
-    helm-ls.json
-    helm-version.out
-    images-on-nodes.csv
-    ingress.json
-    kubectl-version.json
-    network-policies.json
-    network-policies.txt
-    nodes.json
-    pv.json
-    verrazzano_resources.json
-</code></pre>
-<p>Note that the data captured by this script might include sensitive information; you can choose whether to share it.</p>
-<p>The script shows the <code>kubectl</code> and <code>helm</code> commands which are run. The basic structure, shown previously, is formed by running the command, <code>$ kubectl cluster-info dump --all-namespaces</code>, with additional data captured into that directory structure.</p>
-<p>To create a cluster snapshot in a directory named <code>my-cluster-snapshot</code>:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ sh k8s-dump-cluster.sh -d my-cluster-snapshot
-</span></span></code></pre></div><h2 id="then-use-the-vz-analyze-tool">Then, use the <code>vz analyze</code> tool</h2>
-<p>The <code>vz analyze</code> command-line tool analyzes data from a cluster snapshot captured using the shell script tool, reports the issues found, and prescribes related actions to take. Users,
-developers, and Continuous Integration (CI) can use this tooling to quickly identify the root cause of encountered problems, determine mitigation actions, and provide a sharable report with other users or tooling.</p>
-<p>The data that the analysis examines follows the structure created by the corresponding capture tooling. For example, <code>k8s-dump-cluster.sh</code> takes a snapshot of a cluster and places it into a specific structure. The tooling analyzes the data and provides you with a report, which identifies issues and provides you with actions to take.</p>
-<p>The <code>vz analyze</code> tool will find and analyze all cluster snapshot directories found under a specified root directory. This lets you create a directory to hold the cluster snapshots of related clusters in sub-directories, which the tool can analyze.</p>
+<h2 id="analyze-clusters">Analyze clusters</h2>
+<p>To analyze a Kubernetes cluster:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ vz analyze
+</span></span></code></pre></div><h2 id="analyze-cluster-snapshots">Analyze cluster snapshots</h2>
+<ol>
+<li>
+<p>Use the <code>vz bug-report</code> tool to capture a cluster snapshot.</p>
+<p>To create a bug report in a TAR file named <code>my-bug-report.tar.gz</code> and extract it to a directory <code>my-cluster-snapshot</code>:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ vz bug-report my-bug-report.tar.gz
+</span></span><span style="display:flex;"><span>  mkdir my-cluster-snapshot
+</span></span><span style="display:flex;"><span>  tar -xvf my-bug-report.tar.gz -C my-cluster-snapshot
+</span></span></code></pre></div></li>
+<li>
+<p>Use the <code>vz analyze</code> tool to analyze the cluster snapshot.</p>
+<p>To perform an analysis of the cluster snapshot under <code>my-cluster-snapshot</code>:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ vz analyze --capture-dir my-cluster-snapshot
+</span></span></code></pre></div></li>
+</ol>
+<h3 id="use-the-vz-analyze-tool-to-analyze-multiple-snapshots">Use the <code>vz analyze</code> tool to analyze multiple snapshots</h3>
+<p>The <code>vz analyze</code> tool will find and analyze all cluster snapshot directories found under a specified root directory.
+This lets you create a directory to hold the cluster snapshots of related clusters in subdirectories, which the tool can then analyze.</p>
 <p>For example:</p>
 <pre><code>my-cluster-snapshots
     CAPTURE_DIR-1
@@ -664,8 +549,7 @@ developers, and Continuous Integration (CI) can use this tooling to quickly iden
         cluster-snapshot
             ...
 </code></pre>
-<p>The tool analyzes each cluster snapshot directory found; you need to provide only the single root directory.</p>
-<p>To perform an analysis of the clusters:</p>
+<p>To perform an analysis of the clusters under <code>my-cluster-snapshots</code>:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ vz analyze --capture-dir my-cluster-snapshots
 </span></span></code></pre></div><h3 id="usage-information">Usage information</h3>
 <p>Use the following syntax to run <code>vz</code> commands from your terminal window.</p>
@@ -681,7 +565,7 @@ developers, and Continuous Integration (CI) can use this tooling to quickly iden
 <tbody>
 <tr>
 <td><code>--capture-dir string</code></td>
-<td>Directory holding the captured data. (Required)</td>
+<td>Directory holding the captured data.</td>
 </tr>
 <tr>
 <td><code>-h, --help</code></td>
@@ -693,7 +577,11 @@ developers, and Continuous Integration (CI) can use this tooling to quickly iden
 </tr>
 <tr>
 <td><code>--report-format string</code></td>
-<td>The format of the report. Valid output format is &ldquo;simple&rdquo;. (Default &ldquo;simple&rdquo;)</td>
+<td>The format of the report output. Valid report formats are &ldquo;summary&rdquo; and &ldquo;detailed&rdquo;. (Default &ldquo;summary&rdquo;)</td>
+</tr>
+<tr>
+<td><code>-v, --verbose</code></td>
+<td>Enable verbose output.</td>
 </tr>
 </tbody>
 </table>
