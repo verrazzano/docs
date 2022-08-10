@@ -8,7 +8,7 @@ draft: false
 
 Verrazzano provides [Velero](https://velero.io/docs/v1.8/) and [rancher-backup](https://rancher.com/docs/rancher/v2.5/en/backups/) for backup and recovery at the component and platform level. Use the following instructions to enable and configure these components in your environment.
 
-**NOTE**:  The backup functionality requires that you install Verrazzano using the prod (default) profile.
+**NOTE**:  The backup functionality requires that you install Verrazzano using the `prod` (default) profile.
 
 ## Enable backup components
 
