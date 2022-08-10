@@ -187,6 +187,10 @@ spec:
         "sidecar.jaegertracing.io/inject": "true"
 ```
 
+If you have multiple Jaeger instances in your cluster, specify the name of the Jaeger instance, that you intend to send
+the traces to, as a value for the annotation `sidecar.jaegertracing.io/inject`. For more details,
+see the [Jaeger documentation](https://www.jaegertracing.io/docs/latest/operator/#auto-injecting-jaeger-agent-sidecars). 
+
 ## View traces on the Jaeger UI
 
 After the installation has completed, you can use the Verrazzano Jaeger UI to view the traces.
@@ -257,4 +261,31 @@ storage:
     schedule: "55 23 * * *"                       // cron expression for it to run
 ```
 
+## Jaeger tracing in a Multicluster Verrazzano environment
 
+If Jaeger Operator component is enabled in the managed cluster, upon successful registration with the admin cluster,
+a Jaeger collector service runs in the managed cluster which exports the traces to the OpenSearch or Elasticsearch
+storage configured in the admin cluster.
+
+**Note:** - Traces are exported to the admin cluster only when the Jaeger instance in the admin cluster is configured
+with the OpenSearch or Elasticsearch storage.
+
+Listing Jaeger resources in the managed cluster should show output similar to the following.
+```
+$ kubectl get jaegers -n verrazzano-monitoring
+NAME                                STATUS    VERSION   STRATEGY     STORAGE         AGE
+jaeger-verrazzano-managed-cluster   Running   1.34.1    production   elasticsearch   11m
+```
+
+### View the managed cluster traces
+
+You can see the managed cluster traces only from the Jaeger UI in the admin cluster. You can find the Jaeger UI URL for
+your admin cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/access/_index.md" >}}).
+
+The spans include the Process tag `verrazzano_cluster` which has the name of the managed cluster. To see the traces
+only for the managed cluster, search based on the tag `verrazzano_cluster=<managed cluster name>`.
+
+**Sample output of Jager UI screens**
+
+![Jaeger UI](/docs/images/multicluster/jaeger-multicluster-filter-based-on-tag.png)
+![Jaeger SPAN](/docs/images/multicluster/jaeger-multicluster-span-details.png)
