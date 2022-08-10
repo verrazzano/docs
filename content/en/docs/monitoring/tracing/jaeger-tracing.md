@@ -80,7 +80,7 @@ spec:
       overrides:
         - values:
             jaeger:
-              create: false
+              create: true
               spec:
                 strategy: production
                 storage:
