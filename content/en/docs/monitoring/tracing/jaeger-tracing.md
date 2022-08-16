@@ -219,9 +219,31 @@ spec:
           value: "true"
 ```
 
-After enabling tracing, Istio will automatically configure itself with the Jaeger endpoint in your cluster,
-and any new Istio-injected pods will begin exporting traces to Jaeger. Existing pods require a restart
-to pull the new Istio configuration and start sending traces.
+After enabling tracing, Istio will automatically configure itself with the the Jaeger instance managed by Verrazzano in
+your cluster, and Istio-injected pods will begin exporting traces to Jaeger.
+
+To export traces to a different Jaeger instance than the one managed by Verrazzano, set
+`meshConfig.defaultConfig.tracing.zipkin.address` to the intended Jaeger Collector URL.
+Any new Istio-injected pods will begin exporting traces to the newly configured Jaeger instance. Existing pods require
+a restart to pull the new Istio configuration and start sending traces to the newly configured Jaeger instance.
+
+```yaml
+apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: verrazzano
+spec:
+  profile: prod
+  components:
+    jaegerOperator:
+      enabled: true
+    istio:
+      istioInstallArgs:
+        - name: "meshConfig.enableTracing"
+          value: "true"
+        - name: "meshConfig.defaultConfig.tracing.zipkin.address"
+          value: "<address:port of your Jaeger collector service>"
+```
 
 Istio's default sampling rate is 1%, meaning 1 in 100 requests will be traced in Jaeger.
 If you want a different sampling rate, configure your desired rate using the `meshConfig.defaultConfig.tracing.sampling` Istio installation argument.
@@ -275,6 +297,32 @@ Listing Jaeger resources in the managed cluster shows output similar to the foll
 $ kubectl get jaegers -n verrazzano-monitoring
 NAME                                STATUS    VERSION   STRATEGY     STORAGE         AGE
 jaeger-verrazzano-managed-cluster   Running   1.34.1    production   elasticsearch   11m
+```
+
+### Configure the Istio mesh in a managed cluster to export Jaeger traces to the admin cluster
+
+To export the Istio mesh traces in the managed cluster to the admin cluster, set `meshConfig.defaultConfig.tracing.zipkin.address`
+to the Jaeger Collector URL created in the managed cluster that exports the traces to the OpenSearch or Elasticsearch
+storage configured in the admin cluster.
+
+Configure the Istio mesh on the managed cluster at the time of the Verrazzano installation, as follows:
+
+```yaml
+apiVersion: install.verrazzano.io/v1alpha1
+kind: Verrazzano
+metadata:
+  name: verrazzano
+spec:
+  profile: managed-cluster
+  components:
+    jaegerOperator:
+      enabled: true
+    istio:
+      istioInstallArgs:
+        - name: "meshConfig.enableTracing"
+          value: "true"
+        - name: "meshConfig.defaultConfig.tracing.zipkin.address"
+          value: "jaeger-verrazzano-managed-cluster-collector.verrazzano-monitoring.svc.cluster.local.:9411"
 ```
 
 ### View the managed cluster traces
