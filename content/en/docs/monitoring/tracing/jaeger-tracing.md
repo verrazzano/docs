@@ -305,7 +305,7 @@ To export the Istio mesh traces in the managed cluster to the admin cluster, set
 to the Jaeger Collector URL created in the managed cluster that exports the traces to the OpenSearch or Elasticsearch
 storage configured in the admin cluster.
 
-Configure the Istio mesh at the time of the Verrazzano installation on the managed cluster as follows:
+Configure the Istio mesh on the managed cluster at the time of the Verrazzano installation, as follows:
 
 ```yaml
 apiVersion: install.verrazzano.io/v1alpha1
