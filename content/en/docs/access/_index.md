@@ -144,8 +144,8 @@ $ kubectl get secret \
 
 ### The Rancher console
 
-You can login to Rancher using the `verrazzano` user configured in Keycloak or with the local `admin` user for Rancher.
-To login with Keycloak, click the _Log in with Keycloak_ link or click the _Use a local user_ link to login with local user.
+You can log in to the Rancher console using the `verrazzano` user configured in Keycloak or with the local `admin` user for Rancher.
+To log in with Keycloak, select the `Log in with Keycloak` link or select the `Use a local user` link to log in with the local user.
 
 **Local Admin User:** `admin`
 
