@@ -4,8 +4,9 @@ description: "Information and tools to support operating Verrazzano"
 weight: 5
 draft: false
 aliases:
-    - /docs/operations
+  - /docs/operations
 ---
+
 ## Get the consoles URLs
 
 Verrazzano installs several consoles. The endpoints for an installation are stored in the `Status` field of the
@@ -13,7 +14,6 @@ installed Verrazzano Custom Resource.
 
 You can access the installation endpoints using the [Verrazzano CLI]({{< relref "/docs/setup/install/installation.md" >}}) or with [kubectl](https://kubernetes.io/docs/reference/kubectl/kubectl/).
 See the following respective sections.
-
 
 {{< tabs tabTotal="2" >}}
 {{< tab tabName="vz" >}}
@@ -88,6 +88,7 @@ If you have `jq` installed, then you can use the following command to get the in
 `$ kubectl get vz -o jsonpath="{.items[].status.instance}" | jq .`
 
 The following is an example of the output:
+
 ```
 {
 "consoleUrl": "https://verrazzano.default.11.22.33.44.nip.io",
@@ -109,6 +110,7 @@ The following is an example of the output:
 You will need the credentials to access the consoles installed by Verrazzano.
 
 ### Consoles accessed by the same user name
+
 - Grafana
 - Prometheus
 - OpenSearch Dashboards
@@ -116,7 +118,7 @@ You will need the credentials to access the consoles installed by Verrazzano.
 - Kiali
 - Jaeger
 
-**User:**  `verrazzano`
+**User:** `verrazzano`
 
 To get the password:
 
@@ -127,12 +129,11 @@ $ kubectl get secret \
     --decode; echo
 ```
 
-
 ### The Keycloak admin console
 
 **User:** `keycloakadmin`
 
-To get the password:  
+To get the password:
 
 ```
 $ kubectl get secret \
@@ -141,12 +142,14 @@ $ kubectl get secret \
     --decode; echo
 ```
 
-
 ### The Rancher console
 
-**User:** `admin`
+You can log in to the Rancher console using the `verrazzano` user configured in Keycloak or with the local `admin` user for Rancher.
+To log in with Keycloak, select the `Log in with Keycloak` link or select the `Use a local user` link to log in with the local user.
 
-To get the password:  
+**Local Admin User:** `admin`
+
+To get the password:
 
 ```
 $ kubectl get secret \
@@ -155,16 +158,29 @@ $ kubectl get secret \
     --decode; echo
 ```
 
+**Keycloak User:** `verrazzano`
+
+To get the password:
+
+```
+$ kubectl get secret \
+    --namespace verrazzano-system verrazzano \
+    -o jsonpath={.data.password} | base64 \
+    --decode; echo
+```
+
 ## Change the Verrazzano password
 
- To change the Verrazzano password, first change the user password in Keycloak and then update the Verrazzano secret.
+To change the Verrazzano password, first change the user password in Keycloak and then update the Verrazzano secret.
 
 **Change the user in Keycloak**
+
 1. Navigate to the Keycloak admin console.
 
    a. Obtaining the Keycloak admin console URL is described [here](#get-the-consoles-urls).
 
    b. Obtaining the Keycloak admin console credentials is described [here](#the-keycloak-admin-console).
+
 1. In the left pane, under `Manage`, select `Users`.
 1. In the `Users` pane, search for `verrazzano` or click `View all users`.
 1. For the `verrazzano` user, click the `Edit` action.
