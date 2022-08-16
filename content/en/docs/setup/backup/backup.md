@@ -20,10 +20,10 @@ The following sections provide detailed configuration information for:
 
 
 {{< tabs tabTotal="3" >}}
-{{< tab tabName="RancherBackup" >}}
+{{< tab tabName="Rancher Backup" >}}
 <br>
 
-## rancher-backup operator
+## Rancher Backup
 
 To initiate a Rancher backup, create the following example custom resource YAML file that uses an Amazon S3 compatible object store as a backend.
 The operator uses the `credentialSecretNamespace` value to determine where to look for the Amazon S3 backup secret.
@@ -46,7 +46,7 @@ spec:
   resourceSetName: rancher-resource-set
 ```
 
-After you create a backup custom resource, the `rancher-backup` operator calls the `kube-apiserver` to get the resources predefined with `rancher-backup` CRDs. Then, the operator creates the backup file, in the `*.tar.gz` format, and stores it in the location configured in the `storageLocation` field.
+After you create a `Backup` custom resource, the `rancher-backup` operator calls the `kube-apiserver` to get the resources predefined with `rancher-backup` CRDs. Then, the operator creates the backup file, in the `*.tar.gz` format, and stores it in the location configured in the `storageLocation` field.
 
 ### Scheduled backups
 
@@ -55,10 +55,10 @@ Similar to Velero, rancher-backup allows [scheduled backups](https://rancher.com
 <br/>
 
 {{< /tab >}}
-{{< tab tabName="Velero MySQL Backup" >}}
+{{< tab tabName="MySQL Backup" >}}
 <br>
 
-### Velero MySQL Backup
+### MySQL Backup
 
 For MySQL, Verrazzano provides a custom hook that you can use along with Velero, to perform a backup.
 The following example shows a sample Velero `Backup` [API](https://velero.io/docs/v1.8/api-types/backup/) object that you can invoke to make a MySQL backup.
@@ -202,6 +202,7 @@ $ kubectl get podvolumebackups -n verrazzano-backup
 ```
 </details>
 
+<br>
 
 ### Scheduled backups
 
@@ -214,10 +215,10 @@ Then, it will wait for the next valid point in the given cron expression and exe
 
 
 {{< /tab >}}
-{{< tab tabName="Velero OpenSearch Backup" >}}
+{{< tab tabName="OpenSearch Backup" >}}
 <br>
 
-### OpenSearch backup
+### OpenSearch Backup
 
 For OpenSearch, Verrazzano provides a custom hook that you can use along with Velero while invoking a backup.
 Due to the nature of transient data handled by OpenSearch, the hook invokes OpenSearch snapshot APIs to back up and restore data streams appropriately,
@@ -281,6 +282,8 @@ $ velero backup logs verrazzano-opensearch-backup -n verrazzano-backup
 $ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/verrazzano-backup-hook-1681009483.log
 ```
 </details>
+
+<br>
 
 ### Scheduled backups
 

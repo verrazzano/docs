@@ -50,7 +50,7 @@ Resources are restored in this order:
 <br/>
 
 {{< /tab >}}
-{{< tab tabName="Velero MySQL Restore" >}}
+{{< tab tabName="MySQL Restore" >}}
 <br>
 
 ### MySQL Restore
@@ -184,7 +184,7 @@ $ kubectl get podvolumerestores -n verrazzano-backup
 
 
 {{< /tab >}}
-{{< tab tabName="Velero Opensearch Restore" >}}
+{{< tab tabName="OpenSearch Restore" >}}
 <br>
 
 #### OpenSearch Restore

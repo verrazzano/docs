@@ -12,7 +12,7 @@ Verrazzano provides [Velero](https://velero.io/docs/v1.8/) and [rancher-backup](
 
 ## Enable backup components
 
-To back up and restore persistent data, first you must enable the Velero and rancher-backup operator components.
+To back up and restore persistent data, first you must enable the `velero` and `rancherBackup` components.
 The following configuration shows how to enable the backup components with a `prod` installation profile.
 
 ```
@@ -34,7 +34,7 @@ spec:
 After they're enabled, check for Velero pods running in the `verrazzano-backup` namespace.
 
 ```shell
-# Sample of pods running after enabling the Velero component
+# Sample of pods running after enabling the velero component
 
 $ kubectl get pod -n verrazzano-backup
 NAME                      READY   STATUS    RESTARTS   AGE
@@ -55,7 +55,7 @@ rancher-backup-5c4b985697-xw7md   1/1     Running   0          2d4h
 
 ## Configure backup components
 
-Next, meet the following prerequisite requirements for both Velero and rancher-backup components:
+Next, meet the following prerequisite requirements for both `velero` and `rancherBackup` components:
 
 - Object store bucket name.
   - Both components require an object store that is Amazon S3 compatible, therefore, you need to have an object storage bucket.  This can be an Oracle Cloud Object Storage bucket in any compartment of your Oracle Cloud tenancy.
@@ -87,7 +87,7 @@ $ rpm -ivh https://yum.oracle.com/repo/OracleLinux/OL7/developer/olcne/x86_64/ge
 ## Component-specific prerequisites
 
 {{< tabs tabTotal="2" >}}
-{{< tab tabName="Velero" >}}
+{{< tab tabName="velero" >}}
 <br>
 
 #### Velero operator prerequisites
@@ -142,7 +142,7 @@ Now, create the following objects:
 <br/>
 
 {{< /tab >}}
-{{< tab tabName="Rancher Backup Operator" >}}
+{{< tab tabName="rancherBackup" >}}
 <br>
 
 #### rancher-backup operator prerequisites
