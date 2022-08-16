@@ -90,7 +90,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../offline-search-index.b0413a793d005145fd1265cf6961ae37.json"
+  data-offline-search-index-json-src="../../offline-search-index.387c58bddaa3eb589f479af68c030bbe.json"
   data-offline-search-base-href="../../"
   data-offline-search-max-results="10"
 >
@@ -112,7 +112,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../offline-search-index.b0413a793d005145fd1265cf6961ae37.json"
+  data-offline-search-index-json-src="../../offline-search-index.387c58bddaa3eb589f479af68c030bbe.json"
   data-offline-search-base-href="../../"
   data-offline-search-max-results="10"
 >
@@ -521,13 +521,13 @@ See the following respective sections.</p>
 		
 
 		<a class="nav-item nav-link  active "
-		   id="nav-cbfdea" data-toggle="tab" href="#cbfdea"
+		   id="nav-bfceda" data-toggle="tab" href="#bfceda"
 		   role="tab" aria-controls="nav-home" aria-selected="true">vz</a>
 
 		
 
 		<a class="nav-item nav-link "
-		   id="nav-cfdaeb" data-toggle="tab" href="#cfdaeb"
+		   id="nav-dacfeb" data-toggle="tab" href="#dacfeb"
 		   role="tab" aria-controls="nav-home" aria-selected="true">kubectl</a>
 
 		
@@ -543,7 +543,7 @@ See the following respective sections.</p>
 
 
 
-<div class="tab-pane fade show active " id="cbfdea" role="tabpanel" aria-labelledby="nav-1">
+<div class="tab-pane fade show active " id="bfceda" role="tabpanel" aria-labelledby="nav-1">
 
 	<br>
 <p>You can get the endpoints for these consoles by issuing the following command
@@ -575,7 +575,7 @@ and examining the <code>Status.Instance</code> field:</p>
 
 
 
-<div class="tab-pane fade show " id="cfdaeb" role="tabpanel" aria-labelledby="nav-1">
+<div class="tab-pane fade show " id="dacfeb" role="tabpanel" aria-labelledby="nav-1">
 
 	<br>
 <p>You can get the endpoints for these consoles by issuing the following command
@@ -633,7 +633,7 @@ and examining the <code>Status.Instance</code> field:</p>
 <li>Kiali</li>
 <li>Jaeger</li>
 </ul>
-<p><strong>User:</strong>  <code>verrazzano</code></p>
+<p><strong>User:</strong> <code>verrazzano</code></p>
 <p>To get the password:</p>
 <pre tabindex="0"><code>$ kubectl get secret \
     --namespace verrazzano-system verrazzano \
@@ -647,10 +647,18 @@ and examining the <code>Status.Instance</code> field:</p>
     -o jsonpath={.data.password} | base64 \
     --decode; echo
 </code></pre><h3 id="the-rancher-console">The Rancher console</h3>
-<p><strong>User:</strong> <code>admin</code></p>
+<p>You can log in to the Rancher console using the <code>verrazzano</code> user configured in Keycloak or with the local <code>admin</code> user for Rancher.
+To log in with Keycloak, select the <code>Log in with Keycloak</code> link or select the <code>Use a local user</code> link to log in with the local user.</p>
+<p><strong>Local Admin User:</strong> <code>admin</code></p>
 <p>To get the password:</p>
 <pre tabindex="0"><code>$ kubectl get secret \
     --namespace cattle-system rancher-admin-secret \
+    -o jsonpath={.data.password} | base64 \
+    --decode; echo
+</code></pre><p><strong>Keycloak User:</strong> <code>verrazzano</code></p>
+<p>To get the password:</p>
+<pre tabindex="0"><code>$ kubectl get secret \
+    --namespace verrazzano-system verrazzano \
     -o jsonpath={.data.password} | base64 \
     --decode; echo
 </code></pre><h2 id="change-the-verrazzano-password">Change the Verrazzano password</h2>
