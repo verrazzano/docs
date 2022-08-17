@@ -50,29 +50,29 @@ Resources are restored in this order:
 <br/>
 
 {{< /tab >}}
-{{< tab tabName="MySQL Restore" >}}
+{{< tab tabName="Keycloak Restore" >}}
 <br>
 
-### MySQL Restore
+### Keycloak Restore
 
-For MySQL, Verrazzano provides a custom hook that you can use along with Velero, to perform a restore operation.
+For Keycloak, Verrazzano provides a custom hook that you can use along with Velero, to perform a restore operation.
 
-To initiate a complete MySQL restore, first delete the `keycloak` namespace.
+To initiate a complete restore, first delete the `keycloak` namespace.
 
 ```shell
 $ kubectl delete namespace keycloak
 ```
 
-To perform a MySQL restore, you can invoke the following example of a Velero `Restore` [API](https://velero.io/docs/v1.8/api-types/restore/) object.
+To perform a Keycloak restore, you can invoke the following example of a Velero `Restore` [API](https://velero.io/docs/v1.8/api-types/restore/) object.
 
 ```yaml
 apiVersion: velero.io/v1
 kind: Restore
 metadata:
-  name: verrazano-mysql-restore-example
+  name: verrazano-keycloak-restore-example
   namespace: verrazzano-backup
 spec:
-  backupName: verrazzano-mysql-backup-example
+  backupName: verrazzano-keycloak-backup-example
   includedNamespaces:
     - keycloak
   restorePVs: true
@@ -109,28 +109,28 @@ The preceding example restores the `keycloak` namespace and the `mysql` volumes.
 To understand the progress of the restore operation, you can monitor the Velero `Restore` object.
 
 <details>
-  <summary>MySQL restore progress</summary>
+  <summary>Keycloak restore progress</summary>
 
 ```shell
 # The following command lets you monitor the restore progress
 $ velero restore get -n verrazzano-backup                                                           
-NAME                              BACKUP              STATUS       STARTED                         COMPLETED   ERRORS   WARNINGS   CREATED                         SELECTOR
-verrazano-mysql-restore-example   mysql-backup-test   InProgress   2022-07-07 17:00:33 -0700 PDT   <nil>       0        0          2022-07-07 17:00:33 -0700 PDT   <none>
+NAME                                 BACKUP                               STATUS       STARTED                         COMPLETED   ERRORS   WARNINGS   CREATED                         SELECTOR
+verrazano-keycloak-restore-example   verrazzano-keycloak-backup-example   InProgress   2022-07-07 17:00:33 -0700 PDT   <nil>       0        0          2022-07-07 17:00:33 -0700 PDT   <none>
 ```
 
 </details>
 
 <details>
-  <summary>MySQL Restore object details</summary>
+  <summary>Keycloak Restore object details</summary>
 
 ```shell
 # Command to get details about the Restore object
 
-$ velero restore describe verrazano-mysql-restore-example -n verrazzano-backup
+$ velero restore describe verrazano-keycloak-restore-example -n verrazzano-backup
 
 # Sample output
 
-Name:         verrazano-mysql-restore-example
+Name:         verrazano-keycloak-restore-example
 Namespace:    verrazzano-backup
 Labels:       <none>
 Annotations:  kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"velero.io/v1","kind":"Restore","metadata":{"annotations":{},"name":"mysql-backup-restore","namespace":"velero"},"spec":{"backupName":"nysql-backup-test","hooks":{"resources":[{"includedNamespaces":["keycloak"],"labelSelector":{"matchLabels":{"app":"mysql"}},"name":"verrazzano-sql-restore","postHooks":[{"exec":{"command":["bash","/etc/mysql/conf.d/mysql-hook.sh","-o restore","-f sunday.sql"],"container":"mysql","execTimeout":"5m","onError":"Fail","waitTimeout":"5m"}}]}]},"includedNamespaces":["keycloak"],"restorePVs":true}}
@@ -143,7 +143,7 @@ Items restored:              40
 Started:    2022-07-07 17:00:33 -0700 PDT
 Completed:  2022-07-07 17:02:14 -0700 PDT
 
-Backup:  nysql-backup-test
+Backup:  verrazzano-keycloak-backup-example
 
 Namespaces:
   Included:  keycloak
