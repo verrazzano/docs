@@ -14,16 +14,16 @@ The following sections provide detailed configuration information for:
 - The [rancher-backup](https://rancher.com/docs/rancher/v2.5/en/backups/) operator, to back up persistent data and Rancher-related configuration.
 
 - Velero [hooks](https://velero.io/docs/v1.8/backup-hooks/), to ensure a consistent backup experience for these components:
-  - MySQL
+  - Keycloak
   - OpenSearch
   - For all other components, refer to the Velero [Backup Reference](https://velero.io/docs/v1.8/backup-reference/).
 
 
 {{< tabs tabTotal="3" >}}
-{{< tab tabName="RancherBackup" >}}
+{{< tab tabName="Rancher Backup" >}}
 <br>
 
-## rancher-backup operator
+## Rancher Backup
 
 To initiate a Rancher backup, create the following example custom resource YAML file that uses an Amazon S3 compatible object store as a backend.
 The operator uses the `credentialSecretNamespace` value to determine where to look for the Amazon S3 backup secret.
@@ -46,7 +46,7 @@ spec:
   resourceSetName: rancher-resource-set
 ```
 
-After you create a backup custom resource, the `rancher-backup` operator calls the `kube-apiserver` to get the resources predefined with `rancher-backup` CRDs. Then, the operator creates the backup file, in the `*.tar.gz` format, and stores it in the location configured in the `storageLocation` field.
+The operator creates the backup file, in the `*.tar.gz` format, and stores it in the location configured in the `storageLocation` field.
 
 ### Scheduled backups
 
@@ -55,19 +55,19 @@ Similar to Velero, rancher-backup allows [scheduled backups](https://rancher.com
 <br/>
 
 {{< /tab >}}
-{{< tab tabName="Velero MySQL Backup" >}}
+{{< tab tabName="Keycloak Backup" >}}
 <br>
 
-### Velero MySQL Backup
+### Keycloak Backup 
 
-For MySQL, Verrazzano provides a custom hook that you can use along with Velero, to perform a backup.
+For Keycloak, Verrazzano provides a custom hook that you can use along with Velero, to perform a backup.
 The following example shows a sample Velero `Backup` [API](https://velero.io/docs/v1.8/api-types/backup/) object that you can invoke to make a MySQL backup.
 
 ```yaml
 apiVersion: velero.io/v1
 kind: Backup
 metadata:
-  name: verrazzano-mysql-backup-example
+  name: verrazzano-keycloak-backup-example
   namespace: verrazzano-backup
 spec:
   includedNamespaces:
@@ -94,8 +94,8 @@ spec:
               timeout: 5m
 ```
 
-The preceding example backs up the `keycloak` namespace and `mysql` data.
-- So that Velero can back up the MySQL Persistent Volume Claim (PVC), `defaultVolumesToRestic` must be `true`.
+The preceding example backs up the `keycloak` namespace and its persistent data.
+- `defaultVolumesToRestic` must be `true`, so that Velero can back up the Keycloak Persistent Volume Claims (PVC).
 - The hook needs to be `pre` as this will ensure that the operation is performed before the PVC backup is taken.
 - The command used in the hook is a shell script, which accepts an argument to denote the operation and a file name.
 - The container on which the hook must be executed is identified by the pod label selectors, followed by the container name.
@@ -103,28 +103,28 @@ The preceding example backs up the `keycloak` namespace and `mysql` data.
 To understand the progress of the backup, you can monitor the Velero `Backup` object.
 
 <details>
-  <summary>MySQL backup progress</summary>
+  <summary>Keycloak backup progress</summary>
 
 ```shell
 # The status in the following output indicates the backup progress
 
-$ velero backup get verrazzano-mysql-backup-example -n verrazzano-backup                                                                   
-NAME                              STATUS       ERRORS   WARNINGS   CREATED                         EXPIRES   STORAGE LOCATION             SELECTOR
-verrazzano-mysql-backup-example   InProgress   0        0          2022-07-07 14:56:32 -0700 PDT   29d       verrazzano-backup-location   <none>
+$ velero backup get verrazzano-keycloak-backup-example -n verrazzano-backup                                                                   
+NAME                                 STATUS       ERRORS   WARNINGS   CREATED                         EXPIRES   STORAGE LOCATION             SELECTOR
+verrazzano-keycloak-backup-example   InProgress   0        0          2022-07-07 14:56:32 -0700 PDT   29d       verrazzano-backup-location   <none>
 ```
 </details>
 
 <details>
-  <summary>MySQL Backup object details</summary>
+  <summary>Keycloak Backup object details</summary>
 
 ```shell
 # The backup object details and progress can be viewed by executing the following command
 
-$ velero backup describe verrazzano-mysql-backup-example -n verrazzano-backup
+$ velero backup describe verrazzano-keycloak-backup-example -n verrazzano-backup
 
 # Sample output
 
-Name:         verrazzano-mysql-backup-example
+Name:         verrazzano-keycloak-backup-example
 Namespace:    verrazzano-backup
 Labels:       velero.io/storage-location=verrazzano-backup-location
 Annotations:  kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"velero.io/v1","kind":"Backup","metadata":{"annotations":{},"name":"verrazzano-mysql-backup-example","namespace":"verrazzano-backup"},"spec":{"defaultVolumesToRestic":true,"hooks":{"resources":[{"includedNamespaces":["keycloak"],"labelSelector":{"matchLabels":{"app":"mysql"}},"name":"verrazzano-sql-backup","pre":[{"exec":{"command":["bash","/etc/MySQL/conf.d/MySQL-hook.sh","-o backup","-f sunday.sql"],"container":"mysql","onError":"Fail","timeout":"5m"}}]}]},"includedNamespaces":["keycloak"],"storageLocation":"verrazzano-backup-location"}}
@@ -202,6 +202,7 @@ $ kubectl get podvolumebackups -n verrazzano-backup
 ```
 </details>
 
+<br>
 
 ### Scheduled backups
 
@@ -214,10 +215,10 @@ Then, it will wait for the next valid point in the given cron expression and exe
 
 
 {{< /tab >}}
-{{< tab tabName="Velero OpenSearch Backup" >}}
+{{< tab tabName="OpenSearch Backup" >}}
 <br>
 
-### OpenSearch backup
+### OpenSearch Backup
 
 For OpenSearch, Verrazzano provides a custom hook that you can use along with Velero while invoking a backup.
 Due to the nature of transient data handled by OpenSearch, the hook invokes OpenSearch snapshot APIs to back up and restore data streams appropriately,
@@ -281,6 +282,8 @@ $ velero backup logs verrazzano-opensearch-backup -n verrazzano-backup
 $ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/verrazzano-backup-hook-1681009483.log
 ```
 </details>
+
+<br>
 
 ### Scheduled backups
 
