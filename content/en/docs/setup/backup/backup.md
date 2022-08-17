@@ -46,7 +46,7 @@ spec:
   resourceSetName: rancher-resource-set
 ```
 
-After you create a `Backup` custom resource, the `rancher-backup` operator calls the `kube-apiserver` to get the resources predefined with `rancher-backup` CRDs. Then, the operator creates the backup file, in the `*.tar.gz` format, and stores it in the location configured in the `storageLocation` field.
+The operator creates the backup file, in the `*.tar.gz` format, and stores it in the location configured in the `storageLocation` field.
 
 ### Scheduled backups
 
