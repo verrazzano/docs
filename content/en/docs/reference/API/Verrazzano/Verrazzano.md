@@ -373,4 +373,4 @@ To configure OpenSearch, instead of using install args, Oracle recommends that y
 ### Rancher Backup Component
 | Field | Type | Description                                                                                                  | Required
 | --- | --- |--------------------------------------------------------------------------------------------------------------| --- |
-| `enabled` | Boolean | If true, then rancherBackup will be installed. rancherBackup is dependant on Rancher itself being installed. | No |
+| `enabled` | Boolean | If true, then rancherBackup will be installed. rancherBackup is dependant on Rancher being installed. | No |
