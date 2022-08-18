@@ -98,11 +98,11 @@ The following table describes the Prometheus and Grafana configurations in each 
 
 The following table describes the OpenSearch Dashboards and OpenSearch cluster topology in each profile.
 
-| Profile | OpenSearch | OpenSearch Dashboards
-| ------------- |:------------- |:-------------
-| `prod` | 3 master replicas (1.4Gi memory, 50Gi storage each)<br/>1 ingest replica (2.5Gi memory, no storage)<br/>2 data replicas (4.8Gi memory, 50Gi storage each) | 1 replica (192M memory, ephemeral storage)
-| `dev` | 1 master/data/ingest replica (1Gi memory, ephemeral storage)  | 1 replica (192M memory, ephemeral storage)
-| `managed-cluster` | Not installed | Not installed
+| Profile | OpenSearch                                                                                                                                                | OpenSearch Dashboards
+| ------------- |:----------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------
+| `prod` | 3 master replicas (1.4Gi memory, 50Gi storage each)<br/>1 ingest replica (2.5Gi memory, no storage)<br/>3 data replicas (4.8Gi memory, 50Gi storage each) | 1 replica (192M memory, ephemeral storage)
+| `dev` | 1 master/data/ingest replica (1Gi memory, ephemeral storage)                                                                                              | 1 replica (192M memory, ephemeral storage)
+| `managed-cluster` | Not installed                                                                                                                                             | Not installed
 
 {{< alert title="NOTE" color="warning" >}}
 OpenSearch containers are configured to use 75% of the configured request memory for the Java min/max heap settings.
