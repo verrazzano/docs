@@ -69,6 +69,8 @@ The development profile has the following characteristics:
    Installation logs will be streamed to the command window until the installation has completed
    or until the default timeout (30m) has been reached.
 
+**NOTE:** For some applications, the Kiali console may show warning for objects that replicate hostname/port configurations across multiple IngressTraits. These warnings do not impact functionality and can be suppressed with the following [component override]({{< relref "docs/guides/app-deployment/application-deployment-guide.md#suppress-kiali-console-warnings" >}}).
+
 ## Deploy an example application
 
 The [Hello World Helidon]({{< relref "/docs/samples/hello-helidon/_index.md" >}})
