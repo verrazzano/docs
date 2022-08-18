@@ -70,6 +70,9 @@ spec:
 | `prometheusOperator` | [PrometheusOperatorComponent](#prometheus-operator-component)     | The Prometheus Operator component configuration.   | No       |
 | `prometheusAdapter`  | [PrometheusAdapterComponent](#prometheus-adapter-component)       | The Prometheus Adapter component configuration.    | No       |
 | `kubeStateMetrics`   | [KubeStateMetricsComponent](#kube-state-metrics-component)        | The kube-state-metrics component configuration.    | No       |
+| `velero`             | [VeleroComponent](#velero-component)                              | The Velero component configuration.                | No       |
+| `rancherBackup`      | [RancherBackupComponent](#rancher-backup-component)               | The rancherBackup component configuration.         | No       |
+
 ### AuthProxy Component
 | Field | Type | Description | Required
 | --- | --- | --- | --- |
@@ -361,3 +364,13 @@ To configure OpenSearch, instead of using install args, Oracle recommends that y
 | `configMapRef` | [ConfigMapKeySelector](https://pkg.go.dev/k8s.io/api/core/v1@v0.23.5#ConfigMapKeySelector) | Selector for ConfigMap containing override data. | No |
 | `secretRef` | [SecretKeySelector](https://pkg.go.dev/k8s.io/api/core/v1@v0.23.5#SecretKeySelector) | Selector for Secret containing override data. | No |
 | `values` | [JSON](https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1@v0.23.5#JSON) | Configure overrides using inline YAML. | No |
+
+### Velero Component
+| Field | Type | Description                             | Required
+| --- | --- |-----------------------------------------| --- |
+| `enabled` | Boolean | If true, then Velero will be installed. | No |
+
+### Rancher Backup Component
+| Field | Type | Description                                                                                                  | Required
+| --- | --- |--------------------------------------------------------------------------------------------------------------| --- |
+| `enabled` | Boolean | If true, then rancherBackup will be installed. rancherBackup is dependant on Rancher being installed. | No |
