@@ -27,13 +27,13 @@ apiVersion: install.verrazzano.io/v1alpha1 kind: Verrazzano metadata: name: exam
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/reference/api/verrazzano/verrazzano/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-08-03T19:19:23+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-08-18T09:08:35-07:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Verrazzano Custom Resource Definition">
 <meta itemprop="description" content="The Verrazzano custom resource contains the configuration information for an installation. Here is a sample Verrazzano custom resource file that uses Oracle Cloud Infrastructure DNS. See other examples here.
 apiVersion: install.verrazzano.io/v1alpha1 kind: Verrazzano metadata: name: example-verrazzano spec: environmentName: env profile: prod components: certManager: certificate: acme: provider: letsEncrypt emailAddress: emailAddress@example.com dns: oci: ociConfigSecret: oci dnsZoneCompartmentOCID: dnsZoneCompartmentOcid dnsZoneOCID: dnsZoneOcid dnsZoneName: my.dns.zone.name ingress: type: LoadBalancer VerrazzanoSpec    Field Type Description Required     environmentName string Name of the installation.">
-<meta itemprop="dateModified" content="2022-08-03T19:19:23+05:30" />
-<meta itemprop="wordCount" content="3021">
+<meta itemprop="dateModified" content="2022-08-18T09:08:35-07:00" />
+<meta itemprop="wordCount" content="3075">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Verrazzano Custom Resource Definition"/>
 <meta name="twitter:description" content="The Verrazzano custom resource contains the configuration information for an installation. Here is a sample Verrazzano custom resource file that uses Oracle Cloud Infrastructure DNS. See other examples here.
@@ -98,7 +98,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.84bdc531ec0eb86cb7842ee751d10938.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.bb1f26926b5b18c0ee4078a673aaeb6c.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -120,7 +120,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.84bdc531ec0eb86cb7842ee751d10938.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.bb1f26926b5b18c0ee4078a673aaeb6c.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -722,6 +722,18 @@ spec:
 <td><code>kubeStateMetrics</code></td>
 <td><a href="#kube-state-metrics-component">KubeStateMetricsComponent</a></td>
 <td>The kube-state-metrics component configuration.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>velero</code></td>
+<td><a href="#velero-component">VeleroComponent</a></td>
+<td>The Velero component configuration.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>rancherBackup</code></td>
+<td><a href="#rancher-backup-component">RancherBackupComponent</a></td>
+<td>The rancherBackup component configuration.</td>
 <td>No</td>
 </tr>
 </tbody>
@@ -2018,6 +2030,44 @@ spec:
 <td><code>values</code></td>
 <td><a href="https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1@v0.23.5#JSON">JSON</a></td>
 <td>Configure overrides using inline YAML.</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<h3 id="velero-component">Velero Component</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>enabled</code></td>
+<td>Boolean</td>
+<td>If true, then Velero will be installed.</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<h3 id="rancher-backup-component">Rancher Backup Component</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>enabled</code></td>
+<td>Boolean</td>
+<td>If true, then rancherBackup will be installed. rancherBackup is dependant on Rancher being installed.</td>
 <td>No</td>
 </tr>
 </tbody>
