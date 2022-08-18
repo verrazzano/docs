@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/guides/app-deployment/application-deployment-guide/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-07-06T15:09:02-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-08-18T10:52:26-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Application Deployment Guide">
 <meta itemprop="description" content="A guide for deploying an example application on Verrazzano">
-<meta itemprop="dateModified" content="2022-07-06T15:09:02-04:00" />
-<meta itemprop="wordCount" content="2018">
+<meta itemprop="dateModified" content="2022-08-18T10:52:26-04:00" />
+<meta itemprop="wordCount" content="2067">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Application Deployment Guide"/>
 <meta name="twitter:description" content="A guide for deploying an example application on Verrazzano"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.de1a5ce0a755fff91c0afee8878698f7.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.84bdc531ec0eb86cb7842ee751d10938.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.de1a5ce0a755fff91c0afee8878698f7.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.84bdc531ec0eb86cb7842ee751d10938.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -924,7 +924,15 @@ $ PROMETHEUS_URL=&#34;https://${PROMETHEUS_HOST}&#34;
 $ echo &#34;${PROMETHEUS_URL}&#34;
 $ open &#34;${PROMETHEUS_URL}&#34;
 </code></pre><p>The user name and password for both Prometheus and Grafana are the same.</p>
-<h2 id="remove-the-application">Remove the application</h2>
+<h3 id="suppress-kiali-console-warnings">Suppress Kiali console warnings</h3>
+<p>For some applications, the Kiali console may show warnings for VirtualService and Gateway objects that replicate hostname/port configurations across multiple IngressTraits. These warnings do not impact functionality and can be suppressed with the following component override:</p>
+<pre tabindex="0"><code>kiali:
+  overrides:
+    - values:
+        kiali_feature_flags:
+          validations:
+            ignore: [&#34;KIA1106&#34;, &#34;KIA0301&#34;]
+</code></pre><h2 id="remove-the-application">Remove the application</h2>
 <p>Run the following commands to delete the application configuration, and optionally the component and namespace.</p>
 <ol>
 <li>

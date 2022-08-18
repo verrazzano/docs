@@ -432,7 +432,15 @@ $ PROMETHEUS_URL=&amp;#34;https://${PROMETHEUS_HOST}&amp;#34;
 $ echo &amp;#34;${PROMETHEUS_URL}&amp;#34;
 $ open &amp;#34;${PROMETHEUS_URL}&amp;#34;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The user name and password for both Prometheus and Grafana are the same.&lt;/p&gt;
-&lt;h2 id=&#34;remove-the-application&#34;&gt;Remove the application&lt;/h2&gt;
+&lt;h3 id=&#34;suppress-kiali-console-warnings&#34;&gt;Suppress Kiali console warnings&lt;/h3&gt;
+&lt;p&gt;For some applications, the Kiali console may show warnings for VirtualService and Gateway objects that replicate hostname/port configurations across multiple IngressTraits. These warnings do not impact functionality and can be suppressed with the following component override:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;kiali:
+  overrides:
+    - values:
+        kiali_feature_flags:
+          validations:
+            ignore: [&amp;#34;KIA1106&amp;#34;, &amp;#34;KIA0301&amp;#34;]
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;remove-the-application&#34;&gt;Remove the application&lt;/h2&gt;
 &lt;p&gt;Run the following commands to delete the application configuration, and optionally the component and namespace.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
