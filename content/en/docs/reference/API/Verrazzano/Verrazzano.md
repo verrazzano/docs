@@ -70,8 +70,8 @@ spec:
 | `prometheusOperator` | [PrometheusOperatorComponent](#prometheus-operator-component)     | The Prometheus Operator component configuration.   | No       |
 | `prometheusAdapter`  | [PrometheusAdapterComponent](#prometheus-adapter-component)       | The Prometheus Adapter component configuration.    | No       |
 | `kubeStateMetrics`   | [KubeStateMetricsComponent](#kube-state-metrics-component)        | The kube-state-metrics component configuration.    | No       |
-| `velero`             | [VeleroComponent](#velero-component)                              | The velero component configuration.                | No       |
-| `rancherBackup`      | [RancherBackupComponent](#rancher-backup-component)               | The rancher backup component configuration.        | No       |
+| `velero`             | [VeleroComponent](#velero-component)                              | The Velero component configuration.                | No       |
+| `rancherBackup`      | [RancherBackupComponent](#rancher-backup-component)               | The rancherBackup component configuration.         | No       |
 
 ### AuthProxy Component
 | Field | Type | Description | Required
@@ -371,6 +371,6 @@ To configure OpenSearch, instead of using install args, Oracle recommends that y
 | `enabled` | Boolean | If true, then Velero will be installed. | No |
 
 ### Rancher Backup Component
-| Field | Type | Description                                                                                                   | Required
-| --- | --- |---------------------------------------------------------------------------------------------------------------| --- |
-| `enabled` | Boolean | If true, then Rancher Backup will be installed. Rancher Backup is dependant on Rancher itself being installed | No |
+| Field | Type | Description                                                                                                  | Required
+| --- | --- |--------------------------------------------------------------------------------------------------------------| --- |
+| `enabled` | Boolean | If true, then rancherBackup will be installed. rancherBackup is dependant on Rancher itself being installed. | No |
