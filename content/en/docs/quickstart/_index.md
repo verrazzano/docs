@@ -70,16 +70,8 @@ The development profile has the following characteristics:
    or until the default timeout (30m) has been reached.
 
 {{< alert title="NOTE" color="warning" >}}
-For some applications, the Kiali console may show warnings for VirtualService and Gateway objects that replicate hostname/port configurations across multiple IngressTraits. These warnings do not impact functionality, but can be suppressed with the following component override:
+For some applications, the Kiali console may show warning for objects that replicate hostname/port configurations across multiple IngressTraits. These warnings do not impact functionality, but can be suppressed with the following [Component Override]({{< relref "docs/guides/app-deployment/application-deployment-guide.md#suppress-kiali-console-warnings" >}}).
 {{< /alert >}}
-```
-kiali:
-  overrides:
-    - values:
-        kiali_feature_flags:
-          validations:
-            ignore: ["KIA1106", "KIA0301"]
-```
 
 ## Deploy an example application
 
