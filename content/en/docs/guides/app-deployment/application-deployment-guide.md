@@ -507,9 +507,9 @@ $ open "${PROMETHEUS_URL}"
 
 The user name and password for both Prometheus and Grafana are the same.
 
-### Suppress Kiali Console Warnings
+### Suppress Kiali console warnings
 
-For some applications, the Kiali console may show warnings for VirtualService and Gateway objects that replicate hostname/port configurations across multiple IngressTraits. These warnings do not impact functionality, but can be suppressed with the following component override:
+For some applications, the Kiali console may show warnings for VirtualService and Gateway objects that replicate hostname/port configurations across multiple IngressTraits. These warnings do not impact functionality and can be suppressed with the following component override:
 ```
 kiali:
   overrides:
