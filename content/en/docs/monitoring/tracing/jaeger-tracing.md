@@ -45,7 +45,7 @@ deployment.apps/jaeger-operator-jaeger-query       1/1     1            1       
 ## Customize Jaeger
 
 Verrazzano installs the Jaeger Operator and Jaeger using the
-[jaeger-operator](https://github.com/jaegertracing/helm-charts/tree/main/charts/jaeger-operator) Helm chart.
+[jaeger-operator](https://github.com/jaegertracing/helm-charts/tree/jaeger-operator-{{<jaeger_operator_helm_chart_version>}}/charts/jaeger-operator) Helm chart.
 Using Helm overrides specified in the Verrazzano custom resource, you can customize the installation configuration.
 For more information about setting component overrides, see [Customizing the Chart Before Installing](https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing).
 
@@ -54,7 +54,7 @@ For more information about setting component overrides, see [Customizing the Cha
 You can use the default Jaeger instance with an external OpenSearch cluster. The following example shows you how to
 configure Jaeger Operator Helm overrides in the Verrazzano custom resource to use an external OpenSearch cluster
 with a TLS CA certificate mounted from a volume and the user/password stored in a secret. For more details, see the
-[Jaeger documentation](https://www.jaegertracing.io/docs/latest/operator/#external-elasticsearch).
+[Jaeger documentation](https://www.jaegertracing.io/docs/{{<jaeger_doc_version>}}/operator/#external-elasticsearch).
 
 1. Prior to configuring the external OpenSearch for Jaeger in the Verrazzano custom resource, create a secret containing
    the OpenSearch credentials and certificates in the `verrazzano-install` namespace. Jaeger will use these credentials
@@ -105,12 +105,12 @@ spec:
 
 ### Enable the Service Performance Monitoring experimental feature
 
-To enable the Jaeger [Service Performance Monitoring](https://www.jaegertracing.io/docs/latest/spm/) experimental
+To enable the Jaeger [Service Performance Monitoring](https://www.jaegertracing.io/docs/{{<jaeger_doc_version>}}/spm/) experimental
 feature in the default Jaeger instance created by Verrazzano, use the following Verrazzano custom resource. Verrazzano
 sets `jaeger.spec.query.options.prometheus.server-url` to the Prometheus server URL managed by Verrazzano, if it exists.
 To configure an external Prometheus server for your use case, override `jaeger.spec.query.options.prometheus.server-url`,
 `jaeger.spec.query.options.prometheus.tls.enabled` and `jaeger.spec.query.options.prometheus.tls.ca` appropriately in
-the Verrazzano custom resource. For more details, see the [Jaeger documentation](https://www.jaegertracing.io/docs/latest/deployment/#tls-support-1).
+the Verrazzano custom resource. For more details, see the [Jaeger documentation](https://www.jaegertracing.io/docs/{{<jaeger_doc_version>}}/deployment/#tls-support-1).
 
 ```yaml
 apiVersion: install.verrazzano.io/v1alpha1
@@ -189,7 +189,7 @@ spec:
 
 If you have multiple Jaeger instances in your cluster, specify the name of the Jaeger instance to which you intend to
 send the traces, as a value for the annotation `sidecar.jaegertracing.io/inject`. For more details,
-see the [Jaeger documentation](https://www.jaegertracing.io/docs/latest/operator/#auto-injecting-jaeger-agent-sidecars). 
+see the [Jaeger documentation](https://www.jaegertracing.io/docs/{{<jaeger_doc_version>}}/operator/#auto-injecting-jaeger-agent-sidecars). 
 
 ## View traces on the Jaeger UI
 
@@ -269,7 +269,7 @@ spec:
 
 ## Management of Jaeger indices in OpenSearch
 
-To clean old Jaeger data from OpenSearch, Verrazzano uses the [index management](https://www.jaegertracing.io/docs/latest/operator/#elasticsearch-index-cleaner-job)
+To clean old Jaeger data from OpenSearch, Verrazzano uses the [index management](https://www.jaegertracing.io/docs/{{<jaeger_doc_version>}}/operator/#elasticsearch-index-cleaner-job)
 provided by Jaeger. By default, a cron job with the following default values is created to clean old traces. To
 configure it to your use case, override the following Jaeger spec values in the Verrazzano custom resource with your
 desired values.
