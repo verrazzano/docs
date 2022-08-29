@@ -4,6 +4,13 @@ linkTitle: Release Notes
 weight: 13
 draft: false
 ---
+### v1.3.4
+Fixes:
+
+- Updated Rancher to version v2.6.6.
+- Updated the Kiali image to fix CVEs.
+- Resolved an issue with Prometheus volume attachment during upgrade.
+
 ### v1.3.3
 Fixes:
 
