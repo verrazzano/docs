@@ -7,9 +7,12 @@ draft: false
 ### v1.3.4
 Fixes:
 
-- Updated Rancher to version v2.6.6.
 - Updated the Kiali image to fix CVEs.
 - Resolved an issue with Prometheus volume attachment during upgrade.
+
+Component version updates:
+
+- Rancher v2.6.6
 
 ### v1.3.3
 Fixes:
