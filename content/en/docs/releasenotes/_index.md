@@ -4,6 +4,15 @@ linkTitle: Release Notes
 weight: 13
 draft: false
 ---
+### v1.4.0
+Features:
+
+- Support for Kubernetes v1.24.
+
+Component version updates:
+
+- Rancher v2.6.7
+
 ### v1.3.4
 Fixes:
 
