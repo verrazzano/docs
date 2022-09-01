@@ -59,8 +59,7 @@ metadata:
 spec:
   profile: dev
   components:
-    ingress:
-      type: LoadBalancer
+    istio:
       overrides:
         - values:
             apiVersion: install.istio.io/v1alpha1
@@ -115,16 +114,7 @@ metadata:
   name: example-verrazzano
 spec:
   profile: dev
-  components:
-    overrides:
-      - values:
-          controller:
-            service:
-              annotations:
-                service.beta.kubernetes.io/oci-load-balancer-internal: true
-                service.beta.kuernetes.io/oci-load-balancer-subnet1: "ocid1.subnet.oc1.phx.aaaa..sdjxa"
-    ingress:
-      type: LoadBalancer      
+  components:  
     istio:
       overrides:
         - values:
@@ -152,13 +142,15 @@ metadata:
 spec:
   profile: dev
   components:
-    ingress:
+    ingressNGINX:
       type: LoadBalancer
-      nginxInstallArgs:
-      - name: controller.service.annotations."service\.beta\.kubernetes\.io/oci-load-balancer-internal"
-        value: "true"
-      - name: controller.service.annotations."service\.beta\.kubernetes\.io/oci-load-balancer-subnet1"
-        value: "ocid1.subnet.oc1.phx.aaaa..sdjxa"
+        overrides:
+        - values:
+            controller:
+              service:
+                annotations:
+                  service.beta.kubernetes.io/oci-load-balancer-internal: true
+                  service.beta.kuernetes.io/oci-load-balancer-subnet1: "ocid1.subnet.oc1.phx.aaaa..sdjxa"
     istio:
       overrides:
         - values:

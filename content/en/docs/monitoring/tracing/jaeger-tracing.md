@@ -216,8 +216,11 @@ spec:
     istio:
       overrides:
         - values:
-            meshConfig:
-              enableTracing: true
+            apiVersion: install.istio.io/v1alpha1
+            kind: IstioOperator
+            spec:
+              meshConfig:
+                enableTracing: true
 ```
 
 After enabling tracing, Istio will automatically configure itself with the the Jaeger instance managed by Verrazzano in
@@ -241,12 +244,15 @@ spec:
     istio:
       overrides:
         - values:
-            meshConfig:
-              enableTracing: true
-              defaultConfig:
-                tracing:
-                  zipkin:
-                    address: <address:port of your Jaeger collector service>
+            apiVersion: install.istio.io/v1alpha1
+            kind: IstioOperator
+            spec: 
+              meshConfig:
+                enableTracing: true
+                defaultConfig:
+                  tracing:
+                    zipkin:
+                      address: <address:port of your Jaeger collector service>
 ```
 
 Istio's default sampling rate is 1%, meaning 1 in 100 requests will be traced in Jaeger.
@@ -265,11 +271,14 @@ spec:
     istio:
       overrides:
         - values:
-            meshConfig:
-              enableTracing: true
-              defaultConfig:
-                tracing:
-                  sampling: 25.0
+            apiVersion: install.istio.io/v1alpha1
+            kind: IstioOperator
+            spec:
+              meshConfig:
+                enableTracing: true
+                defaultConfig:
+                  tracing:
+                    sampling: 25.0
 ```
 
 ## Management of Jaeger indices in OpenSearch
@@ -318,19 +327,22 @@ kind: Verrazzano
 metadata:
   name: verrazzano
 spec:
-  profile: prod
+  profile: managed-cluster
   components:
     jaegerOperator:
       enabled: true
       istio:
         overrides:
           - values:
-              meshConfig:
-                enableTracing: true
-                defaultConfig:
-                  tracing:
-                    zipkin:
-                      address: jaeger-verrazzano-managed-cluster-collector.verrazzano-monitoring.svc.cluster.local.:9411
+              apiVersion: install.istio.io/v1alpha1
+              kind: IstioOperator
+              spec:
+                meshConfig:
+                  enableTracing: true
+                  defaultConfig:
+                    tracing:
+                      zipkin:
+                        address: jaeger-verrazzano-managed-cluster-collector.verrazzano-monitoring.svc.cluster.local.:9411
 ```
 
 ### View the managed cluster traces
