@@ -29,7 +29,7 @@ spec:
         dnsZoneCompartmentOCID: dnsZoneCompartmentOcid
         dnsZoneOCID: dnsZoneOcid
         dnsZoneName: my.dns.zone.name
-    ingress:
+    ingressNGINX:
       type: LoadBalancer
 
 ```

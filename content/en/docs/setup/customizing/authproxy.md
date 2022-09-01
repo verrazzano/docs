@@ -26,7 +26,7 @@ metadata:
 spec:
   profile: prod
   components:
-    authproxy:
+    authProxy:
       overrides:
       - values:
           replicas: 3
