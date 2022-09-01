@@ -15,11 +15,13 @@ If you want to provide your own Grafana database , you must:
 
 * Create a secret named `grafana-db` in the `verrazzano-install` namespace which contains the login credentials.
 
-  For example, you can use the `openssl` CLI to create a key pair for the `nip.io` domain.
   ```
-  $ export ROOT_SECRET=<The secret for the root user of the database>
-  $ export USER=<The login user for the database>
-  $ export USER_SECRET=<The secret for the user>
+  $ # Load the login credentials into variables
+  $ ROOT_SECRET=<The secret for the root user of the database>
+  $ USER=<The login user for the database>
+  $ USER_SECRET=<The secret for the user>
+  $ #
+  $ # Create the secret
   $ kubectl apply -f - <<-EOF
   apiVersion: v1
   kind: Secret
@@ -33,8 +35,8 @@ If you want to provide your own Grafana database , you must:
     password: $USER_SECRET
   EOF
   ```
+* Configure the Grafana component of the Verrazzano custom resource.
 
-
-Refer to the table in the Verrazzano custom resource pertaining to the [Grafana component]({{< relref "/docs/reference/API/Verrazzano/Verrazzano.md#grafana-component" >}}) for further details.
+Refer to the table in the Verrazzano custom resource pertaining to the [Grafana component]({{< relref "/docs/reference/API/Verrazzano/Verrazzano.md#grafana-component" >}}) for further details of the component definition.
 
 
