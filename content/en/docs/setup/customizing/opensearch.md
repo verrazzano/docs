@@ -18,7 +18,7 @@ configurations provided by Verrazzano.
 ## Configure cluster topology
 
 You can customize the node characteristics of your OpenSearch cluster by using the
-[spec.components.opensearch.nodes](/docs/reference/api/verrazzano/verrazzano/#opensearch-component)
+[spec.components.opensearch.nodes](/docs/reference/api/verrazzano/v1beta1/#opensearch-component)
 field in the Verrazzano custom resource.  When installing or upgrading Verrazzano, you can use this field to
 define an OpenSearch cluster using node groups.
 

@@ -31,15 +31,15 @@ The following is an example of using external load balancers for both management
 
 * External load balancer for management ingress:
 
-  - Set `NodePort` as the ingress type in the [Ingress Component]({{< relref "/docs/reference/API/Verrazzano/Verrazzano.md#ingress-component" >}}).
-  - Set `controller.service.externalIPs` with the IP address for the external management load balancer in the [NGINX Install Args]({{< relref "/docs/reference/API/Verrazzano/Verrazzano.md#nginx-install-args" >}}).
-  - Set `ports` in the [Ingress Component]({{< relref "/docs/reference/API/Verrazzano/Verrazzano.md#ingress-component" >}}) with a [PortConfig]({{< relref "/docs/reference/API/Verrazzano/Verrazzano.md#port-config" >}}) that has `443` as `port`, `31443` as `nodePort`, `https` as `targetPort`, and `TCP` as `protocol`.
+  - Set `NodePort` as the ingress type in the [Ingress Component]({{< relref "/docs/reference/API/Verrazzano/v1beta1.md#ingress-component" >}}).
+  - Set `controller.service.externalIPs` with the IP address for the external management load balancer in the [Ingress NGINX Overrides]({{< relref "/docs/reference/API/Verrazzano/v1beta1.md#ingress-nginx-component" >}}).
+  - Set `ports` in the [Ingress Component]({{< relref "/docs/reference/API/Verrazzano/v1beta1.md#ingress-component" >}}) with a [PortConfig]({{< relref "/docs/reference/API/Verrazzano/v1beta1.md#port-config" >}}) that has `443` as `port`, `31443` as `nodePort`, `https` as `targetPort`, and `TCP` as `protocol`.
 
 * External load balancer for application ingress using the Istio ingress gateway overrides:
 
   - Set service Type to `NodePort`.
   - Set service `externalIPs` to the external application load balancer IP address.
-  - Set service `ports` with a [PortConfig]({{< relref "/docs/reference/API/Verrazzano/Verrazzano.md#port-config" >}}) that has `443` as `port`, `32443` as `nodePort`, `8443` as `targetPort`, and `TCP` as `protocol`.
+  - Set service `ports` with a `https` named entry, `443` as `port`, `32443` as `nodePort`, `8443` as `targetPort`, and `TCP` as `protocol`.
 
 ### Example Custom Resource with management and application external load balancers
 
