@@ -25,7 +25,7 @@ Verrazzano custom resource.
 For example, to use the `dev` profile:
 
 ```
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: example-verrazzano
@@ -42,7 +42,7 @@ uses a customized `dev` profile to configure a small 8Gi persistent volume for t
 provide more stability for the Keycloak service.
 
 ```
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: custom-dev-example

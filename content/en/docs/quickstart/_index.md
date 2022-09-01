@@ -46,7 +46,7 @@ The development profile has the following characteristics:
 1. Install Verrazzano with its `dev` profile.
     ```
     $ vz install -f - <<EOF
-    apiVersion: install.verrazzano.io/v1alpha1
+    apiVersion: install.verrazzano.io/v1beta1
     kind: Verrazzano
     metadata:
       name: example-verrazzano

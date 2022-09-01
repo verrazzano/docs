@@ -73,7 +73,7 @@ If `defaultVolumeSource` is configured, then that setting will be used for all c
 For example, the following Verrazzano configuration uses the `prod` profile, but disables persistent storage for all components.
 
 ```
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: no-storage-prod
@@ -87,7 +87,7 @@ The following example uses `persistentVolumeClaim` to override persistence setti
 `100Gi` volumes for all components, instead of the default of `50Gi`.
 
 ```
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: prod-global-override
@@ -108,7 +108,7 @@ spec:
 The following example uses a `managed-cluster` profile but overrides the persistence settings to use ephemeral storage.
 
 ```
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: mgdcluster-empty-storage-example
@@ -125,7 +125,7 @@ in a `dev` profile configuration.  This overrides the default of ephemeral stora
 retaining the default storage settings for other components.
 
 ```
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: dev-mysql-storage-example
@@ -154,7 +154,7 @@ The following example uses a `dev` installation profile, but overrides the profi
 * Use a `100Gi` volume for the MySQL instance associated with Keycloak.
 
 ```
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: dev-storage-example

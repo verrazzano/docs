@@ -10,7 +10,7 @@ Here is a sample Verrazzano custom resource file that uses Oracle Cloud Infrastr
 [here]( {{< release_source_url path=platform-operator/config/samples >}} ).
 
 ```
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: example-verrazzano

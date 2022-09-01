@@ -22,7 +22,7 @@ The following example customizes a Verrazzano `prod` profile as follows:
 * Changes the `podAffinity` configuration to use `requiredDuringSchedulingIgnoredDuringExecution` for `istio-ingressgateway` and `istio-egressgateway`
 
  ```
- apiVersion: install.verrazzano.io/v1alpha1
+ apiVersion: install.verrazzano.io/v1beta1
  kind: Verrazzano
  metadata:
    name: example-verrazzano
@@ -30,31 +30,46 @@ The following example customizes a Verrazzano `prod` profile as follows:
    profile: prod
    components:
      istio:
-       ingress:
-         kubernetes:
-           replicas: 3
-           affinity:
-             podAntiAffinity:
-               requiredDuringSchedulingIgnoredDuringExecution:
-                 - weight: 25
-                     labelSelector:
-                       matchExpressions:
-                         - key: app
-                           operator: In
-                           values:
-                             - istio-ingressgateway
-                     topologyKey: kubernetes.io/hostname
-       egress:
-         kubernetes:
-           replicas: 3
-           affinity:
-             podAntiAffinity:
-               requiredDuringSchedulingIgnoredDuringExecution:
-                 - labelSelector:
-                     matchExpressions:
-                       - key: app
-                         operator: In
-                         values:
-                           - istio-egressgateway
-                   topologyKey: kubernetes.io/hostname
+       overrides:
+       - values:
+           apiVersion: install.istio.io/v1alpha1
+           kind: IstioOperator
+           spec:
+             components:
+               egressGateways:
+                 - enabled: true
+                   k8s:
+                     affinity:
+                       podAntiAffinity:
+                         requiredDuringSchedulingIgnoredDuringExecution:
+                           - podAffinityTerm:
+                               labelSelector:
+                                 matchExpressions:
+                                   - key: app
+                                     operator: In
+                                     values:
+                                       - istio-egressgateway
+                               topologyKey: kubernetes.io/hostname
+                             weight: 100
+                     replicaCount: 3
+                   name: istio-egressgateway
+               ingressGateways:
+                 - enabled: true
+                   k8s:
+                     affinity:
+                       podAntiAffinity:
+                         requiredDuringSchedulingIgnoredDuringExecution:
+                           - podAffinityTerm:
+                               labelSelector:
+                                 matchExpressions:
+                                   - key: app
+                                     operator: In
+                                     values:
+                                       - istio-ingressgateway
+                               topologyKey: kubernetes.io/hostname
+                             weight: 100
+                     replicaCount: 3
+                     service:
+                       type: LoadBalancer
+                   name: istio-ingressgateway
  ```

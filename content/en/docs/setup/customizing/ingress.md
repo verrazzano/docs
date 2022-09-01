@@ -12,37 +12,34 @@ Verrazzano custom resource. For example, the following Verrazzano custom resourc
 of an Oracle Cloud Infrastructure load balancer for both NGINX and Istio ingresses.
 
 ```
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: custom-lb-settings
 spec:
   profile: prod
   components:
-    ingress:
+    ingressNGINX:
       type: LoadBalancer
-      nginxInstallArgs:
-      - name: controller.service.annotations."service\.beta\.kubernetes\.io/oci-load-balancer-shape"
-        value: "10Mbps"
+      overrides:
+      - values:
+          contoller:
+            service:
+              annotations:
+                service.beta.kubernetes.io/oci-load-balancer-shape: 10Mbps
     istio:
-      istioInstallArgs:
-      - name: gateways.istio-ingressgateway.serviceAnnotations."service\.beta\.kubernetes\.io/oci-load-balancer-shape"
-        value: "10Mbps"
+      overrides:
+      - values:
+          apiVersion: install.istio.io/v1alpha1
+          kind: IstioOperator
+          spec:
+            components:
+              ingressGateways:
+                - enabled: true
+                  name: istio-ingressgateway
+                  k8s:
+                    serviceAnnotations:
+                      service.beta.kubernetes.io/oci-load-balancer-shape: 10Mbps
 ```
 
-The previous entries use dot notation to represent YAML values.  
-
-For example:
-```
-    - name: controller.service.annotations."service\.beta\.kubernetes\.io/oci-load-balancer-shape"
-      value: "10Mbps"
-```
-This is translated into:
-
-```
-controller:
-   service:
-     annotations:
-       service.beta.kubernetes.io/oci-load-balancer-shape: 10Mbps
-```
 For more information about setting component overrides, see [Customizing the Chart Before Installing](https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing).

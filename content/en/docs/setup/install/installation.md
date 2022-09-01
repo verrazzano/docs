@@ -55,7 +55,7 @@ To create a Verrazzano installation as described in the previous section, run th
 1. Install Verrazzano with its `dev` profile.
     ```
     $ vz install -f - <<EOF
-    apiVersion: install.verrazzano.io/v1alpha1
+    apiVersion: install.verrazzano.io/v1beta1
     kind: Verrazzano
     metadata:
       name: example-verrazzano
@@ -142,7 +142,7 @@ To create a Verrazzano installation as described in the previous section, run th
 
 ```
 $ kubectl apply -f - <<EOF
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: example-verrazzano

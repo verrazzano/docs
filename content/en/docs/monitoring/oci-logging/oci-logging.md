@@ -86,14 +86,13 @@ override the default configuration file location, profile name, and the name of 
 Oracle Cloud Infrastructure Logging is enabled in your cluster when installing Verrazzano. The Verrazzano installation custom resource has fields
 for specifying two custom logs: one for system logs and one for application logs. Here is an example Verrazzano
 installation YAML file for each type of credential.
-Note that the API references Kibana, upcoming releases will use OpenSearch Dashboards in the public API.
 
 {{< tabs tabTotal="2" >}}
 {{< tab tabName="Instance Principal Credentials" >}}
 <br>
 
 ```
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: vz-oci-logging
@@ -105,9 +104,9 @@ spec:
       oci:
         systemLogId: ocid1.log.oc1.iad.system.example
         defaultAppLogId: ocid1.log.oc1.iad.app.example
-    elasticsearch:
+    opensearch:
       enabled: false
-    kibana:
+    opensearchDashboards:
       enabled: false
 ```
 <br/>
@@ -120,7 +119,7 @@ When using user API credentials, you need to configure the name of the secret in
 under the Oracle Cloud Infrastructure section of the Fluentd component settings. Your YAML file should look something like this.
 
 ```
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: vz-oci-logging
@@ -133,9 +132,9 @@ spec:
         systemLogId: ocid1.log.oc1.iad.system.example
         defaultAppLogId: ocid1.log.oc1.iad.app.example
         apiSecret: oci-fluentd
-    elasticsearch:
+    opensearch:
       enabled: false
-    kibana:
+    opensearchDashboards:
       enabled: false
 ```
 

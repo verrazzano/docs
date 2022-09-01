@@ -44,13 +44,12 @@ field in the Verrazzano custom resource to either `nip.io` or `sslip.io`; the de
 For example, the following configuration uses `sslip.io`, instead of `nip.io`, for wildcard DNS with a `dev` installation profile.
 
 ```
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: example-verrazzano
 spec:
   profile: dev
-  environmentName: default
   components:
     dns:
       wildcard:
@@ -247,7 +246,7 @@ For example, a custom resource for a `prod` installation profile using Oracle Cl
 a domain of `myenv.example.com` (Oracle Cloud Infrastructure identifiers redacted):
 
 ```
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: example-verrazzano
@@ -266,7 +265,7 @@ spec:
 If using a private DNS zone, then the same `prod` installation profile using Oracle Cloud Infrastructure DNS will look as follows:
 
 ```
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: my-verrazzano

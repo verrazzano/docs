@@ -134,7 +134,7 @@ Alternatively, you can upgrade the Verrazzano installation using the following s
       For example, to upgrade to `{{<release_version>}}`, your YAML file should be edited to add or update the `version` field.
 
       ```yaml
-      apiVersion: install.verrazzano.io/v1alpha1
+      apiVersion: install.verrazzano.io/v1beta1
       kind: Verrazzano
       metadata:
         name: example-verrazzano

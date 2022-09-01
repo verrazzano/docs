@@ -19,7 +19,7 @@ The following example customizes a Verrazzano `prod` profile as follows:
 * Increases the replicas count to `3`
 * Changes the `podAffinity` configuration to use `requiredDuringSchedulingIgnoredDuringExecution`
 ```
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: example-verrazzano
@@ -27,16 +27,17 @@ spec:
   profile: prod
   components:
     authproxy:
-      kubernetes:
-        replicas: 3
-        affinity:
-          podAntiAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              - labelSelector:
-                  matchExpressions:
-                    - key: app
-                      operator: In
-                      values:
-                        - verrazzano-authproxy
-                topologyKey: kubernetes.io/hostname
+      overrides:
+      - values:
+          replicas: 3
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: app
+                        operator: In
+                        values:
+                          - verrazzano-authproxy
+                  topologyKey: kubernetes.io/hostname
 ```

@@ -81,7 +81,7 @@ You can override the default role bindings that are created for system and proje
 To override the set of subjects that are bound to Verrazzano (and Kubernetes) roles during installation, add the Subjects to the Verrazzano CR you use to install Verrazzano, as shown in the following example:
 
 ```
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: example-verrazzano
@@ -106,7 +106,7 @@ To override the set of subjects that are bound to Verrazzano (and Kubernetes) ro
 Note that the generated role bindings will be updated if you update the VerrazzanoProject CR and change the subjects specified for either role.
 
 ```
-apiVersion: clusters.verrazzano.io/v1alpha1
+apiVersion: clusters.verrazzano.io/v1beta1
 kind: VerrazzanoProject
 metadata:
   name: my-project

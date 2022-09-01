@@ -65,7 +65,7 @@ If you want to provide your own CA, you must:
 For example, if you created a CA secret named `myca` in the namespace `mynamespace`, you would configure it as shown:
 
 ```
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: custom-ca-example
@@ -103,7 +103,7 @@ The following example configures Verrazzano to use the LetsEncrypt `production` 
 for DNS record management.
 
 ```
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: letsencrypt-certs-example
@@ -126,7 +126,7 @@ spec:
 The following example configures Verrazzano to use the LetsEncrypt `staging` environment with Oracle Cloud Infrastructure DNS.
 
 ```
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: letsencrypt-certs-example

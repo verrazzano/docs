@@ -16,13 +16,12 @@ To back up and restore persistent data, first you must enable the `velero` and `
 The following configuration shows how to enable the backup components with a `prod` installation profile.
 
 ```
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: example-verrazzano
 spec:
   profile: prod
-  environmentName: default
   components:    
     velero:
       enabled: true
