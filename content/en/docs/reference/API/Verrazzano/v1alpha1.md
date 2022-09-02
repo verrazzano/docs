@@ -37,18 +37,18 @@ spec:
 ```
 
 ## VerrazzanoSpec
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
-| `environmentName` | string | Name of the installation.  This name is part of the endpoint access URLs that are generated. The default value is `default`. | No  
+| `environmentName` | string | Name of the installation.  This name is part of the endpoint access URLs that are generated. The default value is `default`. | No  |
 | `profile` | string | The installation profile to select.  Valid values are `prod` (production), `dev` (development), and `managed-cluster`.  The default is `prod`. | No |
 | `version` | string | The version to install.  Valid versions can be found [here](https://github.com/verrazzano/verrazzano/releases/).  Defaults to the current version supported by the Verrazzano platform operator. | No |
 | `components` | [Components](#components) | The Verrazzano components.  | No  |
-| `defaultVolumeSource` | [VolumeSource](https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/) | Defines the type of volume to be used for persistence for all components unless overridden, and can be one of either [EmptyDirVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#emptydirvolumesource-v1-core) or [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core). If [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core) is declared, then the `claimName` must reference the name of an existing `VolumeClaimSpecTemplate` declared in the `volumeClaimSpecTemplates` section. | No
+| `defaultVolumeSource` | [VolumeSource](https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/) | Defines the type of volume to be used for persistence for all components unless overridden, and can be one of either [EmptyDirVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#emptydirvolumesource-v1-core) or [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core). If [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core) is declared, then the `claimName` must reference the name of an existing `VolumeClaimSpecTemplate` declared in the `volumeClaimSpecTemplates` section. | No |
 | `volumeClaimSpecTemplates` | [VolumeClaimSpecTemplate](#volumeclaimspectemplate) | Defines a named set of PVC configurations that can be referenced from components to configure persistent volumes.| No |
 
 
 ## VolumeClaimSpecTemplate
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `metadata` | [ObjectMeta](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/object-meta/) | Metadata about the PersistentVolumeClaimSpec template.  | No |
 | `spec` | [PersistentVolumeClaimSpec](https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/persistent-volume-claim-v1/#PersistentVolumeClaimSpec) | A `PersistentVolumeClaimSpec` template that can be referenced by a Component to override its default storage settings for a profile.  At present, only a subset of the `resources.requests` object are honored depending on the component. | No |  
@@ -65,6 +65,7 @@ spec:
 | `jaegerOperator`     | [JaegerOperatorComponent](#jaeger-operator-component)             | The Jaeger Operator component configuration.       | No       |
 | `keycloak`           | [KeycloakComponent](#keycloak-component)                          | The Keycloak component configuration.              | No       |
 | `elasticsearch`      | [OpenSearchComponent](#opensearch-component)                      | The OpenSearch component configuration.            | No       |
+| `mySQLOperator`      | [MySQLOperatorComponent](#mysql-operator-component)               | The MySQL Operator component configuration.        | No |
 | `prometheus`         | [PrometheusComponent](#prometheus-component)                      | The Prometheus component configuration.            | No       |
 | `kibana`             | [OpenSearchDashboardsComponent](#opensearch-dashboards-component) | The OpenSearch Dashboards component configuration. | No       |
 | `grafana`            | [GrafanaComponent](#grafana-component)                            | The Grafana component configuration.               | No       |
@@ -76,7 +77,7 @@ spec:
 | `rancherBackup`      | [RancherBackupComponent](#rancher-backup-component)               | The rancherBackup component configuration.         | No       |
 
 ### AuthProxy Component
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `enabled` | Boolean | If true, then AuthProxy will be installed. | No |
 | `kubernetes` | [AuthProxyKubernetes](#authproxy-kubernetes-configuration) | The Kubernetes resources than can be configured for AuthProxy. | No |
@@ -85,38 +86,38 @@ spec:
 
 #### AuthProxy Kubernetes Configuration
 
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `replicas` | uint32 | The number of pods to replicate. | No |
 | `affinity` | [Affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) | A Kubernetes affinity definition. | No |
 
 ### CertManager Component
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `certificate` | [Certificate](#certificate) | The certificate configuration. | No |
 | `monitorChanges` | Boolean | If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to `true`. | No |
 | `overrides` | [Overrides](#overrides) list | List of Overrides for the default `values.yaml` file for the component Helm chart. Lower Overrides have precedence over the ones above them. You can find all possible values [here]( {{< release_source_url path=platform-operator/thirdparty/charts/cert-manager/values.yaml  >}} ) and invalid values will be ignored. | No |
 
 #### Certificate
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `acme` | [Acme](#acme) | The ACME configuration.  Either `acme` or `ca` must be specified. | No |
 | `ca` | [CertificateAuthority](#certificateauthority) | The certificate authority configuration.  Either `acme` or `ca` must be specified. | No |
 
 #### Acme
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `provider` | string | Name of the Acme provider. |  Yes |
 | `emailAddress` | string | Email address of the user. |  Yes |
 
 #### CertificateAuthority
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `secretName` | string | The secret name. |  Yes |
 | `clusterResourceNamespace` | string | The secrete namespace. |  Yes |
 
 ### DNS Component
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `wildcard` | [DNS-Wilcard](#dns-wildcard) | Wildcard DNS configuration. This is the default with a domain of `nip.io`. | No |
 | `oci` | [DNS-OCI](#dns-oci) | Oracle Cloud Infrastructure DNS configuration. | No |
@@ -125,12 +126,12 @@ spec:
 | `overrides` | [Overrides](#overrides) list | List of Overrides for the default `values.yaml` file for the component Helm chart. Lower Overrides have precedence over the ones above them. You can find all possible values [here]( {{< release_source_url path=platform-operator/thirdparty/charts/external-dns/values.yaml >}} ) and invalid values will be ignored. | No |
 
 #### DNS Wildcard
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `domain` | string | The type of wildcard DNS domain. For example, `nip.io`, `sslip.io`, and such. |  Yes |
 
 #### DNS Oracle Cloud Infrastructure
-| Field | Type | Description                                                                                                                                                                                                                                                       | Required
+| Field | Type | Description                                                                                                                                                                                                                                                       | Required |
 | --- | --- |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| --- |
 | `ociConfigSecret` | string | Name of the Oracle Cloud Infrastructure configuration secret.  Generate a secret based on the Oracle Cloud Infrastructure configuration profile you want to use.  You can specify a profile other than DEFAULT and specify the secret name.  See instructions by running `./install/create_oci_config_secret.sh`. | Yes |
 | `dnsZoneCompartmentOCID` | string | The Oracle Cloud Infrastructure DNS compartment OCID.                                                                                                                                                                                                                                     |  Yes |
@@ -138,12 +139,12 @@ spec:
 | `dnsZoneName` | string | Name of Oracle Cloud Infrastructure DNS zone.                                                                                                                                                                                                                                             |  Yes |
 | `dnsScope` | string | Scope of the Oracle Cloud Infrastructure DNS zone (`PRIVATE`, `GLOBAL`). If not specified, then defaults to `GLOBAL`.                                                                                                                                                                           | No |
 #### DNS External
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `suffix` | string | The suffix for DNS names. |  Yes |
 
 ### Ingress Component
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `type` | string | The ingress type.  Valid values are `LoadBalancer` and `NodePort`.  The default value is `LoadBalancer`. If the ingress type is `NodePort`, a valid and accessible IP address must be specified using the `controller.service.externalIPs` key in [NGINXInstallArgs](#nginx-install-args). For sample usage, see [External Load Balancers]({{< relref "/docs/setup/customizing/externalLBs.md" >}}). | No |
 | `nginxInstallArgs` |  [NGINXInstallArgs](#nginx-install-args) list | A list of values to use during NGINX installation. | No |
@@ -152,7 +153,7 @@ spec:
 | `overrides` | [Overrides](#overrides) list | List of Overrides for the default `values.yaml` file for the component Helm chart. Lower Overrides have precedence over the ones above them. You can find all possible values [here]( {{< release_source_url path=platform-operator/thirdparty/charts/ingress-nginx/values.yaml >}} ) and invalid values will be ignored. | No |
 
 #### NGINX Install Args
-| Name | Type | ValueType | Description | Required
+| Name | Type | ValueType | Description | Required |
 | --- | --- | --- | --- | --- |
 | `controller.service.externalIPs` | [NameValue](#name-value)  | string list | The external IP address used by the NGINX Ingress Controller. |  No |
 | `controller.service.externalTrafficPolicy` | [NameValue](#name-value) | string  | Preserves the client source IP address. See [Bare-metal considerations](https://kubernetes.github.io/ingress-nginx/deploy/baremetal/). |  No |
@@ -162,7 +163,7 @@ spec:
 
 
 #### Port Config
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `name` | string | The port name.|  No |
 | `port` | string | The port value. |  Yes |
@@ -171,7 +172,7 @@ spec:
 | `nodePort` | string | The `nodePort` value. |  No |
 
 #### Name Value
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `name` | string | The name of a Helm override for a Verrazzano component chart, specified with a `set` flag on the Helm command line, for example, `helm install --set name=value`. For more information about chart overrides, see [Customize Ingress](/docs/setup/customizing/ingress/). |  Yes |
 | `value` | string | The value of a Helm override for a Verrazzano component chart, specified with a `set` flag on the Helm command line, for example, `helm install --set name=value`. Either `value` or `valueList` must be specified. For more information about chart overrides, see [Customize Ingress](/docs/setup/customizing/ingress/).|  No |
@@ -179,7 +180,7 @@ spec:
 | `setString` | Boolean | Specifies if the argument requires the Helm `--set-string` command-line flag to override a chart value, for example, `helm install --set-string name=value`. |  No |
 
 ### Istio Component
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `enabled` | Boolean | If true, then Istio will be installed. | No |
 | `istioIngress` | [IstioIngress](#istio-ingress-configuration) | The Istio ingress gateway configuration. | No |
@@ -190,7 +191,7 @@ spec:
 
 #### Istio Ingress Configuration
 
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `type` | string | The Istio ingress type.  Valid values are `LoadBalancer` and `NodePort`.  The default value is `LoadBalancer`. If the Istio ingress type is `NodePort`, a valid and accessible IP address must be specified using the `gateways.istio-ingressgateway.externalIPs` key in [IstioInstallArgs](#istio-install-args). For sample usage, see [External Load Balancers]({{< relref "/docs/setup/customizing/externalLBs.md" >}}). | No |
 | `ports` | [PortConfig](#port-config) list | The list port configurations used by the Istio ingress. | No |
@@ -198,19 +199,19 @@ spec:
 
 #### Istio Egress Configuration
 
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `kubernetes` | [IstioKubernetes](#istio-kubernetes-configuration) | The Kubernetes resources than can be configured for an Istio egress gateway. | No |
 
 #### Istio Kubernetes Configuration
 
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `replicas` | uint32 | The number of pods to replicate. | No |
 | `affinity` | [Affinity](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity) | A Kubernetes affinity definition. | No |
 
 #### Istio Install Args
-| Name | Type | ValueType | Description | Required
+| Name | Type | ValueType | Description | Required |
 | --- | --- | --- | --- | --- |
 | `gateways.istio-ingressgateway.externalIPs` | [NameValue](#name-value)  | string list | The external IP address used by the Istio ingress gateway. |  No |
 | `gateways.istio-ingressgateway.serviceAnnotations.*` | [NameValue](#name-value) | string | Annotations used for the Istio ingress gateway.  For sample usage, see [Customize Ingress](/docs/setup/customizing/ingress/). |  No |
@@ -218,7 +219,7 @@ spec:
 | `meshConfig.defaultConfig.tracing.sampling` | [NameValue](#name-value)  | string | Sampling rate for Istio tracing. Defaults to `"1"`, meaning a 1% sampling rate. |  No |
 
 ### Fluentd Component
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `enabled` | Boolean | If true, then Fluentd will be installed. | No |
 | `extraVolumeMounts` | [ExtraVolumeMount](#extra-volume-mount) list | A list of host path volume mounts in addition to `/var/log` into the Fluentd DaemonSet. The Fluentd component collects log files in the `/var/log/containers` directory of Kubernetes worker nodes. The `/var/log/containers` directory may contain symbolic links to files located outside the `/var/log` directory. If the host path directory containing the log files is located outside of `/var/log`, the Fluentd DaemonSet must have the volume mount of that directory to collect the logs. | No |
@@ -229,14 +230,14 @@ spec:
 | `overrides` | [Overrides](#overrides) list | List of Overrides for the default `values.yaml` file for the component Helm chart. Lower Overrides have precedence over the ones above them. You can find all possible values [here]( {{< release_source_url path=platform-operator/helm_config/charts/verrazzano-fluentd/values.yaml >}} ) and invalid values will be ignored. | No |
 
 ### Jaeger Operator Component
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `enabled` | Boolean | If true, then Jaeger Operator will be installed. | No |
 | `monitorChanges` | Boolean | If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to `true`. | No |
 | `overrides` | [Overrides](#overrides) list | List of Overrides for the default `values.yaml` file for the component Helm chart. Lower Overrides have precedence over the ones above them. You can find all possible values [here]( {{< release_source_url path=platform-operator/thirdparty/charts/jaegertracing/jaeger-operator/values.yaml >}} ) and invalid values will be ignored. | No |
 
 #### Extra Volume Mount
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `source` | string | The source host path. |  Yes |
 | `destination` | string | The destination path on the Fluentd Container, defaults to the `source` host path. |  No |
@@ -244,29 +245,35 @@ spec:
 
 #### Oracle Cloud Infrastructure Logging Configuration
 
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `systemLogId` | string | The OCID of the Oracle Cloud Infrastructure Log that will collect system logs. | Yes |
 | `defaultAppLogId` | string | The OCID of the Oracle Cloud Infrastructure Log that will collect application logs. | Yes |
 | `apiSecret` | string | The name of the secret containing the Oracle Cloud Infrastructure API configuration and private key. | No |
 
 ### Keycloak Component
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `enabled` | Boolean | If true, then Keycloak will be installed. | No |
-| `mysql` | [MySQLComponent](#mysql-component) | Contains the MySQL component configuration needed for Keycloak. | No
+| `mysql` | [MySQLComponent](#mysql-component) | Contains the MySQL component configuration needed for Keycloak. | No |
 | `monitorChanges` | Boolean | If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to `true`. | No |
 | `overrides` | [Overrides](#overrides) list | List of Overrides for the default `values.yaml` file for the component Helm chart. Lower Overrides have precedence over the ones above them. You can find all possible values [here]( {{< release_source_url path=platform-operator/thirdparty/charts/keycloak/values.yaml >}} ) and invalid values will be ignored. | No |
 
 ### MySQL Component
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
-| `volumeSource` | [VolumeSource](https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/) | Defines the type of volume to be used for persistence for Keycloak/MySQL, and can be one of either [EmptyDirVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#emptydirvolumesource-v1-core) or [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core). If [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core) is declared, then the `claimName` must reference the name of a `VolumeClaimSpecTemplate` declared in the `volumeClaimSpecTemplates` section. | No
+| `volumeSource` | [VolumeSource](https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/) | Defines the type of volume to be used for persistence for Keycloak/MySQL, and can be one of either [EmptyDirVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#emptydirvolumesource-v1-core) or [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core). If [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core) is declared, then the `claimName` must reference the name of a `VolumeClaimSpecTemplate` declared in the `volumeClaimSpecTemplates` section. | No |
 | `monitorChanges` | Boolean | If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to `true`. | No |
 | `overrides` | [Overrides](#overrides) list | List of Overrides for the default `values.yaml` file for the component Helm chart. Lower Overrides have precedence over the ones above them. You can find all possible values [here]( {{< release_source_url path=platform-operator/thirdparty/charts/mysql/values.yaml >}} ) and invalid values will be ignored. | No |
 
+### MySQL Operator Component
+| Field | Type | Description | Required |
+| --- | --- | --- | --- |
+| `enabled`   | Boolean | If true, then MySQL Operator will be installed. | No |
+| `overrides` | [Overrides](#overrides) list | List of Overrides for the default `values.yaml` file for the component Helm chart. Lower Overrides have precedence over the ones above them. You can find all possible values [here]( {{< release_source_url path=platform-operator/thirdparty/charts/mysql-operator/values.yaml >}} ) and invalid values will be ignored. | No |
+
 ### OpenSearch Component
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `enabled` | Boolean | If true, then OpenSearch will be installed. | No |
 | `installArgs` | [OpenSearchInstallArgs](#opensearch-install-args) list | A list of values to use during OpenSearch installation.  Each argument is specified as either a `name/value` or `name/valueList` pair.  For sample usage, see [Customize OpenSearch](/docs/setup/customizing/opensearch/).| No |
@@ -274,7 +281,7 @@ spec:
 | `nodes` | [Node](#opensearch-node-groups) list | A list of OpenSearch node groups. | No |
 
 #### OpenSearch Node Groups
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `name` | string | Name of the node group. | Yes |
 | `replicas` | integer | Node group replica count. | No |
@@ -283,12 +290,12 @@ spec:
 | `resources` | [Resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) | Kubernetes container resources for nodes in the node group. | No |
 
 #### OpenSearch Node Group Storage
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `size` | string | Node group storage size expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity). | Yes |
 
 #### OpenSearch Index Management Policies
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `policyName` | string | Name of the Index State Management policy. | Yes |
 | `indexPattern` | string | An Index Pattern is an index name or pattern like `my-index-*`. If an index matches the pattern, the associated policy will attach to the index. | Yes |
@@ -299,7 +306,7 @@ spec:
 
 To configure OpenSearch, instead of using install args, Oracle recommends that you use [OpenSearch Node Groups](#opensearch-node-groups).
 
-| Name | Type | ValueType | Description | Required
+| Name | Type | ValueType | Description | Required |
 | --- | --- | --- | --- | --- |
 | `nodes.master.replicas` | [NameValue](#name-value) | string  | The number of master node replicas. |  No |
 | `nodes.master.requests.memory` | [NameValue](#name-value) |  string  | The master node memory request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity). |  No |
@@ -311,24 +318,24 @@ To configure OpenSearch, instead of using install args, Oracle recommends that y
 | `nodes.data.requests.storage` | [NameValue](#name-value) |  string  | The data storage request amount expressed as a [Quantity](https://kubernetes.io/docs/reference/kubernetes-api/common-definitions/quantity/#Quantity). |  No |
 
 #### OpenSearch Index Management Rollover
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `minIndexAge` | [Time]({{<opensearch_docs_url>}}/opensearch/units/) | Amount of time until a managed index is rolled over. Default is 1 day (`1d`). | No |
 | `minSize` | [Bytes]({{<opensearch_docs_url>}}/opensearch/units/) | The size at which a managed index is rolled over. | No |
 | `minDocCount` | uint32 | Amount of documents in a managed index that triggers a rollover. | No |
 
 ### OpenSearch Dashboards Component
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `enabled` | Boolean | If true, then OpenSearch Dashboards will be installed. | No |
 
 ### Prometheus Component
-| Field | Type | Description                                                                                                                                                                                                      | Required
+| Field | Type | Description                                                                                                                                                                                                      | Required |
 | --- | --- |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| --- |
 | `enabled` | Boolean | If true, then Prometheus will be installed. Defaults to `true`. This is a legacy setting; the preferred way to configure Prometheus is using the [prometheusOperator](#prometheus-operator-component) component. | No |
 
 ### Grafana Component
-| Field | Type                                   | Description                                                                | Required
+| Field | Type                                   | Description                                                                | Required |
 | --- |----------------------------------------|----------------------------------------------------------------------------| --- |
 | `enabled` | Boolean                                | If true, then Grafana will be installed.                                   | No |
 | `replicas` | integer                                | The number of pods to replicate.  The default is `1`.                      | No |
@@ -336,13 +343,13 @@ To configure OpenSearch, instead of using install args, Oracle recommends that y
 
 ### Grafana Database Info
 
-| Field | Type   | Description                      | Required
+| Field | Type   | Description                      | Required |
 | --- |--------|----------------------------------| --- |
 | `host` | string | The host of the database. | No |
 | `name` | string | The name of the database. | No |
 
 ### Kiali Component
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `enabled` | Boolean | If true, then Kiali will be installed. | No |
 | `monitorChanges` | Boolean | If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to `true`. | No |
@@ -370,18 +377,18 @@ To configure OpenSearch, instead of using install args, Oracle recommends that y
 | `overrides` | [Overrides](#overrides) list | List of Overrides for the default `values.yaml` file for the component Helm chart. Lower Overrides have precedence over the ones above them. You can find all possible values [here]( {{< release_source_url path=platform-operator/thirdparty/charts/prometheus-community/kube-state-metrics/values.yaml >}} ) and invalid values will be ignored. | No |
 
 ### Overrides
-| Field | Type | Description | Required
+| Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `configMapRef` | [ConfigMapKeySelector](https://pkg.go.dev/k8s.io/api/core/v1@v0.23.5#ConfigMapKeySelector) | Selector for ConfigMap containing override data. | No |
 | `secretRef` | [SecretKeySelector](https://pkg.go.dev/k8s.io/api/core/v1@v0.23.5#SecretKeySelector) | Selector for Secret containing override data. | No |
 | `values` | [JSON](https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1@v0.23.5#JSON) | Configure overrides using inline YAML. | No |
 
 ### Velero Component
-| Field | Type | Description                             | Required
+| Field | Type | Description                             | Required |
 | --- | --- |-----------------------------------------| --- |
 | `enabled` | Boolean | If true, then Velero will be installed. | No |
 
 ### Rancher Backup Component
-| Field | Type | Description                                                                                                  | Required
+| Field | Type | Description                                                                                                  | Required |
 | --- | --- |--------------------------------------------------------------------------------------------------------------| --- |
 | `enabled` | Boolean | If true, then rancherBackup will be installed. rancherBackup is dependant on Rancher being installed. | No |
