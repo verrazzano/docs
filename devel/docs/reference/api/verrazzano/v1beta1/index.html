@@ -27,13 +27,13 @@ apiVersion: install.verrazzano.io/v1beta1 kind: Verrazzano metadata: name: examp
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/reference/api/verrazzano/v1beta1/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-09-02T06:53:57-07:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-09-02T15:12:07-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Verrazzano V1Beta1 Custom Resource Definition">
 <meta itemprop="description" content="The Verrazzano custom resource contains the configuration information for an installation. Here is a sample Verrazzano custom resource file that uses Oracle Cloud Infrastructure DNS. See other examples here.
 apiVersion: install.verrazzano.io/v1beta1 kind: Verrazzano metadata: name: example-verrazzano spec: environmentName: env profile: prod components: certManager: certificate: acme: provider: letsEncrypt emailAddress: emailAddress@example.com dns: oci: ociConfigSecret: oci dnsZoneCompartmentOCID: dnsZoneCompartmentOcid dnsZoneOCID: dnsZoneOcid dnsZoneName: my.dns.zone.name ingressNGINX: type: LoadBalancer VerrazzanoSpec    Field Type Description Required     environmentName string Name of the installation.">
-<meta itemprop="dateModified" content="2022-09-02T06:53:57-07:00" />
-<meta itemprop="wordCount" content="2565">
+<meta itemprop="dateModified" content="2022-09-02T15:12:07-04:00" />
+<meta itemprop="wordCount" content="2615">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Verrazzano V1Beta1 Custom Resource Definition"/>
 <meta name="twitter:description" content="The Verrazzano custom resource contains the configuration information for an installation. Here is a sample Verrazzano custom resource file that uses Oracle Cloud Infrastructure DNS. See other examples here.
@@ -98,7 +98,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.e4d1f54be6abf7bb84e2f17a387a109b.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.9580167619cf0f52fbce2d68906d35e9.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -120,7 +120,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.e4d1f54be6abf7bb84e2f17a387a109b.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.9580167619cf0f52fbce2d68906d35e9.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -192,6 +192,8 @@ if (!doNotTrack) {
   <a href="../../../../../docs/setup/customizing/istio/" title="Customize Istio" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupcustomizingistio"><span class="">Istio</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupcustomizingopensearch-li">
   <a href="../../../../../docs/setup/customizing/opensearch/" title="Customize OpenSearch" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupcustomizingopensearch"><span class="">OpenSearch</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupcustomizinggrafana-li">
+  <a href="../../../../../docs/setup/customizing/grafana/" title="Customize Grafana" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupcustomizinggrafana"><span class="">Grafana</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupcustomizingingress-li">
   <a href="../../../../../docs/setup/customizing/ingress/" title="Customize Ingress" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupcustomizingingress"><span class="">Ingress</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupcustomizingprometheus-li">
@@ -651,7 +653,7 @@ spec:
 <td>No</td>
 </tr>
 <tr>
-<td>`ingressNGINX</td>
+<td><code>ingressNGINX</code></td>
 <td><a href="#ingress-component">IngressComponent</a></td>
 <td>The ingress component configuration.</td>
 <td>No</td>
@@ -1581,6 +1583,43 @@ spec:
 <td><code>enabled</code></td>
 <td>Boolean</td>
 <td>If true, then Grafana will be installed.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>replicas</code></td>
+<td>integer</td>
+<td>The number of pods to replicate.  The default is <code>1</code>.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>database</code></td>
+<td><a href="#grafana-database-info">DatabaseInfo</a></td>
+<td>The information to configure a connection to an external Grafana database.</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<h3 id="grafana-database-info">Grafana Database Info</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>host</code></td>
+<td>string</td>
+<td>The host of the database.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>The name of the database.</td>
 <td>No</td>
 </tr>
 </tbody>
