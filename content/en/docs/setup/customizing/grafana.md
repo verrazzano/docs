@@ -11,7 +11,7 @@ draft: false
 
 By default, Verrazzano automatically installs and configures a Grafana database, you have the option to use your own external database.  
 
-If you want to provide your own Grafana database , you must:
+If you want to provide your own Grafana database , you must do the following steps:
 
 * Create a secret named `grafana-db` in the `verrazzano-install` namespace which contains the login credentials.
 
