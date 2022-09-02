@@ -7,6 +7,7 @@ draft: false
 ### v1.4.0
 Features:
 
+- New API version for the Verrazzano resource, install.verrazzano.io/v1beta1. See the [Deprecated API Migration Guide]({{< relref "/docs/reference/migration" >}}) for more details.
 - Support for Kubernetes v1.24.
 
 Component version updates:
