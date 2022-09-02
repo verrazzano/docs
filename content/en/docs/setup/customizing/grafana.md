@@ -55,6 +55,6 @@ If you want to provide your own Grafana database , you must do the following ste
           name: grafana
   ```
 
-Refer to the table in the Verrazzano custom resource pertaining to the [Grafana component]({{< relref "/docs/reference/API/Verrazzano/Verrazzano.md#grafana-component" >}}) for further details of the component definition.
+Refer to the table in the Verrazzano custom resource pertaining to the [Grafana component]({{< relref "/docs/reference/API/Verrazzano/v1beta1.md#grafana-component" >}}) for further details of the component definition.
 
 

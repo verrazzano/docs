@@ -259,9 +259,18 @@ spec:
 | `enabled` | Boolean | If true, then Prometheus will be installed. Defaults to `true`. This is a legacy setting; the preferred way to configure Prometheus is using the [prometheusOperator](#prometheus-operator-component) component. | No |
 
 ### Grafana Component
-| Field | Type | Description | Required
-| --- | --- | --- | --- |
-| `enabled` | Boolean | If true, then Grafana will be installed. | No |
+| Field | Type                                   | Description                                                                | Required
+| --- |----------------------------------------|----------------------------------------------------------------------------| --- |
+| `enabled` | Boolean                                | If true, then Grafana will be installed.                                   | No |
+| `replicas` | integer                                | The number of pods to replicate.  The default is `1`.                      | No |
+| `database` | [DatabaseInfo](#grafana-database-info) | The information to configure a connection to an external Grafana database. | No |
+
+### Grafana Database Info
+
+| Field | Type   | Description                      | Required
+| --- |--------|----------------------------------| --- |
+| `host` | string | The host of the database. | No |
+| `name` | string | The name of the database. | No |
 
 ### Kiali Component
 | Field | Type | Description | Required
