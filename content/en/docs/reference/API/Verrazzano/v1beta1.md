@@ -57,7 +57,7 @@ spec:
 | `authProxy`            | [AuthProxyComponent](#authproxy-component)                        | The AuthProxy component configuration.             | No       |
 | `certManager`          | [CertManagerComponent](#certmanager-component)                    | The cert-manager component configuration.          | No       |
 | `dns`                  | [DNSComponent](#dns-component)                                    | The DNS component configuration.                   | No       |
-| `ingressNGINX          | [IngressComponent](#ingress-component)                            | The ingress component configuration.               | No       |
+| `ingressNGINX`         | [IngressComponent](#ingress-component)                            | The ingress component configuration.               | No       |
 | `istio`                | [IstioComponent](#istio-component)                                | The Istio component configuration.                 | No       |
 | `fluentd`              | [FluentdComponent](#fluentd-component)                            | The Fluentd component configuration.               | No       |
 | `jaegerOperator`       | [JaegerOperatorComponent](#jaeger-operator-component)             | The Jaeger Operator component configuration.       | No       |
