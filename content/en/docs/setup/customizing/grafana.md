@@ -9,13 +9,13 @@ draft: false
 
 ### External Grafana Database
 
-By default, Verrazzano automatically installs and configures a Grafana database, you have the option to use your own external database.  
+By default, Verrazzano automatically installs and configures a Grafana database. However, you can use your own external database.
 
-If you want to provide your own Grafana database , you must do the following steps:
+If you prefer to use your own Grafana database, complete the following steps:
 
 * Create a secret named `grafana-db` in the `verrazzano-install` namespace which contains the login credentials.
 
-  For example, you could configure it as shown:
+  For example:
 
   ```
   $ # Load the login credentials into variables
@@ -39,7 +39,7 @@ If you want to provide your own Grafana database , you must do the following ste
   ```
 * Configure the Grafana component of the Verrazzano custom resource.
 
-  For example, you could configure it as shown:
+  For example:
 
   ```
   apiVersion: install.verrazzano.io/v1beta1
@@ -55,6 +55,6 @@ If you want to provide your own Grafana database , you must do the following ste
           name: grafana
   ```
 
-Refer to the table in the Verrazzano custom resource pertaining to the [Grafana component]({{< relref "/docs/reference/API/Verrazzano/v1beta1.md#grafana-component" >}}) for further details of the component definition.
+For more information about the component definition, see [Grafana component]({{< relref "/docs/reference/API/Verrazzano/v1beta1.md#grafana-component" >}}) in the Verrazzano custom resource.
 
 
