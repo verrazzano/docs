@@ -335,7 +335,7 @@ To configure OpenSearch, instead of using install args, Oracle recommends that y
 | `enabled` | Boolean | If true, then Prometheus will be installed. Defaults to `true`. This is a legacy setting; the preferred way to configure Prometheus is using the [prometheusOperator](#prometheus-operator-component) component. | No |
 
 ### Grafana Component
-| Field | Type                                   | Description                                                                | Required
+| Field | Type                                   | Description                                                                | Required |
 | --- |----------------------------------------|----------------------------------------------------------------------------| --- |
 | `enabled` | Boolean                                | If true, then Grafana will be installed.                                   | No |
 | `replicas` | integer                                | The number of pods to replicate.  The default is `1`.                      | No |
@@ -343,7 +343,7 @@ To configure OpenSearch, instead of using install args, Oracle recommends that y
 
 ### Grafana Database Info
 
-| Field | Type   | Description                      | Required
+| Field | Type   | Description                      | Required |
 | --- |--------|----------------------------------| --- |
 | `host` | string | The host of the database. | No |
 | `name` | string | The name of the database. | No |

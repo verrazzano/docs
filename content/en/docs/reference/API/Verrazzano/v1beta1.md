@@ -62,8 +62,8 @@ spec:
 | `fluentd`              | [FluentdComponent](#fluentd-component)                            | The Fluentd component configuration.               | No       |
 | `jaegerOperator`       | [JaegerOperatorComponent](#jaeger-operator-component)             | The Jaeger Operator component configuration.       | No       |
 | `keycloak`             | [KeycloakComponent](#keycloak-component)                          | The Keycloak component configuration.              | No       |
-| `opensearch`           | [OpenSearchComponent](#opensearch-component)                      | The OpenSearch component configuration.            | No       |
 | `mySQLOperator`       | [MySQLOperatorComponent](#mysql-operator-component)               | The MySQL Operator component configuration.        | No |
+| `opensearch`           | [OpenSearchComponent](#opensearch-component)                      | The OpenSearch component configuration.            | No       |
 | `prometheus`           | [PrometheusComponent](#prometheus-component)                      | The Prometheus component configuration.            | No       |
 | `opensearchDashboards` | [OpenSearchDashboardsComponent](#opensearch-dashboards-component) | The OpenSearch Dashboards component configuration. | No       |
 | `grafana`              | [GrafanaComponent](#grafana-component)                            | The Grafana component configuration.               | No       |
@@ -266,7 +266,7 @@ spec:
 | `enabled` | Boolean | If true, then Prometheus will be installed. Defaults to `true`. This is a legacy setting; the preferred way to configure Prometheus is using the [prometheusOperator](#prometheus-operator-component) component. | No |
 
 ### Grafana Component
-| Field | Type                                   | Description                                                                | Required
+| Field | Type                                   | Description                                                                | Required |
 | --- |----------------------------------------|----------------------------------------------------------------------------| --- |
 | `enabled` | Boolean                                | If true, then Grafana will be installed.                                   | No |
 | `replicas` | integer                                | The number of pods to replicate.  The default is `1`.                      | No |
@@ -274,7 +274,7 @@ spec:
 
 ### Grafana Database Info
 
-| Field | Type   | Description                      | Required
+| Field | Type   | Description                      | Required |
 | --- |--------|----------------------------------| --- |
 | `host` | string | The host of the database. | No |
 | `name` | string | The name of the database. | No |
