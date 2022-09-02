@@ -13,7 +13,7 @@ This page contains information you need to know when migrating from deprecated A
 The install.verrazzano.io/v1alpha1 API version of Verrazzano resources is deprecated and will no longer be served in a future release.
 
 - Migrate manifests and API clients to use the install.verrazzano.io/v1beta1 API version, available since 1.4.0.
-- All existing persisted objects are accessible via the new API
+- All existing persisted objects are accessible via the new API.
 
 #### Notable Changes In install.verrazzano.io/v1beta1
 
