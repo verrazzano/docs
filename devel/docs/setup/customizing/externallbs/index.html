@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/customizing/externallbs/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-07-12T14:05:07-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-09-02T06:53:57-07:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="External Load Balancers">
 <meta itemprop="description" content="External load balancers for Verrazzano management and application endpoints">
-<meta itemprop="dateModified" content="2022-07-12T14:05:07-04:00" />
-<meta itemprop="wordCount" content="343">
+<meta itemprop="dateModified" content="2022-09-02T06:53:57-07:00" />
+<meta itemprop="wordCount" content="345">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="External Load Balancers"/>
 <meta name="twitter:description" content="External load balancers for Verrazzano management and application endpoints"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.8d3dd07187801e7db6924f0b0c0d8a1b.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.6d4c3a4899b3fddb72c6d782d1aec258.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.8d3dd07187801e7db6924f0b0c0d8a1b.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.6d4c3a4899b3fddb72c6d782d1aec258.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -410,8 +410,10 @@ if (!doNotTrack) {
   <a href="../../../../docs/reference/api/multicluster/multiclustersecret/" title="MultiClusterSecret Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlustermulticlustersecret"><span class="">MultiClusterSecret CRD</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapimulticlusterplacement-li">
   <a href="../../../../docs/reference/api/multicluster/placement/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlusterplacement"><span class="">Placement Subresource</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapiverrazzanoverrazzano-li">
-  <a href="../../../../docs/reference/api/verrazzano/verrazzano/" title="Verrazzano Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapiverrazzanoverrazzano"><span class="">Verrazzano CRD</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapiverrazzanov1alpha1-li">
+  <a href="../../../../docs/reference/api/verrazzano/v1alpha1/" title="Verrazzano V1Alpha1 Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapiverrazzanov1alpha1"><span class="">Verrazzano CRD (v1alpha1)</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapiverrazzanov1beta1-li">
+  <a href="../../../../docs/reference/api/verrazzano/v1beta1/" title="Verrazzano V1Beta1 Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapiverrazzanov1beta1"><span class="">Verrazzano CRD (v1beta1)</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapioamworkloads-li">
   <a href="../../../../docs/reference/api/oam/workloads/" title="Verrazzano Workload Custom Resource Definitions" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapioamworkloads"><span class="">Verrazzano Workload CRDs</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapimulticlusterverrazzanomanagedcluster-li">
@@ -533,28 +535,34 @@ you have the option to use your own external load balancers. You can choose to r
 <li>
 <p>External load balancer for management ingress:</p>
 <ul>
-<li>Set <code>NodePort</code> as the ingress type in the <a href="../../../../docs/reference/api/verrazzano/verrazzano/#ingress-component">Ingress Component</a>.</li>
-<li>Set <code>controller.service.externalIPs</code> with the IP address for the external management load balancer in the <a href="../../../../docs/reference/api/verrazzano/verrazzano/#nginx-install-args">NGINX Install Args</a>.</li>
-<li>Set <code>ports</code> in the <a href="../../../../docs/reference/api/verrazzano/verrazzano/#ingress-component">Ingress Component</a> with a <a href="../../../../docs/reference/api/verrazzano/verrazzano/#port-config">PortConfig</a> that has <code>443</code> as <code>port</code>, <code>31443</code> as <code>nodePort</code>, <code>https</code> as <code>targetPort</code>, and <code>TCP</code> as <code>protocol</code>.</li>
+<li>Set <code>NodePort</code> as the ingress type in the <a href="../../../../docs/reference/api/verrazzano/v1beta1/#ingress-component">Ingress Component</a>.</li>
+<li>Set <code>controller.service.externalIPs</code> with the IP address for the external management load balancer in the <a href="../../../../docs/reference/api/verrazzano/v1beta1/#ingress-nginx-component">Ingress NGINX Overrides</a>.</li>
+<li>Set <code>ports</code> in the <a href="../../../../docs/reference/api/verrazzano/v1beta1/#ingress-component">Ingress Component</a> with a <a href="../../../../docs/reference/api/verrazzano/v1beta1/#port-config">PortConfig</a> that has <code>443</code> as <code>port</code>, <code>31443</code> as <code>nodePort</code>, <code>https</code> as <code>targetPort</code>, and <code>TCP</code> as <code>protocol</code>.</li>
 </ul>
 </li>
 <li>
-<p>External load balancer for application ingress:</p>
+<p>External load balancer for application ingress using the Istio ingress gateway overrides:</p>
 <ul>
-<li>Set <code>NodePort</code> as the Istio ingress type in the <a href="../../../../docs/reference/api/verrazzano/verrazzano/#istio-ingress-configuration">Istio Ingress Configuration</a>.</li>
-<li>Set <code>gateways.istio-ingressgateway.externalIPs</code> with the IP address for the external application load balancer in the <a href="../../../../docs/reference/api/verrazzano/verrazzano/#istio-install-args">Istio Install Args</a>.</li>
-<li>Set <code>ports</code> in the <a href="../../../../docs/reference/api/verrazzano/verrazzano/#istio-ingress-configuration">Istio Ingress Configuration</a> with a <a href="../../../../docs/reference/api/verrazzano/verrazzano/#port-config">PortConfig</a> that has <code>443</code> as <code>port</code>, <code>32443</code> as <code>nodePort</code>, <code>8443</code> as <code>targetPort</code>, and <code>TCP</code> as <code>protocol</code>.</li>
+<li>Set service Type to <code>NodePort</code>.</li>
+<li>Set service <code>externalIPs</code> to the external application load balancer IP address.</li>
+<li>Set service <code>ports</code> with a <code>https</code> named entry, <code>443</code> as <code>port</code>, <code>32443</code> as <code>nodePort</code>, <code>8443</code> as <code>targetPort</code>, and <code>TCP</code> as <code>protocol</code>.</li>
 </ul>
 </li>
 </ul>
 <h3 id="example-custom-resource-with-management-and-application-external-load-balancers">Example Custom Resource with management and application external load balancers</h3>
-<pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1alpha1
+<pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: myvz
 spec:
   components:
-    ingress:
+    ingressNGINX:
+      overrides:
+      - values:
+          controller:
+            service:
+              externalIPs:
+              - 11.22.33.44
       type: NodePort
       ports:
       - name: https
@@ -562,23 +570,27 @@ spec:
         nodePort: 31443
         protocol: TCP
         targetPort: https
-      nginxInstallArgs:
-      - name: controller.service.externalIPs
-        valueList:
-        - 11.22.33.44
     istio:
-      ingress:
-        type: NodePort
-        ports:
-        - name: https
-          port: 443
-          nodePort: 32443
-          protocol: TCP
-          targetPort: 8443
-      istioInstallArgs:
-      - name: gateways.istio-ingressgateway.externalIPs
-        valueList:
-        - 11.22.33.55
+      overrides:
+      - values:
+          apiVersion: install.istio.io/v1alpha1
+          kind: IstioOperator
+          spec:
+            components:
+              ingressGateways:
+                - enabled: true
+                  name: istio-ingressgateway
+                  k8s:
+                    service:
+                      type: NodePort
+                      ports:
+                      - name: https
+                        port: 443
+                        nodePort: 32443
+                        protocol: TCP
+                        targetPort: 8443
+                      externalIPs:
+                      - 11.22.33.55
 </code></pre>
 	
 		<style>

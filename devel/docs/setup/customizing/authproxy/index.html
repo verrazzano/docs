@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/customizing/authproxy/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-02-16T12:34:30-08:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-09-02T06:53:57-07:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Customize AuthProxy">
 <meta itemprop="description" content="Customize Verrazzano AuthProxy installation settings">
-<meta itemprop="dateModified" content="2022-02-16T12:34:30-08:00" />
-<meta itemprop="wordCount" content="168">
+<meta itemprop="dateModified" content="2022-09-02T06:53:57-07:00" />
+<meta itemprop="wordCount" content="170">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Customize AuthProxy"/>
 <meta name="twitter:description" content="Customize Verrazzano AuthProxy installation settings"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.8d3dd07187801e7db6924f0b0c0d8a1b.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.6d4c3a4899b3fddb72c6d782d1aec258.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.8d3dd07187801e7db6924f0b0c0d8a1b.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.6d4c3a4899b3fddb72c6d782d1aec258.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -410,8 +410,10 @@ if (!doNotTrack) {
   <a href="../../../../docs/reference/api/multicluster/multiclustersecret/" title="MultiClusterSecret Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlustermulticlustersecret"><span class="">MultiClusterSecret CRD</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapimulticlusterplacement-li">
   <a href="../../../../docs/reference/api/multicluster/placement/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlusterplacement"><span class="">Placement Subresource</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapiverrazzanoverrazzano-li">
-  <a href="../../../../docs/reference/api/verrazzano/verrazzano/" title="Verrazzano Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapiverrazzanoverrazzano"><span class="">Verrazzano CRD</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapiverrazzanov1alpha1-li">
+  <a href="../../../../docs/reference/api/verrazzano/v1alpha1/" title="Verrazzano V1Alpha1 Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapiverrazzanov1alpha1"><span class="">Verrazzano CRD (v1alpha1)</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapiverrazzanov1beta1-li">
+  <a href="../../../../docs/reference/api/verrazzano/v1beta1/" title="Verrazzano V1Beta1 Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapiverrazzanov1beta1"><span class="">Verrazzano CRD (v1beta1)</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapioamworkloads-li">
   <a href="../../../../docs/reference/api/oam/workloads/" title="Verrazzano Workload Custom Resource Definitions" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapioamworkloads"><span class="">Verrazzano Workload CRDs</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapimulticlusterverrazzanomanagedcluster-li">
@@ -504,7 +506,7 @@ if (!doNotTrack) {
 		
 	</header>    
 	<p>The Verrazzano AuthProxy component enables authentication and authorization for Keycloak users accessing Verrazzano resources.  You can customize the AuthProxy component using settings in the Verrazzano custom resource.</p>
-<p>The following table describes the fields in the Verrazzano custom resource pertaining to the <a href="../../../../docs/reference/api/verrazzano/verrazzano/#authproxy-component">AuthProxy component</a>.</p>
+<p>The following table describes the fields in the Verrazzano custom resource pertaining to the <a href="../../../../docs/reference/api/verrazzano/v1beta1/#authproxy-component">AuthProxy component</a>.</p>
 <table>
 <thead>
 <tr>
@@ -528,26 +530,27 @@ if (!doNotTrack) {
 <li>Increases the replicas count to <code>3</code></li>
 <li>Changes the <code>podAffinity</code> configuration to use <code>requiredDuringSchedulingIgnoredDuringExecution</code></li>
 </ul>
-<pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1alpha1
+<pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: example-verrazzano
 spec:
   profile: prod
   components:
-    authproxy:
-      kubernetes:
-        replicas: 3
-        affinity:
-          podAntiAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              - labelSelector:
-                  matchExpressions:
-                    - key: app
-                      operator: In
-                      values:
-                        - verrazzano-authproxy
-                topologyKey: kubernetes.io/hostname
+    authProxy:
+      overrides:
+      - values:
+          replicas: 3
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: app
+                        operator: In
+                        values:
+                          - verrazzano-authproxy
+                  topologyKey: kubernetes.io/hostname
 </code></pre>
 	
 		<style>

@@ -90,7 +90,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.8d3dd07187801e7db6924f0b0c0d8a1b.json"
+  data-offline-search-index-json-src="../../../offline-search-index.6d4c3a4899b3fddb72c6d782d1aec258.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -112,7 +112,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.8d3dd07187801e7db6924f0b0c0d8a1b.json"
+  data-offline-search-index-json-src="../../../offline-search-index.6d4c3a4899b3fddb72c6d782d1aec258.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -406,8 +406,10 @@ if (!doNotTrack) {
   <a href="../../../docs/reference/api/multicluster/multiclustersecret/" title="MultiClusterSecret Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlustermulticlustersecret"><span class="">MultiClusterSecret CRD</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapimulticlusterplacement-li">
   <a href="../../../docs/reference/api/multicluster/placement/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlusterplacement"><span class="">Placement Subresource</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapiverrazzanoverrazzano-li">
-  <a href="../../../docs/reference/api/verrazzano/verrazzano/" title="Verrazzano Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapiverrazzanoverrazzano"><span class="">Verrazzano CRD</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapiverrazzanov1alpha1-li">
+  <a href="../../../docs/reference/api/verrazzano/v1alpha1/" title="Verrazzano V1Alpha1 Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapiverrazzanov1alpha1"><span class="">Verrazzano CRD (v1alpha1)</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapiverrazzanov1beta1-li">
+  <a href="../../../docs/reference/api/verrazzano/v1beta1/" title="Verrazzano V1Beta1 Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapiverrazzanov1beta1"><span class="">Verrazzano CRD (v1beta1)</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapioamworkloads-li">
   <a href="../../../docs/reference/api/oam/workloads/" title="Verrazzano Workload Custom Resource Definitions" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapioamworkloads"><span class="">Verrazzano Workload CRDs</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapimulticlusterverrazzanomanagedcluster-li">
@@ -595,17 +597,17 @@ $ curl -ik \
 $ curl -ik \
     --user verrazzano:$PASS https://$HOST/$DATA_STREAM/_search?q=message:*
 </code></pre><p>Verrazzano provides support for <a href="../../../docs/setup/install/profiles/">Installation Profiles</a>. The production profile (<code>prod</code>), which is the default, provides a 3-node OpenSearch and persistent storage for the VMI. The development profile (<code>dev</code>) provides a single node OpenSearch and no persistent storage for the VMI. The <code>managed-cluster</code> profile does not install OpenSearch or OpenSearch Dashboards in the local cluster; all logs are forwarded to the admin cluster&rsquo;s OpenSearch instance.</p>
-<p>If you want the logs sent to an external OpenSearch, instead of the default VMI OpenSearch, specify <code>elasticsearchURL</code> and <code>elasticsearchSecret</code> in the <a href="../../../docs/reference/api/verrazzano/verrazzano/#fluentd-component">Fluentd</a> Component configuration in your Verrazzano custom resource.</p>
+<p>If you want the logs sent to an external OpenSearch, instead of the default VMI OpenSearch, specify <code>opensearchURL</code> and <code>opensearchSecret</code> in the <a href="../../../docs/reference/api/verrazzano/v1beta1/#fluentd-component">Fluentd</a> Component configuration in your Verrazzano custom resource.</p>
 <p>The following is an example of a Verrazzano custom resource to send the logs to the OpenSearch endpoint <code>https://external-es.default.172.18.0.231.nip.io</code>.</p>
-<pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1alpha1
+<pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: default
 spec:
   components:
     fluentd:
-      elasticsearchURL: https://external-es.default.172.18.0.231.nip.io
-      elasticsearchSecret: external-es-secret
+      opensearchURL: https://external-es.default.172.18.0.231.nip.io
+      opensearchSecret: external-es-secret
 </code></pre><h2 id="opensearch-dashboards">OpenSearch Dashboards</h2>
 <p>OpenSearch Dashboards is a visualization dashboard for the content indexed on an OpenSearch cluster.  Verrazzano creates a OpenSearch Dashboards deployment to provide a user interface for querying and visualizing the log data collected in OpenSearch.</p>
 <p>To access the OpenSearch Dashboards, read <a href="../../../docs/access/">Access Verrazzano</a>.</p>

@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/customizing/ingress/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-07-12T14:05:07-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-09-02T06:53:57-07:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Customize Ingress">
 <meta itemprop="description" content="Customize Verrazzano NGINX and Istio ingress installation settings">
-<meta itemprop="dateModified" content="2022-07-12T14:05:07-04:00" />
-<meta itemprop="wordCount" content="122">
+<meta itemprop="dateModified" content="2022-09-02T06:53:57-07:00" />
+<meta itemprop="wordCount" content="111">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Customize Ingress"/>
 <meta name="twitter:description" content="Customize Verrazzano NGINX and Istio ingress installation settings"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.8d3dd07187801e7db6924f0b0c0d8a1b.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.6d4c3a4899b3fddb72c6d782d1aec258.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.8d3dd07187801e7db6924f0b0c0d8a1b.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.6d4c3a4899b3fddb72c6d782d1aec258.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -410,8 +410,10 @@ if (!doNotTrack) {
   <a href="../../../../docs/reference/api/multicluster/multiclustersecret/" title="MultiClusterSecret Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlustermulticlustersecret"><span class="">MultiClusterSecret CRD</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapimulticlusterplacement-li">
   <a href="../../../../docs/reference/api/multicluster/placement/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlusterplacement"><span class="">Placement Subresource</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapiverrazzanoverrazzano-li">
-  <a href="../../../../docs/reference/api/verrazzano/verrazzano/" title="Verrazzano Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapiverrazzanoverrazzano"><span class="">Verrazzano CRD</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapiverrazzanov1alpha1-li">
+  <a href="../../../../docs/reference/api/verrazzano/v1alpha1/" title="Verrazzano V1Alpha1 Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapiverrazzanov1alpha1"><span class="">Verrazzano CRD (v1alpha1)</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapiverrazzanov1beta1-li">
+  <a href="../../../../docs/reference/api/verrazzano/v1beta1/" title="Verrazzano V1Beta1 Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapiverrazzanov1beta1"><span class="">Verrazzano CRD (v1beta1)</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapioamworkloads-li">
   <a href="../../../../docs/reference/api/oam/workloads/" title="Verrazzano Workload Custom Resource Definitions" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapioamworkloads"><span class="">Verrazzano Workload CRDs</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapimulticlusterverrazzanomanagedcluster-li">
@@ -507,31 +509,34 @@ if (!doNotTrack) {
 You can customize the NGINX and Istio ingress installation configurations using Helm overrides specified in the
 Verrazzano custom resource. For example, the following Verrazzano custom resource overrides the shape
 of an Oracle Cloud Infrastructure load balancer for both NGINX and Istio ingresses.</p>
-<pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1alpha1
+<pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: custom-lb-settings
 spec:
   profile: prod
   components:
-    ingress:
+    ingressNGINX:
       type: LoadBalancer
-      nginxInstallArgs:
-      - name: controller.service.annotations.&#34;service\.beta\.kubernetes\.io/oci-load-balancer-shape&#34;
-        value: &#34;10Mbps&#34;
+      overrides:
+      - values:
+          contoller:
+            service:
+              annotations:
+                service.beta.kubernetes.io/oci-load-balancer-shape: 10Mbps
     istio:
-      istioInstallArgs:
-      - name: gateways.istio-ingressgateway.serviceAnnotations.&#34;service\.beta\.kubernetes\.io/oci-load-balancer-shape&#34;
-        value: &#34;10Mbps&#34;
-</code></pre><p>The previous entries use dot notation to represent YAML values.</p>
-<p>For example:</p>
-<pre tabindex="0"><code>    - name: controller.service.annotations.&#34;service\.beta\.kubernetes\.io/oci-load-balancer-shape&#34;
-      value: &#34;10Mbps&#34;
-</code></pre><p>This is translated into:</p>
-<pre tabindex="0"><code>controller:
-   service:
-     annotations:
-       service.beta.kubernetes.io/oci-load-balancer-shape: 10Mbps
+      overrides:
+      - values:
+          apiVersion: install.istio.io/v1alpha1
+          kind: IstioOperator
+          spec:
+            components:
+              ingressGateways:
+                - enabled: true
+                  name: istio-ingressgateway
+                  k8s:
+                    serviceAnnotations:
+                      service.beta.kubernetes.io/oci-load-balancer-shape: 10Mbps
 </code></pre><p>For more information about setting component overrides, see <a href="https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing">Customizing the Chart Before Installing</a>.</p>
 
 	

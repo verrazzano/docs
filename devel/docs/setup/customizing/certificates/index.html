@@ -25,11 +25,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/customizing/certificates/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-07-12T14:05:07-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-09-02T06:53:57-07:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Customize Certificates">
 <meta itemprop="description" content="Customize SSL certificate generation for Verrazzano system endpoints">
-<meta itemprop="dateModified" content="2022-07-12T14:05:07-04:00" />
+<meta itemprop="dateModified" content="2022-09-02T06:53:57-07:00" />
 <meta itemprop="wordCount" content="715">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Customize Certificates"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.8d3dd07187801e7db6924f0b0c0d8a1b.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.6d4c3a4899b3fddb72c6d782d1aec258.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.8d3dd07187801e7db6924f0b0c0d8a1b.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.6d4c3a4899b3fddb72c6d782d1aec258.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -410,8 +410,10 @@ if (!doNotTrack) {
   <a href="../../../../docs/reference/api/multicluster/multiclustersecret/" title="MultiClusterSecret Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlustermulticlustersecret"><span class="">MultiClusterSecret CRD</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapimulticlusterplacement-li">
   <a href="../../../../docs/reference/api/multicluster/placement/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlusterplacement"><span class="">Placement Subresource</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapiverrazzanoverrazzano-li">
-  <a href="../../../../docs/reference/api/verrazzano/verrazzano/" title="Verrazzano Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapiverrazzanoverrazzano"><span class="">Verrazzano CRD</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapiverrazzanov1alpha1-li">
+  <a href="../../../../docs/reference/api/verrazzano/v1alpha1/" title="Verrazzano V1Alpha1 Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapiverrazzanov1alpha1"><span class="">Verrazzano CRD (v1alpha1)</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapiverrazzanov1beta1-li">
+  <a href="../../../../docs/reference/api/verrazzano/v1beta1/" title="Verrazzano V1Beta1 Custom Resource Definition" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapiverrazzanov1beta1"><span class="">Verrazzano CRD (v1beta1)</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapioamworkloads-li">
   <a href="../../../../docs/reference/api/oam/workloads/" title="Verrazzano Workload Custom Resource Definitions" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapioamworkloads"><span class="">Verrazzano Workload CRDs</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapimulticlusterverrazzanomanagedcluster-li">
@@ -561,7 +563,7 @@ $ kubectl create secret tls myca --namespace=mynamespace --cert=tls.crt --key=tl
 <li>
 <p>Specify the secret name and namespace location in the Verrazzano custom resource.</p>
 <p>The custom CA secret must be provided to CertManager using the following fields in
-<a href="../../../../docs/reference/api/verrazzano/verrazzano#certificate"><code>spec.components.certManager.certificate.ca</code></a> in the Verrazzano custom resource:</p>
+<a href="../../../../docs/reference/api/verrazzano/v1beta1#certificate"><code>spec.components.certManager.certificate.ca</code></a> in the Verrazzano custom resource:</p>
 <ul>
 <li><code>spec.components.certManager.certificate.ca.secretName</code></li>
 <li><code>spec.components.certManager.certificate.ca.clusterResourceNamespace</code></li>
@@ -569,7 +571,7 @@ $ kubectl create secret tls myca --namespace=mynamespace --cert=tls.crt --key=tl
 </li>
 </ul>
 <p>For example, if you created a CA secret named <code>myca</code> in the namespace <code>mynamespace</code>, you would configure it as shown:</p>
-<pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1alpha1
+<pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: custom-ca-example
@@ -585,7 +587,7 @@ spec:
 <p>You can configure Verrazzano to use certificates generated by <a href="https://letsencrypt.org/">LetsEncrypt</a>.  LetsEncrypt
 implements the <a href="https://tools.ietf.org/html/rfc8555">ACME protocol</a>, which provides a standard protocol for the
 automated issuance of certificates signed by a trusted authority.  This is managed through the
-<a href="../../../../docs/reference/api/verrazzano/verrazzano#acme"><code>spec.components.certManager.certificate.acme</code></a>
+<a href="../../../../docs/reference/api/verrazzano/v1beta1#acme"><code>spec.components.certManager.certificate.acme</code></a>
 field in the Verrazzano custom resource.</p>
 
 
@@ -606,7 +608,7 @@ ACME provider with the following values in the Verrazzano custom resource:</p>
 </ul>
 <p>The following example configures Verrazzano to use the LetsEncrypt <code>production</code> environment by default, with Oracle Cloud Infrastructure DNS
 for DNS record management.</p>
-<pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1alpha1
+<pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: letsencrypt-certs-example
@@ -625,7 +627,7 @@ spec:
         dnsZoneOCID: ocid1.dns-zone.oc1.....
         dnsZoneName: example.com
 </code></pre><p>The following example configures Verrazzano to use the LetsEncrypt <code>staging</code> environment with Oracle Cloud Infrastructure DNS.</p>
-<pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1alpha1
+<pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: letsencrypt-certs-example
