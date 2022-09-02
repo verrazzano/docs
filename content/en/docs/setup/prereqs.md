@@ -74,4 +74,4 @@ component, its version, and a brief description.
 | Prometheus Operator          | 0.55.1  | Provides management for Prometheus monitoring tools.                                 |
 | Prometheus Pushgateway       | 1.4.2   | Allows ephemeral and batch jobs to expose their metrics to Prometheus.               |
 | Rancher                      | 2.6.7   | Manages multiple Kubernetes clusters.                                                |
-| WebLogic Kubernetes Operator | 3.4.0   | Assists with deploying and managing WebLogic domains.                                |
+| WebLogic Kubernetes Operator | 3.4.3   | Assists with deploying and managing WebLogic domains.                                |
