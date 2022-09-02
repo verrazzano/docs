@@ -42,7 +42,7 @@ If you want to provide your own Grafana database , you must do the following ste
   For example, you could configure it as shown:
 
   ```
-  apiVersion: install.verrazzano.io/v1alpha1
+  apiVersion: install.verrazzano.io/v1beta1
   kind: Verrazzano
   metadata:
     name: grafana-db-example
