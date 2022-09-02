@@ -32,37 +32,46 @@ For more details on service limits and shape, see [here](https://docs.oracle.com
 For example, you can set up an NGINX load balancer with `10Mbps` as follows:
 
 ```yaml
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: example-verrazzano
 spec:
   profile: dev
-  environmentName: default
   components:
-    ingress:
+    ingressNGINX:
       type: LoadBalancer
-      nginxInstallArgs:
-      - name: controller.service.annotations."service\.beta\.kubernetes\.io/oci-load-balancer-shape"
-        value: "10Mbps"   
+      overrides:
+        - values:
+            controller:
+              service:
+                annotations:
+                  service.beta.kubernetes.io/oci-load-balancer-shape: 10Mbps
 ```
 
 For example, you can set up an Istio load balancer with `10Mbps` as follows:
 
 ```yaml
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: example-verrazzano
 spec:
   profile: dev
-  environmentName: default
   components:
-    ingress:
-      type: LoadBalancer
-      istioInstallArgs:
-      - name: gateways.istio-ingressgateway.serviceAnnotations."service\.beta\.kubernetes\.io/oci-load-balancer-shape"
-        value: "10Mbps"
+    istio:
+      overrides:
+        - values:
+            apiVersion: install.istio.io/v1alpha1
+            kind: IstioOperator
+            spec:
+              components:
+                ingressGateways:
+                  - enabled: true
+                    name: istio-ingressgateway
+                    k8s:
+                      serviceAnnotations:
+                        service.beta.kubernetes.io/oci-load-balancer-shape: 10Mbps
 ```
 
 ### Use private IP addresses with a load balancer
@@ -76,21 +85,22 @@ private subnet identified by the OCID `ocid1.subnet.oc1.phx.aaaa..sdjxa`, and us
 configuration for Istio.
 
 ```yaml
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: example-verrazzano
 spec:
   profile: dev
-  environmentName: default
   components:
-    ingress:
+    ingressNGINX:
       type: LoadBalancer
-      nginxInstallArgs:
-      - name: controller.service.annotations."service\.beta\.kubernetes\.io/oci-load-balancer-internal"
-        value: "true"    
-      - name: controller.service.annotations."service\.beta\.kubernetes\.io/oci-load-balancer-subnet1"
-        value: "ocid1.subnet.oc1.phx.aaaa..sdjxa"
+      overrides:
+        - values:
+            controller:
+              service:
+                annotations:
+                  service.beta.kubernetes.io/oci-load-balancer-internal: true
+                  service.beta.kuernetes.io/oci-load-balancer-subnet1: "ocid1.subnet.oc1.phx.aaaa..sdjxa"
 ```
 
 The following example configures the Istio ingress gateway service to have a private load balancer IP address on the private
@@ -98,47 +108,61 @@ subnet identified by the OCID `ocid1.subnet.oc1.phx.aaaa..sdjxa`, and uses the d
 for NGINX.
 
 ```yaml
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: example-verrazzano
 spec:
   profile: dev
-  environmentName: default
-  components:
-    ingress:
-      type: LoadBalancer      
+  components:  
     istio:
-      istioInstallArgs:
-        - name: gateways.istio-ingressgateway.serviceAnnotations."service\.beta\.kubernetes\.io/oci-load-balancer-internal"
-          value: "true"
-        - name: gateways.istio-ingressgateway.serviceAnnotations."service\.beta\.kubernetes\.io/oci-load-balancer-subnet1"
-          value: "ocid1.subnet.oc1.phx.aaaa..sdjxa"
+      overrides:
+        - values:
+            apiVersion: install.istio.io/v1alpha1
+            kind: IstioOperator
+            spec:
+              components:
+                ingressGateways:
+                  - enabled: true
+                    name: istio-ingressgateway
+                    k8s:
+                      serviceAnnotations:
+                        service.beta.kubernetes.io/oci-load-balancer-internal: true
+                        serivce.beta.kubernetes.io/oci-load-balancer-subnet1: "ocid1.subnet.oc1.phx.aaaa..sdjxa"
 ```
 
 The following example configures both NGINX and Istio to have a private load balancer IP address on the private subnet
 identified by the OCID `ocid1.subnet.oc1.phx.aaaa..sdjxa`.
 
 ```yaml
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: example-verrazzano
 spec:
   profile: dev
-  environmentName: default
   components:
-    ingress:
+    ingressNGINX:
       type: LoadBalancer
-      nginxInstallArgs:
-      - name: controller.service.annotations."service\.beta\.kubernetes\.io/oci-load-balancer-internal"
-        value: "true"
-      - name: controller.service.annotations."service\.beta\.kubernetes\.io/oci-load-balancer-subnet1"
-        value: "ocid1.subnet.oc1.phx.aaaa..sdjxa"
+        overrides:
+        - values:
+            controller:
+              service:
+                annotations:
+                  service.beta.kubernetes.io/oci-load-balancer-internal: true
+                  service.beta.kuernetes.io/oci-load-balancer-subnet1: "ocid1.subnet.oc1.phx.aaaa..sdjxa"
     istio:
-      istioInstallArgs:
-      - name: gateways.istio-ingressgateway.serviceAnnotations."service\.beta\.kubernetes\.io/oci-load-balancer-internal"
-        value: "true"
-      - name: gateways.istio-ingressgateway.serviceAnnotations."service\.beta\.kubernetes\.io/oci-load-balancer-subnet1"
-        value: "ocid1.subnet.oc1.phx.aaaa..sdjxa"
+      overrides:
+        - values:
+            apiVersion: install.istio.io/v1alpha1
+            kind: IstioOperator
+            spec:
+              components:
+                ingressGateways:
+                  - enabled: true
+                    name: istio-ingressgateway
+                    k8s:
+                      serviceAnnotations:
+                        service.beta.kubernetes.io/oci-load-balancer-internal: true
+                        serivce.beta.kubernetes.io/oci-load-balancer-subnet1: "ocid1.subnet.oc1.phx.aaaa..sdjxa"
 ```

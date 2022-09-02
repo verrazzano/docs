@@ -17,7 +17,7 @@ an example YAML file that enables the Jaeger Operator. Verrazzano installs the J
 then a default Jaeger instance is also created by the Jaeger Operator in the `verrazzano-monitoring` namespace.
 
 ```yaml
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: verrazzano
@@ -69,7 +69,7 @@ with a TLS CA certificate mounted from a volume and the user/password stored in 
 1. Use the Verrazzano custom resource to update the Jaeger resource:
 
 ```yaml
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: custom-jaeger-external-opensearch
@@ -113,7 +113,7 @@ To configure an external Prometheus server for your use case, override `jaeger.s
 the Verrazzano custom resource. For more details, see the [Jaeger documentation](https://www.jaegertracing.io/docs/{{<jaeger_doc_version>}}/deployment/#tls-support-1).
 
 ```yaml
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: custom-jaeger
@@ -135,7 +135,7 @@ spec:
 To disable the default Jaeger instance created by Verrazzano, use the following Verrazzano custom resource:
 
 ```yaml
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: custom-jaeger
@@ -204,7 +204,7 @@ that passes through Istio's ingress and egress gateways.
 Istio tracing is disabled by default. To turn on traces, customize your Istio component like the following example:
 
 ```yaml
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: verrazzano
@@ -214,9 +214,13 @@ spec:
     jaegerOperator:
       enabled: true
     istio:
-      istioInstallArgs:
-        - name: "meshConfig.enableTracing"
-          value: "true"
+      overrides:
+        - values:
+            apiVersion: install.istio.io/v1alpha1
+            kind: IstioOperator
+            spec:
+              meshConfig:
+                enableTracing: true
 ```
 
 After enabling tracing, Istio will automatically configure itself with the the Jaeger instance managed by Verrazzano in
@@ -228,7 +232,7 @@ Any new Istio-injected pods will begin exporting traces to the newly configured 
 a restart to pull the new Istio configuration and start sending traces to the newly configured Jaeger instance.
 
 ```yaml
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: verrazzano
@@ -238,18 +242,24 @@ spec:
     jaegerOperator:
       enabled: true
     istio:
-      istioInstallArgs:
-        - name: "meshConfig.enableTracing"
-          value: "true"
-        - name: "meshConfig.defaultConfig.tracing.zipkin.address"
-          value: "<address:port of your Jaeger collector service>"
+      overrides:
+        - values:
+            apiVersion: install.istio.io/v1alpha1
+            kind: IstioOperator
+            spec: 
+              meshConfig:
+                enableTracing: true
+                defaultConfig:
+                  tracing:
+                    zipkin:
+                      address: <address:port of your Jaeger collector service>
 ```
 
 Istio's default sampling rate is 1%, meaning 1 in 100 requests will be traced in Jaeger.
 If you want a different sampling rate, configure your desired rate using the `meshConfig.defaultConfig.tracing.sampling` Istio installation argument.
 
 ```yaml
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: verrazzano
@@ -259,12 +269,16 @@ spec:
     jaegerOperator:
       enabled: true
     istio:
-      istioInstallArgs:
-        - name: "meshConfig.enableTracing"
-          value: "true"
-        # 25% of Istio traces will be sampled.  
-        - name: "meshConfig.defaultConfig.tracing.sampling"
-          value: "25.0"
+      overrides:
+        - values:
+            apiVersion: install.istio.io/v1alpha1
+            kind: IstioOperator
+            spec:
+              meshConfig:
+                enableTracing: true
+                defaultConfig:
+                  tracing:
+                    sampling: 25.0
 ```
 
 ## Management of Jaeger indices in OpenSearch
@@ -308,7 +322,7 @@ storage configured in the admin cluster.
 Configure the Istio mesh on the managed cluster at the time of the Verrazzano installation, as follows:
 
 ```yaml
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: verrazzano
@@ -317,12 +331,18 @@ spec:
   components:
     jaegerOperator:
       enabled: true
-    istio:
-      istioInstallArgs:
-        - name: "meshConfig.enableTracing"
-          value: "true"
-        - name: "meshConfig.defaultConfig.tracing.zipkin.address"
-          value: "jaeger-verrazzano-managed-cluster-collector.verrazzano-monitoring.svc.cluster.local.:9411"
+      istio:
+        overrides:
+          - values:
+              apiVersion: install.istio.io/v1alpha1
+              kind: IstioOperator
+              spec:
+                meshConfig:
+                  enableTracing: true
+                  defaultConfig:
+                    tracing:
+                      zipkin:
+                        address: jaeger-verrazzano-managed-cluster-collector.verrazzano-monitoring.svc.cluster.local.:9411
 ```
 
 ### View the managed cluster traces

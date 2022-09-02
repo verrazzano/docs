@@ -12,7 +12,7 @@ You can customize the installation configuration using Helm overrides specified 
 Verrazzano custom resource. For example, the following Verrazzano custom resource overrides the number of Prometheus replicas.
 
 ```
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: custom-prometheus
@@ -30,7 +30,7 @@ spec:
 To enable Alertmanager, use the following Verrazzano custom resource:
 
 ```
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: custom-prometheus

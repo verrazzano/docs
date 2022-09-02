@@ -15,8 +15,8 @@ Verrazzano supports three DNS choices for Verrazzano services and applications:
 ## How Verrazzano constructs a DNS domain
 
 Regardless of which DNS management you use, the value in the
-[`spec.environmentName`](/docs/reference/api/verrazzano/verrazzano/#verrazzanospec) field in your installation will be
-prepended to the configured domain in the [`spec.components.dns`](/docs/reference/api/verrazzano/verrazzano/#dns-component)
+[`spec.environmentName`](/docs/reference/api/verrazzano/v1beta1/#verrazzanospec) field in your installation will be
+prepended to the configured domain in the [`spec.components.dns`](/docs/reference/api/verrazzano/v1beta1/#dns-component)
 section of the custom resource, to form the full DNS domain name used to access Verrazzano endpoints.  
 
 For example, if `spec.environmentName` is set to `sales` and the domain is configured in `spec.components.dns` as `us.example.com`,
@@ -38,19 +38,18 @@ customer1.app.10.0.0.1.nip.io
 ```
 
 To configure Verrazzano to use one of these services, set the
-[`spec.wildcard.domain`](/docs/reference/api/verrazzano/verrazzano#dns-wildcard)
+[`spec.wildcard.domain`](/docs/reference/api/verrazzano/v1beta1#dns-wildcard)
 field in the Verrazzano custom resource to either `nip.io` or `sslip.io`; the default is `nip.io`.
 
 For example, the following configuration uses `sslip.io`, instead of `nip.io`, for wildcard DNS with a `dev` installation profile.
 
 ```
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: example-verrazzano
 spec:
   profile: dev
-  environmentName: default
   components:
     dns:
       wildcard:
@@ -63,7 +62,7 @@ spec:
 <br>
 
 Verrazzano can directly manage records in [Oracle Oracle Cloud Infrastructure DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm)
-when configured to use the [`spec.components.dns.oci`](/docs/reference/api/verrazzano/verrazzano#dns-oci) field.  This is achieved
+when configured to use the [`spec.components.dns.oci`](/docs/reference/api/verrazzano/v1beta1#dns-oci) field.  This is achieved
 through the [External DNS Service](https://github.com/kubernetes-sigs/external-dns), which is a component that is
 conditionally installed when Oracle Cloud Infrastructure DNS is configured for DNS management in Verrazzano.
 
@@ -233,7 +232,7 @@ $ curl \
 Edit the `install-oci.yaml` file to provide values for the following configuration settings in the
 custom resource spec:
 
-* [`spec.environmentName`](/docs/reference/api/verrazzano/verrazzano/#verrazzanospec)
+* [`spec.environmentName`](/docs/reference/api/verrazzano/v1beta1/#verrazzanospec)
 * `spec.components.dns.oci.ociConfigSecret`
 * `spec.components.dns.oci.dnsZoneCompartmentOCID`
 * `spec.components.dns.oci.dnsZoneOCID`
@@ -241,13 +240,13 @@ custom resource spec:
 * `spec.components.dns.oci.dnsScope`
 
 The field `spec.components.dns.oci.ociConfigSecret` should reference the secret created earlier. For details on the
-Oracle Cloud Infrastructure DNS configuration settings, see [`spec.components.dns.oci`](/docs/reference/api/verrazzano/verrazzano#dns-oci).
+Oracle Cloud Infrastructure DNS configuration settings, see [`spec.components.dns.oci`](/docs/reference/api/verrazzano/v1beta1#dns-oci).
 
 For example, a custom resource for a `prod` installation profile using Oracle Cloud Infrastructure DNS might look as follows, yielding
 a domain of `myenv.example.com` (Oracle Cloud Infrastructure identifiers redacted):
 
 ```
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: example-verrazzano
@@ -266,7 +265,7 @@ spec:
 If using a private DNS zone, then the same `prod` installation profile using Oracle Cloud Infrastructure DNS will look as follows:
 
 ```
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: my-verrazzano
@@ -293,7 +292,7 @@ After the custom resource is ready, apply it using `kubectl apply -f <path-to-cu
 You can specify your own externally managed, custom DNS domain.  In this scenario, you manage your own DNS
 domain and all DNS records in that domain.
 
-An externally managed DNS domain is specified in the [`spec.components.dns.external.suffix`](/docs/reference/api/verrazzano/verrazzano/#dns-external)
+An externally managed DNS domain is specified in the [`spec.components.dns.external.suffix`](/docs/reference/api/verrazzano/v1beta1/#dns-external)
 field of the Verrazzano custom resource.  
 
 When using an externally managed DNS domain, you are responsible for:

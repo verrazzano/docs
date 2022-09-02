@@ -1,6 +1,8 @@
 ---
-title: Verrazzano Custom Resource Definition
-linkTitle: Verrazzano CRD
+title: Verrazzano V1Alpha1 Custom Resource Definition
+linkTitle: Verrazzano CRD (v1alpha1)
+aliases:
+    - /docs/reference/api/verrazzano/verrazzano
 weight: 2
 draft: false
 ---
