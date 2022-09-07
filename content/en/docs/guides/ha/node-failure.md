@@ -42,3 +42,21 @@ Forced deletes of `Pods` and `Persistent Volumes` for a `Node` to be recovered o
 of `Statefulsets` lead to split-brain scenarios. Please read more about statefulsets in the [offical Kubernetes documentation](https://kubernetes.io/docs/tasks/run-application/force-delete-stateful-set-pod/).
 One instance of needing to force delete `Pods` and `Persistent Volumes` is when a `Node` cannot be recovered or replaced in the same `Availability Domain` as
 the original `Node`.
+
+## Helpful commands
+Get `Nodes`
+    ```
+    $ kubectl get nodes
+    ```
+Get all `Pods`
+    ```
+    $ kubectl get pods -A
+    ```
+Get all `Persistent Volume Claims`
+    ```
+    $ kubectl get pvc -A
+    ```
+Get all `Persistent Volumes`
+    ```
+    $ kubectl get pv
+    ```
