@@ -21,7 +21,7 @@ They must me manually managed.
 
 `Pods` with associated `Persistent Volumes` of mode `ReadWriteOnce` will not become `Ready` because they will attempt to attach to existing volumes
 that are still attached to the old `Pod` stuck in status `Terminating`. This is because `Persistent Volumes` of mode `ReadWriteOnce` can only
-be mounted by a single `Pod` at a time.
+be mounted by a single `Node` at a time, and the new `Pod` resides on another `Node`.
 
 If multiple `Availability Domains` are used in the Kubernetes cluster, if the failed `Node` is the last in that `Availability Domain`,
 the existing volumes will no longer be reachable by new `Pods` in a separate `Availability Domain`.
