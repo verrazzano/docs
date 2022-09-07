@@ -13,6 +13,8 @@ Features:
 Component version updates:
 
 - Rancher v2.6.7
+- Rancher Backup Operator v2.1.3
+- Velero v1.8.1
 
 ### v1.3.4
 Fixes:
