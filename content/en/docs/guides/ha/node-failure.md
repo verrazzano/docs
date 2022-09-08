@@ -5,57 +5,66 @@ description: "A guide for managing node failure"
 weight: 1
 draft: false
 ---
-
+​
 ## Overview
-Unplanned `Node` failure can happen for many reasons including hardware failures or network outages. It is important to
-understand what to expect when a `Node` failure happens. This guide will also cover what to know about recovery. Recovery
-is dependent upon the `Storage Provisioner` and type of storage used. This guide assumes the storage provided in the cluster is physically
-separate from the `Node` and is recoverable. It does not apply to local storage on the `Node` itself.
-
+A `Node` failure can occur for many reasons, including hardware failures or network outages. This guide provides information about what to
+expect when a `Node` failure occurs and how to recover from a `Node` failure. Recovery depends on the `Storage Provisioner` and the type of storage that you use.
+​
+**Note**: This guide assumes the storage provided in the cluster is physically
+separate from the `Node` and is recoverable. It does not apply to a local storage on the `Node`.
+​
 ## What to expect
-By default, when a `Node` fails it takes 1 minute for that failure to result in the Kubernetes API server returning the `Node's` status as
-`NotReady`. Approximately 5 minutes after the `Node's` status returns `NotReady`, `Pods` on that `Node` will begin to change status to `Unknown`
-or `NodeLost`. `Pods` with a controller like `Daemonsets`, `Statefulsets`, and `Deployments` will transition to a status of `Terminating`.
-New `Pods` will begin to start on `Node's` with a status of `Ready`. `Pods` without a controller, started with just a `PodSpec`, will not be terminated.
-They must me manually managed.
-
-`Pods` with associated `Persistent Volumes` of mode `ReadWriteOnce` will not become `Ready` because they will attempt to attach to existing volumes
-that are still attached to the old `Pod` stuck in status `Terminating`. This is because `Persistent Volumes` of mode `ReadWriteOnce` can only
-be mounted by a single `Node` at a time, and the new `Pod` resides on another `Node`.
-
-If multiple `Availability Domains` are used in the Kubernetes cluster, if the failed `Node` is the last in that `Availability Domain`,
+​
+By default, when a `Node` fails:  
+- It may take up to a minute for the failure to reflect in the Kubernetes API server and update the `Node's` status to
+`NotReady`.
+- After about five minutes of the `Node's` status being in `NotReady`, the status of the `Pods` on that `Node` is changed to `Unknown`
+or `NodeLost`.
+- The status of the `Pods` with controllers, like `Daemonsets`, `Statefulsets`, and `Deployments`, is changed to `Terminating`.
+​
+  **Note**: `Pods` without a controller, started with a `PodSpec`, will not be terminated. They must be manually managed.
+- The status of new `Pods` begins to start on `Node's` with `Ready` status.
+​
+The status of the `Pods` that have associated `Persistent Volumes` of mode `ReadWriteOnce` is not changed to `Ready`. This is because, the `Pods` try to attach to the existing volumes
+that are still attached to the old `Pod`, which is still in the `Terminating` status. This happens because, at a given point, the `Persistent Volumes` of mode `ReadWriteOnce` can be associated
+only with a single `Node`, and the new `Pod` resides on another `Node`.
+​
+If multiple `Availability Domains` are used in the Kubernetes cluster and the failed `Node` is the last in that `Availability Domain`, then
 the existing volumes will no longer be reachable by new `Pods` in a separate `Availability Domain`.
-
-## What to know about recovery
-If the `Node` can be recovered within 5-6 minutes then `Pods` will return to a `Running` state. If the `Node` can be recovered after 5-6 minutes,
-then `Pods` will complete termination and be deleted from the Kubernetes API server. New `Pods` that have `Persistent Volumes` of mode `ReadWriteOnce`
-will now be able to mount those `Persistent Volumes` and come to a `Running` state. 
-
-If the `Node` cannot be recovered and will instead be replaced, deleting the `Node` from the Kubernetes API server will complete the termination
-of the old `Pods` and release the `Persistent Volumes` of type `ReadWriteOnce` to be mounted by the new `Pods`. 
-
+​
+## About recovery
+​
+After a `Node` fails, if the `Node` can be recovered within five minutes, then the `Pods` will return to a `Running` state. If the `Node` is not recovered after five minutes,
+then the `Pods` will complete termination and are deleted from the Kubernetes API server. New `Pods` that have `Persistent Volumes` of mode `ReadWriteOnce`
+will now be able to mount the `Persistent Volumes` and change to a `Running` state.
+​
+If a `Node` cannot be recovered and is replaced, then deleting the `Node` from the Kubernetes API server will terminate
+the old `Pods` and release the `Persistent Volumes` of type `ReadWriteOnce` to be mounted by any new `Pods`.
+​
 If multiple `Avaiability Domains` are used in the Kubernetes cluster, then the replacement `Node` should be added to the same `Availability Domain`
-that the deleted `Node` occupied. This will allow `Pods` to be scheduled on the replacement `Node` that can reach the `Persistent Volumes` in that
-`Availability Domain` and those `Pods` to come to a `Running` state.
-
-Forced deletes of `Pods` and `Persistent Volumes` for a `Node` to be recovered or replaced is strongly discouraged. This can lead to loss of data and in the case
-of `Statefulsets` lead to split-brain scenarios. Please read more about statefulsets in the [offical Kubernetes documentation](https://kubernetes.io/docs/tasks/run-application/force-delete-stateful-set-pod/).
-One instance of needing to force delete `Pods` and `Persistent Volumes` is when a `Node` cannot be recovered or replaced in the same `Availability Domain` as
+that the deleted `Node` occupied. This allows the `Pods` to be scheduled on the replacement `Node` that can reach the `Persistent Volumes` in that
+`Availability Domain` and then the `Pods` status is changed to a `Running` state.
+​
+Do not forcefully delete `Pods` or `Persistent Volumes` in a failed `Node`, which you plan to recover or replace. If you force delete `Pods` or `Persistent Volumes` in a failed `Node`, it may lead to loss of data and in the case of `Statefulsets` it may lead to split-brain scenarios. For information about `Statefulsets`, see [Force Delete StatefulSet Pods](https://kubernetes.io/docs/tasks/run-application/force-delete-stateful-set-pod/) in the Kubernetes documentation.
+You can force delete `Pods` and `Persistent Volumes` when a failed `Node` cannot be recovered or replaced in the same `Availability Domain` as
 the original `Node`.
-
+​
 ## Helpful commands
 Get `Nodes`
     ```
     $ kubectl get nodes
     ```
+​
 Get all `Pods`
     ```
     $ kubectl get pods -A
     ```
+​
 Get all `Persistent Volume Claims`
     ```
     $ kubectl get pvc -A
     ```
+​
 Get all `Persistent Volumes`
     ```
     $ kubectl get pv
