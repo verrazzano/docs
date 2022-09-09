@@ -56,7 +56,7 @@ component, its version, and a brief description.
 | cert-manager                 | 1.7.1   | Automates the management and issuance of TLS certificates.                               |
 | Coherence Operator           | 3.2.5   | Assists with deploying and managing Coherence clusters.                                  |
 | ExternalDNS                  | 0.10.2  | Synchronizes exposed Kubernetes Services and ingresses with DNS providers.               |
-| Fluentd                      | 1.12.3  | Collects logs and sends them to OpenSearch.                                              |
+| Fluentd                      | 1.14.5  | Collects logs and sends them to OpenSearch.                                              |
 | Grafana                      | 7.5.11  | Tool to help you examine, analyze, and monitor metrics.                                  |
 | Istio                        | 1.13.2  | Service mesh that layers transparently onto existing distributed applications.           |
 | Jaeger                       | 1.34.1  | Distributed tracing system for monitoring and troubleshooting distributed systems.       |
