@@ -7,11 +7,15 @@ draft: false
 ### v1.4.0
 Features:
 
-- New API version for the Verrazzano resource, install.verrazzano.io/v1beta1. See the [Deprecated API Migration Guide]({{< relref "/docs/reference/migration" >}}).
+- New API version for the Verrazzano resource, `install.verrazzano.io/v1beta1`. See the [Deprecated API Migration Guide]({{< relref "/docs/reference/migration" >}}).
 - Support for Kubernetes v1.24.
 
 Component version updates:
 
+- Coherence Operator v3.2.6
+- Fluentd v1.14.5
+- MySQL v8.0.29  
+- MySQL Operator v8.0.30-2.0.5
 - Rancher v2.6.7
 - Rancher Backup Operator v2.1.3
 - Velero v1.8.1
