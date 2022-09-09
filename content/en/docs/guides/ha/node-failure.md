@@ -24,7 +24,7 @@ or `NodeLost`.
 
    **NOTE**: `Pods` without a controller, started with a `PodSpec`, will _not_ be terminated. They must be manually deleted and recreated.
 
-- The status of the new `Pods`, on remaining the `Nodes`, will begin with the `Ready` status.   
+- New `Pods` will start on the `Nodes` that remain with `Ready` status.   
 
 
    **NOTE**: `Statefulsets` are a special case. The `Statefulset` controller maintains an ordinal list of `Pods`, one each for a given name. The `Statefulset` controller
