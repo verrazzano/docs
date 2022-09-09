@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/customizing/grafana/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-09-02T15:12:07-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-09-09T14:02:57-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Customize Grafana">
 <meta itemprop="description" content="Customize Verrazzano Grafana installation settings">
-<meta itemprop="dateModified" content="2022-09-02T15:12:07-04:00" />
-<meta itemprop="wordCount" content="154">
+<meta itemprop="dateModified" content="2022-09-09T14:02:57-04:00" />
+<meta itemprop="wordCount" content="151">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Customize Grafana"/>
 <meta name="twitter:description" content="Customize Verrazzano Grafana installation settings"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.90fa68389c4eb74ff4b7ec7a71831eb7.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.ed0ddb019855a4e0fcd25d4765fea925.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.90fa68389c4eb74ff4b7ec7a71831eb7.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.ed0ddb019855a4e0fcd25d4765fea925.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -348,8 +348,13 @@ if (!doNotTrack) {
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsguidesapp-deploymentapplication-deployment-guide-li">
   <a href="../../../../docs/guides/app-deployment/application-deployment-guide/" title="Application Deployment Guide" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesapp-deploymentapplication-deployment-guide"><span class="">Application Deployment</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsguideshanode-failure-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docsguidesha-li">
+  <a href="../../../../docs/guides/ha/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsguidesha"><span class="">High Availability</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsguideshanode-failure-li">
   <a href="../../../../docs/guides/ha/node-failure/" title="Node Failure Guide" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsguideshanode-failure"><span class="">Node Failure</span></a>
+</li>
+  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsguideslift-and-shiftlift-and-shift-li">
   <a href="../../../../docs/guides/lift-and-shift/lift-and-shift/" title="Lift-and-Shift Guide" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsguideslift-and-shiftlift-and-shift"><span class="">Lift-and-Shift</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsguidessidecar-li">
@@ -511,13 +516,11 @@ if (!doNotTrack) {
 
 		
 	</header>    
-	<h3 id="external-grafana-database">External Grafana Database</h3>
-<p>By default, Verrazzano automatically installs and configures a Grafana database. However, you can use your own external database.</p>
+	<p>By default, Verrazzano automatically installs and configures a Grafana database. However, you can use your own external database.</p>
 <p>If you prefer to use your own Grafana database, complete the following steps:</p>
-<ul>
+<ol>
 <li>
-<p>Create a secret named <code>grafana-db</code> in the <code>verrazzano-install</code> namespace which contains the login credentials.</p>
-<p>For example:</p>
+<p>Create a secret named <code>grafana-db</code> in the <code>verrazzano-install</code> namespace which contains the login credentials. For example:</p>
 <pre tabindex="0"><code>$ # Load the login credentials into variables
 $ ROOT_SECRET=$(echo &lt;database root user secret&gt; | base64)
 $ USER=$(echo &lt;database user&gt; | base64)
@@ -538,8 +541,7 @@ data:
 EOF
 </code></pre></li>
 <li>
-<p>Configure the Grafana component of the Verrazzano custom resource.</p>
-<p>For example:</p>
+<p>Configure the Grafana component of the Verrazzano custom resource. For example:</p>
 <pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
@@ -552,7 +554,7 @@ spec:
         host: mysql.verrazzano-install.svc.cluster.local
         name: grafana
 </code></pre></li>
-</ul>
+</ol>
 <p>For more information about the component definition, see <a href="../../../../docs/reference/api/verrazzano/v1beta1/#grafana-component">Grafana component</a> in the Verrazzano custom resource.</p>
 
 	
