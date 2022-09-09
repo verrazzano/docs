@@ -464,6 +464,70 @@ of all application-specific Kubernetes objects.&lt;/p&gt;
     </item>
     
     <item>
+      <title>Docs: Node Failure Guide</title>
+      <link>/docs/guides/ha/node-failure/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/guides/ha/node-failure/</guid>
+      <description>
+        
+        
+        &lt;p&gt;A &lt;code&gt;Node&lt;/code&gt; failure can occur for many reasons, including hardware failures and network outages. This guide provides information about what to
+expect when a &lt;code&gt;Node&lt;/code&gt; failure occurs and how to recover from a &lt;code&gt;Node&lt;/code&gt; failure. Recovery depends on the &lt;code&gt;Storage Provisioner&lt;/code&gt; and the type of storage that you use.
+​&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: This guide assumes the storage provided in the cluster is physically
+separate from the &lt;code&gt;Node&lt;/code&gt; and is recoverable. It does not apply to a local storage on the &lt;code&gt;Node&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;what-to-expect&#34;&gt;What to expect&lt;/h2&gt;
+&lt;p&gt;​
+By default, when a &lt;code&gt;Node&lt;/code&gt; fails:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;It may take up to a minute for the failure to reflect in the Kubernetes API server and update the &lt;code&gt;Node&lt;/code&gt; status to
+&lt;code&gt;NotReady&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;After about five minutes of the &lt;code&gt;Node&lt;/code&gt; status being &lt;code&gt;NotReady&lt;/code&gt;, the status of the &lt;code&gt;Pods&lt;/code&gt; on that &lt;code&gt;Node&lt;/code&gt; will be changed to &lt;code&gt;Unknown&lt;/code&gt;
+or &lt;code&gt;NodeLost&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The status of the &lt;code&gt;Pods&lt;/code&gt; with controllers, like &lt;code&gt;Daemonsets&lt;/code&gt;, &lt;code&gt;Statefulsets&lt;/code&gt;, and &lt;code&gt;Deployments&lt;/code&gt;, will be changed to &lt;code&gt;Terminating&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: &lt;code&gt;Pods&lt;/code&gt; without a controller, started with a &lt;code&gt;PodSpec&lt;/code&gt;, will &lt;em&gt;not&lt;/em&gt; be terminated. They must be manually deleted and recreated.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;New &lt;code&gt;Pods&lt;/code&gt; will start on the &lt;code&gt;Nodes&lt;/code&gt; that remain with &lt;code&gt;Ready&lt;/code&gt; status.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: &lt;code&gt;Statefulsets&lt;/code&gt; are a special case. The &lt;code&gt;Statefulset&lt;/code&gt; controller maintains an ordinal list of &lt;code&gt;Pods&lt;/code&gt;, one each for a given name. The &lt;code&gt;Statefulset&lt;/code&gt; controller
+will not start a new &lt;code&gt;Pod&lt;/code&gt; with a name of an existing &lt;code&gt;Pod&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The &lt;code&gt;Pods&lt;/code&gt; that have associated &lt;code&gt;Persistent Volumes&lt;/code&gt; of type &lt;code&gt;ReadWriteOnce&lt;/code&gt;, do not become &lt;code&gt;Ready&lt;/code&gt;. This is because, the &lt;code&gt;Pods&lt;/code&gt; try to attach to the existing volumes
+that are still attached to the old &lt;code&gt;Pod&lt;/code&gt;, which is still &lt;code&gt;Terminating&lt;/code&gt;. This happens because, at a given point, the &lt;code&gt;Persistent Volumes&lt;/code&gt; of type &lt;code&gt;ReadWriteOnce&lt;/code&gt;, can be associated
+only with a &lt;em&gt;single&lt;/em&gt; &lt;code&gt;Node&lt;/code&gt;, and the new &lt;code&gt;Pod&lt;/code&gt; resides on another &lt;code&gt;Node&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;If multiple &lt;code&gt;Availability Domains&lt;/code&gt; are used in the Kubernetes cluster and the failed &lt;code&gt;Node&lt;/code&gt; is the last in that &lt;code&gt;Availability Domain&lt;/code&gt;, then
+the existing volumes will no longer be reachable by new &lt;code&gt;Pods&lt;/code&gt; in a separate &lt;code&gt;Availability Domain&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;about-recovery&#34;&gt;About recovery&lt;/h2&gt;
+&lt;p&gt;​
+After a &lt;code&gt;Node&lt;/code&gt; fails, if the &lt;code&gt;Node&lt;/code&gt; can be recovered within five minutes, then the &lt;code&gt;Pods&lt;/code&gt; will return to a &lt;code&gt;Running&lt;/code&gt; state. If the &lt;code&gt;Node&lt;/code&gt; is not recovered after five minutes,
+then the &lt;code&gt;Pods&lt;/code&gt; will complete termination and are deleted from the Kubernetes API server. New &lt;code&gt;Pods&lt;/code&gt; that have &lt;code&gt;Persistent Volumes&lt;/code&gt; of mode &lt;code&gt;ReadWriteOnce&lt;/code&gt;,
+will now be able to mount the &lt;code&gt;Persistent Volumes&lt;/code&gt; and change to &lt;code&gt;Running&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;If a &lt;code&gt;Node&lt;/code&gt; cannot be recovered and is replaced, then deleting the &lt;code&gt;Node&lt;/code&gt; from the Kubernetes API server will terminate
+the old &lt;code&gt;Pods&lt;/code&gt; and release the &lt;code&gt;Persistent Volumes&lt;/code&gt; of type &lt;code&gt;ReadWriteOnce&lt;/code&gt;, to be mounted by any new &lt;code&gt;Pods&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;If multiple &lt;code&gt;Availability Domains&lt;/code&gt; are used in the Kubernetes cluster, then the replacement &lt;code&gt;Node&lt;/code&gt; should be added to the same &lt;code&gt;Availability Domain&lt;/code&gt;
+that the deleted &lt;code&gt;Node&lt;/code&gt; occupied. This allows the &lt;code&gt;Pods&lt;/code&gt; to be scheduled on the replacement &lt;code&gt;Node&lt;/code&gt; that can reach the &lt;code&gt;Persistent Volumes&lt;/code&gt; in that
+&lt;code&gt;Availability Domain&lt;/code&gt;, and then the &lt;code&gt;Pods&lt;/code&gt; status is changed to &lt;code&gt;Running&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Do not forcefully delete &lt;code&gt;Pods&lt;/code&gt; or &lt;code&gt;Persistent Volumes&lt;/code&gt; in a failed &lt;code&gt;Node&lt;/code&gt; that you plan to recover or replace. If you force delete &lt;code&gt;Pods&lt;/code&gt; or &lt;code&gt;Persistent Volumes&lt;/code&gt; in a failed &lt;code&gt;Node&lt;/code&gt;,
+it may lead to loss of data and, in the case of &lt;code&gt;Statefulsets&lt;/code&gt;, it may lead to split-brain scenarios. For more information about &lt;code&gt;Statefulsets&lt;/code&gt;,
+see &lt;a href=&#34;https://kubernetes.io/docs/tasks/run-application/force-delete-stateful-set-pod/&#34;&gt;Force Delete StatefulSet Pods&lt;/a&gt; in the Kubernetes documentation.&lt;/p&gt;
+&lt;p&gt;You can force delete &lt;code&gt;Pods&lt;/code&gt; and &lt;code&gt;Persistent Volumes&lt;/code&gt; when a failed &lt;code&gt;Node&lt;/code&gt; cannot be recovered or replaced in the same &lt;code&gt;Availability Domain&lt;/code&gt; as
+the original &lt;code&gt;Node&lt;/code&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Lift-and-Shift Guide</title>
       <link>/docs/guides/lift-and-shift/lift-and-shift/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
