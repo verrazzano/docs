@@ -9,9 +9,10 @@ draft: false
 A `Node` failure can occur for many reasons, including hardware failures and network outages. This guide provides information about what to
 expect when a `Node` failure occurs and how to recover from a `Node` failure. Recovery depends on the `Storage Provisioner` and the type of storage that you use.
 ​
-
-**NOTE**: This guide assumes that the storage provided in the cluster is physically
+{{< alert title="NOTE" color="primary" >}}
+This guide assumes that the storage provided in the cluster is physically
 separate from the `Node` and is recoverable. It does not apply to a local storage on the `Node`.
+{{< /alert >}}
 
 ## What to expect
 ​
