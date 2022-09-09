@@ -24,7 +24,7 @@ or `NodeLost`.
 ​
   **Note**: `Pods` without a controller, started with a `PodSpec`, will not be terminated. They must be manually deleted and recreated.
 - The status of new `Pods` begins to start on remaining `Node's` with `Ready` status.
-  **Note**: `Statefulsets` are a special case, The `Statefulset` controller maintains an ordianl list of `Pods`, one each for a given name. It
+  **Note**: `Statefulsets` are a special case, The `Statefulset` controller maintains an ordinal list of `Pods`, one each for a given name. The `Statefulset` controller
   will not start a new `Pod` with a name of an existing `Pod`. 
 ​
 The `Pods` that have associated `Persistent Volumes` of mode `ReadWriteOnce` do not become `Ready`. This is because, the `Pods` try to attach to the existing volumes
@@ -43,10 +43,12 @@ will now be able to mount the `Persistent Volumes` and change to a `Running`.
 If a `Node` cannot be recovered and is replaced, then deleting the `Node` from the Kubernetes API server will terminate
 the old `Pods` and release the `Persistent Volumes` of type `ReadWriteOnce` to be mounted by any new `Pods`.
 ​
-If multiple `Avaiability Domains` are used in the Kubernetes cluster, then the replacement `Node` should be added to the same `Availability Domain`
+If multiple `Availability Domains` are used in the Kubernetes cluster, then the replacement `Node` should be added to the same `Availability Domain`
 that the deleted `Node` occupied. This allows the `Pods` to be scheduled on the replacement `Node` that can reach the `Persistent Volumes` in that
 `Availability Domain` and then the `Pods` status is changed to a `Running`.
 ​
-Do not forcefully delete `Pods` or `Persistent Volumes` in a failed `Node`, which you plan to recover or replace. If you force delete `Pods` or `Persistent Volumes` in a failed `Node`, it may lead to loss of data and in the case of `Statefulsets` it may lead to split-brain scenarios. For information about `Statefulsets`, see [Force Delete StatefulSet Pods](https://kubernetes.io/docs/tasks/run-application/force-delete-stateful-set-pod/) in the Kubernetes documentation.
+Do not forcefully delete `Pods` or `Persistent Volumes` in a failed `Node`, which you plan to recover or replace. If you force delete `Pods` or `Persistent Volumes` in a failed `Node`,
+it may lead to loss of data and in the case of `Statefulsets` it may lead to split-brain scenarios. For information about `Statefulsets`,
+see [Force Delete StatefulSet Pods](https://kubernetes.io/docs/tasks/run-application/force-delete-stateful-set-pod/) in the Kubernetes documentation.
 You can force delete `Pods` and `Persistent Volumes` when a failed `Node` cannot be recovered or replaced in the same `Availability Domain` as
 the original `Node`.
