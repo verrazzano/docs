@@ -11,7 +11,7 @@ High Availability designs follow three main principles:
 * Fault detection
 * Reliable failover points
 
-Verrazzano providers a means to eliminate single points of failure among critical Verrazzano components. This is accomplished by increasing replica counts, anti-affinity rules, and implementing replicated data for components that rely on MySQL and OpenSearch. 
+Verrazzano provides a means to eliminate single points of failure among critical Verrazzano components. This is accomplished by increasing replica counts, anti-affinity rules, and implementing replicated data for components that rely on MySQL and OpenSearch. 
 
 The [ha.yaml]({{< ghlink raw=true path="examples/ha/ha.yaml" >}}) file shows you how the `prod` profile can be extended to configure a highly available Verrazzano installation. The increased replica counts, along with the anti-affinity rules inherited from the `prod` profile, ensure that the pods of each component are distributed across the Kubernetes cluster nodes. 
 MySQL and OpenSearch are configured to replicate data among replicas to avoid data loss.
