@@ -21,34 +21,39 @@ You must have the following software installed:
 You can set up private registry using the instructions provided below:
 
 {{< tabs tabTotal="2" >}}
-{{< tab tabName="Verrazzano Lite Distribution" >}}
+{{< tab tabName="Lite Distribution" >}}
 <br>
 
 To obtain the required Verrazzano images and install from your private registry, you must:
 
-1. Download the appropriate Verrazzano distribution from Github.
+1. Download the required Verrazzano distribution from Github.
    * In your browser, go to the [Verrazzano releases](https://github.com/verrazzano/verrazzano/releases) 
-   * Download the distribution TAR file - `verrazzano-<major>.<minor>.<patch>-<OS>-<architecture>.tar.gz` and the corresponding checksum file.
+   * Download the distribution TAR file - `verrazzano-<major>.<minor>.<patch>-<operating system>-<architecture>.tar.gz` and the corresponding checksum file.
    * In the downloaded directory, validate that the checksum and the TAR file match. For example,
      ```
-     $ sha256sum -c  verrazzano-<major>.<minor>.<patch>-<OS>-<architecture>.tar.gz.sha256
+     $ sha256sum -c  verrazzano-<major>.<minor>.<patch>-<operating system>-<architecture>.tar.gz.sha256
 
      # Sample output
-     verrazzano-<major>.<minor>.<patch>-<OS>-<architecture>.tar.gz: OK
+     verrazzano-<major>.<minor>.<patch>-<operating system>-<architecture>.tar.gz: OK
      ```
      Use sha256sum command on Linux and shasum on MacOS.
-   * Expand the TAR file. The following example, extracts the distribution archive in the current directory.
+   * Expand the TAR file to get the release artifacts.     
+     The following example, extracts the distribution archive in the current directory.
      ```
      $ tar xvf verrazzano-<major>.<minor>.<patch>-<OS>-<architecture>.tar.gz
      ```
-     After a successful extraction, you will find the release artifacts under directory `verrazzano-<major>.<minor>.<patch>`, referred as DISTRIBUTION_DIR here onwards.    
-     
+     After a successful extraction, you will find the release artifacts under directory `verrazzano-<major>.<minor>.<patch>`.        
+     For use in this section, define an environment variable `DISTRIBUTION_DIR`.
+      ```
+      DISTRIBUTION_DIR=<local directory>/verrazzano-<major>.<minor>.<patch>
+      ```
+          
 2. Download the Verrazzano images 
    * Download the Verrazzano images defined in Bill of Materials (BOM file) - `${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json`, using the script `${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh`
      ```
-     sh ${TARBALL_DIR}/bin/vz-registry-image-helper.sh -b ${TARBALL_DIR}/manifests/verrazzano-bom.json -f ${TARBALL_DIR}/images
+     sh ${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh -b ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json -f ${DISTRIBUTION_DIR}/images
      ```  
-     The above command downloads the images to all the images ${TARBALL_DIR}/images directory.    
+     The above command downloads the images to all the images ${DISTRIBUTION_DIR}/images directory.    
 
 3. Load the product images into your private registry
    * Log in to the Docker registry, run `docker login [SERVER]` with your credentials
@@ -62,11 +67,11 @@ To obtain the required Verrazzano images and install from your private registry,
      ```
      MYREG=myreg.io
      MYREPO=myrepo/v8o
-     VPO_IMAGE=$(cat ${TARBALL_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[] | select(.name == "verrazzano-platform-operator") | "\(.repository)/\(.images[].image):\(.images[].tag)"')
+     VPO_IMAGE=$(cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[] | select(.name == "verrazzano-platform-operator") | "\(.repository)/\(.images[].image):\(.images[].tag)"')
      ```
    * Run `${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh` script to push images to the registry:    
      ```
-     $ sh ${TARBALL_DIR}/bin/vz-registry-image-helper.sh -t $MYREG -r $MYREPO -l ${TARBALL_DIR}/images
+     $ sh ${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh -t $MYREG -r $MYREPO -l ${DISTRIBUTION_DIR}/images
      ```
 
      Although most images can be protected using credentials stored in an image pull secret, the following images **must** be public:
@@ -101,7 +106,7 @@ To obtain the required Verrazzano images and install from your private registry,
    * Install the Verrazzano Platform Operator using the image defined by `$MYREG/$MYREPO/$VPO_IMAGE`.  
 
      ```
-     helm template --include-crds ${TARBALL_DIR}/manifests/charts/verrazzano-platform-operator \
+     helm template --include-crds ${DISTRIBUTION_DIR}/manifests/charts/verrazzano-platform-operator \
          --set image=${MYREG}/${MYREPO}/${VPO_IMAGE} --set global.registry=${MYREG} \
          --set global.repository=${MYREPO} --set global.imagePullSecrets={verrazzano-container-registry} | kubectl apply -f -
      ```
@@ -120,14 +125,16 @@ To obtain the required Verrazzano images and install from your private registry,
      
      # Sample output
        NAME                                            READY   STATUS    RESTARTS   AGE
-       verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
+       verrazzano-platform-operator-74f4547555-s76r2   1/1     Running   0          114s
      ```    
-   * The distribution archive includes the supported installation profiles under DISTRIBUTION_DIR/manifests/profiles.
+   * The distribution archive includes the supported installation profiles under ${DISTRIBUTION_DIR}/manifests/profiles.    
+     Verrazzano supports customizing installation configurations. See [Customize Installations](https://verrazzano.io/latest/docs/setup/customizing/).      
+
      To create a Verrazzano installation using the provided profiles, run the following command:
      ```
-     $ kubectl apply -f $DISTRIBUTION_DIR/manifests/profiles/dev.yaml
+     $ kubectl apply -f $DISTRIBUTION_DIR/manifests/profiles/prod.yaml
      ```     
-     For a complete description of Verrazzano configuration options, refer Verrazzano Custom Resource Definition under Reference -> API in [Verrazzano documentation](https://verrazzano.io/). Also Verrazzano supports customizing installation configurations under Setup -> Customize Installations in [Verrazzano documentation](https://verrazzano.io/).
+     For a complete description of Verrazzano configuration options, refer [Reference API](https://verrazzano.io/latest/docs/reference/api/).     
 
 {{< /tab >}}
 {{< tab tabName="Verrazzano Full Distribution" >}}
@@ -149,9 +156,13 @@ To obtain the required Verrazzano images and install from your private registry,
      
 
 2. Prepare to do the private registry installation.
-   * Extract the ZIP archive to a desired directory location, referred as DISTRIBUTION_DIR here onwards.  There will be two files: a compressed TAR file containing the product
+   * Extract the ZIP archive to a desired directory location. There will be two files: a compressed TAR file containing the product
      files, and a checksum file.
-   * (Optional) In the expanded archive directory, validate that the checksum and TAR file match.  For example,
+     For use in this section, define an environment variable `DISTRIBUTION_DIR`.
+     ```
+     DISTRIBUTION_DIR=<local directory>/verrazzano-<major>.<minor>.<patch>
+     ```
+   * In the expanded archive directory, validate that the checksum and TAR file match.  For example,
      ```
      $ sha256sum -c verrazzano-<major>.<minor>.<patch>.tar.gz.sha256
 
@@ -160,10 +171,9 @@ To obtain the required Verrazzano images and install from your private registry,
      ```
      Use sha256sum command on Linux and shasum on MacOS.    
 
-
-3. Load the product images from ${TARBALL_DIR}/images directory into your private registry
+3. Load the product images from ${DISTRIBUTION_DIR}/images directory into your private registry
    * Log in to the Docker registry, run `docker login [SERVER]` with your credentials
-   * For use with the examples in this document, define the following variables with respect to your target registry and repository:
+   * For use with the examples in this section, define the following variables with respect to your target registry and repository:
        * `MYREG`
        * `MYREPO`
        * `VPO_IMAGE`    
@@ -173,11 +183,11 @@ To obtain the required Verrazzano images and install from your private registry,
      ```
      MYREG=myreg.io
      MYREPO=myrepo/v8o
-     VPO_IMAGE=$(cat ${TARBALL_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[] | select(.name == "verrazzano-platform-operator") | "\(.repository)/\(.images[].image):\(.images[].tag)"')
+     VPO_IMAGE=$(cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r '.components[].subcomponents[] | select(.name == "verrazzano-platform-operator") | "\(.repository)/\(.images[].image):\(.images[].tag)"')
      ```
    * Run `${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh` script to push images to the registry:    
      ```
-     $ sh ${TARBALL_DIR}/bin/vz-registry-image-helper.sh -t $MYREG -r $MYREPO -l ${TARBALL_DIR}/images
+     $ sh ${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh -t $MYREG -r $MYREPO -l ${TARBALL_DIR}/images
      ```
 
      Although most images can be protected using credentials stored in an image pull secret, the following images **must** be public:
@@ -212,7 +222,7 @@ To obtain the required Verrazzano images and install from your private registry,
    * Install the Verrazzano Platform Operator using the image defined by `$MYREG/$MYREPO/$VPO_IMAGE`.  
 
      ```
-     helm template --include-crds ${TARBALL_DIR}/manifests/charts/verrazzano-platform-operator \
+     helm template --include-crds ${DISTRIBUTION_DIR}/manifests/charts/verrazzano-platform-operator \
          --set image=${MYREG}/${MYREPO}/${VPO_IMAGE} --set global.registry=${MYREG} \
          --set global.repository=${MYREPO} --set global.imagePullSecrets={verrazzano-container-registry} | kubectl apply -f -
      ```
@@ -231,15 +241,16 @@ To obtain the required Verrazzano images and install from your private registry,
      
      # Sample output
        NAME                                            READY   STATUS    RESTARTS   AGE
-       verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
+       verrazzano-platform-operator-74f4547555-s76r2   1/1     Running   0          114s
      ```    
-   * The distribution archive includes the supported installation profiles under DISTRIBUTION_DIR/manifests/profiles.
+   * The distribution archive includes the supported installation profiles under ${DISTRIBUTION_DIR}/manifests/profiles.    
+     Verrazzano supports customizing installation configurations. See [Customize Installations](https://verrazzano.io/latest/docs/setup/customizing/).      
+
      To create a Verrazzano installation using the provided profiles, run the following command:
      ```
-     $ kubectl apply -f $DISTRIBUTION_DIR/manifests/profiles/dev.yaml
+     $ kubectl apply -f $DISTRIBUTION_DIR/manifests/profiles/prod.yaml
      ```     
-     For a complete description of Verrazzano configuration options, refer Verrazzano Custom Resource Definition under Reference -> API in [Verrazzano documentation](https://verrazzano.io/). Also Verrazzano supports customizing installation configurations under Setup -> Customize Installations in [Verrazzano documentation](https://verrazzano.io/).
-
+     For a complete description of Verrazzano configuration options, refer [Reference API](https://verrazzano.io/latest/docs/reference/api/).     
 {{< /tab >}}
 {{< /tabs >}}
 
