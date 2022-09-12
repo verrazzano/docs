@@ -137,7 +137,7 @@ To obtain the required Verrazzano images and install from your private registry,
      For a complete description of Verrazzano configuration options, refer [Reference API](https://verrazzano.io/latest/docs/reference/api/).     
 
 {{< /tab >}}
-{{< tab tabName="Verrazzano Full Distribution" >}}
+{{< tab tabName="Full Distribution" >}}
 <br>
 
 To obtain the required Verrazzano images and install from your private registry, you must:
