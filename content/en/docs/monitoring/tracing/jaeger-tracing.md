@@ -77,7 +77,8 @@ spec:
   profile: prod
   components:
     jaegerOperator:
-      overrides:
+       enabled: true
+       overrides:
         - values:
             jaeger:
               create: true
@@ -121,7 +122,8 @@ spec:
   profile: prod
   components:
     jaegerOperator:
-      overrides:
+       enabled: true
+       overrides:
         - values:
             jaeger:
               spec:
@@ -143,7 +145,8 @@ spec:
   profile: prod
   components:
     jaegerOperator:
-      overrides:
+       enabled: true
+       overrides:
         - values:
             jaeger:
               create: false
@@ -331,18 +334,18 @@ spec:
   components:
     jaegerOperator:
       enabled: true
-      istio:
-        overrides:
-          - values:
-              apiVersion: install.istio.io/v1alpha1
-              kind: IstioOperator
-              spec:
-                meshConfig:
-                  enableTracing: true
-                  defaultConfig:
-                    tracing:
-                      zipkin:
-                        address: jaeger-verrazzano-managed-cluster-collector.verrazzano-monitoring.svc.cluster.local.:9411
+    istio:
+      overrides:
+      - values:
+          apiVersion: install.istio.io/v1alpha1
+          kind: IstioOperator
+          spec:
+            meshConfig:
+              enableTracing: true
+              defaultConfig:
+                tracing:
+                  zipkin:
+                    address: jaeger-verrazzano-managed-cluster-collector.verrazzano-monitoring.svc.cluster.local.:9411
 ```
 
 ### View the managed cluster traces
