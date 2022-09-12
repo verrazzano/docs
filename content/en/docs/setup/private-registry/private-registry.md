@@ -40,7 +40,7 @@ To obtain the required Verrazzano images and install from your private registry,
    * Expand the TAR file to get the release artifacts.     
      The following example, extracts the distribution archive in the current directory.
      ```
-     $ tar xvf verrazzano-<major>.<minor>.<patch>-<OS>-<architecture>.tar.gz
+     $ tar xvf verrazzano-<major>.<minor>.<patch>-<operating system>-<architecture>.tar.gz
      ```
      After a successful extraction, you will find the release artifacts under directory `verrazzano-<major>.<minor>.<patch>`.        
      For use in this section, define an environment variable `DISTRIBUTION_DIR`.
