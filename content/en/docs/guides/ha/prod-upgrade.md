@@ -99,23 +99,23 @@ The precise steps required to upgrade a Verrazzano environment to be highly avai
            - values:
                serverInstances: 3
                routerInstances: 2
-     opensearchDashboards:
-       replicas: 2
-     kiali:
-       overrides:
-       - values:
-           deployment:
-             replicas: 2
-     prometheusOperator:
-       overrides:
-       - values:
-           prometheus:
-             prometheusSpec:
-               replicas: 2
-     opensearch:
-       nodes:
-       - name: es-ingest
+       opensearchDashboards:
          replicas: 2
+       kiali:
+         overrides:
+         - values:
+             deployment:
+               replicas: 2
+       prometheusOperator:
+         overrides:
+         - values:
+             prometheus:
+               prometheusSpec:
+                 replicas: 2
+       opensearch:
+         nodes:
+         - name: es-ingest
+           replicas: 2
    EOF
    ```
    Apply the patch:
