@@ -33,15 +33,15 @@ The `install.verrazzano.io/v1alpha1` API version of Verrazzano resources is depr
 - Use `spec.components.verrazzano.overrides` instead of `spec.components.verrazzano.installArgs`.
 - Use `spec.components.authProxy.overrides` instead of `spec.components.authProxy.kubernetes`.
 
-#### Installing Previous Verrazzano Versions
+#### Installing previous Verrazzano versions
 
-Installing versions of Verrazzano prior to 1.4.0 after installing Verrazzano 1.4.0 will result in the following error:
+Installing versions of Verrazzano prior to 1.4.0 after installing Verrazzano version 1.4.0 or greater will result in the following error:
 
 ```
 The CustomResourceDefinition "verrazzanos.install.verrazzano.io" is invalid: status.storedVersions[0]: Invalid value: "v1beta1": must appear in spec.versions 
 ```
 
-Before installing an older version of Verrazzano, delete the `verrazzanos.install.verrazzano.io` Custom Resource Definition:
+To resolve this error, delete the `verrazzanos.install.verrazzano.io` Custom Resource Definition:
 
 ```shell
 $ kubectl delete customresourcedefinition verrazzanos.install.verrazzano.io
