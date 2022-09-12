@@ -22,7 +22,7 @@ You can install Verrazzano on the following Kubernetes versions.
 
 | Verrazzano | Release Date | Latest Patch Release | Latest Patch Release Date | Kubernetes Versions | End of Error Correction |
 |------------|--------------|----------------------|---------------------------|---------------------|-------------------------|
-| 1.3        | 2022-05-24   | 1.3.4                | 2022-08-30                | 1.21, 1.22, 1.23    |
+| 1.3        | 2022-05-24   | 1.3.5                | 2022-09-12                | 1.21, 1.22, 1.23    |
 | 1.2        | 2022-03-14   | 1.2.2                | 2022-05-10                | 1.19, 1.20, 1.21    | 2022-11-30
 | 1.1        | 2021-12-16   | 1.1.2                | 2022-03-09                | 1.19, 1.20, 1.21    | 2022-09-30
 | 1.0        | 2021-08-02   | 1.0.4                | 2021-12-20                | 1.18, 1.19, 1.20    | 2022-06-30
@@ -74,7 +74,7 @@ component, its version, and a brief description.
 | Prometheus Adapter           | 0.9.1        | Provides metrics in support of pod autoscaling.                                          |
 | Prometheus Operator          | 0.55.1       | Provides management for Prometheus monitoring tools.                                     |
 | Prometheus Pushgateway       | 1.4.2        | Allows ephemeral and batch jobs to expose their metrics to Prometheus.                   |
-| Rancher                      | 2.6.7        | Manages multiple Kubernetes clusters.                                                    |
+| Rancher                      | 2.6.8        | Manages multiple Kubernetes clusters.                                                    |
 | Rancher Backup Operator      | 2.1.3        | Manages backup and restore of Rancher configurations and data.                           |
 | Velero                       | 1.8.1        | Manages backup and restore of Kubernetes configurations and data.                        |
 | WebLogic Kubernetes Operator | 3.4.3        | Assists with deploying and managing WebLogic domains.                                    |
