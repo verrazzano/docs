@@ -63,10 +63,10 @@ The precise steps required to upgrade a Verrazzano environment to be highly avai
                            - podAffinityTerm:
                                labelSelector:
                                  matchExpressions:
-                                   - key: app
-                                     operator: In
-                                     values:
-                                       - istio-ingressgateway
+                                 - key: app
+                                   operator: In
+                                   values:
+                                   - istio-ingressgateway
                                topologyKey: kubernetes.io/hostname
                              weight: 100
                        replicaCount: 2
@@ -82,10 +82,10 @@ The precise steps required to upgrade a Verrazzano environment to be highly avai
                            - podAffinityTerm:
                                labelSelector:
                                  matchExpressions:
-                                   - key: app
-                                     operator: In
-                                     values:
-                                       - istio-egressgateway
+                                 - key: app
+                                   operator: In
+                                   values:
+                                   - istio-egressgateway
                                topologyKey: kubernetes.io/hostname
                              weight: 100
                        replicaCount: 2
