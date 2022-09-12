@@ -90,15 +90,15 @@ The precise steps required to upgrade a Verrazzano environment to be highly avai
                              weight: 100
                        replicaCount: 2
                      name: istio-egressgateway
-     keycloak:
-       overrides:
-       - values:
-           replicas: 2
-     mysql:
-       overrides:
-       - values:
-           serverInstances: 3
-           routerInstances: 2
+       keycloak:
+         overrides:
+         - values:
+             replicas: 2
+         mysql:
+           overrides:
+           - values:
+               serverInstances: 3
+               routerInstances: 2
      opensearchDashboards:
        replicas: 2
      kiali:
