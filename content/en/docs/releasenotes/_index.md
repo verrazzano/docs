@@ -4,6 +4,11 @@ linkTitle: Release Notes
 weight: 13
 draft: false
 ---
+### v1.3.5
+Component version updates:
+
+- WebLogic Kubernetes Operator v3.4.3
+
 ### v1.3.4
 Fixes:
 
