@@ -1,0 +1,124 @@
+---
+title: "Upgrade Prod Install to HA Guide"
+linkTitle: "Upgrade Prod to HA"
+description: "A guide for upgrading a `prod` install to be highly available"
+weight: 3
+draft: false
+---
+
+The precise steps required to upgrade a Verrazzano environment to be highly available will vary based the configuration of each environment.  Use the following steps as a guide:
+
+1. Assess if your Kubernetes configuration requires changes to support the level of high availability you want to achieve.  Refer to [Configure High Availability]({{< relref "/docs/setup/customizing/ha.md" >}}) for additional information.
+
+1. The Verrazzano installation must be version 1.4.0 or higher before it can be upgraded to be highly available.  Follow the [Upgrade Verrazzano]({{< relref "/docs/setup/upgrade/_index.md" >}}) instructions if an upgrade is required.
+
+1. The folder [examples/ha]({{< ghlink path="examples/ha/README.md" >}}) contains complete examples of Verrazzano installations that are highly available. The  file [ha.yaml]({{< ghlink raw=true path="examples/ha/ha.yaml" >}}) will be used as an example of how to upgrade a default `prod` install to be highly available.  The actual changes will vary for each environment.
+
+   Create a patch file:
+   ```
+   cat > patch.yaml <<EOF
+   spec:
+     components:
+       authProxy:
+         overrides:
+         - values:
+             replicas: 2
+       certManager:
+         overrides:
+         - values:
+             replicaCount: 2
+             cainjector:
+               replicaCount: 2
+             webhook:
+               replicaCount: 2
+       console:
+         overrides:
+         - values:
+             replicas: 2
+       ingressNGINX:
+         overrides:
+         - values:
+             controller:
+               autoscaling:
+                 enabled: true
+                 minReplicas: 2
+             defaultBackend:
+               replicaCount: 2
+       istio:
+         overrides:
+         - values:
+             apiVersion: install.istio.io/v1alpha1
+             kind: IstioOperator
+             spec:
+               components:
+                 pilot:
+                   k8s:
+                     replicaCount: 2
+                 ingressGateways:
+                   - enabled: true
+                     k8s:
+                       affinity:
+                         podAntiAffinity:
+                           preferredDuringSchedulingIgnoredDuringExecution:
+                           - podAffinityTerm:
+                               labelSelector:
+                                 matchExpressions:
+                                   - key: app
+                                     operator: In
+                                     values:
+                                       - istio-ingressgateway
+                               topologyKey: kubernetes.io/hostname
+                             weight: 100
+                       replicaCount: 2
+                       service:
+                         type: LoadBalancer
+                     name: istio-ingressgateway
+                 egressGateways:
+                   - enabled: true
+                     k8s:
+                       affinity:
+                         podAntiAffinity:
+                           preferredDuringSchedulingIgnoredDuringExecution:
+                           - podAffinityTerm:
+                               labelSelector:
+                                 matchExpressions:
+                                   - key: app
+                                     operator: In
+                                     values:
+                                       - istio-egressgateway
+                               topologyKey: kubernetes.io/hostname
+                             weight: 100
+                       replicaCount: 2
+                     name: istio-egressgateway
+     keycloak:
+       overrides:
+       - values:
+           replicas: 2
+     mysql:
+       overrides:
+       - values:
+           serverInstances: 3
+           routerInstances: 2
+     opensearchDashboards:
+       replicas: 2
+     kiali:
+       overrides:
+       - values:
+           deployment:
+             replicas: 2
+     prometheusOperator:
+       overrides:
+       - values:
+           prometheus:
+             prometheusSpec:
+               replicas: 2
+     opensearch:
+       nodes:
+       - name: es-ingest
+         replicas: 2
+   EOF
+   ```
+   Apply the patch:
+   ``` 
+   kubectl patch verrazzano verrazzano --patch-file=patch.yaml --type=merge
+   ```
