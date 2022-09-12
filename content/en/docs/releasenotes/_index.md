@@ -14,7 +14,7 @@ Component version updates:
 
 - Coherence Operator v3.2.6
 - MySQL Operator v8.0.30-2.0.5
-- Rancher v2.6.7
+- Rancher v2.6.8
 - Rancher Backup Operator v2.1.3
 - Velero v1.8.1
 
