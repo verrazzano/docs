@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/customizing/ha/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-08-04T13:19:00-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-09-12T14:14:28-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Configure High Availability">
 <meta itemprop="description" content="Achieve high availability using the `prod` profile">
-<meta itemprop="dateModified" content="2022-08-04T13:19:00-04:00" />
-<meta itemprop="wordCount" content="124">
+<meta itemprop="dateModified" content="2022-09-12T14:14:28-04:00" />
+<meta itemprop="wordCount" content="324">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Configure High Availability"/>
 <meta name="twitter:description" content="Achieve high availability using the `prod` profile"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.29490cfea4e5a0c3645284ed3a11d63a.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.5f35e49bc1b11c2b908192e7512d1b68.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.29490cfea4e5a0c3645284ed3a11d63a.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.5f35e49bc1b11c2b908192e7512d1b68.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -516,12 +516,29 @@ if (!doNotTrack) {
 
 		
 	</header>    
-	<p>The <a href="https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/ha/ha.yaml">ha.yaml</a> file shows you how the <code>prod</code> profile can be extended to configure a highly available Verrazzano installation. The increased replica counts, along with the affinity rules inherited from the <code>prod</code> profile, ensure that the pods of each component are distributed across the Kubernetes cluster nodes.  There would be no loss of service if a cluster node became unavailable.</p>
-<p>When using <a href="https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/ha/ha.yaml">ha.yaml</a>, consider the following:</p>
+	<p>High availability designs follow three main principles:</p>
 <ul>
-<li>It does not ensure a fault-tolerant environment.</li>
+<li>Elimination of single points of failure</li>
+<li>Fault detection</li>
+<li>Reliable failover points</li>
+</ul>
+<p>Verrazzano provides a means to eliminate single points of failure among critical Verrazzano components. This is accomplished by increasing replica counts, anti-affinity rules, and implementing replicated data for components that rely on MySQL and OpenSearch.</p>
+<p>The <a href="https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/ha/ha.yaml"><code>ha.yaml</code></a> file illustrates how the <code>prod</code> profile can be extended to configure a highly available Verrazzano installation. The increased replica counts, along with the anti-affinity rules inherited from the <code>prod</code> profile, ensure that the pods of each component are distributed across the Kubernetes cluster nodes.
+MySQL and OpenSearch are configured to replicate data among replicas to avoid data loss.</p>
+<p>Fault detection is managed natively by using Kubernetes <code>Services</code> and Istio <code>VirtualServices</code> that detect failed pods and route traffic to the remaining replicas.</p>
+<p>MySQL and OpenSearch provide reliable failover points for the replicated data.</p>
+<p>The result of these measures would be no loss of service if a cluster node became unavailable. For more information regarding node failure and recovery, read the <a href="../../../../docs/guides/ha/node-failure/">Node Failure Guide</a>.</p>
+<p>When using the <a href="https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/ha/ha.yaml"><code>ha.yaml</code></a> file, consider the following:</p>
+<ul>
+<li>It does not ensure a fault-tolerant environment. Your applications still must be designed and implemented as highly available.</li>
 <li>Running additional replicas of components will increase resource requirements. At least four CPUs, 100GB disk storage, and 64GB RAM available on the Kubernetes worker nodes is required.</li>
-<li>Additional customizations may be required for your environment.</li>
+<li>Additional customizations may be required for your environment, including other customizations described in this documentation.</li>
+</ul>
+<p>Follow these best practices for a highly available Verrazzano installation:</p>
+<ul>
+<li>Size your Kubernetes cluster according to your node failure tolerance and workload requirements.</li>
+<li>Set the default <code>Storage Class</code> to one with a <code>VolumeBindingMode</code> of <code>WaitForFirstConsumer</code>. This is important for being able to recover from an <code>Availability Domain</code> or zone failure.</li>
+<li>Set the replica counts to values that correspond to your node failure tolerance.</li>
 </ul>
 <p>To install the example high availability configuration using the Verrazzano CLI:</p>
 <pre tabindex="0"><code>$ vz install -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/ha/ha.yaml
