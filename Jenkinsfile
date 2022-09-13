@@ -58,6 +58,11 @@ pipeline {
                     rm -rf production/docs/setup/private-registry/private-registry-full-distribution
                 """
             }
+            post {
+                always {
+                    archiveArtifacts artifacts: 'production/**'
+                }
+            }
         }
 
         stage('Publish documentation to gh-pages') {
@@ -88,7 +93,6 @@ pipeline {
         stage('Archive artifacts ') {
             steps {
                archiveArtifacts artifacts: 'staging/**'
-               archiveArtifacts artifacts: 'production/**'
                archiveArtifacts artifacts: 'verrazzano-production-docs.zip'
             }
         }
