@@ -5,6 +5,9 @@ Weight: 8
 draft: false
 ---
 
+{{ if .Site.Params.Bundle "Lite" }}
+    Blahdiblah
+{{ end if }}
 
 You can install Verrazzano using a private Docker-compliant container registry. This requires the following:
 

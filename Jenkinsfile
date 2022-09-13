@@ -49,6 +49,7 @@ pipeline {
                 sh """
                     mkdir -p public
                     env HUGO_ENV=production hugo --source . --destination production --environment production
+                    env HUGO_PARAMS_Bundle="Lite" hugo
                 """
             }
         }
