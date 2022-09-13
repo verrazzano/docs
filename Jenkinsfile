@@ -51,9 +51,10 @@ pipeline {
                     env HUGO_ENV=production hugo --source . --destination production --environment production
 
                     # This is a workaround to conditionally include the documentation to setup private registry differently
-                    # for full distribution and lite distribution
+                    # for full distribution and lite distribution. The generated html in this stage is copied to private-registry-full-distribution,
+                    # and used by stage - "Creating production documentation zip"
                     mkdir private-registry-full-distribution
-                    mv production/docs/setup/private-registry/private-registry-full-distribution/* ${WORKSPACE}/private-registry-full-distribution
+                    mv production/docs/setup/private-registry/private-registry-full-distribution/* private-registry-full-distribution
                     rm -rf production/docs/setup/private-registry/private-registry-full-distribution
                 """
             }
@@ -82,7 +83,10 @@ pipeline {
         stage('Creating production documentation zip') {
             steps {
                 sh """
+                    # Copy and overwrite the index.html generated for the full distribution as the private-registry/index.html
                     cp private-registry-full-distribution/index.html production/docs/setup/private-registry/private-registry/index.html
+
+                    # Remove directory private-registry-full-distribution from the WORKSPACE
                     rm -rf private-registry-full-distribution
                     zip -r verrazzano-production-docs.zip production
                 """
