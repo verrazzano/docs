@@ -49,14 +49,14 @@ pipeline {
                 sh """
                     mkdir -p public
                     env HUGO_ENV=production hugo --source . --destination production --environment production
-                """
-            }
-        }
 
-        stage('Archive artifacts - before releasing to gh-pages') {
-            steps {
-               archiveArtifacts artifacts: 'staging/**'
-               archiveArtifacts artifacts: 'production/**'
+                    # This is a workaround to conditionally include the documentation to setup private registry differently
+                    # for full distribution and lite distribution
+                    ls ${WORKSPACE}
+                    mkdir private-registry-full-distribution
+                    mv production/docs/setup/private-registry/private-registry-full-distribution/* ${WORKSPACE}/private-registry-full-distribution
+                    rm -rf production/docs/setup/private-registry/private-registry-full-distribution
+                """
             }
         }
 
@@ -78,9 +78,8 @@ pipeline {
         stage('Creating production documentation zip') {
             steps {
                 sh """
-                    rm -f production/docs/setup/private-registry/private-registry/index.html
-                    ls production/docs/setup/private-registry/private-registry
-                    mv private-registry-backup.html private-registry.html
+                    cp private-registry-full-distribution/index.html production/docs/setup/private-registry/private-registry/index.html
+                    rm -rf private-registry-full-distribution
                     zip -r verrazzano-production-docs.zip production
                 """
             }
@@ -88,8 +87,8 @@ pipeline {
 
         stage('Archive artifacts ') {
             steps {
-               // archiveArtifacts artifacts: 'staging/**'
-               // archiveArtifacts artifacts: 'production/**'
+               archiveArtifacts artifacts: 'staging/**'
+               archiveArtifacts artifacts: 'production/**'
                archiveArtifacts artifacts: 'verrazzano-production-docs.zip'
             }
         }
