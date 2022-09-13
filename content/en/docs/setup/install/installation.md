@@ -96,7 +96,7 @@ To install the Verrazzano platform operator:
 1. Deploy the Verrazzano platform operator.
 
     ```
-    $ kubectl apply -f {{<release_asset_url operator.yaml>}}
+    $ kubectl apply -f {{<release_asset_url verrazzano-platform-operator.yaml>}}
     ```
 
 1. Wait for the deployment to complete.
