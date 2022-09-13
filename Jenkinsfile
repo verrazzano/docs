@@ -53,19 +53,10 @@ pipeline {
             }
         }
 
-        stage('Creating production documentation zip') {
-            steps {
-                sh """
-                    zip -r verrazzano-production-docs.zip production
-                """
-            }
-        }
-
-        stage('Archive artifacts ') {
+        stage('Archive artifacts - before releasing to gh-pages') {
             steps {
                archiveArtifacts artifacts: 'staging/**'
                archiveArtifacts artifacts: 'production/**'
-               archiveArtifacts artifacts: 'verrazzano-production-docs.zip'
             }
         }
 
@@ -81,6 +72,25 @@ pipeline {
                     echo "run site publisher"
                     ./scripts/publish.sh "${env.BRANCH_NAME}"
                 """
+            }
+        }
+
+        stage('Creating production documentation zip') {
+            steps {
+                sh """
+                    rm -f production/docs/setup/private-registry/private-registry/index.html
+                    ls production/docs/setup/private-registry/private-registry
+                    mv private-registry-backup.html private-registry.html
+                    zip -r verrazzano-production-docs.zip production
+                """
+            }
+        }
+
+        stage('Archive artifacts ') {
+            steps {
+               // archiveArtifacts artifacts: 'staging/**'
+               // archiveArtifacts artifacts: 'production/**'
+               archiveArtifacts artifacts: 'verrazzano-production-docs.zip'
             }
         }
     }
