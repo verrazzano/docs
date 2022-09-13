@@ -126,5 +126,5 @@ The precise steps required to upgrade a Verrazzano environment to be highly avai
 1. Wait for the patch to complete.
 
    ```
-   kubectl wait --timeout=30m --for=condition=UpgradeComplete verrazzano/verrazzano
+   kubectl wait --timeout=30m --for=condition=InstallComplete verrazzano/verrazzano
    ```
