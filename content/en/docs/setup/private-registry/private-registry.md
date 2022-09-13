@@ -9,11 +9,11 @@ Verrazzano Distribution includes a collection of Kubernetes manifests to deploy 
 The distribution artifacts are available for ADM64 and ARM64 architectures.
 
 The distributions includes:
-* [Verrazzano CLI]({{< relref "docs/setup/cli/_index.md" >}})
-* [Installation Profiles]({{< relref "/docs/setup/install/profiles.md"  >}})
-* Helper scripts to download the images from the bill of materials (BOM) and to upload the Verrazzano images to a private registry
-* Helm charts for the Verrazzano Platform Operator
-* README.md providing the layout of the respective distribution.
+* [Verrazzano CLI]({{< relref "docs/setup/cli/_index.md" >}}).
+* [Installation Profiles]({{< relref "/docs/setup/install/profiles.md"  >}}).
+* Helper scripts to download the images from the bill of materials (BOM) and to upload the Verrazzano images to a private registry.
+* Helm charts for the Verrazzano Platform Operator.
+* `README.md` providing the layout of the respective distribution.
 
 You can install Verrazzano using a private Docker-compliant container registry. This requires the following:
 
@@ -131,7 +131,7 @@ You must have the following software installed:
        NAME                                            READY   STATUS    RESTARTS   AGE
        verrazzano-platform-operator-74f4547555-s76r2   1/1     Running   0          114s
      ```    
-   * The distribution archive includes the supported installation profiles under ${DISTRIBUTION_DIR}/manifests/profiles.    
+   * The distribution archive includes the supported installation profiles under `${DISTRIBUTION_DIR}/manifests/profiles`.
      Verrazzano supports customizing installation configurations. See [Customize Installations](https://verrazzano.io/{{<release_version>}}/docs/setup/customizing/).      
 
      To create a Verrazzano installation using the provided profiles, run the following command:

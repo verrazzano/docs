@@ -10,11 +10,11 @@ Verrazzano Distributions are available in two variants:
 * `Verrazzano Full Distribution`, a collection of Kubernetes manifests to deploy the Verrazzano platform operator and actual container images which are required to install Verrazzano.
 
 Both the distributions include:
-* [Verrazzano CLI]({{< relref "docs/setup/cli/_index.md" >}})
-* [Installation Profiles]({{< relref "/docs/setup/install/profiles.md"  >}})
-* Helper scripts to download the images from the bill of materials (BOM) and to upload the Verrazzano images to a private registry
-* Helm charts for the Verrazzano Platform Operator
-* README.md providing the layout of the respective distribution.
+* [Verrazzano CLI]({{< relref "docs/setup/cli/_index.md" >}}).
+* [Installation Profiles]({{< relref "/docs/setup/install/profiles.md"  >}}).
+* Helper scripts to download the images from the bill of materials (BOM) and to upload the Verrazzano images to a private registry.
+* Helm charts for the Verrazzano Platform Operator.
+* `README.md` providing the layout of the respective distribution.
 
 You can install Verrazzano using a private Docker-compliant container registry. This requires the following:
 
@@ -176,7 +176,7 @@ You can set up private registry using the instructions provided below:
        NAME                                            READY   STATUS    RESTARTS   AGE
        verrazzano-platform-operator-74f4547555-s76r2   1/1     Running   0          114s
      ```    
-   * The distribution archive includes the supported installation profiles under ${DISTRIBUTION_DIR}/manifests/profiles.    
+   * The distribution archive includes the supported installation profiles under `${DISTRIBUTION_DIR}/manifests/profiles`.
      Verrazzano supports customizing installation configurations. See [Customize Installations](https://verrazzano.io/{{<release_version>}}/docs/setup/customizing/).      
 
      To create a Verrazzano installation using the provided profiles, run the following command:

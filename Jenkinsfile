@@ -47,12 +47,11 @@ pipeline {
         stage('Build production documentation') {
             steps {
                 sh """
-                    mkdir -p public
+                    mkdir -p production
                     env HUGO_ENV=production hugo --source . --destination production --environment production
 
                     # This is a workaround to conditionally include the documentation to setup private registry differently
                     # for full distribution and lite distribution
-                    ls ${WORKSPACE}
                     mkdir private-registry-full-distribution
                     mv production/docs/setup/private-registry/private-registry-full-distribution/* ${WORKSPACE}/private-registry-full-distribution
                     rm -rf production/docs/setup/private-registry/private-registry-full-distribution
