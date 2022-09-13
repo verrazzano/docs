@@ -122,3 +122,9 @@ The precise steps required to upgrade a Verrazzano environment to be highly avai
    ``` 
    kubectl patch verrazzano verrazzano --patch-file=patch.yaml --type=merge
    ```
+
+1. Wait for the patch to complete.
+
+   ```
+   kubectl wait --timeout=30m --for=condition=UpgradeComplete verrazzano/verrazzano
+   ```
