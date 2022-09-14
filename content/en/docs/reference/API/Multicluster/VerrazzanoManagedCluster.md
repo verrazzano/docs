@@ -1,6 +1,5 @@
 ---
 title: VerrazzanoManagedCluster
-linkTitle: VerrazzanoManagedCluster CRD
 weight: 2
 draft: false
 ---

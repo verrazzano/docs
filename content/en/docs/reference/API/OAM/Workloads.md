@@ -1,6 +1,5 @@
 ---
 title: Verrazzano Workloads
-linkTitle: Verrazzano Workload CRDs
 weight: 2
 draft: false
 ---

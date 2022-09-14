@@ -1,6 +1,5 @@
 ---
 title: MultiClusterComponent
-linkTitle: MultiClusterComponent CRD
 weight: 2
 draft: false
 ---

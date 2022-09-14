@@ -1,6 +1,5 @@
 ---
 title: Verrazzano (v1alpha1)
-linkTitle: Verrazzano CRD (v1alpha1)
 aliases:
     - /docs/reference/api/verrazzano/verrazzano
 weight: 2

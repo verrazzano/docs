@@ -1,6 +1,5 @@
 ---
 title: Metrics Template
-linkTitle: MetricsTemplate CRD
 weight: 2
 draft: false
 ---

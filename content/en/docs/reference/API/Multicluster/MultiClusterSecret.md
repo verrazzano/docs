@@ -1,6 +1,5 @@
 ---
 title: MultiClusterSecret
-linkTitle: MultiClusterSecret CRD
 weight: 2
 draft: false
 ---

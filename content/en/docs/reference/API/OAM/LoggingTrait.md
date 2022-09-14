@@ -1,6 +1,5 @@
 ---
 title: LoggingTrait
-linkTitle: LoggingTrait CRD
 weight: 2
 draft: false
 ---

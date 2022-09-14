@@ -1,6 +1,5 @@
 ---
 title: MetricsTrait
-linkTitle: MetricsTrait CRD
 weight: 2
 draft: false
 ---

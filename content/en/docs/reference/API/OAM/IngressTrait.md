@@ -1,6 +1,5 @@
 ---
 title: IngressTrait
-linkTitle: IngressTrait CRD
 weight: 2
 draft: false
 ---

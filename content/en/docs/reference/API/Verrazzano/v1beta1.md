@@ -1,6 +1,5 @@
 ---
 title: Verrazzano (v1beta1)
-linkTitle: Verrazzano CRD (v1beta1)
 weight: 2
 draft: false
 ---
