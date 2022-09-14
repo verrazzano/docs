@@ -6,8 +6,8 @@ draft: false
 ---
 
 Verrazzano Distributions are available in two variants:    
-* `Verrazzano Lite Distribution`, a collection of Kubernetes manifests to deploy the Verrazzano platform operator and distribution artifacts built for Linux and Darwin operating systems.
-* `Verrazzano Full Distribution`, a collection of Kubernetes manifests to deploy the Verrazzano platform operator and actual container images which are required to install Verrazzano.
+* `Verrazzano Lite Distribution` contains Kubernetes manifests to deploy Verrazzano, client binaries, and various other utilities. These distributions are provided for Linux and MacOS operating systems on AMD and ARM architectures.
+* `Verrazzano Full Distribution` contains Kubernetes manifests to deploy Verrazzano, client binaries, various utilities and all the container images required for Verrazzano. The client binaries are included for Linux and MacOS operating systems on AMD and ARM architectures.
 
 Both the distributions include:
 * [Verrazzano CLI]({{< relref "docs/setup/cli/_index.md" >}}).
@@ -42,7 +42,7 @@ You can set up private registry using the instructions provided below:
    * Download the distribution TAR file - `verrazzano-<major>.<minor>.<patch>-<operating system>-<architecture>.tar.gz` and the corresponding checksum file.
    * In the downloaded directory, validate the checksum and TAR file match. For example,
      ```
-     $ sha256sum -c  verrazzano-<major>.<minor>.<patch>-<operating system>-<architecture>.tar.gz.sha256
+     $ sha256sum -c verrazzano-<major>.<minor>.<patch>-<operating system>-<architecture>.tar.gz.sha256
 
      # Sample output
      verrazzano-<major>.<minor>.<patch>-<operating system>-<architecture>.tar.gz: OK
@@ -104,7 +104,7 @@ You can set up private registry using the instructions provided below:
 {{< /tabs >}}
 
 3. Load the product images into your private registry
-   * Log in to the Docker registry, run `docker login [SERVER]` with your credentials.
+   * Log in to the Docker registry, run `docker login <SERVER>` with your credentials.
    * For use with the examples in this document, define the following variables with respect to your target registry and repository:
        * `MYREG`
        * `MYREPO`

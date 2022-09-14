@@ -5,8 +5,7 @@ Weight: 8
 draft: false
 ---
 
-Verrazzano Distribution includes a collection of Kubernetes manifests to deploy the Verrazzano platform operator and distribution artifacts, built for Linux and Darwin operating systems.
-The distribution artifacts are available for ADM64 and ARM64 architectures.
+Verrazzano Distribution contains Kubernetes manifests to deploy Verrazzano, client binaries, and various other utilities.  These distributions are provided for Linux and MacOS operating systems on AMD and ARM architectures.
 
 The distribution includes:
 * [Verrazzano CLI]({{< relref "docs/setup/cli/_index.md" >}}).
@@ -35,7 +34,7 @@ You must have the following software installed:
    * Download the distribution TAR file - `verrazzano-<major>.<minor>.<patch>-<operating system>-<architecture>.tar.gz` and the corresponding checksum file.
    * In the downloaded directory, validate the checksum and TAR file match. For example,
      ```
-     $ sha256sum -c  verrazzano-<major>.<minor>.<patch>-<operating system>-<architecture>.tar.gz.sha256
+     $ sha256sum -c verrazzano-<major>.<minor>.<patch>-<operating system>-<architecture>.tar.gz.sha256
 
      # Sample output
      verrazzano-<major>.<minor>.<patch>-<operating system>-<architecture>.tar.gz: OK
@@ -60,7 +59,7 @@ You must have the following software installed:
      The above command downloads all the images to `${DISTRIBUTION_DIR}/images` directory.      
 
 3. Load the product images into your private registry
-   * Log in to the Docker registry, run `docker login [SERVER]` with your credentials.
+   * Log in to the Docker registry, run `docker login <SERVER>` with your credentials.
    * For use with the examples in this document, define the following variables with respect to your target registry and repository:
        * `MYREG`
        * `MYREPO`
