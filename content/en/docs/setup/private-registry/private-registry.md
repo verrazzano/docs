@@ -8,7 +8,7 @@ draft: false
 Verrazzano Distribution includes a collection of Kubernetes manifests to deploy the Verrazzano platform operator and distribution artifacts, built for Linux and Darwin operating systems.
 The distribution artifacts are available for ADM64 and ARM64 architectures.
 
-The distributions includes:
+The distribution includes:
 * [Verrazzano CLI]({{< relref "docs/setup/cli/_index.md" >}}).
 * [Installation Profiles]({{< relref "/docs/setup/install/profiles.md"  >}}).
 * Helper scripts to download the images from the bill of materials (BOM) and to upload the Verrazzano images to a private registry.
@@ -30,10 +30,10 @@ You must have the following software installed:
 
 ## Load the images
 
-1. Download the required Verrazzano distribution from Github.
+1. Download the required Verrazzano distribution from Github release page.
    * In your browser, go to the [Verrazzano releases](https://github.com/verrazzano/verrazzano/releases) 
    * Download the distribution TAR file - `verrazzano-<major>.<minor>.<patch>-<operating system>-<architecture>.tar.gz` and the corresponding checksum file.
-   * In the downloaded directory, validate that the checksum and the TAR file match. For example,
+   * In the downloaded directory, validate the checksum and TAR file match. For example,
      ```
      $ sha256sum -c  verrazzano-<major>.<minor>.<patch>-<operating system>-<architecture>.tar.gz.sha256
 
@@ -53,11 +53,11 @@ You must have the following software installed:
      ```
           
 2. Download the Verrazzano images 
-   * Download the Verrazzano images defined in Bill of Materials (BOM file) - `${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json`, using the script `${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh`.
+   * Download the Verrazzano images defined in the BOM - `${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json`, using the script `${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh`.
      ```
      sh ${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh -b ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json -f ${DISTRIBUTION_DIR}/images    
      ```  
-     The above command downloads the images to all the images `${DISTRIBUTION_DIR}/images` directory.      
+     The above command downloads all the images to `${DISTRIBUTION_DIR}/images` directory.      
 
 3. Load the product images into your private registry
    * Log in to the Docker registry, run `docker login [SERVER]` with your credentials.
