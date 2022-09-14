@@ -5,7 +5,7 @@ Weight: 8
 draft: false
 ---
 
-Verrazzano Distribution contains Kubernetes manifests to deploy Verrazzano, client binaries, and various other utilities.  These distributions are provided for Linux and MacOS operating systems on AMD and ARM architectures.
+Verrazzano Distribution contains Kubernetes manifests to deploy Verrazzano, client binaries, and various other utilities. These distributions are provided for Linux and MacOS operating systems on AMD and ARM architectures.
 
 The distribution includes:
 * [Verrazzano CLI]({{< relref "docs/setup/cli/_index.md" >}}).
