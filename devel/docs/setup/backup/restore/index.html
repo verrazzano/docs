@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/backup/restore/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-08-17T14:32:33-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-09-14T10:15:18-07:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Restore">
 <meta itemprop="description" content="Restore component-specific persistent data and configurations">
-<meta itemprop="dateModified" content="2022-08-17T14:32:33-04:00" />
-<meta itemprop="wordCount" content="749">
+<meta itemprop="dateModified" content="2022-09-14T10:15:18-07:00" />
+<meta itemprop="wordCount" content="429">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Restore"/>
 <meta name="twitter:description" content="Restore component-specific persistent data and configurations"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.ae204d09f34e5f65504e6809adc2157e.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.34bc6a1dad925fd6b123d3bf51e16045.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.ae204d09f34e5f65504e6809adc2157e.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.34bc6a1dad925fd6b123d3bf51e16045.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -530,20 +530,20 @@ This document also assumes that a successful backup was previously made using ei
 		
 
 		<a class="nav-item nav-link  active "
-		   id="nav-dfeacb" data-toggle="tab" href="#dfeacb"
+		   id="nav-dcbefa" data-toggle="tab" href="#dcbefa"
 		   role="tab" aria-controls="nav-home" aria-selected="true">RancherRestore</a>
 
 		
 
 		<a class="nav-item nav-link "
-		   id="nav-dfaebc" data-toggle="tab" href="#dfaebc"
-		   role="tab" aria-controls="nav-home" aria-selected="true">KeycloakRestore</a>
+		   id="nav-ecbdaf" data-toggle="tab" href="#ecbdaf"
+		   role="tab" aria-controls="nav-home" aria-selected="true">OpenSearchRestore</a>
 
 		
 
 		<a class="nav-item nav-link "
-		   id="nav-adcefb" data-toggle="tab" href="#adcefb"
-		   role="tab" aria-controls="nav-home" aria-selected="true">OpenSearchRestore</a>
+		   id="nav-" data-toggle="tab" href="#"
+		   role="tab" aria-controls="nav-home" aria-selected="true"></a>
 
 		
 
@@ -558,7 +558,7 @@ This document also assumes that a successful backup was previously made using ei
 
 
 
-<div class="tab-pane fade show active " id="dfeacb" role="tabpanel" aria-labelledby="nav-1">
+<div class="tab-pane fade show active " id="dcbefa" role="tabpanel" aria-labelledby="nav-1">
 
 	<br>
 <h3 id="rancher-restore">Rancher Restore</h3>
@@ -595,119 +595,7 @@ When a <code>Restore</code> custom resource is created, the operator accesses th
 
 
 
-<div class="tab-pane fade show " id="dfaebc" role="tabpanel" aria-labelledby="nav-1">
-
-	<br>
-<h3 id="keycloak-restore">Keycloak Restore</h3>
-<p>For Keycloak, Verrazzano provides a custom hook that you can use along with Velero, to perform a restore operation.</p>
-<p>To initiate a complete restore, first delete the <code>keycloak</code> namespace.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl delete namespace keycloak
-</span></span></code></pre></div><p>To perform a Keycloak restore, you can invoke the following example of a Velero <code>Restore</code> <a href="https://velero.io/docs/v1.8/api-types/restore/">API</a> object.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">velero.io/v1</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">Restore</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">verrazano-keycloak-restore-example</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">namespace</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">verrazzano-backup</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">backupName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">verrazzano-keycloak-backup-example</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">includedNamespaces</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#000">keycloak</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">restorePVs</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">hooks</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">resources</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">mysql-resource</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">includedNamespaces</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">          </span>- <span style="color:#000">keycloak        </span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">labelSelector</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">          </span><span style="color:#204a87;font-weight:bold">matchLabels</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">app</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">mysql</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">postHooks</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">          </span>- <span style="color:#204a87;font-weight:bold">exec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">container</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">mysql</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">command</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                </span>- <span style="color:#000">bash</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                </span>- <span style="color:#000">/etc/mysql/conf.d/mysql-hook.sh</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                </span>- -<span style="color:#000">o restore</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                </span>- -<span style="color:#000">f mysql-backup-test.sql</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">waitTimeout</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">5m</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">execTimeout</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">5m</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">onError</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">Fail</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span></code></pre></div><p>The preceding example restores the <code>keycloak</code> namespace and the <code>mysql</code> volumes.</p>
-<ul>
-<li>It will recreate the MySQL PVCs along with the MySQL pods.</li>
-<li>The <code>postHook</code> will restore the MySQL data and ensure that there are no inconsistencies.</li>
-<li>The container on which the hook needs to be executed is identified by the pod label selectors, followed by the container name.</li>
-</ul>
-<p><strong>NOTE</strong>: The hook needs to be a <code>postHook</code> because it must be applied after the Kubernetes objects are restored.</p>
-<p>To understand the progress of the restore operation, you can monitor the Velero <code>Restore</code> object.</p>
-<details>
-  <summary>Keycloak restore progress</summary>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># The following command lets you monitor the restore progress</span>
-</span></span><span style="display:flex;"><span>$ velero restore get -n verrazzano-backup                                                           
-</span></span><span style="display:flex;"><span>NAME                                 BACKUP                               STATUS       STARTED                         COMPLETED   ERRORS   WARNINGS   CREATED                         SELECTOR
-</span></span><span style="display:flex;"><span>verrazano-keycloak-restore-example   verrazzano-keycloak-backup-example   InProgress   2022-07-07 17:00:33 -0700 PDT   &lt;nil&gt;       <span style="color:#0000cf;font-weight:bold">0</span>        <span style="color:#0000cf;font-weight:bold">0</span>          2022-07-07 17:00:33 -0700 PDT   &lt;none&gt;
-</span></span></code></pre></div></details>
-<details>
-  <summary>Keycloak Restore object details</summary>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># Command to get details about the Restore object</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>$ velero restore describe verrazano-keycloak-restore-example -n verrazzano-backup
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># Sample output</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Name:         verrazano-keycloak-restore-example
-</span></span><span style="display:flex;"><span>Namespace:    verrazzano-backup
-</span></span><span style="display:flex;"><span>Labels:       &lt;none&gt;
-</span></span><span style="display:flex;"><span>Annotations:  kubectl.kubernetes.io/last-applied-configuration<span style="color:#ce5c00;font-weight:bold">={</span><span style="color:#4e9a06">&#34;apiVersion&#34;</span>:<span style="color:#4e9a06">&#34;velero.io/v1&#34;</span>,<span style="color:#4e9a06">&#34;kind&#34;</span>:<span style="color:#4e9a06">&#34;Restore&#34;</span>,<span style="color:#4e9a06">&#34;metadata&#34;</span>:<span style="color:#ce5c00;font-weight:bold">{</span><span style="color:#4e9a06">&#34;annotations&#34;</span>:<span style="color:#ce5c00;font-weight:bold">{}</span>,<span style="color:#4e9a06">&#34;name&#34;</span>:<span style="color:#4e9a06">&#34;mysql-backup-restore&#34;</span>,<span style="color:#4e9a06">&#34;namespace&#34;</span>:<span style="color:#4e9a06">&#34;velero&#34;</span><span style="color:#ce5c00;font-weight:bold">}</span>,<span style="color:#4e9a06">&#34;spec&#34;</span>:<span style="color:#ce5c00;font-weight:bold">{</span><span style="color:#4e9a06">&#34;backupName&#34;</span>:<span style="color:#4e9a06">&#34;nysql-backup-test&#34;</span>,<span style="color:#4e9a06">&#34;hooks&#34;</span>:<span style="color:#ce5c00;font-weight:bold">{</span><span style="color:#4e9a06">&#34;resources&#34;</span>:<span style="color:#ce5c00;font-weight:bold">[{</span><span style="color:#4e9a06">&#34;includedNamespaces&#34;</span>:<span style="color:#ce5c00;font-weight:bold">[</span><span style="color:#4e9a06">&#34;keycloak&#34;</span><span style="color:#ce5c00;font-weight:bold">]</span>,<span style="color:#4e9a06">&#34;labelSelector&#34;</span>:<span style="color:#ce5c00;font-weight:bold">{</span><span style="color:#4e9a06">&#34;matchLabels&#34;</span>:<span style="color:#ce5c00;font-weight:bold">{</span><span style="color:#4e9a06">&#34;app&#34;</span>:<span style="color:#4e9a06">&#34;mysql&#34;</span><span style="color:#ce5c00;font-weight:bold">}}</span>,<span style="color:#4e9a06">&#34;name&#34;</span>:<span style="color:#4e9a06">&#34;verrazzano-sql-restore&#34;</span>,<span style="color:#4e9a06">&#34;postHooks&#34;</span>:<span style="color:#ce5c00;font-weight:bold">[{</span><span style="color:#4e9a06">&#34;exec&#34;</span>:<span style="color:#ce5c00;font-weight:bold">{</span><span style="color:#4e9a06">&#34;command&#34;</span>:<span style="color:#ce5c00;font-weight:bold">[</span><span style="color:#4e9a06">&#34;bash&#34;</span>,<span style="color:#4e9a06">&#34;/etc/mysql/conf.d/mysql-hook.sh&#34;</span>,<span style="color:#4e9a06">&#34;-o restore&#34;</span>,<span style="color:#4e9a06">&#34;-f sunday.sql&#34;</span><span style="color:#ce5c00;font-weight:bold">]</span>,<span style="color:#4e9a06">&#34;container&#34;</span>:<span style="color:#4e9a06">&#34;mysql&#34;</span>,<span style="color:#4e9a06">&#34;execTimeout&#34;</span>:<span style="color:#4e9a06">&#34;5m&#34;</span>,<span style="color:#4e9a06">&#34;onError&#34;</span>:<span style="color:#4e9a06">&#34;Fail&#34;</span>,<span style="color:#4e9a06">&#34;waitTimeout&#34;</span>:<span style="color:#4e9a06">&#34;5m&#34;</span><span style="color:#ce5c00;font-weight:bold">}}]}]}</span>,<span style="color:#4e9a06">&#34;includedNamespaces&#34;</span>:<span style="color:#ce5c00;font-weight:bold">[</span><span style="color:#4e9a06">&#34;keycloak&#34;</span><span style="color:#ce5c00;font-weight:bold">]</span>,<span style="color:#4e9a06">&#34;restorePVs&#34;</span>:true<span style="color:#ce5c00;font-weight:bold">}}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Phase:                       Completed
-</span></span><span style="display:flex;"><span>Total items to be restored:  <span style="color:#0000cf;font-weight:bold">40</span>
-</span></span><span style="display:flex;"><span>Items restored:              <span style="color:#0000cf;font-weight:bold">40</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Started:    2022-07-07 17:00:33 -0700 PDT
-</span></span><span style="display:flex;"><span>Completed:  2022-07-07 17:02:14 -0700 PDT
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Backup:  verrazzano-keycloak-backup-example
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Namespaces:
-</span></span><span style="display:flex;"><span>  Included:  keycloak
-</span></span><span style="display:flex;"><span>  Excluded:  &lt;none&gt;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Resources:
-</span></span><span style="display:flex;"><span>  Included:        *
-</span></span><span style="display:flex;"><span>  Excluded:        nodes, events, events.events.k8s.io, backups.velero.io, restores.velero.io, resticrepositories.velero.io
-</span></span><span style="display:flex;"><span>  Cluster-scoped:  auto
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Namespace mappings:  &lt;none&gt;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Label selector:  &lt;none&gt;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Restore PVs:  <span style="color:#204a87">true</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Restic Restores:
-</span></span><span style="display:flex;"><span>  Completed:
-</span></span><span style="display:flex;"><span>    keycloak/keycloak-0: istio-envoy, theme
-</span></span><span style="display:flex;"><span>    keycloak/mysql-5df654b5fd-8n4vv: data, istio-envoy
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Preserve Service NodePorts:  auto
-</span></span></code></pre></div></details>
-<details>
-  <summary>Pod volume restore details</summary></summary>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># The following command lists all the pod volume restored, that were created by Velero</span>
-</span></span><span style="display:flex;"><span>$ kubectl get podvolumerestores -n verrazzano-backup                        
-</span></span></code></pre></div></details>
-<br/>
-
-
-</div>
-
-
-
-
-
-
-<div class="tab-pane fade show " id="adcefb" role="tabpanel" aria-labelledby="nav-1">
+<div class="tab-pane fade show " id="ecbdaf" role="tabpanel" aria-labelledby="nav-1">
 
 	<br>
 <h4 id="opensearch-restore">OpenSearch Restore</h4>

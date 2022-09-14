@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/backup/backup/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-08-17T14:32:33-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-09-14T10:15:18-07:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Backup">
 <meta itemprop="description" content="Back up component-specific persistent data and configurations">
-<meta itemprop="dateModified" content="2022-08-17T14:32:33-04:00" />
-<meta itemprop="wordCount" content="923">
+<meta itemprop="dateModified" content="2022-09-14T10:15:18-07:00" />
+<meta itemprop="wordCount" content="488">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Backup"/>
 <meta name="twitter:description" content="Back up component-specific persistent data and configurations"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.ae204d09f34e5f65504e6809adc2157e.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.34bc6a1dad925fd6b123d3bf51e16045.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.ae204d09f34e5f65504e6809adc2157e.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.34bc6a1dad925fd6b123d3bf51e16045.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -526,7 +526,6 @@ First, ensure that the backup component prerequisites are met, as indicated <a h
 <li>
 <p>Velero <a href="https://velero.io/docs/v1.8/backup-hooks/">hooks</a>, to ensure a consistent backup experience for these components:</p>
 <ul>
-<li>Keycloak</li>
 <li>OpenSearch</li>
 <li>For all other components, refer to the Velero <a href="https://velero.io/docs/v1.8/backup-reference/">Backup Reference</a>.</li>
 </ul>
@@ -543,20 +542,20 @@ First, ensure that the backup component prerequisites are met, as indicated <a h
 		
 
 		<a class="nav-item nav-link  active "
-		   id="nav-afdebc" data-toggle="tab" href="#afdebc"
+		   id="nav-bfceda" data-toggle="tab" href="#bfceda"
 		   role="tab" aria-controls="nav-home" aria-selected="true">RancherBackup</a>
 
 		
 
 		<a class="nav-item nav-link "
-		   id="nav-cbdfae" data-toggle="tab" href="#cbdfae"
-		   role="tab" aria-controls="nav-home" aria-selected="true">KeycloakBackup</a>
+		   id="nav-eadfcb" data-toggle="tab" href="#eadfcb"
+		   role="tab" aria-controls="nav-home" aria-selected="true">OpenSearchBackup</a>
 
 		
 
 		<a class="nav-item nav-link "
-		   id="nav-dcfaeb" data-toggle="tab" href="#dcfaeb"
-		   role="tab" aria-controls="nav-home" aria-selected="true">OpenSearchBackup</a>
+		   id="nav-" data-toggle="tab" href="#"
+		   role="tab" aria-controls="nav-home" aria-selected="true"></a>
 
 		
 
@@ -571,7 +570,7 @@ First, ensure that the backup component prerequisites are met, as indicated <a h
 
 
 
-<div class="tab-pane fade show active " id="afdebc" role="tabpanel" aria-labelledby="nav-1">
+<div class="tab-pane fade show active " id="bfceda" role="tabpanel" aria-labelledby="nav-1">
 
 	<br>
 <h2 id="rancher-backup">Rancher Backup</h2>
@@ -605,152 +604,7 @@ Note that in the <a href="../../../../docs/setup/backup/prerequisites/#component
 
 
 
-<div class="tab-pane fade show " id="cbdfae" role="tabpanel" aria-labelledby="nav-1">
-
-	<br>
-<h3 id="keycloak-backup">Keycloak Backup</h3>
-<p>For Keycloak, Verrazzano provides a custom hook that you can use along with Velero, to perform a backup.
-The following example shows a sample Velero <code>Backup</code> <a href="https://velero.io/docs/v1.8/api-types/backup/">API</a> object that you can invoke to make a MySQL backup.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">velero.io/v1</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">Backup</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">verrazzano-keycloak-backup-example</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">namespace</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">verrazzano-backup</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">includedNamespaces</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span>- <span style="color:#000">keycloak</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">defaultVolumesToRestic</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">storageLocation</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">verrazzano-backup-location</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">hooks</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">resources</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">mysql-backup</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">includedNamespaces</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span>- <span style="color:#000">keycloak       </span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">labelSelector</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">          </span><span style="color:#204a87;font-weight:bold">matchLabels</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">app</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">mysql</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">pre</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">          </span>- <span style="color:#204a87;font-weight:bold">exec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">container</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">mysql</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">command</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                </span>- <span style="color:#000">bash</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                </span>- <span style="color:#000">/etc/mysql/conf.d/mysql-hook.sh</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                </span>- -<span style="color:#000">o backup</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                </span>- -<span style="color:#000">f mysql-backup-test.sql</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">onError</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">Fail</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">timeout</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">5m</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span></code></pre></div><p>The preceding example backs up the <code>keycloak</code> namespace and its persistent data.</p>
-<ul>
-<li><code>defaultVolumesToRestic</code> must be <code>true</code>, so that Velero can back up the Keycloak Persistent Volume Claims (PVC).</li>
-<li>The hook needs to be <code>pre</code> as this will ensure that the operation is performed before the PVC backup is taken.</li>
-<li>The command used in the hook is a shell script, which accepts an argument to denote the operation and a file name.</li>
-<li>The container on which the hook must be executed is identified by the pod label selectors, followed by the container name.</li>
-</ul>
-<p>To understand the progress of the backup, you can monitor the Velero <code>Backup</code> object.</p>
-<details>
-  <summary>Keycloak backup progress</summary>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># The status in the following output indicates the backup progress</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>$ velero backup get verrazzano-keycloak-backup-example -n verrazzano-backup                                                                   
-</span></span><span style="display:flex;"><span>NAME                                 STATUS       ERRORS   WARNINGS   CREATED                         EXPIRES   STORAGE LOCATION             SELECTOR
-</span></span><span style="display:flex;"><span>verrazzano-keycloak-backup-example   InProgress   <span style="color:#0000cf;font-weight:bold">0</span>        <span style="color:#0000cf;font-weight:bold">0</span>          2022-07-07 14:56:32 -0700 PDT   29d       verrazzano-backup-location   &lt;none&gt;
-</span></span></code></pre></div></details>
-<details>
-  <summary>Keycloak Backup object details</summary>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># The backup object details and progress can be viewed by executing the following command</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>$ velero backup describe verrazzano-keycloak-backup-example -n verrazzano-backup
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># Sample output</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Name:         verrazzano-keycloak-backup-example
-</span></span><span style="display:flex;"><span>Namespace:    verrazzano-backup
-</span></span><span style="display:flex;"><span>Labels:       velero.io/storage-location<span style="color:#ce5c00;font-weight:bold">=</span>verrazzano-backup-location
-</span></span><span style="display:flex;"><span>Annotations:  kubectl.kubernetes.io/last-applied-configuration<span style="color:#ce5c00;font-weight:bold">={</span><span style="color:#4e9a06">&#34;apiVersion&#34;</span>:<span style="color:#4e9a06">&#34;velero.io/v1&#34;</span>,<span style="color:#4e9a06">&#34;kind&#34;</span>:<span style="color:#4e9a06">&#34;Backup&#34;</span>,<span style="color:#4e9a06">&#34;metadata&#34;</span>:<span style="color:#ce5c00;font-weight:bold">{</span><span style="color:#4e9a06">&#34;annotations&#34;</span>:<span style="color:#ce5c00;font-weight:bold">{}</span>,<span style="color:#4e9a06">&#34;name&#34;</span>:<span style="color:#4e9a06">&#34;verrazzano-mysql-backup-example&#34;</span>,<span style="color:#4e9a06">&#34;namespace&#34;</span>:<span style="color:#4e9a06">&#34;verrazzano-backup&#34;</span><span style="color:#ce5c00;font-weight:bold">}</span>,<span style="color:#4e9a06">&#34;spec&#34;</span>:<span style="color:#ce5c00;font-weight:bold">{</span><span style="color:#4e9a06">&#34;defaultVolumesToRestic&#34;</span>:true,<span style="color:#4e9a06">&#34;hooks&#34;</span>:<span style="color:#ce5c00;font-weight:bold">{</span><span style="color:#4e9a06">&#34;resources&#34;</span>:<span style="color:#ce5c00;font-weight:bold">[{</span><span style="color:#4e9a06">&#34;includedNamespaces&#34;</span>:<span style="color:#ce5c00;font-weight:bold">[</span><span style="color:#4e9a06">&#34;keycloak&#34;</span><span style="color:#ce5c00;font-weight:bold">]</span>,<span style="color:#4e9a06">&#34;labelSelector&#34;</span>:<span style="color:#ce5c00;font-weight:bold">{</span><span style="color:#4e9a06">&#34;matchLabels&#34;</span>:<span style="color:#ce5c00;font-weight:bold">{</span><span style="color:#4e9a06">&#34;app&#34;</span>:<span style="color:#4e9a06">&#34;mysql&#34;</span><span style="color:#ce5c00;font-weight:bold">}}</span>,<span style="color:#4e9a06">&#34;name&#34;</span>:<span style="color:#4e9a06">&#34;verrazzano-sql-backup&#34;</span>,<span style="color:#4e9a06">&#34;pre&#34;</span>:<span style="color:#ce5c00;font-weight:bold">[{</span><span style="color:#4e9a06">&#34;exec&#34;</span>:<span style="color:#ce5c00;font-weight:bold">{</span><span style="color:#4e9a06">&#34;command&#34;</span>:<span style="color:#ce5c00;font-weight:bold">[</span><span style="color:#4e9a06">&#34;bash&#34;</span>,<span style="color:#4e9a06">&#34;/etc/MySQL/conf.d/MySQL-hook.sh&#34;</span>,<span style="color:#4e9a06">&#34;-o backup&#34;</span>,<span style="color:#4e9a06">&#34;-f sunday.sql&#34;</span><span style="color:#ce5c00;font-weight:bold">]</span>,<span style="color:#4e9a06">&#34;container&#34;</span>:<span style="color:#4e9a06">&#34;mysql&#34;</span>,<span style="color:#4e9a06">&#34;onError&#34;</span>:<span style="color:#4e9a06">&#34;Fail&#34;</span>,<span style="color:#4e9a06">&#34;timeout&#34;</span>:<span style="color:#4e9a06">&#34;5m&#34;</span><span style="color:#ce5c00;font-weight:bold">}}]}]}</span>,<span style="color:#4e9a06">&#34;includedNamespaces&#34;</span>:<span style="color:#ce5c00;font-weight:bold">[</span><span style="color:#4e9a06">&#34;keycloak&#34;</span><span style="color:#ce5c00;font-weight:bold">]</span>,<span style="color:#4e9a06">&#34;storageLocation&#34;</span>:<span style="color:#4e9a06">&#34;verrazzano-backup-location&#34;</span><span style="color:#ce5c00;font-weight:bold">}}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  velero.io/source-cluster-k8s-gitversion<span style="color:#ce5c00;font-weight:bold">=</span>v1.22.5
-</span></span><span style="display:flex;"><span>  velero.io/source-cluster-k8s-major-version<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#0000cf;font-weight:bold">1</span>
-</span></span><span style="display:flex;"><span>  velero.io/source-cluster-k8s-minor-version<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#0000cf;font-weight:bold">22</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Phase:  Completed
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Errors:    <span style="color:#0000cf;font-weight:bold">0</span>
-</span></span><span style="display:flex;"><span>Warnings:  <span style="color:#0000cf;font-weight:bold">0</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Namespaces:
-</span></span><span style="display:flex;"><span>  Included:  keycloak
-</span></span><span style="display:flex;"><span>  Excluded:  &lt;none&gt;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Resources:
-</span></span><span style="display:flex;"><span>  Included:        *
-</span></span><span style="display:flex;"><span>  Excluded:        &lt;none&gt;
-</span></span><span style="display:flex;"><span>  Cluster-scoped:  auto
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Label selector:  &lt;none&gt;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Storage Location:  verrazzano-backup-location
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Velero-Native Snapshot PVs:  auto
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>TTL:  720h0m0s
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Hooks:
-</span></span><span style="display:flex;"><span>  Resources:
-</span></span><span style="display:flex;"><span>    mysql-backup:
-</span></span><span style="display:flex;"><span>      Namespaces:
-</span></span><span style="display:flex;"><span>        Included:  keycloak
-</span></span><span style="display:flex;"><span>        Excluded:  &lt;none&gt;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>      Resources:
-</span></span><span style="display:flex;"><span>        Included:  *
-</span></span><span style="display:flex;"><span>        Excluded:  &lt;none&gt;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>      Label selector:  <span style="color:#000">app</span><span style="color:#ce5c00;font-weight:bold">=</span>MySQL
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>      Pre Exec Hook:
-</span></span><span style="display:flex;"><span>        Container:  MySQL
-</span></span><span style="display:flex;"><span>        Command:    bash /etc/mysql/conf.d/mysql-hook.sh -o backup -f mysql-backup-test.sql
-</span></span><span style="display:flex;"><span>        On Error:   Fail
-</span></span><span style="display:flex;"><span>        Timeout:    5m0s
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Backup Format Version:  1.1.0
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Started:    2022-07-07 14:56:32 -0700 PDT
-</span></span><span style="display:flex;"><span>Completed:  2022-07-07 14:56:53 -0700 PDT
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Expiration:  2022-08-06 14:56:32 -0700 PDT
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Total items to be backed up:  <span style="color:#0000cf;font-weight:bold">91</span>
-</span></span><span style="display:flex;"><span>Items backed up:              <span style="color:#0000cf;font-weight:bold">91</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Velero-Native Snapshots: &lt;none included&gt;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Restic Backups <span style="color:#ce5c00;font-weight:bold">(</span>specify --details <span style="color:#204a87;font-weight:bold">for</span> more information<span style="color:#ce5c00;font-weight:bold">)</span>:
-</span></span><span style="display:flex;"><span>  Completed:  <span style="color:#0000cf;font-weight:bold">7</span>
-</span></span></code></pre></div></details>
-<details>
-  <summary>Pod volume backup details</summary>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># The following command lists all the pod volume backups taken by Velero</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>$ kubectl get podvolumebackups -n verrazzano-backup
-</span></span></code></pre></div></details>
-<br>
-<h3 id="scheduled-backups">Scheduled backups</h3>
-<p>Velero supports a <code>Schedule</code> <a href="https://velero.io/docs/v1.8/api-types/schedule/">API</a> that
-is a repeatable request that is sent to the Velero server to perform a backup for a given cron notation.
-After the <code>Schedule</code> object is created, the Velero server will start the backup process.
-Then, it will wait for the next valid point in the given cron expression and execute the backup process on a repeating basis.</p>
-<br/>
-
-
-</div>
-
-
-
-
-
-
-<div class="tab-pane fade show " id="dcfaeb" role="tabpanel" aria-labelledby="nav-1">
+<div class="tab-pane fade show " id="eadfcb" role="tabpanel" aria-labelledby="nav-1">
 
 	<br>
 <h3 id="opensearch-backup">OpenSearch Backup</h3>
