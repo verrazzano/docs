@@ -1,5 +1,5 @@
 ---
-title: Verrazzano (v1beta1)
+title: Verrazzano v1beta1
 weight: 2
 draft: false
 ---
