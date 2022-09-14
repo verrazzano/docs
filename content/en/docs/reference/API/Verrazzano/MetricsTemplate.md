@@ -1,5 +1,5 @@
 ---
-title: Metrics Template Custom Resource Definition
+title: Metrics Template
 linkTitle: MetricsTemplate CRD
 weight: 2
 draft: false

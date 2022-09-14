@@ -1,5 +1,5 @@
 ---
-title: VerrazzanoManagedCluster Custom Resource Definition
+title: VerrazzanoManagedCluster
 linkTitle: VerrazzanoManagedCluster CRD
 weight: 2
 draft: false

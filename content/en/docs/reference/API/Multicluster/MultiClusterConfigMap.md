@@ -1,5 +1,5 @@
 ---
-title: MultiClusterConfigMap Custom Resource Definition
+title: MultiClusterConfigMap
 linkTitle: MultiClusterConfigMap CRD
 weight: 2
 draft: false
