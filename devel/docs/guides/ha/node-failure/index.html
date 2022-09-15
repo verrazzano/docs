@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/guides/ha/node-failure/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-09-09T14:02:57-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-09-15T13:30:21-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Node Failure Guide">
 <meta itemprop="description" content="A guide for managing node failure">
-<meta itemprop="dateModified" content="2022-09-09T14:02:57-04:00" />
-<meta itemprop="wordCount" content="586">
+<meta itemprop="dateModified" content="2022-09-15T13:30:21-04:00" />
+<meta itemprop="wordCount" content="583">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Node Failure Guide"/>
 <meta name="twitter:description" content="A guide for managing node failure"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.3880f24b0cb97d79932f6a74d29a88e3.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.31043125f914e207140a10c8afc4a45b.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.3880f24b0cb97d79932f6a74d29a88e3.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.31043125f914e207140a10c8afc4a45b.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -355,6 +355,8 @@ if (!doNotTrack) {
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsguideshanode-failure-li">
   <a href="../../../../docs/guides/ha/node-failure/" title="Node Failure Guide" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-docsguideshanode-failure"><span class="td-sidebar-nav-active-item">Node Failure</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguideshaprod-upgrade-li">
+  <a href="../../../../docs/guides/ha/prod-upgrade/" title="Upgrade prod Installation for High Availability" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsguideshaprod-upgrade"><span class="">Upgrade prod installation</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguideslift-and-shiftlift-and-shift-li">
@@ -530,8 +532,7 @@ if (!doNotTrack) {
 		
 	</header>    
 	<p>A <code>Node</code> failure can occur for many reasons, including hardware failures and network outages. This guide provides information about what to
-expect when a <code>Node</code> failure occurs and how to recover from a <code>Node</code> failure. Recovery depends on the <code>Storage Provisioner</code> and the type of storage that you use.
-​
+expect when a <code>Node</code> failure occurs and how to recover from a <code>Node</code> failure. Recovery depends on the <code>Storage Provisioner</code> and the type of storage that you use.</p>
 
 
 <div class="alert alert-primary" role="alert">
@@ -541,10 +542,9 @@ expect when a <code>Node</code> failure occurs and how to recover from a <code>N
 separate from the <code>Node</code> and is recoverable. It does not apply to a local storage on the <code>Node</code>.
 
 </div>
-</p>
+
 <h2 id="what-to-expect">What to expect</h2>
-<p>​
-By default, when a <code>Node</code> fails:</p>
+<p>By default, when a <code>Node</code> fails:</p>
 <ul>
 <li>
 <p>It may take up to a minute for the failure to reflect in the Kubernetes API server and update the <code>Node</code> status to
@@ -574,8 +574,7 @@ the existing volumes will no longer be reachable by new <code>Pods</code> in a s
 </li>
 </ul>
 <h2 id="about-recovery">About recovery</h2>
-<p>​
-After a <code>Node</code> fails, if the <code>Node</code> can be recovered within five minutes, then the <code>Pods</code> will return to a <code>Running</code> state. If the <code>Node</code> is not recovered after five minutes,
+<p>After a <code>Node</code> fails, if the <code>Node</code> can be recovered within five minutes, then the <code>Pods</code> will return to a <code>Running</code> state. If the <code>Node</code> is not recovered after five minutes,
 then the <code>Pods</code> will complete termination and are deleted from the Kubernetes API server. New <code>Pods</code> that have <code>Persistent Volumes</code> of type <code>ReadWriteOnce</code>,
 will now be able to mount the <code>Persistent Volumes</code> and change to <code>Running</code>.</p>
 <p>If a <code>Node</code> cannot be recovered and is replaced, then deleting the <code>Node</code> from the Kubernetes API server will terminate

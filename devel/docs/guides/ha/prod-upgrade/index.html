@@ -18,22 +18,22 @@
 <link rel="icon" type="image/png" href="../../../../favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="../../../../favicons/android-192x192.png" sizes="192x192">
 
-<title>Kubernetes RBAC | Verrazzano Enterprise Container Platform</title>
-<meta name="description" content="Learn about role-based access control in Verrazzano">
-<meta property="og:title" content="Kubernetes RBAC" />
-<meta property="og:description" content="Learn about role-based access control in Verrazzano" />
+<title>Upgrade prod Installation for High Availability | Verrazzano Enterprise Container Platform</title>
+<meta name="description" content="A guide for upgrading a `prod` installation for a highly available environment">
+<meta property="og:title" content="Upgrade prod Installation for High Availability" />
+<meta property="og:description" content="A guide for upgrading a `prod` installation for a highly available environment" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/docs/security/rbac/rbac/" /><meta property="article:section" content="docs" />
+<meta property="og:url" content="/docs/guides/ha/prod-upgrade/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-09-02T06:53:57-07:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-09-15T13:30:21-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
-<meta itemprop="name" content="Kubernetes RBAC">
-<meta itemprop="description" content="Learn about role-based access control in Verrazzano">
-<meta itemprop="dateModified" content="2022-09-02T06:53:57-07:00" />
-<meta itemprop="wordCount" content="840">
+<meta itemprop="name" content="Upgrade prod Installation for High Availability">
+<meta itemprop="description" content="A guide for upgrading a `prod` installation for a highly available environment">
+<meta itemprop="dateModified" content="2022-09-15T13:30:21-04:00" />
+<meta itemprop="wordCount" content="276">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Kubernetes RBAC"/>
-<meta name="twitter:description" content="Learn about role-based access control in Verrazzano"/>
+<meta name="twitter:title" content="Upgrade prod Installation for High Availability"/>
+<meta name="twitter:description" content="A guide for upgrading a `prod` installation for a highly available environment"/>
 
 
 
@@ -262,18 +262,18 @@ if (!doNotTrack) {
   <a href="../../../../docs/networking/security/net-security/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsnetworkingsecuritynet-security"><span class="">Network Security</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docssecurity-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docssecurity-li">
   <a href="../../../../docs/security/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssecurity"><span class="">Security</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docssecurityrbacrbac-li">
-  <a href="../../../../docs/security/rbac/rbac/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-docssecurityrbacrbac"><span class="td-sidebar-nav-active-item">Kubernetes RBAC</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssecuritykeycloakkeycloak-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssecurityrbacrbac-li">
+  <a href="../../../../docs/security/rbac/rbac/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssecurityrbacrbac"><span class="">Kubernetes RBAC</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssecuritykeycloakkeycloak-li">
   <a href="../../../../docs/security/keycloak/keycloak/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssecuritykeycloakkeycloak"><span class="">Keycloak and SSO</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssecurityproxiesproxies-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssecurityproxiesproxies-li">
   <a href="../../../../docs/security/proxies/proxies/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssecurityproxiesproxies"><span class="">Verrazzano Authentication Proxy</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssecurityaccountsaccounts-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssecurityaccountsaccounts-li">
   <a href="../../../../docs/security/accounts/accounts/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssecurityaccountsaccounts"><span class="">Default User Accounts</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssecurityappsecappsec-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssecurityappsecappsec-li">
   <a href="../../../../docs/security/appsec/appsec/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssecurityappsecappsec"><span class="">Application Security</span></a>
 </li>
   </ul>
@@ -345,23 +345,23 @@ if (!doNotTrack) {
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsfaqfaq-li">
   <a href="../../../../docs/faq/faq/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsfaqfaq"><span class="">FAQ</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsguides-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docsguides-li">
   <a href="../../../../docs/guides/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsguides"><span class="">Guides</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsguidesapp-deploymentapplication-deployment-guide-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidesapp-deploymentapplication-deployment-guide-li">
   <a href="../../../../docs/guides/app-deployment/application-deployment-guide/" title="Application Deployment Guide" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesapp-deploymentapplication-deployment-guide"><span class="">Application Deployment</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docsguidesha-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docsguidesha-li">
   <a href="../../../../docs/guides/ha/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsguidesha"><span class="">High Availability</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsguideshanode-failure-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguideshanode-failure-li">
   <a href="../../../../docs/guides/ha/node-failure/" title="Node Failure Guide" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsguideshanode-failure"><span class="">Node Failure</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsguideshaprod-upgrade-li">
-  <a href="../../../../docs/guides/ha/prod-upgrade/" title="Upgrade prod Installation for High Availability" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsguideshaprod-upgrade"><span class="">Upgrade prod installation</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsguideshaprod-upgrade-li">
+  <a href="../../../../docs/guides/ha/prod-upgrade/" title="Upgrade prod Installation for High Availability" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-docsguideshaprod-upgrade"><span class="td-sidebar-nav-active-item">Upgrade prod installation</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsguideslift-and-shiftlift-and-shift-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguideslift-and-shiftlift-and-shift-li">
   <a href="../../../../docs/guides/lift-and-shift/lift-and-shift/" title="Lift-and-Shift Guide" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsguideslift-and-shiftlift-and-shift"><span class="">Lift-and-Shift</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsguidessidecar-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsguidessidecar-li">
   <a href="../../../../docs/guides/sidecar/" title="Deploy a Kubernetes Sidecar with Verrazzano" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsguidessidecar"><span class="">Deploy Custom Sidecars</span></a>
 </li>
   </ul>
@@ -458,19 +458,6 @@ if (!doNotTrack) {
             
 
 
-<div class="td-toc"><nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#verrazzano-user-roles">Verrazzano user roles</a></li>
-        <li><a href="#kubernetes-user-roles">Kubernetes user roles</a></li>
-        <li><a href="#default-role-bindings">Default role bindings</a></li>
-        <li><a href="#override-default-role-bindings">Override default role bindings</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav></div>
-
 
 
             
@@ -504,17 +491,20 @@ if (!doNotTrack) {
     <a href="../../../../docs/">Documentation</a>
   </li>
   <li class="breadcrumb-item">
-    <a href="../../../../docs/security/">Security</a>
+    <a href="../../../../docs/guides/">Guides</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="../../../../docs/guides/ha/">High Availability</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="../../../../docs/security/rbac/rbac/">Kubernetes RBAC</a>
+    <a href="../../../../docs/guides/ha/prod-upgrade/">Upgrade prod installation</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>Kubernetes RBAC</h1>
-	<div class="lead">Learn about role-based access control in Verrazzano</div>
+	<h1>Upgrade prod Installation for High Availability</h1>
+	<div class="lead">A guide for upgrading a <code>prod</code> installation for a highly available environment</div>
 	<header class="article-meta">
 		
 
@@ -530,179 +520,124 @@ if (!doNotTrack) {
 
 		
 	</header>    
-	<p>Verrazzano uses Kubernetes Role-Based Access Control (RBAC) to protect Verrazzano resources.</p>
-<p>Verrazzano includes a set of roles that can be granted to users, enabling access to Verrazzano resources managed by Kubernetes. In addition, Verrazzano creates a number of roles that grant permissions needed by various Verrazzano system components (operators and third-party components).</p>
-<p>Verrazzano creates default role bindings during installation and for projects, at project creation or update.</p>
-
-
-<div class="alert alert-warning" role="alert">
-<h4 class="alert-heading">NOTE</h4>
-
-    Kubernetes RBAC must be enabled in every cluster to which Verrazzano is deployed or access control will not work. RBAC is enabled by default in most Kubernetes environments.
-
-</div>
-
-<h2 id="verrazzano-user-roles">Verrazzano user roles</h2>
-<p>The following table lists the defined Verrazzano user roles. Each is a ClusterRole intended to be granted directly to users or groups. (In some scenarios, it may be appropriate to grant a user role to a service account.)</p>
-<table>
-<thead>
-<tr>
-<th>Verrazzano Role</th>
-<th>Binding Scope</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>verrazzano-admin</td>
-<td>Cluster</td>
-<td>Manage Verrazzano system components, clusters, and projects. Install and update Verrazzano.</td>
-</tr>
-<tr>
-<td>verrazzano-monitor</td>
-<td>Cluster</td>
-<td>View and monitor Verrazzano system components, clusters, and projects.</td>
-</tr>
-<tr>
-<td>verrazzano-project-admin</td>
-<td>Namespace</td>
-<td>Deploy and manage applications.</td>
-</tr>
-<tr>
-<td>verrazzano-project-monitor</td>
-<td>Namespace</td>
-<td>View and monitor applications.</td>
-</tr>
-</tbody>
-</table>
-<h2 id="kubernetes-user-roles">Kubernetes user roles</h2>
-<p>Verrazzano roles do not include permissions for Kubernetes itself. Instead, it relies on the default user roles provided by Kubernetes. This allows Verrazzano to easily grant the Kubernetes access appropriate to a Verrazzano role, without having to maintain a long list of fine-grained Kubernetes permissions in the Verrazzano roles.</p>
-<p>The following table shows the default Kubernetes roles that are granted by default for each Verrazzano role.</p>
-<table>
-<thead>
-<tr>
-<th>Verrazzano Role</th>
-<th>Kubernetes Role</th>
-<th>Binding Scope</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>verrazzano-admin</td>
-<td>admin</td>
-<td>Cluster</td>
-</tr>
-<tr>
-<td>verrazzano-monitor</td>
-<td>view</td>
-<td>Cluster</td>
-</tr>
-<tr>
-<td>verrazzano-project-admin</td>
-<td>admin</td>
-<td>Namespace</td>
-</tr>
-<tr>
-<td>verrazzano-project-monitor</td>
-<td>view</td>
-<td>Namespace</td>
-</tr>
-</tbody>
-</table>
-<h2 id="default-role-bindings">Default role bindings</h2>
-<p>Verrazzano creates role bindings for the system and for projects, binding Verrazzano ClusterRoles to one or more Kubernetes Subjects. By default, each role is bound to a Keycloak group, so all Keycloak users who are members of that group will be granted the role.</p>
-<p>Also, Verrazzano creates role bindings for the corresponding Kubernetes user roles. The Kubernetes role appropriate for a given Verrazzano role is bound to the same set of Subjects as the corresponding Verrazzano role.</p>
-<p>The default bindings can be overridden by specifying one or more Kubernetes Subjects to which the role should be bound. Any valid Subject can be specified (user, group, or service account), but two caveats should be kept in mind:</p>
-<ul>
-<li>It&rsquo;s generally better to grant a role to a group, rather than a specific user, so that roles can be granted (or withdrawn) by editing a user&rsquo;s group memberships, rather than deleting a role binding and creating a new one.</li>
-<li>If you do want to grant a role directly to a specific user, then the user must be specified using its unique ID, not its user name. This is because the authentication proxy impersonates the <code>sub</code> (subject) field from the user&rsquo;s token, which contains the ID. Keycloak user IDs are guaranteed to be unique, unlike user names.</li>
-</ul>
-<h3 id="default-system-role-bindings">Default system role bindings</h3>
-<p>Verrazzano creates role bindings for system users during installation. The default role bindings are listed as follows:</p>
-<table>
-<thead>
-<tr>
-<th>Role</th>
-<th>Default Binding Subject</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>verrazzano-admin</td>
-<td>group: verrazzano-admins</td>
-</tr>
-<tr>
-<td>verrazzano-monitor</td>
-<td>group: verrazzano-monitors</td>
-</tr>
-</tbody>
-</table>
-<h3 id="default-project-role-bindings">Default project role bindings</h3>
-<p>Verrazzano creates role bindings for project users at project creation or update. The default role bindings are listed as follows:</p>
-<table>
-<thead>
-<tr>
-<th>Role</th>
-<th>Default Binding Subject</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>verrazzano-project-admin</td>
-<td>group: verrazzano-project-<em>&lt;proj_name&gt;</em>-admins</td>
-</tr>
-<tr>
-<td>verrazzano-project-monitor</td>
-<td>group: verrazzano-project-<em>&lt;proj_name&gt;</em>-monitors</td>
-</tr>
-</tbody>
-</table>
-
-
-<div class="alert alert-warning" role="alert">
-<h4 class="alert-heading">NOTE</h4>
-
-    The role bindings for project roles are created automatically, but the project-specific groups that they refer to are not automatically created. You must create those groups using the Keycloak console or API, or specify different binding subjects for the project.
-
-</div>
-
-<h2 id="override-default-role-bindings">Override default role bindings</h2>
-<p>You can override the default role bindings that are created for system and project roles.</p>
-<h3 id="override-system-role-bindings">Override system role bindings</h3>
-<p>To override the set of subjects that are bound to Verrazzano (and Kubernetes) roles during installation, add the Subjects to the Verrazzano CR you use to install Verrazzano, as shown in the following example:</p>
-<pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1beta1
-kind: Verrazzano
-metadata:
-  name: example-verrazzano
+	<p>The exact steps required to upgrade a Verrazzano environment to achieve high availability will vary based on the configuration of each environment.</p>
+<ol>
+<li>
+<p>Assess whether your Kubernetes configuration must be updated to support the level of high availability that you want to achieve.  See <a href="../../../../docs/setup/customizing/ha/">Configure High Availability</a>.</p>
+</li>
+<li>
+<p>Upgrade Verrazzano to v1.4.0 or later.   See <a href="../../../../docs/setup/upgrade/">Upgrade Verrazzano</a>.</p>
+</li>
+<li>
+<p>The <a href="https://github.com/verrazzano/verrazzano/blob/master/examples/ha/README.md">examples/ha</a> directory contains examples of highly available Verrazzano installations. The following example uses the <a href="https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/ha/ha.yaml">ha.yaml</a> file as an example of how to upgrade a default <code>prod</code> installation to a highly available Verrazzano environment.</p>
+<p>a. Create a patch file:</p>
+<pre tabindex="0"><code>$ cat &gt; patch.yaml &lt;&lt;EOF
 spec:
-  ...
-  security:
-    adminSubjects:
-    - name: admin-group
-      kind: Group
-    monitorSubjects:
-    - name: view-group
-      kind: Group
-  ...
-</code></pre><p>You can specify multiple subjects for both admin and monitor roles. You can also specify a subject or subjects for one role, but not the other. If no subjects are specified for a role, then the default binding subjects will be used.</p>
-<h3 id="override-project-role-bindings">Override project role bindings</h3>
-<p>To override the set of subjects that are bound to Verrazzano (and Kubernetes) roles for a project, add the Subjects to the VerrazzanoProject CR for the project, as shown in the following example.</p>
-<p>Note that the generated role bindings will be updated if you update the VerrazzanoProject CR and change the subjects specified for either role.</p>
-<pre tabindex="0"><code>apiVersion: clusters.verrazzano.io/v1beta1
-kind: VerrazzanoProject
-metadata:
-  name: my-project
-spec:
-  ...
-  security:
-    projectAdminSubjects:
-    - name: my-project-admin-group
-      kind: Group
-    projectMonitorSubjects:
-    - name: my-project-view-group
-      kind: Group
-  ...
-</code></pre><p>As with the system role bindings, you can specify multiple subjects for both project-admin and project-monitor roles. You can also specify a subject or subjects for one role, but not the other. If no subjects are specified for a role, then the default binding subjects will be used.</p>
+  components:
+    authProxy:
+      overrides:
+      - values:
+          replicas: 2
+    certManager:
+      overrides:
+      - values:
+          replicaCount: 2
+          cainjector:
+            replicaCount: 2
+          webhook:
+            replicaCount: 2
+    console:
+      overrides:
+      - values:
+          replicas: 2
+    ingressNGINX:
+      overrides:
+      - values:
+          controller:
+            autoscaling:
+              enabled: true
+              minReplicas: 2
+          defaultBackend:
+            replicaCount: 2
+    istio:
+      overrides:
+      - values:
+          apiVersion: install.istio.io/v1alpha1
+          kind: IstioOperator
+          spec:
+            components:
+              pilot:
+                k8s:
+                  replicaCount: 2
+              ingressGateways:
+                - enabled: true
+                  k8s:
+                    affinity:
+                      podAntiAffinity:
+                        preferredDuringSchedulingIgnoredDuringExecution:
+                        - podAffinityTerm:
+                            labelSelector:
+                              matchExpressions:
+                              - key: app
+                                operator: In
+                                values:
+                                - istio-ingressgateway
+                            topologyKey: kubernetes.io/hostname
+                          weight: 100
+                    replicaCount: 2
+                    service:
+                      type: LoadBalancer
+                  name: istio-ingressgateway
+              egressGateways:
+                - enabled: true
+                  k8s:
+                    affinity:
+                      podAntiAffinity:
+                        preferredDuringSchedulingIgnoredDuringExecution:
+                        - podAffinityTerm:
+                            labelSelector:
+                              matchExpressions:
+                              - key: app
+                                operator: In
+                                values:
+                                - istio-egressgateway
+                            topologyKey: kubernetes.io/hostname
+                          weight: 100
+                    replicaCount: 2
+                  name: istio-egressgateway
+    keycloak:
+      overrides:
+      - values:
+          replicas: 2
+      mysql:
+        overrides:
+        - values:
+            serverInstances: 3
+            routerInstances: 2
+    opensearchDashboards:
+      replicas: 2
+    kiali:
+      overrides:
+      - values:
+          deployment:
+            replicas: 2
+    prometheusOperator:
+      overrides:
+      - values:
+          prometheus:
+            prometheusSpec:
+              replicas: 2
+    opensearch:
+      nodes:
+      - name: es-ingest
+        replicas: 2
+EOF
+</code></pre><p>b. Apply the patch:</p>
+<pre tabindex="0"><code>$ kubectl patch verrazzano verrazzano --patch-file=patch.yaml --type=merge
+</code></pre><p>c. Wait for the patch to be installed:</p>
+<pre tabindex="0"><code>$ kubectl wait --timeout=30m --for=condition=InstallComplete verrazzano/verrazzano
+</code></pre></li>
+</ol>
 
 	
 		<style>

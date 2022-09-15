@@ -23,8 +23,7 @@
         
         
         &lt;p&gt;A &lt;code&gt;Node&lt;/code&gt; failure can occur for many reasons, including hardware failures and network outages. This guide provides information about what to
-expect when a &lt;code&gt;Node&lt;/code&gt; failure occurs and how to recover from a &lt;code&gt;Node&lt;/code&gt; failure. Recovery depends on the &lt;code&gt;Storage Provisioner&lt;/code&gt; and the type of storage that you use.
-​
+expect when a &lt;code&gt;Node&lt;/code&gt; failure occurs and how to recover from a &lt;code&gt;Node&lt;/code&gt; failure. Recovery depends on the &lt;code&gt;Storage Provisioner&lt;/code&gt; and the type of storage that you use.&lt;/p&gt;
 
 
 &lt;div class=&#34;alert alert-primary&#34; role=&#34;alert&#34;&gt;
@@ -34,10 +33,9 @@ expect when a &lt;code&gt;Node&lt;/code&gt; failure occurs and how to recover fr
 separate from the &lt;code&gt;Node&lt;/code&gt; and is recoverable. It does not apply to a local storage on the &lt;code&gt;Node&lt;/code&gt;.
 
 &lt;/div&gt;
-&lt;/p&gt;
+
 &lt;h2 id=&#34;what-to-expect&#34;&gt;What to expect&lt;/h2&gt;
-&lt;p&gt;​
-By default, when a &lt;code&gt;Node&lt;/code&gt; fails:&lt;/p&gt;
+&lt;p&gt;By default, when a &lt;code&gt;Node&lt;/code&gt; fails:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;It may take up to a minute for the failure to reflect in the Kubernetes API server and update the &lt;code&gt;Node&lt;/code&gt; status to
@@ -67,8 +65,7 @@ the existing volumes will no longer be reachable by new &lt;code&gt;Pods&lt;/cod
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;about-recovery&#34;&gt;About recovery&lt;/h2&gt;
-&lt;p&gt;​
-After a &lt;code&gt;Node&lt;/code&gt; fails, if the &lt;code&gt;Node&lt;/code&gt; can be recovered within five minutes, then the &lt;code&gt;Pods&lt;/code&gt; will return to a &lt;code&gt;Running&lt;/code&gt; state. If the &lt;code&gt;Node&lt;/code&gt; is not recovered after five minutes,
+&lt;p&gt;After a &lt;code&gt;Node&lt;/code&gt; fails, if the &lt;code&gt;Node&lt;/code&gt; can be recovered within five minutes, then the &lt;code&gt;Pods&lt;/code&gt; will return to a &lt;code&gt;Running&lt;/code&gt; state. If the &lt;code&gt;Node&lt;/code&gt; is not recovered after five minutes,
 then the &lt;code&gt;Pods&lt;/code&gt; will complete termination and are deleted from the Kubernetes API server. New &lt;code&gt;Pods&lt;/code&gt; that have &lt;code&gt;Persistent Volumes&lt;/code&gt; of type &lt;code&gt;ReadWriteOnce&lt;/code&gt;,
 will now be able to mount the &lt;code&gt;Persistent Volumes&lt;/code&gt; and change to &lt;code&gt;Running&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;If a &lt;code&gt;Node&lt;/code&gt; cannot be recovered and is replaced, then deleting the &lt;code&gt;Node&lt;/code&gt; from the Kubernetes API server will terminate
@@ -81,6 +78,137 @@ it may lead to loss of data and, in the case of &lt;code&gt;Statefulsets&lt;/cod
 see &lt;a href=&#34;https://kubernetes.io/docs/tasks/run-application/force-delete-stateful-set-pod/&#34;&gt;Force Delete StatefulSet Pods&lt;/a&gt; in the Kubernetes documentation.&lt;/p&gt;
 &lt;p&gt;You can force delete &lt;code&gt;Pods&lt;/code&gt; and &lt;code&gt;Persistent Volumes&lt;/code&gt; when a failed &lt;code&gt;Node&lt;/code&gt; cannot be recovered or replaced in the same &lt;code&gt;Availability Domain&lt;/code&gt; as
 the original &lt;code&gt;Node&lt;/code&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Upgrade prod Installation for High Availability</title>
+      <link>/docs/guides/ha/prod-upgrade/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/guides/ha/prod-upgrade/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The exact steps required to upgrade a Verrazzano environment to achieve high availability will vary based on the configuration of each environment.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Assess whether your Kubernetes configuration must be updated to support the level of high availability that you want to achieve.  See &lt;a href=&#34;../../../docs/setup/customizing/ha/&#34;&gt;Configure High Availability&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Upgrade Verrazzano to v1.4.0 or later.   See &lt;a href=&#34;../../../docs/setup/upgrade/&#34;&gt;Upgrade Verrazzano&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples/ha/README.md&#34;&gt;examples/ha&lt;/a&gt; directory contains examples of highly available Verrazzano installations. The following example uses the &lt;a href=&#34;https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/ha/ha.yaml&#34;&gt;ha.yaml&lt;/a&gt; file as an example of how to upgrade a default &lt;code&gt;prod&lt;/code&gt; installation to a highly available Verrazzano environment.&lt;/p&gt;
+&lt;p&gt;a. Create a patch file:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ cat &amp;gt; patch.yaml &amp;lt;&amp;lt;EOF
+spec:
+  components:
+    authProxy:
+      overrides:
+      - values:
+          replicas: 2
+    certManager:
+      overrides:
+      - values:
+          replicaCount: 2
+          cainjector:
+            replicaCount: 2
+          webhook:
+            replicaCount: 2
+    console:
+      overrides:
+      - values:
+          replicas: 2
+    ingressNGINX:
+      overrides:
+      - values:
+          controller:
+            autoscaling:
+              enabled: true
+              minReplicas: 2
+          defaultBackend:
+            replicaCount: 2
+    istio:
+      overrides:
+      - values:
+          apiVersion: install.istio.io/v1alpha1
+          kind: IstioOperator
+          spec:
+            components:
+              pilot:
+                k8s:
+                  replicaCount: 2
+              ingressGateways:
+                - enabled: true
+                  k8s:
+                    affinity:
+                      podAntiAffinity:
+                        preferredDuringSchedulingIgnoredDuringExecution:
+                        - podAffinityTerm:
+                            labelSelector:
+                              matchExpressions:
+                              - key: app
+                                operator: In
+                                values:
+                                - istio-ingressgateway
+                            topologyKey: kubernetes.io/hostname
+                          weight: 100
+                    replicaCount: 2
+                    service:
+                      type: LoadBalancer
+                  name: istio-ingressgateway
+              egressGateways:
+                - enabled: true
+                  k8s:
+                    affinity:
+                      podAntiAffinity:
+                        preferredDuringSchedulingIgnoredDuringExecution:
+                        - podAffinityTerm:
+                            labelSelector:
+                              matchExpressions:
+                              - key: app
+                                operator: In
+                                values:
+                                - istio-egressgateway
+                            topologyKey: kubernetes.io/hostname
+                          weight: 100
+                    replicaCount: 2
+                  name: istio-egressgateway
+    keycloak:
+      overrides:
+      - values:
+          replicas: 2
+      mysql:
+        overrides:
+        - values:
+            serverInstances: 3
+            routerInstances: 2
+    opensearchDashboards:
+      replicas: 2
+    kiali:
+      overrides:
+      - values:
+          deployment:
+            replicas: 2
+    prometheusOperator:
+      overrides:
+      - values:
+          prometheus:
+            prometheusSpec:
+              replicas: 2
+    opensearch:
+      nodes:
+      - name: es-ingest
+        replicas: 2
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;b. Apply the patch:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl patch verrazzano verrazzano --patch-file=patch.yaml --type=merge
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;c. Wait for the patch to be installed:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl wait --timeout=30m --for=condition=InstallComplete verrazzano/verrazzano
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
 
       </description>
     </item>
