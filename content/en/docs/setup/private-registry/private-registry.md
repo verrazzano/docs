@@ -34,28 +34,29 @@ You must have the following software installed:
 
     a. In your browser, go to [Verrazzano releases](https://github.com/verrazzano/verrazzano/releases).
 
-    b. Download the distribution TAR file, `verrazzano-<major>.<minor>.<patch>-<operating system>-<architecture>.tar.gz`, and the corresponding checksum file.
+    b. Download the distribution TAR file, `verrazzano-{{<verrazzano_development_version>}}-<operating system>-<architecture>.tar.gz`, and the corresponding checksum file.
 
-    c. In the downloaded directory, validate that the checksum and TAR files match. For example,
+    c. In the downloaded directory, validate that the checksum and TAR files match.
+       For example, if you have downloaded `verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz`:
       ```
-      $ sha256sum -c verrazzano-<major>.<minor>.<patch>-<operating system>-<architecture>.tar.gz.sha256
+      $ sha256sum -c verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz.sha256
       # Sample output
-      verrazzano-<major>.<minor>.<patch>-<operating system>-<architecture>.tar.gz: OK
+      verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz: OK
       ```
       **NOTE**: Use sha256sum command on Linux and shasum on MacOS.
 
     d. Expand the TAR file to access the release artifacts.
 
-      The following example, extracts the distribution archive into the current directory.
+      The following example, extracts the distribution archive `verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz` into the current directory.
 
       ```
-      $ tar xvf verrazzano-<major>.<minor>.<patch>-<operating system>-<architecture>.tar.gz
+      $ tar xvf verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz
       ```
-      After a successful extraction, the release artifacts will be under the `verrazzano-<major>.<minor>.<patch>` directory.  
+      After a successful extraction, the release artifacts will be under the `verrazzano-{{<verrazzano_development_version>}}` directory.
 
      e. Define an environment variable `DISTRIBUTION_DIR`.
       ```
-       $ DISTRIBUTION_DIR=<local directory>/verrazzano-<major>.<minor>.<patch>
+       $ DISTRIBUTION_DIR=<path to the current directory>/verrazzano-{{<verrazzano_development_version>}}
       ```
 1. Download the Verrazzano images defined in the BOM, `${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json`, using the script, `${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh`.
       ```
