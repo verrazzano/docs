@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/private-registry/private-registry/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-07-12T14:05:07-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-09-15T19:26:30+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Use a Private Registry">
 <meta itemprop="description" content="Instructions for setting up Verrazzano using a private container registry">
-<meta itemprop="dateModified" content="2022-07-12T14:05:07-04:00" />
-<meta itemprop="wordCount" content="350">
+<meta itemprop="dateModified" content="2022-09-15T19:26:30+05:30" />
+<meta itemprop="wordCount" content="785">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Use a Private Registry"/>
 <meta name="twitter:description" content="Instructions for setting up Verrazzano using a private container registry"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.34bc6a1dad925fd6b123d3bf51e16045.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.92f6ba634e2289f56e1d181a6f220a9a.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.34bc6a1dad925fd6b123d3bf51e16045.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.92f6ba634e2289f56e1d181a6f220a9a.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -458,6 +458,9 @@ if (!doNotTrack) {
   <ul>
     <li>
       <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#load-the-images">Load the images</a></li>
+        <li><a href="#install-verrazzano">Install Verrazzano</a></li>
         <li><a href="#configuring-access-to-an-insecure-private-registry">Configuring access to an insecure private registry</a></li>
       </ul>
     </li>
@@ -523,46 +526,122 @@ if (!doNotTrack) {
 
 		
 	</header>    
-	<p>You can install Verrazzano using a private Docker-compliant container registry. This requires the following:</p>
+	<p>The Verrazzano distribution contains Kubernetes manifests to deploy Verrazzano, client binaries, and various other utilities. These distributions are provided for Linux and MacOS operating systems on AMD and ARM architectures.</p>
+<p>This distribution includes:</p>
+<ul>
+<li><a href="../../../../docs/setup/cli/">Verrazzano CLI</a></li>
+<li><a href="../../../../docs/setup/install/profiles/">Installation Profiles</a></li>
+<li>Helper scripts to download the images from the bill of materials (BOM) and to upload the Verrazzano images to a private registry</li>
+<li>Helm charts for the Verrazzano platform operator</li>
+<li><code>README.md</code> which provides the layout of the distribution</li>
+</ul>
+<p>Installing Verrazzano using a private Docker-compliant container registry requires the following:</p>
 <ul>
 <li>Loading all required Verrazzano container images into your own registry and repository.</li>
 <li>Installing the Verrazzano platform operator with the private registry and repository used to load the images.</li>
 </ul>
-<p>To obtain the required Verrazzano images and install from your private registry, you must:</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>You must have the following software installed:</p>
+<ul>
+<li><a href="https://docs.docker.com/get-docker/">Docker</a></li>
+<li><a href="https://kubernetes.io/docs/tasks/tools/">kubectl</a></li>
+<li><a href="https://helm.sh/docs/intro/install/">Helm</a> (version 3.x+)</li>
+<li><a href="https://github.com/stedolan/jq/wiki/Installation">jq</a></li>
+</ul>
+<h2 id="load-the-images">Load the images</h2>
 <ol>
-<li>Download the Verrazzano ZIP file from the Oracle Software Delivery Cloud.
+<li>
+<p>Download the desired Verrazzano distribution from the GitHub releases page.</p>
+<p>a. In your browser, go to <a href="https://github.com/verrazzano/verrazzano/releases">Verrazzano releases</a>.</p>
+<p>b. Download the distribution TAR file, <code>verrazzano-&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;-&lt;operating system&gt;-&lt;architecture&gt;.tar.gz</code>, and the corresponding checksum file.</p>
+<p>c. In the downloaded directory, validate that the checksum and TAR files match.
+For example, if you have downloaded <code>verrazzano-1.4.0-linux-amd64.tar.gz</code>:</p>
+<pre tabindex="0"><code>$ sha256sum -c verrazzano-1.4.0-linux-amd64.tar.gz.sha256
+# Sample output
+verrazzano-1.4.0-linux-amd64.tar.gz: OK
+</code></pre><p><strong>NOTE</strong>: Use sha256sum command on Linux and shasum on MacOS.</p>
+<p>d. Expand the TAR file to access the release artifacts.</p>
+<p>The following example, extracts the distribution archive <code>verrazzano-1.4.0-linux-amd64.tar.gz</code> into the current directory.</p>
+<pre tabindex="0"><code>$ tar xvf verrazzano-1.4.0-linux-amd64.tar.gz
+</code></pre><p>After a successful extraction, the release artifacts will be under the <code>verrazzano-1.4.0</code> directory.</p>
+<p>e. Define an environment variable <code>DISTRIBUTION_DIR</code>.</p>
+<pre tabindex="0"><code> $ DISTRIBUTION_DIR=&lt;path to the current directory&gt;/verrazzano-1.4.0
+</code></pre></li>
+<li>
+<p>Download the Verrazzano images defined in the BOM, <code>${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json</code>, using the script, <code>${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh</code>.</p>
+<pre tabindex="0"><code>$ sh ${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh -b ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json -f ${DISTRIBUTION_DIR}/images  
+</code></pre><p>The previous command downloads all the images to the <code>${DISTRIBUTION_DIR}/images</code> directory.</p>
+</li>
+<li>
+<p>Load the product images into your private registry.</p>
+<p>a. Log in to the Docker registry, run <code>docker login &lt;SERVER&gt;</code> with your credentials.</p>
+<p>b. For use with the examples in this document, define the following variables with respect to your target registry and repository: <code>MYREG</code>, <code>MYREPO</code>, <code>VPO_IMAGE</code>.</p>
+<p>These identify the target Docker registry and repository, and the Verrazzano platform operator image, as defined in the BOM file. For example, using a target registry of <code>myreg.io</code> and a target repository of <code>myrepo/v8o</code>:</p>
+<pre tabindex="0"><code>$ MYREG=myreg.io
+$ MYREPO=myrepo/v8o
+$ VPO_IMAGE=$(cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r &#39;.components[].subcomponents[] | select(.name == &#34;verrazzano-platform-operator&#34;) | &#34;\(.repository)/\(.images[].image):\(.images[].tag)&#34;&#39;)
+</code></pre><p>c. Run the <code>${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh</code> script to push the images to the registry: <br>
+<code>$ sh ${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh -t $MYREG -r $MYREPO -l ${DISTRIBUTION_DIR}/images</code></p>
+<p>d. Although most images can be protected using credentials stored in an image pull secret, some images <em>must</em> be public. Use the following commands to get the list of public images:</p>
 <ul>
-<li>In your browser, go to the <a href="https://edelivery.oracle.com">Oracle Software Delivery Cloud</a> and log in with your credentials.</li>
-<li>In the drop-down menu preceding the search bar, select <strong>Download Package</strong>.</li>
-<li>In the search bar, enter <code>Verrazzano Enterprise Container Platform</code> and click <strong>Search</strong>.</li>
-<li>Select the <code>DLP: Oracle Verrazzano Enterprise Edition 1.2</code> link.  This will add it to your download queue.</li>
-<li>At the top of the page, select the <strong>Continue</strong> link.</li>
-<li>Review the Download Queue, then click <strong>Continue</strong>.</li>
-<li>Accept the license agreement and click <strong>Continue</strong>.</li>
-<li>Download the file:
-<ul>
-<li>To download the ZIP file directly, select the file link in the list.</li>
-<li>To download the ZIP file using <code>Oracle Download Manager</code>, click <strong>Download</strong> and run the <code>Oracle Download Manager</code> executable.</li>
+<li>
+<p>All the Rancher images in the <code>rancher/additional-rancher</code> subcomponent.</p>
+<pre tabindex="0"><code>$ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r &#39;.components[].subcomponents[] | select(.name == &#34;additional-rancher&#34;) | .images[] | &#34;\(.image):\(.tag)&#34;&#39;
+</code></pre></li>
+<li>
+<p>The Fluentd Kubernetes daemonset image.</p>
+<pre tabindex="0"><code>$ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r &#39;.components[].subcomponents[].images[] | select(.image == &#34;fluentd-kubernetes-daemonset&#34;) | &#34;\(.image):\(.tag)&#34;&#39;
+</code></pre></li>
+<li>
+<p>The Istio proxy image.</p>
+<pre tabindex="0"><code>$ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r &#39;.components[].subcomponents[] |  select(.name == &#34;istiod&#34;) | .images[] | select(.image == &#34;proxyv2&#34;) | &#34;\(.image):\(.tag)&#34;&#39;
+</code></pre></li>
+<li>
+<p>The WebLogic Monitoring Exporter image.</p>
+<pre tabindex="0"><code>$ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r &#39;.components[].subcomponents[].images[] | select(.image == &#34;weblogic-monitoring-exporter&#34;) | &#34;\(.image):\(.tag)&#34;&#39;
+</code></pre></li>
+<li>
+<p>The Verrazzano platform operator image identified by <code>$VPO_IMAGE</code>, as defined previously.</p>
+</li>
+<li>
+<p>For all the Verrazzano Docker images in the private registry that are not explicitly marked public, you will need to create the secret <code>verrazzano-container-registry</code> in the <code>default</code> namespace, with the appropriate credentials for the registry, identified by <code>$MYREG</code>. <br>
+For example:</p>
+<pre tabindex="0"><code>$ kubectl create secret docker-registry verrazzano-container-registry \  
+   --docker-server=$MYREG --docker-username=myreguser \  
+   --docker-password=xxxxxxxx --docker-email=me@example.com
+</code></pre></li>
 </ul>
 </li>
-</ul>
-</li>
-<li>Prepare to do the private registry installation.
-<ul>
-<li>Extract the ZIP archive to a desired directory location.  There will be two files: a compressed TAR file containing the product
-files and a checksum file.</li>
-<li>(Optional) In the expanded archive directory, validate that the checksum and TAR file match.  For example,
-<pre tabindex="0"><code>$ shasum -c  verrazzano_1.2.0.tar.gz.sha256
+</ol>
+<h2 id="install-verrazzano">Install Verrazzano</h2>
+<ol>
+<li>
+<p>Install the Verrazzano platform operator using the image defined by <code>$MYREG/$MYREPO/$VPO_IMAGE</code>.</p>
+<pre tabindex="0"><code>$ helm template --include-crds ${DISTRIBUTION_DIR}/manifests/charts/verrazzano-platform-operator \
+    --set image=${MYREG}/${MYREPO}/${VPO_IMAGE} --set global.registry=${MYREG} \
+    --set global.repository=${MYREPO} --set global.imagePullSecrets={verrazzano-container-registry} | kubectl apply -f -
+</code></pre></li>
+<li>
+<p>Wait for the deployment of Verrazzano platform operator.</p>
+<pre tabindex="0"><code>$ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
 
 # Sample output
-verrazzano_1.2.0.tar.gz: OK
+  deployment &#34;verrazzano-platform-operator&#34; successfully rolled out
 </code></pre></li>
-<li>Expand the TAR file, for example, <code>tar xvf verrazzano_1.2.0.tar.gz</code>.</li>
-</ul>
-</li>
-<li>Load the product images into your private registry and install Verrazzano using the instructions in the <code>README.md</code>
-file that is packaged with the TAR file.</li>
+<li>
+<p>Confirm that the Verrazzano platform operator pod is running.</p>
+<pre tabindex="0"><code>$ kubectl -n verrazzano-install get pods
+
+# Sample output
+  NAME                                            READY   STATUS    RESTARTS   AGE
+  verrazzano-platform-operator-74f4547555-s76r2   1/1     Running   0          114s
+</code></pre></li>
 </ol>
+<p>The distribution archive includes the supported installation profiles under <code>${DISTRIBUTION_DIR}/manifests/profiles</code>.
+Verrazzano supports customizing installation configurations. See <a href="https://verrazzano.io/master/docs/setup/customizing/">Customize Installations</a>.</p>
+<p>To create a Verrazzano installation using the provided profiles, run the following command:</p>
+<pre tabindex="0"><code>$ kubectl apply -f $DISTRIBUTION_DIR/manifests/profiles/prod.yaml
+</code></pre><p>For a complete description of Verrazzano configuration options, see the <a href="https://verrazzano.io/master/docs/reference/api/">Reference API</a>.</p>
 <h2 id="configuring-access-to-an-insecure-private-registry">Configuring access to an insecure private registry</h2>
 <p>A private Docker registry is called an <a href="https://docs.docker.com/registry/insecure/">insecure registry</a> when it is configured for access using a self-signed certificate or over an unencrypted HTTP connection. Depending on the platform, there could be some additional configuration required for installing Verrazzano with an insecure registry.</p>
 <p>For example, for the <a href="../../../../docs/setup/platforms/olcne/olcne/">Oracle Cloud Native Environment platform</a>, insecure registries must be configured in <code>/etc/containers/registries.conf</code> as follows on the worker nodes:</p>
