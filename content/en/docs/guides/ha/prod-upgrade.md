@@ -12,7 +12,7 @@ The exact steps required to upgrade a Verrazzano environment to achieve high ava
 
 1. Upgrade Verrazzano to v1.4.0 or later.   See [Upgrade Verrazzano]({{< relref "/docs/setup/upgrade/_index.md" >}}).
 
-1. The [examples/ha]({{< ghlink path="examples/ha/README.md" >}}) directory contains examples of highly available Verrazzano installations. The following example uses the [ha.yaml]({{< ghlink raw=true path="examples/ha/ha.yaml" >}}) file as an example of how to upgrade a default prod installation to a highly available Verrazzano environment.
+1. The [examples/ha]({{< ghlink path="examples/ha/README.md" >}}) directory contains examples of highly available Verrazzano installations. The following example uses the [ha.yaml]({{< ghlink raw=true path="examples/ha/ha.yaml" >}}) file as an example of how to upgrade a default `prod` installation to a highly available Verrazzano environment.
 
    a. Create a patch file:
    ```
