@@ -8,7 +8,7 @@ draft: false
 
 Verrazzano provides [Velero](https://velero.io/docs/v1.8/) and [rancher-backup](https://rancher.com/docs/rancher/v2.5/en/backups/) for backup and recovery at the component and platform level. Use the following instructions to enable and configure these components in your environment.
 
-**NOTE**:  The backup functionality for Keycloak and OpenSearch can be used only if the components are enabled explicitly in the Verrazzano CR.
+**NOTE**:  The backup functionality for OpenSearch can be used only if the components are enabled explicitly in the Verrazzano CR.
 
 ## Enable backup components
 
