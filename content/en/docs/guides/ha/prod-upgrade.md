@@ -1,6 +1,6 @@
 ---
 title: "Upgrade prod Installation for High Availability"
-linkTitle: "Upgrade prod installation"
+linkTitle: "Upgrade prod Installation"
 description: "A guide for upgrading a `prod` installation for a highly available environment"
 weight: 3
 draft: false
