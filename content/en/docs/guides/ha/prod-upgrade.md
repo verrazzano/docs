@@ -1,22 +1,22 @@
 ---
-title: "Upgrade Prod Install to HA Guide"
-linkTitle: "Upgrade Prod to HA"
-description: "A guide for upgrading a `prod` install to be highly available"
+title: "Upgrade prod Installation for High Availability"
+linkTitle: "Upgrade prod installation"
+description: "A guide for upgrading a `prod` installation for a highly available environment"
 weight: 3
 draft: false
 ---
 
-The precise steps required to upgrade a Verrazzano environment to be highly available will vary based the configuration of each environment.  Use the following steps as a guide:
+The exact steps required to upgrade a Verrazzano environment to achieve high availability will vary based on the configuration of each environment.
 
-1. Assess if your Kubernetes configuration requires changes to support the level of high availability you want to achieve.  Refer to [Configure High Availability]({{< relref "/docs/setup/customizing/ha.md" >}}) for additional information.
+1. Assess whether your Kubernetes configuration must be updated to support the level of high availability that you want to achieve.  See [Configure High Availability]({{< relref "/docs/setup/customizing/ha.md" >}}).
 
-1. The Verrazzano installation must be version 1.4.0 or higher before it can be upgraded to be highly available.  Follow the [Upgrade Verrazzano]({{< relref "/docs/setup/upgrade/_index.md" >}}) instructions if an upgrade is required.
+1. Upgrade Verrazzano to v1.4.0 or later.   See [Upgrade Verrazzano]({{< relref "/docs/setup/upgrade/_index.md" >}}).
 
-1. The folder [examples/ha]({{< ghlink path="examples/ha/README.md" >}}) contains complete examples of Verrazzano installations that are highly available. The  file [ha.yaml]({{< ghlink raw=true path="examples/ha/ha.yaml" >}}) will be used as an example of how to upgrade a default `prod` install to be highly available.  The actual changes will vary for each environment.
+1. The [examples/ha]({{< ghlink path="examples/ha/README.md" >}}) directory contains examples of highly available Verrazzano installations. The following example uses the [ha.yaml]({{< ghlink raw=true path="examples/ha/ha.yaml" >}}) file as an example of how to upgrade a default prod installation to a highly available Verrazzano environment.
 
-   Create a patch file:
+   a. Create a patch file:
    ```
-   cat > patch.yaml <<EOF
+   $ cat > patch.yaml <<EOF
    spec:
      components:
        authProxy:
@@ -118,13 +118,13 @@ The precise steps required to upgrade a Verrazzano environment to be highly avai
            replicas: 2
    EOF
    ```
-   Apply the patch:
+   b. Apply the patch:
    ``` 
-   kubectl patch verrazzano verrazzano --patch-file=patch.yaml --type=merge
+   $ kubectl patch verrazzano verrazzano --patch-file=patch.yaml --type=merge
    ```
 
-1. Wait for the patch to complete.
+   c. Wait for the patch to complete.
 
    ```
-   kubectl wait --timeout=30m --for=condition=InstallComplete verrazzano/verrazzano
+   $ kubectl wait --timeout=30m --for=condition=InstallComplete verrazzano/verrazzano
    ```
