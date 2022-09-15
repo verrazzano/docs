@@ -1,6 +1,5 @@
 ---
-title: Verrazzano Workload Custom Resource Definitions
-linkTitle: Verrazzano Workload CRDs
+title: Verrazzano Workloads
 weight: 2
 draft: false
 ---

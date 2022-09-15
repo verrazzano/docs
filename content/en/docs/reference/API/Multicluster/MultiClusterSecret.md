@@ -1,6 +1,5 @@
 ---
-title: MultiClusterSecret Custom Resource Definition
-linkTitle: MultiClusterSecret CRD
+title: MultiClusterSecret
 weight: 2
 draft: false
 ---

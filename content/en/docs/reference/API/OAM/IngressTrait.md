@@ -1,6 +1,5 @@
 ---
-title: IngressTrait Custom Resource Definition
-linkTitle: IngressTrait CRD
+title: IngressTrait
 weight: 2
 draft: false
 ---

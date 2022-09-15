@@ -1,6 +1,5 @@
 ---
-title: MultiClusterApplicationConfiguration Custom Resource Definition
-linkTitle: MultiClusterApplicationConfiguration CRD
+title: MultiClusterApplicationConfiguration
 weight: 2
 draft: false
 ---

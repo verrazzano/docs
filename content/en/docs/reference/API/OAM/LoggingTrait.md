@@ -1,6 +1,5 @@
 ---
-title: LoggingTrait Custom Resource Definition
-linkTitle: LoggingTrait CRD
+title: LoggingTrait
 weight: 2
 draft: false
 ---

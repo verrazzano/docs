@@ -1,6 +1,5 @@
 ---
-title: VerrazzanoProject Custom Resource Definition
-linkTitle: VerrazzanoProject CRD
+title: VerrazzanoProject
 weight: 2
 draft: false
 ---

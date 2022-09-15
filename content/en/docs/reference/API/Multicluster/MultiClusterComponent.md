@@ -1,6 +1,5 @@
 ---
-title: MultiClusterComponent Custom Resource Definition
-linkTitle: MultiClusterComponent CRD
+title: MultiClusterComponent
 weight: 2
 draft: false
 ---

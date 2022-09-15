@@ -1,6 +1,5 @@
 ---
-title: MetricsTrait Custom Resource Definition
-linkTitle: MetricsTrait CRD
+title: MetricsTrait
 weight: 2
 draft: false
 ---
