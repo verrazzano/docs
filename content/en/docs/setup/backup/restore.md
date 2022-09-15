@@ -137,10 +137,10 @@ After the restore operation is executed, you can see the hook logs using the `ve
 # To display the logs from the restore, execute the following command
 $ kubectl logs -n verrazzano-backup -l app.kubernetes.io/name=velero
 
-# Fetch the logfile name as shown below
+# Fetch the log file name as shown
 $ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- ls -al /tmp | grep verrazzano-restore-hook | tail -n 1 | awk '{print $NF}'
 
-# To examine the hook logs, exec into the pod as shown, and use the filename retrieved above
+# To examine the hook logs, exec into the pod as shown, and use the file name retrieved previously
 $ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/<log-file-name>
 
 ```
