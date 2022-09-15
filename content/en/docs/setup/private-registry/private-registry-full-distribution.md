@@ -39,7 +39,7 @@ Set up a private registry using the following instructions, depending on your di
 
    a. In your browser, go to [Verrazzano releases](https://github.com/verrazzano/verrazzano/releases).
 
-   b. Download the distribution TAR file, `verrazzano-{{<verrazzano_development_version>}}-<operating system>-<architecture>.tar.gz`, and the corresponding checksum file.
+   b. Download the distribution TAR file, `verrazzano-<major>.<minor>.<patch>-<operating system>-<architecture>.tar.gz`, and the corresponding checksum file.
 
    c. In the downloaded directory, validate that the checksum and TAR files match.
       For example, if you have downloaded `verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz`:
