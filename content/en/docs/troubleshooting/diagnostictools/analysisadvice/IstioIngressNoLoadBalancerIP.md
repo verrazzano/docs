@@ -1,6 +1,6 @@
 ---
-title: Istio Ingress Gateway No Load Balancer IP
-linkTitle: Istio Ingress Gateway No Load Balancer IP
+title: Istio Ingress Gateway No External IP
+linkTitle: Istio Ingress Gateway No External IP
 description: Analysis detected Istio Ingress Gateway is missing an external IP address
 weight: 5
 draft: false
