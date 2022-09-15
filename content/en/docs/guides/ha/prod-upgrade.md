@@ -123,7 +123,7 @@ The exact steps required to upgrade a Verrazzano environment to achieve high ava
    $ kubectl patch verrazzano verrazzano --patch-file=patch.yaml --type=merge
    ```
 
-   c. Wait for the patch to complete.
+   c. Wait for the patch to be installed:
 
    ```
    $ kubectl wait --timeout=30m --for=condition=InstallComplete verrazzano/verrazzano
