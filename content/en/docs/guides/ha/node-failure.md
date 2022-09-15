@@ -8,14 +8,14 @@ draft: false
 
 A `Node` failure can occur for many reasons, including hardware failures and network outages. This guide provides information about what to
 expect when a `Node` failure occurs and how to recover from a `Node` failure. Recovery depends on the `Storage Provisioner` and the type of storage that you use.
-​
+
 {{< alert title="NOTE" color="primary" >}}
 This guide assumes that the storage provided in the cluster is physically
 separate from the `Node` and is recoverable. It does not apply to a local storage on the `Node`.
 {{< /alert >}}
 
 ## What to expect
-​
+
 By default, when a `Node` fails:  
 - It may take up to a minute for the failure to reflect in the Kubernetes API server and update the `Node` status to
 `NotReady`.
@@ -26,7 +26,6 @@ or `NodeLost`.
    **NOTE**: `Pods` without a controller, started with a `PodSpec`, will _not_ be terminated. They must be manually deleted and recreated.
 
 - New `Pods` will start on the `Nodes` that remain with `Ready` status.   
-
 
    **NOTE**: `Statefulsets` are a special case. The `Statefulset` controller maintains an ordinal list of `Pods`, one each for a given name. The `Statefulset` controller
    will not start a new `Pod` with the name of an existing `Pod`.
@@ -39,7 +38,7 @@ or `NodeLost`.
    the existing volumes will no longer be reachable by new `Pods` in a separate `Availability Domain`.   
 
 ## About recovery
-   ​
+
 After a `Node` fails, if the `Node` can be recovered within five minutes, then the `Pods` will return to a `Running` state. If the `Node` is not recovered after five minutes,
 then the `Pods` will complete termination and are deleted from the Kubernetes API server. New `Pods` that have `Persistent Volumes` of type `ReadWriteOnce`,
 will now be able to mount the `Persistent Volumes` and change to `Running`.
