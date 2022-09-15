@@ -115,10 +115,13 @@ After the backup is executed, you can see the hook logs using the `velero backup
 
 ```shell
 # To display the logs from the backup, execute the following command
-$ velero backup logs verrazzano-opensearch-backup -n verrazzano-backup
+$ kubectl logs -n verrazzano-backup -l app.kubernetes.io/name=velero
 
-# To examine the hook logs, exec into the pod as shown
-$ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/verrazzano-backup-hook-1681009483.log
+# Fetch the logfile name as shown below
+$ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- ls -al /tmp | grep verrazzano-backup-hook | tail -n 1 | awk '{print $NF}'
+
+# To examine the hook logs, exec into the pod as shown, and use the filename retrieved above
+$ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/<log-file-name>
 ```
 </details>
 
