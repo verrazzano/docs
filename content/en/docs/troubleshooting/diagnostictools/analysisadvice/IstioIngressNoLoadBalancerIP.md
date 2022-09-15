@@ -1,7 +1,7 @@
 ---
-title: Istio Ingress Controller No Load Balancer IP
-linkTitle: Istio Ingress Controller No Load Balancer IP
-description: Analysis detected Istio load balancer missing ingress IP address
+title: Istio Ingress Gateway No Load Balancer IP
+linkTitle: Istio Ingress Gateway No Load Balancer IP
+description: Analysis detected Istio Ingress Gateway is missing an external IP address
 weight: 5
 draft: false
 ---
@@ -9,7 +9,7 @@ draft: false
 ### Summary
 Analysis detected that the Verrazzano installation failed while installing the Istio Ingress Gateway.
 
-The root cause appears to be that the load balancer is either missing or unable to set the ingress IP address on the Istio Ingress Gateway service.
+The root cause appears to be that the load balancer is either missing or unable to set the external IP address on the Istio Ingress Gateway service.
 
 ### Steps
 
