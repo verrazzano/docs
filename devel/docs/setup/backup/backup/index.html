@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/backup/backup/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-09-14T10:15:18-07:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-09-16T08:39:44-07:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Backup">
 <meta itemprop="description" content="Back up component-specific persistent data and configurations">
-<meta itemprop="dateModified" content="2022-09-14T10:15:18-07:00" />
-<meta itemprop="wordCount" content="488">
+<meta itemprop="dateModified" content="2022-09-16T08:39:44-07:00" />
+<meta itemprop="wordCount" content="525">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Backup"/>
 <meta name="twitter:description" content="Back up component-specific persistent data and configurations"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.31043125f914e207140a10c8afc4a45b.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.3be36e2a70a6b46b55fc7e8e174fa03b.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.31043125f914e207140a10c8afc4a45b.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.3be36e2a70a6b46b55fc7e8e174fa03b.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -546,13 +546,13 @@ First, ensure that the backup component prerequisites are met, as indicated <a h
 		
 
 		<a class="nav-item nav-link  active "
-		   id="nav-aedcfb" data-toggle="tab" href="#aedcfb"
+		   id="nav-dfecba" data-toggle="tab" href="#dfecba"
 		   role="tab" aria-controls="nav-home" aria-selected="true">RancherBackup</a>
 
 		
 
 		<a class="nav-item nav-link "
-		   id="nav-fedacb" data-toggle="tab" href="#fedacb"
+		   id="nav-eacdbf" data-toggle="tab" href="#eacdbf"
 		   role="tab" aria-controls="nav-home" aria-selected="true">OpenSearchBackup</a>
 
 		
@@ -574,7 +574,7 @@ First, ensure that the backup component prerequisites are met, as indicated <a h
 
 
 
-<div class="tab-pane fade show active " id="aedcfb" role="tabpanel" aria-labelledby="nav-1">
+<div class="tab-pane fade show active " id="dfecba" role="tabpanel" aria-labelledby="nav-1">
 
 	<br>
 <h2 id="rancher-backup">Rancher Backup</h2>
@@ -608,7 +608,7 @@ Note that in the <a href="../../../../docs/setup/backup/prerequisites/#component
 
 
 
-<div class="tab-pane fade show " id="fedacb" role="tabpanel" aria-labelledby="nav-1">
+<div class="tab-pane fade show " id="eacdbf" role="tabpanel" aria-labelledby="nav-1">
 
 	<br>
 <h3 id="opensearch-backup">OpenSearch Backup</h3>
@@ -661,10 +661,13 @@ In this case, it&rsquo;s <code>statefulset.kubernetes.io/pod-name: vmi-system-es
 <details>
   <summary>OpenSearch backup logs</summary></summary>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># To display the logs from the backup, execute the following command</span>
-</span></span><span style="display:flex;"><span>$ velero backup logs verrazzano-opensearch-backup -n verrazzano-backup
+</span></span><span style="display:flex;"><span>$ kubectl logs -n verrazzano-backup -l app.kubernetes.io/name<span style="color:#ce5c00;font-weight:bold">=</span>velero
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># To examine the hook logs, exec into the pod as shown</span>
-</span></span><span style="display:flex;"><span>$ kubectl <span style="color:#204a87">exec</span> -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/verrazzano-backup-hook-1681009483.log
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># Fetch the log file name as shown</span>
+</span></span><span style="display:flex;"><span>$ kubectl <span style="color:#204a87">exec</span> -it vmi-system-es-master-0 -n verrazzano-system -- ls -al /tmp <span style="color:#000;font-weight:bold">|</span> grep verrazzano-backup-hook <span style="color:#000;font-weight:bold">|</span> tail -n <span style="color:#0000cf;font-weight:bold">1</span> <span style="color:#000;font-weight:bold">|</span> awk <span style="color:#4e9a06">&#39;{print $NF}&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># To examine the hook logs, exec into the pod as shown, and use the file name retrieved previously</span>
+</span></span><span style="display:flex;"><span>$ kubectl <span style="color:#204a87">exec</span> -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/&lt;log-file-name&gt;
 </span></span></code></pre></div></details>
 <br>
 <h3 id="scheduled-backups">Scheduled backups</h3>
