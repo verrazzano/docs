@@ -10,7 +10,6 @@ Installing Verrazzano using a private Docker-compliant container registry requir
 * Loading all required Verrazzano container images into your own registry and repository.
 * Installing the Verrazzano platform operator with the private registry and repository used to load the images.
 
-## Prerequisites
 You must have the following software installed:
 
  - [Docker](https://docs.docker.com/get-docker/)
