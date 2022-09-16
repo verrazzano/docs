@@ -100,7 +100,7 @@ Set up a private registry using the following instructions, depending on your di
 
         a. In your browser, go to [My Oracle Support](https://support.oracle.com/) and log in with your credentials.
 
-        b. Select `Patches & Updates` tab at the top of the `MY ORACLE SUPPORT` page.
+        b. Select `Patches & Updates` tab.
 
         c. In the `Patch Search` panel, click the link `Product or Family (Advanced)`.
 
@@ -108,9 +108,9 @@ Set up a private registry using the following instructions, depending on your di
 
         e. The above step populates the available releases for Verrazzano in the dropdown box `Release is`. Select the desired release(s) and click **Search**.
 
-        f. Click the link for the desired patch, under the `Patch Name` and click **Download**.
+        f. A new panel with `Patch Advanced Search Results` will open listing all the patches for the release. Click the link for the desired patch, under the `Patch Name`.
 
-        g. From the page providing details about the patch, Click **Download**.
+        g. From the page providing details about the patch, click **Download**.
 
         h. Download the ZIP file by selecting the file link.
 
