@@ -12,6 +12,7 @@ Features:
 
 Component version updates:
 
+- Istio v1.14.3 
 - Coherence Operator v3.2.6
 - MySQL Operator v8.0.30-2.0.5
 - Rancher v2.6.8
@@ -38,6 +39,10 @@ Fixes:
 
 - Fixed AuthProxy to emit access logs.
 - Fixed Verazzano Console intermittent failures of timing out loading application details.
+
+Component version updates:
+
+- Istio v1.13.5
 
 ### v1.3.2
 Fixes:
