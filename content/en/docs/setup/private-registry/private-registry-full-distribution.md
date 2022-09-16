@@ -93,7 +93,6 @@ Set up a private registry using the following instructions, depending on your di
         g. Accept the license agreement and click **Continue**.
 
         h. Download the file:
-
         * To download the ZIP file directly, select the file link in the list.
         * To download the ZIP file using `Oracle Download Manager`, click **Download** and run the `Oracle Download Manager` executable.
 
@@ -105,11 +104,13 @@ Set up a private registry using the following instructions, depending on your di
 
         c. In the `Patch Search` panel, click the link `Product or Family (Advanced)`.
 
-        d. In the search bar for `Product is`, enter `Oracle Verrazzano Enterprise Container Platform`. From the dropdown for `Release is`, select the desired release and click **Search**.
+        d. In the search bar for `Product is`, enter `Oracle Verrazzano Enterprise Container Platform`.
 
-        e. Click the link for the desired patchset, under the `Patch Name`.
+        e. The above step populates the available releases for Verrazzano in the dropdown box `Release is`. Select the desired release(s) and click **Search**.
 
-        f. From the page providing details about the patch, Click **Download**.
+        f. Click the link for the desired patch, under the `Patch Name` and click **Download**.
+
+        g. From the page providing details about the patch, Click **Download**.
 
         h. Download the ZIP file by selecting the file link.
 
