@@ -5,16 +5,6 @@ Weight: 8
 draft: false
 ---
 
-The Verrazzano distribution contains Kubernetes manifests to deploy Verrazzano, client binaries, and various other utilities. These distributions are provided for Linux and MacOS operating systems on AMD and ARM architectures.
-
-This distribution includes:
-* [Verrazzano CLI]({{< relref "docs/setup/cli/_index.md" >}})
-* [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}})
-* Helper scripts to download the images from the bill of materials (BOM) and to upload the Verrazzano images to a private registry
-* Helm charts for the Verrazzano platform operator
-* `README.md` which provides the layout of the distribution
-
-
 Installing Verrazzano using a private Docker-compliant container registry requires the following:
 
 * Loading all required Verrazzano container images into your own registry and repository.
@@ -27,6 +17,15 @@ You must have the following software installed:
  - [kubectl](https://kubernetes.io/docs/tasks/tools/)
  - [Helm](https://helm.sh/docs/intro/install/) (version 3.x+)
  - [jq](https://github.com/stedolan/jq/wiki/Installation)
+
+ The Verrazzano distribution contains Kubernetes manifests to deploy Verrazzano, client binaries, and various other utilities. These distributions are provided for Linux and MacOS operating systems on AMD and ARM architectures.
+
+ This distribution includes:
+ * [Verrazzano CLI]({{< relref "docs/setup/cli/_index.md" >}})
+ * [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}})
+ * Helper scripts to download the images from the bill of materials (BOM) and to upload the Verrazzano images to a private registry
+ * Helm charts for the Verrazzano platform operator
+ * `README.md` which provides the layout of the distribution
 
 ## Load the images
 
@@ -43,7 +42,7 @@ You must have the following software installed:
       # Sample output
       verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz: OK
       ```
-      **NOTE**: Use sha256sum command on Linux and shasum on MacOS.
+      **NOTE**: Use the `sha256sum` command on Linux and `shasum` on MacOS.
 
     d. Expand the TAR file to access the release artifacts.
 
@@ -66,7 +65,7 @@ You must have the following software installed:
 
 1. Load the product images into your private registry.
 
-    a. Log in to the Docker registry, run `docker login <SERVER>` with your credentials.
+    a. To log in to the Docker registry, run `docker login <SERVER>` with your credentials.
 
     b. For use with the examples in this document, define the following variables with respect to your target registry and repository: `MYREG`, `MYREPO`, `VPO_IMAGE`.    
 
@@ -120,7 +119,7 @@ You must have the following software installed:
            --set global.repository=${MYREPO} --set global.imagePullSecrets={verrazzano-container-registry} | kubectl apply -f -
        ```
 
-  1. Wait for the deployment of Verrazzano platform operator.
+  1. Wait for the deployment of the Verrazzano platform operator.
        ```
        $ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
 

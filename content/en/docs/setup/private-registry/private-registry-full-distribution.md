@@ -4,16 +4,6 @@ description: Instructions for setting up Verrazzano using a private container re
 Weight: 8
 draft: false
 ---
-Verrazzano distributions are available in two variations:
-* The `Verrazzano Lite Distribution` contains Kubernetes manifests to deploy Verrazzano, client binaries, and various other utilities. This distribution is provided for Linux and MacOS operating systems on AMD and ARM architectures.
-* The `Verrazzano Full Distribution` contains Kubernetes manifests to deploy Verrazzano, client binaries, various utilities, and all the container images required for Verrazzano. This distribution is also provided for Linux and MacOS operating systems on AMD and ARM architectures.
-
-Both the distributions include:
-* [Verrazzano CLI]({{< relref "docs/setup/cli/_index.md" >}})
-* [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}})
-* Helper scripts to download the images from the bill of materials (BOM) and to upload the Verrazzano images to a private registry
-* Helm charts for the Verrazzano platform operator
-* `README.md` which provides the layout of the respective distribution
 
 Installing Verrazzano using a private Docker-compliant container registry requires the following:
 
@@ -27,6 +17,17 @@ You must have the following software installed:
  - [kubectl](https://kubernetes.io/docs/tasks/tools/)
  - [Helm](https://helm.sh/docs/intro/install/) (version 3.x+)
  - [jq](https://github.com/stedolan/jq/wiki/Installation)
+
+ Verrazzano distributions are available in two variations:
+ * The `Verrazzano Lite Distribution` contains Kubernetes manifests to deploy Verrazzano, client binaries, and various other utilities. This distribution is provided for Linux and MacOS operating systems on AMD and ARM architectures.
+ * The `Verrazzano Full Distribution` contains Kubernetes manifests to deploy Verrazzano, client binaries, various utilities, and all the container images required for Verrazzano. This distribution is also provided for Linux and MacOS operating systems on AMD and ARM architectures.
+
+ Both the distributions include:
+ * [Verrazzano CLI]({{< relref "docs/setup/cli/_index.md" >}})
+ * [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}})
+ * Helper scripts to download the images from the bill of materials (BOM) and to upload the Verrazzano images to a private registry
+ * Helm charts for the Verrazzano platform operator
+ * `README.md` which provides the layout of the respective distribution
 
 Set up a private registry using the following instructions, depending on your distribution.
 {{< tabs tabTotal="2" >}}
@@ -48,16 +49,16 @@ Set up a private registry using the following instructions, depending on your di
      # Sample output
      verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz: OK
      ```
-     **NOTE**: Use sha256sum command on Linux and shasum on MacOS.
+     **NOTE**: Use the `sha256sum` command on Linux and `shasum` on MacOS.
 
    d. Expand the TAR file to access the release artifacts.
 
-     The following example, extracts the distribution archive `verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz` into the current directory.
+      The following example, extracts the distribution archive `verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz` into the current directory.
 
-     ```
-     $ tar xvf verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz
-     ```
-     After a successful extraction, the release artifacts will be under the `verrazzano-{{<verrazzano_development_version>}}` directory.
+      ```
+      $ tar xvf verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz
+      ```
+      After a successful extraction, the release artifacts will be under the `verrazzano-{{<verrazzano_development_version>}}` directory.
 
     e. Define an environment variable `DISTRIBUTION_DIR`.
       ```
@@ -110,14 +111,14 @@ Set up a private registry using the following instructions, depending on your di
       # Sample output
       verrazzano-{{<verrazzano_development_version>}}.tar.gz: OK
       ```
-      **NOTE**: Use sha256sum command on Linux and shasum on MacOS.    
+      **NOTE**: Use the `sha256sum` command on Linux and `shasum` on MacOS.    
 
 {{< /tab >}}
 {{< /tabs >}}
 
 3. Load the product images into your private registry.
 
-   a. Log in to the Docker registry, run `docker login <SERVER>` with your credentials.
+   a. To log in to the Docker registry, run `docker login <SERVER>` with your credentials.
 
    b. For use with the examples in this document, define the following variables with respect to your target registry and repository: `MYREG`, `MYREPO`, `VPO_IMAGE`.    
 
@@ -172,7 +173,7 @@ Set up a private registry using the following instructions, depending on your di
          --set global.repository=${MYREPO} --set global.imagePullSecrets={verrazzano-container-registry} | kubectl apply -f -
      ```
 
-1. Wait for the deployment of Verrazzano platform operator.
+1. Wait for the deployment of the Verrazzano platform operator.
      ```
      $ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
 
@@ -197,7 +198,7 @@ To create a Verrazzano installation using the provided profiles, run the followi
 $ kubectl apply -f $DISTRIBUTION_DIR/manifests/profiles/prod.yaml
 ```     
 For a complete description of Verrazzano configuration options, see the [Reference API](https://verrazzano.io/{{<release_version>}}/docs/reference/api/).     
-     
+
 ## Configuring access to an insecure private registry
 
 A private Docker registry is called an [insecure registry](https://docs.docker.com/registry/insecure/) when it is configured for access using a self-signed certificate or over an unencrypted HTTP connection. Depending on the platform, there could be some additional configuration required for installing Verrazzano with an insecure registry.
