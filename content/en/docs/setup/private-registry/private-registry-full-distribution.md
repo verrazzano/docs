@@ -100,7 +100,7 @@ Set up a private registry using the following instructions, depending on your di
 
         a. In your browser, go to [My Oracle Support](https://support.oracle.com/) and log in with your credentials.
 
-        b. Select `Patches & Updates` tab.
+        b. Select the `Patches & Updates` tab.
 
         c. In the `Patch Search` panel, click the link `Product or Family (Advanced)`.
 
