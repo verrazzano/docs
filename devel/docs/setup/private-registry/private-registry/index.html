@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/private-registry/private-registry/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-09-15T19:26:30+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-09-16T15:48:10-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Use a Private Registry">
 <meta itemprop="description" content="Instructions for setting up Verrazzano using a private container registry">
-<meta itemprop="dateModified" content="2022-09-15T19:26:30+05:30" />
-<meta itemprop="wordCount" content="785">
+<meta itemprop="dateModified" content="2022-09-16T15:48:10-04:00" />
+<meta itemprop="wordCount" content="787">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Use a Private Registry"/>
 <meta name="twitter:description" content="Instructions for setting up Verrazzano using a private container registry"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.3be36e2a70a6b46b55fc7e8e174fa03b.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.9ccefcd676dfa4a25dea435bca44287c.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.3be36e2a70a6b46b55fc7e8e174fa03b.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.9ccefcd676dfa4a25dea435bca44287c.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -462,7 +462,6 @@ if (!doNotTrack) {
   <ul>
     <li>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#load-the-images">Load the images</a></li>
         <li><a href="#install-verrazzano">Install Verrazzano</a></li>
         <li><a href="#configuring-access-to-an-insecure-private-registry">Configuring access to an insecure private registry</a></li>
@@ -530,7 +529,19 @@ if (!doNotTrack) {
 
 		
 	</header>    
-	<p>The Verrazzano distribution contains Kubernetes manifests to deploy Verrazzano, client binaries, and various other utilities. These distributions are provided for Linux and MacOS operating systems on AMD and ARM architectures.</p>
+	<p>Installing Verrazzano using a private Docker-compliant container registry requires the following:</p>
+<ul>
+<li>Loading all required Verrazzano container images into your own registry and repository.</li>
+<li>Installing the Verrazzano platform operator with the private registry and repository used to load the images.</li>
+</ul>
+<p>You must have the following software installed:</p>
+<ul>
+<li><a href="https://docs.docker.com/get-docker/">Docker</a></li>
+<li><a href="https://kubernetes.io/docs/tasks/tools/">kubectl</a></li>
+<li><a href="https://helm.sh/docs/intro/install/">Helm</a> (version 3.x+)</li>
+<li><a href="https://github.com/stedolan/jq/wiki/Installation">jq</a></li>
+</ul>
+<p>The Verrazzano distribution contains Kubernetes manifests to deploy Verrazzano, client binaries, and various other utilities. These distributions are provided for Linux and MacOS operating systems on AMD and ARM architectures.</p>
 <p>This distribution includes:</p>
 <ul>
 <li><a href="../../../../docs/setup/cli/">Verrazzano CLI</a></li>
@@ -538,19 +549,6 @@ if (!doNotTrack) {
 <li>Helper scripts to download the images from the bill of materials (BOM) and to upload the Verrazzano images to a private registry</li>
 <li>Helm charts for the Verrazzano platform operator</li>
 <li><code>README.md</code> which provides the layout of the distribution</li>
-</ul>
-<p>Installing Verrazzano using a private Docker-compliant container registry requires the following:</p>
-<ul>
-<li>Loading all required Verrazzano container images into your own registry and repository.</li>
-<li>Installing the Verrazzano platform operator with the private registry and repository used to load the images.</li>
-</ul>
-<h2 id="prerequisites">Prerequisites</h2>
-<p>You must have the following software installed:</p>
-<ul>
-<li><a href="https://docs.docker.com/get-docker/">Docker</a></li>
-<li><a href="https://kubernetes.io/docs/tasks/tools/">kubectl</a></li>
-<li><a href="https://helm.sh/docs/intro/install/">Helm</a> (version 3.x+)</li>
-<li><a href="https://github.com/stedolan/jq/wiki/Installation">jq</a></li>
 </ul>
 <h2 id="load-the-images">Load the images</h2>
 <ol>
@@ -563,7 +561,7 @@ For example, if you have downloaded <code>verrazzano-1.4.0-linux-amd64.tar.gz</c
 <pre tabindex="0"><code>$ sha256sum -c verrazzano-1.4.0-linux-amd64.tar.gz.sha256
 # Sample output
 verrazzano-1.4.0-linux-amd64.tar.gz: OK
-</code></pre><p><strong>NOTE</strong>: Use sha256sum command on Linux and shasum on MacOS.</p>
+</code></pre><p><strong>NOTE</strong>: Use the <code>sha256sum</code> command on Linux and <code>shasum</code> on MacOS.</p>
 <p>d. Expand the TAR file to access the release artifacts.</p>
 <p>The following example, extracts the distribution archive <code>verrazzano-1.4.0-linux-amd64.tar.gz</code> into the current directory.</p>
 <pre tabindex="0"><code>$ tar xvf verrazzano-1.4.0-linux-amd64.tar.gz
@@ -578,7 +576,7 @@ verrazzano-1.4.0-linux-amd64.tar.gz: OK
 </li>
 <li>
 <p>Load the product images into your private registry.</p>
-<p>a. Log in to the Docker registry, run <code>docker login &lt;SERVER&gt;</code> with your credentials.</p>
+<p>a. To log in to the Docker registry, run <code>docker login &lt;SERVER&gt;</code> with your credentials.</p>
 <p>b. For use with the examples in this document, define the following variables with respect to your target registry and repository: <code>MYREG</code>, <code>MYREPO</code>, <code>VPO_IMAGE</code>.</p>
 <p>These identify the target Docker registry and repository, and the Verrazzano platform operator image, as defined in the BOM file. For example, using a target registry of <code>myreg.io</code> and a target repository of <code>myrepo/v8o</code>:</p>
 <pre tabindex="0"><code>$ MYREG=myreg.io
@@ -626,7 +624,7 @@ For example:</p>
     --set global.repository=${MYREPO} --set global.imagePullSecrets={verrazzano-container-registry} | kubectl apply -f -
 </code></pre></li>
 <li>
-<p>Wait for the deployment of Verrazzano platform operator.</p>
+<p>Wait for the deployment of the Verrazzano platform operator.</p>
 <pre tabindex="0"><code>$ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
 
 # Sample output
