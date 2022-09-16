@@ -75,26 +75,43 @@ Set up a private registry using the following instructions, depending on your di
 
 ## Load the images
 
-1. Download the Verrazzano ZIP file from the Oracle Software Delivery Cloud.
+1. Download the Verrazzano ZIP file
+    * Download the Verrazzano ZIP file from the Oracle Software Delivery Cloud for major or minor releases.
 
-    a. In your browser, go to the [Oracle Software Delivery Cloud](https://edelivery.oracle.com) and log in with your credentials.
+        a. In your browser, go to the [Oracle Software Delivery Cloud](https://edelivery.oracle.com) and log in with your credentials.
 
-    b. In the drop-down menu preceding the search bar, select **All Categories**.
+        b. In the drop-down menu preceding the search bar, select **All Categories**.
 
-    c. In the search bar, enter `Verrazzano Enterprise Container Platform` and click **Search**.
+        c. In the search bar, enter `Verrazzano Enterprise Container Platform` and click **Search**.
 
-    d. Select the `DLP: Oracle Verrazzano Enterprise Edition {{<download_package_version>}}` link.  This will add it to your download queue.
+        d. Select the `REL: Oracle Verrazzano Enterprise Edition {{<download_package_version>}}` link.  This will add it to your download queue.
 
-    e. At the top of the page, select the **Continue** link.
+        e. At the top of the page, select the **Continue** link.
 
-    f. Review the Download Queue, then click **Continue**.
+        f. Review the Download Queue, then click **Continue**.
 
-    g. Accept the license agreement and click **Continue**.
+        g. Accept the license agreement and click **Continue**.
 
-    h. Download the file:
+        h. Download the file:
 
-     * To download the ZIP file directly, select the file link in the list.
-     * To download the ZIP file using `Oracle Download Manager`, click **Download** and run the `Oracle Download Manager` executable.    
+        * To download the ZIP file directly, select the file link in the list.
+        * To download the ZIP file using `Oracle Download Manager`, click **Download** and run the `Oracle Download Manager` executable.
+
+    * Download the Verrazzano ZIP file from My Oracle Support for cumulative patches.
+
+        a. In your browser, go to [My Oracle Support](https://support.oracle.com/) and log in with your credentials.
+
+        b. Select `Patches & Updates` tab at the top of the `MY ORACLE SUPPORT` page.
+
+        c. In the `Patch Search` panel, click the link `Product or Family (Advanced)`.
+
+        d. In the search bar for `Product is`, enter `Oracle Verrazzano Enterprise Container Platform`. From the dropdown for `Release is`, select the desired release and click **Search**.
+
+        e. Click the link for the desired patchset, under the `Patch Name`.
+
+        f. From the page providing details about the patch, Click **Download**.
+
+        h. Download the ZIP file by selecting the file link.
 
 2. Prepare to do the private registry installation.
 
