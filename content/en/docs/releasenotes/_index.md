@@ -74,7 +74,7 @@ Component version updates:
 - cert-manager v1.7.1
 - Coherence Operator 3.2.5
 - Istio v1.13.2
-- Jaeger Operator v1.34.1
+- Jaeger Operator v1.32.0
 - Kiali v1.42.0
 - NGINX Ingress Controller v1.1.1
 - Node Exporter v1.3.1
