@@ -12,8 +12,8 @@ Features:
 
 Component version updates:
 
-- Istio v1.14.3 
 - Coherence Operator v3.2.6
+- Istio v1.14.3
 - MySQL Operator v8.0.30-2.0.5
 - Rancher v2.6.8
 - Rancher Backup Operator v2.1.3
