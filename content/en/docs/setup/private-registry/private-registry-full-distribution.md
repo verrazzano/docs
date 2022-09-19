@@ -106,7 +106,7 @@ Set up a private registry using the following instructions, depending on your di
 
         d. In the search bar for `Product is`, enter `Oracle Verrazzano Enterprise Container Platform`.
 
-        e. The previous step populates the available releases for Verrazzano in the drop-down box `Release is`. Select the desired release(s) and click **Search**.
+        e. The previous step populates the available releases for Verrazzano in the drop-down menu `Release is`. Select the desired release(s) and click **Search**.
 
         f. A new panel with `Patch Advanced Search Results` will open listing all the patches for the release. Select the link for the desired patch, under the `Patch Name`.
 
