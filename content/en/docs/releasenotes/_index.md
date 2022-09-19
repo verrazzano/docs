@@ -25,6 +25,10 @@ Fixes:
 - Fixed AuthProxy to emit access logs.
 - Fixed Verazzano Console intermittent failures of timing out loading application details.
 
+Component version updates:
+
+- Istio v1.13.5
+
 ### v1.3.2
 Fixes:
 
@@ -65,7 +69,7 @@ Component version updates:
 Components added:
 
 - AlertManager v0.24.0
-- Jaeger v1.32.0
+- Jaeger Operator v1.32.0
 - kube-state-metrics v2.4.2
 - Prometheus Adapter v0.9.1
 - Prometheus Operator v0.55.1
