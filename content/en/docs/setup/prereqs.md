@@ -58,8 +58,8 @@ component, its version, and a brief description.
 | ExternalDNS                  | 0.10.2       | Synchronizes exposed Kubernetes Services and ingresses with DNS providers.               |
 | Fluentd                      | 1.14.5       | Collects logs and sends them to OpenSearch.                                              |
 | Grafana                      | 7.5.15       | Tool to help you examine, analyze, and monitor metrics.                                  |
-| Istio                        | 1.13.5       | Service mesh that layers transparently onto existing distributed applications.           |
-| Jaeger                       | 1.34.1       | Distributed tracing system for monitoring and troubleshooting distributed systems.       |
+| Istio                        | 1.14.3       | Service mesh that layers transparently onto existing distributed applications.           |
+| Jaeger Operator              | 1.34.1       | Distributed tracing system for monitoring and troubleshooting distributed systems.       |
 | Keycloak                     | 15.0.2       | Provides single sign-on with Identity and Access Management.                             |
 | Kiali                        | 1.42.0       | Management console for the Istio service mesh.                                           |
 | kube-state-metrics           | 2.4.2        | Provides metrics about the state of Kubernetes API objects.                              |

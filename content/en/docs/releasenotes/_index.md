@@ -13,6 +13,7 @@ Features:
 Component version updates:
 
 - Coherence Operator v3.2.6
+- Istio v1.14.3
 - MySQL Operator v8.0.30-2.0.5
 - Rancher v2.6.8
 - Rancher Backup Operator v2.1.3
@@ -38,6 +39,10 @@ Fixes:
 
 - Fixed AuthProxy to emit access logs.
 - Fixed Verazzano Console intermittent failures of timing out loading application details.
+
+Component version updates:
+
+- Istio v1.13.5
 
 ### v1.3.2
 Fixes:
@@ -69,7 +74,7 @@ Component version updates:
 - cert-manager v1.7.1
 - Coherence Operator 3.2.5
 - Istio v1.13.2
-- Jaeger v1.34.1
+- Jaeger Operator v1.32.0
 - Kiali v1.42.0
 - NGINX Ingress Controller v1.1.1
 - Node Exporter v1.3.1
