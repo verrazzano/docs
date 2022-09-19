@@ -19,7 +19,7 @@ You must have the following software installed:
 
  Verrazzano distributions are available in two variations:
  * The `Verrazzano Lite Distribution` contains Kubernetes manifests to deploy Verrazzano, client binaries, and various other utilities. This distribution is provided for Linux and MacOS operating systems on AMD and ARM architectures.
- * The `Verrazzano Full Distribution` contains Kubernetes manifests to deploy Verrazzano, client binaries, various utilities, and all the container images required for Verrazzano. This distribution is also provided for Linux and MacOS operating systems on AMD and ARM architectures.
+ * The `Verrazzano Full Distribution` contains Kubernetes manifests to deploy Verrazzano, client binaries and various utilities for Linux and MacOS operating systems on AMD and ARM architectures. This full distribution also includes the Linux AMD container images required for Verrazzano.
 
  Both the distributions include:
  * [Verrazzano CLI]({{< relref "docs/setup/cli/_index.md" >}})
