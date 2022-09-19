@@ -4,29 +4,29 @@ description: Instructions for setting up Verrazzano using a private container re
 Weight: 8
 draft: false
 ---
-Verrazzano distributions are available in two variations:
-* The `Verrazzano Lite Distribution` contains Kubernetes manifests to deploy Verrazzano, client binaries, and various other utilities. This distribution is provided for Linux and MacOS operating systems on AMD and ARM architectures.
-* The `Verrazzano Full Distribution` contains Kubernetes manifests to deploy Verrazzano, client binaries, various utilities, and all the container images required for Verrazzano. This distribution is also provided for Linux and MacOS operating systems on AMD and ARM architectures.
-
-Both the distributions include:
-* [Verrazzano CLI]({{< relref "docs/setup/cli/_index.md" >}})
-* [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}})
-* Helper scripts to download the images from the bill of materials (BOM) and to upload the Verrazzano images to a private registry
-* Helm charts for the Verrazzano platform operator
-* `README.md` which provides the layout of the respective distribution
 
 Installing Verrazzano using a private Docker-compliant container registry requires the following:
 
 * Loading all the required Verrazzano container images into your own registry and repository.
 * Installing the Verrazzano platform operator with the private registry and repository used to load the images.
 
-## Prerequisites
 You must have the following software installed:
 
  - [Docker](https://docs.docker.com/get-docker/)
  - [kubectl](https://kubernetes.io/docs/tasks/tools/)
  - [Helm](https://helm.sh/docs/intro/install/) (version 3.x+)
  - [jq](https://github.com/stedolan/jq/wiki/Installation)
+
+ Verrazzano distributions are available in two variations:
+ * The `Verrazzano Lite Distribution` contains Kubernetes manifests to deploy Verrazzano, client binaries, and various other utilities. This distribution is provided for Linux and MacOS operating systems on AMD and ARM architectures.
+ * The `Verrazzano Full Distribution` contains Kubernetes manifests to deploy Verrazzano, client binaries and various utilities for Linux and MacOS operating systems on AMD and ARM architectures. This full distribution also includes the Linux AMD container images required for Verrazzano.
+
+ Both the distributions include:
+ * [Verrazzano CLI]({{< relref "docs/setup/cli/_index.md" >}})
+ * [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}})
+ * Helper scripts to download the images from the bill of materials (BOM) and to upload the Verrazzano images to a private registry
+ * Helm charts for the Verrazzano platform operator
+ * `README.md` which provides the layout of the respective distribution
 
 Set up a private registry using the following instructions, depending on your distribution.
 {{< tabs tabTotal="2" >}}
@@ -48,16 +48,16 @@ Set up a private registry using the following instructions, depending on your di
      # Sample output
      verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz: OK
      ```
-     **NOTE**: Use sha256sum command on Linux and shasum on MacOS.
+     **NOTE**: Use the `sha256sum` command on Linux and `shasum` on MacOS.
 
    d. Expand the TAR file to access the release artifacts.
 
-     The following example, extracts the distribution archive `verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz` into the current directory.
+      The following example, extracts the distribution archive `verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz` into the current directory.
 
-     ```
-     $ tar xvf verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz
-     ```
-     After a successful extraction, the release artifacts will be under the `verrazzano-{{<verrazzano_development_version>}}` directory.
+      ```
+      $ tar xvf verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz
+      ```
+      After a successful extraction, the release artifacts will be under the `verrazzano-{{<verrazzano_development_version>}}` directory.
 
     e. Define an environment variable `DISTRIBUTION_DIR`.
       ```
@@ -75,26 +75,44 @@ Set up a private registry using the following instructions, depending on your di
 
 ## Load the images
 
-1. Download the Verrazzano ZIP file from the Oracle Software Delivery Cloud.
+1. Download the Verrazzano ZIP file
+    * Download the Verrazzano ZIP file from the Oracle Software Delivery Cloud for major or minor releases.
 
-    a. In your browser, go to the [Oracle Software Delivery Cloud](https://edelivery.oracle.com) and log in with your credentials.
+        a. In your browser, go to the [Oracle Software Delivery Cloud](https://edelivery.oracle.com) and log in with your credentials.
 
-    b. In the drop-down menu preceding the search bar, select **All Categories**.
+        b. In the drop-down menu preceding the search bar, select **All Categories**.
 
-    c. In the search bar, enter `Verrazzano Enterprise Container Platform` and click **Search**.
+        c. In the search bar, enter `Verrazzano Enterprise Container Platform` and click **Search**.
 
-    d. Select the `DLP: Oracle Verrazzano Enterprise Edition {{<download_package_version>}}` link.  This will add it to your download queue.
+        d. Select the `REL: Verrazzano Enterprise Edition {{<download_package_version>}}` link.  This will add it to your download queue.
 
-    e. At the top of the page, select the **Continue** link.
+        e. At the top of the page, select the **Continue** link.
 
-    f. Review the Download Queue, then click **Continue**.
+        f. Review the Download Queue, then click **Continue**.
 
-    g. Accept the license agreement and click **Continue**.
+        g. Accept the license agreement and click **Continue**.
 
-    h. Download the file:
+        h. Download the file:
+        * To download the ZIP file directly, select the file link in the list.
+        * To download the ZIP file using `Oracle Download Manager`, click **Download** and run the `Oracle Download Manager` executable.
 
-     * To download the ZIP file directly, select the file link in the list.
-     * To download the ZIP file using `Oracle Download Manager`, click **Download** and run the `Oracle Download Manager` executable.    
+    * Download the Verrazzano ZIP file from My Oracle Support for cumulative patches.
+
+        a. In your browser, go to [My Oracle Support](https://support.oracle.com/) and log in with your credentials.
+
+        b. Select the `Patches & Updates` tab.
+
+        c. In the `Patch Search` panel, select the link `Product or Family (Advanced)`.
+
+        d. In the search bar for `Product is`, enter `Oracle Verrazzano Enterprise Container Platform`.
+
+        e. The previous step populates the available releases for Verrazzano in the drop-down menu `Release is`. Select the desired release(s) and click **Search**.
+
+        f. A new panel with `Patch Advanced Search Results` will open listing all the patches for the release. Select the link for the desired patch, under the `Patch Name`.
+
+        g. From the page providing details about the patch, click **Download**.
+
+        h. Download the ZIP file by selecting the file link.
 
 2. Prepare to do the private registry installation.
 
@@ -110,14 +128,14 @@ Set up a private registry using the following instructions, depending on your di
       # Sample output
       verrazzano-{{<verrazzano_development_version>}}.tar.gz: OK
       ```
-      **NOTE**: Use sha256sum command on Linux and shasum on MacOS.    
+      **NOTE**: Use the `sha256sum` command on Linux and `shasum` on MacOS.    
 
 {{< /tab >}}
 {{< /tabs >}}
 
 3. Load the product images into your private registry.
 
-   a. Log in to the Docker registry, run `docker login <SERVER>` with your credentials.
+   a. To log in to the Docker registry, run `docker login <SERVER>` with your credentials.
 
    b. For use with the examples in this document, define the following variables with respect to your target registry and repository: `MYREG`, `MYREPO`, `VPO_IMAGE`.    
 
@@ -172,7 +190,7 @@ Set up a private registry using the following instructions, depending on your di
          --set global.repository=${MYREPO} --set global.imagePullSecrets={verrazzano-container-registry} | kubectl apply -f -
      ```
 
-1. Wait for the deployment of Verrazzano platform operator.
+1. Wait for the deployment of the Verrazzano platform operator.
      ```
      $ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
 
@@ -197,7 +215,7 @@ To create a Verrazzano installation using the provided profiles, run the followi
 $ kubectl apply -f $DISTRIBUTION_DIR/manifests/profiles/prod.yaml
 ```     
 For a complete description of Verrazzano configuration options, see the [Reference API](https://verrazzano.io/{{<release_version>}}/docs/reference/api/).     
-     
+
 ## Configuring access to an insecure private registry
 
 A private Docker registry is called an [insecure registry](https://docs.docker.com/registry/insecure/) when it is configured for access using a self-signed certificate or over an unencrypted HTTP connection. Depending on the platform, there could be some additional configuration required for installing Verrazzano with an insecure registry.
