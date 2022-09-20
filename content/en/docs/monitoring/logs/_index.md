@@ -2,7 +2,7 @@
 title: "Logging"
 linkTitle: Logging
 description: "Learn about Verrazzano log collection and viewing"
-weight: 1
+weight: 2
 draft: false
 ---
 
@@ -141,7 +141,7 @@ For example, to see the log records of a WebLogic application deployed to the `t
 ## Log rotation
 
 We recommend configuring log rotation for OpenSearch using Index State Management (ISM) or a periodic job to purge or snapshot old records.
-For information on configuring OpenSearch ISM, see the [ISM setup page]({{< relref "/docs/setup/customizing/opensearch#configure-index-state-management-policies" >}}).
+For information on configuring OpenSearch ISM, see the [ISM setup page]({{< relref "/docs/customize/opensearch#configure-index-state-management-policies" >}}).
 
 A basic implementation of job-based log rotation (not using ISM) is provided in the following example, implemented using a Kubernetes CronJob.
 To install the log rotation example on your cluster, save the snippet to a file and make the following modifications:

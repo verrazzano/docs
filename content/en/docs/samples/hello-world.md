@@ -1,6 +1,6 @@
 ---
 title: "Hello World Helidon"
-weight: 3
+weight: 2
 description: "A simple Hello World REST service written with Helidon"
 ---
 

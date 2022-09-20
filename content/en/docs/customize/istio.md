@@ -2,7 +2,7 @@
 title: "Customize Istio"
 description: "Customize Istio Gateways"
 linkTitle: Istio
-weight: 6
+weight: 8
 draft: false
 ---
 

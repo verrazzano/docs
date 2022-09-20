@@ -135,14 +135,14 @@ You must have the following software installed:
          verrazzano-platform-operator-74f4547555-s76r2   1/1     Running   0          114s
        ```    
   The distribution archive includes the supported installation profiles under `${DISTRIBUTION_DIR}/manifests/profiles`.
-       Verrazzano supports customizing installation configurations. See [Customize Installations](https://verrazzano.io/{{<release_version>}}/docs/setup/customizing/).      
+       Verrazzano supports customizing installation configurations. See [Customize Verrazzano]({{< relref "/docs/customize/_index.md" >}}).      
 
   To create a Verrazzano installation using the provided profiles, run the following command:
 
   ```
   $ kubectl apply -f $DISTRIBUTION_DIR/manifests/profiles/prod.yaml
   ```     
-  For a complete description of Verrazzano configuration options, see the [Reference API](https://verrazzano.io/{{<release_version>}}/docs/reference/api/).
+  For a complete description of Verrazzano configuration options, see the [Reference API]({{< relref "/docs/reference/api/_index.md" >}}).
 
 ## Configuring access to an insecure private registry
 

@@ -7,8 +7,8 @@ draft: false
 ---
 
 
-Before proceeding, ensure that the backup component prerequisites are met, as indicated [here]({{< relref "docs/setup/backup/prerequisites.md" >}}).
-This document also assumes that a successful backup was previously made using either Velero or rancher-backup, as shown [here]({{< relref "docs/setup/backup/backup.md" >}}).  
+Before proceeding, ensure that the backup component prerequisites are met, as indicated [here]({{< relref "/docs/uninstall/backup/prerequisites.md" >}}).
+This document also assumes that a successful backup was previously made using either Velero or rancher-backup, as shown [here]({{< relref "/docs/uninstall/backup/backup.md" >}}).  
 
 Use the following component-specific instructions to restore application data.
 

@@ -2,7 +2,7 @@
 title: "Prometheus"
 linkTitle: "Prometheus"
 description: "Troubleshoot Prometheus issues"
-weight: 1
+weight: 4
 draft: false
 ---
 
