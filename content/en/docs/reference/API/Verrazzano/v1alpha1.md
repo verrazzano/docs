@@ -64,7 +64,6 @@ spec:
 | `jaegerOperator`     | [JaegerOperatorComponent](#jaeger-operator-component)             | The Jaeger Operator component configuration.       | No       |
 | `keycloak`           | [KeycloakComponent](#keycloak-component)                          | The Keycloak component configuration.              | No       |
 | `elasticsearch`      | [OpenSearchComponent](#opensearch-component)                      | The OpenSearch component configuration.            | No       |
-| `mySQLOperator`      | [MySQLOperatorComponent](#mysql-operator-component)               | The MySQL Operator component configuration.        | No |
 | `prometheus`         | [PrometheusComponent](#prometheus-component)                      | The Prometheus component configuration.            | No       |
 | `kibana`             | [OpenSearchDashboardsComponent](#opensearch-dashboards-component) | The OpenSearch Dashboards component configuration. | No       |
 | `grafana`            | [GrafanaComponent](#grafana-component)                            | The Grafana component configuration.               | No       |
@@ -264,12 +263,6 @@ spec:
 | `volumeSource` | [VolumeSource](https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/volume/) | Defines the type of volume to be used for persistence for Keycloak/MySQL, and can be one of either [EmptyDirVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#emptydirvolumesource-v1-core) or [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core). If [PersistentVolumeClaimVolumeSource](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#persistentvolumeclaimvolumesource-v1-core) is declared, then the `claimName` must reference the name of a `VolumeClaimSpecTemplate` declared in the `volumeClaimSpecTemplates` section. | No |
 | `monitorChanges` | Boolean | If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to `true`. | No |
 | `overrides` | [Overrides](#overrides) list | List of Overrides for the default `values.yaml` file for the component Helm chart. Lower Overrides have precedence over the ones above them. You can find all possible values [here]( {{< release_source_url path=platform-operator/thirdparty/charts/mysql/values.yaml >}} ) and invalid values will be ignored. | No |
-
-### MySQL Operator Component
-| Field | Type | Description | Required |
-| --- | --- | --- | --- |
-| `enabled`   | Boolean | If true, then MySQL Operator will be installed. | No |
-| `overrides` | [Overrides](#overrides) list | List of Overrides for the default `values.yaml` file for the component Helm chart. Lower Overrides have precedence over the ones above them. You can find all possible values [here]( {{< release_source_url path=platform-operator/thirdparty/charts/mysql-operator/values.yaml >}} ) and invalid values will be ignored. | No |
 
 ### OpenSearch Component
 | Field | Type | Description | Required |
