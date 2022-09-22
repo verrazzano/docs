@@ -14,6 +14,109 @@
     
     
     <item>
+      <title>Docs: Application Security</title>
+      <link>/docs/security/appsec/appsec/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/security/appsec/appsec/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano provides the following support.&lt;/p&gt;
+&lt;h2 id=&#34;keycloak&#34;&gt;Keycloak&lt;/h2&gt;
+&lt;p&gt;Applications can use the Verrazzano Keycloak server as an Identity Provider. Keycloak supports SAML 2.0 and OpenID Connect (OIDC) authentication and authorization flows. Verrazzano does not provide any explicit integrations for applications.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    If using Keycloak for application authentication and authorization, create a new realm to contain application users and clients. Do not use the verrazzano-system realm, or the default (Keycloak system) realm. The Keycloak root user account (&lt;code&gt;keycloakadmin&lt;/code&gt;) has privileges to create realms.
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;network-security&#34;&gt;Network security&lt;/h2&gt;
+&lt;p&gt;Verrazzano uses Istio to authenticate and authorize incoming network connections for applications. Verrazzano also provides support for configuring Kubernetes NetworkPolicy on Verrazzano projects. NetworkPolicy rules control where network connections can be made.&lt;/p&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    Enforcement of NetworkPolicy requires that a Kubernetes Container Network Interface (CNI) provider, such as Calico, be configured for the cluster.
+
+&lt;/div&gt;
+
+&lt;p&gt;For more information on how Verrazzano secures network traffic, see &lt;a href=&#34;../../docs/networking/security/net-security/&#34;&gt;Network Security&lt;/a&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Default User Accounts</title>
+      <link>/docs/security/accounts/accounts/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/security/accounts/accounts/</guid>
+      <description>
+        
+        
+        &lt;p&gt;During installation, Verrazzano generates several default accounts.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;System&lt;/th&gt;
+&lt;th&gt;Account&lt;/th&gt;
+&lt;th&gt;Secret&lt;/th&gt;
+&lt;th&gt;Secret Namespace&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Keycloak&lt;/td&gt;
+&lt;td&gt;keycloakadmin&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;keycloak-http&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;keycloak&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Keycloak root user: full administrative privileges for Keycloak.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Keycloak&lt;/td&gt;
+&lt;td&gt;verrazzano&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;verrazzano-system&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Verrazzano root user: can manage the verrazzano-system realm in Keycloak, including managing users in that realm. This user is a member of the verrazzano-admins group, and, if default role bindings are used, has the verrazzano-admin role.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Rancher&lt;/td&gt;
+&lt;td&gt;admin&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;rancher-admin-secret&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;cattle-system&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Rancher root user: full administrative privileges for Rancher.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Keycloak and SSO</title>
+      <link>/docs/security/keycloak/keycloak/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/security/keycloak/keycloak/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano can be deployed to a number of different hosted and on-premises Kubernetes environments. Particularly in hosted environments, it may not be possible to choose the authentication providers configured for the Kubernetes API server, and Verrazzano may have no ability to view, manage, or authenticate users.&lt;/p&gt;
+&lt;p&gt;Verrazzano installs Keycloak to provide a common user store across all Kubernetes environments. The Verrazzano admin user can create and manage user accounts in Keycloak, and Verrazzano can authenticate and authorize Keycloak users.&lt;/p&gt;
+&lt;p&gt;Also, you can configure Keycloak to delegate authentication to an external user store, such as Active Directory or an LDAP server.&lt;/p&gt;
+&lt;p&gt;Because Keycloak is not configured as an authentication provider for the Kubernetes API, authenticating Keycloak users to Kubernetes requires the use of a proxy that impersonates Keycloak users when making Kubernetes API requests. For more information about the Verrazzano authentication proxy, see &lt;a href=&#34;../../docs/security/proxies/proxies/&#34;&gt;Verrazzano Proxies&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Keycloak is also used when authenticating to the Verrazzano Console and the various Verrazzano Monitoring Instance (VMI) logging and metrics consoles. The Verrazzano Console uses the OpenID Connect (OIDC) PKCE flow to authenticate users against Keycloak and obtain ID and access tokens. Authentication for VMI consoles is provided by the Verrazzano authentication proxy, which also uses PKCE to authenticate users, validates the resulting tokens, and authorizes incoming requests. For more information about the Verrazzano authentication proxy, see &lt;a href=&#34;../../docs/security/proxies/proxies/&#34;&gt;Verrazzano Proxies&lt;/a&gt;.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Kubernetes RBAC</title>
       <link>/docs/security/rbac/rbac/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -200,24 +303,6 @@ spec:
     </item>
     
     <item>
-      <title>Docs: Keycloak and SSO</title>
-      <link>/docs/security/keycloak/keycloak/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/docs/security/keycloak/keycloak/</guid>
-      <description>
-        
-        
-        &lt;p&gt;Verrazzano can be deployed to a number of different hosted and on-premises Kubernetes environments. Particularly in hosted environments, it may not be possible to choose the authentication providers configured for the Kubernetes API server, and Verrazzano may have no ability to view, manage, or authenticate users.&lt;/p&gt;
-&lt;p&gt;Verrazzano installs Keycloak to provide a common user store across all Kubernetes environments. The Verrazzano admin user can create and manage user accounts in Keycloak, and Verrazzano can authenticate and authorize Keycloak users.&lt;/p&gt;
-&lt;p&gt;Also, you can configure Keycloak to delegate authentication to an external user store, such as Active Directory or an LDAP server.&lt;/p&gt;
-&lt;p&gt;Because Keycloak is not configured as an authentication provider for the Kubernetes API, authenticating Keycloak users to Kubernetes requires the use of a proxy that impersonates Keycloak users when making Kubernetes API requests. For more information about the Verrazzano authentication proxy, see &lt;a href=&#34;../../docs/security/proxies/proxies/&#34;&gt;Verrazzano Proxies&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Keycloak is also used when authenticating to the Verrazzano Console and the various Verrazzano Monitoring Instance (VMI) logging and metrics consoles. The Verrazzano Console uses the OpenID Connect (OIDC) PKCE flow to authenticate users against Keycloak and obtain ID and access tokens. Authentication for VMI consoles is provided by the Verrazzano authentication proxy, which also uses PKCE to authenticate users, validates the resulting tokens, and authorizes incoming requests. For more information about the Verrazzano authentication proxy, see &lt;a href=&#34;../../docs/security/proxies/proxies/&#34;&gt;Verrazzano Proxies&lt;/a&gt;.&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
       <title>Docs: Verrazzano Authentication Proxy</title>
       <link>/docs/security/proxies/proxies/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -233,91 +318,6 @@ spec:
 &lt;p&gt;In multicluster scenarios, the Console directs all Kubernetes API requests to the admin cluster&amp;rsquo;s authentication proxy. If a request refers to a resource in a different cluster, the authentication proxy forwards the request, along with the user&amp;rsquo;s authentication token, to the authentication proxy running in the remote cluster.&lt;/p&gt;
 &lt;h2 id=&#34;single-sign-on-sso&#34;&gt;Single Sign-On (SSO)&lt;/h2&gt;
 &lt;p&gt;The Verrazzano authentication proxy provides SSO across the Verrazzano Console and the Verrazzano Monitoring Instance (VMI) logging and metrics consoles. When an unauthenticated request is received by the proxy, it runs the OIDC PKCE authentication flow to obtain tokens for the user. If the user is already authenticated to Keycloak (because they have already accessed either the Verrazzano Console or another VMI component), Keycloak returns tokens based on the existing user session, and the process is transparent to the user. If not, Keycloak will authenticate the user, establishing a session, before returning tokens.&lt;/p&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Docs: Default User Accounts</title>
-      <link>/docs/security/accounts/accounts/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/docs/security/accounts/accounts/</guid>
-      <description>
-        
-        
-        &lt;p&gt;During installation, Verrazzano generates several default accounts.&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;System&lt;/th&gt;
-&lt;th&gt;Account&lt;/th&gt;
-&lt;th&gt;Secret&lt;/th&gt;
-&lt;th&gt;Secret Namespace&lt;/th&gt;
-&lt;th&gt;Description&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;Keycloak&lt;/td&gt;
-&lt;td&gt;keycloakadmin&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;keycloak-http&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;keycloak&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Keycloak root user: full administrative privileges for Keycloak.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Keycloak&lt;/td&gt;
-&lt;td&gt;verrazzano&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;verrazzano-system&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Verrazzano root user: can manage the verrazzano-system realm in Keycloak, including managing users in that realm. This user is a member of the verrazzano-admins group, and, if default role bindings are used, has the verrazzano-admin role.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Rancher&lt;/td&gt;
-&lt;td&gt;admin&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;rancher-admin-secret&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;cattle-system&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Rancher root user: full administrative privileges for Rancher.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-      </description>
-    </item>
-    
-    <item>
-      <title>Docs: Application Security</title>
-      <link>/docs/security/appsec/appsec/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/docs/security/appsec/appsec/</guid>
-      <description>
-        
-        
-        &lt;p&gt;Verrazzano provides the following support.&lt;/p&gt;
-&lt;h2 id=&#34;keycloak&#34;&gt;Keycloak&lt;/h2&gt;
-&lt;p&gt;Applications can use the Verrazzano Keycloak server as an Identity Provider. Keycloak supports SAML 2.0 and OpenID Connect (OIDC) authentication and authorization flows. Verrazzano does not provide any explicit integrations for applications.&lt;/p&gt;
-
-
-&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
-&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
-
-    If using Keycloak for application authentication and authorization, create a new realm to contain application users and clients. Do not use the verrazzano-system realm, or the default (Keycloak system) realm. The Keycloak root user account (&lt;code&gt;keycloakadmin&lt;/code&gt;) has privileges to create realms.
-
-&lt;/div&gt;
-
-&lt;h2 id=&#34;network-security&#34;&gt;Network security&lt;/h2&gt;
-&lt;p&gt;Verrazzano uses Istio to authenticate and authorize incoming network connections for applications. Verrazzano also provides support for configuring Kubernetes NetworkPolicy on Verrazzano projects. NetworkPolicy rules control where network connections can be made.&lt;/p&gt;
-
-
-&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
-&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
-
-    Enforcement of NetworkPolicy requires that a Kubernetes Container Network Interface (CNI) provider, such as Calico, be configured for the cluster.
-
-&lt;/div&gt;
-
-&lt;p&gt;For more information on how Verrazzano secures network traffic, see &lt;a href=&#34;../../docs/networking/security/net-security/&#34;&gt;Network Security&lt;/a&gt;.&lt;/p&gt;
 
       </description>
     </item>
