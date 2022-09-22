@@ -2,7 +2,7 @@
 title: "Customize DNS"
 description: "Customize DNS configurations for Verrazzano system and application endpoints"
 linkTitle: DNS
-weight: 1
+weight: 3
 draft: false
 ---
 
@@ -323,6 +323,6 @@ This example assumes that load balancers exist for `ingress-mgmt` on `198.51.100
 `203.0.113.10`.
 
 For a more complete example, see the documentation for setting up Verrazzano on the
-[Oracle Cloud Native Environment Platform](/docs/setup/platforms/olcne/olcne/).
+[Oracle Cloud Native Environment Platform]({{< relref "/docs/setup/platforms/olcne/olcne.md" >}}).
 {{< /tab >}}
 {{< /tabs >}}

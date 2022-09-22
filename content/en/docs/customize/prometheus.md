@@ -1,8 +1,8 @@
 ---
 title: Customize Prometheus
-description: Customize Verrazzano Prometheus installation settings
+description: Customize Verrazzano Prometheus settings
 linkTitle: Prometheus
-Weight: 9
+Weight: 12
 draft: false
 ---
 

@@ -9,7 +9,7 @@ The Hello World Helidon example is a Helidon-based service that returns a "Hello
 
 ## Before you begin
 
-Create a multicluster Verrazzano installation with one admin and one managed cluster, and register the managed cluster, by following the instructions [here]({{< relref "/docs/setup/install/multicluster/_index.md" >}}).
+Create a multicluster Verrazzano installation with one admin and one managed cluster, and register the managed cluster, by following the instructions [here]({{< relref "/docs/setup/install/multicluster.md" >}}).
 
 Set up the following environment variables to point to the `kubeconfig` for the admin and managed clusters.
 

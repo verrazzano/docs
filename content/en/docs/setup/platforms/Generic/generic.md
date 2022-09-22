@@ -2,7 +2,7 @@
 title: Generic Kubernetes
 description: Instructions for setting up a generic Kubernetes cluster for Verrazzano
 linkTitle: Generic
-Weight: 10
+Weight: 1
 draft: false
 ---
 
@@ -25,7 +25,7 @@ This requires a good working knowledge of networking and has limited use cases.
 
 ## Customizations
 
-Verrazzano is highly customizable.  If your Kubernetes implementation requires a custom configuration, see [Customize Installations]({{< relref "/docs/setup/customizing" >}}).
+Verrazzano is highly customizable.  If your Kubernetes implementation requires a custom configuration, see [Customize Verrazzano]({{< relref "/docs/customize" >}}).
 
 ## Next steps
 
