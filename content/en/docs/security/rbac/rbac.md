@@ -1,7 +1,7 @@
 ---
 title: "Kubernetes RBAC"
 description: "Learn about role-based access control in Verrazzano"
-weight: 2
+weight: 4
 draft: false
 ---
 

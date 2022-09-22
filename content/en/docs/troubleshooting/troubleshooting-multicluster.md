@@ -2,7 +2,7 @@
 title: "Multicluster Verrazzano"
 linkTitle: "Multicluster"
 description: "Troubleshoot issues with multicluster setup and applications"
-weight: 1
+weight: 3
 draft: false
 ---
 
@@ -16,7 +16,7 @@ use the following steps to troubleshoot:
 - Check the multicluster resource's status field on the admin cluster to know what the status of that resource is
   on each managed cluster to which it is targeted.
 
-If you update the [DNS]({{< relref "/docs/setup/customizing/dns" >}}) of the admin cluster and notice that the
+If you update the [DNS]({{< relref "/docs/customize/dns" >}}) of the admin cluster and notice that the
 managed cluster status is unavailable in the Rancher console, along with the error `x509: certificate is valid for
 <rancher new url>, not <rancher old url>` seen in the `cattle-cluster-agent` (Rancher Agent) logs on the
 managed cluster, then re-register the managed cluster, as described [here](#re-register-the-managed-cluster).

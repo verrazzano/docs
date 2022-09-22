@@ -135,7 +135,7 @@ spec:
 ### Ingress NGINX Component
 | Field | Type | Description | Required |
 | --- | --- | --- | --- |
-| `type` | string | The ingress type.  Valid values are `LoadBalancer` and `NodePort`.  The default value is `LoadBalancer`. If the ingress type is `NodePort`, a valid and accessible IP address must be specified using the `controller.service.externalIPs` key in [ingressNGINX.overrides](#overrides). For sample usage, see [External Load Balancers]({{< relref "/docs/setup/customizing/externalLBs.md" >}}). | No |
+| `type` | string | The ingress type.  Valid values are `LoadBalancer` and `NodePort`.  The default value is `LoadBalancer`. If the ingress type is `NodePort`, a valid and accessible IP address must be specified using the `controller.service.externalIPs` key in [ingressNGINX.overrides](#overrides). For sample usage, see [External Load Balancers]({{< relref "/docs/customize/externalLBs.md" >}}). | No |
 | `ports` | [PortConfig](#port-config) list | The list port configurations used by the ingress. | No |
 | `monitorChanges` | Boolean | If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to `true`. | No |
 | `overrides` | [Overrides](#overrides) list | List of Overrides for the default `values.yaml` file for the component Helm chart. Lower Overrides have precedence over the ones above them. You can find all possible values [here]( {{< release_source_url path=platform-operator/thirdparty/charts/ingress-nginx/values.yaml >}} ) and invalid values will be ignored. | No |
@@ -152,9 +152,9 @@ spec:
 #### Name Value
 | Field | Type | Description | Required |
 | --- | --- | --- | --- |
-| `name` | string | The name of a Helm override for a Verrazzano component chart, specified with a `set` flag on the Helm command line, for example, `helm install --set name=value`. For more information about chart overrides, see [Customize Ingress](/docs/setup/customizing/ingress/). |  Yes |
-| `value` | string | The value of a Helm override for a Verrazzano component chart, specified with a `set` flag on the Helm command line, for example, `helm install --set name=value`. Either `value` or `valueList` must be specified. For more information about chart overrides, see [Customize Ingress](/docs/setup/customizing/ingress/).|  No |
-| `valueList` | string list | The list of Helm override values for a Verrazzano component, each specified with a `set` flag on the Helm command line, for example, `helm install --set name[0]=<first element of valueList> —set name[1]=<second element of valueList>`. Either `value` or `valueList` must be specified. For more information about chart overrides, see [Customize Ingress](/docs/setup/customizing/ingress/).  |  No |
+| `name` | string | The name of a Helm override for a Verrazzano component chart, specified with a `set` flag on the Helm command line, for example, `helm install --set name=value`. For more information about chart overrides, see [Customize Ingress]({{< relref "/docs/customize/ingress" >}}). |  Yes |
+| `value` | string | The value of a Helm override for a Verrazzano component chart, specified with a `set` flag on the Helm command line, for example, `helm install --set name=value`. Either `value` or `valueList` must be specified. For more information about chart overrides, see [Customize Ingress]({{< relref "/docs/customize/ingress" >}}).|  No |
+| `valueList` | string list | The list of Helm override values for a Verrazzano component, each specified with a `set` flag on the Helm command line, for example, `helm install --set name[0]=<first element of valueList> —set name[1]=<second element of valueList>`. Either `value` or `valueList` must be specified. For more information about chart overrides, see [Customize Ingress]({{< relref "/docs/customize/ingress" >}}).  |  No |
 | `setString` | Boolean | Specifies if the argument requires the Helm `--set-string` command-line flag to override a chart value, for example, `helm install --set-string name=value`. |  No |
 
 ### Istio Component
@@ -223,7 +223,7 @@ spec:
 | --- | --- | --- | --- |
 | `enabled` | Boolean | If true, then OpenSearch will be installed. | No |
 | `policies` | [Policy](#opensearch-index-management-policies) list | A list of [Index State Management]({{<opensearch_docs_url>}}/im-plugin/ism/index/) policies to enable on OpenSearch. | No |
-| `nodes` | [Node](#opensearch-node-groups) list | A list of OpenSearch node groups.  For sample usage, see [Customize OpenSearch](/docs/setup/customizing/opensearch/). | No |
+| `nodes` | [Node](#opensearch-node-groups) list | A list of OpenSearch node groups.  For sample usage, see [Customize OpenSearch]({{< relref "/docs/customize/opensearch" >}}). | No |
 
 #### OpenSearch Node Groups
 | Field | Type | Description | Required |

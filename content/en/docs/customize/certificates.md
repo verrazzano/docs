@@ -89,7 +89,7 @@ field in the Verrazzano custom resource.
 
 {{< alert title="NOTE" color="primary" >}}
 Using LetsEncrypt for certificates also requires using Oracle Cloud Infrastructure DNS for DNS management.
-For details, see the [Customize DNS](/docs/setup/customizing/dns/) page.
+For details, see the [Customize DNS]({{< relref "/docs/customize/dns.md" >}}) page.
 {{< /alert >}}
 
 To configure CertManager to use LetsEncrypt as the certificates provider, you must configure a CertManager

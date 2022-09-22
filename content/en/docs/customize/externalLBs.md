@@ -2,7 +2,7 @@
 title: "External Load Balancers"
 description: "External load balancers for Verrazzano management and application endpoints"
 linkTitle: External Load Balancers
-weight: 11
+weight: 4
 draft: false
 ---
 

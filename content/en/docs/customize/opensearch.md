@@ -2,9 +2,9 @@
 title: "Customize OpenSearch"
 description: "Learn how to customize your OpenSearch cluster configuration"
 aliases:
-    - /docs/setup/customizing/elasticsearch
+    - /docs/customize/elasticsearch
 linkTitle: OpenSearch
-weight: 8
+weight: 10
 draft: false
 ---
 
@@ -12,7 +12,7 @@ Verrazzano supports two cluster topologies for an OpenSearch cluster:
 - A single-node cluster (master, ingest, and data roles performed by a single node).
 - A multi-node cluster configuration with separate master, data, and ingest nodes.
 
-[Installation Profiles](/docs/setup/install/profiles/) describes the default OpenSearch cluster
+[Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}}) describes the default OpenSearch cluster
 configurations provided by Verrazzano.  
 
 ## Configure cluster topology

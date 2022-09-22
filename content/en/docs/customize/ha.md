@@ -2,7 +2,7 @@
 title: Configure High Availability
 description: Achieve high availability using the `prod` profile
 linkTitle: High Availability
-Weight: 11
+Weight: 6
 draft: false
 ---
 
@@ -26,7 +26,7 @@ When using the [`ha.yaml`]({{< ghlink raw=true path="examples/ha/ha.yaml" >}}) f
 
 * It does not ensure a fault-tolerant environment. Your applications still must be designed and implemented as highly available.
 * Running additional replicas of components will increase resource requirements. At least four CPUs, 100GB disk storage, and 64GB RAM available on the Kubernetes worker nodes is required.
-* Additional customizations may be required for your environment, including other customizations described in [Customize Installations]({{< relref "docs/setup/customizing/_index.md" >}}).
+* Additional customizations may be required for your environment, including other customizations described in [Customize Verrazzano]({{< relref "docs/customize/_index.md" >}}).
 
 Follow these best practices for a highly available Verrazzano installation:
 * Size your Kubernetes cluster according to your node failure tolerance and workload requirements.

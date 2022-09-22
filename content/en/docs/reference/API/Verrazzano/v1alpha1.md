@@ -145,7 +145,7 @@ spec:
 ### Ingress Component
 | Field | Type | Description | Required |
 | --- | --- | --- | --- |
-| `type` | string | The ingress type.  Valid values are `LoadBalancer` and `NodePort`.  The default value is `LoadBalancer`. If the ingress type is `NodePort`, a valid and accessible IP address must be specified using the `controller.service.externalIPs` key in [NGINXInstallArgs](#nginx-install-args). For sample usage, see [External Load Balancers]({{< relref "/docs/setup/customizing/externalLBs.md" >}}). | No |
+| `type` | string | The ingress type.  Valid values are `LoadBalancer` and `NodePort`.  The default value is `LoadBalancer`. If the ingress type is `NodePort`, a valid and accessible IP address must be specified using the `controller.service.externalIPs` key in [NGINXInstallArgs](#nginx-install-args). For sample usage, see [External Load Balancers]({{< relref "/docs/customize/externalLBs.md" >}}). | No |
 | `nginxInstallArgs` |  [NGINXInstallArgs](#nginx-install-args) list | A list of values to use during NGINX installation. | No |
 | `ports` | [PortConfig](#port-config) list | The list port configurations used by the ingress. | No |
 | `monitorChanges` | Boolean | If false, then Verrazzano updates will ignore any configuration changes to this component. Defaults to `true`. | No |
@@ -156,7 +156,7 @@ spec:
 | --- | --- | --- | --- | --- |
 | `controller.service.externalIPs` | [NameValue](#name-value)  | string list | The external IP address used by the NGINX Ingress Controller. |  No |
 | `controller.service.externalTrafficPolicy` | [NameValue](#name-value) | string  | Preserves the client source IP address. See [Bare-metal considerations](https://kubernetes.github.io/ingress-nginx/deploy/baremetal/). |  No |
-| `controller.service.annotations.*` | [NameValue](#name-value) | string  | Annotations used for NGINX Ingress Controller.  For sample usage, see [Customize Ingress](/docs/setup/customizing/ingress/). |  No |
+| `controller.service.annotations.*` | [NameValue](#name-value) | string  | Annotations used for NGINX Ingress Controller.  For sample usage, see [Customize Ingress]({{< relref "/docs/customize/ingress" >}}). |  No |
 | `controller.autoscaling.enabled` | [NameValue](#name-value) |  Boolean | If true, then enable horizonal pod autoscaler.  Default `false`. |  No |
 | `controller.autoscaling.minReplicas` | [NameValue](#name-value) | string | Minimum replicas used for autoscaling.  Default `1`. |  No |
 
@@ -173,9 +173,9 @@ spec:
 #### Name Value
 | Field | Type | Description | Required |
 | --- | --- | --- | --- |
-| `name` | string | The name of a Helm override for a Verrazzano component chart, specified with a `set` flag on the Helm command line, for example, `helm install --set name=value`. For more information about chart overrides, see [Customize Ingress](/docs/setup/customizing/ingress/). |  Yes |
-| `value` | string | The value of a Helm override for a Verrazzano component chart, specified with a `set` flag on the Helm command line, for example, `helm install --set name=value`. Either `value` or `valueList` must be specified. For more information about chart overrides, see [Customize Ingress](/docs/setup/customizing/ingress/).|  No |
-| `valueList` | string list | The list of Helm override values for a Verrazzano component, each specified with a `set` flag on the Helm command line, for example, `helm install --set name[0]=<first element of valueList> —set name[1]=<second element of valueList>`. Either `value` or `valueList` must be specified. For more information about chart overrides, see [Customize Ingress](/docs/setup/customizing/ingress/).  |  No |
+| `name` | string | The name of a Helm override for a Verrazzano component chart, specified with a `set` flag on the Helm command line, for example, `helm install --set name=value`. For more information about chart overrides, see [Customize Ingress]({{< relref "/docs/customize/ingress" >}}). |  Yes |
+| `value` | string | The value of a Helm override for a Verrazzano component chart, specified with a `set` flag on the Helm command line, for example, `helm install --set name=value`. Either `value` or `valueList` must be specified. For more information about chart overrides, see [Customize Ingress]({{< relref "/docs/customize/ingress" >}}).|  No |
+| `valueList` | string list | The list of Helm override values for a Verrazzano component, each specified with a `set` flag on the Helm command line, for example, `helm install --set name[0]=<first element of valueList> —set name[1]=<second element of valueList>`. Either `value` or `valueList` must be specified. For more information about chart overrides, see [Customize Ingress]({{< relref "/docs/customize/ingress" >}}).  |  No |
 | `setString` | Boolean | Specifies if the argument requires the Helm `--set-string` command-line flag to override a chart value, for example, `helm install --set-string name=value`. |  No |
 
 ### Istio Component
@@ -192,7 +192,7 @@ spec:
 
 | Field | Type | Description | Required |
 | --- | --- | --- | --- |
-| `type` | string | The Istio ingress type.  Valid values are `LoadBalancer` and `NodePort`.  The default value is `LoadBalancer`. If the Istio ingress type is `NodePort`, a valid and accessible IP address must be specified using the `gateways.istio-ingressgateway.externalIPs` key in [IstioInstallArgs](#istio-install-args). For sample usage, see [External Load Balancers]({{< relref "/docs/setup/customizing/externalLBs.md" >}}). | No |
+| `type` | string | The Istio ingress type.  Valid values are `LoadBalancer` and `NodePort`.  The default value is `LoadBalancer`. If the Istio ingress type is `NodePort`, a valid and accessible IP address must be specified using the `gateways.istio-ingressgateway.externalIPs` key in [IstioInstallArgs](#istio-install-args). For sample usage, see [External Load Balancers]({{< relref "/docs/customize/externalLBs.md" >}}). | No |
 | `ports` | [PortConfig](#port-config) list | The list port configurations used by the Istio ingress. | No |
 | `kubernetes` | [IstioKubernetes](#istio-kubernetes-configuration) | The Kubernetes resources than can be configured for an Istio ingress gateway. | No |
 
@@ -213,7 +213,7 @@ spec:
 | Name | Type | ValueType | Description | Required |
 | --- | --- | --- | --- | --- |
 | `gateways.istio-ingressgateway.externalIPs` | [NameValue](#name-value)  | string list | The external IP address used by the Istio ingress gateway. |  No |
-| `gateways.istio-ingressgateway.serviceAnnotations.*` | [NameValue](#name-value) | string | Annotations used for the Istio ingress gateway.  For sample usage, see [Customize Ingress](/docs/setup/customizing/ingress/). |  No |
+| `gateways.istio-ingressgateway.serviceAnnotations.*` | [NameValue](#name-value) | string | Annotations used for the Istio ingress gateway.  For sample usage, see [Customize Ingress]({{< relref "/docs/customize/ingress" >}}). |  No |
 | `meshConfig.enableTracing` | [NameValue](#name-value)  | string | If `"true"`, Istio will export tracing when Jaeger is installed. Defaults to `"false"`. |  No |
 | `meshConfig.defaultConfig.tracing.sampling` | [NameValue](#name-value)  | string | Sampling rate for Istio tracing. Defaults to `"1"`, meaning a 1% sampling rate. |  No |
 
@@ -275,7 +275,7 @@ spec:
 | Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `enabled` | Boolean | If true, then OpenSearch will be installed. | No |
-| `installArgs` | [OpenSearchInstallArgs](#opensearch-install-args) list | A list of values to use during OpenSearch installation.  Each argument is specified as either a `name/value` or `name/valueList` pair.  For sample usage, see [Customize OpenSearch](/docs/setup/customizing/opensearch/).| No |
+| `installArgs` | [OpenSearchInstallArgs](#opensearch-install-args) list | A list of values to use during OpenSearch installation.  Each argument is specified as either a `name/value` or `name/valueList` pair.  For sample usage, see [Customize OpenSearch]({{< relref "/docs/customize/opensearch" >}}).| No |
 | `policies` | [Policy](#opensearch-index-management-policies) list | A list of [Index State Management]({{<opensearch_docs_url>}}/im-plugin/ism/index/) policies to enable on OpenSearch. | No |
 | `nodes` | [Node](#opensearch-node-groups) list | A list of OpenSearch node groups. | No |
 

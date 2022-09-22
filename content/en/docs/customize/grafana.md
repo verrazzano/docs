@@ -1,8 +1,8 @@
 ---
 title: Customize Grafana
-description: Customize Verrazzano Grafana installation settings
+description: Customize Verrazzano Grafana settings
 linkTitle: Grafana
-Weight: 9
+Weight: 5
 draft: false
 ---
 
