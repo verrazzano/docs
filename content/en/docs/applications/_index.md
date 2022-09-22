@@ -1,7 +1,7 @@
 ---
 title: "Applications"
 description: "Develop applications with Verrazzano"
-weight: 6
+weight: 7
 draft: false
 ---
 

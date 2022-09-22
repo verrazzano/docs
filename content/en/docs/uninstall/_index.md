@@ -1,6 +1,6 @@
 ---
 title: "Upgrade, Backup, & Uninstall"
 description: "Upgrade, backup, and uninstall Verrazzano"
-weight: 5
+weight: 6
 draft: false
 ---
