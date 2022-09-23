@@ -2,7 +2,7 @@
 title: Kind
 description: Instructions for setting up a Kind cluster for Verrazzano
 linkTitle: Kind
-Weight: 8
+Weight: 2
 draft: false
 ---
 

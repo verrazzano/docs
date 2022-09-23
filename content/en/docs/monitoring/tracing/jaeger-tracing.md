@@ -2,7 +2,7 @@
 title: "Jaeger Tracing"
 linkTitle: Jaeger Tracing
 description: "Configure Jaeger to capture application traces"
-weight: 4
+weight: 1
 draft: false
 ---
 
@@ -192,7 +192,7 @@ spec:
 
 If you have multiple Jaeger instances in your cluster, specify the name of the Jaeger instance to which you intend to
 send the traces, as a value for the annotation `sidecar.jaegertracing.io/inject`. For more details,
-see the [Jaeger documentation](https://www.jaegertracing.io/docs/{{<jaeger_doc_version>}}/operator/#auto-injecting-jaeger-agent-sidecars). 
+see the [Jaeger documentation](https://www.jaegertracing.io/docs/{{<jaeger_doc_version>}}/operator/#auto-injecting-jaeger-agent-sidecars).
 
 ## View traces on the Jaeger UI
 
@@ -249,7 +249,7 @@ spec:
         - values:
             apiVersion: install.istio.io/v1alpha1
             kind: IstioOperator
-            spec: 
+            spec:
               meshConfig:
                 enableTracing: true
                 defaultConfig:

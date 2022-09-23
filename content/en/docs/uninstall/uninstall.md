@@ -2,7 +2,7 @@
 title: "Uninstall"
 linkTitle: "Uninstall"
 description: "How to uninstall Verrazzano"
-weight: 5
+weight: 3
 draft: false
 ---
 
@@ -51,7 +51,7 @@ uses the `kubectl logs -f` command to tail the output of the pod performing the 
 2. Delete the Verrazzano custom resource.  Once the delete is done, the Verrazzano uninstall will be complete.
 
    ```shell
-   $ kubectl delete verrazzano $MYVZ 
+   $ kubectl delete verrazzano $MYVZ
    ```
 If you want to see the uninstall logs during the deletion, you can view them from the `Verrazzano Platform Operator` with the following command:
 

@@ -46,7 +46,7 @@ This document shows how to create a basic Verrazzano installation using:
 For a complete description of Verrazzano configuration options, see the
 [Verrazzano Custom Resource Definition]({{< relref "/docs/reference/api/verrazzano/v1beta1.md" >}}).
 
-To use other DNS options, see [Customizing DNS](/docs/setup/customizing/dns/) for more details.
+To use other DNS options, see [Customizing DNS]({{< relref "/docs/customize/dns" >}}) for more details.
 
 #### Install Verrazzano
 
@@ -134,7 +134,7 @@ This document shows how to create a basic Verrazzano installation using:
 For a complete description of Verrazzano configuration options, see the
 [Verrazzano Custom Resource Definition]({{< relref "/docs/reference/api/verrazzano/v1beta1.md" >}}).
 
-To use other DNS options, see [Customzing DNS](/docs/setup/customizing/dns/) for more details.
+To use other DNS options, see [Customzing DNS]({{< relref "/docs/customize/dns" >}}) for more details.
 
 #### Install Verrazzano
 

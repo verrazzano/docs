@@ -1,13 +1,13 @@
 ---
 title: "Install Multicluster Verrazzano"
 description: "How to set up a multicluster Verrazzano environment"
-weight: 5
+weight: 3
 draft: false
 ---
 
 ## Prerequisites
 
-Before you begin, read this document, [Verrazzano in a multicluster environment]({{< relref "../../concepts/VerrazzanoMultiCluster.md" >}}).
+Before you begin, read this document, [Verrazzano in a multicluster environment]({{< relref "/docs/concepts/VerrazzanoMultiCluster.md" >}}).
 
 ## Overview
 
