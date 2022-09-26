@@ -21,9 +21,10 @@ The Fluentd plug-in included with Verrazzano will use Oracle Cloud Infrastructur
 can configure Verrazzano with a user API signing key. API signing key authentication is required to send logs to
 Oracle Cloud Infrastructure Logging if the cluster is running outside of Oracle Cloud Infrastructure.
 
-{{< tabs tabTotal="2" >}}
-{{< tab tabName="Instance Principal Credentials" >}}
-<br>
+- [Instance Principal Credentials](#instance-principal-credentials)
+- [User API Credentials](#user-api-credentials)
+
+### Instance Principal Credentials
 
 Create a dynamic group that includes the compute instances in your cluster's node pools and assign the appropriate policy,
 so that the dynamic group is allowed to send log entries to the custom logs you created earlier. Pay close attention to
@@ -31,11 +32,7 @@ the [required permissions](https://docs.oracle.com/en-us/iaas/Content/Logging/Ta
 
 If the dynamic group and policy are configured incorrectly, then Fluentd will fail to send logs to Oracle Cloud Infrastructure Logging.
 
-<br/>
-
-{{< /tab >}}
-{{< tab tabName="User API Credentials" >}}
-<br>
+### User API Credentials
 
 If you do not already have an API signing key, then see [Required Keys and OCIDs](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm)
 in the Oracle Cloud Infrastructure documentation. You need to create an Oracle Cloud Infrastructure configuration file with the credential details and then use that
@@ -79,17 +76,15 @@ For convenience, there is a helper script available
 you can point at an existing Oracle Cloud Infrastructure configuration file and it will create the secret for you. The script allows you to
 override the default configuration file location, profile name, and the name of the secret.
 
-{{< /tab >}}
-{{< /tabs >}}
 
 ## Install Verrazzano
 Oracle Cloud Infrastructure Logging is enabled in your cluster when installing Verrazzano. The Verrazzano installation custom resource has fields
 for specifying two custom logs: one for system logs and one for application logs. Here is an example Verrazzano
 installation YAML file for each type of credential.
+- [Instance principal credentials](#instance-principal-credentials)
+- [User API credentials](#user-api-credentials)
 
-{{< tabs tabTotal="2" >}}
-{{< tab tabName="Instance Principal Credentials" >}}
-<br>
+### Instance principal credentials
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -109,11 +104,7 @@ spec:
     opensearchDashboards:
       enabled: false
 ```
-<br/>
-
-{{< /tab >}}
-{{< tab tabName="User API Credentials" >}}
-<br>
+### User API credentials
 
 When using user API credentials, you need to configure the name of the secret in the Verrazzano custom resource,
 under the Oracle Cloud Infrastructure section of the Fluentd component settings. Your YAML file should look something like this.
@@ -140,8 +131,6 @@ spec:
 
 The `apiSecret` value must match the secret you created earlier when configuring the user API credentials.
 
-{{< /tab >}}
-{{< /tabs >}}
 
 ## Override the default log objects
 You can override the Oracle Cloud Infrastructure Log object on an individual namespace. To specify a log identifier on a namespace, add an annotation named `verrazzano.io/oci-log-id` to the namespace. The value of the annotation is the Oracle Cloud Infrastructure Log object identifier.

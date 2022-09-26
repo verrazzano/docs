@@ -28,12 +28,12 @@ You must have the following software installed:
  * Helm charts for the Verrazzano platform operator
  * `README.md` which provides the layout of the respective distribution
 
-Set up a private registry using the following instructions, depending on your distribution.
-{{< tabs tabTotal="2" >}}
-{{< tab tabName="LiteDistribution" >}}
-<br>
+Set up a private registry using the following instructions, depending on your distribution:
+- [Lite distribution](#lite-distribution)
+- [Full distribution](#full-distribution)
 
-## Load the images
+## Lite distribution
+
 
 1. Download the desired Verrazzano distribution from the GitHub releases page.
 
@@ -69,11 +69,7 @@ Set up a private registry using the following instructions, depending on your di
      ```  
       The previous command downloads all the images to the `${DISTRIBUTION_DIR}/images` directory. 	 
 
-{{< /tab >}}
-{{< tab tabName="FullDistribution" >}}
-<br>     
-
-## Load the images
+## Full distribution     
 
 1. Download the Verrazzano ZIP file
     * Download the Verrazzano ZIP file from the Oracle Software Delivery Cloud for major or minor releases.
@@ -130,8 +126,7 @@ Set up a private registry using the following instructions, depending on your di
       ```
       **NOTE**: Use the `sha256sum` command on Linux and `shasum` on MacOS.    
 
-{{< /tab >}}
-{{< /tabs >}}
+## Lite and full distributions
 
 3. Load the product images into your private registry.
 

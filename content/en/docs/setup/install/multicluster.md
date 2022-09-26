@@ -74,7 +74,12 @@ Follow these preregistration setup steps.
    cluster will need the managed cluster's CA certificate to make an `https` connection.
    - Depending on whether the Verrazzano installation on the managed cluster uses
      self-signed certificates, LetsEncrypt staging certificates, or certificates signed by a well-known
-     certificate authority, choose the appropriate instructions.
+     certificate authority, choose the appropriate instructions:
+
+     - [Well-known CA](#well-known-ca)
+     - [Self-signed certificates](#self-signed-certificates)
+     - [LetsEncrypt staging certificates](#letsencrypt-staging-certificates)
+
    - If you are unsure what type of certificates are used, use the following instructions.
      * To check if the `verrazzano` resource is configured to use LetsEncrypt staging certificates:
        ```
@@ -100,133 +105,121 @@ Follow these preregistration setup steps.
        If this value is empty, then your managed cluster is using certificates signed by a well-known certificate
        authority. Otherwise, your managed cluster is using self-signed certificates.
 
-     {{< tabs tabTotal="3" >}}
-     {{< tab tabName="Well-Known CA" >}}
-<br>
+       #### Well-known CA
 
-In this case, no additional configuration is necessary.
+       In this case, no additional configuration is necessary.
 
-     {{< /tab >}}
-     {{< tab tabName="Self-Signed" >}}
-<br>
+       #### Self-signed certificates
 
-If the managed cluster certificates are self-signed, create a file called `managed1.yaml` containing the CA
-certificate of the managed cluster as the value of the `cacrt` field. In the following commands, the managed cluster's
-CA certificate is saved in an environment variable called `MGD_CA_CERT`. Then use the `--dry-run` option of the
-`kubectl` command to generate the `managed1.yaml` file.
+       If the managed cluster certificates are self-signed, create a file called `managed1.yaml` containing the CA
+       certificate of the managed cluster as the value of the `cacrt` field. In the following commands, the managed cluster's
+       CA certificate is saved in an environment variable called `MGD_CA_CERT`. Then use the `--dry-run` option of the
+       `kubectl` command to generate the `managed1.yaml` file.
 
-```
-# On the managed cluster
-$ export MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
-     get secret verrazzano-tls \
-     -n verrazzano-system \
-     -o jsonpath="{.data.ca\.crt}" | base64 --decode)
-$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
-  create secret generic "ca-secret-managed1" \
-  -n verrazzano-mc \
-  --from-literal=cacrt="$MGD_CA_CERT" \
-  --dry-run=client \
-  -o yaml > managed1.yaml
-```
-Create a Secret on the *admin* cluster that contains the CA certificate for the managed cluster. This secret will be used for scraping metrics from the managed cluster.
-   The `managed1.yaml` file that was created in the previous step provides input to this step.
-   ```
-   # On the admin cluster
-   $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
-        apply -f managed1.yaml
+       ```
+       # On the managed cluster
+       $ export MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
+            get secret verrazzano-tls \
+            -n verrazzano-system \
+            -o jsonpath="{.data.ca\.crt}" | base64 --decode)
+       $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
+         create secret generic "ca-secret-managed1" \
+         -n verrazzano-mc \
+         --from-literal=cacrt="$MGD_CA_CERT" \
+         --dry-run=client \
+         -o yaml > managed1.yaml
+       ```
+       Create a Secret on the *admin* cluster that contains the CA certificate for the managed cluster. This secret will be used for scraping metrics from the managed cluster.
+       The `managed1.yaml` file that was created in the previous step provides input to this step.
+       ```
+       # On the admin cluster
+       $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+            apply -f managed1.yaml
 
-   # After the command succeeds, you may delete the managed1.yaml file
-   $ rm managed1.yaml
-   ```
-     {{< /tab >}}
-     {{< tab tabName="LetsEncrypt Staging" >}}
-<br>
+       # After the command succeeds, you may delete the managed1.yaml file
+       $ rm managed1.yaml
+       ```
+       #### LetsEncrypt staging certificates
 
-If the managed cluster certificates are LetsEncrypt staging, then create a file called `managed1.yaml` containing the CA
-certificate of the managed cluster as the value of the `cacrt` field. In the following commands, the managed cluster's
-CA certificate is saved in an environment variable called `MGD_CA_CERT`. Then use the `--dry-run` option of the
-`kubectl` command to generate the `managed1.yaml` file.
+       If the managed cluster certificates are LetsEncrypt staging, then create a file called `managed1.yaml` containing the CA
+       certificate of the managed cluster as the value of the `cacrt` field. In the following commands, the managed cluster's
+       CA certificate is saved in an environment variable called `MGD_CA_CERT`. Then use the `--dry-run` option of the
+       `kubectl` command to generate the `managed1.yaml` file.
 
-```
-# On the managed cluster
-$ export MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
-     get secret tls-ca-additional \
-     -n cattle-system \
-     -o jsonpath="{.data.ca-additional\.pem}" | base64 --decode)
-$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
-  create secret generic "ca-secret-managed1" \
-  -n verrazzano-mc \
-  --from-literal=cacrt="$MGD_CA_CERT" \
-  --dry-run=client \
-  -o yaml > managed1.yaml
-```
+       ```
+       # On the managed cluster
+       $ export MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
+            get secret tls-ca-additional \
+            -n cattle-system \
+            -o jsonpath="{.data.ca-additional\.pem}" | base64 --decode)
+       $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
+         create secret generic "ca-secret-managed1" \
+         -n verrazzano-mc \
+         --from-literal=cacrt="$MGD_CA_CERT" \
+         --dry-run=client \
+         -o yaml > managed1.yaml
+       ```
 
-Create a Secret on the *admin* cluster that contains the CA certificate for the managed cluster. This secret will be used for scraping metrics from the managed cluster.
-The `managed1.yaml` file that was created in the previous step provides input to this step.
-```
-# On the admin cluster
-$ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
-     apply -f managed1.yaml
+       Create a Secret on the *admin* cluster that contains the CA certificate for the managed cluster. This secret will be used for scraping metrics from the managed cluster.
+       The `managed1.yaml` file that was created in the previous step provides input to this step.
+       ```
+       # On the admin cluster
+       $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+            apply -f managed1.yaml
 
-# After the command succeeds, you may delete the managed1.yaml file
-$ rm managed1.yaml
-```
-
-     {{< /tab >}}
-     {{< /tabs >}}
+       # After the command succeeds, you may delete the managed1.yaml file
+       $ rm managed1.yaml
+       ```
 
 1. Use the following instructions to obtain the Kubernetes API server address for the admin cluster. This address must
    be accessible from the managed cluster.
+     - [Most Kubernetes Clusters](#most-kubernetes-clusters)
+     - [Kind Clusters](#kind-clusters)
 
-   {{< tabs tabTotal="2" >}}
-   {{< tab tabName="Most Kubernetes Clusters" >}}
-<br>
+     #### Most Kubernetes Clusters
 
-For most types of Kubernetes clusters, except for Kind clusters, you can find the externally accessible API server
-address of the admin cluster from its `kubeconfig` file.
+     For most types of Kubernetes clusters, except for Kind clusters, you can find the externally accessible API server
+     address of the admin cluster from its `kubeconfig` file.
 
-```
-# View the information for the admin cluster in your kubeconfig file
-$ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN config view --minify
+     ```
+     # View the information for the admin cluster in your kubeconfig file
+     $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN config view --minify
 
-# Sample output
-apiVersion: v1
-kind: Config
-clusters:
-- cluster:
-  certificate-authority-data: DATA+OMITTED
-  server: https://11.22.33.44:6443
-  name: my-admin-cluster
-contexts:
-....
-....
-```
-In the output of this command, you can find the URL of the admin cluster API server from the `server` entry. Set the
-value of the `ADMIN_K8S_SERVER_ADDRESS` variable to this URL.
-```
-export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
-```
+     # Sample output
+     apiVersion: v1
+     kind: Config
+      clusters:
+     - cluster:
+       certificate-authority-data: DATA+OMITTED
+       server: https://11.22.33.44:6443
+       name: my-admin-cluster
+     contexts:
+     ....
+     ....
+     ```
+     In the output of this command, you can find the URL of the admin cluster API server from the `server` entry. Set the
+     value of the `ADMIN_K8S_SERVER_ADDRESS` variable to this URL.
+     ```
+     export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
+     ```
 
-   {{< /tab >}}
-   {{< tab tabName="Kind Clusters" >}}
-<br>
+     #### Kind Clusters
 
-Kind clusters run within a Docker container. If your admin and managed clusters are Kind clusters, the API server
-address of the admin cluster in its `kubeconfig` file is usually a local address on the host machine, which will not be
-accessible from the managed cluster. Use the `kind` command to obtain the "internal" `kubeconfig` of the admin
-cluster, which will contain a server address accessible from other Kind clusters on the same machine, and therefore in
-the same Docker network.
+     Kind clusters run within a Docker container. If your admin and managed clusters are Kind clusters, the API server
+     address of the admin cluster in its `kubeconfig` file is usually a local address on the host machine, which will not be
+     accessible from the managed cluster. Use the `kind` command to obtain the "internal" `kubeconfig` of the admin
+     cluster, which will contain a server address accessible from other Kind clusters on the same machine, and therefore in
+     the same Docker network.
 
-```
-$ kind get kubeconfig --internal --name <your-admin-cluster-name> | grep server
-```
-In the output of this command, you can find the URL of the admin cluster API server from the `server` entry. Set the
-value of the `ADMIN_K8S_SERVER_ADDRESS` variable to this URL.
-```
-export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
-```
-   {{< /tab >}}
-   {{< /tabs >}}
+     ```
+     $ kind get kubeconfig --internal --name <your-admin-cluster-name> | grep server
+     ```
+     In the output of this command, you can find the URL of the admin cluster API server from the `server` entry. Set the
+     value of the `ADMIN_K8S_SERVER_ADDRESS` variable to this URL.
+     ```
+     export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
+     ```
+
 
 1. On the admin cluster, create a ConfigMap that contains the externally accessible admin cluster Kubernetes server
    address found in the previous step.
