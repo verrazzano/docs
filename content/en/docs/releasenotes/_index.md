@@ -7,6 +7,19 @@ draft: false
 ### v1.4.0
 Features:
 
+- Changed kube-prometheus-stack components to now be enabled by default.
+- Changed Verrazzano Distribution tar.gz artifacts to include the new CLI binaries and tooling.
+- Replaced Elasticsearch/Kibana with OpenSearch/OpenSearch dashboards (pods, URLs, CRD fields).
+- Improved Rancher Integration.
+    - Added Rancher UI based Verrazzano console.
+    - Keycloak SSO Authentication and Authorization is configured by default.
+    - OCI drivers are now enabled out of the box.
+- Improved uninstall resiliency and performance.
+- Added Prometheus Operator based metrics collection (using ServiceMonitors and PodMonitors) for both Verrazzano system components and applications.
+- Added Verrazzano CLI for interactive install/upgrade/uninstall/bug-report/analyze.
+- Added private registry for open-source use.
+- Added backup / restore with Velero and Rancher Backup Operator.
+- Support for OCNE 1.5.x.
 - New API version for the Verrazzano resource, `install.verrazzano.io/v1beta1`. See the [Deprecated API Migration Guide]({{< relref "/docs/reference/migration" >}}).
 - Support for Kubernetes v1.24.
 
@@ -14,10 +27,29 @@ Component version updates:
 
 - Coherence Operator v3.2.6
 - Istio v1.14.3
-- MySQL Operator v8.0.30-2.0.5
+- Jaeger v1.34.1
 - Rancher v2.6.8
+
+Components added
+
 - Rancher Backup Operator v2.1.3
 - Velero v1.8.1
+- Velero Plugin For AWS v1.4.1
+
+Components removed
+
+- Config Map Reload
+
+Fixes
+
+- Resolved an issue where Verrazzano started to perform an install immediately after an upgrade was performed and before all components were ready
+- Resolved an issue where application pods that required an Istio sidecar were not being restarted after upgrade
+- Resolved unnecessary temporary file cleanup for helm overrides after install or upgrade
+- Resolved an issue with Verrazzano resource status conditions being appended as duplicates instead of updated
+- Resolved issue where Verrazzano Monitoring Operator was querying OpenSearch before it was ready
+- Resolved an issue where Verrazzano Platform Operator transitioned to a ready condition before all webhook context paths were ready
+- Updated base and other images to resolves CVEs
+
 
 ### v1.3.5
 Component version updates:
