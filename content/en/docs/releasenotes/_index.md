@@ -7,21 +7,20 @@ draft: false
 ### v1.4.0
 Features:
 
-- Changed kube-prometheus-stack components to now be enabled by default.
-- Changed Verrazzano Distribution tar.gz artifacts to include the new CLI binaries and tooling.
-- Replaced Elasticsearch/Kibana with OpenSearch/OpenSearch dashboards (pods, URLs, CRD fields).
-- Improved Rancher Integration.
-    - Added Rancher UI based Verrazzano console.
+- Added Verrazzano CLI for interactive install, upgrade, uninstall, bug report, and analysis.
+- Added backup and restore with Velero and Rancher Backup Operator.
+- Added Prometheus Operator based metrics collection (using ServiceMonitors and PodMonitors) for both Verrazzano system components and applications.
+- New API version for the Verrazzano resource, `install.verrazzano.io/v1beta1`. See the [Deprecated API Migration Guide]({{< relref "/docs/reference/migration" >}}).
+- Verrazzano distribution tar.gz artifacts now include the new CLI binaries and tooling.
+- Replaced Elasticsearch and Kibana with OpenSearch and OpenSearch dashboards (pods, URLs, CRD fields).
+- Improved Rancher integration.
+    - Added the Rancher UI-based Verrazzano console.
     - Keycloak SSO authentication and authorization is configured by default.
     - OCI drivers are now enabled by default and ready-to-use.
+- kube-prometheus-stack components now are enabled by default.
 - Improved uninstall resiliency and performance.
-- Added Prometheus Operator based metrics collection (using ServiceMonitors and PodMonitors) for both Verrazzano system components and applications.
-- Added Verrazzano CLI for interactive install, upgrade, uninstall, bug report, and analysis.
-- Added private registry for open-source use.
-- Added backup and restore with Velero and Rancher Backup Operator.
 - Support for OCNE 1.5.x.
-- New API version for the Verrazzano resource, `install.verrazzano.io/v1beta1`. See the [Deprecated API Migration Guide]({{< relref "/docs/reference/migration" >}}).
-- Support for Kubernetes v1.24.
+- Added support for Kubernetes v1.24.
 
 Component version updates:
 
