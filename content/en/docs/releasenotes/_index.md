@@ -7,7 +7,7 @@ draft: false
 ### v1.4.0
 Features:
 
-- Added Verrazzano CLI for interactive install, upgrade, uninstall, bug report, and analysis.
+- Added the Verrazzano command-line tool (CLI) for interactive installation, upgrade, uninstall, cluster analysis, and bug reporting.
 - Added backup and restore with Velero and Rancher Backup Operator.
 - Added Prometheus Operator based metrics collection (using ServiceMonitors and PodMonitors) for both Verrazzano system components and applications.
 - Added a new API version for the Verrazzano resource, `install.verrazzano.io/v1beta1`. See the [Deprecated API Migration Guide]({{< relref "/docs/reference/migration" >}}).
