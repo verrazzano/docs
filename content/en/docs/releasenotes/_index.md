@@ -10,16 +10,16 @@ Features:
 - Added Verrazzano CLI for interactive install, upgrade, uninstall, bug report, and analysis.
 - Added backup and restore with Velero and Rancher Backup Operator.
 - Added Prometheus Operator based metrics collection (using ServiceMonitors and PodMonitors) for both Verrazzano system components and applications.
-- Added a new API version for the Verrazzano resource, `install.verrazzano.io/v1beta1`. See the [Deprecated API Migration Guide]({{< relref "/docs/reference/migration" >}}). 
+- Added a new API version for the Verrazzano resource, `install.verrazzano.io/v1beta1`. See the [Deprecated API Migration Guide]({{< relref "/docs/reference/migration" >}}).
 - Verrazzano distribution tar.gz artifacts now include the new CLI binaries and tooling.
 - Replaced Elasticsearch and Kibana with OpenSearch and OpenSearch dashboards (pods, URLs, CRD fields).
 - Improved Rancher integration.
     - Added the Rancher UI-based Verrazzano console.
     - Keycloak SSO authentication and authorization is configured by default.
-    - OCI drivers are now enabled by default and ready-to-use.
+    - OCI drivers now are enabled by default and ready-to-use.
 - kube-prometheus-stack components now are enabled by default.
 - Improved uninstall resiliency and performance.
-- Support for OCNE 1.5.x.
+- Added support for OCNE 1.5.x.
 - Added support for Kubernetes v1.24.
 
 Component version updates:
@@ -41,9 +41,9 @@ Components removed:
 
 Fixes:
 
-- Resolved an issue where Verrazzano started to perform an install immediately after an upgrade was performed and before all components were ready.
-- Resolved an issue where application pods that required an Istio sidecar did not restart after the upgrade.
-- Resolved unnecessary temporary file cleanup for helm overrides after install or upgrade.
+- Resolved an issue where Verrazzano started an installation, immediately after an upgrade, but before all the components were ready.
+- Resolved an issue where application pods that required an Istio sidecar did not restart after an upgrade.
+- Resolved unnecessary temporary file cleanup for Helm overrides after install or upgrade.
 - Resolved an issue with Verrazzano resource status conditions being appended as duplicates instead of updated.
 - Resolved an issue where Verrazzano Monitoring Operator was querying OpenSearch before it was ready.
 - Resolved an issue where Verrazzano Platform Operator transitioned to a ready condition before all webhook context paths were ready.
