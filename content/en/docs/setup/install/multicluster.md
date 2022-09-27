@@ -176,49 +176,49 @@ Follow these preregistration setup steps.
      - [Most Kubernetes Clusters](#most-kubernetes-clusters)
      - [Kind Clusters](#kind-clusters)
 
-     #### Most Kubernetes Clusters
+       #### Most Kubernetes Clusters
 
-     For most types of Kubernetes clusters, except for Kind clusters, you can find the externally accessible API server
-     address of the admin cluster from its `kubeconfig` file.
+       For most types of Kubernetes clusters, except for Kind clusters, you can find the externally accessible API server
+       address of the admin cluster from its `kubeconfig` file.
 
-     ```
-     # View the information for the admin cluster in your kubeconfig file
-     $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN config view --minify
+       ```
+       # View the information for the admin cluster in your kubeconfig file
+       $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN config view --minify
 
-     # Sample output
-     apiVersion: v1
-     kind: Config
-      clusters:
-     - cluster:
-       certificate-authority-data: DATA+OMITTED
-       server: https://11.22.33.44:6443
-       name: my-admin-cluster
-     contexts:
-     ....
-     ....
-     ```
-     In the output of this command, you can find the URL of the admin cluster API server from the `server` entry. Set the
-     value of the `ADMIN_K8S_SERVER_ADDRESS` variable to this URL.
-     ```
-     export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
-     ```
+       # Sample output
+       apiVersion: v1
+       kind: Config
+       clusters:
+       - cluster:
+         certificate-authority-data: DATA+OMITTED
+         server: https://11.22.33.44:6443
+         name: my-admin-cluster
+       contexts:
+       ....
+       ....
+       ```
+       In the output of this command, you can find the URL of the admin cluster API server from the `server` entry. Set the
+       value of the `ADMIN_K8S_SERVER_ADDRESS` variable to this URL.
+       ```
+       $ export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
+       ```
 
-     #### Kind Clusters
+       #### Kind Clusters
 
-     Kind clusters run within a Docker container. If your admin and managed clusters are Kind clusters, the API server
-     address of the admin cluster in its `kubeconfig` file is usually a local address on the host machine, which will not be
-     accessible from the managed cluster. Use the `kind` command to obtain the "internal" `kubeconfig` of the admin
-     cluster, which will contain a server address accessible from other Kind clusters on the same machine, and therefore in
-     the same Docker network.
+       Kind clusters run within a Docker container. If your admin and managed clusters are Kind clusters, the API server
+       address of the admin cluster in its `kubeconfig` file is usually a local address on the host machine, which will not be
+       accessible from the managed cluster. Use the `kind` command to obtain the "internal" `kubeconfig` of the admin
+       cluster, which will contain a server address accessible from other Kind clusters on the same machine, and therefore in
+       the same Docker network.
 
-     ```
-     $ kind get kubeconfig --internal --name <your-admin-cluster-name> | grep server
-     ```
-     In the output of this command, you can find the URL of the admin cluster API server from the `server` entry. Set the
-     value of the `ADMIN_K8S_SERVER_ADDRESS` variable to this URL.
-     ```
-     export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
-     ```
+       ```
+       $ kind get kubeconfig --internal --name <your-admin-cluster-name> | grep server
+       ```
+       In the output of this command, you can find the URL of the admin cluster API server from the `server` entry. Set the
+       value of the `ADMIN_K8S_SERVER_ADDRESS` variable to this URL.
+       ```
+       $ export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
+       ```
 
 
 1. On the admin cluster, create a ConfigMap that contains the externally accessible admin cluster Kubernetes server
