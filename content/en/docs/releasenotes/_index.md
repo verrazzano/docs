@@ -8,7 +8,7 @@ draft: false
 Features:
 
 - Added the Verrazzano command-line tool (CLI) for interactive installation, upgrade, uninstall, cluster analysis, and bug reporting.
-- Added backup and restore with Velero and Rancher Backup Operator.
+- Added backup and restore functionality using Velero and rancher-backup.
 - Added Prometheus Operator based metrics collection (using ServiceMonitors and PodMonitors) for both Verrazzano system components and applications.
 - Added a new API version for the Verrazzano resource, `install.verrazzano.io/v1beta1`. See the [Deprecated API Migration Guide]({{< relref "/docs/reference/migration" >}}).
 - Verrazzano distribution tar.gz artifacts now include the new CLI binaries and tooling.
@@ -43,7 +43,7 @@ Fixes:
 
 - Resolved an issue where Verrazzano started an installation, immediately after an upgrade, but before all the components were ready.
 - Resolved an issue where application pods that required an Istio sidecar did not restart after an upgrade.
-- Resolved unnecessary temporary file cleanup for Helm overrides after install or upgrade.
+- Resolved unnecessary temporary file cleanup for Helm overrides after installation or upgrade.
 - Resolved an issue with Verrazzano resource status conditions being appended as duplicates instead of updated.
 - Resolved an issue where Verrazzano Monitoring Operator was querying OpenSearch before it was ready.
 - Resolved an issue where Verrazzano Platform Operator transitioned to a ready condition before all webhook context paths were ready.
