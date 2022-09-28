@@ -44,13 +44,13 @@ single Kubernetes cluster.&lt;/p&gt;
 		
 
 		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-cfedab&#34; data-toggle=&#34;tab&#34; href=&#34;#cfedab&#34;
+		   id=&#34;nav-dbefca&#34; data-toggle=&#34;tab&#34; href=&#34;#dbefca&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;vz&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-aefcdb&#34; data-toggle=&#34;tab&#34; href=&#34;#aefcdb&#34;
+		   id=&#34;nav-adcbfe&#34; data-toggle=&#34;tab&#34; href=&#34;#adcbfe&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;kubectl&lt;/a&gt;
 
 		
@@ -66,7 +66,7 @@ single Kubernetes cluster.&lt;/p&gt;
 
 
 
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;cfedab&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;dbefca&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;Verrazzano provides a platform &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/operator/&#34;&gt;operator&lt;/a&gt;
@@ -126,7 +126,7 @@ or until the default timeout (30m) has been reached.&lt;/p&gt;
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;aefcdb&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;adcbfe&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;h2 id=&#34;install-the-verrazzano-platform-operator&#34;&gt;Install the Verrazzano platform operator&lt;/h2&gt;
@@ -545,84 +545,39 @@ cluster will need the managed cluster&amp;rsquo;s CA certificate to make an &lt;
 &lt;li&gt;
 &lt;p&gt;Depending on whether the Verrazzano installation on the managed cluster uses
 self-signed certificates, LetsEncrypt staging certificates, or certificates signed by a well-known
-certificate authority, choose the appropriate instructions.&lt;/p&gt;
+certificate authority, choose the appropriate instructions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#well-known-ca&#34;&gt;Well-known CA&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#self-signed-certificates&#34;&gt;Self-signed certificates&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#letsencrypt-staging-certificates&#34;&gt;LetsEncrypt staging certificates&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;If you are unsure what type of certificates are used, use the following instructions.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;To check if the &lt;code&gt;verrazzano&lt;/code&gt; resource is configured to use LetsEncrypt staging certificates:
+&lt;li&gt;
+&lt;p&gt;To check if the &lt;code&gt;verrazzano&lt;/code&gt; resource is configured to use LetsEncrypt staging certificates:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the managed cluster
 $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
      describe verrazzano
-&lt;/code&gt;&lt;/pre&gt;If the output contains the following information, then LetsEncrypt staging certificates are being used.
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If the output contains the following information, then LetsEncrypt staging certificates are being used.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Cert Manager:
   Certificate:
     Acme:
       Environment:    staging
       Provider:       letsEncrypt
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;To check the &lt;code&gt;ca.crt&lt;/code&gt; field of the &lt;code&gt;verrazzano-tls&lt;/code&gt; secret
-in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace on the managed cluster:
+&lt;li&gt;
+&lt;p&gt;To check the &lt;code&gt;ca.crt&lt;/code&gt; field of the &lt;code&gt;verrazzano-tls&lt;/code&gt; secret
+in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace on the managed cluster:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the managed cluster
 $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
      -n verrazzano-system get secret verrazzano-tls -o jsonpath=&amp;#39;{.data.ca\.crt}&amp;#39;
-&lt;/code&gt;&lt;/pre&gt;If this value is empty, then your managed cluster is using certificates signed by a well-known certificate
-authority. Otherwise, your managed cluster is using self-signed certificates.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;nav&gt;
-	&lt;div class=&#34;nav nav-tabs&#34; id=&#34;nav-tab&#34; role=&#34;tablist&#34;&gt;
-
-		
-		
-		
-		
-
-		
-
-		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-aedfcb&#34; data-toggle=&#34;tab&#34; href=&#34;#aedfcb&#34;
-		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Well-KnownCA&lt;/a&gt;
-
-		
-
-		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-dfaebc&#34; data-toggle=&#34;tab&#34; href=&#34;#dfaebc&#34;
-		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Self-Signed&lt;/a&gt;
-
-		
-
-		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-bfecda&#34; data-toggle=&#34;tab&#34; href=&#34;#bfecda&#34;
-		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;LetsEncryptStaging&lt;/a&gt;
-
-		
-
-	&lt;/div&gt;
-&lt;/nav&gt;
-
-&lt;div class=&#34;tab-content&#34; id=&#34;nav-tab-content&#34;&gt;
-
-	
-     
-
-
-
-
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;aedfcb&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
-
-	&lt;br&gt;
-&lt;p&gt;In this case, no additional configuration is necessary.
-
-&lt;/div&gt;
-
-     
-
-
-
-
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;dfaebc&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
-
-	&lt;br&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If this value is empty, then your managed cluster is using certificates signed by a well-known certificate
+authority. Otherwise, your managed cluster is using self-signed certificates.&lt;/p&gt;
+&lt;h4 id=&#34;well-known-ca&#34;&gt;Well-known CA&lt;/h4&gt;
+&lt;p&gt;In this case, no additional configuration is necessary.&lt;/p&gt;
+&lt;h4 id=&#34;self-signed-certificates&#34;&gt;Self-signed certificates&lt;/h4&gt;
 &lt;p&gt;If the managed cluster certificates are self-signed, create a file called &lt;code&gt;managed1.yaml&lt;/code&gt; containing the CA
 certificate of the managed cluster as the value of the &lt;code&gt;cacrt&lt;/code&gt; field. In the following commands, the managed cluster&amp;rsquo;s
 CA certificate is saved in an environment variable called &lt;code&gt;MGD_CA_CERT&lt;/code&gt;. Then use the &lt;code&gt;--dry-run&lt;/code&gt; option of the
@@ -646,18 +601,7 @@ $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
 
 # After the command succeeds, you may delete the managed1.yaml file
 $ rm managed1.yaml
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-     
-
-
-
-
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;bfecda&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
-
-	&lt;br&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;letsencrypt-staging-certificates&#34;&gt;LetsEncrypt staging certificates&lt;/h4&gt;
 &lt;p&gt;If the managed cluster certificates are LetsEncrypt staging, then create a file called &lt;code&gt;managed1.yaml&lt;/code&gt; containing the CA
 certificate of the managed cluster as the value of the &lt;code&gt;cacrt&lt;/code&gt; field. In the following commands, the managed cluster&amp;rsquo;s
 CA certificate is saved in an environment variable called &lt;code&gt;MGD_CA_CERT&lt;/code&gt;. Then use the &lt;code&gt;--dry-run&lt;/code&gt; option of the
@@ -681,55 +625,21 @@ $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
 
 # After the command succeeds, you may delete the managed1.yaml file
 $ rm managed1.yaml
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-     
-
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Use the following instructions to obtain the Kubernetes API server address for the admin cluster. This address must
 be accessible from the managed cluster.&lt;/p&gt;
-&lt;nav&gt;
-	&lt;div class=&#34;nav nav-tabs&#34; id=&#34;nav-tab&#34; role=&#34;tablist&#34;&gt;
-
-		
-		
-		
-		
-
-		
-
-		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-eadbfc&#34; data-toggle=&#34;tab&#34; href=&#34;#eadbfc&#34;
-		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;MostKubernetesClusters&lt;/a&gt;
-
-		
-
-		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-bdacef&#34; data-toggle=&#34;tab&#34; href=&#34;#bdacef&#34;
-		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;KindClusters&lt;/a&gt;
-
-		
-
-	&lt;/div&gt;
-&lt;/nav&gt;
-
-&lt;div class=&#34;tab-content&#34; id=&#34;nav-tab-content&#34;&gt;
-
-	
-   
-
-
-
-
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;eadbfc&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
-
-	&lt;br&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;#most-kubernetes-clusters&#34;&gt;Most Kubernetes Clusters&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;#kind-clusters&#34;&gt;Kind Clusters&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id=&#34;most-kubernetes-clusters&#34;&gt;Most Kubernetes Clusters&lt;/h4&gt;
 &lt;p&gt;For most types of Kubernetes clusters, except for Kind clusters, you can find the externally accessible API server
 address of the admin cluster from its &lt;code&gt;kubeconfig&lt;/code&gt; file.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# View the information for the admin cluster in your kubeconfig file
@@ -748,19 +658,8 @@ contexts:
 ....
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the output of this command, you can find the URL of the admin cluster API server from the &lt;code&gt;server&lt;/code&gt; entry. Set the
 value of the &lt;code&gt;ADMIN_K8S_SERVER_ADDRESS&lt;/code&gt; variable to this URL.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;export ADMIN_K8S_SERVER_ADDRESS=&amp;lt;the server address from the config output&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-   
-
-
-
-
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;bdacef&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
-
-	&lt;br&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ export ADMIN_K8S_SERVER_ADDRESS=&amp;lt;the server address from the config output&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;kind-clusters&#34;&gt;Kind Clusters&lt;/h4&gt;
 &lt;p&gt;Kind clusters run within a Docker container. If your admin and managed clusters are Kind clusters, the API server
 address of the admin cluster in its &lt;code&gt;kubeconfig&lt;/code&gt; file is usually a local address on the host machine, which will not be
 accessible from the managed cluster. Use the &lt;code&gt;kind&lt;/code&gt; command to obtain the &amp;ldquo;internal&amp;rdquo; &lt;code&gt;kubeconfig&lt;/code&gt; of the admin
@@ -769,14 +668,9 @@ the same Docker network.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kind get kubeconfig --internal --name &amp;lt;your-admin-cluster-name&amp;gt; | grep server
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the output of this command, you can find the URL of the admin cluster API server from the &lt;code&gt;server&lt;/code&gt; entry. Set the
 value of the &lt;code&gt;ADMIN_K8S_SERVER_ADDRESS&lt;/code&gt; variable to this URL.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;export ADMIN_K8S_SERVER_ADDRESS=&amp;lt;the server address from the config output&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-   
-
-&lt;/div&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ export ADMIN_K8S_SERVER_ADDRESS=&amp;lt;the server address from the config output&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;On the admin cluster, create a ConfigMap that contains the externally accessible admin cluster Kubernetes server

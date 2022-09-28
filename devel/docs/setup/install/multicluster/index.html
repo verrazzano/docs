@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/install/multicluster/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-09-22T13:24:00-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-09-28T14:44:06-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Install Multicluster Verrazzano">
 <meta itemprop="description" content="How to set up a multicluster Verrazzano environment">
-<meta itemprop="dateModified" content="2022-09-22T13:24:00-04:00" />
-<meta itemprop="wordCount" content="2273">
+<meta itemprop="dateModified" content="2022-09-28T14:44:06-04:00" />
+<meta itemprop="wordCount" content="2294">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Install Multicluster Verrazzano"/>
 <meta name="twitter:description" content="How to set up a multicluster Verrazzano environment"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.b92841e2886b457167cbe49c5a1f53f5.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.d5872e9a785466453cc6850112ae2a53.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.b92841e2886b457167cbe49c5a1f53f5.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.d5872e9a785466453cc6850112ae2a53.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -597,84 +597,39 @@ cluster will need the managed cluster&rsquo;s CA certificate to make an <code>ht
 <li>
 <p>Depending on whether the Verrazzano installation on the managed cluster uses
 self-signed certificates, LetsEncrypt staging certificates, or certificates signed by a well-known
-certificate authority, choose the appropriate instructions.</p>
+certificate authority, choose the appropriate instructions:</p>
+<ul>
+<li><a href="#well-known-ca">Well-known CA</a></li>
+<li><a href="#self-signed-certificates">Self-signed certificates</a></li>
+<li><a href="#letsencrypt-staging-certificates">LetsEncrypt staging certificates</a></li>
+</ul>
 </li>
 <li>
 <p>If you are unsure what type of certificates are used, use the following instructions.</p>
 <ul>
-<li>To check if the <code>verrazzano</code> resource is configured to use LetsEncrypt staging certificates:
+<li>
+<p>To check if the <code>verrazzano</code> resource is configured to use LetsEncrypt staging certificates:</p>
 <pre tabindex="0"><code># On the managed cluster
 $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
      describe verrazzano
-</code></pre>If the output contains the following information, then LetsEncrypt staging certificates are being used.
+</code></pre><p>If the output contains the following information, then LetsEncrypt staging certificates are being used.</p>
 <pre tabindex="0"><code>Cert Manager:
   Certificate:
     Acme:
       Environment:    staging
       Provider:       letsEncrypt
 </code></pre></li>
-<li>To check the <code>ca.crt</code> field of the <code>verrazzano-tls</code> secret
-in the <code>verrazzano-system</code> namespace on the managed cluster:
+<li>
+<p>To check the <code>ca.crt</code> field of the <code>verrazzano-tls</code> secret
+in the <code>verrazzano-system</code> namespace on the managed cluster:</p>
 <pre tabindex="0"><code># On the managed cluster
 $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
      -n verrazzano-system get secret verrazzano-tls -o jsonpath=&#39;{.data.ca\.crt}&#39;
-</code></pre>If this value is empty, then your managed cluster is using certificates signed by a well-known certificate
-authority. Otherwise, your managed cluster is using self-signed certificates.</li>
-</ul>
-<nav>
-	<div class="nav nav-tabs" id="nav-tab" role="tablist">
-
-		
-		
-		
-		
-
-		
-
-		<a class="nav-item nav-link  active "
-		   id="nav-aedfcb" data-toggle="tab" href="#aedfcb"
-		   role="tab" aria-controls="nav-home" aria-selected="true">Well-KnownCA</a>
-
-		
-
-		<a class="nav-item nav-link "
-		   id="nav-dfaebc" data-toggle="tab" href="#dfaebc"
-		   role="tab" aria-controls="nav-home" aria-selected="true">Self-Signed</a>
-
-		
-
-		<a class="nav-item nav-link "
-		   id="nav-bfecda" data-toggle="tab" href="#bfecda"
-		   role="tab" aria-controls="nav-home" aria-selected="true">LetsEncryptStaging</a>
-
-		
-
-	</div>
-</nav>
-
-<div class="tab-content" id="nav-tab-content">
-
-	
-     
-
-
-
-
-<div class="tab-pane fade show active " id="aedfcb" role="tabpanel" aria-labelledby="nav-1">
-
-	<br>
-<p>In this case, no additional configuration is necessary.
-
-</div>
-
-     
-
-
-
-
-<div class="tab-pane fade show " id="dfaebc" role="tabpanel" aria-labelledby="nav-1">
-
-	<br>
+</code></pre><p>If this value is empty, then your managed cluster is using certificates signed by a well-known certificate
+authority. Otherwise, your managed cluster is using self-signed certificates.</p>
+<h4 id="well-known-ca">Well-known CA</h4>
+<p>In this case, no additional configuration is necessary.</p>
+<h4 id="self-signed-certificates">Self-signed certificates</h4>
 <p>If the managed cluster certificates are self-signed, create a file called <code>managed1.yaml</code> containing the CA
 certificate of the managed cluster as the value of the <code>cacrt</code> field. In the following commands, the managed cluster&rsquo;s
 CA certificate is saved in an environment variable called <code>MGD_CA_CERT</code>. Then use the <code>--dry-run</code> option of the
@@ -698,18 +653,7 @@ $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
 
 # After the command succeeds, you may delete the managed1.yaml file
 $ rm managed1.yaml
-</code></pre>
-
-</div>
-
-     
-
-
-
-
-<div class="tab-pane fade show " id="bfecda" role="tabpanel" aria-labelledby="nav-1">
-
-	<br>
+</code></pre><h4 id="letsencrypt-staging-certificates">LetsEncrypt staging certificates</h4>
 <p>If the managed cluster certificates are LetsEncrypt staging, then create a file called <code>managed1.yaml</code> containing the CA
 certificate of the managed cluster as the value of the <code>cacrt</code> field. In the following commands, the managed cluster&rsquo;s
 CA certificate is saved in an environment variable called <code>MGD_CA_CERT</code>. Then use the <code>--dry-run</code> option of the
@@ -733,55 +677,21 @@ $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
 
 # After the command succeeds, you may delete the managed1.yaml file
 $ rm managed1.yaml
-</code></pre>
-
-</div>
-
-     
-
-</div>
+</code></pre></li>
+</ul>
 </li>
 </ul>
 </li>
 <li>
 <p>Use the following instructions to obtain the Kubernetes API server address for the admin cluster. This address must
 be accessible from the managed cluster.</p>
-<nav>
-	<div class="nav nav-tabs" id="nav-tab" role="tablist">
-
-		
-		
-		
-		
-
-		
-
-		<a class="nav-item nav-link  active "
-		   id="nav-eadbfc" data-toggle="tab" href="#eadbfc"
-		   role="tab" aria-controls="nav-home" aria-selected="true">MostKubernetesClusters</a>
-
-		
-
-		<a class="nav-item nav-link "
-		   id="nav-bdacef" data-toggle="tab" href="#bdacef"
-		   role="tab" aria-controls="nav-home" aria-selected="true">KindClusters</a>
-
-		
-
-	</div>
-</nav>
-
-<div class="tab-content" id="nav-tab-content">
-
-	
-   
-
-
-
-
-<div class="tab-pane fade show active " id="eadbfc" role="tabpanel" aria-labelledby="nav-1">
-
-	<br>
+<ul>
+<li>
+<p><a href="#most-kubernetes-clusters">Most Kubernetes Clusters</a></p>
+</li>
+<li>
+<p><a href="#kind-clusters">Kind Clusters</a></p>
+<h4 id="most-kubernetes-clusters">Most Kubernetes Clusters</h4>
 <p>For most types of Kubernetes clusters, except for Kind clusters, you can find the externally accessible API server
 address of the admin cluster from its <code>kubeconfig</code> file.</p>
 <pre tabindex="0"><code># View the information for the admin cluster in your kubeconfig file
@@ -800,19 +710,8 @@ contexts:
 ....
 </code></pre><p>In the output of this command, you can find the URL of the admin cluster API server from the <code>server</code> entry. Set the
 value of the <code>ADMIN_K8S_SERVER_ADDRESS</code> variable to this URL.</p>
-<pre tabindex="0"><code>export ADMIN_K8S_SERVER_ADDRESS=&lt;the server address from the config output&gt;
-</code></pre>
-
-</div>
-
-   
-
-
-
-
-<div class="tab-pane fade show " id="bdacef" role="tabpanel" aria-labelledby="nav-1">
-
-	<br>
+<pre tabindex="0"><code>$ export ADMIN_K8S_SERVER_ADDRESS=&lt;the server address from the config output&gt;
+</code></pre><h4 id="kind-clusters">Kind Clusters</h4>
 <p>Kind clusters run within a Docker container. If your admin and managed clusters are Kind clusters, the API server
 address of the admin cluster in its <code>kubeconfig</code> file is usually a local address on the host machine, which will not be
 accessible from the managed cluster. Use the <code>kind</code> command to obtain the &ldquo;internal&rdquo; <code>kubeconfig</code> of the admin
@@ -821,14 +720,9 @@ the same Docker network.</p>
 <pre tabindex="0"><code>$ kind get kubeconfig --internal --name &lt;your-admin-cluster-name&gt; | grep server
 </code></pre><p>In the output of this command, you can find the URL of the admin cluster API server from the <code>server</code> entry. Set the
 value of the <code>ADMIN_K8S_SERVER_ADDRESS</code> variable to this URL.</p>
-<pre tabindex="0"><code>export ADMIN_K8S_SERVER_ADDRESS=&lt;the server address from the config output&gt;
-</code></pre>
-
-</div>
-
-   
-
-</div>
+<pre tabindex="0"><code>$ export ADMIN_K8S_SERVER_ADDRESS=&lt;the server address from the config output&gt;
+</code></pre></li>
+</ul>
 </li>
 <li>
 <p>On the admin cluster, create a ConfigMap that contains the externally accessible admin cluster Kubernetes server

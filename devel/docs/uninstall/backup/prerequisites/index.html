@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/uninstall/backup/prerequisites/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-09-22T13:24:00-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-09-28T14:44:06-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Prerequisites">
 <meta itemprop="description" content="Backup and restore prerequisite requirements">
-<meta itemprop="dateModified" content="2022-09-22T13:24:00-04:00" />
-<meta itemprop="wordCount" content="511">
+<meta itemprop="dateModified" content="2022-09-28T14:44:06-04:00" />
+<meta itemprop="wordCount" content="520">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Prerequisites"/>
 <meta name="twitter:description" content="Backup and restore prerequisite requirements"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.b92841e2886b457167cbe49c5a1f53f5.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.d5872e9a785466453cc6850112ae2a53.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.b92841e2886b457167cbe49c5a1f53f5.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.d5872e9a785466453cc6850112ae2a53.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -594,42 +594,11 @@ spec:
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ rpm -ivh https://yum.oracle.com/repo/OracleLinux/OL7/developer/olcne/x86_64/getPackage/velero-1.8.1-1.el7.x86_64.rpm
 </span></span></code></pre></div></details>
 <h2 id="component-specific-prerequisites">Component-specific prerequisites</h2>
-<nav>
-	<div class="nav nav-tabs" id="nav-tab" role="tablist">
-
-		
-		
-		
-		
-
-		
-
-		<a class="nav-item nav-link  active "
-		   id="nav-bcdafe" data-toggle="tab" href="#bcdafe"
-		   role="tab" aria-controls="nav-home" aria-selected="true">velero</a>
-
-		
-
-		<a class="nav-item nav-link "
-		   id="nav-becfad" data-toggle="tab" href="#becfad"
-		   role="tab" aria-controls="nav-home" aria-selected="true">rancherBackup</a>
-
-		
-
-	</div>
-</nav>
-
-<div class="tab-content" id="nav-tab-content">
-
-	
-
-
-
-
-
-<div class="tab-pane fade show active " id="bcdafe" role="tabpanel" aria-labelledby="nav-1">
-
-	<br>
+<p>Meet the following component-specific prerequisites:</p>
+<ul>
+<li><a href="#velero-operator-prerequisites">Velero operator prerequisites</a></li>
+<li><a href="#rancher-backup-operator-prerequisites">rancher-backup operator prerequisites</a></li>
+</ul>
 <h4 id="velero-operator-prerequisites">Velero operator prerequisites</h4>
 <p>Now, create the following objects:</p>
 <ul>
@@ -668,31 +637,12 @@ For more information, see <a href="https://velero.io/docs/v1.8/api-types/backups
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">s3Url</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">https://mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span></code></pre></div></li>
 </ul>
-<br/>
-
-
-</div>
-
-
-
-
-
-
-<div class="tab-pane fade show " id="becfad" role="tabpanel" aria-labelledby="nav-1">
-
-	<br>
 <h4 id="rancher-backup-operator-prerequisites">rancher-backup operator prerequisites</h4>
 <p>Now, in the namespace <code>verrazzano-backup</code>, create a Kubernetes secret <code>rancher-backup-creds</code>.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl create secret generic -n &lt;backup-namespace&gt; &lt;secret-name&gt; --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">accessKey</span><span style="color:#ce5c00;font-weight:bold">=</span>&lt;accesskey&gt; --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">secretKey</span><span style="color:#ce5c00;font-weight:bold">=</span>&lt;secretKey&gt;
-</span></span></code></pre></div><h4 id="example">Example</h4>
+</span></span></code></pre></div><h4 id="example-1">Example</h4>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl create secret generic -n verrazzano-backup rancher-backup-creds --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">accessKey</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;s5VLpXwa0xNZQds4UTVV&#34;</span> --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">secretKey</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;nFFpvyxpQvb0dIQovsl0&#34;</span>
 </span></span></code></pre></div><br/>
-
-
-</div>
-
-
-</div>
 
 	
 		<style>

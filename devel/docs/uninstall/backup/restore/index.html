@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/uninstall/backup/restore/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-09-22T13:24:00-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-09-28T14:44:06-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Restore">
 <meta itemprop="description" content="Restore component-specific persistent data and configurations">
-<meta itemprop="dateModified" content="2022-09-22T13:24:00-04:00" />
-<meta itemprop="wordCount" content="466">
+<meta itemprop="dateModified" content="2022-09-28T14:44:06-04:00" />
+<meta itemprop="wordCount" content="468">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Restore"/>
 <meta name="twitter:description" content="Restore component-specific persistent data and configurations"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.b92841e2886b457167cbe49c5a1f53f5.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.d5872e9a785466453cc6850112ae2a53.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.b92841e2886b457167cbe49c5a1f53f5.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.d5872e9a785466453cc6850112ae2a53.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -458,6 +458,17 @@ if (!doNotTrack) {
             
 
 
+<div class="td-toc"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#rancher-restore">Rancher restore</a></li>
+        <li><a href="#opensearch-restore">OpenSearch restore</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+
 
 
             
@@ -522,50 +533,12 @@ if (!doNotTrack) {
 	</header>    
 	<p>Before proceeding, ensure that the backup component prerequisites are met, as indicated <a href="../../../../docs/uninstall/backup/prerequisites/">here</a>.
 This document also assumes that a successful backup was previously made using either Velero or rancher-backup, as shown <a href="../../../../docs/uninstall/backup/backup/">here</a>.</p>
-<p>Use the following component-specific instructions to restore application data.</p>
-<nav>
-	<div class="nav nav-tabs" id="nav-tab" role="tablist">
-
-		
-		
-		
-		
-
-		
-
-		<a class="nav-item nav-link  active "
-		   id="nav-ceafdb" data-toggle="tab" href="#ceafdb"
-		   role="tab" aria-controls="nav-home" aria-selected="true">RancherRestore</a>
-
-		
-
-		<a class="nav-item nav-link "
-		   id="nav-badcef" data-toggle="tab" href="#badcef"
-		   role="tab" aria-controls="nav-home" aria-selected="true">OpenSearchRestore</a>
-
-		
-
-		<a class="nav-item nav-link "
-		   id="nav-" data-toggle="tab" href="#"
-		   role="tab" aria-controls="nav-home" aria-selected="true"></a>
-
-		
-
-	</div>
-</nav>
-
-<div class="tab-content" id="nav-tab-content">
-
-	
-
-
-
-
-
-<div class="tab-pane fade show active " id="ceafdb" role="tabpanel" aria-labelledby="nav-1">
-
-	<br>
-<h3 id="rancher-restore">Rancher Restore</h3>
+<p>Use the following component-specific instructions to restore application data:</p>
+<ul>
+<li><a href="#rancher-restore">Rancher restore</a></li>
+<li><a href="#opensearch-restore">OpenSearch restore</a></li>
+</ul>
+<h2 id="rancher-restore">Rancher restore</h2>
 <p>To initiate a Rancher restore, create the following example custom resource YAML file.
 When a <code>Restore</code> custom resource is created, the operator accesses the backup <code>*.tar.gz</code> file specified and restores the application data from that file.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">resources.cattle.io/v1</span><span style="color:#f8f8f8;text-decoration:underline">
@@ -589,20 +562,7 @@ When a <code>Restore</code> custom resource is created, the operator accesses th
 <li>Cluster-scoped resources</li>
 <li>Namespace resources</li>
 </ul>
-<br/>
-
-
-</div>
-
-
-
-
-
-
-<div class="tab-pane fade show " id="badcef" role="tabpanel" aria-labelledby="nav-1">
-
-	<br>
-<h4 id="opensearch-restore">OpenSearch Restore</h4>
+<h2 id="opensearch-restore">OpenSearch restore</h2>
 <p>For OpenSearch, Verrazzano provides a custom hook that you can use along with Velero, to perform a restore operation.
 Due to the nature of transient data handled by OpenSearch, the hook invokes OpenSearch snapshot APIs to back up and restore data streams appropriately,
 thereby ensuring there is no loss of data and avoids data corruption as well.</p>
@@ -674,12 +634,6 @@ In this case, it&rsquo;s <code>statefulset.kubernetes.io/pod-name: vmi-system-es
 </span></span><span style="display:flex;"><span>$ kubectl <span style="color:#204a87">exec</span> -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/&lt;log-file-name&gt;
 </span></span></code></pre></div></details>
 <br/>
-
-
-</div>
-
-
-</div>
 
 	
 		<style>

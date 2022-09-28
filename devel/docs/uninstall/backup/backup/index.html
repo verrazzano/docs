@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/uninstall/backup/backup/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-09-22T13:24:00-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-09-28T14:44:06-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Backup">
 <meta itemprop="description" content="Back up component-specific persistent data and configurations">
-<meta itemprop="dateModified" content="2022-09-22T13:24:00-04:00" />
-<meta itemprop="wordCount" content="525">
+<meta itemprop="dateModified" content="2022-09-28T14:44:06-04:00" />
+<meta itemprop="wordCount" content="529">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Backup"/>
 <meta name="twitter:description" content="Back up component-specific persistent data and configurations"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.b92841e2886b457167cbe49c5a1f53f5.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.d5872e9a785466453cc6850112ae2a53.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.b92841e2886b457167cbe49c5a1f53f5.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.d5872e9a785466453cc6850112ae2a53.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -458,6 +458,17 @@ if (!doNotTrack) {
             
 
 
+<div class="td-toc"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#rancher-backup">Rancher backup</a></li>
+        <li><a href="#opensearch-backup">OpenSearch backup</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+
 
 
             
@@ -525,59 +536,17 @@ First, ensure that the backup component prerequisites are met, as indicated <a h
 <p>The following sections provide detailed configuration information for:</p>
 <ul>
 <li>
-<p>The <a href="https://rancher.com/docs/rancher/v2.5/en/backups/">rancher-backup</a> operator, to back up persistent data and Rancher-related configuration.</p>
+<p>The <a href="https://rancher.com/docs/rancher/v2.5/en/backups/">rancher-backup</a> operator, to back up persistent data and Rancher-related configuration. See <a href="#rancher-backup">Rancher backup</a>.</p>
 </li>
 <li>
 <p>Velero <a href="https://velero.io/docs/v1.8/backup-hooks/">hooks</a>, to ensure a consistent backup experience for these components:</p>
 <ul>
-<li>OpenSearch</li>
+<li>OpenSearch. See <a href="#opensearch-backup">OpenSearch backup</a>.</li>
 <li>For all other components, refer to the Velero <a href="https://velero.io/docs/v1.8/backup-reference/">Backup Reference</a>.</li>
 </ul>
 </li>
 </ul>
-<nav>
-	<div class="nav nav-tabs" id="nav-tab" role="tablist">
-
-		
-		
-		
-		
-
-		
-
-		<a class="nav-item nav-link  active "
-		   id="nav-afdcbe" data-toggle="tab" href="#afdcbe"
-		   role="tab" aria-controls="nav-home" aria-selected="true">RancherBackup</a>
-
-		
-
-		<a class="nav-item nav-link "
-		   id="nav-bdcafe" data-toggle="tab" href="#bdcafe"
-		   role="tab" aria-controls="nav-home" aria-selected="true">OpenSearchBackup</a>
-
-		
-
-		<a class="nav-item nav-link "
-		   id="nav-" data-toggle="tab" href="#"
-		   role="tab" aria-controls="nav-home" aria-selected="true"></a>
-
-		
-
-	</div>
-</nav>
-
-<div class="tab-content" id="nav-tab-content">
-
-	
-
-
-
-
-
-<div class="tab-pane fade show active " id="afdcbe" role="tabpanel" aria-labelledby="nav-1">
-
-	<br>
-<h2 id="rancher-backup">Rancher Backup</h2>
+<h2 id="rancher-backup">Rancher backup</h2>
 <p>To initiate a Rancher backup, create the following example custom resource YAML file that uses an Amazon S3 compatible object store as a backend.
 The operator uses the <code>credentialSecretNamespace</code> value to determine where to look for the Amazon S3 backup secret.
 Note that in the <a href="../../../../docs/uninstall/backup/prerequisites/#component-specific-prerequisites">prerequisites</a> example, you previously created the secret in the <code>verrazzano-backup</code> namespace.</p>
@@ -598,20 +567,7 @@ Note that in the <a href="../../../../docs/uninstall/backup/prerequisites/#compo
 </span></span></span></code></pre></div><p>The operator creates the backup file, in the <code>*.tar.gz</code> format, and stores it in the location configured in the <code>storageLocation</code> field.</p>
 <h3 id="scheduled-backups">Scheduled backups</h3>
 <p>Similar to Velero, rancher-backup allows <a href="https://rancher.com/docs/rancher/v2.5/en/backups/configuration/backup-config/">scheduled backups</a>.</p>
-<br/>
-
-
-</div>
-
-
-
-
-
-
-<div class="tab-pane fade show " id="bdcafe" role="tabpanel" aria-labelledby="nav-1">
-
-	<br>
-<h3 id="opensearch-backup">OpenSearch Backup</h3>
+<h2 id="opensearch-backup">OpenSearch backup</h2>
 <p>For OpenSearch, Verrazzano provides a custom hook that you can use along with Velero while invoking a backup.
 Due to the nature of transient data handled by OpenSearch, the hook invokes OpenSearch snapshot APIs to back up and restore data streams appropriately,
 thereby ensuring that there is no loss of data and avoids data corruption as well.</p>
@@ -670,18 +626,12 @@ In this case, it&rsquo;s <code>statefulset.kubernetes.io/pod-name: vmi-system-es
 </span></span><span style="display:flex;"><span>$ kubectl <span style="color:#204a87">exec</span> -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/&lt;log-file-name&gt;
 </span></span></code></pre></div></details>
 <br>
-<h3 id="scheduled-backups">Scheduled backups</h3>
+<h3 id="scheduled-backups-1">Scheduled backups</h3>
 <p>Velero supports a <code>Schedule</code> <a href="https://velero.io/docs/v1.8/api-types/schedule/">API</a>
 that is a repeatable request that is sent to the Velero server to perform a backup for a given cron notation.
 After the <code>Schedule</code> object is created, the Velero server will start the backup process.
 Then, it will then wait for the next valid point in the given cron expression and execute the backup process on a repeating basis.</p>
 <br/>
-
-
-</div>
-
-
-</div>
 
 	
 		<style>
