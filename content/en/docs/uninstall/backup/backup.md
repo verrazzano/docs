@@ -11,18 +11,14 @@ First, ensure that the backup component prerequisites are met, as indicated [her
 
 The following sections provide detailed configuration information for:
 
-- The [rancher-backup](https://rancher.com/docs/rancher/v2.5/en/backups/) operator, to back up persistent data and Rancher-related configuration.
+- The [rancher-backup](https://rancher.com/docs/rancher/v2.5/en/backups/) operator, to back up persistent data and Rancher-related configuration. See [Rancher backup](#rancher-backup).
 
 - Velero [hooks](https://velero.io/docs/v1.8/backup-hooks/), to ensure a consistent backup experience for these components:
-  - OpenSearch
+  - OpenSearch. See [OpenSearch backup](#opensearch-backup).
   - For all other components, refer to the Velero [Backup Reference](https://velero.io/docs/v1.8/backup-reference/).
 
 
-{{< tabs tabTotal="3" >}}
-{{< tab tabName="Rancher Backup" >}}
-<br>
-
-## Rancher Backup
+## Rancher backup
 
 To initiate a Rancher backup, create the following example custom resource YAML file that uses an Amazon S3 compatible object store as a backend.
 The operator uses the `credentialSecretNamespace` value to determine where to look for the Amazon S3 backup secret.
@@ -51,13 +47,8 @@ The operator creates the backup file, in the `*.tar.gz` format, and stores it in
 
 Similar to Velero, rancher-backup allows [scheduled backups](https://rancher.com/docs/rancher/v2.5/en/backups/configuration/backup-config/).  
 
-<br/>
 
-{{< /tab >}}
-{{< tab tabName="OpenSearch Backup" >}}
-<br>
-
-### OpenSearch Backup
+## OpenSearch backup
 
 For OpenSearch, Verrazzano provides a custom hook that you can use along with Velero while invoking a backup.
 Due to the nature of transient data handled by OpenSearch, the hook invokes OpenSearch snapshot APIs to back up and restore data streams appropriately,
