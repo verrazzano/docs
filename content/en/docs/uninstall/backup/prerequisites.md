@@ -85,9 +85,10 @@ $ rpm -ivh https://yum.oracle.com/repo/OracleLinux/OL7/developer/olcne/x86_64/ge
 
 ## Component-specific prerequisites
 
-{{< tabs tabTotal="2" >}}
-{{< tab tabName="velero" >}}
-<br>
+Meet the following component-specific prerequisites:
+
+- [Velero operator prerequisites](#velero-operator-prerequisites)
+- [rancher-backup operator prerequisites](#rancher-backup-operator-prerequisites)
 
 #### Velero operator prerequisites
 
@@ -137,12 +138,6 @@ Now, create the following objects:
        s3ForcePathStyle: "true"
        s3Url: https://mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com
    ```
-
-<br/>
-
-{{< /tab >}}
-{{< tab tabName="rancherBackup" >}}
-<br>
 
 #### rancher-backup operator prerequisites
 

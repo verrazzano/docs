@@ -10,13 +10,11 @@ draft: false
 Before proceeding, ensure that the backup component prerequisites are met, as indicated [here]({{< relref "/docs/uninstall/backup/prerequisites.md" >}}).
 This document also assumes that a successful backup was previously made using either Velero or rancher-backup, as shown [here]({{< relref "/docs/uninstall/backup/backup.md" >}}).  
 
-Use the following component-specific instructions to restore application data.
+Use the following component-specific instructions to restore application data:
+- [Rancher restore](#rancher-restore)
+- [OpenSearch restore](#opensearch-restore)
 
-{{< tabs tabTotal="3" >}}
-{{< tab tabName="RancherRestore" >}}
-<br>
-
-### Rancher Restore
+## Rancher restore
 
 To initiate a Rancher restore, create the following example custom resource YAML file.
 When a `Restore` custom resource is created, the operator accesses the backup `*.tar.gz` file specified and restores the application data from that file.
@@ -47,14 +45,9 @@ Resources are restored in this order:
 - Cluster-scoped resources
 - Namespace resources
 
-<br/>
 
 
-{{< /tab >}}
-{{< tab tabName="OpenSearch Restore" >}}
-<br>
-
-#### OpenSearch Restore
+## OpenSearch restore
 
 For OpenSearch, Verrazzano provides a custom hook that you can use along with Velero, to perform a restore operation.
 Due to the nature of transient data handled by OpenSearch, the hook invokes OpenSearch snapshot APIs to back up and restore data streams appropriately,
