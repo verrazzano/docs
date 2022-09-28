@@ -75,7 +75,7 @@ Set up a private registry using the following instructions, depending on your di
 
 ## Load the images
 
-1. Download the Verrazzano ZIP file
+1. Download the Verrazzano ZIP file.
     * Download the Verrazzano ZIP file from the Oracle Software Delivery Cloud for major or minor releases.
 
         a. In your browser, go to the [Oracle Software Delivery Cloud](https://edelivery.oracle.com) and log in with your credentials.
