@@ -11,6 +11,10 @@ Verrazzano requires the following:
 - `dev` profile - At least two CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes. Depending on the resource requirements of the applications you deploy, this may or may not be sufficient.
 - `prod` profile - At least four CPUs, 100GB disk storage, and 32GB RAM available on the Kubernetes worker nodes.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient.
 
+{{< alert title="NOTE" color="warning" >}}
+Verrazzano should be installed into an empty cluster, otherwise unexpected issues might occur.
+{{< /alert >}}
+
 ## Supported hardware
 Verrazzano requires x86-64; other architectures are not supported.
 
@@ -20,12 +24,13 @@ Verrazzano supports the following software versions.
 ### Kubernetes
 You can install Verrazzano on the following Kubernetes versions.
 
-| Verrazzano | Release Date | Latest Patch Release | Latest Patch Release Date | Kubernetes Versions | End of Error Correction |
-|------------|--------------|----------------------|---------------------------|---------------------|-------------------------|
-| 1.3        | 2022-05-24   | 1.3.5                | 2022-09-12                | 1.21, 1.22, 1.23    |
-| 1.2        | 2022-03-14   | 1.2.2                | 2022-05-10                | 1.19, 1.20, 1.21    | 2022-11-30
-| 1.1        | 2021-12-16   | 1.1.2                | 2022-03-09                | 1.19, 1.20, 1.21    | 2022-09-30
-| 1.0        | 2021-08-02   | 1.0.4                | 2021-12-20                | 1.18, 1.19, 1.20    | 2022-06-30
+| Verrazzano | Release Date | Latest Patch Release | Latest Patch Release Date | Kubernetes Versions    | End of Error Correction |
+|------------|--------------|----------------------|---------------------------|------------------------|-------------------------|
+| 1.4        | 2022-09-29   |                      |                           | 1.21, 1.22, 1.23, 1.24 |
+| 1.3        | 2022-05-24   | 1.3.5                | 2022-09-12                | 1.21, 1.22, 1.23       |
+| 1.2        | 2022-03-14   | 1.2.2                | 2022-05-10                | 1.19, 1.20, 1.21       | 2022-11-30
+| 1.1        | 2021-12-16   | 1.1.2                | 2022-03-09                | 1.19, 1.20, 1.21       | 2022-09-30
+| 1.0        | 2021-08-02   | 1.0.4                | 2021-12-20                | 1.18, 1.19, 1.20       | 2022-06-30
 
 
 
@@ -64,6 +69,7 @@ component, its version, and a brief description.
 | Kiali                        | 1.42.0       | Management console for the Istio service mesh.                                           |
 | kube-state-metrics           | 2.4.2        | Provides metrics about the state of Kubernetes API objects.                              |
 | MySQL                        | 8.0.29       | Open source relational database management system used by Keycloak.                      |
+| MySQL Operator               | 8.0.30-2.0.5 | Operator for managing MySQL InnoDB Cluster setups inside a Kubernetes Cluster.           |
 | NGINX Ingress Controller     | 1.1.1        | Traffic management solution for cloud‑native applications in Kubernetes.                 |
 | Node Exporter                | 1.3.1        | Prometheus exporter for hardware and OS metrics.                                         |
 | OAM Kubernetes Runtime       | 0.3.0        | Plug-in for implementing the Open Application Model (OAM) control plane with Kubernetes. |

@@ -7,17 +7,48 @@ draft: false
 ### v1.4.0
 Features:
 
-- New API version for the Verrazzano resource, `install.verrazzano.io/v1beta1`. See the [Deprecated API Migration Guide]({{< relref "/docs/reference/migration" >}}).
-- Support for Kubernetes v1.24.
+- Added the Verrazzano command-line tool (CLI) for interactive installation, upgrade, uninstall, cluster analysis, and bug reporting.
+- Added backup and restore functionality using Velero and rancher-backup.
+- Added Prometheus Operator based metrics collection (using ServiceMonitors and PodMonitors) for both Verrazzano system components and applications.
+- Added a new API version for the Verrazzano resource, `install.verrazzano.io/v1beta1`. See the [Deprecated API Migration Guide]({{< relref "/docs/reference/migration" >}}).
+- Verrazzano distribution `tar.gz` artifacts now include the new CLI binaries and tooling.
+- Replaced Elasticsearch and Kibana with OpenSearch and OpenSearch dashboards (pods, URLs, CRD fields).
+- Improved Rancher integration.
+    - Added the Rancher UI-based Verrazzano console.
+    - Keycloak SSO authentication and authorization is configured by default.
+    - OCI drivers now are enabled by default and ready-to-use.
+- kube-prometheus-stack components now are enabled by default.
+- Improved uninstall resiliency and performance.
+- Added support for OCNE 1.5.x.
+- Added support for Kubernetes v1.24.
 
 Component version updates:
 
 - Coherence Operator v3.2.6
 - Istio v1.14.3
-- MySQL Operator v8.0.30-2.0.5
+- Jaeger v1.34.1
 - Rancher v2.6.8
+
+Components added:
+
 - Rancher Backup Operator v2.1.3
 - Velero v1.8.1
+- Velero Plugin For AWS v1.4.1
+
+Components removed:
+
+- Config Map Reload
+
+Fixes:
+
+- Resolved an issue where Verrazzano started an installation, immediately after an upgrade, but before all the components were ready.
+- Resolved an issue where application pods that required an Istio sidecar did not restart after an upgrade.
+- Resolved unnecessary temporary file cleanup for Helm overrides after installation or upgrade.
+- Resolved an issue with Verrazzano resource status conditions being appended as duplicates instead of updated.
+- Resolved an issue where Verrazzano Monitoring Operator was querying OpenSearch before it was ready.
+- Resolved an issue where Verrazzano Platform Operator transitioned to a ready condition before all webhook context paths were ready.
+- Updated base and other images to resolves CVEs.
+
 
 ### v1.3.5
 Component version updates:

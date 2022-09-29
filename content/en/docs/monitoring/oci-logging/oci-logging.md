@@ -21,10 +21,10 @@ The Fluentd plug-in included with Verrazzano will use Oracle Cloud Infrastructur
 can configure Verrazzano with a user API signing key. API signing key authentication is required to send logs to
 Oracle Cloud Infrastructure Logging if the cluster is running outside of Oracle Cloud Infrastructure.
 
-- [Instance Principal Credentials](#instance-principal-credentials)
-- [User API Credentials](#user-api-credentials)
+- [Instance principal authentication](#instance-principal-authentication)
+- [User API signing key](#user-api-signing-key)
 
-### Instance Principal Credentials
+### Instance principal authentication
 
 Create a dynamic group that includes the compute instances in your cluster's node pools and assign the appropriate policy,
 so that the dynamic group is allowed to send log entries to the custom logs you created earlier. Pay close attention to
@@ -32,7 +32,7 @@ the [required permissions](https://docs.oracle.com/en-us/iaas/Content/Logging/Ta
 
 If the dynamic group and policy are configured incorrectly, then Fluentd will fail to send logs to Oracle Cloud Infrastructure Logging.
 
-### User API Credentials
+### User API signing key
 
 If you do not already have an API signing key, then see [Required Keys and OCIDs](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm)
 in the Oracle Cloud Infrastructure documentation. You need to create an Oracle Cloud Infrastructure configuration file with the credential details and then use that
