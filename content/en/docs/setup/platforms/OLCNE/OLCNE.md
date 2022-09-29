@@ -30,7 +30,7 @@ reasonable choice is the `oci-bv` `StorageClass` with its `CSIDriver` configured
     ```
 
 - Unless explicitly configured, the `externalip-validation-webhook-service` defaults to blocking all external IP addresses in the cluster, which causes the
-Verrazzano installation to fail because an IP address cannot be assigned to an ingress controller. When this situation occurs, the Verrazzano Platform Operator logs
+Verrazzano installation to fail because an IP address cannot be assigned to an ingress controller. When this situation occurs, the Verrazzano platform operator logs
 will contain a message similar to this:
 
     ```

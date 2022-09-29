@@ -164,7 +164,7 @@ enabled for Istio.
     ```
 
 2. Wait for the uninstall to complete.
-The uninstall logs from the `Verrazzano Platform Operator` will be streamed to the command window until the uninstall has completed or until the default timeout (20m) has been reached.
+The uninstall logs from the Verrazzano platform operator will be streamed to the command window until the uninstall has completed or until the default timeout (20m) has been reached.
 
 ## Next steps
 

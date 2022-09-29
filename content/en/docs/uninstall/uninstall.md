@@ -29,7 +29,7 @@ See the following respective sections.
     ```
 
 2. Wait for the uninstall to complete.
-   The uninstall logs from the `Verrazzano Platform Operator` will be streamed to the command window until the uninstall has completed or until the default timeout (20m) has been reached.
+   The uninstall logs from the Verrazzano platform operator will be streamed to the command window until the uninstall has completed or until the default timeout (20m) has been reached.
 
    ...
    ```
@@ -53,7 +53,7 @@ uses the `kubectl logs -f` command to tail the output of the pod performing the 
    ```shell
    $ kubectl delete verrazzano $MYVZ
    ```
-If you want to see the uninstall logs during the deletion, you can view them from the `Verrazzano Platform Operator` with the following command:
+If you want to see the uninstall logs during the deletion, you can view them from the `Verrazzano platform operator` with the following command:
 
 ```
 $ kubectl logs -n verrazzano-install \
