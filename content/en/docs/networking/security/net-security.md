@@ -96,7 +96,7 @@ The ports shown are Pod ports, which is what NetworkPolicies require.
 | Rancher | 80 | NGINX Ingress | Access from external client
 | Rancher | 9443 |  Kubernetes API Server  | Webhook entrypoint
 | Prometheus | 8775 | NGINX Ingress | Access from external client
-| Prometheus | 9090 | Grafana | Acccess for Grafana UI
+| Prometheus | 9090 | Grafana | Access for Grafana UI
 
 ### NetworkPolicies for applications
 By default, applications do not have NetworkPolicies that restrict ingress into the application or egress from it.
