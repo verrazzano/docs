@@ -23,8 +23,7 @@
 <meta name="description" content="v1.4.0
 Features:
 
-New API version for the Verrazzano resource, install.verrazzano.io/v1beta1. See the Deprecated API Migration Guide.
-Support for …">
+Added the Verrazzano command-line tool (CLI) for interactive installation, upgrade, uninstall, cluster analysis, and bug reporting. …">
 <meta property="og:title" content="Release Notes" />
 <meta property="og:description" content="A hybrid multi-cloud Kubernetes based Enterprise Container Platform for running both cloud-native and traditional applications" />
 <meta property="og:type" content="website" />
@@ -94,7 +93,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../offline-search-index.d5872e9a785466453cc6850112ae2a53.json"
+  data-offline-search-index-json-src="../../offline-search-index.2501232131d7a977bfe82b96168d291b.json"
   data-offline-search-base-href="../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +115,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../offline-search-index.d5872e9a785466453cc6850112ae2a53.json"
+  data-offline-search-index-json-src="../../offline-search-index.2501232131d7a977bfe82b96168d291b.json"
   data-offline-search-base-href="../../"
   data-offline-search-max-results="10"
 >
@@ -517,17 +516,50 @@ if (!doNotTrack) {
 	<h3 id="v140">v1.4.0</h3>
 <p>Features:</p>
 <ul>
-<li>New API version for the Verrazzano resource, <code>install.verrazzano.io/v1beta1</code>. See the <a href="../../docs/reference/migration/">Deprecated API Migration Guide</a>.</li>
-<li>Support for Kubernetes v1.24.</li>
+<li>Added the Verrazzano command-line tool (CLI) for interactive installation, upgrade, uninstall, cluster analysis, and bug reporting.</li>
+<li>Added backup and restore functionality using Velero and rancher-backup.</li>
+<li>Added Prometheus Operator based metrics collection (using ServiceMonitors and PodMonitors) for both Verrazzano system components and applications.</li>
+<li>Added a new API version for the Verrazzano resource, <code>install.verrazzano.io/v1beta1</code>. See the <a href="../../docs/reference/migration/">Deprecated API Migration Guide</a>.</li>
+<li>Verrazzano distribution <code>tar.gz</code> artifacts now include the new CLI binaries and tooling.</li>
+<li>Replaced Elasticsearch and Kibana with OpenSearch and OpenSearch dashboards (pods, URLs, CRD fields).</li>
+<li>Improved Rancher integration.
+<ul>
+<li>Added the Rancher UI-based Verrazzano console.</li>
+<li>Keycloak SSO authentication and authorization is configured by default.</li>
+<li>OCI drivers now are enabled by default and ready-to-use.</li>
+</ul>
+</li>
+<li>kube-prometheus-stack components now are enabled by default.</li>
+<li>Improved uninstall resiliency and performance.</li>
+<li>Added support for OCNE 1.5.x.</li>
+<li>Added support for Kubernetes v1.24.</li>
 </ul>
 <p>Component version updates:</p>
 <ul>
 <li>Coherence Operator v3.2.6</li>
 <li>Istio v1.14.3</li>
-<li>MySQL Operator v8.0.30-2.0.5</li>
+<li>Jaeger v1.34.1</li>
 <li>Rancher v2.6.8</li>
+</ul>
+<p>Components added:</p>
+<ul>
 <li>Rancher Backup Operator v2.1.3</li>
 <li>Velero v1.8.1</li>
+<li>Velero Plugin For AWS v1.4.1</li>
+</ul>
+<p>Components removed:</p>
+<ul>
+<li>Config Map Reload</li>
+</ul>
+<p>Fixes:</p>
+<ul>
+<li>Resolved an issue where Verrazzano started an installation, immediately after an upgrade, but before all the components were ready.</li>
+<li>Resolved an issue where application pods that required an Istio sidecar did not restart after an upgrade.</li>
+<li>Resolved unnecessary temporary file cleanup for Helm overrides after installation or upgrade.</li>
+<li>Resolved an issue with Verrazzano resource status conditions being appended as duplicates instead of updated.</li>
+<li>Resolved an issue where Verrazzano Monitoring Operator was querying OpenSearch before it was ready.</li>
+<li>Resolved an issue where Verrazzano Platform Operator transitioned to a ready condition before all webhook context paths were ready.</li>
+<li>Updated base and other images to resolves CVEs.</li>
 </ul>
 <h3 id="v135">v1.3.5</h3>
 <p>Component version updates:</p>
