@@ -14,7 +14,7 @@ following ways:
 * Configure a CA that you provide.
 * Configure [LetsEncrypt](https://letsencrypt.org/) as the certificate issuer (requires [Oracle Cloud Infrastructure DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm)).
 
-In all cases, Verrazzano uses [CertManager](https://cert-manager.io/) to manage the creation of certificates.
+In all cases, Verrazzano uses [cert-manager](https://cert-manager.io/) to manage the creation of certificates.
 
 {{< alert title="NOTE" color="warning" >}}
 Self-signed certificate authorities generate certificates that are NOT signed by a trusted authority; typically, they are not used in production environments.
@@ -45,7 +45,7 @@ If you want to provide your own CA, you must:
   respectively.  If your issuer represents an intermediate, ensure that `tls.crt` contains the issuer’s full chain in the
   correct order.
 
-  You can find more details on providing your own CA, in the CertManager [CA](https://cert-manager.io/docs/configuration/ca/) documentation.
+  You can find more details on providing your own CA, in the cert-manager [CA](https://cert-manager.io/docs/configuration/ca/) documentation.
 
 * Save your signing key pair as a Kubernetes secret.
 
@@ -56,7 +56,7 @@ If you want to provide your own CA, you must:
 
 * Specify the secret name and namespace location in the Verrazzano custom resource.
 
-  The custom CA secret must be provided to CertManager using the following fields in
+  The custom CA secret must be provided to cert-manager using the following fields in
   [`spec.components.certManager.certificate.ca`](/docs/reference/api/verrazzano/v1beta1#certificate) in the Verrazzano custom resource:
 
   * `spec.components.certManager.certificate.ca.secretName`
@@ -92,7 +92,7 @@ Using LetsEncrypt for certificates also requires using Oracle Cloud Infrastructu
 For details, see the [Customize DNS]({{< relref "/docs/customize/dns.md" >}}) page.
 {{< /alert >}}
 
-To configure CertManager to use LetsEncrypt as the certificates provider, you must configure a CertManager
+To configure cert-manager to use LetsEncrypt as the certificates provider, you must configure a cert-manager
 ACME provider with the following values in the Verrazzano custom resource:
 
 * Set the `spec.components.certManager.certificate.acme.provider` field to `letsEncrypt`.
