@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/monitoring/oci-logging/oci-logging/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-09-28T14:44:06-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-09-29T10:48:57-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Oracle Cloud Infrastructure Logging Service">
 <meta itemprop="description" content="Learn how to send Verrazzano logs to the Oracle Cloud Infrastructure Logging service">
-<meta itemprop="dateModified" content="2022-09-28T14:44:06-04:00" />
-<meta itemprop="wordCount" content="1028">
+<meta itemprop="dateModified" content="2022-09-29T10:48:57-04:00" />
+<meta itemprop="wordCount" content="1030">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Oracle Cloud Infrastructure Logging Service"/>
 <meta name="twitter:description" content="Learn how to send Verrazzano logs to the Oracle Cloud Infrastructure Logging service"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.2501232131d7a977bfe82b96168d291b.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.172173ebeb507d93d2b92411a7a4b42a.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.2501232131d7a977bfe82b96168d291b.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.172173ebeb507d93d2b92411a7a4b42a.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -545,15 +545,15 @@ custom logs. <strong>Do not</strong> create an agent configuration when creating
 can configure Verrazzano with a user API signing key. API signing key authentication is required to send logs to
 Oracle Cloud Infrastructure Logging if the cluster is running outside of Oracle Cloud Infrastructure.</p>
 <ul>
-<li><a href="#instance-principal-credentials">Instance Principal Credentials</a></li>
-<li><a href="#user-api-credentials">User API Credentials</a></li>
+<li><a href="#instance-principal-authentication">Instance principal authentication</a></li>
+<li><a href="#user-api-signing-key">User API signing key</a></li>
 </ul>
-<h3 id="instance-principal-credentials">Instance Principal Credentials</h3>
+<h3 id="instance-principal-authentication">Instance principal authentication</h3>
 <p>Create a dynamic group that includes the compute instances in your cluster&rsquo;s node pools and assign the appropriate policy,
 so that the dynamic group is allowed to send log entries to the custom logs you created earlier. Pay close attention to
 the <a href="https://docs.oracle.com/en-us/iaas/Content/Logging/Task/managinglogs.htm#required_permissions_logs_groups">required permissions</a>.</p>
 <p>If the dynamic group and policy are configured incorrectly, then Fluentd will fail to send logs to Oracle Cloud Infrastructure Logging.</p>
-<h3 id="user-api-credentials">User API Credentials</h3>
+<h3 id="user-api-signing-key">User API signing key</h3>
 <p>If you do not already have an API signing key, then see <a href="https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm">Required Keys and OCIDs</a>
 in the Oracle Cloud Infrastructure documentation. You need to create an Oracle Cloud Infrastructure configuration file with the credential details and then use that
 configuration file to create a secret.</p>
@@ -594,7 +594,7 @@ installation YAML file for each type of credential.</p>
 <li><a href="#instance-principal-credentials">Instance principal credentials</a></li>
 <li><a href="#user-api-credentials">User API credentials</a></li>
 </ul>
-<h3 id="instance-principal-credentials-1">Instance principal credentials</h3>
+<h3 id="instance-principal-credentials">Instance principal credentials</h3>
 <pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
@@ -611,7 +611,7 @@ spec:
       enabled: false
     opensearchDashboards:
       enabled: false
-</code></pre><h3 id="user-api-credentials-1">User API credentials</h3>
+</code></pre><h3 id="user-api-credentials">User API credentials</h3>
 <p>When using user API credentials, you need to configure the name of the secret in the Verrazzano custom resource,
 under the Oracle Cloud Infrastructure section of the Fluentd component settings. Your YAML file should look something like this.</p>
 <pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1beta1

@@ -667,15 +667,15 @@ custom logs. &lt;strong&gt;Do not&lt;/strong&gt; create an agent configuration w
 can configure Verrazzano with a user API signing key. API signing key authentication is required to send logs to
 Oracle Cloud Infrastructure Logging if the cluster is running outside of Oracle Cloud Infrastructure.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#instance-principal-credentials&#34;&gt;Instance Principal Credentials&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#user-api-credentials&#34;&gt;User API Credentials&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#instance-principal-authentication&#34;&gt;Instance principal authentication&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#user-api-signing-key&#34;&gt;User API signing key&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;instance-principal-credentials&#34;&gt;Instance Principal Credentials&lt;/h3&gt;
+&lt;h3 id=&#34;instance-principal-authentication&#34;&gt;Instance principal authentication&lt;/h3&gt;
 &lt;p&gt;Create a dynamic group that includes the compute instances in your cluster&amp;rsquo;s node pools and assign the appropriate policy,
 so that the dynamic group is allowed to send log entries to the custom logs you created earlier. Pay close attention to
 the &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/Logging/Task/managinglogs.htm#required_permissions_logs_groups&#34;&gt;required permissions&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;If the dynamic group and policy are configured incorrectly, then Fluentd will fail to send logs to Oracle Cloud Infrastructure Logging.&lt;/p&gt;
-&lt;h3 id=&#34;user-api-credentials&#34;&gt;User API Credentials&lt;/h3&gt;
+&lt;h3 id=&#34;user-api-signing-key&#34;&gt;User API signing key&lt;/h3&gt;
 &lt;p&gt;If you do not already have an API signing key, then see &lt;a href=&#34;https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm&#34;&gt;Required Keys and OCIDs&lt;/a&gt;
 in the Oracle Cloud Infrastructure documentation. You need to create an Oracle Cloud Infrastructure configuration file with the credential details and then use that
 configuration file to create a secret.&lt;/p&gt;
@@ -716,7 +716,7 @@ installation YAML file for each type of credential.&lt;/p&gt;
 &lt;li&gt;&lt;a href=&#34;#instance-principal-credentials&#34;&gt;Instance principal credentials&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#user-api-credentials&#34;&gt;User API credentials&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;instance-principal-credentials-1&#34;&gt;Instance principal credentials&lt;/h3&gt;
+&lt;h3 id=&#34;instance-principal-credentials&#34;&gt;Instance principal credentials&lt;/h3&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
@@ -733,7 +733,7 @@ spec:
       enabled: false
     opensearchDashboards:
       enabled: false
-&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;user-api-credentials-1&#34;&gt;User API credentials&lt;/h3&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;user-api-credentials&#34;&gt;User API credentials&lt;/h3&gt;
 &lt;p&gt;When using user API credentials, you need to configure the name of the secret in the Verrazzano custom resource,
 under the Oracle Cloud Infrastructure section of the Fluentd component settings. Your YAML file should look something like this.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1beta1
