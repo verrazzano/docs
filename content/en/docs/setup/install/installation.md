@@ -13,6 +13,9 @@ single Kubernetes cluster.
 - Find the Verrazzano prerequisite requirements [here]({{< relref "/docs/setup/prereqs.md" >}}).
 - Review the list of the [software versions supported]({{< relref "/docs/setup/prereqs.md#supported-software-versions" >}}) and [installed]({{< relref "/docs/setup/prereqs.md#installed-components" >}}) by Verrazzano.
 
+{{< alert title="NOTE" color="warning" >}}
+Verrazzano should be installed into an empty cluster, otherwise unexpected issues might occur.
+{{< /alert >}}
 
 ## Prepare for the installation
 
