@@ -12,7 +12,7 @@ Verrazzano requires the following:
 - `prod` profile - At least four CPUs, 100GB disk storage, and 32GB RAM available on the Kubernetes worker nodes.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient.
 
 {{< alert title="NOTE" color="warning" >}}
-Verrazzano should be installed into an empty cluster, otherwise unexpected issues may occur.
+Verrazzano should be installed into an empty cluster, otherwise unexpected issues might occur.
 {{< /alert >}}
 
 ## Supported hardware
