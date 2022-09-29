@@ -69,7 +69,6 @@ component, its version, and a brief description.
 | Kiali                        | 1.42.0       | Management console for the Istio service mesh.                                           |
 | kube-state-metrics           | 2.4.2        | Provides metrics about the state of Kubernetes API objects.                              |
 | MySQL                        | 8.0.29       | Open source relational database management system used by Keycloak.                      |
-| MySQL Operator               | 8.0.30-2.0.5 | Operator for managing MySQL InnoDB Cluster setups inside a Kubernetes Cluster.           |
 | NGINX Ingress Controller     | 1.1.1        | Traffic management solution for cloud‑native applications in Kubernetes.                 |
 | Node Exporter                | 1.3.1        | Prometheus exporter for hardware and OS metrics.                                         |
 | OAM Kubernetes Runtime       | 0.3.0        | Plug-in for implementing the Open Application Model (OAM) control plane with Kubernetes. |
