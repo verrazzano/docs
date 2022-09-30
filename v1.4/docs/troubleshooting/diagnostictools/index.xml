@@ -1,0 +1,222 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Verrazzano Enterprise Container Platform – Diagnostic Tools</title>
+    <link>/docs/troubleshooting/diagnostictools/</link>
+    <description>Recent content in Diagnostic Tools on Verrazzano Enterprise Container Platform</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="/docs/troubleshooting/diagnostictools/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: Verrazzano Analysis Tools</title>
+      <link>/docs/troubleshooting/diagnostictools/verrazzanoanalysistool/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/troubleshooting/diagnostictools/verrazzanoanalysistool/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Verrazzano provides the &lt;code&gt;vz analyze&lt;/code&gt; command-line tool, which assists in troubleshooting issues in your environment. You can use it to analyze a cluster as well as, to analyze a cluster snapshot captured by the &lt;code&gt;vz bug-report&lt;/code&gt; tool. For detailed information about &lt;code&gt;vz bug-report&lt;/code&gt;, see &lt;a href=&#34;../../../docs/troubleshooting/diagnostictools/vzbugreportcli/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;vz analyze&lt;/code&gt; command-line tool analyzes the cluster or a cluster snapshot, reports the issues found, and prescribes related actions to take. Users, developers, and Continuous Integration (CI) can use this tooling to quickly identify the root cause of encountered problems, determine mitigation actions, and provide a sharable report with other users or tooling.&lt;/p&gt;
+&lt;h2 id=&#34;set-up-the-cli-tool&#34;&gt;Set up the CLI tool&lt;/h2&gt;
+&lt;p&gt;To set up the &lt;code&gt;vz&lt;/code&gt; command-line tool, follow the steps &lt;a href=&#34;../../../docs/setup/cli/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;analyze-clusters&#34;&gt;Analyze clusters&lt;/h2&gt;
+&lt;p&gt;To analyze a Kubernetes cluster:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz analyze
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;analyze-cluster-snapshots&#34;&gt;Analyze cluster snapshots&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Use the &lt;code&gt;vz bug-report&lt;/code&gt; tool to capture a cluster snapshot.&lt;/p&gt;
+&lt;p&gt;To create a bug report in a TAR file named &lt;code&gt;my-bug-report.tar.gz&lt;/code&gt; and extract it to a directory &lt;code&gt;my-cluster-snapshot&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz bug-report my-bug-report.tar.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  mkdir my-cluster-snapshot
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  tar -xvf my-bug-report.tar.gz -C my-cluster-snapshot
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Use the &lt;code&gt;vz analyze&lt;/code&gt; tool to analyze the cluster snapshot.&lt;/p&gt;
+&lt;p&gt;To perform an analysis of the cluster snapshot under &lt;code&gt;my-cluster-snapshot&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz analyze --capture-dir my-cluster-snapshot
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;use-the-vz-analyze-tool-to-analyze-multiple-snapshots&#34;&gt;Use the &lt;code&gt;vz analyze&lt;/code&gt; tool to analyze multiple snapshots&lt;/h3&gt;
+&lt;p&gt;The &lt;code&gt;vz analyze&lt;/code&gt; tool will find and analyze all cluster snapshot directories found under a specified root directory.
+This lets you create a directory to hold the cluster snapshots of related clusters in subdirectories, which the tool can then analyze.&lt;/p&gt;
+&lt;p&gt;For example:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;my-cluster-snapshots
+    CAPTURE_DIR-1
+        cluster-snapshot
+            ...
+    CAPTURE_DIR-2
+        cluster-snapshot
+            ...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;To perform an analysis of the clusters under &lt;code&gt;my-cluster-snapshots&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz analyze --capture-dir my-cluster-snapshots
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;usage-information&#34;&gt;Usage information&lt;/h3&gt;
+&lt;p&gt;Use the following syntax to run &lt;code&gt;vz&lt;/code&gt; commands from your terminal window.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz analyze &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;[&lt;/span&gt;flags&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;available-options&#34;&gt;Available options&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Command&lt;/th&gt;
+&lt;th&gt;Definition&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;--capture-dir string&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Directory holding the captured data.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-h, --help&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Help for the &lt;code&gt;vz analyze&lt;/code&gt; command.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;--report-file string&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Name of the report output file. (Default &lt;code&gt;stdout&lt;/code&gt;)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;--report-format string&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;The format of the report output. Valid report formats are &amp;ldquo;summary&amp;rdquo; and &amp;ldquo;detailed&amp;rdquo;. (Default &amp;ldquo;summary&amp;rdquo;)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-v, --verbose&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Enable verbose output.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id=&#34;available-flags&#34;&gt;Available flags&lt;/h4&gt;
+&lt;p&gt;These flags apply to all the commands.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Flag&lt;/th&gt;
+&lt;th&gt;Definition&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;--context string&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;The name of the &lt;code&gt;kubeconfig&lt;/code&gt; context to use.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;--kubeconfig string&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Path to the &lt;code&gt;kubeconfig&lt;/code&gt; file to use.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Bug Reports</title>
+      <link>/docs/troubleshooting/diagnostictools/vzbugreportcli/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/troubleshooting/diagnostictools/vzbugreportcli/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Use the &lt;code&gt;vz bug-report&lt;/code&gt; tool to selectively capture cluster information and create an archive (&lt;code&gt;*.tar.gz&lt;/code&gt;) file to help diagnose problems. The archive file helps development and support teams analyze issues and provide recommendations.&lt;/p&gt;
+&lt;h2 id=&#34;cli-setup&#34;&gt;CLI setup&lt;/h2&gt;
+&lt;p&gt;To set up the &lt;code&gt;vz&lt;/code&gt; command-line tool, follow the steps &lt;a href=&#34;../../../docs/setup/cli/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;use-the-vz-bug-report-tool&#34;&gt;Use the &lt;code&gt;vz bug-report&lt;/code&gt; tool&lt;/h2&gt;
+&lt;p&gt;To create a bug report in a TAR file named &lt;code&gt;my-bug-report.tar.gz&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz bug-report --report-file my-bug-report.tar.gz
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We suggest that you review the contents of the bug report before sharing it with support and development teams.&lt;/p&gt;
+&lt;h3 id=&#34;usage-information&#34;&gt;Usage information&lt;/h3&gt;
+&lt;p&gt;Use the following syntax to run &lt;code&gt;vz&lt;/code&gt; commands from your terminal window.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz bug-report &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;[&lt;/span&gt;flags&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;available-options&#34;&gt;Available options&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Command&lt;/th&gt;
+&lt;th&gt;Definition&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-h, --help &lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Help for &lt;code&gt;vz bug-report&lt;/code&gt; command.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-i, --include-namespaces strings&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;A comma-separated list of additional namespaces for collecting cluster information. This flag can be specified multiple times, such as &lt;code&gt;--include-namespaces ns1 --include-namespaces ns...&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-r, --report-file string&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;The report file created by the &lt;code&gt;vz bug-report&lt;/code&gt; command, as a &lt;code&gt;*.tar.gz&lt;/code&gt; file. Defaults to &lt;code&gt;bug-report.tar.gz&lt;/code&gt; in the current directory.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-v, --verbose&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Enable verbose output.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;available-flags&#34;&gt;Available flags&lt;/h3&gt;
+&lt;p&gt;These flags apply to all the commands.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Flag&lt;/th&gt;
+&lt;th&gt;Definition&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;--context string&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;The name of the &lt;code&gt;kubeconfig&lt;/code&gt; context to use.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;--kubeconfig string&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Path to the &lt;code&gt;kubeconfig&lt;/code&gt; file to use.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;examples&#34;&gt;Examples&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Create a bug report file, &lt;code&gt;bugreport.tar.gz&lt;/code&gt;, by collecting data from the cluster:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz bug-report --report-file bugreport.tar.gz
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;When &lt;code&gt;--report-file&lt;/code&gt; is not provided, the command creates &lt;code&gt;bug-report.tar.gz&lt;/code&gt; in the current directory.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create a bug report file, &lt;code&gt;bugreport.tar.gz&lt;/code&gt;, including the additional namespace &lt;code&gt;ns1&lt;/code&gt; from the cluster:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz bug-report --report-file bugreport.tgz --include-namespaces ns1
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The flag &lt;code&gt;--include-namespaces&lt;/code&gt; accepts comma-separated values and can be specified multiple times.
+For example, the following commands create a bug report by including additional namespaces &lt;code&gt;ns1&lt;/code&gt;, &lt;code&gt;ns2&lt;/code&gt;, and &lt;code&gt;ns3&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2,ns3
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-namespaces ns3
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The values specified for the flag &lt;code&gt;--include-namespaces&lt;/code&gt; are case-sensitive.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Analysis Advice</title>
+      <link>/docs/troubleshooting/diagnostictools/analysisadvice/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/troubleshooting/diagnostictools/analysisadvice/</guid>
+      <description>
+        
+        
+        
+      </description>
+    </item>
+    
+  </channel>
+</rss>

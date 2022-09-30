@@ -1,0 +1,1227 @@
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="generator" content="Hugo 0.94.2" />
+<link rel="alternate" type="application/rss&#43;xml" href="../../docs/releasenotes/index.xml">
+<meta name="robots" content="index, follow">
+
+
+<link rel="shortcut icon" href="../../favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="../../favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="../../favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="../../favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="../../favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="../../favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="../../favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="../../favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="../../favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="../../favicons/android-192x192.png" sizes="192x192">
+
+<title>Release Notes | Verrazzano Enterprise Container Platform</title>
+<meta name="description" content="v1.4.0
+Features:
+
+Added the Verrazzano command-line tool (CLI) for interactive installation, upgrade, uninstall, cluster analysis, and bug reporting. …">
+<meta property="og:title" content="Release Notes" />
+<meta property="og:description" content="A hybrid multi-cloud Kubernetes based Enterprise Container Platform for running both cloud-native and traditional applications" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="/docs/releasenotes/" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+
+<meta itemprop="name" content="Release Notes">
+<meta itemprop="description" content="A hybrid multi-cloud Kubernetes based Enterprise Container Platform for running both cloud-native and traditional applications"><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Release Notes"/>
+<meta name="twitter:description" content="A hybrid multi-cloud Kubernetes based Enterprise Container Platform for running both cloud-native and traditional applications"/>
+
+
+
+
+<link rel="preload" href="../../scss/main.min.55f9f39bd7951bea4857a95cf52d4dd5d96d25939926bbbf6f07c114cfe02b50.css" as="style">
+<link href="../../scss/main.min.55f9f39bd7951bea4857a95cf52d4dd5d96d25939926bbbf6f07c114cfe02b50.css" rel="stylesheet" integrity="">
+
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha384-vtXRMe3mGCbOeY7l30aIg8H9p3GdeSe4IFlP6G8JMa7o7lXvnz3GFKzPxzJdPfGK"
+  crossorigin="anonymous"></script>
+<script
+  src="https://unpkg.com/lunr@2.3.9/lunr.min.js"
+  integrity="sha384-203J0SNzyqHby3iU6hzvzltrWi/M41wOP5Gu+BiJMz5nwKykbkUx8Kp7iti0Lpli"
+  crossorigin="anonymous"></script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-177109661-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+  </head>
+  <body class="td-section">
+    <header>
+      
+<nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
+        <a class="navbar-brand" href="../../">
+		<span class="navbar-logo"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 178.27 30.14"><defs><style>.cls-1{fill:#488eaf}.cls-2{fill:#83b7d0}.cls-3{fill:#fff}.cls-4{fill:#004f78}</style></defs><path class="cls-1" d="M11.61 10.27v9.84l1.14 2 .29.27V7.92a15.15 15.15.0 01-1.43 2.35z"/><path class="cls-1" d="M7.94 13.76l1.38 2.38V12.78a11.92 11.92.0 01-1.38.98z"/><path class="cls-1" d="M9.89 12.28v4.85l1.15 2V11A13.61 13.61.0 019.89 12.28z"/><path class="cls-1" d="M13 0H0L7 12.1C11.82 9.18 12.83 2.63 13 0z"/><path class="cls-1" d="M27.79 12.15 34.8.0H21.73V.54C21.86 3.49 22.76 9.67 27.79 12.15z"/><path class="cls-1" d="M20 4.77V.71c0-.26.0-.49.0-.71H14.85V4.77z"/><polygon class="cls-1" points="19.91 13.36 14.85 13.36 14.85 23.48 13.56 23.48 17.4 30.14 21.25 23.48 19.91 23.48 19.91 13.36"/><path class="cls-1" d="M23.64 11.36v8l1.14-2v-4.9a11.85 11.85.0 01-1.14-1.1z"/><rect class="cls-1" x="14.85" y="6.68" width="5.06" height="4.77"/><path class="cls-1" d="M25.35 16.37l1.48-2.56a11.74 11.74.0 01-1.48-.91z"/><path class="cls-1" d="M21.82 8.56v14l1.24-2.22V10.68A13 13 0 0121.82 8.56z"/><path class="cls-2" d="M29.08 3.63H24.69a1.24 1.24.0 000-2.48H18.77a1.24 1.24.0 100 2.48h-12a1.24 1.24.0 000 2.48H9.6a1.24 1.24.0 100 2.48h5.73a1.24 1.24.0 100-2.48H29.08a1.24 1.24.0 100-2.48z"/><path class="cls-3" d="M21.73.54V0H19.89c0 .22.0.45.0.71V4.77H14.85V0H13c-.17 2.63-1.13 9.18-6 12.1l1 1.66a11.92 11.92.0 001.38-1v3.36l.57 1V12.28A13.61 13.61.0 0011 11v8.07l.57 1v-9.8A15 15 0 0013 7.92v14.5l.57 1.06h1.29V13.36h5.06V23.48h1.34l.57-.92v-14a13 13 0 001.24 2.12v9.66l.58-1v-8a11.85 11.85.0 001.14 1.1v4.9l.57-1V12.9a11.74 11.74.0 001.48.91l1-1.66C22.76 9.67 21.86 3.49 21.73.54zM19.91 11.45H14.85V6.68h5.06z"/><polygon class="cls-4" points="12.75 22.15 22.06 22.15 17.4 30.14 12.75 22.15"/><path class="cls-3" d="M42.54 9.39H45.6L40.8 23.48H38L33.25 9.39H36.4l3.05 10.7z"/><path class="cls-3" d="M58.75 11.89H51.3v3h6.84v2.45H51.3V21h7.8v2.53H48.42V9.39H58.75z"/><path class="cls-3" d="M71.4 9.76a3.46 3.46.0 011.32 1 4.44 4.44.0 01.7 1.19 3.8 3.8.0 01.26 1.48 4.15 4.15.0 01-.5 2 2.81 2.81.0 01-1.67 1.37 2.68 2.68.0 011.38 1.12 4.63 4.63.0 01.4 2.2V21a7.27 7.27.0 00.08 1.31 1.19 1.19.0 00.54.8v.35H70.66c-.08-.31-.15-.56-.19-.75a8.13 8.13.0 01-.12-1.22v-1.3a2.65 2.65.0 00-.47-1.8A2.34 2.34.0 0068.19 18H65.31v5.52H62.43V9.39h6.74A6 6 0 0171.4 9.76zm-6.09 2.08v3.79h3.17a3.45 3.45.0 001.42-.23 1.6 1.6.0 00.83-1.59 1.78 1.78.0 00-.81-1.72 2.84 2.84.0 00-1.36-.25z"/><path class="cls-3" d="M86.51 9.76a3.46 3.46.0 011.32 1 4.22 4.22.0 01.71 1.19 4 4 0 01.26 1.48 4.16 4.16.0 01-.51 2 2.76 2.76.0 01-1.67 1.37A2.68 2.68.0 0188 17.87a4.62 4.62.0 01.41 2.2V21a6.42 6.42.0 00.08 1.31 1.13 1.13.0 00.54.8v.35H85.78c-.09-.31-.15-.56-.19-.75a7 7 0 01-.13-1.22v-1.3a2.7 2.7.0 00-.47-1.8A2.38 2.38.0 0083.3 18H80.43v5.52H77.55V9.39h6.74A6 6 0 0186.51 9.76zm-6.08 2.08v3.79H83.6A3.4 3.4.0 0085 15.4a1.59 1.59.0 00.84-1.59A1.78 1.78.0 0085 12.09a2.86 2.86.0 00-1.36-.25z"/><path class="cls-3" d="M96.63 9.39H1e2l5 14.09h-3.19l-.93-2.89H95.63l-.95 2.89H91.6zm-.2 8.77H1e2l-1.78-5.54z"/><path class="cls-3" d="M107.21 21l7.2-9.11h-7V9.39h10.68v2.37L110.77 21h7.32v2.48H107.21z"/><path class="cls-3" d="M121.12 21l7.21-9.11h-7V9.39H132v2.37L124.69 21H132v2.48H121.12z"/><path class="cls-3" d="M139.08 9.39h3.33l5 14.09h-3.19l-.93-2.89h-5.19l-1 2.89h-3.08zm-.19 8.77h3.61l-1.78-5.54z"/><path class="cls-3" d="M150.12 9.39h3.09l5.59 9.83V9.39h2.74V23.48H158.6l-5.73-10v10h-2.75z"/><path class="cls-3" d="M176.13 22.23a7.31 7.31.0 01-9.23.0 7.58 7.58.0 01-2.14-5.81q0-3.87 2.14-5.81a7.28 7.28.0 019.23.0q2.15 1.94 2.14 5.81A7.58 7.58.0 01176.13 22.23zm-1.84-2.14a5.73 5.73.0 001-3.67 5.77 5.77.0 00-1-3.67 3.35 3.35.0 00-2.77-1.29 3.39 3.39.0 00-2.79 1.29 5.67 5.67.0 00-1 3.67 5.67 5.67.0 001 3.67 3.39 3.39.0 002.79 1.29A3.35 3.35.0 00174.29 20.09z"/></svg></span>
+	</a>
+	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
+		<ul class="navbar-nav mt-2 mt-lg-0">
+			
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a class="nav-link active" href="../../docs/" ><span class="active">Documentation</span></a>
+			</li>
+			
+			
+			
+		</ul>
+	</div>
+	<div class="navbar-nav d-none d-lg-block"><input
+  type="search"
+  class="form-control td-search-input"
+  placeholder="&#xf002; Search this site…"
+  aria-label="Search this site…"
+  autocomplete="off"
+  
+  data-offline-search-index-json-src="../../offline-search-index.2576a53aff7718c1963bbc48febaacc3.json"
+  data-offline-search-base-href="../../"
+  data-offline-search-max-results="10"
+>
+</div>
+</nav>
+
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <aside class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            
+<div id="td-sidebar-menu" class="td-sidebar__inner">
+  <form class="td-sidebar__search d-flex align-items-center">
+    <input
+  type="search"
+  class="form-control td-search-input"
+  placeholder="&#xf002; Search this site…"
+  aria-label="Search this site…"
+  autocomplete="off"
+  
+  data-offline-search-index-json-src="../../offline-search-index.2576a53aff7718c1963bbc48febaacc3.json"
+  data-offline-search-base-href="../../"
+  data-offline-search-max-results="10"
+>
+
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ml-3 fas fa-bars" type="button" data-toggle="collapse" data-target="#td-section-nav" aria-controls="td-docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  <nav class="collapse td-sidebar-nav" id="td-section-nav">
+    <ul class="td-sidebar-nav__section pr-md-3 ul-0">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docs-li">
+  <a href="../../docs/" title="Welcome to Verrazzano" class="align-left pl-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-docs"><span class="">Documentation</span></a>
+  <ul class="ul-1">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsconcepts-li">
+  <a href="../../docs/concepts/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsconcepts"><span class="">Concepts</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsconceptsverrazzanooam-li">
+  <a href="../../docs/concepts/verrazzanooam/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsconceptsverrazzanooam"><span class="">Verrazzano and the Open Application Model</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsconceptsverrazzanomulticluster-li">
+  <a href="../../docs/concepts/verrazzanomulticluster/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsconceptsverrazzanomulticluster"><span class="">Verrazzano in a Multicluster Environment</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsconceptsverrazzanoproject-li">
+  <a href="../../docs/concepts/verrazzanoproject/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsconceptsverrazzanoproject"><span class="">Verrazzano Projects</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsquickstart-li">
+  <a href="../../docs/quickstart/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsquickstart"><span class="">Quick Start</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docssetup-li">
+  <a href="../../docs/setup/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssetup"><span class="">Setup</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupprereqs-li">
+  <a href="../../docs/setup/prereqs/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupprereqs"><span class="">Prerequisites</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupcli-li">
+  <a href="../../docs/setup/cli/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssetupcli"><span class="">CLI Setup</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docssetupplatforms-li">
+  <a href="../../docs/setup/platforms/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssetupplatforms"><span class="">Platform Setup</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupplatformsgenericgeneric-li">
+  <a href="../../docs/setup/platforms/generic/generic/" title="Generic Kubernetes" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupplatformsgenericgeneric"><span class="">Generic</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupplatformskindkind-li">
+  <a href="../../docs/setup/platforms/kind/kind/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupplatformskindkind"><span class="">Kind</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupplatformsolcneolcne-li">
+  <a href="../../docs/setup/platforms/olcne/olcne/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupplatformsolcneolcne"><span class="">Oracle Cloud Native Environment</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupplatformsocioci-li">
+  <a href="../../docs/setup/platforms/oci/oci/" title="Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE)" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupplatformsocioci"><span class="">OKE</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docssetupinstall-li">
+  <a href="../../docs/setup/install/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssetupinstall"><span class="">Install</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupinstallinstallation-li">
+  <a href="../../docs/setup/install/installation/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupinstallinstallation"><span class="">Install Guide</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupinstallprofiles-li">
+  <a href="../../docs/setup/install/profiles/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupinstallprofiles"><span class="">Installation Profiles</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupinstallmulticluster-li">
+  <a href="../../docs/setup/install/multicluster/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupinstallmulticluster"><span class="">Install Multicluster Verrazzano</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssetupprivate-registryprivate-registry-li">
+  <a href="../../docs/setup/private-registry/private-registry/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssetupprivate-registryprivate-registry"><span class="">Use a Private Registry</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsaccess-li">
+  <a href="../../docs/access/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsaccess"><span class="">Access Verrazzano</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docscustomize-li">
+  <a href="../../docs/customize/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docscustomize"><span class="">Customize Verrazzano</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docscustomizeauthproxy-li">
+  <a href="../../docs/customize/authproxy/" title="Customize AuthProxy" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docscustomizeauthproxy"><span class="">AuthProxy</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docscustomizecertificates-li">
+  <a href="../../docs/customize/certificates/" title="Customize Certificates" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docscustomizecertificates"><span class="">Certificates</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docscustomizedns-li">
+  <a href="../../docs/customize/dns/" title="Customize DNS" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docscustomizedns"><span class="">DNS</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docscustomizeexternallbs-li">
+  <a href="../../docs/customize/externallbs/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docscustomizeexternallbs"><span class="">External Load Balancers</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docscustomizegrafana-li">
+  <a href="../../docs/customize/grafana/" title="Customize Grafana" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docscustomizegrafana"><span class="">Grafana</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docscustomizeingress-li">
+  <a href="../../docs/customize/ingress/" title="Customize Ingress" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docscustomizeingress"><span class="">Ingress</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docscustomizeistio-li">
+  <a href="../../docs/customize/istio/" title="Customize Istio" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docscustomizeistio"><span class="">Istio</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docscustomizeociloadbalancerips-li">
+  <a href="../../docs/customize/ociloadbalancerips/" title="Customize Load Balancers on OCI" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docscustomizeociloadbalancerips"><span class="">OCI Load Balancers</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docscustomizeopensearch-li">
+  <a href="../../docs/customize/opensearch/" title="Customize OpenSearch" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docscustomizeopensearch"><span class="">OpenSearch</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docscustomizestorage-li">
+  <a href="../../docs/customize/storage/" title="Customize Persistent Storage" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docscustomizestorage"><span class="">Persistent Storage</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docscustomizeprometheus-li">
+  <a href="../../docs/customize/prometheus/" title="Customize Prometheus" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docscustomizeprometheus"><span class="">Prometheus</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsuninstall-li">
+  <a href="../../docs/uninstall/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsuninstall"><span class="">Upgrade, Backup, &amp; Uninstall</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docsuninstallupgrade-li">
+  <a href="../../docs/uninstall/upgrade/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsuninstallupgrade"><span class="">Upgrade</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuninstallupgrademulticluster-li">
+  <a href="../../docs/uninstall/upgrade/multicluster/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsuninstallupgrademulticluster"><span class="">Upgrade Multicluster Verrazzano</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docsuninstallbackup-li">
+  <a href="../../docs/uninstall/backup/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsuninstallbackup"><span class="">Backup and Recovery</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuninstallbackupprerequisites-li">
+  <a href="../../docs/uninstall/backup/prerequisites/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsuninstallbackupprerequisites"><span class="">Prerequisites</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuninstallbackupbackup-li">
+  <a href="../../docs/uninstall/backup/backup/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsuninstallbackupbackup"><span class="">Backup</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuninstallbackuprestore-li">
+  <a href="../../docs/uninstall/backup/restore/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsuninstallbackuprestore"><span class="">Restore</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuninstalluninstall-li">
+  <a href="../../docs/uninstall/uninstall/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsuninstalluninstall"><span class="">Uninstall</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsapplications-li">
+  <a href="../../docs/applications/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsapplications"><span class="">Applications</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsapplicationsmulticluster-li">
+  <a href="../../docs/applications/multicluster/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsapplicationsmulticluster"><span class="">Multicluster</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsapplicationsprojects-li">
+  <a href="../../docs/applications/projects/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsapplicationsprojects"><span class="">Projects</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docsapplicationsworkloads-li">
+  <a href="../../docs/applications/workloads/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsapplicationsworkloads"><span class="">Workloads</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsapplicationsworkloadscoherencecoherence-li">
+  <a href="../../docs/applications/workloads/coherence/coherence/" title="Coherence Workload" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsapplicationsworkloadscoherencecoherence"><span class="">Coherence</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsapplicationsworkloadshelidonhelidon-li">
+  <a href="../../docs/applications/workloads/helidon/helidon/" title="Helidon Workload" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsapplicationsworkloadshelidonhelidon"><span class="">Helidon</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsapplicationsworkloadsweblogic-li">
+  <a href="../../docs/applications/workloads/weblogic/" title="WebLogic Workload" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsapplicationsworkloadsweblogic"><span class="">WebLogic</span></a>
+</li>
+  </ul>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docssecurity-li">
+  <a href="../../docs/security/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssecurity"><span class="">Security</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssecurityappsecappsec-li">
+  <a href="../../docs/security/appsec/appsec/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssecurityappsecappsec"><span class="">Application Security</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssecurityaccountsaccounts-li">
+  <a href="../../docs/security/accounts/accounts/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssecurityaccountsaccounts"><span class="">Default User Accounts</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssecuritykeycloakkeycloak-li">
+  <a href="../../docs/security/keycloak/keycloak/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssecuritykeycloakkeycloak"><span class="">Keycloak and SSO</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssecurityrbacrbac-li">
+  <a href="../../docs/security/rbac/rbac/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssecurityrbacrbac"><span class="">Kubernetes RBAC</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssecurityproxiesproxies-li">
+  <a href="../../docs/security/proxies/proxies/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssecurityproxiesproxies"><span class="">Verrazzano Authentication Proxy</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsnetworking-li">
+  <a href="../../docs/networking/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsnetworking"><span class="">Networking</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsnetworkingsecuritynet-security-li">
+  <a href="../../docs/networking/security/net-security/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsnetworkingsecuritynet-security"><span class="">Network Security</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsnetworkingtrafficnet-traffic-li">
+  <a href="../../docs/networking/traffic/net-traffic/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsnetworkingtrafficnet-traffic"><span class="">Network Traffic</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsmonitoring-li">
+  <a href="../../docs/monitoring/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsmonitoring"><span class="">Logging &amp; Monitoring</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsmonitoringtracingjaeger-tracing-li">
+  <a href="../../docs/monitoring/tracing/jaeger-tracing/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsmonitoringtracingjaeger-tracing"><span class="">Jaeger Tracing</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsmonitoringlogs-li">
+  <a href="../../docs/monitoring/logs/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsmonitoringlogs"><span class="">Logging</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsmonitoringmetricsmetrics-li">
+  <a href="../../docs/monitoring/metrics/metrics/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsmonitoringmetricsmetrics"><span class="">Metrics</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsmonitoringoci-loggingoci-logging-li">
+  <a href="../../docs/monitoring/oci-logging/oci-logging/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsmonitoringoci-loggingoci-logging"><span class="">Oracle Cloud Infrastructure Logging Service</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docstroubleshooting-li">
+  <a href="../../docs/troubleshooting/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docstroubleshooting"><span class="">Troubleshooting</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingtroubleshooting-application-deployment-li">
+  <a href="../../docs/troubleshooting/troubleshooting-application-deployment/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingtroubleshooting-application-deployment"><span class="">Application Deployment</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docstroubleshootingdiagnostictools-li">
+  <a href="../../docs/troubleshooting/diagnostictools/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docstroubleshootingdiagnostictools"><span class="">Diagnostic Tools</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingdiagnostictoolsverrazzanoanalysistool-li">
+  <a href="../../docs/troubleshooting/diagnostictools/verrazzanoanalysistool/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsverrazzanoanalysistool"><span class="">Verrazzano Analysis Tools</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingdiagnostictoolsvzbugreportcli-li">
+  <a href="../../docs/troubleshooting/diagnostictools/vzbugreportcli/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsvzbugreportcli"><span class="">Bug Reports</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docstroubleshootingdiagnostictoolsanalysisadvice-li">
+  <a href="../../docs/troubleshooting/diagnostictools/analysisadvice/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docstroubleshootingdiagnostictoolsanalysisadvice"><span class="">Analysis Advice</span></a>
+  <ul class="ul-4 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingdiagnostictoolsanalysisadviceimagepullbackoff-li">
+  <a href="../../docs/troubleshooting/diagnostictools/analysisadvice/imagepullbackoff/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsanalysisadviceimagepullbackoff"><span class="">Image Pull Back Off</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingdiagnostictoolsanalysisadviceimagepullnotfound-li">
+  <a href="../../docs/troubleshooting/diagnostictools/analysisadvice/imagepullnotfound/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsanalysisadviceimagepullnotfound"><span class="">Image Pull Not Found</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingdiagnostictoolsanalysisadviceimagepullratelimit-li">
+  <a href="../../docs/troubleshooting/diagnostictools/analysisadvice/imagepullratelimit/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsanalysisadviceimagepullratelimit"><span class="">Image Pull Rate Limit</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingdiagnostictoolsanalysisadviceimagepullservice-li">
+  <a href="../../docs/troubleshooting/diagnostictools/analysisadvice/imagepullservice/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsanalysisadviceimagepullservice"><span class="">Image Pull Service Issue</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingdiagnostictoolsanalysisadviceingressinvalidshape-li">
+  <a href="../../docs/troubleshooting/diagnostictools/analysisadvice/ingressinvalidshape/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsanalysisadviceingressinvalidshape"><span class="">Ingress Controller Invalid Shape</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingdiagnostictoolsanalysisadviceingresslblimitexceeded-li">
+  <a href="../../docs/troubleshooting/diagnostictools/analysisadvice/ingresslblimitexceeded/" title="Ingress Controller Load Balancer Service Limit Reached" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsanalysisadviceingresslblimitexceeded"><span class="">Ingress Controller LB Service Limit Reached</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingdiagnostictoolsanalysisadviceingressnoloadbalancerip-li">
+  <a href="../../docs/troubleshooting/diagnostictools/analysisadvice/ingressnoloadbalancerip/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsanalysisadviceingressnoloadbalancerip"><span class="">Ingress Controller No Load Balancer IP</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingdiagnostictoolsanalysisadviceingressociiplimitexceeded-li">
+  <a href="../../docs/troubleshooting/diagnostictools/analysisadvice/ingressociiplimitexceeded/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsanalysisadviceingressociiplimitexceeded"><span class="">Ingress Controller Oracle Cloud Infrastructure IP Limit Exceeded</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingdiagnostictoolsanalysisadviceinstallfailure-li">
+  <a href="../../docs/troubleshooting/diagnostictools/analysisadvice/installfailure/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsanalysisadviceinstallfailure"><span class="">Install Failure</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingdiagnostictoolsanalysisadviceingressinstallfailure-li">
+  <a href="../../docs/troubleshooting/diagnostictools/analysisadvice/ingressinstallfailure/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsanalysisadviceingressinstallfailure"><span class="">Install Ingress Controller Failure</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingdiagnostictoolsanalysisadviceinsufficientmemory-li">
+  <a href="../../docs/troubleshooting/diagnostictools/analysisadvice/insufficientmemory/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsanalysisadviceinsufficientmemory"><span class="">Insufficient Memory</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingdiagnostictoolsanalysisadviceistioingressgatewaynoloadbalancerip-li">
+  <a href="../../docs/troubleshooting/diagnostictools/analysisadvice/istioingressgatewaynoloadbalancerip/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsanalysisadviceistioingressgatewaynoloadbalancerip"><span class="">Istio Ingress Gateway No External IP</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingdiagnostictoolsanalysisadvicependingpods-li">
+  <a href="../../docs/troubleshooting/diagnostictools/analysisadvice/pendingpods/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsanalysisadvicependingpods"><span class="">Pending Pods</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingdiagnostictoolsanalysisadvicepodproblemsnotreported-li">
+  <a href="../../docs/troubleshooting/diagnostictools/analysisadvice/podproblemsnotreported/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsanalysisadvicepodproblemsnotreported"><span class="">Problem Pods</span></a>
+</li>
+  </ul>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingtroubleshooting-multicluster-li">
+  <a href="../../docs/troubleshooting/troubleshooting-multicluster/" title="Multicluster Verrazzano" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingtroubleshooting-multicluster"><span class="">Multicluster</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingtroubleshooting-prometheus-li">
+  <a href="../../docs/troubleshooting/troubleshooting-prometheus/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingtroubleshooting-prometheus"><span class="">Prometheus</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsfaqfaq-li">
+  <a href="../../docs/faq/faq/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsfaqfaq"><span class="">FAQ</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsguides-li">
+  <a href="../../docs/guides/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsguides"><span class="">Guides</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsguidesapp-deploymentapplication-deployment-guide-li">
+  <a href="../../docs/guides/app-deployment/application-deployment-guide/" title="Application Deployment Guide" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsguidesapp-deploymentapplication-deployment-guide"><span class="">Application Deployment</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsguidessidecar-li">
+  <a href="../../docs/guides/sidecar/" title="Deploy a Kubernetes Sidecar with Verrazzano" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsguidessidecar"><span class="">Deploy Custom Sidecars</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsguideslift-and-shiftlift-and-shift-li">
+  <a href="../../docs/guides/lift-and-shift/lift-and-shift/" title="Lift-and-Shift Guide" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsguideslift-and-shiftlift-and-shift"><span class="">Lift-and-Shift</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docssamples-li">
+  <a href="../../docs/samples/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssamples"><span class="">Examples</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssamplesbobs-books-li">
+  <a href="../../docs/samples/bobs-books/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssamplesbobs-books"><span class="">Bob&#39;s Books</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssampleshello-world-li">
+  <a href="../../docs/samples/hello-world/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssampleshello-world"><span class="">Hello World Helidon</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docssamplesmulticluster-li">
+  <a href="../../docs/samples/multicluster/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssamplesmulticluster"><span class="">Multicluster</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssamplesmulticlusterhello-helidon-li">
+  <a href="../../docs/samples/multicluster/hello-helidon/" title="Multicluster Hello World Helidon" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssamplesmulticlusterhello-helidon"><span class="">Hello World Helidon</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssamplesmulticlustersock-shop-li">
+  <a href="../../docs/samples/multicluster/sock-shop/" title="Multicluster Helidon Sock Shop" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssamplesmulticlustersock-shop"><span class="">Helidon Sock Shop</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssamplesmulticlustertodo-list-li">
+  <a href="../../docs/samples/multicluster/todo-list/" title="Multicluster ToDo List" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssamplesmulticlustertodo-list"><span class="">ToDo List</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssamplessock-shop-li">
+  <a href="../../docs/samples/sock-shop/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssamplessock-shop"><span class="">Sock Shop</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssamplesspring-boot-li">
+  <a href="../../docs/samples/spring-boot/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssamplesspring-boot"><span class="">Spring Boot</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssamplesstandard-kubernetes-li">
+  <a href="../../docs/samples/standard-kubernetes/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssamplesstandard-kubernetes"><span class="">Standard Kubernetes Resources</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssamplestodo-list-li">
+  <a href="../../docs/samples/todo-list/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docssamplestodo-list"><span class="">ToDo List</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssampleshelidon-config-li">
+  <a href="../../docs/samples/helidon-config/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssampleshelidon-config"><span class=""></span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docssampleshello-helidon-li">
+  <a href="../../docs/samples/hello-helidon/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssampleshello-helidon"><span class=""></span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsreference-li">
+  <a href="../../docs/reference/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsreference"><span class="">Reference</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docsreferenceapi-li">
+  <a href="../../docs/reference/api/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsreferenceapi"><span class="">API</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapioamingresstrait-li">
+  <a href="../../docs/reference/api/oam/ingresstrait/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapioamingresstrait"><span class="">IngressTrait</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapioamloggingtrait-li">
+  <a href="../../docs/reference/api/oam/loggingtrait/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapioamloggingtrait"><span class="">LoggingTrait</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapiverrazzanometricstemplate-li">
+  <a href="../../docs/reference/api/verrazzano/metricstemplate/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapiverrazzanometricstemplate"><span class="">Metrics Template</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapioammetricstrait-li">
+  <a href="../../docs/reference/api/oam/metricstrait/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapioammetricstrait"><span class="">MetricsTrait</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapimulticlustermulticlusterapplicationconfiguration-li">
+  <a href="../../docs/reference/api/multicluster/multiclusterapplicationconfiguration/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlustermulticlusterapplicationconfiguration"><span class="">MultiClusterApplicationConfiguration</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapimulticlustermulticlustercomponent-li">
+  <a href="../../docs/reference/api/multicluster/multiclustercomponent/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlustermulticlustercomponent"><span class="">MultiClusterComponent</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapimulticlustermulticlusterconfigmap-li">
+  <a href="../../docs/reference/api/multicluster/multiclusterconfigmap/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlustermulticlusterconfigmap"><span class="">MultiClusterConfigMap</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapimulticlustermulticlusterresourcestatus-li">
+  <a href="../../docs/reference/api/multicluster/multiclusterresourcestatus/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlustermulticlusterresourcestatus"><span class="">MultiClusterResourceStatus Subresource</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapimulticlustermulticlustersecret-li">
+  <a href="../../docs/reference/api/multicluster/multiclustersecret/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlustermulticlustersecret"><span class="">MultiClusterSecret</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapimulticlusterplacement-li">
+  <a href="../../docs/reference/api/multicluster/placement/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlusterplacement"><span class="">Placement Subresource</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapiverrazzanov1alpha1-li">
+  <a href="../../docs/reference/api/verrazzano/v1alpha1/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapiverrazzanov1alpha1"><span class="">Verrazzano v1alpha1</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapiverrazzanov1beta1-li">
+  <a href="../../docs/reference/api/verrazzano/v1beta1/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapiverrazzanov1beta1"><span class="">Verrazzano v1beta1</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapioamworkloads-li">
+  <a href="../../docs/reference/api/oam/workloads/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapioamworkloads"><span class="">Verrazzano Workloads</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapimulticlusterverrazzanomanagedcluster-li">
+  <a href="../../docs/reference/api/multicluster/verrazzanomanagedcluster/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlusterverrazzanomanagedcluster"><span class="">VerrazzanoManagedCluster</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferenceapimulticlusterverrazzanoproject-li">
+  <a href="../../docs/reference/api/multicluster/verrazzanoproject/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlusterverrazzanoproject"><span class="">VerrazzanoProject</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsreferencemigration-li">
+  <a href="../../docs/reference/migration/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferencemigration"><span class="">Deprecated API Migration Guide</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsreleasenotes-li">
+  <a href="../../docs/releasenotes/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__section" id="m-docsreleasenotes"><span class="td-sidebar-nav-active-item">Release Notes</span></a>
+</li>
+  </ul>
+</li>
+    </ul>
+  </nav>
+</div>
+
+          </aside>
+          <aside class="d-none d-xl-block col-xl-2 td-sidebar-toc d-print-none">
+            
+<div class="td-page-meta ml-2 pb-1 pt-2 mb-0">
+
+</div>
+
+            
+
+
+
+
+            
+
+	
+		
+
+
+
+  
+  
+
+	
+		
+
+
+
+  
+  
+
+	
+
+          </aside>
+          <main class="col-12 col-md-9 col-xl-8 pl-md-5" role="main">
+            
+  
+
+            <nav aria-label="breadcrumb" class="td-breadcrumbs">
+  <ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="../../docs/">Documentation</a>
+  </li>
+  <li class="breadcrumb-item active" aria-current="page">
+    <a href="../../docs/releasenotes/">Release Notes</a>
+  </li>
+  </ol>
+</nav>
+            
+<div class="td-content">
+	<h1>Release Notes</h1>
+  
+	<header class="article-meta">
+		
+
+  
+    
+
+
+  
+    
+
+
+  
+
+		
+	</header>
+	<h3 id="v140">v1.4.0</h3>
+<p>Features:</p>
+<ul>
+<li>Added the Verrazzano command-line tool (CLI) for interactive installation, upgrade, uninstall, cluster analysis, and bug reporting.</li>
+<li>Added backup and restore functionality using Velero and rancher-backup.</li>
+<li>Added Prometheus Operator based metrics collection (using ServiceMonitors and PodMonitors) for both Verrazzano system components and applications.</li>
+<li>Added a new API version for the Verrazzano resource, <code>install.verrazzano.io/v1beta1</code>. See the <a href="../../docs/reference/migration/">Deprecated API Migration Guide</a>.</li>
+<li>Verrazzano distribution <code>tar.gz</code> artifacts now include the new CLI binaries and tooling.</li>
+<li>Replaced Elasticsearch and Kibana with OpenSearch and OpenSearch dashboards (pods, URLs, CRD fields).</li>
+<li>Improved Rancher integration.
+<ul>
+<li>Added the Rancher UI-based Verrazzano console.</li>
+<li>Keycloak SSO authentication and authorization is configured by default.</li>
+<li>OCI drivers now are enabled by default and ready-to-use.</li>
+</ul>
+</li>
+<li>kube-prometheus-stack components now are enabled by default.</li>
+<li>Improved uninstall resiliency and performance.</li>
+<li>Added support for OCNE 1.5.x.</li>
+<li>Added support for Kubernetes v1.24.</li>
+</ul>
+<p>Component version updates:</p>
+<ul>
+<li>Coherence Operator v3.2.6</li>
+<li>Istio v1.14.3</li>
+<li>Jaeger v1.34.1</li>
+<li>Rancher v2.6.8</li>
+</ul>
+<p>Components added:</p>
+<ul>
+<li>Rancher Backup Operator v2.1.3</li>
+<li>Velero v1.8.1</li>
+<li>Velero Plugin For AWS v1.4.1</li>
+</ul>
+<p>Components removed:</p>
+<ul>
+<li>Config Map Reload</li>
+</ul>
+<p>Fixes:</p>
+<ul>
+<li>Resolved an issue where Verrazzano started an installation, immediately after an upgrade, but before all the components were ready.</li>
+<li>Resolved an issue where application pods that required an Istio sidecar did not restart after an upgrade.</li>
+<li>Resolved unnecessary temporary file cleanup for Helm overrides after installation or upgrade.</li>
+<li>Resolved an issue with Verrazzano resource status conditions being appended as duplicates instead of updated.</li>
+<li>Resolved an issue where Verrazzano Monitoring Operator was querying OpenSearch before it was ready.</li>
+<li>Resolved an issue where Verrazzano Platform Operator transitioned to a ready condition before all webhook context paths were ready.</li>
+<li>Updated base and other images to resolves CVEs.</li>
+</ul>
+<h3 id="v135">v1.3.5</h3>
+<p>Component version updates:</p>
+<ul>
+<li>WebLogic Kubernetes Operator v3.4.3</li>
+</ul>
+<h3 id="v134">v1.3.4</h3>
+<p>Fixes:</p>
+<ul>
+<li>Updated the Kiali image to fix CVEs.</li>
+<li>Resolved an issue with Prometheus volume attachment during upgrade.</li>
+</ul>
+<p>Component version updates:</p>
+<ul>
+<li>Rancher v2.6.6</li>
+</ul>
+<h3 id="v133">v1.3.3</h3>
+<p>Fixes:</p>
+<ul>
+<li>Fixed AuthProxy to emit access logs.</li>
+<li>Fixed Verazzano Console intermittent failures of timing out loading application details.</li>
+</ul>
+<p>Component version updates:</p>
+<ul>
+<li>Istio v1.13.5</li>
+</ul>
+<h3 id="v132">v1.3.2</h3>
+<p>Fixes:</p>
+<ul>
+<li>Fixed Fluentd pattern to correctly parse <code>severity</code> value from WebLogic logs.</li>
+<li>Fixed IngressTrait to remove the deleted IngressTrait entries from the Istio Gateway.</li>
+</ul>
+<h3 id="v131">v1.3.1</h3>
+<p>Fixes:</p>
+<ul>
+<li>Resolved an issue where the Verrazzano uninstall deleted additional namespaces when deleting Rancher components.</li>
+<li>Fixed IngressTrait controller to support Services as component workloads.</li>
+<li>Added liveness probe for the AuthProxy NGINX server.</li>
+<li>Added support for dynamic configuration overrides to Verrazzano components from various monitored sources, including ConfigMaps, Secrets, and Values referenced in the Verrazzano CR.</li>
+<li>Added support for JWT authentication and authorization policy specification for applications.</li>
+<li>Added support for Prometheus Service Monitor and Pod Monitor CRs deployed using Prometheus Operator.</li>
+<li>Updated Keycloak image to fix CVEs.</li>
+</ul>
+<h3 id="v130">v1.3.0</h3>
+<p>Features:</p>
+<ul>
+<li>Post-installation updates: configurations for DNS, certificate management, logging, ingress, and OpenSearch cluster configuration can be updated after a Verrazzano installation.</li>
+<li>Added Jaeger Distributed Tracing.</li>
+<li>Support for Kubernetes v1.22 and v1.23.</li>
+<li>kube-prometheus-stack components are now part of Verrazzano and can be enabled, these include Prometheus Operator, Alertmanager, kube-state-metrics, and such.</li>
+</ul>
+<p>Component version updates:</p>
+<ul>
+<li>cert-manager v1.7.1</li>
+<li>Coherence Operator 3.2.5</li>
+<li>Istio v1.13.2</li>
+<li>Jaeger Operator v1.32.0</li>
+<li>Kiali v1.42.0</li>
+<li>NGINX Ingress Controller v1.1.1</li>
+<li>Node Exporter v1.3.1</li>
+<li>Prometheus v2.34.0</li>
+<li>Rancher v2.6.4</li>
+<li>WebLogic Kubernetes Operator v3.4.0</li>
+</ul>
+<p>Components added:</p>
+<ul>
+<li>Alertmanager v0.24.0</li>
+<li>kube-state-metrics v2.4.2</li>
+<li>Prometheus Adapter v0.9.1</li>
+<li>Prometheus Operator v0.55.1</li>
+<li>Prometheus Pushgateway v1.4.2</li>
+</ul>
+<p>Fixes:</p>
+<ul>
+<li>Resolved an issue in the console UI with displaying multicluster applications when a managed cluster is partially registered.</li>
+<li>Resolved an issue in the console UI with the display of the Bob&rsquo;s Books sample WebLogic application.</li>
+<li>Resolved an issue with exporting WebLogic application metrics in a private registry installation of Verrazzano.</li>
+</ul>
+<h3 id="v122">v1.2.2</h3>
+<p>Fixes:</p>
+<ul>
+<li>Resolved an issue with the Grafana Dashboards for Helidon in multicluster setup.</li>
+<li>Resolved an issue with naming the Istio Authorization Policy for the AuthProxy.</li>
+<li>Resolved an issue with AuthProxy pods being evicted due to ephemeral storage.</li>
+<li>Resolved an issue with the length of the cookie TTL in the ingress trait.</li>
+</ul>
+<h3 id="v121">v1.2.1</h3>
+<p>Fixes:</p>
+<ul>
+<li>Resolved an issue with upgrade when configured to use a private registry.</li>
+<li>Resolved an issue with the public image of WebLogic Monitoring Exporter being used when a private registry is configured.</li>
+<li>Resolved an issue with intermittent upgrade failures while upgrading from Verrazzano v1.0.2 to v1.2.0.</li>
+<li>Resolved an issue with the console UI when viewing WebLogic applications.</li>
+<li>Resolved an issue with the console UI when displaying an application that is targeted to a managed cluster that has not completed the registration process.</li>
+<li>Resolved an issue with the console UI not displaying the traits for an OAM application.</li>
+<li>Resolved an issue with the <code>verrazzano-application-operator</code> pod continually crashing and restarting.</li>
+<li>Resolved an issue with the WebLogic workload <code>logHome</code> value being ignored and always using <code>/scratch/log</code>.</li>
+<li>Resolved an issue with Prometheus not scraping metrics from Verrazzano managed namespaces that do not have Istio injection enabled.</li>
+<li>The Verrazzano operators no longer have watches on resources in the <code>kube-system</code> namespace.</li>
+<li>Updated Keycloak image to address CVEs.</li>
+</ul>
+<p>Known Issues:</p>
+<ul>
+<li>Importing a Kubernetes v1.21 cluster into Rancher might not work properly. Rancher does not currently support Kubernetes v1.21.</li>
+</ul>
+<h3 id="v120">v1.2.0</h3>
+<p>Features:</p>
+<ul>
+<li>Logging enhancements:
+<ul>
+<li>Added support for Oracle Cloud Infrastructure Logging integration.</li>
+<li>Replaced Elasticsearch and Kibana with Opensearch and Opensearch Dashboard.</li>
+<li>Updated Opensearch <code>prod</code> profile data node configuration to 3 replicas.</li>
+<li>Enhanced Fluentd parsing/filtering rules for Verrazzano system logs.</li>
+</ul>
+</li>
+<li>Added support for using <code>instance_principal</code> authorization with using Oracle Cloud Infrastructure DNS.</li>
+<li>Added support for metrics integration with non-OAM applications.</li>
+<li>Added support for scaling Istio gateways and setting affinity.</li>
+<li>Added support for scaling Verrazzano AuthProxy and setting affinity.</li>
+<li>Component version updates:
+<ul>
+<li>External DNS v0.10.2.</li>
+<li>MySQL v8.0.28.</li>
+<li>Grafana v7.5.11.</li>
+<li>Prometheus v2.31.1.</li>
+<li>Opensearch v1.2.3 (replaces Elasticsearch).</li>
+<li>Opensearch Dashboards v1.2.0 (replaces Kibana).</li>
+<li>WebLogic Kubernetes Operator v3.3.7.</li>
+</ul>
+</li>
+</ul>
+<p>Fixes:</p>
+<ul>
+<li>Fixed Keycloak issue creating incorrect <code>verrazzano-monitors</code> group on installation.</li>
+<li>Fixed Verrazzano failing to uninstall in a private registry configuration due to a missing Rancher image.</li>
+<li>Fixed Rancher installation when <code>tls-ca-additional</code> secret is not present.</li>
+<li>Fixed Opensearch parsing errors of <code>trait</code> field.</li>
+<li>Fixed Custom CA certificates support.</li>
+<li>Fixed issue requeuing unsupported traits in the Verrazzano Application Operator, and updated the OAM Operator.</li>
+<li>Aligned Helidon workload service port names with Istio conventions to avoid protocol defaulting to TCP in all cases.</li>
+<li>Added ability to set a DestinationRule with HTTP Cookie for session affinity.</li>
+</ul>
+<p>Known Issues:</p>
+<ul>
+<li>Importing a Kubernetes v1.21 cluster into Rancher might not work properly. Rancher does not currently support Kubernetes v1.21.</li>
+</ul>
+<h3 id="v112">v1.1.2</h3>
+<p>Fixes:</p>
+<ul>
+<li>Fixed installation to create <code>verrazzano-monitors</code> group correctly.</li>
+<li>Fixed installation to enable network access to Prometheus for Kiali.</li>
+<li>Updated Spring Boot example image to address CVEs.</li>
+<li>Updated Kibana image to address CVEs.</li>
+<li>Updated Elasticsearch image to address CVEs.</li>
+<li>Fixed Verrazzano failing to install when specifying a custom CA certificate.</li>
+<li>Updated Keycloak image to address CVEs.</li>
+<li>Fixed Verrazzano failing to install when the <code>spec.components.certManager.certificate.acme.environment</code> field was set to <code>production</code> in the Verrazzano CR.</li>
+<li>Added support for using private DNS and instance principals with Oracle Cloud Infrastructure DNS.</li>
+<li>Fixed Verrazzano failing to uninstall in a private registry configuration due to a missing Rancher image.</li>
+<li>Updated Verrazzano to use the Rancher v2.5.9 Helm chart.</li>
+</ul>
+<p>Known Issues:</p>
+<ul>
+<li>Importing a Kubernetes v1.21 cluster into Rancher might not work properly. Rancher does not currently support Kubernetes v1.21.</li>
+</ul>
+<h3 id="v111">v1.1.1</h3>
+<p>Fixes:</p>
+<ul>
+<li>Elasticsearch and Keycloak images were updated to address CVEs.</li>
+<li>Updated WebLogic Kubernetes Operator version to 3.3.7.</li>
+<li>Minor bug fixes including updating Elasticsearch logging to avoid type collisions.</li>
+<li>Improved cluster-dump behavior when capturing logs.</li>
+<li>Rancher namespace is now created by default.</li>
+</ul>
+<p>Known Issues:</p>
+<ul>
+<li>Importing a Kubernetes v1.21 cluster into Rancher might not work properly. Rancher does not currently support Kubernetes v1.21.</li>
+</ul>
+<h3 id="v110">v1.1.0</h3>
+<p>Fixes:</p>
+<ul>
+<li>Added support for Kiali.</li>
+<li>Simplified the placement of multicluster resources.</li>
+<li>Improved the performance of installing Verrazzano.</li>
+<li>Added support for external Elasticsearch.</li>
+<li>Improvements to system functions, including the authenticating proxy.</li>
+<li>Added support in the LoggingTrait to customize application logging.</li>
+<li>Fixed ability to register a managed cluster with Rancher when configured to use LetsEncrypt staging certificates.</li>
+<li>Fixed Elasticsearch status yellow due to unassigned shards.</li>
+<li>Added support for Kubernetes 1.21, dropped support of Kubernetes 1.18.</li>
+<li>Updated several installed and supported <a href="../../docs/setup/prereqs/">Software Versions</a>.</li>
+</ul>
+<p>Known Issues:</p>
+<ul>
+<li>Importing a Kubernetes v1.21 cluster into Rancher might not work properly. Rancher does not currently support Kubernetes v1.21.</li>
+</ul>
+<h3 id="v104">v1.0.4</h3>
+<p>Fixes:</p>
+<ul>
+<li>Elasticsearch and Spring Boot images were updated to consume log4j 2.16, to address CVE-2021-44228/CVE-2021-45046.</li>
+<li>Keycloak image was updated to address vulnerabilities.</li>
+<li>Minor bug fixes including fixes for capitalization in user-visible messages.</li>
+</ul>
+<h3 id="v103">v1.0.3</h3>
+<p>Fixes:</p>
+<ul>
+<li>Fix to use load balancer service external IP address for application ingress when using an external load balancer and wildcard DNS.</li>
+<li>Fixed scraping of Prometheus metrics for WebLogic workloads on managed clusters.</li>
+<li>Rebuilt several component images to address known issues.</li>
+<li>Updated to the following versions:
+<ul>
+<li>Grafana 6.7.4.</li>
+<li>WebLogic Kubernetes Operator 3.3.3.</li>
+</ul>
+</li>
+</ul>
+<h3 id="v102">v1.0.2</h3>
+<p>Fixes:</p>
+<ul>
+<li>Updated CoreDNS to version 1.6.2-1.</li>
+<li>Updated Keycloak to version 10.0.2.</li>
+<li>Updated WebLogic Kubernetes Operator to version 3.3.2.</li>
+<li>Updated Oracle Linux image to version 7.9.</li>
+<li>Rebuilt several component images to address known issues.</li>
+<li>Fixes/improvements for the analysis tool, including support for diagnosing load balancer limit reached issues.</li>
+<li>Fixes/improvements for the install/upgrade process, including:
+<ul>
+<li>Install/upgrade jobs now run in the <code>verrazzano-install</code> namespace.</li>
+<li>Added Rancher registration status to the VerrazzanoManagedCluster status.</li>
+<li>Updated OKE troubleshooting URL in installation log.</li>
+<li>Fixed ExternalIP handling during Istio install.</li>
+</ul>
+</li>
+<li>Fixed Elasticsearch status yellow due to unassigned_shards.</li>
+<li>Webhook now disallows multicluster resources that are not in a VerrazzanoProject namespace.</li>
+</ul>
+<h3 id="v101">v1.0.1</h3>
+<p>Fixes:</p>
+<ul>
+<li>Updated to the following versions:
+<ul>
+<li>WebLogic Kubernetes Operator v3.3.0.</li>
+<li>Coherence Operator v3.2.1.</li>
+<li>In the Analysis Tool, <code>kubectl</code> v1.20.6-2.</li>
+</ul>
+</li>
+<li>Ensured ConfigMaps are deleted during uninstall.</li>
+<li>Fixed logging pattern match issue for OKE Kubernetes v1.20.8 clusters.</li>
+<li>Fixed multicluster log collection for Verrazzano installations using LetsEncrypt certificates.</li>
+<li>Fixed console UI display bugs for multicluster applications.</li>
+<li>Fixed a bug where API keys generated by the Oracle Cloud Infrastructure Console were not working correctly.</li>
+</ul>
+<h3 id="v100">v1.0.0</h3>
+<p>Features: Updated to Rancher v2.5.9.</p>
+<h3 id="v0170">v0.17.0</h3>
+<p>Features:</p>
+<ul>
+<li>Allow Verrazzano Monitoring Instance (VMI) replicas and memory sizes to be changed during installation for both <code>dev</code> and <code>prod</code> profiles.</li>
+<li>When installing Verrazzano on OKE, the OKE-specific Fluentd <code>extraVolumeMounts</code> configuration is no longer required.</li>
+<li>Updated to WebLogic Kubernetes Operator v3.2.5.</li>
+</ul>
+<p>Fixes:</p>
+<ul>
+<li>During uninstall, delete application resources only from namespaces which are managed by Verrazzano.</li>
+<li>During upgrade, honor the APP_OPERATOR_IMAGE override.</li>
+<li>Fixed Keycloak installation failure when Prometheus is disabled.</li>
+<li>Allow empty values for Helm overrides in <code>config.json</code>.</li>
+</ul>
+<h3 id="v0160">v0.16.0</h3>
+<p>Features:</p>
+<ul>
+<li>Provided options to configure log volume/mount of the log collector, Fluentd, and pre-configured profiles.</li>
+<li>Automatically enabled metrics and log capture for WebLogic domains deployed in Verrazzano.</li>
+<li>Added security-related data/project YAML files to the Verrazzano Console, under project details.</li>
+<li>Updated to WebLogic Kubernetes Operator v3.2.4.</li>
+</ul>
+<p>Fixes:</p>
+<ul>
+<li>Added a fix for default metrics traits not always being injected into the <code>appconfig</code>.</li>
+<li>Updated the timestamp in WebLogic application logs so that the time filter can be used in Kibana.</li>
+<li>Corrected the incorrect <code>podSelector</code> in the node exporter network policy.</li>
+<li>Fixed the DNS resolution issue due to the missing cluster section of the <code>coredns configmap</code>.</li>
+<li>Stability improvements for the platform, tests, and examples.</li>
+<li>Renamed the Elasticsearch fields in a multicluster registration secret to be consistent.</li>
+</ul>
+<h3 id="v0151">v0.15.1</h3>
+<p>Features:</p>
+<ul>
+<li>Allow customization of Elasticsearch node sizes and topology during installation.</li>
+<li>If <code>runtimeEncryptionSecret</code>, specified in the WebLogic domain spec, does not already exist, then create it.</li>
+<li>Support overrides of persistent storage configuration for Elasticsearch, Kibana, Prometheus, Grafana, and Keycloak.</li>
+</ul>
+<p>Known Issues:</p>
+<ul>
+<li>After upgrade to 0.15.1, for Verrazzano Custom Resource installed on Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE), the Fluentd DaemonSet in the <code>verrazzano-system</code> namespace cannot access logs.
+Run following command to patch the Fluentd DaemonSet and correct the issue:
+<pre tabindex="0"><code>kubectl patch -n verrazzano-system ds fluentd --patch &#39;{&#34;spec&#34;:{&#34;template&#34;:{&#34;spec&#34;:{&#34;containers&#34;:[{&#34;name&#34;: &#34;fluentd&#34;,&#34;volumeMounts&#34;:[{&#34;mountPath&#34;:&#34;/u01/data/&#34;,&#34;name&#34;:&#34;extravol0&#34;,&#34;readOnly&#34;:true}]}],&#34;volumes&#34;:[{&#34;hostPath&#34;:{&#34;path&#34;:&#34;/u01/data/&#34;,&#34;type&#34;:&#34;&#34;},&#34;name&#34;:&#34;extravol0&#34;}]}}}}&#39;
+</code></pre></li>
+</ul>
+<h3 id="v0150">v0.15.0</h3>
+<p>Features:</p>
+<ul>
+<li>Support for private container registries.</li>
+<li>Secured communication between Verrazzano resources using Istio.</li>
+<li>Updated to the following versions:
+<ul>
+<li>cert-manager v1.2.0.</li>
+<li>Coherence Operator v3.1.5.</li>
+<li>WebLogic Kubernetes Operator v3.2.3.</li>
+<li>Node Exporter v1.0.0.</li>
+<li>NGINX Ingress Controller v0.46.</li>
+<li>Fluentd v1.12.3.</li>
+</ul>
+</li>
+<li>Added network policies for Istio.</li>
+</ul>
+<p>Fixes:</p>
+<ul>
+<li>Stability improvements for the platform, tests, and examples.</li>
+<li>Several fixes for scraping Prometheus metrics.</li>
+<li>Several fixes for logging and Elasticsearch.</li>
+<li>Replaced <code>keycloak.json</code> with dynamic realm creation.</li>
+<li>Removed the LoggingScope CRD from the Verrazzano API.</li>
+<li>Fixed issues related to multicluster resources being orphaned.</li>
+</ul>
+<h3 id="v0140">v0.14.0</h3>
+<p>Features:</p>
+<ul>
+<li>Multicluster support for Verrazzano. Now you can:
+<ul>
+<li>Register participating clusters as VerrazzanoManagedClusters.</li>
+<li>Deploy MutiClusterComponents and MultiClusterApplicationConfigurations.</li>
+<li>Organize multicluster namespaces as VerrazzanoProjects.</li>
+<li>Access MultiCluster Components and ApplicationConfigurations in the Verrazzano Console UI.</li>
+</ul>
+</li>
+<li>Changed default wildcard DNS from xip.io to nip.io.</li>
+<li>Support for OKE clusters with private endpoints.</li>
+<li>Support for network policies. Now you can:
+<ul>
+<li>Add ingress-NGINX network policies.</li>
+<li>Add Rancher network policies.</li>
+<li>Add NetworkPolicy support to Verrazzano projects.</li>
+<li>Add network policies for Keycloak.</li>
+<li>Add platform operator network policies.</li>
+<li>Add network policies for Elasticsearch and Kibana.</li>
+<li>Set network policies for Verrazzano operators, Console, and API proxy.</li>
+<li>Add network policies for WebLogic Kubernetes Operator.</li>
+</ul>
+</li>
+<li>Changes to allow magic DNS provider to be specified (xip.io, nip.io, sslip.io).</li>
+<li>Support service setup for multiple containers.</li>
+<li>Enabled use of self-signed certs with Oracle Cloud Infrastructure DNS.</li>
+<li>Support for setting DeploymentStrategy for VerrazzanoHelidonWorkload.</li>
+</ul>
+<p>Fixes:</p>
+<ul>
+<li>Several stability improvements for the platform, tests, and examples.</li>
+<li>Added retries around lookup of Rancher admin user.</li>
+<li>Granted specific privileges instead of <code>ALL</code> for Keycloak user in MySQL.</li>
+<li>Disabled the installation of the Verrazzano Console UI on managed clusters.</li>
+</ul>
+<h3 id="v0130">v0.13.0</h3>
+<p>Features:</p>
+<ul>
+<li><code>IngressTrait</code> support for explicit destination host and port.</li>
+<li>Experimental cluster diagnostic tooling.</li>
+<li>Grafana dashboards for <code>VerrazzanoHelidonWorkload</code>.</li>
+<li>Now you can update application Fluentd sidecar images following a Verrazzano update.</li>
+<li>Documented Verrazzano specific OAM workload resources.</li>
+<li>Documented Verrazzano hardware requirements and installed software versions.</li>
+</ul>
+<p>Fixes:</p>
+<ul>
+<li><code>VerrazzanoWebLogicWorkload</code> and <code>VerrazzanoCoherenceWorkload</code> resources now handle updates.</li>
+<li>Now <code>VerrazzanoHelidonWorkload</code> supports the use of the <code>ManualScalarTrait</code>.</li>
+<li>Now you can delete a <code>Namespace</code> containing an <code>ApplicationConfiguration</code> resource.</li>
+<li>Fixed frequent restarts of Prometheus during application deployment.</li>
+<li>Made <code>verrazzano-application-operator</code> logging more useful and use structured logging.</li>
+<li>Fixed Verrazzano uninstall issues.</li>
+</ul>
+<h3 id="v0120">v0.12.0</h3>
+<p>Features:</p>
+<ul>
+<li>Observability stack now uses Keycloak SSO for authentication.</li>
+<li>Istio sidecars now automatically injected when namespaces labeled <code>istio-injection=enabled</code>.</li>
+<li>Support for Helidon applications now defined using <code>VerrazzanoHelidonWorkload</code> type.</li>
+</ul>
+<p>Fixes:</p>
+<ul>
+<li>Fixed issues where logs were not captured from all containers in workloads with multiple containers.</li>
+<li>Fixed issue where some resources were not cleaned up during uninstall.</li>
+</ul>
+<h3 id="v0110">v0.11.0</h3>
+<p>Features:</p>
+<ul>
+<li>OAM applications are optionally deployed into an Istio service mesh.</li>
+<li>Incremental improvements to user-facing roles.</li>
+</ul>
+<p>Fixes:</p>
+<ul>
+<li>Fixed issue with logging when an application has multiple workload types.</li>
+<li>Fixed metrics configuration in Spring Boot example application.</li>
+</ul>
+<h3 id="v0100">v0.10.0</h3>
+<p><strong>Breaking Changes</strong>:</p>
+<ul>
+<li>Model/binding files removed; now application deployment done exclusively by using Open Application Model (OAM).</li>
+<li>Syntax changes for WebLogic and Coherence OAM workloads, now defined using <code>VerrazzanoCoherenceWorkload</code>
+and <code>VerrazzanoWebLogicWorkload</code> types.</li>
+</ul>
+<p>Features:</p>
+<ul>
+<li>By default, application endpoints now use HTTPs - when using magic DNS, certificates are issued by cluster issuer, when using
+Oracle Cloud Infrastructure DNS certificates are issued using Let&rsquo;s Encrypt, or the end user can provide certificates.</li>
+<li>Updated to Coherence Operator v3.1.3.</li>
+<li>Updates for running Verrazzano on Kubernetes 1.19 and 1.20.</li>
+<li>RBAC roles and role bindings created at installation.</li>
+<li>Added instance information to status of Verrazzano custom resource; can be used to obtain instance URLs.</li>
+<li>Updated to Istio v1.7.3.</li>
+</ul>
+<p>Fixes:</p>
+<ul>
+<li>Reduced log level of Elasticsearch; excessive logging could have resulted in filling up disks.</li>
+</ul>
+<h3 id="v090">v0.9.0</h3>
+<ul>
+<li>Features:
+<ul>
+<li>Added platform support for installing Verrazzano on Kind clusters.</li>
+<li>Log records are indexed from the OAM <code>appconfig</code> and <code>component</code> definitions using the following pattern: <code>namespace-appconfig-component</code>.</li>
+<li>All system and curated components are now patchable.</li>
+<li>More updates to Open Application Model (OAM) support.</li>
+</ul>
+</li>
+</ul>
+<p>To enable OAM, when you install Verrazzano, specify the following in the Kubernetes manifest file for the Verrazzano custom resource:</p>
+<pre tabindex="0"><code>spec:
+  oam:
+    enabled: true
+</code></pre><h3 id="v080">v0.8.0</h3>
+<ul>
+<li>Features:
+<ul>
+<li>Support for two installation profiles, development (<code>dev</code>) and production (<code>prod</code>).  The production profile, which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile provides a single node Elasticsearch and no persistent storage for the VMI.</li>
+<li>The default behavior has been changed to use the system VMI for all monitoring (applications and Verrazzano components).  It is still possible to customize one of the profiles to enable the original, non-shared VMI mode.</li>
+<li>Initial support for the Open Application Model (OAM).</li>
+</ul>
+</li>
+<li>Fixes:
+<ul>
+<li>Updated to Axios NPM package v0.21.1 to resolve a security vulnerability in the examples code.</li>
+</ul>
+</li>
+</ul>
+<h3 id="v070">v.0.7.0</h3>
+<ul>
+<li>
+<p>Features:</p>
+<ul>
+<li>Ability to upgrade an existing Verrazzano installation.</li>
+<li>Added the Verrazzano Console.</li>
+<li>Enhanced the structure of the Verrazzano custom resource to allow more configurability.</li>
+<li>Streamlined the secret usage for Oracle Cloud Infrastructure DNS installations.</li>
+</ul>
+</li>
+<li>
+<p>Fixes:</p>
+<ul>
+<li>Fixed bug where the Verrazzano CR <code>Certificate.CA</code> fields were being ignored.</li>
+<li>Removed secret used for <code>hello-world</code>; <code>hello-world-application</code> image is now public in ghcr so <code>ImagePullSecrets</code> is no longer needed.</li>
+<li>Fixed <a href="https://github.com/verrazzano/verrazzano/issues/339">issue #339</a> (PRs <a href="https://github.com/verrazzano/verrazzano-operator/pull/208">#208</a> &amp; <a href="https://github.com/verrazzano/verrazzano-operator/pull/210">#210</a>.)</li>
+</ul>
+</li>
+</ul>
+<h3 id="v060">v0.6.0</h3>
+<ul>
+<li>Features:
+<ul>
+<li>In-cluster installer which replaces client-side installation scripts.</li>
+<li>Added installation profiles; in this release, there are two: production and development.</li>
+<li>Verrazzano system components now emit JSON structured logs.</li>
+</ul>
+</li>
+<li>Fixes:
+<ul>
+<li>Updated Elasticsearch and Kibana versions (elasticsearch:7.6.1-20201130145440-5c76ab1) and (kibana:7.6.1-20201130145840-7717e73).</li>
+</ul>
+</li>
+</ul>
+
+        <div class="section-index">
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+	
+		<style>
+  .feedback--answer {
+    display: inline-block;
+  }
+  .feedback--answer-no {
+    margin-left: 1em;
+  }
+  .feedback--response {
+    display: none;
+    margin-top: 1em;
+  }
+  .feedback--response__visible {
+    display: block;
+  }
+</style>
+<div class="d-print-none">
+<h2 class="feedback--title">Feedback</h2>
+<p class="feedback--question">Was this page helpful?</p>
+<button class="btn btn-primary mb-4 feedback--answer feedback--answer-yes">Yes</button>
+<button class="btn btn-primary mb-4 feedback--answer feedback--answer-no">No</button>
+<p class="feedback--response feedback--response-yes">
+  Glad to hear it! Please <a href="https://github.com/verrazzano/docs/issues/new">tell us how we can improve</a>.
+</p>
+<p class="feedback--response feedback--response-no">
+  Sorry to hear that. Please <a href="https://github.com/verrazzano/docs/issues/new">tell us how we can improve</a>.
+</p>
+</div>
+<script>
+  const yesButton = document.querySelector('.feedback--answer-yes');
+  const noButton = document.querySelector('.feedback--answer-no');
+  const yesResponse = document.querySelector('.feedback--response-yes');
+  const noResponse = document.querySelector('.feedback--response-no');
+  const disableButtons = () => {
+    yesButton.disabled = true;
+    noButton.disabled = true;
+  };
+  const sendFeedback = (value) => {
+    if (typeof ga !== 'function') return;
+    const args = {
+      command: 'send',
+      hitType: 'event',
+      category: 'Helpful',
+      action: 'click',
+      label: window.location.pathname,
+      value: value
+    };
+    ga(args.command, args.hitType, args.category, args.action, args.label, args.value);
+  };
+  yesButton.addEventListener('click', () => {
+    yesResponse.classList.add('feedback--response__visible');
+    disableButtons();
+    sendFeedback(1);
+  });
+  noButton.addEventListener('click', () => {
+    noResponse.classList.add('feedback--response__visible');
+    disableButtons();
+    sendFeedback(0);
+  });
+</script>
+
+		<br />
+	
+	
+	
+</div>
+
+          </main>
+        </div>
+      </div>
+      
+<footer class="bg-dark py-5 row d-print-none">
+  <div class="container-fluid mx-sm-5">
+    <div class="row">
+      <div class="col-6 col-sm-4 text-xs-center order-sm-2">
+        
+        
+        
+<ul class="list-inline mb-0">
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Twitter" aria-label="Twitter">
+    <a class="text-white" target="_blank" rel="noopener noreferrer" href="https://twitter.com/verrazzano_io">
+      <i class="fab fa-twitter"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Stack Overflow" aria-label="Stack Overflow">
+    <a class="text-white" target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/tags/verrazzano">
+      <i class="fab fa-stack-overflow"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+      </div>
+      <div class="col-6 col-sm-4 text-right text-xs-center order-sm-3">
+        
+        
+        
+<ul class="list-inline mb-0">
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="GitHub" aria-label="GitHub">
+    <a class="text-white" target="_blank" rel="noopener noreferrer" href="https://github.com/verrazzano/verrazzano">
+      <i class="fab fa-github"></i>
+    </a>
+  </li>
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="Slack" aria-label="Slack">
+    <a class="text-white" target="_blank" rel="noopener noreferrer" href="https://bit.ly/3gOeRJn">
+      <i class="fab fa-slack"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+      </div>
+      <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
+        <small class="text-white">&copy; 2022 Oracle and/or its affiliates</small>
+        
+	
+		
+	
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"
+    integrity="sha512-UR25UO94eTnCVwjbXozyeVd6ZqpaAE9naiEUBK/A+QDbfSTQFhPGj5lOR6d8tsgbBk84Ggb5A3EkjsOgPRPcKA=="
+    crossorigin="anonymous"></script>
+
+
+
+
+
+<script src='../../js/tabpane-persist.js'></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="../../js/main.min.fc1551b8c1b40a6eaa08f3cb9c76f12ccd9aebc436cecdaf2341c890206d024a.js" integrity="sha256-/BVRuMG0Cm6qCPPLnHbxLM2a68Q2zs2vI0HIkCBtAko=" crossorigin="anonymous"></script>
+
+
+
+
+  </body>
+</html>
