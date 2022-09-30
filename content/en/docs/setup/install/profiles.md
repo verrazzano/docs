@@ -74,7 +74,7 @@ customize any Verrazzano installation, regardless of the profile.
 | ------------- |:-------------: |:-------------: |:-------------:
 | Istio | ✔️ | ✔️ | ✔️
 | NGINX | ✔️ | ✔️ | ✔️
-| Cert-Manager | ✔️ | ✔️ | ✔️
+| cert-manager | ✔️ | ✔️ | ✔️
 | External-DNS |️ |️ |
 | Prometheus | ✔️ | ✔️ | ✔️
 | OpenSearch | ✔️ | ✔️ |
