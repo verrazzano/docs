@@ -26,5 +26,49 @@
       </description>
     </item>
     
+    <item>
+      <title>Docs: Deprecated API Migration Guide</title>
+      <link>/docs/reference/migration/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/reference/migration/</guid>
+      <description>
+        
+        
+        &lt;p&gt;As the Verrazzano API evolves, APIs are periodically updated. When APIs evolve, the old API is deprecated and eventually removed.
+This document contains information that you need to know when migrating from deprecated API versions to newer and more stable API versions.&lt;/p&gt;
+&lt;h2 id=&#34;verrazzano&#34;&gt;Verrazzano&lt;/h2&gt;
+&lt;p&gt;The &lt;code&gt;install.verrazzano.io/v1alpha1&lt;/code&gt; API version of Verrazzano resources is deprecated and will no longer be served in a future release.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Migrate manifests and API clients to use the &lt;code&gt;install.verrazzano.io/v1beta1&lt;/code&gt; API version, available since 1.4.0.&lt;/li&gt;
+&lt;li&gt;All existing persisted objects are accessible using the new API.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;notable-changes-in-installverrazzanoiov1beta1&#34;&gt;Notable Changes In &lt;code&gt;install.verrazzano.io/v1beta1&lt;/code&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;spec.components.ingress&lt;/code&gt; is renamed to &lt;code&gt;spec.components.ingressNGINX&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;spec.components.kibana&lt;/code&gt; is renamed to &lt;code&gt;spec.components.opensearchDashboards&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;spec.components.elasticsearch&lt;/code&gt; is renamed to &lt;code&gt;spec.components.opensearch&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;spec.components.fluentd.elasticsearchSecret&lt;/code&gt; is renamed to &lt;code&gt;spec.components.fluentd.opensearchSecret&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;spec.components.fluentd.elasticsearchURL&lt;/code&gt; is renamed to &lt;code&gt;spec.components.fluentd.opensearchURL&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;status.instance.kibanaUrl&lt;/code&gt; is renamed to &lt;code&gt;status.instance.opensearchDashboardsUrl&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;status.instance.elasticUrl&lt;/code&gt; is renamed to &lt;code&gt;status.instance.opensearchUrl&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Use &lt;code&gt;spec.components.opensearch.nodes&lt;/code&gt; instead of &lt;code&gt;spec.components.elasticsearch.installArgs&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Use &lt;code&gt;spec.components.ingressNGINX.overrides&lt;/code&gt; instead of &lt;code&gt;spec.components.ingress.nginxInstallArgs&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Use &lt;code&gt;spec.components.istio.overrides&lt;/code&gt; instead of &lt;code&gt;spec.components.istio.istioInstallArgs&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Use &lt;code&gt;spec.components.istio.overrides&lt;/code&gt; instead of &lt;code&gt;spec.components.istio.ingress&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Use &lt;code&gt;spec.components.istio.overrides&lt;/code&gt; instead of &lt;code&gt;spec.components.istio.egress&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Use &lt;code&gt;spec.components.keycloak.overrides&lt;/code&gt; instead of &lt;code&gt;spec.components.keycloak.keycloakInstallArgs&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Use &lt;code&gt;spec.components.verrazzano.overrides&lt;/code&gt; instead of &lt;code&gt;spec.components.verrazzano.installArgs&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Use &lt;code&gt;spec.components.authProxy.overrides&lt;/code&gt; instead of &lt;code&gt;spec.components.authProxy.kubernetes&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;installing-previous-verrazzano-versions&#34;&gt;Installing previous Verrazzano versions&lt;/h4&gt;
+&lt;p&gt;After installing Verrazzano version 1.4.0 or later, installing versions of Verrazzano prior to 1.4.0 will result in the following error:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;The CustomResourceDefinition &amp;#34;verrazzanos.install.verrazzano.io&amp;#34; is invalid: status.storedVersions[0]: Invalid value: &amp;#34;v1beta1&amp;#34;: must appear in spec.versions 
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To resolve this error, delete the &lt;code&gt;verrazzanos.install.verrazzano.io&lt;/code&gt; Custom Resource Definition:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ kubectl delete customresourcedefinition verrazzanos.install.verrazzano.io
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+      </description>
+    </item>
+    
   </channel>
 </rss>

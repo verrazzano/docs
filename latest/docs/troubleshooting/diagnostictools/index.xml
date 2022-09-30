@@ -22,229 +22,185 @@
       <description>
         
         
-        &lt;p&gt;Verrazzano provides tooling which assists in troubleshooting issues in your environment:&lt;/p&gt;
+        &lt;p&gt;Verrazzano provides the &lt;code&gt;vz analyze&lt;/code&gt; command-line tool, which assists in troubleshooting issues in your environment. You can use it to analyze a cluster as well as, to analyze a cluster snapshot captured by the &lt;code&gt;vz bug-report&lt;/code&gt; tool. For detailed information about &lt;code&gt;vz bug-report&lt;/code&gt;, see &lt;a href=&#34;../../../docs/troubleshooting/diagnostictools/vzbugreportcli/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;vz analyze&lt;/code&gt; command-line tool analyzes the cluster or a cluster snapshot, reports the issues found, and prescribes related actions to take. Users, developers, and Continuous Integration (CI) can use this tooling to quickly identify the root cause of encountered problems, determine mitigation actions, and provide a sharable report with other users or tooling.&lt;/p&gt;
+&lt;h2 id=&#34;set-up-the-cli-tool&#34;&gt;Set up the CLI tool&lt;/h2&gt;
+&lt;p&gt;To set up the &lt;code&gt;vz&lt;/code&gt; command-line tool, follow the steps &lt;a href=&#34;../../../docs/setup/cli/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;analyze-clusters&#34;&gt;Analyze clusters&lt;/h2&gt;
+&lt;p&gt;To analyze a Kubernetes cluster:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz analyze
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;analyze-cluster-snapshots&#34;&gt;Analyze cluster snapshots&lt;/h2&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;code&gt;k8s-dump-cluster.sh&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;verrazzano-analysis&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Use the &lt;code&gt;vz bug-report&lt;/code&gt; tool to capture a cluster snapshot.&lt;/p&gt;
+&lt;p&gt;To create a bug report in a TAR file named &lt;code&gt;my-bug-report.tar.gz&lt;/code&gt; and extract it to a directory &lt;code&gt;my-cluster-snapshot&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz bug-report my-bug-report.tar.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  mkdir my-cluster-snapshot
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  tar -xvf my-bug-report.tar.gz -C my-cluster-snapshot
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Use the &lt;code&gt;vz analyze&lt;/code&gt; tool to analyze the cluster snapshot.&lt;/p&gt;
+&lt;p&gt;To perform an analysis of the cluster snapshot under &lt;code&gt;my-cluster-snapshot&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz analyze --capture-dir my-cluster-snapshot
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id=&#34;tools-setup&#34;&gt;Tools Setup&lt;/h2&gt;
-&lt;p&gt;These tools are available for Linux and Mac: &lt;a href=&#34;https://github.com/verrazzano/verrazzano/releases/&#34;&gt;https://github.com/verrazzano/verrazzano/releases/&lt;/a&gt;.&lt;/p&gt;
-&lt;nav&gt;
-	&lt;div class=&#34;nav nav-tabs&#34; id=&#34;nav-tab&#34; role=&#34;tablist&#34;&gt;
-
-		
-		
-		
-		
-
-		
-
-		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-dbcefa&#34; data-toggle=&#34;tab&#34; href=&#34;#dbcefa&#34;
-		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Linux&lt;/a&gt;
-
-		
-
-		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-bafced&#34; data-toggle=&#34;tab&#34; href=&#34;#bafced&#34;
-		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;macOS&lt;/a&gt;
-
-		
-
-	&lt;/div&gt;
-&lt;/nav&gt;
-
-&lt;div class=&#34;tab-content&#34; id=&#34;nav-tab-content&#34;&gt;
-
-	
-
-
-
-
-
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;dbcefa&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
-
-	&lt;br&gt;
-&lt;h3 id=&#34;linux-instructions&#34;&gt;Linux Instructions&lt;/h3&gt;
-&lt;p&gt;Use these instructions to obtain the analysis tools on Linux machines.&lt;/p&gt;
-&lt;h4 id=&#34;download-the-tooling&#34;&gt;Download the tooling&lt;/h4&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt; $ wget https://github.com/verrazzano/verrazzano/releases/download/v1.3.5/k8s-dump-cluster.sh
- $ wget https://github.com/verrazzano/verrazzano/releases/download/v1.3.5/k8s-dump-cluster.sh.sha256
- $ wget https://github.com/verrazzano/verrazzano/releases/download/v1.3.5/verrazzano-analysis-linux-amd64.tar.gz
- $ wget https://github.com/verrazzano/verrazzano/releases/download/v1.3.5/verrazzano-analysis-linux-amd64.tar.gz.sha256
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;verify-the-downloaded-files&#34;&gt;Verify the downloaded files&lt;/h4&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt; $ sha256sum -c k8s-dump-cluster.sh.sha256
- $ sha256sum -c verrazzano-analysis-linux-amd64.tar.gz.sha256
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;unpack-the-verrazzano-analysis-binary&#34;&gt;Unpack the &lt;code&gt;verrazzano-analysis&lt;/code&gt; binary&lt;/h4&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt; $ tar xvf verrazzano-analysis-linux-amd64.tar.gz
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-
-
-
-
-
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;bafced&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
-
-	&lt;br&gt;
-&lt;h3 id=&#34;mac-instructions&#34;&gt;Mac Instructions&lt;/h3&gt;
-&lt;p&gt;Use these instructions to obtain the analysis tools on Mac machines.&lt;/p&gt;
-&lt;h4 id=&#34;download-the-tooling&#34;&gt;Download the tooling&lt;/h4&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt; $ wget https://github.com/verrazzano/verrazzano/releases/download/v1.3.5/k8s-dump-cluster.sh
- $ wget https://github.com/verrazzano/verrazzano/releases/download/v1.3.5/k8s-dump-cluster.sh.sha256
- $ wget https://github.com/verrazzano/verrazzano/releases/download/v1.3.5/verrazzano-analysis-darwin-amd64.tar.gz
- $ wget https://github.com/verrazzano/verrazzano/releases/download/v1.3.5/verrazzano-analysis-darwin-amd64.tar.gz.sha256
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;verify-the-downloaded-files&#34;&gt;Verify the downloaded files&lt;/h4&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt; $ shasum -a 256 -c k8s-dump-cluster.sh.sha256
- $ shasum -a 256 -c verrazzano-analysis-darwin-amd64.tar.gz.sha256
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;unpack-the-verrazzano-analysis-binary&#34;&gt;Unpack the &lt;code&gt;verrazzano-analysis&lt;/code&gt; binary&lt;/h4&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt; $ tar xvf verrazzano-analysis-darwin-amd64.tar.gz
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;/div&gt;
-
-
-
-&lt;/div&gt;
-&lt;h2 id=&#34;use-the-k8s-dump-clustersh-tool&#34;&gt;Use the &lt;code&gt;k8s-dump-cluster.sh&lt;/code&gt; tool&lt;/h2&gt;
-&lt;p&gt;The &lt;code&gt;k8s-dump-cluster.sh&lt;/code&gt; tool is a shell script which runs various &lt;code&gt;kubectl&lt;/code&gt; and &lt;code&gt;helm&lt;/code&gt; commands against a cluster.&lt;/p&gt;
-&lt;p&gt;Note that the data captured by this script might include sensitive information. This data is under your control; you can choose whether to share it.&lt;/p&gt;
-&lt;p&gt;The directory structure created by the &lt;code&gt;k8s-dump-cluster.sh&lt;/code&gt; tool, for a specific cluster dump, appears as follows:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ CAPTURE_DIR
-  cluster-dump
-    directory per namespace (a directory at this level is assumed to represent a namespace)
-      acme-orders.json
-      application-configurations.json
-      certificate-requests.json
-      cluster-role-bindings.json
-      cluster-roles.json
-      cluster-roles.json
-      coherence.json
-      components.json
-      {CONFIGNAME}.configmap (a file at this level for each configmap in the namespace)
-      daemonsets.json
-      deployments.json
-      events.json
-      gateways.json
-      ingress-traits.json
-      jobs.json
-      multicluster-application-configurations.json
-      multicluster-components.json
-      multicluster-config-maps.json
-      multicluster-logging-scopes.json
-      multicluster-secrets.json
-      namespace.json
-      persistent-volume-claims.json
-      persistent-volumes.json
-      pods.json
-      replicasets.json
-      replication-controllers.json
-      role-bindings.json
-      services.json
-      verrazzano-managed-clusters.json
-      verrazzano-projects.json
-      verrazzano_resources.json
-      virtualservices.json
-      weblogic-domains.json
-      directory per pod (a directory at this level is assumed to represent a specific pod)
-        logs.txt (includes logs for all containers and initContainers)
-    api-resources.out
-    application-configurations.json
-    cluster-issuers.txt
-    coherence.json
-    configmap_list.out
-    crd.json
-    es_indexes.out
-    gateways.json
-    helm-ls.json
-    helm-version.out
-    images-on-nodes.csv
-    ingress.json
-    ingress-traits.json
-    kubectl-version.json
-    namespace_list.out
-    network-policies.json
-    network-policies.txt
-    nodes.json
-    pv.json
-    verrazzano_resources.out
-    virtualservices.json
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The script shows the &lt;code&gt;kubectl&lt;/code&gt; and &lt;code&gt;helm&lt;/code&gt; commands which are run. The basic structure, shown previously, is formed by running the command, &lt;code&gt;$ kubectl cluster-info dump --all-namespaces&lt;/code&gt;, with additional data captured into that directory structure.&lt;/p&gt;
-&lt;p&gt;To perform a dump of a cluster into a directory named &lt;code&gt;my-cluster-dump&lt;/code&gt;:&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;$ sh k8s-dump-cluster.sh -d my-cluster-dump&lt;/code&gt;&lt;/p&gt;
-&lt;h2 id=&#34;use-the-verrazzano-analysis-tool&#34;&gt;Use the &lt;code&gt;verrazzano-analysis&lt;/code&gt; tool&lt;/h2&gt;
-&lt;p&gt;The &lt;code&gt;verrazzano-analysis&lt;/code&gt; tool analyzes data from a cluster dump captured using &lt;code&gt;k8s-dump-cluster.sh&lt;/code&gt;, reports the issues found, and prescribes related actions to take.  These tools are continually evolving with regard to what may be captured, the knowledge base of issues and actions, and the types of analysis that can be performed.&lt;/p&gt;
-&lt;p&gt;Users, developers, and Continuous Integration (CI) can use this tooling to quickly identify the root cause of encountered problems, determine mitigation actions, and provide a sharable report with other users or tooling.&lt;/p&gt;
-&lt;p&gt;The data that the analysis examines follows the structure created by the corresponding capture tooling. For example, &lt;code&gt;k8s-dump-cluster.sh&lt;/code&gt; dumps a cluster into a specific structure, which might contain data that you do not want to share. The tooling analyzes the data and provides you with a report, which identifies issues and provides you with actions to take.&lt;/p&gt;
-&lt;p&gt;The &lt;code&gt;verrazzano-analysis&lt;/code&gt; tool will find and analyze all cluster dump directories found under a specified root directory. This lets you create a directory to hold the cluster dumps of related clusters into sub-directories which the tool can analyze.&lt;/p&gt;
+&lt;h3 id=&#34;use-the-vz-analyze-tool-to-analyze-multiple-snapshots&#34;&gt;Use the &lt;code&gt;vz analyze&lt;/code&gt; tool to analyze multiple snapshots&lt;/h3&gt;
+&lt;p&gt;The &lt;code&gt;vz analyze&lt;/code&gt; tool will find and analyze all cluster snapshot directories found under a specified root directory.
+This lets you create a directory to hold the cluster snapshots of related clusters in subdirectories, which the tool can then analyze.&lt;/p&gt;
 &lt;p&gt;For example:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;my-cluster-dumps
+&lt;pre&gt;&lt;code&gt;my-cluster-snapshots
     CAPTURE_DIR-1
-        cluster-dump
+        cluster-snapshot
             ...
     CAPTURE_DIR-2
-        cluster-dump
+        cluster-snapshot
             ...
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The tool analyzes each cluster dump directory found; you need to provide only the single root directory.&lt;/p&gt;
-&lt;p&gt;To perform an analysis of the clusters:&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;$ verrazzano-analysis my-cluster-dumps&lt;/code&gt;&lt;/p&gt;
-&lt;h3 id=&#34;usage-information&#34;&gt;Usage information&lt;/h3&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Usage: verrazzano-analysis [options] captured-data-directory
-&lt;/code&gt;&lt;/pre&gt;&lt;table&gt;
+&lt;p&gt;To perform an analysis of the clusters under &lt;code&gt;my-cluster-snapshots&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz analyze --capture-dir my-cluster-snapshots
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;usage-information&#34;&gt;Usage information&lt;/h3&gt;
+&lt;p&gt;Use the following syntax to run &lt;code&gt;vz&lt;/code&gt; commands from your terminal window.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz analyze &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;[&lt;/span&gt;flags&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;available-options&#34;&gt;Available options&lt;/h4&gt;
+&lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th&gt;Parameter&lt;/th&gt;
+&lt;th&gt;Command&lt;/th&gt;
 &lt;th&gt;Definition&lt;/th&gt;
-&lt;th&gt;Default&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;code&gt;-actions&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Include actions in the report.&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;true&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;--capture-dir string&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Directory holding the captured data.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;code&gt;-help&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Display usage help.&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;-h, --help&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Help for the &lt;code&gt;vz analyze&lt;/code&gt; command.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;code&gt;-info&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Include informational messages.&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;true&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;--report-file string&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Name of the report output file. (Default &lt;code&gt;stdout&lt;/code&gt;)&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;code&gt;-minConfidence&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Minimum confidence threshold to report for issues, 0-10.&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;0&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;--report-format string&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;The format of the report output. Valid report formats are &amp;ldquo;summary&amp;rdquo; and &amp;ldquo;detailed&amp;rdquo;. (Default &amp;ldquo;summary&amp;rdquo;)&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;&lt;code&gt;-minImpact&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Minimum impact threshold to report for issues, 0-10.&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;0&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;-reportFile&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Name of report output file.&lt;/td&gt;
-&lt;td&gt;Output to stdout.&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;-support&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Include support data in the report.&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;true&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;-version&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Display tool version.&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;-v, --verbose&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Enable verbose output.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
+&lt;h4 id=&#34;available-flags&#34;&gt;Available flags&lt;/h4&gt;
+&lt;p&gt;These flags apply to all the commands.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Flag&lt;/th&gt;
+&lt;th&gt;Definition&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;--context string&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;The name of the &lt;code&gt;kubeconfig&lt;/code&gt; context to use.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;--kubeconfig string&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Path to the &lt;code&gt;kubeconfig&lt;/code&gt; file to use.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Bug Reports</title>
+      <link>/docs/troubleshooting/diagnostictools/vzbugreportcli/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/troubleshooting/diagnostictools/vzbugreportcli/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Use the &lt;code&gt;vz bug-report&lt;/code&gt; tool to selectively capture cluster information and create an archive (&lt;code&gt;*.tar.gz&lt;/code&gt;) file to help diagnose problems. The archive file helps development and support teams analyze issues and provide recommendations.&lt;/p&gt;
+&lt;h2 id=&#34;cli-setup&#34;&gt;CLI setup&lt;/h2&gt;
+&lt;p&gt;To set up the &lt;code&gt;vz&lt;/code&gt; command-line tool, follow the steps &lt;a href=&#34;../../../docs/setup/cli/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;use-the-vz-bug-report-tool&#34;&gt;Use the &lt;code&gt;vz bug-report&lt;/code&gt; tool&lt;/h2&gt;
+&lt;p&gt;To create a bug report in a TAR file named &lt;code&gt;my-bug-report.tar.gz&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz bug-report --report-file my-bug-report.tar.gz
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We suggest that you review the contents of the bug report before sharing it with support and development teams.&lt;/p&gt;
+&lt;h3 id=&#34;usage-information&#34;&gt;Usage information&lt;/h3&gt;
+&lt;p&gt;Use the following syntax to run &lt;code&gt;vz&lt;/code&gt; commands from your terminal window.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz bug-report &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;[&lt;/span&gt;flags&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;available-options&#34;&gt;Available options&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Command&lt;/th&gt;
+&lt;th&gt;Definition&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-h, --help &lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Help for &lt;code&gt;vz bug-report&lt;/code&gt; command.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-i, --include-namespaces strings&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;A comma-separated list of additional namespaces for collecting cluster information. This flag can be specified multiple times, such as &lt;code&gt;--include-namespaces ns1 --include-namespaces ns...&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-r, --report-file string&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;The report file created by the &lt;code&gt;vz bug-report&lt;/code&gt; command, as a &lt;code&gt;*.tar.gz&lt;/code&gt; file. Defaults to &lt;code&gt;bug-report.tar.gz&lt;/code&gt; in the current directory.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-v, --verbose&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Enable verbose output.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;available-flags&#34;&gt;Available flags&lt;/h3&gt;
+&lt;p&gt;These flags apply to all the commands.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Flag&lt;/th&gt;
+&lt;th&gt;Definition&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;--context string&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;The name of the &lt;code&gt;kubeconfig&lt;/code&gt; context to use.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;--kubeconfig string&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Path to the &lt;code&gt;kubeconfig&lt;/code&gt; file to use.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;examples&#34;&gt;Examples&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Create a bug report file, &lt;code&gt;bugreport.tar.gz&lt;/code&gt;, by collecting data from the cluster:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz bug-report --report-file bugreport.tar.gz
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;When &lt;code&gt;--report-file&lt;/code&gt; is not provided, the command creates &lt;code&gt;bug-report.tar.gz&lt;/code&gt; in the current directory.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create a bug report file, &lt;code&gt;bugreport.tar.gz&lt;/code&gt;, including the additional namespace &lt;code&gt;ns1&lt;/code&gt; from the cluster:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz bug-report --report-file bugreport.tgz --include-namespaces ns1
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The flag &lt;code&gt;--include-namespaces&lt;/code&gt; accepts comma-separated values and can be specified multiple times.
+For example, the following commands create a bug report by including additional namespaces &lt;code&gt;ns1&lt;/code&gt;, &lt;code&gt;ns2&lt;/code&gt;, and &lt;code&gt;ns3&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2,ns3
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-namespaces ns3
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The values specified for the flag &lt;code&gt;--include-namespaces&lt;/code&gt; are case-sensitive.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 
       </description>
     </item>

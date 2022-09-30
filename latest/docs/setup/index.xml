@@ -25,10 +25,18 @@
         &lt;p&gt;Verrazzano requires the following:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;A Kubernetes cluster and a compatible &lt;code&gt;kubectl&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;At least two CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes.  This is sufficient to install the development profile
-of Verrazzano.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient for deploying your
-applications.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;dev&lt;/code&gt; profile - At least two CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes. Depending on the resource requirements of the applications you deploy, this may or may not be sufficient.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;prod&lt;/code&gt; profile - At least four CPUs, 100GB disk storage, and 32GB RAM available on the Kubernetes worker nodes.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient.&lt;/li&gt;
 &lt;/ul&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    To avoid conflicts with Verrazzano system components, we recommend installing Verrazzano into an empty cluster.
+
+&lt;/div&gt;
+
 &lt;h2 id=&#34;supported-hardware&#34;&gt;Supported hardware&lt;/h2&gt;
 &lt;p&gt;Verrazzano requires x86-64; other architectures are not supported.&lt;/p&gt;
 &lt;h2 id=&#34;supported-software-versions&#34;&gt;Supported software versions&lt;/h2&gt;
@@ -47,6 +55,14 @@ applications.&lt;/li&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1.4&lt;/td&gt;
+&lt;td&gt;2022-09-30&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;1.21, 1.22, 1.23, 1.24&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;1.3&lt;/td&gt;
 &lt;td&gt;2022-05-24&lt;/td&gt;
@@ -116,7 +132,7 @@ component, its version, and a brief description.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Coherence Operator&lt;/td&gt;
-&lt;td&gt;3.2.5&lt;/td&gt;
+&lt;td&gt;3.2.6&lt;/td&gt;
 &lt;td&gt;Assists with deploying and managing Coherence clusters.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -126,22 +142,22 @@ component, its version, and a brief description.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Fluentd&lt;/td&gt;
-&lt;td&gt;1.12.3&lt;/td&gt;
+&lt;td&gt;1.14.5&lt;/td&gt;
 &lt;td&gt;Collects logs and sends them to OpenSearch.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Grafana&lt;/td&gt;
-&lt;td&gt;7.5.11&lt;/td&gt;
+&lt;td&gt;7.5.15&lt;/td&gt;
 &lt;td&gt;Tool to help you examine, analyze, and monitor metrics.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Istio&lt;/td&gt;
-&lt;td&gt;1.13.5&lt;/td&gt;
+&lt;td&gt;1.14.3&lt;/td&gt;
 &lt;td&gt;Service mesh that layers transparently onto existing distributed applications.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Jaeger Operator&lt;/td&gt;
-&lt;td&gt;1.32.0&lt;/td&gt;
+&lt;td&gt;1.34.1&lt;/td&gt;
 &lt;td&gt;Distributed tracing system for monitoring and troubleshooting distributed systems.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -161,7 +177,7 @@ component, its version, and a brief description.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;MySQL&lt;/td&gt;
-&lt;td&gt;8.0.28&lt;/td&gt;
+&lt;td&gt;8.0.29&lt;/td&gt;
 &lt;td&gt;Open source relational database management system used by Keycloak.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -177,7 +193,7 @@ component, its version, and a brief description.&lt;/p&gt;
 &lt;tr&gt;
 &lt;td&gt;OAM Kubernetes Runtime&lt;/td&gt;
 &lt;td&gt;0.3.0&lt;/td&gt;
-&lt;td&gt;Plug-in for implementing Open Application Model (OAM) control plane with Kubernetes.&lt;/td&gt;
+&lt;td&gt;Plug-in for implementing the Open Application Model (OAM) control plane with Kubernetes.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;OpenSearch&lt;/td&gt;
@@ -211,13 +227,129 @@ component, its version, and a brief description.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Rancher&lt;/td&gt;
-&lt;td&gt;2.6.6&lt;/td&gt;
+&lt;td&gt;2.6.8&lt;/td&gt;
 &lt;td&gt;Manages multiple Kubernetes clusters.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Rancher Backup Operator&lt;/td&gt;
+&lt;td&gt;2.1.3&lt;/td&gt;
+&lt;td&gt;Manages backup and restore of Rancher configurations and data.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Velero&lt;/td&gt;
+&lt;td&gt;1.8.1&lt;/td&gt;
+&lt;td&gt;Manages backup and restore of Kubernetes configurations and data.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;WebLogic Kubernetes Operator&lt;/td&gt;
 &lt;td&gt;3.4.3&lt;/td&gt;
 &lt;td&gt;Assists with deploying and managing WebLogic domains.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: CLI Setup</title>
+      <link>/docs/setup/cli/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/setup/cli/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The Verrazzano command-line tool, &lt;code&gt;vz&lt;/code&gt;, is available for Linux and Mac systems.
+Download the binary you want from the &lt;a href=&#34;https://github.com/verrazzano/verrazzano/releases/&#34;&gt;Releases&lt;/a&gt; page.&lt;/p&gt;
+&lt;h2 id=&#34;install-the-vz-cli&#34;&gt;Install the &lt;code&gt;vz&lt;/code&gt; CLI&lt;/h2&gt;
+&lt;p&gt;These instructions demonstrate installing the CLI on Linux AMD64 machines.&lt;/p&gt;
+&lt;h3 id=&#34;download-the-latest-release&#34;&gt;Download the latest release&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; $ curl -LO https://github.com/verrazzano/verrazzano/releases/download/v1.4.0/vz-linux-amd64.tar.gz
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;validate-the-binary-optional&#34;&gt;Validate the binary (optional)&lt;/h3&gt;
+&lt;p&gt;Download the &lt;code&gt;vz&lt;/code&gt; checksum file.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; $ curl -LO https://github.com/verrazzano/verrazzano/releases/download/v1.4.0/vz-linux-amd64.tar.gz.sha256
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Validate the &lt;code&gt;vz&lt;/code&gt; binary against the checksum file.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; $ sha256sum -c vz-linux-amd64.tar.gz.sha256
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;unpack-the-vz-binary&#34;&gt;Unpack the &lt;code&gt;vz&lt;/code&gt; binary&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; $ tar xvf vz-linux-amd64.tar.gz -C /usr/local/bin
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;test-to-ensure-that-the-version-you-installed-is-up-to-date&#34;&gt;Test to ensure that the version you installed is up-to-date&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; $ vz version
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The resulting output should be similar to the following.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Version: v1.4.0
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;BuildDate: 2022-06-29T15:51:25Z
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;GitCommit: dcbe5e68256699c12f845f3c032c5419780b4fa3
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;use-the-vz-cli&#34;&gt;Use the &lt;code&gt;vz&lt;/code&gt; CLI&lt;/h2&gt;
+&lt;p&gt;Verrazzano provides a command-line tool for managing a Verrazzano environment using the Verrazzano and Kubernetes API.&lt;/p&gt;
+&lt;p&gt;Common use cases include installing, upgrading, and uninstalling Verrazzano,
+as well as analyzing failures in a running Verrazzano environment.&lt;/p&gt;
+&lt;h3 id=&#34;usage-information&#34;&gt;Usage information&lt;/h3&gt;
+&lt;p&gt;Use the following syntax to run &lt;code&gt;vz&lt;/code&gt; commands from your terminal window.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;vz &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;[&lt;/span&gt;command&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;[&lt;/span&gt;flags&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;available-commands&#34;&gt;Available commands&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Command&lt;/th&gt;
+&lt;th&gt;Definition&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;analyze&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Analyze cluster&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;bug-report&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Collect information from the cluster to report an issue&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;help&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Help about any command&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;install&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Install Verrazzano&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;status&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Status of the Verrazzano installation and access endpoints&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;uninstall&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Uninstall Verrazzano&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;upgrade&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Upgrade Verrazzano&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;version&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Verrazzano version information&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;available-flags&#34;&gt;Available Flags&lt;/h3&gt;
+&lt;p&gt;These flags apply to all the commands.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Flag&lt;/th&gt;
+&lt;th&gt;Definition&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;--context string&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;The name of the &lt;code&gt;kubeconfig&lt;/code&gt; context to use.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-h&lt;/code&gt;, &lt;code&gt;--help&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Help for &lt;code&gt;vz&lt;/code&gt;.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;--kubeconfig string&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Path to the &lt;code&gt;kubeconfig&lt;/code&gt; file to use.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -252,207 +384,6 @@ component, its version, and a brief description.&lt;/p&gt;
     </item>
     
     <item>
-      <title>Docs: Customize Installations</title>
-      <link>/docs/setup/customizing/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/docs/setup/customizing/</guid>
-      <description>
-        
-        
-        
-      </description>
-    </item>
-    
-    <item>
-      <title>Docs: Uninstall</title>
-      <link>/docs/setup/uninstall/uninstall/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/docs/setup/uninstall/uninstall/</guid>
-      <description>
-        
-        
-        &lt;p&gt;To delete a Verrazzano installation, delete the Verrazzano custom resource you used to
-install it into your cluster.&lt;/p&gt;
-&lt;p&gt;The following example starts a deletion of a Verrazzano installation in the background, and then
-uses the &lt;code&gt;kubectl logs -f&lt;/code&gt; command to tail the Console output of the pod performing the uninstall:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# Get the name of the Verrazzano custom resource
-$ MYVZ=$(kubectl  get vz -o jsonpath=&amp;#34;{.items[0].metadata.name}&amp;#34;)
-
-# Delete the Verrazzano custom resource
-$ kubectl delete verrazzano $MYVZ --wait=false
-$ kubectl logs -n verrazzano-install \
-    -f $(kubectl get pod \
-    -n verrazzano-install \
-    -l job-name=verrazzano-uninstall-${MYVZ} \
-    -o jsonpath=&amp;#34;{.items[0].metadata.name}&amp;#34;)
-&lt;/code&gt;&lt;/pre&gt;
-      </description>
-    </item>
-    
-    <item>
-      <title>Docs: Upgrade</title>
-      <link>/docs/setup/upgrade/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/docs/setup/upgrade/</guid>
-      <description>
-        
-        
-        &lt;p&gt;A Verrazzano installation consists of a stack of components, such as cert-manager, where each component has a
-specific release version that may be different from the overall Verrazzano version.  The Verrazzano platform operator
-knows the versions of each component associated with the Verrazzano version.  When you perform the initial Verrazzano
-installation, the appropriate version of each component is installed by the platform operator.
-Post installation, it may be necessary to update one or more of the component images or Helm charts.  This update is also
-handled by the platform operator and is called an &lt;code&gt;upgrade&lt;/code&gt;.  Currently, Verrazzano does only patch-level upgrades,
-where a &lt;code&gt;helm upgrade&lt;/code&gt; command can be issued for the component.  Typically, patch-level upgrades simply replace component
-images with newer versions.&lt;/p&gt;
-&lt;h2 id=&#34;application-and-system-pod-restarts&#34;&gt;Application and system pod restarts&lt;/h2&gt;
-&lt;p&gt;If Verrazzano has a new version of Istio, then all the pods with Istio proxy sidecars
-need to be restarted.  This is done so that the new version of the proxy sidecar can be injected into the pods.
-All Verrazzano pods containing Istio proxy sidecars will be restarted.  This includes Verrazzano system pods,
-such as the NGINX Ingress Controller, along with Verrazzano applications.  For WebLogic workloads, Verrazzano
-will shut down every domain, do the upgrade, then start every domain.  For all other workloads, Verrazzano will perform a rolling restart
-when the upgrade is complete.  There is no user involvement related to restarting applications; it is done automatically during upgrade.&lt;/p&gt;
-&lt;h2 id=&#34;upgrade-steps&#34;&gt;Upgrade steps&lt;/h2&gt;
-&lt;p&gt;It is important to distinguish between updating the Verrazzano platform operator versus upgrading the Verrazzano installation.
-The platform operator contains the newer component charts and image versions, so it must be updated prior to upgrading the installation.
-Updating the platform operator has no effect on an existing installation until you initiate the Verrazzano installation upgrade.
-Currently, there is no way to roll back either the platform operator update or the Verrazzano installation upgrade.&lt;/p&gt;
-&lt;p&gt;Upgrading an existing Verrazzano installation is a two-step process:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Update the Verrazzano platform operator to the &lt;a href=&#34;https://github.com/verrazzano/verrazzano/releases/&#34;&gt;Verrazzano release version&lt;/a&gt; to which you want to upgrade.&lt;/li&gt;
-&lt;li&gt;Upgrade the Verrazzano installation.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;update-the-verrazzano-platform-operator&#34;&gt;Update the Verrazzano platform operator&lt;/h3&gt;
-&lt;p&gt;In order to upgrade an existing Verrazzano installation, you must first update the &lt;a href=&#34;https://github.com/verrazzano/verrazzano&#34;&gt;Verrazzano platform operator&lt;/a&gt;.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Update the Verrazzano platform operator.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; If you are using a private container registry, then to update the platform operator, follow the instructions at &lt;a href=&#34;../../docs/setup/private-registry/private-registry/&#34;&gt;Use a Private Registry&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;To update to the latest version:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v1.3.5/operator.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To update to a specific version, where &lt;code&gt;&amp;lt;version&amp;gt;&lt;/code&gt; is the desired version:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/&amp;lt;version&amp;gt;/operator.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Wait for the deployment to complete.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
-
-# Expected response
-deployment &amp;#34;verrazzano-platform-operator&amp;#34; successfully rolled out
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Confirm that the operator pod is correctly defined and running.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl -n verrazzano-install get pods
-
-# Sample output
-NAME                                            READY   STATUS    RESTARTS   AGE
-verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&#34;upgrade-verrazzano&#34;&gt;Upgrade Verrazzano&lt;/h3&gt;
-&lt;p&gt;To upgrade the Verrazzano installation, you need to change the version of your installed Verrazzano resource to the version supported by the
-Verrazzano platform operator.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; You may only change the version field during an upgrade; changes to other fields or component configurations are not supported at this time.&lt;/p&gt;
-&lt;p&gt;In one simple step, you can upgrade to a specified version of Verrazzano using this command:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl patch vz example-verrazzano -p &amp;#39;{&amp;#34;spec&amp;#34;:{&amp;#34;version&amp;#34;:&amp;#34;v1.3.5&amp;#34;}}&amp;#39; --type=merge
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Alternatively, you can upgrade the Verrazzano installation using the following steps:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;Update the &lt;code&gt;Verrazzano&lt;/code&gt; resource to the desired version.&lt;/p&gt;
-&lt;p&gt;To upgrade the Verrazzano components, you must update the &lt;code&gt;version&lt;/code&gt; field in your &lt;code&gt;Verrazzano&lt;/code&gt; resource spec to
-match the version supported by the platform operator to which you upgraded and apply it to the cluster.&lt;/p&gt;
-&lt;p&gt;The value of the &lt;code&gt;version&lt;/code&gt; field in the resource spec must be a &lt;a href=&#34;https://semver.org/&#34;&gt;Semantic Versioning&lt;/a&gt; value
-corresponding to a valid &lt;a href=&#34;https://github.com/verrazzano/verrazzano/releases/&#34;&gt;Verrazzano release version&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;You can update the resource by doing one of the following:&lt;/p&gt;
-&lt;p&gt;a. Editing the YAML file you used to install Verrazzano and setting the version field to the latest version.&lt;/p&gt;
-&lt;p&gt;For example, to upgrade to &lt;code&gt;v1.3.5&lt;/code&gt;, your YAML file should be edited to add or update the version field:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;install.verrazzano.io/v1alpha1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;kind&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;Verrazzano&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;example-verrazzano&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;profile&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;dev&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;version&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;v1.3.5&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Then apply the resource to the cluster (if you have not edited the resource in-place using &lt;code&gt;kubectl edit&lt;/code&gt;):&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f example-verrazzano.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;b. Editing the &lt;code&gt;Verrazzano&lt;/code&gt; resource directly using &lt;code&gt;kubectl&lt;/code&gt; and setting the version field directly, for example:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl edit verrazzano example-verrazzano
-# In the resource editor, add or update the version field to &amp;#34;version: v1.3.5&amp;#34;, then save.
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Wait for the upgrade to complete:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl wait \
-    --timeout=10m \
-    --for=condition=UpgradeComplete verrazzano/example-verrazzano
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;verify-the-upgrade&#34;&gt;Verify the upgrade&lt;/h2&gt;
-&lt;p&gt;Check that all the pods in the &lt;code&gt;verrazzano-system&lt;/code&gt; namespace are in the &lt;code&gt;Running&lt;/code&gt; state.  While the upgrade is in progress,
-you may see some pods terminating and restarting as newer versions of components are applied, for example:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get pods -n verrazzano-system
-
-# Sample output
-coherence-operator-866798c99d-r69xt                1/1     Running   1          43m
-fluentd-f9fbv                                      2/2     Running   0          38m
-fluentd-n79c4                                      2/2     Running   0          38m
-fluentd-xslzw                                      2/2     Running   0          38m
-oam-kubernetes-runtime-56cdb56c98-wn2mb            1/1     Running   0          43m
-verrazzano-application-operator-7c95ddd5b5-7xzmn   1/1     Running   0          42m
-verrazzano-authproxy-594d8c8dcd-llmlr              2/2     Running   0          38m
-verrazzano-console-74dbf97fdf-zxvvn                2/2     Running   0          38m
-verrazzano-monitoring-operator-6fcf8484fd-gfkhs    1/1     Running   0          38m
-verrazzano-operator-66c8566f95-8lbs6               1/1     Running   0          38m
-vmi-system-es-master-0                             2/2     Running   0          38m
-vmi-system-grafana-799d79648d-wsdp4                2/2     Running   0          38m
-vmi-system-kiali-574c6dd94d-f49jv                  2/2     Running   0          41m
-vmi-system-kibana-77f8d998f4-zzvqr                 2/2     Running   0          38m
-vmi-system-prometheus-0-7f89d54fbf-brg6x           3/3     Running   0          36m
-weblogic-operator-7b447fdb47-wlw64                 2/2     Running   0          42m
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Check that the pods in your application namespaces are ready, for example:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get pods -n todo-list
-
-# Sample output
-NAME                     READY   STATUS    RESTARTS   AGE
-mysql-67575d8954-d4vkm   2/2     Running   0          39h
-tododomain-adminserver   4/4     Running   0          39h
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;upgrade-failures&#34;&gt;Upgrade failures&lt;/h2&gt;
-&lt;p&gt;In Verrazzano 1.3 and later, upgrade will continue to run until it succeeds or until you delete the Verrazzano CR.  In previous versions,
-upgrade could fail and transition to the &lt;code&gt;UpgradeFailed&lt;/code&gt; state.  If that happens, and you updated the Verrazzano platform operator to 1.3+,
-then the Verrazzano CR will transition to &lt;code&gt;UpgradePaused&lt;/code&gt;.  To continue with the upgrade, you must change the CR version to the current
-version of the Verrazzano platform operator.  The following steps illustrate this scenario:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;You install Verrazzano 1.1.2.&lt;/li&gt;
-&lt;li&gt;You upgrade to 1.2.0 by changing the Verrazzano CR version field to v1.2.0.
-&lt;ul&gt;
-&lt;li&gt;For some reason, the upgrade failed and the Verrazzano CR state transitions to &lt;code&gt;UpgradeFailed&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;You update the Verrazzano platform operator to 1.3.0.
-&lt;ul&gt;
-&lt;li&gt;The Verrazzano CR state transitions to &lt;code&gt;UpgradePaused&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;You change the Verrazzano CR version field to v1.3.0.
-&lt;ul&gt;
-&lt;li&gt;The Verrazzano CR state transitions to &lt;code&gt;Upgrading&lt;/code&gt; and stays in that state until it completes, then it transitions to &lt;code&gt;UpgradeComplete&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;To see detailed progress of the upgrade, view the logs with the following command:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl logs -n verrazzano-install \
-    -f $(kubectl get pod \
-    -n verrazzano-install \
-    -l app=verrazzano-platform-operator \
-    -o jsonpath=&amp;#34;{.items[0].metadata.name}&amp;#34;) | grep &amp;#39;^{.*}$&amp;#39; \
-    | jq -r &amp;#39;.&amp;#34;@timestamp&amp;#34; as $timestamp | &amp;#34;\($timestamp) \(.level) \(.message)&amp;#34;&amp;#39;
-&lt;/code&gt;&lt;/pre&gt;
-      </description>
-    </item>
-    
-    <item>
       <title>Docs: Use a Private Registry</title>
       <link>/docs/setup/private-registry/private-registry/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -461,49 +392,124 @@ version of the Verrazzano platform operator.  The following steps illustrate thi
       <description>
         
         
-        &lt;p&gt;You can install Verrazzano using a private Docker-compliant container registry. This requires the following:&lt;/p&gt;
+        &lt;p&gt;Installing Verrazzano using a private Docker-compliant container registry requires the following:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Loading all required Verrazzano container images into your own registry and repository.&lt;/li&gt;
 &lt;li&gt;Installing the Verrazzano platform operator with the private registry and repository used to load the images.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;To obtain the required Verrazzano images and install from your private registry, you must:&lt;/p&gt;
+&lt;p&gt;You must have the following software installed:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.docker.com/get-docker/&#34;&gt;Docker&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://kubernetes.io/docs/tasks/tools/&#34;&gt;kubectl&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://helm.sh/docs/intro/install/&#34;&gt;Helm&lt;/a&gt; (version 3.x+)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/stedolan/jq/wiki/Installation&#34;&gt;jq&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The Verrazzano distribution contains Kubernetes manifests to deploy Verrazzano, client binaries, and various other utilities. These distributions are provided for Linux and MacOS operating systems on AMD and ARM architectures.&lt;/p&gt;
+&lt;p&gt;This distribution includes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;../../docs/setup/cli/&#34;&gt;Verrazzano CLI&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;../../docs/setup/install/profiles/&#34;&gt;Installation Profiles&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Helper scripts to download the images from the bill of materials (BOM) and to upload the Verrazzano images to a private registry&lt;/li&gt;
+&lt;li&gt;Helm charts for the Verrazzano platform operator&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;README.md&lt;/code&gt; which provides the layout of the distribution&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;load-the-images&#34;&gt;Load the images&lt;/h2&gt;
 &lt;ol&gt;
-&lt;li&gt;Download the Verrazzano ZIP file from the Oracle Software Delivery Cloud:
+&lt;li&gt;
+&lt;p&gt;Download the desired Verrazzano distribution from the GitHub releases page.&lt;/p&gt;
+&lt;p&gt;a. In your browser, go to &lt;a href=&#34;https://github.com/verrazzano/verrazzano/releases&#34;&gt;Verrazzano releases&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;b. Download the distribution TAR file, &lt;code&gt;verrazzano-&amp;lt;major&amp;gt;.&amp;lt;minor&amp;gt;.&amp;lt;patch&amp;gt;-&amp;lt;operating system&amp;gt;-&amp;lt;architecture&amp;gt;.tar.gz&lt;/code&gt;, and the corresponding checksum file.&lt;/p&gt;
+&lt;p&gt;c. In the downloaded directory, validate that the checksum and TAR files match.
+For example, if you have downloaded &lt;code&gt;verrazzano-1.4.0-linux-amd64.tar.gz&lt;/code&gt;:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ sha256sum -c verrazzano-1.4.0-linux-amd64.tar.gz.sha256
+# Sample output
+verrazzano-1.4.0-linux-amd64.tar.gz: OK
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Use the &lt;code&gt;sha256sum&lt;/code&gt; command on Linux and &lt;code&gt;shasum&lt;/code&gt; on MacOS.&lt;/p&gt;
+&lt;p&gt;d. Expand the TAR file to access the release artifacts.&lt;/p&gt;
+&lt;p&gt;The following example, extracts the distribution archive &lt;code&gt;verrazzano-1.4.0-linux-amd64.tar.gz&lt;/code&gt; into the current directory.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ tar xvf verrazzano-1.4.0-linux-amd64.tar.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;After a successful extraction, the release artifacts will be under the &lt;code&gt;verrazzano-1.4.0&lt;/code&gt; directory.&lt;/p&gt;
+&lt;p&gt;e. Define an environment variable &lt;code&gt;DISTRIBUTION_DIR&lt;/code&gt;.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt; $ DISTRIBUTION_DIR=&amp;lt;path to the current directory&amp;gt;/verrazzano-1.4.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Download the Verrazzano images defined in the BOM, &lt;code&gt;${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json&lt;/code&gt;, using the script, &lt;code&gt;${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh&lt;/code&gt;.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ sh ${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh -b ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json -f ${DISTRIBUTION_DIR}/images  
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The previous command downloads all the images to the &lt;code&gt;${DISTRIBUTION_DIR}/images&lt;/code&gt; directory.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Load the product images into your private registry.&lt;/p&gt;
+&lt;p&gt;a. To log in to the Docker registry, run &lt;code&gt;docker login &amp;lt;SERVER&amp;gt;&lt;/code&gt; with your credentials.&lt;/p&gt;
+&lt;p&gt;b. For use with the examples in this document, define the following variables with respect to your target registry and repository: &lt;code&gt;MYREG&lt;/code&gt;, &lt;code&gt;MYREPO&lt;/code&gt;, &lt;code&gt;VPO_IMAGE&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;These identify the target Docker registry and repository, and the Verrazzano platform operator image, as defined in the BOM file. For example, using a target registry of &lt;code&gt;myreg.io&lt;/code&gt; and a target repository of &lt;code&gt;myrepo/v8o&lt;/code&gt;:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ MYREG=myreg.io
+$ MYREPO=myrepo/v8o
+$ VPO_IMAGE=$(cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r &amp;#39;.components[].subcomponents[] | select(.name == &amp;#34;verrazzano-platform-operator&amp;#34;) | &amp;#34;\(.repository)/\(.images[].image):\(.images[].tag)&amp;#34;&amp;#39;)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;c. Run the &lt;code&gt;${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh&lt;/code&gt; script to push the images to the registry: &lt;br&gt;
+&lt;code&gt;$ sh ${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh -t $MYREG -r $MYREPO -l ${DISTRIBUTION_DIR}/images&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;d. Although most images can be protected using credentials stored in an image pull secret, some images &lt;em&gt;must&lt;/em&gt; be public. Use the following commands to get the list of public images:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;In your browser, go to &lt;a href=&#34;https://edelivery.oracle.com&#34;&gt;Oracle Software Delivery Cloud&lt;/a&gt; and log in with your credentials.&lt;/li&gt;
-&lt;li&gt;In the drop-down menu next to the search bar, select &lt;strong&gt;Download Package&lt;/strong&gt;.&lt;/li&gt;
-&lt;li&gt;In the search bar, enter &lt;code&gt;Verrazzano Enterprise Container Platform&lt;/code&gt; and click &lt;strong&gt;Search&lt;/strong&gt;.&lt;/li&gt;
-&lt;li&gt;Select the &lt;code&gt;DLP: Oracle Verrazzano Enterprise Edition 1.3.5&lt;/code&gt; link.  This will add it to your download queue.&lt;/li&gt;
-&lt;li&gt;Select the &lt;strong&gt;Continue&lt;/strong&gt; link.&lt;/li&gt;
-&lt;li&gt;Accept the license agreement and click &lt;strong&gt;Continue&lt;/strong&gt;.&lt;/li&gt;
-&lt;li&gt;Download the file:
-&lt;ul&gt;
-&lt;li&gt;To download the ZIP file directly, select the file link in the list.&lt;/li&gt;
-&lt;li&gt;To download the ZIP file using &lt;code&gt;Oracle Download Manager&lt;/code&gt;, click &lt;strong&gt;Download&lt;/strong&gt; and run the &lt;code&gt;Oracle Download Manager&lt;/code&gt; executable.&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;All the Rancher images in the &lt;code&gt;rancher/additional-rancher&lt;/code&gt; subcomponent.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r &amp;#39;.components[].subcomponents[] | select(.name == &amp;#34;additional-rancher&amp;#34;) | .images[] | &amp;#34;\(.image):\(.tag)&amp;#34;&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The Fluentd Kubernetes daemonset image.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r &amp;#39;.components[].subcomponents[].images[] | select(.image == &amp;#34;fluentd-kubernetes-daemonset&amp;#34;) | &amp;#34;\(.image):\(.tag)&amp;#34;&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The Istio proxy image.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r &amp;#39;.components[].subcomponents[] |  select(.name == &amp;#34;istiod&amp;#34;) | .images[] | select(.image == &amp;#34;proxyv2&amp;#34;) | &amp;#34;\(.image):\(.tag)&amp;#34;&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The WebLogic Monitoring Exporter image.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ cat ${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json | jq -r &amp;#39;.components[].subcomponents[].images[] | select(.image == &amp;#34;weblogic-monitoring-exporter&amp;#34;) | &amp;#34;\(.image):\(.tag)&amp;#34;&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The Verrazzano platform operator image identified by &lt;code&gt;$VPO_IMAGE&lt;/code&gt;, as defined previously.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;For all the Verrazzano Docker images in the private registry that are not explicitly marked public, you will need to create the secret &lt;code&gt;verrazzano-container-registry&lt;/code&gt; in the &lt;code&gt;default&lt;/code&gt; namespace, with the appropriate credentials for the registry, identified by &lt;code&gt;$MYREG&lt;/code&gt;. &lt;br&gt;
+For example:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl create secret docker-registry verrazzano-container-registry \  
+   --docker-server=$MYREG --docker-username=myreguser \  
+   --docker-password=xxxxxxxx --docker-email=me@example.com
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Prepare to do the private registry install:
-&lt;ul&gt;
-&lt;li&gt;Unzip the ZIP archive to a desired directory location.  There will be two files, a compressed TAR file containing the product
-files and a checksum file.&lt;/li&gt;
-&lt;li&gt;Go to the expanded archive directory.&lt;/li&gt;
-&lt;li&gt;(Optional) Validate the checksum and the TAR file match.  For example,
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ shasum -c  verrazzano_1.3.5.tar.gz.sha256
+&lt;/ol&gt;
+&lt;h2 id=&#34;install-verrazzano&#34;&gt;Install Verrazzano&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Install the Verrazzano platform operator using the image defined by &lt;code&gt;$MYREG/$MYREPO/$VPO_IMAGE&lt;/code&gt;.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ helm template --include-crds ${DISTRIBUTION_DIR}/manifests/charts/verrazzano-platform-operator \
+    --set image=${MYREG}/${MYREPO}/${VPO_IMAGE} --set global.registry=${MYREG} \
+    --set global.repository=${MYREPO} --set global.imagePullSecrets={verrazzano-container-registry} | kubectl apply -f -
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Wait for the deployment of the Verrazzano platform operator.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
 
 # Sample output
-verrazzano_1.3.5.tar.gz: OK
+  deployment &amp;#34;verrazzano-platform-operator&amp;#34; successfully rolled out
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;li&gt;Expand the TAR file, for example, &lt;code&gt;tar xvf verrazzano_1.3.5.tar.gz&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Load the product images into your private registry and install Verrazzano using the instructions in the &lt;code&gt;README.md&lt;/code&gt;
-file that is packaged with the TAR file.&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Confirm that the Verrazzano platform operator pod is running.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl -n verrazzano-install get pods
+
+# Sample output
+  NAME                                            READY   STATUS    RESTARTS   AGE
+  verrazzano-platform-operator-74f4547555-s76r2   1/1     Running   0          114s
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ol&gt;
+&lt;p&gt;The distribution archive includes the supported installation profiles under &lt;code&gt;${DISTRIBUTION_DIR}/manifests/profiles&lt;/code&gt;.
+Verrazzano supports customizing installation configurations. See &lt;a href=&#34;../../docs/customize/&#34;&gt;Customize Verrazzano&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To create a Verrazzano installation using the provided profiles, run the following command:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f $DISTRIBUTION_DIR/manifests/profiles/prod.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For a complete description of Verrazzano configuration options, see the &lt;a href=&#34;../../docs/reference/api/&#34;&gt;Reference API&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;configuring-access-to-an-insecure-private-registry&#34;&gt;Configuring access to an insecure private registry&lt;/h2&gt;
 &lt;p&gt;A private Docker registry is called an &lt;a href=&#34;https://docs.docker.com/registry/insecure/&#34;&gt;insecure registry&lt;/a&gt; when it is configured for access using a self-signed certificate or over an unencrypted HTTP connection. Depending on the platform, there could be some additional configuration required for installing Verrazzano with an insecure registry.&lt;/p&gt;
-&lt;p&gt;For example, for the &lt;a href=&#34;../../docs/setup/platforms/olcne/olcne/&#34;&gt;Oracle Cloud Native Environment platform&lt;/a&gt;, the insecure registries must be configured in &lt;code&gt;/etc/containers/registries.conf&lt;/code&gt; as follows on the worker nodes:&lt;/p&gt;
+&lt;p&gt;For example, for the &lt;a href=&#34;../../docs/setup/platforms/olcne/olcne/&#34;&gt;Oracle Cloud Native Environment platform&lt;/a&gt;, insecure registries must be configured in &lt;code&gt;/etc/containers/registries.conf&lt;/code&gt; as follows on the worker nodes:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;[registries]
    [registries.insecure]
      registries = [&amp;#34;insecure-registry-1:1001/registry1&amp;#34;,&amp;#34;insecure-registry-2:1001/registry2&amp;#34;]
