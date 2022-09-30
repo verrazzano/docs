@@ -23,11 +23,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/customizing/certificates/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-05-03T16:12:07-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-09-30T08:09:04-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Customize Certificates">
 <meta itemprop="description" content="Customize SSL certificate generation for Verrazzano system endpoints">
-<meta itemprop="dateModified" content="2022-05-03T16:12:07-04:00" />
+<meta itemprop="dateModified" content="2022-09-30T08:09:04-04:00" />
 <meta itemprop="wordCount" content="716">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Customize Certificates"/>
@@ -104,7 +104,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.96b6329b171d0b8552bdd243d402ae18.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.47d4933dcb6e038c17e48cb9c99bc337.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -131,7 +131,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.96b6329b171d0b8552bdd243d402ae18.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.47d4933dcb6e038c17e48cb9c99bc337.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -550,7 +550,7 @@ following ways:</p>
 <li>Configure a CA that you provide.</li>
 <li>Configure <a href="https://letsencrypt.org/">LetsEncrypt</a> as the certificate issuer (requires <a href="https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm">Oracle Cloud Infrastructure DNS</a>).</li>
 </ul>
-<p>In all cases, Verrazzano uses <a href="https://cert-manager.io/">CertManager</a> to manage the creation of certificates.</p>
+<p>In all cases, Verrazzano uses <a href="https://cert-manager.io/">cert-manager</a> to manage the creation of certificates.</p>
 
 
 <div class="alert alert-warning" role="alert">
@@ -578,7 +578,7 @@ These files must be named in that manner for the next step.</p>
 <p>If you already have generated your own key pair, you must name the private key and certificate, <code>tls.key</code> and <code>tls.crt</code>,
 respectively.  If your issuer represents an intermediate, ensure that <code>tls.crt</code> contains the issuer’s full chain in the
 correct order.</p>
-<p>You can find more details on providing your own CA, in the CertManager <a href="https://cert-manager.io/docs/configuration/ca/">CA</a> documentation.</p>
+<p>You can find more details on providing your own CA, in the cert-manager <a href="https://cert-manager.io/docs/configuration/ca/">CA</a> documentation.</p>
 </li>
 <li>
 <p>Save your signing key pair as a Kubernetes secret.</p>
@@ -587,7 +587,7 @@ $ kubectl create secret tls myca --namespace=mynamespace --cert=tls.crt --key=tl
 </code></pre></li>
 <li>
 <p>Specify the secret name and namespace location in the Verrazzano custom resource.</p>
-<p>The custom CA secret must be provided to CertManager using the following fields in
+<p>The custom CA secret must be provided to cert-manager using the following fields in
 <a href="../../../../docs/reference/api/verrazzano/verrazzano#certificate"><code>spec.components.certManager.certificate.ca</code></a> in the Verrazzano custom resource:</p>
 <ul>
 <li><code>spec.components.certManager.certificate.ca.secretName</code></li>
@@ -624,7 +624,7 @@ For details, see the <a href="../../../../docs/setup/customizing/dns/">Customize
 
 </div>
 
-<p>To configure CertManager to use LetsEncrypt as the certificates provider, you must configure a CertManager
+<p>To configure cert-manager to use LetsEncrypt as the certificates provider, you must configure a cert-manager
 ACME provider with the following values in the Verrazzano custom resource:</p>
 <ul>
 <li>Set the <code>spec.components.certManager.certificate.acme.provider</code> field to <code>letsEncrypt</code>.</li>

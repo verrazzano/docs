@@ -371,7 +371,7 @@ following ways:&lt;/p&gt;
 &lt;li&gt;Configure a CA that you provide.&lt;/li&gt;
 &lt;li&gt;Configure &lt;a href=&#34;https://letsencrypt.org/&#34;&gt;LetsEncrypt&lt;/a&gt; as the certificate issuer (requires &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm&#34;&gt;Oracle Cloud Infrastructure DNS&lt;/a&gt;).&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;In all cases, Verrazzano uses &lt;a href=&#34;https://cert-manager.io/&#34;&gt;CertManager&lt;/a&gt; to manage the creation of certificates.&lt;/p&gt;
+&lt;p&gt;In all cases, Verrazzano uses &lt;a href=&#34;https://cert-manager.io/&#34;&gt;cert-manager&lt;/a&gt; to manage the creation of certificates.&lt;/p&gt;
 
 
 &lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
@@ -399,7 +399,7 @@ These files must be named in that manner for the next step.&lt;/p&gt;
 &lt;p&gt;If you already have generated your own key pair, you must name the private key and certificate, &lt;code&gt;tls.key&lt;/code&gt; and &lt;code&gt;tls.crt&lt;/code&gt;,
 respectively.  If your issuer represents an intermediate, ensure that &lt;code&gt;tls.crt&lt;/code&gt; contains the issuer’s full chain in the
 correct order.&lt;/p&gt;
-&lt;p&gt;You can find more details on providing your own CA, in the CertManager &lt;a href=&#34;https://cert-manager.io/docs/configuration/ca/&#34;&gt;CA&lt;/a&gt; documentation.&lt;/p&gt;
+&lt;p&gt;You can find more details on providing your own CA, in the cert-manager &lt;a href=&#34;https://cert-manager.io/docs/configuration/ca/&#34;&gt;CA&lt;/a&gt; documentation.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Save your signing key pair as a Kubernetes secret.&lt;/p&gt;
@@ -408,7 +408,7 @@ $ kubectl create secret tls myca --namespace=mynamespace --cert=tls.crt --key=tl
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Specify the secret name and namespace location in the Verrazzano custom resource.&lt;/p&gt;
-&lt;p&gt;The custom CA secret must be provided to CertManager using the following fields in
+&lt;p&gt;The custom CA secret must be provided to cert-manager using the following fields in
 &lt;a href=&#34;../../../docs/reference/api/verrazzano/verrazzano#certificate&#34;&gt;&lt;code&gt;spec.components.certManager.certificate.ca&lt;/code&gt;&lt;/a&gt; in the Verrazzano custom resource:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;spec.components.certManager.certificate.ca.secretName&lt;/code&gt;&lt;/li&gt;
@@ -445,7 +445,7 @@ For details, see the &lt;a href=&#34;../../../docs/setup/customizing/dns/&#34;&g
 
 &lt;/div&gt;
 
-&lt;p&gt;To configure CertManager to use LetsEncrypt as the certificates provider, you must configure a CertManager
+&lt;p&gt;To configure cert-manager to use LetsEncrypt as the certificates provider, you must configure a cert-manager
 ACME provider with the following values in the Verrazzano custom resource:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Set the &lt;code&gt;spec.components.certManager.certificate.acme.provider&lt;/code&gt; field to &lt;code&gt;letsEncrypt&lt;/code&gt;.&lt;/li&gt;
