@@ -77,7 +77,7 @@ In order to upgrade an existing Verrazzano installation, you must first update t
    To update to the latest version:
 
    ```
-   $ kubectl apply -f {{<release_asset_url verrazzano-platform-operator.yaml>}}
+   $ kubectl apply -f {{<release_asset_operator_url verrazzano-platform-operator.yaml>}}
    ```
 
    To update to a specific version, where `<version>` is the desired version:
