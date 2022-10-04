@@ -19,11 +19,11 @@ These instructions demonstrate installing the CLI on Linux AMD64 machines.
   ```
 
 ### Validate the binary (optional)
-Download the `vz` checksum file.
+Download the checksum file.
   ```shell
    $ curl -LO {{<release_asset_url linux-amd64.tar.gz.sha256>}}
   ```
-Validate the `vz` binary against the checksum file.
+Validate the binary against the checksum file.
   ```shell
    $ sha256sum -c {{<release_asset -linux-amd64.tar.gz.sha256>}}
   ```
