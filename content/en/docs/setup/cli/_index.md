@@ -15,22 +15,23 @@ These instructions demonstrate installing the CLI on Linux AMD64 machines.
 
 ### Download the latest release
   ```shell
-   $ curl -LO {{<release_asset_url vz-linux-amd64.tar.gz>}}
+   $ curl -LO {{<release_asset_url linux-amd64.tar.gz>}}
   ```
 
 ### Validate the binary (optional)
 Download the `vz` checksum file.
   ```shell
-   $ curl -LO {{<release_asset_url vz-linux-amd64.tar.gz.sha256>}}
+   $ curl -LO {{<release_asset_url linux-amd64.tar.gz.sha256>}}
   ```
 Validate the `vz` binary against the checksum file.
   ```shell
-   $ sha256sum -c vz-linux-amd64.tar.gz.sha256
+   $ sha256sum -c {{<release_asset -linux-amd64.tar.gz.sha256>}}
   ```
 
-### Unpack the `vz` binary
+### Unpack and copy the `vz` binary
   ```shell
-   $ tar xvf vz-linux-amd64.tar.gz -C /usr/local/bin
+   $ tar xvf {{<release_asset -linux-amd64.tar.gz>}}
+   $ cp {{<release_asset "/bin/vz">}} /usr/local/bin
   ```
 
 ### Test to ensure that the version you installed is up-to-date
@@ -42,8 +43,8 @@ The resulting output should be similar to the following.
 
 ```shell
 Version: v1.4.0
-BuildDate: 2022-06-29T15:51:25Z
-GitCommit: dcbe5e68256699c12f845f3c032c5419780b4fa3
+BuildDate: 2022-09-23T21:32:57Z
+GitCommit: a34d6473a4296b8cfe64ad7851d1dcd0f18e9669
 ```
 
 ## Use the `vz` CLI
