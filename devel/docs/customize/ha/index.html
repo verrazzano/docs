@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/customize/ha/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-09-22T13:24:00-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-10-06T15:17:25-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Configure High Availability">
 <meta itemprop="description" content="Achieve high availability using the `prod` profile">
-<meta itemprop="dateModified" content="2022-09-22T13:24:00-04:00" />
-<meta itemprop="wordCount" content="324">
+<meta itemprop="dateModified" content="2022-10-06T15:17:25-04:00" />
+<meta itemprop="wordCount" content="388">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Configure High Availability"/>
 <meta name="twitter:description" content="Achieve high availability using the `prod` profile"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.b26c5948a5cfc1e2f630db5f90b85667.json"
+  data-offline-search-index-json-src="../../../offline-search-index.8ed08adb0804cb059c38b1024f6d31a1.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.b26c5948a5cfc1e2f630db5f90b85667.json"
+  data-offline-search-index-json-src="../../../offline-search-index.8ed08adb0804cb059c38b1024f6d31a1.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -526,6 +526,8 @@ if (!doNotTrack) {
 <p>Verrazzano provides a means to eliminate single points of failure among critical Verrazzano components. This is accomplished by increasing replica counts, anti-affinity rules, and implementing replicated data for components that rely on MySQL and OpenSearch.</p>
 <p>The <a href="https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/ha/ha.yaml"><code>ha.yaml</code></a> file illustrates how the <code>prod</code> profile can be extended to configure a highly available Verrazzano installation. The increased replica counts, along with the anti-affinity rules inherited from the <code>prod</code> profile, ensure that the pods of each component are distributed across the Kubernetes cluster nodes.
 MySQL and OpenSearch are configured to replicate data among replicas to avoid data loss.</p>
+<p>The <a href="https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/ha/ha-oci-ccm.yaml"><code>ha-oci-ccm.yaml</code></a> file configures a highly available Verrazzano installation on OCNE.</p>
+<p>The <a href="https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/ha/ha-ext-lb.yaml"><code>ha-ext-lb.yaml</code></a> file configures a highly available Verrazzano installation using external load balancers.</p>
 <p>Fault detection is managed natively by using Kubernetes <code>Services</code> and Istio <code>VirtualServices</code> that detect failed pods and route traffic to the remaining replicas.</p>
 <p>MySQL and OpenSearch provide reliable failover points for the replicated data.</p>
 <p>The result of these measures would be no loss of service if a cluster node became unavailable. For more information regarding node failure and recovery, read the <a href="../../../docs/guides/ha/node-failure/">Node Failure Guide</a>.</p>
@@ -543,6 +545,10 @@ MySQL and OpenSearch are configured to replicate data among replicas to avoid da
 </ul>
 <p>To install the example high availability configuration using the Verrazzano CLI:</p>
 <pre tabindex="0"><code>$ vz install -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/ha/ha.yaml
+</code></pre><p>Using the Verrazzano CLI, install the example high availability configuration on OCNE as follows:</p>
+<pre tabindex="0"><code>   $ vz install -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/ha/ha-oci-ccm.yaml
+</code></pre><p>Using the Verrazzano CLI, install the example high availability configuration with external load balancers as follows:</p>
+<pre tabindex="0"><code>$ vz install -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/ha/ha-ext-lb.yaml
 </code></pre>
 	
 		<style>
