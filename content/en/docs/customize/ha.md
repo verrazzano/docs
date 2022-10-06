@@ -16,9 +16,9 @@ Verrazzano provides a means to eliminate single points of failure among critical
 The [`ha.yaml`]({{< ghlink raw=true path="examples/ha/ha.yaml" >}}) file illustrates how the `prod` profile can be extended to configure a highly available Verrazzano installation. The increased replica counts, along with the anti-affinity rules inherited from the `prod` profile, ensure that the pods of each component are distributed across the Kubernetes cluster nodes.
 MySQL and OpenSearch are configured to replicate data among replicas to avoid data loss.
 
-The [`ha-oci-ccm.yaml`]({{< ghlink raw=true path="examples/ha/ha-oci-ccm.yaml" >}}) file is a variation intended for configuring a high availability Verrazzano installation on OCNE.
+The [`ha-oci-ccm.yaml`]({{< ghlink raw=true path="examples/ha/ha-oci-ccm.yaml" >}}) file configures a highly available Verrazzano installation on OCNE.
 
-The [`ha-ext-lb.yaml`]({{< ghlink raw=true path="examples/ha/ha-ext-lb.yaml" >}}) file is a variation intended for configuring a high availability Verrazzano installation using external load balancers.
+The [`ha-ext-lb.yaml`]({{< ghlink raw=true path="examples/ha/ha-ext-lb.yaml" >}}) file configures a highly available Verrazzano installation using external load balancers.
 
 
 Fault detection is managed natively by using Kubernetes `Services` and Istio `VirtualServices` that detect failed pods and route traffic to the remaining replicas.
@@ -43,11 +43,11 @@ To install the example high availability configuration using the Verrazzano CLI:
    ```
    $ vz install -f {{< ghlink raw=true path="examples/ha/ha.yaml" >}}
    ```
-To install the example high availability configuration on OCNE using the Verrazzano CLI:
+Using the Verrazzano CLI, install the example high availability configuration on OCNE as follows:
 ```
    $ vz install -f {{< ghlink raw=true path="examples/ha/ha-oci-ccm.yaml" >}}
    ```
-To install the example high availability configuration with external load balancers using the Verrazzano CLI:
+Using the Verrazzano CLI, install the example high availability configuration with external load balancers as follows:
    ```
    $ vz install -f {{< ghlink raw=true path="examples/ha/ha-ext-lb.yaml" >}}
    ```
