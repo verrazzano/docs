@@ -22,7 +22,7 @@ To obtain the required Verrazzano images and install from your private registry,
 
         c. In the search bar, enter `Verrazzano Enterprise Container Platform` and click **Search**.
 
-        d. Select the `REL: Verrazzano Enterprise Edition {{<download_package_full_version>}}` link.  This will add it to your download queue.
+        d. Select the `REL: Verrazzano Enterprise Container Platform {{<download_package_full_version>}}` link. This will add it to your download queue.
 
         e. At the top of the page, select the **Continue** link.
 
