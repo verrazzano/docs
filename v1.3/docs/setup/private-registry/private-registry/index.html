@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/private-registry/private-registry/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-05-09T10:24:52+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-10-10T09:56:15+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Use a Private Registry">
 <meta itemprop="description" content="Instructions for setting up Verrazzano using a private container registry">
-<meta itemprop="dateModified" content="2022-05-09T10:24:52+05:30" />
-<meta itemprop="wordCount" content="339">
+<meta itemprop="dateModified" content="2022-10-10T09:56:15+05:30" />
+<meta itemprop="wordCount" content="502">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Use a Private Registry"/>
 <meta name="twitter:description" content="Instructions for setting up Verrazzano using a private container registry"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.dc9666a99de1eb572558569fe7acde39.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.9fbebad964fe976b46b24b74e98aa516.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.dc9666a99de1eb572558569fe7acde39.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.9fbebad964fe976b46b24b74e98aa516.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -487,30 +487,46 @@ if (!doNotTrack) {
 
 		
 	</header>    
-	<p>You can install Verrazzano using a private Docker-compliant container registry. This requires the following:</p>
+	<p>Installing Verrazzano using a private Docker-compliant container registry requires the following:</p>
 <ul>
-<li>Loading all required Verrazzano container images into your own registry and repository.</li>
+<li>Loading all the required Verrazzano container images into your own registry and repository.</li>
 <li>Installing the Verrazzano platform operator with the private registry and repository used to load the images.</li>
 </ul>
 <p>To obtain the required Verrazzano images and install from your private registry, you must:</p>
 <ol>
-<li>Download the Verrazzano ZIP file from the Oracle Software Delivery Cloud:
+<li>
+<p>Download the Verrazzano ZIP file:</p>
 <ul>
-<li>In your browser, go to <a href="https://edelivery.oracle.com">Oracle Software Delivery Cloud</a> and log in with your credentials.</li>
-<li>In the drop-down menu next to the search bar, select <strong>Download Package</strong>.</li>
-<li>In the search bar, enter <code>Verrazzano Enterprise Container Platform</code> and click <strong>Search</strong>.</li>
-<li>Select the <code>DLP: Oracle Verrazzano Enterprise Edition 1.3.5</code> link.  This will add it to your download queue.</li>
-<li>Select the <strong>Continue</strong> link.</li>
-<li>Accept the license agreement and click <strong>Continue</strong>.</li>
-<li>Download the file:
+<li>
+<p>Download the Verrazzano ZIP file from the Oracle Software Delivery Cloud for major or minor releases.</p>
+<p>a. In your browser, go to the <a href="https://edelivery.oracle.com">Oracle Software Delivery Cloud</a> and log in with your credentials.</p>
+<p>b. In the drop-down menu preceding the search bar, select <strong>All Categories</strong>.</p>
+<p>c. In the search bar, enter <code>Verrazzano Enterprise Container Platform</code> and click <strong>Search</strong>.</p>
+<p>d. Select the <code>REL: Verrazzano Enterprise Container Platform 1.3.0.0.0</code> link. This will add it to your download queue.</p>
+<p>e. At the top of the page, select the <strong>Continue</strong> link.</p>
+<p>f. Review the Download Queue, then click <strong>Continue</strong>.</p>
+<p>g. Accept the license agreement and click <strong>Continue</strong>.</p>
+<p>h. Download the file:</p>
 <ul>
 <li>To download the ZIP file directly, select the file link in the list.</li>
 <li>To download the ZIP file using <code>Oracle Download Manager</code>, click <strong>Download</strong> and run the <code>Oracle Download Manager</code> executable.</li>
 </ul>
 </li>
+<li>
+<p>Download the Verrazzano ZIP file from My Oracle Support for cumulative patches.</p>
+<p>a. In your browser, go to <a href="https://support.oracle.com/">My Oracle Support</a> and log in with your credentials.</p>
+<p>b. Select the <code>Patches &amp; Updates</code> tab.</p>
+<p>c. In the <code>Patch Search</code> panel, select the link <code>Product or Family (Advanced)</code>.</p>
+<p>d. In the search bar for <code>Product is</code>, enter <code>Oracle Verrazzano Enterprise Container Platform</code>.</p>
+<p>e. The previous step populates the available releases for Verrazzano in the drop-down menu <code>Release is</code>. Select the desired release(s) and click <strong>Search</strong>.</p>
+<p>f. A new panel with <code>Patch Advanced Search Results</code> will open listing all the patches for the release. Select the link for the desired patch, under the <code>Patch Name</code>.</p>
+<p>g. From the page providing details about the patch, click <strong>Download</strong>.</p>
+<p>h. Download the ZIP file by selecting the file link.</p>
+</li>
 </ul>
 </li>
-<li>Prepare to do the private registry install:
+<li>
+<p>Prepare to do the private registry install:</p>
 <ul>
 <li>Unzip the ZIP archive to a desired directory location.  There will be two files, a compressed TAR file containing the product
 files and a checksum file.</li>
@@ -524,8 +540,10 @@ verrazzano_1.3.5.tar.gz: OK
 <li>Expand the TAR file, for example, <code>tar xvf verrazzano_1.3.5.tar.gz</code>.</li>
 </ul>
 </li>
-<li>Load the product images into your private registry and install Verrazzano using the instructions in the <code>README.md</code>
-file that is packaged with the TAR file.</li>
+<li>
+<p>Load the product images into your private registry and install Verrazzano using the instructions in the <code>README.md</code>
+file that is packaged with the TAR file.</p>
+</li>
 </ol>
 <h2 id="configuring-access-to-an-insecure-private-registry">Configuring access to an insecure private registry</h2>
 <p>A private Docker registry is called an <a href="https://docs.docker.com/registry/insecure/">insecure registry</a> when it is configured for access using a self-signed certificate or over an unencrypted HTTP connection. Depending on the platform, there could be some additional configuration required for installing Verrazzano with an insecure registry.</p>
