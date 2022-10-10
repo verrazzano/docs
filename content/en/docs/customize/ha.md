@@ -33,7 +33,6 @@ When using the [`ha.yaml`]({{< ghlink raw=true path="examples/ha/ha.yaml" >}}) f
 * Running additional replicas of components will increase resource requirements. At least four CPUs, 100GB disk storage, and 64GB RAM available on the Kubernetes worker nodes is required.
 * Additional customizations may be required for your environment, including other customizations described in [Customize Verrazzano]({{< relref "docs/customize/_index.md" >}}).
 
-
 Expected behavior for the [MySQL Component]({{< relref "docs/reference/api/verrazzano/v1beta1.md#mysql-component" >}}) in a highly available environment can be found in [Customize Keycloak/MySQL]({{< relref "docs/customize/keycloak.md" >}}).
 
 Follow these best practices for a highly available Verrazzano installation:
