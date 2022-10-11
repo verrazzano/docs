@@ -41,8 +41,6 @@ will contain a message similar to this:
    To avoid this error, either disable the `externalip-validation-webhook-service` or configure the service with your load balancer IP addresses prior to installing Verrazzano.
    For more information, see [Enabling Access to all externalIPs](https://docs.oracle.com/en/operating-systems/olcne/1.5/orchestration/external-ips.html#ext-ip-disable).
 
-- 
-
 ## Examples
 <details>
 <summary>Oracle Cloud Infrastructure</summary>
