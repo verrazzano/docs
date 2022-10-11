@@ -10,4 +10,4 @@ draft: false
 Directly modifying the StatefulSet may change the status of the cluster to `ONLINE_PARTIAL`.
 * You must have at least one running `mysql-router` to access the MySQL [InnoDB Cluster](https://dev.mysql.com/doc/refman/8.0/en/mysql-innodb-cluster-introduction.html). Scaling the number of `mysql-router` instances to zero
 may result in the [MySQL Operator]({{< relref "docs/reference/api/verrazzano/v1beta1.md#mysql-operator-component" >}}) permanently losing communication with the cluster and Keycloak being unable to communicate with MySQL.
-* There are limitations to MySQL group replication policy in order to provide distributed coordination between servers. See [MySQL Fault-tolerance](https://dev.mysql.com/doc/refman/8.0/en/group-replication-fault-tolerance.html).
+* There are limitations to MySQL group replication policy to provide distributed coordination between servers. See [MySQL Fault-tolerance](https://dev.mysql.com/doc/refman/8.0/en/group-replication-fault-tolerance.html).
