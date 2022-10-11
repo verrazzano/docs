@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/customize/ha/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-10-06T15:17:25-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-10-11T16:19:43-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Configure High Availability">
 <meta itemprop="description" content="Achieve high availability using the `prod` profile">
-<meta itemprop="dateModified" content="2022-10-06T15:17:25-04:00" />
-<meta itemprop="wordCount" content="388">
+<meta itemprop="dateModified" content="2022-10-11T16:19:43-04:00" />
+<meta itemprop="wordCount" content="467">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Configure High Availability"/>
 <meta name="twitter:description" content="Achieve high availability using the `prod` profile"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.201253239f92007fd4345e395aff8bc7.json"
+  data-offline-search-index-json-src="../../../offline-search-index.e4ca1ee3ea73921c8ad95b4942618e56.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.201253239f92007fd4345e395aff8bc7.json"
+  data-offline-search-index-json-src="../../../offline-search-index.e4ca1ee3ea73921c8ad95b4942618e56.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -198,6 +198,8 @@ if (!doNotTrack) {
   <a href="../../../docs/customize/ingress/" title="Customize Ingress" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docscustomizeingress"><span class="">Ingress</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docscustomizeistio-li">
   <a href="../../../docs/customize/istio/" title="Customize Istio" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docscustomizeistio"><span class="">Istio</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docscustomizekeycloak-li">
+  <a href="../../../docs/customize/keycloak/" title="Customize Keycloak and MySQL" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docscustomizekeycloak"><span class="">Keycloak and MySQL</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docscustomizeociloadbalancerips-li">
   <a href="../../../docs/customize/ociloadbalancerips/" title="Customize Load Balancers on OCI" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docscustomizeociloadbalancerips"><span class="">OCI Load Balancers</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docscustomizeopensearch-li">
@@ -537,6 +539,7 @@ MySQL and OpenSearch are configured to replicate data among replicas to avoid da
 <li>Running additional replicas of components will increase resource requirements. At least four CPUs, 100GB disk storage, and 64GB RAM available on the Kubernetes worker nodes is required.</li>
 <li>Additional customizations may be required for your environment, including other customizations described in <a href="../../../docs/customize/">Customize Verrazzano</a>.</li>
 </ul>
+<p>For the expected behavior of the <a href="../../../docs/reference/api/verrazzano/v1beta1/#mysql-component">MySQL Component</a> in a highly available environment, see <a href="../../../docs/customize/keycloak/">Customize Keycloak and MySQL</a>.</p>
 <p>Follow these best practices for a highly available Verrazzano installation:</p>
 <ul>
 <li>Size your Kubernetes cluster according to your node failure tolerance and workload requirements.</li>
@@ -546,10 +549,14 @@ MySQL and OpenSearch are configured to replicate data among replicas to avoid da
 <p>To install the example high availability configuration using the Verrazzano CLI:</p>
 <pre tabindex="0"><code>$ vz install -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/ha/ha.yaml
 </code></pre><p>Using the Verrazzano CLI, install the example high availability configuration on OCNE as follows:</p>
-<pre tabindex="0"><code>   $ vz install -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/ha/ha-oci-ccm.yaml
+<pre tabindex="0"><code>$ vz install -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/ha/ha-oci-ccm.yaml
 </code></pre><p>Using the Verrazzano CLI, install the example high availability configuration with external load balancers as follows:</p>
 <pre tabindex="0"><code>$ vz install -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/ha/ha-ext-lb.yaml
-</code></pre>
+</code></pre><h3 id="upgrade-recommendations">Upgrade recommendations</h3>
+<p>An OKE in-place upgrade scales the cluster to N-1 nodes, where N is the original number of nodes, so you must scale the cluster back to N.
+This will start a new replacement node using the new node pool.
+For more information on in-place upgrades, see <a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengupgradingk8sworkernode.htm#Performi">Performing an In-Place Worker Node Kubernetes Upgrade by Updating an Existing Node Pool</a>.</p>
+
 	
 		<style>
   .feedback--answer {
