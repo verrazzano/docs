@@ -56,4 +56,4 @@ Using the Verrazzano CLI, install the example high availability configuration wi
 ### Upgrade recommendations 
 An OKE in-place upgrade scales the cluster to N-1 nodes, where N is the original number of nodes, so you must scale the cluster back to N. 
 This will start a new replacement node using the new node pool.
-https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengupgradingk8sworkernode.htm#Performi
+For more information on in-place upgrade, see https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengupgradingk8sworkernode.htm#Performi
