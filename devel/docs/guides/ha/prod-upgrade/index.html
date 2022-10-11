@@ -25,11 +25,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/guides/ha/prod-upgrade/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-09-22T13:24:00-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-10-11T08:33:59-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Upgrade prod Installation for High Availability">
 <meta itemprop="description" content="A guide for upgrading a `prod` installation for a highly available environment">
-<meta itemprop="dateModified" content="2022-09-22T13:24:00-04:00" />
+<meta itemprop="dateModified" content="2022-10-11T08:33:59-04:00" />
 <meta itemprop="wordCount" content="276">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Upgrade prod Installation for High Availability"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.025430ee298f74fc6b76562a28a40115.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.4479082635a43d332348c8c8bb4a2f23.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.025430ee298f74fc6b76562a28a40115.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.4479082635a43d332348c8c8bb4a2f23.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -526,7 +526,7 @@ if (!doNotTrack) {
 <p>Assess whether your Kubernetes configuration must be updated to support the level of high availability that you want to achieve.  See <a href="../../../../docs/customize/ha/">Configure High Availability</a>.</p>
 </li>
 <li>
-<p>Upgrade Verrazzano to v1.4.0 or later.   See <a href="../../../../docs/uninstall/upgrade/">Upgrade Verrazzano</a>.</p>
+<p>Upgrade Verrazzano to v1.5.0 or later.   See <a href="../../../../docs/uninstall/upgrade/">Upgrade Verrazzano</a>.</p>
 </li>
 <li>
 <p>The <a href="https://github.com/verrazzano/verrazzano/blob/master/examples/ha/README.md">examples/ha</a> directory contains examples of highly available Verrazzano installations. The following example uses the <a href="https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/ha/ha.yaml">ha.yaml</a> file as an example of how to upgrade a default <code>prod</code> installation to a highly available Verrazzano environment.</p>
@@ -635,7 +635,7 @@ EOF
 </code></pre><p>b. Apply the patch:</p>
 <pre tabindex="0"><code>$ kubectl patch verrazzano verrazzano --patch-file=patch.yaml --type=merge
 </code></pre><p>c. Wait for the patch to be installed:</p>
-<pre tabindex="0"><code>$ kubectl wait --timeout=30m --for=condition=InstallComplete verrazzano/verrazzano
+<pre tabindex="0"><code>$ kubectl wait --timeout=30m --for=jsonpath=&#39;{.status.state}&#39;=Ready verrazzano/verrazzano
 </code></pre></li>
 </ol>
 
