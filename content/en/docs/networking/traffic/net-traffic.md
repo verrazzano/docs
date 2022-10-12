@@ -39,7 +39,7 @@ To provide ingress to system components, Verrazzano installs a NGINX Ingress Con
 which includes a NGINX load balancer.  Verrazzano also creates Kubernetes
 Ingress resources to configure ingress for each system component that requires ingress.
 An Ingress resource is used is to specify HTTP/HTTPS routes to Kubernetes services, along
-with an endpoint hostname and a TLS certificate. An Ingress by itself doesn't do anything;
+with an endpoint host name and a TLS certificate. An Ingress by itself doesn't do anything;
 it is just a resource. An ingress controller is needed to watch Ingress resources and
 reconcile them, configuring the underlying Kubernetes load balancer to handle the service
 routing. The NGINX Ingress Controller processes Ingress resources and configures NGINX with
