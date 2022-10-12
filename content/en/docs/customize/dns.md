@@ -27,7 +27,7 @@ Verrazzano will create `sales.us.example.com` as the DNS domain for the installa
 <br>
 
 Verrazzano can be configured to use either the [nip.io](https://nip.io/) or [sslip.io](https://sslip.io) free wildcard DNS services.
-When queried with a hostname with an embedded IP address, wildcard DNS services return that IP address.
+When queried with a host name with an embedded IP address, wildcard DNS services return that IP address.
 
 For example, using the `nip.io` service, the following DNS names all map to the IP address `10.0.0.1`:
 
@@ -298,7 +298,7 @@ field of the Verrazzano custom resource.
 When using an externally managed DNS domain, you are responsible for:
 
 * Configuring A records for Verrazzano ingress points (load balancers)
-* Configuring CNAME records for hostnames in the domain that point to the A records, as needed
+* Configuring CNAME records for host names in the domain that point to the A records, as needed
 
 The Verrazzano installer searches the DNS zone you provide for two specific A records.  
 These are used to configure the cluster and should refer to external addresses of the load balancers provisioned by
