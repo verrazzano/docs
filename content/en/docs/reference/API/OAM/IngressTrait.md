@@ -107,11 +107,11 @@ spec:
                                     - "customer"
 
 ```
-With reference to the hostname, the following rules need to be followed:
+The following are the rules related to the hostname:
 
-1. If you are providing a hostname, you can provide a certificate otherwise verrazzano will generate one for you.
-2. If you are providing a certifcate, then you must provide a hostname.
-3. If you do not provide either a hostname or a certificate, verrazzano will generate one for you.
+- If you provide a hostname, then you have an option to provide a certificate. If you do not provide a certificate Verrazzano generates one for you.
+- If you provide a certificate, then you must provide a hostname.
+- If you do not provide either a hostname or a certificate, then Verrazzano automatically generates them for you.
 
 #### IngressTrait
 
