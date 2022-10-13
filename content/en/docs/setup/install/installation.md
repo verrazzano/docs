@@ -20,6 +20,7 @@ To avoid conflicts with Verrazzano system components, we recommend installing Ve
 ## Prepare for the installation
 
 Before installing Verrazzano, see instructions on preparing [Kubernetes platforms]({{< relref "/docs/setup/platforms/" >}}) and installing the [Verrazzano CLI]({{< relref "docs/setup/cli/_index.md" >}}) (optional).
+Make sure that you have a valid kubeconfig file pointing to the Kubernetes cluster that you want to use for installing Verrazzano.
 
 **NOTE**: Verrazzano can create network policies that can be used to limit the ports and protocols that pods use for network communication. Network policies provide additional security but they are enforced only if you install a Kubernetes Container Network Interface (CNI) plug-in that enforces them, such as Calico. For instructions on how to install a CNI plug-in, see the documentation for your Kubernetes cluster.
 

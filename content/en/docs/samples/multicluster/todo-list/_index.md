@@ -22,7 +22,7 @@ listed in the `placement` section.
      * From the drop-down menu, select your language and click Continue.
      * Then read and accept the license agreement.
 
-Set up the following environment variables to point to the `kubeconfig` for the admin and managed clusters.
+Set up the following environment variables to point to the kubeconfig file for the admin and managed clusters.
 
 ```
 $ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
