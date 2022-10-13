@@ -11,7 +11,7 @@ The Hello World Helidon example is a Helidon-based service that returns a "Hello
 
 Create a multicluster Verrazzano installation with one admin and one managed cluster, and register the managed cluster, by following the instructions [here]({{< relref "/docs/setup/install/multicluster.md" >}}).
 
-Set up the following environment variables to point to the `kubeconfig` for the admin and managed clusters.
+Set up the following environment variables to point to the kubeconfig file for the admin and managed clusters.
 
 ```
 $ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
@@ -50,11 +50,11 @@ Apply the VerrazzanoProject resource on the admin cluster that defines the names
 
 ## Explore the example application
 
-Follow the instructions for [exploring]({{< relref "/docs/samples/hello-helidon/#explore-the-application" >}}) the Hello World Helidon application in a single cluster use case. Use the managed cluster `kubeconfig` for testing the example application.
+Follow the instructions for [exploring]({{< relref "/docs/samples/hello-helidon/#explore-the-application" >}}) the Hello World Helidon application in a single cluster use case. Use the managed cluster kubeconfig file for testing the example application.
 
 ## Troubleshooting
 
-Follow the instructions for [troubleshooting]({{< relref "/docs/samples/hello-helidon/#troubleshooting" >}}) the Hello World Helidon application in a single cluster use case. Use the managed cluster `kubeconfig` for troubleshooting the example application.
+Follow the instructions for [troubleshooting]({{< relref "/docs/samples/hello-helidon/#troubleshooting" >}}) the Hello World Helidon application in a single cluster use case. Use the managed cluster kubeconfig file for troubleshooting the example application.
 
 1. Verify that the application namespace exists on the managed cluster.
    ```
