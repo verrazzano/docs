@@ -39,7 +39,8 @@ single Kubernetes cluster.&lt;/p&gt;
 &lt;/div&gt;
 
 &lt;h2 id=&#34;prepare-for-the-installation&#34;&gt;Prepare for the installation&lt;/h2&gt;
-&lt;p&gt;Before installing Verrazzano, see instructions on preparing &lt;a href=&#34;../../../docs/setup/platforms/&#34;&gt;Kubernetes platforms&lt;/a&gt; and installing the &lt;a href=&#34;../../../docs/setup/cli/&#34;&gt;Verrazzano CLI&lt;/a&gt; (optional).&lt;/p&gt;
+&lt;p&gt;Before installing Verrazzano, see instructions on preparing &lt;a href=&#34;../../../docs/setup/platforms/&#34;&gt;Kubernetes platforms&lt;/a&gt; and installing the &lt;a href=&#34;../../../docs/setup/cli/&#34;&gt;Verrazzano CLI&lt;/a&gt; (optional).
+Make sure that you have a valid kubeconfig file pointing to the Kubernetes cluster that you want to use for installing Verrazzano.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Verrazzano can create network policies that can be used to limit the ports and protocols that pods use for network communication. Network policies provide additional security but they are enforced only if you install a Kubernetes Container Network Interface (CNI) plug-in that enforces them, such as Calico. For instructions on how to install a CNI plug-in, see the documentation for your Kubernetes cluster.&lt;/p&gt;
 &lt;p&gt;You can install Verrazzano using the &lt;a href=&#34;../../../docs/setup/cli/&#34;&gt;Verrazzano CLI&lt;/a&gt; or with &lt;a href=&#34;https://kubernetes.io/docs/reference/kubectl/kubectl/&#34;&gt;kubectl&lt;/a&gt;. See the following respective sections.&lt;/p&gt;
 &lt;nav&gt;
@@ -53,13 +54,13 @@ single Kubernetes cluster.&lt;/p&gt;
 		
 
 		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-acedbf&#34; data-toggle=&#34;tab&#34; href=&#34;#acedbf&#34;
+		   id=&#34;nav-bafecd&#34; data-toggle=&#34;tab&#34; href=&#34;#bafecd&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;vz&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-bfedac&#34; data-toggle=&#34;tab&#34; href=&#34;#bfedac&#34;
+		   id=&#34;nav-fdceab&#34; data-toggle=&#34;tab&#34; href=&#34;#fdceab&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;kubectl&lt;/a&gt;
 
 		
@@ -75,7 +76,7 @@ single Kubernetes cluster.&lt;/p&gt;
 
 
 
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;acedbf&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;bafecd&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;Verrazzano provides a platform &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/operator/&#34;&gt;operator&lt;/a&gt;
@@ -135,7 +136,7 @@ or until the default timeout (30m) has been reached.&lt;/p&gt;
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;bfedac&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;fdceab&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;h2 id=&#34;install-the-verrazzano-platform-operator&#34;&gt;Install the Verrazzano platform operator&lt;/h2&gt;
@@ -506,7 +507,7 @@ cluster, simply repeat the managed cluster instructions.&lt;/p&gt;
 &lt;li&gt;On the other cluster, install Verrazzano using the &lt;code&gt;managed-cluster&lt;/code&gt; profile; this will be a
 managed cluster. The &lt;code&gt;managed-cluster&lt;/code&gt; profile contains only the components that are required for a managed cluster.&lt;/li&gt;
 &lt;li&gt;Create the environment variables, &lt;code&gt;KUBECONFIG_ADMIN&lt;/code&gt;, &lt;code&gt;KUBECONTEXT_ADMIN&lt;/code&gt;, &lt;code&gt;KUBECONFIG_MANAGED1&lt;/code&gt;, and
-&lt;code&gt;KUBECONTEXT_MANAGED1&lt;/code&gt;, and point them to the &lt;code&gt;kubeconfig&lt;/code&gt; files and contexts for the admin and managed cluster,
+&lt;code&gt;KUBECONTEXT_MANAGED1&lt;/code&gt;, and point them to the kubeconfig files and contexts for the admin and managed cluster,
 respectively. You will use these environment variables in subsequent steps when registering the managed cluster. The
 following shows an example of how to set these environment variables.
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
@@ -650,7 +651,7 @@ be accessible from the managed cluster.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;#kind-clusters&#34;&gt;Kind Clusters&lt;/a&gt;&lt;/p&gt;
 &lt;h4 id=&#34;most-kubernetes-clusters&#34;&gt;Most Kubernetes Clusters&lt;/h4&gt;
 &lt;p&gt;For most types of Kubernetes clusters, except for Kind clusters, you can find the externally accessible API server
-address of the admin cluster from its &lt;code&gt;kubeconfig&lt;/code&gt; file.&lt;/p&gt;
+address of the admin cluster from its kubeconfig file.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# View the information for the admin cluster in your kubeconfig file
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN config view --minify
 
@@ -670,8 +671,8 @@ value of the &lt;code&gt;ADMIN_K8S_SERVER_ADDRESS&lt;/code&gt; variable to this 
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ export ADMIN_K8S_SERVER_ADDRESS=&amp;lt;the server address from the config output&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;kind-clusters&#34;&gt;Kind Clusters&lt;/h4&gt;
 &lt;p&gt;Kind clusters run within a Docker container. If your admin and managed clusters are Kind clusters, the API server
-address of the admin cluster in its &lt;code&gt;kubeconfig&lt;/code&gt; file is usually a local address on the host machine, which will not be
-accessible from the managed cluster. Use the &lt;code&gt;kind&lt;/code&gt; command to obtain the &amp;ldquo;internal&amp;rdquo; &lt;code&gt;kubeconfig&lt;/code&gt; of the admin
+address of the admin cluster in its kubeconfig file is usually a local address on the host machine, which will not be
+accessible from the managed cluster. Use the &lt;code&gt;kind&lt;/code&gt; command to obtain the &amp;ldquo;internal&amp;rdquo; kubeconfig of the admin
 cluster, which will contain a server address accessible from other Kind clusters on the same machine, and therefore in
 the same Docker network.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kind get kubeconfig --internal --name &amp;lt;your-admin-cluster-name&amp;gt; | grep server

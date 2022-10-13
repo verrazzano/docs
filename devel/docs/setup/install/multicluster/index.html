@@ -25,11 +25,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/install/multicluster/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-09-28T14:44:06-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-10-13T09:46:31-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Install Multicluster Verrazzano">
 <meta itemprop="description" content="How to set up a multicluster Verrazzano environment">
-<meta itemprop="dateModified" content="2022-09-28T14:44:06-04:00" />
+<meta itemprop="dateModified" content="2022-10-13T09:46:31-04:00" />
 <meta itemprop="wordCount" content="2294">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Install Multicluster Verrazzano"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.7ab68e7dce84fa2fc9af4a5dc193ba6f.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.b81bdfcff53da5490d5178507a583ba8.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.7ab68e7dce84fa2fc9af4a5dc193ba6f.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.b81bdfcff53da5490d5178507a583ba8.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -551,7 +551,7 @@ cluster, simply repeat the managed cluster instructions.</p>
 <li>On the other cluster, install Verrazzano using the <code>managed-cluster</code> profile; this will be a
 managed cluster. The <code>managed-cluster</code> profile contains only the components that are required for a managed cluster.</li>
 <li>Create the environment variables, <code>KUBECONFIG_ADMIN</code>, <code>KUBECONTEXT_ADMIN</code>, <code>KUBECONFIG_MANAGED1</code>, and
-<code>KUBECONTEXT_MANAGED1</code>, and point them to the <code>kubeconfig</code> files and contexts for the admin and managed cluster,
+<code>KUBECONTEXT_MANAGED1</code>, and point them to the kubeconfig files and contexts for the admin and managed cluster,
 respectively. You will use these environment variables in subsequent steps when registering the managed cluster. The
 following shows an example of how to set these environment variables.
 <pre tabindex="0"><code>$ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
@@ -695,7 +695,7 @@ be accessible from the managed cluster.</p>
 <p><a href="#kind-clusters">Kind Clusters</a></p>
 <h4 id="most-kubernetes-clusters">Most Kubernetes Clusters</h4>
 <p>For most types of Kubernetes clusters, except for Kind clusters, you can find the externally accessible API server
-address of the admin cluster from its <code>kubeconfig</code> file.</p>
+address of the admin cluster from its kubeconfig file.</p>
 <pre tabindex="0"><code># View the information for the admin cluster in your kubeconfig file
 $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN config view --minify
 
@@ -715,8 +715,8 @@ value of the <code>ADMIN_K8S_SERVER_ADDRESS</code> variable to this URL.</p>
 <pre tabindex="0"><code>$ export ADMIN_K8S_SERVER_ADDRESS=&lt;the server address from the config output&gt;
 </code></pre><h4 id="kind-clusters">Kind Clusters</h4>
 <p>Kind clusters run within a Docker container. If your admin and managed clusters are Kind clusters, the API server
-address of the admin cluster in its <code>kubeconfig</code> file is usually a local address on the host machine, which will not be
-accessible from the managed cluster. Use the <code>kind</code> command to obtain the &ldquo;internal&rdquo; <code>kubeconfig</code> of the admin
+address of the admin cluster in its kubeconfig file is usually a local address on the host machine, which will not be
+accessible from the managed cluster. Use the <code>kind</code> command to obtain the &ldquo;internal&rdquo; kubeconfig of the admin
 cluster, which will contain a server address accessible from other Kind clusters on the same machine, and therefore in
 the same Docker network.</p>
 <pre tabindex="0"><code>$ kind get kubeconfig --internal --name &lt;your-admin-cluster-name&gt; | grep server
