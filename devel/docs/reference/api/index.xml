@@ -52,8 +52,7 @@ $ echo $HOST
 hello-helidon-appconf.hello-helidon.11.22.33.44.nip.io
 
 $ curl -sk -X GET https://${HOST}/greet
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Alternatively, specific host names can be given in an &lt;a href=&#34;#ingressrule&#34;&gt;IngressRule&lt;/a&gt;.  Doing this implies that a secret and certificate have been created for the specific hosts and the secret name has been specified in the associated &lt;a href=&#34;#ingresssecurity&#34;&gt;IngressSecurity&lt;/a&gt; &lt;code&gt;secretName&lt;/code&gt; field.&lt;/p&gt;
-&lt;p&gt;Load balancer session affinity is configured using an HTTP cookie in a destination rule. Here is an updated sample ApplicationConfiguration that includes a destination rule with an HTTP cookie.&lt;/p&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Load balancer session affinity is configured using an HTTP cookie in a destination rule. Here is an updated sample ApplicationConfiguration that includes a destination rule with an HTTP cookie.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: core.oam.dev/v1alpha2
 kind: ApplicationConfiguration
 metadata:
@@ -113,7 +112,13 @@ spec:
                                 - key: request.auth.claims[realm_access][roles]
                                   values:
                                     - &amp;#34;customer&amp;#34;
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;ingresstrait&#34;&gt;IngressTrait&lt;/h4&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Use the following rules related to the host name:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If you provide a host name, then you have an option to provide a certificate.  If you do not provide a certificate, then Verrazzano generates one for you.&lt;/li&gt;
+&lt;li&gt;If you provide a certificate, then you must provide a host name.&lt;/li&gt;
+&lt;li&gt;If you do not provide either a host name or a certificate, then Verrazzano generates them for you.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;ingresstrait&#34;&gt;IngressTrait&lt;/h4&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
