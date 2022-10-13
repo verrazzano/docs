@@ -50,6 +50,11 @@ Fixes:
 - Updated base and other images to resolve CVEs.
 
 
+### v1.3.6
+Fixes:
+
+- Resolved an issue in OpenSearch where user provided JVM Heap size setting was not used.
+
 ### v1.3.5
 Component version updates:
 
