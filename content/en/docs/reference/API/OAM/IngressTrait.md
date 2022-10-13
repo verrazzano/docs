@@ -39,7 +39,6 @@ hello-helidon-appconf.hello-helidon.11.22.33.44.nip.io
 
 $ curl -sk -X GET https://${HOST}/greet
 ```
-Alternatively, specific host names can be given in an [IngressRule](#ingressrule).  Doing this implies that a secret and certificate have been created for the specific hosts and the secret name has been specified in the associated [IngressSecurity](#ingresssecurity) `secretName` field.
 
 Load balancer session affinity is configured using an HTTP cookie in a destination rule. Here is an updated sample ApplicationConfiguration that includes a destination rule with an HTTP cookie.
 
@@ -108,6 +107,12 @@ spec:
                                     - "customer"
 
 ```
+Use the following rules related to the host name:
+
+- If you provide a host name, then you have an option to provide a certificate.  If you do not provide a certificate, then Verrazzano generates one for you.
+- If you provide a certificate, then you must provide a host name.
+- If you do not provide either a host name or a certificate, then Verrazzano generates them for you.
+
 #### IngressTrait
 
 | Field | Type | Description | Required
