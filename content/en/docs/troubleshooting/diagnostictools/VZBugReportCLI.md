@@ -41,8 +41,8 @@ These flags apply to all the commands.
 
 | Flag                  | Definition                                   |
 |-----------------------|----------------------------------------------|
-| `--context string`    | The name of the `kubeconfig` context to use. |
-| `--kubeconfig string` | Path to the `kubeconfig` file to use.        |
+| `--context string`    | The name of the kubeconfig file context to use. |
+| `--kubeconfig string` | Path to the kubeconfig file to use.        |
 
 ### Examples
 

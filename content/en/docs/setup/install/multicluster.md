@@ -25,7 +25,7 @@ Install Verrazzano on each Kubernetes cluster.
 - On the other cluster, install Verrazzano using the `managed-cluster` profile; this will be a
   managed cluster. The `managed-cluster` profile contains only the components that are required for a managed cluster.
 - Create the environment variables, `KUBECONFIG_ADMIN`, `KUBECONTEXT_ADMIN`, `KUBECONFIG_MANAGED1`, and
-  `KUBECONTEXT_MANAGED1`, and point them to the `kubeconfig` files and contexts for the admin and managed cluster,
+  `KUBECONTEXT_MANAGED1`, and point them to the kubeconfig files and contexts for the admin and managed cluster,
   respectively. You will use these environment variables in subsequent steps when registering the managed cluster. The
   following shows an example of how to set these environment variables.
   ```
@@ -179,7 +179,7 @@ Follow these preregistration setup steps.
        #### Most Kubernetes Clusters
 
        For most types of Kubernetes clusters, except for Kind clusters, you can find the externally accessible API server
-       address of the admin cluster from its `kubeconfig` file.
+       address of the admin cluster from its kubeconfig file.
 
        ```
        # View the information for the admin cluster in your kubeconfig file
@@ -206,8 +206,8 @@ Follow these preregistration setup steps.
        #### Kind Clusters
 
        Kind clusters run within a Docker container. If your admin and managed clusters are Kind clusters, the API server
-       address of the admin cluster in its `kubeconfig` file is usually a local address on the host machine, which will not be
-       accessible from the managed cluster. Use the `kind` command to obtain the "internal" `kubeconfig` of the admin
+       address of the admin cluster in its kubeconfig file is usually a local address on the host machine, which will not be
+       accessible from the managed cluster. Use the `kind` command to obtain the "internal" kubeconfig of the admin
        cluster, which will contain a server address accessible from other Kind clusters on the same machine, and therefore in
        the same Docker network.
 
