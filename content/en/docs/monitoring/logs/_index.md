@@ -32,7 +32,7 @@ The Verrazzano Fluentd Docker image comes with these plug-ins:
 - [fluent-plugin-concat](https://github.com/fluent-plugins-nursery/fluent-plugin-concat)
 - [fluent-plugin-dedot_filter](https://github.com/lunardial/fluent-plugin-dedot_filter)
 - [fluent-plugin-detect-exceptions](https://github.com/GoogleCloudPlatform/fluent-plugin-detect-exceptions)
-- [fluent-plugin-elasticsearch](https://docs.fluentd.org/output/elasticsearch)
+- [fluent-plugin-opensearch](https://docs.fluentd.org/output/opensearch)
 - [fluent-plugin-grok-parser](https://github.com/fluent/fluent-plugin-grok-parser)
 - [fluent-plugin-json-in-json-2](https://rubygems.org/gems/fluent-plugin-json-in-json-2)
 - [fluent-plugin-kubernetes_metadata_filter](https://github.com/fabric8io/fluent-plugin-kubernetes_metadata_filter)
@@ -177,7 +177,7 @@ spec:
             - /opt/script/rotate
             env:
             - name: "OPENSEARCH_HOST"
-              value: "https://elasticsearch.vmi.system.default.172.18.0.151.nip.io"
+              value: "https://opensearch.vmi.system.default.172.18.0.151.nip.io"
             - name: OPENSEARCH_USER
               valueFrom:
                 secretKeyRef:
