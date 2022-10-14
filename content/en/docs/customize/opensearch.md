@@ -91,7 +91,7 @@ pod/vmi-system-data-ingest-1-8d7db6489-kdhbv           2/2     Running    1     
 pod/vmi-system-data-ingest-2-699d6bdd9c-z7nzx          2/2     Running    0          5m21s
 pod/vmi-system-grafana-7947cdd84b-b7mks                2/2     Running    0          5m21s
 pod/vmi-system-kiali-6c7bd6658b-d2zq9                  2/2     Running    0          5m37s
-pod/vmi-system-kibana-7d47f65dfc-zhjxp                 2/2     Running    0          5m21s
+pod/vmi-system-opensearchDashboards-7d47f65dfc-zhjxp                 2/2     Running    0          5m21s
 pod/vmi-system-master-0                                2/2     Running    0          5m21s
 pod/vmi-system-master-1                                2/2     Running    0          5m21s
 pod/vmi-system-master-2                                2/2     Running    0          5m21s
