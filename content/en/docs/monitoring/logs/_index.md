@@ -96,7 +96,7 @@ $ PASS=$(kubectl get secret \
     -o jsonpath={.data.password} | base64 \
     --decode; echo)
 $ HOST=$(kubectl get ingress \
-    -n verrazzano-system vmi-system-es-ingest \
+    -n verrazzano-system vmi-system-os-ingest \
     -o jsonpath={.spec.rules[0].host})
 
 $ curl -ik \
@@ -115,7 +115,7 @@ Verrazzano provides support for [Installation Profiles]({{< relref "/docs/setup/
 
 If you want the logs sent to an external OpenSearch, instead of the default VMI OpenSearch, specify `opensearchURL` and `opensearchSecret` in the [Fluentd]({{< relref "/docs/reference/API/Verrazzano/v1beta1.md#fluentd-component" >}}) Component configuration in your Verrazzano custom resource.
 
-The following is an example of a Verrazzano custom resource to send the logs to the OpenSearch endpoint `https://external-es.default.172.18.0.231.nip.io`.
+The following is an example of a Verrazzano custom resource to send the logs to the OpenSearch endpoint `https://external-os.default.172.18.0.231.nip.io`.
 ```
 apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
@@ -124,8 +124,8 @@ metadata:
 spec:
   components:
     fluentd:
-      opensearchURL: https://external-es.default.172.18.0.231.nip.io
-      opensearchSecret: external-es-secret
+      opensearchURL: https://external-os.default.172.18.0.231.nip.io
+      opensearchSecret: external-os-secret
 ```
 ## OpenSearch Dashboards
 OpenSearch Dashboards is a visualization dashboard for the content indexed on an OpenSearch cluster.  Verrazzano creates a OpenSearch Dashboards deployment to provide a user interface for querying and visualizing the log data collected in OpenSearch.

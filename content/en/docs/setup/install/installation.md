@@ -190,7 +190,7 @@ verrazzano-authproxy-58db5b9484-nhnql              2/2     Running   0          
 verrazzano-console-5dbdc579bd-hm4rh                2/2     Running   0          45m
 verrazzano-monitoring-operator-599654889d-lbb4z    1/1     Running   0          45m
 verrazzano-operator-7b6fd64dd5-8j9h8               1/1     Running   0          45m
-vmi-system-es-master-0                             2/2     Running   0          45m
+vmi-system-os-master-0                             2/2     Running   0          45m
 vmi-system-grafana-5558d65b46-pxg78                2/2     Running   0          45m
 vmi-system-kiali-5949966fb8-465s8                  2/2     Running   0          48m
 vmi-system-kibana-86b894d8f6-q4vb5                 2/2     Running   0          45m

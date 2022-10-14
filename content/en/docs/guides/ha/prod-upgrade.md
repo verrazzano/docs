@@ -114,7 +114,7 @@ The exact steps required to upgrade a Verrazzano environment to achieve high ava
                  replicas: 2
        opensearch:
          nodes:
-         - name: es-ingest
+         - name: os-ingest
            replicas: 2
    EOF
    ```

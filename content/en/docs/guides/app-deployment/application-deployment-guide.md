@@ -307,7 +307,7 @@ and enabled for Istio.
 
    # Sample output
    NAME                                               READY   STATUS    RESTARTS   AGE
-   vmi-system-es-master-0                             2/2     Running   0          47m
+   vmi-system-os-master-0                             2/2     Running   0          47m
    vmi-system-grafana-799d79648d-wsdp4                2/2     Running   0          47m
    vmi-system-kiali-574c6dd94d-f49jv                  2/2     Running   0          51m
    vmi-system-kibana-77f8d998f4-zzvqr                 2/2     Running   0          47m
@@ -327,7 +327,7 @@ and enabled for Istio.
    monitoring stack created by Verrazzano for the deployed applications.
 
    The monitoring infrastructure comprises several components:
-   * `vmi-system-es` - OpenSearch for log collection
+   * `vmi-system-os` - OpenSearch for log collection
    * `vmi-system-grafana` - Grafana for metric visualization
    * `vms-system-kiali` - Kiali for management console of `istio` service mesh
    * `vmi-system-kibana` - OpenSearch Dashboards for log visualization
