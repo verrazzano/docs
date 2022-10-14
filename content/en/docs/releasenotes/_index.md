@@ -4,6 +4,14 @@ linkTitle: Release Notes
 weight: 13
 draft: false
 ---
+### v1.4.1
+Fixes:
+
+- Updated OpenSearch heap memory settings
+- Fixed the WebLogic and Helidon Grafana dashboards so that they display data properly
+- Updated base and other images to resolve CVEs
+- Performance enhancements to the Verrazzano CLI
+- 
 ### v1.4.0
 Features:
 
