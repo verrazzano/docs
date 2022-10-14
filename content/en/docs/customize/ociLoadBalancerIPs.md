@@ -99,7 +99,7 @@ spec:
             controller:
               service:
                 annotations:
-                  service.beta.kubernetes.io/oci-load-balancer-internal: true
+                  service.beta.kubernetes.io/oci-load-balancer-internal: "true"
                   service.beta.kuernetes.io/oci-load-balancer-subnet1: "ocid1.subnet.oc1.phx.aaaa..sdjxa"
 ```
 
@@ -127,7 +127,7 @@ spec:
                     name: istio-ingressgateway
                     k8s:
                       serviceAnnotations:
-                        service.beta.kubernetes.io/oci-load-balancer-internal: true
+                        service.beta.kubernetes.io/oci-load-balancer-internal: "true"
                         serivce.beta.kubernetes.io/oci-load-balancer-subnet1: "ocid1.subnet.oc1.phx.aaaa..sdjxa"
 ```
 
@@ -149,7 +149,7 @@ spec:
             controller:
               service:
                 annotations:
-                  service.beta.kubernetes.io/oci-load-balancer-internal: true
+                  service.beta.kubernetes.io/oci-load-balancer-internal: "true"
                   service.beta.kuernetes.io/oci-load-balancer-subnet1: "ocid1.subnet.oc1.phx.aaaa..sdjxa"
     istio:
       overrides:
@@ -163,6 +163,6 @@ spec:
                     name: istio-ingressgateway
                     k8s:
                       serviceAnnotations:
-                        service.beta.kubernetes.io/oci-load-balancer-internal: true
+                        service.beta.kubernetes.io/oci-load-balancer-internal: "true"
                         serivce.beta.kubernetes.io/oci-load-balancer-subnet1: "ocid1.subnet.oc1.phx.aaaa..sdjxa"
 ```
