@@ -22,7 +22,7 @@ certificates.
 When this occurs, while trying to access Verrazzano services, you will see an error message like the following:
 
 ```
-elasticsearch.vmi.system.default.129.153.98.156.nip.io normally uses encryption to protect your information. When Chrome tried to connect to elasticsearch.vmi.system.default.129.153.98.156.nip.io this time, the website sent back unusual and incorrect credentials
+opensearch.vmi.system.default.129.153.98.156.nip.io normally uses encryption to protect your information. When Chrome tried to connect to opensearch.vmi.system.default.129.153.98.156.nip.io this time, the website sent back unusual and incorrect credentials
 ```
 
 You can choose to import the certificate into your local trust chain, but this will have to be done for each Verrazzano

@@ -32,7 +32,7 @@ The Verrazzano Fluentd Docker image comes with these plug-ins:
 - [fluent-plugin-concat](https://github.com/fluent-plugins-nursery/fluent-plugin-concat)
 - [fluent-plugin-dedot_filter](https://github.com/lunardial/fluent-plugin-dedot_filter)
 - [fluent-plugin-detect-exceptions](https://github.com/GoogleCloudPlatform/fluent-plugin-detect-exceptions)
-- [fluent-plugin-elasticsearch](https://docs.fluentd.org/output/elasticsearch)
+- [fluent-plugin-opensearch](https://docs.fluentd.org/output/opensearch)
 - [fluent-plugin-grok-parser](https://github.com/fluent/fluent-plugin-grok-parser)
 - [fluent-plugin-json-in-json-2](https://rubygems.org/gems/fluent-plugin-json-in-json-2)
 - [fluent-plugin-kubernetes_metadata_filter](https://github.com/fabric8io/fluent-plugin-kubernetes_metadata_filter)
@@ -82,8 +82,8 @@ Each instance pulls logs from the node's `/var/log/containers` directory and wri
 Verrazzano system applications receive special handling, and write their logs to the `verrazzano-system` data stream.
 Verrazzano application logs are exported to a data stream based on the application's namespace, following this format: `verrazzano-application-<application namespace>`.
 
-For example, `vmi-system-kibana` logs written to `/var/log/containers` will be pulled by Fluentd and written to OpenSearch.  The logs are exported
-to the `verrazzano-system` data stream, because `vmi-system-kibana` is a Verrazzano system application. For a non-system application, if it is in the `myapp` namespace,
+For example, `vmi-system-opensearchDashboards` logs written to `/var/log/containers` will be pulled by Fluentd and written to OpenSearch.  The logs are exported
+to the `verrazzano-system` data stream, because `vmi-system-opensearchDashboards` is a Verrazzano system application. For a non-system application, if it is in the `myapp` namespace,
 then its logs will be exported to the `verrazzano-application-myapp` data stream.
 
 ## OpenSearch
@@ -96,7 +96,7 @@ $ PASS=$(kubectl get secret \
     -o jsonpath={.data.password} | base64 \
     --decode; echo)
 $ HOST=$(kubectl get ingress \
-    -n verrazzano-system vmi-system-es-ingest \
+    -n verrazzano-system vmi-system-os-ingest \
     -o jsonpath={.spec.rules[0].host})
 
 $ curl -ik \
@@ -115,7 +115,7 @@ Verrazzano provides support for [Installation Profiles]({{< relref "/docs/setup/
 
 If you want the logs sent to an external OpenSearch, instead of the default VMI OpenSearch, specify `opensearchURL` and `opensearchSecret` in the [Fluentd]({{< relref "/docs/reference/API/Verrazzano/v1beta1.md#fluentd-component" >}}) Component configuration in your Verrazzano custom resource.
 
-The following is an example of a Verrazzano custom resource to send the logs to the OpenSearch endpoint `https://external-es.default.172.18.0.231.nip.io`.
+The following is an example of a Verrazzano custom resource to send the logs to the OpenSearch endpoint `https://external-os.default.172.18.0.231.nip.io`.
 ```
 apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
@@ -124,8 +124,8 @@ metadata:
 spec:
   components:
     fluentd:
-      opensearchURL: https://external-es.default.172.18.0.231.nip.io
-      opensearchSecret: external-es-secret
+      opensearchURL: https://external-os.default.172.18.0.231.nip.io
+      opensearchSecret: external-os-secret
 ```
 ## OpenSearch Dashboards
 OpenSearch Dashboards is a visualization dashboard for the content indexed on an OpenSearch cluster.  Verrazzano creates a OpenSearch Dashboards deployment to provide a user interface for querying and visualizing the log data collected in OpenSearch.
@@ -177,7 +177,7 @@ spec:
             - /opt/script/rotate
             env:
             - name: "OPENSEARCH_HOST"
-              value: "https://elasticsearch.vmi.system.default.172.18.0.151.nip.io"
+              value: "https://opensearch.vmi.system.default.172.18.0.151.nip.io"
             - name: OPENSEARCH_USER
               valueFrom:
                 secretKeyRef:

@@ -41,8 +41,8 @@ Verrazzano Status
     Jaeger URL: https://jaeger.default.172.18.0.231.nip.io
     Keycloak URL: https://keycloak.default.172.18.0.231.nip.io
     Kiali URL: https://kiali.vmi.system.default.172.18.0.231.nip.io
-    Kibana URL: https://kibana.vmi.system.default.172.18.0.231.nip.io
-    OpenSearch URL: https://elasticsearch.vmi.system.default.172.18.0.231.nip.io
+    OpenSearchDashboards URL: https://opensearchDashboards.vmi.system.default.172.18.0.231.nip.io
+    OpenSearch URL: https://opensearch.vmi.system.default.172.18.0.231.nip.io
     Prometheus URL: https://prometheus.vmi.system.default.172.18.0.231.nip.io
     Rancher URL: https://rancher.default.172.18.0.231.nip.io
 ```
@@ -77,8 +77,8 @@ The resulting output is similar to the following (abbreviated to show only the r
       grafanaUrl: https://grafana.vmi.system.default.11.22.33.44.nip.io
       keyCloakUrl: https://keycloak.default.11.22.33.44.nip.io
       kialiUrl: https://kiali.vmi.system.default.11.22.33.44.nip.io
-      kibanaUrl: https://kibana.vmi.system.default.11.22.33.44.nip.io
-      opensearchUrl: https://elasticsearch.vmi.system.default.11.22.33.44.nip.io
+      opensearchDashboardsUrl: https://opensearchDashboards.vmi.system.default.11.22.33.44.nip.io
+      opensearchUrl: https://opensearch.vmi.system.default.11.22.33.44.nip.io
       prometheusUrl: https://prometheus.vmi.system.default.11.22.33.44.nip.io
       rancherUrl: https://rancher.default.11.22.33.44.nip.io
 ```
@@ -95,8 +95,8 @@ The following is an example of the output:
 "grafanaUrl": "https://grafana.vmi.system.default.11.22.33.44.nip.io",
 "keyCloakUrl": "https://keycloak.default.11.22.33.44.nip.io",
 "kialiUrl": "https://kiali.vmi.system.default.11.22.33.44.nip.io",
-"opensearchUrl": "https://elasticsearch.vmi.system.default.11.22.33.44.nip.io",
-"opensearchDashboardsUrl": "https://kibana.vmi.system.default.11.22.33.44.nip.io",
+"opensearchUrl": "https://opensearch.vmi.system.default.11.22.33.44.nip.io",
+"opensearchDashboardsUrl": "https://opensearchDashboards.vmi.system.default.11.22.33.44.nip.io",
 "prometheusUrl": "https://prometheus.vmi.system.default.11.22.33.44.nip.io",
 "rancherUrl": "https://rancher.default.11.22.33.44.nip.io"
 }
