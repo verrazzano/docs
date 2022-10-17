@@ -6,35 +6,29 @@ weight: 4
 draft: false
 ---
 
-Complete the following steps to configure NFS storage in an Oracle Cloud Native Environment:
+Complete the following steps to configure NFS storage in an Oracle Cloud Native Environment.
 
 1. Create an OLCNE cluster. See [OLCNE cluster](https://docs.oracle.com/en/operating-systems/olcne/1.1/start/intro.html).
 
    The cluster must have at least 3 worker nodes.
 
-2. Create an NFS server.
+2. Create an NFS server. For an example that uses an NFS server on Oracle Linux, see [Create an NFS server on Oracle Linux](https://docs.oracle.com/en/learn/create_nfs_linux/).
 
-   For an example that uses an NFS server on Oracle Linux, see [Create an NFS server on Oracle Linux](https://docs.oracle.com/en/learn/create_nfs_linux/).
-
-   a. Install the NFS utility package on the server and client instances:
+   a. Install the NFS utility package on the server and client instances.
       ```
       $ sudo dnf install -y nfs-utils
 
       ```
 
-    b. Create a directory for your shared files.
+    b. Create a directory for your shared files. Make sure that the server does not have root ownership.
 
-      Make sure that the server does not have root ownership.
-
-    c. Define the shared directory in ```/etc/exports``` with the correct permissions.
-
-      Make sure to disable root squashing.
+    c. Define the shared directory in ```/etc/exports``` with the correct permissions. Make sure to disable root squashing.
 
     ```
     $ <path to directory> <ip-address/subnet-mask>(rw,sync,no_root_squash,no_subtree_check)
     ```
 
-    d. Set the firewall to allow NFS traffic:
+    d. Set the firewall to allow NFS traffic.
 
      ```
      $ sudo firewall-cmd --permanent --zone=public --add-service=nfs
@@ -71,9 +65,7 @@ Complete the following steps to configure NFS storage in an Oracle Cloud Native 
          --set serviceAccount.name=nfs-svc-acc-nfs nfs-subdir-external-provisioner/nfs-subdir-external-provisioner
       ```
 
-    d. As a default, list only one storage class.
-
-     If required, edit the other storage classes and delete the following annotation:
+    d. Only one storage class should be listed as the default. If required, edit the other storage classes and delete the following annotation:
 
      ```
      $ storageclass.kubernetes.io/is-default-class: "true"
