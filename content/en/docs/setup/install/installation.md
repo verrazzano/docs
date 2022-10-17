@@ -32,10 +32,7 @@ You can install Verrazzano using the [Verrazzano CLI]({{< relref "docs/setup/cli
 
 Verrazzano provides a platform [operator](https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)
 to manage the life cycle of Verrazzano installations.  Using the [Verrazzano]({{< relref "/docs/reference/api/verrazzano/v1beta1.md" >}})
-custom resource, you can install, uninstall, and upgrade Verrazzano installations.
-
-The Verrazzano CLI automatically deploys and installs the Verrazzano Platform Operator when applying the Verrazzano custom resource.
-So you only need to install Verrazzano as described below.
+custom resource, you can install, uninstall, and upgrade Verrazzano installations. When applying the Verrazzano custom resource, the Verrazzano CLI deploys and installs the Verrazzano platform operator; you need only to install Verrazzano as described in the following section.
 
 ## Perform the installation
 
