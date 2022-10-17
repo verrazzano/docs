@@ -193,7 +193,7 @@ verrazzano-operator-7b6fd64dd5-8j9h8               1/1     Running   0          
 vmi-system-os-master-0                             2/2     Running   0          45m
 vmi-system-grafana-5558d65b46-pxg78                2/2     Running   0          45m
 vmi-system-kiali-5949966fb8-465s8                  2/2     Running   0          48m
-vmi-system-opensearchDashboards-86b894d8f6-q4vb5                 2/2     Running   0          45m
+vmi-system-opensearchDashboards-86b894d8f6-q4vb5   2/2     Running   0          45m
 weblogic-operator-646756c75c-hgz6j                 2/2     Running   0          49m
 ```
 

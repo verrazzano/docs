@@ -277,7 +277,6 @@ is something you could configure manually, but it is not configured by Verrazzan
 Verrazzano uses network proxies in multiple places.  The two proxy products are Envoy and NGINX.
 The following table shows which proxies are used and in which Pod they run.
 
-
 | Usage  | Proxy | Pod | Namespace               | Description |
 | ------------- |:------------- |:------------- |:------------------------|:-------------
 | System ingress | NGINX | `ingress-controller-ingress-nginx-controller-*` | `ingress-nginx`         | Provides external access to Verrazzano system components.

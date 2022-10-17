@@ -310,7 +310,7 @@ and enabled for Istio.
    vmi-system-os-master-0                             2/2     Running   0          47m
    vmi-system-grafana-799d79648d-wsdp4                2/2     Running   0          47m
    vmi-system-kiali-574c6dd94d-f49jv                  2/2     Running   0          51m
-   vmi-system-opensearchDashboards-77f8d998f4-zzvqr                 2/2     Running   0          47m
+   vmi-system-opensearchDashboards-77f8d998f4-zzvqr   2/2     Running   0          47m
    ```
 
    ```
