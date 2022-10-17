@@ -7,9 +7,9 @@ draft: false
 ### v1.4.1
 Fixes:
 
-- Updated OpenSearch heap memory settings
-- Fixed the WebLogic and Helidon Grafana dashboards so that they display data properly
-- Updated base and other images to resolve CVEs
+- Updated OpenSearch heap memory settings.
+- Fixed the WebLogic and Helidon Grafana dashboards so that they display data properly.
+- Updated base and other images to resolve CVEs.
 
 ### v1.4.0
 Features:
