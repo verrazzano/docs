@@ -63,16 +63,16 @@ vz [command] [flags]
 
 ### Available commands
 
-| Command     | Definition                                                 |
-|-------------|------------------------------------------------------------|
-| `analyze`   | Analyze cluster                                            |
-| `bug-report`| Collect information from the cluster to report an issue    |
-| `help`      | Help about any command                                     |
-| `install`   | Install Verrazzano                                         |
-| `status`    | Status of the Verrazzano installation and access endpoints |
-| `uninstall` | Uninstall Verrazzano                                       |
-| `upgrade`   | Upgrade Verrazzano                                         |
-| `version`   | Verrazzano version information                             |
+| Command     | Definition                                                      |
+|-------------|-----------------------------------------------------------------|
+| `analyze`   | Analyze cluster                                                 |
+| `bug-report`| Collect information from the cluster to report an issue         |
+| `help`      | Help about any command                                          |
+| `install`   | Deploy the Verrazzano platform operator and install Verrazzano  |
+| `status`    | Status of the Verrazzano installation and access endpoints      |
+| `uninstall` | Uninstall Verrazzano                                            |
+| `upgrade`   | Upgrade the Verrazzano platform operator and upgrade Verrazzano |
+| `version`   | Verrazzano version information                                  |
 
 ### Available Flags
 
