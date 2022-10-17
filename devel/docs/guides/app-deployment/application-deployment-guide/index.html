@@ -25,11 +25,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/guides/app-deployment/application-deployment-guide/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-08-18T10:52:26-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-10-17T07:30:02-07:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Application Deployment Guide">
 <meta itemprop="description" content="A guide for deploying an example application on Verrazzano">
-<meta itemprop="dateModified" content="2022-08-18T10:52:26-04:00" />
+<meta itemprop="dateModified" content="2022-10-17T07:30:02-07:00" />
 <meta itemprop="wordCount" content="2067">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Application Deployment Guide"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.185ba6f1be7540360d8d5a317feb9297.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.ea13e5127512b3ec22b69961a35e8581.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.185ba6f1be7540360d8d5a317feb9297.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.ea13e5127512b3ec22b69961a35e8581.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -787,10 +787,10 @@ all OAM based applications within the cluster.</p>
 
 # Sample output
 NAME                                               READY   STATUS    RESTARTS   AGE
-vmi-system-es-master-0                             2/2     Running   0          47m
+vmi-system-os-master-0                             2/2     Running   0          47m
 vmi-system-grafana-799d79648d-wsdp4                2/2     Running   0          47m
 vmi-system-kiali-574c6dd94d-f49jv                  2/2     Running   0          51m
-vmi-system-kibana-77f8d998f4-zzvqr                 2/2     Running   0          47m
+vmi-system-opensearchDashboards-77f8d998f4-zzvqr   2/2     Running   0          47m
 </code></pre><pre tabindex="0"><code>$ kubectl get pods -n verrazzano-monitoring
 
 # Sample output
@@ -802,10 +802,10 @@ prometheus-prometheus-operator-kube-p-prometheus-0     3/3     Running   0      
 monitoring stack created by Verrazzano for the deployed applications.</p>
 <p>The monitoring infrastructure comprises several components:</p>
 <ul>
-<li><code>vmi-system-es</code> - OpenSearch for log collection</li>
+<li><code>vmi-system-os</code> - OpenSearch for log collection</li>
 <li><code>vmi-system-grafana</code> - Grafana for metric visualization</li>
 <li><code>vms-system-kiali</code> - Kiali for management console of <code>istio</code> service mesh</li>
-<li><code>vmi-system-kibana</code> - OpenSearch Dashboards for log visualization</li>
+<li><code>vmi-system-opensearchDashboards</code> - OpenSearch Dashboards for log visualization</li>
 <li><code>prometheus-prometheus-operator-kube-p-prometheus</code> - Prometheus for metric collection</li>
 </ul>
 <p/>
@@ -904,7 +904,7 @@ result of applying an application configuration. For more information on creatin
 and visualizing the log data collected in OpenSearch, see <a href="../../../../docs/monitoring/logs/#opensearch-dashboards">OpenSearch Dashboards</a>.</p>
 <p>Determine the URL to access OpenSearch Dashboards:</p>
 <pre tabindex="0"><code>$ OSD_HOST=$(kubectl get ingress \
-     -n verrazzano-system vmi-system-kibana \
+     -n verrazzano-system vmi-system-opensearchDashboards \
      -o jsonpath=&#39;{.spec.rules[0].host}&#39;)
 $ OSD_URL=&#34;https://${OSD_HOST}&#34;
 $ echo &#34;${OSD_URL}&#34;

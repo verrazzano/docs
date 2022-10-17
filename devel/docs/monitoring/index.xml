@@ -65,8 +65,8 @@ with a TLS CA certificate mounted from a volume and the user/password stored in 
 the OpenSearch credentials and certificates in the &lt;code&gt;verrazzano-install&lt;/code&gt; namespace. Jaeger will use these credentials
 to connect to OpenSearch.
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl create secret generic jaeger-secret \
- --from-literal=ES_PASSWORD=&amp;lt;OPENSEARCH PASSWORD&amp;gt; \
- --from-literal=ES_USERNAME=&amp;lt;OPENSEARCH USERNAME&amp;gt; \
+ --from-literal=OS_PASSWORD=&amp;lt;OPENSEARCH PASSWORD&amp;gt; \
+ --from-literal=OS_USERNAME=&amp;lt;OPENSEARCH USERNAME&amp;gt; \
  --from-file=ca-bundle=&amp;lt;path to the file containing CA certs&amp;gt; \
  -n verrazzano-install
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
@@ -337,7 +337,7 @@ for the managed cluster only, search based on the tag &lt;code&gt;verrazzano_clu
 &lt;li&gt;&lt;a href=&#34;https://github.com/fluent-plugins-nursery/fluent-plugin-concat&#34;&gt;fluent-plugin-concat&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/lunardial/fluent-plugin-dedot_filter&#34;&gt;fluent-plugin-dedot_filter&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/GoogleCloudPlatform/fluent-plugin-detect-exceptions&#34;&gt;fluent-plugin-detect-exceptions&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://docs.fluentd.org/output/elasticsearch&#34;&gt;fluent-plugin-elasticsearch&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.fluentd.org/output/opensearch&#34;&gt;fluent-plugin-opensearch&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/fluent/fluent-plugin-grok-parser&#34;&gt;fluent-plugin-grok-parser&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://rubygems.org/gems/fluent-plugin-json-in-json-2&#34;&gt;fluent-plugin-json-in-json-2&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/fabric8io/fluent-plugin-kubernetes_metadata_filter&#34;&gt;fluent-plugin-kubernetes_metadata_filter&lt;/a&gt;&lt;/li&gt;
@@ -381,8 +381,8 @@ These plug-ins help to parse Kubernetes management log files.&lt;/p&gt;
 Each instance pulls logs from the node&amp;rsquo;s &lt;code&gt;/var/log/containers&lt;/code&gt; directory and writes them to the target OpenSearch data stream.
 Verrazzano system applications receive special handling, and write their logs to the &lt;code&gt;verrazzano-system&lt;/code&gt; data stream.
 Verrazzano application logs are exported to a data stream based on the application&amp;rsquo;s namespace, following this format: &lt;code&gt;verrazzano-application-&amp;lt;application namespace&amp;gt;&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;For example, &lt;code&gt;vmi-system-kibana&lt;/code&gt; logs written to &lt;code&gt;/var/log/containers&lt;/code&gt; will be pulled by Fluentd and written to OpenSearch.  The logs are exported
-to the &lt;code&gt;verrazzano-system&lt;/code&gt; data stream, because &lt;code&gt;vmi-system-kibana&lt;/code&gt; is a Verrazzano system application. For a non-system application, if it is in the &lt;code&gt;myapp&lt;/code&gt; namespace,
+&lt;p&gt;For example, &lt;code&gt;vmi-system-opensearchDashboards&lt;/code&gt; logs written to &lt;code&gt;/var/log/containers&lt;/code&gt; will be pulled by Fluentd and written to OpenSearch.  The logs are exported
+to the &lt;code&gt;verrazzano-system&lt;/code&gt; data stream, because &lt;code&gt;vmi-system-opensearchDashboards&lt;/code&gt; is a Verrazzano system application. For a non-system application, if it is in the &lt;code&gt;myapp&lt;/code&gt; namespace,
 then its logs will be exported to the &lt;code&gt;verrazzano-application-myapp&lt;/code&gt; data stream.&lt;/p&gt;
 &lt;h2 id=&#34;opensearch&#34;&gt;OpenSearch&lt;/h2&gt;
 &lt;p&gt;Verrazzano creates an OpenSearch cluster as the store and search engine for the logs processed by Fluentd.  Records written by Fluentd can be queried using the OpenSearch REST API.&lt;/p&gt;
@@ -392,7 +392,7 @@ then its logs will be exported to the &lt;code&gt;verrazzano-application-myapp&l
     -o jsonpath={.data.password} | base64 \
     --decode; echo)
 $ HOST=$(kubectl get ingress \
-    -n verrazzano-system vmi-system-es-ingest \
+    -n verrazzano-system vmi-system-os-ingest \
     -o jsonpath={.spec.rules[0].host})
 
 $ curl -ik \
@@ -404,7 +404,7 @@ $ curl -ik \
     --user verrazzano:$PASS https://$HOST/$DATA_STREAM/_search?q=message:*
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Verrazzano provides support for &lt;a href=&#34;../../docs/setup/install/profiles/&#34;&gt;Installation Profiles&lt;/a&gt;. The production profile (&lt;code&gt;prod&lt;/code&gt;), which is the default, provides a 3-node OpenSearch and persistent storage for the VMI. The development profile (&lt;code&gt;dev&lt;/code&gt;) provides a single node OpenSearch and no persistent storage for the VMI. The &lt;code&gt;managed-cluster&lt;/code&gt; profile does not install OpenSearch or OpenSearch Dashboards in the local cluster; all logs are forwarded to the admin cluster&amp;rsquo;s OpenSearch instance.&lt;/p&gt;
 &lt;p&gt;If you want the logs sent to an external OpenSearch, instead of the default VMI OpenSearch, specify &lt;code&gt;opensearchURL&lt;/code&gt; and &lt;code&gt;opensearchSecret&lt;/code&gt; in the &lt;a href=&#34;../../docs/reference/api/verrazzano/v1beta1/#fluentd-component&#34;&gt;Fluentd&lt;/a&gt; Component configuration in your Verrazzano custom resource.&lt;/p&gt;
-&lt;p&gt;The following is an example of a Verrazzano custom resource to send the logs to the OpenSearch endpoint &lt;code&gt;https://external-es.default.172.18.0.231.nip.io&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The following is an example of a Verrazzano custom resource to send the logs to the OpenSearch endpoint &lt;code&gt;https://external-os.default.172.18.0.231.nip.io&lt;/code&gt;.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
@@ -412,8 +412,8 @@ metadata:
 spec:
   components:
     fluentd:
-      opensearchURL: https://external-es.default.172.18.0.231.nip.io
-      opensearchSecret: external-es-secret
+      opensearchURL: https://external-os.default.172.18.0.231.nip.io
+      opensearchSecret: external-os-secret
 &lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;opensearch-dashboards&#34;&gt;OpenSearch Dashboards&lt;/h2&gt;
 &lt;p&gt;OpenSearch Dashboards is a visualization dashboard for the content indexed on an OpenSearch cluster.  Verrazzano creates a OpenSearch Dashboards deployment to provide a user interface for querying and visualizing the log data collected in OpenSearch.&lt;/p&gt;
 &lt;p&gt;To access the OpenSearch Dashboards, read &lt;a href=&#34;../../docs/access/&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/p&gt;
@@ -456,7 +456,7 @@ spec:
             - /opt/script/rotate
             env:
             - name: &amp;#34;OPENSEARCH_HOST&amp;#34;
-              value: &amp;#34;https://elasticsearch.vmi.system.default.172.18.0.151.nip.io&amp;#34;
+              value: &amp;#34;https://opensearch.vmi.system.default.172.18.0.151.nip.io&amp;#34;
             - name: OPENSEARCH_USER
               valueFrom:
                 secretKeyRef:

@@ -276,10 +276,10 @@ all OAM based applications within the cluster.&lt;/p&gt;
 
 # Sample output
 NAME                                               READY   STATUS    RESTARTS   AGE
-vmi-system-es-master-0                             2/2     Running   0          47m
+vmi-system-os-master-0                             2/2     Running   0          47m
 vmi-system-grafana-799d79648d-wsdp4                2/2     Running   0          47m
 vmi-system-kiali-574c6dd94d-f49jv                  2/2     Running   0          51m
-vmi-system-kibana-77f8d998f4-zzvqr                 2/2     Running   0          47m
+vmi-system-opensearchDashboards-77f8d998f4-zzvqr   2/2     Running   0          47m
 &lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get pods -n verrazzano-monitoring
 
 # Sample output
@@ -291,10 +291,10 @@ prometheus-prometheus-operator-kube-p-prometheus-0     3/3     Running   0      
 monitoring stack created by Verrazzano for the deployed applications.&lt;/p&gt;
 &lt;p&gt;The monitoring infrastructure comprises several components:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;vmi-system-es&lt;/code&gt; - OpenSearch for log collection&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;vmi-system-os&lt;/code&gt; - OpenSearch for log collection&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;vmi-system-grafana&lt;/code&gt; - Grafana for metric visualization&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;vms-system-kiali&lt;/code&gt; - Kiali for management console of &lt;code&gt;istio&lt;/code&gt; service mesh&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;vmi-system-kibana&lt;/code&gt; - OpenSearch Dashboards for log visualization&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;vmi-system-opensearchDashboards&lt;/code&gt; - OpenSearch Dashboards for log visualization&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;prometheus-prometheus-operator-kube-p-prometheus&lt;/code&gt; - Prometheus for metric collection&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p/&gt;
@@ -393,7 +393,7 @@ result of applying an application configuration. For more information on creatin
 and visualizing the log data collected in OpenSearch, see &lt;a href=&#34;../docs/monitoring/logs/#opensearch-dashboards&#34;&gt;OpenSearch Dashboards&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Determine the URL to access OpenSearch Dashboards:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ OSD_HOST=$(kubectl get ingress \
-     -n verrazzano-system vmi-system-kibana \
+     -n verrazzano-system vmi-system-opensearchDashboards \
      -o jsonpath=&amp;#39;{.spec.rules[0].host}&amp;#39;)
 $ OSD_URL=&amp;#34;https://${OSD_HOST}&amp;#34;
 $ echo &amp;#34;${OSD_URL}&amp;#34;
@@ -998,13 +998,13 @@ Make sure that you have a valid kubeconfig file pointing to the Kubernetes clust
 		
 
 		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-aefdbc&#34; data-toggle=&#34;tab&#34; href=&#34;#aefdbc&#34;
+		   id=&#34;nav-aedfcb&#34; data-toggle=&#34;tab&#34; href=&#34;#aedfcb&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;vz&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-acdefb&#34; data-toggle=&#34;tab&#34; href=&#34;#acdefb&#34;
+		   id=&#34;nav-cbdeaf&#34; data-toggle=&#34;tab&#34; href=&#34;#cbdeaf&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;kubectl&lt;/a&gt;
 
 		
@@ -1020,7 +1020,7 @@ Make sure that you have a valid kubeconfig file pointing to the Kubernetes clust
 
 
 
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;aefdbc&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;aedfcb&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;Verrazzano provides a platform &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/operator/&#34;&gt;operator&lt;/a&gt;
@@ -1080,7 +1080,7 @@ or until the default timeout (30m) has been reached.&lt;/p&gt;
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;acdefb&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;cbdeaf&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;h2 id=&#34;install-the-verrazzano-platform-operator&#34;&gt;Install the Verrazzano platform operator&lt;/h2&gt;
@@ -1164,10 +1164,10 @@ verrazzano-authproxy-58db5b9484-nhnql              2/2     Running   0          
 verrazzano-console-5dbdc579bd-hm4rh                2/2     Running   0          45m
 verrazzano-monitoring-operator-599654889d-lbb4z    1/1     Running   0          45m
 verrazzano-operator-7b6fd64dd5-8j9h8               1/1     Running   0          45m
-vmi-system-es-master-0                             2/2     Running   0          45m
+vmi-system-os-master-0                             2/2     Running   0          45m
 vmi-system-grafana-5558d65b46-pxg78                2/2     Running   0          45m
 vmi-system-kiali-5949966fb8-465s8                  2/2     Running   0          48m
-vmi-system-kibana-86b894d8f6-q4vb5                 2/2     Running   0          45m
+vmi-system-opensearchDashboards-86b894d8f6-q4vb5   2/2     Running   0          45m
 weblogic-operator-646756c75c-hgz6j                 2/2     Running   0          49m
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For installation troubleshooting help, see the &lt;a href=&#34;../docs/troubleshooting/diagnostictools/analysisadvice/&#34;&gt;Analysis Advice&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;After the installation has completed, you can use the Verrazzano consoles.
@@ -1230,8 +1230,8 @@ with a TLS CA certificate mounted from a volume and the user/password stored in 
 the OpenSearch credentials and certificates in the &lt;code&gt;verrazzano-install&lt;/code&gt; namespace. Jaeger will use these credentials
 to connect to OpenSearch.
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl create secret generic jaeger-secret \
- --from-literal=ES_PASSWORD=&amp;lt;OPENSEARCH PASSWORD&amp;gt; \
- --from-literal=ES_USERNAME=&amp;lt;OPENSEARCH USERNAME&amp;gt; \
+ --from-literal=OS_PASSWORD=&amp;lt;OPENSEARCH PASSWORD&amp;gt; \
+ --from-literal=OS_USERNAME=&amp;lt;OPENSEARCH USERNAME&amp;gt; \
  --from-file=ca-bundle=&amp;lt;path to the file containing CA certs&amp;gt; \
  -n verrazzano-install
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
@@ -7501,7 +7501,7 @@ spec:
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;opensearchURL&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;string&lt;/td&gt;
-&lt;td&gt;The target OpenSearch URLs.  Specify this option in &lt;a href=&#34;https://docs.fluentd.org/output/elasticsearch#hosts-optional&#34;&gt;this format&lt;/a&gt;.  The default &lt;code&gt;http://vmi-system-es-ingest-oidc:8775&lt;/code&gt; is the VMI OpenSearch URL.&lt;/td&gt;
+&lt;td&gt;The target OpenSearch URLs.  Specify this option in &lt;a href=&#34;https://docs.fluentd.org/output/opensearch#hosts-optional&#34;&gt;this format&lt;/a&gt;.  The default &lt;code&gt;http://vmi-system-os-ingest-oidc:8775&lt;/code&gt; is the VMI OpenSearch URL.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -7512,7 +7512,7 @@ spec:
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;oci&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;a href=&#34;#oci-logging-configuration&#34;&gt;OCILoggingConfiguration&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href=&#34;#oracle-cloud-infrastructure-logging-configuration&#34;&gt;OCILoggingConfiguration&lt;/a&gt;&lt;/td&gt;
 &lt;td&gt;The Oracle Cloud Infrastructure Logging configuration.&lt;/td&gt;
 &lt;td&gt;No&lt;/td&gt;
 &lt;/tr&gt;
@@ -8919,19 +8919,19 @@ Verrazzano will create &lt;code&gt;sales.us.example.com&lt;/code&gt; as the DNS 
 		
 
 		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-cbafed&#34; data-toggle=&#34;tab&#34; href=&#34;#cbafed&#34;
+		   id=&#34;nav-fcebad&#34; data-toggle=&#34;tab&#34; href=&#34;#fcebad&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;WildcardDNS&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-ebafcd&#34; data-toggle=&#34;tab&#34; href=&#34;#ebafcd&#34;
+		   id=&#34;nav-fabdec&#34; data-toggle=&#34;tab&#34; href=&#34;#fabdec&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;OracleCloudInfrastructureDNS&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-bdceaf&#34; data-toggle=&#34;tab&#34; href=&#34;#bdceaf&#34;
+		   id=&#34;nav-dbafce&#34; data-toggle=&#34;tab&#34; href=&#34;#dbafce&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;CustomDNS&lt;/a&gt;
 
 		
@@ -8947,7 +8947,7 @@ Verrazzano will create &lt;code&gt;sales.us.example.com&lt;/code&gt; as the DNS 
 
 
 
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;cbafed&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;fcebad&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;Verrazzano can be configured to use either the &lt;a href=&#34;https://nip.io/&#34;&gt;nip.io&lt;/a&gt; or &lt;a href=&#34;https://sslip.io&#34;&gt;sslip.io&lt;/a&gt; free wildcard DNS services.
@@ -8980,7 +8980,7 @@ spec:
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;ebafcd&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;fabdec&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;Verrazzano can directly manage records in &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm&#34;&gt;Oracle Oracle Cloud Infrastructure DNS&lt;/a&gt;
@@ -9145,7 +9145,7 @@ spec:
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;bdceaf&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;dbafce&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;You can specify your own externally managed, custom DNS domain.  In this scenario, you manage your own DNS
@@ -10651,13 +10651,13 @@ See the following respective sections.&lt;/p&gt;
 		
 
 		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-dcabef&#34; data-toggle=&#34;tab&#34; href=&#34;#dcabef&#34;
+		   id=&#34;nav-decbfa&#34; data-toggle=&#34;tab&#34; href=&#34;#decbfa&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;vz&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-eabfdc&#34; data-toggle=&#34;tab&#34; href=&#34;#eabfdc&#34;
+		   id=&#34;nav-fbedac&#34; data-toggle=&#34;tab&#34; href=&#34;#fbedac&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;kubectl&lt;/a&gt;
 
 		
@@ -10673,7 +10673,7 @@ See the following respective sections.&lt;/p&gt;
 
 
 
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;dcabef&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;decbfa&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;ol&gt;
@@ -10696,7 +10696,7 @@ The uninstall logs from the Verrazzano platform operator will be streamed to the
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;eabfdc&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;fbedac&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;To delete a Verrazzano installation, delete the Verrazzano custom resource you used to
@@ -10849,7 +10849,7 @@ spec:
               replicas: 2
     opensearch:
       nodes:
-      - name: es-ingest
+      - name: os-ingest
         replicas: 2
 EOF
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;b. Apply the patch:&lt;/p&gt;

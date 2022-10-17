@@ -90,7 +90,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.185ba6f1be7540360d8d5a317feb9297.json"
+  data-offline-search-index-json-src="../../../offline-search-index.ea13e5127512b3ec22b69961a35e8581.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -112,7 +112,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.185ba6f1be7540360d8d5a317feb9297.json"
+  data-offline-search-index-json-src="../../../offline-search-index.ea13e5127512b3ec22b69961a35e8581.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -548,7 +548,7 @@ if (!doNotTrack) {
 <li><a href="https://github.com/fluent-plugins-nursery/fluent-plugin-concat">fluent-plugin-concat</a></li>
 <li><a href="https://github.com/lunardial/fluent-plugin-dedot_filter">fluent-plugin-dedot_filter</a></li>
 <li><a href="https://github.com/GoogleCloudPlatform/fluent-plugin-detect-exceptions">fluent-plugin-detect-exceptions</a></li>
-<li><a href="https://docs.fluentd.org/output/elasticsearch">fluent-plugin-elasticsearch</a></li>
+<li><a href="https://docs.fluentd.org/output/opensearch">fluent-plugin-opensearch</a></li>
 <li><a href="https://github.com/fluent/fluent-plugin-grok-parser">fluent-plugin-grok-parser</a></li>
 <li><a href="https://rubygems.org/gems/fluent-plugin-json-in-json-2">fluent-plugin-json-in-json-2</a></li>
 <li><a href="https://github.com/fabric8io/fluent-plugin-kubernetes_metadata_filter">fluent-plugin-kubernetes_metadata_filter</a></li>
@@ -592,8 +592,8 @@ These plug-ins help to parse Kubernetes management log files.</p>
 Each instance pulls logs from the node&rsquo;s <code>/var/log/containers</code> directory and writes them to the target OpenSearch data stream.
 Verrazzano system applications receive special handling, and write their logs to the <code>verrazzano-system</code> data stream.
 Verrazzano application logs are exported to a data stream based on the application&rsquo;s namespace, following this format: <code>verrazzano-application-&lt;application namespace&gt;</code>.</p>
-<p>For example, <code>vmi-system-kibana</code> logs written to <code>/var/log/containers</code> will be pulled by Fluentd and written to OpenSearch.  The logs are exported
-to the <code>verrazzano-system</code> data stream, because <code>vmi-system-kibana</code> is a Verrazzano system application. For a non-system application, if it is in the <code>myapp</code> namespace,
+<p>For example, <code>vmi-system-opensearchDashboards</code> logs written to <code>/var/log/containers</code> will be pulled by Fluentd and written to OpenSearch.  The logs are exported
+to the <code>verrazzano-system</code> data stream, because <code>vmi-system-opensearchDashboards</code> is a Verrazzano system application. For a non-system application, if it is in the <code>myapp</code> namespace,
 then its logs will be exported to the <code>verrazzano-application-myapp</code> data stream.</p>
 <h2 id="opensearch">OpenSearch</h2>
 <p>Verrazzano creates an OpenSearch cluster as the store and search engine for the logs processed by Fluentd.  Records written by Fluentd can be queried using the OpenSearch REST API.</p>
@@ -603,7 +603,7 @@ then its logs will be exported to the <code>verrazzano-application-myapp</code> 
     -o jsonpath={.data.password} | base64 \
     --decode; echo)
 $ HOST=$(kubectl get ingress \
-    -n verrazzano-system vmi-system-es-ingest \
+    -n verrazzano-system vmi-system-os-ingest \
     -o jsonpath={.spec.rules[0].host})
 
 $ curl -ik \
@@ -615,7 +615,7 @@ $ curl -ik \
     --user verrazzano:$PASS https://$HOST/$DATA_STREAM/_search?q=message:*
 </code></pre><p>Verrazzano provides support for <a href="../../../docs/setup/install/profiles/">Installation Profiles</a>. The production profile (<code>prod</code>), which is the default, provides a 3-node OpenSearch and persistent storage for the VMI. The development profile (<code>dev</code>) provides a single node OpenSearch and no persistent storage for the VMI. The <code>managed-cluster</code> profile does not install OpenSearch or OpenSearch Dashboards in the local cluster; all logs are forwarded to the admin cluster&rsquo;s OpenSearch instance.</p>
 <p>If you want the logs sent to an external OpenSearch, instead of the default VMI OpenSearch, specify <code>opensearchURL</code> and <code>opensearchSecret</code> in the <a href="../../../docs/reference/api/verrazzano/v1beta1/#fluentd-component">Fluentd</a> Component configuration in your Verrazzano custom resource.</p>
-<p>The following is an example of a Verrazzano custom resource to send the logs to the OpenSearch endpoint <code>https://external-es.default.172.18.0.231.nip.io</code>.</p>
+<p>The following is an example of a Verrazzano custom resource to send the logs to the OpenSearch endpoint <code>https://external-os.default.172.18.0.231.nip.io</code>.</p>
 <pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
@@ -623,8 +623,8 @@ metadata:
 spec:
   components:
     fluentd:
-      opensearchURL: https://external-es.default.172.18.0.231.nip.io
-      opensearchSecret: external-es-secret
+      opensearchURL: https://external-os.default.172.18.0.231.nip.io
+      opensearchSecret: external-os-secret
 </code></pre><h2 id="opensearch-dashboards">OpenSearch Dashboards</h2>
 <p>OpenSearch Dashboards is a visualization dashboard for the content indexed on an OpenSearch cluster.  Verrazzano creates a OpenSearch Dashboards deployment to provide a user interface for querying and visualizing the log data collected in OpenSearch.</p>
 <p>To access the OpenSearch Dashboards, read <a href="../../../docs/access/">Access Verrazzano</a>.</p>
@@ -667,7 +667,7 @@ spec:
             - /opt/script/rotate
             env:
             - name: &#34;OPENSEARCH_HOST&#34;
-              value: &#34;https://elasticsearch.vmi.system.default.172.18.0.151.nip.io&#34;
+              value: &#34;https://opensearch.vmi.system.default.172.18.0.151.nip.io&#34;
             - name: OPENSEARCH_USER
               valueFrom:
                 secretKeyRef:
