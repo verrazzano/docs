@@ -34,6 +34,9 @@ Verrazzano provides a platform [operator](https://kubernetes.io/docs/concepts/ex
 to manage the life cycle of Verrazzano installations.  Using the [Verrazzano]({{< relref "/docs/reference/api/verrazzano/v1beta1.md" >}})
 custom resource, you can install, uninstall, and upgrade Verrazzano installations.
 
+The Verrazzano CLI automatically deploys and installs the Verrazzano Platform Operator when applying the Verrazzano custom resource.
+So you only need to install Verrazzano as described below.
+
 ## Perform the installation
 
 Verrazzano supports the following installation profiles:  development (`dev`), production (`prod`), and
