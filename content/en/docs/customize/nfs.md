@@ -1,55 +1,63 @@
 ---
 title: "Network File System"
-description: "Configuring NFS Storage"
+description: "Configuring NFS storage"
 linkTitle: Network File System
 weight: 4
 draft: false
 ---
 
-### Oracle Cloud Native Environment
+Complete the following steps to configure NFS storage in an Oracle Cloud Native Environment:
 
-* Create an [OLCNE cluster](https://docs.oracle.com/en/operating-systems/olcne/1.1/start/intro.html):
+1. Create an OLCNE cluster. See [OLCNE cluster](https://docs.oracle.com/en/operating-systems/olcne/1.1/start/intro.html).
 
-  - The cluster must have at least 3 worker nodes.
+   The cluster must have at least 3 worker nodes.
 
-* Create an NFS server:
+2. Create an NFS server.
 
-  - [Here](https://docs.oracle.com/en/learn/create_nfs_linux/) is an example using an NFS server on Oracle Linux. 
-  - Install the NFS utilities package on the server and client instances:
+   For an example that uses an NFS server on Oracle Linux, see [Create an NFS server on Oracle Linux](https://docs.oracle.com/en/learn/create_nfs_linux/).
+   1. Install the NFS utility package on the server and client instances:
+      ```
+      sudo dnf install -y nfs-utils
 
-    ``` 
-    sudo dnf install -y nfs-utils
+      ```
 
-  - Create a directory to contain your shared files.
+    2. Create a directory for your shared files.
 
-    - The server must not have root ownership
+       Make sure that the server does not have a root ownership.
 
-  - Define the share in /etc/exports with the correct permissions. Make sure to disable root squashing:
+    3. Define the shared directory in ```/etc/exports``` with the correct permissions.
 
-    ```
-    <path to directory> <ip-address/subnet-mask>(rw,sync,no_root_squash,no_subtree_check)
+        Make sure to disable root squashing.
 
-  - Set the firewall to allow NFS traffic:
+        ```
+        <path to directory> <ip-address/subnet-mask>(rw,sync,no_root_squash,no_subtree_check)
+        ```
 
-     ```
-     sudo firewall-cmd --permanent --zone=public --add-service=nfs
-     sudo firewall-cmd --reload
-     sudo firewall-cmd --list-all
+    4. Set the firewall to allow NFS traffic:
 
-  - Enable and start the NFS service.
+       ```
+       sudo firewall-cmd --permanent --zone=public --add-service=nfs
+       sudo firewall-cmd --reload
+       sudo firewall-cmd --list-all
+       ```
 
-     ```
-     sudo systemctl enable --now nfs-server
+    5. Enable and start the NFS service.
 
-* Deploy an NFS provisioner to your cluster.
+       ```
+       sudo systemctl enable --now nfs-server
+       ```
 
-  - Once you have an NFS server, install an NFS client provisioner of your choice. Here is an example using [Kubernetes NFS Subdir External Provisioner](https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner)  
-  - First, add the required helm repo: 
+3. Deploy an NFS provisioner to your cluster.
 
-    ```
-    helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
-  
-  - Then, install the provisioner. Set your storage class as default and create a service account: 
+   1. Install an NFS client provisioner of your choice. For an example, see [Kubernetes NFS Subdir External Provisioner](https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner).  
+
+   2. Add the required helm repo.
+
+      ```
+      helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
+      ```
+
+   3. Install the provisioner. Set your storage class as a default and create a service account.
 
       ```
       helm install nfs-test \
@@ -60,8 +68,12 @@ draft: false
          --set storageClass.provisionerName=nfsclientprov/nfs \
          --set serviceAccount.create=true \
          --set serviceAccount.name=nfs-svc-acc-nfs nfs-subdir-external-provisioner/nfs-subdir-external-provisioner
-    
-  - Only one storage class should be listed as default. If necessary, edit the other storage classes and delete the following annotation: 
-  
-     ```
-     storageclass.kubernetes.io/is-default-class: "true"
+      ```
+
+    4. As a default, list only one storage class.
+
+       If required, edit the other storage classes and delete the following annotation:
+
+       ```
+       storageclass.kubernetes.io/is-default-class: "true"
+       ```     
