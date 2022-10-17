@@ -27,7 +27,7 @@ draft: false
   - Define the share in /etc/exports with the correct permissions. Make sure to disable root squashing:
 
     ```
-    <path to directory> 100.101.68.0/24(rw,sync,no_root_squash,no_subtree_check)
+    <path to directory> <ip-address/subnet-mask>(rw,sync,no_root_squash,no_subtree_check)
 
   - Set the firewall to allow NFS traffic:
 
@@ -64,4 +64,4 @@ draft: false
   - Only one storage class should be listed as default. If necessary, edit the other storage classes and delete the following annotation: 
   
      ```
-    service.beta.kubernetes.io/oci-load-balancer-internal: "true"
+     storageclass.kubernetes.io/is-default-class: "true"
