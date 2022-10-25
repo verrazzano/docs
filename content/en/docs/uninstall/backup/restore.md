@@ -8,11 +8,81 @@ draft: false
 
 
 Before proceeding, ensure that the backup component prerequisites are met, as indicated [here]({{< relref "/docs/uninstall/backup/prerequisites.md" >}}).
-This document also assumes that a successful backup was previously made using either Velero or rancher-backup, as shown [here]({{< relref "/docs/uninstall/backup/backup.md" >}}).  
+This document also assumes that a successful backup was previously made using either Velero, rancher-backup or MySQL operator, as shown [here]({{< relref "/docs/uninstall/backup/backup.md" >}}).  
 
 Use the following component-specific instructions to restore application data:
+- [MySQL restore](#mysql-restore)
 - [Rancher restore](#rancher-restore)
 - [OpenSearch restore](#opensearch-restore)
+
+## MySQL restore
+
+To initiate a MySQL restore, from an existing backup we will need to recreate the MySQL cluster. 
+
+- Backup the values in MySQL helm chart into a file called `mysql-values.yaml`
+
+```bash
+helm  get values -n keycloak mysql > mysql-values.yaml
+```
+
+- Get the backup folder prefix name that the MySQL backup created. The Out
+
+```bash
+kubectl get mbk -n keycloak <mysql-backup-name> -o jsonpath={.status.output}
+```
+
+#### Example
+
+```bash
+$  kubectl get mbk -n keycloak mysql-backup -o jsonpath={.status.output}
+mysql-backup-20221025-180836
+```
+
+- Cleanup MySQL pods and PVC from the system 
+
+```bash
+helm delete mysql -n keycloak
+kubectl delete pvc -n keycloak -l tier=mysql
+```
+
+- Clone the MySQL helm charts used by Verrazzano
+
+```bash
+git clone --filter=blob:none --no-checkout --depth 1 --sparse https://github.com/verrazzano/verrazzano
+cd verrazzano
+git sparse-checkout set platform-operator/thirdparty/charts/mysql
+git checkout
+```
+
+- Trigger a MySQL restore by executing the helm chart as follows.
+
+```bash
+helm install mysql platform-operator/thirdparty/charts/mysql \
+        --namespace keycloak \
+        --set tls.useSelfSigned=true \
+        --set initDB.dump.name=<dump-name> \
+        --set initDB.dumpOptions.loadUsers=true \
+        --set initDB.dump.ociObjectStorage.prefix=<prefixName/backup folder name> \
+        --set initDB.dump.ociObjectStorage.bucketName=<OCI bucket name> \
+        --set initDB.dump.ociObjectStorage.credentials=<Credential Name> \
+        --values <mysql values file>
+```
+
+### Example
+
+```bash
+helm install mysql platform-operator/thirdparty/charts/mysql \
+        --namespace keycloak \
+        --set tls.useSelfSigned=true \
+        --set initDB.dump.name="alpha" \
+        --set initDB.dumpOptions.loadUsers=true \
+        --set initDB.dump.ociObjectStorage.prefix="mysql-test/mysql-backup-20221025-180836" \
+        --set initDB.dump.ociObjectStorage.bucketName="mysql-bucket" \
+        --set initDB.dump.ociObjectStorage.credentials="mysql-backup-secret" \
+        --values mysql-values.yaml 
+```
+
+At this point the MySQL cluster will be recreated and restored from the backup along with the PVC's we cleaned up earlier. 
 
 ## Rancher restore
 
@@ -21,20 +91,22 @@ When a `Restore` custom resource is created, the operator accesses the backup `*
 
 
 ```yaml
-apiVersion: resources.cattle.io/v1
-kind: Restore
-metadata:
-  name: s3-restore
-spec:
-  backupFilename: rancher-backup-test-1111111-2222-3333-2022-07-26T02-44-21Z.tar.gz
-  storageLocation:
-    s3:
-      credentialSecretName: rancher-backup-creds
-      credentialSecretNamespace: verrazzano-backup
-      bucketName: myvz-bucket
-      folder: rancher-backup
-      region: us-phoenix-1
-      endpoint: mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com
+kubectl apply -f - <<EOF
+  apiVersion: resources.cattle.io/v1
+  kind: Restore
+  metadata:
+    name: s3-restore
+  spec:
+    backupFilename: rancher-backup-test-1111111-2222-3333-2022-07-26T02-44-21Z.tar.gz
+    storageLocation:
+      s3:
+        credentialSecretName: rancher-backup-creds
+        credentialSecretNamespace: verrazzano-backup
+        bucketName: myvz-bucket
+        folder: rancher-backup
+        region: us-phoenix-1
+        endpoint: mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com
+EOF
 ```
 
 The rancher-backup operator scales down the Rancher deployment during the restore operation and scales it back up after the restoration completes.
@@ -75,40 +147,41 @@ $ kubectl delete pvc -n verrazzano-system  -l verrazzano-component=opensearch
 To perform an OpenSearch restore, you can invoke the following example Velero `Restore` [API](https://velero.io/docs/v1.8/api-types/restore/) object.
 
 ```yaml
-apiVersion: velero.io/v1
-kind: Restore
-metadata:
-  name: verrazzano-opensearch-restore
-  namespace: verrazzano-backup
-spec:
-  backupName: verrazzano-opensearch-backup
-  includedNamespaces:
-    - verrazzano-system
-  labelSelector:
-    matchLabels:
-      verrazzano-component: opensearch
-  restorePVs: false
-  hooks:
-    resources:
-      - name: opensearch-test
-        includedNamespaces:
-          - verrazzano-system       
-        labelSelector:
-          matchLabels:            
-            statefulset.kubernetes.io/pod-name: vmi-system-es-master-0
-        postHooks:
-          - exec:
-              container: es-master
-              command:
-                - /usr/share/opensearch/bin/verrazzano-backup-hook
-                - -operation
-                - restore
-                - -velero-backup-name
-                - verrazzano-opensearch-backup
-              waitTimeout: 30m
-              execTimeout: 30m
-              onError: Fail
-
+kubectl apply -f - <<EOF
+  apiVersion: velero.io/v1
+  kind: Restore
+  metadata:
+    name: verrazzano-opensearch-restore
+    namespace: verrazzano-backup
+  spec:
+    backupName: verrazzano-opensearch-backup
+    includedNamespaces:
+      - verrazzano-system
+    labelSelector:
+      matchLabels:
+        verrazzano-component: opensearch
+    restorePVs: false
+    hooks:
+      resources:
+        - name: opensearch-test
+          includedNamespaces:
+            - verrazzano-system       
+          labelSelector:
+            matchLabels:            
+              statefulset.kubernetes.io/pod-name: vmi-system-es-master-0
+          postHooks:
+            - exec:
+                container: es-master
+                command:
+                  - /usr/share/opensearch/bin/verrazzano-backup-hook
+                  - -operation
+                  - restore
+                  - -velero-backup-name
+                  - verrazzano-opensearch-backup
+                waitTimeout: 30m
+                execTimeout: 30m
+                onError: Fail
+EOF
 ```
 
 
@@ -138,7 +211,3 @@ $ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/<log-
 
 ```
 </details>
-
-
-
-<br/>

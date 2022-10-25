@@ -6,7 +6,7 @@ weight: 1
 draft: false
 ---
 
-Verrazzano provides [Velero](https://velero.io/docs/v1.8/) and [rancher-backup](https://rancher.com/docs/rancher/v2.5/en/backups/) for backup and recovery at the component and platform level. Use the following instructions to enable and configure these components in your environment.
+Verrazzano provides [Velero](https://velero.io/docs/v1.8/) and [rancher-backup](https://rancher.com/docs/rancher/v2.5/en/backups/) for backup and recovery at the component and platform level. Verrazzano also incorporates [MySQL operator](https://dev.mysql.com/doc/mysql-operator/en/) to perform mysql backups and restores. Use the following instructions to enable and configure these components in your environment.
 
 **NOTE**:  The backup functionality for OpenSearch can be used only if the components are enabled explicitly in the Verrazzano CR.
 
@@ -15,18 +15,20 @@ Verrazzano provides [Velero](https://velero.io/docs/v1.8/) and [rancher-backup](
 To back up and restore persistent data, first you must enable the `velero` and `rancherBackup` components.
 The following configuration shows how to enable the backup components with a `prod` installation profile.
 
-```
-apiVersion: install.verrazzano.io/v1beta1
-kind: Verrazzano
-metadata:
-  name: example-verrazzano
-spec:
-  profile: prod
-  components:    
-    velero:
-      enabled: true
-    rancherBackup:
-      enabled: true  
+```yaml
+kubectl apply -f -<<EOF
+  apiVersion: install.verrazzano.io/v1beta1
+  kind: Verrazzano
+  metadata:
+    name: example-verrazzano
+  spec:
+    profile: prod
+    components:    
+      velero:
+        enabled: true
+      rancherBackup:
+        enabled: true
+EOF
 ```
 **NOTE**: `rancherBackup` will be enabled only in cases when `rancher` is also enabled.
 
@@ -68,6 +70,7 @@ Next, meet the following prerequisite requirements for both `velero` and `ranche
 
 - A signing key, which is required to authenticate with the Amazon S3 compatible object store. Follow these steps to create a [Customer Secret Key](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm#Working2).
 
+- MySQL operator uses OCI credentials to back up and restore mysql data . Hence, OCI credentials will also be needed before configuting MySQL backup or restore.
 
 
 
@@ -88,7 +91,8 @@ $ rpm -ivh https://yum.oracle.com/repo/OracleLinux/OL7/developer/olcne/x86_64/ge
 Meet the following component-specific prerequisites:
 
 - [Velero operator prerequisites](#velero-operator-prerequisites)
-- [rancher-backup operator prerequisites](#rancher-backup-operator-prerequisites)
+- [Rancher-backup operator prerequisites](#rancher-backup-operator-prerequisites)
+- [MySQL operator prerequisites](#mysql-operator-prerequisites)
 
 #### Velero operator prerequisites
 
@@ -119,7 +123,8 @@ Now, create the following objects:
 - Create `BackupStorageLocation`, which the backup component will reference for subsequent backups. See the following `BackupStorageLocation` example.
   For more information, see [here](https://velero.io/docs/v1.8/api-types/backupstoragelocation/).
 
-   ```yaml
+ ```yaml
+kubectl apply -f -<<EOF
    apiVersion: velero.io/v1
    kind: BackupStorageLocation
    metadata:
@@ -137,7 +142,8 @@ Now, create the following objects:
        region: us-phoenix-1
        s3ForcePathStyle: "true"
        s3Url: https://mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com
-   ```
+EOF
+```
 
 #### rancher-backup operator prerequisites
 
@@ -152,5 +158,30 @@ $ kubectl create secret generic -n <backup-namespace> <secret-name> --from-liter
 $ kubectl create secret generic -n verrazzano-backup rancher-backup-creds --from-literal=accessKey="s5VLpXwa0xNZQds4UTVV" --from-literal=secretKey="nFFpvyxpQvb0dIQovsl0"
 ```
 
+#### MySQL operator prerequisites
 
-<br/>
+MySQL operator requires the following secret to exist before starting a MySQL backup or restore. In the example below we have created a secret `mysql-backup-secret` in the namespace `keycloak`.
+
+**_NOTE:_**  This secret must exist in the namespace `keycloak`.
+
+````shell
+kubectl create secret generic -n keycloak  <secret-name> \
+        --from-literal=user=<oci user id> \
+        --from-literal=fingerprint=<oci user fingerprint> \
+        --from-literal=tenancy=<oci tenancy id>> \
+        --from-literal=region=<region where bucket is created> \
+        --from-literal=passphrase="" \
+        --from-file=privatekey=<full path to private key pem file>
+````
+
+#### Example
+
+````shell
+kubectl create secret generic -n keycloak  mysql-backup-secret \
+        --from-literal=user=ocid1.user.oc1..aaaaaaaa \
+        --from-literal=fingerprint=aa:bb:cc:dd:ee:ff \
+        --from-literal=tenancy=ocid1.tenancy.oc1..bbbbbbbbb \
+        --from-literal=region=us-phoenix-1 \
+        --from-literal=passphrase="" \
+        --from-file=privatekey=/tmp/key.pem
+````
