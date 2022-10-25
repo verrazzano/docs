@@ -298,7 +298,7 @@ Apply the registration file exported in the previous step, on the managed cluste
 You can perform all the verification steps on the admin cluster.
 
 1. Verify that the managed cluster can connect to the admin cluster. View the status of the `VerrazzanoManagedCluster`
-   resource on the admin cluster, and check whether the `lastAgentConnectTime`, `prometheusUrl`, and `apiUrl` fields are
+   resource on the admin cluster, and check whether the `lastAgentConnectTime`, `prometheusHost`, and `apiUrl` fields are
    populated. This may take up to two minutes after completing the registration steps.
    ```
    # On the admin cluster
