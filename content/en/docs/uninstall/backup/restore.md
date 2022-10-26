@@ -25,7 +25,7 @@ To initiate a MySQL restore, from an existing backup we will need to recreate th
 helm  get values -n keycloak mysql > mysql-values.yaml
 ```
 
-- Get the backup folder prefix name that the MySQL backup created. The Out
+- Get the backup folder prefix name that the MySQL backup created.
 
 ```bash
 kubectl get mbk -n keycloak <mysql-backup-name> -o jsonpath={.status.output}
@@ -38,14 +38,14 @@ $  kubectl get mbk -n keycloak mysql-backup -o jsonpath={.status.output}
 mysql-backup-20221025-180836
 ```
 
-- Cleanup MySQL pods and PVC from the system 
+- Clean up MySQL pods and PVC from the system 
 
 ```bash
 helm delete mysql -n keycloak
 kubectl delete pvc -n keycloak -l tier=mysql
 ```
 
-- Clone the MySQL helm charts used by Verrazzano
+- Clone the MySQL Helm charts used by Verrazzano.
 
 ```bash
 git clone --filter=blob:none --no-checkout --depth 1 --sparse https://github.com/verrazzano/verrazzano
@@ -54,7 +54,7 @@ git sparse-checkout set platform-operator/thirdparty/charts/mysql
 git checkout
 ```
 
-- Trigger a MySQL restore by executing the helm chart as follows.
+- Trigger a MySQL restore by executing the Helm chart as follows.
 
 ```bash
 helm install mysql platform-operator/thirdparty/charts/mysql \
@@ -82,7 +82,7 @@ helm install mysql platform-operator/thirdparty/charts/mysql \
         --values mysql-values.yaml 
 ```
 
-At this point the MySQL cluster will be recreated and restored from the backup along with the PVC's we cleaned up earlier. 
+Now, the MySQL cluster will be recreated and restored from the backup, along with the PVCs that were cleaned up previously.
 
 ## Rancher restore
 

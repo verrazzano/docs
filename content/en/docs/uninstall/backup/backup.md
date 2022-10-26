@@ -6,22 +6,22 @@ weight: 2
 draft: false
 ---
 
-Verrazzano provides [Velero](https://velero.io/docs/v1.8/), [rancher-backup](https://rancher.com/docs/rancher/v2.5/en/backups/) and  [MySQL operator](https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-backups.html) for backup and recovery at the component and platform level.
+Verrazzano provides [Velero](https://velero.io/docs/v1.8/), [rancher-backup](https://rancher.com/docs/rancher/v2.5/en/backups/), and  [MySQL Operator](https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-backups.html) for backup and recovery at the component and platform level.
 First, ensure that the backup component prerequisites are met, as indicated [here]({{< relref "/docs/uninstall/backup/prerequisites.md" >}}).
 
 The following sections provide detailed configuration information for:
 
-- The [MySQL operator](https://dev.mysql.com/doc/mysql-operator/en/) to back up persistent data stored in the MySQL database. 
+- The [MySQL Operator](https://dev.mysql.com/doc/mysql-operator/en/) to back up persistent data stored in the MySQL database. 
 - The [rancher-backup](https://rancher.com/docs/rancher/v2.5/en/backups/) operator, to back up persistent data and Rancher-related configuration. See [Rancher backup](#rancher-backup).
 
 - Velero [hooks](https://velero.io/docs/v1.8/backup-hooks/), to ensure a consistent backup experience for these components:
   - OpenSearch. See [OpenSearch backup](#opensearch-backup).
-  - For all other components, besides `Rancher` and `MySQL` refer to the Velero [Backup Reference](https://velero.io/docs/v1.8/backup-reference/).
+  - For all other components, beside `Rancher` and `MySQL`, refer to the Velero [Backup Reference](https://velero.io/docs/v1.8/backup-reference/).
 
 ## MySQL backup
 
 To initiate a MySQL backup, create the following example custom resource YAML file that uses OCI object store as a backend.
-The operator uses the `credentials` to authenticate with Oci object store.
+The operator uses the `credentials` to authenticate with OCI object store.
 
 ```yaml
 kubectl apply -f - <<EOF
@@ -43,7 +43,7 @@ kubectl apply -f - <<EOF
 EOF
 ```
 
-**_NOTE:_**
+**NOTE:**
 - In the [prerequisites]({{< relref "/docs/uninstall/backup/prerequisites#component-specific-prerequisites" >}}) example, you created the secret `mysql-backup-secret` in the `keycloak` namespace.
 - The `clustername` has to be `mysql`.
 - The `namespace` has to be `keycloak`.
@@ -99,7 +99,7 @@ kubectl apply -f - <<EOF
 EOF
 ```
 
-**_NOTE:_**
+**NOTE:**
 - In the [prerequisites]({{< relref "/docs/uninstall/backup/prerequisites#component-specific-prerequisites" >}}) example, you previously created the secret in the `verrazzano-backup` namespace.
 
 #### Example
