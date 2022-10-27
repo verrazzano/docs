@@ -153,7 +153,7 @@ Now, in the namespace `verrazzano-backup`, create a Kubernetes secret `rancher-b
 $ kubectl create secret generic -n <backup-namespace> <secret-name> --from-literal=accessKey=<accesskey> --from-literal=secretKey=<secretKey>
 ```
 
-#### Example
+The following is an example:
 ```shell
 $ kubectl create secret generic -n verrazzano-backup rancher-backup-creds --from-literal=accessKey="s5VLpXwa0xNZQds4UTVV" --from-literal=secretKey="nFFpvyxpQvb0dIQovsl0"
 ```
@@ -175,7 +175,7 @@ $ kubectl create secret generic -n keycloak  <secret-name> \
         --from-file=privatekey=<full path to private key pem file>
 ````
 
-#### Example
+The following is an example:
 
 ````shell
 $ kubectl create secret generic -n keycloak  mysql-backup-secret \

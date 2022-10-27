@@ -101,7 +101,7 @@ EOF
 
 **NOTE:** In the [prerequisites]({{< relref "/docs/uninstall/backup/prerequisites#component-specific-prerequisites" >}}) example, you previously created the secret in the `verrazzano-backup` namespace.
 
-#### Example
+The following is an example:
 
 ```yaml
 $ kubectl apply -f - <<EOF
