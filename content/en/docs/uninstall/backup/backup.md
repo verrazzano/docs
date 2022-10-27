@@ -11,7 +11,7 @@ First, ensure that the backup component prerequisites are met, as indicated [her
 
 The following sections provide detailed configuration information for:
 
-- The [MySQL Operator](https://dev.mysql.com/doc/mysql-operator/en/) to back up persistent data stored in the MySQL database. 
+- The [MySQL Operator](https://dev.mysql.com/doc/mysql-operator/en/) to back up persistent data stored in the MySQL database.
 - The [rancher-backup](https://rancher.com/docs/rancher/v2.5/en/backups/) operator, to back up persistent data and Rancher-related configuration. See [Rancher backup](#rancher-backup).
 
 - Velero [hooks](https://velero.io/docs/v1.8/backup-hooks/), to ensure a consistent backup experience for these components:
@@ -21,10 +21,10 @@ The following sections provide detailed configuration information for:
 ## MySQL backup
 
 To initiate a MySQL backup, create the following example custom resource YAML file that uses OCI object store as a backend.
-The operator uses the `credentials` to authenticate with OCI object store.
+The operator uses the `credentials` to authenticate with the OCI object store.
 
 ```yaml
-kubectl apply -f - <<EOF
+$ kubectl apply -f - <<EOF
   apiVersion: mysql.oracle.com/v2
   kind: MySQLBackup
   metadata:
@@ -51,7 +51,7 @@ EOF
 #### Example
 
 ```yaml
-kubectl apply -f - <<EOF
+$ kubectl apply -f - <<EOF
   apiVersion: mysql.oracle.com/v2
   kind: MySQLBackup
   metadata:
@@ -71,7 +71,7 @@ EOF
 ```
 ### Scheduled backups
 
-MySQL allows scheduled backups by implementing a cron job on Kubernetes [MySQL operator](https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-backups.html).
+MySQL allows scheduled backups by implementing a cron job on [MySQL Operator](https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-backups.html) for kubernetes.
 
 
 ## Rancher backup
@@ -81,7 +81,7 @@ The operator uses the `credentialSecretNamespace` value to determine where to lo
 Note that in the [prerequisites]({{< relref "/docs/uninstall/backup/prerequisites#component-specific-prerequisites" >}}) example, you previously created the secret in the `verrazzano-backup` namespace.
 
 ```yaml
-kubectl apply -f - <<EOF
+$ kubectl apply -f - <<EOF
   apiVersion: resources.cattle.io/v1
   kind: Backup
   metadata:
@@ -99,13 +99,12 @@ kubectl apply -f - <<EOF
 EOF
 ```
 
-**NOTE:**
-- In the [prerequisites]({{< relref "/docs/uninstall/backup/prerequisites#component-specific-prerequisites" >}}) example, you previously created the secret in the `verrazzano-backup` namespace.
+**NOTE:** In the [prerequisites]({{< relref "/docs/uninstall/backup/prerequisites#component-specific-prerequisites" >}}) example, you previously created the secret in the `verrazzano-backup` namespace.
 
 #### Example
 
 ```yaml
-kubectl apply -f - <<EOF
+$ kubectl apply -f - <<EOF
   apiVersion: resources.cattle.io/v1
   kind: Backup
   metadata:
@@ -128,7 +127,7 @@ The operator creates the backup file, in the `*.tar.gz` format, and stores it in
 
 ### Scheduled backups
 
-Rancher-backup implements scheduled backups as indicated here [scheduled backups](https://rancher.com/docs/rancher/v2.5/en/backups/configuration/backup-config/).  
+rancher-backup implements scheduled backups as indicated here [scheduled backups](https://rancher.com/docs/rancher/v2.5/en/backups/configuration/backup-config/).  
 
 
 ## OpenSearch backup
@@ -140,7 +139,7 @@ thereby ensuring that there is no loss of data and avoids data corruption as wel
 The following example shows a sample Velero `Backup` [API](https://velero.io/docs/v1.8/api-types/backup/) object that you can invoke to make an OpenSearch backup.
 
 ```yaml
-kubectl apply -f - <<EOF
+$ kubectl apply -f - <<EOF
   apiVersion: velero.io/v1
   kind: Backup
   metadata:
