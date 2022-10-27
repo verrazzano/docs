@@ -181,56 +181,9 @@ See the [OAM specification](https://github.com/oam-dev/spec/blob/v0.2.1/core/wor
 ## Verrazzano Traits
 The Verrazzano platform provides several Trait definitions and implementations:
 
-- [IngressTrait](#ingresstrait)
-- [MetricsTrait](#metricstrait)
-
-### IngressTrait
-The IngressTrait provides a simplified integration with the Istio ingress gateway included in the Verrazzano platform.
-The `verrazzano-application-operator` processes each IngressTrait and generates related Gateway, VirtualService, and Certificate resources when processed.
-The Certificate is created in the `istio-system` namespace.
-The values used to create are either explicitly provided in the Trait or are derived from the environment or associated Component.
-
-The following sample shows an IngressTrait that results in the application being accessible using the path `/greet`.
-```yaml
-apiVersion: core.oam.dev/v1alpha2
-kind: ApplicationConfiguration
-...
-spec:
-  components:
-    - componentName: example-component
-      traits:
-        - trait:
-            apiVersion: oam.verrazzano.io/v1alpha1
-            kind: IngressTrait
-            spec:
-              rules:
-                - paths:
-                    - path: "/greet"
-```
-See the [API documentation]({{< relref "/docs/reference/api/oam/ingresstrait.md" >}}) for details.
-
-### MetricsTrait
-The MetricsTrait provides a simplified integration with the Prometheus service included in the Verrazzano platform.
-The `verrazzano-application-operator` processes each MetricsTrait and does these things:
-- Updates the workload's annotations to provide metrics source information.
-- For the Verrazzano Prometheus instance, creates a Service Monitor or Pod Monitor for the target workload.
-- For an external Prometheus instance, updates the metrics scrape configuration with metrics scrape targets.
-The Verrazzano platform will automatically apply a MetricsTrait to every Component with a supported workload.
-
-The following sample shows a MetricsTrait that was automatically applied.
-```yaml
-apiVersion: core.oam.dev/v1alpha2
-kind: ApplicationConfiguration
-...
-spec:
-  components:
-    - componentName: example-component
-      traits:
-        - trait:
-            apiVersion: oam.verrazzano.io/v1alpha1
-            kind: MetricsTrait
-```
-See the [API documentation]({{< relref "/docs/reference/api/oam/metricstrait.md" >}}) for details.
+- [IngressTrait]({{< relref "/docs/applications/traits/ingress/ingress" >}})
+- [MetricsTrait]({{< relref "/docs/applications/traits/metrics/metrics" >}})
+- [LoggingTrait]({{< relref "/docs/applications/traits/logging/logging" >}})
 
 ## Kubernetes resources
 Verrazzano and OAM provide workloads and Traits to define and customize applications.
