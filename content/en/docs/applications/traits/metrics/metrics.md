@@ -1,6 +1,6 @@
 ---
 title: MetricsTrait
-description: "Metrics Trait"
+description: "A trait supporting the publication of application metrics"
 weight: 4
 draft: false
 ---

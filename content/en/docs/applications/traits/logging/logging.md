@@ -1,6 +1,6 @@
 ---
 title: LoggingTrait
-description: "Logging Trait"
+description: "A trait supporting the definition of application logging parameters"
 weight: 4
 draft: false
 ---
