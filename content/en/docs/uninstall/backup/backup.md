@@ -48,7 +48,7 @@ EOF
 - The `clustername` has to be `mysql`.
 - The `namespace` has to be `keycloak`.
 
-#### Example
+The following is an example:
 
 ```yaml
 $ kubectl apply -f - <<EOF
