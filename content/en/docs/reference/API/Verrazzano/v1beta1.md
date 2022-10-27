@@ -4,35 +4,6 @@ weight: 2
 draft: false
 ---
 
-The Verrazzano custom resource contains the configuration information for an installation.
-Here is a sample Verrazzano custom resource file that uses Oracle Cloud Infrastructure DNS.  See other examples
-[here]( {{< release_source_url path=platform-operator/config/samples >}} ).
-
-```
-apiVersion: install.verrazzano.io/v1beta1
-kind: Verrazzano
-metadata:
-  name: example-verrazzano
-spec:
-  environmentName: env
-  profile: prod
-  components:
-    certManager:
-      certificate:
-        acme:
-          provider: letsEncrypt
-          emailAddress: emailAddress@example.com
-    dns:
-      oci:
-        ociConfigSecret: oci
-        dnsZoneCompartmentOCID: dnsZoneCompartmentOcid
-        dnsZoneOCID: dnsZoneOcid
-        dnsZoneName: my.dns.zone.name
-    ingressNGINX:
-      type: LoadBalancer
-
-```
-
 ## VerrazzanoSpec
 | Field | Type | Description | Required |
 | --- | --- | --- | --- |
