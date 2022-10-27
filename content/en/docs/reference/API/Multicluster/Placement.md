@@ -3,7 +3,6 @@ title: Placement Subresource
 weight: 2
 draft: false
 ---
-The Placement subresource is shared by multicluster custom resources.
 
 #### Placement
 Placement contains the name of each cluster where this resource will be located.

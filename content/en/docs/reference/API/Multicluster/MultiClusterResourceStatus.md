@@ -3,8 +3,6 @@ title: MultiClusterResourceStatus Subresource
 weight: 2
 draft: false
 ---
-The MultiClusterResourceStatus subresource is shared by multicluster custom resources.
-
 #### MultiClusterResourceStatus
 MultiClusterResourceStatus specifies the status portion of a multicluster resource.
 
