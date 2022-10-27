@@ -1,0 +1,146 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Verrazzano Enterprise Container Platform – Multicluster Resources</title>
+    <link>/docs/applications/multicluster/mcresources/</link>
+    <description>Recent content in Multicluster Resources on Verrazzano Enterprise Container Platform</description>
+    <generator>Hugo -- gohugo.io</generator>
+    
+	  <atom:link href="/docs/applications/multicluster/mcresources/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: MultiClusterApplicationConfiguration</title>
+      <link>/docs/applications/multicluster/mcresources/multiclusterapplicationconfiguration/multiclusterapplicationconfiguration/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/applications/multicluster/mcresources/multiclusterapplicationconfiguration/multiclusterapplicationconfiguration/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The &lt;a href=&#34;../../../../docs/reference/api/multicluster/multiclusterapplicationconfiguration/&#34;&gt;MultiClusterApplicationConfiguration&lt;/a&gt; custom resource is an envelope used to distribute &lt;code&gt;core.oam.dev/v1alpha2/ApplicationConfiguration&lt;/code&gt; resources in a multicluster environment.&lt;/p&gt;
+&lt;p&gt;Here is a sample MultiClusterApplicationConfiguration that specifies an ApplicationConfiguration resource to create on the cluster named &lt;code&gt;managed1&lt;/code&gt;.  To deploy an example application that demonstrates a MultiClusterApplicationConfiguration, see &lt;a href=&#34;../../../../docs/samples/multicluster/todo-list/&#34;&gt;Multicluster ToDo List&lt;/a&gt;.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: clusters.verrazzano.io/v1alpha1
+kind: MultiClusterApplicationConfiguration
+metadata:
+  name: todo-appconf
+  namespace: mc-todo-list
+spec:
+  template:
+    metadata:
+      annotations:
+        version: v1.0.0
+        description: &amp;#34;ToDo List example application&amp;#34;
+    spec:
+      components:
+        - componentName: todo-domain
+          traits:
+            - trait:
+                apiVersion: oam.verrazzano.io/v1alpha1
+                kind: MetricsTrait
+            - trait:
+                apiVersion: oam.verrazzano.io/v1alpha1
+                kind: IngressTrait
+                spec:
+                  rules:
+                    - paths:
+                        - path: &amp;#34;/todo&amp;#34;
+                          pathType: Prefix
+        - componentName: todo-jdbc-config
+        - componentName: mysql-initdb-config
+        - componentName: todo-mysql-service
+        - componentName: todo-mysql-deployment
+  placement:
+    clusters:
+      - name: managed1
+  secrets:
+    - tododomain-repo-credentials
+    - tododomain-jdbc-tododb
+    - tododomain-weblogic-credentials
+&lt;/code&gt;&lt;/pre&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: MultiClusterResourceStatus</title>
+      <link>/docs/applications/multicluster/mcresources/multiclusterresourcestatus/multiclusterresourcestatus/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/applications/multicluster/mcresources/multiclusterresourcestatus/multiclusterresourcestatus/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The &lt;a href=&#34;../../../../docs/reference/api/multicluster/multiclusterresourcestatus/&#34;&gt;MultiClusterResourceStatus&lt;/a&gt; subresource is shared by multicluster custom resources.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Placement</title>
+      <link>/docs/applications/multicluster/mcresources/placement/placement/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/applications/multicluster/mcresources/placement/placement/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The &lt;a href=&#34;../../../../docs/reference/api/multicluster/placement/&#34;&gt;Placement&lt;/a&gt; subresource is shared by multicluster custom resources.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: VerrazzanoManagedCluster</title>
+      <link>/docs/applications/multicluster/mcresources/managedcluster/verrazzanomanagedcluster/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/applications/multicluster/mcresources/managedcluster/verrazzanomanagedcluster/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The &lt;a href=&#34;../../../../docs/reference/api/multicluster/verrazzanomanagedcluster/&#34;&gt;VerrazzanoManagedCluster&lt;/a&gt; custom resource is used to register a managed cluster with an admin cluster.  Here is a sample VerrazzanoManagedCluster that registers the cluster named &lt;code&gt;managed1&lt;/code&gt;.  To deploy an example application that demonstrates a VerrazzanoManagedCluster, see &lt;a href=&#34;../../../../docs/samples/multicluster/hello-helidon/&#34;&gt;Multicluster Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: clusters.verrazzano.io/v1alpha1
+kind: VerrazzanoManagedCluster
+metadata:
+  name: managed1
+  namespace: verrazzano-mc
+spec:
+  description: &amp;#34;Managed Cluster 1&amp;#34;
+  caSecret: ca-secret-managed1
+&lt;/code&gt;&lt;/pre&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: VerrazzanoProject</title>
+      <link>/docs/applications/multicluster/mcresources/project/verrazzanoproject/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/applications/multicluster/mcresources/project/verrazzanoproject/</guid>
+      <description>
+        
+        
+        &lt;p&gt;The &lt;a href=&#34;../../../../docs/reference/api/multicluster/verrazzanoproject/&#34;&gt;VerrazzanoProject&lt;/a&gt; custom resource is used to create the application namespaces and their associated security settings on one or more clusters.  The namespaces are always created on the admin cluster.  Here is a sample VerrazzanoProject that specifies a namespace to create on the cluster named &lt;code&gt;managed1&lt;/code&gt;.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: clusters.verrazzano.io/v1alpha1
+kind: VerrazzanoProject
+metadata:
+  name: hello-helidon
+  namespace: verrazzano-mc
+spec:
+  template:
+    namespaces:
+      - metadata:
+          name: hello-helidon
+  placement:
+    clusters:
+      - name: managed1
+&lt;/code&gt;&lt;/pre&gt;
+      </description>
+    </item>
+    
+  </channel>
+</rss>

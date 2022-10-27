@@ -19,27 +19,25 @@
 <link rel="icon" type="image/png" href="../../../../../favicons/android-192x192.png" sizes="192x192">
 
 <title>MultiClusterApplicationConfiguration | Verrazzano Enterprise Container Platform</title>
-<meta name="description" content="The MultiClusterApplicationConfiguration custom resource is an envelope used to distribute core.oam.dev/v1alpha2/ApplicationConfiguration resources in …">
+<meta name="description" content="MultiClusterApplicationConfiguration
+A MultiClusterApplicationConfiguration is an envelope to create core.oam.dev/v1alpha2/ApplicationConfiguration …">
 <meta property="og:title" content="MultiClusterApplicationConfiguration" />
-<meta property="og:description" content="The MultiClusterApplicationConfiguration custom resource is an envelope used to distribute core.oam.dev/v1alpha2/ApplicationConfiguration resources in a multicluster environment.
-Here is a sample MultiClusterApplicationConfiguration that specifies an ApplicationConfiguration resource to create on the cluster named managed1. To deploy an example application that demonstrates a MultiClusterApplicationConfiguration, see Multicluster ToDo List.
-apiVersion: clusters.verrazzano.io/v1alpha1 kind: MultiClusterApplicationConfiguration metadata: name: todo-appconf namespace: mc-todo-list spec: template: metadata: annotations: version: v1.0.0 description: &#34;ToDo List example application&#34; spec: components: - componentName: todo-domain traits: - trait: apiVersion: oam." />
+<meta property="og:description" content="MultiClusterApplicationConfiguration A MultiClusterApplicationConfiguration is an envelope to create core.oam.dev/v1alpha2/ApplicationConfiguration resources on the clusters specified in the placement section.
+   Field Type Description Required     apiVersion string clusters.verrazzano.io/v1alpha1 Yes   kind string MultiClusterApplicationConfiguration Yes   metadata ObjectMeta Refer to Kubernetes API documentation for fields of metadata. Yes   spec MultiClusterApplicationConfigurationSpec The desired state of a core.oam.dev/v1alpha2/ApplicationConfiguration resource. Yes   status MultiClusterResourceStatus The runtime status of a multicluster resource." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/reference/api/multicluster/multiclusterapplicationconfiguration/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-09-15T08:15:04-07:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-10-27T15:24:17-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="MultiClusterApplicationConfiguration">
-<meta itemprop="description" content="The MultiClusterApplicationConfiguration custom resource is an envelope used to distribute core.oam.dev/v1alpha2/ApplicationConfiguration resources in a multicluster environment.
-Here is a sample MultiClusterApplicationConfiguration that specifies an ApplicationConfiguration resource to create on the cluster named managed1. To deploy an example application that demonstrates a MultiClusterApplicationConfiguration, see Multicluster ToDo List.
-apiVersion: clusters.verrazzano.io/v1alpha1 kind: MultiClusterApplicationConfiguration metadata: name: todo-appconf namespace: mc-todo-list spec: template: metadata: annotations: version: v1.0.0 description: &#34;ToDo List example application&#34; spec: components: - componentName: todo-domain traits: - trait: apiVersion: oam.">
-<meta itemprop="dateModified" content="2022-09-15T08:15:04-07:00" />
-<meta itemprop="wordCount" content="276">
+<meta itemprop="description" content="MultiClusterApplicationConfiguration A MultiClusterApplicationConfiguration is an envelope to create core.oam.dev/v1alpha2/ApplicationConfiguration resources on the clusters specified in the placement section.
+   Field Type Description Required     apiVersion string clusters.verrazzano.io/v1alpha1 Yes   kind string MultiClusterApplicationConfiguration Yes   metadata ObjectMeta Refer to Kubernetes API documentation for fields of metadata. Yes   spec MultiClusterApplicationConfigurationSpec The desired state of a core.oam.dev/v1alpha2/ApplicationConfiguration resource. Yes   status MultiClusterResourceStatus The runtime status of a multicluster resource.">
+<meta itemprop="dateModified" content="2022-10-27T15:24:17-04:00" />
+<meta itemprop="wordCount" content="159">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="MultiClusterApplicationConfiguration"/>
-<meta name="twitter:description" content="The MultiClusterApplicationConfiguration custom resource is an envelope used to distribute core.oam.dev/v1alpha2/ApplicationConfiguration resources in a multicluster environment.
-Here is a sample MultiClusterApplicationConfiguration that specifies an ApplicationConfiguration resource to create on the cluster named managed1. To deploy an example application that demonstrates a MultiClusterApplicationConfiguration, see Multicluster ToDo List.
-apiVersion: clusters.verrazzano.io/v1alpha1 kind: MultiClusterApplicationConfiguration metadata: name: todo-appconf namespace: mc-todo-list spec: template: metadata: annotations: version: v1.0.0 description: &#34;ToDo List example application&#34; spec: components: - componentName: todo-domain traits: - trait: apiVersion: oam."/>
+<meta name="twitter:description" content="MultiClusterApplicationConfiguration A MultiClusterApplicationConfiguration is an envelope to create core.oam.dev/v1alpha2/ApplicationConfiguration resources on the clusters specified in the placement section.
+   Field Type Description Required     apiVersion string clusters.verrazzano.io/v1alpha1 Yes   kind string MultiClusterApplicationConfiguration Yes   metadata ObjectMeta Refer to Kubernetes API documentation for fields of metadata. Yes   spec MultiClusterApplicationConfigurationSpec The desired state of a core.oam.dev/v1alpha2/ApplicationConfiguration resource. Yes   status MultiClusterResourceStatus The runtime status of a multicluster resource."/>
 
 
 
@@ -100,7 +98,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.4fc82fbdd182ec01d13660a1be356313.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.4600e21434590c4e08c3a015477d844e.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -122,7 +120,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.4fc82fbdd182ec01d13660a1be356313.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.4600e21434590c4e08c3a015477d844e.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -246,10 +244,39 @@ if (!doNotTrack) {
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsapplications-li">
   <a href="../../../../../docs/applications/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsapplications"><span class="">Applications</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsapplicationsmulticluster-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docsapplicationsmulticluster-li">
   <a href="../../../../../docs/applications/multicluster/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsapplicationsmulticluster"><span class="">Multicluster</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docsapplicationsmulticlustermcresources-li">
+  <a href="../../../../../docs/applications/multicluster/mcresources/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsapplicationsmulticlustermcresources"><span class="">Multicluster Resources</span></a>
+  <ul class="ul-4 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsapplicationsmulticlustermcresourcesmulticlusterapplicationconfigurationmulticlusterapplicationconfiguration-li">
+  <a href="../../../../../docs/applications/multicluster/mcresources/multiclusterapplicationconfiguration/multiclusterapplicationconfiguration/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsapplicationsmulticlustermcresourcesmulticlusterapplicationconfigurationmulticlusterapplicationconfiguration"><span class="">MultiClusterApplicationConfiguration</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsapplicationsmulticlustermcresourcesmulticlusterresourcestatusmulticlusterresourcestatus-li">
+  <a href="../../../../../docs/applications/multicluster/mcresources/multiclusterresourcestatus/multiclusterresourcestatus/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsapplicationsmulticlustermcresourcesmulticlusterresourcestatusmulticlusterresourcestatus"><span class="">MultiClusterResourceStatus</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsapplicationsmulticlustermcresourcesplacementplacement-li">
+  <a href="../../../../../docs/applications/multicluster/mcresources/placement/placement/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsapplicationsmulticlustermcresourcesplacementplacement"><span class="">Placement</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsapplicationsmulticlustermcresourcesmanagedclusterverrazzanomanagedcluster-li">
+  <a href="../../../../../docs/applications/multicluster/mcresources/managedcluster/verrazzanomanagedcluster/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsapplicationsmulticlustermcresourcesmanagedclusterverrazzanomanagedcluster"><span class="">VerrazzanoManagedCluster</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsapplicationsmulticlustermcresourcesprojectverrazzanoproject-li">
+  <a href="../../../../../docs/applications/multicluster/mcresources/project/verrazzanoproject/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsapplicationsmulticlustermcresourcesprojectverrazzanoproject"><span class="">VerrazzanoProject</span></a>
+</li>
+  </ul>
+</li>
+  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsapplicationsprojects-li">
   <a href="../../../../../docs/applications/projects/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsapplicationsprojects"><span class="">Projects</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docsapplicationstraits-li">
+  <a href="../../../../../docs/applications/traits/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsapplicationstraits"><span class="">Traits</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsapplicationstraitsingressingress-li">
+  <a href="../../../../../docs/applications/traits/ingress/ingress/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsapplicationstraitsingressingress"><span class="">IngressTrait</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsapplicationstraitslogginglogging-li">
+  <a href="../../../../../docs/applications/traits/logging/logging/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsapplicationstraitslogginglogging"><span class="">LoggingTrait</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsapplicationstraitsmetricsmetrics-li">
+  <a href="../../../../../docs/applications/traits/metrics/metrics/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsapplicationstraitsmetricsmetrics"><span class="">MetricsTrait</span></a>
+</li>
+  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docsapplicationsworkloads-li">
   <a href="../../../../../docs/applications/workloads/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsapplicationsworkloads"><span class="">Workloads</span></a>
   <ul class="ul-3 foldable">
@@ -423,14 +450,8 @@ if (!doNotTrack) {
   <a href="../../../../../docs/reference/api/oam/metricstrait/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapioammetricstrait"><span class="">MetricsTrait</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsreferenceapimulticlustermulticlusterapplicationconfiguration-li">
   <a href="../../../../../docs/reference/api/multicluster/multiclusterapplicationconfiguration/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlustermulticlusterapplicationconfiguration"><span class="td-sidebar-nav-active-item">MultiClusterApplicationConfiguration</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsreferenceapimulticlustermulticlustercomponent-li">
-  <a href="../../../../../docs/reference/api/multicluster/multiclustercomponent/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlustermulticlustercomponent"><span class="">MultiClusterComponent</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsreferenceapimulticlustermulticlusterconfigmap-li">
-  <a href="../../../../../docs/reference/api/multicluster/multiclusterconfigmap/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlustermulticlusterconfigmap"><span class="">MultiClusterConfigMap</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsreferenceapimulticlustermulticlusterresourcestatus-li">
   <a href="../../../../../docs/reference/api/multicluster/multiclusterresourcestatus/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlustermulticlusterresourcestatus"><span class="">MultiClusterResourceStatus Subresource</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsreferenceapimulticlustermulticlustersecret-li">
-  <a href="../../../../../docs/reference/api/multicluster/multiclustersecret/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlustermulticlustersecret"><span class="">MultiClusterSecret</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsreferenceapimulticlusterplacement-li">
   <a href="../../../../../docs/reference/api/multicluster/placement/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlusterplacement"><span class="">Placement Subresource</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsreferenceapiverrazzanov1alpha1-li">
@@ -530,46 +551,7 @@ if (!doNotTrack) {
 
 		
 	</header>    
-	<p>The MultiClusterApplicationConfiguration custom resource is an envelope used to distribute <code>core.oam.dev/v1alpha2/ApplicationConfiguration</code> resources in a multicluster environment.</p>
-<p>Here is a sample MultiClusterApplicationConfiguration that specifies an ApplicationConfiguration resource to create on the cluster named <code>managed1</code>.  To deploy an example application that demonstrates a MultiClusterApplicationConfiguration, see <a href="../../../../../docs/samples/multicluster/todo-list/">Multicluster ToDo List</a>.</p>
-<pre tabindex="0"><code>apiVersion: clusters.verrazzano.io/v1alpha1
-kind: MultiClusterApplicationConfiguration
-metadata:
-  name: todo-appconf
-  namespace: mc-todo-list
-spec:
-  template:
-    metadata:
-      annotations:
-        version: v1.0.0
-        description: &#34;ToDo List example application&#34;
-    spec:
-      components:
-        - componentName: todo-domain
-          traits:
-            - trait:
-                apiVersion: oam.verrazzano.io/v1alpha1
-                kind: MetricsTrait
-            - trait:
-                apiVersion: oam.verrazzano.io/v1alpha1
-                kind: IngressTrait
-                spec:
-                  rules:
-                    - paths:
-                        - path: &#34;/todo&#34;
-                          pathType: Prefix
-        - componentName: todo-jdbc-config
-        - componentName: mysql-initdb-config
-        - componentName: todo-mysql-service
-        - componentName: todo-mysql-deployment
-  placement:
-    clusters:
-      - name: managed1
-  secrets:
-    - tododomain-repo-credentials
-    - tododomain-jdbc-tododb
-    - tododomain-weblogic-credentials
-</code></pre><h4 id="multiclusterapplicationconfiguration">MultiClusterApplicationConfiguration</h4>
+	<h4 id="multiclusterapplicationconfiguration">MultiClusterApplicationConfiguration</h4>
 <p>A MultiClusterApplicationConfiguration is an envelope to create <code>core.oam.dev/v1alpha2/ApplicationConfiguration</code> resources on the clusters specified in the <code>placement</code> section.</p>
 <table>
 <thead>

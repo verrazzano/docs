@@ -19,25 +19,48 @@
 <link rel="icon" type="image/png" href="../../../../../favicons/android-192x192.png" sizes="192x192">
 
 <title>LoggingTrait | Verrazzano Enterprise Container Platform</title>
-<meta name="description" content="The LoggingTrait custom resource contains the configuration for an additional logging sidecar with a custom image and Fluentd configuration file.
-Here …">
+<meta name="description" content="LoggingTrait
+
+
+
+Field
+Type
+Description
+Required
+
+
+
+
+apiVersion
+string
+oam.verrazzano.io/v1alpha1
+Yes
+
+
+kind
+string
+LoggingTrait
+Yes
+
+
+metadata …">
 <meta property="og:title" content="LoggingTrait" />
-<meta property="og:description" content="The LoggingTrait custom resource contains the configuration for an additional logging sidecar with a custom image and Fluentd configuration file. Here is a sample ApplicationConfiguration that includes a LoggingTrait. To deploy an example application with this LoggingTrait, replace the ApplicationConfiguration of the ToDo-List example application with the following sample.
-apiVersion:core.oam.dev/v1alpha2kind:ApplicationConfigurationmetadata:name:todo-appconfnamespace:todo-listannotations:version:v1.0.0description:&#34;ToDo List example application&#34;spec:components:- componentName:todo-domaintraits:- trait:apiVersion:oam.verrazzano.io/v1alpha1kind:LoggingTraitmetadata:name:logging-trait-examplenamespace:todo-listspec:loggingImage:fluent/fleuntd-example-image# Replace with custom Fluentd ImageloggingConfig:|-# Replace with Fluentd config file &lt;match **&gt; @type stdout &lt;/match&gt;- componentName:todo-jdbc-configmap- componentName:todo-mysql-configmap- componentName:todo-mysql-service- componentName:todo-mysql-deploymentIn this sample configuration, the LoggingTrait logging-trait-example is set on the todo-domain application component and defines a logging sidecar with the given Fluentd image and configuration file." />
+<meta property="og:description" content="LoggingTrait    Field Type Description Required     apiVersion string oam.verrazzano.io/v1alpha1 Yes   kind string LoggingTrait Yes   metadata ObjectMeta Refer to Kubernetes API documentation for fields of metadata. No   spec LoggingTraitSpec The desired state of a logging trait. Yes    LoggingTraitSpec LoggingTraitSpec specifies the desired state of a logging trait.
+   Field Type Description Required     loggingConfig string A string representation of the Fluentd configuration." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/reference/api/oam/loggingtrait/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-09-15T08:15:04-07:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-10-27T15:24:17-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="LoggingTrait">
-<meta itemprop="description" content="The LoggingTrait custom resource contains the configuration for an additional logging sidecar with a custom image and Fluentd configuration file. Here is a sample ApplicationConfiguration that includes a LoggingTrait. To deploy an example application with this LoggingTrait, replace the ApplicationConfiguration of the ToDo-List example application with the following sample.
-apiVersion:core.oam.dev/v1alpha2kind:ApplicationConfigurationmetadata:name:todo-appconfnamespace:todo-listannotations:version:v1.0.0description:&#34;ToDo List example application&#34;spec:components:- componentName:todo-domaintraits:- trait:apiVersion:oam.verrazzano.io/v1alpha1kind:LoggingTraitmetadata:name:logging-trait-examplenamespace:todo-listspec:loggingImage:fluent/fleuntd-example-image# Replace with custom Fluentd ImageloggingConfig:|-# Replace with Fluentd config file &lt;match **&gt; @type stdout &lt;/match&gt;- componentName:todo-jdbc-configmap- componentName:todo-mysql-configmap- componentName:todo-mysql-service- componentName:todo-mysql-deploymentIn this sample configuration, the LoggingTrait logging-trait-example is set on the todo-domain application component and defines a logging sidecar with the given Fluentd image and configuration file.">
-<meta itemprop="dateModified" content="2022-09-15T08:15:04-07:00" />
-<meta itemprop="wordCount" content="279">
+<meta itemprop="description" content="LoggingTrait    Field Type Description Required     apiVersion string oam.verrazzano.io/v1alpha1 Yes   kind string LoggingTrait Yes   metadata ObjectMeta Refer to Kubernetes API documentation for fields of metadata. No   spec LoggingTraitSpec The desired state of a logging trait. Yes    LoggingTraitSpec LoggingTraitSpec specifies the desired state of a logging trait.
+   Field Type Description Required     loggingConfig string A string representation of the Fluentd configuration.">
+<meta itemprop="dateModified" content="2022-10-27T15:24:17-04:00" />
+<meta itemprop="wordCount" content="69">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="LoggingTrait"/>
-<meta name="twitter:description" content="The LoggingTrait custom resource contains the configuration for an additional logging sidecar with a custom image and Fluentd configuration file. Here is a sample ApplicationConfiguration that includes a LoggingTrait. To deploy an example application with this LoggingTrait, replace the ApplicationConfiguration of the ToDo-List example application with the following sample.
-apiVersion:core.oam.dev/v1alpha2kind:ApplicationConfigurationmetadata:name:todo-appconfnamespace:todo-listannotations:version:v1.0.0description:&#34;ToDo List example application&#34;spec:components:- componentName:todo-domaintraits:- trait:apiVersion:oam.verrazzano.io/v1alpha1kind:LoggingTraitmetadata:name:logging-trait-examplenamespace:todo-listspec:loggingImage:fluent/fleuntd-example-image# Replace with custom Fluentd ImageloggingConfig:|-# Replace with Fluentd config file &lt;match **&gt; @type stdout &lt;/match&gt;- componentName:todo-jdbc-configmap- componentName:todo-mysql-configmap- componentName:todo-mysql-service- componentName:todo-mysql-deploymentIn this sample configuration, the LoggingTrait logging-trait-example is set on the todo-domain application component and defines a logging sidecar with the given Fluentd image and configuration file."/>
+<meta name="twitter:description" content="LoggingTrait    Field Type Description Required     apiVersion string oam.verrazzano.io/v1alpha1 Yes   kind string LoggingTrait Yes   metadata ObjectMeta Refer to Kubernetes API documentation for fields of metadata. No   spec LoggingTraitSpec The desired state of a logging trait. Yes    LoggingTraitSpec LoggingTraitSpec specifies the desired state of a logging trait.
+   Field Type Description Required     loggingConfig string A string representation of the Fluentd configuration."/>
 
 
 
@@ -98,7 +121,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.4fc82fbdd182ec01d13660a1be356313.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.4600e21434590c4e08c3a015477d844e.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -120,7 +143,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.4fc82fbdd182ec01d13660a1be356313.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.4600e21434590c4e08c3a015477d844e.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -244,10 +267,39 @@ if (!doNotTrack) {
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsapplications-li">
   <a href="../../../../../docs/applications/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsapplications"><span class="">Applications</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsapplicationsmulticluster-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docsapplicationsmulticluster-li">
   <a href="../../../../../docs/applications/multicluster/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsapplicationsmulticluster"><span class="">Multicluster</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docsapplicationsmulticlustermcresources-li">
+  <a href="../../../../../docs/applications/multicluster/mcresources/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsapplicationsmulticlustermcresources"><span class="">Multicluster Resources</span></a>
+  <ul class="ul-4 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsapplicationsmulticlustermcresourcesmulticlusterapplicationconfigurationmulticlusterapplicationconfiguration-li">
+  <a href="../../../../../docs/applications/multicluster/mcresources/multiclusterapplicationconfiguration/multiclusterapplicationconfiguration/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsapplicationsmulticlustermcresourcesmulticlusterapplicationconfigurationmulticlusterapplicationconfiguration"><span class="">MultiClusterApplicationConfiguration</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsapplicationsmulticlustermcresourcesmulticlusterresourcestatusmulticlusterresourcestatus-li">
+  <a href="../../../../../docs/applications/multicluster/mcresources/multiclusterresourcestatus/multiclusterresourcestatus/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsapplicationsmulticlustermcresourcesmulticlusterresourcestatusmulticlusterresourcestatus"><span class="">MultiClusterResourceStatus</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsapplicationsmulticlustermcresourcesplacementplacement-li">
+  <a href="../../../../../docs/applications/multicluster/mcresources/placement/placement/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsapplicationsmulticlustermcresourcesplacementplacement"><span class="">Placement</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsapplicationsmulticlustermcresourcesmanagedclusterverrazzanomanagedcluster-li">
+  <a href="../../../../../docs/applications/multicluster/mcresources/managedcluster/verrazzanomanagedcluster/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsapplicationsmulticlustermcresourcesmanagedclusterverrazzanomanagedcluster"><span class="">VerrazzanoManagedCluster</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsapplicationsmulticlustermcresourcesprojectverrazzanoproject-li">
+  <a href="../../../../../docs/applications/multicluster/mcresources/project/verrazzanoproject/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsapplicationsmulticlustermcresourcesprojectverrazzanoproject"><span class="">VerrazzanoProject</span></a>
+</li>
+  </ul>
+</li>
+  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsapplicationsprojects-li">
   <a href="../../../../../docs/applications/projects/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsapplicationsprojects"><span class="">Projects</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docsapplicationstraits-li">
+  <a href="../../../../../docs/applications/traits/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsapplicationstraits"><span class="">Traits</span></a>
+  <ul class="ul-3 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsapplicationstraitsingressingress-li">
+  <a href="../../../../../docs/applications/traits/ingress/ingress/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsapplicationstraitsingressingress"><span class="">IngressTrait</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsapplicationstraitslogginglogging-li">
+  <a href="../../../../../docs/applications/traits/logging/logging/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsapplicationstraitslogginglogging"><span class="">LoggingTrait</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsapplicationstraitsmetricsmetrics-li">
+  <a href="../../../../../docs/applications/traits/metrics/metrics/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsapplicationstraitsmetricsmetrics"><span class="">MetricsTrait</span></a>
+</li>
+  </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docsapplicationsworkloads-li">
   <a href="../../../../../docs/applications/workloads/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsapplicationsworkloads"><span class="">Workloads</span></a>
   <ul class="ul-3 foldable">
@@ -421,14 +473,8 @@ if (!doNotTrack) {
   <a href="../../../../../docs/reference/api/oam/metricstrait/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapioammetricstrait"><span class="">MetricsTrait</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsreferenceapimulticlustermulticlusterapplicationconfiguration-li">
   <a href="../../../../../docs/reference/api/multicluster/multiclusterapplicationconfiguration/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlustermulticlusterapplicationconfiguration"><span class="">MultiClusterApplicationConfiguration</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsreferenceapimulticlustermulticlustercomponent-li">
-  <a href="../../../../../docs/reference/api/multicluster/multiclustercomponent/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlustermulticlustercomponent"><span class="">MultiClusterComponent</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsreferenceapimulticlustermulticlusterconfigmap-li">
-  <a href="../../../../../docs/reference/api/multicluster/multiclusterconfigmap/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlustermulticlusterconfigmap"><span class="">MultiClusterConfigMap</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsreferenceapimulticlustermulticlusterresourcestatus-li">
   <a href="../../../../../docs/reference/api/multicluster/multiclusterresourcestatus/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlustermulticlusterresourcestatus"><span class="">MultiClusterResourceStatus Subresource</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsreferenceapimulticlustermulticlustersecret-li">
-  <a href="../../../../../docs/reference/api/multicluster/multiclustersecret/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlustermulticlustersecret"><span class="">MultiClusterSecret</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsreferenceapimulticlusterplacement-li">
   <a href="../../../../../docs/reference/api/multicluster/placement/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsreferenceapimulticlusterplacement"><span class="">Placement Subresource</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsreferenceapiverrazzanov1alpha1-li">
@@ -528,46 +574,7 @@ if (!doNotTrack) {
 
 		
 	</header>    
-	<p>The LoggingTrait custom resource contains the configuration for an additional logging sidecar with a custom image and Fluentd configuration file.
-Here is a sample ApplicationConfiguration that includes a LoggingTrait.
-To deploy an example application with this LoggingTrait, replace the ApplicationConfiguration of the <a href="../../../../../docs/samples/todo-list/">ToDo-List</a> example application with the following sample.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">core.oam.dev/v1alpha2</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">ApplicationConfiguration</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">todo-appconf</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">namespace</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">todo-list</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">annotations</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">version</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">v1.0.0</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">description</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;ToDo List example application&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">components</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">componentName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">todo-domain</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">traits</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span>- <span style="color:#204a87;font-weight:bold">trait</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">oam.verrazzano.io/v1alpha1</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">LoggingTrait</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">logging-trait-example</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">namespace</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">todo-list</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">loggingImage</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">fluent/fleuntd-example-image</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#8f5902;font-style:italic"># Replace with custom Fluentd Image</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">loggingConfig</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000;font-weight:bold">|-</span><span style="color:#8f5902;font-style:italic">
-</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">                # Replace with Fluentd config file
-</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">                &lt;match **&gt;
-</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">                @type stdout
-</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">                &lt;/match&gt;</span><span style="color:#f8f8f8;text-decoration:underline">                
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">componentName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">todo-jdbc-configmap</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">componentName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">todo-mysql-configmap</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">componentName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">todo-mysql-service</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">componentName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">todo-mysql-deployment</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span></code></pre></div><p>In this sample configuration, the LoggingTrait <code>logging-trait-example</code> is set on the <code>todo-domain</code> application component and defines a logging sidecar with the given Fluentd image and configuration file.
-This sidecar will be attached to the component&rsquo;s pod and will gather logs according to the given Fluentd configuration file.
-In order for the Fluentd DaemonSet to collect the custom logs, the Fluentd configuration file needs to direct the logs to <code>STDOUT</code>, as demonstrated in the previous example.</p>
-<p>For example, when the <a href="../../../../../docs/samples/todo-list/">ToDo-List</a> example ApplicationConfiguration is successfully deployed with a LoggingTrait, the <code>tododomain-adminserver</code> pod will have a container named <code>logging-stdout</code>.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl get pods tododomain-adminserver -n todo-list -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;{.spec.containers[*].name}&#39;</span>
-</span></span><span style="display:flex;"><span>  ... logging-stdout ...
-</span></span></code></pre></div><p>In this example, the <code>logging-stdout</code> container will run the image given in the LoggingTrait and a ConfigMap named <code>logging-stdout-todo-domain-domain</code> will be created with the custom Fluentd configuration file.</p>
-<h4 id="loggingtrait">LoggingTrait</h4>
+	<h4 id="loggingtrait">LoggingTrait</h4>
 <table>
 <thead>
 <tr>
