@@ -20,7 +20,7 @@ The following sections provide detailed configuration information for:
 
 ## MySQL backup
 
-To initiate a MySQL backup, create the following example custom resource YAML file that uses OCI object store as a backend.
+To initiate a MySQL backup, create the following example custom resource YAML file that uses the OCI object store as a backend.
 The operator uses the `credentials` to authenticate with the OCI object store.
 
 ```yaml
@@ -71,7 +71,7 @@ EOF
 ```
 ### Scheduled backups
 
-MySQL allows scheduled backups by implementing a cron job on [MySQL Operator](https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-backups.html) for kubernetes.
+MySQL allows scheduled backups by implementing a cron job on [MySQL Operator](https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-backups.html) for Kubernetes.
 
 
 ## Rancher backup
@@ -127,7 +127,7 @@ The operator creates the backup file, in the `*.tar.gz` format, and stores it in
 
 ### Scheduled backups
 
-rancher-backup implements scheduled backups as indicated here [scheduled backups](https://rancher.com/docs/rancher/v2.5/en/backups/configuration/backup-config/).  
+rancher-backup implements scheduled backups as indicated here, [scheduled backups](https://rancher.com/docs/rancher/v2.5/en/backups/configuration/backup-config/).  
 
 
 ## OpenSearch backup
