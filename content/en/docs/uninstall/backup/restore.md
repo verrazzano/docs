@@ -21,7 +21,7 @@ To initiate a MySQL restore, from an existing backup, you need to recreate the M
 
 1. Back up the values in the MySQL Helm chart to a file, `mysql-values.yaml`.
     ```bash
-    $ helm  get values -n keycloak mysql > mysql-values.yaml
+    $ helm get values -n keycloak mysql > mysql-values.yaml
     ```
 
 2. Get the backup folder prefix name that the MySQL backup created.
