@@ -51,7 +51,7 @@ For more information and the source code of this application, see the [Verrazzan
    Replace `YOUR_REGISTRY_USERNAME`, `YOUR_REGISTRY_PASSWORD`, and `YOUR_REGISTRY_EMAIL`
    with the values you use to access the registry.  
 
-1. Create and label secrets for the WebLogic domain:
+1. Create and label secrets for the WebLogic domain. The password must be at least 8 alphanumeric characters with at least one number or special character.
    ```
    # Replace the values of the WLS_USERNAME and WLS_PASSWORD environment variables as appropriate.
    $ export WLS_USERNAME=<username>
