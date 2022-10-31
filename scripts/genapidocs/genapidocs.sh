@@ -69,18 +69,20 @@ genapidoc() {
 
 checkoutvz "$1"
 genapidoc "platform-operator/apis/clusters/v1alpha1" "vpo-clusters-v1alpha1"
-genapidoc "platform-operator/apis/verrazzano/v1alpha1" "vpo-verrazzano-v1alpha1"
-genapidoc "platform-operator/apis/verrazzano/v1beta1" "vpo-verrazzano-v1beta1"
-genapidoc "application-operator/apis/app/v1alpha1" "vao-app-v1alpha1"
-genapidoc "application-operator/apis/clusters/v1alpha1" "vao-clusters-v1alpha1"
-genapidoc "application-operator/apis/oam/v1alpha1" "vao-oam-v1alpha1"
+#genapidoc "platform-operator/apis/verrazzano/v1alpha1" "vpo-verrazzano-v1alpha1"
+#genapidoc "platform-operator/apis/verrazzano/v1beta1" "vpo-verrazzano-v1beta1"
+#genapidoc "application-operator/apis/app/v1alpha1" "vao-app-v1alpha1"
+#genapidoc "application-operator/apis/clusters/v1alpha1" "vao-clusters-v1alpha1"
+#genapidoc "application-operator/apis/oam/v1alpha1" "vao-oam-v1alpha1"
+
+popd
 
 # Check to see if any files are checked out.  Files will be checked out when there is a change in the generated
 # API reference docs.
-if [[ `git status --porcelain` ]]; then
-  echo "Changes found in the generated API reference docs"
+echo $GOPATH
+git status
+if [[ `git status --porcelain --untracked-files=no` ]]; then
+  echo "+++ Changes found in the generated API reference docs"
 else
   echo "+++ No changes found in the generated API reference docs"
 fi
-
-#popd
