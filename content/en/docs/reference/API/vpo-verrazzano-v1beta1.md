@@ -3447,7 +3447,7 @@ declare a PersistentVolumeClaimVolumeSource.</p>
 <code>metadata</code></br>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#objectmeta-v1-meta">
-Kubernetes apis/meta/v1.ObjectMeta
+Kubernetes meta/v1.ObjectMeta
 </a>
 </em>
 </td>
