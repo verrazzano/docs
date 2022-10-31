@@ -50,7 +50,7 @@ string
 <code>metadata</code></br>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#objectmeta-v1-meta">
-Kubernetes meta/v1.ObjectMeta
+Kubernetes apis/meta/v1.ObjectMeta
 </a>
 </em>
 </td>
@@ -165,7 +165,7 @@ VerrazzanoManagedClusterStatus
 <code>lastTransitionTime</code></br>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#time-v1-meta">
-Kubernetes apis/meta/v1.Time
+Kubernetes meta/v1.Time
 </a>
 </em>
 </td>
@@ -463,7 +463,3 @@ StateType
 </tbody>
 </table>
 <hr/>
-<p><em>
-Generated with <code>gen-crd-api-reference-docs</code>
-on git commit <code>47a64edda</code>.
-</em></p>

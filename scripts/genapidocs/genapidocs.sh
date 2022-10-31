@@ -48,7 +48,6 @@ cd "$gitdir"
 
 checkoutvz() {
 	branch="$1"
-	pushd "$gitdir"
 	echo "+++ Checking out verrazzano branch $branch"
 	git fetch origin "$branch"
 	git reset --hard "origin/$branch"
@@ -75,12 +74,11 @@ genapidoc "platform-operator/apis/clusters/v1alpha1" "vpo-clusters-v1alpha1"
 #genapidoc "application-operator/apis/clusters/v1alpha1" "vao-clusters-v1alpha1"
 #genapidoc "application-operator/apis/oam/v1alpha1" "vao-oam-v1alpha1"
 
-popd
+cd ${REPO_ROOT}
+pwd
 
-# Check to see if any files are checked out.  Files will be checked out when there is a change in the generated
-# API reference docs.
-echo $GOPATH
-git status
+# Check to see if any files are checked out of the docs repo.  Files will be checked out when there is a change in
+# the generated API reference docs.
 if [[ `git status --porcelain --untracked-files=no` ]]; then
   echo "+++ Changes found in the generated API reference docs"
 else
