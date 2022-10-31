@@ -27,12 +27,12 @@ To initiate a MySQL restore, from an existing backup, you need to recreate the M
 2. Get the backup folder prefix name that the MySQL backup created.
 
     ```bash
-    $ kubectl get mbk -n keycloak <mysql-backup-name> -o jsonpath={.status.output}
+    $ kubectl get mysqlbackup -n keycloak <mysql-backup-name> -o jsonpath={.status.output}
     ```
 
     The following is an example:
     ```bash
-    $  kubectl get mbk -n keycloak mysql-backup -o jsonpath={.status.output}
+    $  kubectl get mysqlbackup -n keycloak mysql-backup -o jsonpath={.status.output}
     mysql-backup-20221025-180836
     ```
 
