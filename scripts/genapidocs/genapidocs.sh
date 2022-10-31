@@ -46,10 +46,10 @@ echo "+++ Cloning verrazzano repository..."
 git clone "https://github.com/verrazzano/verrazzano.git" "$gitdir"
 cd "$gitdir"
 
-checkout() {
+checkoutvz() {
 	branch="$1"
 	pushd "$gitdir"
-	echo "+++ Checking out branch $branch"
+	echo "+++ Checking out verrazzano branch $branch"
 	git fetch origin "$branch"
 	git reset --hard "origin/$branch"
 }
@@ -67,7 +67,20 @@ genapidoc() {
 	printf '%s\n%s\n%s\n%s\n%s\n' "---" "title: ${API}" "weight: 2" "---" "$(cat ${OUTFILE})" >${OUTFILE}
 }
 
-checkout "$1"
+checkoutvz "$1"
 genapidoc "platform-operator/apis/clusters/v1alpha1" "vpo-clusters-v1alpha1"
 genapidoc "platform-operator/apis/verrazzano/v1alpha1" "vpo-verrazzano-v1alpha1"
+genapidoc "platform-operator/apis/verrazzano/v1beta1" "vpo-verrazzano-v1beta1"
+genapidoc "application-operator/apis/app/v1alpha1" "vao-app-v1alpha1"
+genapidoc "application-operator/apis/clusters/v1alpha1" "vao-clusters-v1alpha1"
+genapidoc "application-operator/apis/oam/v1alpha1" "vao-oam-v1alpha1"
+
+# Check to see if any files are checked out.  Files will be checked out when there is a change in the generated
+# API reference docs.
+if [[ `git status --porcelain` ]]; then
+  echo "Changes found in the generated API reference docs"
+else
+  echo "+++ No changes found in the generated API reference docs"
+fi
+
 #popd

@@ -415,7 +415,7 @@ string
 <code>lastAgentConnectTime</code></br>
 <em>
 <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#time-v1-meta">
-Kubernetes meta/v1.Time
+Kubernetes apis/meta/v1.Time
 </a>
 </em>
 </td>
