@@ -17,7 +17,6 @@ if ! command -v go &>/dev/null; then
 fi
 
 tmpdir="$(mktemp -d)"
-#apidocstmpdir="$(mktemp -d)"
 
 cleanup() {
 	# we can't simply remove tmpdir because the modcache is written as read-only
@@ -26,7 +25,6 @@ cleanup() {
 	echo "+++ Cleaning up temporary GOPATH"
 	go clean -modcache
 
-#	rm -rf "${apidocstmpdir}"
 	rm -rf "${tmpdir}"
 }
 trap cleanup EXIT
@@ -48,59 +46,26 @@ echo "+++ Cloning verrazzano repository..."
 git clone "https://github.com/verrazzano/verrazzano.git" "$gitdir"
 cd "$gitdir"
 
-# genversion takes two arguments (branch in verrazzano repo and a directory in
-# this repo under content) and generates API reference docs from cert-manager
-# branch for the path in this repo.
-genversion() {
-	checkout "$1"
-	gendocs
-}
-
 checkout() {
 	branch="$1"
 	pushd "$gitdir"
-#	rm -rf vendor/
 	echo "+++ Checking out branch $branch"
 	git fetch origin "$branch"
 	git reset --hard "origin/$branch"
-#	echo "+++ Running 'go mod vendor' (this may take a while)"
-#	go mod vendor
 }
 
 gendocs() {
-#	outputdir="$1"
-#	mkdir -p ${apidocstmpdir}/${outputdir}/
-	echo "+++ Generating reference docs..."
+  API=$1
+  OUTFILE=$2
+	echo "+++ Generating API reference doc for ${API}"
 	"${GOBIN}/gen-crd-api-reference-docs" \
 		-config "${REPO_ROOT}/scripts/genapidocs/config.json" \
 		-template-dir "${REPO_ROOT}/scripts/genapidocs/template" \
-		-api-dir "github.com/verrazzano/verrazzano/platform-operator/apis/clusters/v1alpha1" \
-		-out-file "api-docs.md"
-
-#	rm -rf vendor/
-	popd
+		-api-dir "github.com/verrazzano/verrazzano/${API}" \
+		-out-file "${REPO_ROOT}/${OUTFILE}.md"
 }
 
-
-# The branches named here exist in the `cert-manager/cert-manager` repo.
-
-# Note that we cannot generate docs for any version before 1.8 using this script!
-# In 1.8 we changed the import path, and gen-crd-api-reference-docs doesn't seem module-aware
-# This script is _only_ for generating docs for versions of cert-manager with the
-# github.com/cert-manager/cert-manager import path!
-
-#LATEST_VERSION="v1.10-docs"
-
-genversion "$1"
-
-# Rather than generate the same docs again for /docs, copy from the latest version
-
-#cp -r "${REPO_ROOT}/content/${LATEST_VERSION}/reference" "${REPO_ROOT}/content/docs/"
-
-# Unless we keep the next release branch up-to-date (which we never do), it's pointless to generate reference docs for next-docs.
-# Instead just use the same as we have for docs.
-
-#cp -r "${REPO_ROOT}/content/${LATEST_VERSION}/reference" "${REPO_ROOT}/content/next-docs/"
-
-echo "Generated reference documentation for cert-manager versions with a new github.com/cert-manager/cert-manager import path"
-
+checkout "$1"
+gendocs "platform-operator/apis/clusters/v1alpha1" "vpo-clusters-v1alpha1"
+gendocs "platform-operator/apis/verrazzano/v1alpha1" "vpo-verrazzano-v1alpha1"
+#popd
