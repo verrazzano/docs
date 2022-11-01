@@ -36,7 +36,7 @@ The following components can use persistent storage:
 * Keycloak
 
 You can customize the persistence settings for these components through the
-[VerrazzanoSpec](/docs/reference/api/verrazzano/v1beta1/#verrazzanospec), as follows:
+[VerrazzanoSpec](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.VerrazzanoSpec), as follows:
 
 * Overriding the persistence settings for all components (Keycloak, Grafana, Prometheus, OpenSearch, and OpenSearch Dashboards) by using the `defaultVolumeSource` field.
 * Overriding the persistence settings for Keycloak by using the `volumeSource` field on that component's configuration.
@@ -50,7 +50,7 @@ You can set the global `defaultVolumeSource` and component-level `volumeSource` 
 
 When you want to use a `persistentVolumeClaim` to override the storage settings for components, you must do the following:
 
-* Create a [volumeClaimSpecTemplate](/docs/reference/api/verrazzano/v1beta1/#volumeclaimspectemplate) which identifies
+* Create a [volumeClaimSpecTemplate](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.VolumeClaimSpecTemplate) which identifies
   the desired persistence settings.
 * Configure a `persistentVolumeClaim` for the component where the `claimName` field references the template you created previously.
 
