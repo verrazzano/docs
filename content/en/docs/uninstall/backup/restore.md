@@ -46,18 +46,18 @@ To initiate a MySQL restore, from an existing backup, you need to recreate the M
 4. Retrieve the MySQL Helm charts from Verrazzano Platform Operator..
 
     ```bash
-    $ mkdir mysql
+    $ mkdir mysql-charts
     $ kubectl cp -n verrazzano-install \
         $(kubectl get pod -n verrazzano-install -l app=verrazzano-platform-operator \
         -o custom-columns=:metadata.name --no-headers):platform-operator/thirdparty/charts/mysql \
-        -c verrazzano-platform-operator mysql/
+        -c verrazzano-platform-operator mysql-charts/
     ```
 
 
 5. Trigger a MySQL restore by executing the Helm chart as follows.
 
     ```bash
-    $ helm install mysql platform-operator/thirdparty/charts/mysql \
+    $ helm install mysql mysql-charts \
             --namespace keycloak \
             --set tls.useSelfSigned=true \
             --set initDB.dump.name=<dump-name> \
@@ -71,7 +71,7 @@ To initiate a MySQL restore, from an existing backup, you need to recreate the M
    The following is an example:
 
     ```bash
-    $ helm install mysql platform-operator/thirdparty/charts/mysql \
+    $ helm install mysql mysql-charts \
             --namespace keycloak \
             --set tls.useSelfSigned=true \
             --set initDB.dump.name="alpha" \
