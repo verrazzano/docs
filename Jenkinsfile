@@ -45,7 +45,7 @@ pipeline {
                     git config --global credential.helper "!f() { echo username=\\$GIT_AUTH_USR; echo password=\\$GIT_AUTH_PSW; }; f"
                     git config --global user.name $GIT_AUTH_USR
                     git config --global user.email "${EMAIL}"
-                    git checkout -b ${env.BRANCH_NAME}
+                    git checkout ${env.BRANCH_NAME}
 
                     ./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}
 
