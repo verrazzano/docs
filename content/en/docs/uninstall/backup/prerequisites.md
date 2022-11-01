@@ -70,7 +70,7 @@ Next, meet the following prerequisite requirements for both `velero` and `ranche
 
 - A signing key, which is required to authenticate with the Amazon S3 compatible object store. Follow these steps to create a [Customer Secret Key](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm#Working2).
 
-- MySQL Operator uses OCI credentials to back up and restore mysql data . Hence, OCI credentials will also be needed before configuting MySQL backup or restore.
+- MySQL Operator uses OCI credentials to back up and restore mysql data . Hence, OCI credentials will also be needed before configuring MySQL backup or restore.
 
 
 
