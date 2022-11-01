@@ -40,12 +40,14 @@ pipeline {
         }
 
         stage('Build API reference documentation') {
-           when {
-               not {
-                    branch 'master';
-                    branch 'release-*'
-               }
-           }
+            when {
+                not {
+                    anyOf {
+                        branch 'master';
+                        branch 'release-*'
+                    }
+                }
+            }
             steps {
                 sh """
                 pwd
