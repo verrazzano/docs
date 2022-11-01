@@ -19,7 +19,11 @@ pipeline {
         booleanParam (name: 'PUBLISH_TO_GH_PAGES',
                 defaultValue: false,
                 description: 'When true, builds the production website and pushes to the gh-pages branch')
-    }
+        string (name: 'API_BRANCH',
+                defaultValue: 'master',
+                description: 'Identifies the branch used to generate the Verrazzano API docs',
+                trim: true)
+   }
 
     environment {
         GIT_AUTH = credentials('github-packages-credentials-rw')
@@ -31,6 +35,18 @@ pipeline {
             steps {
                 sh """
                     npm install
+                """
+            }
+        }
+
+        stage('Build API reference documentation') {
+            when {
+                expression { env.BRANCH_NAME ==~ /(master|release-*)/ }
+            }
+            steps {
+                sh """
+                pwd
+                .scripts/genapidocs.sh ${params.API_BRANCH}
                 """
             }
         }
