@@ -40,13 +40,17 @@ pipeline {
         }
 
         stage('Build API reference documentation') {
-            when {
-                expression { env.BRANCH_NAME ==~ /(master|release-*)/ }
-            }
+           when {
+               not {
+                    branch 'master';
+                    branch 'release-*'
+               }
+           }
             steps {
                 sh """
                 pwd
                 .scripts/genapidocs.sh ${params.API_BRANCH}
+                git status
                 """
             }
         }
