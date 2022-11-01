@@ -80,6 +80,7 @@ cd ${REPO_ROOT}
 # the generated API reference docs.
 if [[ `git status --porcelain --untracked-files=no` ]]; then
   echo "+++ Changes found in the generated API reference docs"
+  exit 255
 else
   echo "+++ No changes found in the generated API reference docs"
 fi
