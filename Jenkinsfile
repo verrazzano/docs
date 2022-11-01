@@ -42,10 +42,21 @@ pipeline {
             }
             steps {
                 sh """
-                pwd
-                ./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}
-                git status
+                    pwd
+                    ./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}
+                    git status
                 """
+
+                sh """
+                    git config --global credential.helper "!f() { echo username=\\$GIT_AUTH_USR; echo password=\\$GIT_AUTH_PSW; }; f"
+                    git config --global user.name $GIT_AUTH_USR
+                    git config --global user.email "${EMAIL}"
+                    git checkout -b ${env.BRANCH_NAME}
+                    git status
+#                    git add deploy/operator.yaml
+#                    git commit -m "[verrazzano] Update verrazzano-platform-operator image version to ${DOCKER_IMAGE_TAG} in operator.yaml"
+#                    git push origin ${env.BRANCH_NAME}
+                   """
             }
         }
 
