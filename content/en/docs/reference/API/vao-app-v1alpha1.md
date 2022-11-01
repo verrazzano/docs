@@ -634,3 +634,6 @@ Kubernetes meta/v1.LabelSelector
 </tbody>
 </table>
 <hr/>
+<p><em>
+Generated with <code>gen-crd-api-reference-docs</code>
+</em></p>

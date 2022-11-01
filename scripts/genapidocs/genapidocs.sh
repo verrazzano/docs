@@ -76,6 +76,10 @@ genapidoc "application-operator/apis/oam/v1alpha1" "vao-oam-v1alpha1"
 
 cd ${REPO_ROOT}
 
+# Sometimes gen-crd-api-reference-docs generates the reference apis/meta instead of meta.
+# Fix them up if that is the case.
+sed -i -e 's,apis/meta,meta,g' content/en/docs/reference/API/*.md
+
 # Check to see if any files are checked out of the docs repo.  Files will be checked out when there is a change in
 # the generated API reference docs.
 if [[ `git status --porcelain --untracked-files=no` ]]; then
