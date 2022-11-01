@@ -43,13 +43,14 @@ To initiate a MySQL restore, from an existing backup, you need to recreate the M
     $ kubectl delete pvc -n keycloak -l tier=mysql
     ```
 
-4. Clone the MySQL Helm charts used by Verrazzano.
+4. Retrieve the MySQL Helm charts from Verrazzano Platform Operator..
 
     ```bash
-    $ git clone --filter=blob:none --no-checkout --depth 1 --sparse https://github.com/verrazzano/verrazzano
-    $ cd verrazzano
-    $ git sparse-checkout set platform-operator/thirdparty/charts/mysql
-    $ git checkout
+    $ mkdir mysql
+    $ kubectl cp -n verrazzano-install \
+        $(kubectl get pod -n verrazzano-install -l app=verrazzano-platform-operator \
+        -o custom-columns=:metadata.name --no-headers):platform-operator/thirdparty/charts/mysql \
+        -c verrazzano-platform-operator mysql/
     ```
 
 
