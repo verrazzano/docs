@@ -51,7 +51,7 @@ pipeline {
             steps {
                 sh """
                 pwd
-                .scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}
+                ./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}
                 git status
                 """
             }
