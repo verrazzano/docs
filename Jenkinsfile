@@ -43,7 +43,6 @@ pipeline {
             steps {
                 sh """
                     ./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}
-                    git status
                 """
 
                 sh """
