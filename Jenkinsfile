@@ -51,12 +51,11 @@ pipeline {
 
                     git status
                 """
-
-#                sh """
-#                    git add deploy/operator.yaml
-#                    git commit -m "[verrazzano] Update verrazzano-platform-operator image version to ${DOCKER_IMAGE_TAG} in operator.yaml"
-#                    git push origin ${env.BRANCH_NAME}
-#                """
+//                sh """
+//                   git add deploy/operator.yaml
+//                   git commit -m "[verrazzano] Update verrazzano-platform-operator image version to ${DOCKER_IMAGE_TAG} in operator.yaml"
+//                   git push origin ${env.BRANCH_NAME}
+//               """
             }
         }
 
