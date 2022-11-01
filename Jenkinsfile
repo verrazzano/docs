@@ -31,14 +31,6 @@ pipeline {
     }
 
     stages {
-        stage('Setup Dependencies') {
-            steps {
-                sh """
-                    npm install
-                """
-            }
-        }
-
         stage('Build API reference documentation') {
             when {
                 not {
@@ -53,7 +45,14 @@ pipeline {
                 pwd
                 ./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}
                 git status
-                git diff
+                """
+            }
+        }
+
+        stage('Setup Dependencies') {
+            steps {
+                sh """
+                    npm install
                 """
             }
         }
