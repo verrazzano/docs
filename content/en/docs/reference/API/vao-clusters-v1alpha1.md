@@ -26,7 +26,7 @@ Resource Types:
 <h3 id="clusters.verrazzano.io/v1alpha1.MultiClusterApplicationConfiguration">MultiClusterApplicationConfiguration
 </h3>
 <p>
-<p>MultiClusterApplicationConfiguration specifies the Multi Cluster Application API.</p>
+<p>MultiClusterApplicationConfiguration specifies the multicluster application API.</p>
 </p>
 <table>
 <thead>
@@ -77,7 +77,7 @@ MultiClusterApplicationConfigurationSpec
 </em>
 </td>
 <td>
-<p>The desired state of a Multi Cluster Application resource.</p>
+<p>The desired state of a multicluster application resource.</p>
 <br/>
 <br/>
 <table>
@@ -133,7 +133,7 @@ MultiClusterResourceStatus
 </em>
 </td>
 <td>
-<p>The observed state of a Multi Cluster Application resource.</p>
+<p>The observed state of a multicluster application resource.</p>
 </td>
 </tr>
 </tbody>
@@ -141,7 +141,7 @@ MultiClusterResourceStatus
 <h3 id="clusters.verrazzano.io/v1alpha1.MultiClusterComponent">MultiClusterComponent
 </h3>
 <p>
-<p>MultiClusterComponent specifies the Multi Cluster Component API.</p>
+<p>MultiClusterComponent specifies the MultiCluster Component API.</p>
 </p>
 <table>
 <thead>
@@ -192,7 +192,7 @@ MultiClusterComponentSpec
 </em>
 </td>
 <td>
-<p>The desired state of a Multi Cluster Component resource.</p>
+<p>The desired state of a MultiCluster Component resource.</p>
 <br/>
 <br/>
 <table>
@@ -235,7 +235,7 @@ MultiClusterResourceStatus
 </em>
 </td>
 <td>
-<p>The observed state of a Multi Cluster Component resource.</p>
+<p>The observed state of a MultiCluster Component resource.</p>
 </td>
 </tr>
 </tbody>
@@ -243,7 +243,7 @@ MultiClusterResourceStatus
 <h3 id="clusters.verrazzano.io/v1alpha1.MultiClusterConfigMap">MultiClusterConfigMap
 </h3>
 <p>
-<p>MultiClusterConfigMap specifies the Multi Cluster ConfigMap API.</p>
+<p>MultiClusterConfigMap specifies the MultiCluster ConfigMap API.</p>
 </p>
 <table>
 <thead>
@@ -294,7 +294,7 @@ MultiClusterConfigMapSpec
 </em>
 </td>
 <td>
-<p>The desired state of a Multi Cluster ConfigMap resource.</p>
+<p>The desired state of a MultiCluster ConfigMap resource.</p>
 <br/>
 <br/>
 <table>
@@ -308,7 +308,7 @@ Placement
 </em>
 </td>
 <td>
-<p>Clusters in which the config map is to be created.</p>
+<p>Clusters in which the ConfigMap is to be created.</p>
 </td>
 </tr>
 <tr>
@@ -321,7 +321,7 @@ ConfigMapTemplate
 </em>
 </td>
 <td>
-<p>The embedded Kubernetes config map.</p>
+<p>The embedded Kubernetes ConfigMap.</p>
 </td>
 </tr>
 </table>
@@ -337,7 +337,7 @@ MultiClusterResourceStatus
 </em>
 </td>
 <td>
-<p>The observed state of a Multi Cluster ConfigMap resource.</p>
+<p>The observed state of a MultiCluster ConfigMap resource.</p>
 </td>
 </tr>
 </tbody>
@@ -345,7 +345,7 @@ MultiClusterResourceStatus
 <h3 id="clusters.verrazzano.io/v1alpha1.MultiClusterSecret">MultiClusterSecret
 </h3>
 <p>
-<p>MultiClusterSecret specifies the Multi Cluster Secret API.</p>
+<p>MultiClusterSecret specifies the MultiCluster Secret API.</p>
 </p>
 <table>
 <thead>
@@ -396,7 +396,7 @@ MultiClusterSecretSpec
 </em>
 </td>
 <td>
-<p>The desired state of a Multi Cluster Secret resource.</p>
+<p>The desired state of a MultiCluster Secret resource.</p>
 <br/>
 <br/>
 <table>
@@ -439,7 +439,7 @@ MultiClusterResourceStatus
 </em>
 </td>
 <td>
-<p>The observed state of a Multi Cluster Secret resource.</p>
+<p>The observed state of a MultiCluster Secret resource.</p>
 </td>
 </tr>
 </tbody>
@@ -646,7 +646,7 @@ string
 <a href="#clusters.verrazzano.io/v1alpha1.MultiClusterResourceStatus">MultiClusterResourceStatus</a>)
 </p>
 <p>
-<p>ClusterLevelStatus describes the status of the multi cluster resource in a specific cluster.</p>
+<p>ClusterLevelStatus describes the status of the multicluster resource in a specific cluster.</p>
 </p>
 <table>
 <thead>
@@ -792,7 +792,7 @@ will in turn be injected into the embedded workload.</p>
 <a href="#clusters.verrazzano.io/v1alpha1.MultiClusterResourceStatus">MultiClusterResourceStatus</a>)
 </p>
 <p>
-<p>Condition describes current state of a multi cluster resource.</p>
+<p>Condition describes current state of a multicluster resource.</p>
 </p>
 <table>
 <thead>
@@ -861,7 +861,7 @@ ConditionType
 <a href="#clusters.verrazzano.io/v1alpha1.Condition">Condition</a>)
 </p>
 <p>
-<p>ConditionType identifies the condition of the multi-cluster resource which can be checked with <code>kubectl wait</code>.</p>
+<p>ConditionType identifies the condition of the multicluster resource which can be checked with <code>kubectl wait</code>.</p>
 </p>
 <h3 id="clusters.verrazzano.io/v1alpha1.ConfigMapTemplate">ConfigMapTemplate
 </h3>
@@ -926,7 +926,7 @@ EmbeddedObjectMeta
 </em>
 </td>
 <td>
-<p>Metadata describing the config map.</p>
+<p>Metadata describing the ConfigMap.</p>
 </td>
 </tr>
 </tbody>
@@ -1008,7 +1008,7 @@ string
 <a href="#clusters.verrazzano.io/v1alpha1.MultiClusterApplicationConfiguration">MultiClusterApplicationConfiguration</a>)
 </p>
 <p>
-<p>MultiClusterApplicationConfigurationSpec defines the desired state of a Multi Cluster Application.</p>
+<p>MultiClusterApplicationConfigurationSpec defines the desired state of a multicluster application.</p>
 </p>
 <table>
 <thead>
@@ -1066,7 +1066,7 @@ ApplicationConfigurationTemplate
 <a href="#clusters.verrazzano.io/v1alpha1.MultiClusterComponent">MultiClusterComponent</a>)
 </p>
 <p>
-<p>MultiClusterComponentSpec defines the desired state of a Multi Cluster Component.</p>
+<p>MultiClusterComponentSpec defines the desired state of a MultiCluster Component.</p>
 </p>
 <table>
 <thead>
@@ -1111,7 +1111,7 @@ ComponentTemplate
 <a href="#clusters.verrazzano.io/v1alpha1.MultiClusterConfigMap">MultiClusterConfigMap</a>)
 </p>
 <p>
-<p>MultiClusterConfigMapSpec defines the desired state of a Multi Cluster ConfigMap.</p>
+<p>MultiClusterConfigMapSpec defines the desired state of a MultiCluster ConfigMap.</p>
 </p>
 <table>
 <thead>
@@ -1131,7 +1131,7 @@ Placement
 </em>
 </td>
 <td>
-<p>Clusters in which the config map is to be created.</p>
+<p>Clusters in which the ConfigMap is to be created.</p>
 </td>
 </tr>
 <tr>
@@ -1144,7 +1144,7 @@ ConfigMapTemplate
 </em>
 </td>
 <td>
-<p>The embedded Kubernetes config map.</p>
+<p>The embedded Kubernetes ConfigMap.</p>
 </td>
 </tr>
 </tbody>
@@ -1160,7 +1160,7 @@ ConfigMapTemplate
 <a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoProject">VerrazzanoProject</a>)
 </p>
 <p>
-<p>MultiClusterResourceStatus is the runtime status of a multi-cluster resource.</p>
+<p>MultiClusterResourceStatus is the runtime status of a multicluster resource.</p>
 </p>
 <table>
 <thead>
@@ -1219,7 +1219,7 @@ StateType
 <a href="#clusters.verrazzano.io/v1alpha1.MultiClusterSecret">MultiClusterSecret</a>)
 </p>
 <p>
-<p>MultiClusterSecretSpec defines the desired state of a Multi Cluster Secret.</p>
+<p>MultiClusterSecretSpec defines the desired state of a MultiCluster Secret.</p>
 </p>
 <table>
 <thead>
@@ -1679,7 +1679,7 @@ Kubernetes core/v1.SecretType
 <a href="#clusters.verrazzano.io/v1alpha1.MultiClusterResourceStatus">MultiClusterResourceStatus</a>)
 </p>
 <p>
-<p>StateType identifies the state of a multi-cluster resource.</p>
+<p>StateType identifies the state of a multicluster resource.</p>
 </p>
 <h3 id="clusters.verrazzano.io/v1alpha1.VerrazzanoProjectSpec">VerrazzanoProjectSpec
 </h3>

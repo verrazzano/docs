@@ -112,7 +112,7 @@ SecretKey
 </td>
 <td>
 <em>(Optional)</em>
-<p>Identifies a namespace, name, and key for a secret containing the Prometheus config.</p>
+<p>Identifies a namespace, name, and key for a secret containing the Prometheus configuration.</p>
 </td>
 </tr>
 <tr>
@@ -278,7 +278,7 @@ SecretKey
 </td>
 <td>
 <em>(Optional)</em>
-<p>Identifies a namespace, name, and key for a secret containing the Prometheus config.</p>
+<p>Identifies a namespace, name, and key for a secret containing the Prometheus configuration.</p>
 </td>
 </tr>
 <tr>
@@ -368,7 +368,7 @@ string
 </em>
 </td>
 <td>
-<p>Name of resource.</p>
+<p>Name of the resource.</p>
 </td>
 </tr>
 <tr>
@@ -379,7 +379,7 @@ string
 </em>
 </td>
 <td>
-<p>Namespace of resource.</p>
+<p>Namespace of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -545,7 +545,7 @@ string
 </em>
 </td>
 <td>
-<p>Name of resource.</p>
+<p>Name of the resource.</p>
 </td>
 </tr>
 </tbody>
@@ -616,7 +616,7 @@ Kubernetes meta/v1.LabelSelector
 </td>
 <td>
 <em>(Optional)</em>
-<p>Scopes the template to a specifically labelled object instance.</p>
+<p>Scopes the template to a specifically-labelled object instance.</p>
 </td>
 </tr>
 <tr>
