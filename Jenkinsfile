@@ -48,18 +48,16 @@ pipeline {
                         git config --global user.email "${EMAIL}"
                         git checkout ${env.BRANCH_NAME}
                         ./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}
-                    """
-//                    env.STATUS = sh(script: "./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}", returnStatus: true)
-                    sh '''
                         if [ -n \"$(git status --porcelain --untracked-files=no)\" ]; then
                             echo "changes found"
                             git commit -a -m "[verrazzano] Update generated API reference documentation"
-                            git push origin ${env.BRANCH_NAME}
+                            git push origin "${env.BRANCH_NAME}"
                         else
                             echo "no changes found"
                         fi
-                    '''
+                    """
                 }
+//                    env.STATUS = sh(script: "./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}", returnStatus: true)
 //                    ./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}
 //                sh """
 //                   git add deploy/operator.yaml
