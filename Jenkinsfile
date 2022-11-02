@@ -48,11 +48,10 @@ pipeline {
                     git checkout ${env.BRANCH_NAME}
                 """
                 script {
-                 rc = sh(script: "./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}", returnStatus: true)
-                 echo 'exit code is : ${rc}'
+                 env.STATUS = sh(script: "./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}", returnStatus: true)
                }
                 sh """
-
+                    echo "exit code is: ${env.STATUS}"
                     git status
                 """
 //                    ./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}
