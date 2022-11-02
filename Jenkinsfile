@@ -41,7 +41,7 @@ pipeline {
                 }
             }
             steps {
-                 sh """
+                 sh '''
                     git config --global credential.helper "!f() { echo username=\\$GIT_AUTH_USR; echo password=\\$GIT_AUTH_PSW; }; f"
                     git config --global user.name $GIT_AUTH_USR
                     git config --global user.email "${EMAIL}"
@@ -54,7 +54,7 @@ pipeline {
                     else
                         echo "no changes found"
                     fi
-                 """
+                 '''
             }
         }
 
