@@ -49,7 +49,7 @@ pipeline {
                 """
                 script {
                  rc = sh(script: "./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}", returnStatus: true)
-                 echo \"exit code is : ${rc}\""
+                 echo 'exit code is : ${rc}'
                }
                 sh """
 
