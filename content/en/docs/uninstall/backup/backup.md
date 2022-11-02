@@ -74,7 +74,7 @@ EOF
 MySQL allows scheduled backups by implementing a cron job on [MySQL Operator](https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-backups.html) for Kubernetes.
 
 
-## Rancher backup
+## rancher backup
 
 To initiate a Rancher backup, create the following example custom resource YAML file that uses an Amazon S3 compatible object store as a backend.
 The operator uses the `credentialSecretNamespace` value to determine where to look for the Amazon S3 backup secret.
