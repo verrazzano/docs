@@ -48,6 +48,8 @@ pipeline {
                         git config --global user.email "${EMAIL}"
                         git checkout ${env.BRANCH_NAME}
                         ./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}
+                    """
+                    sh """
                         if [ -n \"$(git status --porcelain --untracked-files=no)\" ]; then
                             echo "changes found"
                             git commit -a -m "[verrazzano] Update generated API reference documentation"
