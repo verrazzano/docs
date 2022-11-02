@@ -53,6 +53,8 @@ pipeline {
                     sh '''
                         if [ -n \"$(git status --porcelain --untracked-files=no)\" ]; then
                             echo "changes found"
+                            git commit -a -m "[verrazzano] Update generated API reference documentation"
+                            git push origin ${env.BRANCH_NAME}
                         else
                             echo "no changes found"
                         fi
