@@ -225,7 +225,7 @@ string
 </td>
 <td>
 <p>The configuration provided by the user for the Fluentd configuration that consists of
-fluentd.conf: &ldquo;<source>\n &hellip; and so on &hellip;\n&rdquo;.</p>
+fluentd.conf: <code>&lt;source&gt;\n ... and so on ...\n</code>.</p>
 </td>
 </tr>
 <tr>
@@ -406,7 +406,7 @@ string
 </td>
 <td>
 <em>(Optional)</em>
-<p>The name of an opaque secret (for example, username and password) within the workload’s namespace for metrics
+<p>The name of an opaque secret (for example, <code>username</code> and <code>password</code>) within the workload’s namespace for metrics
 endpoint access.</p>
 </td>
 </tr>
@@ -1079,7 +1079,7 @@ string
 </td>
 <td>
 <em>(Optional)</em>
-<p>If no path is provided, then it defaults to forward slash (/).</p>
+<p>If no path is provided, then it defaults to forward slash (<code>/</code>).</p>
 </td>
 </tr>
 <tr>
@@ -1093,8 +1093,7 @@ string
 <em>(Optional)</em>
 <p>Path type values are case-sensitive and formatted as follows:
 <ul><li><code>exact</code>: exact string match</li><li><code>prefix</code>: prefix-based match</li><li><code>regex</code>: regex-based match</li></ul>
-Defaults to <code>prefix</code> if <code>path</code> specified is <code>/</code>; otherwise, defaults to <code>exact</code>.
-otherwise.</p>
+Defaults to <code>prefix</code> if <code>path</code> specified is <code>/</code>; otherwise, defaults to <code>exact</code>.</p>
 </td>
 </tr>
 <tr>
@@ -1356,7 +1355,7 @@ string
 </td>
 <td>
 <p>The configuration provided by the user for the Fluentd configuration that consists of
-fluentd.conf: &ldquo;<source>\n &hellip; and so on &hellip;\n&rdquo;.</p>
+fluentd.conf: <code>&lt;source&gt;\n ... and so on ...\n</code>.</p>
 </td>
 </tr>
 <tr>
@@ -1529,7 +1528,7 @@ string
 </td>
 <td>
 <em>(Optional)</em>
-<p>The name of an opaque secret (for example, username and password) within the workload’s namespace for metrics
+<p>The name of an opaque secret (for example, <code>username</code> and <code>password</code>) within the workload’s namespace for metrics
 endpoint access.</p>
 </td>
 </tr>
@@ -1609,7 +1608,7 @@ OAM core/v1alpha1.ConditionedStatus
 <a href="#oam.verrazzano.io/v1alpha1.MetricsTraitSpec">MetricsTraitSpec</a>)
 </p>
 <p>
-<p>PortSpec defines an HTTP port and path combination</p>
+<p>PortSpec defines an HTTP port and path combination.</p>
 </p>
 <table>
 <thead>
@@ -1715,7 +1714,7 @@ string
 </em>
 </td>
 <td>
-<p>Role of the related resource.  For example, <code>Deployment</code>.</p>
+<p>Role of the related resource, for example, <code>Deployment</code>.</p>
 </td>
 </tr>
 </tbody>
@@ -1789,7 +1788,7 @@ string
 </em>
 </td>
 <td>
-<p>The last value of the verrazzano.io/restart-version annotation.</p>
+<p>The last value of the <code>verrazzano.io/restart-version</code> annotation.</p>
 </td>
 </tr>
 </tbody>
@@ -1943,7 +1942,7 @@ string
 </em>
 </td>
 <td>
-<p>The last value of the verrazzano.io/restart-version annotation.</p>
+<p>The last value of the <code>verrazzano.io/restart-version</code> annotation.</p>
 </td>
 </tr>
 <tr>
@@ -1954,7 +1953,7 @@ string
 </em>
 </td>
 <td>
-<p>The last value of the verrazzano.io/lifecycle-action.</p>
+<p>The last value of the <code>verrazzano.io/lifecycle-action</code>.</p>
 </td>
 </tr>
 </tbody>
