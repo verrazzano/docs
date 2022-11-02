@@ -48,7 +48,7 @@ pipeline {
                     git checkout ${BRANCH_NAME}
                     ./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}
                  """
-                 sh """
+                 sh '''
                     if [ -n \"$(git status --porcelain --untracked-files=no)\" ]; then
                         echo "changes found"
                         git commit -a -m "[verrazzano] Update generated API reference documentation"
@@ -56,7 +56,7 @@ pipeline {
                     else
                         echo "no changes found"
                     fi
-                 """
+                 '''
             }
         }
 
