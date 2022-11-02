@@ -47,10 +47,12 @@ pipeline {
                     git config --global user.email "${EMAIL}"
                     git checkout ${env.BRANCH_NAME}
 
-                    ./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}
+                    rc = sh(script: "./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}", returnStatus: true)
+                    echo \"exit code is : ${rc}\""
 
                     git status
                 """
+//                    ./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}
 //                sh """
 //                   git add deploy/operator.yaml
 //                   git commit -m "[verrazzano] Update verrazzano-platform-operator image version to ${DOCKER_IMAGE_TAG} in operator.yaml"
