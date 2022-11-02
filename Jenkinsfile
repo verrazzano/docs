@@ -47,9 +47,11 @@ pipeline {
                     git config --global user.email "${EMAIL}"
                     git checkout ${env.BRANCH_NAME}
                 """
-                rc = sh(script: "./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}", returnStatus: true)
+                script {
+                 rc = sh(script: "./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}", returnStatus: true)
+                 echo \"exit code is : ${rc}\""
+               }
                 sh """
-                    echo \"exit code is : ${rc}\""
 
                     git status
                 """
