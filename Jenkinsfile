@@ -41,19 +41,19 @@ pipeline {
                 }
             }
             steps {
-                sh """
-                    git config --global credential.helper "!f() { echo username=\\$GIT_AUTH_USR; echo password=\\$GIT_AUTH_PSW; }; f"
-                    git config --global user.name $GIT_AUTH_USR
-                    git config --global user.email "${EMAIL}"
-                    git checkout ${env.BRANCH_NAME}
-                """
                 script {
-                 env.STATUS = sh(script: "./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}", returnStatus: true)
-               }
-                sh """
-                    echo "exit code is: ${env.STATUS}"
-                    git status
-                """
+                    sh """
+                        git config --global credential.helper "!f() { echo username=\\$GIT_AUTH_USR; echo password=\\$GIT_AUTH_PSW; }; f"
+                        git config --global user.name $GIT_AUTH_USR
+                        git config --global user.email "${EMAIL}"
+                        git checkout ${env.BRANCH_NAME}
+                    """
+                    env.STATUS = sh(script: "./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}", returnStatus: true)
+                    sh """
+                        echo "exit code is: ${env.STATUS}"
+                        git status
+                    """
+                }
 //                    ./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}
 //                sh """
 //                   git add deploy/operator.yaml
