@@ -41,31 +41,22 @@ pipeline {
                 }
             }
             steps {
-                script {
-                    sh """
-                        git config --global credential.helper "!f() { echo username=\\$GIT_AUTH_USR; echo password=\\$GIT_AUTH_PSW; }; f"
-                        git config --global user.name $GIT_AUTH_USR
-                        git config --global user.email "${EMAIL}"
-                        git checkout ${env.BRANCH_NAME}
-                        ./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}
-                    """
-                    sh """
-                        if [ -n \"$(git status --porcelain --untracked-files=no)\" ]; then
-                            echo "changes found"
-                            git commit -a -m "[verrazzano] Update generated API reference documentation"
-                            git push origin "${env.BRANCH_NAME}"
-                        else
-                            echo "no changes found"
-                        fi
-                    """
-                }
-//                    env.STATUS = sh(script: "./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}", returnStatus: true)
-//                    ./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}
-//                sh """
-//                   git add deploy/operator.yaml
-//                   git commit -m "[verrazzano] Update verrazzano-platform-operator image version to ${DOCKER_IMAGE_TAG} in operator.yaml"
-//                   git push origin ${env.BRANCH_NAME}
-//               """
+                sh """
+                    git config --global credential.helper "!f() { echo username=\\$GIT_AUTH_USR; echo password=\\$GIT_AUTH_PSW; }; f"
+                    git config --global user.name $GIT_AUTH_USR
+                    git config --global user.email "${EMAIL}"
+                    git checkout ${env.BRANCH_NAME}
+                    ./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}
+                """
+                sh """
+                    if [ -n \"$(git status --porcelain --untracked-files=no)\" ]; then
+                        echo "changes found"
+                        git commit -a -m "[verrazzano] Update generated API reference documentation"
+                        git push origin ${env.BRANCH_NAME}
+                    else
+                        echo "no changes found"
+                    fi
+                """
             }
         }
 
