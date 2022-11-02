@@ -38,11 +38,12 @@ export GOROOT
 GOBIN="${tmpdir}/bin"
 export GOBIN
 
+echo "+++ Installing gen-crd-api-reference-docs"
 go install github.com/ahmetb/gen-crd-api-reference-docs@v0.3.0
 
 mkdir -p "${GOPATH}/src/github.com/verrazzano"
 gitdir="${GOPATH}/src/github.com/verrazzano/verrazzano"
-echo "+++ Cloning verrazzano repository..."
+echo "+++ Cloning verrazzano repository"
 git clone "https://github.com/verrazzano/verrazzano.git" "$gitdir"
 cd "$gitdir"
 
