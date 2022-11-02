@@ -19,11 +19,7 @@ pipeline {
         booleanParam (name: 'PUBLISH_TO_GH_PAGES',
                 defaultValue: false,
                 description: 'When true, builds the production website and pushes to the gh-pages branch')
-        string (name: 'API_BRANCH',
-                defaultValue: 'master',
-                description: 'Identifies the branch used to generate the Verrazzano API docs',
-                trim: true)
-   }
+    }
 
     environment {
         GIT_AUTH = credentials('github-packages-credentials-rw')
@@ -31,32 +27,6 @@ pipeline {
     }
 
     stages {
-        stage('Build API reference documentation') {
-            when {
-                not {
-                    anyOf {
-                        branch 'master';
-                        branch 'release-*'
-                    }
-                }
-            }
-            steps {
-                 sh """
-                    git config --global credential.helper "!f() { echo username=\\$GIT_AUTH_USR; echo password=\\$GIT_AUTH_PSW; }; f"
-                    git config --global user.name $GIT_AUTH_USR
-                    git config --global user.email "${EMAIL}"
-                    git checkout ${BRANCH_NAME}
-                    ./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}
-                 """
-                 sh '''
-                    if [ -n \"$(git status --porcelain --untracked-files=no)\" ]; then
-                        git commit -a -m "[verrazzano] Update generated API reference documentation"
-                        git push origin ${BRANCH_NAME}
-                    fi
-                 '''
-            }
-        }
-
         stage('Setup Dependencies') {
             steps {
                 sh """
