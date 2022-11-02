@@ -47,12 +47,16 @@ pipeline {
                         git config --global user.name $GIT_AUTH_USR
                         git config --global user.email "${EMAIL}"
                         git checkout ${env.BRANCH_NAME}
+                        ./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}
                     """
-                    env.STATUS = sh(script: "./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}", returnStatus: true)
-                    sh """
-                        echo "exit code is: ${env.STATUS}"
-                        git status
-                    """
+//                    env.STATUS = sh(script: "./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}", returnStatus: true)
+                    sh '''
+                        if [ -n \"$(git status --porcelain --untracked-files=no)\" ]; then
+                            echo "changes found"
+                        else
+                            echo "no changes found"
+                        fi
+                    '''
                 }
 //                    ./scripts/genapidocs/genapidocs.sh ${params.API_BRANCH}
 //                sh """
