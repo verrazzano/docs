@@ -1,5 +1,5 @@
 ---
-title: application-operator/apis/app/v1alpha1
+title: Metrics Binding and Metrics Template
 weight: 2
 ---
 <p>Packages:</p>

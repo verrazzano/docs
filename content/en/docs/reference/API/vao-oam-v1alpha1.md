@@ -1,5 +1,5 @@
 ---
-title: application-operator/apis/oam/v1alpha1
+title: Traits and Workloads
 weight: 2
 ---
 <p>Packages:</p>

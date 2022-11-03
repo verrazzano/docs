@@ -1,5 +1,5 @@
 ---
-title: application-operator/apis/clusters/v1alpha1
+title: Multicluster and Verrazzano Project
 weight: 2
 ---
 <p>Packages:</p>

@@ -57,6 +57,7 @@ checkoutvz() {
 genapidoc() {
   API=$1
   OUTFILE=${REPO_ROOT}/content/en/docs/reference/API/$2.md
+  TITLE=$3
 	echo "+++ Generating API reference doc for ${API}"
 	"${GOBIN}/gen-crd-api-reference-docs" \
 		-config "${REPO_ROOT}/scripts/genapidocs/config.json" \
@@ -64,16 +65,16 @@ genapidoc() {
 		-api-dir "github.com/verrazzano/verrazzano/${API}" \
 		-out-file "${OUTFILE}"
 	# Prepending header info to the generated file
-	printf '%s\n%s\n%s\n%s\n%s\n' "---" "title: ${API}" "weight: 2" "---" "$(cat ${OUTFILE})" >${OUTFILE}
+	printf '%s\n%s\n%s\n%s\n%s\n' "---" "title: ${TITLE}" "weight: 2" "---" "$(cat ${OUTFILE})" >${OUTFILE}
 }
 
 checkoutvz "$1"
-genapidoc "platform-operator/apis/clusters/v1alpha1" "vpo-clusters-v1alpha1"
-genapidoc "platform-operator/apis/verrazzano/v1alpha1" "vpo-verrazzano-v1alpha1"
-genapidoc "platform-operator/apis/verrazzano/v1beta1" "vpo-verrazzano-v1beta1"
-genapidoc "application-operator/apis/app/v1alpha1" "vao-app-v1alpha1"
-genapidoc "application-operator/apis/clusters/v1alpha1" "vao-clusters-v1alpha1"
-genapidoc "application-operator/apis/oam/v1alpha1" "vao-oam-v1alpha1"
+genapidoc "platform-operator/apis/clusters/v1alpha1" "vpo-clusters-v1alpha1" "Verrazzano Managed Cluster"
+genapidoc "platform-operator/apis/verrazzano/v1alpha1" "vpo-verrazzano-v1alpha1" "Verrazzano v1alpha1"
+genapidoc "platform-operator/apis/verrazzano/v1beta1" "vpo-verrazzano-v1beta1" "Verrazzano v1beta1"
+genapidoc "application-operator/apis/app/v1alpha1" "vao-app-v1alpha1" "Metrics Binding and Metrics Template"
+genapidoc "application-operator/apis/clusters/v1alpha1" "vao-clusters-v1alpha1" "Multicluster and Verrazzano Project"
+genapidoc "application-operator/apis/oam/v1alpha1" "vao-oam-v1alpha1" "Traits and Workloads"
 
 cd ${REPO_ROOT}
 

@@ -1,5 +1,5 @@
 ---
-title: platform-operator/apis/verrazzano/v1alpha1
+title: Verrazzano v1alpha1
 weight: 2
 ---
 <p>Packages:</p>

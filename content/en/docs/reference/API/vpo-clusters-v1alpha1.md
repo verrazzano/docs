@@ -1,5 +1,5 @@
 ---
-title: platform-operator/apis/clusters/v1alpha1
+title: Verrazzano Managed Cluster
 weight: 2
 ---
 <p>Packages:</p>
