@@ -37,7 +37,7 @@ For platform specific details, see [Verrazzano platform setup]({{< relref "/docs
 
 ### WebLogic Server
 The supported versions of WebLogic Server are dependent on the [WebLogic Kubernetes Operator](https://oracle.github.io/weblogic-kubernetes-operator/) version.
-See the WebLogic Server versions supported [here](https://oracle.github.io/weblogic-kubernetes-operator/userguide/prerequisites/introduction/).
+See the WebLogic Server versions supported [here](https://oracle.github.io/weblogic-kubernetes-operator/introduction/prerequisites/introduction/).
 
 
 ### Coherence
