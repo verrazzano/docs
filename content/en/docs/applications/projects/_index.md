@@ -10,7 +10,7 @@ group of users.
 
 ## The VerrazzanoProject resource
 
-A VerrazzanoProject [resource]({{< relref "/docs/reference/api/multicluster/verrazzanoproject.md" >}}) is created by
+A VerrazzanoProject [resource]({{< relref "/docs/reference/api/vao-clusters-v1alpha1#clusters.verrazzano.io/v1alpha1.VerrazzanoProject" >}}) is created by
   a Verrazzano admin user, and specifies the following:
 
 - A list of namespaces that the project governs.

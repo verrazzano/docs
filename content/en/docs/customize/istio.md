@@ -8,7 +8,7 @@ draft: false
 
 You can customize Verrazzano Istio component using settings in the Verrazzano custom resource.
 
-The following table describes the fields in the Verrazzano custom resource pertaining to the [Istio component]({{< relref "/docs/reference/API/Verrazzano/v1beta1.md#istio-component" >}}).
+The following table describes the fields in the Verrazzano custom resource pertaining to the [Istio component]({{< relref "/docs/reference/API/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.IstioComponent" >}}).
 
 | Path to Field                                       | Description |
 | --- | --- |

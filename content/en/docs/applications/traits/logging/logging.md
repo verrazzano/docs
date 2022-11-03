@@ -4,7 +4,7 @@ description: "A trait supporting the definition of application logging parameter
 weight: 4
 draft: false
 ---
-The [LoggingTrait]({{< relref "/docs/reference/api/OAM/loggingtrait" >}}) custom resource contains the configuration for an additional logging sidecar with a custom image and Fluentd configuration file.
+The [LoggingTrait]({{< relref "/docs/reference/api/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.LoggingTrait" >}}) custom resource contains the configuration for an additional logging sidecar with a custom image and Fluentd configuration file.
 Here is a sample ApplicationConfiguration that includes a LoggingTrait.
 To deploy an example application with this LoggingTrait, replace the ApplicationConfiguration of the [ToDo-List]({{< relref "/docs/samples/todo-list" >}}) example application with the following sample.
 

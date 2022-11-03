@@ -8,7 +8,7 @@ draft: false
 
 The Verrazzano AuthProxy component enables authentication and authorization for Keycloak users accessing Verrazzano resources.  You can customize the AuthProxy component using settings in the Verrazzano custom resource.
 
-The following table describes the fields in the Verrazzano custom resource pertaining to the [AuthProxy component]({{< relref "/docs/reference/API/Verrazzano/v1beta1.md#authproxy-component" >}}).
+The following table describes the fields in the Verrazzano custom resource pertaining to the [AuthProxy component]({{< relref "/docs/reference/API/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.AuthProxyComponent" >}}).
 
 | Path to Field | Description |
 | --- | --- |

@@ -5,7 +5,7 @@ description: "Defines the resources associated with a multicluster application"
 weight: 4
 draft: false
 ---
-The [MultiClusterApplicationConfiguration]({{< relref "/docs/reference/api/multicluster/multiclusterapplicationconfiguration" >}}) custom resource is an envelope used to distribute `core.oam.dev/v1alpha2/ApplicationConfiguration` resources in a multicluster environment.
+The [MultiClusterApplicationConfiguration]({{< relref "/docs/reference/api/vao-clusters-v1alpha1#clusters.verrazzano.io/v1alpha1.MultiClusterApplicationConfiguration" >}}) custom resource is an envelope used to distribute `core.oam.dev/v1alpha2/ApplicationConfiguration` resources in a multicluster environment.
 
 Here is a sample MultiClusterApplicationConfiguration that specifies an ApplicationConfiguration resource to create on the cluster named `managed1`.  To deploy an example application that demonstrates a MultiClusterApplicationConfiguration, see [Multicluster ToDo List]({{< relref "/docs/samples/multicluster/todo-list/" >}}).
 

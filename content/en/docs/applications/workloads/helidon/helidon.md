@@ -41,7 +41,7 @@ Kubernetes [Deployment](https://kubernetes.io/docs/reference/kubernetes-api/work
 enables an easy lift and shift of existing containerized Helidon applications.
 
 The complete VerrazzanoHelidonWorkload API
-definition and description is available at [VerrazzanoHelidonWorkload]({{< relref "/docs/reference/API/OAM/Workloads.md#verrazzanohelidonworkload" >}}).
+definition and description is available at [VerrazzanoHelidonWorkload]({{< relref "/docs/reference/API/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoHelidonWorkload" >}}).
 
 ## Verrazzano Helidon application development
 
@@ -144,12 +144,12 @@ go into the same data stream, even for different applications.  This is standard
 Verrazzano uses Prometheus to scrape metrics from containerized Helidon application pods. Like logging, metrics scraping is also
 enabled during provisioning. You can view metrics using the Grafana console.
 
-Using the [MetricsTrait]({{< relref "/docs/reference/API/OAM/MetricsTrait.md" >}}) custom resource, you can customize configuration
+Using the [MetricsTrait]({{< relref "/docs/reference/API/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.MetricsTrait" >}}) custom resource, you can customize configuration
 information needed to enable metrics for an application component.
 
 ### Ingress
 
-Using the [IngressTrait]({{< relref "/docs/reference/API/OAM/IngressTrait.md" >}}) custom resource, you can configure traffic
+Using the [IngressTrait]({{< relref "/docs/reference/API/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.IngressTrait" >}}) custom resource, you can configure traffic
 routing to a containerized Helidon application for an application component.
 
 ## Troubleshooting
