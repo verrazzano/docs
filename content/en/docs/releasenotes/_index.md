@@ -56,6 +56,11 @@ Fixes:
 - Resolved an issue where Verrazzano Platform Operator transitioned to a ready condition before all webhook context paths were ready.
 - Updated base and other images to resolve CVEs.
 
+### v1.3.7
+Fixes:
+
+- Kiali 1.42 helm-charts were incorrect in Verrazzano repo.
+- Update storage size in opensearch with beta1 api does not work.
 
 ### v1.3.6
 Fixes:
