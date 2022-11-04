@@ -78,17 +78,16 @@ For more information and the source code of this application, see the [Verrazzan
    $ kubectl apply -f {{< release_source_url raw=true path=examples/todo-list/todo-list-application.yaml >}} -n todo-list
    ```
 
-1. Wait for the ToDo List application to be ready.
-   
-   You can monitor its progress by listing pods and inspecting the output.
+1. Wait for the ToDo List application to be ready. You can monitor its progress by listing pods and inspecting the output.
 
    ```
    $ kubectl get pods -n todo-list
    ```
 
-   Alternatively, you can use the `kubectl wait` commands. The `kubectl wait` commands may report `error: no matching resources found`
-   if executed before the respective pods are created. Particularly, the `tododomain-adminserver` pod may take a while to be created
-   and `Ready`, so you may need to repeat the `kubectl wait` command several times before it is successful.
+   Alternatively, you can use the `kubectl wait` commands. However, if executed before the respective pods are created,
+   then the `kubectl wait` commands may report `error: no matching resources found`. Specifically, the `tododomain-adminserver`
+   pod may take a while to be created and `Ready`, so you may need to repeat the `kubectl wait` command several times before
+   it is successful.
    
    ```
    $ kubectl wait pod \
