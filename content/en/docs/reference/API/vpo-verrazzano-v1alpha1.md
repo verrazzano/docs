@@ -1473,7 +1473,7 @@ bool
 <em>(Optional)</em>
 <p>A list of values to use during the OpenSearch installation. Each argument is specified as either a <code>name/value</code> or
 <code>name/valueList</code> pair. For sample usage, see
-<a href="../../../../../docs/customize/opensearch/">Customize OpenSearch</a>.</p>
+<a href="../../../../docs/customize/opensearch/">Customize OpenSearch</a>.</p>
 </td>
 </tr>
 <tr>
@@ -1811,7 +1811,7 @@ IngressType
 <p>The ingress type. Valid values are <code>LoadBalancer</code> and <code>NodePort</code>. The default value is <code>LoadBalancer</code>. If the ingress
 type is <code>NodePort</code>, then a valid and accessible IP address must be specified using the <code>controller.service.externalIPs</code>
 key in NGINXInstallArgs. For sample usage, see
-<a href="../../../../../docs/customize/externallbs/">External Load Balancers</a>.</p>
+<a href="../../../../docs/customize/externallbs/">External Load Balancers</a>.</p>
 </td>
 </tr>
 </tbody>
@@ -2256,7 +2256,7 @@ IngressType
 <p>The Istio ingress type. Valid values are <code>LoadBalancer</code> and <code>NodePort</code>. The default value is <code>LoadBalancer</code>. If the
 Istio ingress type is <code>NodePort</code>, then a valid and accessible IP address must be specified using the
 <code>gateways.istio-ingressgateway.externalIPs</code> key in IstioInstallArgs. For sample usage, see
-<a href="../../../../../docs/customize/externallbs/">External Load Balancers</a>.</p>
+<a href="../../../../docs/customize/externallbs/">External Load Balancers</a>.</p>
 </td>
 </tr>
 <tr>

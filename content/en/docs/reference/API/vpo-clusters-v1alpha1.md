@@ -83,7 +83,7 @@ string
 <td>
 <p>The name of a Secret that contains the CA certificate of the managed cluster. This is used to configure the
 admin cluster to scrape metrics from the Prometheus endpoint on the managed cluster. See the pre-registration
-<a href="../../../../../docs/setup/install/multicluster/#preregistration-setup">instructions</a>
+<a href="../../../../docs/setup/install/multicluster/#preregistration-setup">instructions</a>
 for how to create this Secret.</p>
 </td>
 </tr>
@@ -325,7 +325,7 @@ string
 <td>
 <p>The name of a Secret that contains the CA certificate of the managed cluster. This is used to configure the
 admin cluster to scrape metrics from the Prometheus endpoint on the managed cluster. See the pre-registration
-<a href="../../../../../docs/setup/install/multicluster/#preregistration-setup">instructions</a>
+<a href="../../../../docs/setup/install/multicluster/#preregistration-setup">instructions</a>
 for how to create this Secret.</p>
 </td>
 </tr>

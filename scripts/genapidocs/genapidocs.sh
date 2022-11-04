@@ -16,6 +16,12 @@ if ! command -v go &>/dev/null; then
     exit 1
 fi
 
+if [ $# -eq 0 ]
+  then
+    echo "Branch name must be specified"
+    exit 1
+fi
+
 tmpdir="$(mktemp -d)"
 
 cleanup() {
@@ -72,7 +78,6 @@ checkoutvz "$1"
 genapidoc "platform-operator/apis/clusters/v1alpha1" "vpo-clusters-v1alpha1" "Verrazzano Managed Cluster"
 genapidoc "platform-operator/apis/verrazzano/v1alpha1" "vpo-verrazzano-v1alpha1" "Verrazzano v1alpha1"
 genapidoc "platform-operator/apis/verrazzano/v1beta1" "vpo-verrazzano-v1beta1" "Verrazzano v1beta1"
-genapidoc "application-operator/apis/app/v1alpha1" "vao-app-v1alpha1" "Metrics Binding and Metrics Template"
 genapidoc "application-operator/apis/clusters/v1alpha1" "vao-clusters-v1alpha1" "Multicluster and Verrazzano Project"
 genapidoc "application-operator/apis/oam/v1alpha1" "vao-oam-v1alpha1" "Traits and Workloads"
 
