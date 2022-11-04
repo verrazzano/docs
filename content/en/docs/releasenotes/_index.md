@@ -59,8 +59,8 @@ Fixes:
 ### v1.3.7
 Fixes:
 
-- Kiali 1.42 helm-charts were incorrect in Verrazzano repo.
-- Update storage size in opensearch with beta1 api does not work.
+- Corrected the Kiali 1.42 Helm charts.
+- Resolved an issue with Verrazzano beta1 CR that updating storage size in OpenSearch does not work.
 
 ### v1.3.6
 Fixes:
