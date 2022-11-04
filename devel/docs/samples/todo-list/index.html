@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/samples/todo-list/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-10-28T16:29:06+00:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-11-04T12:38:58-07:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="ToDo List">
 <meta itemprop="description" content="An example application containing a WebLogic component">
-<meta itemprop="dateModified" content="2022-10-28T16:29:06+00:00" />
-<meta itemprop="wordCount" content="975">
+<meta itemprop="dateModified" content="2022-11-04T12:38:58-07:00" />
+<meta itemprop="wordCount" content="1013">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="ToDo List"/>
 <meta name="twitter:description" content="An example application containing a WebLogic component"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.6ae5b49fc770742aa110484b5d19493f.json"
+  data-offline-search-index-json-src="../../../offline-search-index.4f3c7b55ba41f40b790055797f8f11fc.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.6ae5b49fc770742aa110484b5d19493f.json"
+  data-offline-search-index-json-src="../../../offline-search-index.4f3c7b55ba41f40b790055797f8f11fc.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -621,16 +621,22 @@ For the source code of this application, see the <a href="https://github.com/ver
 $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/master/examples/todo-list/todo-list-application.yaml -n todo-list
 </code></pre></li>
 <li>
-<p>Wait for the ToDo List application to be ready. You can monitor its progress by listing pods and inspecting the output, or
-you can use the <code>kubectl wait</code> command. You may need to repeat the <code>kubectl wait</code> command several times before it is successful.
-The <code>tododomain-adminserver</code> pod may take a while to be created and <code>Ready</code>.</p>
+<p>Wait for the ToDo List application to be ready. You can monitor its progress by listing pods and inspecting the output.</p>
 <pre tabindex="0"><code>$ kubectl get pods -n todo-list
-
-# -or- #
-
+</code></pre><p>Alternatively, you can use the <code>kubectl wait</code> commands. However, if executed before the respective pods are created,
+then the <code>kubectl wait</code> commands may report <code>error: no matching resources found</code>. Specifically, the <code>tododomain-adminserver</code>
+pod may take a while to be created and <code>Ready</code>, so you may need to repeat the <code>kubectl wait</code> command several times before
+it is successful.</p>
+<pre tabindex="0"><code>$ kubectl wait pod \
+     --for=condition=Ready \
+     -l app.oam.dev/component=todo-mysql-deployment \
+     -n todo-list \
+     --timeout=5m
 $ kubectl wait pod \
-   --for=condition=Ready tododomain-adminserver \
-   -n todo-list
+     --for=condition=Ready \
+     -l weblogic.serverName=AdminServer \
+     -n todo-list \
+     --timeout=5m
 </code></pre></li>
 <li>
 <p>Get the generated host name for the application.</p>
