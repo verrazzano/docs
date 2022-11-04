@@ -1628,7 +1628,7 @@ IngressType
 <p>The ingress type. Valid values are <code>LoadBalancer</code> and <code>NodePort</code>. The default value is <code>LoadBalancer</code>. If the ingress
 type is <code>NodePort</code>, then a valid and accessible IP address must be specified using the <code>controller.service.externalIPs</code>
 key in the <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOverrides</a>. For sample usage, see
-<a href="../../../../../docs/customize/externallbs/">External Load Balancers</a>.</p>
+<a href="../../../../docs/customize/externallbs/">External Load Balancers</a>.</p>
 </td>
 </tr>
 </tbody>
@@ -2448,7 +2448,7 @@ bool
 <td>
 <em>(Optional)</em>
 <p>A list of OpenSearch node groups. For sample usage, see
-<a href="../../../../../docs/customize/opensearch/">Customize OpenSearch</a>.</p>
+<a href="../../../../docs/customize/opensearch/">Customize OpenSearch</a>.</p>
 </td>
 </tr>
 <tr>
