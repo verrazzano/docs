@@ -79,9 +79,9 @@ For more information and the source code of this application, see the [Verrazzan
    ```
 
 1. Wait for the ToDo List application to be ready. You can monitor its progress by listing pods and inspecting the output, or
-you can use the `kubectl wait` command. The `kubectl wait` command may report an error saying `pods "tododomain-adminserver" 
-   not found` if executed before the `tododomain-adminserver` pod is created. The `tododomain-adminserver` pod may take a 
-   while to be created and `Ready`, so you may need to repeat the `kubectl wait` command several times before it is successful.
+you can use the `kubectl wait` commands. The `kubectl wait` commands may report `error: no matching resources found` if executed
+before the respective pods are created. Particularly, the `tododomain-adminserver` pod may take a while to be created and `Ready`,
+so you may need to repeat the `kubectl wait` command several times before it is successful.
    
    ```
    $ kubectl get pods -n todo-list
@@ -89,8 +89,15 @@ you can use the `kubectl wait` command. The `kubectl wait` command may report an
    # -or- #
 
    $ kubectl wait pod \
-      --for=condition=Ready tododomain-adminserver \
-      -n todo-list
+        --for=condition=Ready \
+        -l app.oam.dev/component=todo-mysql-deployment \
+        -n todo-list \
+        --timeout=20m
+   $ kubectl wait pod \
+        --for=condition=Ready \
+        -l weblogic.serverName=AdminServer \
+        -n todo-list \
+        --timeout=20m
    ```
 
 1. Get the generated host name for the application.
