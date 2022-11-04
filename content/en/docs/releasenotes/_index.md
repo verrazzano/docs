@@ -56,6 +56,11 @@ Fixes:
 - Resolved an issue where Verrazzano Platform Operator transitioned to a ready condition before all webhook context paths were ready.
 - Updated base and other images to resolve CVEs.
 
+### v1.3.7
+Fixes:
+
+- Corrected the Kiali 1.42 Helm charts.
+- Resolved an issue with resizing OpenSearch storage volumes when using a storage class that supports volume expansion.
 
 ### v1.3.6
 Fixes:
