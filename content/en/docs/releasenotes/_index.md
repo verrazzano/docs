@@ -56,6 +56,10 @@ Fixes:
 - Resolved an issue where Verrazzano Platform Operator transitioned to a ready condition before all webhook context paths were ready.
 - Updated base and other images to resolve CVEs.
 
+### v1.3.6
+Fixes:
+
+- Resolved an issue in OpenSearch where the user provided JVM heap size setting was not used.
 
 ### v1.3.5
 Component version updates:
