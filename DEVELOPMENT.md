@@ -39,3 +39,21 @@ Access the local Hugo server to see the rendered docs.  The rendered docs will r
 ```
 open http://localhost:1313
 ```
+
+## Update Generated API Reference Documentation
+
+To update the generated API reference documentation follow these steps:
+
+1. Checkout a docs repo feature branch.
+```
+git checkout -b <branch-name>
+```
+
+2. Generate the API reference documentation specifying the verrazzano repo branch to generate the documentation from.
+For example, specify `master` to generate the API reference documentation.
+```
+make generate-api BRANCH=<branch-name>
+```
+
+3. If new versions of the API reference documentation are generated then commit those changes, push the changes,
+and submit a pull request.
