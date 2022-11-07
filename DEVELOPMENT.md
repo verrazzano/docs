@@ -49,11 +49,11 @@ To update the generated API reference documentation follow these steps:
 git checkout -b <branch-name>
 ```
 
-2. Generate the API reference documentation specifying the verrazzano repo branch to generate the documentation from.
-For example, specify `master` to generate the API reference documentation.
+2. Run a `Makefile` target to generate the API reference documentation. 
+Specify the verrazzano repo branch to generate the documentation from.
 ```
 make generate-api BRANCH=<branch-name>
 ```
 
-3. If new versions of the API reference documentation are generated then commit those changes, push the changes,
+3. If new versions of the API reference documentation are generated,then commit those changes, push the changes,
 and submit a pull request.
