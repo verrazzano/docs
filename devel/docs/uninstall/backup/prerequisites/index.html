@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/uninstall/backup/prerequisites/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-09-28T14:44:06-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-11-09T01:57:29+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Prerequisites">
 <meta itemprop="description" content="Backup and restore prerequisite requirements">
-<meta itemprop="dateModified" content="2022-09-28T14:44:06-04:00" />
-<meta itemprop="wordCount" content="520">
+<meta itemprop="dateModified" content="2022-11-09T01:57:29+05:30" />
+<meta itemprop="wordCount" content="645">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Prerequisites"/>
 <meta name="twitter:description" content="Backup and restore prerequisite requirements"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.4f3c7b55ba41f40b790055797f8f11fc.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.32f2f09549844bf09a01878cd260820f.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.4f3c7b55ba41f40b790055797f8f11fc.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.32f2f09549844bf09a01878cd260820f.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -223,7 +223,7 @@ if (!doNotTrack) {
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docsuninstallbackup-li">
-  <a href="../../../../docs/uninstall/backup/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsuninstallbackup"><span class="">Backup and Recovery</span></a>
+  <a href="../../../../docs/uninstall/backup/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsuninstallbackup"><span class="">Back up and Restore</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsuninstallbackupprerequisites-li">
   <a href="../../../../docs/uninstall/backup/prerequisites/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-docsuninstallbackupprerequisites"><span class="td-sidebar-nav-active-item">Prerequisites</span></a>
@@ -519,7 +519,7 @@ if (!doNotTrack) {
     <a href="../../../../docs/uninstall/">Upgrade, Backup, &amp; Uninstall</a>
   </li>
   <li class="breadcrumb-item">
-    <a href="../../../../docs/uninstall/backup/">Backup and Recovery</a>
+    <a href="../../../../docs/uninstall/backup/">Back up and Restore</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
     <a href="../../../../docs/uninstall/backup/prerequisites/">Prerequisites</a>
@@ -545,23 +545,24 @@ if (!doNotTrack) {
 
 		
 	</header>    
-	<p>Verrazzano provides <a href="https://velero.io/docs/v1.8/">Velero</a> and <a href="https://rancher.com/docs/rancher/v2.5/en/backups/">rancher-backup</a> for backup and recovery at the component and platform level. Use the following instructions to enable and configure these components in your environment.</p>
-<p><strong>NOTE</strong>:  The backup functionality for OpenSearch can be used only if the components are enabled explicitly in the Verrazzano CR.</p>
+	<p>Verrazzano provides <a href="https://velero.io/docs/v1.8/">Velero</a> and <a href="https://rancher.com/docs/rancher/v2.5/en/backups/">rancher-backup</a> for backup and recovery at the component and platform level. Verrazzano also incorporates <a href="https://dev.mysql.com/doc/mysql-operator/en/">MySQL Operator</a> to perform MySQL backup and restore operations. Use the following instructions to enable and configure these components in your environment.</p>
 <h2 id="enable-backup-components">Enable backup components</h2>
 <p>To back up and restore persistent data, first you must enable the <code>velero</code> and <code>rancherBackup</code> components.
 The following configuration shows how to enable the backup components with a <code>prod</code> installation profile.</p>
-<pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1beta1
-kind: Verrazzano
-metadata:
-  name: example-verrazzano
-spec:
-  profile: prod
-  components:    
-    velero:
-      enabled: true
-    rancherBackup:
-      enabled: true  
-</code></pre><p><strong>NOTE</strong>: <code>rancherBackup</code> will be enabled only in cases when <code>rancher</code> is also enabled.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#000">$ kubectl apply -f -&lt;&lt;EOF</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">install.verrazzano.io/v1beta1</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">Verrazzano</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">example-verrazzano</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">profile</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">prod</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">components</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">    
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">velero</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">enabled</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">rancherBackup</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">enabled</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">EOF</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span></code></pre></div><p><strong>NOTE</strong>: <code>rancherBackup</code> will be enabled only in cases when <code>rancher</code> is also enabled.</p>
 <p>After they&rsquo;re enabled, check for Velero pods running in the <code>verrazzano-backup</code> namespace.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># Sample of pods running after enabling the velero component</span>
 </span></span><span style="display:flex;"><span>
@@ -584,7 +585,7 @@ spec:
 <li>Both components require an object store that is Amazon S3 compatible, therefore, you need to have an object storage bucket.  This can be an Oracle Cloud Object Storage bucket in any compartment of your Oracle Cloud tenancy.
 <ul>
 <li>Make a note of the bucket name and tenancy name for reference.</li>
-<li>For more information about creating a bucket with Object Storage, refer to this <a href="https://docs.oracle.com/en-us/iaas/Content/Object/Tasks/managingbuckets.htm#usingconsole">page</a>.</li>
+<li>For more information about creating a bucket with Object Storage, see <a href="https://docs.oracle.com/en-us/iaas/Content/Object/Tasks/managingbuckets.htm">Managing Buckets</a>.</li>
 </ul>
 </li>
 <li>For private clouds, enterprise networks, or air-gapped environments, this could be MinIO or an equivalent object store solution.</li>
@@ -599,6 +600,9 @@ spec:
 <li>
 <p>A signing key, which is required to authenticate with the Amazon S3 compatible object store. Follow these steps to create a <a href="https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm#Working2">Customer Secret Key</a>.</p>
 </li>
+<li>
+<p>MySQL Operator uses OCI credentials to back up and restore MySQL data. Hence, OCI credentials will also be needed before configuring MySQL backup or restore.</p>
+</li>
 </ul>
 <details>
   <summary>Velero CLI (optional)</summary>
@@ -611,10 +615,11 @@ spec:
 <ul>
 <li><a href="#velero-operator-prerequisites">Velero operator prerequisites</a></li>
 <li><a href="#rancher-backup-operator-prerequisites">rancher-backup operator prerequisites</a></li>
+<li><a href="#mysql-operator-prerequisites">MySQL Operator prerequisites</a></li>
 </ul>
 <h4 id="velero-operator-prerequisites">Velero operator prerequisites</h4>
 <p>Now, create the following objects:</p>
-<ul>
+<ol>
 <li>
 <p>Create a <code>backup-secret.txt</code> file, which has the object store credentials.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-backup-secret.txt" data-lang="backup-secret.txt"><span style="display:flex;"><span>[default]
@@ -624,39 +629,59 @@ spec:
 <li>
 <p>In the namespace <code>verrazzano-backup</code>, create a Kubernetes secret <code>verrazzano-backup-creds</code>.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl create secret generic -n &lt;backup-namespace&gt; &lt;secret-name&gt; --from-file<span style="color:#ce5c00;font-weight:bold">=</span>&lt;key&gt;<span style="color:#ce5c00;font-weight:bold">=</span>&lt;full_path_to_creds_file&gt;
-</span></span></code></pre></div><h4 id="example">Example</h4>
+</span></span></code></pre></div><p>The following is an example:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl create secret generic -n verrazzano-backup verrazzano-backup-creds --from-file<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">cloud</span><span style="color:#ce5c00;font-weight:bold">=</span>backup-secret.txt
 </span></span></code></pre></div><p><strong>NOTE</strong>: To avoid misuse of sensitive data, ensure that the <code>backup-secret.txt</code> file is deleted after the Kubernetes secret is created.</p>
 </li>
 <li>
 <p>Create <code>BackupStorageLocation</code>, which the backup component will reference for subsequent backups. See the following <code>BackupStorageLocation</code> example.
-For more information, see <a href="https://velero.io/docs/v1.8/api-types/backupstoragelocation/">here</a>.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">velero.io/v1</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">BackupStorageLocation</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">verrazzano-backup-location</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">namespace</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">verrazzano-backup</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">provider</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">aws</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">objectStorage</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">bucket</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">example-verrazzano</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">prefix</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">backup-demo</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">credential</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">verrazzano-backup-creds</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">key</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">cloud</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">config</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">region</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">us-phoenix-1</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">s3ForcePathStyle</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;true&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">s3Url</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">https://mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com</span><span style="color:#f8f8f8;text-decoration:underline">
+For more information, see <a href="https://velero.io/docs/v1.8/api-types/backupstoragelocation/">Backup Storage Location</a> in the Velero documentation.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#000">$ kubectl apply -f -&lt;&lt;EOF</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">velero.io/v1</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">BackupStorageLocation</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">verrazzano-backup-location</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">namespace</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">verrazzano-backup</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">provider</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">aws</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">objectStorage</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">bucket</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">example-verrazzano</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">prefix</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">backup-demo</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">credential</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">verrazzano-backup-creds</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">key</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">cloud</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">config</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">region</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">us-phoenix-1</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">s3ForcePathStyle</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;true&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">s3Url</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">https://mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">EOF</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span></code></pre></div></li>
-</ul>
+</ol>
 <h4 id="rancher-backup-operator-prerequisites">rancher-backup operator prerequisites</h4>
 <p>Now, in the namespace <code>verrazzano-backup</code>, create a Kubernetes secret <code>rancher-backup-creds</code>.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl create secret generic -n &lt;backup-namespace&gt; &lt;secret-name&gt; --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">accessKey</span><span style="color:#ce5c00;font-weight:bold">=</span>&lt;accesskey&gt; --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">secretKey</span><span style="color:#ce5c00;font-weight:bold">=</span>&lt;secretKey&gt;
-</span></span></code></pre></div><h4 id="example-1">Example</h4>
+</span></span></code></pre></div><p>The following is an example:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl create secret generic -n verrazzano-backup rancher-backup-creds --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">accessKey</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;s5VLpXwa0xNZQds4UTVV&#34;</span> --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">secretKey</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;nFFpvyxpQvb0dIQovsl0&#34;</span>
-</span></span></code></pre></div><br/>
-
+</span></span></code></pre></div><h4 id="mysql-operator-prerequisites">MySQL Operator prerequisites</h4>
+<p>Prior to starting a MySQL backup or restore, the MySQL Operator requires that the following secret exists.
+The following example creates a secret <code>mysql-backup-secret</code> in the namespace <code>keycloak</code>.</p>
+<p><strong>NOTE:</strong>  This secret must exist in the namespace <code>keycloak</code>.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl create secret generic -n keycloak  &lt;secret-name&gt; <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">user</span><span style="color:#ce5c00;font-weight:bold">=</span>&lt;oci user id&gt; <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">fingerprint</span><span style="color:#ce5c00;font-weight:bold">=</span>&lt;oci user fingerprint&gt; <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">tenancy</span><span style="color:#ce5c00;font-weight:bold">=</span>&lt;oci tenancy id&gt;&gt; <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">region</span><span style="color:#ce5c00;font-weight:bold">=</span>&lt;region where bucket is created&gt; <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">passphrase</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;&#34;</span> <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --from-file<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">privatekey</span><span style="color:#ce5c00;font-weight:bold">=</span>&lt;full path to private key pem file&gt;
+</span></span></code></pre></div><p>The following is an example:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl create secret generic -n keycloak  mysql-backup-secret <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">user</span><span style="color:#ce5c00;font-weight:bold">=</span>ocid1.user.oc1..aaaaaaaa <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">fingerprint</span><span style="color:#ce5c00;font-weight:bold">=</span>aa:bb:cc:dd:ee:ff <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">tenancy</span><span style="color:#ce5c00;font-weight:bold">=</span>ocid1.tenancy.oc1..bbbbbbbbb <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">region</span><span style="color:#ce5c00;font-weight:bold">=</span>us-phoenix-1 <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">passphrase</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;&#34;</span> <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --from-file<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">privatekey</span><span style="color:#ce5c00;font-weight:bold">=</span>/tmp/key.pem
+</span></span></code></pre></div>
 	
 		<style>
   .feedback--answer {
