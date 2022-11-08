@@ -7,7 +7,7 @@ draft: false
 ---
 
 Verrazzano provides [Velero](https://velero.io/docs/v1.8/), [rancher-backup](https://rancher.com/docs/rancher/v2.5/en/backups/), and  [MySQL Operator](https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-backups.html) for backup and recovery at the component and platform level.
-First, ensure that the backup component prerequisites are met, as indicated [here]({{< relref "/docs/uninstall/backup/prerequisites.md" >}}).
+First, ensure that the backup component prerequisites are met, as indicated in [Prerequisites]({{< relref "/docs/uninstall/backup/prerequisites.md" >}}).
 
 The following sections provide detailed configuration information for:
 
@@ -78,7 +78,6 @@ MySQL allows scheduled backups by implementing a cron job on [MySQL Operator](ht
 
 To initiate a Rancher backup, create the following example custom resource YAML file that uses an Amazon S3 compatible object store as a backend.
 The operator uses the `credentialSecretNamespace` value to determine where to look for the Amazon S3 backup secret.
-Note that in the [prerequisites]({{< relref "/docs/uninstall/backup/prerequisites#component-specific-prerequisites" >}}) example, you previously created the secret in the `verrazzano-backup` namespace.
 
 ```yaml
 $ kubectl apply -f - <<EOF
