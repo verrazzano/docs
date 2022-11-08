@@ -118,7 +118,7 @@ At this point, the MySQL cluster has been restored successfully from the backup,
 
 ## Rancher restore
 
-Restoring rancher is done by creating a custom resource to indicate the `rancher-backup` to start the restore process.
+Restoring rancher is done by creating a custom resource that indicates to `rancher-backup` to start the restore process.
 
 1. Scale down Verrazzano platform operator.
 
@@ -243,7 +243,7 @@ To initiate an OpenSearch restore, first delete the existing OpenSearch cluster 
    EOF
    ```
 
-5. Wait for all the OpenSearch pods to be in `RUNNING` state.
+5. Wait for all the OpenSearch pods to be in the `RUNNING` state.
 
    ```shell
 
