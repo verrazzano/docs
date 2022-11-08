@@ -87,7 +87,7 @@ To initiate a MySQL restore, from an existing backup, you need to recreate the M
             --values mysql-values.yaml
     ```   
 
-8. Wait for the MySQL cluster to be online after performing the restore command. Ensure that the `STATUS` is `ONLINE` and the count under `ONLINE` matches the `INSTANCES`
+8. Wait for the MySQL cluster to be online after performing the restore command. Ensure that the `STATUS` is `ONLINE` and the count under `ONLINE` matches the `INSTANCES`.
 
    ```shell
     $ kubectl get innodbclusters -n keycloak mysql
@@ -95,7 +95,7 @@ To initiate a MySQL restore, from an existing backup, you need to recreate the M
       mysql   ONLINE   3        3           3         2m23s
     ```
 
-9. Wait for all the MySQL pods to be in `RUNNING` state.
+9. Wait for all the MySQL pods to be in the `RUNNING` state.
 
    ```shell
 
@@ -108,7 +108,7 @@ To initiate a MySQL restore, from an existing backup, you need to recreate the M
       pod/mysql-router-746d9d75c7-t8bhb condition met
     ```
 
-10. Once the MySQL cluster is restored completely, scale up Verrazzano platform operator.
+10. After the MySQL cluster is restored completely, scale up Verrazzano platform operator.
 
     ```shell
     $ kubectl scale deploy -n verrazzano-install verrazzano-platform-operator --replicas=1
@@ -118,7 +118,7 @@ At this point, the MySQL cluster has been restored successfully from the backup,
 
 ## Rancher restore
 
-Restoring rancher is done by creating a CR to indicate the `rancher-backup` to start the restore process.
+Restoring rancher is done by creating a custom resource to indicate the `rancher-backup` to start the restore process.
 
 1. Scale down Verrazzano platform operator.
 
@@ -155,7 +155,7 @@ Restoring rancher is done by creating a CR to indicate the `rancher-backup` to s
    - Cluster-scoped resources
    - Namespace resources
 
-3. Wait for all the Rancher pods to be in `RUNNING` state.
+3. Wait for all the Rancher pods to be in the `RUNNING` state.
 
    ```shell
 
@@ -165,7 +165,7 @@ Restoring rancher is done by creating a CR to indicate the `rancher-backup` to s
       pod/rancher-69976cffc6-pcdf2 condition met
     ```
 
-4. Once Rancher pods are up and running, scale up Verrazzano platform operator.
+4. After Rancher pods are up and running, scale up Verrazzano platform operator.
 
     ```shell
     $ kubectl scale deploy -n verrazzano-install verrazzano-platform-operator --replicas=1
@@ -203,47 +203,47 @@ To initiate an OpenSearch restore, first delete the existing OpenSearch cluster 
 
     ```
 
-To perform an OpenSearch restore, you can invoke the following example Velero `Restore` [API](https://velero.io/docs/v1.8/api-types/restore/) object.
+4. To perform an OpenSearch restore, you can invoke the following example Velero `Restore` [API](https://velero.io/docs/v1.8/api-types/restore/) object.
 
-```yaml
-$ kubectl apply -f - <<EOF
-  apiVersion: velero.io/v1
-  kind: Restore
-  metadata:
-    name: verrazzano-opensearch-restore
-    namespace: verrazzano-backup
-  spec:
-    backupName: verrazzano-opensearch-backup
-    includedNamespaces:
-      - verrazzano-system
-    labelSelector:
-      matchLabels:
-        verrazzano-component: opensearch
-    restorePVs: false
-    hooks:
-      resources:
-        - name: opensearch-test
-          includedNamespaces:
-            - verrazzano-system       
-          labelSelector:
-            matchLabels:            
-              statefulset.kubernetes.io/pod-name: vmi-system-es-master-0
-          postHooks:
-            - exec:
-                container: es-master
-                command:
-                  - /usr/share/opensearch/bin/verrazzano-backup-hook
-                  - -operation
-                  - restore
-                  - -velero-backup-name
-                  - verrazzano-opensearch-backup
-                waitTimeout: 30m
-                execTimeout: 30m
-                onError: Fail
-EOF
-```
+   ```yaml
+   $ kubectl apply -f - <<EOF
+     apiVersion: velero.io/v1
+     kind: Restore
+     metadata:
+       name: verrazzano-opensearch-restore
+       namespace: verrazzano-backup
+     spec:
+       backupName: verrazzano-opensearch-backup
+       includedNamespaces:
+         - verrazzano-system
+       labelSelector:
+         matchLabels:
+           verrazzano-component: opensearch
+       restorePVs: false
+       hooks:
+         resources:
+           - name: opensearch-test
+             includedNamespaces:
+               - verrazzano-system       
+             labelSelector:
+               matchLabels:            
+                 statefulset.kubernetes.io/pod-name: vmi-system-es-master-0
+             postHooks:
+               - exec:
+                   container: es-master
+                   command:
+                     - /usr/share/opensearch/bin/verrazzano-backup-hook
+                     - -operation
+                     - restore
+                     - -velero-backup-name
+                     - verrazzano-opensearch-backup
+                   waitTimeout: 30m
+                   execTimeout: 30m
+                   onError: Fail
+   EOF
+   ```
 
-4. Wait for all the OpenSearch pods to be in `RUNNING` state.
+5. Wait for all the OpenSearch pods to be in `RUNNING` state.
 
    ```shell
 
@@ -258,7 +258,7 @@ EOF
       pod/vmi-system-es-master-2 condition met
     ```
 
-5. Once the OpenSearch pods are up and running, scale up Verrazzano platform operator.
+6. After the OpenSearch pods are up and running, scale up Verrazzano platform operator.
 
     ```bash
     $ kubectl scale deploy -n verrazzano-install verrazzano-platform-operator --replicas=1

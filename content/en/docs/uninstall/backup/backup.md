@@ -44,7 +44,7 @@ EOF
 ```
 
 **NOTE:**
-- In the [prerequisites]({{< relref "/docs/uninstall/backup/prerequisites#component-specific-prerequisites" >}}) example, you created the secret `mysql-backup-secret` in the `keycloak` namespace.
+- In the MySQL Operator [prerequisites example]({{< relref "/docs/uninstall/backup/prerequisites#mysql-operator-prerequisites" >}}) example, you created the secret `mysql-backup-secret` in the `keycloak` namespace.
 - The `clustername` has to be `mysql`.
 - The `namespace` has to be `keycloak`.
 
@@ -98,7 +98,7 @@ $ kubectl apply -f - <<EOF
 EOF
 ```
 
-**NOTE:** In the [prerequisites]({{< relref "/docs/uninstall/backup/prerequisites#component-specific-prerequisites" >}}) example, you previously created the secret in the `verrazzano-backup` namespace.
+**NOTE:** In the [prerequisites example]({{< relref "/docs/uninstall/backup/prerequisites#rancher-backup-operator-prerequisites" >}}) example, you previously created the secret in the `verrazzano-backup` namespace.
 
 The following is an example:
 
@@ -126,7 +126,7 @@ The operator creates the backup file, in the `*.tar.gz` format, and stores it in
 
 ### Scheduled backups
 
-rancher-backup implements scheduled backups as indicated here, [scheduled backups](https://rancher.com/docs/rancher/v2.5/en/backups/configuration/backup-config/).  
+rancher-backup implements scheduled backups as indicated [here](https://rancher.com/docs/rancher/v2.5/en/backups/configuration/backup-config/).  
 
 
 ## OpenSearch backup

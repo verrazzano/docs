@@ -8,8 +8,6 @@ draft: false
 
 Verrazzano provides [Velero](https://velero.io/docs/v1.8/) and [rancher-backup](https://rancher.com/docs/rancher/v2.5/en/backups/) for backup and recovery at the component and platform level. Verrazzano also incorporates [MySQL Operator](https://dev.mysql.com/doc/mysql-operator/en/) to perform MySQL backup and restore operations. Use the following instructions to enable and configure these components in your environment.
 
-**NOTE**:  The backup functionality for OpenSearch can be used only if the components are enabled explicitly in the Verrazzano CR.
-
 ## Enable backup components
 
 To back up and restore persistent data, first you must enable the `velero` and `rancherBackup` components.
@@ -61,7 +59,7 @@ Next, meet the following prerequisite requirements for both `velero` and `ranche
 - Object store bucket name.
   - Both components require an object store that is Amazon S3 compatible, therefore, you need to have an object storage bucket.  This can be an Oracle Cloud Object Storage bucket in any compartment of your Oracle Cloud tenancy.
      - Make a note of the bucket name and tenancy name for reference.
-     - For more information about creating a bucket with Object Storage, see [Managing Buckets](https://docs.oracle.com/en-us/iaas/Content/Object/Tasks/managingbuckets.htm#usingconsole).
+     - For more information about creating a bucket with Object Storage, see [Managing Buckets](https://docs.oracle.com/en-us/iaas/Content/Object/Tasks/managingbuckets.htm).
   - For private clouds, enterprise networks, or air-gapped environments, this could be MinIO or an equivalent object store solution.
 
 - Object store prefix name. This will be a child folder under the bucket, which the backup component creates.
@@ -70,7 +68,7 @@ Next, meet the following prerequisite requirements for both `velero` and `ranche
 
 - A signing key, which is required to authenticate with the Amazon S3 compatible object store. Follow these steps to create a [Customer Secret Key](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm#Working2).
 
-- MySQL Operator uses OCI credentials to back up and restore mysql data. Hence, OCI credentials will also be needed before configuring MySQL backup or restore.
+- MySQL Operator uses OCI credentials to back up and restore MySQL data. Hence, OCI credentials will also be needed before configuring MySQL backup or restore.
 
 
 
