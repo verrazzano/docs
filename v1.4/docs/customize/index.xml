@@ -265,19 +265,19 @@ Verrazzano will create &lt;code&gt;sales.us.example.com&lt;/code&gt; as the DNS 
 		
 
 		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-bfaedc&#34; data-toggle=&#34;tab&#34; href=&#34;#bfaedc&#34;
+		   id=&#34;nav-fbedca&#34; data-toggle=&#34;tab&#34; href=&#34;#fbedca&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;WildcardDNS&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-feabdc&#34; data-toggle=&#34;tab&#34; href=&#34;#feabdc&#34;
+		   id=&#34;nav-afdcbe&#34; data-toggle=&#34;tab&#34; href=&#34;#afdcbe&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;OracleCloudInfrastructureDNS&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-cefdba&#34; data-toggle=&#34;tab&#34; href=&#34;#cefdba&#34;
+		   id=&#34;nav-aedcbf&#34; data-toggle=&#34;tab&#34; href=&#34;#aedcbf&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;CustomDNS&lt;/a&gt;
 
 		
@@ -293,7 +293,7 @@ Verrazzano will create &lt;code&gt;sales.us.example.com&lt;/code&gt; as the DNS 
 
 
 
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;bfaedc&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;fbedca&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;Verrazzano can be configured to use either the &lt;a href=&#34;https://nip.io/&#34;&gt;nip.io&lt;/a&gt; or &lt;a href=&#34;https://sslip.io&#34;&gt;sslip.io&lt;/a&gt; free wildcard DNS services.
@@ -326,7 +326,7 @@ spec:
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;feabdc&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;afdcbe&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;Verrazzano can directly manage records in &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm&#34;&gt;Oracle Oracle Cloud Infrastructure DNS&lt;/a&gt;
@@ -491,7 +491,7 @@ spec:
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;cefdba&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;aedcbf&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;You can specify your own externally managed, custom DNS domain.  In this scenario, you manage your own DNS
@@ -640,6 +640,57 @@ spec:
                       externalIPs:
                       - 11.22.33.55
 &lt;/code&gt;&lt;/pre&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Network File System</title>
+      <link>/docs/customize/nfs/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/customize/nfs/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Complete the following steps to configure NFS storage in an Oracle Cloud Native Environment.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Create an OLCNE cluster. See &lt;a href=&#34;https://docs.oracle.com/en/operating-systems/olcne/1.1/start/intro.html&#34;&gt;OLCNE cluster&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The cluster must have at least 3 worker nodes.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Create an NFS server. For an example that uses an NFS server on Oracle Linux, see &lt;a href=&#34;https://docs.oracle.com/en/learn/create_nfs_linux/&#34;&gt;Create an NFS server on Oracle Linux&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;a. Install the NFS utility package on the server and client instances.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ sudo dnf install -y nfs-utils
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;b. Create a directory for your shared files. Make sure that the server does not have root ownership.&lt;/p&gt;
+&lt;p&gt;c. Define the shared directory in &lt;code&gt;/etc/exports&lt;/code&gt; with the correct permissions. Make sure to disable root squashing.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ &amp;lt;path to directory&amp;gt; &amp;lt;ip-address/subnet-mask&amp;gt;(rw,sync,no_root_squash,no_subtree_check)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;d. Set the firewall to allow NFS traffic.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ sudo firewall-cmd --permanent --zone=public --add-service=nfs
+$ sudo firewall-cmd --reload
+$ sudo firewall-cmd --list-all
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;e. Enable and start the NFS service.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ sudo systemctl enable --now nfs-server
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Deploy an NFS provisioner to your cluster.&lt;/p&gt;
+&lt;p&gt;a. Install an NFS client provisioner of your choice. For an example, see &lt;a href=&#34;https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner&#34;&gt;Kubernetes NFS Subdir External Provisioner&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;b. Add the required Helm repo.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;c. Install the provisioner. Set your storage class as a default and create a service account.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ helm install nfs-test \
+   --set nfs.server=&amp;lt;server ip address&amp;gt; \
+   --set nfs.path=&amp;lt;path&amp;gt; \
+   --set storageClass.name=&amp;lt;name&amp;gt; \
+   --set storageClass.defaultClass=true,rbac.create=true \
+   --set storageClass.provisionerName=nfsclientprov/nfs \
+   --set serviceAccount.create=true \
+   --set serviceAccount.name=nfs-svc-acc-nfs nfs-subdir-external-provisioner/nfs-subdir-external-provisioner
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;d. Only one storage class should be listed as the default. If required, edit the other storage classes and delete the following annotation:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ storageclass.kubernetes.io/is-default-class: &amp;#34;true&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
       </description>
     </item>
     
