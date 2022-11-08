@@ -49,7 +49,7 @@ To initiate a MySQL restore, from an existing backup, you need to recreate the M
 4. Scale down Verrazzano platform operator.
 
     ```shell
-    $ kubectl scale  deploy -n verrazzano-install verrazzano-platform-operator --replicas=0 
+    $ kubectl scale deploy -n verrazzano-install verrazzano-platform-operator --replicas=0 
     ```
 
 5. Clean up MySQL pods and PVC from the system.
@@ -99,7 +99,7 @@ To initiate a MySQL restore, from an existing backup, you need to recreate the M
 
    ```shell
    
-    $ kubectl wait -n keycloak  --for=condition=ready pod -l tier=mysql --timeout=600s
+    $ kubectl wait -n keycloak --for=condition=ready pod -l tier=mysql --timeout=600s
       pod/mysql-0 condition met
       pod/mysql-1 condition met
       pod/mysql-2 condition met
@@ -111,7 +111,7 @@ To initiate a MySQL restore, from an existing backup, you need to recreate the M
 10. Once the MySQL cluster is restored completely, scale up Verrazzano platform operator.
 
     ```shell
-    $ kubectl scale  deploy -n verrazzano-install verrazzano-platform-operator --replicas=1
+    $ kubectl scale deploy -n verrazzano-install verrazzano-platform-operator --replicas=1
     ```
 
 At this point, the MySQL cluster has been restored successfully from the backup, along with the PVCs that were cleaned up previously.
@@ -123,7 +123,7 @@ Restoring rancher is done by creating a CR to indicate the `rancher-backup` to s
 1. Scale down Verrazzano platform operator.
 
     ```shell
-    $ kubectl scale  deploy -n verrazzano-install verrazzano-platform-operator --replicas=0 
+    $ kubectl scale deploy -n verrazzano-install verrazzano-platform-operator --replicas=0 
     ```
    
 2. To initiate a Rancher restore, create the following example custom resource YAML file.
@@ -159,7 +159,7 @@ Restoring rancher is done by creating a CR to indicate the `rancher-backup` to s
 
    ```shell
    
-    $ kubectl wait -n cattle-system  --for=condition=ready pod -l app=rancher --timeout=600s
+    $ kubectl wait -n cattle-system --for=condition=ready pod -l app=rancher --timeout=600s
       pod/rancher-69976cffc6-bbx4p condition met
       pod/rancher-69976cffc6-fr75t condition met
       pod/rancher-69976cffc6-pcdf2 condition met
@@ -168,7 +168,7 @@ Restoring rancher is done by creating a CR to indicate the `rancher-backup` to s
 4. Once Rancher pods are up and running, scale up Verrazzano platform operator.
 
     ```shell
-    $ kubectl scale  deploy -n verrazzano-install verrazzano-platform-operator --replicas=1
+    $ kubectl scale deploy -n verrazzano-install verrazzano-platform-operator --replicas=1
     ```
 
 
@@ -189,7 +189,7 @@ To initiate an OpenSearch restore, first delete the existing OpenSearch cluster 
 2. Scale down Verrazzano platform operator.
 
     ```shell
-    $ kubectl scale  deploy -n verrazzano-install verrazzano-platform-operator --replicas=0 
+    $ kubectl scale deploy -n verrazzano-install verrazzano-platform-operator --replicas=0 
     ```
 
 3. Then, clean up the OpenSearch components.
@@ -199,7 +199,7 @@ To initiate an OpenSearch restore, first delete the existing OpenSearch cluster 
 
     $ kubectl delete sts -n verrazzano-system -l verrazzano-component=opensearch
     $ kubectl delete deploy -n verrazzano-system -l verrazzano-component=opensearch
-    $ kubectl delete pvc -n verrazzano-system  -l verrazzano-component=opensearch
+    $ kubectl delete pvc -n verrazzano-system -l verrazzano-component=opensearch
 
     ```
 
@@ -247,7 +247,7 @@ EOF
 
    ```shell
       
-    $ kubectl wait -n verrazzano-system  --for=condition=ready pod -l verrazzano-component=opensearch --timeout=600s
+    $ kubectl wait -n verrazzano-system --for=condition=ready pod -l verrazzano-component=opensearch --timeout=600s
       pod/vmi-system-es-data-0-6f49bdf6f5-fc6mz condition met
       pod/vmi-system-es-data-1-8f8785994-4pr7n condition met
       pod/vmi-system-es-data-2-d5f569d98-q8p2v condition met
@@ -261,7 +261,7 @@ EOF
 5. Once the OpenSearch pods are up and running, scale up Verrazzano platform operator.
 
     ```bash
-    $ kubectl scale  deploy -n verrazzano-install verrazzano-platform-operator --replicas=1
+    $ kubectl scale deploy -n verrazzano-install verrazzano-platform-operator --replicas=1
     ```
 
 
