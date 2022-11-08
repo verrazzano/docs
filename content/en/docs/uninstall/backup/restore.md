@@ -243,7 +243,7 @@ $ kubectl apply -f - <<EOF
 EOF
 ```
 
-4. Wait for all the Opensearch pods to be in `RUNNING` state.
+4. Wait for all the OpenSearch pods to be in `RUNNING` state.
 
    ```shell
       
@@ -258,7 +258,7 @@ EOF
       pod/vmi-system-es-master-2 condition met
     ```
 
-5. Once the Opensearch pods are up and running, scale up Verrazzano platform operator.
+5. Once the OpenSearch pods are up and running, scale up Verrazzano platform operator.
 
     ```bash
     $ kubectl scale  deploy -n verrazzano-install verrazzano-platform-operator --replicas=1
