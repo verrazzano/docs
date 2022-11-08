@@ -6,27 +6,27 @@ weight: 1
 draft: false
 ---
 
-Verrazzano provides [Velero](https://velero.io/docs/v1.8/) and [rancher-backup](https://rancher.com/docs/rancher/v2.5/en/backups/) for backup and recovery at the component and platform level. Use the following instructions to enable and configure these components in your environment.
-
-**NOTE**:  The backup functionality for OpenSearch can be used only if the components are enabled explicitly in the Verrazzano CR.
+Verrazzano provides [Velero](https://velero.io/docs/v1.8/) and [rancher-backup](https://rancher.com/docs/rancher/v2.5/en/backups/) for backup and recovery at the component and platform level. Verrazzano also incorporates [MySQL Operator](https://dev.mysql.com/doc/mysql-operator/en/) to perform MySQL backup and restore operations. Use the following instructions to enable and configure these components in your environment.
 
 ## Enable backup components
 
 To back up and restore persistent data, first you must enable the `velero` and `rancherBackup` components.
 The following configuration shows how to enable the backup components with a `prod` installation profile.
 
-```
-apiVersion: install.verrazzano.io/v1beta1
-kind: Verrazzano
-metadata:
-  name: example-verrazzano
-spec:
-  profile: prod
-  components:    
-    velero:
-      enabled: true
-    rancherBackup:
-      enabled: true  
+```yaml
+$ kubectl apply -f -<<EOF
+  apiVersion: install.verrazzano.io/v1beta1
+  kind: Verrazzano
+  metadata:
+    name: example-verrazzano
+  spec:
+    profile: prod
+    components:    
+      velero:
+        enabled: true
+      rancherBackup:
+        enabled: true
+EOF
 ```
 **NOTE**: `rancherBackup` will be enabled only in cases when `rancher` is also enabled.
 
@@ -59,7 +59,7 @@ Next, meet the following prerequisite requirements for both `velero` and `ranche
 - Object store bucket name.
   - Both components require an object store that is Amazon S3 compatible, therefore, you need to have an object storage bucket.  This can be an Oracle Cloud Object Storage bucket in any compartment of your Oracle Cloud tenancy.
      - Make a note of the bucket name and tenancy name for reference.
-     - For more information about creating a bucket with Object Storage, refer to this [page](https://docs.oracle.com/en-us/iaas/Content/Object/Tasks/managingbuckets.htm#usingconsole).
+     - For more information about creating a bucket with Object Storage, see [Managing Buckets](https://docs.oracle.com/en-us/iaas/Content/Object/Tasks/managingbuckets.htm).
   - For private clouds, enterprise networks, or air-gapped environments, this could be MinIO or an equivalent object store solution.
 
 - Object store prefix name. This will be a child folder under the bucket, which the backup component creates.
@@ -68,6 +68,7 @@ Next, meet the following prerequisite requirements for both `velero` and `ranche
 
 - A signing key, which is required to authenticate with the Amazon S3 compatible object store. Follow these steps to create a [Customer Secret Key](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm#Working2).
 
+- MySQL Operator uses OCI credentials to back up and restore MySQL data. Hence, OCI credentials will also be needed before configuring MySQL backup or restore.
 
 
 
@@ -89,12 +90,13 @@ Meet the following component-specific prerequisites:
 
 - [Velero operator prerequisites](#velero-operator-prerequisites)
 - [rancher-backup operator prerequisites](#rancher-backup-operator-prerequisites)
+- [MySQL Operator prerequisites](#mysql-operator-prerequisites)
 
 #### Velero operator prerequisites
 
 Now, create the following objects:
 
-- Create a `backup-secret.txt` file, which has the object store credentials.
+1. Create a `backup-secret.txt` file, which has the object store credentials.
 
    ```backup-secret.txt
    [default]
@@ -102,13 +104,13 @@ Now, create the following objects:
    aws_secret_access_key=<object store secret key>
    ```
 
-- In the namespace `verrazzano-backup`, create a Kubernetes secret `verrazzano-backup-creds`.
+2. In the namespace `verrazzano-backup`, create a Kubernetes secret `verrazzano-backup-creds`.
 
    ```shell
    $ kubectl create secret generic -n <backup-namespace> <secret-name> --from-file=<key>=<full_path_to_creds_file>
    ```
 
-   #### Example
+   The following is an example:
    ```shell
    $ kubectl create secret generic -n verrazzano-backup verrazzano-backup-creds --from-file=cloud=backup-secret.txt
    ```
@@ -116,28 +118,30 @@ Now, create the following objects:
 
    **NOTE**: To avoid misuse of sensitive data, ensure that the `backup-secret.txt` file is deleted after the Kubernetes secret is created.
 
-- Create `BackupStorageLocation`, which the backup component will reference for subsequent backups. See the following `BackupStorageLocation` example.
-  For more information, see [here](https://velero.io/docs/v1.8/api-types/backupstoragelocation/).
+3. Create `BackupStorageLocation`, which the backup component will reference for subsequent backups. See the following `BackupStorageLocation` example.
+  For more information, see [Backup Storage Location](https://velero.io/docs/v1.8/api-types/backupstoragelocation/) in the Velero documentation.
 
-   ```yaml
-   apiVersion: velero.io/v1
-   kind: BackupStorageLocation
-   metadata:
-     name: verrazzano-backup-location
-     namespace: verrazzano-backup
-   spec:
-     provider: aws
-     objectStorage:
-       bucket: example-verrazzano
-       prefix: backup-demo
-     credential:
-       name: verrazzano-backup-creds
-       key: cloud
-     config:
-       region: us-phoenix-1
-       s3ForcePathStyle: "true"
-       s3Url: https://mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com
-   ```
+     ```yaml
+    $ kubectl apply -f -<<EOF
+       apiVersion: velero.io/v1
+       kind: BackupStorageLocation
+       metadata:
+         name: verrazzano-backup-location
+         namespace: verrazzano-backup
+       spec:
+         provider: aws
+         objectStorage:
+           bucket: example-verrazzano
+           prefix: backup-demo
+         credential:
+           name: verrazzano-backup-creds
+           key: cloud
+         config:
+           region: us-phoenix-1
+           s3ForcePathStyle: "true"
+           s3Url: https://mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com
+    EOF
+    ```
 
 #### rancher-backup operator prerequisites
 
@@ -147,10 +151,36 @@ Now, in the namespace `verrazzano-backup`, create a Kubernetes secret `rancher-b
 $ kubectl create secret generic -n <backup-namespace> <secret-name> --from-literal=accessKey=<accesskey> --from-literal=secretKey=<secretKey>
 ```
 
-#### Example
+The following is an example:
 ```shell
 $ kubectl create secret generic -n verrazzano-backup rancher-backup-creds --from-literal=accessKey="s5VLpXwa0xNZQds4UTVV" --from-literal=secretKey="nFFpvyxpQvb0dIQovsl0"
 ```
 
+#### MySQL Operator prerequisites
 
-<br/>
+Prior to starting a MySQL backup or restore, the MySQL Operator requires that the following secret exists.
+The following example creates a secret `mysql-backup-secret` in the namespace `keycloak`.
+
+**NOTE:**  This secret must exist in the namespace `keycloak`.
+
+````shell
+$ kubectl create secret generic -n keycloak  <secret-name> \
+        --from-literal=user=<oci user id> \
+        --from-literal=fingerprint=<oci user fingerprint> \
+        --from-literal=tenancy=<oci tenancy id>> \
+        --from-literal=region=<region where bucket is created> \
+        --from-literal=passphrase="" \
+        --from-file=privatekey=<full path to private key pem file>
+````
+
+The following is an example:
+
+````shell
+$ kubectl create secret generic -n keycloak  mysql-backup-secret \
+        --from-literal=user=ocid1.user.oc1..aaaaaaaa \
+        --from-literal=fingerprint=aa:bb:cc:dd:ee:ff \
+        --from-literal=tenancy=ocid1.tenancy.oc1..bbbbbbbbb \
+        --from-literal=region=us-phoenix-1 \
+        --from-literal=passphrase="" \
+        --from-file=privatekey=/tmp/key.pem
+````
