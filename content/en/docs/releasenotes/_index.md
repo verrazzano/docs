@@ -57,6 +57,17 @@ Fixes:
 - Updated base and other images to resolve CVEs.
 
 
+### v1.3.7
+Fixes:
+
+- Corrected the Kiali 1.42 Helm charts.
+- Resolved an issue with resizing OpenSearch storage volumes when using a storage class that supports volume expansion.
+
+### v1.3.6
+Fixes:
+
+- Resolved an issue in OpenSearch where the user provided JVM heap size setting was not used.
+
 ### v1.3.5
 Component version updates:
 
