@@ -33,7 +33,7 @@ In the sample configuration, the IngressTrait `hello-helidon-ingress` is set on 
 
 For example, with the sample application configuration successfully deployed, the application will be accessible with the `path` specified in the IngressTrait and the generated host name.
 ```
-$ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath={.spec.servers[0].hosts[0]})
+$ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-gw -n hello-helidon -o jsonpath={.spec.servers[0].hosts[0]})
 $ echo $HOST
 hello-helidon-appconf.hello-helidon.11.22.33.44.nip.io
 
