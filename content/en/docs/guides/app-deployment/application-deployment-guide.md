@@ -248,7 +248,7 @@ and enabled for Istio.
    ingress DNS name to the application's load balancer IP address.
    The generated host name is obtained by querying Kubernetes for the gateway:
    ```
-   $ kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-appconf-gw \
+   $ kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-gw \
        -n hello-helidon \
        -o jsonpath='{.spec.servers[0].hosts[0]}'
    ```
@@ -352,7 +352,7 @@ If DNS was not configured, then use the alternative commands.
 
 1.  Save the host name and IP address of the load balancer exposing the application's REST service endpoints for later.
     ```
-    $ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-appconf-gw \
+    $ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-gw \
           -n hello-helidon \
           -o jsonpath='{.spec.servers[0].hosts[0]}')
     $ ADDRESS=$(kubectl get service \

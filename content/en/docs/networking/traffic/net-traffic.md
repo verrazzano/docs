@@ -216,7 +216,7 @@ items:
   kind: Gateway
   metadata:
    ...
-    name: hello-helidon-hello-helidon-appconf-gw
+    name: hello-helidon-hello-helidon-gw
     namespace: hello-helidon
   ...
   spec:
@@ -247,7 +247,7 @@ items:
     namespace: hello-helidon
   spec:
     gateways:
-    - hello-helidon-hello-helidon-appconf-gw
+    - hello-helidon-hello-helidon-gw
     hosts:
     - hello-helidon-appconf.hello-helidon.1.2.3.4.nip.io
     HTTP:

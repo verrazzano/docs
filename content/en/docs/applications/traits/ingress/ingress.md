@@ -34,7 +34,7 @@ In the sample configuration, the IngressTrait `hello-helidon-ingress` is set on 
 
 For example, with the sample application configuration successfully deployed, the application will be accessible with the `path` specified in the IngressTrait and the generated host name.
 ```
-$ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-appconf-gw -n hello-helidon -o jsonpath={.spec.servers[0].hosts[0]})
+$ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-gw -n hello-helidon -o jsonpath={.spec.servers[0].hosts[0]})
 $ echo $HOST
 hello-helidon-appconf.hello-helidon.11.22.33.44.nip.io
 
@@ -113,4 +113,3 @@ Use the following rules related to the host name:
 - If you provide a host name, then you have an option to provide a certificate.  If you do not provide a certificate, then Verrazzano generates one for you.
 - If you provide a certificate, then you must provide a host name.
 - If you do not provide either a host name or a certificate, then Verrazzano generates them for you.
-
