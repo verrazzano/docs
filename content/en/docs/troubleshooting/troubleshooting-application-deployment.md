@@ -85,7 +85,7 @@ The following commands are examples of checking for the resources related to an 
 ```
 $ kubectl get -n hello-helidon ingresstrait hello-helidon-ingress
 $ kubectl get -n istio-system Certificate hello-helidon-hello-helidon-appconf-cert
-$ kubectl get -n hello-helidon gateway hello-helidon-hello-helidon-appconf-gw
+$ kubectl get -n hello-helidon gateway hello-helidon-hello-helidon-gw
 $ kubectl get -n hello-helidon virtualservice hello-helidon-ingress-rule-0-vs
 ```
 

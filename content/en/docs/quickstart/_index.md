@@ -112,7 +112,7 @@ enabled for Istio.
 
 1.  Save the host name of the load balancer exposing the application's REST service endpoints.
     ```
-    $ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-appconf-gw \
+    $ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-gw \
         -n hello-helidon \
         -o jsonpath='{.spec.servers[0].hosts[0]}')
     ```
