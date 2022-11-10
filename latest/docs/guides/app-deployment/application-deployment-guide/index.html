@@ -25,11 +25,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/guides/app-deployment/application-deployment-guide/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-08-18T10:52:26-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-11-10T10:06:47-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Application Deployment Guide">
 <meta itemprop="description" content="A guide for deploying an example application on Verrazzano">
-<meta itemprop="dateModified" content="2022-08-18T10:52:26-04:00" />
+<meta itemprop="dateModified" content="2022-11-10T10:06:47-05:00" />
 <meta itemprop="wordCount" content="2067">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Application Deployment Guide"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.e2d6316bd64c63d3bdff49854e3656f4.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.138d0ddc0cba9937824b49547c1d9aba.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.e2d6316bd64c63d3bdff49854e3656f4.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.138d0ddc0cba9937824b49547c1d9aba.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -729,7 +729,7 @@ that collectively provide and support the application.</p>
 <p>After deploying the application, configure DNS to resolve the application&rsquo;s
 ingress DNS name to the application&rsquo;s load balancer IP address.
 The generated host name is obtained by querying Kubernetes for the gateway:</p>
-<pre tabindex="0"><code>$ kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-appconf-gw \
+<pre tabindex="0"><code>$ kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-gw \
     -n hello-helidon \
     -o jsonpath=&#39;{.spec.servers[0].hosts[0]}&#39;
 </code></pre><p>The load balancer IP is obtained by querying Kubernetes for the
@@ -813,7 +813,7 @@ If DNS was not configured, then use the alternative commands.</p>
 <ol>
 <li>
 <p>Save the host name and IP address of the load balancer exposing the application&rsquo;s REST service endpoints for later.</p>
-<pre tabindex="0"><code>$ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-appconf-gw \
+<pre tabindex="0"><code>$ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-gw \
       -n hello-helidon \
       -o jsonpath=&#39;{.spec.servers[0].hosts[0]}&#39;)
 $ ADDRESS=$(kubectl get service \
