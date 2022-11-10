@@ -229,7 +229,7 @@ that collectively provide and support the application.&lt;/p&gt;
 &lt;p&gt;After deploying the application, configure DNS to resolve the application&amp;rsquo;s
 ingress DNS name to the application&amp;rsquo;s load balancer IP address.
 The generated host name is obtained by querying Kubernetes for the gateway:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-appconf-gw \
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-gw \
     -n hello-helidon \
     -o jsonpath=&amp;#39;{.spec.servers[0].hosts[0]}&amp;#39;
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The load balancer IP is obtained by querying Kubernetes for the
@@ -313,7 +313,7 @@ If DNS was not configured, then use the alternative commands.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Save the host name and IP address of the load balancer exposing the application&amp;rsquo;s REST service endpoints for later.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-appconf-gw \
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-gw \
       -n hello-helidon \
       -o jsonpath=&amp;#39;{.spec.servers[0].hosts[0]}&amp;#39;)
 $ ADDRESS=$(kubectl get service \
