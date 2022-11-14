@@ -92,8 +92,8 @@ enabled for Istio.
 1. Apply the `hello-helidon` resources to deploy the application.
 
    ```
-   $ kubectl apply -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-comp.yaml" >}} -n hello-helidon
-   $ kubectl apply -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-app.yaml" >}} -n hello-helidon
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-comp.yaml >}} -n hello-helidon
+   $ kubectl apply -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-app.yaml >}} -n hello-helidon
    ```
 
 1. Wait for the application to be ready.
@@ -133,8 +133,8 @@ enabled for Istio.
 1. Delete the Verrazzano application resources.
 
    ```
-   $ kubectl delete -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-comp.yaml" >}}
-   $ kubectl delete -f {{< ghlink raw=true path="examples/hello-helidon/hello-helidon-app.yaml" >}}
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-comp.yaml >}}
+   $ kubectl delete -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-app.yaml >}}
     ```
 
 1. Delete the example namespace.
