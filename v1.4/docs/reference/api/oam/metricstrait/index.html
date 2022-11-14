@@ -26,13 +26,13 @@ Note that if an ApplicationConfiguration does not specify a MetricsTrait, then a
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/reference/api/oam/metricstrait/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-09-15T08:15:04-07:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-11-14T12:12:50-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="MetricsTrait">
 <meta itemprop="description" content="The MetricsTrait custom resource contains the configuration information needed to enable metrics for an application component. Component workloads configured with a MetricsTrait are set up to emit metrics through an endpoint that are scraped by a given Prometheus deployment. Here is a sample ApplicationConfiguration that specifies a MetricsTrait. To deploy an example application that demonstrates a MetricsTrait, see Hello World Helidon.
 Note that if an ApplicationConfiguration does not specify a MetricsTrait, then a default MetricsTrait will be generated with values appropriate for the workload type.">
-<meta itemprop="dateModified" content="2022-09-15T08:15:04-07:00" />
-<meta itemprop="wordCount" content="327">
+<meta itemprop="dateModified" content="2022-11-14T12:12:50-05:00" />
+<meta itemprop="wordCount" content="378">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="MetricsTrait"/>
 <meta name="twitter:description" content="The MetricsTrait custom resource contains the configuration information needed to enable metrics for an application component. Component workloads configured with a MetricsTrait are set up to emit metrics through an endpoint that are scraped by a given Prometheus deployment. Here is a sample ApplicationConfiguration that specifies a MetricsTrait. To deploy an example application that demonstrates a MetricsTrait, see Hello World Helidon.
@@ -97,7 +97,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.138d0ddc0cba9937824b49547c1d9aba.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.7c3cf949d40c910f918cae62ecccc7cd.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -119,7 +119,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.138d0ddc0cba9937824b49547c1d9aba.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.7c3cf949d40c910f918cae62ecccc7cd.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -615,6 +615,12 @@ $ curl -sk \
 <td>No</td>
 </tr>
 <tr>
+<td><code>ports</code></td>
+<td><a href="#PortSpec">[]PortSpec</a></td>
+<td>The HTTP endpoints for the related metrics.</td>
+<td>No</td>
+</tr>
+<tr>
 <td><code>path</code></td>
 <td>string</td>
 <td>The HTTP path for the related metrics endpoint. Defaults to <code>/metrics</code>.</td>
@@ -630,6 +636,32 @@ $ curl -sk \
 <td><code>scraper</code></td>
 <td>string</td>
 <td>The Prometheus deployment used to scrape the related metrics endpoints. By default, the Verrazzano-supplied Prometheus component is used to scrape the endpoint.</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<h4 id="portspec">PortSpec</h4>
+<p>PortSpec defines an HTTP port and path combination.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>port</code></td>
+<td>integer</td>
+<td>The HTTP port for the related metrics endpoint. Defaults to <code>8080</code>.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>path</code></td>
+<td>string</td>
+<td>The HTTP path for the related metrics endpoint. Defaults to <code>/metrics</code>.</td>
 <td>No</td>
 </tr>
 </tbody>
