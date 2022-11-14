@@ -43,14 +43,14 @@ Verrazzano specifies the …">
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/reference/api/vpo-verrazzano-v1beta1/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-11-04T11:15:18-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-11-14T10:09:08-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Verrazzano v1beta1">
 <meta itemprop="description" content="Packages:
   install.verrazzano.io/v1beta1   install.verrazzano.io/v1beta1  Resource Types:  Verrazzano  Verrazzano   Verrazzano specifies the Verrazzano API.
    Field Description      apiVersion string   install.verrazzano.io/v1beta1      kind string  Verrazzano    metadata  Kubernetes meta/v1.ObjectMeta     Refer to the Kubernetes API documentation for the fields of the metadata field.     spec  VerrazzanoSpec          components  ComponentSpec     (Optional) The Verrazzano components.">
-<meta itemprop="dateModified" content="2022-11-04T11:15:18-04:00" />
-<meta itemprop="wordCount" content="4663">
+<meta itemprop="dateModified" content="2022-11-14T10:09:08-05:00" />
+<meta itemprop="wordCount" content="4767">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Verrazzano v1beta1"/>
 <meta name="twitter:description" content="Packages:
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.87d45f3efbbaea2e830d51a3f0ccccb8.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.2ca47999d7f38189da7839553740a2cc.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -138,7 +138,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.87d45f3efbbaea2e830d51a3f0ccccb8.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.2ca47999d7f38189da7839553740a2cc.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -1057,6 +1057,58 @@ CA
 </tr>
 </tbody>
 </table>
+<h3 id="install.verrazzano.io/v1beta1.ClusterOperatorComponent">ClusterOperatorComponent
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
+</p>
+<p>
+<p>ClusterOperatorComponent specifies the Cluster Operator configuration.</p>
+</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>enabled</code></br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>If true, then the Cluster Operator will be installed.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>InstallOverrides</code></br>
+<em>
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
+InstallOverrides
+</a>
+</em>
+</td>
+<td>
+<p>
+(Members of <code>InstallOverrides</code> are embedded into this type.)
+</p>
+<em>(Optional)</em>
+<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
+find all possible values
+<a href="https://github.com/verrazzano/verrazzano/blob/master/platform-operator/helm_config/charts/verrazzano-cluster-operator/values.yaml">here</a>
+and invalid values will be ignored.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="install.verrazzano.io/v1beta1.CoherenceOperatorComponent">CoherenceOperatorComponent
 </h3>
 <p>
@@ -1118,6 +1170,15 @@ and invalid values will be ignored.</p>
 <p>
 <p>CompStateType identifies the state of a component.</p>
 </p>
+<h3 id="install.verrazzano.io/v1beta1.ComponentAvailability">ComponentAvailability
+(<code>string</code> alias)</p></h3>
+<p>
+(<em>Appears on:</em>
+<a href="#install.verrazzano.io/v1beta1.ComponentStatusDetails">ComponentStatusDetails</a>)
+</p>
+<p>
+<p>ComponentAvailability identifies the availability of a Verrazzano Component.</p>
+</p>
 <h3 id="install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec
 </h3>
 <p>
@@ -1175,6 +1236,20 @@ CertManagerComponent
 <td>
 <em>(Optional)</em>
 <p>The cert-manager component configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>clusterOperator</code></br>
+<em>
+<a href="#install.verrazzano.io/v1beta1.ClusterOperatorComponent">
+ClusterOperatorComponent
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>The Cluster Operator component configuration.</p>
 </td>
 </tr>
 <tr>
@@ -1546,11 +1621,13 @@ WebLogicOperatorComponent
 <td>
 <code>available</code></br>
 <em>
-bool
+<a href="#install.verrazzano.io/v1beta1.ComponentAvailability">
+ComponentAvailability
+</a>
 </em>
 </td>
 <td>
-<p>Whether or not a component is available for use.</p>
+<p>Whether a component is available for use.</p>
 </td>
 </tr>
 <tr>
@@ -2202,6 +2279,7 @@ key in the <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOver
 <a href="#install.verrazzano.io/v1beta1.ApplicationOperatorComponent">ApplicationOperatorComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.AuthProxyComponent">AuthProxyComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.CertManagerComponent">CertManagerComponent</a>, 
+<a href="#install.verrazzano.io/v1beta1.ClusterOperatorComponent">ClusterOperatorComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.CoherenceOperatorComponent">CoherenceOperatorComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.ConsoleComponent">ConsoleComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.DNSComponent">DNSComponent</a>, 

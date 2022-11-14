@@ -4763,6 +4763,58 @@ CA
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
+&lt;h3 id=&#34;install.verrazzano.io/v1alpha1.ClusterOperatorComponent&#34;&gt;ClusterOperatorComponent
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;
+&lt;a href=&#34;#install.verrazzano.io/v1alpha1.ComponentSpec&#34;&gt;ComponentSpec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;p&gt;
+&lt;p&gt;ClusterOperatorComponent specifies the Cluster Operator configuration.&lt;/p&gt;
+&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;enabled&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+bool
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;If true, then the Cluster Operator will be installed.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;InstallOverrides&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+&lt;a href=&#34;#install.verrazzano.io/v1alpha1.InstallOverrides&#34;&gt;
+InstallOverrides
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;
+(Members of &lt;code&gt;InstallOverrides&lt;/code&gt; are embedded into this type.)
+&lt;/p&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;List of Overrides for the default &lt;code&gt;values.yaml&lt;/code&gt; file for the component Helm chart. Overrides are merged together,
+but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
+find all possible values
+&lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/platform-operator/helm_config/charts/verrazzano-cluster-operator/values.yaml&#34;&gt;here&lt;/a&gt;
+and invalid values will be ignored.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 &lt;h3 id=&#34;install.verrazzano.io/v1alpha1.CoherenceOperatorComponent&#34;&gt;CoherenceOperatorComponent
 &lt;/h3&gt;
 &lt;p&gt;
@@ -4870,6 +4922,15 @@ Kubernetes core/v1.Affinity
 &lt;p&gt;
 &lt;p&gt;CompStateType identifies the state of a component.&lt;/p&gt;
 &lt;/p&gt;
+&lt;h3 id=&#34;install.verrazzano.io/v1alpha1.ComponentAvailability&#34;&gt;ComponentAvailability
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/p&gt;&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;
+&lt;a href=&#34;#install.verrazzano.io/v1alpha1.ComponentStatusDetails&#34;&gt;ComponentStatusDetails&lt;/a&gt;)
+&lt;/p&gt;
+&lt;p&gt;
+&lt;p&gt;ComponentAvailability identifies the availability of a Verrazzano Component.&lt;/p&gt;
+&lt;/p&gt;
 &lt;h3 id=&#34;install.verrazzano.io/v1alpha1.ComponentSpec&#34;&gt;ComponentSpec
 &lt;/h3&gt;
 &lt;p&gt;
@@ -4927,6 +4988,20 @@ CertManagerComponent
 &lt;td&gt;
 &lt;em&gt;(Optional)&lt;/em&gt;
 &lt;p&gt;The cert-manager component configuration.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;clusterOperator&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+&lt;a href=&#34;#install.verrazzano.io/v1alpha1.ClusterOperatorComponent&#34;&gt;
+ClusterOperatorComponent
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;The Cluster Operator component configuration.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -5298,11 +5373,13 @@ WebLogicOperatorComponent
 &lt;td&gt;
 &lt;code&gt;available&lt;/code&gt;&lt;/br&gt;
 &lt;em&gt;
-bool
+&lt;a href=&#34;#install.verrazzano.io/v1alpha1.ComponentAvailability&#34;&gt;
+ComponentAvailability
+&lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;Whether or not a component is available for use.&lt;/p&gt;
+&lt;p&gt;Whether a component is available for use.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -6116,6 +6193,7 @@ bool
 &lt;a href=&#34;#install.verrazzano.io/v1alpha1.ApplicationOperatorComponent&#34;&gt;ApplicationOperatorComponent&lt;/a&gt;, 
 &lt;a href=&#34;#install.verrazzano.io/v1alpha1.AuthProxyComponent&#34;&gt;AuthProxyComponent&lt;/a&gt;, 
 &lt;a href=&#34;#install.verrazzano.io/v1alpha1.CertManagerComponent&#34;&gt;CertManagerComponent&lt;/a&gt;, 
+&lt;a href=&#34;#install.verrazzano.io/v1alpha1.ClusterOperatorComponent&#34;&gt;ClusterOperatorComponent&lt;/a&gt;, 
 &lt;a href=&#34;#install.verrazzano.io/v1alpha1.CoherenceOperatorComponent&#34;&gt;CoherenceOperatorComponent&lt;/a&gt;, 
 &lt;a href=&#34;#install.verrazzano.io/v1alpha1.ConsoleComponent&#34;&gt;ConsoleComponent&lt;/a&gt;, 
 &lt;a href=&#34;#install.verrazzano.io/v1alpha1.DNSComponent&#34;&gt;DNSComponent&lt;/a&gt;, 
@@ -8901,6 +8979,58 @@ CA
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
+&lt;h3 id=&#34;install.verrazzano.io/v1beta1.ClusterOperatorComponent&#34;&gt;ClusterOperatorComponent
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;
+&lt;a href=&#34;#install.verrazzano.io/v1beta1.ComponentSpec&#34;&gt;ComponentSpec&lt;/a&gt;)
+&lt;/p&gt;
+&lt;p&gt;
+&lt;p&gt;ClusterOperatorComponent specifies the Cluster Operator configuration.&lt;/p&gt;
+&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;enabled&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+bool
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;If true, then the Cluster Operator will be installed.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;InstallOverrides&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+&lt;a href=&#34;#install.verrazzano.io/v1beta1.InstallOverrides&#34;&gt;
+InstallOverrides
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;
+(Members of &lt;code&gt;InstallOverrides&lt;/code&gt; are embedded into this type.)
+&lt;/p&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;List of Overrides for the default &lt;code&gt;values.yaml&lt;/code&gt; file for the component Helm chart. Overrides are merged together,
+but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
+find all possible values
+&lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/platform-operator/helm_config/charts/verrazzano-cluster-operator/values.yaml&#34;&gt;here&lt;/a&gt;
+and invalid values will be ignored.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 &lt;h3 id=&#34;install.verrazzano.io/v1beta1.CoherenceOperatorComponent&#34;&gt;CoherenceOperatorComponent
 &lt;/h3&gt;
 &lt;p&gt;
@@ -8962,6 +9092,15 @@ and invalid values will be ignored.&lt;/p&gt;
 &lt;p&gt;
 &lt;p&gt;CompStateType identifies the state of a component.&lt;/p&gt;
 &lt;/p&gt;
+&lt;h3 id=&#34;install.verrazzano.io/v1beta1.ComponentAvailability&#34;&gt;ComponentAvailability
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/p&gt;&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;
+&lt;a href=&#34;#install.verrazzano.io/v1beta1.ComponentStatusDetails&#34;&gt;ComponentStatusDetails&lt;/a&gt;)
+&lt;/p&gt;
+&lt;p&gt;
+&lt;p&gt;ComponentAvailability identifies the availability of a Verrazzano Component.&lt;/p&gt;
+&lt;/p&gt;
 &lt;h3 id=&#34;install.verrazzano.io/v1beta1.ComponentSpec&#34;&gt;ComponentSpec
 &lt;/h3&gt;
 &lt;p&gt;
@@ -9019,6 +9158,20 @@ CertManagerComponent
 &lt;td&gt;
 &lt;em&gt;(Optional)&lt;/em&gt;
 &lt;p&gt;The cert-manager component configuration.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;clusterOperator&lt;/code&gt;&lt;/br&gt;
+&lt;em&gt;
+&lt;a href=&#34;#install.verrazzano.io/v1beta1.ClusterOperatorComponent&#34;&gt;
+ClusterOperatorComponent
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;em&gt;(Optional)&lt;/em&gt;
+&lt;p&gt;The Cluster Operator component configuration.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -9390,11 +9543,13 @@ WebLogicOperatorComponent
 &lt;td&gt;
 &lt;code&gt;available&lt;/code&gt;&lt;/br&gt;
 &lt;em&gt;
-bool
+&lt;a href=&#34;#install.verrazzano.io/v1beta1.ComponentAvailability&#34;&gt;
+ComponentAvailability
+&lt;/a&gt;
 &lt;/em&gt;
 &lt;/td&gt;
 &lt;td&gt;
-&lt;p&gt;Whether or not a component is available for use.&lt;/p&gt;
+&lt;p&gt;Whether a component is available for use.&lt;/p&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -10046,6 +10201,7 @@ key in the &lt;a href=&#34;#install.verrazzano.io/v1beta1.InstallOverrides&#34;&
 &lt;a href=&#34;#install.verrazzano.io/v1beta1.ApplicationOperatorComponent&#34;&gt;ApplicationOperatorComponent&lt;/a&gt;, 
 &lt;a href=&#34;#install.verrazzano.io/v1beta1.AuthProxyComponent&#34;&gt;AuthProxyComponent&lt;/a&gt;, 
 &lt;a href=&#34;#install.verrazzano.io/v1beta1.CertManagerComponent&#34;&gt;CertManagerComponent&lt;/a&gt;, 
+&lt;a href=&#34;#install.verrazzano.io/v1beta1.ClusterOperatorComponent&#34;&gt;ClusterOperatorComponent&lt;/a&gt;, 
 &lt;a href=&#34;#install.verrazzano.io/v1beta1.CoherenceOperatorComponent&#34;&gt;CoherenceOperatorComponent&lt;/a&gt;, 
 &lt;a href=&#34;#install.verrazzano.io/v1beta1.ConsoleComponent&#34;&gt;ConsoleComponent&lt;/a&gt;, 
 &lt;a href=&#34;#install.verrazzano.io/v1beta1.DNSComponent&#34;&gt;DNSComponent&lt;/a&gt;, 
