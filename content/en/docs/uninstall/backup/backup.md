@@ -121,8 +121,17 @@ $ kubectl apply -f - <<EOF
 EOF
 ```
 
-
 The operator creates the backup file, in the `*.tar.gz` format, and stores it in the location configured in the `storageLocation` field.
+
+When backup is complete, then rancher backup operator creates a file on th S3 Compatible Object store. 
+
+The filename can be retrieved as shown below:
+
+```shell
+$ kubectl get backups.resources.cattle.io rancher-backup-test
+NAME                 LOCATION   TYPE       LATEST-BACKUP                                                                     RESOURCESET            AGE   STATUS
+rancher-backup-test             One-time   rancher-615034-957d182d-44cb-4b81-bbe0-466900049124-2022-11-14T16-42-28Z.tar.gz   rancher-resource-set   54s   Completed
+```
 
 ### Scheduled backups
 
