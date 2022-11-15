@@ -81,7 +81,7 @@ To initiate a MySQL restore, from an existing backup, you need to recreate the M
             --values mysql-values.yaml
     ```   
 
-6. Wait for the MySQL cluster to be online after performing the restore command. Ensure that the `STATUS` is `ONLINE` and the count under `ONLINE` matches the `INSTANCES`.
+6. After performing the restore command, wait for the MySQL cluster to be online . Ensure that the `STATUS` is `ONLINE` and the count under `ONLINE` matches the `INSTANCES`.
 
    ```shell
     $ kubectl get innodbclusters -n keycloak mysql
@@ -137,7 +137,7 @@ Restoring rancher is done by creating a custom resource that indicates to `ranch
    - Cluster-scoped resources
    - Namespace resources
   
-   *NOTE* The `backupFilename` is retrieved from the rancher backups created earlier. 
+   **NOTE** The `backupFilename` is retrieved from the rancher backups created earlier. 
 
 2. Wait for all the Rancher pods to be in the `RUNNING` state.
 

@@ -74,7 +74,7 @@ EOF
 MySQL allows scheduled backups by implementing a cron job on [MySQL Operator](https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-backups.html) for Kubernetes.
 
 
-## rancher backup
+## Rancher backup
 
 To initiate a Rancher backup, create the following example custom resource YAML file that uses an Amazon S3 compatible object store as a backend.
 The operator uses the `credentialSecretNamespace` value to determine where to look for the Amazon S3 backup secret.
@@ -123,9 +123,9 @@ EOF
 
 The operator creates the backup file, in the `*.tar.gz` format, and stores it in the location configured in the `storageLocation` field.
 
-When backup is complete, then rancher backup operator creates a file on th S3 Compatible Object store. 
+When the backup is complete, then the rancher-backup operator creates a file on the S3 Compatible Object store.
 
-The filename can be retrieved as shown below:
+You can retrieve the file name as shown:
 
 ```shell
 $ kubectl get backups.resources.cattle.io rancher-backup-test
