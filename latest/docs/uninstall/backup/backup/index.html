@@ -25,11 +25,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/uninstall/backup/backup/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-09-29T13:44:33-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-11-15T10:44:02-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Backup">
 <meta itemprop="description" content="Back up component-specific persistent data and configurations">
-<meta itemprop="dateModified" content="2022-09-29T13:44:33-04:00" />
+<meta itemprop="dateModified" content="2022-11-15T10:44:02-05:00" />
 <meta itemprop="wordCount" content="529">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Backup"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.bb9beb7432efb1151a627bfe1afa95d2.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.76a9a4c7240e254b35a0014830029490.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.bb9beb7432efb1151a627bfe1afa95d2.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.76a9a4c7240e254b35a0014830029490.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -601,13 +601,13 @@ thereby ensuring that there is no loss of data and avoids data corruption as wel
 <li>So that Velero ignores the associated PVC&rsquo;s, <code>defaultVolumesToRestic</code> needs to be <code>false</code>.</li>
 <li>In this case, the hook can be <code>pre</code> or <code>post</code>.</li>
 <li>The command used in the hook requires an <code>operation</code> flag and the Velero backup name as an input.</li>
-<li>The container on which the hook needs to be executed is identified by the pod label selectors, followed by the container name.
+<li>The container on which the hook needs to be run is identified by the pod label selectors, followed by the container name.
 In this case, it&rsquo;s <code>statefulset.kubernetes.io/pod-name: vmi-system-es-master-0</code>.</li>
 </ul>
-<p>After the backup is executed, you can see the hook logs using the <code>velero backup logs</code> command. Additionally, the hook logs are stored under the <code>/tmp</code> folder in the pod.</p>
+<p>After the backup is processed, you can see the hook logs using the <code>velero backup logs</code> command. Additionally, the hook logs are stored under the <code>/tmp</code> folder in the pod.</p>
 <details>
   <summary>OpenSearch backup logs</summary></summary>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># To display the logs from the backup, execute the following command</span>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># To display the logs from the backup, run the following command</span>
 </span></span><span style="display:flex;"><span>$ kubectl logs -n verrazzano-backup -l app.kubernetes.io/name<span style="color:#ce5c00;font-weight:bold">=</span>velero
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># Fetch the log file name as shown</span>
@@ -621,7 +621,7 @@ In this case, it&rsquo;s <code>statefulset.kubernetes.io/pod-name: vmi-system-es
 <p>Velero supports a <code>Schedule</code> <a href="https://velero.io/docs/v1.8/api-types/schedule/">API</a>
 that is a repeatable request that is sent to the Velero server to perform a backup for a given cron notation.
 After the <code>Schedule</code> object is created, the Velero server will start the backup process.
-Then, it will then wait for the next valid point in the given cron expression and execute the backup process on a repeating basis.</p>
+Then, it will then wait for the next valid point in the given cron expression and run the backup process on a repeating basis.</p>
 <br/>
 
 	
