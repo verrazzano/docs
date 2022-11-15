@@ -320,13 +320,13 @@ thereby ensuring that there is no loss of data and avoids data corruption as wel
 &lt;li&gt;So that Velero ignores the associated PVC&amp;rsquo;s, &lt;code&gt;defaultVolumesToRestic&lt;/code&gt; needs to be &lt;code&gt;false&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;In this case, the hook can be &lt;code&gt;pre&lt;/code&gt; or &lt;code&gt;post&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;The command used in the hook requires an &lt;code&gt;operation&lt;/code&gt; flag and the Velero backup name as an input.&lt;/li&gt;
-&lt;li&gt;The container on which the hook needs to be executed is identified by the pod label selectors, followed by the container name.
+&lt;li&gt;The container on which the hook needs to be run is identified by the pod label selectors, followed by the container name.
 In this case, it&amp;rsquo;s &lt;code&gt;statefulset.kubernetes.io/pod-name: vmi-system-es-master-0&lt;/code&gt;.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;After the backup is executed, you can see the hook logs using the &lt;code&gt;velero backup logs&lt;/code&gt; command. Additionally, the hook logs are stored under the &lt;code&gt;/tmp&lt;/code&gt; folder in the pod.&lt;/p&gt;
+&lt;p&gt;After the backup is processed, you can see the hook logs using the &lt;code&gt;velero backup logs&lt;/code&gt; command. Additionally, the hook logs are stored under the &lt;code&gt;/tmp&lt;/code&gt; folder in the pod.&lt;/p&gt;
 &lt;details&gt;
   &lt;summary&gt;OpenSearch backup logs&lt;/summary&gt;&lt;/summary&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# To display the logs from the backup, execute the following command&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# To display the logs from the backup, run the following command&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ kubectl logs -n verrazzano-backup -l app.kubernetes.io/name&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;velero
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Fetch the log file name as shown&lt;/span&gt;
@@ -340,7 +340,7 @@ In this case, it&amp;rsquo;s &lt;code&gt;statefulset.kubernetes.io/pod-name: vmi
 &lt;p&gt;Velero supports a &lt;code&gt;Schedule&lt;/code&gt; &lt;a href=&#34;https://velero.io/docs/v1.8/api-types/schedule/&#34;&gt;API&lt;/a&gt;
 that is a repeatable request that is sent to the Velero server to perform a backup for a given cron notation.
 After the &lt;code&gt;Schedule&lt;/code&gt; object is created, the Velero server will start the backup process.
-Then, it will then wait for the next valid point in the given cron expression and execute the backup process on a repeating basis.&lt;/p&gt;
+Then, it will then wait for the next valid point in the given cron expression and run the backup process on a repeating basis.&lt;/p&gt;
 &lt;br/&gt;
 
       </description>
@@ -568,14 +568,14 @@ thereby ensuring there is no loss of data and avoids data corruption as well.&lt
 &lt;ul&gt;
 &lt;li&gt;It will recreate a new OpenSearch cluster (with new indexes).&lt;/li&gt;
 &lt;li&gt;The &lt;code&gt;postHook&lt;/code&gt; will invoke the OpenSearch APIs that restores the snapshot data.&lt;/li&gt;
-&lt;li&gt;The container on which the hook needs to be executed is identified by the pod label selectors, followed by the container name.
+&lt;li&gt;The container on which the hook needs to be run is identified by the pod label selectors, followed by the container name.
 In this case, it&amp;rsquo;s &lt;code&gt;statefulset.kubernetes.io/pod-name: vmi-system-es-master-0&lt;/code&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The hook needs to be a &lt;code&gt;postHook&lt;/code&gt; because it must be applied after the Kubernetes objects are restored.&lt;/p&gt;
-&lt;p&gt;After the restore operation is executed, you can see the hook logs using the &lt;code&gt;velero restore logs&lt;/code&gt; command. Additionally, the hook logs are stored under the &lt;code&gt;/tmp&lt;/code&gt; folder in the pod.&lt;/p&gt;
+&lt;p&gt;After the restore operation is processed, you can see the hook logs using the &lt;code&gt;velero restore logs&lt;/code&gt; command. Additionally, the hook logs are stored under the &lt;code&gt;/tmp&lt;/code&gt; folder in the pod.&lt;/p&gt;
 &lt;details&gt;
   &lt;summary&gt;OpenSearch restore logs&lt;/summary&gt;&lt;/summary&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# To display the logs from the restore, execute the following command&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# To display the logs from the restore, run the following command&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ kubectl logs -n verrazzano-backup -l app.kubernetes.io/name&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;velero
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Fetch the log file name as shown&lt;/span&gt;
