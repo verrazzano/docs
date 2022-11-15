@@ -115,19 +115,19 @@ spec:
 The preceding example will restore an OpenSearch cluster from an existing backup.
 - It will recreate a new OpenSearch cluster (with new indexes).
 - The `postHook` will invoke the OpenSearch APIs that restores the snapshot data.
-- The container on which the hook needs to be executed is identified by the pod label selectors, followed by the container name.
+- The container on which the hook needs to be run is identified by the pod label selectors, followed by the container name.
   In this case, it's `statefulset.kubernetes.io/pod-name: vmi-system-es-master-0`.
 
 **NOTE**: The hook needs to be a `postHook` because it must be applied after the Kubernetes objects are restored.
 
-After the restore operation is executed, you can see the hook logs using the `velero restore logs` command. Additionally, the hook logs are stored under the `/tmp` folder in the pod.
+After the restore operation is processed, you can see the hook logs using the `velero restore logs` command. Additionally, the hook logs are stored under the `/tmp` folder in the pod.
 
 
 <details>
   <summary>OpenSearch restore logs</summary></summary>
 
 ```shell
-# To display the logs from the restore, execute the following command
+# To display the logs from the restore, run the following command
 $ kubectl logs -n verrazzano-backup -l app.kubernetes.io/name=velero
 
 # Fetch the log file name as shown

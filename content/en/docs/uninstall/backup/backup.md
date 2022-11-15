@@ -96,16 +96,16 @@ The preceding example backs up the OpenSearch components:
 - So that Velero ignores the associated PVC's, `defaultVolumesToRestic` needs to be `false`.
 - In this case, the hook can be `pre` or `post`.
 - The command used in the hook requires an `operation` flag and the Velero backup name as an input.
-- The container on which the hook needs to be executed is identified by the pod label selectors, followed by the container name.
+- The container on which the hook needs to be run is identified by the pod label selectors, followed by the container name.
   In this case, it's `statefulset.kubernetes.io/pod-name: vmi-system-es-master-0`.
 
-After the backup is executed, you can see the hook logs using the `velero backup logs` command. Additionally, the hook logs are stored under the `/tmp` folder in the pod.
+After the backup is processed, you can see the hook logs using the `velero backup logs` command. Additionally, the hook logs are stored under the `/tmp` folder in the pod.
 
 <details>
   <summary>OpenSearch backup logs</summary></summary>
 
 ```shell
-# To display the logs from the backup, execute the following command
+# To display the logs from the backup, run the following command
 $ kubectl logs -n verrazzano-backup -l app.kubernetes.io/name=velero
 
 # Fetch the log file name as shown
@@ -123,6 +123,6 @@ $ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/<log-
 Velero supports a `Schedule` [API](https://velero.io/docs/v1.8/api-types/schedule/)
 that is a repeatable request that is sent to the Velero server to perform a backup for a given cron notation.
 After the `Schedule` object is created, the Velero server will start the backup process.
-Then, it will then wait for the next valid point in the given cron expression and execute the backup process on a repeating basis.
+Then, it will then wait for the next valid point in the given cron expression and run the backup process on a repeating basis.
 
 <br/>
