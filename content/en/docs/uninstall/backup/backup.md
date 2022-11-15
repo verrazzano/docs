@@ -188,10 +188,10 @@ The preceding example backs up the OpenSearch components:
 - So that Velero ignores the associated PVC's, `defaultVolumesToRestic` needs to be `false`.
 - In this case, the hook can be `pre` or `post`.
 - The command used in the hook requires an `operation` flag and the Velero backup name as an input.
-- The container on which the hook needs to run is identified by the pod label selectors, followed by the container name.
+- The container on which the hook needs to be run is identified by the pod label selectors, followed by the container name.
   In this case, it's `statefulset.kubernetes.io/pod-name: vmi-system-es-master-0`.
 
-After the backup is triggered, you can see the hook logs using the `velero backup logs` command. Additionally, the hook logs are stored under the `/tmp` folder in the pod.
+After the backup is processed, you can see the hook logs using the `velero backup logs` command. Additionally, the hook logs are stored under the `/tmp` folder in the pod.
 
 <details>
   <summary>OpenSearch backup logs</summary></summary>
