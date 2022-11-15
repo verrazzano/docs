@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/uninstall/backup/backup/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-11-15T09:48:54-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-11-15T20:33:21+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Backup">
 <meta itemprop="description" content="Back up component-specific persistent data and configurations">
-<meta itemprop="dateModified" content="2022-11-15T09:48:54-05:00" />
-<meta itemprop="wordCount" content="715">
+<meta itemprop="dateModified" content="2022-11-15T20:33:21+05:30" />
+<meta itemprop="wordCount" content="759">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Backup"/>
 <meta name="twitter:description" content="Back up component-specific persistent data and configurations"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.25af03ad1d87290080e01cedd23ed074.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.fb9a1317b0a23f5935a79c2043253260.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.25af03ad1d87290080e01cedd23ed074.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.fb9a1317b0a23f5935a79c2043253260.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -476,7 +476,7 @@ if (!doNotTrack) {
     <li>
       <ul>
         <li><a href="#mysql-backup">MySQL backup</a></li>
-        <li><a href="#rancher-backup">rancher backup</a></li>
+        <li><a href="#rancher-backup">Rancher backup</a></li>
         <li><a href="#opensearch-backup">OpenSearch backup</a></li>
       </ul>
     </li>
@@ -609,7 +609,7 @@ The operator uses the <code>credentials</code> to authenticate with the OCI obje
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">EOF</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span></code></pre></div><h3 id="scheduled-backups">Scheduled backups</h3>
 <p>MySQL allows scheduled backups by implementing a cron job on <a href="https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-backups.html">MySQL Operator</a> for Kubernetes.</p>
-<h2 id="rancher-backup">rancher backup</h2>
+<h2 id="rancher-backup">Rancher backup</h2>
 <p>To initiate a Rancher backup, create the following example custom resource YAML file that uses an Amazon S3 compatible object store as a backend.
 The operator uses the <code>credentialSecretNamespace</code> value to determine where to look for the Amazon S3 backup secret.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#000">$ kubectl apply -f - &lt;&lt;EOF</span><span style="color:#f8f8f8;text-decoration:underline">
@@ -647,7 +647,12 @@ The operator uses the <code>credentialSecretNamespace</code> value to determine 
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">resourceSetName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">rancher-resource-set</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">EOF</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span></code></pre></div><p>The operator creates the backup file, in the <code>*.tar.gz</code> format, and stores it in the location configured in the <code>storageLocation</code> field.</p>
-<h3 id="scheduled-backups-1">Scheduled backups</h3>
+<p>When the backup is complete, then the rancher-backup operator creates a file on the S3 Compatible Object store.</p>
+<p>You can retrieve the file name as shown:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl get backups.resources.cattle.io rancher-backup-test
+</span></span><span style="display:flex;"><span>NAME                 LOCATION   TYPE       LATEST-BACKUP                                                                     RESOURCESET            AGE   STATUS
+</span></span><span style="display:flex;"><span>rancher-backup-test             One-time   rancher-615034-957d182d-44cb-4b81-bbe0-466900049124-2022-11-14T16-42-28Z.tar.gz   rancher-resource-set   54s   Completed
+</span></span></code></pre></div><h3 id="scheduled-backups-1">Scheduled backups</h3>
 <p>rancher-backup implements scheduled backups as indicated <a href="https://rancher.com/docs/rancher/v2.5/en/backups/configuration/backup-config/">here</a>.</p>
 <h2 id="opensearch-backup">OpenSearch backup</h2>
 <p>For OpenSearch, Verrazzano provides a custom hook that you can use along with Velero while invoking a backup.
@@ -690,7 +695,7 @@ thereby ensuring that there is no loss of data and avoids data corruption as wel
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">EOF</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span></code></pre></div><p>The preceding example backs up the OpenSearch components:</p>
 <ul>
-<li>In this case, you are not backing up the <code>PersistentVolumes</code> directly, rather executing a hook that invokes the OpenSearch APIs to take a snapshot of the data.</li>
+<li>In this case, you are not backing up the <code>PersistentVolumes</code> directly, rather running a hook that invokes the OpenSearch APIs to take a snapshot of the data.</li>
 <li>So that Velero ignores the associated PVC&rsquo;s, <code>defaultVolumesToRestic</code> needs to be <code>false</code>.</li>
 <li>In this case, the hook can be <code>pre</code> or <code>post</code>.</li>
 <li>The command used in the hook requires an <code>operation</code> flag and the Velero backup name as an input.</li>

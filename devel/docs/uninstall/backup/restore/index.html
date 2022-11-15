@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/uninstall/backup/restore/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-11-15T09:48:54-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-11-15T20:33:21+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Restore">
 <meta itemprop="description" content="Restore component-specific persistent data and configurations">
-<meta itemprop="dateModified" content="2022-11-15T09:48:54-05:00" />
-<meta itemprop="wordCount" content="1000">
+<meta itemprop="dateModified" content="2022-11-15T20:33:21+05:30" />
+<meta itemprop="wordCount" content="912">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Restore"/>
 <meta name="twitter:description" content="Restore component-specific persistent data and configurations"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.25af03ad1d87290080e01cedd23ed074.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.fb9a1317b0a23f5935a79c2043253260.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.25af03ad1d87290080e01cedd23ed074.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.fb9a1317b0a23f5935a79c2043253260.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -576,16 +576,12 @@ This document also assumes that a successful backup was previously made using ei
 </span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>    -c verrazzano-platform-operator mysql-charts/
 </span></span></code></pre></div></li>
 <li>
-<p>Scale down Verrazzano platform operator.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl scale deploy -n verrazzano-install verrazzano-platform-operator --replicas<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#0000cf;font-weight:bold">0</span>
-</span></span></code></pre></div></li>
-<li>
 <p>Clean up MySQL pods and PVC from the system.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ helm delete mysql -n keycloak
 </span></span><span style="display:flex;"><span>$ kubectl delete pvc -n keycloak -l <span style="color:#000">tier</span><span style="color:#ce5c00;font-weight:bold">=</span>mysql
 </span></span></code></pre></div></li>
 <li>
-<p>Trigger a MySQL restore by executing the Helm chart as follows.</p>
+<p>Trigger a MySQL restore by running the Helm chart as follows.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ helm install mysql mysql-charts <span style="color:#4e9a06">\
 </span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --namespace keycloak <span style="color:#4e9a06">\
 </span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --set tls.useSelfSigned<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87">true</span> <span style="color:#4e9a06">\
@@ -607,7 +603,7 @@ This document also assumes that a successful backup was previously made using ei
 </span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --values mysql-values.yaml
 </span></span></code></pre></div></li>
 <li>
-<p>Wait for the MySQL cluster to be online after performing the restore command. Ensure that the <code>STATUS</code> is <code>ONLINE</code> and the count under <code>ONLINE</code> matches the <code>INSTANCES</code>.</p>
+<p>After performing the restore command, wait for the MySQL cluster to be online . Ensure that the <code>STATUS</code> is <code>ONLINE</code> and the count under <code>ONLINE</code> matches the <code>INSTANCES</code>.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span> $ kubectl get innodbclusters -n keycloak mysql
 </span></span><span style="display:flex;"><span>   NAME    STATUS   ONLINE   INSTANCES   ROUTERS   AGE
 </span></span><span style="display:flex;"><span>   mysql   ONLINE   <span style="color:#0000cf;font-weight:bold">3</span>        <span style="color:#0000cf;font-weight:bold">3</span>           <span style="color:#0000cf;font-weight:bold">3</span>         2m23s
@@ -623,19 +619,11 @@ This document also assumes that a successful backup was previously made using ei
 </span></span><span style="display:flex;"><span>   pod/mysql-router-746d9d75c7-bhrkw condition met
 </span></span><span style="display:flex;"><span>   pod/mysql-router-746d9d75c7-t8bhb condition met
 </span></span></code></pre></div></li>
-<li>
-<p>After the MySQL cluster is restored completely, scale up Verrazzano platform operator.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl scale deploy -n verrazzano-install verrazzano-platform-operator --replicas<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#0000cf;font-weight:bold">1</span>
-</span></span></code></pre></div></li>
 </ol>
 <p>At this point, the MySQL cluster has been restored successfully from the backup, along with the PVCs that were cleaned up previously.</p>
 <h2 id="rancher-restore">Rancher restore</h2>
 <p>Restoring rancher is done by creating a custom resource that indicates to <code>rancher-backup</code> to start the restore process.</p>
 <ol>
-<li>
-<p>Scale down Verrazzano platform operator.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl scale deploy -n verrazzano-install verrazzano-platform-operator --replicas<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#0000cf;font-weight:bold">0</span>
-</span></span></code></pre></div></li>
 <li>
 <p>To initiate a Rancher restore, create the following example custom resource YAML file.
 When a <code>Restore</code> custom resource is created, the operator accesses the backup <code>*.tar.gz</code> file specified and restores the application data from that file.</p>
@@ -645,7 +633,7 @@ When a <code>Restore</code> custom resource is created, the operator accesses th
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">s3-restore</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">backupFilename</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">rancher-backup-test-1111111-2222-3333-2022-07-26T02-44-21Z.tar.gz</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">backupFilename</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">rancher-615034-957d182d-44cb-4b81-bbe0-466900049124-2022-11-14T16-42-28Z.tar.gz</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">storageLocation</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">s3</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">credentialSecretName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">rancher-backup-creds</span><span style="color:#f8f8f8;text-decoration:underline">
@@ -662,6 +650,7 @@ When a <code>Restore</code> custom resource is created, the operator accesses th
 <li>Cluster-scoped resources</li>
 <li>Namespace resources</li>
 </ul>
+<p><strong>NOTE:</strong> The <code>backupFilename</code> is retrieved from the Rancher backup created previously.</p>
 </li>
 <li>
 <p>Wait for all the Rancher pods to be in the <code>RUNNING</code> state.</p>
@@ -670,10 +659,6 @@ When a <code>Restore</code> custom resource is created, the operator accesses th
 </span></span><span style="display:flex;"><span>   pod/rancher-69976cffc6-bbx4p condition met
 </span></span><span style="display:flex;"><span>   pod/rancher-69976cffc6-fr75t condition met
 </span></span><span style="display:flex;"><span>   pod/rancher-69976cffc6-pcdf2 condition met
-</span></span></code></pre></div></li>
-<li>
-<p>After Rancher pods are up and running, scale up Verrazzano platform operator.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl scale deploy -n verrazzano-install verrazzano-platform-operator --replicas<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#0000cf;font-weight:bold">1</span>
 </span></span></code></pre></div></li>
 </ol>
 <h2 id="opensearch-restore">OpenSearch restore</h2>
@@ -685,10 +670,6 @@ thereby ensuring there is no loss of data and avoids data corruption as well.</p
 <li>
 <p>Scale down <code>Verrazzano Monitoring Operator</code>.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl scale deploy -n verrazzano-system verrazzano-monitoring-operator --replicas<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#0000cf;font-weight:bold">0</span>
-</span></span></code></pre></div></li>
-<li>
-<p>Scale down Verrazzano platform operator.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl scale deploy -n verrazzano-install verrazzano-platform-operator --replicas<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#0000cf;font-weight:bold">0</span>
 </span></span></code></pre></div></li>
 <li>
 <p>Then, clean up the OpenSearch components.</p>
@@ -748,10 +729,6 @@ thereby ensuring there is no loss of data and avoids data corruption as well.</p
 </span></span><span style="display:flex;"><span>   pod/vmi-system-es-master-0 condition met
 </span></span><span style="display:flex;"><span>   pod/vmi-system-es-master-1 condition met
 </span></span><span style="display:flex;"><span>   pod/vmi-system-es-master-2 condition met
-</span></span></code></pre></div></li>
-<li>
-<p>After the OpenSearch pods are up and running, scale up Verrazzano platform operator.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl scale deploy -n verrazzano-install verrazzano-platform-operator --replicas<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#0000cf;font-weight:bold">1</span>
 </span></span></code></pre></div></li>
 </ol>
 <p>The preceding example will restore an OpenSearch cluster from an existing backup.</p>
