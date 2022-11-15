@@ -86,7 +86,7 @@ To verify that the metrics are being collected for your workload, follow these s
 5. Verify that the State of this target is `UP`.
 6. Next, use the navigation bar to access the Graph.
 7. Here, use the job name you copied to construct this expression: `{job="<job_name>"}`
-8. Use the graph to execute this expression and verify that you see application metrics appear.
+8. Use the graph to run this expression and verify that you see application metrics appear.
 
 Metrics Traits use Service Monitors which require [Services](https://kubernetes.io/docs/concepts/services-networking/service/) for metrics collection.
 If you are unable to verify metrics collection, you might need to manually create a Service for the workload.

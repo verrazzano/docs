@@ -332,7 +332,7 @@ Verify that the admin cluster is collecting metrics from the managed cluster.  T
 records that contain the name of the Verrazzano cluster (labeled as `verrazzano_cluster`).
 
 You can find the Prometheus UI URL for your cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/access/_index.md" >}}).
-Execute a query for a metric (for example, `node_disk_io_time_seconds_total`).
+Run a query for a metric (for example, `node_disk_io_time_seconds_total`).
 
 **Sample output of a Prometheus query**
 
