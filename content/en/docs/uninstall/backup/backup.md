@@ -184,7 +184,7 @@ EOF
 ```
 
 The preceding example backs up the OpenSearch components:
-- In this case, you are not backing up the `PersistentVolumes` directly, rather executing a hook that invokes the OpenSearch APIs to take a snapshot of the data.
+- In this case, you are not backing up the `PersistentVolumes` directly, rather running a hook that invokes the OpenSearch APIs to take a snapshot of the data.
 - So that Velero ignores the associated PVC's, `defaultVolumesToRestic` needs to be `false`.
 - In this case, the hook can be `pre` or `post`.
 - The command used in the hook requires an `operation` flag and the Velero backup name as an input.
