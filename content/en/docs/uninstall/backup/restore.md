@@ -136,8 +136,8 @@ Restoring rancher is done by creating a custom resource that indicates to `ranch
    - Custom Resource Definitions (CRDs)
    - Cluster-scoped resources
    - Namespace resources
-  
-   **NOTE** The `backupFilename` is retrieved from the rancher backups created earlier. 
+
+   **NOTE:** The `backupFilename` is retrieved from the Rancher backup created previously. 
 
 2. Wait for all the Rancher pods to be in the `RUNNING` state.
 
