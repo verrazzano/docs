@@ -124,7 +124,7 @@ To verify that the metrics template process was successful, follow these steps:
 1. Verify that the State of this target is `UP`.
 1. Next, use the navigation bar to access the Graph.
 1. Here, use the job name you copied to construct this expression: `{job="<job_name>"}`
-1. Use the graph to execute this expression and verify that you see application metrics appear.
+1. Use the graph to run this expression and verify that you see application metrics appear.
 
 #### Prometheus overrides
 
