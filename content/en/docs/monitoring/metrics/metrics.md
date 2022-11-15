@@ -142,7 +142,7 @@ To access Grafana:
 1. Access Grafana in a browser using the host name.
 1. Log in using the `verrazzano` user and the password.
 
-![Grafana]docs/images/grafana-initial-page.png)
+![Grafana](/docs/images/grafana-initial-page.png)
 
 
 From here, you can select an existing dashboard or create a new dashboard.
@@ -157,4 +157,4 @@ of the nodes in your cluster.
 To view the application metrics for the `todo-list` example application, select `WebLogic Server Dashboard`
 because the `todo-list` application is a WebLogic application.
 
-![WebLogicDashboard]docs/images/grafana-weblogic-dashboard.png)
+![WebLogicDashboard](/docs/images/grafana-weblogic-dashboard.png)
