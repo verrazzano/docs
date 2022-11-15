@@ -74,7 +74,7 @@ EOF
 MySQL allows scheduled backups by implementing a cron job on [MySQL Operator](https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-backups.html) for Kubernetes.
 
 
-## rancher backup
+## Rancher backup
 
 To initiate a Rancher backup, create the following example custom resource YAML file that uses an Amazon S3 compatible object store as a backend.
 The operator uses the `credentialSecretNamespace` value to determine where to look for the Amazon S3 backup secret.
@@ -121,8 +121,17 @@ $ kubectl apply -f - <<EOF
 EOF
 ```
 
-
 The operator creates the backup file, in the `*.tar.gz` format, and stores it in the location configured in the `storageLocation` field.
+
+When the backup is complete, then the rancher-backup operator creates a file on the S3 Compatible Object store.
+
+You can retrieve the file name as shown:
+
+```shell
+$ kubectl get backups.resources.cattle.io rancher-backup-test
+NAME                 LOCATION   TYPE       LATEST-BACKUP                                                                     RESOURCESET            AGE   STATUS
+rancher-backup-test             One-time   rancher-615034-957d182d-44cb-4b81-bbe0-466900049124-2022-11-14T16-42-28Z.tar.gz   rancher-resource-set   54s   Completed
+```
 
 ### Scheduled backups
 
@@ -175,7 +184,7 @@ EOF
 ```
 
 The preceding example backs up the OpenSearch components:
-- In this case, you are not backing up the `PersistentVolumes` directly, rather executing a hook that invokes the OpenSearch APIs to take a snapshot of the data.
+- In this case, you are not backing up the `PersistentVolumes` directly, rather running a hook that invokes the OpenSearch APIs to take a snapshot of the data.
 - So that Velero ignores the associated PVC's, `defaultVolumesToRestic` needs to be `false`.
 - In this case, the hook can be `pre` or `post`.
 - The command used in the hook requires an `operation` flag and the Velero backup name as an input.

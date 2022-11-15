@@ -46,20 +46,14 @@ To initiate a MySQL restore, from an existing backup, you need to recreate the M
         -c verrazzano-platform-operator mysql-charts/
     ```
 
-4. Scale down Verrazzano platform operator.
-
-    ```shell
-    $ kubectl scale deploy -n verrazzano-install verrazzano-platform-operator --replicas=0
-    ```
-
-5. Clean up MySQL pods and PVC from the system.
+4. Clean up MySQL pods and PVC from the system.
 
     ```shell
     $ helm delete mysql -n keycloak
     $ kubectl delete pvc -n keycloak -l tier=mysql
     ```
 
-7. Trigger a MySQL restore by executing the Helm chart as follows.
+5. Trigger a MySQL restore by running the Helm chart as follows.
 
     ```shell
     $ helm install mysql mysql-charts \
@@ -87,7 +81,7 @@ To initiate a MySQL restore, from an existing backup, you need to recreate the M
             --values mysql-values.yaml
     ```   
 
-8. Wait for the MySQL cluster to be online after performing the restore command. Ensure that the `STATUS` is `ONLINE` and the count under `ONLINE` matches the `INSTANCES`.
+6. After performing the restore command, wait for the MySQL cluster to be online . Ensure that the `STATUS` is `ONLINE` and the count under `ONLINE` matches the `INSTANCES`.
 
    ```shell
     $ kubectl get innodbclusters -n keycloak mysql
@@ -95,7 +89,7 @@ To initiate a MySQL restore, from an existing backup, you need to recreate the M
       mysql   ONLINE   3        3           3         2m23s
     ```
 
-9. Wait for all the MySQL pods to be in the `RUNNING` state.
+7. Wait for all the MySQL pods to be in the `RUNNING` state.
 
    ```shell
 
@@ -108,25 +102,13 @@ To initiate a MySQL restore, from an existing backup, you need to recreate the M
       pod/mysql-router-746d9d75c7-t8bhb condition met
     ```
 
-10. After the MySQL cluster is restored completely, scale up Verrazzano platform operator.
-
-    ```shell
-    $ kubectl scale deploy -n verrazzano-install verrazzano-platform-operator --replicas=1
-    ```
-
 At this point, the MySQL cluster has been restored successfully from the backup, along with the PVCs that were cleaned up previously.
 
 ## Rancher restore
 
 Restoring rancher is done by creating a custom resource that indicates to `rancher-backup` to start the restore process.
 
-1. Scale down Verrazzano platform operator.
-
-    ```shell
-    $ kubectl scale deploy -n verrazzano-install verrazzano-platform-operator --replicas=0
-    ```
-
-2. To initiate a Rancher restore, create the following example custom resource YAML file.
+1. To initiate a Rancher restore, create the following example custom resource YAML file.
    When a `Restore` custom resource is created, the operator accesses the backup `*.tar.gz` file specified and restores the application data from that file.
 
 
@@ -137,7 +119,7 @@ Restoring rancher is done by creating a custom resource that indicates to `ranch
      metadata:
        name: s3-restore
      spec:
-       backupFilename: rancher-backup-test-1111111-2222-3333-2022-07-26T02-44-21Z.tar.gz
+       backupFilename: rancher-615034-957d182d-44cb-4b81-bbe0-466900049124-2022-11-14T16-42-28Z.tar.gz
        storageLocation:
          s3:
            credentialSecretName: rancher-backup-creds
@@ -155,7 +137,9 @@ Restoring rancher is done by creating a custom resource that indicates to `ranch
    - Cluster-scoped resources
    - Namespace resources
 
-3. Wait for all the Rancher pods to be in the `RUNNING` state.
+   **NOTE:** The `backupFilename` is retrieved from the Rancher backup created previously. 
+
+2. Wait for all the Rancher pods to be in the `RUNNING` state.
 
    ```shell
 
@@ -163,12 +147,6 @@ Restoring rancher is done by creating a custom resource that indicates to `ranch
       pod/rancher-69976cffc6-bbx4p condition met
       pod/rancher-69976cffc6-fr75t condition met
       pod/rancher-69976cffc6-pcdf2 condition met
-    ```
-
-4. After Rancher pods are up and running, scale up Verrazzano platform operator.
-
-    ```shell
-    $ kubectl scale deploy -n verrazzano-install verrazzano-platform-operator --replicas=1
     ```
 
 
@@ -186,13 +164,7 @@ To initiate an OpenSearch restore, first delete the existing OpenSearch cluster 
     $ kubectl scale deploy -n verrazzano-system verrazzano-monitoring-operator --replicas=0
     ```
 
-2. Scale down Verrazzano platform operator.
-
-    ```shell
-    $ kubectl scale deploy -n verrazzano-install verrazzano-platform-operator --replicas=0
-    ```
-
-3. Then, clean up the OpenSearch components.
+2. Then, clean up the OpenSearch components.
 
     ```shell
     # These are sample commands to demonstrate the OpenSearch restore process
@@ -203,7 +175,7 @@ To initiate an OpenSearch restore, first delete the existing OpenSearch cluster 
 
     ```
 
-4. To perform an OpenSearch restore, you can invoke the following example Velero `Restore` [API](https://velero.io/docs/v1.8/api-types/restore/) object.
+3. To perform an OpenSearch restore, you can invoke the following example Velero `Restore` [API](https://velero.io/docs/v1.8/api-types/restore/) object.
 
    ```yaml
    $ kubectl apply -f - <<EOF
@@ -243,7 +215,7 @@ To initiate an OpenSearch restore, first delete the existing OpenSearch cluster 
    EOF
    ```
 
-5. Wait for all the OpenSearch pods to be in the `RUNNING` state.
+4. Wait for all the OpenSearch pods to be in the `RUNNING` state.
 
    ```shell
 
@@ -256,12 +228,6 @@ To initiate an OpenSearch restore, first delete the existing OpenSearch cluster 
       pod/vmi-system-es-master-0 condition met
       pod/vmi-system-es-master-1 condition met
       pod/vmi-system-es-master-2 condition met
-    ```
-
-6. After the OpenSearch pods are up and running, scale up Verrazzano platform operator.
-
-    ```bash
-    $ kubectl scale deploy -n verrazzano-install verrazzano-platform-operator --replicas=1
     ```
 
 
