@@ -84,11 +84,11 @@ For more information and the source code of this application, see the [Verrazzan
    $ kubectl get pods -n todo-list
    ```
 
-   Alternatively, you can use the `kubectl wait` commands. However, if executed before the respective pods are created,
+   Alternatively, you can use the `kubectl wait` commands. However, if it is run before the respective pods are created,
    then the `kubectl wait` commands may report `error: no matching resources found`. Specifically, the `tododomain-adminserver`
    pod may take a while to be created and `Ready`, so you may need to repeat the `kubectl wait` command several times before
    it is successful.
-   
+
    ```
    $ kubectl wait pod \
         --for=condition=Ready \
