@@ -4,6 +4,12 @@ linkTitle: Release Notes
 weight: 13
 draft: false
 ---
+### v1.3.8
+Fixes:
+
+- Fixed a Rancher upgrade issue that prevented Rancher from upgrading Fleet, GitJob, and Rancher webhook.
+- Updated images to resolve CVEs.
+
 ### v1.3.7
 Fixes:
 
