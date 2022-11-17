@@ -4,6 +4,14 @@ linkTitle: Release Notes
 weight: 13
 draft: false
 ---
+### v1.4.2
+Fixes:
+
+- Fixed an OpenSearch Dashboards redirect issue to Keycloak
+- Fixed a bug related to Rancher/Keycloak auth integration for managed cluster profile
+- Fixed intermittent Rancher issue that the available chart version was less than the minimum chart version
+- Updated base and other images to resolve CVEs.
+
 ### v1.4.1
 Fixes:
 
