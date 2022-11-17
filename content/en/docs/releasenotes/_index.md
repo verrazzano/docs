@@ -56,6 +56,12 @@ Fixes:
 - Resolved an issue where Verrazzano Platform Operator transitioned to a ready condition before all webhook context paths were ready.
 - Updated base and other images to resolve CVEs.
 
+### v1.3.8
+Fixes:
+
+- Fixed a Rancher upgrade issue that prevented Rancher from upgrading Fleet, GitJob, and Rancher webhook.
+- Updated images to resolve CVEs.
+
 ### v1.3.7
 Fixes:
 
