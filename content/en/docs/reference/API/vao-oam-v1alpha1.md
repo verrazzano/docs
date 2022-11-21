@@ -381,7 +381,7 @@ int
 </td>
 <td>
 <em>(Optional)</em>
-<p>The HTTP ports for the related metrics trait. Defaults to <code>8080</code>.</p>
+<p>The HTTP endpoints for the related metrics.</p>
 </td>
 </tr>
 <tr>
@@ -1503,7 +1503,7 @@ int
 </td>
 <td>
 <em>(Optional)</em>
-<p>The HTTP ports for the related metrics trait. Defaults to <code>8080</code>.</p>
+<p>The HTTP endpoints for the related metrics.</p>
 </td>
 </tr>
 <tr>
