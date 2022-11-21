@@ -224,7 +224,7 @@ and enabled for Istio.
 1. Apply the application's component.
 
    ```
-   $ kubectl apply -f {{< release_source_url raw=true path="examples/hello-helidon/hello-helidon-comp.yaml" >}}
+   $ kubectl apply -f {{< release_source_url raw=true path="examples/hello-helidon/hello-helidon-comp.yaml" >}} -n hello-helidon
    ```
 
    This step causes the validation and creation of the Component resource.
@@ -234,7 +234,7 @@ and enabled for Istio.
 1. Apply the application configuration.
 
    ```
-   $ kubectl apply -f {{< release_source_url raw=true path="examples/hello-helidon/hello-helidon-app.yaml" >}}
+   $ kubectl apply -f {{< release_source_url raw=true path="examples/hello-helidon/hello-helidon-app.yaml" >}} -n hello-helidon
    ```
 
    This step causes the validation and creation of the application configuration resource.
