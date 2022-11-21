@@ -35,7 +35,7 @@ The exact steps required to upgrade a Verrazzano environment to achieve high ava
          overrides:
          - values:
              replicas: 2
-       ingressNGINX:
+       ingress:
          overrides:
          - values:
              controller:

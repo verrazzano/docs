@@ -50,7 +50,7 @@ metadata:
   name: myvz
 spec:
   components:
-    ingressNGINX:
+    ingress:
       overrides:
       - values:
           controller:
