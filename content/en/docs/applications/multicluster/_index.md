@@ -55,7 +55,7 @@ resource definition for applications that may be targeted for placement in one o
 ## Managed cluster registration
 A managed cluster may be registered with an admin cluster using a two-step process:
 
-**Step 1:** Create a [VerrazzanoManagedCluster]({{< relref "/docs/reference/api/vpo-clusters-v1alpha1#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedCluster" >}}) resource in the `verrazzano-mc` namespace of the admin cluster.
+**Step 1:** Create a [VerrazzanoManagedCluster]({{< relref "/docs/reference/api/vco-clusters-v1alpha1#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedCluster" >}}) resource in the `verrazzano-mc` namespace of the admin cluster.
 
 **Step 2:** Retrieve the Kubernetes manifest file generated in the VerrazzanoManagedCluster resource and apply it on
 the managed cluster to complete the registration.
