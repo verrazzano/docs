@@ -31,8 +31,16 @@ See the following respective sections.
 2. Wait for the uninstall to complete.
    The uninstall logs from the Verrazzano platform operator will be streamed to the command window until the uninstall has completed or until the default timeout (20m) has been reached.
 
+   The following is an example of the output:
+   ```shell
+   Uninstalling Verrazzano
+   2022-11-22T16:31:20.377Z info Reconciling Verrazzano resource default/verrazzano, generation 2, version 1.4.2
+   2022-11-22T16:31:20.377Z info Deleting Verrazzano installation
+   2022-11-22T16:31:20.418Z info Uninstalling components
+   2022-11-22T16:31:20.418Z info Uninstalling Verrazzano default/verrazzano
    ...
    ```
+
 {{< /tab >}}
 {{< tab tabName="kubectl" >}}
 <br>
