@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/applications/workloads/coherence/coherence/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-07-12T14:05:07-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-11-22T13:18:38-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Coherence Workload">
 <meta itemprop="description" content="Use a Coherence workload in an application">
-<meta itemprop="dateModified" content="2022-07-12T14:05:07-04:00" />
-<meta itemprop="wordCount" content="1235">
+<meta itemprop="dateModified" content="2022-11-22T13:18:38-05:00" />
+<meta itemprop="wordCount" content="1207">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Coherence Workload"/>
 <meta name="twitter:description" content="Use a Coherence workload in an application"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.b34edaf286c3917296f3bbd6fefbffd2.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.d2a8e74d9643aea63e98f08e32bfcc6b.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.b34edaf286c3917296f3bbd6fefbffd2.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.d2a8e74d9643aea63e98f08e32bfcc6b.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -479,7 +479,6 @@ if (!doNotTrack) {
         <li><a href="#logging">Logging</a></li>
         <li><a href="#metrics">Metrics</a></li>
         <li><a href="#istio-integration">Istio integration</a></li>
-        <li><a href="#summary">Summary</a></li>
       </ul>
     </li>
   </ul>
@@ -549,11 +548,11 @@ if (!doNotTrack) {
 	</header>    
 	<p>A Verrazzano application can contain any number of Coherence component workloads, where each workload
 is a standalone Coherence cluster, independent from other Coherence clusters in the application.</p>
-<p>Verrazzano uses the standard Coherence operator to provision and manage clusters, as documented
-at <a href="https://oracle.github.io/coherence-operator/docs/latest">Coherence Operator</a>.  The Coherence operator
+<p>Verrazzano uses the standard Coherence Operator to provision and manage clusters, as documented
+at <a href="https://oracle.github.io/coherence-operator/docs/latest">Coherence Operator</a>.  The Coherence Operator
 uses a CRD, coherence.oracle.com (Coherence resource), to represent a Coherence cluster.  When a Verrazzano
 application with Coherence is provisioned, Verrazzano configures the default logging and
-metrics for the Coherence cluster.  Logs are sent to OpenSearch and metrics to Prometheus.<br>
+metrics for the Coherence cluster.  Logs are sent to OpenSearch and metrics to Prometheus.
 You can view this telemetry data using the OpenSearch Dashboards and Grafana consoles.</p>
 <h2 id="oam-component">OAM Component</h2>
 <p>The custom resource YAML file for the Coherence cluster is specified as a VerrazzanoCoherenceWorkload custom resource.
@@ -587,8 +586,8 @@ will notice that the Component resource changed and will update the Coherence re
 <p>When you apply the Component YAML  file shown previously, Kubernetes will create a <code>component.oam.verrazzano.io</code> resource, but
 the Coherence cluster will not be created until you create the ApplicationConfiguration resource, which references
 the Coherence component.  When the application is created, Verrazzano creates a Coherence custom resource for each
-cluster, which is subsequently processed by the Coherence operator, resulting in a new cluster.  After a cluster
-is created, the Coherence operator will monitor the Coherence resource to reconcile the state of the cluster. You can
+cluster, which is subsequently processed by the Coherence Operator, resulting in a new cluster.  After a cluster
+is created, the Coherence Operator will monitor the Coherence resource to reconcile the state of the cluster. You can
 add a new Coherence workload to a running application, or remove an existing workload, by modifying
 the ApplicationConfiguration resource, and adding or removing the Coherence component.</p>
 <h4 id="scaling">Scaling</h4>
@@ -627,7 +626,7 @@ deleting the ApplicationConfiguration resource entirely.</p>
 
 <h2 id="logging">Logging</h2>
 <p>When a Coherence cluster is provisioned, Verrazzano configures it to send logs to OpenSearch.  This is done by
-injecting a Fluentd sidecar configuration into the Coherence resource. The Coherence operator will create the pod with the
+injecting a Fluentd sidecar configuration into the Coherence resource. The Coherence Operator will create the pod with the
 Fluentd sidecar.  This sidecar periodically copies the Coherence logs from <code>/logs</code> to stdout, enabling the Fluentd DaemonSet
 in the <code>verrazzano-system</code> namespace to send the logs to OpenSearch.  Note that the Fluend sidecar running in the Coherence
 pod never communicates with OpenSearch or any other network endpoint.</p>
@@ -732,9 +731,6 @@ Verrazzano automatically creates an Istio DestinationRule to disable TLS for the
    ...
 </code></pre><p>Currently, port 9000 is the only port where TLS is disabled, so you need to use this as the Coherence <code>extend</code> port if
 other components in the mesh access Coherence over the <code>extend</code> protocol.</p>
-<h2 id="summary">Summary</h2>
-<p>Verrazzano makes it easy to deploy and observe Coherence clusters in your application, providing seamless integration with other
-components in your application running in an Istio mesh.</p>
 
 	
 		<style>
