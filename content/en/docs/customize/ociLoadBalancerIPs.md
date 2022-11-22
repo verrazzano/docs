@@ -39,7 +39,7 @@ metadata:
 spec:
   profile: dev
   components:
-    ingressNGINX:
+    ingress:
       type: LoadBalancer
       overrides:
         - values:
@@ -92,7 +92,7 @@ metadata:
 spec:
   profile: dev
   components:
-    ingressNGINX:
+    ingress:
       type: LoadBalancer
       overrides:
         - values:
@@ -100,7 +100,7 @@ spec:
               service:
                 annotations:
                   service.beta.kubernetes.io/oci-load-balancer-internal: "true"
-                  service.beta.kuernetes.io/oci-load-balancer-subnet1: "ocid1.subnet.oc1.phx.aaaa..sdjxa"
+                  service.beta.kubernetes.io/oci-load-balancer-subnet1: "ocid1.subnet.oc1.phx.aaaa..sdjxa"
 ```
 
 The following example configures the Istio ingress gateway service to have a private load balancer IP address on the private
@@ -128,7 +128,7 @@ spec:
                     k8s:
                       serviceAnnotations:
                         service.beta.kubernetes.io/oci-load-balancer-internal: "true"
-                        serivce.beta.kubernetes.io/oci-load-balancer-subnet1: "ocid1.subnet.oc1.phx.aaaa..sdjxa"
+                        service.beta.kubernetes.io/oci-load-balancer-subnet1: "ocid1.subnet.oc1.phx.aaaa..sdjxa"
 ```
 
 The following example configures both NGINX and Istio to have a private load balancer IP address on the private subnet
@@ -142,7 +142,7 @@ metadata:
 spec:
   profile: dev
   components:
-    ingressNGINX:
+    ingress:
       type: LoadBalancer
         overrides:
         - values:
@@ -150,7 +150,7 @@ spec:
               service:
                 annotations:
                   service.beta.kubernetes.io/oci-load-balancer-internal: "true"
-                  service.beta.kuernetes.io/oci-load-balancer-subnet1: "ocid1.subnet.oc1.phx.aaaa..sdjxa"
+                  service.beta.kubernetes.io/oci-load-balancer-subnet1: "ocid1.subnet.oc1.phx.aaaa..sdjxa"
     istio:
       overrides:
         - values:
@@ -164,5 +164,5 @@ spec:
                     k8s:
                       serviceAnnotations:
                         service.beta.kubernetes.io/oci-load-balancer-internal: "true"
-                        serivce.beta.kubernetes.io/oci-load-balancer-subnet1: "ocid1.subnet.oc1.phx.aaaa..sdjxa"
+                        service.beta.kubernetes.io/oci-load-balancer-subnet1: "ocid1.subnet.oc1.phx.aaaa..sdjxa"
 ```
