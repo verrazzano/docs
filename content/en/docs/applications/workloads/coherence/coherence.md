@@ -10,11 +10,11 @@ draft: false
 A Verrazzano application can contain any number of Coherence component workloads, where each workload
 is a standalone Coherence cluster, independent from other Coherence clusters in the application.
 
-Verrazzano uses the standard Coherence operator to provision and manage clusters, as documented
-at [Coherence Operator](https://oracle.github.io/coherence-operator/docs/latest).  The Coherence operator
+Verrazzano uses the standard Coherence Operator to provision and manage clusters, as documented
+at [Coherence Operator](https://oracle.github.io/coherence-operator/docs/latest).  The Coherence Operator
 uses a CRD, coherence.oracle.com (Coherence resource), to represent a Coherence cluster.  When a Verrazzano
 application with Coherence is provisioned, Verrazzano configures the default logging and
-metrics for the Coherence cluster.  Logs are sent to OpenSearch and metrics to Prometheus.  
+metrics for the Coherence cluster.  Logs are sent to OpenSearch and metrics to Prometheus.
 You can view this telemetry data using the OpenSearch Dashboards and Grafana consoles.
 
 ## OAM Component
@@ -53,8 +53,8 @@ will notice that the Component resource changed and will update the Coherence re
 When you apply the Component YAML  file shown previously, Kubernetes will create a `component.oam.verrazzano.io` resource, but
 the Coherence cluster will not be created until you create the ApplicationConfiguration resource, which references
 the Coherence component.  When the application is created, Verrazzano creates a Coherence custom resource for each
-cluster, which is subsequently processed by the Coherence operator, resulting in a new cluster.  After a cluster
-is created, the Coherence operator will monitor the Coherence resource to reconcile the state of the cluster. You can
+cluster, which is subsequently processed by the Coherence Operator, resulting in a new cluster.  After a cluster
+is created, the Coherence Operator will monitor the Coherence resource to reconcile the state of the cluster. You can
 add a new Coherence workload to a running application, or remove an existing workload, by modifying
 the ApplicationConfiguration resource, and adding or removing the Coherence component.
 
@@ -95,7 +95,7 @@ Do not delete the Coherence component if the application is still using it.
 
 ## Logging
 When a Coherence cluster is provisioned, Verrazzano configures it to send logs to OpenSearch.  This is done by
-injecting a Fluentd sidecar configuration into the Coherence resource. The Coherence operator will create the pod with the
+injecting a Fluentd sidecar configuration into the Coherence resource. The Coherence Operator will create the pod with the
 Fluentd sidecar.  This sidecar periodically copies the Coherence logs from `/logs` to stdout, enabling the Fluentd DaemonSet
 in the `verrazzano-system` namespace to send the logs to OpenSearch.  Note that the Fluend sidecar running in the Coherence
 pod never communicates with OpenSearch or any other network endpoint.
@@ -225,7 +225,3 @@ Verrazzano automatically creates an Istio DestinationRule to disable TLS for the
 
 Currently, port 9000 is the only port where TLS is disabled, so you need to use this as the Coherence `extend` port if
 other components in the mesh access Coherence over the `extend` protocol.
-
-## Summary
-Verrazzano makes it easy to deploy and observe Coherence clusters in your application, providing seamless integration with other
-components in your application running in an Istio mesh.
