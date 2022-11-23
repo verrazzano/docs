@@ -1,5 +1,5 @@
 ---
-title: Customize AuthProxy
+title: AuthProxy
 description: Customize Verrazzano AuthProxy settings
 linkTitle: AuthProxy
 Weight: 1

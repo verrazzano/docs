@@ -182,7 +182,7 @@ Follow these steps to test the endpoints.
 1. A variety of endpoints associated with the deployed application are available to further explore the logs, metrics, and such.
 You can access them according to the directions [here]({{< relref "/docs/access/#get-the-consoles-urls" >}}).
 
-## Troubleshooting
+## Verify the deployed Sock Shop application
 
 1. Verify that the application configuration, component, workload, and ingress trait all exist.
    ```
