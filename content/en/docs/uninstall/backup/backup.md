@@ -215,6 +215,6 @@ $ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/<log-
 Velero supports a `Schedule` [API](https://velero.io/docs/v1.8/api-types/schedule/)
 that is a repeatable request that is sent to the Velero server to perform a backup for a given cron notation.
 After the `Schedule` object is created, the Velero server will start the backup process.
-Then, it will then wait for the next valid point in the given cron expression and run the backup process on a repeating basis.
+Then, it will wait for the next valid point in the given cron expression and run the backup process on a repeating basis.
 
 <br/>
