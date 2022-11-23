@@ -1,5 +1,5 @@
 ---
-title: Customize Grafana
+title: Grafana
 description: Customize Verrazzano Grafana settings
 linkTitle: Grafana
 Weight: 5

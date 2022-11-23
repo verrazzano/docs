@@ -26,7 +26,7 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 `<VERRAZZANO_HOME>/examples/multicluster/sockshop`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
 
 
-## Deploy the Sock Shop application
+## Deploy the application
 
 1. Create a namespace for the Sock Shop application by deploying the Verrazzano project.
    ```
@@ -50,7 +50,7 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
        --timeout=300s
    ```
 
-## Explore the Sock Shop application
+## Explore the application
 
 The Sock Shop microservices application implements REST API endpoints including:
 
@@ -157,7 +157,7 @@ Follow these steps to test the endpoints.
        before deploying the Sock Shop application.
      * Then, you can use a browser to access the application at `https://<yourhost.your.domain>/catalogue`.
 
-## Troubleshooting
+## Verify the deployed application
 
 1. Verify that the application configuration, components, workloads, and ingress trait all exist.
    ```
@@ -184,7 +184,7 @@ Follow these steps to test the endpoints.
 1. A variety of endpoints are available to further explore the logs, metrics, and such, associated with
 the deployed Sock Shop application.  You can access them according to the directions [here]({{< relref "/docs/access/#get-the-consoles-urls" >}}).
 
-## Undeploy the Sock Shop application
+## Undeploy the application
 
 Regardless of its location, to undeploy the application,
 delete the application resources and the project from the admin cluster.
