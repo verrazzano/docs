@@ -144,7 +144,7 @@ spec:
   components:
     ingress:
       type: LoadBalancer
-        overrides:
+      overrides:
         - values:
             controller:
               service:
