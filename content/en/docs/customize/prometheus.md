@@ -1,5 +1,5 @@
 ---
-title: Customize Prometheus
+title: Prometheus
 description: Customize Verrazzano Prometheus settings
 linkTitle: Prometheus
 Weight: 12

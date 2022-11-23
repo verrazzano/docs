@@ -33,7 +33,7 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 `<VERRAZZANO_HOME>/examples/multicluster/todo-list`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
 
 
-## Deploy the ToDo List example application
+## Deploy the application
 
 1. Create a namespace for the multicluster ToDo List example by applying the Verrazzano project file.
    ```
@@ -150,7 +150,7 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
    the deployed ToDo List application are available to further explore the logs, metrics, and such.
    You can access them according to the directions [here]({{< relref "/docs/access/#get-the-consoles-urls" >}}).
 
-## Troubleshooting
+## Verify the deployed application
 
 1. Verify that the application configuration, domain, and ingress trait all exist.
    ```
@@ -184,7 +184,7 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
    tododomain-adminserver   4/4     Running   0          19h
    ```
 
-## Undeploy the ToDo List application
+## Undeploy the application
 
 Regardless of its location, to undeploy the application,
 delete the application resources and the project from the admin cluster.
