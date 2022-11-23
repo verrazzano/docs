@@ -70,20 +70,29 @@ For details on how to customize Verrazzano components, see [Customize an Install
 The following table lists the Verrazzano components that are installed with each profile.  Note that you can
 customize any Verrazzano installation, regardless of the profile.
 
-| Component | dev | prod | managed-cluster
-| ------------- |:-------------: |:-------------: |:-------------:
-| Istio | ✔️ | ✔️ | ✔️
-| NGINX | ✔️ | ✔️ | ✔️
-| cert-manager | ✔️ | ✔️ | ✔️
-| External-DNS |️ |️ |
-| Prometheus | ✔️ | ✔️ | ✔️
-| OpenSearch | ✔️ | ✔️ |
-| Console | ✔️ | ✔️ |
-| OpenSearch Dashboards | ✔️ | ✔️ |  
-| Grafana | ✔️ | ✔️ |  
-| Rancher | ✔️ | ✔️ |    
-| Keycloak | ✔️ | ✔️ |  
-
+| Component           | dev | prod | managed-cluster
+|---------------------|:-------------: |:-------------: |:-------------:
+| applicationOperator | ✔️ | ✔️ | ✔️
+| authproxy           | ✔️ | ✔️ | ✔️
+| certManager         | ✔️ | ✔️ | ✔️
+| coherenceOperator   | ✔️ | ✔️ | ✔️
+| console             | ✔️ | ✔️ | ️
+| dns                 | ✔️ | ✔️ | ✔️
+| elasticsearch       | ✔️ | ✔️ |
+| fluentd             | ✔️ | ✔️ | ✔️
+| grafana             | ✔️ | ✔️ |
+| ingress             | ✔️ | ✔️ | ✔️
+| istio               | ✔️ | ✔️ | ✔️
+| kiali               | ✔️ | ✔️ |
+| keycloak            | ✔️ | ✔️ |
+| mySQLOperator       | ✔️ | ✔️ | ✔️
+| kibana              | ✔️ | ✔️ |
+| oam                 | ✔️ | ✔️ | ✔️
+| prometheus          | ✔️ | ✔️ | ✔️
+| prometheusOperator  | ✔️ | ✔️ | ✔️
+| rancher             | ✔️ | ✔️ |
+| verrazzano          | ✔️ | ✔️ | ✔️
+| webLogicOperator    | ✔️ | ✔️ | ✔️
 ### Prometheus and Grafana configurations
 
 The following table describes the Prometheus and Grafana configurations in each profile.
