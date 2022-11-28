@@ -1,5 +1,5 @@
 ---
-title: Customize AuthProxy
+title: AuthProxy
 description: Customize Verrazzano AuthProxy installation settings
 linkTitle: AuthProxy
 Weight: 5

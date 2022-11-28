@@ -1,5 +1,5 @@
 ---
-title: "Customize Istio"
+title: "Istio"
 description: "Customize Istio Gateways"
 linkTitle: Istio
 weight: 6

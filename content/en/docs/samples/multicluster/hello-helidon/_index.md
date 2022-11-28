@@ -30,7 +30,7 @@ Apply the VerrazzanoProject resource on the admin cluster that defines the names
        -f {{< release_source_url raw=true path=examples/multicluster/hello-helidon/verrazzano-project.yaml >}}
    ```
 
-## Deploy the Hello World Helidon application
+## Deploy the application
 
 1. Apply the `hello-helidon` multicluster application configuration resource to deploy the application.  The multicluster resource is an envelope that contains an OAM resource and a list of clusters to which to deploy.
    ```
@@ -52,7 +52,7 @@ Apply the VerrazzanoProject resource on the admin cluster that defines the names
 
 Follow the instructions for [exploring]({{< relref "/docs/samples/hello-helidon/#explore-the-application" >}}) the Hello World Helidon application in a single cluster use case. Use the managed cluster `kubeconfig` for testing the example application.
 
-## Troubleshooting
+## Verify the deployed application
 
 Follow the instructions for [troubleshooting]({{< relref "/docs/samples/hello-helidon/#troubleshooting" >}}) the Hello World Helidon application in a single cluster use case. Use the managed cluster `kubeconfig` for troubleshooting the example application.
 
@@ -134,7 +134,7 @@ By default, the application is located on the managed cluster called `managed1`.
    $ export CHANGE_PLACEMENT_PATCH_FILE="{{< release_source_url raw=true path=examples/multicluster/hello-helidon/patch-return-placement-to-managed1.yaml >}}"
    ```
 
-## Undeploy the Hello World Helidon application
+## Undeploy the application
 
 Regardless of its location, to undeploy the application,
 delete the application resources and the project from the admin cluster.

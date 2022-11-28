@@ -11,7 +11,7 @@ Install Verrazzano by following the [installation]({{< relref "/docs/setup/insta
 **NOTE:** The Spring Boot example application deployment files are contained in the Verrazzano project located at `<VERRAZZANO_HOME>/examples/springboot-app`, where `VERRAZZANO_HOME` is the root of the Verrazzano project.
 
 
-## Deploy the Spring Boot application
+## Deploy the application
 
 This example provides a simple web application developed using [Spring Boot](https://spring.io/guides/gs/spring-boot/). For more information and the source code of this application, see the [Verrazzano Examples](https://github.com/verrazzano/examples).
 

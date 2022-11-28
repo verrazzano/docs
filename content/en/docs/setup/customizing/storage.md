@@ -1,5 +1,5 @@
 ---
-title: Customize Persistent Storage
+title: Persistent Storage
 description: Customize persistent storage settings for Verrazzano
 linkTitle: Persistent Storage
 Weight: 10

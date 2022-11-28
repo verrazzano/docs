@@ -13,7 +13,7 @@ Install Verrazzano by following the [installation]({{< relref "/docs/setup/insta
 `<VERRAZZANO_HOME>/examples/sockshop`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
 
 
-## Deploy the Sock Shop application
+## Deploy the application
 
 This example application provides various implementations of the [Sock Shop Microservices Demo Application](https://microservices-demo.github.io/).
 It uses OAM resources to define the application deployment:
@@ -180,7 +180,7 @@ Follow these steps to test the endpoints.
 1. A variety of endpoints associated with the deployed application, are available to further explore the logs, metrics, and such.
 You can access them according to the directions [here]({{< relref "/docs/access/#get-the-consoles-urls" >}}).
 
-## Troubleshooting
+## Verify the deployed application
 
 1. Verify that the application configuration, component, workload, and ingress trait all exist.
    ```

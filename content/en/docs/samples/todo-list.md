@@ -20,7 +20,7 @@ description: "An example application containing a WebLogic component"
 
 All files and paths in this document are relative to `<VERRAZZANO_HOME>/examples/todo-list`.
 
-## Deploy the ToDo List application
+## Deploy the application
 
 ToDo List is an example application containing a WebLogic component.
 For more information and the source code of this application, see the [Verrazzano Examples](https://github.com/verrazzano/examples).
@@ -168,7 +168,7 @@ To access the Console from the machine where you are running `kubectl`:
 It is recommended that the WebLogic Server Administration Console _not_ be exposed publicly.
 {{< /alert >}}
 
-## Troubleshooting
+## Verify the deployed application
 
 1. Verify that the application configuration, domain, and ingress trait all exist.
    ```
