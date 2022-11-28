@@ -1,5 +1,5 @@
 ---
-title: "Customize DNS"
+title: "DNS"
 description: "Customize DNS configurations for Verrazzano system and application endpoints"
 linkTitle: DNS
 weight: 3

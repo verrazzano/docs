@@ -1,5 +1,5 @@
 ---
-title: "Customize OpenSearch"
+title: "OpenSearch"
 description: "Learn how to customize your OpenSearch cluster configuration"
 aliases:
     - /docs/customize/elasticsearch
