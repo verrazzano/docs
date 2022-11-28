@@ -1,5 +1,5 @@
 ---
-title: Customize Ingress
+title: Ingress
 description: Customize Verrazzano NGINX and Istio ingress installation settings
 linkTitle: Ingress
 Weight: 9

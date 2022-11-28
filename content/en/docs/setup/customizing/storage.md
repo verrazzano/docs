@@ -1,14 +1,15 @@
 ---
-title: Customize Persistent Storage
+title: Persistent Storage
 description: Customize persistent storage settings for Verrazzano
 linkTitle: Persistent Storage
 Weight: 10
 draft: false
 ---
 
-The following components allow persistent storage:
+The following components can use persistent storage:
 
   - OpenSearch
+  - OpenSearch Dashboards
   - Prometheus
   - Grafana
   - Keycloak/MySQL
@@ -24,16 +25,6 @@ for all use cases beyond evaluation or development.
 
 While each profile has its own default persistence settings, in each case you have the option to override the profile
 defaults to customize your persistence settings.
-
-## Customize persistent storage
-
-The following components can use persistent storage:
-
-* OpenSearch
-* OpenSearch Dashboards
-* Prometheus
-* Grafana
-* Keycloak
 
 You can customize the persistence settings for these components through the
 [VerrazzanoSpec](/docs/reference/api/verrazzano/verrazzano/#verrazzanospec), as follows:
