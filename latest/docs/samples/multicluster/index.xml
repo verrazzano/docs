@@ -34,7 +34,7 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 &lt;p&gt;Apply the VerrazzanoProject resource on the admin cluster that defines the namespace for the application.  The namespaces defined in the VerrazzanoProject resource will be created on the admin cluster and all the managed clusters.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
     -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.2/examples/multicluster/hello-helidon/verrazzano-project.yaml
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;deploy-the-hello-world-helidon-application&#34;&gt;Deploy the Hello World Helidon application&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;deploy-the-application&#34;&gt;Deploy the application&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Apply the &lt;code&gt;hello-helidon&lt;/code&gt; multicluster application configuration resource to deploy the application.  The multicluster resource is an envelope that contains an OAM resource and a list of clusters to which to deploy.&lt;/p&gt;
@@ -53,7 +53,7 @@ $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
 &lt;/ol&gt;
 &lt;h2 id=&#34;explore-the-example-application&#34;&gt;Explore the example application&lt;/h2&gt;
 &lt;p&gt;Follow the instructions for &lt;a href=&#34;../../../docs/samples/hello-helidon/#explore-the-application&#34;&gt;exploring&lt;/a&gt; the Hello World Helidon application in a single cluster use case. Use the managed cluster kubeconfig file for testing the example application.&lt;/p&gt;
-&lt;h2 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h2&gt;
+&lt;h2 id=&#34;verify-the-deployed-application&#34;&gt;Verify the deployed application&lt;/h2&gt;
 &lt;p&gt;Follow the instructions for &lt;a href=&#34;../../../docs/samples/hello-helidon/#troubleshooting&#34;&gt;troubleshooting&lt;/a&gt; the Hello World Helidon application in a single cluster use case. Use the managed cluster kubeconfig file for troubleshooting the example application.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
@@ -125,7 +125,7 @@ ready on the managed cluster.&lt;/p&gt;
 $ export CHANGE_PLACEMENT_PATCH_FILE=&amp;#34;https://raw.githubusercontent.com/verrazzano/verrazzano/v1.4.2/examples/multicluster/hello-helidon/patch-return-placement-to-managed1.yaml&amp;#34;
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id=&#34;undeploy-the-hello-world-helidon-application&#34;&gt;Undeploy the Hello World Helidon application&lt;/h2&gt;
+&lt;h2 id=&#34;undeploy-the-application&#34;&gt;Undeploy the application&lt;/h2&gt;
 &lt;p&gt;Regardless of its location, to undeploy the application,
 delete the application resources and the project from the admin cluster.
 Undeploy affects all clusters in which the application is located.&lt;/p&gt;
@@ -175,7 +175,7 @@ listed in the &lt;code&gt;placement&lt;/code&gt; section.&lt;/li&gt;
 $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The Sock Shop application deployment files are contained in the Verrazzano project located at
 &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/multicluster/sockshop&lt;/code&gt;, where &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
-&lt;h2 id=&#34;deploy-the-sock-shop-application&#34;&gt;Deploy the Sock Shop application&lt;/h2&gt;
+&lt;h2 id=&#34;deploy-the-application&#34;&gt;Deploy the application&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Create a namespace for the Sock Shop application by deploying the Verrazzano project.&lt;/p&gt;
@@ -197,7 +197,7 @@ $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
     --timeout=300s
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id=&#34;explore-the-sock-shop-application&#34;&gt;Explore the Sock Shop application&lt;/h2&gt;
+&lt;h2 id=&#34;explore-the-application&#34;&gt;Explore the application&lt;/h2&gt;
 &lt;p&gt;The Sock Shop microservices application implements REST API endpoints including:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;/catalogue&lt;/code&gt; - Returns the Sock Shop catalog.
@@ -296,7 +296,7 @@ before deploying the Sock Shop application.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h2&gt;
+&lt;h2 id=&#34;verify-the-deployed-application&#34;&gt;Verify the deployed application&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Verify that the application configuration, components, workloads, and ingress trait all exist.&lt;/p&gt;
@@ -324,7 +324,7 @@ $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get IngressTrait -n mc-sockshop
 the deployed Sock Shop application.  You can access them according to the directions &lt;a href=&#34;../../../docs/access/#get-the-consoles-urls&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id=&#34;undeploy-the-sock-shop-application&#34;&gt;Undeploy the Sock Shop application&lt;/h2&gt;
+&lt;h2 id=&#34;undeploy-the-application&#34;&gt;Undeploy the application&lt;/h2&gt;
 &lt;p&gt;Regardless of its location, to undeploy the application,
 delete the application resources and the project from the admin cluster.
 Undeploy affects all clusters in which the application is located.&lt;/p&gt;
@@ -387,7 +387,7 @@ listed in the &lt;code&gt;placement&lt;/code&gt; section.&lt;/li&gt;
 $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The ToDo List application deployment files are contained in the Verrazzano project located at
 &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/multicluster/todo-list&lt;/code&gt;, where &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
-&lt;h2 id=&#34;deploy-the-todo-list-example-application&#34;&gt;Deploy the ToDo List example application&lt;/h2&gt;
+&lt;h2 id=&#34;deploy-the-application&#34;&gt;Deploy the application&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Create a namespace for the multicluster ToDo List example by applying the Verrazzano project file.&lt;/p&gt;
@@ -499,7 +499,7 @@ the deployed ToDo List application are available to further explore the logs, me
 You can access them according to the directions &lt;a href=&#34;../../../docs/access/#get-the-consoles-urls&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id=&#34;troubleshooting&#34;&gt;Troubleshooting&lt;/h2&gt;
+&lt;h2 id=&#34;verify-the-deployed-application&#34;&gt;Verify the deployed application&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Verify that the application configuration, domain, and ingress trait all exist.&lt;/p&gt;
@@ -532,7 +532,7 @@ mysql-5c75c8b7f-vlhck    2/2     Running   0          19h
 tododomain-adminserver   4/4     Running   0          19h
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h2 id=&#34;undeploy-the-todo-list-application&#34;&gt;Undeploy the ToDo List application&lt;/h2&gt;
+&lt;h2 id=&#34;undeploy-the-application&#34;&gt;Undeploy the application&lt;/h2&gt;
 &lt;p&gt;Regardless of its location, to undeploy the application,
 delete the application resources and the project from the admin cluster.
 Undeploy affects all clusters in which the application is located.&lt;/p&gt;
