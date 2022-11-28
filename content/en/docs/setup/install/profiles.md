@@ -76,28 +76,28 @@ customize any Verrazzano installation, regardless of the profile.
 | authProxy:              | ✔️  |  ✔️  |       ✔️        |
 | certManager:            | ✔️  |  ✔️  |       ✔️        |
 | coherenceOperator:      | ✔️  |  ✔️  |       ✔️        |
-| console:                | ✔️  |  ✔️  |       ✔️        |
+| console:                | ✔️  |  ✔️  |                |
 | dns:                    | ✔️  |  ✔️  |       ✔️        |
 | fluentd:                | ✔️  |  ✔️  |       ✔️        |
-| grafana:                | ✔️  |  ✔️  |       ✔️        |
+| grafana:                | ✔️  |  ✔️  |                |
 | ingressNGINX:           | ✔️  |  ✔️  |       ✔️        |
 | istio:                  | ✔️  |  ✔️  |       ✔️        |
-| jaegerOperator:         | ✔️  |  ✔️  |       ✔️        |
-| keycloak:               | ✔️  |  ✔️  |       ✔️        |
-| kiali:                  | ✔️  |  ✔️  |       ✔️        |
-| kubeStateMetrics:       | ✔️  |  ✔️  |       ✔️        |
+| jaegerOperator:         |    |     |                |
+| keycloak:               | ✔️  |  ✔️  |                |
+| kiali:                  | ✔️  |  ✔️  |                |
+| kubeStateMetrics:       |    |     |                |
 | mySQLOperator:          | ✔️  |  ✔️  |       ✔️        |
 | oam:                    | ✔️  |  ✔️  |       ✔️        |
-| opensearch:             | ✔️  |  ✔️  |       ✔️        |
-| opensearchDashboards:   | ✔️  |  ✔️  |       ✔️        |
+| opensearch:             | ✔️  |  ✔️  |                |
+| opensearchDashboards:   | ✔️  |  ✔️  |                |
 | prometheus:             | ✔️  |  ✔️  |       ✔️        |
-| prometheusAdapter:      | ✔️  |  ✔️  |       ✔️        |
+| prometheusAdapter:      |    |     |                |
 | prometheusNodeExporter: | ✔️  |  ✔️  |       ✔️        |
 | prometheusOperator:     | ✔️  |  ✔️  |       ✔️        |
-| prometheusPushgateway:  | ✔️  |  ✔️  |       ✔️        |
-| rancher:                | ✔️  |  ✔️  |       ✔️        |
-| rancherBackup:          | ✔️  |  ✔️  |       ✔️        |
-| velero:                 | ✔️  |  ✔️  |       ✔️        |
+| prometheusPushgateway:  |    |     |                |
+| rancher:                | ✔️  |  ✔️  |                |
+| rancherBackup:          |    |  ✔️  |       ✔️        |
+| velero:                 |    |     |                |
 | weblogicOperator:       | ✔️  |  ✔️  |       ✔️        |
 
 ### Prometheus and Grafana configurations
