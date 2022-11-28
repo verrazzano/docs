@@ -27,7 +27,7 @@
 &lt;ul&gt;
 &lt;li&gt;The admin cluster is a central point from which Verrazzano applications in managed clusters can be deployed and monitored.&lt;/li&gt;
 &lt;li&gt;Managed clusters are registered with an admin cluster.&lt;/li&gt;
-&lt;li&gt;Verrazzano multicluster resources are used to target applications to any cluster in a multicluster Verrazzano environment.&lt;/li&gt;
+&lt;li&gt;MultiClusterApplicationConfiguration resources are used to target applications to any cluster in a multicluster Verrazzano environment.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;The following diagram shows a high-level overview of how multicluster Verrazzano works. For a more
 detailed view, see the diagram &lt;a href=&#34;#detailed-view-of-multicluster-verrazzano&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
@@ -49,12 +49,12 @@ installation profile. A managed cluster has the following additional characteris
 &lt;li&gt;It is registered with an admin cluster with a unique name.&lt;/li&gt;
 &lt;li&gt;Logs for Verrazzano system Components and Verrazzano multicluster applications are sent to
 OpenSearch running on the admin cluster, and are viewable from that cluster.&lt;/li&gt;
-&lt;li&gt;A Verrazzano multicluster Kubernetes resource, created on the admin cluster, will be retrieved and deployed to a
+&lt;li&gt;A Verrazzano MultiClusterApplicationConfiguration Kubernetes resource, created on the admin cluster, will be retrieved and deployed to a
 managed cluster if all of the following are true:
 &lt;ul&gt;
-&lt;li&gt;The resource is in a namespace governed by a VerrazzanoProject.&lt;/li&gt;
+&lt;li&gt;The MultiClusterApplicationConfiguration is in a namespace governed by a VerrazzanoProject.&lt;/li&gt;
 &lt;li&gt;The VerrazzanoProject has a &lt;code&gt;placement&lt;/code&gt; value that includes this managed cluster.&lt;/li&gt;
-&lt;li&gt;The resource itself has a &lt;code&gt;placement&lt;/code&gt; value that includes this managed cluster.&lt;/li&gt;
+&lt;li&gt;The MultiClusterApplicationConfiguration itself has a &lt;code&gt;placement&lt;/code&gt; value that includes this managed cluster.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
@@ -79,15 +79,16 @@ the managed cluster to complete the registration.&lt;/p&gt;
 &lt;p&gt;When a managed cluster is registered, the following will happen:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;After both steps of the registration are complete, the managed cluster begins polling the admin cluster for
-VerrazzanoProject resources and multicluster resources, which specify a &lt;code&gt;placement&lt;/code&gt; in this managed cluster.
+VerrazzanoProject resources and MultiClusterApplicationConfiguration resources, which specify a &lt;code&gt;placement&lt;/code&gt; in this managed cluster.
 &lt;ul&gt;
 &lt;li&gt;Any VerrazzanoProject resources placed in this managed cluster are retrieved, and the corresponding namespaces
 and security permissions (RoleBindings) are created in the managed cluster.&lt;/li&gt;
-&lt;li&gt;Any multicluster resources that are placed in this managed cluster, and are in a VerrazzanoProject that is
+&lt;li&gt;Any MultiClusterApplicationConfigurations that are placed in this managed cluster, and are in a VerrazzanoProject that is
 also placed in this managed cluster, are retrieved, and created or updated on the managed cluster. The
-underlying resource represented by the multicluster resource is unwrapped, and created or updated on the managed
-cluster. The managed cluster namespace of the multicluster resource and its underlying resource matches
-the admin cluster namespace of the multicluster resource.&lt;/li&gt;
+underlying ApplicationConfiguration represented by the MultiClusterApplicationConfiguration is unwrapped, and created or updated on the managed
+cluster. The managed cluster namespace of the MultiClusterApplicationConfiguration and its underlying ApplicationConfiguration match
+the admin cluster namespace of the MultiClusterApplicationConfiguration.&lt;/li&gt;
+&lt;li&gt;Any Component and Secret resources referenced by the retrieved MultiClusterApplicationConfigurations, are also retrieved and created on the managed cluster.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;When the managed cluster connects to the admin cluster, it updates the VerrazzanoManagedCluster resource for this
