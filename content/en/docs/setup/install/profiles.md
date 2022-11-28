@@ -72,33 +72,33 @@ customize any Verrazzano installation, regardless of the profile.
 
 | Component               | dev | prod | managed-cluster |
 |-------------------------|:---:|:----:|:---------------:|
-| applicationOperator:    | ✔️  |  ✔️  |       ✔️        |
-| authProxy:              | ✔️  |  ✔️  |       ✔️        |
-| certManager:            | ✔️  |  ✔️  |       ✔️        |
-| coherenceOperator:      | ✔️  |  ✔️  |       ✔️        |
-| console:                | ✔️  |  ✔️  |                |
-| dns:                    | ✔️  |  ✔️  |       ✔️        |
-| fluentd:                | ✔️  |  ✔️  |       ✔️        |
-| grafana:                | ✔️  |  ✔️  |                |
-| ingressNGINX:           | ✔️  |  ✔️  |       ✔️        |
-| istio:                  | ✔️  |  ✔️  |       ✔️        |
-| jaegerOperator:         |    |     |                |
-| keycloak:               | ✔️  |  ✔️  |                |
-| kiali:                  | ✔️  |  ✔️  |                |
-| kubeStateMetrics:       |    |     |                |
-| mySQLOperator:          | ✔️  |  ✔️  |       ✔️        |
-| oam:                    | ✔️  |  ✔️  |       ✔️        |
-| opensearch:             | ✔️  |  ✔️  |                |
-| opensearchDashboards:   | ✔️  |  ✔️  |                |
-| prometheus:             | ✔️  |  ✔️  |       ✔️        |
-| prometheusAdapter:      |    |     |                |
-| prometheusNodeExporter: | ✔️  |  ✔️  |       ✔️        |
-| prometheusOperator:     | ✔️  |  ✔️  |       ✔️        |
-| prometheusPushgateway:  |    |     |                |
-| rancher:                | ✔️  |  ✔️  |                |
-| rancherBackup:          |    |     |                |
-| velero:                 |    |     |                |
-| weblogicOperator:       | ✔️  |  ✔️  |       ✔️        |
+| applicationOperator     | ✔️  |  ✔️  |       ✔️        |
+| authProxy               | ✔️  |  ✔️  |       ✔️        |
+| certManager             | ✔️  |  ✔️  |       ✔️        |
+| coherenceOperator       | ✔️  |  ✔️  |       ✔️        |
+| console                 | ✔️  |  ✔️  |                |
+| dns                     | ✔️  |  ✔️  |       ✔️        |
+| fluentd                 | ✔️  |  ✔️  |       ✔️        |
+| grafana                 | ✔️  |  ✔️  |                |
+| ingressNGINX            | ✔️  |  ✔️  |       ✔️        |
+| istio                   | ✔️  |  ✔️  |       ✔️        |
+| jaegerOperator          |    |     |                |
+| keycloak                | ✔️  |  ✔️  |                |
+| kiali                   | ✔️  |  ✔️  |                |
+| kubeStateMetrics        |    |     |                |
+| mySQLOperator           | ✔️  |  ✔️  |       ✔️        |
+| oam                     | ✔️  |  ✔️  |       ✔️        |
+| opensearch              | ✔️  |  ✔️  |                |
+| opensearchDashboards    | ✔️  |  ✔️  |                |
+| prometheus              | ✔️  |  ✔️  |       ✔️        |
+| prometheusAdapter       |    |     |                |
+| prometheusNodeExporter  | ✔️  |  ✔️  |       ✔️        |
+| prometheusOperator      | ✔️  |  ✔️  |       ✔️        |
+| prometheusPushgateway   |    |     |                |
+| rancher                 | ✔️  |  ✔️  |                |
+| rancherBackup           |    |     |                |
+| velero                  |    |     |                |
+| weblogicOperator        | ✔️  |  ✔️  |       ✔️        |
 
 ### Prometheus and Grafana configurations
 
