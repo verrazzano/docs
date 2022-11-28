@@ -96,7 +96,7 @@ customize any Verrazzano installation, regardless of the profile.
 | prometheusOperator:     | ✔️  |  ✔️  |       ✔️        |
 | prometheusPushgateway:  |    |     |                |
 | rancher:                | ✔️  |  ✔️  |                |
-| rancherBackup:          |    |  ✔️  |       ✔️        |
+| rancherBackup:          |    |     |                |
 | velero:                 |    |     |                |
 | weblogicOperator:       | ✔️  |  ✔️  |       ✔️        |
 
