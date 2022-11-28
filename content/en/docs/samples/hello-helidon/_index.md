@@ -9,7 +9,7 @@ Install Verrazzano by following the [installation]({{< relref "/docs/setup/insta
 
 **NOTE:** The Hello World Helidon example application deployment files are contained in the Verrazzano project located at `<VERRAZZANO_HOME>/examples/hello-helidon`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
 
-## Deploy the Hello World Helidon application
+## Deploy the application
 
 {{< alert title="NOTE" color="primary" >}}To run this application in the default namespace:
    ```
@@ -111,7 +111,7 @@ Follow these steps to test the endpoints.
 You can access them according to the directions [here]({{< relref "/docs/access/#get-the-consoles-urls" >}}).  
 
 
-## Troubleshooting
+## Verify the deployed application
 
 1. Verify that the application configuration, domain, and ingress trait all exist.
    ```

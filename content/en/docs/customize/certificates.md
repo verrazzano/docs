@@ -1,5 +1,5 @@
 ---
-title: "Customize Certificates"
+title: "Certificates"
 description: "Customize SSL certificate generation for Verrazzano system endpoints"
 linkTitle: Certificates
 weight: 2

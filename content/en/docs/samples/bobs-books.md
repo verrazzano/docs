@@ -38,7 +38,7 @@ Bob's Books consists of three main parts:
 
 For more information and the source code of this application, see the [Verrazzano Examples](https://github.com/verrazzano/examples).
 
-## Deploy the example application
+## Deploy the application
 
 {{< alert title="NOTE" color="primary" >}}To run this application in the default namespace:
    ```
@@ -201,7 +201,7 @@ It is recommended that the WebLogic Server Administration Console _not_ be expos
    ```
 
 
-## Troubleshooting
+## Verify the deployed application
 
 1. Verify that the application configuration, domains, Coherence resources, and ingress trait all exist.
    ```
