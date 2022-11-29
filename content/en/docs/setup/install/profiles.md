@@ -75,6 +75,7 @@ customize any Verrazzano installation, regardless of the profile.
 | applicationOperator     | ✔️  |  ✔️  |       ✔️        |
 | authProxy               | ✔️  |  ✔️  |       ✔️        |
 | certManager             | ✔️  |  ✔️  |       ✔️        |
+| clusterOperator         |    |     |                |
 | coherenceOperator       | ✔️  |  ✔️  |       ✔️        |
 | console                 | ✔️  |  ✔️  |                |
 | dns                     | ✔️  |  ✔️  |       ✔️        |
