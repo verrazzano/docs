@@ -70,19 +70,36 @@ For details on how to customize Verrazzano components, see [Customize an Install
 The following table lists the Verrazzano components that are installed with each profile.  Note that you can
 customize any Verrazzano installation, regardless of the profile.
 
-| Component | dev | prod | managed-cluster
-| ------------- |:-------------: |:-------------: |:-------------:
-| Istio | ✔️ | ✔️ | ✔️
-| NGINX | ✔️ | ✔️ | ✔️
-| cert-manager | ✔️ | ✔️ | ✔️
-| External-DNS |️ |️ |
-| Prometheus | ✔️ | ✔️ | ✔️
-| OpenSearch | ✔️ | ✔️ |
-| Console | ✔️ | ✔️ |
-| OpenSearch Dashboards | ✔️ | ✔️ |  
-| Grafana | ✔️ | ✔️ |  
-| Rancher | ✔️ | ✔️ |    
-| Keycloak | ✔️ | ✔️ |  
+| Component               | dev | prod | managed-cluster |
+|-------------------------|:---:|:----:|:---------------:|
+| `applicationOperator`     | ✔️  |  ✔️  |       ✔️        |
+| `authProxy`               | ✔️  |  ✔️  |       ✔️        |
+| `certManager`             | ✔️  |  ✔️  |       ✔️        |
+| `clusterOperator`         | ✔️  |  ✔️  |       ✔️        |
+| `coherenceOperator`       | ✔️  |  ✔️  |       ✔️        |
+| `console`                 | ✔️  |  ✔️  |                |
+| `dns`                     | ✔️  |  ✔️  |       ✔️        |
+| `fluentd`                 | ✔️  |  ✔️  |       ✔️        |
+| `grafana`                 | ✔️  |  ✔️  |                |
+| `ingressNGINX`            | ✔️  |  ✔️  |       ✔️        |
+| `istio`                   | ✔️  |  ✔️  |       ✔️        |
+| `jaegerOperator`          |    |     |                |
+| `keycloak`                | ✔️  |  ✔️  |                |
+| `kiali`                   | ✔️  |  ✔️  |                |
+| `kubeStateMetrics`        |    |     |                |
+| `mySQLOperator`           | ✔️  |  ✔️  |       ✔️        |
+| `oam`                     | ✔️  |  ✔️  |       ✔️        |
+| `opensearch`              | ✔️  |  ✔️  |                |
+| `opensearchDashboards`    | ✔️  |  ✔️  |                |
+| `prometheus`              | ✔️  |  ✔️  |       ✔️        |
+| `prometheusAdapter`       |    |     |                |
+| `prometheusNodeExporter`  | ✔️  |  ✔️  |       ✔️        |
+| `prometheusOperator`      | ✔️  |  ✔️  |       ✔️        |
+| `prometheusPushgateway`   |    |     |                |
+| `rancher`                 | ✔️  |  ✔️  |                |
+| `rancherBackup`           |    |     |                |
+| `velero`                  |    |     |                |
+| `weblogicOperator`        | ✔️  |  ✔️  |       ✔️        |
 
 ### Prometheus and Grafana configurations
 
