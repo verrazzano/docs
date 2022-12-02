@@ -5,16 +5,15 @@ weight: 3
 draft: false
 ---
 
-## Prerequisites
-
 ## Register the managed cluster with the admin cluster
 
 The following sections show how to register a managed cluster if Rancher has not been installed with Verrazzano.
-Rancher is recommended for Verrazzano multicluster installations, and registration will require more steps if Rancher is not installed.
+Rancher is recommended for Verrazzano multicluster installations.
+If Rancher is not installed, then registration will require more steps.
 
 ## Prerequisites
 
-Make sure you have completed the prerequisite, installation, and preregistration steps outlined in the [Multicluster installation documentation]({{< relref "/docs/setup/install/multicluster.md" >}}).
+Make sure you have completed the Prerequisites, Install Verrazzano, and Preregistration steps outlined in [Install Multicluster Verrazzano]({{< relref "/docs/setup/install/multicluster.md" >}}).
 
 ## Additional preregistration setup
 
