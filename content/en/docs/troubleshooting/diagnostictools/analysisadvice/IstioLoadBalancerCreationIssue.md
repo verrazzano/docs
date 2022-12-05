@@ -7,9 +7,9 @@ draft: false
 ---
 
 ### Summary
-Analysis detected that the Verrazzano installation failed while creating loadbalancer for the Istio Ingress Gateway.
+Analysis detected that the Verrazzano installation failed while creating load balancer for the Istio Ingress Gateway.
 
-The root cause appears to be that the while creating public loadbalancer there were no public subnet available.
+The root cause will be while creating public load balancer there were no public subnet available.
 ### Steps
 
 Refer to the platform-specific environment setup for your platform [here]({{< relref "/docs/setup/platforms/_index.md" >}}).
