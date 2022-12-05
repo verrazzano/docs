@@ -52,8 +52,8 @@ see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}
   
 ### Cluster label selection
 
-Multicluster installation supports a label selector for cluster selection.
-If you use Rancher to create a new managed cluster, then you will be able to select clusters that are automatically registered by Verrazzano.
+You can provide a label selector in the Verrazzano resource.
+The label selector is used to determine which clusters created in Rancher will be automatically registered by Verrazzano.
 
 #### Verrazzano configuration for cluster label selection
 
@@ -72,16 +72,18 @@ spec:
           syncRancherClusters:
             enabled: true
             clusterSelector:
-              matchExpressions:
+              matchExpressions:Ï
               - key: verrazzanomulticluster
                 operator: In
                 values: [supported]
 ```
 
-- If `enabled` is set to `false` or omitted, then no clusters created in Rancher will be automatically registered by Verrazzano.
-- If `enabled` is set to `true`, then Verrazzano will automatically register clusters created in Rancher that match the `clusterSelector` field.
-    - If the `clusterSelector` field is omitted, all clusters created in Rancher will be automatically registered.
-- The `clusterSelector` field implements a [LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#labelselector-v1-meta).
+
+- If `enabled` is set to `false`, then no clusters created in Rancher will be automatically registered by Verrazzano.
+  - `enabled` is set to `false` by default. If the field is not explicitly set, then no Rancher clusters will be automatically registered.
+- If `enabled` is explicitly set to `true`, then Verrazzano will automatically register clusters created in Rancher that match the `clusterSelector` field.
+  - The `clusterSelector` field implements a [LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/{{<kubernetes_api_version>}}/#labelselector-v1-meta).
+  - If the `clusterSelector` field is omitted, then all clusters created in Rancher will be automatically registered.
   - Any cluster created with a label that matches the `clusterSelector` will be automatically registered by Verrazzano.
 
 ## Preregistration
@@ -112,7 +114,7 @@ This address must be accessible from the managed cluster.
   ....
   ....
   ```
-  In the output of this command, you will find the URL of the admin cluster API server from the `server` field. Set the
+  In the output of this command, you will find the URL of the admin cluster API server in the `server` field. Set the
   value of the `ADMIN_K8S_SERVER_ADDRESS` variable to this URL.
   ```
   $ export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
@@ -129,7 +131,7 @@ This address must be accessible from the managed cluster.
   ```
   $ kind get kubeconfig --internal --name <your-admin-cluster-name> | grep server
   ```
-  In the output of this command, you can find the URL of the admin cluster API server from the `server` field. Set the
+  In the output of this command, you can find the URL of the admin cluster API server in the `server` field. Set the
   value of the `ADMIN_K8S_SERVER_ADDRESS` variable to this URL.
   ```
   $ export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
@@ -156,27 +158,18 @@ EOF
 
 There are two methods by which you can register Verrazzano clusters.
 These methods are interchangeable and synchronized, so you can use either one to achieve the same result.
-- [Registration through Rancher](#register-using-rancher)
-- [Registration through VMC](#registration-through-vmc)
+- [Register using Rancher](#register-using-rancher)
+- [Register using VerrazzanoManagedCluster](#registration-through-vmc)
 
-If Rancher is not enabled, then refer to the [Verrazzano multicluster installation without Rancher]({{< relref "docs/setup/install/multicluster-no-rancher.md" >}}), 
-as additional steps will be required to register a managed cluster.
+If Rancher is not enabled, then refer to [Verrazzano multicluster installation without Rancher]({{< relref "docs/setup/install/multicluster-no-rancher.md" >}}) 
+because additional steps will be required to register a managed cluster.
 
 ### Register using Rancher
 
-Use the following steps to register a managed cluster using the Rancher console.
-1. In the Rancher menu, under `GLOBAL APPS`, navigate to `Cluster Management`.
-2. To import an existing cluster, select `Import Existing`.
-3. Select the appropriate cluster type.
-4. If cluster label selection is enabled, then add the appropriate cluster labels using the `Labels and Annotations` tab.
-5. After the cluster is created, you will be prompted with commands to register the managed cluster under the `Registration` tab of the newly created cluster.
-  - Using the registration information in the Rancher console, from the managed cluster, apply a command using this format.
-    ```
-    kubectl apply --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 -f https://<Rancher-console-url>/v3/import/<Rancher-registration>.yaml
-    ```
-  - Ensure that this registration YAML file is applied to the managed cluster.
+To register a cluster using Rancher, see [Setting up Kubernetes Clusters in Rancher](https://docs.ranchermanager.rancher.io/pages-for-subheaders/kubernetes-clusters-in-rancher-setup).
+Verrazzano will manage all clusters whose labels match the [cluster label selector](#cluster-label-selection).
 
-### Register using VMC
+### Register using VerrazzanoManagedCluster
 
 1. To begin the registration process for a managed cluster named `managed1`, apply the VerrazzanoManagedCluster object on the admin cluster.
    ```
@@ -203,14 +196,21 @@ Use the following steps to register a managed cluster using the Rancher console.
    ```
    
 3. Apply the Rancher registration manifest from the Rancher console.
-   1. In the Rancher menu, under `GLOBAL APPS`, navigate to `Cluster Management`.
-      - Select the cluster with the same name as the VerrazzanoManagedCluster resource that you just created. 
-   2. Under the `Registration` tab of the cluster view, select the registration command for the managed cluster.
-   3. Using the registration information in the Rancher console, from the managed cluster, apply a command using this format.
-       ```
-       kubectl apply --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 -f https://<Rancher-console-url>/v3/import/<Rancher-registration>.yaml
-       ```
-   4. Ensure that this registration YAML file is applied to the managed cluster.
+
+
+   a. In the Rancher menu, under `GLOBAL APPS`, navigate to `Cluster Management`.
+
+
+   b. Select the cluster with the same name as the VerrazzanoManagedCluster resource that you just created. 
+   
+
+   c. Under the `Registration` tab of the cluster view, select the registration command for the managed cluster.
+
+
+   d. Using the registration information in the Rancher console, from the managed cluster, apply a command using this format.
+   ```
+   kubectl apply --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 -f https://<Rancher-console-url>/v3/import/<Rancher-registration>.yaml
+   ```
 
 ## Verify that managed cluster registration has completed
 You can perform all the verification steps on the admin cluster.

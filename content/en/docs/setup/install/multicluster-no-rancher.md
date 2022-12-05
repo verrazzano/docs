@@ -5,19 +5,17 @@ weight: 3
 draft: false
 ---
 
-## Register the managed cluster with the admin cluster
-
-The following sections show how to register a managed cluster if Rancher has not been installed with Verrazzano.
+This document shows you how to register a managed cluster when Rancher has not been installed with Verrazzano.
 Rancher is recommended for Verrazzano multicluster installations.
 If Rancher is not installed, then registration will require more steps.
 
 ## Prerequisites
 
-Make sure you have completed the Prerequisites, Install Verrazzano, and Preregistration steps outlined in [Install Multicluster Verrazzano]({{< relref "/docs/setup/install/multicluster.md" >}}).
+Make sure you have completed the steps in the Prerequisites, Install Verrazzano, and Preregistration sections in [Install Multicluster Verrazzano]({{< relref "/docs/setup/install/multicluster.md" >}}).
 
 ## Additional preregistration setup
 
-Before registering the managed cluster, first you'll need to set up the following items.
+Before registering the managed cluster, first you need to set up the following items:
 - A Secret containing the managed cluster's CA certificate. Note that the `cacrt` field in this secret can be empty only
   if the managed cluster uses a well-known CA.
   This CA certificate is used by the admin cluster to scrape metrics from the managed cluster, for both applications and Verrazzano components.
@@ -26,7 +24,7 @@ Before registering the managed cluster, first you'll need to set up the followin
 
 Follow these preregistration setup steps.
 
-1. If needed for the admin cluster, obtain the managed cluster's CA certificate.
+1. If needed for the admin cluster, then obtain the managed cluster's CA certificate.
    The admin cluster scrapes metrics from the managed cluster's Prometheus endpoint. If the managed cluster
    Verrazzano installation uses self-signed certificates, then the admin
    cluster will need the managed cluster's CA certificate to make an `https` connection.
@@ -139,11 +137,11 @@ After this step, the managed cluster will begin connecting to the admin cluster 
 connects to the admin cluster, it will update the `Status` field of the `VerrazzanoManagedCluster` resource for this
 managed cluster, with the following information:
 - The timestamp of the most recent connection made from the managed cluster, in the `lastAgentConnectTime` status field.
-- The host address of the Prometheus instance running on the managed cluster, in the `prometheusHost` status field. This is
-  then used by the admin cluster to scrape metrics from the managed cluster.
+- The host address of the Prometheus instance running on the managed cluster, in the `prometheusHost` status field. Then this is
+  used by the admin cluster to scrape metrics from the managed cluster.
 - The API address of the managed cluster, in the `apiUrl` status field. This is used by the admin cluster's authentication proxy to
   route incoming requests for managed cluster information, to the managed cluster's authentication proxy.
 
 ### Verify that managed cluster registration has completed
 
-Once these steps have been completed, you can return to [verify registration for multicluster installation]({{< relref "/docs/setup/install/multicluster.md#verify-that-managed-cluster-registration-has-completed" >}})
+After these steps have been completed, return to [verify registration for multicluster installation]({{< relref "/docs/setup/install/multicluster.md#verify-that-managed-cluster-registration-has-completed" >}}).
