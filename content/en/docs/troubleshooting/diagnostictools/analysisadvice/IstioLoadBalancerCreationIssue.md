@@ -1,13 +1,13 @@
 ---
 title: Istio Ingress Load Balancer Creation Issue  
 linkTitle: Istio Ingress Load Balancer Creation Issue
-description: Analysis detected Istio Ingress LoadBalancer is not created successfully.
+description: Analysis detected Istio ingress load balancer was not created successfully
 weight: 5
 draft: false
 ---
 
 ### Summary
-Analysis detected that the Verrazzano installation failed while creating load balancer for the Istio Ingress Gateway.
+Analysis detected that the Verrazzano installation failed while creating the load balancer for the Istio ingress gateway.
 
 The root cause will be while creating public load balancer there were no public subnet available.
 ### Steps

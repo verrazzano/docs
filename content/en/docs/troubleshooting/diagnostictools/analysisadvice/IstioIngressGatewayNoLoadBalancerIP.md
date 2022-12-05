@@ -1,15 +1,15 @@
 ---
 title: Istio Ingress Gateway No External IP
 linkTitle: Istio Ingress Gateway No External IP
-description: Analysis detected Istio Ingress Gateway is missing an external IP address
+description: Analysis detected Istio ingress gateway is missing an external IP address
 weight: 5
 draft: false
 ---
 
 ### Summary
-Analysis detected that the Verrazzano installation failed while installing the Istio Ingress Gateway.
+Analysis detected that the Verrazzano installation failed while installing the Istio ingress gateway.
 
-The root cause appears to be that the load balancer is either missing or unable to set the external IP address on the Istio Ingress Gateway service.
+The root cause appears to be that the load balancer is either missing or unable to set the external IP address on the Istio ingress gateway service.
 
 ### Steps
 
