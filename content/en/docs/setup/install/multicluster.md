@@ -21,227 +21,157 @@ cluster, simply repeat the managed cluster instructions.
 
 Install Verrazzano on each Kubernetes cluster.
 
-- On one cluster, install Verrazzano using the `dev` or `prod` profile; this will be the *admin* cluster.
-- On the other cluster, install Verrazzano using the `managed-cluster` profile; this will be a
+1. On one cluster, install Verrazzano using the `dev` or `prod` profile; this will be the *admin* cluster.
+1. On the other cluster, install Verrazzano using the `managed-cluster` profile; this will be a
   managed cluster. The `managed-cluster` profile contains only the components that are required for a managed cluster.
-- Create the environment variables, `KUBECONFIG_ADMIN`, `KUBECONTEXT_ADMIN`, `KUBECONFIG_MANAGED1`, and
+1. Create the environment variables, `KUBECONFIG_ADMIN`, `KUBECONTEXT_ADMIN`, `KUBECONFIG_MANAGED1`, and
   `KUBECONTEXT_MANAGED1`, and point them to the kubeconfig files and contexts for the admin and managed cluster,
   respectively. You will use these environment variables in subsequent steps when registering the managed cluster. The
   following shows an example of how to set these environment variables.
-  ```
-  $ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
-  $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
+     ```
+     $ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
+     $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 
-  # Lists the contexts in each kubeconfig file
-  $ kubectl --kubeconfig $KUBECONFIG_ADMIN config get-contexts -o=name
-  my-admin-cluster-context
-  some-other-cluster-context
+     # Lists the contexts in each kubeconfig file
+     $ kubectl --kubeconfig $KUBECONFIG_ADMIN config get-contexts -o=name
+     my-admin-cluster-context
+     some-other-cluster-context
 
-  $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 config get-contexts -o=name
-  my-managed-cluster-context
-  some-other-cluster2-context
+     $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 config get-contexts -o=name
+     my-managed-cluster-context
+     some-other-cluster2-context
 
-  # Choose the right context name for your admin and managed clusters from the output shown and set the KUBECONTEXT
-  # environment variables
-  $ export KUBECONTEXT_ADMIN=<admin-cluster-context-name>
-  $ export KUBECONTEXT_MANAGED1=<managed-cluster-context-name>
-  ```
+     # Choose the right context name for your admin and managed clusters from the output shown and set the KUBECONTEXT
+     # environment variables
+     $ export KUBECONTEXT_ADMIN=<admin-cluster-context-name>
+     $ export KUBECONTEXT_MANAGED1=<managed-cluster-context-name>
+     ```
 
 For detailed instructions on how to install and customize Verrazzano on a Kubernetes cluster using a specific profile,
 see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}}) and [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}}).
 
-## Register the managed cluster with the admin cluster
+### Cluster label selection
 
-The following sections show you how to register the managed cluster with the admin cluster. As indicated, some of these
-steps are performed on the admin cluster and some on the managed cluster. The commands provided use the environment
-variables set previously to connect to the appropriate cluster.
+You can provide a label selector in the Verrazzano resource.
+The label selector is used to determine which clusters created in Rancher will be automatically registered by Verrazzano.
 
-<!-- omit in toc -->
-### Preregistration setup
+#### Verrazzano configuration for cluster label selection
 
-Before registering the managed cluster, first you'll need to set up the following items.
-- A Secret containing the managed cluster's CA certificate. Note that the `cacrt` field in this secret can be empty only
-  if the managed cluster uses a well-known CA.
-  This CA certificate is used by the admin cluster to scrape metrics from the managed cluster, for both applications and Verrazzano components.
-- A ConfigMap containing the externally reachable address of the admin cluster. This will be provided to the managed
-  cluster during registration so that it can connect to the admin cluster.
-
-Follow these preregistration setup steps.
-
-1. If needed for the admin cluster, obtain the managed cluster's CA certificate.
-   The admin cluster scrapes metrics from the managed cluster's Prometheus endpoint. If the managed cluster
-   Verrazzano installation uses self-signed certificates or LetsEncrypt staging certificates, then the admin
-   cluster will need the managed cluster's CA certificate to make an `https` connection.
-   - Depending on whether the Verrazzano installation on the managed cluster uses
-     self-signed certificates, LetsEncrypt staging certificates, or certificates signed by a well-known
-     certificate authority, choose the appropriate instructions:
-
-     - [Well-known CA](#well-known-ca)
-     - [Self-signed certificates](#self-signed-certificates)
-     - [LetsEncrypt staging certificates](#letsencrypt-staging-certificates)
-
-   - If you are unsure what type of certificates are used, use the following instructions.
-     * To check if the `verrazzano` resource is configured to use LetsEncrypt staging certificates:
-       ```
-       # On the managed cluster
-       $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
-            describe verrazzano
-       ```
-       If the output contains the following information, then LetsEncrypt staging certificates are being used.
-       ```
-       Cert Manager:
-         Certificate:
-           Acme:
-             Environment:    staging
-             Provider:       letsEncrypt
-       ```
-     * To check the `ca.crt` field of the `verrazzano-tls` secret
-       in the `verrazzano-system` namespace on the managed cluster:
-       ```
-       # On the managed cluster
-       $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
-            -n verrazzano-system get secret verrazzano-tls -o jsonpath='{.data.ca\.crt}'
-       ```
-       If this value is empty, then your managed cluster is using certificates signed by a well-known certificate
-       authority. Otherwise, your managed cluster is using self-signed certificates.
-
-       #### Well-known CA
-
-       In this case, no additional configuration is necessary.
-
-       #### Self-signed certificates
-
-       If the managed cluster certificates are self-signed, create a file called `managed1.yaml` containing the CA
-       certificate of the managed cluster as the value of the `cacrt` field. In the following commands, the managed cluster's
-       CA certificate is saved in an environment variable called `MGD_CA_CERT`. Then use the `--dry-run` option of the
-       `kubectl` command to generate the `managed1.yaml` file.
-
-       ```
-       # On the managed cluster
-       $ export MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
-            get secret verrazzano-tls \
-            -n verrazzano-system \
-            -o jsonpath="{.data.ca\.crt}" | base64 --decode)
-       $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
-         create secret generic "ca-secret-managed1" \
-         -n verrazzano-mc \
-         --from-literal=cacrt="$MGD_CA_CERT" \
-         --dry-run=client \
-         -o yaml > managed1.yaml
-       ```
-       Create a Secret on the *admin* cluster that contains the CA certificate for the managed cluster. This secret will be used for scraping metrics from the managed cluster.
-       The `managed1.yaml` file that was created in the previous step provides input to this step.
-       ```
-       # On the admin cluster
-       $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
-            apply -f managed1.yaml
-
-       # After the command succeeds, you may delete the managed1.yaml file
-       $ rm managed1.yaml
-       ```
-       #### LetsEncrypt staging certificates
-
-       If the managed cluster certificates are LetsEncrypt staging, then create a file called `managed1.yaml` containing the CA
-       certificate of the managed cluster as the value of the `cacrt` field. In the following commands, the managed cluster's
-       CA certificate is saved in an environment variable called `MGD_CA_CERT`. Then use the `--dry-run` option of the
-       `kubectl` command to generate the `managed1.yaml` file.
-
-       ```
-       # On the managed cluster
-       $ export MGD_CA_CERT=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
-            get secret tls-ca-additional \
-            -n cattle-system \
-            -o jsonpath="{.data.ca-additional\.pem}" | base64 --decode)
-       $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
-         create secret generic "ca-secret-managed1" \
-         -n verrazzano-mc \
-         --from-literal=cacrt="$MGD_CA_CERT" \
-         --dry-run=client \
-         -o yaml > managed1.yaml
-       ```
-
-       Create a Secret on the *admin* cluster that contains the CA certificate for the managed cluster. This secret will be used for scraping metrics from the managed cluster.
-       The `managed1.yaml` file that was created in the previous step provides input to this step.
-       ```
-       # On the admin cluster
-       $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
-            apply -f managed1.yaml
-
-       # After the command succeeds, you may delete the managed1.yaml file
-       $ rm managed1.yaml
-       ```
-
-1. Use the following instructions to obtain the Kubernetes API server address for the admin cluster. This address must
-   be accessible from the managed cluster.
-     - [Most Kubernetes Clusters](#most-kubernetes-clusters)
-     - [Kind Clusters](#kind-clusters)
-
-       #### Most Kubernetes Clusters
-
-       For most types of Kubernetes clusters, except for Kind clusters, you can find the externally accessible API server
-       address of the admin cluster from its kubeconfig file.
-
-       ```
-       # View the information for the admin cluster in your kubeconfig file
-       $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN config view --minify
-
-       # Sample output
-       apiVersion: v1
-       kind: Config
-       clusters:
-       - cluster:
-         certificate-authority-data: DATA+OMITTED
-         server: https://11.22.33.44:6443
-         name: my-admin-cluster
-       contexts:
-       ....
-       ....
-       ```
-       In the output of this command, you can find the URL of the admin cluster API server from the `server` entry. Set the
-       value of the `ADMIN_K8S_SERVER_ADDRESS` variable to this URL.
-       ```
-       $ export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
-       ```
-
-       #### Kind Clusters
-
-       Kind clusters run within a Docker container. If your admin and managed clusters are Kind clusters, the API server
-       address of the admin cluster in its kubeconfig file is usually a local address on the host machine, which will not be
-       accessible from the managed cluster. Use the `kind` command to obtain the "internal" kubeconfig of the admin
-       cluster, which will contain a server address accessible from other Kind clusters on the same machine, and therefore in
-       the same Docker network.
-
-       ```
-       $ kind get kubeconfig --internal --name <your-admin-cluster-name> | grep server
-       ```
-       In the output of this command, you can find the URL of the admin cluster API server from the `server` entry. Set the
-       value of the `ADMIN_K8S_SERVER_ADDRESS` variable to this URL.
-       ```
-       $ export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
-       ```
+The following illustrates an admin cluster Verrazzano resource that has been configured to support cluster label selection.
+```
+apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: admin
+spec:
+  profile: prod
+  components:
+    clusterOperator:
+      overrides:
+      - values:
+          syncRancherClusters:
+            enabled: true
+            clusterSelector:
+              matchExpressions:Ï
+              - key: verrazzanomulticluster
+                operator: In
+                values: [supported]
+```
 
 
-1. On the admin cluster, create a ConfigMap that contains the externally accessible admin cluster Kubernetes server
-   address found in the previous step.
-    ```
-    # On the admin cluster
-    $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
-        apply -f <<EOF -
-    apiVersion: v1
-    kind: ConfigMap
-    metadata:
-      name: verrazzano-admin-cluster
-      namespace: verrazzano-mc
-    data:
-      server: "${ADMIN_K8S_SERVER_ADDRESS}"
-    EOF
-    ```
+- If `enabled` is set to `false` (the default), then no clusters created in Rancher will be automatically registered by Verrazzano.
+- If the field is not explicitly set, then no Rancher clusters will be automatically registered.
+- If `enabled` is explicitly set to `true`, then Verrazzano will automatically register clusters created in Rancher that match the `clusterSelector` field.
+  - The `clusterSelector` field implements a [LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/{{<kubernetes_api_version>}}/#labelselector-v1-meta).
+  - Any cluster created with a label that matches the `clusterSelector` will be automatically registered by Verrazzano.
+  - If the `clusterSelector` field is omitted, then all clusters created in Rancher will be automatically registered.
 
-<!-- omit in toc -->
-### Registration steps
-Perform the first three registration steps on the *admin* cluster, and the last step, on the *managed* cluster.
-The cluster against which to run the command is indicated in each code block.
-#### On the admin cluster
+
+## Preregistration
+
+Use the following instructions to obtain the Kubernetes API server address for the admin cluster.
+This address must be accessible from the managed cluster.
+- [Most Kubernetes clusters](#most-kubernetes-clusters)
+- [Kind clusters](#kind-clusters)
+
+  #### Most Kubernetes clusters
+
+  For most types of Kubernetes clusters, except for Kind clusters, you can find the externally accessible API server
+  address of the admin cluster from its kubeconfig file.
+
+  ```
+  # View the information for the admin cluster in your kubeconfig file
+  $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN config view --minify
+
+  # Sample output
+  apiVersion: v1
+  kind: Config
+  clusters:
+  - cluster:
+    certificate-authority-data: DATA+OMITTED
+    server: https://11.22.33.44:6443
+    name: my-admin-cluster
+  contexts:
+  ....
+  ....
+  ```
+  In the output of this command, you will find the URL of the admin cluster API server in the `server` field. Set the
+  value of the `ADMIN_K8S_SERVER_ADDRESS` variable to this URL.
+  ```
+  $ export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
+  ```
+
+  #### Kind clusters
+
+  Kind clusters run within a Docker container. If your admin and managed clusters are Kind clusters, then the API server
+  address of the admin cluster in its kubeconfig file is typically a local address on the host machine, which will not be
+  accessible from the managed cluster. Use the `kind` command to obtain the `internal` kubeconfig of the admin
+  cluster, which will contain a server address accessible from other Kind clusters on the same machine, and therefore in
+  the same Docker network.
+
+  ```
+  $ kind get kubeconfig --internal --name <your-admin-cluster-name> | grep server
+  ```
+  In the output of this command, you can find the URL of the admin cluster API server in the `server` field. Set the
+  value of the `ADMIN_K8S_SERVER_ADDRESS` variable to this URL.
+  ```
+  $ export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
+  ```
+
+On the admin cluster, create a ConfigMap that contains the externally accessible admin cluster Kubernetes server
+address found in the previous step.
+To be detected by Verrazzano, this ConfigMap must be named `verrazzano-admin-cluster`.
+```
+# On the admin cluster
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+apply -f <<EOF -
+apiVersion: v1
+kind: ConfigMap
+metadata:
+name: verrazzano-admin-cluster
+namespace: verrazzano-mc
+data:
+server: "${ADMIN_K8S_SERVER_ADDRESS}"
+EOF
+```
+
+## Register the managed cluster
+
+There are two methods by which you can register Verrazzano clusters.
+These methods are interchangeable and synchronized, so you can use either one to achieve the same result.
+- [Register using Rancher](#register-using-rancher)
+- [Register using VerrazzanoManagedCluster](#registration-through-vmc)
+
+If Rancher is not enabled, then refer to [Verrazzano multicluster installation without Rancher]({{< relref "docs/setup/install/multicluster-no-rancher.md" >}})
+because additional steps will be required to register a managed cluster.
+
+### Register using Rancher
+
+To register a cluster using Rancher, see [Setting up Kubernetes Clusters in Rancher](https://docs.ranchermanager.rancher.io/pages-for-subheaders/kubernetes-clusters-in-rancher-setup).
+Verrazzano will manage all clusters whose labels match the [cluster label selector](#cluster-label-selection).
+
+### Register using VerrazzanoManagedCluster
+
 1. To begin the registration process for a managed cluster named `managed1`, apply the VerrazzanoManagedCluster object on the admin cluster.
    ```
    # On the admin cluster
@@ -254,10 +184,9 @@ The cluster against which to run the command is indicated in each code block.
      namespace: verrazzano-mc
    spec:
      description: "Test VerrazzanoManagedCluster object"
-     caSecret: ca-secret-managed1
    EOF
    ```
-1. Wait for the VerrazzanoManagedCluster resource to reach the `Ready` status. At that point, it will have generated a YAML
+2. Wait for the VerrazzanoManagedCluster resource to reach the `Ready` status. At that point, it will have generated a YAML
    file that must be applied on the managed cluster to complete the registration process.
 
    ```
@@ -266,35 +195,25 @@ The cluster against which to run the command is indicated in each code block.
        wait --for=condition=Ready \
        vmc managed1 -n verrazzano-mc
    ```
-1. Export the YAML file created to register the managed cluster.
+
+3. Apply the Rancher registration manifest from the Rancher console.
+
+
+   a. In the Rancher menu, under `GLOBAL APPS`, navigate to `Cluster Management`.
+
+
+   b. Select the cluster with the same name as the VerrazzanoManagedCluster resource that you just created.
+
+
+   c. Under the `Registration` tab of the cluster view, select the registration command for the managed cluster.
+
+
+   d. Using the registration information in the Rancher console, from the managed cluster, apply a command using this format.
    ```
-   # On the admin cluster
-   $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
-       get secret verrazzano-cluster-managed1-manifest \
-       -n verrazzano-mc \
-       -o jsonpath={.data.yaml} | base64 --decode > register.yaml
+   kubectl apply --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 -f https://<Rancher-console-url>/v3/import/<Rancher-registration>.yaml
    ```
 
-#### On the managed cluster
-Apply the registration file exported in the previous step, on the managed cluster.
-   ```
-   # On the managed cluster
-   $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
-       apply -f register.yaml
-
-   # After the command succeeds, you may delete the register.yaml file
-   $ rm register.yaml
-   ```
-   After this step, the managed cluster will begin connecting to the admin cluster periodically. When the managed cluster
-   connects to the admin cluster, it will update the `Status` field of the `VerrazzanoManagedCluster` resource for this
-   managed cluster, with the following information:
-   - The timestamp of the most recent connection made from the managed cluster, in the `lastAgentConnectTime` status field.
-   - The host address of the Prometheus instance running on the managed cluster, in the `prometheusHost` status field. This is
-     then used by the admin cluster to scrape metrics from the managed cluster.
-   - The API address of the managed cluster, in the `apiUrl` status field. This is used by the admin cluster's authentication proxy to
-     route incoming requests for managed cluster information, to the managed cluster's authentication proxy.
-
-### Verify that managed cluster registration has completed
+## Verify that managed cluster registration has completed
 You can perform all the verification steps on the admin cluster.
 
 1. Verify that the managed cluster can connect to the admin cluster. View the status of the `VerrazzanoManagedCluster`
