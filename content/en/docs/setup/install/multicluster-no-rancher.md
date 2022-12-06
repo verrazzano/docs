@@ -15,7 +15,7 @@ Make sure you have completed the steps in the Prerequisites, Install Verrazzano,
 
 ## Additional preregistration setup
 
-Before registering the managed cluster, first you need to set up the following items:
+Before registering the managed cluster, first you will need to set up the following items:
 - A Secret containing the managed cluster's CA certificate. Note that the `cacrt` field in this secret can be empty only
   if the managed cluster uses a well-known CA.
   This CA certificate is used by the admin cluster to scrape metrics from the managed cluster, for both applications and Verrazzano components.
@@ -76,7 +76,7 @@ Follow these preregistration setup steps.
           # On the admin cluster
           $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
                apply -f managed1.yaml
-   
+
           # After the command succeeds, you may delete the managed1.yaml file
           $ rm managed1.yaml
           ```
@@ -144,4 +144,4 @@ managed cluster, with the following information:
 
 ### Verify that managed cluster registration has completed
 
-After these steps have been completed, return to [verify registration for multicluster installation]({{< relref "/docs/setup/install/multicluster.md#verify-that-managed-cluster-registration-has-completed" >}}).
+After these steps have been completed, return to [Verify that managed cluster registration has completed]({{< relref "/docs/setup/install/multicluster.md#verify-that-managed-cluster-registration-has-completed" >}}).

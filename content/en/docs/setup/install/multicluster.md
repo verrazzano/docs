@@ -21,35 +21,35 @@ cluster, simply repeat the managed cluster instructions.
 
 Install Verrazzano on each Kubernetes cluster.
 
-- On one cluster, install Verrazzano using the `dev` or `prod` profile; this will be the *admin* cluster.
-- On the other cluster, install Verrazzano using the `managed-cluster` profile; this will be a
+1. On one cluster, install Verrazzano using the `dev` or `prod` profile; this will be the *admin* cluster.
+1. On the other cluster, install Verrazzano using the `managed-cluster` profile; this will be a
   managed cluster. The `managed-cluster` profile contains only the components that are required for a managed cluster.
-- Create the environment variables, `KUBECONFIG_ADMIN`, `KUBECONTEXT_ADMIN`, `KUBECONFIG_MANAGED1`, and
+1. Create the environment variables, `KUBECONFIG_ADMIN`, `KUBECONTEXT_ADMIN`, `KUBECONFIG_MANAGED1`, and
   `KUBECONTEXT_MANAGED1`, and point them to the kubeconfig files and contexts for the admin and managed cluster,
   respectively. You will use these environment variables in subsequent steps when registering the managed cluster. The
   following shows an example of how to set these environment variables.
-  ```
-  $ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
-  $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
+     ```
+     $ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
+     $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 
-  # Lists the contexts in each kubeconfig file
-  $ kubectl --kubeconfig $KUBECONFIG_ADMIN config get-contexts -o=name
-  my-admin-cluster-context
-  some-other-cluster-context
+     # Lists the contexts in each kubeconfig file
+     $ kubectl --kubeconfig $KUBECONFIG_ADMIN config get-contexts -o=name
+     my-admin-cluster-context
+     some-other-cluster-context
 
-  $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 config get-contexts -o=name
-  my-managed-cluster-context
-  some-other-cluster2-context
+     $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 config get-contexts -o=name
+     my-managed-cluster-context
+     some-other-cluster2-context
 
-  # Choose the right context name for your admin and managed clusters from the output shown and set the KUBECONTEXT
-  # environment variables
-  $ export KUBECONTEXT_ADMIN=<admin-cluster-context-name>
-  $ export KUBECONTEXT_MANAGED1=<managed-cluster-context-name>
-  ```
+     # Choose the right context name for your admin and managed clusters from the output shown and set the KUBECONTEXT
+     # environment variables
+     $ export KUBECONTEXT_ADMIN=<admin-cluster-context-name>
+     $ export KUBECONTEXT_MANAGED1=<managed-cluster-context-name>
+     ```
 
 For detailed instructions on how to install and customize Verrazzano on a Kubernetes cluster using a specific profile,
 see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}}) and [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}}).
-  
+
 ### Cluster label selection
 
 You can provide a label selector in the Verrazzano resource.
@@ -79,12 +79,13 @@ spec:
 ```
 
 
-- If `enabled` is set to `false`, then no clusters created in Rancher will be automatically registered by Verrazzano.
-  - `enabled` is set to `false` by default. If the field is not explicitly set, then no Rancher clusters will be automatically registered.
+- If `enabled` is set to `false` (the default), then no clusters created in Rancher will be automatically registered by Verrazzano.
+- If the field is not explicitly set, then no Rancher clusters will be automatically registered.
 - If `enabled` is explicitly set to `true`, then Verrazzano will automatically register clusters created in Rancher that match the `clusterSelector` field.
   - The `clusterSelector` field implements a [LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/{{<kubernetes_api_version>}}/#labelselector-v1-meta).
-  - If the `clusterSelector` field is omitted, then all clusters created in Rancher will be automatically registered.
   - Any cluster created with a label that matches the `clusterSelector` will be automatically registered by Verrazzano.
+  - If the `clusterSelector` field is omitted, then all clusters created in Rancher will be automatically registered.
+
 
 ## Preregistration
 
@@ -124,7 +125,7 @@ This address must be accessible from the managed cluster.
 
   Kind clusters run within a Docker container. If your admin and managed clusters are Kind clusters, then the API server
   address of the admin cluster in its kubeconfig file is typically a local address on the host machine, which will not be
-  accessible from the managed cluster. Use the `kind` command to obtain the "internal" kubeconfig of the admin
+  accessible from the managed cluster. Use the `kind` command to obtain the `internal` kubeconfig of the admin
   cluster, which will contain a server address accessible from other Kind clusters on the same machine, and therefore in
   the same Docker network.
 
@@ -138,7 +139,7 @@ This address must be accessible from the managed cluster.
   ```
 
 On the admin cluster, create a ConfigMap that contains the externally accessible admin cluster Kubernetes server
-address found in the previous step. 
+address found in the previous step.
 To be detected by Verrazzano, this ConfigMap must be named `verrazzano-admin-cluster`.
 ```
 # On the admin cluster
@@ -161,7 +162,7 @@ These methods are interchangeable and synchronized, so you can use either one to
 - [Register using Rancher](#register-using-rancher)
 - [Register using VerrazzanoManagedCluster](#registration-through-vmc)
 
-If Rancher is not enabled, then refer to [Verrazzano multicluster installation without Rancher]({{< relref "docs/setup/install/multicluster-no-rancher.md" >}}) 
+If Rancher is not enabled, then refer to [Verrazzano multicluster installation without Rancher]({{< relref "docs/setup/install/multicluster-no-rancher.md" >}})
 because additional steps will be required to register a managed cluster.
 
 ### Register using Rancher
@@ -194,15 +195,15 @@ Verrazzano will manage all clusters whose labels match the [cluster label select
        wait --for=condition=Ready \
        vmc managed1 -n verrazzano-mc
    ```
-   
+
 3. Apply the Rancher registration manifest from the Rancher console.
 
 
    a. In the Rancher menu, under `GLOBAL APPS`, navigate to `Cluster Management`.
 
 
-   b. Select the cluster with the same name as the VerrazzanoManagedCluster resource that you just created. 
-   
+   b. Select the cluster with the same name as the VerrazzanoManagedCluster resource that you just created.
+
 
    c. Under the `Registration` tab of the cluster view, select the registration command for the managed cluster.
 
