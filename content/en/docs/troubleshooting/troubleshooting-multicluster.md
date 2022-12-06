@@ -45,13 +45,14 @@ Partial sample output from the previous command.
 ```
 
 Check the `lastAgentConnectTime` in the status of the VMC resource. This is the last time at which the
-managed cluster connected to the admin cluster. If this value is not present, then the managed cluster named `managed1`
-never successfully connected to the admin cluster. This could be due to several reasons:
+managed cluster connected to the admin cluster. If this value is not present, or is not recent (within the last
+three minutes), then the managed cluster named `managed1` cannot successfully connect to the admin cluster.
+This could be due to several reasons:
 
 1. The managed cluster registration process step of applying the registration YAML on the managed cluster,
 was not completed. For the complete setup instructions, see [here]({{< relref "/docs/setup/install/multicluster" >}}).
 
-1. The managed cluster does not have network connectivity to the admin cluster. The managed cluster will attempt to
+2. The managed cluster does not have network connectivity to the admin cluster. The managed cluster will attempt to
 connect to the admin cluster at regular intervals, and any errors will be reported in the
 `verrazzano-application-operator` pod's log on the _managed_ cluster. View the logs using the following command:
 
@@ -61,10 +62,25 @@ $ kubectl logs \
     -n verrazzano-system \
     -l app=verrazzano-application-operator
 ```
-If these logs reveal that there is a connectivity issue, check the admin cluster Kubernetes server address that
-you provided during registration and ensure that it is correct, and that it is reachable from the managed cluster. If it
-is incorrect, then you will need to repeat the managed cluster registration process described in the setup instructions
+If these logs reveal that there is a connectivity issue, then in the case of an installation that includes Rancher on
+the admin cluster, there may have been a problem with Verrazzano pushing registration details or updates to the managed
+cluster. Try exporting and applying the registration manifest to the managed cluster as shown below:
+
+```
+# on the admin cluster
+       kubectl get secret \
+       -n verrazzano-mc verrazzano-cluster-managed1-manifest \
+       -o jsonpath={.data.yaml} | base64 --decode > register.yaml
+
+# on the managed cluster
+       kubectl apply -f register.yaml
+```
+
+*Note:* If your installation disabled Rancher on the admin cluster, then check the admin cluster Kubernetes server
+address that you provided during registration and ensure that it is correct, and that it is reachable from the managed
+cluster. If it is incorrect, then you will need to repeat the managed cluster registration process described in the setup instructions
 [here]({{< relref "/docs/setup/install/multicluster" >}}).
+
 
 ## Verify VerrazzanoProject placement
 For Verrazzano to create an application namespace in a managed cluster, that namespace must be part of a VerrazzanoProject

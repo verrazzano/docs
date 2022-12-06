@@ -13,7 +13,7 @@ If Rancher is not installed, then registration will require more steps.
 
 Make sure you have completed the steps in the Prerequisites, Install Verrazzano, and Preregistration sections in [Install Multicluster Verrazzano]({{< relref "/docs/setup/install/multicluster.md" >}}).
 
-## Additional preregistration setup
+## Preregistration setup
 
 Before registering the managed cluster, first you will need to set up the following items:
 - A Secret containing the managed cluster's CA certificate. Note that the `cacrt` field in this secret can be empty only
@@ -80,6 +80,72 @@ Follow these preregistration setup steps.
           # After the command succeeds, you may delete the managed1.yaml file
           $ rm managed1.yaml
           ```
+
+1. Use the following instructions to obtain the Kubernetes API server address for the admin cluster.
+This address must be accessible from the managed cluster.
+- [Most Kubernetes clusters](#most-kubernetes-clusters)
+- [Kind clusters](#kind-clusters)
+
+  #### Most Kubernetes clusters
+
+  For most types of Kubernetes clusters, except for Kind clusters, you can find the externally accessible API server
+  address of the admin cluster from its kubeconfig file.
+
+  ```
+  # View the information for the admin cluster in your kubeconfig file
+  $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN config view --minify
+
+  # Sample output
+  apiVersion: v1
+  kind: Config
+  clusters:
+  - cluster:
+    certificate-authority-data: DATA+OMITTED
+    server: https://11.22.33.44:6443
+    name: my-admin-cluster
+  contexts:
+  ....
+  ....
+  ```
+  In the output of this command, you will find the URL of the admin cluster API server in the `server` field. Set the
+  value of the `ADMIN_K8S_SERVER_ADDRESS` variable to this URL.
+  ```
+  $ export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
+  ```
+
+  #### Kind clusters
+
+  Kind clusters run within a Docker container. If your admin and managed clusters are Kind clusters, then the API server
+  address of the admin cluster in its kubeconfig file is typically a local address on the host machine, which will not be
+  accessible from the managed cluster. Use the `kind` command to obtain the `internal` kubeconfig of the admin
+  cluster, which will contain a server address accessible from other Kind clusters on the same machine, and therefore in
+  the same Docker network.
+
+  ```
+  $ kind get kubeconfig --internal --name <your-admin-cluster-name> | grep server
+  ```
+  In the output of this command, you can find the URL of the admin cluster API server in the `server` field. Set the
+  value of the `ADMIN_K8S_SERVER_ADDRESS` variable to this URL.
+  ```
+  $ export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
+  ```
+
+On the admin cluster, create a ConfigMap that contains the externally accessible admin cluster Kubernetes server
+address found in the previous step.
+To be detected by Verrazzano, this ConfigMap must be named `verrazzano-admin-cluster`.
+```
+# On the admin cluster
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+apply -f <<EOF -
+apiVersion: v1
+kind: ConfigMap
+metadata:
+name: verrazzano-admin-cluster
+namespace: verrazzano-mc
+data:
+server: "${ADMIN_K8S_SERVER_ADDRESS}"
+EOF
+```
 
 <!-- omit in toc -->
 ## Registration steps
