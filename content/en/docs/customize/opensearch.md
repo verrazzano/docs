@@ -14,6 +14,62 @@ Verrazzano supports two cluster topologies for an OpenSearch cluster:
 
 [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}}) describes the default OpenSearch cluster
 configurations provided by Verrazzano.  
+## Plan cluster topology
+
+  You can start with an initial estimate on your hardware needs. This estimate can serve as a good starting point for the most critical aspect of sizing domains: testing them with representative workloads and monitoring their performance and then reiterating the needs. 
+  These recommendations 
+
+- `Storage Requirements`
+
+   Minimum Storage Requirement = Source data(log size per day * retention period(days to store your data) * (1 + shard replicas) )* 1.45
+
+
+- `Memory`
+
+   8 GiB of memory for every 100 GiB of your storage requirement for lighter workloads.
+
+
+- `JVM heap memory`
+
+   The heap size is the amount of RAM allocated to the Java Virtual Machine of an OpenSearch node. The OpenSearch process is very memory intensive and close to 50% of the memory available on a node should be allocated to JVM. The JVM machine uses memory because the Lucene process needs to know where to look for index values on disk. The other 50% is required for the file system cache which keeps data that is regularly accessed in memory.
+   As a general rule, you should set `-Xms` and `-Xmx` to the SAME value, which should be 50% of your total available RAM subject to a maximum of (approximately) 31GB.
+
+
+- `CPU`
+   
+  Hardware requirements vary dramatically by workload, but 2 vCPU cores for every 100 GiB of your storage requirement is good for lighter workloads. But in case you have heavier workloads, this might not be sufficient.
+
+
+- `Shard Size`
+
+  For logging, shard sizes between 10 and 50 GB usually perform well.
+  For search-intensive operations, 10-25 GB is usually a good shard size. Overall, it is a best practice that OpenSearch shard size should not go above 50GiB for a single shard.
+
+
+- `Primary shards Count`
+
+   Approximate Number of Primary Shards = (Source Data + Room to Grow) * 1.1) / Desired Shard Size
+   
+   This equation helps compensate for data growth over time. But make sure the shard size calculated from this should follow our 10-50GB recommendation. You will have to reindex your data when the shards exceed 50 GiB.
+
+
+
+## Recommended Alarms
+
+- `OSDataNodeFilesystemSpaceFillingUp` To indicate that the OpenSearch average disk usage has crossed a specific threshold. It will help you decide to add more data nodes or delete old indices if required to free up some space.
+
+   ```yaml
+   alert: OSDataNodeFilesystemSpaceFillingUp
+  annotations:
+    runbook_url: <link to runbook>
+    summary: Opensearch average disk usage reached over 75%.
+  expr: |-
+    1 - (opensearch_fs_total_available_bytes{node=~".*data.*"}/ opensearch_fs_total_total_bytes) > .75
+  for: 30m
+  labels:
+     severity: warning
+  ```
+    
 
 ## Configure cluster topology
 
