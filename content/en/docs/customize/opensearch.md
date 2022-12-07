@@ -31,7 +31,7 @@ configurations provided by Verrazzano.
 - `JVM heap memory`
 
    The heap size is the amount of RAM allocated to the Java Virtual Machine of an OpenSearch node. The OpenSearch process is very memory intensive and close to 50% of the memory available on a node should be allocated to JVM. The JVM machine uses memory because the Lucene process needs to know where to look for index values on disk. The other 50% is required for the file system cache which keeps data that is regularly accessed in memory.
-   As a general rule, you should set `-Xms` and `-Xmx` to the SAME value, which should be 50% of your total available RAM subject to a maximum of (approximately) 31GB.
+   As a general rule, you should set `-Xms` and `-Xmx` to the SAME value, which should be 50% of your total available RAM subject to a maximum of (approximately) 31 GiB.
 
 
 - `CPU`
@@ -41,8 +41,8 @@ configurations provided by Verrazzano.
 
 - `Shard Size`
 
-  For logging, shard sizes between 10 and 50 GB usually perform well.
-  For search-intensive operations, 10-25 GB is usually a good shard size. Overall, it is a best practice that OpenSearch shard size should not go above 50GiB for a single shard. You will have to reindex your data when the shards exceed 50 GiB.
+  For logging, shard sizes between 10 GiB and 50 GiB usually perform well.
+  For search-intensive operations, 10-25 GiB is usually a good shard size. Overall, it is a best practice that OpenSearch shard size should not go above 50GiB for a single shard. You will have to reindex your data when the shards exceed 50 GiB.
 
 
 - `Primary shards Count`
