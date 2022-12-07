@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/troubleshooting/troubleshooting-multicluster/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-09-22T13:24:00-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-12-07T10:32:07-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Multicluster Verrazzano">
 <meta itemprop="description" content="Troubleshoot issues with multicluster setup and applications">
-<meta itemprop="dateModified" content="2022-09-22T13:24:00-04:00" />
-<meta itemprop="wordCount" content="907">
+<meta itemprop="dateModified" content="2022-12-07T10:32:07-05:00" />
+<meta itemprop="wordCount" content="1000">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Multicluster Verrazzano"/>
 <meta name="twitter:description" content="Troubleshoot issues with multicluster setup and applications"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.c42177970638f38517d08ba502347a2a.json"
+  data-offline-search-index-json-src="../../../offline-search-index.758592bbbb6ee67a6d8a2ffdeeb1c9ec.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.c42177970638f38517d08ba502347a2a.json"
+  data-offline-search-index-json-src="../../../offline-search-index.758592bbbb6ee67a6d8a2ffdeeb1c9ec.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -576,34 +576,45 @@ $ kubectl get verrazzanomanagedcluster managed1 \
     lastAgentConnectTime: &#34;2021-06-22T21:06:04Z&#34;
     ... other fields ...
 </code></pre><p>Check the <code>lastAgentConnectTime</code> in the status of the VMC resource. This is the last time at which the
-managed cluster connected to the admin cluster. If this value is not present, then the managed cluster named <code>managed1</code>
-never successfully connected to the admin cluster. This could be due to several reasons:</p>
-<ol>
+managed cluster connected to the admin cluster. If this value is not present, or is not recent (within the last
+three minutes), then the managed cluster named <code>managed1</code> cannot successfully connect to the admin cluster.
+This could be due to several reasons:</p>
+<ul>
 <li>
 <p>The managed cluster registration process step of applying the registration YAML on the managed cluster,
-was not completed. For the complete setup instructions, see <a href="../../../docs/setup/install/multicluster/">here</a>.</p>
+was not completed. For the complete setup instructions, see <a href="../../../docs/setup/install/multicluster/#register-the-managed-cluster">here</a>.</p>
 </li>
 <li>
 <p>The managed cluster does not have network connectivity to the admin cluster. The managed cluster will attempt to
 connect to the admin cluster at regular intervals, and any errors will be reported in the
 <code>verrazzano-application-operator</code> pod&rsquo;s log on the <em>managed</em> cluster. View the logs using the following command:</p>
 </li>
-</ol>
+</ul>
 <pre tabindex="0"><code># on the managed cluster
 $ kubectl logs \
     -n verrazzano-system \
     -l app=verrazzano-application-operator
-</code></pre><p>If these logs reveal that there is a connectivity issue, check the admin cluster Kubernetes server address that
-you provided during registration and ensure that it is correct, and that it is reachable from the managed cluster. If it
-is incorrect, then you will need to repeat the managed cluster registration process described in the setup instructions
-<a href="../../../docs/setup/install/multicluster/">here</a>.</p>
+</code></pre><p>If these logs reveal that there is a connectivity issue, then in the case of an installation that includes Rancher on
+the admin cluster, there may have been a problem with Verrazzano pushing registration details or updates to the managed
+cluster. Try exporting and applying the registration manifest to the managed cluster as shown:</p>
+<pre tabindex="0"><code># on the admin cluster
+       kubectl get secret \
+       -n verrazzano-mc verrazzano-cluster-managed1-manifest \
+       -o jsonpath={.data.yaml} | base64 --decode &gt; register.yaml
+
+# on the managed cluster
+       kubectl apply -f register.yaml
+</code></pre><p><strong>NOTE</strong>: If your installation disabled Rancher on the admin cluster, then check the admin cluster Kubernetes server
+address that you provided during registration and ensure that it is correct, and that it is reachable from the managed
+cluster. If it is incorrect, then you will need to repeat the managed cluster registration process described in the setup instructions
+<a href="../../../docs/setup/install/multicluster/#register-the-managed-cluster">here</a>.</p>
 <h2 id="verify-verrazzanoproject-placement">Verify VerrazzanoProject placement</h2>
 <p>For Verrazzano to create an application namespace in a managed cluster, that namespace must be part of a VerrazzanoProject
 that:</p>
-<ol>
+<ul>
 <li>Includes that namespace.</li>
 <li>Has a <code>placement</code> value that includes that managed cluster.</li>
-</ol>
+</ul>
 <p>View the details of the project that corresponds to your application&rsquo;s namespace. In the example command that follows, the
 project name is assumed to be <code>myproject</code>. All projects are expected to be created in the <code>verrazzano-mc</code> namespace.</p>
 <pre tabindex="0"><code># on the admin cluster

@@ -54,13 +54,13 @@ Make sure that you have a valid kubeconfig file pointing to the Kubernetes clust
 		
 
 		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-fecadb&#34; data-toggle=&#34;tab&#34; href=&#34;#fecadb&#34;
+		   id=&#34;nav-adbcfe&#34; data-toggle=&#34;tab&#34; href=&#34;#adbcfe&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;vz&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-cabdfe&#34; data-toggle=&#34;tab&#34; href=&#34;#cabdfe&#34;
+		   id=&#34;nav-fecabd&#34; data-toggle=&#34;tab&#34; href=&#34;#fecabd&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;kubectl&lt;/a&gt;
 
 		
@@ -76,7 +76,7 @@ Make sure that you have a valid kubeconfig file pointing to the Kubernetes clust
 
 
 
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;fecadb&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;adbcfe&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;Verrazzano provides a platform &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/operator/&#34;&gt;operator&lt;/a&gt;
@@ -136,7 +136,7 @@ or until the default timeout (30m) has been reached.&lt;/p&gt;
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;cabdfe&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;fecabd&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;h2 id=&#34;install-the-verrazzano-platform-operator&#34;&gt;Install the Verrazzano platform operator&lt;/h2&gt;
@@ -666,62 +666,7 @@ spec:
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;preregistration&#34;&gt;Preregistration&lt;/h2&gt;
-&lt;p&gt;Use the following instructions to obtain the Kubernetes API server address for the admin cluster.
-This address must be accessible from the managed cluster.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;#most-kubernetes-clusters&#34;&gt;Most Kubernetes clusters&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;#kind-clusters&#34;&gt;Kind clusters&lt;/a&gt;&lt;/p&gt;
-&lt;h4 id=&#34;most-kubernetes-clusters&#34;&gt;Most Kubernetes clusters&lt;/h4&gt;
-&lt;p&gt;For most types of Kubernetes clusters, except for Kind clusters, you can find the externally accessible API server
-address of the admin cluster from its kubeconfig file.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# View the information for the admin cluster in your kubeconfig file
-$ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN config view --minify
-
-# Sample output
-apiVersion: v1
-kind: Config
-clusters:
-- cluster:
-  certificate-authority-data: DATA+OMITTED
-  server: https://11.22.33.44:6443
-  name: my-admin-cluster
-contexts:
-....
-....
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the output of this command, you will find the URL of the admin cluster API server in the &lt;code&gt;server&lt;/code&gt; field. Set the
-value of the &lt;code&gt;ADMIN_K8S_SERVER_ADDRESS&lt;/code&gt; variable to this URL.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ export ADMIN_K8S_SERVER_ADDRESS=&amp;lt;the server address from the config output&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;kind-clusters&#34;&gt;Kind clusters&lt;/h4&gt;
-&lt;p&gt;Kind clusters run within a Docker container. If your admin and managed clusters are Kind clusters, then the API server
-address of the admin cluster in its kubeconfig file is typically a local address on the host machine, which will not be
-accessible from the managed cluster. Use the &lt;code&gt;kind&lt;/code&gt; command to obtain the &lt;code&gt;internal&lt;/code&gt; kubeconfig of the admin
-cluster, which will contain a server address accessible from other Kind clusters on the same machine, and therefore in
-the same Docker network.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kind get kubeconfig --internal --name &amp;lt;your-admin-cluster-name&amp;gt; | grep server
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the output of this command, you can find the URL of the admin cluster API server in the &lt;code&gt;server&lt;/code&gt; field. Set the
-value of the &lt;code&gt;ADMIN_K8S_SERVER_ADDRESS&lt;/code&gt; variable to this URL.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ export ADMIN_K8S_SERVER_ADDRESS=&amp;lt;the server address from the config output&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;On the admin cluster, create a ConfigMap that contains the externally accessible admin cluster Kubernetes server
-address found in the previous step.
-To be detected by Verrazzano, this ConfigMap must be named &lt;code&gt;verrazzano-admin-cluster&lt;/code&gt;.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the admin cluster
-$ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
-apply -f &amp;lt;&amp;lt;EOF -
-apiVersion: v1
-kind: ConfigMap
-metadata:
-name: verrazzano-admin-cluster
-namespace: verrazzano-mc
-data:
-server: &amp;#34;${ADMIN_K8S_SERVER_ADDRESS}&amp;#34;
-EOF
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;register-the-managed-cluster&#34;&gt;Register the managed cluster&lt;/h2&gt;
+&lt;h2 id=&#34;register-the-managed-cluster&#34;&gt;Register the managed cluster&lt;/h2&gt;
 &lt;p&gt;There are two methods by which you can register Verrazzano clusters.
 These methods are interchangeable and synchronized, so you can use either one to achieve the same result.&lt;/p&gt;
 &lt;ul&gt;
@@ -856,7 +801,7 @@ Rancher is recommended for Verrazzano multicluster installations.
 If Rancher is not installed, then registration will require more steps.&lt;/p&gt;
 &lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
 &lt;p&gt;Make sure you have completed the steps in the Prerequisites, Install Verrazzano, and Preregistration sections in &lt;a href=&#34;../../../docs/setup/install/multicluster/&#34;&gt;Install Multicluster Verrazzano&lt;/a&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;additional-preregistration-setup&#34;&gt;Additional preregistration setup&lt;/h2&gt;
+&lt;h2 id=&#34;preregistration-setup&#34;&gt;Preregistration setup&lt;/h2&gt;
 &lt;p&gt;Before registering the managed cluster, first you will need to set up the following items:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;A Secret containing the managed cluster&amp;rsquo;s CA certificate. Note that the &lt;code&gt;cacrt&lt;/code&gt; field in this secret can be empty only
@@ -867,10 +812,11 @@ cluster during registration so that it can connect to the admin cluster.&lt;/li&
 &lt;/ul&gt;
 &lt;p&gt;Follow these preregistration setup steps.&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;If needed for the admin cluster, then obtain the managed cluster&amp;rsquo;s CA certificate.
+&lt;li&gt;
+&lt;p&gt;If needed for the admin cluster, then obtain the managed cluster&amp;rsquo;s CA certificate.
 The admin cluster scrapes metrics from the managed cluster&amp;rsquo;s Prometheus endpoint. If the managed cluster
 Verrazzano installation uses self-signed certificates, then the admin
-cluster will need the managed cluster&amp;rsquo;s CA certificate to make an &lt;code&gt;https&lt;/code&gt; connection.
+cluster will need the managed cluster&amp;rsquo;s CA certificate to make an &lt;code&gt;https&lt;/code&gt; connection.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;Depending on whether the Verrazzano installation on the managed cluster uses
@@ -923,8 +869,64 @@ $ rm managed1.yaml
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Use the following instructions to obtain the Kubernetes API server address for the admin cluster.
+This address must be accessible from the managed cluster.&lt;/p&gt;
+&lt;/li&gt;
 &lt;/ol&gt;
-&lt;!-- omit in toc --&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;#most-kubernetes-clusters&#34;&gt;Most Kubernetes clusters&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&#34;#kind-clusters&#34;&gt;Kind clusters&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id=&#34;most-kubernetes-clusters&#34;&gt;Most Kubernetes clusters&lt;/h4&gt;
+&lt;p&gt;For most types of Kubernetes clusters, except for Kind clusters, you can find the externally accessible API server
+address of the admin cluster from its kubeconfig file.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# View the information for the admin cluster in your kubeconfig file
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN config view --minify
+
+# Sample output
+apiVersion: v1
+kind: Config
+clusters:
+- cluster:
+  certificate-authority-data: DATA+OMITTED
+  server: https://11.22.33.44:6443
+  name: my-admin-cluster
+contexts:
+....
+....
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the output of this command, you will find the URL of the admin cluster API server in the &lt;code&gt;server&lt;/code&gt; field. Set the
+value of the &lt;code&gt;ADMIN_K8S_SERVER_ADDRESS&lt;/code&gt; variable to this URL.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ export ADMIN_K8S_SERVER_ADDRESS=&amp;lt;the server address from the config output&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;h4 id=&#34;kind-clusters&#34;&gt;Kind clusters&lt;/h4&gt;
+&lt;p&gt;Kind clusters run within a Docker container. If your admin and managed clusters are Kind clusters, then the API server
+address of the admin cluster in its kubeconfig file is typically a local address on the host machine, which will not be
+accessible from the managed cluster. Use the &lt;code&gt;kind&lt;/code&gt; command to obtain the &lt;code&gt;internal&lt;/code&gt; kubeconfig of the admin
+cluster, which will contain a server address accessible from other Kind clusters on the same machine, and therefore in
+the same Docker network.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kind get kubeconfig --internal --name &amp;lt;your-admin-cluster-name&amp;gt; | grep server
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;In the output of this command, you can find the URL of the admin cluster API server in the &lt;code&gt;server&lt;/code&gt; field. Set the
+value of the &lt;code&gt;ADMIN_K8S_SERVER_ADDRESS&lt;/code&gt; variable to this URL.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ export ADMIN_K8S_SERVER_ADDRESS=&amp;lt;the server address from the config output&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;On the admin cluster, create a ConfigMap that contains the externally accessible admin cluster Kubernetes server
+address found in the previous step.
+To be detected by Verrazzano, this ConfigMap must be named &lt;code&gt;verrazzano-admin-cluster&lt;/code&gt;.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the admin cluster
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+apply -f &amp;lt;&amp;lt;EOF -
+apiVersion: v1
+kind: ConfigMap
+metadata:
+name: verrazzano-admin-cluster
+namespace: verrazzano-mc
+data:
+server: &amp;#34;${ADMIN_K8S_SERVER_ADDRESS}&amp;#34;
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;!-- omit in toc --&gt;
 &lt;h2 id=&#34;registration-steps&#34;&gt;Registration steps&lt;/h2&gt;
 &lt;p&gt;Perform the first three registration steps on the &lt;em&gt;admin&lt;/em&gt; cluster, and the last step, on the &lt;em&gt;managed&lt;/em&gt; cluster.
 The cluster against which to run the command is indicated in each code block.&lt;/p&gt;

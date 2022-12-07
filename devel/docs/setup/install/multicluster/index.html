@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/install/multicluster/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-12-06T12:10:33-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-12-07T10:32:07-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Install Multicluster Verrazzano">
 <meta itemprop="description" content="How to set up a multicluster Verrazzano environment">
-<meta itemprop="dateModified" content="2022-12-06T12:10:33-05:00" />
-<meta itemprop="wordCount" content="1667">
+<meta itemprop="dateModified" content="2022-12-07T10:32:07-05:00" />
+<meta itemprop="wordCount" content="1331">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Install Multicluster Verrazzano"/>
 <meta name="twitter:description" content="How to set up a multicluster Verrazzano environment"/>
@@ -94,7 +94,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.c42177970638f38517d08ba502347a2a.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.758592bbbb6ee67a6d8a2ffdeeb1c9ec.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.c42177970638f38517d08ba502347a2a.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.758592bbbb6ee67a6d8a2ffdeeb1c9ec.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -480,7 +480,6 @@ if (!doNotTrack) {
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#overview">Overview</a></li>
         <li><a href="#install-verrazzano">Install Verrazzano</a></li>
-        <li><a href="#preregistration">Preregistration</a></li>
         <li><a href="#register-the-managed-cluster">Register the managed cluster</a></li>
         <li><a href="#verify-that-managed-cluster-registration-has-completed">Verify that managed cluster registration has completed</a></li>
         <li><a href="#run-applications-in-multicluster-verrazzano">Run applications in multicluster Verrazzano</a></li>
@@ -623,62 +622,7 @@ spec:
 </ul>
 </li>
 </ul>
-<h2 id="preregistration">Preregistration</h2>
-<p>Use the following instructions to obtain the Kubernetes API server address for the admin cluster.
-This address must be accessible from the managed cluster.</p>
-<ul>
-<li>
-<p><a href="#most-kubernetes-clusters">Most Kubernetes clusters</a></p>
-</li>
-<li>
-<p><a href="#kind-clusters">Kind clusters</a></p>
-<h4 id="most-kubernetes-clusters">Most Kubernetes clusters</h4>
-<p>For most types of Kubernetes clusters, except for Kind clusters, you can find the externally accessible API server
-address of the admin cluster from its kubeconfig file.</p>
-<pre tabindex="0"><code># View the information for the admin cluster in your kubeconfig file
-$ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN config view --minify
-
-# Sample output
-apiVersion: v1
-kind: Config
-clusters:
-- cluster:
-  certificate-authority-data: DATA+OMITTED
-  server: https://11.22.33.44:6443
-  name: my-admin-cluster
-contexts:
-....
-....
-</code></pre><p>In the output of this command, you will find the URL of the admin cluster API server in the <code>server</code> field. Set the
-value of the <code>ADMIN_K8S_SERVER_ADDRESS</code> variable to this URL.</p>
-<pre tabindex="0"><code>$ export ADMIN_K8S_SERVER_ADDRESS=&lt;the server address from the config output&gt;
-</code></pre><h4 id="kind-clusters">Kind clusters</h4>
-<p>Kind clusters run within a Docker container. If your admin and managed clusters are Kind clusters, then the API server
-address of the admin cluster in its kubeconfig file is typically a local address on the host machine, which will not be
-accessible from the managed cluster. Use the <code>kind</code> command to obtain the <code>internal</code> kubeconfig of the admin
-cluster, which will contain a server address accessible from other Kind clusters on the same machine, and therefore in
-the same Docker network.</p>
-<pre tabindex="0"><code>$ kind get kubeconfig --internal --name &lt;your-admin-cluster-name&gt; | grep server
-</code></pre><p>In the output of this command, you can find the URL of the admin cluster API server in the <code>server</code> field. Set the
-value of the <code>ADMIN_K8S_SERVER_ADDRESS</code> variable to this URL.</p>
-<pre tabindex="0"><code>$ export ADMIN_K8S_SERVER_ADDRESS=&lt;the server address from the config output&gt;
-</code></pre></li>
-</ul>
-<p>On the admin cluster, create a ConfigMap that contains the externally accessible admin cluster Kubernetes server
-address found in the previous step.
-To be detected by Verrazzano, this ConfigMap must be named <code>verrazzano-admin-cluster</code>.</p>
-<pre tabindex="0"><code># On the admin cluster
-$ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
-apply -f &lt;&lt;EOF -
-apiVersion: v1
-kind: ConfigMap
-metadata:
-name: verrazzano-admin-cluster
-namespace: verrazzano-mc
-data:
-server: &#34;${ADMIN_K8S_SERVER_ADDRESS}&#34;
-EOF
-</code></pre><h2 id="register-the-managed-cluster">Register the managed cluster</h2>
+<h2 id="register-the-managed-cluster">Register the managed cluster</h2>
 <p>There are two methods by which you can register Verrazzano clusters.
 These methods are interchangeable and synchronized, so you can use either one to achieve the same result.</p>
 <ul>
