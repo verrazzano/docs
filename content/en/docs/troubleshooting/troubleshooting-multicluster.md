@@ -49,10 +49,10 @@ managed cluster connected to the admin cluster. If this value is not present, or
 three minutes), then the managed cluster named `managed1` cannot successfully connect to the admin cluster.
 This could be due to several reasons:
 
-1. The managed cluster registration process step of applying the registration YAML on the managed cluster,
+* The managed cluster registration process step of applying the registration YAML on the managed cluster,
 was not completed. For the complete setup instructions, see [here]({{< relref "/docs/setup/install/multicluster" >}}).
 
-2. The managed cluster does not have network connectivity to the admin cluster. The managed cluster will attempt to
+* The managed cluster does not have network connectivity to the admin cluster. The managed cluster will attempt to
 connect to the admin cluster at regular intervals, and any errors will be reported in the
 `verrazzano-application-operator` pod's log on the _managed_ cluster. View the logs using the following command:
 
@@ -64,7 +64,7 @@ $ kubectl logs \
 ```
 If these logs reveal that there is a connectivity issue, then in the case of an installation that includes Rancher on
 the admin cluster, there may have been a problem with Verrazzano pushing registration details or updates to the managed
-cluster. Try exporting and applying the registration manifest to the managed cluster as shown below:
+cluster. Try exporting and applying the registration manifest to the managed cluster as shown:
 
 ```
 # on the admin cluster
@@ -76,18 +76,18 @@ cluster. Try exporting and applying the registration manifest to the managed clu
        kubectl apply -f register.yaml
 ```
 
-*Note:* If your installation disabled Rancher on the admin cluster, then check the admin cluster Kubernetes server
+**NOTE**: If your installation disabled Rancher on the admin cluster, then check the admin cluster Kubernetes server
 address that you provided during registration and ensure that it is correct, and that it is reachable from the managed
 cluster. If it is incorrect, then you will need to repeat the managed cluster registration process described in the setup instructions
-[here]({{< relref "/docs/setup/install/multicluster" >}}).
+[here]({{< relref "/docs/setup/install/multicluster/#register-the-managed-cluster" >}}).
 
 
 ## Verify VerrazzanoProject placement
 For Verrazzano to create an application namespace in a managed cluster, that namespace must be part of a VerrazzanoProject
 that:
 
-1. Includes that namespace.
-1. Has a `placement` value that includes that managed cluster.
+* Includes that namespace.
+* Has a `placement` value that includes that managed cluster.
 
 View the details of the project that corresponds to your application's namespace. In the example command that follows, the
 project name is assumed to be `myproject`. All projects are expected to be created in the `verrazzano-mc` namespace.
