@@ -16,8 +16,7 @@ Verrazzano supports two cluster topologies for an OpenSearch cluster:
 configurations provided by Verrazzano.  
 ## Plan cluster topology
 
-  You can start with an initial estimate on your hardware needs. This estimate can serve as a good starting point for the most critical aspect of sizing domains: testing them with representative workloads and monitoring their performance and then reiterating the needs. 
-  These recommendations 
+  You can start with an initial estimate on your hardware needs. These recommendations will serve you with the initial educated estimates but for ideal sizing, you need to test them with representative workloads and monitor their performance and then reiterate.
 
 - `Storage Requirements`
 
