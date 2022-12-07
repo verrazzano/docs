@@ -42,14 +42,14 @@ configurations provided by Verrazzano.
 - `Shard Size`
 
   For logging, shard sizes between 10 and 50 GB usually perform well.
-  For search-intensive operations, 10-25 GB is usually a good shard size. Overall, it is a best practice that OpenSearch shard size should not go above 50GiB for a single shard.
+  For search-intensive operations, 10-25 GB is usually a good shard size. Overall, it is a best practice that OpenSearch shard size should not go above 50GiB for a single shard. You will have to reindex your data when the shards exceed 50 GiB.
 
 
 - `Primary shards Count`
 
    Approximate Number of Primary Shards = (Source Data + Room to Grow) * 1.1) / Desired Shard Size
    
-   This equation helps compensate for data growth over time. But make sure the shard size calculated from this should follow our 10-50GB recommendation. You will have to reindex your data when the shards exceed 50 GiB.
+   This equation helps compensate for data growth over time.
 
 
 
