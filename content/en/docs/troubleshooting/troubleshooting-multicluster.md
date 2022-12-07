@@ -79,7 +79,7 @@ cluster. Try exporting and applying the registration manifest to the managed clu
 **NOTE**: If your installation disabled Rancher on the admin cluster, then check the admin cluster Kubernetes server
 address that you provided during registration and ensure that it is correct, and that it is reachable from the managed
 cluster. If it is incorrect, then you will need to repeat the managed cluster registration process described in the setup instructions
-[here]({{< relref "/docs/setup/install/multicluster/#register-the-managed-cluster" >}}).
+[here]({{< relref "/docs/setup/install/multicluster" >}}).
 
 
 ## Verify VerrazzanoProject placement
