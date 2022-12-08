@@ -25,7 +25,7 @@ configurations provided by Verrazzano.
 
 - `Memory`
 
-   8 GiB of memory for every 100 GiB of your storage requirement for lighter workloads.
+   8 GiB of memory for every 100 GiB of your storage requirement.
 
 
 - `JVM heap memory`
@@ -36,7 +36,7 @@ configurations provided by Verrazzano.
 
 - `CPU`
    
-  Hardware requirements vary dramatically by workload, but 2 vCPU cores for every 100 GiB of your storage requirement is good for lighter workloads. But in case you have heavier workloads, this might not be sufficient.
+  Hardware requirements vary dramatically by workload, but 2 vCPU cores for every 100 GiB of your storage requirement is good in general.
 
 
 - `Shard Size`
@@ -47,9 +47,7 @@ configurations provided by Verrazzano.
 
 - `Primary shards Count`
 
-   Approximate Number of Primary Shards = (Source Data + Room to Grow) * 1.1) / Desired Shard Size
-   
-   This equation helps compensate for data growth over time.
+   Approximate Number of Primary Shards = Source data(log size per day * retention period(days to store your data)) * 1.1) / Desired Shard Size
 
 
 
