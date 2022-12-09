@@ -160,7 +160,8 @@ spec:
           - https://repo1.maven.org/maven2/org/opensearch/plugin/opensearch-anomaly-detection/2.2.0.0/opensearch-anomaly-detection-2.2.0.0.zip
 ```
 There are three ways to define a plugin in the installList
-- [Define a plugin by name](https://opensearch.org/docs/latest/opensearch/install/plugins#install-a-plugin-by-name)
+- [Define a plugin by name](https://opensearch.org/docs/latest/opensearch/install/plugins#install-a-plugin-by-name):
+
   You can install the plugin by its name. There are some already built [additional plugins](https://opensearch.org/docs/latest/opensearch/install/plugins#additional-plugins) that you can install by name.
 
   e.g.  
@@ -168,7 +169,8 @@ There are three ways to define a plugin in the installList
   installList:
           - analysis-icu
   ```
-- [Define a plugin from a remote zip file](https://opensearch.org/docs/latest/opensearch/install/plugins#install-a-plugin-from-a-zip-file)
+- [Define a plugin from a remote zip file](https://opensearch.org/docs/latest/opensearch/install/plugins#install-a-plugin-from-a-zip-file):
+
   You can provide the URL to a remote zip file that contains the required plugin.
   
   e.g.
@@ -176,7 +178,8 @@ There are three ways to define a plugin in the installList
   installList:
           - https://repo1.maven.org/maven2/org/opensearch/plugin/opensearch-anomaly-detection/2.2.0.0/opensearch-anomaly-detection-2.2.0.0.zip
   ```
-- [Define a plugin using Maven coordinates](https://opensearch.org/docs/latest/opensearch/install/plugins#install-a-plugin-using-maven-coordinates)
+- [Define a plugin using Maven coordinates](https://opensearch.org/docs/latest/opensearch/install/plugins#install-a-plugin-using-maven-coordinates):
+
   You can provide the maven coordinates for the available artifacts and versions hosted on [Maven Central](https://search.maven.org/search?q=org.opensearch.plugin)
   
   e.g.
