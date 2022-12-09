@@ -204,7 +204,7 @@ metadata:
 spec:
   profile: dev
   components:
-    opensearchDashboard:
+    opensearchDashboards:
       plugins:
         enabled: true
         installList:
