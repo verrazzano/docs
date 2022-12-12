@@ -140,7 +140,7 @@ spec:
             minSize: 10Gb
 ```
 ## Install OpenSearch And OpenSearch Dashboard Plugins
-Verrazzano supports OpenSearch and OpenSearch Dashboard plugins installation by providing plugins in the Verrazzano custom resource. 
+Verrazzano supports OpenSearch and OpenSearch Dashboard plugin installation by providing plugins in the Verrazzano custom resource. 
 To install plugins for OpenSearch, you can provide the plugins by defining the field [spec.components.opensearch.plugins](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) in the Verrazzano custom resource.
 
 The following Verrazzano custom resource example install the analysis-stempel and opensearch-anomaly-detection plugins for the OpenSearch:
@@ -189,8 +189,8 @@ There are three ways to define a plugin in the installList
   ```
 {{< alert title="NOTE" color="warning" >}}
  - Your environment must be able to connect to internet to access the provided plugin URL or [Maven Central](https://search.maven.org/search?q=org.opensearch.plugin) to install the plugin. Plugin installation will fail if it is not able to fetch the remote plugin.
- - Adding new plugin in the installList or removing the plugin from the installList will result in restarting the OpenSearch related pods.
- - Major, minor, and patch plugin versions must match OpenSearch major, minor, and patch versions in order to be compatible.
+ - Adding new plugin in the plugins.installList or removing the plugin from the installList will result in restarting the OpenSearch related pods.
+ - Major, minor, and patch plugin versions must match OpenSearch major, minor, and patch versions in order to be compatible. For example, plugins versions 2.3.0.x are compatible only with OpenSearch version 2.3.0.
 {{< /alert >}}
 
 Similarly, For OpenSearch Dashboard, you can provide the plugins by defining the field [spec.components.opensearch-dashboards.plugins](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.v1beta1.OpenSearchDashboardsComponent) in the Verrazzano custom resource.
