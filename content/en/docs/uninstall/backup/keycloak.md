@@ -20,9 +20,10 @@ The following details should be kept handy before proceeding with MySQL back up 
 
 - Object store bucket name.
 - Object store region name.
-- MySQL Operator uses OCI credentials to back up and restore MySQL data. Hence, OCI credentials will also be needed before configuring MySQL backup or restore.
+- MySQL Operator uses OCI credentials to back up and restore MySQL data. 
 
-Prior to starting a MySQL backup or restore, the MySQL Operator requires that the following secret exists.
+Prior to starting a MySQL backup or restore, the MySQL Operator requires that a Kubernetes secret exists, consisting of the OCI credentials.
+
 The following example creates a secret `mysql-backup-secret` in the namespace `keycloak`.
 
 **NOTE:**  This secret must exist in the namespace `keycloak`.
@@ -37,7 +38,7 @@ $ kubectl create secret generic -n keycloak  <secret-name> \
         --from-file=privatekey=<full path to private key pem file>
 ````
 
-The following is an example:
+The following is an example of creating a Kubernetes secret consisting of OCI credentials.
 
 ````shell
 $ kubectl create secret generic -n keycloak  mysql-backup-secret \
@@ -52,7 +53,7 @@ $ kubectl create secret generic -n keycloak  mysql-backup-secret \
 ## MySQL Operator Backup
 
 To initiate a MySQL backup, create the following example custom resource YAML file that uses the OCI object store as a backend.
-The operator uses the `credentials` to authenticate with the OCI object store.
+The operator would use the `credentials` to authenticate with the OCI object store.
 
 ```yaml
 $ kubectl apply -f - <<EOF
@@ -70,7 +71,7 @@ $ kubectl apply -f - <<EOF
           ociObjectStorage:
             prefix: <prefix name. This folder will be auto created>
             bucketName: <object store bucket. This must be exist as noted in pre-requisites section>
-            credentials: mysql-backup-secret
+            credentials: <Kubernetes secret name created in the prerequisite section>
 EOF
 ```
 
@@ -79,7 +80,7 @@ EOF
 - The `clustername` has to be `mysql`.
 - The `namespace` has to be `keycloak`.
 
-The following is an example of a `MySQLBackup` object:
+The following is an example of a `MySQLBackup` resource to initiate a MySQL backup:
 
 ```yaml
 $ kubectl apply -f - <<EOF
@@ -103,13 +104,13 @@ EOF
 
 ### Scheduled backups
 
-MySQL allows scheduled backups by implementing a cron job on [MySQL Operator](https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-backups.html) for Kubernetes.
+You can also implement schedules for running MYSQL backups. More details can be found here [MySQL Operator](https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-backups.html) under `Backup schedule`s.
 
 ## MySQL Operator Restore
 
-The following section assumes that you have read the [MySQL Operator prerequisites](#mysql-operator-prerequisites). Additionaly, there should be at least one health back up before starting a restore. 
+The following section assumes that you have read the [MySQL Operator prerequisites](#mysql-operator-prerequisites). Additionally, there should be at least one healthy back up before starting a restore. 
 
-To initiate a MySQL restore, from an existing backup, you need to recreate the MySQL cluster. Following are the list of steps to be followed for successful restoration of MySQL.
+To initiate a MySQL restore, from an existing backup, you need to recreate the MySQL cluster. Following are sequence of steps for successful restoration of MySQL.
 
 1. Back up the values in the MySQL Helm chart to a file, `mysql-values.yaml`.
 
@@ -138,14 +139,14 @@ To initiate a MySQL restore, from an existing backup, you need to recreate the M
         -c verrazzano-platform-operator mysql-charts/
     ```
 
-4. Clean up MySQL pods and PVC from the system.
+4. Delete MySQL pods and PVC from the system.
 
     ```shell
     $ helm delete mysql -n keycloak
     $ kubectl delete pvc -n keycloak -l tier=mysql
     ```
 
-5. Now that you have removed MySQL from the system , trigger a MySQL restore by running the Helm chart as follows.
+5. Now that you have removed MySQL from the system, trigger a MySQL restore by installing the Helm chart as follows.
 
     ```shell
     $ helm install mysql mysql-charts \
@@ -173,7 +174,7 @@ To initiate a MySQL restore, from an existing backup, you need to recreate the M
             --values mysql-values.yaml
     ```   
 
-6. After performing the restore command, wait for the MySQL cluster to be online . Ensure that the `STATUS` is `ONLINE` and the count under `ONLINE` matches the `INSTANCES`.
+6. After performing the restore command, wait for the MySQL cluster to be online. Ensure that the `STATUS` is `ONLINE` and the count under `ONLINE` matches the `INSTANCES`.
 
    ```shell
     $ kubectl get innodbclusters -n keycloak mysql
@@ -184,7 +185,6 @@ To initiate a MySQL restore, from an existing backup, you need to recreate the M
 7. Wait for all the MySQL pods to be in the `RUNNING` state.
 
    ```shell
-
     $ kubectl wait -n keycloak --for=condition=ready pod -l tier=mysql --timeout=600s
       pod/mysql-0 condition met
       pod/mysql-1 condition met
@@ -194,10 +194,10 @@ To initiate a MySQL restore, from an existing backup, you need to recreate the M
       pod/mysql-router-746d9d75c7-t8bhb condition met
     ```
 
-At this point, the MySQL cluster has been restored successfully from the backup, along with the PVCs that were cleaned up previously.
+At this point, the MySQL cluster has been restored successfully from the backup, along with the PVCs that were deleted previously.
 
 The removal and recreation of the MySQL cluster may cause the Keycloak pods to go into crashloop state since MySQL goes offline during the restore operation.
-Keycloak is set up to self-heal and go into `Running` state once all backends are available. You may also choose to force it by using the commands below
+Keycloak is set up to self-heal and will go into `Running` state once all backends are available. You may also choose to force Keycloak bring-up, by using the commands below
 
 ```shell
 KEYCLOAK_REPLICAS=$(kubectl get sts -n keycloak keycloak -o custom-columns=:status.replicas --no-headers)

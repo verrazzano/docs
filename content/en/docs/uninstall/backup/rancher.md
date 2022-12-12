@@ -6,9 +6,8 @@ weight: 2
 draft: false
 ---
 
-Rancher maintains a lot of configurations like user creds, cluster creds in the form of various configmaps and namespace values. The rancher `
-backup-restore-operator` provides a seamless way to back up and restore Rancher installations. 
-
+Rancher maintains a lot of configurations like user credentials, cluster creds in the form of various configmaps and namespace values. The rancher `
+backup-restore-operator` provides a seamless way to back up and restore Rancher installations, configuration and data. 
 
 - [Rancher Backup Operator prerequisites](#rancher-backup-operator-prerequisites)
 - [Rancher Backup](#rancher-backup)
@@ -17,10 +16,10 @@ backup-restore-operator` provides a seamless way to back up and restore Rancher 
 
 ## Rancher Backup Operator prerequisites
 
-The following details should be kept handy before proceeding with OpenSearch back up or restore.
+The following details should be kept handy before proceeding with Rancher back up or restore.
 
 - Object store bucket name.
-    - Both components require an object store that is Amazon S3 compatible, therefore, you need to have an object storage bucket.  This can be an Oracle Cloud Object Storage bucket in any compartment of your Oracle Cloud tenancy.
+    - An Amazon S3 compatible object storage bucket. This can be an Oracle Cloud Object Storage bucket in any compartment of your Oracle Cloud tenancy.
         - Make a note of the bucket name and tenancy name for reference.
         - For more information about creating a bucket with Object Storage, see [Managing Buckets](https://docs.oracle.com/en-us/iaas/Content/Object/Tasks/managingbuckets.htm).
     - For private clouds, enterprise networks, or air-gapped environments, this could be MinIO or an equivalent object store solution.
@@ -28,10 +27,10 @@ The following details should be kept handy before proceeding with OpenSearch bac
 - Object store region name.
 - Object store signing key.
     - A signing key, which is required to authenticate with the Amazon S3 compatible object store.
-        - This is an Access key or a Secret Key pair.
+        - This is an Access Key or a Secret Key pair.
         - Oracle provides the Access Key that is associated with your Console user login.
-        - You or your administrator generates the Customer Secret key to pair with the Access Key.
-    - To create a Customer Secret key, see [Customer Secret Key](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm#create-secret-key).
+        - You or your administrator generates the Customer Secret Key to pair with the Access Key.
+    - To create a Customer Secret Key, see [Customer Secret Key](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm#create-secret-key).
 
 
 To back up or restore Rancher , `rancherBackup` needs to be enabled.
@@ -91,7 +90,7 @@ The Rancher backup operator creates the backup file, in the `*.tar.gz` format on
       spec:
         storageLocation:
           s3:
-            credentialSecretName: <rancher-backup-creds-name>
+            credentialSecretName: <rancher backup credential name>
             credentialSecretNamespace: <namespace where credential object was created>
             bucketName: <object store bucket. This must be exist as noted in pre-requisites section>
             folder: <folder name. This folder will be auto created>
@@ -127,7 +126,7 @@ The Rancher backup operator creates the backup file, in the `*.tar.gz` format on
     The `*.tar.gz` file is stored in location configured in the `storageLocation` field. 
     When the backup is complete, then the rancher-backup operator creates a file on the S3 Compatible Object store.
 
-2. You can retrieve the file name as shown:
+2. You can retrieve the backed up file name as shown:
     
     ```shell
     $ kubectl get backups.resources.cattle.io rancher-backup-test
@@ -137,13 +136,13 @@ The Rancher backup operator creates the backup file, in the `*.tar.gz` format on
 
 ### Rancher Scheduled backups
 
-rancher-backup implements scheduled backups as indicated [here](https://rancher.com/docs/rancher/v2.5/en/backups/configuration/backup-config/).  
+rancher-backup implements scheduled backups as documented [here](https://rancher.com/docs/rancher/v2.5/en/backups/configuration/backup-config/).  
 
 
 ## Rancher Restore
 
-During Restore, Rancher ensures it recreates all the CRD's related to Rancher and configurations as well.
-Restoring rancher is done by creating a custom resource that indicates to `rancher-backup` to start the restore process.
+During restore, Rancher ensures it recreates all the CRD's related to Rancher and configurations as well.
+Restoring Rancher is done by creating a custom resource that indicates to `rancherBackup` to start the restore process.
 
 1. To initiate a Rancher restore, create the following example custom resource YAML file.
    When a `Restore` custom resource is created, the operator accesses the backup `*.tar.gz` file specified and restores the application data from that file.
