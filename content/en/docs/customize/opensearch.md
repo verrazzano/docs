@@ -188,8 +188,8 @@ There are three ways to define a plugin in the installList
           - org.opensearch.plugin:opensearch-anomaly-detection:2.2.0.0
   ```
 {{< alert title="NOTE" color="warning" >}}
- - Your environment must be able to connect to internet to access the provided plugin URL or [Maven Central](https://search.maven.org/search?q=org.opensearch.plugin) to install the plugin. Plugin installation will fail if it is not able to fetch the remote plugin.
- - Adding new plugin in the plugins.installList or removing the plugin from the installList will result in restarting the OpenSearch related pods.
+ - Your environment must be able to connect to the internet to access the provided plugin URL or [Maven Central](https://search.maven.org/search?q=org.opensearch.plugin) to install the plugin. Plugin installation will fail if it is not able to fetch the remote plugin. If there is any error during plugin installation, OS pods(one per deployment) will get into CrashLoopBackOff state. You can check the logs to know the exact reason of failure. In case of internet issue, you might see SocketException or UnknownHostException exceptions in the logs. Please make sure pods are connected to the internet to resolve this issue.
+ - Adding new plugin in the plugins.installList or removing the plugin from the plugins.installList will result in restarting the OpenSearch related pods.
  - Major, minor, and patch plugin versions must match OpenSearch major, minor, and patch versions in order to be compatible. For example, plugins versions 2.3.0.x are compatible only with OpenSearch version 2.3.0.
 {{< /alert >}}
 
