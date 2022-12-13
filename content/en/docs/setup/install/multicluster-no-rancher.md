@@ -140,10 +140,10 @@ apply -f <<EOF -
 apiVersion: v1
 kind: ConfigMap
 metadata:
-name: verrazzano-admin-cluster
-namespace: verrazzano-mc
+  name: verrazzano-admin-cluster
+  namespace: verrazzano-mc
 data:
-server: "${ADMIN_K8S_SERVER_ADDRESS}"
+  server: "${ADMIN_K8S_SERVER_ADDRESS}"
 EOF
 ```
 
