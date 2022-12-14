@@ -1,7 +1,7 @@
 ---
-title: Nginx Ingress Load Balancer Creation Issue
-linkTitle: Nginx Ingress Load Balancer Creation Issue
-description: Analysis detected Nginx ingress load balancer was not created successfully
+title: Nginx Ingress Controller Load Balancer Creation Issue
+linkTitle: Nginx Ingress Controller Load Balancer Creation Issue
+description: Analysis detected Nginx ingress controller load balancer was not created successfully
 weight: 5
 draft: false
 ---
