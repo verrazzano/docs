@@ -115,6 +115,14 @@ Containers:
 Policies can be used to automatically rollover and prune old data, preventing your OpenSearch
 cluster from running out of disk space.
 
+Verrazzano allows you configure OpenSearch index state management (ISM) policies through the Verrazzano custom resource.
+The ISM policy created by Verrazzano will contain two states: ingest and delete. The ingest state can only be configured for the rollover action.
+Based on the rollover configuration provided in the Verrazzano custom resource, the rollover action will be configured for the ingest state.
+
+**NOTE:** The ISM policy created via the Verrazzano custom resource contains a minimal set of configurations. To create a more defined ISM policy, the OpenSearch
+REST API can also be used.
+
+
 The following policy example configures OpenSearch to manage indices matching the pattern `my-app-*`. The data in these indices will be
 automatically pruned every 14 days, and will be rolled over if an index meets at least one of the following criteria:
 - Is three or more days old
@@ -138,4 +146,63 @@ spec:
             minIndexAge: 3d
             minDocCount: 1000
             minSize: 10Gb
+```
+
+The above Verrazzano custom resource will generate the following ISM policy.
+
+```json
+{
+  "_id" : "my-app",
+  "_version" : 17,
+  "_seq_no" : 16,
+  "_primary_term" : 1,
+  "policy" : {
+    "policy_id" : "my-app",
+    "description" : "__vmi-managed__",
+    "last_updated_time" : 1671096525963,
+    "schema_version" : 12,
+    "error_notification" : null,
+    "default_state" : "ingest",
+    "states" : [
+      {
+        "name" : "ingest",
+        "actions" : [
+          {
+            "rollover" : {
+              "min_size" : "10gb",
+              "min_doc_count" : 1000,
+              "min_index_age" : "3d"
+            }
+          }
+        ],
+        "transitions" : [
+          {
+            "state_name" : "delete",
+            "conditions" : {
+              "min_index_age" : "14d"
+            }
+          }
+        ]
+      },
+      {
+        "name" : "delete",
+        "actions" : [
+          {
+            "delete" : { }
+          }
+        ],
+        "transitions" : [ ]
+      }
+    ],
+    "ism_template" : [
+      {
+        "index_patterns" : [
+          "my-app-*"
+        ],
+        "priority" : 1,
+        "last_updated_time" : 1671096525963
+      }
+    ]
+  }
+}
 ```
