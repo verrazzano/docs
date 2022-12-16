@@ -6,15 +6,16 @@
 	<div class="release-documentation-container">
 		<div class="release-dropdown-container">
 			<button class="release-dropdown-button">
-				v1.4
+				{{ index (.Site.Params.releaseDropDown.releaseVersionsList) 0 }}
 				<a class="release-dropdown-divider"></a>
 				<a class="release-down-arrow"></a>
 			</button>
 			<div class="release-dropdown-content">
-				{{ $versionURLS := .Site.Params.releaseDropDown.urlReleaseList }}
 				{{ $versionNumbers := .Site.Params.releaseDropDown.releaseVersionsList }}
-				{{ range $versionURLS, $versionNumbers }}
-				<a href="{{ $versionURLS }}" >{{ . }}</a>
+				{{ $home := .Site.Params.releaseDropDown.homepage }}
+				{{ range $version := $versionNumbers }}
+				{{ $versionURL := (printf "%s%s"  $version "/docs/"  ) }}
+						<a href="{{ $versionURL }}">{{ $version }}</a>
 				{{ end }}
 			</div>
 		</div>
