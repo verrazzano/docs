@@ -59,6 +59,10 @@ Review the following customizing persistent storage examples:
 
 ### Customize persistence globally using `defaultVolumeSource`
 
+{{< alert title="NOTE" color="warning" >}}
+Beginning in version 1.5, persistent storage is always required for MySQL. If `defaultVolumeSource` is configured to use `emptyDir`, then MySQL will ignore that configuration setting.
+{{< /alert >}}
+
 If `defaultVolumeSource` is configured, then that setting will be used for all components that require storage.
 
 For example, the following Verrazzano configuration uses the `prod` profile, but disables persistent storage for all components.
