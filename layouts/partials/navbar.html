@@ -6,16 +6,24 @@
 	<div class="release-documentation-container">
 		<div class="release-dropdown-container">
 			<button class="release-dropdown-button">
-				{{ index (.Site.Params.releaseDropDown.releaseVersionsList) 0 }}
+				{{ $version := substr .Site.Params.version 0 3 }}
+				{{ printf "%s%s" "v" $version }}
 				<a class="release-dropdown-divider"></a>
 				<a class="release-down-arrow"></a>
 			</button>
 			<div class="release-dropdown-content">
 				{{ $vzDocsPath := .Site.Params.releaseDropDown.vzDocumentPath }}
 				{{ $versionNumbers := .Site.Params.releaseDropDown.releaseVersionsList }}
-				{{ range $version := $versionNumbers }}
-				{{ $versionURL := (printf "%s%s%s"  $vzDocsPath $version "/docs"  ) }}
-						<a href="{{ $versionURL }}">{{ $version }}</a>
+				{{ range $versionIndex, $releaseVersionNumber := $versionNumbers }}
+					{{ $versionUrl := (printf "%s%s%s"  $vzDocsPath $releaseVersionNumber "/docs") }}
+					{{ if eq $versionIndex 0 }}
+						{{ $latestVersionUrl := (printf "%s%s%s"  $vzDocsPath "latest" "/docs") }}
+						<a href="{{ $latestVersionUrl }}">{{ printf "%s%s" $releaseVersionNumber " (latest)" }}</a>
+					{{ else if eq $releaseVersionNumber "archive" }}
+						<a href="{{ $versionUrl }}">All Versions</a>
+					{{ else }}
+						<a href="{{ $versionUrl }}">{{ $releaseVersionNumber }}</a>
+					{{ end }}
 				{{ end }}
 			</div>
 		</div>
