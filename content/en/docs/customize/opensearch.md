@@ -111,9 +111,13 @@ Containers:
 
 ## Configure Index State Management policies
 
-[Index State Management](https://opensearch.org/docs/1.3/im-plugin/ism/index/) policies configure OpenSearch to manage the data in your indices.
-Policies can be used to automatically rollover and prune old data, preventing your OpenSearch
+[Index State Management]({{<opensearch_docs_url>}}/im-plugin/ism/index/) (ISM) policies configure OpenSearch to manage the data in your indices.
+You can use policies to automatically rollover and prune old data, preventing your OpenSearch
 cluster from running out of disk space.
+
+Verrazzano lets you configure OpenSearch ISM policies using the Verrazzano custom resource.
+The ISM policy created by Verrazzano will contain two states: ingest and delete. The ingest state can be configured only for the rollover action.
+The rollover action for the ingest state will be configured based on the rollover configuration provided in the Verrazzano custom resource.
 
 The following policy example configures OpenSearch to manage indices matching the pattern `my-app-*`. The data in these indices will be
 automatically pruned every 14 days, and will be rolled over if an index meets at least one of the following criteria:
@@ -139,6 +143,136 @@ spec:
             minDocCount: 1000
             minSize: 10Gb
 ```
+
+The previous Verrazzano custom resource will generate the following ISM policy.
+
+```json
+{
+  "_id" : "my-app",
+  "_version" : 17,
+  "_seq_no" : 16,
+  "_primary_term" : 1,
+  "policy" : {
+    "policy_id" : "my-app",
+    "description" : "__vmi-managed__",
+    "last_updated_time" : 1671096525963,
+    "schema_version" : 12,
+    "error_notification" : null,
+    "default_state" : "ingest",
+    "states" : [
+      {
+        "name" : "ingest",
+        "actions" : [
+          {
+            "rollover" : {
+              "min_size" : "10gb",
+              "min_doc_count" : 1000,
+              "min_index_age" : "3d"
+            }
+          }
+        ],
+        "transitions" : [
+          {
+            "state_name" : "delete",
+            "conditions" : {
+              "min_index_age" : "14d"
+            }
+          }
+        ]
+      },
+      {
+        "name" : "delete",
+        "actions" : [
+          {
+            "delete" : { }
+          }
+        ],
+        "transitions" : [ ]
+      }
+    ],
+    "ism_template" : [
+      {
+        "index_patterns" : [
+          "my-app-*"
+        ],
+        "priority" : 1,
+        "last_updated_time" : 1671096525963
+      }
+    ]
+  }
+}
+```
+
+**NOTE:** The ISM policy created using the Verrazzano custom resource contains a minimal set of configurations. To create a more detailed ISM policy, 
+you can also use the OpenSearch REST API. To create a policy using the OpenSearch API, do the following:
+
+```bash
+$ PASS=$(kubectl get secret \
+    --namespace verrazzano-system verrazzano \
+    -o jsonpath={.data.password} | base64 \
+    --decode; echo)
+    
+$ HOST=$(kubectl get ingress \
+    -n verrazzano-system vmi-system-os-ingest \
+    -o jsonpath={.spec.rules[0].host})
+    
+$ curl -ik -X PUT --user verrazzano:$PASS https://$HOST/_plugins/_ism/policies/policy_3 \
+    -H 'Content-Type: application/json' \
+    --data-binary @- << EOF
+{
+  "policy": {
+    "description": "ingesting logs",
+    "default_state": "ingest",
+    "states": [
+      {
+        "name": "ingest",
+        "actions": [
+          {
+            "rollover": {
+              "min_doc_count": 5
+            }
+          }
+        ],
+        "transitions": [
+          {
+            "state_name": "search"
+          }
+        ]
+      },
+      {
+        "name": "search",
+        "actions": [],
+        "transitions": [
+          {
+            "state_name": "delete",
+            "conditions": {
+              "min_index_age": "5m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "delete",
+        "actions": [
+          {
+            "delete": {}
+          }
+        ],
+        "transitions": []
+      }
+    ]
+  }
+}
+EOF
+```
+
+To view existing policies, do the following:
+
+```bash
+$ curl -ik \
+    --user verrazzano:$PASS https://$HOST/_plugins/_ism/policies
+```
+
 ## Install OpenSearch and OpenSearch Dashboards plug-ins
 Verrazzano supports OpenSearch and OpenSearch Dashboard plug-in installation by providing plug-ins in the Verrazzano custom resource. 
 To install plug-ins for OpenSearch, you define the field [spec.components.opensearch.plugins](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) in the Verrazzano custom resource.
