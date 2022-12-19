@@ -21,15 +21,15 @@
 				{{ $vzDocsPath := .Site.Params.releaseDropDown.vzDocumentPath }}
 				{{ $versionNumbers := .Site.Params.releaseDropDown.releaseVersionsList }}
 				{{ range $versionIndex, $releaseVersionNumber := $versionNumbers }}
-				{{ $versionUrl := (printf "%s%s%s"  $vzDocsPath $releaseVersionNumber "/docs") }}
-				{{ if eq $versionIndex 0 }}
-				{{ $latestVersionUrl := (printf "%s%s%s"  $vzDocsPath "latest" "/docs") }}
-				<a href="{{ $latestVersionUrl }}">{{ printf "%s%s" $releaseVersionNumber " (latest)" }}</a>
-				{{ else if eq $releaseVersionNumber "archive" }}
-				<a href="{{ $versionUrl }}">All Versions</a>
-				{{ else }}
-				<a href="{{ $versionUrl }}">{{ $releaseVersionNumber }}</a>
-				{{ end }}
+					{{ $versionUrl := (printf "%s%s%s" $vzDocsPath $releaseVersionNumber "/docs") }}
+					{{ if eq $versionIndex 0 }}
+						{{ $latestVersionUrl := (printf "%s%s%s"  $vzDocsPath "latest" "/docs") }}
+						<a href="{{ $latestVersionUrl }}">{{ printf "%s%s" $releaseVersionNumber " (latest)" }}</a>
+					{{ else if eq $releaseVersionNumber "archive" }}
+						<a href="{{ $versionUrl }}">All Versions</a>
+					{{ else }}
+						<a href="{{ $versionUrl }}">{{ $releaseVersionNumber }}</a>
+					{{ end }}
 				{{ end }}
 			</div>
 		</div>
