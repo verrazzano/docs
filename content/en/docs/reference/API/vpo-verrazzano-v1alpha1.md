@@ -1581,6 +1581,20 @@ bool
 to enable on OpenSearch.</p>
 </td>
 </tr>
+<tr>
+<td>
+<code>plugins</code></br>
+<em>
+<a href="https://pkg.go.dev/github.com/verrazzano/verrazzano-monitoring-operator/pkg/apis/vmcontroller/v1#OpenSearchPlugins">
+VMO /vmcontroller/v1.OpenSearchPlugins
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Enable to add 3rd Party / Custom plugins not offered in the default OpenSearch image</p>
+</td>
+</tr>
 </tbody>
 </table>
 <h3 id="install.verrazzano.io/v1alpha1.External">External
@@ -2624,6 +2638,20 @@ int32
 </td>
 <td>
 <p>The number of pods to replicate. The default is <code>1</code>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>plugins</code></br>
+<em>
+<a href="https://pkg.go.dev/github.com/verrazzano/verrazzano-monitoring-operator/pkg/apis/vmcontroller/v1#OpenSearchDashboardsPlugins">
+VMO /vmcontroller/v1.OpenSearchDashboardsPlugins
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Enable to add 3rd Party / Custom plugins not offered in the default OpenSearch-Dashboard image</p>
 </td>
 </tr>
 </tbody>
