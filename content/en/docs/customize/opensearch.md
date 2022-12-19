@@ -111,7 +111,7 @@ Containers:
 
 ## Configure Index State Management policies
 
-[Index State Management](https://opensearch.org/docs/1.2/im-plugin/ism/index/) policies configure OpenSearch to manage the data in your indices.
+[Index State Management]({{<opensearch_docs_url>}}/im-plugin/ism/index/) policies configure OpenSearch to manage the data in your indices.
 Policies can be used to automatically rollover and prune old data, preventing your OpenSearch
 cluster from running out of disk space.
 
