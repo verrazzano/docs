@@ -1,13 +1,13 @@
 ---
 title: "Rancher Backup and Restore"
-description: "Backing up and restoring Rancher."
+description: "Back up and restore Rancher"
 linkTitle: Rancher Backup and Restore
 weight: 2
 draft: false
 ---
 
 Rancher maintains a lot of configurations like user credentials, cluster creds in the form of various configmaps and namespace values. The rancher `
-backup-restore-operator` provides a seamless way to back up and restore Rancher installations, configuration and data. 
+backup-restore-operator` provides a seamless way to back up and restore Rancher installations, configuration and data.
 
 - [Rancher Backup Operator prerequisites](#rancher-backup-operator-prerequisites)
 - [Rancher Backup](#rancher-backup)
@@ -55,19 +55,19 @@ To back up or restore Rancher , `rancherBackup` needs to be enabled.
 
     ```shell
     # Sample of pods running after enabling the rancherBackup component
-    
+
     $ kubectl get pod -n cattle-resources-system
     NAME                              READY   STATUS    RESTARTS   AGE
     rancher-backup-5c4b985697-xw7md   1/1     Running   0          2d4h
-    
+
     ```
-   
+
 3. Rancher requires a secret to communicate to the S3 compatible object store. Hence, in the namespace `verrazzano-backup`, create a Kubernetes secret `rancher-backup-creds`.
 
     ```shell
     $ kubectl create secret generic -n <backup-namespace> <secret-name> --from-literal=accessKey=<accesskey> --from-literal=secretKey=<secretKey>
     ```
-    
+
     The following is an example:
     ```shell
     $ kubectl create secret generic -n verrazzano-backup rancher-backup-creds --from-literal=accessKey="s5VLpXwa0xNZQds4UTVV" --from-literal=secretKey="nFFpvyxpQvb0dIQovsl0"
@@ -78,7 +78,7 @@ To back up or restore Rancher , `rancherBackup` needs to be enabled.
 
 The Rancher backup operator creates the backup file, in the `*.tar.gz` format on the S3 Compatible Object store.
 
-1. To initiate a Rancher backup, create the following example custom resource YAML file that uses an Amazon S3 compatible object store as a backend.
+1. To initiate a Rancher backup, create the following example custom resource YAML file that uses an Amazon S3 compatible object store as a back end.
    The operator uses the `credentialSecretNamespace` value to determine where to look for the Amazon S3 backup secret.
 
     ```yaml
@@ -99,11 +99,11 @@ The Rancher backup operator creates the backup file, in the `*.tar.gz` format on
         resourceSetName: rancher-resource-set
     EOF
     ```
-    
+
     **NOTE:** In the [prerequisites example](#rancher-backup-operator-prerequisites) example, you previously created the secret in the `verrazzano-backup` namespace.
 
     The following is an example:
-    
+
     ```yaml
     $ kubectl apply -f - <<EOF
       apiVersion: resources.cattle.io/v1
@@ -123,11 +123,11 @@ The Rancher backup operator creates the backup file, in the `*.tar.gz` format on
     EOF
     ```
 
-    The `*.tar.gz` file is stored in location configured in the `storageLocation` field. 
+    The `*.tar.gz` file is stored in location configured in the `storageLocation` field.
     When the backup is complete, then the rancher-backup operator creates a file on the S3 Compatible Object store.
 
 2. You can retrieve the backed up file name as shown:
-    
+
     ```shell
     $ kubectl get backups.resources.cattle.io rancher-backup-test
     NAME                 LOCATION   TYPE       LATEST-BACKUP                                                                     RESOURCESET            AGE   STATUS

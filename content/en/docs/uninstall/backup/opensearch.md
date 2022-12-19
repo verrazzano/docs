@@ -1,13 +1,13 @@
 ---
 title: "OpenSearch Backup and Restore"
-description: "Backing up and restoring Opensearch."
+description: "Back up and restore Opensearch"
 linkTitle: OpenSearch Backup and Restore
 weight: 2
 draft: false
 ---
 
 Verrazzano offers Opensearch deployment out of the box that gives users the capability to have access to all the log messages from various microservices running on the platform. There are scenarios where users  
-may want to back up their OpenSearch data and restore them as well. 
+may want to back up their OpenSearch data and restore them as well.
 
 Verrazzano leverages `velero` to facilitate backing up and restore OpenSearch data.
 
@@ -36,7 +36,7 @@ The following details should be kept handy before proceeding with OpenSearch bac
 
 
 
-To back up or restore OpenSearch, `velero` needs to be enabled. 
+To back up or restore OpenSearch, `velero` needs to be enabled.
 
 1. The following configuration shows how to enable `Velero` with a `prod` installation profile.
 
@@ -59,7 +59,7 @@ To back up or restore OpenSearch, `velero` needs to be enabled.
 
     ```shell
     # Sample of pods running after enabling the velero component
-    
+
     $ kubectl get pod -n verrazzano-backup
     NAME                      READY   STATUS    RESTARTS   AGE
     restic-ndxfk              1/1     Running   0          21h
@@ -202,7 +202,7 @@ thereby ensuring there is no loss of data and avoids data corruption as well.
 
 To initiate an OpenSearch restore, first delete the existing OpenSearch cluster running on the system and all related data.
 
-1. Scale down `Verrazzano Monitoring Operator`. This is required since the operator manages the lifecycle of the Opensearch cluster, hence scaling it down to zero ensures that it does not interfere with the restore operation. 
+1. Scale down `Verrazzano Monitoring Operator`. This is required since the operator manages the lifecycle of the Opensearch cluster, hence scaling it down to zero ensures that it does not interfere with the restore operation.
    The restore operation also ensures this operator is scaled back up to return the system back to the previous state.
 
     ```shell
@@ -303,4 +303,3 @@ $ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/<log-
 
 ```
 </details>
-
