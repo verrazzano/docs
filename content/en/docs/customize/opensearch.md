@@ -115,7 +115,7 @@ Containers:
 You can use policies to automatically rollover and prune old data, preventing your OpenSearch
 cluster from running out of disk space.
 
-Verrazzano lets you configure OpenSearch ISM policies through the Verrazzano custom resource.
+Verrazzano lets you configure OpenSearch ISM policies using the Verrazzano custom resource.
 The ISM policy created by Verrazzano will contain two states: ingest and delete. The ingest state can be configured only for the rollover action.
 The rollover action for the ingest state will be configured based on the rollover configuration provided in the Verrazzano custom resource.
 
