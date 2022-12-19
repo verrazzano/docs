@@ -204,7 +204,7 @@ The above Verrazzano custom resource will generate the following ISM policy.
 ```
 
 **NOTE:** The ISM policy created via the Verrazzano custom resource contains a minimal set of configurations. To create a more detailed ISM policy, the OpenSearch
-REST API can also be used. Below is an example 
+REST API can also be used. To create a policy using the OpenSearch API, do the following:
 
 ```bash
 $ PASS=$(kubectl get secret \
