@@ -111,17 +111,13 @@ Containers:
 
 ## Configure Index State Management policies
 
-[Index State Management](https://opensearch.org/docs/1.3/im-plugin/ism/index/) policies configure OpenSearch to manage the data in your indices.
+[Index State Management](https://opensearch.org/docs/1.2/im-plugin/ism/index/) policies configure OpenSearch to manage the data in your indices.
 Policies can be used to automatically rollover and prune old data, preventing your OpenSearch
 cluster from running out of disk space.
 
 Verrazzano allows you configure OpenSearch index state management (ISM) policies through the Verrazzano custom resource.
 The ISM policy created by Verrazzano will contain two states: ingest and delete. The ingest state can only be configured for the rollover action.
 Based on the rollover configuration provided in the Verrazzano custom resource, the rollover action will be configured for the ingest state.
-
-**NOTE:** The ISM policy created via the Verrazzano custom resource contains a minimal set of configurations. To create a more defined ISM policy, the OpenSearch
-REST API can also be used.
-
 
 The following policy example configures OpenSearch to manage indices matching the pattern `my-app-*`. The data in these indices will be
 automatically pruned every 14 days, and will be rolled over if an index meets at least one of the following criteria:
@@ -205,4 +201,74 @@ The above Verrazzano custom resource will generate the following ISM policy.
     ]
   }
 }
+```
+
+**NOTE:** The ISM policy created via the Verrazzano custom resource contains a minimal set of configurations. To create a more detailed ISM policy, the OpenSearch
+REST API can also be used. Below is an example 
+
+```bash
+$ PASS=$(kubectl get secret \
+    --namespace verrazzano-system verrazzano \
+    -o jsonpath={.data.password} | base64 \
+    --decode; echo)
+    
+$ HOST=$(kubectl get ingress \
+    -n verrazzano-system vmi-system-os-ingest \
+    -o jsonpath={.spec.rules[0].host})
+    
+$ curl -ik -X PUT --user verrazzano:$PASS https://$HOST/_plugins/_ism/policies/policy_3 \
+    -H 'Content-Type: application/json' \
+    --data-binary @- << EOF
+{
+  "policy": {
+    "description": "ingesting logs",
+    "default_state": "ingest",
+    "states": [
+      {
+        "name": "ingest",
+        "actions": [
+          {
+            "rollover": {
+              "min_doc_count": 5
+            }
+          }
+        ],
+        "transitions": [
+          {
+            "state_name": "search"
+          }
+        ]
+      },
+      {
+        "name": "search",
+        "actions": [],
+        "transitions": [
+          {
+            "state_name": "delete",
+            "conditions": {
+              "min_index_age": "5m"
+            }
+          }
+        ]
+      },
+      {
+        "name": "delete",
+        "actions": [
+          {
+            "delete": {}
+          }
+        ],
+        "transitions": []
+      }
+    ]
+  }
+}
+EOF
+```
+
+To view existing policies, do the following:
+
+```bash
+$ curl -ik \
+    --user verrazzano:$PASS https://$HOST/_plugins/_ism/policies
 ```
