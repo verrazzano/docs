@@ -3,38 +3,6 @@
         <a class="navbar-brand" href="{{ .Site.Home.RelPermalink }}">
 		<span class="navbar-logo">{{ if .Site.Params.ui.navbar_logo }}{{ with resources.Get "icons/logo.svg" }}{{ ( . | minify).Content | safeHTML }}{{ end }}{{ end }}</span>
 	</a>
-	<div class="release-documentation-container">
-		{{ if not .IsHome  }}
-		<div class="release-dropdown-container">
-			<button class="release-dropdown-button">
-				{{ if eq .Site.Params.version "master" }}
-					{{ $latestVersion := index (.Site.Params.releaseDropDown.releaseVersionsList) 0 }}
-					{{ printf "%s" $latestVersion }}
-				{{ else }}
-					{{ $version := substr .Site.Params.version 0 4 }}
-					{{ printf "%s" $version }}
-				{{ end }}
-				<a class="release-dropdown-divider"></a>
-				<a class="release-down-arrow"></a>
-			</button>
-			<div class="release-dropdown-content">
-				{{ $vzDocsPath := .Site.Params.releaseDropDown.vzDocumentPath }}
-				{{ $versionNumbers := .Site.Params.releaseDropDown.releaseVersionsList }}
-				{{ range $versionIndex, $releaseVersionNumber := $versionNumbers }}
-					{{ $versionUrl := (printf "%s%s%s" $vzDocsPath $releaseVersionNumber "/docs") }}
-					{{ if eq $versionIndex 0 }}
-						{{ $latestVersionUrl := (printf "%s%s%s"  $vzDocsPath "latest" "/docs") }}
-						<a href="{{ $latestVersionUrl }}">{{ printf "%s%s" $releaseVersionNumber " (latest)" }}</a>
-					{{ else if eq $releaseVersionNumber "archive" }}
-						<a href="{{ $versionUrl }}">All Versions</a>
-					{{ else }}
-						<a href="{{ $versionUrl }}">{{ $releaseVersionNumber }}</a>
-					{{ end }}
-				{{ end }}
-			</div>
-		</div>
-	{{ end }}
-	</div>
 	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
 		<ul class="navbar-nav mt-2 mt-lg-0">
 			{{ $p := . }}
@@ -50,9 +18,17 @@
 			</li>
 			{{ end }}
 			{{ if  .Site.Params.versions }}
-			<li class="nav-item dropdown d-none d-lg-block">
-				{{ partial "navbar-version-selector.html" . }}
-			</li>
+			<div class="release-dropdown-container">
+				<li class="nav-item dropdown d-none d-lg-block">
+					{{ partial "navbar-version-selector.html" . }}
+				</li>
+				{{ if eq .Site.Params.version "master" }}
+					{{ .Site.Params.version }}
+				{{ else }}
+					{{ $versionNumber := substr .Site.Params.version 0 4 }}
+					{{ $versionNumber }}
+				{{ end }}
+			</div>
 			{{ end }}
 			{{ if  (gt (len .Site.Home.Translations) 0) }}
 			<li class="nav-item dropdown d-none d-lg-block">
