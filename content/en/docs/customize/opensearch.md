@@ -111,13 +111,13 @@ Containers:
 
 ## Configure Index State Management policies
 
-[Index State Management]({{<opensearch_docs_url>}}/im-plugin/ism/index/) policies configure OpenSearch to manage the data in your indices.
-Policies can be used to automatically rollover and prune old data, preventing your OpenSearch
+[Index State Management]({{<opensearch_docs_url>}}/im-plugin/ism/index/) (ISM) policies configure OpenSearch to manage the data in your indices.
+You can use policies to automatically rollover and prune old data, preventing your OpenSearch
 cluster from running out of disk space.
 
-Verrazzano allows you configure OpenSearch index state management (ISM) policies through the Verrazzano custom resource.
-The ISM policy created by Verrazzano will contain two states: ingest and delete. The ingest state can only be configured for the rollover action.
-Based on the rollover configuration provided in the Verrazzano custom resource, the rollover action will be configured for the ingest state.
+Verrazzano lets you configure OpenSearch ISM policies through the Verrazzano custom resource.
+The ISM policy created by Verrazzano will contain two states: ingest and delete. The ingest state can be configured only for the rollover action.
+The rollover action for the ingest state will be configured based on the rollover configuration provided in the Verrazzano custom resource.
 
 The following policy example configures OpenSearch to manage indices matching the pattern `my-app-*`. The data in these indices will be
 automatically pruned every 14 days, and will be rolled over if an index meets at least one of the following criteria:
@@ -144,7 +144,7 @@ spec:
             minSize: 10Gb
 ```
 
-The above Verrazzano custom resource will generate the following ISM policy.
+The previous Verrazzano custom resource will generate the following ISM policy.
 
 ```json
 {
@@ -203,8 +203,8 @@ The above Verrazzano custom resource will generate the following ISM policy.
 }
 ```
 
-**NOTE:** The ISM policy created via the Verrazzano custom resource contains a minimal set of configurations. To create a more detailed ISM policy, the OpenSearch
-REST API can also be used. To create a policy using the OpenSearch API, do the following:
+**NOTE:** The ISM policy created using the Verrazzano custom resource contains a minimal set of configurations. To create a more detailed ISM policy, 
+you can also use the OpenSearch REST API. To create a policy using the OpenSearch API, do the following:
 
 ```bash
 $ PASS=$(kubectl get secret \
