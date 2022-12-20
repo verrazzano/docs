@@ -26,7 +26,6 @@ spec:
               prometheusSpec:
                 replicas: 3
 ```
-
 To enable Alertmanager, use the following Verrazzano custom resource:
 
 ```
@@ -49,3 +48,7 @@ spec:
 ```
 
 For more information about setting component overrides, see [Customizing the Chart Before Installing](https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing).
+
+After you alertmanager is enabled, you can deploy alert rules to get proactive alerts. For more information see  [Deploying Prometheus rules.](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/alerting.md#deploying-prometheus-rules
+)
+

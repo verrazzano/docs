@@ -19,10 +19,11 @@ configurations provided by Verrazzano.
   You can start with an initial estimate on your hardware needs. These recommendations will serve you with the initial educated estimates but for ideal sizing, you need to test them with representative workloads and monitor their performance and then reiterate.
 
 - `Storage Requirements`
-
+```yaml
+   Minimum Storage Requirement = Source data(log size per day * retention period(days to store your data) * (1 + shard replicas) )* (1 + Indexing Overhead(extra space used other than the actual data which is generally 1%(0.1) of the index size = 1.1)) / (1 - Linux Reserved Space(Linux reserves 5% of the file system for the root user for some OS operations = 0.95)) / (1 - OpenSearch Overhead(OpenSearch keeps 20%(worst case) of the instance for segment merges, logs, and other internal operation = 0.8 ))
+   that results to 
    Minimum Storage Requirement = Source data(log size per day * retention period(days to store your data) * (1 + shard replicas) )* 1.45
-
-
+```
 - `Memory`
 
    8 GiB of memory for every 100 GiB of your storage requirement.
@@ -52,8 +53,9 @@ configurations provided by Verrazzano.
 
 
 ## Recommended Alarms
+You can enable Alertmanager and configure recommended alarms in Prometheus by following [Enable Alertmanager and add alert rules]({{< relref "/docs/customize/Prometheus.md" >}}) that will give insight into your opensearch cluster based on which you can proactively take some actions.
 
-- `OSDataNodeFilesystemSpaceFillingUp` To indicate that the OpenSearch average disk usage has crossed a specific threshold. It will help you decide to add more data nodes or delete old indices if required to free up some space.
+- `OSDataNodeFilesystemSpaceFillingUp` To indicate that the OpenSearch average disk usage has crossed a specific threshold. It will help you decide to add more data nodes or delete old indices if required to free up some space. You can adjust the alert thresholds according to your needs. 
 
    ```yaml
    alert: OSDataNodeFilesystemSpaceFillingUp
@@ -61,7 +63,7 @@ configurations provided by Verrazzano.
     runbook_url: <link to runbook>
     summary: Opensearch average disk usage reached over 75%.
   expr: |-
-    1 - (opensearch_fs_total_available_bytes{node=~".*data.*"}/ opensearch_fs_total_total_bytes) > .75
+    1 - (es_fs_total_available_bytes{node=~".*data.*"}/ es_fs_total_total_bytes) > .75
   for: 30m
   labels:
      severity: warning
