@@ -141,7 +141,7 @@ spec:
 ```
 ## Install OpenSearch and OpenSearch Dashboards plug-ins
 Verrazzano supports OpenSearch and OpenSearch Dashboard plug-in installation by providing plug-ins in the Verrazzano custom resource. 
-To install plug-ins for OpenSearch, you define the field [spec.components.opensearch.plugins](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) in the Verrazzano custom resource.
+To install plug-ins for OpenSearch, you define the field [spec.components.opensearch.plugins](/docs/reference/api/verrazzano/v1beta1/#opensearch-component) in the Verrazzano custom resource.
 
 The following Verrazzano custom resource example installs the `analysis-stempel` and `opensearch-anomaly-detection` plug-ins for OpenSearch:
 ```yaml
@@ -190,7 +190,7 @@ There are three ways to define a plug-in in the `plugins.installList`:
  - To be compatible, major, minor, and patch plug-in versions must match OpenSearch major, minor, and patch versions. For example, plug-ins versions 2.3.0.x are compatible only with OpenSearch version 2.3.0.
 {{< /alert >}}
 
-For OpenSearch Dashboard, you can provide the plug-ins by defining the field [spec.components.opensearch-dashboards.plugins](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.v1beta1.OpenSearchDashboardsComponent) in the Verrazzano custom resource.
+For OpenSearch Dashboard, you can provide the plug-ins by defining the field [spec.components.opensearch-dashboards.plugins](/docs/reference/api/verrazzano/v1beta1/#opensearch-dashboards-component) in the Verrazzano custom resource.
 
 Here is a Verrazzano custom resource example to install plug-ins for the OpenSearch Dashboards:
 ```yaml
