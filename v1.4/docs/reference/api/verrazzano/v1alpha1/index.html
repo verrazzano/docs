@@ -27,13 +27,13 @@ apiVersion: install.verrazzano.io/v1alpha1 kind: Verrazzano metadata: name: exam
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/reference/api/verrazzano/v1alpha1/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-10-24T12:26:57-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-12-20T22:17:26+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Verrazzano v1alpha1">
 <meta itemprop="description" content="The Verrazzano custom resource contains the configuration information for an installation. Here is a sample Verrazzano custom resource file that uses Oracle Cloud Infrastructure DNS. See other examples here.
 apiVersion: install.verrazzano.io/v1alpha1 kind: Verrazzano metadata: name: example-verrazzano spec: environmentName: env profile: prod components: certManager: certificate: acme: provider: letsEncrypt emailAddress: emailAddress@example.com dns: oci: ociConfigSecret: oci dnsZoneCompartmentOCID: dnsZoneCompartmentOcid dnsZoneOCID: dnsZoneOcid dnsZoneName: my.dns.zone.name ingress: type: LoadBalancer VerrazzanoSpec    Field Type Description Required     environmentName string Name of the installation.">
-<meta itemprop="dateModified" content="2022-10-24T12:26:57-04:00" />
-<meta itemprop="wordCount" content="3125">
+<meta itemprop="dateModified" content="2022-12-20T22:17:26+05:30" />
+<meta itemprop="wordCount" content="3211">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Verrazzano v1alpha1"/>
 <meta name="twitter:description" content="The Verrazzano custom resource contains the configuration information for an installation. Here is a sample Verrazzano custom resource file that uses Oracle Cloud Infrastructure DNS. See other examples here.
@@ -42,8 +42,8 @@ apiVersion: install.verrazzano.io/v1alpha1 kind: Verrazzano metadata: name: exam
 
 
 
-<link rel="preload" href="../../../../../scss/main.min.55f9f39bd7951bea4857a95cf52d4dd5d96d25939926bbbf6f07c114cfe02b50.css" as="style">
-<link href="../../../../../scss/main.min.55f9f39bd7951bea4857a95cf52d4dd5d96d25939926bbbf6f07c114cfe02b50.css" rel="stylesheet" integrity="">
+<link rel="preload" href="../../../../../scss/main.min.1042c616a6d402451f2ecd6f3af91d91b58427aabc8600ad7fb0f3881613edc9.css" as="style">
+<link href="../../../../../scss/main.min.1042c616a6d402451f2ecd6f3af91d91b58427aabc8600ad7fb0f3881613edc9.css" rel="stylesheet" integrity="">
 
 <script
   src="https://code.jquery.com/jquery-3.6.0.min.js"
@@ -88,6 +88,32 @@ if (!doNotTrack) {
 			</li>
 			
 			
+			<div class="release-dropdown-container">
+				<li class="nav-item dropdown d-none d-lg-block">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	Releases
+</a>
+<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+	
+	<a class="dropdown-item" href="https://verrazzano.io/v1.4/docs">v1.4</a>
+	
+	<a class="dropdown-item" href="https://verrazzano.io/v1.3/docs">v1.3</a>
+	
+	<a class="dropdown-item" href="https://verrazzano.io/v1.2/docs">v1.2</a>
+	
+	<a class="dropdown-item" href="https://verrazzano.io/v1.1/docs">v1.1</a>
+	
+	<a class="dropdown-item" href="https://verrazzano.io/archive/docs">Archive</a>
+	
+</div>
+
+				</li>
+				
+					
+					v1.4
+				
+			</div>
+			
 			
 		</ul>
 	</div>
@@ -98,7 +124,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.66d2159129ab704a4ca4cc05d165b7b2.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.4e453e940a71433b8d12d14e2e239993.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -120,7 +146,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../../offline-search-index.66d2159129ab704a4ca4cc05d165b7b2.json"
+  data-offline-search-index-json-src="../../../../../offline-search-index.4e453e940a71433b8d12d14e2e239993.json"
   data-offline-search-base-href="../../../../../"
   data-offline-search-max-results="10"
 >
@@ -1622,6 +1648,12 @@ spec:
 <td>No</td>
 </tr>
 <tr>
+<td><code>plugins</code></td>
+<td><a href="#opensearch-plugins">OpenSearchPlugins</a></td>
+<td>OpenSearch plug-ins to be installed in OpenSearch.</td>
+<td>No</td>
+</tr>
+<tr>
 <td><code>nodes</code></td>
 <td><a href="#opensearch-node-groups">Node</a> list</td>
 <td>A list of OpenSearch node groups.</td>
@@ -1724,6 +1756,56 @@ spec:
 <td><code>rollover</code></td>
 <td><a href="#opensearch-index-management-rollover">Rollover</a></td>
 <td>Index rollover settings.</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<h4 id="opensearch-plugins">OpenSearch Plugins</h4>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>enabled</code></td>
+<td>bool</td>
+<td>To enable or disable the OpenSearch plug-ins.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>installList</code></td>
+<td>string list</td>
+<td>List of OpenSearch plug-ins to be installed in OpenSearch.</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<h4 id="opensearch-dashboards-plugins">OpenSearch Dashboards Plugins</h4>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>enabled</code></td>
+<td>bool</td>
+<td>To enable or disable the OpenSearch Dashboards plug-ins.</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>installList</code></td>
+<td>string list</td>
+<td>List of OpenSearch Dashboards plug-ins to be installed in the OpenSearch Dashboards.</td>
 <td>No</td>
 </tr>
 </tbody>
@@ -1845,6 +1927,12 @@ spec:
 <td><code>enabled</code></td>
 <td>Boolean</td>
 <td>If true, then OpenSearch Dashboards will be installed.</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>plugins</code></td>
+<td><a href="#opensearch-dashboards-plugins">OpenSearchDashboardsPlugins</a></td>
+<td>OpenSearch Dashboards plug-ins to be installed in the OpenSearch Dashboards.</td>
 <td>No</td>
 </tr>
 </tbody>
