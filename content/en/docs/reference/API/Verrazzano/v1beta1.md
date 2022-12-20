@@ -216,6 +216,7 @@ spec:
 | --- | --- | --- | --- |
 | `enabled` | Boolean | If true, then OpenSearch will be installed. | No |
 | `policies` | [Policy](#opensearch-index-management-policies) list | A list of [Index State Management]({{<opensearch_docs_url>}}/im-plugin/ism/index/) policies to enable on OpenSearch. | No |
+| `plugins` | [OpenSearchPlugins](#opensearch-plugins) | OpenSearch plug-ins to be installed in OpenSearch. | No |
 | `nodes` | [Node](#opensearch-node-groups) list | A list of OpenSearch node groups.  For sample usage, see [Customize OpenSearch]({{< relref "/docs/customize/opensearch" >}}). | No |
 
 #### OpenSearch Node Groups
@@ -251,6 +252,19 @@ spec:
 | Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `enabled` | Boolean | If true, then OpenSearch Dashboards will be installed. | No |
+| `plugins` | [OpenSearchDashboardsPlugins](#opensearch-dashboards-plugins) | OpenSearch Dashboards plug-ins to be installed in OpenSearch Dashboards. | No |
+
+#### OpenSearch Plugins
+| Field | Type | Description | Required |
+| --- | --- | --- | --- |
+| `enabled` | bool | To enable or disable the OpenSearch plug-ins. | Yes |
+| `installList` | string list| List of OpenSearch plug-ins to be installed in OpenSearch. | No |
+
+#### OpenSearch Dashboards Plugins
+| Field | Type | Description | Required |
+| --- | --- | --- | --- |
+| `enabled` | bool | To enable or disable the OpenSearch Dashboards plug-ins. | Yes |
+| `installList` | string list| List of OpenSearch Dashboards plug-ins to be installed in the OpenSearch Dashboards. | No |
 
 ### Prometheus Component
 | Field | Type | Description | Required |

@@ -139,3 +139,71 @@ spec:
             minDocCount: 1000
             minSize: 10Gb
 ```
+## Install OpenSearch and OpenSearch Dashboards plug-ins
+Verrazzano supports OpenSearch and OpenSearch Dashboard plug-in installation by providing plug-ins in the Verrazzano custom resource. 
+To install plug-ins for OpenSearch, you define the field [spec.components.opensearch.plugins](/docs/reference/api/verrazzano/v1beta1/#opensearch-component) in the Verrazzano custom resource.
+
+The following Verrazzano custom resource example installs the `analysis-stempel` and `opensearch-anomaly-detection` plug-ins for OpenSearch:
+```yaml
+apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: custom-opensearch-example
+spec:
+  profile: dev
+  components:
+    opensearch:
+      plugins:
+        enabled: true
+        installList:
+          - analysis-stempel
+          - https://repo1.maven.org/maven2/org/opensearch/plugin/opensearch-anomaly-detection/2.2.0.0/opensearch-anomaly-detection-2.2.0.0.zip
+```
+There are three ways to define a plug-in in the `plugins.installList`:
+- [Define a plug-in by name](https://opensearch.org/docs/latest/opensearch/install/plugins#install-a-plugin-by-name):
+
+  There are some pre-built [additional plug-ins](https://opensearch.org/docs/latest/opensearch/install/plugins#additional-plugins) that you can install by name.
+ 
+  ```yaml
+  installList:
+          - analysis-icu
+  ```
+- [Define a plug-in from a remote ZIP file](https://opensearch.org/docs/latest/opensearch/install/plugins#install-a-plugin-from-a-zip-file):
+
+  Provide the URL to a remote ZIP file that contains the required plug-in.
+
+  ```yaml
+  installList:
+          - https://repo1.maven.org/maven2/org/opensearch/plugin/opensearch-anomaly-detection/2.2.0.0/opensearch-anomaly-detection-2.2.0.0.zip
+  ```
+- [Define a plug-in using Maven coordinates](https://opensearch.org/docs/latest/opensearch/install/plugins#install-a-plugin-using-maven-coordinates):
+
+  Provide the Maven coordinates for the available artifacts and versions hosted on [Maven Central](https://search.maven.org/search?q=org.opensearch.plugin).
+
+  ```yaml
+  installList:
+          - org.opensearch.plugin:opensearch-anomaly-detection:2.2.0.0
+  ```
+{{< alert title="NOTE" color="warning" >}}
+ - Your environment must be able to connect to the Internet to access the provided plug-in URL or [Maven Central](https://search.maven.org/search?q=org.opensearch.plugin) to install the plug-in. If there is any error during plug-in installation, then the OS pods (one per deployment) will go into the CrashLoopBackOff state. Check the logs for the exact reason of the failure. In the case of an Internet issue, you might see SocketException or UnknownHostException exceptions in the logs. To resolve this issue, make sure that the pods are connected to the Internet.
+ - Adding a new plug-in in the `plugins.installList` or removing a plug-in from the `plugins.installList` will result in restarting the OpenSearch related pods.
+ - To be compatible, major, minor, and patch plug-in versions must match OpenSearch major, minor, and patch versions. For example, plug-ins versions 2.3.0.x are compatible only with OpenSearch version 2.3.0.
+{{< /alert >}}
+
+For OpenSearch Dashboard, you can provide the plug-ins by defining the field [spec.components.opensearch-dashboards.plugins](/docs/reference/api/verrazzano/v1beta1/#opensearch-dashboards-component) in the Verrazzano custom resource.
+
+Here is a Verrazzano custom resource example to install plug-ins for the OpenSearch Dashboards:
+```yaml
+apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: custom-opensearch-example
+spec:
+  profile: dev
+  components:
+    opensearchDashboards:
+      plugins:
+        enabled: true
+        installList:
+          - <URL to OpenSearch Dashboard plugin ZIP file>
+```

@@ -270,6 +270,7 @@ spec:
 | `enabled` | Boolean | If true, then OpenSearch will be installed. | No |
 | `installArgs` | [OpenSearchInstallArgs](#opensearch-install-args) list | A list of values to use during OpenSearch installation.  Each argument is specified as either a `name/value` or `name/valueList` pair.  For sample usage, see [Customize OpenSearch]({{< relref "/docs/customize/opensearch" >}}).| No |
 | `policies` | [Policy](#opensearch-index-management-policies) list | A list of [Index State Management]({{<opensearch_docs_url>}}/im-plugin/ism/index/) policies to enable on OpenSearch. | No |
+| `plugins` | [OpenSearchPlugins](#opensearch-plugins) | OpenSearch plug-ins to be installed in OpenSearch. | No |
 | `nodes` | [Node](#opensearch-node-groups) list | A list of OpenSearch node groups. | No |
 
 #### OpenSearch Node Groups
@@ -293,6 +294,19 @@ spec:
 | `indexPattern` | string | An Index Pattern is an index name or pattern like `my-index-*`. If an index matches the pattern, the associated policy will attach to the index. | Yes |
 | `minIndexAge` | [Time]({{<opensearch_docs_url>}}/opensearch/units/) | Amount of time until a managed index is deleted. Default is seven days (`7d`). | No |
 | `rollover` | [Rollover](#opensearch-index-management-rollover) | Index rollover settings. | No |
+
+#### OpenSearch Plugins
+| Field | Type | Description | Required |
+| --- | --- | --- | --- |
+| `enabled` | bool | To enable or disable the OpenSearch plug-ins. | Yes |
+| `installList` | string list| List of OpenSearch plug-ins to be installed in OpenSearch. | No |
+
+#### OpenSearch Dashboards Plugins
+| Field | Type | Description | Required |
+| --- | --- | --- | --- |
+| `enabled` | bool | To enable or disable the OpenSearch Dashboards plug-ins. | Yes |
+| `installList` | string list| List of OpenSearch Dashboards plug-ins to be installed in the OpenSearch Dashboards. | No |
+
 
 #### OpenSearch Install Args
 
@@ -320,6 +334,7 @@ To configure OpenSearch, instead of using install args, Oracle recommends that y
 | Field | Type | Description | Required |
 | --- | --- | --- | --- |
 | `enabled` | Boolean | If true, then OpenSearch Dashboards will be installed. | No |
+| `plugins` | [OpenSearchDashboardsPlugins](#opensearch-dashboards-plugins) | OpenSearch Dashboards plug-ins to be installed in the OpenSearch Dashboards. | No |
 
 ### Prometheus Component
 | Field | Type | Description                                                                                                                                                                                                      | Required |
