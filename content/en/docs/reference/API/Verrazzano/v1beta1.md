@@ -257,14 +257,14 @@ spec:
 #### OpenSearch Plugins
 | Field | Type | Description | Required |
 | --- | --- | --- | --- |
-| `enabled` | bool | To enable or disable the OpenSearch plug-ins | Yes |
-| `installList` | string list| List of OpenSearch plug-ins to be installed in OpenSearch| No |
+| `enabled` | bool | To enable or disable the OpenSearch plug-ins. | Yes |
+| `installList` | string list| List of OpenSearch plug-ins to be installed in OpenSearch. | No |
 
 #### OpenSearch Dashboards Plugins
 | Field | Type | Description | Required |
 | --- | --- | --- | --- |
-| `enabled` | bool | To enable or disable the OpenSearch Dashboards plug-ins | Yes |
-| `installList` | string list| List of OpenSearch Dashboards plug-ins to be installed in the OpenSearch Dashboards | No |
+| `enabled` | bool | To enable or disable the OpenSearch Dashboards plug-ins. | Yes |
+| `installList` | string list| List of OpenSearch Dashboards plug-ins to be installed in the OpenSearch Dashboards. | No |
 
 ### Prometheus Component
 | Field | Type | Description | Required |
