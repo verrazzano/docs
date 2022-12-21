@@ -63,15 +63,28 @@ You can [customize Prometheus]({{< relref "/docs/customize/Prometheus.md" >}}) t
 
 Use the `OSDataNodeFilesystemSpaceFillingUp` alert to indicate that the OpenSearch average disk usage has exceeded the specified threshold. Adjust the alert thresholds according to your needs.
    ```yaml
-   alert: OSDataNodeFilesystemSpaceFillingUp
-  annotations:
-    runbook_url: <link to runbook>
-    summary: Opensearch average disk usage reached over 75%.
-  expr: |-
-    1 - (es_fs_total_available_bytes{node=~".*data.*"}/ es_fs_total_total_bytes) > .75
-  for: 30m
-  labels:
-     severity: warning
+   kubectl apply -f - <<EOF
+   apiVersion: monitoring.coreos.com/v1
+   kind: PrometheusRule
+   metadata:
+     labels:
+       release: prometheus-operator
+     name: prometheus-operator-os
+     namespace: verrazzano-monitoring
+   spec:
+     groups:
+       - name: os
+         rules:
+           - alert: OSDataNodeFilesystemSpaceFillingUp
+             annotations:
+               runbook_url: <link to runbook>
+               summary: Opensearch average disk usage reached over 75%.
+             expr: |-
+               1 - (es_fs_total_available_bytes{node=~".*data.*"}/ es_fs_total_total_bytes) > .75
+             for: 30m
+             labels:
+               severity: warning
+     EOF
   ```
     
 
