@@ -1577,8 +1577,22 @@ bool
 </em>
 </td>
 <td>
-<p>A list of <a href="https://opensearch.org/docs/1.2/im-plugin/ism/index/">Index State Management</a> policies
+<p>A list of <a href="https://opensearch.org/docs/2.3/im-plugin/ism/index/">Index State Management</a> policies
 to enable on OpenSearch.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>plugins</code></br>
+<em>
+<a href="https://pkg.go.dev/github.com/verrazzano/verrazzano-monitoring-operator/pkg/apis/vmcontroller/v1#OpenSearchPlugins">
+VMO /vmcontroller/v1.OpenSearchPlugins
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Enable to add 3rd Party / Custom plugins not offered in the default OpenSearch image</p>
 </td>
 </tr>
 </tbody>
@@ -2624,6 +2638,20 @@ int32
 </td>
 <td>
 <p>The number of pods to replicate. The default is <code>1</code>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>plugins</code></br>
+<em>
+<a href="https://pkg.go.dev/github.com/verrazzano/verrazzano-monitoring-operator/pkg/apis/vmcontroller/v1#OpenSearchDashboardsPlugins">
+VMO /vmcontroller/v1.OpenSearchDashboardsPlugins
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Enable to add 3rd Party / Custom plugins not offered in the default OpenSearch-Dashboard image</p>
 </td>
 </tr>
 </tbody>
