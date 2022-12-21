@@ -33,7 +33,7 @@
 &lt;h2 id=&#34;fluentd-sidecar&#34;&gt;Fluentd sidecar&lt;/h2&gt;
 &lt;p&gt;For components with multiple log streams or that cannot log to stdout, Verrazzano deploys a Fluentd sidecar which parses and translates the log stream.  The resulting log is sent to stdout of the sidecar container and then written to &lt;code&gt;/var/log/containers&lt;/code&gt; by the kubelet service.&lt;/p&gt;
 &lt;p&gt;For example, in a WebLogic deployment, &lt;code&gt;AdminServer.log&lt;/code&gt; is consumed, translated, and written to stdout by the Fluentd sidecar.  You can view these logs using &lt;code&gt;kubectl&lt;/code&gt; on the container named &lt;code&gt;fluentd-stdout-sidecar&lt;/code&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl logs tododomain-adminserver \
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl logs tododomain-adminserver \
    -n todo-list \
    -c fluentd-stdout-sidecar
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;The Verrazzano Fluentd Docker image comes with these plug-ins:&lt;/p&gt;
@@ -55,7 +55,7 @@
 &lt;p&gt;The Verrazzano Fluentd Docker image also has two local default plug-ins, &lt;code&gt;kubernetes_parser&lt;/code&gt; and &lt;code&gt;kubernetes_multiline_parser&lt;/code&gt;.
 These plug-ins help to parse Kubernetes management log files.&lt;/p&gt;
 &lt;p&gt;Here are example use cases for these plug-ins:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;# ---- fluentd.conf ----
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# ---- fluentd.conf ----
 # kubernetes parser
 &amp;lt;source&amp;gt;
   @type tail
@@ -87,7 +87,7 @@ Each instance pulls logs from the node&amp;rsquo;s &lt;code&gt;/var/log/containe
 &lt;h2 id=&#34;elasticsearch&#34;&gt;Elasticsearch&lt;/h2&gt;
 &lt;p&gt;Verrazzano creates an Elasticsearch deployment as the store and search engine for the logs processed by Fluentd.  Records written by Fluentd can be queried using the Elasticsearch REST API.&lt;/p&gt;
 &lt;p&gt;For example, you can use &lt;code&gt;curl&lt;/code&gt; to get all of the Elasticsearch indexes. First, you must get the password for the &lt;code&gt;verrazzano&lt;/code&gt; user and the host for the VMI Elasticsearch.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ PASS=$(kubectl get secret \
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ PASS=$(kubectl get secret \
     --namespace verrazzano-system verrazzano \
     -o jsonpath={.data.password} | base64 \
     --decode; echo)
@@ -98,14 +98,14 @@ $ HOST=$(kubectl get ingress \
 $ curl -ik \
    --user verrazzano:$PASS https://$HOST//_cat/indices
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To see all of the records for a specific index, do the following:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ INDEX=verrazzano-namespace-todo-list
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ INDEX=verrazzano-namespace-todo-list
 
 $ curl -ik \
     --user verrazzano:$PASS https://$HOST/$INDEX/_doc/_search?q=message:*
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Verrazzano provides support for &lt;a href=&#34;../../docs/setup/install/profiles/&#34;&gt;Installation Profiles&lt;/a&gt;. The production profile (&lt;code&gt;prod&lt;/code&gt;), which is the default, provides a 3-node Elasticsearch and persistent storage for the Verrazzano Monitoring Instance (VMI). The development profile (&lt;code&gt;dev&lt;/code&gt;) provides a single node Elasticsearch and no persistent storage for the VMI. The &lt;code&gt;managed-cluster&lt;/code&gt; profile does not install Elasticsearch or Kibana in the local cluster; all logs are forwarded to the admin cluster&amp;rsquo;s Elasticsearch instance.&lt;/p&gt;
 &lt;p&gt;If you want the logs sent to an external Elasticsearch, instead of the default VMI Elasticsearch, specify &lt;code&gt;elasticsearchURL&lt;/code&gt; and &lt;code&gt;elasticsearchSecret&lt;/code&gt; in the &lt;a href=&#34;../../docs/reference/api/verrazzano/verrazzano/#fluentd-component&#34;&gt;Fluentd&lt;/a&gt; Component configuration in your Verrazzano custom resource.&lt;/p&gt;
 &lt;p&gt;The following is an example of a Verrazzano custom resource to send the logs to the Elasticsearch endpoint &lt;code&gt;https://external-es.default.172.18.0.231.nip.io&lt;/code&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: install.verrazzano.io/v1alpha1
 kind: Verrazzano
 metadata:
   name: default
@@ -143,11 +143,11 @@ visualize them.&lt;/p&gt;
 The metrics annotations may differ slightly depending on the resource type.
 The following is an example of the WebLogic Prometheus-related configuration specified in the &lt;code&gt;todo-list&lt;/code&gt; application pod:&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;$ kubectl describe pod tododomain-adminserver -n todo-list&lt;/code&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;Annotations:  prometheus.io/path: /wls-exporter/metrics
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Annotations:  prometheus.io/path: /wls-exporter/metrics
               prometheus.io/port: 7001
               prometheus.io/scrape: true
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;For other resource types, such as Coherence or Helidon, the annotations would look similar to this:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;Annotations:  verrazzano.io/metricsEnabled: true
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Annotations:  verrazzano.io/metricsEnabled: true
               verrazzano.io/metricsPath: /metrics
               verrazzano.io/metricsPort: 8080
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;To look directly at the metrics that are being made available by the metric source, map the port and then access the path.&lt;/p&gt;
@@ -155,11 +155,11 @@ The following is an example of the WebLogic Prometheus-related configuration spe
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;Map the port being used to expose the metrics.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl port-forward tododomain-adminserver 7001:7001 -n todo-list
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl port-forward tododomain-adminserver 7001:7001 -n todo-list
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Get the user name and password used to access the metrics source from the corresponding secret.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get secret \
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get secret \
     --namespace todo-list tododomain-weblogic-credentials \
     -o jsonpath={.data.username} | base64 \
     --decode; echo
@@ -170,7 +170,7 @@ $ kubectl get secret \
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Access the metrics at the exported path, using the user name and password retrieved in the previous step.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ curl -u USERNAME:PASSWORD localhost:7001/wls-exporter/metrics
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ curl -u USERNAME:PASSWORD localhost:7001/wls-exporter/metrics
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&#34;metrics-server&#34;&gt;Metrics server&lt;/h3&gt;
@@ -192,7 +192,7 @@ $ kubectl get secret \
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;Get the hostname from the Grafana ingress.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get ingress vmi-system-grafana -n verrazzano-system
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get ingress vmi-system-grafana -n verrazzano-system
 
 # Sample output
 NAME                 CLASS    HOSTS                                              ADDRESS          PORTS     AGE
@@ -200,7 +200,7 @@ vmi-system-grafana   &amp;lt;none&amp;gt;   grafana.vmi.system.default.123.456.7
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Get the password for the user &lt;code&gt;verrazzano&lt;/code&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ kubectl get secret \
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get secret \
     --namespace verrazzano-system verrazzano \
     -o jsonpath={.data.password} | base64 \
     --decode; echo
