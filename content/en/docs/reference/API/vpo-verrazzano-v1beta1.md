@@ -2540,7 +2540,7 @@ bool
 </td>
 <td>
 <em>(Optional)</em>
-<p>A list of <a href="https://opensearch.org/docs/1.2/im-plugin/ism/index/">Index State Management</a> policies
+<p>A list of <a href="https://opensearch.org/docs/2.3/im-plugin/ism/index/">Index State Management</a> policies
 to enable on OpenSearch.</p>
 </td>
 </tr>

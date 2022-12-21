@@ -71,8 +71,8 @@ component, its version, and a brief description.
 | NGINX Ingress Controller     | 1.1.1        | Traffic management solution for cloud‑native applications in Kubernetes.                 |
 | Node Exporter                | 1.3.1        | Prometheus exporter for hardware and OS metrics.                                         |
 | OAM Kubernetes Runtime       | 0.3.0        | Plug-in for implementing the Open Application Model (OAM) control plane with Kubernetes. |
-| OpenSearch                   | 1.2.3        | Provides a distributed, multitenant-capable full-text search engine.                     |
-| OpenSearch Dashboards        | 1.2.0        | Provides search and data visualization capabilities for data indexed in OpenSearch.      |
+| OpenSearch                   | 2.3.0        | Provides a distributed, multitenant-capable full-text search engine.                     |
+| OpenSearch Dashboards        | 2.3.0        | Provides search and data visualization capabilities for data indexed in OpenSearch.      |
 | Prometheus                   | 2.34.0       | Provides event monitoring and alerting.                                                  |
 | Prometheus Adapter           | 0.9.1        | Provides metrics in support of pod autoscaling.                                          |
 | Prometheus Operator          | 0.55.1       | Provides management for Prometheus monitoring tools.                                     |
