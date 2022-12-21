@@ -114,9 +114,7 @@ This is required only if specific hosts are given in an <a href="#oam.verrazzano
 <td>
 <code>workloadRef</code></br>
 <em>
-<a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/core/v1alpha1#TypedReference">
-OAM core/v1alpha1.TypedReference
-</a>
+OAM common/v1.TypedReference
 </em>
 </td>
 <td>
@@ -244,9 +242,7 @@ string
 <td>
 <code>workloadRef</code></br>
 <em>
-<a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/core/v1alpha1#TypedReference">
-OAM core/v1alpha1.TypedReference
-</a>
+OAM common/v1.TypedReference
 </em>
 </td>
 <td>
@@ -414,9 +410,7 @@ endpoint access.</p>
 <td>
 <code>workloadRef</code></br>
 <em>
-<a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/core/v1alpha1#TypedReference">
-OAM core/v1alpha1.TypedReference
-</a>
+OAM common/v1.TypedReference
 </em>
 </td>
 <td>
@@ -688,14 +682,26 @@ VerrazzanoWebLogicWorkloadSpec
 <td>
 <code>template</code></br>
 <em>
-<a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/runtime#RawExtension">
-Kubernetes runtime.RawExtension
+<a href="#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkloadTemplate">
+VerrazzanoWebLogicWorkloadTemplate
 </a>
 </em>
 </td>
 <td>
 <p>The metadata and spec for the underlying
 <a href="https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md">Domain</a> resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>clusters</code></br>
+<em>
+<a href="#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkloadTemplate">
+[]VerrazzanoWebLogicWorkloadTemplate
+</a>
+</em>
+</td>
+<td>
 </td>
 </tr>
 </table>
@@ -1252,9 +1258,7 @@ This is required only if specific hosts are given in an <a href="#oam.verrazzano
 <td>
 <code>workloadRef</code></br>
 <em>
-<a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/core/v1alpha1#TypedReference">
-OAM core/v1alpha1.TypedReference
-</a>
+OAM common/v1.TypedReference
 </em>
 </td>
 <td>
@@ -1290,9 +1294,7 @@ original ApplicationConfiguration.</p>
 <td>
 <code>ConditionedStatus</code></br>
 <em>
-<a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/core/v1alpha1#ConditionedStatus">
-OAM core/v1alpha1.ConditionedStatus
-</a>
+OAM common/v1.ConditionedStatus
 </em>
 </td>
 <td>
@@ -1306,9 +1308,7 @@ OAM core/v1alpha1.ConditionedStatus
 <td>
 <code>resources</code></br>
 <em>
-<a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/core/v1alpha1#TypedReference">
-[]OAM core/v1alpha1.TypedReference
-</a>
+[]OAM common/v1.TypedReference
 </em>
 </td>
 <td>
@@ -1374,9 +1374,7 @@ string
 <td>
 <code>workloadRef</code></br>
 <em>
-<a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/core/v1alpha1#TypedReference">
-OAM core/v1alpha1.TypedReference
-</a>
+OAM common/v1.TypedReference
 </em>
 </td>
 <td>
@@ -1412,9 +1410,7 @@ original ApplicationConfiguration.</p>
 <td>
 <code>ConditionedStatus</code></br>
 <em>
-<a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/core/v1alpha1#ConditionedStatus">
-OAM core/v1alpha1.ConditionedStatus
-</a>
+OAM common/v1.ConditionedStatus
 </em>
 </td>
 <td>
@@ -1428,9 +1424,7 @@ OAM core/v1alpha1.ConditionedStatus
 <td>
 <code>resources</code></br>
 <em>
-<a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/core/v1alpha1#TypedReference">
-[]OAM core/v1alpha1.TypedReference
-</a>
+[]OAM common/v1.TypedReference
 </em>
 </td>
 <td>
@@ -1536,9 +1530,7 @@ endpoint access.</p>
 <td>
 <code>workloadRef</code></br>
 <em>
-<a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/core/v1alpha1#TypedReference">
-OAM core/v1alpha1.TypedReference
-</a>
+OAM common/v1.TypedReference
 </em>
 </td>
 <td>
@@ -1574,9 +1566,7 @@ original ApplicationConfiguration.</p>
 <td>
 <code>ConditionedStatus</code></br>
 <em>
-<a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/core/v1alpha1#ConditionedStatus">
-OAM core/v1alpha1.ConditionedStatus
-</a>
+OAM common/v1.ConditionedStatus
 </em>
 </td>
 <td>
@@ -1846,9 +1836,7 @@ DeploymentTemplate
 <td>
 <code>ConditionedStatus</code></br>
 <em>
-<a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/core/v1alpha1#ConditionedStatus">
-OAM core/v1alpha1.ConditionedStatus
-</a>
+OAM common/v1.ConditionedStatus
 </em>
 </td>
 <td>
@@ -1880,7 +1868,8 @@ OAM core/v1alpha1.ConditionedStatus
 <a href="#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload">VerrazzanoWebLogicWorkload</a>)
 </p>
 <p>
-<p>VerrazzanoWebLogicWorkloadSpec wraps a WebLogic domain resource.</p>
+<p>VerrazzanoWebLogicWorkloadSpec wraps a WebLogic resource. The WebLogic domain specified
+in the template must contain a spec field and it may include a metadata field.</p>
 </p>
 <table>
 <thead>
@@ -1894,14 +1883,26 @@ OAM core/v1alpha1.ConditionedStatus
 <td>
 <code>template</code></br>
 <em>
-<a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/runtime#RawExtension">
-Kubernetes runtime.RawExtension
+<a href="#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkloadTemplate">
+VerrazzanoWebLogicWorkloadTemplate
 </a>
 </em>
 </td>
 <td>
 <p>The metadata and spec for the underlying
 <a href="https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md">Domain</a> resource.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>clusters</code></br>
+<em>
+<a href="#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkloadTemplate">
+[]VerrazzanoWebLogicWorkloadTemplate
+</a>
+</em>
+</td>
+<td>
 </td>
 </tr>
 </tbody>
@@ -1954,6 +1955,86 @@ string
 </td>
 <td>
 <p>The last value of the <code>verrazzano.io/lifecycle-action</code>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkloadTemplate">VerrazzanoWebLogicWorkloadTemplate
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkloadSpec">VerrazzanoWebLogicWorkloadSpec</a>)
+</p>
+<p>
+</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>apiVersion</code></br>
+<em>
+string
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>metadata</code></br>
+<em>
+<a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/runtime#RawExtension">
+Kubernetes runtime.RawExtension
+</a>
+</em>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<code>spec</code></br>
+<em>
+<a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/runtime#RawExtension">
+Kubernetes runtime.RawExtension
+</a>
+</em>
+</td>
+<td>
+<br/>
+<br/>
+<table>
+<tr>
+<td>
+<code>-</code></br>
+<em>
+[]byte
+</em>
+</td>
+<td>
+<p>Raw is the underlying serialization of this object.</p>
+<p>TODO: Determine how to detect ContentType and ContentEncoding of &lsquo;Raw&rsquo; data.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>-</code></br>
+<em>
+Kubernetes runtime.Object
+</em>
+</td>
+<td>
+<p>Object can hold a representation of this extension - useful for working with versioned
+structs.</p>
+</td>
+</tr>
+</table>
 </td>
 </tr>
 </tbody>
