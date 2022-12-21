@@ -5,8 +5,8 @@ weight: 1
 draft: false
 ---
 
-Verrazzano requires the following:
 
+Verrazzano requires the following:
 - A Kubernetes cluster and a compatible `kubectl`.
 - `dev` profile - At least 6 CPUs, 150GB disk storage( About 52G from the total storage will be allocated for Persistent Volumes ), and 48GB RAM available on the Kubernetes worker nodes.
 - `prod` profile - At least 8 CPUs, 600GB disk storage( About 450G from the total storage will be allocated for Persistent Volumes ), and 64GB RAM available on the Kubernetes worker nodes.
@@ -16,19 +16,16 @@ To avoid conflicts with Verrazzano system components, we recommend installing Ve
 {{< /alert >}}
 
 ## Supported hardware
-
 Verrazzano requires x86-64; other architectures are not supported.
 
 ## Supported software versions
-
 Verrazzano supports the following software versions.
 
 ### Kubernetes
-
 You can install Verrazzano on the following Kubernetes versions.
 
 | Verrazzano | Release Date | Latest Patch Release | Latest Patch Release Date | Kubernetes Versions    | End of Error Correction |
-| ---------- | ------------ | -------------------- | ------------------------- | ---------------------- | ----------------------- |
+|------------|--------------|----------------------|---------------------------|------------------------|-------------------------|
 | 1.4        | 2022-09-30   | 1.4.2                | 2022-11-17                | 1.21, 1.22, 1.23, 1.24 |                         |
 | 1.3        | 2022-05-24   | 1.3.8                | 2022-11-17                | 1.21, 1.22, 1.23       |                         |
 | 1.2        | 2022-03-14   | 1.2.2                | 2022-05-10                | 1.19, 1.20, 1.21       | 2022-11-30              |
@@ -39,27 +36,24 @@ For more information, see [Kubernetes Release Documentation](https://kubernetes.
 For platform specific details, see [Verrazzano platform setup]({{< relref "/docs/setup/platforms/_index.md" >}}).
 
 ### WebLogic Server
-
 The supported versions of WebLogic Server are dependent on the [WebLogic Kubernetes Operator](https://oracle.github.io/weblogic-kubernetes-operator/) version.
 See the WebLogic Server versions supported [here](https://oracle.github.io/weblogic-kubernetes-operator/introduction/prerequisites/introduction/).
 
-### Coherence
 
+### Coherence
 The supported versions of Coherence are dependent on the [Coherence Operator](https://oracle.github.io/coherence-operator/docs/latest/#/about/01_overview) version.
 See the Coherence versions supported [here](https://oracle.github.io/coherence-operator/docs/latest/#/docs/installation/01_installation).
 
 ### Helidon
-
-Verrazzano supports all versions of Helidon. For more information, see [Helidon](https://helidon.io) and
-[Helidon Commercial Offerings](https://support.oracle.com/knowledge/Middleware/2645279_1.html).
+Verrazzano supports all versions of Helidon.  For more information, see [Helidon](https://helidon.io) and
+ [Helidon Commercial Offerings](https://support.oracle.com/knowledge/Middleware/2645279_1.html).
 
 ## Installed components
-
-Verrazzano installs a curated set of open source components. The following table lists each
+Verrazzano installs a curated set of open source components.  The following table lists each
 component, its version, and a brief description.
 
 | Component                    | Version      | Description                                                                              |
-| ---------------------------- | ------------ | ---------------------------------------------------------------------------------------- |
+|------------------------------|--------------|------------------------------------------------------------------------------------------|
 | alert-manager                | 0.24.0       | Handles alerts sent by client applications, such as the Prometheus server.               |
 | cert-manager                 | 1.7.1        | Automates the management and issuance of TLS certificates.                               |
 | Coherence Operator           | 3.2.6        | Assists with deploying and managing Coherence clusters.                                  |
