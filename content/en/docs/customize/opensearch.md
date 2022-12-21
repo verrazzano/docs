@@ -43,13 +43,13 @@ configurations provided by Verrazzano.
 
 - CPU
    
-  Hardware requirements vary dramatically by workload, but 2 vCPU cores for every 100 GiB of your storage requirement is good in general.
+  Hardware requirements vary dramatically by workload, but, typically, 2 vCPU cores for every 100 GiB of your storage requirement is sufficient.
 
 
 - Shard Size
 
-  For logging, shard sizes between 10 GiB and 50 GiB usually perform well.
-  For search-intensive operations, 10-25 GiB is usually a good shard size. Overall, it is a best practice that OpenSearch shard size should not go above 50GiB for a single shard. You will have to reindex your data when the shards exceed 50 GiB.
+  For logging, shard sizes between 10 GiB and 50 GiB typically perform well.
+  For search-intensive operations, 10-25 GiB is typically a good shard size. Overall, it is a best practice that, for a single shard, the OpenSearch shard size should not go above 50GiB. When the shards exceed 50 GiB, you will have to reindex your data.
 
 
 - Primary shards Count
