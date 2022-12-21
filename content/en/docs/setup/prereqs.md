@@ -62,7 +62,7 @@ component, its version, and a brief description.
 | Grafana                      | 7.5.17       | Tool to help you examine, analyze, and monitor metrics.                                  |
 | Istio                        | 1.15.1       | Service mesh that layers transparently onto existing distributed applications.           |
 | Jaeger                       | 1.37.0       | Distributed tracing system for monitoring and troubleshooting distributed systems.       |
-| Jaeger Operator              | 1.34.1       | Provides management for Jaeger tools.                                                    |
+| Jaeger Operator              | 1.37.0       | Provides management for Jaeger tools.                                                    |
 | Keycloak                     | 15.0.2       | Provides single sign-on with Identity and Access Management.                             |
 | Kiali                        | 1.57.1       | Management console for the Istio service mesh.                                           |
 | kube-state-metrics           | 2.6.0        | Provides metrics about the state of Kubernetes API objects.                              |
