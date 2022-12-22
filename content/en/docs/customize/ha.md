@@ -30,7 +30,7 @@ The result of these measures would be no loss of service if a cluster node becam
 When using the [`ha.yaml`]({{< ghlink raw=true path="examples/ha/ha.yaml" >}}) file, consider the following:
 
 * It does not ensure a fault-tolerant environment. Your applications still must be designed and implemented as highly available.
-* Running additional replicas of components will increase resource requirements. At least four CPUs, 100GB disk storage, and 64GB RAM available on the Kubernetes worker nodes is required.
+* Running additional replicas of components will increase resource requirements. At least four CPUs, 100 GB disk storage, and 64 GB RAM available on the Kubernetes worker nodes is required.
 * Additional customizations may be required for your environment, including other customizations described in [Customize Verrazzano]({{< relref "docs/customize/_index.md" >}}).
 
 For the expected behavior of the [MySQL Component]({{< relref "docs/reference/api/vpo-verrazzano-v1beta1.md#install.verrazzano.io/v1beta1.MySQLComponent" >}}) in a highly available environment, see [Customize Keycloak and MySQL]({{< relref "docs/customize/keycloak.md" >}}).
@@ -53,7 +53,7 @@ Using the Verrazzano CLI, install the example high availability configuration wi
    ```
    $ vz install -f {{< ghlink raw=true path="examples/ha/ha-ext-lb.yaml" >}}
    ```
-### Upgrade recommendations 
-An OKE in-place upgrade scales the cluster to N-1 nodes, where N is the original number of nodes, so you must scale the cluster back to N. 
+### Upgrade recommendations
+An OKE in-place upgrade scales the cluster to N-1 nodes, where N is the original number of nodes, so you must scale the cluster back to N.
 This will start a new replacement node using the new node pool.
 For more information on in-place upgrades, see [Performing an In-Place Worker Node Kubernetes Upgrade by Updating an Existing Node Pool](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengupgradingk8sworkernode.htm#Performi).
