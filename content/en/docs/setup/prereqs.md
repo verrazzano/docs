@@ -8,11 +8,11 @@ draft: false
 
 Verrazzano requires the following:
 - A Kubernetes cluster and a compatible `kubectl`.
-- `dev` profile - At least 6 CPUs, 150GB disk storage( About 52G from the total storage will be allocated for Persistent Volumes ), and 48GB RAM available on the Kubernetes worker nodes.
-- `prod` profile - At least 8 CPUs, 600GB disk storage( About 450G from the total storage will be allocated for Persistent Volumes ), and 64GB RAM available on the Kubernetes worker nodes.
+- `dev` profile - At least six CPUs, 150 GB disk storage(About 52 GB from the total storage will be allocated for persistent volumes), and 48 GB RAM available on the Kubernetes worker nodes.
+- `prod` profile - At least eight CPUs, 600 GB disk storage(About 450 GB from the total storage will be allocated for persistent volumes), and 64 GB RAM available on the Kubernetes worker nodes.
 
 {{< alert title="NOTE" color="warning" >}}
-To avoid conflicts with Verrazzano system components, we recommend installing Verrazzano into an empty cluster. Also, depending on the resource requirements of the applications you deploy, the configurations suggested above may or may not be sufficient.
+To avoid conflicts with Verrazzano system components, we recommend installing Verrazzano into an empty cluster. Also, depending on the resource requirements of the applications you deploy, the configurations previously suggested may or may not be sufficient.
 {{< /alert >}}
 
 ## Supported hardware
