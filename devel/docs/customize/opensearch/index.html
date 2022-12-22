@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/customize/opensearch/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-12-19T22:25:35+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2022-12-22T14:12:43-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="OpenSearch">
 <meta itemprop="description" content="Learn how to customize your OpenSearch cluster configuration">
-<meta itemprop="dateModified" content="2022-12-19T22:25:35+05:30" />
-<meta itemprop="wordCount" content="1092">
+<meta itemprop="dateModified" content="2022-12-22T14:12:43-05:00" />
+<meta itemprop="wordCount" content="1093">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="OpenSearch"/>
 <meta name="twitter:description" content="Learn how to customize your OpenSearch cluster configuration"/>
@@ -117,7 +117,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.48f86a95b7c1ceeb15ba54aa08c3e1cd.json"
+  data-offline-search-index-json-src="../../../offline-search-index.258df85bd6dd6e069a28c8286fed2da9.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -139,7 +139,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.48f86a95b7c1ceeb15ba54aa08c3e1cd.json"
+  data-offline-search-index-json-src="../../../offline-search-index.258df85bd6dd6e069a28c8286fed2da9.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -670,7 +670,7 @@ automatically pruned every 14 days, and will be rolled over if an index meets at
 <ul>
 <li>Is three or more days old</li>
 <li>Contains 1,000 documents or more</li>
-<li>Is 10GB in size or larger</li>
+<li>Is 10 GB in size or larger</li>
 </ul>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">install.verrazzano.io/v1beta1</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">Verrazzano</span><span style="color:#f8f8f8;text-decoration:underline">
@@ -749,11 +749,11 @@ you can also use the OpenSearch REST API. To create a policy using the OpenSearc
 </span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>    --namespace verrazzano-system verrazzano <span style="color:#4e9a06">\
 </span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>    -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">={</span>.data.password<span style="color:#ce5c00;font-weight:bold">}</span> <span style="color:#000;font-weight:bold">|</span> base64 <span style="color:#4e9a06">\
 </span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>    --decode<span style="color:#000;font-weight:bold">;</span> <span style="color:#204a87">echo</span><span style="color:#204a87;font-weight:bold">)</span>
-</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>$ <span style="color:#000">HOST</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">$(</span>kubectl get ingress <span style="color:#4e9a06">\
 </span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>    -n verrazzano-system vmi-system-os-ingest <span style="color:#4e9a06">\
 </span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>    -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">={</span>.spec.rules<span style="color:#ce5c00;font-weight:bold">[</span>0<span style="color:#ce5c00;font-weight:bold">]</span>.host<span style="color:#ce5c00;font-weight:bold">}</span><span style="color:#204a87;font-weight:bold">)</span>
-</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>$ curl -ik -X PUT --user verrazzano:<span style="color:#000">$PASS</span> https://<span style="color:#000">$HOST</span>/_plugins/_ism/policies/policy_3 <span style="color:#4e9a06">\
 </span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>    -H <span style="color:#4e9a06">&#39;Content-Type: application/json&#39;</span> <span style="color:#4e9a06">\
 </span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>    --data-binary @- <span style="color:#4e9a06">&lt;&lt; EOF
