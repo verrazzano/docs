@@ -123,7 +123,7 @@ The following policy example configures OpenSearch to manage indices matching th
 automatically pruned every 14 days, and will be rolled over if an index meets at least one of the following criteria:
 - Is three or more days old
 - Contains 1,000 documents or more
-- Is 10GB in size or larger
+- Is 10 GB in size or larger
 
 ```yaml
 apiVersion: install.verrazzano.io/v1beta1
@@ -203,7 +203,7 @@ The previous Verrazzano custom resource will generate the following ISM policy.
 }
 ```
 
-**NOTE:** The ISM policy created using the Verrazzano custom resource contains a minimal set of configurations. To create a more detailed ISM policy, 
+**NOTE:** The ISM policy created using the Verrazzano custom resource contains a minimal set of configurations. To create a more detailed ISM policy,
 you can also use the OpenSearch REST API. To create a policy using the OpenSearch API, do the following:
 
 ```bash
@@ -211,11 +211,11 @@ $ PASS=$(kubectl get secret \
     --namespace verrazzano-system verrazzano \
     -o jsonpath={.data.password} | base64 \
     --decode; echo)
-    
+
 $ HOST=$(kubectl get ingress \
     -n verrazzano-system vmi-system-os-ingest \
     -o jsonpath={.spec.rules[0].host})
-    
+
 $ curl -ik -X PUT --user verrazzano:$PASS https://$HOST/_plugins/_ism/policies/policy_3 \
     -H 'Content-Type: application/json' \
     --data-binary @- << EOF
@@ -274,7 +274,7 @@ $ curl -ik \
 ```
 
 ## Install OpenSearch and OpenSearch Dashboards plug-ins
-Verrazzano supports OpenSearch and OpenSearch Dashboard plug-in installation by providing plug-ins in the Verrazzano custom resource. 
+Verrazzano supports OpenSearch and OpenSearch Dashboard plug-in installation by providing plug-ins in the Verrazzano custom resource.
 To install plug-ins for OpenSearch, you define the field [spec.components.opensearch.plugins](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) in the Verrazzano custom resource.
 
 The following Verrazzano custom resource example installs the `analysis-stempel` and `opensearch-anomaly-detection` plug-ins for OpenSearch:
@@ -297,7 +297,7 @@ There are three ways to define a plug-in in the `plugins.installList`:
 - [Define a plug-in by name](https://opensearch.org/docs/latest/opensearch/install/plugins#install-a-plugin-by-name):
 
   There are some pre-built [additional plug-ins](https://opensearch.org/docs/latest/opensearch/install/plugins#additional-plugins) that you can install by name.
- 
+
   ```yaml
   installList:
           - analysis-icu
