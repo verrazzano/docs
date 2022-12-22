@@ -8,8 +8,8 @@ draft: false
 
 Verrazzano requires the following:
 - A Kubernetes cluster and a compatible `kubectl`.
-- `dev` profile - At least two CPUs, 100GB disk storage, and 16GB RAM available on the Kubernetes worker nodes. Depending on the resource requirements of the applications you deploy, this may or may not be sufficient.
-- `prod` profile - At least four CPUs, 100GB disk storage, and 32GB RAM available on the Kubernetes worker nodes.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient.
+- `dev` profile - At least two CPUs, 100 GB disk storage, and 16 GB RAM available on the Kubernetes worker nodes. Depending on the resource requirements of the applications you deploy, this may or may not be sufficient.
+- `prod` profile - At least four CPUs, 100 GB disk storage, and 32 GB RAM available on the Kubernetes worker nodes.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient.
 
 {{< alert title="NOTE" color="warning" >}}
 To avoid conflicts with Verrazzano system components, we recommend installing Verrazzano into an empty cluster.
@@ -56,10 +56,10 @@ component, its version, and a brief description.
 |------------------------------|--------------|------------------------------------------------------------------------------------------|
 | alert-manager                | 0.24.0       | Handles alerts sent by client applications, such as the Prometheus server.               |
 | cert-manager                 | 1.7.1        | Automates the management and issuance of TLS certificates.                               |
-| Coherence Operator           | 3.2.6        | Assists with deploying and managing Coherence clusters.                                  |
+| Coherence Operator           | 3.2.9        | Assists with deploying and managing Coherence clusters.                                  |
 | ExternalDNS                  | 0.10.2       | Synchronizes exposed Kubernetes Services and ingresses with DNS providers.               |
 | Fluentd                      | 1.14.5       | Collects logs and sends them to OpenSearch.                                              |
-| Grafana                      | 7.5.15       | Tool to help you examine, analyze, and monitor metrics.                                  |
+| Grafana                      | 7.5.17       | Tool to help you examine, analyze, and monitor metrics.                                  |
 | Istio                        | 1.14.3       | Service mesh that layers transparently onto existing distributed applications.           |
 | Jaeger                       | 1.34.1       | Distributed tracing system for monitoring and troubleshooting distributed systems.       |
 | Jaeger Operator              | 1.34.1       | Provides management for Jaeger tools.                                                    |
@@ -78,5 +78,5 @@ component, its version, and a brief description.
 | Prometheus Pushgateway       | 1.4.2        | Allows ephemeral and batch jobs to expose their metrics to Prometheus.                   |
 | Rancher                      | 2.6.8        | Manages multiple Kubernetes clusters.                                                    |
 | Rancher Backup Operator      | 2.1.3        | Manages backup and restore of Rancher configurations and data.                           |
-| Velero                       | 1.8.1        | Manages backup and restore of Kubernetes configurations and data.                        |
-| WebLogic Kubernetes Operator | 3.4.3        | Assists with deploying and managing WebLogic domains.                                    |
+| Velero                       | 1.9.1        | Manages backup and restore of Kubernetes configurations and data.                        |
+| WebLogic Kubernetes Operator | 3.4.4        | Assists with deploying and managing WebLogic domains.                                    |

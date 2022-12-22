@@ -119,7 +119,7 @@ The following policy example configures OpenSearch to manage indices matching th
 automatically pruned every 14 days, and will be rolled over if an index meets at least one of the following criteria:
 - Is three or more days old
 - Contains 1,000 documents or more
-- Is 10GB in size or larger
+- Is 10 GB in size or larger
 
 ```yaml
 apiVersion: install.verrazzano.io/v1beta1
@@ -140,7 +140,7 @@ spec:
             minSize: 10Gb
 ```
 ## Install OpenSearch and OpenSearch Dashboards plug-ins
-Verrazzano supports OpenSearch and OpenSearch Dashboard plug-in installation by providing plug-ins in the Verrazzano custom resource. 
+Verrazzano supports OpenSearch and OpenSearch Dashboard plug-in installation by providing plug-ins in the Verrazzano custom resource.
 To install plug-ins for OpenSearch, you define the field [spec.components.opensearch.plugins](/docs/reference/api/verrazzano/v1beta1/#opensearch-component) in the Verrazzano custom resource.
 
 The following Verrazzano custom resource example installs the `analysis-stempel` and `opensearch-anomaly-detection` plug-ins for OpenSearch:
@@ -163,7 +163,7 @@ There are three ways to define a plug-in in the `plugins.installList`:
 - [Define a plug-in by name](https://opensearch.org/docs/latest/opensearch/install/plugins#install-a-plugin-by-name):
 
   There are some pre-built [additional plug-ins](https://opensearch.org/docs/latest/opensearch/install/plugins#additional-plugins) that you can install by name.
- 
+
   ```yaml
   installList:
           - analysis-icu
