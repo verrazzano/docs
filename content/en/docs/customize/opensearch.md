@@ -20,9 +20,11 @@ configurations provided by Verrazzano.
 
 - Storage Requirements
 
-   Minimum storage requirement = Source data(Log size per day * retention period(days to store your data) * (1 + shard replicas) )* (1 + Indexing overhead(extra space used other than the actual data which is generally 1%(0.1) of the index size = 1.1)) / (1 - Linux reserved space(Linux reserves 5% of the file system for the root user for some OS operations = 0.95)) / (1 - OpenSearch overhead(OpenSearch keeps 20%(worst case) of the instance for segment merges, logs, and other internal operation = 0.8 ))
+   Minimum storage requirement = source data(log size per day * retention period(days to store your data) * (1 + shard replicas) )* (1 + indexing overhead(extra space used other than the actual data which is generally 1%(0.1) of the index size = 1.1)) / (1 - Linux reserved space(Linux reserves 5% of the file system for the root user for some OS operations = 0.95)) / (1 - OpenSearch overhead(OpenSearch keeps 20%(worst case) of the instance for segment merges, logs, and other internal operation = 0.8 ))
+   
    That equation results to:
-   Minimum storage requirement = Source data(log size per day * retention period(days to store your data) * (1 + shard replicas) ) * 1.45
+ 
+   Minimum storage requirement = source data(log size per day * retention period(days to store your data) * (1 + shard replicas) ) * 1.45
 
 
 - Memory
@@ -38,23 +40,23 @@ configurations provided by Verrazzano.
 - JVM heap memory
 
    The heap size is the amount of RAM allocated to the Java Virtual Machine of an OpenSearch node. The OpenSearch process is very memory intensive and close to 50% of the memory available on a node should be allocated to the JVM. The JVM machine uses memory for indexing and search operations. The other 50% is required for the file system cache, which keeps data that is regularly accessed in memory.
-   As a general rule, you should set `-Xms` and `-Xmx` to the same value, which should be 50% of your total available RAM subject to a maximum of (approximately) 31 GiB.
+   As a general rule, you should set `-Xms` and `-Xmx` to the same value, which should be 50% of your total available RAM, subject to a maximum of (approximately) 31 GiB.
 
 
 - CPU
    
-  Hardware requirements vary dramatically by workload, but, typically, 2 vCPU cores for every 100 GiB of your storage requirement is sufficient.
+  Hardware requirements vary dramatically by workload, but, typically, two vCPU cores for every 100 GiB of your storage requirement is sufficient.
 
 
 - Shard Size
 
   For logging, shard sizes between 10 GiB and 50 GiB typically perform well.
-  For search-intensive operations, 10-25 GiB is typically a good shard size. Overall, it is a best practice that, for a single shard, the OpenSearch shard size should not go above 50GiB. When the shards exceed 50 GiB, you will have to reindex your data.
+  For search-intensive operations, 10-25 GiB typically is a good shard size. Overall, it is a best practice that, for a single shard, the OpenSearch shard size should not go above 50GiB. When the shards exceed 50 GiB, you will have to reindex your data.
 
 
-- Primary shards Count
+- Primary shards count
 
-   Approximate number of Primary shards = Source data(Log size per day * Retention period(Days to store your data)) * 1.1) / Desired shard size
+   Primary shards = source data(log size per day * retention period(days to store your data)) * 1.1) / desired shard size
 
 
 
