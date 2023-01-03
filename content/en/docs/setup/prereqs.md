@@ -57,29 +57,29 @@ component, its version, and a brief description.
 | Component                    | Version      | Description                                                                              |
 |------------------------------|--------------|------------------------------------------------------------------------------------------|
 | alert-manager                | 0.24.0       | Handles alerts sent by client applications, such as the Prometheus server.               |
-| cert-manager                 | 1.7.1        | Automates the management and issuance of TLS certificates.                               |
-| Coherence Operator           | 3.2.6        | Assists with deploying and managing Coherence clusters.                                  |
+| cert-manager                 | 1.9.1        | Automates the management and issuance of TLS certificates.                               |
+| Coherence Operator           | 3.2.9        | Assists with deploying and managing Coherence clusters.                                  |
 | ExternalDNS                  | 0.10.2       | Synchronizes exposed Kubernetes Services and ingresses with DNS providers.               |
 | Fluentd                      | 1.14.5       | Collects logs and sends them to OpenSearch.                                              |
-| Grafana                      | 7.5.15       | Tool to help you examine, analyze, and monitor metrics.                                  |
-| Istio                        | 1.14.3       | Service mesh that layers transparently onto existing distributed applications.           |
-| Jaeger                       | 1.34.1       | Distributed tracing system for monitoring and troubleshooting distributed systems.       |
-| Jaeger Operator              | 1.34.1       | Provides management for Jaeger tools.                                                    |
+| Grafana                      | 7.5.17       | Tool to help you examine, analyze, and monitor metrics.                                  |
+| Istio                        | 1.15.1       | Service mesh that layers transparently onto existing distributed applications.           |
+| Jaeger                       | 1.37.0       | Distributed tracing system for monitoring and troubleshooting distributed systems.       |
+| Jaeger Operator              | 1.37.0       | Provides management for Jaeger tools.                                                    |
 | Keycloak                     | 15.0.2       | Provides single sign-on with Identity and Access Management.                             |
-| Kiali                        | 1.42.0       | Management console for the Istio service mesh.                                           |
-| kube-state-metrics           | 2.4.2        | Provides metrics about the state of Kubernetes API objects.                              |
-| MySQL                        | 8.0.30       | Open source relational database management system used by Keycloak.                      |
-| MySQL Operator               | 8.0.30-2.0.6 | Operator for managing MySQL InnoDB Cluster setups inside a Kubernetes Cluster.           |
-| NGINX Ingress Controller     | 1.1.1        | Traffic management solution for cloud‑native applications in Kubernetes.                 |
+| Kiali                        | 1.57.1       | Management console for the Istio service mesh.                                           |
+| kube-state-metrics           | 2.6.0        | Provides metrics about the state of Kubernetes API objects.                              |
+| MySQL                        | 8.0.31       | Open source relational database management system used by Keycloak.                      |
+| MySQL Operator               | 8.0.31-2.0.7 | Operator for managing MySQL InnoDB Cluster setups inside a Kubernetes Cluster.           |
+| NGINX Ingress Controller     | 1.3.1        | Traffic management solution for cloud‑native applications in Kubernetes.                 |
 | Node Exporter                | 1.3.1        | Prometheus exporter for hardware and OS metrics.                                         |
-| OAM Kubernetes Runtime       | 0.3.0        | Plug-in for implementing the Open Application Model (OAM) control plane with Kubernetes. |
-| OpenSearch                   | 1.2.3        | Provides a distributed, multitenant-capable full-text search engine.                     |
-| OpenSearch Dashboards        | 1.2.0        | Provides search and data visualization capabilities for data indexed in OpenSearch.      |
-| Prometheus                   | 2.34.0       | Provides event monitoring and alerting.                                                  |
-| Prometheus Adapter           | 0.9.1        | Provides metrics in support of pod autoscaling.                                          |
-| Prometheus Operator          | 0.55.1       | Provides management for Prometheus monitoring tools.                                     |
+| OAM Kubernetes Runtime       | 0.3.3        | Plug-in for implementing the Open Application Model (OAM) control plane with Kubernetes. |
+| OpenSearch                   | 2.3.0        | Provides a distributed, multitenant-capable full-text search engine.                     |
+| OpenSearch Dashboards        | 2.3.0        | Provides search and data visualization capabilities for data indexed in OpenSearch.      |
+| Prometheus                   | 2.38.0       | Provides event monitoring and alerting.                                                  |
+| Prometheus Adapter           | 0.10.0       | Provides metrics in support of pod autoscaling.                                          |
+| Prometheus Operator          | 0.59.1       | Provides management for Prometheus monitoring tools.                                     |
 | Prometheus Pushgateway       | 1.4.2        | Allows ephemeral and batch jobs to expose their metrics to Prometheus.                   |
 | Rancher                      | 2.6.8        | Manages multiple Kubernetes clusters.                                                    |
 | Rancher Backup Operator      | 2.1.3        | Manages backup and restore of Rancher configurations and data.                           |
-| Velero                       | 1.8.1        | Manages backup and restore of Kubernetes configurations and data.                        |
-| WebLogic Kubernetes Operator | 3.4.3        | Assists with deploying and managing WebLogic domains.                                    |
+| Velero                       | 1.9.1        | Manages backup and restore of Kubernetes configurations and data.                        |
+| WebLogic Kubernetes Operator | 4.0.4        | Assists with deploying and managing WebLogic domains.                                    |

@@ -125,12 +125,12 @@ Other values can be used if required.
 
 | Role                          | Subnet  | Suggested RAM | Compatible VM Shape | Compatible VM Image |
 |-------------------------------|---------|---------------|---------------------|---------------------|
-| SSH Jump Host                 | Public  | 8GB           | VM.Standard3.Flex    | Oracle Linux 7.9    |
-| Oracle Cloud Native Environment Operator Host           | Private | 16GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
-| Kubernetes Control Plane Node | Private | 32GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
-| Kubernetes Worker Node 1      | Private | 32GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
-| Kubernetes Worker Node 2      | Private | 32GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
-| Kubernetes Worker Node 3      | Private | 32GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
+| SSH Jump Host                 | Public  | 8 GB           | VM.Standard3.Flex    | Oracle Linux 7.9    |
+| Oracle Cloud Native Environment Operator Host           | Private | 16 GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
+| Kubernetes Control Plane Node | Private | 32 GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
+| Kubernetes Worker Node 1      | Private | 32 GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
+| Kubernetes Worker Node 2      | Private | 32 GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
+| Kubernetes Worker Node 3      | Private | 32 GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
 </details>
 
 ## Next steps

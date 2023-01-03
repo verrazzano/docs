@@ -141,7 +141,7 @@ Verrazzano will manage all clusters whose labels match the [cluster label select
 
    d. Using the registration information in the Rancher console, from the managed cluster, apply a command using this format.
    ```
-   kubectl apply --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 -f https://<Rancher-console-url>/v3/import/<Rancher-registration>.yaml
+   $ kubectl apply --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 -f https://<Rancher-console-url>/v3/import/<Rancher-registration>.yaml
    ```
 
 ## Verify that managed cluster registration has completed
