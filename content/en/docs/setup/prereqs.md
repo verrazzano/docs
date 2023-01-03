@@ -8,10 +8,10 @@ draft: false
 
 Verrazzano requires the following:
 - A Kubernetes cluster and a compatible `kubectl`.
-- `dev` profile - Each node in the cluster should contain at least two CPUs, 8 GB RAM and 30 GB  disk storage. The entire cluster requires at least six CPUs, 48 GB RAM and 100 GB disk storage. In addition, about 52 GB storage is required for the persistent volumes.
-- `prod` profile - Each node in the cluster should contain at least two CPUs, 24 GB RAM and 30 GB disk storage. The entire cluster requires at least eight CPUs, 64 GB RAM and 150 GB disk storage. In addition, about 450 GB storage is required for the persistent volumes.
+- `dev` profile - Each node in the cluster should contain at least two CPUs, 8 GB RAM, and 30 GB of disk storage. The entire cluster requires at least six CPUs, 48 GB RAM, and 100 GB of disk storage. In addition, about 52 GB of storage is required for the persistent volumes.
+- `prod` profile - Each node in the cluster should contain at least two CPUs, 24 GB RAM, and 30 GB of disk storage. The entire cluster requires at least eight CPUs, 64 GB RAM, and 150 GB of disk storage. In addition, about 450 GB of storage is required for the persistent volumes.
 
-The persistent volumes are provisioned using the default [StorageClass](https://kubernetes.io/docs/tasks/administer-cluster/change-default-storage-class/) in the cluster. In case of a  local disk based PV [provisioner](https://kubernetes.io/docs/concepts/storage/storage-classes/#provisioner), each node in the cluster should have aminimum of 80 GB disk storage for both of the profiles.
+The persistent volumes are provisioned using the default [StorageClass](https://kubernetes.io/docs/tasks/administer-cluster/change-default-storage-class/) in the cluster. In case of a  local disk based PV [provisioner](https://kubernetes.io/docs/concepts/storage/storage-classes/#provisioner), each node in the cluster should have a minimum of 80 GB of disk storage for both of the profiles.
 
 {{< alert title="NOTE" color="warning" >}}
 To avoid conflicts with Verrazzano system components, we recommend installing Verrazzano into an empty cluster. Also, depending on the resource requirements of the applications you deploy, the configurations previously suggested may or may not be sufficient.
