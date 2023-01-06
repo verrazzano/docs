@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/prereqs/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-12-22T14:12:43-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-01-06T11:30:03+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Prerequisites">
 <meta itemprop="description" content="Review the prerequisite requirements, and the software versions installed and supported by Verrazzano">
-<meta itemprop="dateModified" content="2022-12-22T14:12:43-05:00" />
-<meta itemprop="wordCount" content="577">
+<meta itemprop="dateModified" content="2023-01-06T11:30:03+05:30" />
+<meta itemprop="wordCount" content="669">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Prerequisites"/>
 <meta name="twitter:description" content="Review the prerequisite requirements, and the software versions installed and supported by Verrazzano"/>
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.258df85bd6dd6e069a28c8286fed2da9.json"
+  data-offline-search-index-json-src="../../../offline-search-index.d1045416fae9185d183d0361a0bd4bf6.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -138,7 +138,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.258df85bd6dd6e069a28c8286fed2da9.json"
+  data-offline-search-index-json-src="../../../offline-search-index.d1045416fae9185d183d0361a0bd4bf6.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -573,15 +573,16 @@ if (!doNotTrack) {
 	<p>Verrazzano requires the following:</p>
 <ul>
 <li>A Kubernetes cluster and a compatible <code>kubectl</code>.</li>
-<li><code>dev</code> profile - At least two CPUs, 100 GB disk storage, and 16 GB RAM available on the Kubernetes worker nodes. Depending on the resource requirements of the applications you deploy, this may or may not be sufficient.</li>
-<li><code>prod</code> profile - At least four CPUs, 100 GB disk storage, and 32 GB RAM available on the Kubernetes worker nodes.  Depending on the resource requirements of the applications you deploy, this may or may not be sufficient.</li>
+<li><code>dev</code> profile - Each node in the cluster should contain at least two CPUs, 8 GB RAM, and 30 GB of disk storage. The entire cluster requires at least six CPUs, 48 GB RAM, and 100 GB of disk storage. In addition, about 52 GB of storage is required for the persistent volumes.</li>
+<li><code>prod</code> profile - Each node in the cluster should contain at least two CPUs, 24 GB RAM, and 30 GB of disk storage. The entire cluster requires at least eight CPUs, 64 GB RAM, and 150 GB of disk storage. In addition, about 450 GB of storage is required for the persistent volumes.</li>
 </ul>
+<p>The persistent volumes are provisioned using the default <a href="https://kubernetes.io/docs/tasks/administer-cluster/change-default-storage-class/">StorageClass</a> in the cluster. In case of a  local disk based PV <a href="https://kubernetes.io/docs/concepts/storage/storage-classes/#provisioner">provisioner</a>, each node in the cluster should have a minimum of 80 GB of disk storage for both of the profiles.</p>
 
 
 <div class="alert alert-warning" role="alert">
 <h4 class="alert-heading">NOTE</h4>
 
-    To avoid conflicts with Verrazzano system components, we recommend installing Verrazzano into an empty cluster.
+    To avoid conflicts with Verrazzano system components, we recommend installing Verrazzano into an empty cluster. Also, depending on the resource requirements of the applications you deploy, the configurations previously suggested may or may not be sufficient.
 
 </div>
 
@@ -928,7 +929,7 @@ component, its version, and a brief description.</p>
         
       </div>
       <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
-        <small class="text-white">&copy; 2022 Oracle and/or its affiliates</small>
+        <small class="text-white">&copy; 2023 Oracle and/or its affiliates</small>
         
 	
 		
