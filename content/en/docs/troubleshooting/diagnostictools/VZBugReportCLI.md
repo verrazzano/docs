@@ -28,12 +28,14 @@ $ vz bug-report [flags]
 ```
 ### Available options
 
-| Command                            | Definition                                                                                                                                                                                           |
-|------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `-h, --help `                      | Help for `vz bug-report` command.                                                                                                                                                                  |
-| `-i, --include-namespaces strings` | A comma-separated list of additional namespaces for collecting cluster information. This flag can be specified multiple times, such as `--include-namespaces ns1 --include-namespaces ns...`    |
-| `-r, --report-file string`         | The report file created by the `vz bug-report` command, as a `*.tar.gz` file. Defaults to `bug-report.tar.gz` in the current directory.                                                                |
-| `-v, --verbose`          | Enable verbose output.                                                                                   |
+| Command                           | Definition                                                                                                                                                                                   |
+|-----------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `-h, --help `                     | Help for `vz bug-report` command.                                                                                                                                                            |
+| `-i, --include-namespaces strings` | A comma-separated list of additional namespaces for collecting cluster information. This flag can be specified multiple times, such as `--include-namespaces ns1 --include-namespaces ns...` |
+| `-r, --report-file string`        | The report file created by the `vz bug-report` command, as a `*.tar.gz` file. Defaults to `bug-report.tar.gz` in the current directory.                                                      |
+| `-l -- include-logs`              | If additional pods logs needs be collected.                                                                                                                                                  |
+| `-d --duration duration`          | Time period of logs in seconds, minutes, hours e.g 300s, 60m, 2h.                                                                                                                            |
+| `-v, --verbose`                   | Enable verbose output.                                                                                                                                                                       |
 
 ### Available flags
 
@@ -65,5 +67,17 @@ For example, the following commands create a bug report by including additional 
    $ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2,ns3
    $ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-namespaces ns3
    ```
+- The flag `--include-logs` used when additional namespaces logs needs to shared. It will be used along with `--include-namespaces` flag mandatory parameter.
+For example, the following commands create a bug report by including additional namespaces `ns1`, `ns2`, and `ns3`:
+- ```shell
+   $vz bug-report --report-file bugreport.tgz --include-namespaces ns1 --include-logs
+  ```
+- The flag `--duration` collect logs for a specific time period. Defaults will be 0. It supports seconds, minutes, hours.
+  For example, the following commands create a bug report by including additional namespaces `ns1`, `ns2`, and `ns3` logs with specfic time duration:
+- ```shell
+   $vz bug-report --report-file bugreport.tgz --include-namespaces ns1 --include-logs --duration 5m
+   $vz bug-report --report-file bugreport.tgz --include-namespaces ns1 --include-logs --duration 2h
+   $vz bug-report --report-file bugreport.tgz --include-namespaces ns1 --include-logs --duration 300s
+  ```
 
    The values specified for the flag `--include-namespaces` are case-sensitive.
