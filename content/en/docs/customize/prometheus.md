@@ -74,7 +74,7 @@ spec:
           for: 10m
           labels:
             severity: critical
-  EOF
+EOF
 ```
 For more information see  [Deploying Prometheus rules.](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/alerting.md#deploying-prometheus-rules
 )
