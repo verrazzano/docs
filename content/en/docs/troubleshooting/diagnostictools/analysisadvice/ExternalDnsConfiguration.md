@@ -7,7 +7,7 @@ draft: false
 ---
 
 ### Summary
-Analysis detected that there was issue with dns configuration.
+Analysis detected that there was issue with DNS configuration.
 The root cause was that, while configuring dns, credentials has issues. It could be authorization issue or wrongly supplied credentials.
 ### Steps
 * Review the OCI credentials which are being supplied during configuration.
