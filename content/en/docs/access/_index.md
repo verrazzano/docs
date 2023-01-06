@@ -32,19 +32,20 @@ The resulting output is similar to the following:
 Verrazzano Status
   Name: verrazzano
   Namespace: default
-  Version: 1.3.1
+  Version: 1.5.0
   State: Ready
   Profile: dev
+  Available Components: 23/23
   Access Endpoints:
-    Console URL: https://verrazzano.default.172.18.0.231.nip.io
-    Grafana URL: https://grafana.vmi.system.default.172.18.0.231.nip.io
-    Jaeger URL: https://jaeger.default.172.18.0.231.nip.io
-    Keycloak URL: https://keycloak.default.172.18.0.231.nip.io
-    Kiali URL: https://kiali.vmi.system.default.172.18.0.231.nip.io
-    OpenSearchDashboards URL: https://opensearchDashboards.vmi.system.default.172.18.0.231.nip.io
-    OpenSearch URL: https://opensearch.vmi.system.default.172.18.0.231.nip.io
-    Prometheus URL: https://prometheus.vmi.system.default.172.18.0.231.nip.io
-    Rancher URL: https://rancher.default.172.18.0.231.nip.io
+    consoleUrl: https://verrazzano.default.172.18.0.231.nip.io
+    grafanaUrl: https://grafana.vmi.system.default.172.18.0.231.nip.io
+    jaegerURL: https://jaeger.default.172.18.0.231.nip.io
+    keyCloakUrl: https://keycloak.default.172.18.0.231.nip.io
+    kialiUrl: https://kiali.vmi.system.default.172.18.0.231.nip.io
+    openSearchDashboardsUrl: https://osd.vmi.system.default.172.18.0.231.nip.io
+    openSearchUrl: https://opensearch.vmi.system.default.172.18.0.231.nip.io
+    prometheusUrl: https://prometheus.vmi.system.default.172.18.0.231.nip.io
+    rancherUrl: https://rancher.default.172.18.0.231.nip.io
 ```
 
 {{< /tab >}}
