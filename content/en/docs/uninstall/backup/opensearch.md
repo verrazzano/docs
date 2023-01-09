@@ -1,28 +1,28 @@
 ---
 title: "OpenSearch Backup and Restore"
-description: "Back up and restore Opensearch"
+description: "Back up and restore OpenSearch"
 linkTitle: OpenSearch Backup and Restore
 weight: 2
 draft: false
 ---
 
-Verrazzano offers Opensearch deployment out of the box that gives users the capability to have access to all the log messages from various microservices running on the platform. There are scenarios where users  
-may want to back up their OpenSearch data and restore them as well.
+Verrazzano provides a ready-to-use, OpenSearch deployment that gives you access to all the log messages from various microservices running on the platform.
+There are scenarios where you may want to back up your OpenSearch data and restore it.
 
-Verrazzano leverages `velero` to facilitate backing up and restore OpenSearch data.
+Verrazzano uses Velero to facilitate backing up and restoring OpenSearch data.
 
 - [Velero Operator prerequisites](#velero-operator-prerequisites)
-- [OpenSearch Backup using Velero](#opensearch-backup-using-velero)
-- [OpenSearch Restore using Velero](#opensearch-restore-using-velero)
+- [OpenSearch backup using Velero](#opensearch-backup-using-velero)
+- [OpenSearch restore using Velero](#opensearch-restore-using-velero)
 
 
 ## Velero Operator prerequisites
 
-The following details should be kept handy before proceeding with OpenSearch back up or restore.
+Before proceeding with an OpenSearch backup or restore operation, the following details should be kept handy:
 
 - Object store bucket name.
     - An Amazon S3 compatible object storage bucket. This can be an Oracle Cloud Object Storage bucket in any compartment of your Oracle Cloud tenancy.
-        - Make a note of the bucket name and tenancy name for reference.
+        - For reference, make a note of the bucket name and tenancy name.
         - For more information about creating a bucket with Object Storage, see [Managing Buckets](https://docs.oracle.com/en-us/iaas/Content/Object/Tasks/managingbuckets.htm).
     - For private clouds, enterprise networks, or air-gapped environments, this could be MinIO or an equivalent object store solution.
 - Object store prefix name. This will be a child folder under the bucket, which the backup component creates.
@@ -36,9 +36,9 @@ The following details should be kept handy before proceeding with OpenSearch bac
 
 
 
-To back up or restore OpenSearch, `velero` needs to be enabled.
+To back up or restore OpenSearch, you must first enable Velero.
 
-1. The following configuration shows how to enable `Velero` with a `prod` installation profile.
+1. The following configuration shows you how to enable `velero` with a `prod` installation profile.
 
     ```yaml
     $ kubectl apply -f -<<EOF
@@ -53,9 +53,9 @@ To back up or restore OpenSearch, `velero` needs to be enabled.
             enabled: true
     EOF
     ```
-  **NOTE**: The OpenSearch back up and restore is supported only on `prod` installation profiles with a multi-node opensearch configuration.
+  **NOTE**: The OpenSearch back up and restore operation is supported _only_ on `prod` installation profiles with a multinode OpenSearch configuration.
 
-2. After velero is enabled, verify Velero pods running in the `verrazzano-backup` namespace.
+2. After Velero is enabled, verify that the Velero pods are running in the `verrazzano-backup` namespace.
 
     ```shell
     # Sample of pods running after enabling the velero component
@@ -67,7 +67,7 @@ To back up or restore OpenSearch, `velero` needs to be enabled.
     ```
 
 
-3. Velero requires a secret to communicate to the S3 compatible object store. Hence, we create a `backup-secret.txt` file, which has the object store credentials.
+3. Velero requires a secret to communicate with the S3 compatible object store, so we create a `backup-secret.txt` file, which has the object store credentials.
 
    ```backup-secret.txt
    [default]
@@ -75,7 +75,7 @@ To back up or restore OpenSearch, `velero` needs to be enabled.
    aws_secret_access_key=<object store secret key>
    ```
 
-4. In the namespace `verrazzano-backup`, create a Kubernetes secret for example `verrazzano-backup-creds`.
+4. In the namespace `verrazzano-backup`, create a Kubernetes secret, for example `verrazzano-backup-creds`.
 
    ```shell
    $ kubectl create secret generic -n <backup-namespace> <secret-name> --from-file=<key>=<full_path_to_creds_file>
@@ -113,10 +113,10 @@ To back up or restore OpenSearch, `velero` needs to be enabled.
     EOF
     ```
 
-## OpenSearch Backup Using Velero
+## OpenSearch backup Using Velero
 
 For OpenSearch, Verrazzano provides a custom hook that you can use along with Velero while invoking a backup.
-Due to the nature of transient data handled by OpenSearch, the hook invokes OpenSearch's snapshot APIs to back up data streams appropriately,
+Due to the nature of transient data handled by OpenSearch, the hook invokes the OpenSearch snapshot APIs to back up data streams appropriately,
 thereby ensuring that there is no loss of data and avoids data corruption as well.
 
 The following example shows a sample Velero `Backup` [API](https://velero.io/docs/v1.8/api-types/backup/) resource that you can create to initiate an OpenSearch backup.
@@ -160,10 +160,10 @@ EOF
 
 The preceding example backs up the OpenSearch components:
 - In this case, you are not backing up the `PersistentVolumes` directly, rather running a hook that invokes the OpenSearch APIs to take a snapshot of the data.
-- `defaultVolumesToRestic` is set to `false`, so that Velero ignores the associated PVC's
+- The `defaultVolumesToRestic` is set to `false` so that Velero ignores the associated PVCs.
 - In this case, the hook can be `pre` or `post`.
 - The command used in the hook requires an `operation` flag and the Velero backup name as an input.
-- The container on which the hook needs to be run. Defaults to the first container in the pod.
+- The container on which the hook needs to be run defaults to the first container in the pod.
   In this case, it's `statefulset.kubernetes.io/pod-name: vmi-system-es-master-0`.
 
 After the backup is processed, you can see the hook logs using the `velero backup logs` command. Additionally, the hook logs are stored under the `/tmp` folder in the pod.
@@ -185,7 +185,7 @@ $ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/<log-
 
 <br>
 
-### Opensearch Scheduled backups
+### OpenSearch scheduled backups
 
 Velero supports a `Schedule` [API](https://velero.io/docs/v1.8/api-types/schedule/)
 that is a repeatable request that is sent to the Velero server to perform a backup for a given cron notation.
@@ -194,16 +194,16 @@ Then, it will wait for the next valid point in the given cron expression and run
 
 <br/>
 
-## OpenSearch Restore Using Velero
+## OpenSearch restore using Velero
 
-For OpenSearch, Verrazzano provides a custom hook that you can use along with Velero, to perform a restore operation.
+For OpenSearch, Verrazzano provides a custom hook that you can use along with Velero to perform a restore operation.
 Due to the nature of transient data handled by OpenSearch, the hook invokes OpenSearch snapshot APIs to restore data streams appropriately,
 thereby ensuring there is no loss of data and avoids data corruption as well.
 
-To initiate an OpenSearch restore, first delete the existing OpenSearch cluster running on the system and all related data.
+To initiate an OpenSearch restore operation, first delete the existing OpenSearch cluster running on the system and all related data.
 
-1. Scale down `Verrazzano Monitoring Operator`. This is required since the operator manages the lifecycle of the Opensearch cluster, hence scaling it down to zero ensures that it does not interfere with the restore operation.
-   The restore operation also ensures this operator is scaled back up to return the system back to the previous state.
+1. Scale down the Verrazzano Monitoring Operator. This is required because the operator manages the life cycle of the OpenSearch cluster, so scaling it down to zero ensures that it does not interfere with the restore operation.
+   The restore operation also ensures that this operator is scaled back up to return the system to its previous state.
 
     ```shell
     $ kubectl scale deploy -n verrazzano-system verrazzano-monitoring-operator --replicas=0
@@ -220,7 +220,7 @@ To initiate an OpenSearch restore, first delete the existing OpenSearch cluster 
 
     ```
 
-3. To perform an OpenSearch restore, you can invoke the following example Velero `Restore` [API](https://velero.io/docs/v1.8/api-types/restore/) object.
+3. To perform an OpenSearch restore operation, you can invoke the following example Velero `Restore` [API](https://velero.io/docs/v1.8/api-types/restore/) object.
 
    ```yaml
    $ kubectl apply -f - <<EOF
@@ -261,11 +261,11 @@ To initiate an OpenSearch restore, first delete the existing OpenSearch cluster 
    ```
 
    The preceding example will restore an OpenSearch cluster from an existing backup.
-   - In this case, you are not restoring `PersistentVolumes` directly, rather running a hook that invokes the OpenSearch APIs to restore from an existing snapshot of the data.
-   - `restorePVs` is set to `false`, so that Velero ignores restoring PVC's
+   - In this case, you are not restoring `PersistentVolumes` directly, rather running a hook that invokes the OpenSearch APIs to restore them from an existing snapshot of the data.
+   - The `restorePVs` is set to `false` so that Velero ignores restoring PVCs.
    - The command used in the hook requires an `-operation` flag and the Velero backup name as an input.
-   - The `postHook` will invoke the OpenSearch APIs that restores the snapshot data.
-   - The container on which the hook needs to be run. Defaults to the first container in the pod.
+   - The `postHook` will invoke the OpenSearch APIs that restore the snapshot data.
+   - The container on which the hook needs to be run defaults to the first container in the pod.
      In this case, it's `statefulset.kubernetes.io/pod-name: vmi-system-es-master-0`.
 
    **NOTE**: The hook needs to be a `postHook` because it must be applied after the Kubernetes objects are restored.

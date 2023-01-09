@@ -9,17 +9,19 @@ draft: false
 Verrazzano stores user login information in Keycloak. In turn, Keycloak uses MySQL as a back end to store all persistent data.
 This document shows you how to back up and restore data stored in MySQL.
 
-- [MySQL Operator for Kubernetes prerequisites](#mysql-operator-for-kubernetes-prerequisites)
-- [MySQL Operator for Kubernetes Backup](#mysql-operator-for-kubernetes-backup)
-- [MySQL Operator for Kubernetes Restore](#mysql-operator-for-kubernetes-restore)
+- [MySQL Operator prerequisites](#mysql-operator-prerequisites)
+- [MySQL Operator backup](#mysql-operator-backup)
+- [MySQL Operator restore](#mysql-operator-restore)
 
-## MySQL Operator for Kubernetes prerequisites
+## MySQL Operator prerequisites
 
-MySQL is deployed using the [MySQL Operator for Kubernetes](https://dev.mysql.com/doc/mysql-operator/en/). Apart from managing the life cycle of MySQL instances, MySQL Operator for Kubernetes provides the capability to back up and restore data using an OCI object store. Before proceeding with MySQL back up or restore, keep the following details handy:
+MySQL is deployed using the [MySQL Operator for Kubernetes](https://dev.mysql.com/doc/mysql-operator/en/). Apart from managing the life cycle of MySQL instances, MySQL Operator provides the capability to back up and restore data using an OCI object store.
+
+Before proceeding with a MySQL back up or restore operation, keep the following details handy:
 
 - Object store bucket name.
 - Object store region name.
-- MySQL Operator for Kubernetes uses OCI credentials to back up and restore MySQL data. Prior to starting a MySQL backup or restore, the MySQL Operator for Kubernetes requires that a Kubernetes secret exists, consisting of the OCI credentials.
+- MySQL Operator uses OCI credentials to back up and restore MySQL data. Prior to starting a MySQL backup or restore operation, the MySQL Operator requires that a Kubernetes secret exists, consisting of the OCI credentials.
 
 The following example creates a secret `mysql-backup-secret` in the namespace `keycloak`.
 
@@ -47,7 +49,7 @@ $ kubectl create secret generic -n keycloak  mysql-backup-secret \
         --from-file=privatekey=/tmp/key.pem
 ````
 
-## MySQL Operator for Kubernetes Backup
+## MySQL Operator backup
 
 To initiate a MySQL backup, create the following example custom resource YAML file that uses an OCI object store as a back end.
 The operator uses the secret referenced in the `credentials` to authenticate with the OCI object store.
@@ -101,13 +103,14 @@ EOF
 
 ### Scheduled backups
 
-You can also implement schedules for running MYSQL backups. For more information, see [Handling MySQL Backups](https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-backups.html) under `backupSchedules`.
+You can also implement schedules for running MYSQL backups. For more information, see [Handling MySQL Backups](https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-backups.html),
+A PersistentVolumeClaim Scheduled Backup Example, under `backupSchedules`.
 
-## MySQL Operator for Kubernetes Restore
+## MySQL Operator restore
 
-Before you begin, read the [MySQL Operator for Kubernetes prerequisites](#mysql-operator-for-kubernetes-prerequisites). In addition, you must have at least one healthy backup before starting a restore.
+Before you begin, read the [MySQL Operator prerequisites](#mysql-operator-prerequisites). In addition, you must have at least one healthy backup before starting a restore operation.
 
-To initiate a MySQL restore from an existing backup, you need to recreate the MySQL cluster. Use the following steps for a successful MySQL restore:
+To initiate a MySQL restore operation from an existing backup, you need to recreate the MySQL cluster. Use the following steps for a successful MySQL restore operation:
 
 1. Back up the values in the MySQL Helm chart to a file, `mysql-values.yaml`.
 
@@ -143,7 +146,7 @@ To initiate a MySQL restore from an existing backup, you need to recreate the My
     $ kubectl delete pvc -n keycloak -l tier=mysql
     ```
 
-5. Now that you have removed MySQL from the system, trigger a MySQL restore by installing the Helm chart as follows.
+5. Now that you have removed MySQL from the system, trigger a MySQL restore operation by installing the Helm chart as follows.
 
     ```shell
     $ helm install mysql mysql-charts \
