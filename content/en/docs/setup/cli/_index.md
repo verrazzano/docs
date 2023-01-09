@@ -31,7 +31,10 @@ Validate the binary against the checksum file.
 ### Unpack and copy the `vz` binary
   ```shell
    $ tar xvf {{<release_asset -linux-amd64.tar.gz>}}
-   $ cp {{<release_asset "/bin/vz">}} /usr/local/bin
+  ```
+  The following command needs to be executed as root.
+  ```shell
+   $ sudo cp {{<release_asset "/bin/vz">}} /usr/local/bin
   ```
 
 ### Test to ensure that the version you installed is up-to-date
