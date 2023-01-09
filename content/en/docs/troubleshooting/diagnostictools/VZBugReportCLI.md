@@ -33,7 +33,7 @@ $ vz bug-report [flags]
 | `-h, --help `                    | Help for `vz bug-report` command.                                                                                                                                                            |
 | `-i, --include-namespaces strings` | A comma-separated list of additional namespaces for collecting cluster information. This flag can be specified multiple times, such as `--include-namespaces ns1 --include-namespaces ns...` |
 | `-r, --report-file string`       | The report file created by the `vz bug-report` command, as a `*.tar.gz` file. Defaults to `bug-report.tar.gz` in the current directory.                                                      |
-| `-l --include-logs`              | If additional pods logs needs be collected.                                                                                                                                                  |
+| `-l --include-logs`              | Include logs from the pods in one or more namespaces, specified using --include-namespaces.                                                                                                  |
 | `-d --duration duration`         | Time period of logs in seconds, minutes, hours e.g 300s, 60m, 2h.                                                                                                                            |
 | `-v, --verbose`                  | Enable verbose output.                                                                                                                                                                       |
 
