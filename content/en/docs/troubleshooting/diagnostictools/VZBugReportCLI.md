@@ -66,7 +66,7 @@ For example, the following commands create a bug report by including additional 
    ```shell
    $ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2,ns3
    ```
-- Use the `--include-logs` flag to collect the logs from the pods in one or more namespace, specified using `--include-namespaces`.
+- Use the `--include-logs` flag when logs with additional namespaces are shared. It must be used with the `--include-namespaces` flag.
 For example, the following commands create a bug report by including additional namespaces `myapp-1` and `myapp-2`:
    ```shell
    $ vz bug-report --report-file bugreport.tgz --include-namespaces myapp-1,myapp-2 --include-logs
