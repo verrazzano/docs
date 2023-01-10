@@ -1,18 +1,17 @@
 ---
 title: External DNS Configuration
 linkTitle: External DNS Configuration
-description: Analysis detected External DNS Configuration issue. 
+description: Analysis detected an external DNS configuration issue 
 weight: 5
 draft: false
 ---
 
 ### Summary
-Analysis detected that there was issue with DNS configuration.
-The root cause was that, while configuring dns, credentials has issues. It could be authorization issue or wrongly supplied credentials.
+Analysis detected that there was an issue with the DNS configuration that is related to credentials. It could be an authorization issue or incorrectly supplied credentials.
 ### Steps
-* Review the OCI credentials which are being supplied during configuration.
-* Check the permission for credentials or instance_principal.
+* Review the OCI credentials provided during DNS configuration.
+* Check the permission for OCI credentials or instance_principal.
 
 ### Related information
-* [More information on OCI DNS](https://docs.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm)
+* [OCI DNS](https://docs.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm)
 
