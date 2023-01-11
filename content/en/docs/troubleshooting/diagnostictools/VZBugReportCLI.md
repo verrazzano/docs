@@ -71,7 +71,6 @@ For example, the following commands create a bug report by including additional 
 For example, the following command creates a bug report by including additional namespaces `ns1` and `ns2` logs:
    ```shell
    $ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-logs
-   $ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-namespaces ns3 --include-logs
    ```
   The flag `--duration` collects logs for a specific period. The default value is 0, which collects the complete pod log. It supports seconds, minutes, and hours.
 For example, the following commands creates a bug report by including additional namespaces `ns1` and `ns2` logs with specific time duration:
