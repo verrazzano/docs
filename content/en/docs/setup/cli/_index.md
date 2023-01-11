@@ -14,21 +14,41 @@ Download the binary you want from the [Releases](https://github.com/verrazzano/v
 These instructions demonstrate installing the CLI on Linux AMD64 machines.
 
 ### Download the latest release
-  ```shell
-   $ curl -LO {{<release_asset_url linux-amd64.tar.gz>}}
-  ```
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
+     $ curl -LO {{<release_asset_url linux-amd64.tar.gz>}}
+   
+   </code>
+</div>
+{{< /clipboard >}}
 
 ### Validate the binary (optional)
 Download the `vz` checksum file.
-  ```shell
-   $ curl -LO {{<release_asset_url linux-amd64.tar.gz.sha256>}}
-  ```
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
+     $ curl -LO {{<release_asset_url linux-amd64.tar.gz.sha256>}}
+
+   </code>
+</div>
+{{< /clipboard >}}
+
 Validate the `vz` binary against the checksum file.
-  ```shell
-   $ sha256sum -c {{<release_asset -linux-amd64.tar.gz.sha256>}}
-  ```
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
+    $ sha256sum -c {{<release_asset -linux-amd64.tar.gz.sha256>}}
+
+  </code>
+</div>
+{{< /clipboard >}}
 
 ### Unpack and copy the `vz` binary
+
   ```shell
    $ tar xvf {{<release_asset -linux-amd64.tar.gz>}}
   ```
@@ -38,17 +58,28 @@ Validate the `vz` binary against the checksum file.
   ```
 
 ### Test to ensure that the version you installed is up-to-date
-  ```shell
-   $ vz version
-  ```
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
+     $ vz version
+
+   </code>
+</div>
+{{< /clipboard >}}
 
 The resulting output should be similar to the following.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
 
-```shell
-Version: v1.4.0
-BuildDate: 2022-09-23T21:32:57Z
-GitCommit: a34d6473a4296b8cfe64ad7851d1dcd0f18e9669
-```
+    Version: v1.4.0
+    BuildDate: 2022-09-23T21:32:57Z
+    GitCommit: a34d6473a4296b8cfe64ad7851d1dcd0f18e9669
+
+   </code>
+</div>
+{{< /clipboard >}}
 
 ## Use the `vz` CLI
 
@@ -60,9 +91,15 @@ as well as analyzing failures in a running Verrazzano environment.
 ### Usage information
 
 Use the following syntax to run `vz` commands from your terminal window.
-```shell
-vz [command] [flags]
-```
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
+    vz [command] [flags]
+
+   </code>
+</div>
+{{< /clipboard >}}
 
 ### Available commands
 
