@@ -66,17 +66,17 @@ For example, the following commands create a bug report by including additional 
    ```shell
    $ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2,ns3
    ```
-- Use the `--include-logs` flag when logs with additional namespaces are shared. It must be used with the `--include-namespaces` flag.
-For example, the following commands create a bug report by including additional namespaces `mynamespace-1` and `mynamespace-2`:
+- Use the `--include-logs` flag to collect the logs from the pods in one or more namespace, specified using `--include-namespaces`.
+For example, the following commands create a bug report by including additional namespaces `ns1` and `ns2`:
    ```shell
-   $ vz bug-report --report-file bugreport.tgz --include-namespaces mynamespace-1,mynamespace-2 --include-logs
+   $ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-logs
    ```
   The flag `--duration` collects logs for a specific period. The default value is 0, which collects the complete pod log. It supports seconds, minutes, and hours.
-For example, the following commands create a bug report by including additional namespaces `mynamespace-1` and `mynamespace-2` logs with specific time duration:
+For example, the following commands create a bug report by including additional namespaces `ns1` and `ns2` logs with specific time duration:
    ```shell
-   $ vz bug-report --report-file bugreport.tgz --include-namespaces mynamespace-1,mynamespace-2 --include-logs --duration 5m
-   $ vz bug-report --report-file bugreport.tgz --include-namespaces mynamespace-1,mynamespace-2 --include-logs --duration 2h
-   $ vz bug-report --report-file bugreport.tgz --include-namespaces mynamespace-1,mynamespace-2 --include-logs --duration 300s
+   $ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-logs --duration 5m
+   $ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-logs --duration 2h
+   $ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-logs --duration 300s
    ```
 
    The values specified for the flag `--include-namespaces` are case-sensitive.
