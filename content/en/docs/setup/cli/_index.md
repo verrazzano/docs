@@ -32,7 +32,7 @@ Validate the `vz` binary against the checksum file.
   ```shell
    $ tar xvf {{<release_asset -linux-amd64.tar.gz>}}
   ```
-  The following command needs to be executed as root.
+  The following command needs to be run as root.
   ```shell
    $ sudo cp {{<release_asset "/bin/vz">}} /usr/local/bin
   ```
