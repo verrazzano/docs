@@ -65,14 +65,16 @@ These flags apply to all the commands.
 For example, the following commands create a bug report by including additional namespaces `ns1`, `ns2`, and `ns3`:
    ```shell
    $ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2,ns3
+   $ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-namespaces ns3
    ```
 - Use the `--include-logs` flag to collect the logs from the pods in one or more namespace, specified using `--include-namespaces`.
-For example, the following command create a bug report by including additional namespaces `ns1` and `ns2` logs:
+For example, the following command creates a bug report by including additional namespaces `ns1` and `ns2` logs:
    ```shell
    $ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-logs
+   $ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-namespaces ns3 --include-logs
    ```
   The flag `--duration` collects logs for a specific period. The default value is 0, which collects the complete pod log. It supports seconds, minutes, and hours.
-For example, the following commands create a bug report by including additional namespaces `ns1` and `ns2` logs with specific time duration:
+For example, the following commands creates a bug report by including additional namespaces `ns1` and `ns2` logs with specific time duration:
    ```shell
    $ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-logs --duration 5m
    $ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-logs --duration 2h
