@@ -1,9 +1,9 @@
 ---
 title: "Quick Start"
+pygmentsUseClasses: true
 description: "Instructions for getting started with Verrazzano"
 weight: 2
 ---
-
 
 ## Prerequisites
 
@@ -41,10 +41,14 @@ The development profile has the following characteristics:
 {{< alert title="NOTE" color="warning" >}}Because the `dev` profile installs self-signed certificates, when installing Verrazzano on macOS, you might see: **Your connection is not private**. For a workaround, see this [FAQ]({{< relref "/docs/faq/_index.md#enable-google-chrome-to-accept-self-signed-verrazzano-certificates" >}}).
 {{< /alert >}}
 
+
 ### Install Verrazzano using the [Verrazzano CLI]({{< relref "docs/setup/cli/_index.md" >}})
 
 1. Install Verrazzano with its `dev` profile.
-    ```
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
     $ vz install -f - <<EOF
     apiVersion: install.verrazzano.io/v1beta1
     kind: Verrazzano
@@ -63,7 +67,10 @@ The development profile has the following characteristics:
               requests:
                 storage: 2Gi
     EOF
-    ```
+
+   </code>
+</div>
+{{< /clipboard >}}
 
 2. Wait for the installation to complete.
    Installation logs will be streamed to the command window until the installation has completed
@@ -84,69 +91,119 @@ To deploy the Hello World Helidon example application:
 1. Create a namespace for the example application and add labels identifying the namespace as managed by Verrazzano and
 enabled for Istio.
 
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
-   $ kubectl create namespace hello-helidon
-   $ kubectl label namespace hello-helidon verrazzano-managed=true istio-injection=enabled
+    $ kubectl create namespace hello-helidon
+    $ kubectl label namespace hello-helidon verrazzano-managed=true istio-injection=enabled
    ```
+   </code>
+</div>
+{{< /clipboard >}}
 
 1. Apply the `hello-helidon` resources to deploy the application.
 
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
-   $ kubectl apply -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-comp.yaml >}} -n hello-helidon
-   $ kubectl apply -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-app.yaml >}} -n hello-helidon
+    $ kubectl apply -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-comp.yaml >}} -n hello-helidon
+    $ kubectl apply -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-app.yaml >}} -n hello-helidon
    ```
+   </code>
+</div>
+{{< /clipboard >}}
 
 1. Wait for the application to be ready.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
 
    ```
-   $ kubectl wait \
-       --for=condition=Ready pods \
+    $ kubectl wait \
+      --for=condition=Ready pods \
        --all -n hello-helidon \
        --timeout=300s
-
-   # Sample output
-   pod/hello-helidon-deployment-78468f5f9c-czmp4 condition met
+   
+    # Sample output
+    pod/hello-helidon-deployment-78468f5f9c-czmp4 condition met
    ```
+   </code>
+</div>
+{{< /clipboard >}}
+
    This creates the Verrazzano OAM Component application resources for the example and waits for the pods in the `hello-helidon`
    namespace to be ready.
 
 1.  Save the host name of the load balancer exposing the application's REST service endpoints.
-    ```
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
+   ```
     $ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-gw \
         -n hello-helidon \
         -o jsonpath='{.spec.servers[0].hosts[0]}')
-    ```
+   ```
+   </code>
+</div>
+{{< /clipboard >}}
 
 1.  Get the default message.
-    ```
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
+   ```
     $ curl -sk \
         -X GET \
         "https://${HOST}/greet"
 
     # Expected response
     {"message":"Hello World!"}
-    ```
-
+   ```
+   </code>
+</div>
+{{< /clipboard >}}
 
 ## Uninstall the example application
 
 1. Delete the Verrazzano application resources.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
 
    ```
    $ kubectl delete -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-comp.yaml >}}
    $ kubectl delete -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-app.yaml >}}
-    ```
+   ```
+    
+   </code>
+</div>
+{{< /clipboard >}}
 
 1. Delete the example namespace.
-
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+    
    ```
    $ kubectl delete namespace hello-helidon
 
    # Expected response
    namespace "hello-helidon" deleted
-    ```
+   ```
+   </code>
+</div>
+{{< /clipboard >}}
 
 1. Verify that the `hello-helidon` namespace has been deleted.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
 
    ```
    $ kubectl get ns hello-helidon
@@ -154,14 +211,23 @@ enabled for Istio.
    # Expected response
    Error from server (NotFound): namespaces "hello-helidon" not found
    ```
+  </code>
+</div>
+{{< /clipboard >}}
 
 ## Uninstall Verrazzano
 
 1. Delete the Verrazzano custom resource. This will uninstall the Verrazzano platform operator and all of the currently installed components.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
 
-    ```
+   ```
     $ vz uninstall
-    ```
+   ```
+  </code>
+</div>
+{{< /clipboard >}}
 
 2. Wait for the uninstall to complete.
 The uninstall logs from the Verrazzano platform operator will be streamed to the command window until the uninstall has completed or until the default timeout (20m) has been reached.
