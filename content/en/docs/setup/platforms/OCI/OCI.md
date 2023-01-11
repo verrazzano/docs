@@ -13,10 +13,15 @@ draft: false
 * For `SHAPE`, an OKE cluster with three nodes of `VM.Standard2.4` Oracle Cloud Infrastructure [compute instance shape](https://www.oracle.com/cloud/compute/virtual-machines.html) has proven sufficient to install Verrazzano and deploy the [Bob's Books]({{< relref "/docs/samples/bobs-books.md" >}}) example application.
 
 * Follow the instructions provided by OKE to download the Kubernetes configuration file for your cluster, and set the following `ENV` variable:
+{{< clipboard >}}
+<div class="highlight">
+    <code>
 
-```
-   $ export KUBECONFIG=<path to valid Kubernetes config>
-```
+    $ export KUBECONFIG=<path to valid Kubernetes config>
+
+  </code>
+</div>
+{{< /clipboard >}}
 
 * Optional, if your organization requires the use of a private registry to the Docker images installed by Verrazzano, see [Use a Private Registry]({{< relref "/docs/setup/private-registry/private-registry.md" >}}).
 
