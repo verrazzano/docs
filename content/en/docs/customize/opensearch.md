@@ -59,6 +59,10 @@ configurations provided by Verrazzano.
    Primary shards = source data(log size per day * retention period(days to store your data)) * 1.1) / desired shard size
 
 
+The probability of getting \\(k\\) heads when flipping \\(n\\) coins is:
+```math
+\tag*{(1)}  P(E) = {n \choose k} p^k (1-p)^{n-k}
+```
 
 ## Recommended alarms
 You can [customize Prometheus]({{< relref "/docs/customize/Prometheus.md" >}}) to enable Alertmanager and configure recommended alarms (add alert rules) to get insight into your OpenSearch cluster and take some actions proactively.
