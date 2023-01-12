@@ -197,7 +197,7 @@ To initiate a MySQL restore operation from an existing backup, you need to recre
 At this point, the MySQL cluster has been restored successfully from the backup, along with the PVCs that were deleted previously.
 
 The removal and recreation of the MySQL cluster may cause the Keycloak pods to go into a crashloop state because MySQL goes offline during the restore operation.
-Keycloak is set up to self-heal and will go into a `Running` state after all the back ends are available. You may also choose to force a Keycloak bring-up, by using the following commands:
+Keycloak is set up to self-heal and will go into a `Running` state after all the back ends are available. You may also choose to force Keycloak into a `Running` state by using the following commands:
 
 ```shell
 KEYCLOAK_REPLICAS=$(kubectl get sts -n keycloak keycloak -o custom-columns=:status.replicas --no-headers)

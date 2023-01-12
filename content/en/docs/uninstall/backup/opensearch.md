@@ -11,12 +11,12 @@ There are scenarios where you may want to back up your OpenSearch data and resto
 
 Verrazzano uses Velero to facilitate backing up and restoring OpenSearch data.
 
-- [Velero Operator prerequisites](#velero-operator-prerequisites)
+- [Velero operator prerequisites](#velero-operator-prerequisites)
 - [OpenSearch backup using Velero](#opensearch-backup-using-velero)
 - [OpenSearch restore using Velero](#opensearch-restore-using-velero)
 
 
-## Velero Operator prerequisites
+## Velero operator prerequisites
 
 Before proceeding with an OpenSearch backup or restore operation, the following details should be kept handy:
 
