@@ -63,6 +63,7 @@ The probability of getting \\(k\\) heads when flipping \\(n\\) coins is:
 ```math
 \tag*{(1)}  P(E) = {n \choose k} p^k (1-p)^{n-k}
 ```
+When \\(a \ne 0\\), there are two solutions to \\(ax^2 + bx + c= 0\\) and they are \\(x = {-b \pm \sqrt{b^2-4ac} \over 2a}\\).
 
 ## Recommended alarms
 You can [customize Prometheus]({{< relref "/docs/customize/Prometheus.md" >}}) to enable Alertmanager and configure recommended alarms (add alert rules) to get insight into your OpenSearch cluster and take some actions proactively.
