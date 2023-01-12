@@ -998,13 +998,13 @@ Make sure that you have a valid kubeconfig file pointing to the Kubernetes clust
 		
 
 		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-dcabfe&#34; data-toggle=&#34;tab&#34; href=&#34;#dcabfe&#34;
+		   id=&#34;nav-daecbf&#34; data-toggle=&#34;tab&#34; href=&#34;#daecbf&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;vz&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-efbacd&#34; data-toggle=&#34;tab&#34; href=&#34;#efbacd&#34;
+		   id=&#34;nav-ecbdaf&#34; data-toggle=&#34;tab&#34; href=&#34;#ecbdaf&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;kubectl&lt;/a&gt;
 
 		
@@ -1020,7 +1020,7 @@ Make sure that you have a valid kubeconfig file pointing to the Kubernetes clust
 
 
 
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;dcabfe&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;daecbf&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;Verrazzano provides a platform &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/operator/&#34;&gt;operator&lt;/a&gt;
@@ -1080,7 +1080,7 @@ or until the default timeout (30m) has been reached.&lt;/p&gt;
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;efbacd&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;ecbdaf&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;h2 id=&#34;install-the-verrazzano-platform-operator&#34;&gt;Install the Verrazzano platform operator&lt;/h2&gt;
@@ -2286,15 +2286,23 @@ Then, it will wait for the next valid point in the given cron expression and run
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;-h, --help &lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Help for &lt;code&gt;vz bug-report&lt;/code&gt; command.&lt;/td&gt;
+&lt;td&gt;Help for the &lt;code&gt;vz bug-report&lt;/code&gt; command.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;-i, --include-namespaces strings&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;A comma-separated list of additional namespaces for collecting cluster information. This flag can be specified multiple times, such as &lt;code&gt;--include-namespaces ns1 --include-namespaces ns...&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;A comma-separated list of namespaces, in addition to the ones collected by default (system namespaces), for collecting cluster information. This flag can be specified multiple times, such as &lt;code&gt;--include-namespaces ns1 --include-namespaces ns...&lt;/code&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;-r, --report-file string&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;The report file created by the &lt;code&gt;vz bug-report&lt;/code&gt; command, as a &lt;code&gt;*.tar.gz&lt;/code&gt; file. Defaults to &lt;code&gt;bug-report.tar.gz&lt;/code&gt; in the current directory.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-l --include-logs&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Include logs from the pods in one or more namespaces; this is specified along with the &lt;code&gt;--include-namespaces&lt;/code&gt; flag.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-d --duration duration&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;The time period during which the logs are collected in seconds, minutes, and hours.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;-v, --verbose&lt;/code&gt;&lt;/td&gt;
@@ -2335,9 +2343,21 @@ Then, it will wait for the next valid point in the given cron expression and run
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;The flag &lt;code&gt;--include-namespaces&lt;/code&gt; accepts comma-separated values and can be specified multiple times.
-For example, the following commands create a bug report by including additional namespaces &lt;code&gt;ns1&lt;/code&gt;, &lt;code&gt;ns2&lt;/code&gt;, and &lt;code&gt;ns3&lt;/code&gt;:&lt;/p&gt;
+For example, the following commands create a bug report by including the additional namespaces &lt;code&gt;ns1&lt;/code&gt;, &lt;code&gt;ns2&lt;/code&gt;, and &lt;code&gt;ns3&lt;/code&gt;:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2,ns3
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-namespaces ns3
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Use the &lt;code&gt;--include-logs&lt;/code&gt; flag to collect the logs from the pods in one or more namespaces, by specifying the &lt;code&gt;--include-namespaces&lt;/code&gt; flag.
+For example, the following command creates a bug report by including the logs from the additional namespaces &lt;code&gt;ns1&lt;/code&gt; and &lt;code&gt;ns2&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-logs
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The &lt;code&gt;--duration&lt;/code&gt; flag collects logs for the specified time period. The default value is zero (&lt;code&gt;0&lt;/code&gt;), which collects the complete pod log. You can specify seconds, minutes, and hours.
+For example, the following commands create bug reports by including the logs from the additional namespaces &lt;code&gt;ns1&lt;/code&gt; and &lt;code&gt;ns2&lt;/code&gt; during the specified periods of time:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-logs --duration 5m
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-logs --duration 2h
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-logs --duration 300s
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The values specified for the flag &lt;code&gt;--include-namespaces&lt;/code&gt; are case-sensitive.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
@@ -16270,19 +16290,19 @@ Verrazzano will create &lt;code&gt;sales.us.example.com&lt;/code&gt; as the DNS 
 		
 
 		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-cfbdae&#34; data-toggle=&#34;tab&#34; href=&#34;#cfbdae&#34;
+		   id=&#34;nav-dfecab&#34; data-toggle=&#34;tab&#34; href=&#34;#dfecab&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;WildcardDNS&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-aefcdb&#34; data-toggle=&#34;tab&#34; href=&#34;#aefcdb&#34;
+		   id=&#34;nav-dacefb&#34; data-toggle=&#34;tab&#34; href=&#34;#dacefb&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;OracleCloudInfrastructureDNS&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-dafcbe&#34; data-toggle=&#34;tab&#34; href=&#34;#dafcbe&#34;
+		   id=&#34;nav-facdeb&#34; data-toggle=&#34;tab&#34; href=&#34;#facdeb&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;CustomDNS&lt;/a&gt;
 
 		
@@ -16298,7 +16318,7 @@ Verrazzano will create &lt;code&gt;sales.us.example.com&lt;/code&gt; as the DNS 
 
 
 
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;cfbdae&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;dfecab&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;Verrazzano can be configured to use either the &lt;a href=&#34;https://nip.io/&#34;&gt;nip.io&lt;/a&gt; or &lt;a href=&#34;https://sslip.io&#34;&gt;sslip.io&lt;/a&gt; free wildcard DNS services.
@@ -16331,7 +16351,7 @@ spec:
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;aefcdb&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;dacefb&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;Verrazzano can directly manage records in &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm&#34;&gt;Oracle Oracle Cloud Infrastructure DNS&lt;/a&gt;
@@ -16496,7 +16516,7 @@ spec:
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;dafcbe&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;facdeb&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;You can specify your own externally managed, custom DNS domain.  In this scenario, you manage your own DNS
@@ -18172,13 +18192,13 @@ See the following respective sections.&lt;/p&gt;
 		
 
 		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-aefdcb&#34; data-toggle=&#34;tab&#34; href=&#34;#aefdcb&#34;
+		   id=&#34;nav-fcadbe&#34; data-toggle=&#34;tab&#34; href=&#34;#fcadbe&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;vz&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-fedacb&#34; data-toggle=&#34;tab&#34; href=&#34;#fedacb&#34;
+		   id=&#34;nav-fedbac&#34; data-toggle=&#34;tab&#34; href=&#34;#fedbac&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;kubectl&lt;/a&gt;
 
 		
@@ -18194,7 +18214,7 @@ See the following respective sections.&lt;/p&gt;
 
 
 
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;aefdcb&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;fcadbe&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;ol&gt;
@@ -18223,7 +18243,7 @@ The uninstall logs from the Verrazzano platform operator will be streamed to the
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;fedacb&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;fedbac&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;To delete a Verrazzano installation, delete the Verrazzano custom resource you used to

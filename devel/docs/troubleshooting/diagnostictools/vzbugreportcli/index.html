@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/troubleshooting/diagnostictools/vzbugreportcli/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-10-13T09:46:31-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-01-12T09:14:11+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Bug Reports">
 <meta itemprop="description" content="Use the Bug Report command-line tool to capture and archive cluster information">
-<meta itemprop="dateModified" content="2022-10-13T09:46:31-04:00" />
-<meta itemprop="wordCount" content="306">
+<meta itemprop="dateModified" content="2023-01-12T09:14:11+05:30" />
+<meta itemprop="wordCount" content="487">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Bug Reports"/>
 <meta name="twitter:description" content="Use the Bug Report command-line tool to capture and archive cluster information"/>
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.cf935d94d51e8bcb0443cb0fa63ff40f.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.11aabeda4fd0b20a5a7a21003810a48d.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -138,7 +138,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.cf935d94d51e8bcb0443cb0fa63ff40f.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.11aabeda4fd0b20a5a7a21003810a48d.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -362,7 +362,9 @@ if (!doNotTrack) {
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docstroubleshootingdiagnostictoolsanalysisadvice-li">
   <a href="../../../../docs/troubleshooting/diagnostictools/analysisadvice/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docstroubleshootingdiagnostictoolsanalysisadvice"><span class="">Analysis Advice</span></a>
   <ul class="ul-4 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingdiagnostictoolsanalysisadviceimagepullbackoff-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingdiagnostictoolsanalysisadviceexternaldnsconfiguration-li">
+  <a href="../../../../docs/troubleshooting/diagnostictools/analysisadvice/externaldnsconfiguration/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsanalysisadviceexternaldnsconfiguration"><span class="">External DNS Configuration</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingdiagnostictoolsanalysisadviceimagepullbackoff-li">
   <a href="../../../../docs/troubleshooting/diagnostictools/analysisadvice/imagepullbackoff/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsanalysisadviceimagepullbackoff"><span class="">Image Pull Back Off</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingdiagnostictoolsanalysisadviceimagepullnotfound-li">
   <a href="../../../../docs/troubleshooting/diagnostictools/analysisadvice/imagepullnotfound/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsanalysisadviceimagepullnotfound"><span class="">Image Pull Not Found</span></a>
@@ -593,15 +595,23 @@ if (!doNotTrack) {
 <tbody>
 <tr>
 <td><code>-h, --help </code></td>
-<td>Help for <code>vz bug-report</code> command.</td>
+<td>Help for the <code>vz bug-report</code> command.</td>
 </tr>
 <tr>
 <td><code>-i, --include-namespaces strings</code></td>
-<td>A comma-separated list of additional namespaces for collecting cluster information. This flag can be specified multiple times, such as <code>--include-namespaces ns1 --include-namespaces ns...</code></td>
+<td>A comma-separated list of namespaces, in addition to the ones collected by default (system namespaces), for collecting cluster information. This flag can be specified multiple times, such as <code>--include-namespaces ns1 --include-namespaces ns...</code></td>
 </tr>
 <tr>
 <td><code>-r, --report-file string</code></td>
 <td>The report file created by the <code>vz bug-report</code> command, as a <code>*.tar.gz</code> file. Defaults to <code>bug-report.tar.gz</code> in the current directory.</td>
+</tr>
+<tr>
+<td><code>-l --include-logs</code></td>
+<td>Include logs from the pods in one or more namespaces; this is specified along with the <code>--include-namespaces</code> flag.</td>
+</tr>
+<tr>
+<td><code>-d --duration duration</code></td>
+<td>The time period during which the logs are collected in seconds, minutes, and hours.</td>
 </tr>
 <tr>
 <td><code>-v, --verbose</code></td>
@@ -642,9 +652,21 @@ if (!doNotTrack) {
 </span></span></code></pre></div></li>
 <li>
 <p>The flag <code>--include-namespaces</code> accepts comma-separated values and can be specified multiple times.
-For example, the following commands create a bug report by including additional namespaces <code>ns1</code>, <code>ns2</code>, and <code>ns3</code>:</p>
+For example, the following commands create a bug report by including the additional namespaces <code>ns1</code>, <code>ns2</code>, and <code>ns3</code>:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2,ns3
 </span></span><span style="display:flex;"><span>$ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-namespaces ns3
+</span></span></code></pre></div></li>
+<li>
+<p>Use the <code>--include-logs</code> flag to collect the logs from the pods in one or more namespaces, by specifying the <code>--include-namespaces</code> flag.
+For example, the following command creates a bug report by including the logs from the additional namespaces <code>ns1</code> and <code>ns2</code>:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-logs
+</span></span></code></pre></div></li>
+<li>
+<p>The <code>--duration</code> flag collects logs for the specified time period. The default value is zero (<code>0</code>), which collects the complete pod log. You can specify seconds, minutes, and hours.
+For example, the following commands create bug reports by including the logs from the additional namespaces <code>ns1</code> and <code>ns2</code> during the specified periods of time:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-logs --duration 5m
+</span></span><span style="display:flex;"><span>$ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-logs --duration 2h
+</span></span><span style="display:flex;"><span>$ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-logs --duration 300s
 </span></span></code></pre></div><p>The values specified for the flag <code>--include-namespaces</code> are case-sensitive.</p>
 </li>
 </ul>
