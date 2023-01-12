@@ -10,6 +10,9 @@ Verrazzano uses NGINX for ingress to Verrazzano system components and Istio for 
 You can customize the NGINX and Istio ingress installation configurations using Helm overrides specified in the
 Verrazzano custom resource. For example, the following Verrazzano custom resource overrides the shape
 of an Oracle Cloud Infrastructure load balancer for both NGINX and Istio ingresses.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -41,5 +44,9 @@ spec:
                     serviceAnnotations:
                       service.beta.kubernetes.io/oci-load-balancer-shape: 10Mbps
 ```
+
+   </code>
+</div>
+{{< /clipboard >}}
 
 For more information about setting component overrides, see [Customizing the Chart Before Installing](https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing).

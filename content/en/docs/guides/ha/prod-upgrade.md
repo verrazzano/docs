@@ -15,6 +15,10 @@ The exact steps required to upgrade a Verrazzano environment to achieve high ava
 1. The [examples/ha]({{< ghlink path="examples/ha/README.md" >}}) directory contains examples of highly available Verrazzano installations. The following example uses the [ha.yaml]({{< ghlink raw=true path="examples/ha/ha.yaml" >}}) file as an example of how to upgrade a default `prod` installation to a highly available Verrazzano environment.
 
    a. Create a patch file:
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
    $ cat > patch.yaml <<EOF
    spec:
@@ -118,13 +122,31 @@ The exact steps required to upgrade a Verrazzano environment to achieve high ava
            replicas: 2
    EOF
    ```
+  </code>
+</div>
+{{< /clipboard >}}
+
    b. Apply the patch:
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
    $ kubectl patch verrazzano verrazzano --patch-file=patch.yaml --type=merge
    ```
+  </code>
+</div>
+{{< /clipboard >}}
+
 
    c. Wait for the patch to be installed:
+{{< clipboard >}}
+<div class="highlight">
+    <code>
 
    ```
    $ kubectl wait --timeout=30m --for=jsonpath='{.status.state}'=Ready verrazzano/verrazzano
    ```
+   </code>
+</div>
+{{< /clipboard >}}

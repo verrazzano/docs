@@ -20,6 +20,9 @@ The following table describes the fields in the Verrazzano custom resource perta
 The following example customizes a Verrazzano `prod` profile as follows:
 * Increases the replicas count to `3` for `istio-ingressgateway` and `istio-egressgateway`
 * Changes the `podAffinity` configuration to use `requiredDuringSchedulingIgnoredDuringExecution` for `istio-ingressgateway` and `istio-egressgateway`
+{{< clipboard >}}
+<div class="highlight">
+    <code>
 
  ```
  apiVersion: install.verrazzano.io/v1beta1
@@ -73,3 +76,7 @@ The following example customizes a Verrazzano `prod` profile as follows:
                        type: LoadBalancer
                    name: istio-ingressgateway
  ```
+
+   </code>
+</div>
+{{< /clipboard >}}

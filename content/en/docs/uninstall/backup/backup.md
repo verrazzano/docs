@@ -23,6 +23,7 @@ The following sections provide detailed configuration information for:
 To initiate a MySQL backup, create the following example custom resource YAML file that uses the OCI object store as a backend.
 The operator uses the `credentials` to authenticate with the OCI object store.
 
+{{< clipboard >}}
 ```yaml
 $ kubectl apply -f - <<EOF
   apiVersion: mysql.oracle.com/v2
@@ -42,6 +43,7 @@ $ kubectl apply -f - <<EOF
             credentials: mysql-backup-secret
 EOF
 ```
+{{< /clipboard >}}
 
 **NOTE:**
 - In the MySQL Operator [prerequisites example]({{< relref "/docs/uninstall/backup/prerequisites#mysql-operator-prerequisites" >}}) example, you created the secret `mysql-backup-secret` in the `keycloak` namespace.
@@ -50,6 +52,7 @@ EOF
 
 The following is an example:
 
+{{< clipboard >}}
 ```yaml
 $ kubectl apply -f - <<EOF
   apiVersion: mysql.oracle.com/v2
@@ -69,6 +72,8 @@ $ kubectl apply -f - <<EOF
             credentials: mysql-backup-secret
 EOF
 ```
+{{< /clipboard >}}
+
 ### Scheduled backups
 
 MySQL allows scheduled backups by implementing a cron job on [MySQL Operator](https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-backups.html) for Kubernetes.
@@ -79,6 +84,7 @@ MySQL allows scheduled backups by implementing a cron job on [MySQL Operator](ht
 To initiate a Rancher backup, create the following example custom resource YAML file that uses an Amazon S3 compatible object store as a backend.
 The operator uses the `credentialSecretNamespace` value to determine where to look for the Amazon S3 backup secret.
 
+{{< clipboard >}}
 ```yaml
 $ kubectl apply -f - <<EOF
   apiVersion: resources.cattle.io/v1
@@ -97,11 +103,13 @@ $ kubectl apply -f - <<EOF
     resourceSetName: rancher-resource-set
 EOF
 ```
+{{< /clipboard >}}
 
 **NOTE:** In the [prerequisites example]({{< relref "/docs/uninstall/backup/prerequisites#rancher-backup-operator-prerequisites" >}}) example, you previously created the secret in the `verrazzano-backup` namespace.
 
 The following is an example:
 
+{{< clipboard >}}
 ```yaml
 $ kubectl apply -f - <<EOF
   apiVersion: resources.cattle.io/v1
@@ -120,6 +128,7 @@ $ kubectl apply -f - <<EOF
     resourceSetName: rancher-resource-set
 EOF
 ```
+{{< /clipboard >}}
 
 The operator creates the backup file, in the `*.tar.gz` format, and stores it in the location configured in the `storageLocation` field.
 
@@ -127,11 +136,13 @@ When the backup is complete, then the rancher-backup operator creates a file on 
 
 You can retrieve the file name as shown:
 
+{{< clipboard >}}
 ```shell
 $ kubectl get backups.resources.cattle.io rancher-backup-test
 NAME                 LOCATION   TYPE       LATEST-BACKUP                                                                     RESOURCESET            AGE   STATUS
 rancher-backup-test             One-time   rancher-615034-957d182d-44cb-4b81-bbe0-466900049124-2022-11-14T16-42-28Z.tar.gz   rancher-resource-set   54s   Completed
 ```
+{{< /clipboard >}}
 
 ### Scheduled backups
 
@@ -146,6 +157,7 @@ thereby ensuring that there is no loss of data and avoids data corruption as wel
 
 The following example shows a sample Velero `Backup` [API](https://velero.io/docs/v1.8/api-types/backup/) object that you can invoke to make an OpenSearch backup.
 
+{{< clipboard >}}
 ```yaml
 $ kubectl apply -f - <<EOF
   apiVersion: velero.io/v1
@@ -182,6 +194,7 @@ $ kubectl apply -f - <<EOF
                 timeout: 10m
 EOF
 ```
+{{< /clipboard >}}
 
 The preceding example backs up the OpenSearch components:
 - In this case, you are not backing up the `PersistentVolumes` directly, rather running a hook that invokes the OpenSearch APIs to take a snapshot of the data.
@@ -196,6 +209,7 @@ After the backup is processed, you can see the hook logs using the `velero backu
 <details>
   <summary>OpenSearch backup logs</summary></summary>
 
+{{< clipboard >}}
 ```shell
 # To display the logs from the backup, run the following command
 $ kubectl logs -n verrazzano-backup -l app.kubernetes.io/name=velero
@@ -206,6 +220,8 @@ $ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- ls -al /tmp | 
 # To examine the hook logs, exec into the pod as shown, and use the file name retrieved previously
 $ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/<log-file-name>
 ```
+{{< /clipboard >}}
+
 </details>
 
 <br>

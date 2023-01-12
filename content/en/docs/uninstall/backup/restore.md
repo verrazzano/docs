@@ -21,41 +21,54 @@ To initiate a MySQL restore, from an existing backup, you need to recreate the M
 
 1. Back up the values in the MySQL Helm chart to a file, `mysql-values.yaml`.
 
+{{< clipboard >}}
    ```shell
     $ helm get values -n keycloak mysql > mysql-values.yaml
-    ```
+   ```
+{{< /clipboard >}}
 
 2. Get the backup folder prefix name that the MySQL backup created.
 
-    ```shell
+{{< clipboard >}}
+   ```shell
     $ kubectl get mysqlbackup -n keycloak <mysql-backup-name> -o jsonpath={.status.output}
-    ```
-    The following is an example:
-    ```shell
+  ```
+{{< /clipboard >}}
+
+The following is an example:
+
+{{< clipboard >}}
+   ```shell
     $ kubectl get mysqlbackup -n keycloak mysql-backup -o jsonpath={.status.output}
     mysql-backup-20221025-180836
-    ```
+  ```
+{{< /clipboard >}}
 
 3. Retrieve the MySQL Helm charts from Verrazzano platform operator.
 
-    ```shell
+{{< clipboard >}}
+   ```shell
     $ mkdir mysql-charts
     $ kubectl cp -n verrazzano-install \
         $(kubectl get pod -n verrazzano-install -l app=verrazzano-platform-operator \
         -o custom-columns=:metadata.name --no-headers):platform-operator/thirdparty/charts/mysql \
         -c verrazzano-platform-operator mysql-charts/
-    ```
+  ```
+{{< /clipboard >}}
 
 4. Clean up MySQL pods and PVC from the system.
 
-    ```shell
+{{< clipboard >}}
+   ```shell
     $ helm delete mysql -n keycloak
     $ kubectl delete pvc -n keycloak -l tier=mysql
-    ```
+   ```
+{{< /clipboard >}}
 
 5. Trigger a MySQL restore by running the Helm chart as follows.
 
-    ```shell
+{{< clipboard >}}
+   ```shell
     $ helm install mysql mysql-charts \
             --namespace keycloak \
             --set tls.useSelfSigned=true \
@@ -66,10 +79,12 @@ To initiate a MySQL restore, from an existing backup, you need to recreate the M
             --set initDB.dump.ociObjectStorage.credentials=<Credential Name> \
             --values <mysql values file>
    ```
+{{< /clipboard >}}
 
    The following is an example:
 
-    ```shell
+{{< clipboard >}}
+   ```shell
     $ helm install mysql mysql-charts \
             --namespace keycloak \
             --set tls.useSelfSigned=true \
@@ -79,18 +94,22 @@ To initiate a MySQL restore, from an existing backup, you need to recreate the M
             --set initDB.dump.ociObjectStorage.bucketName="mysql-bucket" \
             --set initDB.dump.ociObjectStorage.credentials="mysql-backup-secret" \
             --values mysql-values.yaml
-    ```   
+  ```   
+{{< /clipboard >}}
 
 6. After performing the restore command, wait for the MySQL cluster to be online . Ensure that the `STATUS` is `ONLINE` and the count under `ONLINE` matches the `INSTANCES`.
 
+{{< clipboard >}}
    ```shell
     $ kubectl get innodbclusters -n keycloak mysql
       NAME    STATUS   ONLINE   INSTANCES   ROUTERS   AGE
       mysql   ONLINE   3        3           3         2m23s
-    ```
+  ```
+{{< /clipboard >}}
 
 7. Wait for all the MySQL pods to be in the `RUNNING` state.
 
+{{< clipboard >}}
    ```shell
 
     $ kubectl wait -n keycloak --for=condition=ready pod -l tier=mysql --timeout=600s
@@ -100,7 +119,8 @@ To initiate a MySQL restore, from an existing backup, you need to recreate the M
       pod/mysql-router-746d9d75c7-6pc5p condition met
       pod/mysql-router-746d9d75c7-bhrkw condition met
       pod/mysql-router-746d9d75c7-t8bhb condition met
-    ```
+  ```
+{{< /clipboard >}}
 
 At this point, the MySQL cluster has been restored successfully from the backup, along with the PVCs that were cleaned up previously.
 
@@ -111,7 +131,7 @@ Restoring rancher is done by creating a custom resource that indicates to `ranch
 1. To initiate a Rancher restore, create the following example custom resource YAML file.
    When a `Restore` custom resource is created, the operator accesses the backup `*.tar.gz` file specified and restores the application data from that file.
 
-
+{{< clipboard >}}
    ```yaml
    $ kubectl apply -f - <<EOF
      apiVersion: resources.cattle.io/v1
@@ -129,7 +149,9 @@ Restoring rancher is done by creating a custom resource that indicates to `ranch
            region: us-phoenix-1
            endpoint: mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com
    EOF
-   ```
+  ```
+{{< /clipboard >}}
+
    The rancher-backup operator scales down the Rancher deployment during the restore operation and scales it back up after the restoration completes.
 
    Resources are restored in this order:
@@ -141,14 +163,14 @@ Restoring rancher is done by creating a custom resource that indicates to `ranch
 
 2. Wait for all the Rancher pods to be in the `RUNNING` state.
 
+{{< clipboard >}}
    ```shell
-
     $ kubectl wait -n cattle-system --for=condition=ready pod -l app=rancher --timeout=600s
       pod/rancher-69976cffc6-bbx4p condition met
       pod/rancher-69976cffc6-fr75t condition met
       pod/rancher-69976cffc6-pcdf2 condition met
-    ```
-
+  ```
+{{< /clipboard >}}
 
 ## OpenSearch restore
 
@@ -160,23 +182,28 @@ To initiate an OpenSearch restore, first delete the existing OpenSearch cluster 
 
 1. Scale down `Verrazzano Monitoring Operator`.
 
-    ```shell
+{{< clipboard >}}
+   ```shell
     $ kubectl scale deploy -n verrazzano-system verrazzano-monitoring-operator --replicas=0
-    ```
+   ```
+{{< /clipboard >}}
 
 2. Then, clean up the OpenSearch components.
 
-    ```shell
+{{< clipboard >}}
+   ```shell
     # These are sample commands to demonstrate the OpenSearch restore process
 
     $ kubectl delete sts -n verrazzano-system -l verrazzano-component=opensearch
     $ kubectl delete deploy -n verrazzano-system -l verrazzano-component=opensearch
     $ kubectl delete pvc -n verrazzano-system -l verrazzano-component=opensearch
 
-    ```
+  ```
+{{< /clipboard >}}
 
 3. To perform an OpenSearch restore, you can invoke the following example Velero `Restore` [API](https://velero.io/docs/v1.8/api-types/restore/) object.
 
+{{< clipboard >}}
    ```yaml
    $ kubectl apply -f - <<EOF
      apiVersion: velero.io/v1
@@ -214,9 +241,11 @@ To initiate an OpenSearch restore, first delete the existing OpenSearch cluster 
                    onError: Fail
    EOF
    ```
+{{< /clipboard >}}
 
 4. Wait for all the OpenSearch pods to be in the `RUNNING` state.
 
+{{< clipboard >}}
    ```shell
 
     $ kubectl wait -n verrazzano-system --for=condition=ready pod -l verrazzano-component=opensearch --timeout=600s
@@ -228,8 +257,8 @@ To initiate an OpenSearch restore, first delete the existing OpenSearch cluster 
       pod/vmi-system-es-master-0 condition met
       pod/vmi-system-es-master-1 condition met
       pod/vmi-system-es-master-2 condition met
-    ```
-
+  ```
+{{< /clipboard >}}
 
 The preceding example will restore an OpenSearch cluster from an existing backup.
 - It will recreate a new OpenSearch cluster (with new indexes).

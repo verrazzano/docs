@@ -13,6 +13,7 @@ Verrazzano provides [Velero](https://velero.io/docs/v1.8/) and [rancher-backup](
 To back up and restore persistent data, first you must enable the `velero` and `rancherBackup` components.
 The following configuration shows how to enable the backup components with a `prod` installation profile.
 
+{{< clipboard >}}
 ```yaml
 $ kubectl apply -f -<<EOF
   apiVersion: install.verrazzano.io/v1beta1
@@ -28,10 +29,13 @@ $ kubectl apply -f -<<EOF
         enabled: true
 EOF
 ```
+{{< /clipboard >}}
+
 **NOTE**: `rancherBackup` will be enabled only in cases when `rancher` is also enabled.
 
 After they're enabled, check for Velero pods running in the `verrazzano-backup` namespace.
 
+{{< clipboard >}}
 ```shell
 # Sample of pods running after enabling the velero component
 
@@ -41,8 +45,11 @@ restic-ndxfk              1/1     Running   0          21h
 velero-5ff8766fd4-xbn4z   1/1     Running   0          21h
 
 ```
+{{< /clipboard >}}
+
 For rancher-backup, the pods will be created in the `cattle-resources-system` namespace.
 
+{{< clipboard >}}
 ```shell
 # Sample of pods running after enabling the rancherBackup component
 
@@ -51,6 +58,7 @@ NAME                              READY   STATUS    RESTARTS   AGE
 rancher-backup-5c4b985697-xw7md   1/1     Running   0          2d4h
 
 ```
+{{< /clipboard >}}
 
 ## Configure backup components
 
@@ -103,30 +111,37 @@ Now, create the following objects:
 
 1. Create a `backup-secret.txt` file, which has the object store credentials.
 
+{{< clipboard >}}
    ```backup-secret.txt
    [default]
    aws_access_key_id=<object store access key>
    aws_secret_access_key=<object store secret key>
    ```
+{{< /clipboard >}}
 
 2. In the namespace `verrazzano-backup`, create a Kubernetes secret `verrazzano-backup-creds`.
 
+{{< clipboard >}}
    ```shell
    $ kubectl create secret generic -n <backup-namespace> <secret-name> --from-file=<key>=<full_path_to_creds_file>
    ```
+{{< /clipboard >}}
 
    The following is an example:
+
+{{< clipboard >}}
    ```shell
    $ kubectl create secret generic -n verrazzano-backup verrazzano-backup-creds --from-file=cloud=backup-secret.txt
    ```
-
+{{< /clipboard >}}
 
    **NOTE**: To avoid misuse of sensitive data, ensure that the `backup-secret.txt` file is deleted after the Kubernetes secret is created.
 
 3. Create `BackupStorageLocation`, which the backup component will reference for subsequent backups. See the following `BackupStorageLocation` example.
   For more information, see [Backup Storage Location](https://velero.io/docs/v1.8/api-types/backupstoragelocation/) in the Velero documentation.
 
-     ```yaml
+{{< clipboard >}}
+ ```yaml
     $ kubectl apply -f -<<EOF
        apiVersion: velero.io/v1
        kind: BackupStorageLocation
@@ -146,20 +161,26 @@ Now, create the following objects:
            s3ForcePathStyle: "true"
            s3Url: https://mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com
     EOF
-    ```
+  ```
+{{< /clipboard >}}
 
 #### rancher-backup operator prerequisites
 
 Now, in the namespace `verrazzano-backup`, create a Kubernetes secret `rancher-backup-creds`.
 
+{{< clipboard >}}
 ```shell
 $ kubectl create secret generic -n <backup-namespace> <secret-name> --from-literal=accessKey=<accesskey> --from-literal=secretKey=<secretKey>
 ```
+{{< /clipboard >}}
 
 The following is an example:
+
+{{< clipboard >}}
 ```shell
 $ kubectl create secret generic -n verrazzano-backup rancher-backup-creds --from-literal=accessKey="s5VLpXwa0xNZQds4UTVV" --from-literal=secretKey="nFFpvyxpQvb0dIQovsl0"
 ```
+{{< /clipboard >}}
 
 #### MySQL Operator prerequisites
 
@@ -168,6 +189,7 @@ The following example creates a secret `mysql-backup-secret` in the namespace `k
 
 **NOTE:**  This secret must exist in the namespace `keycloak`.
 
+{{< clipboard >}}
 ````shell
 $ kubectl create secret generic -n keycloak  <secret-name> \
         --from-literal=user=<oci user id> \
@@ -177,9 +199,11 @@ $ kubectl create secret generic -n keycloak  <secret-name> \
         --from-literal=passphrase="" \
         --from-file=privatekey=<full path to private key pem file>
 ````
+{{< /clipboard >}}
 
 The following is an example:
 
+{{< clipboard >}}
 ````shell
 $ kubectl create secret generic -n keycloak  mysql-backup-secret \
         --from-literal=user=ocid1.user.oc1..aaaaaaaa \
@@ -189,3 +213,4 @@ $ kubectl create secret generic -n keycloak  mysql-backup-secret \
         --from-literal=passphrase="" \
         --from-file=privatekey=/tmp/key.pem
 ````
+{{< /clipboard >}}

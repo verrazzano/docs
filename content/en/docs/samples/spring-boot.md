@@ -23,18 +23,37 @@ This example provides a simple web application developed using [Spring Boot](htt
 {{< /alert >}}
 
 1. Create a namespace for the Spring Boot application and add a label identifying the namespace as managed by Verrazzano.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
    $ kubectl create namespace springboot
    $ kubectl label namespace springboot verrazzano-managed=true istio-injection=enabled
    ```
+   </code>
+</div>
+{{< /clipboard >}}
 
 1. To deploy the application, apply the Spring Boot OAM resources.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
    $ kubectl apply -f {{< release_source_url raw=true path=examples/springboot-app/springboot-comp.yaml >}} -n springboot
    $ kubectl apply -f {{< release_source_url raw=true path=examples/springboot-app/springboot-app.yaml >}} -n springboot
    ```
+   </code>
+</div>
+{{< /clipboard >}}
+
 
 1. Wait for the Spring Boot application to be ready.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
    $ kubectl wait \
       --for=condition=Ready pods \
@@ -42,10 +61,17 @@ This example provides a simple web application developed using [Spring Boot](htt
       -n springboot \
       --timeout=300s
    ```
+   </code>
+</div>
+{{< /clipboard >}}
 
 ## Explore the application
 
 1. Get the generated host name for the application.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
    $ HOST=$(kubectl get gateways.networking.istio.io \
         -n springboot \
@@ -55,8 +81,15 @@ This example provides a simple web application developed using [Spring Boot](htt
    # Sample output
    springboot-appconf.springboot.11.22.33.44.nip.io
    ```
+   </code>
+</div>
+{{< /clipboard >}}
 
 1. Get the `EXTERNAL_IP` address of the `istio-ingressgateway` service.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
    $ ADDRESS=$(kubectl get service \
         -n istio-system istio-ingressgateway \
@@ -66,11 +99,18 @@ This example provides a simple web application developed using [Spring Boot](htt
    # Sample output
    11.22.33.44
    ```   
+   </code>
+</div>
+{{< /clipboard >}}
 
 1. Access the application.
 
    * **Using the command line**
-     ```
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
+   ```
      # The expected response of this query is the HTML of a web page
      $ curl -sk \
          https://${HOST} \
@@ -82,7 +122,11 @@ This example provides a simple web application developed using [Spring Boot](htt
 
      # Sample output
      In 1524, Verrazzano became the first European to enter the New York Harbor and the Hudson River.
-     ```
+   ```
+   </code>
+</div>
+{{< /clipboard >}}
+
      If you are using `nip.io`, then you do not need to include `--resolve`.
    * **Local testing with a browser**
 
@@ -115,12 +159,26 @@ You can access them according to the directions [here]({{< relref "/docs/access/
 ## Undeploy the application   
 
 1. To undeploy the application, delete the Spring Boot OAM resources.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
    $ kubectl delete -f {{< release_source_url raw=true path=examples/springboot-app/springboot-app.yaml >}} -n springboot
    $ kubectl delete -f {{< release_source_url raw=true path=examples/springboot-app/springboot-comp.yaml >}} -n springboot
    ```
+   </code>
+</div>
+{{< /clipboard >}}
 
 1. Delete the namespace `springboot` after the application pod is terminated.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
    $ kubectl delete namespace springboot
    ```
+   </code>
+</div>
+{{< /clipboard >}}
