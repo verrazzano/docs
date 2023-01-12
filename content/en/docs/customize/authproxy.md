@@ -18,6 +18,10 @@ The following table describes the fields in the Verrazzano custom resource perta
 The following example customizes a Verrazzano `prod` profile as follows:
 * Increases the replicas count to `3`
 * Changes the `podAffinity` configuration to use `requiredDuringSchedulingIgnoredDuringExecution`
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
 ```
 apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
@@ -41,3 +45,6 @@ spec:
                           - verrazzano-authproxy
                   topologyKey: kubernetes.io/hostname
 ```
+ </code>
+</div>
+{{< /clipboard >}}

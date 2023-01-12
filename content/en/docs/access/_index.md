@@ -122,26 +122,36 @@ You will need the credentials to access the consoles installed by Verrazzano.
 **User:** `verrazzano`
 
 To get the password:
+{{< clipboard >}}
+<div class="highlight">
+    <code>
 
-```
-$ kubectl get secret \
-    --namespace verrazzano-system verrazzano \
-    -o jsonpath={.data.password} | base64 \
-    --decode; echo
-```
+    $ kubectl get secret \
+        --namespace verrazzano-system verrazzano \
+        -o jsonpath={.data.password} | base64 \
+        --decode; echo
+
+ </code>
+</div>
+{{< /clipboard >}}
 
 ### The Keycloak admin console
 
 **User:** `keycloakadmin`
 
 To get the password:
+{{< clipboard >}}
+<div class="highlight">
+    <code>
 
-```
-$ kubectl get secret \
-    --namespace keycloak keycloak-http \
-    -o jsonpath={.data.password} | base64 \
-    --decode; echo
-```
+    $ kubectl get secret \
+        --namespace keycloak keycloak-http \
+        -o jsonpath={.data.password} | base64 \
+        --decode; echo
+
+ </code>
+</div>
+{{< /clipboard >}}
 
 ### The Rancher console
 
@@ -151,24 +161,34 @@ To log in with Keycloak, select the `Log in with Keycloak` link or select the `U
 **Local Admin User:** `admin`
 
 To get the password:
+{{< clipboard >}}
+<div class="highlight">
+    <code>
 
-```
-$ kubectl get secret \
-    --namespace cattle-system rancher-admin-secret \
-    -o jsonpath={.data.password} | base64 \
-    --decode; echo
-```
+    $ kubectl get secret \
+        --namespace cattle-system rancher-admin-secret \
+        -o jsonpath={.data.password} | base64 \
+        --decode; echo
+
+ </code>
+</div>
+{{< /clipboard >}}
 
 **Keycloak User:** `verrazzano`
 
 To get the password:
+{{< clipboard >}}
+<div class="highlight">
+    <code>
 
-```
-$ kubectl get secret \
-    --namespace verrazzano-system verrazzano \
-    -o jsonpath={.data.password} | base64 \
-    --decode; echo
-```
+    $ kubectl get secret \
+        --namespace verrazzano-system verrazzano \
+        -o jsonpath={.data.password} | base64 \
+        --decode; echo
+
+ </code>
+</div>
+{{< /clipboard >}}
 
 ## Change the Verrazzano password
 
@@ -194,11 +214,24 @@ To change the Verrazzano password, first change the user password in Keycloak an
 **Update the Verrazzano secret**
 
 Get the base64 encoding for your new password.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
 
-`$ echo -n 'MyNewPwd' | base64`
+    $ echo -n 'MyNewPwd' | base64
+
+ </code>
+</div>
+{{< /clipboard >}}
 
 Update the password in the secret.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
 
-`$ kubectl edit secret verrazzano -n verrazzano-system`
+    $ kubectl edit secret verrazzano -n verrazzano-system
 
+  </code>
+</div>
+{{< /clipboard >}}
 Replace the existing password value with the new base64 encoded value.
