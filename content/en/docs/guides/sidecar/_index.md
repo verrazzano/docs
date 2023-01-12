@@ -23,6 +23,7 @@ The `todo-list-components.yaml` file contains the [VerrazzanoWebLogicWorkload]({
 ## Create a Fluentd custom sidecar configuration file
 
 Before deploying the [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/API/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload" >}}) component, create a [ConfigMap](https://kubernetes.io/docs/concepts/configuration/configmap/) that contains the Fluentd config file.
+{{< clipboard >}}
 ```yaml
 apiVersion: v1
 kind: ConfigMap
@@ -37,12 +38,14 @@ data:
       </match>
 
 ```
+{{< /clipboard >}}
 To interact with the [Fluentd DaemonSet]({{< relref "/docs/monitoring/logs/#fluentd-daemonset" >}}) that Verrazzano manages, the configuration must redirect logs to stdout, as shown in the match block at the end of the Fluentd configuration file.
 This ConfigMap must be deployed before or with all other application resources.
 
 ## Create Fluentd custom sidecar volumes
 
 Now that the Fluentd configuration ConfigMap is deployed, create volumes to grant Fluentd access to the application logs and the Fluentd configuration file.
+{{< clipboard >}}
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
 kind: Component
@@ -97,6 +100,7 @@ spec:
               - name: MW_HOME
                 value: /u01/oracle
 ```
+{{< /clipboard >}}
 The example volume `shared-log-files` is used to enable the Fluentd container to view logs from application containers. This example uses an `emptyDir` volume type for ease of access, but you can use other volume types.
 
 The `fdconfig` example volume mounts the previously deployed ConfigMap containing the Fluentd configuration. This allows the attached Fluentd sidecar to access the embedded Fluentd configuration file.
@@ -104,7 +108,7 @@ The `fdconfig` example volume mounts the previously deployed ConfigMap containin
 ## Create the Fluentd custom sidecar container
 
 The final resource addition to the [VerrazzanoWebLogicWorkload]({{< relref "/docs/reference/API/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoWebLogicWorkload" >}}) is to create the custom sidecar container.
-
+{{< clipboard >}}
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
 kind: Component
@@ -175,6 +179,7 @@ spec:
               - name: MW_HOME
                 value: /u01/oracle
 ```
+{{< /clipboard >}}
 
 This example container uses the Verrazzano Fluentd image, but you can use any image with additional Fluentd plug-ins in its place.
 
@@ -188,23 +193,47 @@ The example Fluentd configuration volume is mounted at `/fluentd/etc/`. While th
 
 Now that the resources have been configured, you can deploy the application. Follow Steps 1 through 3 in the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) example application instructions.
 Replace the deployment commands in Step 4 with your locally edited YAML files:
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
 ```
 $ kubectl apply -f todo-list-components.yaml
 $ kubectl apply -f todo-list-application.yaml
 ```
+   </code>
+</div>
+{{< /clipboard >}}
+
 Now, follow the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) instructions from Step 5 onward, as needed.
 
 To verify that a deployment successfully created a custom Fluentd sidecar:
 - Verify that the container name exists on the WebLogic application pod.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
   ```
   $ kubectl get pods -n <application-namespace> <application-pod-name> -o jsonpath="{.spec.containers[*].name}" | tr -s '[[:space:]]' '\n'
   ...
   fluentd
   ...
   ```
+   </code>
+</div>
+{{< /clipboard >}}
+
 - Verify that the Fluentd sidecar is redirecting logs to stdout.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
   ```
   $ kubectl logs -n <application-namespace> <application-pod-name> fluentd
   ```
+   </code>
+</div>
+{{< /clipboard >}}
+
 - Follow the instructions at [Verrazzano Logging]({{< relref "/docs/monitoring/logs" >}}) to ensure that the [Fluentd DaemonSet]({{< relref "/docs/monitoring/logs/#fluentd-daemonset" >}}) collected the logs from stdout.
   These logs will appear in the Verrazzano-managed [OpenSearch]({{< relref "/docs/monitoring/logs#opensearch" >}}) and [OpenSearch Dashboards]({{< relref "/docs/monitoring/logs#opensearch-dashboards" >}}).

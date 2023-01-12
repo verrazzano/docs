@@ -26,30 +26,56 @@ The following is an example of the WebLogic Prometheus-related configuration spe
 
 `$ kubectl describe pod tododomain-adminserver -n todo-list`
 
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
 ```
 Annotations:  prometheus.io/path: /wls-exporter/metrics
               prometheus.io/port: 7001
               prometheus.io/scrape: true
 ```
+   </code>
+</div>
+{{< /clipboard >}}
 
 For other resource types, such as Coherence or Helidon, the annotations would look similar to this:
+
+{{< clipboard >}}
+<div class="highlight">
+    <code>
 
 ```
 Annotations:  verrazzano.io/metricsEnabled: true
               verrazzano.io/metricsPath: /metrics
               verrazzano.io/metricsPort: 8080
 ```
+ </code>
+</div>
+{{< /clipboard >}}
+
 
 To look directly at the metrics that are being made available by the metric source, map the port and then access the path.
 
 For example, for the previous metric source:
 
 - Map the port being used to expose the metrics.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
   ```
   $ kubectl port-forward tododomain-adminserver 7001:7001 -n todo-list
   ```
+   </code>
+</div>
+{{< /clipboard >}}
+
 
 - Get the user name and password used to access the metrics source from the corresponding secret.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
 
   ```
   $ kubectl get secret \
@@ -61,11 +87,21 @@ For example, for the previous metric source:
       -o jsonpath={.data.password} | base64 \
       --decode; echo
   ```
+   </code>
+</div>
+{{< /clipboard >}}
 
 - Access the metrics at the exported path, using the user name and password retrieved in the previous step.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
    $ curl -u USERNAME:PASSWORD localhost:7001/wls-exporter/metrics
    ```
+   </code>
+</div>
+{{< /clipboard >}}
 
 ### Standard Kubernetes workloads
 
@@ -124,6 +160,10 @@ Grafana provides visualization for your Prometheus metric data.
 To access Grafana:
 
 1. Get the host name from the Grafana ingress.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
    $ kubectl get ingress vmi-system-grafana -n verrazzano-system
 
@@ -131,14 +171,26 @@ To access Grafana:
    NAME                 CLASS    HOSTS                                              ADDRESS          PORTS     AGE
    vmi-system-grafana   <none>   grafana.vmi.system.default.123.456.789.10.nip.io   123.456.789.10   80, 443   26h
    ```
+   </code>
+</div>
+{{< /clipboard >}}
+
 
 1. Get the password for the user `verrazzano`.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
    $ kubectl get secret \
        --namespace verrazzano-system verrazzano \
        -o jsonpath={.data.password} | base64 \
        --decode; echo
    ```
+   </code>
+</div>
+{{< /clipboard >}}
+
 1. Access Grafana in a browser using the host name.
 1. Log in using the `verrazzano` user and the password.
 

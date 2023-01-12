@@ -42,17 +42,40 @@ Follow these best practices for a highly available Verrazzano installation:
 
 
 To install the example high availability configuration using the Verrazzano CLI:
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
    $ vz install -f {{< ghlink raw=true path="examples/ha/ha.yaml" >}}
    ```
+   </code>
+</div>
+{{< /clipboard >}}
+
 Using the Verrazzano CLI, install the example high availability configuration on OCNE as follows:
-```
-$ vz install -f {{< ghlink raw=true path="examples/ha/ha-oci-ccm.yaml" >}}
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
+    $ vz install -f {{< ghlink raw=true path="examples/ha/ha-oci-ccm.yaml" >}}
+   ```
+   </code>
+</div>
+{{< /clipboard >}}
+
 Using the Verrazzano CLI, install the example high availability configuration with external load balancers as follows:
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
    $ vz install -f {{< ghlink raw=true path="examples/ha/ha-ext-lb.yaml" >}}
    ```
+   </code>
+</div>
+{{< /clipboard >}}
 ### Upgrade recommendations
 An OKE in-place upgrade scales the cluster to N-1 nodes, where N is the original number of nodes, so you must scale the cluster back to N.
 This will start a new replacement node using the new node pool.

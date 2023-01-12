@@ -66,6 +66,9 @@ Beginning in version 1.5, persistent storage is always required for MySQL. If `d
 If `defaultVolumeSource` is configured, then that setting will be used for all components that require storage.
 
 For example, the following Verrazzano configuration uses the `prod` profile, but disables persistent storage for all components.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -77,9 +80,15 @@ spec:
   defaultVolumeSource:
       emptyDir: {}
 ```
+ </code>
+</div>
+{{< /clipboard >}}
 
 The following example uses `persistentVolumeClaim` to override persistence settings globally for a `prod` profile, to use
 `100Gi` volumes for all components, instead of the default of `50Gi`.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -99,8 +108,14 @@ spec:
           requests:
             storage: 100Gi
 ```
+ </code>
+</div>
+{{< /clipboard >}}
 
 The following example uses a `managed-cluster` profile but overrides the persistence settings to use ephemeral storage.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -112,12 +127,18 @@ spec:
   defaultVolumeSource:
     emptyDir: {}  # Use emphemeral storage for all Components unless overridden
 ```
+ </code>
+</div>
+{{< /clipboard >}}
 
 ### Customize PersistentVolumeClaim settings for Keycloak using `volumeSource`
 
 The following example Verrazzano configuration enables a `100Gi` PersistentVolumeClaim for the MySQL component in Keycloak
 in a `dev` profile configuration.  This overrides the default of ephemeral storage for Keycloak in that profile, while
 retaining the default storage settings for other components.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -140,6 +161,9 @@ spec:
         requests:
           storage: 100Gi
 ```
+ </code>
+</div>
+{{< /clipboard >}}
 
 ### Use global and local persistence settings together
 
@@ -147,6 +171,10 @@ The following example uses a `dev` installation profile, but overrides the profi
 
 * Use `200Gi` volumes for all components by default.
 * Use a `100Gi` volume for the MySQL instance associated with Keycloak.
+
+{{< clipboard >}}
+<div class="highlight">
+    <code>
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -178,3 +206,6 @@ spec:
           requests:
             storage: 200Gi
 ```
+ </code>
+</div>
+{{< /clipboard >}}

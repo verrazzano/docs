@@ -48,13 +48,24 @@ For more information and the source code of this application, see the [Verrazzan
 {{< /alert >}}   
 
 1. Create a namespace for the example and add a label identifying the namespace as managed by Verrazzano.
+   {{< clipboard >}}
+<div class="highlight">
+    <code>
 
-    ```
+   ```
     $ kubectl create namespace bobs-books
     $ kubectl label namespace bobs-books verrazzano-managed=true istio-injection=enabled
-    ```
+   ```
+   </code>
+</div>
+{{< /clipboard >}}
+
 
 1. Create a `docker-registry` secret to enable pulling the example image from the registry.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
    $ kubectl create secret docker-registry bobs-books-repo-credentials \
            --docker-server=container-registry.oracle.com \
@@ -63,12 +74,20 @@ For more information and the source code of this application, see the [Verrazzan
            --docker-email=YOUR_REGISTRY_EMAIL \
            -n bobs-books
    ```
+   </code>
+</div>
+{{< /clipboard >}}
+
 
    Replace `YOUR_REGISTRY_USERNAME`, `YOUR_REGISTRY_PASSWORD`, and `YOUR_REGISTRY_EMAIL`
    with the values you use to access the registry.  
 
 1. Create secrets for the WebLogic domains:
-    ```
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
+  ```
     # Replace the values of the WLS_USERNAME and WLS_PASSWORD environment variables as appropriate.
     $ export WLS_USERNAME=<username>
     $ export WLS_PASSWORD=<password>
@@ -87,22 +106,37 @@ For more information and the source code of this application, see the [Verrazzan
         --from-literal=password=$WLS_PASSWORD \
         --from-literal=url=jdbc:mysql://mysql.bobs-books.svc.cluster.local:3306/books \
         -n bobs-books
-    ```
+  ```
+   </code>
+</div>
+{{< /clipboard >}}
+
    Note that the example application is preconfigured to use specific secret names.
    For the source code of this application, see the [Verrazzano Examples](https://github.com/verrazzano/examples).
    If you want to use secret names that are different from what is specified in the source code, you will need to update the corresponding YAML file and rebuild the Docker images for the example application.
 
 1. To deploy the application, apply the example resources.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
    $ kubectl apply -f {{< release_source_url raw=true path=examples/bobs-books/bobs-books-comp.yaml >}} -n bobs-books
    $ kubectl apply -f {{< release_source_url raw=true path=examples/bobs-books/bobs-books-app.yaml >}} -n bobs-books
    ```
+   </code>
+</div>
+{{< /clipboard >}}
 
 1. Wait for all of the pods in the Bob's Books example application to be ready.
    You can monitor their progress by listing the pods and inspecting the output, or you can use the `kubectl wait` command.  
 
    You may need to repeat the `kubectl wait` command several times before it is successful.
    The WebLogic Server and Coherence pods may take a while to be created and `Ready`.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
    $ kubectl get pods -n bobs-books
 
@@ -113,9 +147,16 @@ For more information and the source code of this application, see the [Verrazzan
        --all -n bobs-books \
        --timeout=600s
    ```
+   </code>
+</div>
+{{< /clipboard >}}
 
 1. Get the `EXTERNAL_IP` address of the `istio-ingressgateway` service.
-    ```
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
+  ```
     $ ADDRESS=$(kubectl get service \
         -n istio-system istio-ingressgateway \
         -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
@@ -123,9 +164,16 @@ For more information and the source code of this application, see the [Verrazzan
 
     # Sample output
     11.22.33.44
-    ```
+   ```
+   </code>
+</div>
+{{< /clipboard >}}
 
 1. Get the generated host name for the application.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
    $ HOST=$(kubectl get gateways.networking.istio.io bobs-books-bobs-books-gw \
        -n bobs-books \
@@ -135,6 +183,9 @@ For more information and the source code of this application, see the [Verrazzan
    # Sample output
    bobs-books.bobs-books.11.22.33.44.nip.io
    ```
+   </code>
+</div>
+{{< /clipboard >}}
 
 1. Access the application. To access the application in a browser, you will need to do one of the following:
     * **Option 1:** If you are using `nip.io`, then you can access the application using the generated host name. For example:
@@ -177,42 +228,84 @@ It is recommended that the WebLogic Server Administration Console _not_ be expos
 ### Access bobs-bookstore
 
 1. Set up port forwarding.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
    $ kubectl port-forward pods/bobs-bookstore-adminserver 7001:7001 -n bobs-books
    ```
+   </code>
+</div>
+{{< /clipboard >}}
+
    **NOTE**: If you are using the Oracle Cloud Infrastructure Cloud Shell to run `kubectl`, in order to access the WebLogic Server Administration Console using port forwarding, you will need to run `kubectl` on another machine.
 
 1. Access the WebLogic Server Administration Console from your browser.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
    http://localhost:7001/console
    ```
+   </code>
+</div>
+{{< /clipboard >}}
 
 ### Access bobbys-front-end
 
 1. Set up port forwarding.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
    $ kubectl port-forward pods/bobbys-front-end-adminserver 7001:7001 -n bobs-books
    ```
+   </code>
+</div>
+{{< /clipboard >}}
+
    **NOTE**: If you are using the Oracle Cloud Infrastructure Cloud Shell to run `kubectl`, in order to access the WebLogic Server Administration Console using port forwarding, you will need to run `kubectl` on another machine.
 
 1. Access the WebLogic Server Administration Console from your browser.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
    http://localhost:7001/console
    ```
+   </code>
+</div>
+{{< /clipboard >}}
 
 
 ## Verify the deployed application
 
 1. Verify that the application configuration, domains, Coherence resources, and ingress trait all exist.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
    $ kubectl get ApplicationConfiguration -n bobs-books
    $ kubectl get Domain -n bobs-books
    $ kubectl get Coherence -n bobs-books
    $ kubectl get IngressTrait -n bobs-books
    ```   
+   </code>
+</div>
+{{< /clipboard >}}
+
 
 1. Verify that the service pods are successfully created and transition to the `READY` state.
    Note that this may take a few minutes and that you may see some of the services terminate and restart.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
    $ kubectl get pods -n bobs-books
 
@@ -230,15 +323,33 @@ It is recommended that the WebLogic Server Administration Console _not_ be expos
    roberts-coherence-0                                 2/2     Running   0          17h
    roberts-coherence-1                                 2/2     Running   0          17h
    ```
+   </code>
+</div>
+{{< /clipboard >}}
+
 ## Undeploy the application
 
 1. To undeploy the application, delete the Bob's Books OAM resources.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
    $ kubectl delete -f {{< release_source_url raw=true path=examples/bobs-books/bobs-books-app.yaml >}} -n bobs-books
    $ kubectl delete -f {{< release_source_url raw=true path=examples/bobs-books/bobs-books-comp.yaml >}} -n bobs-books
    ```
+   </code>
+</div>
+{{< /clipboard >}}
 
 1. Delete the namespace `bobs-books` after the application pods are terminated. The secrets created for the WebLogic domain also will be deleted.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
    ```
    $ kubectl delete namespace bobs-books
    ```
+   </code>
+</div>
+{{< /clipboard >}}

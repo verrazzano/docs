@@ -14,18 +14,25 @@ To set up the `vz` command-line tool, follow the steps [here]({{< relref "docs/s
 ## Use the `vz bug-report` tool
 
 To create a bug report in a TAR file named `my-bug-report.tar.gz`:
+{{< clipboard >}}
+
 ```shell
 $ vz bug-report --report-file my-bug-report.tar.gz
 ```
+{{< /clipboard >}}
 
 We suggest that you review the contents of the bug report before sharing it with support and development teams.
 
 ### Usage information
 
 Use the following syntax to run `vz` commands from your terminal window.
+{{< clipboard >}}
+
 ```shell
 $ vz bug-report [flags]
 ```
+{{< /clipboard >}}
+
 ### Available options
 
 | Command                          | Definition                                                                                                                                                                                   |
@@ -49,20 +56,26 @@ These flags apply to all the commands.
 ### Examples
 
 - Create a bug report file, `bugreport.tar.gz`, by collecting data from the cluster:
+{{< clipboard >}}
+
    ```shell
    $ vz bug-report --report-file bugreport.tar.gz
    ```
+{{< /clipboard >}}
 
   When `--report-file` is not provided, the command creates `bug-report.tar.gz` in the current directory.
 
 
 - Create a bug report file, `bugreport.tar.gz`, including the additional namespace `ns1` from the cluster:
+{{< clipboard >}}
    ```shell
    $ vz bug-report --report-file bugreport.tgz --include-namespaces ns1
    ```
+{{< /clipboard >}}
 
 - The flag `--include-namespaces` accepts comma-separated values and can be specified multiple times.
 For example, the following commands create a bug report by including the additional namespaces `ns1`, `ns2`, and `ns3`:
+{{< clipboard >}}
    ```shell
    $ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2,ns3
    $ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-namespaces ns3
@@ -79,5 +92,7 @@ For example, the following commands create bug reports by including the logs fro
    $ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-logs --duration 2h
    $ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-logs --duration 300s
    ```
+{{< /clipboard >}}
+
 
    The values specified for the flag `--include-namespaces` are case-sensitive.

@@ -51,13 +51,23 @@ from the Oracle Cloud Infrastructure configuration and private key files. The ke
 for the private key file data must be `key`.
 
 Here is an example `kubectl` command that will create the secret.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
 
 ```
 $ kubectl create secret generic oci-fluentd -n verrazzano-install \
       --from-file=config=/home/myuser/oci_config --from-file=key=/home/myuser/keys/oci_api.pem
 ```
+   </code>
+</div>
+{{< /clipboard >}}
 
 The secret should look something like this.
+
+{{< clipboard >}}
+<div class="highlight">
+    <code>
 
 ```
 apiVersion: v1
@@ -70,6 +80,10 @@ metadata:
   namespace: verrazzano-install
 type: Opaque
 ```
+   </code>
+</div>
+{{< /clipboard >}}
+
 
 For convenience, there is a helper script available
 [here]({{< release_source_url raw=true path="platform-operator/scripts/install/create_oci_fluentd_secret.sh" >}}) that
@@ -85,6 +99,9 @@ installation YAML file for each type of credential.
 - [User API credentials](#user-api-credentials)
 
 ### Instance principal credentials
+{{< clipboard >}}
+<div class="highlight">
+    <code>
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -104,10 +121,17 @@ spec:
     opensearchDashboards:
       enabled: false
 ```
+   </code>
+</div>
+{{< /clipboard >}}
+
 ### User API credentials
 
 When using user API credentials, you need to configure the name of the secret in the Verrazzano custom resource,
 under the Oracle Cloud Infrastructure section of the Fluentd component settings. Your YAML file should look something like this.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -128,6 +152,9 @@ spec:
     opensearchDashboards:
       enabled: false
 ```
+   </code>
+</div>
+{{< /clipboard >}}
 
 The `apiSecret` value must match the secret you created earlier when configuring the user API credentials.
 
@@ -136,6 +163,10 @@ The `apiSecret` value must match the secret you created earlier when configuring
 You can override the Oracle Cloud Infrastructure Log object on an individual namespace. To specify a log identifier on a namespace, add an annotation named `verrazzano.io/oci-log-id` to the namespace. The value of the annotation is the Oracle Cloud Infrastructure Log object identifier.
 
 Here is an example namespace.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
 ```
 apiVersion: v1
 kind: Namespace
@@ -153,6 +184,9 @@ spec:
 status:
   phase: Active
 ```
+   </code>
+</div>
+{{< /clipboard >}}
 
 Note that if you add and subsequently remove the annotation, then the logs will revert to the default Oracle Cloud Infrastructure Log object
 specified in the Verrazzano custom resource.
@@ -161,28 +195,50 @@ specified in the Verrazzano custom resource.
 To search Verrazzano logs, you can use the Oracle Cloud Infrastructure Console, Oracle Cloud Infrastructure CLI, or Oracle Cloud Infrastructure SDK.
 
 For example, use the Oracle Cloud Infrastructure CLI to search the system logs for records emitted by the `verrazzano-application-operator` container:
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
 ```
 $ oci logging-search search-logs --search-query=\
      "search \"ocid1.compartment.oc1..example/ocid1.loggroup.oc1.iad.example/ocid1.log.oc1.iad.example\" | \
      where \"data\".\"kubernetes.container_name\" = 'verrazzano-application-operator' | sort by datetime desc" \
      --time-start 2021-12-07 --time-end 2021-12-17
 ```
+   </code>
+</div>
+{{< /clipboard >}}
 
 Search for all application log records in the `springboot` namespace:
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
 ```
 $ oci logging-search search-logs --search-query=\
      "search \"ocid1.compartment.oc1..example/ocid1.loggroup.oc1.iad.example/ocid1.log.oc1.iad.example\" | \
      where \"data\".\"kubernetes.namespace_name\" = 'springboot' | sort by datetime desc" \
      --time-start 2021-12-07 --time-end 2021-12-17
 ```
+   </code>
+</div>
+{{< /clipboard >}}
 
 For more information on searching logs, see the [Logging Query Language Specification](https://docs.oracle.com/en-us/iaas/Content/Logging/Reference/query_language_specification.htm).
 
 ## Troubleshooting
 If you are not able to view Verrazzano logs in Oracle Cloud Infrastructure Logging, then check the Fluentd container logs in the cluster to see if there are errors.
+{{< clipboard >}}
+<div class="highlight">
+    <code>
+
 ```
 $ kubectl logs -n verrazzano-system -l app=fluentd --tail=-1
 ```
+   </code>
+</div>
+{{< /clipboard >}}
+
 If you see `not authorized` error messages, then there is likely a problem with the Oracle Cloud Infrastructure Dynamic Group or IAM policy that is preventing the Fluentd plug-in from communicating with the Oracle Cloud Infrastructure API.
 
 To ensure the appropriate permissions are in place, review the Oracle Cloud Infrastructure Logging [required permissions](https://docs.oracle.com/en-us/iaas/Content/Logging/Task/managinglogs.htm#required_permissions_logs_groups) documentation.
