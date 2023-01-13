@@ -190,8 +190,8 @@ Features:
 
 - Logging enhancements:
   - Added support for Oracle Cloud Infrastructure Logging integration.
-  - Replaced Elasticsearch and Kibana with Opensearch and Opensearch Dashboard.
-  - Updated Opensearch `prod` profile data node configuration to 3 replicas.
+  - Replaced Elasticsearch and Kibana with OpenSearch and OpenSearch Dashboard.
+  - Updated OpenSearch `prod` profile data node configuration to 3 replicas.
   - Enhanced Fluentd parsing/filtering rules for Verrazzano system logs.
 - Added support for using `instance_principal` authorization with using Oracle Cloud Infrastructure DNS.
 - Added support for metrics integration with non-OAM applications.
@@ -202,8 +202,8 @@ Features:
   - MySQL v8.0.28.
   - Grafana v7.5.11.
   - Prometheus v2.31.1.
-  - Opensearch v1.2.3 (replaces Elasticsearch).
-  - Opensearch Dashboards v1.2.0 (replaces Kibana).
+  - OpenSearch v1.2.3 (replaces Elasticsearch).
+  - OpenSearch Dashboards v1.2.0 (replaces Kibana).
   - WebLogic Kubernetes Operator v3.3.7.
 
 Fixes:
@@ -211,7 +211,7 @@ Fixes:
 - Fixed Keycloak issue creating incorrect `verrazzano-monitors` group on installation.
 - Fixed Verrazzano failing to uninstall in a private registry configuration due to a missing Rancher image.
 - Fixed Rancher installation when `tls-ca-additional` secret is not present.
-- Fixed Opensearch parsing errors of `trait` field.
+- Fixed OpenSearch parsing errors of `trait` field.
 - Fixed Custom CA certificates support.
 - Fixed issue requeuing unsupported traits in the Verrazzano Application Operator, and updated the OAM Operator.
 - Aligned Helidon workload service port names with Istio conventions to avoid protocol defaulting to TCP in all cases.
