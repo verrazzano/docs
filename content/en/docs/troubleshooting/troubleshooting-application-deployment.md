@@ -22,14 +22,12 @@ For application deployment to succeed, the `oam-kubernetes-runtime` pod must hav
 Use the following command to get the pod status:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ kubectl get pods \
     -n verrazzano-system \
     -l app.kubernetes.io/name=oam-kubernetes-runtime
 ```
-   </code>
 </div>
 {{< /clipboard >}}
 
@@ -42,14 +40,13 @@ For application deployment to succeed, the `verrazzano-application-operator` pod
 Use the following command to get the pod status:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ kubectl get pods \
     -n verrazzano-system \
     -l app=verrazzano-application-operator
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -61,14 +58,13 @@ Review the `oam-kubernetes-runtime` pod logs for any indication that pod startup
 Use the following command to get the logs:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ kubectl logs \
     -n verrazzano-system \
     -l app.kubernetes.io/name=oam-kubernetes-runtime
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -79,14 +75,13 @@ Review the `verrazzano-application-operator` logs for any indication that pod st
 Use the following command to get the logs:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ kubectl logs \
     -n verrazzano-system \
     -l app=verrazzano-application-operator
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -101,14 +96,13 @@ If the expected related resources, for example Deployment or Service, are missin
 The following commands are examples of checking for the resources related to a VerrazzanoHelidonWorkload deployment:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ kubectl get -n hello-helidon verrazzanohelidonworkload hello-helidon-workload
 $ kubectl get -n hello-helidon deployment hello-helidon-deployment
 $ kubectl get -n hello-helidon service hello-helidon-deployment
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -123,7 +117,6 @@ If the expected related resources, for example Certificate, Gateway, and Virtual
 The following commands are examples of checking for the resources related to an IngressTrait:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ kubectl get -n hello-helidon ingresstrait hello-helidon-ingress
@@ -131,7 +124,7 @@ $ kubectl get -n istio-system Certificate hello-helidon-hello-helidon-appconf-ce
 $ kubectl get -n hello-helidon gateway hello-helidon-hello-helidon-gw
 $ kubectl get -n hello-helidon virtualservice hello-helidon-ingress-rule-0-vs
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -142,14 +135,13 @@ In this case, the `oam-kubernetes-runtime` logs will contain errors containing t
 The following command shows how to query for this type of failure message:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ kubectl logs \
     -n verrazzano-system \
     -l app.kubernetes.io/name=oam-kubernetes-runtime | grep forbidden
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -159,14 +151,13 @@ Kubernetes maintains the child to parent relationship within metadata fields.
 The following example returns the parent of the IngressTrait, named `hello-helidon-ingress`, in the `hello-helidon` namespace:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ kubectl get IngressTrait \
     -n hello-helidon hello-helidon-ingress \
     -o jsonpath='{range .metadata.ownerReferences[*]}{.name}{"\n"}{end}'
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -179,14 +170,13 @@ For example, when processed, an IngressTrait will create related Gateway, Virtua
 The following command is an example of how to obtain the related resources of an IngressTraits:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ kubectl get IngressTrait \
     -n hello-helidon hello-helidon-ingress \
     -o jsonpath='{range .status.resources[*]}{.kind}: {.name}{"\n"}{end}'
 ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 

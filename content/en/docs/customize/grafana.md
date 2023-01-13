@@ -13,7 +13,6 @@ If you prefer to use your own Grafana database, complete the following steps:
 1. Create a secret named `grafana-db` in the `verrazzano-install` namespace which contains the login credentials. For example:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
   
    ```
    $ # Load the login credentials into variables
@@ -35,14 +34,13 @@ If you prefer to use your own Grafana database, complete the following steps:
      password: $USER_SECRET
    EOF
    ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
 1. Configure the Grafana component of the Verrazzano custom resource. For example:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    apiVersion: install.verrazzano.io/v1beta1
@@ -57,7 +55,7 @@ If you prefer to use your own Grafana database, complete the following steps:
            host: mysql.verrazzano-install.svc.cluster.local
            name: grafana
    ```
- </code>
+
 </div>
 {{< /clipboard >}}
 

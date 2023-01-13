@@ -20,7 +20,6 @@ The following example customizes a Verrazzano `prod` profile as follows:
 * Changes the `podAffinity` configuration to use `requiredDuringSchedulingIgnoredDuringExecution`
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -45,6 +44,5 @@ spec:
                           - verrazzano-authproxy
                   topologyKey: kubernetes.io/hostname
 ```
- </code>
 </div>
 {{< /clipboard >}}

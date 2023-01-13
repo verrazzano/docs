@@ -12,7 +12,6 @@ You can customize the installation configuration using Helm overrides specified 
 Verrazzano custom resource. For example, the following Verrazzano custom resource overrides the number of Prometheus replicas.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -29,14 +28,13 @@ spec:
               prometheusSpec:
                 replicas: 3
 ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
 To enable Alertmanager, use the following Verrazzano custom resource:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -56,7 +54,7 @@ spec:
                   annotations:
                     sidecar.istio.io/inject: "false"
 ```
- </code>
+
 </div>
 {{< /clipboard >}}
 

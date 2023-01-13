@@ -25,7 +25,6 @@ Verrazzano custom resource.
 For example, to use the `dev` profile:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -35,7 +34,7 @@ metadata:
 spec:
   profile: dev
 ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -48,7 +47,6 @@ uses a customized `dev` profile to configure a small 8 Gi persistent volume for 
 provide more stability for the Keycloak service.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -71,7 +69,7 @@ spec:
         requests:
           storage: 8Gi
 ```
- </code>
+
 </div>
 {{< /clipboard >}}
 

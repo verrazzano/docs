@@ -48,7 +48,6 @@ the ingress route information, and such.
 The NGINX Ingress Controller is a LoadBalancer service, as seen here:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ kubectl get service -n ingress-nginx
@@ -56,7 +55,7 @@ $ kubectl get service -n ingress-nginx
 # Sample output
 ingress-controller-ingress-nginx-controller           LoadBalancer
 ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -83,7 +82,6 @@ create the Istio ingress gateway, which is a LoadBalancer service, along with th
 Istio egress gateway, which is a ClusterIP service.  
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ kubectl get service -n istio-system
@@ -91,7 +89,7 @@ $ kubectl get service -n istio-system
 # Sample output
 istio-ingressgateway   LoadBalancer
 ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -218,13 +216,12 @@ and the Gateway resource is bound to the Istio ingress gateway that was created
 during installation.  This is done by the selector field in the Gateway.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
    selector:
      istio: ingressgateway
 ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -235,7 +232,6 @@ Here is the Gateway; in this case both the host name and certificate were genera
 by Verrazzano.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 apiVersion: v1
@@ -261,7 +257,7 @@ items:
         credentialName: hello-helidon-hello-helidon-appconf-cert-secret
         mode: SIMPLE
 ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -269,7 +265,6 @@ Here is the VirtualService; notice that it refers back to the Gateway and
 that it contains the service routing information.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 apiVersion: v1
@@ -295,7 +290,7 @@ items:
           port:
             number: 8080
 ```
- </code>
+
 </div>
 {{< /clipboard >}}
 

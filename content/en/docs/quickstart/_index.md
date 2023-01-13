@@ -46,7 +46,6 @@ The development profile has the following characteristics:
 1. Install Verrazzano with its `dev` profile.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     $ vz install -f - <<EOF
     apiVersion: install.verrazzano.io/v1beta1
@@ -67,7 +66,6 @@ The development profile has the following characteristics:
                 storage: 2Gi
     EOF
 
-   </code>
 </div>
 {{< /clipboard >}}
 
@@ -91,12 +89,10 @@ To deploy the Hello World Helidon example application:
    enabled for Istio.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     $ kubectl create namespace hello-helidon
     $ kubectl label namespace hello-helidon verrazzano-managed=true istio-injection=enabled
 
-   </code>
 </div>
 {{< /clipboard >}}
 
@@ -104,19 +100,16 @@ To deploy the Hello World Helidon example application:
 1. Apply the `hello-helidon` resources to deploy the application.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     $ kubectl apply -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-comp.yaml >}} -n hello-helidon
     $ kubectl apply -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-app.yaml >}} -n hello-helidon
 
-   </code>
 </div>
 {{< /clipboard >}}
 
 1. Wait for the application to be ready.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     $ kubectl wait \
         --for=condition=Ready pods \
@@ -125,7 +118,7 @@ To deploy the Hello World Helidon example application:
 
     # Sample output
     pod/hello-helidon-deployment-78468f5f9c-czmp4 condition met
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -135,20 +128,17 @@ To deploy the Hello World Helidon example application:
 1.  Save the host name of the load balancer exposing the application's REST service endpoints.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     $ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-gw \
         -n hello-helidon \
         -o jsonpath='{.spec.servers[0].hosts[0]}')
 
-   </code>
 </div>
 {{< /clipboard >}}
 
 1.  Get the default message.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     $ curl -sk \
         -X GET \
@@ -157,7 +147,6 @@ To deploy the Hello World Helidon example application:
     # Expected response
     {"message":"Hello World!"}
 
-   </code>
 </div>
 {{< /clipboard >}}
 
@@ -167,39 +156,33 @@ To deploy the Hello World Helidon example application:
 1. Delete the Verrazzano application resources.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     $ kubectl delete -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-comp.yaml >}}
     $ kubectl delete -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-app.yaml >}}
 
-   </code>
 </div>
 {{< /clipboard >}}
 
 1. Delete the example namespace.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     $ kubectl delete namespace hello-helidon
 
     # Expected response
     namespace "hello-helidon" deleted
-    
-   </code>
+
 </div>
 {{< /clipboard >}}
 1. Verify that the `hello-helidon` namespace has been deleted.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     $ kubectl get ns hello-helidon
 
     # Expected response
     Error from server (NotFound): namespaces "hello-helidon" not found
 
-   </code>
 </div>
 {{< /clipboard >}}
 
@@ -208,11 +191,9 @@ To deploy the Hello World Helidon example application:
 1. Delete the Verrazzano custom resource. This will uninstall the Verrazzano platform operator and all of the currently installed components.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     $ vz uninstall
 
-   </code>
 </div>
 {{< /clipboard >}}
 

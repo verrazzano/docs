@@ -68,7 +68,6 @@ If `defaultVolumeSource` is configured, then that setting will be used for all c
 For example, the following Verrazzano configuration uses the `prod` profile, but disables persistent storage for all components.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -80,7 +79,7 @@ spec:
   defaultVolumeSource:
       emptyDir: {}
 ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -88,7 +87,6 @@ The following example uses `persistentVolumeClaim` to override persistence setti
 `100Gi` volumes for all components, instead of the default of `50Gi`.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -108,14 +106,13 @@ spec:
           requests:
             storage: 100Gi
 ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
 The following example uses a `managed-cluster` profile but overrides the persistence settings to use ephemeral storage.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -127,7 +124,7 @@ spec:
   defaultVolumeSource:
     emptyDir: {}  # Use emphemeral storage for all Components unless overridden
 ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -138,7 +135,6 @@ in a `dev` profile configuration.  This overrides the default of ephemeral stora
 retaining the default storage settings for other components.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -161,7 +157,7 @@ spec:
         requests:
           storage: 100Gi
 ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -174,7 +170,6 @@ The following example uses a `dev` installation profile, but overrides the profi
 
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -206,6 +201,6 @@ spec:
           requests:
             storage: 200Gi
 ```
- </code>
+
 </div>
 {{< /clipboard >}}

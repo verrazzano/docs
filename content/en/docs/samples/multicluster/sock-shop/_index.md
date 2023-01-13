@@ -18,13 +18,12 @@ listed in the `placement` section.
 Set up the following environment variables to point to the kubeconfig file for the admin and managed clusters.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
 $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -37,20 +36,18 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 1. Create a namespace for the Sock Shop application by deploying the Verrazzano project.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
        -f {{< release_source_url raw=true path=examples/multicluster/sock-shop/verrazzano-project.yaml >}}
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
 1. Apply the Sock Shop OAM resources to deploy the application.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
@@ -58,14 +55,13 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
        -f {{< release_source_url raw=true path=examples/multicluster/sock-shop/sock-shop-app.yaml >}}
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
 1. Wait for the Sock Shop application to be ready.  It may take a few minutes for the pod resources to start appearing on the managed cluster.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 wait \
@@ -73,7 +69,7 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
        --all -n mc-sockshop \
        --timeout=300s
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -101,7 +97,6 @@ Follow these steps to test the endpoints.
 1. Get the generated host name for the application.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ HOST=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 get gateway \
@@ -112,14 +107,13 @@ Follow these steps to test the endpoints.
    # Sample output
    sockshop-appconf.mc-sockshop.11.22.33.44.nip.io
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
 1. Get the `EXTERNAL_IP` address of the `istio-ingressgateway` service.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ ADDRESS=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 get service \
@@ -130,7 +124,7 @@ Follow these steps to test the endpoints.
    # Sample output
    11.22.33.44
    ```   
-  </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -139,7 +133,6 @@ Follow these steps to test the endpoints.
    * **Using the command line**
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
   ```
      # Get catalogue
@@ -176,7 +169,7 @@ Follow these steps to test the endpoints.
      # Sample output
      [{"itemId":"a0a4f044-b040-410d-8ead-4de0446aec7e","quantity":1,"unitPrice":7.99}]
    ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -210,7 +203,6 @@ Follow these steps to test the endpoints.
 1. Verify that the application configuration, components, workloads, and ingress trait all exist.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get ApplicationConfiguration -n mc-sockshop
@@ -219,14 +211,13 @@ Follow these steps to test the endpoints.
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get Coherence -n mc-sockshop
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get IngressTrait -n mc-sockshop
    ```   
-  </code>
+
 </div>
 {{< /clipboard >}}
 
 1. Verify that the Sock Shop service pods are successfully created and transition to the `READY` state. Note that this may take a few minutes and that you may see some of the services terminate and restart.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
     $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get pods -n mc-sockshop
@@ -240,7 +231,7 @@ Follow these steps to test the endpoints.
     shipping-coh-0   2/2     Running   0          38m
     users-coh-0      2/2     Running   0          38m
    ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -256,7 +247,6 @@ Undeploy affects all clusters in which the application is located.
 1. To undeploy the application, delete the Sock Shop OAM resources:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
@@ -264,32 +254,30 @@ Undeploy affects all clusters in which the application is located.
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
      -f {{< release_source_url raw=true path=examples/multicluster/sock-shop/sock-shop-comp.yaml >}}
    ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 
 1. Delete the project.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
     -f {{< release_source_url raw=true path=examples/multicluster/sock-shop/verrazzano-project.yaml >}}
    ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 
 1. Delete the namespace `mc-sockshop` after the application pods are terminated.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete namespace mc-sockshop
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 delete namespace mc-sockshop
    ```
-  </code>
+
 </div>
 {{< /clipboard >}}

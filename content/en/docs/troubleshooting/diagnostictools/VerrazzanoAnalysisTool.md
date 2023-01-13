@@ -17,6 +17,7 @@ To set up the `vz` command-line tool, follow the steps [here]({{< relref "docs/s
 ## Analyze clusters
 To analyze a Kubernetes cluster:
 {{< clipboard >}}
+
 ```shell
 $ vz analyze
 ```
@@ -40,6 +41,7 @@ $ vz analyze
 
    To perform an analysis of the cluster snapshot under `my-cluster-snapshot`:
 {{< clipboard >}}
+
    ```shell
    $ vz analyze --capture-dir my-cluster-snapshot
    ```
@@ -70,7 +72,9 @@ $ vz analyze --capture-dir my-cluster-snapshots
 ### Usage information
 
 Use the following syntax to run `vz` commands from your terminal window.
+
 {{< clipboard >}}
+
 ```shell
 $ vz analyze [flags]
 ```

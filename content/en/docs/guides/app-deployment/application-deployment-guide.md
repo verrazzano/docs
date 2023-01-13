@@ -34,12 +34,11 @@ demonstrates creating OAM resources that define an application as well as the st
    Confirm access using this command to pull the example's Docker image:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ docker pull ghcr.io/verrazzano/example-helidon-greet-app-v1:0.1.12-1-20210218160249-d8db8f3
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -59,6 +58,7 @@ The example application is a JAX-RS service and implements the following REST en
 The following code shows a portion of the application's implementation.
 The Verrazzano examples repository contains the complete [implementation](https://github.com/verrazzano/examples/blob/master/hello-helidon/helidon-app-greet-v1/src/main/java/io/helidon/examples/quickstart/mp/GreetResource.java).
 An important detail here is that the application contains a single resource exposed on path `/greet`.
+
 {{< clipboard >}}
 
 ```java
@@ -97,6 +97,7 @@ A Dockerfile is used to package the completed application JAR file into a Docker
 The following code shows a portion of the Dockerfile.
 The Verrazzano examples repository contains the complete [Dockerfile](https://github.com/verrazzano/examples/blob/master/hello-helidon/helidon-app-greet-v1/Dockerfile).
 Note that the Docker container exposes a single port 8080.
+
 {{< clipboard >}}
 
 ```dockerfile
@@ -231,13 +232,12 @@ Steps similar to the `apply` steps would be used to deploy any application to Ve
 and enabled for Istio.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl create namespace hello-helidon
    $ kubectl label namespace hello-helidon verrazzano-managed=true istio-injection=enabled
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -245,12 +245,11 @@ and enabled for Istio.
 1. Apply the application's component.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl apply -f {{< release_source_url raw=true path="examples/hello-helidon/hello-helidon-comp.yaml" >}} -n hello-helidon
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -261,12 +260,11 @@ and enabled for Istio.
 1. Apply the application configuration.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl apply -f {{< release_source_url raw=true path="examples/hello-helidon/hello-helidon-app.yaml" >}} -n hello-helidon
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -282,14 +280,13 @@ and enabled for Istio.
    The generated host name is obtained by querying Kubernetes for the gateway:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-gw \
        -n hello-helidon \
        -o jsonpath='{.spec.servers[0].hosts[0]}'
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -297,14 +294,13 @@ and enabled for Istio.
    Istio ingress gateway status:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl get service \
        -n istio-system istio-ingressgateway \
        -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -325,7 +321,6 @@ and enabled for Istio.
 1. Verify the Helidon application pod is running.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl get pods -n hello-helidon -l app=hello-helidon
@@ -334,14 +329,13 @@ and enabled for Istio.
    NAME                                        READY   STATUS    RESTARTS   AGE
    hello-helidon-deployment-8664954995-wcb9d   2/2     Running   0          5m5s
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
 1. Verify that the Verrazzano application operator pod is running.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl get pod -n verrazzano-system -l app=verrazzano-application-operator
@@ -350,7 +344,7 @@ and enabled for Istio.
    NAME                                               READY   STATUS    RESTARTS   AGE
    verrazzano-application-operator-79849b89ff-lr9w6   1/1     Running   0          13m
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -362,7 +356,6 @@ and enabled for Istio.
 1. Verify the Verrazzano monitoring infrastructure is running.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl get pods -n verrazzano-system | grep '^NAME\|vmi-system'
@@ -374,13 +367,11 @@ and enabled for Istio.
    vmi-system-kiali-574c6dd94d-f49jv                  2/2     Running   0          51m
    vmi-system-opensearchDashboards-77f8d998f4-zzvqr   2/2     Running   0          47m
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
-
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl get pods -n verrazzano-monitoring
@@ -391,7 +382,7 @@ and enabled for Istio.
    prometheus-operator-kube-p-operator-857fb66b74-szv4h   1/1     Running   0          14h
    prometheus-prometheus-operator-kube-p-prometheus-0     3/3     Running   0          14h
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -412,12 +403,11 @@ and enabled for Istio.
    a reasonable length of time, such as five minutes.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl describe pod -n hello-helidon -l app=hello-helidon
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -431,7 +421,6 @@ If DNS was not configured, then use the alternative commands.
 1.  Save the host name and IP address of the load balancer exposing the application's REST service endpoints for later.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
     $ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-gw \
@@ -441,7 +430,7 @@ If DNS was not configured, then use the alternative commands.
           -n istio-system istio-ingressgateway \
           -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -456,7 +445,6 @@ If DNS was not configured, then use the alternative commands.
 1.  Get the default message.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
   ```
     $ curl -sk \
@@ -473,14 +461,13 @@ If DNS was not configured, then use the alternative commands.
         "https://${HOST}/greet" \
         --resolve ${HOST}:443:${ADDRESS}
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
 1.  Get a message for Robert.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
   ```
     $ curl -sk \
@@ -497,14 +484,13 @@ If DNS was not configured, then use the alternative commands.
         "https://${HOST}/greet/Robert" \
         --resolve ${HOST}:443:${ADDRESS}
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
 1.  Update the default greeting.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
   ```
     $ curl -sk \
@@ -513,14 +499,13 @@ If DNS was not configured, then use the alternative commands.
         -H 'Content-Type: application/json' \
         -d '{"greeting" : "Greetings"}'
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
     If DNS has not been configured, then use this command.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
   ```
     $ curl -sk \
@@ -530,7 +515,7 @@ If DNS was not configured, then use the alternative commands.
         -d '{"greeting" : "Greetings"}' \
         --resolve ${HOST}:443:${ADDRESS}
   ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -538,7 +523,6 @@ If DNS was not configured, then use the alternative commands.
 1.  Get the new message for Robert.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
   ```
     $ curl -sk \
@@ -548,14 +532,13 @@ If DNS was not configured, then use the alternative commands.
     # Expected response
     {"message":"Greetings Robert!"}
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
     If DNS has not been configured, then use this command.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
   ```
     $ curl -sk \
@@ -563,7 +546,7 @@ If DNS was not configured, then use the alternative commands.
         "https://${HOST}/greet/Robert" \
         --resolve ${HOST}:443:${ADDRESS}
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -578,7 +561,6 @@ and visualizing the log data collected in OpenSearch, see [OpenSearch Dashboards
 Determine the URL to access OpenSearch Dashboards:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
  ```
 $ OSD_HOST=$(kubectl get ingress \
@@ -588,7 +570,7 @@ $ OSD_URL="https://${OSD_HOST}"
 $ echo "${OSD_URL}"
 $ open "${OSD_URL}"
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -597,7 +579,6 @@ The user name to access OpenSearch Dashboards defaults to `verrazzano` during th
 Determine the password to access OpenSearch Dashboards:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ echo $(kubectl get secret \
@@ -605,7 +586,7 @@ $ echo $(kubectl get secret \
       -o jsonpath={.data.password} | base64 \
       --decode)
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -620,7 +601,6 @@ metrics data, see [Grafana]({{< relref "/docs/monitoring/metrics/metrics.md#graf
 Determine the URL to access Grafana:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ GRAFANA_HOST=$(kubectl get ingress \
@@ -630,7 +610,7 @@ $ GRAFANA_URL="https://${GRAFANA_HOST}"
 $ echo "${GRAFANA_URL}"
 $ open "${GRAFANA_URL}"
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -639,7 +619,6 @@ The user name to access Grafana is set to the default value `verrazzano` during 
 Determine the password to access Grafana:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ echo $(kubectl get secret \
@@ -647,7 +626,7 @@ $ echo $(kubectl get secret \
       -o jsonpath={.data.password} | base64 \
       --decode)
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -655,7 +634,6 @@ Alternatively, metrics can be accessed directly using Prometheus.
 Determine the URL for this access:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ PROMETHEUS_HOST=$(kubectl get ingress \
@@ -665,7 +643,7 @@ $ PROMETHEUS_URL="https://${PROMETHEUS_HOST}"
 $ echo "${PROMETHEUS_URL}"
 $ open "${PROMETHEUS_URL}"
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -676,7 +654,6 @@ The user name and password for both Prometheus and Grafana are the same.
 For some applications, the Kiali console may show warnings for VirtualService and Gateway objects that replicate hostname/port configurations across multiple IngressTraits. These warnings do not impact functionality and can be suppressed with the following component override:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 kiali:
@@ -686,7 +663,7 @@ kiali:
           validations:
             ignore: ["KIA1106", "KIA0301"]
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -697,12 +674,11 @@ Run the following commands to delete the application configuration, and optional
 1. Delete the application configuration.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl delete -f {{< release_source_url raw=true path="examples/hello-helidon/hello-helidon-app.yaml" >}}
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -713,12 +689,11 @@ Run the following commands to delete the application configuration, and optional
 1. (Optional) Delete the application's component.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl delete -f {{< release_source_url raw=true path="examples/hello-helidon/hello-helidon-comp.yaml" >}}
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -727,11 +702,10 @@ Run the following commands to delete the application configuration, and optional
 1. (Optional) Delete the namespace.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl delete namespace hello-helidon
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}

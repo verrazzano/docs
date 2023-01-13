@@ -33,7 +33,6 @@ If you want to provide your own CA, you must:
   For example, you can use the `openssl` CLI to create a key pair for the `nip.io` domain.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
   ```
   # Generate a CA private key
@@ -42,7 +41,7 @@ If you want to provide your own CA, you must:
   # Create a self-signed certificate, valid for 10yrs with the 'signing' option set
   $ openssl req -x509 -new -nodes -key tls.key -subj "/CN=*.nip.io" -days 3650 -reqexts v3_req -extensions v3_ca -out tls.crt
   ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -58,13 +57,12 @@ If you want to provide your own CA, you must:
 * Save your signing key pair as a Kubernetes secret.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
   ```
   $ kubectl create ns mynamespace
   $ kubectl create secret tls myca --namespace=mynamespace --cert=tls.crt --key=tls.key
   ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -79,7 +77,6 @@ If you want to provide your own CA, you must:
 For example, if you created a CA secret named `myca` in the namespace `mynamespace`, you would configure it as shown:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -95,7 +92,7 @@ spec:
           secretName: myca
           clusterResourceNamespace: mynamespace
 ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -123,7 +120,6 @@ The following example configures Verrazzano to use the LetsEncrypt `production` 
 for DNS record management.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -145,14 +141,13 @@ spec:
         dnsZoneOCID: ocid1.dns-zone.oc1.....
         dnsZoneName: example.com
 ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
 The following example configures Verrazzano to use the LetsEncrypt `staging` environment with Oracle Cloud Infrastructure DNS.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -175,7 +170,7 @@ spec:
         dnsZoneOCID: ocid1.dns-zone.oc1.....
         dnsZoneName: example.com
 ```
- </code>
+
 </div>
 {{< /clipboard >}}
 

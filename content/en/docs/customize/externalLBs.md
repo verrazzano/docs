@@ -44,7 +44,6 @@ The following is an example of using external load balancers for both management
 ### Example Custom Resource with management and application external load balancers
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -89,6 +88,6 @@ spec:
                       externalIPs:
                       - 11.22.33.55
 ```
- </code>
+
 </div>
 {{< /clipboard >}}

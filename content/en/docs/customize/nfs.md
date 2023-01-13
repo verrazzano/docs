@@ -17,12 +17,11 @@ Complete the following steps to configure NFS storage in an Oracle Cloud Native 
    a. Install the NFS utility package on the server and client instances.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
   ```
-   $ sudo dnf install -y nfs-utils
+  $ sudo dnf install -y nfs-utils
   ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -31,38 +30,34 @@ Complete the following steps to configure NFS storage in an Oracle Cloud Native 
    c. Define the shared directory in ```/etc/exports``` with the correct permissions. Make sure to disable root squashing.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
-    $ <path to directory> <ip-address/subnet-mask>(rw,sync,no_root_squash,no_subtree_check)
+   $ <path to directory> <ip-address/subnet-mask>(rw,sync,no_root_squash,no_subtree_check)
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
    d. Set the firewall to allow NFS traffic.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
-    $ sudo firewall-cmd --permanent --zone=public --add-service=nfs
-    $ sudo firewall-cmd --reload
-    $ sudo firewall-cmd --list-all
+ $ sudo firewall-cmd --permanent --zone=public --add-service=nfs
+ $ sudo firewall-cmd --reload
+ $ sudo firewall-cmd --list-all
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
    e. Enable and start the NFS service. 
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
-     $ sudo systemctl enable --now nfs-server
+   $ sudo systemctl enable --now nfs-server
    ```
-   </code>
 </div>
 {{< /clipboard >}}
 
@@ -73,42 +68,39 @@ Complete the following steps to configure NFS storage in an Oracle Cloud Native 
    b. Add the required Helm repo.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
-    $ helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
+   $ helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
    c. Install the provisioner. Set your storage class as a default and create a service account. 
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
-      $ helm install nfs-test \
-         --set nfs.server=<server ip address> \
-         --set nfs.path=<path> \
-         --set storageClass.name=<name> \
-         --set storageClass.defaultClass=true,rbac.create=true \
-         --set storageClass.provisionerName=nfsclientprov/nfs \
-         --set serviceAccount.create=true \
-         --set serviceAccount.name=nfs-svc-acc-nfs nfs-subdir-external-provisioner/nfs-subdir-external-provisioner
+   $ helm install nfs-test \
+      --set nfs.server=<server ip address> \
+      --set nfs.path=<path> \
+      --set storageClass.name=<name> \
+      --set storageClass.defaultClass=true,rbac.create=true \
+      --set storageClass.provisionerName=nfsclientprov/nfs \
+      --set serviceAccount.create=true \
+      --set serviceAccount.name=nfs-svc-acc-nfs nfs-subdir-external-provisioner/nfs-subdir-external-provisioner
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
    d. Only one storage class should be listed as the default. If required, edit the other storage classes and delete the following annotation:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
-     $ storageclass.kubernetes.io/is-default-class: "true"
+   $ storageclass.kubernetes.io/is-default-class: "true"
    ```     
-   </code>
+
 </div>
 {{< /clipboard >}}

@@ -13,12 +13,11 @@ itself. Depending on the type of cluster, certain metrics may be disabled by def
 For example, to enable `kube-proxy` metrics on Kind clusters, edit the `kube-proxy` ConfigMap.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ kubectl edit cm/kube-proxy -n kube-system
 ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -26,12 +25,11 @@ $ kubectl edit cm/kube-proxy -n kube-system
 Replace the `metricsBindAddress` value with the following and save the ConfigMap.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 metricsBindAddress: 0.0.0.0:10249
 ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -39,12 +37,11 @@ metricsBindAddress: 0.0.0.0:10249
 Then, restart the `kube-proxy` pods.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ kubectl delete pod -l k8s-app=kube-proxy -n kube-system
 ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -61,12 +58,11 @@ This troubleshooting example uses the `hello-helidon` application.
 Verify a Service Monitor exists for your application workload.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ kubectl get servicemonitors -n hello-helidon
 ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -74,12 +70,11 @@ $ kubectl get servicemonitors -n hello-helidon
 Verify a Service exists for your application workload.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ kubectl get services -n hello-helidon
 ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -87,8 +82,6 @@ If no Service exists, create one manually.
 This example uses the default Prometheus port.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
-
 
 ```
 apiVersion: v1
@@ -105,7 +98,7 @@ spec:
       protocol: TCP
       targetPort: 8080
 ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 

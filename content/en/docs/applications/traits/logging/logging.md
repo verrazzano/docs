@@ -10,7 +10,6 @@ To deploy an example application with this LoggingTrait, replace the Application
 
 {{< clipboard >}}
 <div class="highlight">
-    <code type ="yaml">
 
     apiVersion: core.oam.dev/v1alpha2
     kind: ApplicationConfiguration
@@ -42,7 +41,7 @@ To deploy an example application with this LoggingTrait, replace the Application
         - componentName: todo-mysql-service
         - componentName: todo-mysql-deployment
 
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -53,13 +52,12 @@ In order for the Fluentd DaemonSet to collect the custom logs, the Fluentd confi
 For example, when the [ToDo-List]({{< relref "/docs/samples/todo-list" >}}) example ApplicationConfiguration is successfully deployed with a LoggingTrait, the `tododomain-adminserver` pod will have a container named `logging-stdout`.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     $ kubectl get pods tododomain-adminserver -n todo-list -o jsonpath='{.spec.containers[*].name}'
       ... logging-stdout ...
 
- </code>
 </div>
 {{< /clipboard >}}
+
 In this example, the `logging-stdout` container will run the image given in the LoggingTrait and a ConfigMap named `logging-stdout-todo-domain-domain` will be created with the custom Fluentd configuration file.
 

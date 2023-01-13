@@ -15,11 +15,9 @@ draft: false
 * Follow the instructions provided by OKE to download the Kubernetes configuration file for your cluster, and set the following `ENV` variable:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     $ export KUBECONFIG=<path to valid Kubernetes config>
 
-  </code>
 </div>
 {{< /clipboard >}}
 

@@ -24,7 +24,6 @@ to provision a Coherence cluster.  Including this Component reference in your Ap
 in a new Coherence cluster being provisioned.  You can have multiple clusters in the same application with no conflict.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     apiVersion: core.oam.dev/v1alpha2
     kind: Component
@@ -43,7 +42,6 @@ in a new Coherence cluster being provisioned.  You can have multiple clusters in
               cluster: SockShop
           ...
 
-  </code>
 </div>
 {{< /clipboard >}}
 
@@ -70,7 +68,6 @@ will modify the Coherence resource replicas field and the cluster will be scaled
 configuration shows the `replicas` field that specifies the number of pods in the cluster.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     apiVersion: core.oam.dev/v1alpha2
     kind: Component
@@ -89,7 +86,7 @@ configuration shows the `replicas` field that specifies the number of pods in th
               cluster: SockShop
               replicas: 3
               ...
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -119,14 +116,12 @@ go into the same data stream, even for different applications.  This is standard
 Each log record has some Coherence and application fields, along with the log message itself.  For example:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
     
      kubernetes.labels.coherenceCluster        SockShop
      kubernetes.labels.app_oam_dev/name        sockshop-appconf
      kubernetes.labels.app_oam_dev/component   orders
      ...
 
- </code>
 </div>
 {{< /clipboard >}}
 
@@ -144,14 +139,12 @@ Coherence metrics endpoint, so the configuration must enable this feature, shown
 `roberts-coherence` component in the YAML file, [bobs-books-comp.yaml]( {{< release_source_url path=examples/bobs-books/bobs-books-comp.yaml >}} ).
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     ...
               coherence:
                 metrics:
                   enabled: true
 
-   </code>
 </div>
 {{< /clipboard >}}
 
@@ -161,7 +154,6 @@ application with embedded Coherence, explicitly specifies the metrics port 7001 
 metrics still will be scraped, but not at the default endpoint.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
           ports:
             ...
@@ -169,7 +161,7 @@ metrics still will be scraped, but not at the default endpoint.
               port: 7001
               serviceMonitor:
                 enabled: true
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -177,7 +169,6 @@ Because `sock-shop` components are  not using the default Coherence metrics port
 to the ApplicationConfiguration for each component, specifying the metrics port as follows:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
     
         - trait:
             apiVersion: oam.verrazzano.io/v1alpha1
@@ -186,7 +177,7 @@ to the ApplicationConfiguration for each component, specifying the metrics port 
               name: carts-metrics
             spec:
               port: 7001
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -200,7 +191,6 @@ Notice that services with certain labels are targeted.  Prometheus Operator will
 generate the scrape configuration to be used by Prometheus.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     apiVersion: monitoring.coreos.com/v1
     kind: ServiceMonitor
@@ -225,15 +215,13 @@ generate the scrape configuration to be used by Prometheus.
           coherenceDeployment: catalog-coh
           coherencePort: metrics
           coherenceRole: Catalog
-    
-   </code>
+
 </div>
 {{< /clipboard >}}
 
 Here are the labels on the corresponding `catalog-coh-metrics` service.  
 {{< clipboard >}}
 <div class="highlight">
-    <code>
     
     kind: Service
     metadata:
@@ -251,7 +239,6 @@ Here are the labels on the corresponding `catalog-coh-metrics` service.
         targetPort: 9612
       ....
 
-   </code>
 </div>
 {{< /clipboard >}}
 
@@ -263,7 +250,6 @@ Verrazzano automatically creates an Istio DestinationRule to disable TLS for the
 9000, which happens to be used as a Coherence `extend` port for Bob's Books.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
       trafficPolicy:
         portLevelSettings:
@@ -271,7 +257,7 @@ Verrazzano automatically creates an Istio DestinationRule to disable TLS for the
             number: 9000
           tls: {}
        ...
-  </code>
+
 </div>
 {{< /clipboard >}}
 

@@ -28,14 +28,13 @@ The following is an example of the WebLogic Prometheus-related configuration spe
 
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 Annotations:  prometheus.io/path: /wls-exporter/metrics
               prometheus.io/port: 7001
               prometheus.io/scrape: true
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -43,14 +42,13 @@ For other resource types, such as Coherence or Helidon, the annotations would lo
 
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 Annotations:  verrazzano.io/metricsEnabled: true
               verrazzano.io/metricsPath: /metrics
               verrazzano.io/metricsPort: 8080
 ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -62,12 +60,11 @@ For example, for the previous metric source:
 - Map the port being used to expose the metrics.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
   ```
   $ kubectl port-forward tododomain-adminserver 7001:7001 -n todo-list
   ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -75,7 +72,6 @@ For example, for the previous metric source:
 - Get the user name and password used to access the metrics source from the corresponding secret.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
   ```
   $ kubectl get secret \
@@ -87,19 +83,18 @@ For example, for the previous metric source:
       -o jsonpath={.data.password} | base64 \
       --decode; echo
   ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
 - Access the metrics at the exported path, using the user name and password retrieved in the previous step.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ curl -u USERNAME:PASSWORD localhost:7001/wls-exporter/metrics
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -162,7 +157,6 @@ To access Grafana:
 1. Get the host name from the Grafana ingress.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl get ingress vmi-system-grafana -n verrazzano-system
@@ -171,7 +165,7 @@ To access Grafana:
    NAME                 CLASS    HOSTS                                              ADDRESS          PORTS     AGE
    vmi-system-grafana   <none>   grafana.vmi.system.default.123.456.789.10.nip.io   123.456.789.10   80, 443   26h
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -179,7 +173,6 @@ To access Grafana:
 1. Get the password for the user `verrazzano`.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl get secret \
@@ -187,7 +180,7 @@ To access Grafana:
        -o jsonpath={.data.password} | base64 \
        --decode; echo
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 

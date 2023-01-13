@@ -14,13 +14,12 @@ Create a multicluster Verrazzano installation with one admin and one managed clu
 Set up the following environment variables to point to the kubeconfig file for the admin and managed clusters.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
 $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -33,13 +32,12 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 Apply the VerrazzanoProject resource on the admin cluster that defines the namespace for the application.  The namespaces defined in the VerrazzanoProject resource will be created on the admin cluster and all the managed clusters.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
        -f {{< release_source_url raw=true path=examples/multicluster/hello-helidon/verrazzano-project.yaml >}}
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -48,7 +46,6 @@ Apply the VerrazzanoProject resource on the admin cluster that defines the names
 1. Apply the `hello-helidon` multicluster application configuration resource to deploy the application.  The multicluster resource is an envelope that contains an OAM resource and a list of clusters to which to deploy.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
@@ -56,14 +53,13 @@ Apply the VerrazzanoProject resource on the admin cluster that defines the names
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
        -f {{< release_source_url raw=true path=examples/multicluster/hello-helidon/mc-hello-helidon-app.yaml >}}
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
 1. Wait for the application to be ready on the managed cluster.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 wait \
@@ -71,7 +67,7 @@ Apply the VerrazzanoProject resource on the admin cluster that defines the names
        --all -n hello-helidon \
        --timeout=300s
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -87,24 +83,22 @@ Follow the instructions for [troubleshooting]({{< relref "/docs/samples/hello-he
 1. Verify that the application namespace exists on the managed cluster.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get namespace hello-helidon
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
 1. Verify that the multicluster resource for the application exists.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get MultiClusterApplicationConfiguration -n hello-helidon
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -115,13 +109,12 @@ By default, the application is located on the managed cluster called `managed1`.
 1. To change the application's location to the admin cluster, specify the change placement patch file.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    # To change the placement to the admin cluster
    $ export CHANGE_PLACEMENT_PATCH_FILE="{{< release_source_url raw=true path=examples/multicluster/hello-helidon/patch-change-placement-to-admin.yaml >}}"
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -130,7 +123,6 @@ By default, the application is located on the managed cluster called `managed1`.
 1. To change its placement, patch the `hello-helidon` multicluster application configuration.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN patch mcappconf hello-helidon-appconf \
@@ -141,14 +133,13 @@ By default, the application is located on the managed cluster called `managed1`.
    # Expected response
    multiclusterapplicationconfiguration.clusters.verrazzano.io/hello-helidon-appconf patched
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
 1. To verify that its placement has changed, view the multicluster resource.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN get mcappconf hello-helidon-appconf \
@@ -158,7 +149,7 @@ By default, the application is located on the managed cluster called `managed1`.
    # Expected response
    {"clusters":[{"name":"local"}]}
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -168,7 +159,6 @@ By default, the application is located on the managed cluster called `managed1`.
 1. To change its placement, patch the VerrazzanoProject.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN patch vp hello-helidon \
@@ -179,14 +169,13 @@ By default, the application is located on the managed cluster called `managed1`.
    # Expected response
    verrazzanoproject.clusters.verrazzano.io/hello-helidon patched
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
 1. Wait for the application to be ready on the admin cluster.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN wait \
@@ -194,7 +183,7 @@ By default, the application is located on the managed cluster called `managed1`.
        --all -n hello-helidon \
        --timeout=300s
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -202,7 +191,6 @@ By default, the application is located on the managed cluster called `managed1`.
    ready on the managed cluster. 
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 wait \
@@ -210,7 +198,7 @@ By default, the application is located on the managed cluster called `managed1`.
        --all -n hello-helidon \
        --timeout=300s
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -219,13 +207,12 @@ By default, the application is located on the managed cluster called `managed1`.
    To return the application to the managed cluster named `managed1`, set the value of the `CHANGE_PLACEMENT_PATCH_FILE` environment variable to the patch file provided for that purpose, then repeat the previous numbered steps.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    # To change the placement back to the managed cluster named managed1
    $ export CHANGE_PLACEMENT_PATCH_FILE="{{< release_source_url raw=true path=examples/multicluster/hello-helidon/patch-return-placement-to-managed1.yaml >}}"
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -238,7 +225,6 @@ Undeploy affects all clusters in which the application is located.
 1. To undeploy the application, delete the Hello World Helidon OAM resources.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
@@ -246,7 +232,7 @@ Undeploy affects all clusters in which the application is located.
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
        -f {{< release_source_url raw=true path=examples/multicluster/hello-helidon/hello-helidon-comp.yaml >}}
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -254,13 +240,12 @@ Undeploy affects all clusters in which the application is located.
 1. Delete the project.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
        -f {{< release_source_url raw=true path=examples/multicluster/hello-helidon/verrazzano-project.yaml >}}
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -268,13 +253,12 @@ Undeploy affects all clusters in which the application is located.
 1. Delete the namespace `hello-helidon` after the application pod is terminated.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete namespace hello-helidon
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 delete namespace hello-helidon
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
