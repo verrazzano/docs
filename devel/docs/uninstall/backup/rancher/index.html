@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/uninstall/backup/rancher/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-01-12T10:56:32-08:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-01-13T07:30:26-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Rancher Backup and Restore">
 <meta itemprop="description" content="Back up and restore Rancher">
-<meta itemprop="dateModified" content="2023-01-12T10:56:32-08:00" />
-<meta itemprop="wordCount" content="695">
+<meta itemprop="dateModified" content="2023-01-13T07:30:26-05:00" />
+<meta itemprop="wordCount" content="685">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Rancher Backup and Restore"/>
 <meta name="twitter:description" content="Back up and restore Rancher"/>
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.0fd67cfca25c92e51c678b38ba362858.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.8622494212067eecb0a9ca3912c6bbaf.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -138,7 +138,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.0fd67cfca25c92e51c678b38ba362858.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.8622494212067eecb0a9ca3912c6bbaf.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -505,7 +505,7 @@ if (!doNotTrack) {
   <ul>
     <li>
       <ul>
-        <li><a href="#rancher-backup-and-restore-operator-prerequisites">Rancher Backup and Restore Operator prerequisites</a></li>
+        <li><a href="#rancher-backup-operator-prerequisites">rancher-backup Operator prerequisites</a></li>
         <li><a href="#rancher-backup">Rancher backup</a></li>
         <li><a href="#rancher-restore">Rancher restore</a></li>
       </ul>
@@ -575,14 +575,14 @@ if (!doNotTrack) {
 
 		
 	</header>    
-	<p>Rancher maintains many configurations, like user credentials and cluster credentials, as ConfigMaps and namespace values. The Rancher
-Backup and Restore Operator provides a seamless way to back up and restore Rancher installations, configuration, and data.</p>
+	<p>Rancher maintains many configurations, like user credentials and cluster credentials, as ConfigMaps and namespace values. The
+rancher-backup Operator provides a seamless way to back up and restore Rancher installations, configuration, and data.</p>
 <ul>
-<li><a href="#rancher-backup-and-restore-operator-prerequisites">Rancher Backup and Restore Operator prerequisites</a></li>
+<li><a href="#rancher-backup-operator-prerequisites">rancher-backup Operator prerequisites</a></li>
 <li><a href="#rancher-backup">Rancher backup</a></li>
 <li><a href="#rancher-restore">Rancher restore</a></li>
 </ul>
-<h2 id="rancher-backup-and-restore-operator-prerequisites">Rancher Backup and Restore Operator prerequisites</h2>
+<h2 id="rancher-backup-operator-prerequisites">rancher-backup Operator prerequisites</h2>
 <p>Before proceeding with a Rancher back up or restore operation, the following details should be kept handy:</p>
 <ul>
 <li>Object store bucket name.
@@ -643,7 +643,7 @@ Backup and Restore Operator provides a seamless way to back up and restore Ranch
 </span></span></code></pre></div></li>
 </ol>
 <h2 id="rancher-backup">Rancher backup</h2>
-<p>The Rancher backup operator creates the backup file, in <code>*.tar.gz</code> format, on the S3 compatible object store.</p>
+<p>The rancher-backup Operator creates the backup file, in <code>*.tar.gz</code> format, on the S3 compatible object store.</p>
 <ol>
 <li>
 <p>To initiate a Rancher backup, create the following example custom resource YAML file that uses an Amazon S3 compatible object store as a back end.
@@ -664,7 +664,7 @@ The operator uses the <code>credentialSecretNamespace</code> value to determine 
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">endpoint</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">&lt;object store endpoint configuration&gt;</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">resourceSetName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">rancher-resource-set</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">EOF</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span></code></pre></div><p><strong>NOTE:</strong> In Step 3. of the example in the <a href="#rancher-backup-and-restore-operator-prerequisites">prerequisites</a> section, you created the secret in the <code>verrazzano-backup</code> namespace.</p>
+</span></span></span></code></pre></div><p><strong>NOTE:</strong> In Step 3. of the example in the <a href="#rancher-backup-operator-prerequisites">prerequisites</a> section, you created the secret in the <code>verrazzano-backup</code> namespace.</p>
 <p>The following is an example:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#000">$ kubectl apply -f - &lt;&lt;EOF</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">resources.cattle.io/v1</span><span style="color:#f8f8f8;text-decoration:underline">
@@ -683,7 +683,7 @@ The operator uses the <code>credentialSecretNamespace</code> value to determine 
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">resourceSetName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">rancher-resource-set</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">EOF</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span></code></pre></div><p>The <code>*.tar.gz</code> file is stored in a location configured in the <code>storageLocation</code> field.
-When the backup is complete, then the <code>rancher-backup</code> operator creates a file on the S3 compatible object store.</p>
+When the backup is complete, then the rancher-backup Operator creates a file on the S3 compatible object store.</p>
 </li>
 <li>
 <p>You can retrieve the backed up file name, as shown:</p>
@@ -717,7 +717,7 @@ When a <code>Restore</code> custom resource is created, the operator accesses th
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">region</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">us-phoenix-1</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">endpoint</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">EOF</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span></code></pre></div><p>The <code>rancher-backup</code> operator scales down the Rancher deployment during the restore operation and scales it back up after the restoration completes.</p>
+</span></span></span></code></pre></div><p>The rancher-backup Operator scales down the Rancher deployment during the restore operation and scales it back up after the restoration completes.</p>
 <p>Resources are restored in this order:</p>
 <ol>
 <li>Custom Resource Definitions (CRDs)</li>

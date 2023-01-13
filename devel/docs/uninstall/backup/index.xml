@@ -463,14 +463,14 @@ In this case, it&amp;rsquo;s &lt;code&gt;statefulset.kubernetes.io/pod-name: vmi
       <description>
         
         
-        &lt;p&gt;Rancher maintains many configurations, like user credentials and cluster credentials, as ConfigMaps and namespace values. The Rancher
-Backup and Restore Operator provides a seamless way to back up and restore Rancher installations, configuration, and data.&lt;/p&gt;
+        &lt;p&gt;Rancher maintains many configurations, like user credentials and cluster credentials, as ConfigMaps and namespace values. The
+rancher-backup Operator provides a seamless way to back up and restore Rancher installations, configuration, and data.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#rancher-backup-and-restore-operator-prerequisites&#34;&gt;Rancher Backup and Restore Operator prerequisites&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#rancher-backup-operator-prerequisites&#34;&gt;rancher-backup Operator prerequisites&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#rancher-backup&#34;&gt;Rancher backup&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#rancher-restore&#34;&gt;Rancher restore&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;rancher-backup-and-restore-operator-prerequisites&#34;&gt;Rancher Backup and Restore Operator prerequisites&lt;/h2&gt;
+&lt;h2 id=&#34;rancher-backup-operator-prerequisites&#34;&gt;rancher-backup Operator prerequisites&lt;/h2&gt;
 &lt;p&gt;Before proceeding with a Rancher back up or restore operation, the following details should be kept handy:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Object store bucket name.
@@ -531,7 +531,7 @@ Backup and Restore Operator provides a seamless way to back up and restore Ranch
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;rancher-backup&#34;&gt;Rancher backup&lt;/h2&gt;
-&lt;p&gt;The Rancher backup operator creates the backup file, in &lt;code&gt;*.tar.gz&lt;/code&gt; format, on the S3 compatible object store.&lt;/p&gt;
+&lt;p&gt;The rancher-backup Operator creates the backup file, in &lt;code&gt;*.tar.gz&lt;/code&gt; format, on the S3 compatible object store.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;To initiate a Rancher backup, create the following example custom resource YAML file that uses an Amazon S3 compatible object store as a back end.
@@ -552,7 +552,7 @@ The operator uses the &lt;code&gt;credentialSecretNamespace&lt;/code&gt; value t
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;endpoint&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;&amp;lt;object store endpoint configuration&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;resourceSetName&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;rancher-resource-set&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;EOF&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; In Step 3. of the example in the &lt;a href=&#34;#rancher-backup-and-restore-operator-prerequisites&#34;&gt;prerequisites&lt;/a&gt; section, you created the secret in the &lt;code&gt;verrazzano-backup&lt;/code&gt; namespace.&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; In Step 3. of the example in the &lt;a href=&#34;#rancher-backup-operator-prerequisites&#34;&gt;prerequisites&lt;/a&gt; section, you created the secret in the &lt;code&gt;verrazzano-backup&lt;/code&gt; namespace.&lt;/p&gt;
 &lt;p&gt;The following is an example:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000&#34;&gt;$ kubectl apply -f - &amp;lt;&amp;lt;EOF&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;apiVersion&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;resources.cattle.io/v1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
@@ -571,7 +571,7 @@ The operator uses the &lt;code&gt;credentialSecretNamespace&lt;/code&gt; value t
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;resourceSetName&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;rancher-resource-set&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;EOF&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;*.tar.gz&lt;/code&gt; file is stored in a location configured in the &lt;code&gt;storageLocation&lt;/code&gt; field.
-When the backup is complete, then the &lt;code&gt;rancher-backup&lt;/code&gt; operator creates a file on the S3 compatible object store.&lt;/p&gt;
+When the backup is complete, then the rancher-backup Operator creates a file on the S3 compatible object store.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;You can retrieve the backed up file name, as shown:&lt;/p&gt;
@@ -605,7 +605,7 @@ When a &lt;code&gt;Restore&lt;/code&gt; custom resource is created, the operator
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;region&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;us-phoenix-1&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;        &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;endpoint&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;EOF&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The &lt;code&gt;rancher-backup&lt;/code&gt; operator scales down the Rancher deployment during the restore operation and scales it back up after the restoration completes.&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The rancher-backup Operator scales down the Rancher deployment during the restore operation and scales it back up after the restoration completes.&lt;/p&gt;
 &lt;p&gt;Resources are restored in this order:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Custom Resource Definitions (CRDs)&lt;/li&gt;
