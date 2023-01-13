@@ -273,6 +273,30 @@ $ curl -ik \
     --user verrazzano:$PASS https://$HOST/_plugins/_ism/policies
 ```
 
+## Default ISM Policies
+To help you maintain issues such as low disk space, two ISM policies are by default there in Verrazzano.
+- `vz-system`: It manages the data in verrazzano system indices. It is applicable on the indices having pattern `verrazzano-system`. 
+   ![vz-system](/docs/images/vz-system-ism-policy.png)
+- `vz-application`:  It manages the data in application indices. It is applicable on the indices having pattern `verrazzano-application*`.
+  ![vz-application](/docs/images/vz-application-ism-policy.png)
+Both policy have 3 states:
+   1. Hot: This is the default state. if primary shard size is greater than defined size (5 GB for `vz-system` and 1 GB for `vz-application`) or index age is greater than the defined days (30 days for `vz-system` and 7 days for `vz-application`), index will be rolled over and Index will go into cold state.
+   2. Cold: Index will be closed in this state. If index age is greater than 5 days in this state, it will go into delete state.
+   3. Delete: Index will be deleted in this state.
+
+## Override default ISM policies
+`vz-system` and `vz-application` policies are immutable. `Update` and `Delete` operations on these policies will be reverted immediately. However, There are two ways to override these policies:
+1. **Disable default policy**: you can disable these default polices by setting the flag [spec.components.opensearch.disableDefaultPolicy](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) to true in Verrazzano CR. This will delete the default ISM policies.
+2. **Define policy with high priority**: Both policies have 0 priority. You can override the default policies by creating policies with `policy.ism_template.priority` greater than 0.
+
+{{< alert title="NOTE" color="warning" >}}
+- Avoid creating policy with policy ID  `vz-system` or `vz-application` as these are default policies. Your change will be overridden if flag [spec.components.opensearch.disableDefaultPolicy](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) is false in Verrazzano CR.
+- Default policy will get attached to newly created indices only. You can attach the default policy to older indices too if you need. See [steps to attach policies to indexes](https://opensearch.org/docs/latest/im-plugin/ism/index/#step-2-attach-policies-to-indexes)
+{{< /alert >}}
+
+## Default Index patterns
+By default, index patterns `verrazzano-system` and `verrazzano-application*` are created by Verrazzano. These index patterns are immutable. Update or Delete operations on these index patterns will be reverted immediately.
+
 ## Install OpenSearch and OpenSearch Dashboards plug-ins
 Verrazzano supports OpenSearch and OpenSearch Dashboard plug-in installation by providing plug-ins in the Verrazzano custom resource.
 To install plug-ins for OpenSearch, you define the field [spec.components.opensearch.plugins](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) in the Verrazzano custom resource.
