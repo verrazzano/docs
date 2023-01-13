@@ -52,11 +52,17 @@
     }
 
     async function copyCodeToClipboard(button, highlightDiv) {
-        const codeToCopy = highlightDiv.querySelector(":last-child > code")
-            .innerText;
-            const result = await navigator.permissions.query({ name: "clipboard-write" });
-            if (result.state == "granted" || result.state == "prompt") {
-                await navigator.clipboard.writeText(codeToCopy);
+        const codeToCopy = highlightDiv.querySelector(":last-child > code").innerText;
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            // fallback to document.execCommand('copy') for Safari instead of navigator.clipboard
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
         }
         button.blur();
         button.innerText = "Copied";
@@ -64,6 +70,7 @@
             button.innerText = "Copy";
         }, 2000);
     }
+
 
     document
         .querySelectorAll(".highlight")
