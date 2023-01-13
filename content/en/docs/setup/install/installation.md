@@ -178,6 +178,9 @@ $ kubectl logs -n verrazzano-install \
 ## Verify the installation
 
 Verrazzano installs multiple objects in multiple namespaces. In the `verrazzano-system` namespaces, all the pods in the `Running` state, does not guarantee, but likely indicates that Verrazzano is up and running.
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 $ kubectl get pods -n verrazzano-system
 
@@ -196,6 +199,8 @@ vmi-system-kiali-5949966fb8-465s8                  2/2     Running   0          
 vmi-system-opensearchDashboards-86b894d8f6-q4vb5   2/2     Running   0          45m
 weblogic-operator-646756c75c-hgz6j                 2/2     Running   0          49m
 ```
+</div>
+{{< /clipboard >}}
 
 For installation troubleshooting help, see the [Analysis Advice]({{< relref "/docs/troubleshooting/diagnostictools/analysisadvice/" >}}).
 

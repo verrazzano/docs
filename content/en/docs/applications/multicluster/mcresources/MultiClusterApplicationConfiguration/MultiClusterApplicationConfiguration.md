@@ -11,7 +11,6 @@ Here is a sample MultiClusterApplicationConfiguration that specifies an Applicat
 
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     apiVersion: clusters.verrazzano.io/v1alpha1
     kind: MultiClusterApplicationConfiguration
@@ -51,7 +50,6 @@ Here is a sample MultiClusterApplicationConfiguration that specifies an Applicat
         - tododomain-jdbc-tododb
         - tododomain-weblogic-credentials
 
- </code>
 </div>
 {{< /clipboard >}}
 

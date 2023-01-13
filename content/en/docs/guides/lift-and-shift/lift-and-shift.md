@@ -35,19 +35,17 @@ In the initial steps, you create a sample domain that represents your on-premise
 1. Download the [MySQL image](https://hub.docker.com/_/mysql) from Docker Hub.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
     $ docker pull mysql:latest
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
 1. Start the container database (and optionally mount a volume for data).
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
     $ export MYSQL_USER=<your-mysql-username>
@@ -61,7 +59,7 @@ In the initial steps, you create a sample domain that represents your on-premise
       -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD \
       -d mysql:latest
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -69,28 +67,25 @@ In the initial steps, you create a sample domain that represents your on-premise
     - Assuming the database server is running, start a database CLI client.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
-        $ docker exec \
-           -it tododb mysql \
-           -uroot \
-           -p
-  ```
+   $ docker exec \
+      -it tododb mysql \
+      -uroot \
+      -p
+   ```
 
-   </code>
 </div>
 {{< /clipboard >}}
     - When prompted for the password, enter the password for the root user.  
     - After being connected, run the `ALTER` command at the MySQL prompt.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
   ```
    $ ALTER USER '<your-mysql-username>'@'%' identified with mysql_native_password by '<your-mysql-password>';
   ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -111,12 +106,11 @@ In the initial steps, you create a sample domain that represents your on-premise
    - To make copying commands easier, define an environment variable for `ORACLE_HOME` that points to the directory where you installed WebLogic Server 12.2.1.4.0.  For example:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ export ORACLE_HOME=$HOME/Oracle/Middleware/Oracle_Home
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -137,12 +131,11 @@ In the initial steps, you create a sample domain that represents your on-premise
 1. To start the newly created domain, run the domain's start script.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
     $ $ORACLE_HOME/user_projects/domains/tododomain/bin/startWebLogic.sh
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 1. Access the WebLogic Server Administration Console of the newly started domain with your browser, for example, [http://localhost:7001/console](http://localhost:7001/console), and
@@ -194,14 +187,13 @@ Using the WebLogic Server Administration Console, log in and add a data source c
    file to another location, as WDT may ignore it during the model creation phase.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
     $ git clone https://github.com/verrazzano/examples.git
     $ cd examples/todo-list/
     $ mvn clean package
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -242,19 +234,17 @@ The following steps will move the sample domain to Kubernetes with Verrazzano.
 - To make copying commands easier, define an environment variable for `WDT_HOME` that points to the directory where you installed WebLogic Deploy Tooling.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
     $ export WDT_HOME=/install/directory
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
 For example, to get the latest version:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ curl -OL https://github.com/oracle/weblogic-deploy-tooling/releases/latest/download/weblogic-deploy.zip
@@ -262,7 +252,7 @@ $ unzip  weblogic-deploy.zip
 $ cd weblogic-deploy
 $ export WDT_HOME=$(pwd)
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -271,7 +261,6 @@ To create a reusable model of the application and domain, use WDT to create a me
 - Then, run WDT `discoverDomain`.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
   ```
   $ mkdir v8o
@@ -283,7 +272,7 @@ To create a reusable model of the application and domain, use WDT to create a me
     -target vz \
     -output_dir v8o
   ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -305,19 +294,17 @@ fill in the placeholders for you, or you can edit the model manually to set the 
 - To make copying commands easier, define an environment variable for `WIT_HOME` that points to the directory where you installed WebLogic Image Tool.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
     $ export WIT_HOME=/install/directory
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
 For example, to get the latest WIT tool:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ curl -OL https://github.com/oracle/weblogic-image-tool/releases/latest/download/imagetool.zip
@@ -325,7 +312,7 @@ $ unzip imagetool.zip
 $ cd imagetool
 $ export WIT_HOME=$(pwd)
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -336,7 +323,6 @@ and [Java Development Kit](https://www.oracle.com/java/technologies/javase/javas
 manually and provide their location to the `imagetool cache addInstaller` command.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 # The directory created previously to hold the generated scripts and models.
@@ -371,7 +357,7 @@ $ $WIT_HOME/bin/imagetool.sh create \
   --resourceTemplates=./vz-application.yaml \
   --wdtModelOnly
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -394,12 +380,11 @@ Push the image to your repo.
 `spec > workload > spec > image` for the `tododomain-domain` component.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ docker push your/repo/todo:1
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -424,13 +409,12 @@ Create the `tododomain` namespace, and add labels to allow the WebLogic Server K
 enabled for Istio.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ kubectl create namespace tododomain
 $ kubectl label namespace tododomain verrazzano-managed=true istio-injection=enabled
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -447,7 +431,6 @@ there are a few passwords that you need to enter:
 For example:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 # Update <admin-user> and <admin-password> for weblogic-credentials
@@ -456,7 +439,7 @@ $ create_paired_k8s_secret weblogic-credentials <your-WLS-username> <your-WLS-pa
 # Update <user> and <password> for tododomain-jdbc-tododb
 $ create_paired_k8s_secret jdbc-tododb <your-mysql-username> <your-mysql-password>
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -464,12 +447,11 @@ $ create_paired_k8s_secret jdbc-tododb <your-mysql-username> <your-mysql-passwor
 Then run the script:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ sh ./create_k8s_secrets.sh
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -480,7 +462,6 @@ The name for this credential can be changed in the `vz-application.yaml` file to
 Assuming that you leave the name `tododomain-registry-credentials`, you will need to run a `kubectl create secret` command similar to the following:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ kubectl create secret docker-registry tododomain-registry-credentials \
@@ -490,7 +471,7 @@ $ kubectl create secret docker-registry tododomain-registry-credentials \
   --docker-password='passwordForUsername' \
   --namespace=tododomain
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -548,7 +529,6 @@ The file  [vz-application-modified.yaml](../vz-application-modified.yaml) is an 
 two sample files is shown:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ diff vz-application.yaml vz-application-modified.yaml
@@ -561,7 +541,7 @@ $ diff vz-application.yaml vz-application-modified.yaml
 ---
 >                   URL: "jdbc:mysql://mysql.tododomain.svc.cluster.local:3306/tododb"
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -577,7 +557,6 @@ To do so, first, we need to create the Verrazzano components for MySQL by applyi
 * Then, apply the YAML file:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ kubectl apply -f mysql-oam.yaml
@@ -587,13 +566,12 @@ component.core.oam.dev/todo-mysql-service created
 component.core.oam.dev/todo-mysql-deployment created
 component.core.oam.dev/todo-mysql-configmap created
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ kubectl get components -ntododomain
@@ -603,7 +581,7 @@ todo-mysql-configmap    ConfigMap       26s
 todo-mysql-deployment   Deployment      26s
 todo-mysql-service      Service         26s
 ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -612,12 +590,11 @@ todo-mysql-service      Service         26s
 Finally, run `kubectl apply` to apply the Verrazzano components and Verrazzano application configuration files to start your domain.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ kubectl apply -f vz-application.yaml
 ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -630,7 +607,6 @@ This will:
 Wait for the ToDo List example application to be ready.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ kubectl wait pod \
@@ -640,7 +616,7 @@ $ kubectl wait pod \
 # Expected response
 pod/tododomain-adminserver condition met
 ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -648,7 +624,6 @@ pod/tododomain-adminserver condition met
 Verify that the pods are in the `Running` state.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ kubectl get pod -n tododomain
@@ -658,7 +633,7 @@ NAME                     READY   STATUS    RESTARTS   AGE
 mysql-55bb4c4565-c8zf5   1/1     Running   0          8m
 tododomain-adminserver   4/4     Running   0          5m
 ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -668,7 +643,6 @@ tododomain-adminserver   4/4     Running   0          5m
 1. Get the generated host name for the application.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl get gateways.networking.istio.io tododomain-tododomain-appconf-gw \
@@ -678,31 +652,29 @@ tododomain-adminserver   4/4     Running   0          5m
    # Sample output
    tododomain-appconf.tododomain.11.22.33.44.nip.io
    ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
 1. Initialize the database by accessing the `init` URL.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    https://tododomain-appconf.tododomain.11.22.33.44.nip.io/todo/rest/items/init
    ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
 1. Access the application.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    https://tododomain-appconf.tododomain.11.22.33.44.nip.io/todo
    ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -711,12 +683,11 @@ tododomain-adminserver   4/4     Running   0          5m
 1. Set up port forwarding.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl port-forward pods/tododomain-adminserver 7001:7001 -n tododomain
    ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -725,12 +696,11 @@ tododomain-adminserver   4/4     Running   0          5m
 1. Access the WebLogic Server Administration Console from your browser.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    http://localhost:7001/console
    ```
- </code>
+
 </div>
 {{< /clipboard >}}
 

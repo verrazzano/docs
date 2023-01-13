@@ -34,7 +34,6 @@ The Jaeger Operator will create `Service` custom resources for query and collect
 custom resource, listing Jaeger resources will show output similar to the following.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ kubectl get services,deployments -l app.kubernetes.io/instance=jaeger-operator-jaeger -n verrazzano-monitoring
@@ -48,7 +47,7 @@ NAME                                               READY   UP-TO-DATE   AVAILABL
 deployment.apps/jaeger-operator-jaeger-collector   1/1     1            1           79m
 deployment.apps/jaeger-operator-jaeger-query       1/1     1            1           79m
 ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -71,7 +70,6 @@ with a TLS CA certificate mounted from a volume and the user/password stored in 
    to connect to OpenSearch.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl create secret generic jaeger-secret \
@@ -80,7 +78,7 @@ with a TLS CA certificate mounted from a volume and the user/password stored in 
     --from-file=ca-bundle=<path to the file containing CA certs> \
     -n verrazzano-install
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 1. Use the Verrazzano custom resource to update the Jaeger resource:
@@ -321,7 +319,6 @@ configure it to your use case, override the following Jaeger spec values in the 
 desired values.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 storage:
@@ -331,7 +328,7 @@ storage:
     numberOfDays: 7                               // number of days to wait before deleting a record
     schedule: "55 23 * * *"                       // cron expression for it to run
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -347,14 +344,13 @@ with the OpenSearch or Elasticsearch storage.
 Listing Jaeger resources in the managed cluster shows output similar to the following.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ kubectl get jaegers -n verrazzano-monitoring
 NAME                                STATUS    VERSION   STRATEGY     STORAGE         AGE
 jaeger-verrazzano-managed-cluster   Running   1.34.1    production   elasticsearch   11m
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 ### Configure the Istio mesh in a managed cluster to export Jaeger traces to the admin cluster

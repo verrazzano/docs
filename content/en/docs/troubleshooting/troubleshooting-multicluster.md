@@ -27,7 +27,6 @@ corresponding VerrazzanoManagedCluster (VMC) resource on the admin cluster. For 
 named `managed1` was successfully registered:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 # on the admin cluster
@@ -35,14 +34,13 @@ $ kubectl get verrazzanomanagedcluster managed1 \
     -n verrazzano-mc \
     -o yaml
 ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 
 Partial sample output from the previous command.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
   status:
@@ -54,7 +52,7 @@ Partial sample output from the previous command.
     lastAgentConnectTime: "2021-06-22T21:06:04Z"
     ... other fields ...
 ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -71,7 +69,6 @@ connect to the admin cluster at regular intervals, and any errors will be report
 `verrazzano-application-operator` pod's log on the _managed_ cluster. View the logs using the following command:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 # on the managed cluster
@@ -79,7 +76,7 @@ $ kubectl logs \
     -n verrazzano-system \
     -l app=verrazzano-application-operator
 ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -88,7 +85,6 @@ the admin cluster, there may have been a problem with Verrazzano pushing registr
 cluster. Try exporting and applying the registration manifest to the managed cluster as shown:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 # on the admin cluster
@@ -99,7 +95,7 @@ cluster. Try exporting and applying the registration manifest to the managed clu
 # on the managed cluster
        kubectl apply -f register.yaml
 ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -120,7 +116,6 @@ View the details of the project that corresponds to your application's namespace
 project name is assumed to be `myproject`. All projects are expected to be created in the `verrazzano-mc` namespace.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 # on the admin cluster
@@ -128,7 +123,7 @@ $ kubectl get verrazzanoproject myproject \
     -n verrazzano-mc \
     -o yaml
 ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -137,7 +132,6 @@ The following partial sample output is for a project that will result in the nam
 cluster `managed1`.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 spec:
@@ -150,7 +144,7 @@ spec:
         name: mynamespace
 ....other fields....
 ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -162,14 +156,13 @@ The following example command shows how to view the status of a MultiClusterAppl
 the namespace `mynamespace`, that has a `placement` value that includes the managed cluster `managed1`.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ kubectl get multiclusterapplicationconfiguration myapp \
     -n mynamespace \
     -o yaml
 ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -178,7 +171,6 @@ The status of the underlying resource in each cluster specified in the placement
 output.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
   status:
@@ -194,7 +186,7 @@ output.
       type: DeployComplete
     state: Succeeded
 ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -207,7 +199,6 @@ the command is indicated in each code block.
    managed cluster.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    # On the admin cluster
@@ -216,14 +207,13 @@ the command is indicated in each code block.
        -n verrazzano-mc \
        -o jsonpath={.data.yaml} | base64 --decode > register_new.yaml
    ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 
 2. On the managed cluster, apply the registration file exported in the previous step.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    # On the managed cluster
@@ -233,7 +223,7 @@ the command is indicated in each code block.
    # After the command succeeds, you may delete the register_new.yaml file
    $ rm register_new.yaml
    ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -241,7 +231,6 @@ the command is indicated in each code block.
    on the managed cluster. 
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    # On the admin cluster
@@ -260,7 +249,7 @@ the command is indicated in each code block.
    # Sample output
    cluster.management.cattle.io/c-mzb2h patched
    ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 

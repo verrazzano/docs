@@ -33,7 +33,6 @@ Verrazzano API Pod.  Notice that namespace selectors need to be used; the Networ
 specifying the namespace name.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 apiVersion: networking.k8s.io/v1
@@ -65,7 +64,7 @@ spec:
     - port: 15090
       protocol: TCP
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -218,7 +217,6 @@ ingress gateway and mesh sidecars use mTLS, and the same is true between the pro
 Verrazzano sets up mTLS during installation with the PeerAuthentication resource as follows:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 apiVersion: v1
@@ -230,7 +228,7 @@ items:
     mtls:
       mode: STRICT
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -340,7 +338,6 @@ extend proxy.  For an example, see [Bobs Books]( {{< release_source_url path=exa
 Here is an example of a DestinationRule created for the Bob's Books application which includes a Coherence cluster.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 API Version:  networking.istio.io/v1beta1
@@ -356,7 +353,7 @@ Spec:
     Tls:
       Mode:  ISTIO_MUTUAL
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -377,7 +374,6 @@ Istio uses a service identity to determine the identity of the request's origin;
 this identity is a service account.  Verrazzano creates a per-application AuthorizationPolicy as follows:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 AuthorizationPolicy
@@ -393,7 +389,7 @@ spec:
     - cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account
     - cluster.local/ns/verrazzano-system/sa/verrazzano-monitoring-operator
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 

@@ -12,7 +12,6 @@ Verrazzano custom resource. For example, the following Verrazzano custom resourc
 of an Oracle Cloud Infrastructure load balancer for both NGINX and Istio ingresses.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -45,7 +44,7 @@ spec:
                       service.beta.kubernetes.io/oci-load-balancer-shape: 10Mbps
 ```
 
-   </code>
+
 </div>
 {{< /clipboard >}}
 

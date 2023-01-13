@@ -9,7 +9,6 @@ The [VerrazzanoProject]({{< relref "/docs/reference/api/vao-clusters-v1alpha1#cl
 
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     apiVersion: clusters.verrazzano.io/v1alpha1
     kind: VerrazzanoProject
@@ -25,6 +24,5 @@ The [VerrazzanoProject]({{< relref "/docs/reference/api/vao-clusters-v1alpha1#cl
         clusters:
           - name: managed1
 
- </code>
 </div>
 {{< /clipboard >}}

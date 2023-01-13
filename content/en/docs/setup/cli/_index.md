@@ -16,11 +16,9 @@ These instructions demonstrate installing the CLI on Linux AMD64 machines.
 ### Download the latest release
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
      $ curl -LO {{<release_asset_url linux-amd64.tar.gz>}}
-   
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -28,22 +26,18 @@ These instructions demonstrate installing the CLI on Linux AMD64 machines.
 Download the `vz` checksum file.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
      $ curl -LO {{<release_asset_url linux-amd64.tar.gz.sha256>}}
 
-   </code>
 </div>
 {{< /clipboard >}}
 
 Validate the `vz` binary against the checksum file.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     $ sha256sum -c {{<release_asset -linux-amd64.tar.gz.sha256>}}
 
-  </code>
 </div>
 {{< /clipboard >}}
 
@@ -60,24 +54,20 @@ Validate the `vz` binary against the checksum file.
 ### Test to ensure that the version you installed is up-to-date
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
      $ vz version
 
-   </code>
 </div>
 {{< /clipboard >}}
 
 The resulting output should be similar to the following.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     Version: v1.4.0
     BuildDate: 2022-09-23T21:32:57Z
     GitCommit: a34d6473a4296b8cfe64ad7851d1dcd0f18e9669
 
-   </code>
 </div>
 {{< /clipboard >}}
 
@@ -93,11 +83,9 @@ as well as analyzing failures in a running Verrazzano environment.
 Use the following syntax to run `vz` commands from your terminal window.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     vz [command] [flags]
 
-   </code>
 </div>
 {{< /clipboard >}}
 

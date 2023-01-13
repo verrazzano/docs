@@ -30,7 +30,6 @@ Install Verrazzano on each Kubernetes cluster.
   following shows an example of how to set these environment variables.
 {{< clipboard >}}
 <div class="highlight">
-   <code>
 
    ```
      $ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
@@ -50,7 +49,7 @@ Install Verrazzano on each Kubernetes cluster.
      $ export KUBECONTEXT_ADMIN=<admin-cluster-context-name>
      $ export KUBECONTEXT_MANAGED1=<managed-cluster-context-name>
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -68,7 +67,6 @@ The label selector is used to determine which clusters created in Rancher will b
 The following illustrates an admin cluster Verrazzano resource that has been configured to support cluster label selection.
 {{< clipboard >}}
 <div class="highlight">
-   <code>
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -89,7 +87,7 @@ spec:
                 operator: In
                 values: [supported]
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -120,7 +118,6 @@ Verrazzano will manage all clusters whose labels match the [cluster label select
 1. To begin the registration process for a managed cluster named `managed1`, apply the VerrazzanoManagedCluster object on the admin cluster.
 {{< clipboard >}}
 <div class="highlight">
-   <code>
 
    ```
    # On the admin cluster
@@ -135,14 +132,13 @@ Verrazzano will manage all clusters whose labels match the [cluster label select
      description: "Test VerrazzanoManagedCluster object"
    EOF
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 2. Wait for the VerrazzanoManagedCluster resource to reach the `Ready` status. At that point, it will have generated a YAML
    file that must be applied on the managed cluster to complete the registration process.
 {{< clipboard >}}
 <div class="highlight">
-   <code>
 
    ```
    # On the admin cluster
@@ -150,7 +146,7 @@ Verrazzano will manage all clusters whose labels match the [cluster label select
        wait --for=condition=Ready \
        vmc managed1 -n verrazzano-mc
    ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -169,12 +165,11 @@ Verrazzano will manage all clusters whose labels match the [cluster label select
    d. Using the registration information in the Rancher console, from the managed cluster, apply a command using this format. 
 {{< clipboard >}}
 <div class="highlight">
-   <code>
 
    ```
    $ kubectl apply --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 -f https://<Rancher-console-url>/v3/import/<Rancher-registration>.yaml
    ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -186,7 +181,6 @@ You can perform all the verification steps on the admin cluster.
    populated. This may take up to two minutes after completing the registration steps.
 {{< clipboard >}}
 <div class="highlight">
-   <code>
 
    ```
    # On the admin cluster
@@ -207,7 +201,7 @@ You can perform all the verification steps on the admin cluster.
      lastAgentConnectTime: "2021-07-16T14:47:25Z"
      prometheusHost: prometheus.vmi.system.default.172.18.0.211.nip.io
    ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -232,7 +226,6 @@ Run a query for a metric (for example, `node_disk_io_time_seconds_total`).
 An alternative approach to using the Prometheus UI is to query metrics from the command line. Here is an example of how to obtain Prometheus metrics from the command line. Search the output of the query for responses that have the `verrazzano_cluster` field set to the name of the managed cluster.
 {{< clipboard >}}
 <div class="highlight">
-   <code>
 
    ```
    # On the admin cluster
@@ -243,7 +236,7 @@ An alternative approach to using the Prometheus UI is to query metrics from the 
               -o jsonpath={.data.password} | base64 --decode; echo)
    $ curl -k --user verrazzano:${VZPASS} "${prometheusUrl}/api/v1/query?query=node_disk_io_time_seconds_total"
    ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -261,7 +254,6 @@ Searching the `verrazzano-system` data stream for log records with the `cluster_
 An alternative approach to using the OpenSearch Dashboards is to query OpenSearch from the command line.  Here is an example of how to obtain log records from the command line.  Search the output of the query for responses that have the `cluster_name` field set to the name of the managed cluster.
 {{< clipboard >}}
 <div class="highlight">
-   <code>
 
    ```
    # On the admin cluster
@@ -272,7 +264,7 @@ An alternative approach to using the OpenSearch Dashboards is to query OpenSearc
               -o jsonpath={.data.password} | base64 --decode; echo)
    $ curl -k --user verrazzano:${VZPASS} -X POST -H 'kbn-xsrf: true' "${OS_URL}/verrazzano-system/_search?size=25"
    ```
- </code>
+
 </div>
 {{< /clipboard >}}
 

@@ -35,13 +35,12 @@ For more information and the source code of this application, see the [Verrazzan
 1. Create a namespace for the ToDo List example and add a label identifying the namespace as managed by Verrazzano.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl create namespace todo-list
    $ kubectl label namespace todo-list verrazzano-managed=true istio-injection=enabled
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -49,7 +48,6 @@ For more information and the source code of this application, see the [Verrazzan
 1. Create a `docker-registry` secret to enable pulling the ToDo List example image from the registry.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl create secret docker-registry tododomain-repo-credentials \
@@ -59,7 +57,7 @@ For more information and the source code of this application, see the [Verrazzan
            --docker-email=YOUR_REGISTRY_EMAIL \
            -n todo-list
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -69,7 +67,6 @@ For more information and the source code of this application, see the [Verrazzan
 1. Create and label secrets for the WebLogic domain. The password must be at least 8 alphanumeric characters with at least one number or special character.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    # Replace the values of the WLS_USERNAME and WLS_PASSWORD environment variables as appropriate.
@@ -87,7 +84,7 @@ For more information and the source code of this application, see the [Verrazzan
 
    $ kubectl -n todo-list label secret tododomain-jdbc-tododb weblogic.domainUID=tododomain
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -97,25 +94,23 @@ For more information and the source code of this application, see the [Verrazzan
 1. To deploy the application, apply the example resources.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl apply -f {{< release_source_url raw=true path=examples/todo-list/todo-list-components.yaml >}} -n todo-list
    $ kubectl apply -f {{< release_source_url raw=true path=examples/todo-list/todo-list-application.yaml >}} -n todo-list
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
 1. Wait for the ToDo List application to be ready. You can monitor its progress by listing pods and inspecting the output.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl get pods -n todo-list
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -125,7 +120,6 @@ For more information and the source code of this application, see the [Verrazzan
    it is successful. 
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl wait pod \
@@ -139,14 +133,13 @@ For more information and the source code of this application, see the [Verrazzan
         -n todo-list \
         --timeout=5m
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
 1. Get the generated host name for the application.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ HOST=$(kubectl get gateways.networking.istio.io \
@@ -157,14 +150,13 @@ For more information and the source code of this application, see the [Verrazzan
    # Sample output
    todo-appconf.todo-list.10.11.12.13.nip.io
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
 1. Get the `EXTERNAL_IP` address of the `istio-ingressgateway` service.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ ADDRESS=$(kubectl get service \
@@ -175,7 +167,7 @@ For more information and the source code of this application, see the [Verrazzan
    # Sample output
    10.11.12.13
    ```   
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -184,7 +176,6 @@ For more information and the source code of this application, see the [Verrazzan
    * **Using the command line**
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
      # The expected response of this query is the HTML of a web page
@@ -192,7 +183,7 @@ For more information and the source code of this application, see the [Verrazzan
         https://${HOST}/todo/ \
         --resolve ${HOST}:443:${ADDRESS}
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -233,12 +224,11 @@ To access the Console from the machine where you are running `kubectl`:
 1. Set up port forwarding.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl port-forward pods/tododomain-adminserver 7001:7001 -n todo-list
    ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -247,12 +237,11 @@ To access the Console from the machine where you are running `kubectl`:
 1. Access the WebLogic Server Administration Console from your browser.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    http://localhost:7001/console
    ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -265,7 +254,6 @@ It is recommended that the WebLogic Server Administration Console _not_ be expos
 1. Verify that the application configuration, domain, and ingress trait all exist.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl get ApplicationConfiguration -n todo-list
@@ -286,7 +274,7 @@ It is recommended that the WebLogic Server Administration Console _not_ be expos
    NAME                           AGE
    todo-domain-trait-7cbd798c96   19h
    ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -294,7 +282,6 @@ It is recommended that the WebLogic Server Administration Console _not_ be expos
    Note that this will take several minutes.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl get pods -n todo-list
@@ -304,7 +291,7 @@ It is recommended that the WebLogic Server Administration Console _not_ be expos
    mysql-5c75c8b7f-vlhck    2/2     Running   0          19h
    tododomain-adminserver   4/4     Running   0          19h
    ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -313,24 +300,22 @@ It is recommended that the WebLogic Server Administration Console _not_ be expos
 1. To undeploy the application, delete the ToDo List OAM resources.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl delete -f {{< release_source_url raw=true path=examples/todo-list/todo-list-application.yaml >}} -n todo-list
    $ kubectl delete -f {{< release_source_url raw=true path=examples/todo-list/todo-list-components.yaml >}} -n todo-list
    ```
- </code>
+
 </div>
 {{< /clipboard >}}
 
 1. Delete the namespace `todo-list` after the application pods are terminated. The secrets created for the WebLogic domain also will be deleted.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl delete namespace todo-list
    ```
- </code>
+
 </div>
 {{< /clipboard >}}

@@ -18,7 +18,6 @@ Deploy Oracle Cloud Native Environment with the Kubernetes module, following ins
 reasonable choice is the `oci-bv` `StorageClass` with its `CSIDriver` configured with the `File` group policy.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     kubectl patch sc oci-bv -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
     kubectl apply -f - <<EOF
@@ -30,7 +29,6 @@ reasonable choice is the `oci-bv` `StorageClass` with its `CSIDriver` configured
       fsGroupPolicy: File
     EOF
 
-  </code>
 </div>
 {{< /clipboard >}}
 
@@ -39,12 +37,10 @@ Verrazzano installation to fail because an IP address cannot be assigned to an i
 will contain a message similar to this:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     admission webhook "validate-externalip.webhook.svc" denied the request: spec.externalIPs:
         Invalid value: "<external IP address>": externalIP specified is not allowed to use
 
-  </code>
 </div>
 {{< /clipboard >}}
 

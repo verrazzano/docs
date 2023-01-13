@@ -25,13 +25,11 @@ listed in the `placement` section.
 Set up the following environment variables to point to the kubeconfig file for the admin and managed clusters.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
 $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 ```
-  </code>
 </div>
 {{< /clipboard >}}
 
@@ -44,20 +42,17 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 1. Create a namespace for the multicluster ToDo List example by applying the Verrazzano project file.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
        -f {{< release_source_url raw=true path=examples/multicluster/todo-list/verrazzano-project.yaml >}}
    ```
-  </code>
 </div>
 {{< /clipboard >}}
 
 1. Create a `docker-registry` secret to enable pulling the ToDo List example image from the registry.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN create secret docker-registry tododomain-repo-credentials \
@@ -67,7 +62,7 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
            --docker-email=YOUR_REGISTRY_EMAIL \
            -n mc-todo-list
    ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -77,7 +72,6 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 1. Create and label secrets for the WebLogic domain:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    # Replace the values of the WLS_USERNAME and WLS_PASSWORD environment variables as appropriate.
@@ -95,7 +89,7 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN -n mc-todo-list label secret tododomain-jdbc-tododb weblogic.domainUID=tododomain
    ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -105,7 +99,6 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 1. Apply the component and multicluster application resources to deploy the ToDo List application.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
@@ -114,7 +107,7 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
        -f {{< release_source_url raw=true path=examples/multicluster/todo-list/mc-todo-list-application.yaml >}}
    ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -122,7 +115,6 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
    The `tododomain-adminserver` pod may take several minutes to be created and `Ready`. 
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 wait pod \
@@ -130,14 +122,13 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
        -n mc-todo-list \
        --timeout=300s
    ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 
 1. Get the generated host name for the application.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ HOST=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 get gateway \
@@ -148,14 +139,13 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
    # Sample output
    todo-appconf.mc-todo-list.11.22.33.44.nip.io
    ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 
 1. Get the `EXTERNAL_IP` address of the `istio-ingressgateway` service.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ ADDRESS=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 get service \
@@ -166,7 +156,7 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
    # Sample output
    11.22.33.44
    ```   
-  </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -175,14 +165,13 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
    * **Using the command line**
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
-     ```
-     # The expected response of this query is the HTML of a web page
-     $ curl -sk https://${HOST}/todo/ \
-         --resolve ${HOST}:443:${ADDRESS}
-     ```
-  </code>
+   ```
+    # The expected response of this query is the HTML of a web page
+    $ curl -sk https://${HOST}/todo/ \
+        --resolve ${HOST}:443:${ADDRESS}
+   ```
+
 </div>
 {{< /clipboard >}}
      If you are using `nip.io`, then you do not need to include `--resolve`.
@@ -217,7 +206,6 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 1. Verify that the application configuration, domain, and ingress trait all exist.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get ApplicationConfiguration -n mc-todo-list
@@ -238,7 +226,7 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
    NAME                           AGE
    todo-domain-trait-7cbd798c96   19h
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -262,7 +250,6 @@ Undeploy affects all clusters in which the application is located.
 1. To undeploy the application, delete the ToDo List OAM resources.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
@@ -270,32 +257,30 @@ Undeploy affects all clusters in which the application is located.
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
     -f {{< release_source_url raw=true path=examples/multicluster/todo-list/todo-list-components.yaml >}}
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
 1. Delete the project.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
     -f {{< release_source_url raw=true path=examples/multicluster/todo-list/verrazzano-project.yaml >}}
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
 1. Delete the namespace `mc-todo-list` after the application pods are terminated. The secrets created for the WebLogic domain also will be deleted.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete namespace mc-todo-list
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 delete namespace mc-todo-list
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}

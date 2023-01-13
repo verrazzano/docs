@@ -69,7 +69,6 @@ Listing the pods and persistent volumes in the `verrazzano-system` namespace for
 shows the expected nodes are running with the appropriate data volumes.
 {{< clipboard >}}
 <div class="highlight">
-   <code>
 
 ```
 $ kubectl get pvc,pod -l verrazzano-component=opensearch -n verrazzano-system
@@ -102,7 +101,7 @@ pod/vmi-system-master-1                                2/2     Running    0     
 pod/vmi-system-master-2                                2/2     Running    0          5m21s
 pod/weblogic-operator-666b548749-lj66t                 2/2     Running    0          7m48s
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -110,7 +109,6 @@ Running the command `kubectl describe pod -n verrazzano-system vmi-system-data-i
 requested amount of memory.
 {{< clipboard >}}
 <div class="highlight">
-   <code>
 
 ```
 Containers:
@@ -119,7 +117,7 @@ Containers:
     Requests:
       memory:   1Gi
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 

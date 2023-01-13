@@ -53,13 +53,12 @@ for the private key file data must be `key`.
 Here is an example `kubectl` command that will create the secret.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ kubectl create secret generic oci-fluentd -n verrazzano-install \
       --from-file=config=/home/myuser/oci_config --from-file=key=/home/myuser/keys/oci_api.pem
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -67,7 +66,6 @@ The secret should look something like this.
 
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 apiVersion: v1
@@ -80,7 +78,7 @@ metadata:
   namespace: verrazzano-install
 type: Opaque
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -101,7 +99,6 @@ installation YAML file for each type of credential.
 ### Instance principal credentials
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -121,7 +118,7 @@ spec:
     opensearchDashboards:
       enabled: false
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -131,7 +128,6 @@ When using user API credentials, you need to configure the name of the secret in
 under the Oracle Cloud Infrastructure section of the Fluentd component settings. Your YAML file should look something like this.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -152,7 +148,7 @@ spec:
     opensearchDashboards:
       enabled: false
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -165,7 +161,6 @@ You can override the Oracle Cloud Infrastructure Log object on an individual nam
 Here is an example namespace.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 apiVersion: v1
@@ -184,7 +179,7 @@ spec:
 status:
   phase: Active
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -197,7 +192,6 @@ To search Verrazzano logs, you can use the Oracle Cloud Infrastructure Console, 
 For example, use the Oracle Cloud Infrastructure CLI to search the system logs for records emitted by the `verrazzano-application-operator` container:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ oci logging-search search-logs --search-query=\
@@ -205,14 +199,13 @@ $ oci logging-search search-logs --search-query=\
      where \"data\".\"kubernetes.container_name\" = 'verrazzano-application-operator' | sort by datetime desc" \
      --time-start 2021-12-07 --time-end 2021-12-17
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
 Search for all application log records in the `springboot` namespace:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ oci logging-search search-logs --search-query=\
@@ -220,7 +213,7 @@ $ oci logging-search search-logs --search-query=\
      where \"data\".\"kubernetes.namespace_name\" = 'springboot' | sort by datetime desc" \
      --time-start 2021-12-07 --time-end 2021-12-17
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -230,12 +223,11 @@ For more information on searching logs, see the [Logging Query Language Specific
 If you are not able to view Verrazzano logs in Oracle Cloud Infrastructure Logging, then check the Fluentd container logs in the cluster to see if there are errors.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ kubectl logs -n verrazzano-system -l app=fluentd --tail=-1
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 

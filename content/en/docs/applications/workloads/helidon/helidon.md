@@ -54,7 +54,6 @@ as defined by the VerrazzanoHelidonWorkload custom resource. Including this Comp
 will result in a new containerized Helidon application being provisioned.
 {{< clipboard >}}
 
-
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
 kind: Component
@@ -79,7 +78,6 @@ spec:
               ...
               ...
 ```
-
 
 {{< /clipboard >}}
 

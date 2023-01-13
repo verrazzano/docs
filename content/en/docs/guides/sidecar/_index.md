@@ -195,13 +195,12 @@ Now that the resources have been configured, you can deploy the application. Fol
 Replace the deployment commands in Step 4 with your locally edited YAML files:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ kubectl apply -f todo-list-components.yaml
 $ kubectl apply -f todo-list-application.yaml
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -211,7 +210,6 @@ To verify that a deployment successfully created a custom Fluentd sidecar:
 - Verify that the container name exists on the WebLogic application pod.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
   ```
   $ kubectl get pods -n <application-namespace> <application-pod-name> -o jsonpath="{.spec.containers[*].name}" | tr -s '[[:space:]]' '\n'
@@ -219,19 +217,18 @@ To verify that a deployment successfully created a custom Fluentd sidecar:
   fluentd
   ...
   ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
 - Verify that the Fluentd sidecar is redirecting logs to stdout.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
   ```
   $ kubectl logs -n <application-namespace> <application-pod-name> fluentd
   ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 

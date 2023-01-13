@@ -17,7 +17,6 @@ The exact steps required to upgrade a Verrazzano environment to achieve high ava
    a. Create a patch file:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ cat > patch.yaml <<EOF
@@ -122,19 +121,18 @@ The exact steps required to upgrade a Verrazzano environment to achieve high ava
            replicas: 2
    EOF
    ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 
    b. Apply the patch:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl patch verrazzano verrazzano --patch-file=patch.yaml --type=merge
    ```
-  </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -142,11 +140,10 @@ The exact steps required to upgrade a Verrazzano environment to achieve high ava
    c. Wait for the patch to be installed:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    $ kubectl wait --timeout=30m --for=jsonpath='{.status.state}'=Ready verrazzano/verrazzano
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}

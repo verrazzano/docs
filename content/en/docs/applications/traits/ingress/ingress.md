@@ -8,7 +8,6 @@ The [IngressTrait]({{< relref "/docs/reference/api/vao-oam-v1alpha1#oam.verrazza
 
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     apiVersion: core.oam.dev/v1alpha2
     kind: ApplicationConfiguration
@@ -32,7 +31,7 @@ The [IngressTrait]({{< relref "/docs/reference/api/vao-oam-v1alpha1#oam.verrazza
                     - paths:
                         - path: "/greet"
                           pathType: Prefix
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -42,7 +41,6 @@ For example, with the sample application configuration successfully deployed, th
 
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     $ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-gw -n hello-helidon -o jsonpath={.spec.servers[0].hosts[0]})
     $ echo $HOST
@@ -50,7 +48,6 @@ For example, with the sample application configuration successfully deployed, th
 
     $ curl -sk -X GET https://${HOST}/greet
 
- </code>
 </div>
 {{< /clipboard >}}
 
@@ -58,7 +55,6 @@ Load balancer session affinity is configured using an HTTP cookie in a destinati
 
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     apiVersion: core.oam.dev/v1alpha2
     kind: ApplicationConfiguration
@@ -87,7 +83,7 @@ Load balancer session affinity is configured using an HTTP cookie in a destinati
                           name: sessioncookie
                           path: "/"
                           ttl: 600
- </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -95,7 +91,6 @@ Additionally, an authorization policy limiting access to specific request princi
 
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     apiVersion: core.oam.dev/v1alpha2
     kind: ApplicationConfiguration
@@ -129,7 +124,7 @@ Additionally, an authorization policy limiting access to specific request princi
                                       values:
                                         - "customer"
 
- </code>
+
 </div>
 {{< /clipboard >}}
 

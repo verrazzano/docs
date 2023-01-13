@@ -37,7 +37,6 @@ The following example references a Kubernetes v1.21.1-based image built for Kind
 with one suitable for the Kind release you are using.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     $ kind create cluster --config - <<EOF
     kind: Cluster
@@ -54,7 +53,6 @@ with one suitable for the Kind release you are using.
                 "service-account-signing-key-file": "/etc/kubernetes/pki/sa.key"
     EOF
 
-   </code>
 </div>
 {{< /clipboard >}}
 
@@ -68,7 +66,6 @@ because they will not need to pull the images again.
 1\. Create a named Docker volume that will be used for the image cache and note its `mountPoint` path. In this example, the volume is named `containerd`.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     $ docker volume create containerd
 
@@ -85,14 +82,12 @@ because they will not need to pull the images again.
         "Scope": "local"
     }
 
-  </code>
 </div>
 {{< /clipboard >}}
 
 2\. Specify the `mountPoint` path obtained, as the `hostPath` under `extraMounts` in your Kind configuration file, with a `containerPath` of `/var/lib/containerd`, which is the default containerd image caching location inside the Kind container. An example of the modified Kind configuration is shown in the following `create cluster` command.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     $ kind create cluster --config - <<EOF
     kind: Cluster
@@ -112,7 +107,6 @@ because they will not need to pull the images again.
             containerPath: /var/lib/containerd #This is the location of the image cache inside the Kind container
     EOF
 
-  </code>
 </div>
 {{< /clipboard >}}
 
@@ -125,7 +119,6 @@ By default, Kind does not provide an implementation of network load balancers ([
 To install MetalLB:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     $ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.11.0/manifests/namespace.yaml
     $ kubectl create secret generic \
@@ -133,7 +126,6 @@ To install MetalLB:
         --from-literal=secretkey="$(openssl rand -base64 128)"
     $ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.11.0/manifests/metallb.yaml
 
-  </code>
 </div>
 {{< /clipboard >}}
 
@@ -145,28 +137,24 @@ In versions v0.7.0 and earlier, Kind uses Docker's default bridge network; in ve
 To determine the subnet of the `kind` Docker network in Kind v0.8.0 and later:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     $ docker inspect kind | jq '.[0].IPAM.Config[0].Subnet' -r
 
     # Sample output
     172.18.0.0/16
 
-  </code>
 </div>
 {{< /clipboard >}}
 
 To determine the subnet of the `kind` Docker network in Kind v0.7.0 and earlier:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     $ docker inspect bridge | jq '.[0].IPAM.Config[0].Subnet' -r
 
     # Sample output
     172.17.0.0/16
 
-  </code>
 </div>
 {{< /clipboard >}}
 
@@ -175,7 +163,6 @@ For use by MetalLB, assign a range of IP addresses at the end of the `kind` netw
 
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
     $ kubectl apply -f - <<-EOF
     apiVersion: v1
@@ -192,7 +179,6 @@ For use by MetalLB, assign a range of IP addresses at the end of the `kind` netw
           - 172.18.0.230-172.18.0.250
     EOF
 
-  </code>
 </div>
 {{< /clipboard >}}
 

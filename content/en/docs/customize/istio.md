@@ -22,7 +22,6 @@ The following example customizes a Verrazzano `prod` profile as follows:
 * Changes the `podAffinity` configuration to use `requiredDuringSchedulingIgnoredDuringExecution` for `istio-ingressgateway` and `istio-egressgateway`
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
  ```
  apiVersion: install.verrazzano.io/v1beta1
@@ -77,6 +76,5 @@ The following example customizes a Verrazzano `prod` profile as follows:
                    name: istio-ingressgateway
  ```
 
-   </code>
 </div>
 {{< /clipboard >}}

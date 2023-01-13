@@ -23,14 +23,13 @@ For components with multiple log streams or that cannot log to stdout, Verrazzan
 For example, in a WebLogic deployment, `AdminServer.log` is consumed, translated, and written to stdout by the Fluentd sidecar.  You can view these logs using `kubectl` on the container named `fluentd-stdout-sidecar`.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
  ```
 $ kubectl logs tododomain-adminserver \
     -n todo-list \
     -c fluentd-stdout-sidecar
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -58,7 +57,6 @@ These plug-ins help to parse Kubernetes management log files.
 Here are example use cases for these plug-ins:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 # ---- fluentd.conf ----
@@ -85,7 +83,7 @@ Here are example use cases for these plug-ins:
 </source>
 # ----   EOF      ----
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -108,7 +106,6 @@ Verrazzano creates an OpenSearch cluster as the store and search engine for the 
 For example, you can use `curl` to get all of the OpenSearch data streams. First, you must get the password for the `verrazzano` user and the host for the Verrazzano Monitoring Instance (VMI) OpenSearch.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ PASS=$(kubectl get secret \
@@ -122,14 +119,13 @@ $ HOST=$(kubectl get ingress \
 $ curl -ik \
    --user verrazzano:$PASS https://$HOST/_data_stream
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
 To see all of the records for a specific data stream, do the following:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 $ DATA_STREAM=verrazzano-application-todo-list
@@ -137,7 +133,7 @@ $ DATA_STREAM=verrazzano-application-todo-list
 $ curl -ik \
     --user verrazzano:$PASS https://$HOST/$DATA_STREAM/_search?q=message:*
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -149,7 +145,6 @@ If you want the logs sent to an external OpenSearch, instead of the default VMI 
 The following is an example of a Verrazzano custom resource to send the logs to the OpenSearch endpoint `https://external-os.default.172.18.0.231.nip.io`.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -162,9 +157,10 @@ spec:
       opensearchURL: https://external-os.default.172.18.0.231.nip.io
       opensearchSecret: external-os-secret
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
+
 ## OpenSearch Dashboards
 OpenSearch Dashboards is a visualization dashboard for the content indexed on an OpenSearch cluster.  Verrazzano creates a OpenSearch Dashboards deployment to provide a user interface for querying and visualizing the log data collected in OpenSearch.
 
@@ -188,7 +184,6 @@ To install the log rotation example on your cluster, save the snippet to a file 
 - By default, the CronJob deletes the last 7 days of data. You may customize this by modifying the query in the ConfigMap.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 apiVersion: batch/v1beta1
@@ -272,7 +267,7 @@ data:
     }
     '
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 

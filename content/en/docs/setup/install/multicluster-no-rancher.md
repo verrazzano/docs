@@ -40,14 +40,13 @@ Follow these preregistration setup steps.
           in the `verrazzano-system` namespace on the managed cluster:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 # On the managed cluster
 $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
 -n verrazzano-system get secret verrazzano-tls -o jsonpath='{.data.ca\.crt}'
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
           If this value is empty, then your managed cluster is using certificates signed by a well-known certificate
@@ -65,7 +64,6 @@ $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
           `kubectl` command to generate the `managed1.yaml` file.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 # On the managed cluster
@@ -80,7 +78,7 @@ create secret generic "ca-secret-managed1" \
 --dry-run=client \
 -o yaml > managed1.yaml
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -88,7 +86,6 @@ create secret generic "ca-secret-managed1" \
           The `managed1.yaml` file that was created in the previous step provides input to this step.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 # On the admin cluster
@@ -98,7 +95,7 @@ $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
 # After the command succeeds, you may delete the managed1.yaml file
 $ rm managed1.yaml
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -113,7 +110,6 @@ This address must be accessible from the managed cluster.
   address of the admin cluster from its kubeconfig file.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
   ```
   # View the information for the admin cluster in your kubeconfig file
@@ -131,7 +127,7 @@ This address must be accessible from the managed cluster.
   ....
   ....
   ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -139,12 +135,11 @@ This address must be accessible from the managed cluster.
   value of the `ADMIN_K8S_SERVER_ADDRESS` variable to this URL. 
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
   ```
   $ export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
   ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -157,24 +152,22 @@ This address must be accessible from the managed cluster.
   the same Docker network. 
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
   ```
   $ kind get kubeconfig --internal --name <your-admin-cluster-name> | grep server
   ```
-   </code>
+
 </div>
 {{< /clipboard >}}
   In the output of this command, you can find the URL of the admin cluster API server in the `server` field. Set the
   value of the `ADMIN_K8S_SERVER_ADDRESS` variable to this URL.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
   ```
   $ export ADMIN_K8S_SERVER_ADDRESS=<the server address from the config output>
   ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -183,7 +176,6 @@ address found in the previous step.
 To be detected by Verrazzano, this ConfigMap must be named `verrazzano-admin-cluster`.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 # On the admin cluster
@@ -198,7 +190,7 @@ data:
   server: "${ADMIN_K8S_SERVER_ADDRESS}"
 EOF
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -213,7 +205,6 @@ The cluster against which to run the command is indicated in each code block.
 1. To begin the registration process for a managed cluster named `managed1`, apply the VerrazzanoManagedCluster object on the admin cluster.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    # On the admin cluster
@@ -229,14 +220,13 @@ The cluster against which to run the command is indicated in each code block.
      caSecret: ca-secret-managed1
    EOF
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 1. Wait for the VerrazzanoManagedCluster resource to reach the `Ready` status. At that point, it will have generated a YAML
    file that must be applied on the managed cluster to complete the registration process.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    # On the admin cluster
@@ -244,14 +234,12 @@ The cluster against which to run the command is indicated in each code block.
        wait --for=condition=Ready \
        vmc managed1 -n verrazzano-mc
    ```
-   </code>
 </div>
 {{< /clipboard >}}
 
 1. Export the YAML file created to register the managed cluster.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    # On the admin cluster
@@ -260,7 +248,7 @@ The cluster against which to run the command is indicated in each code block.
        -n verrazzano-mc \
        -o jsonpath={.data.yaml} | base64 --decode > register.yaml
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
@@ -269,7 +257,6 @@ The cluster against which to run the command is indicated in each code block.
 Apply the registration file exported in the previous step, on the managed cluster.
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
    ```
    # On the managed cluster
@@ -279,7 +266,7 @@ Apply the registration file exported in the previous step, on the managed cluste
    # After the command succeeds, you may delete the register.yaml file
    $ rm register.yaml
    ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
