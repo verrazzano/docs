@@ -52,7 +52,8 @@
     }
 
     async function copyCodeToClipboard(button, highlightDiv) {
-        const codeToCopy = highlightDiv.querySelector(":last-child > code").innerText;
+        let codeToCopy = highlightDiv.querySelector(":last-child > code").innerText;
+        codeToCopy = codeToCopy.replace(/\$.*?(?=\s|$)/g, "");
         try {
             await navigator.clipboard.writeText(codeToCopy);
         } catch (err) {
