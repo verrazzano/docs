@@ -19,12 +19,17 @@ configurations provided by Verrazzano.
    Start with an initial estimate of your hardware needs. The following recommendations will provide you with initial, educated estimates, but for ideal sizing, you will need to test them with representative workloads, monitor their performance, and then reiterate.
 
 - Storage Requirements
-
-   Minimum storage requirement = source data(log size per day * retention period(days to store your data) * (1 + shard replicas) )* (1 + indexing overhead(extra space used other than the actual data which is generally 1%(0.1) of the index size = 1.1)) / (1 - Linux reserved space(Linux reserves 5% of the file system for the root user for some OS operations = 0.95)) / (1 - OpenSearch overhead(OpenSearch keeps 20%(worst case) of the instance for segment merges, logs, and other internal operation = 0.8 ))
+   s = source data(log size per day * retention period(days to store your data)
+   sr = shard replicas
+   io = indexing overhead(extra space used other than the actual data which is generally 1%(0.1) of the index size = 1.1
+   lrs = Linux reserved space(Linux reserves 5% of the file system for the root user for some OS operations = 0.95
+   oo  = OpenSearch overhead(OpenSearch keeps 20%(worst case) of the instance for segment merges, logs, and other internal operation = 0.8
+   
+   Minimum storage requirement = \\((s * (1 + sr) )* (1 + io)) / (1 - lrs)) / (1 - oo ))\\)
    
    That equation results to:
  
-   Minimum storage requirement = source data(log size per day * retention period(days to store your data) * (1 + shard replicas) ) * 1.45
+   Minimum storage requirement = \\(s * (1 + sr) ) * 1.45\\)
 
 
 - Memory
@@ -33,8 +38,11 @@ configurations provided by Verrazzano.
 
 
 - Number of Data Nodes
-
-  ROUNDUP(Total storage(GB) / Memory per data node / Memory:data ratio(1:30 ratio means that you have 30 times larger storage on the node than you have RAM) + 1 Data node for fail over capacity
+  ts =  Total storage(GB)
+  mem = Memory per data node
+  md = Memory:data ratio(1:30 ratio means that you have 30 times larger storage on the node than you have RAM)
+  fc = 1 Data node for fail over capacity
+  ROUNDUP \\(ts / mem / md  + fc\\)
 
 
 - JVM heap memory
@@ -55,15 +63,12 @@ configurations provided by Verrazzano.
 
 
 - Primary shards count
+  s = source data(log size per day * retention period(days to store your data)
+  sh = desired shard size
 
-   Primary shards = source data(log size per day * retention period(days to store your data)) * 1.1) / desired shard size
+   \\(Primary shards\\ )= \\((s * 1.1) / sh\\)
 
 
-The probability of getting \\(k\\) heads when flipping \\(n\\) coins is:
-```math
-\tag*{(1)}  P(E) = {n \choose k} p^k (1-p)^{n-k}
-```
-When \\(a \ne 0\\), there are two solutions to \\(ax^2 + bx + c= 0\\) and they are \\(x = {-b \pm \sqrt{b^2-4ac} \over 2a}\\).
 
 ## Recommended alarms
 You can [customize Prometheus]({{< relref "/docs/customize/Prometheus.md" >}}) to enable Alertmanager and configure recommended alarms (add alert rules) to get insight into your OpenSearch cluster and take some actions proactively.
