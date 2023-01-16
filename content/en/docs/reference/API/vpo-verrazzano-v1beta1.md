@@ -2555,7 +2555,18 @@ VMO /vmcontroller/v1.OpenSearchPlugins
 </td>
 <td>
 <em>(Optional)</em>
-<p>Enable to add 3rd Party / Custom plugins not offered in the default OpenSearch image</p>
+<p>Enable to add 3rd Party / Custom plugins not offered in the default OpenSearch image.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>disableDefaultPolicy</code></br>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>To disable the default ISM policies.</p>
 </td>
 </tr>
 </tbody>
