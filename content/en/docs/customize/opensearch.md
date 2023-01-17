@@ -19,6 +19,7 @@ configurations provided by Verrazzano.
    Start with an initial estimate of your hardware needs. The following recommendations will provide you with initial, educated estimates, but for ideal sizing, you will need to test them with representative workloads, monitor their performance, and then reiterate.
 
 - Storage Requirements
+
    s = source data(log size per day * retention period(days to store your data)
 
    sr = shard replicas
@@ -26,6 +27,7 @@ configurations provided by Verrazzano.
    io = indexing overhead(extra space used other than the actual data which is generally 1%(0.1) of the index size = 1.1
 
    lrs = Linux reserved space(Linux reserves 5% of the file system for the root user for some OS operations = 0.95
+
    oo  = OpenSearch overhead(OpenSearch keeps 20%(worst case) of the instance for segment merges, logs, and other internal operation = 0.8
    
    Minimum storage requirement = \\((s * (1 + sr) )* (1 + io)) / (1 - lrs)) / (1 - oo ))\\)
@@ -106,6 +108,7 @@ configurations provided by Verrazzano.
   Primary shards = \\((s * 1.1)/sh\\)
 
   With reference to our example 
+
   s = 192 GiB
 
   sh = 30 GiB
