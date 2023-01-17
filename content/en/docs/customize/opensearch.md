@@ -20,8 +20,11 @@ configurations provided by Verrazzano.
 
 - Storage Requirements
    s = source data(log size per day * retention period(days to store your data)
+
    sr = shard replicas
+
    io = indexing overhead(extra space used other than the actual data which is generally 1%(0.1) of the index size = 1.1
+
    lrs = Linux reserved space(Linux reserves 5% of the file system for the root user for some OS operations = 0.95
    oo  = OpenSearch overhead(OpenSearch keeps 20%(worst case) of the instance for segment merges, logs, and other internal operation = 0.8
    
@@ -31,10 +34,14 @@ configurations provided by Verrazzano.
  
    Minimum storage requirement = \\((s * (1 + sr) ) * 1.45\\)
 
-   For an example, if you have
+   For an example, if we have
+
    s = 66 GiB (6(log size per day) * 11(retention period))
+
    sr = 1
-   then your 
+
+   then 
+
    Minimum storage requirement = \\((66 * (1 + 1) ) * 1.45\\) = 192 GiB
 
 
@@ -42,24 +49,33 @@ configurations provided by Verrazzano.
 - Memory
 
   For every 100 GiB of your storage requirement, you should have 8 GiB of memory.
+  
   With reference to our example, for 192 Gib of storage requirement, we need 16 GiB of memory.
 
 
 - Number of Data Nodes
 
   ts =  Total storage(GB)
+
   mem = Memory per data node
+
   md = Memory:data ratio(1:30 ratio means that you have 30 times larger storage on the node than you have RAM, and value used would be 30)
+
   fc = 1 Data node for fail over capacity
 
   ROUNDUP \\(ts / mem / md  + fc\\)
 
   With reference to our example
+
   ts = 192 GiB
+
   mem = 8
+
   md = 1:10 
+
   fc = 1
-  Then number of data nodes = ROUNDUP \\(192 / 8 / 10  + 1\\) = 3 
+
+  Number of data nodes = ROUNDUP \\(192 / 8 / 10  + 1\\) = 3 
 
 
 - JVM heap memory
@@ -88,9 +104,12 @@ configurations provided by Verrazzano.
   sh = desired shard size
 
   Primary shards = \\((s * 1.1)/sh\\)
+
   With reference to our example 
   s = 192 GiB
+
   sh = 30 GiB
+
   then Primary shards count = \\((192 * 1.1)/30\\) = 7
 
 
