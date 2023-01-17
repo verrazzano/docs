@@ -38,15 +38,9 @@ Start with an initial estimate of your hardware needs. The following recommendat
 
   For an example, if we have
 
-  s = 66 GiB (6(log size per day) * 11(retention period))
+  s = 66 GiB (6(log size per day) * 11(retention period)) and sr = 1
 
-  sr = 1
-
-  then
-
-  Minimum storage requirement = \\((66 * (1 + 1) ) * 1.45\\) = 192 GiB
-
-
+  then our Minimum storage requirement = \\((66 * (1 + 1) ) * 1.45\\) = 192 GiB
 
 - Memory
 
@@ -107,11 +101,7 @@ Start with an initial estimate of your hardware needs. The following recommendat
 
   Primary shards = \\((s * 1.1)/sh\\)
 
-  With reference to our example
-
-  s = 192 GiB
-
-  sh = 30 GiB
+  With reference to our example, s = 192 GiB and sh = 30 GiB
 
   then Primary shards count = \\((192 * 1.1)/30\\) = 7
 
