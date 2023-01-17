@@ -2,7 +2,7 @@
 title: "OpenSearch"
 description: "Learn how to customize your OpenSearch cluster configuration"
 aliases:
-    - /docs/customize/elasticsearch
+- /docs/customize/elasticsearch
 linkTitle: OpenSearch
 weight: 10
 draft: false
@@ -13,39 +13,84 @@ Verrazzano supports two cluster topologies for an OpenSearch cluster:
 - A multi-node cluster configuration with separate master, data, and ingest nodes.
 
 [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}}) describes the default OpenSearch cluster
-configurations provided by Verrazzano.  
+configurations provided by Verrazzano.
 ## Plan cluster topology
 
-   Start with an initial estimate of your hardware needs. The following recommendations will provide you with initial, educated estimates, but for ideal sizing, you will need to test them with representative workloads, monitor their performance, and then reiterate.
+Start with an initial estimate of your hardware needs. The following recommendations will provide you with initial, educated estimates, but for ideal sizing, you will need to test them with representative workloads, monitor their performance, and then reiterate.
 
 - Storage Requirements
 
-   Minimum storage requirement = source data(log size per day * retention period(days to store your data) * (1 + shard replicas) )* (1 + indexing overhead(extra space used other than the actual data which is generally 1%(0.1) of the index size = 1.1)) / (1 - Linux reserved space(Linux reserves 5% of the file system for the root user for some OS operations = 0.95)) / (1 - OpenSearch overhead(OpenSearch keeps 20%(worst case) of the instance for segment merges, logs, and other internal operation = 0.8 ))
-   
-   That equation results to:
- 
-   Minimum storage requirement = source data(log size per day * retention period(days to store your data) * (1 + shard replicas) ) * 1.45
+  s = source data(log size per day * retention period(days to store your data)
+
+  sr = shard replicas
+
+  io = indexing overhead(extra space used other than the actual data which is generally 1%(0.1) of the index size = 1.1
+
+  lrs = Linux reserved space(Linux reserves 5% of the file system for the root user for some OS operations = 0.95
+
+  oo  = OpenSearch overhead(OpenSearch keeps 20%(worst case) of the instance for segment merges, logs, and other internal operation = 0.8
+
+  Minimum storage requirement = \\((s * (1 + sr) )* (1 + io)) / (1 - lrs)) / (1 - oo ))\\)
+
+  That equation results to:
+
+  Minimum storage requirement = \\((s * (1 + sr) ) * 1.45\\)
+
+  For an example, if we have
+
+  s = 66 GiB (6(log size per day) * 11(retention period))
+
+  sr = 1
+
+  then
+
+  Minimum storage requirement = \\((66 * (1 + 1) ) * 1.45\\) = 192 GiB
+
 
 
 - Memory
 
   For every 100 GiB of your storage requirement, you should have 8 GiB of memory.
 
+  With reference to our example, for 192 Gib of storage requirement, we need 16 GiB of memory.
+
 
 - Number of Data Nodes
 
-  ROUNDUP(Total storage(GB) / Memory per data node / Memory:data ratio(1:30 ratio means that you have 30 times larger storage on the node than you have RAM) + 1 Data node for fail over capacity
+  ts =  Total storage(GB)
+
+  mem = Memory per data node
+
+  md = Memory:data ratio(1:30 ratio means that you have 30 times larger storage on the node than you have RAM, and value used would be 30)
+
+  fc = 1 Data node for fail over capacity
+
+  ROUNDUP \\(ts / mem / md  + fc\\)
+
+  With reference to our example
+
+  ts = 192 GiB
+
+  mem = 8
+
+  md = 1:10
+
+  fc = 1
+
+  Number of data nodes = ROUNDUP \\(192 / 8 / 10  + 1\\) = 3
 
 
 - JVM heap memory
 
-   The heap size is the amount of RAM allocated to the Java Virtual Machine of an OpenSearch node. The OpenSearch process is very memory intensive and close to 50% of the memory available on a node should be allocated to the JVM. The JVM machine uses memory for indexing and search operations. The other 50% is required for the file system cache, which keeps data that is regularly accessed in memory.
-   As a general rule, you should set `-Xms` and `-Xmx` to the same value, which should be 50% of your total available RAM, subject to a maximum of (approximately) 31 GiB.
+  The heap size is the amount of RAM allocated to the Java Virtual Machine of an OpenSearch node. The OpenSearch process is very memory intensive and close to 50% of the memory available on a node should be allocated to the JVM. The JVM machine uses memory for indexing and search operations. The other 50% is required for the file system cache, which keeps data that is regularly accessed in memory.
+  As a general rule, you should set `-Xms` and `-Xmx` to the same value, which should be 50% of your total available RAM, subject to a maximum of (approximately) 31 GiB.
 
 
 - CPU
-   
+
   Hardware requirements vary dramatically by workload, but, typically, two vCPU cores for every 100 GiB of your storage requirement is sufficient.
+
+  With reference to our example, for 192 GiB, CPU cores required are 4
 
 
 - Shard Size
@@ -56,7 +101,19 @@ configurations provided by Verrazzano.
 
 - Primary shards count
 
-   Primary shards = source data(log size per day * retention period(days to store your data)) * 1.1) / desired shard size
+  s = source data(log size per day * retention period(days to store your data)
+
+  sh = desired shard size
+
+  Primary shards = \\((s * 1.1)/sh\\)
+
+  With reference to our example
+
+  s = 192 GiB
+
+  sh = 30 GiB
+
+  then Primary shards count = \\((192 * 1.1)/30\\) = 7
 
 
 
@@ -88,7 +145,7 @@ Use the `OSDataNodeFilesystemSpaceFillingUp` alert to indicate that the OpenSear
                severity: warning
      EOF
   ```
-    
+
 
 ## Configure cluster topology
 
