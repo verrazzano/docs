@@ -29,20 +29,37 @@ configurations provided by Verrazzano.
    
    That equation results to:
  
-   Minimum storage requirement = \\(s * (1 + sr) ) * 1.45\\)
+   Minimum storage requirement = \\((s * (1 + sr) ) * 1.45\\)
+
+   For an example, if you have
+   s = 66 GiB (6(log size per day) * 11(retention period))
+   sr = 1
+   then your 
+   Minimum storage requirement = \\((66 * (1 + 1) ) * 1.45\\) = 192 GiB
+
 
 
 - Memory
 
   For every 100 GiB of your storage requirement, you should have 8 GiB of memory.
+  With reference to our example, for 192 Gib of storage requirement, we need 16 GiB of memory.
 
 
 - Number of Data Nodes
+
   ts =  Total storage(GB)
   mem = Memory per data node
-  md = Memory:data ratio(1:30 ratio means that you have 30 times larger storage on the node than you have RAM)
+  md = Memory:data ratio(1:30 ratio means that you have 30 times larger storage on the node than you have RAM, and value used would be 30)
   fc = 1 Data node for fail over capacity
+
   ROUNDUP \\(ts / mem / md  + fc\\)
+
+  With reference to our example
+  ts = 192 GiB
+  mem = 8
+  md = 1:10 
+  fc = 1
+  Then number of data nodes = ROUNDUP \\(192 / 8 / 10  + 1\\) = 3 
 
 
 - JVM heap memory
@@ -55,6 +72,8 @@ configurations provided by Verrazzano.
    
   Hardware requirements vary dramatically by workload, but, typically, two vCPU cores for every 100 GiB of your storage requirement is sufficient.
 
+  With reference to our example, for 192 GiB, CPU cores required are 4
+
 
 - Shard Size
 
@@ -63,10 +82,16 @@ configurations provided by Verrazzano.
 
 
 - Primary shards count
+
   s = source data(log size per day * retention period(days to store your data)
+  
   sh = desired shard size
 
-   \\(Primary shards\\ )= \\((s * 1.1) / sh\\)
+  Primary shards = \\((s * 1.1)/sh\\)
+  With reference to our example 
+  s = 192 GiB
+  sh = 30 GiB
+  then Primary shards count = \\((192 * 1.1)/30\\) = 7
 
 
 
