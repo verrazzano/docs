@@ -298,6 +298,51 @@ and invalid values will be ignored.</p>
 </tr>
 </tbody>
 </table>
+<h3 id="install.verrazzano.io/v1beta1.ArgoCDComponent">ArgoCDComponent
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
+</p>
+<p>
+<p>ArgoCDComponent specifies the Argo CD configuration</p>
+</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>enabled</code></br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+</td>
+</tr>
+<tr>
+<td>
+<code>InstallOverrides</code></br>
+<em>
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
+InstallOverrides
+</a>
+</em>
+</td>
+<td>
+<p>
+(Members of <code>InstallOverrides</code> are embedded into this type.)
+</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="install.verrazzano.io/v1beta1.AuthProxyComponent">AuthProxyComponent
 </h3>
 <p>
@@ -655,6 +700,20 @@ ApplicationOperatorComponent
 <td>
 <em>(Optional)</em>
 <p>The Application Operator component configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>argoCd</code></br>
+<em>
+<a href="#install.verrazzano.io/v1beta1.ArgoCDComponent">
+ArgoCDComponent
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Argo CD configuration</p>
 </td>
 </tr>
 <tr>
@@ -1724,6 +1783,7 @@ key in the <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOver
 <p>
 (<em>Appears on:</em>
 <a href="#install.verrazzano.io/v1beta1.ApplicationOperatorComponent">ApplicationOperatorComponent</a>, 
+<a href="#install.verrazzano.io/v1beta1.ArgoCDComponent">ArgoCDComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.AuthProxyComponent">AuthProxyComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.CertManagerComponent">CertManagerComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.ClusterOperatorComponent">ClusterOperatorComponent</a>, 
@@ -1808,6 +1868,17 @@ Invalid override values will be ignored.</p>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<code>argoCdUrl</code></br>
+<em>
+string
+</em>
+</td>
+<td>
+<p>ArgoCDURL The Argo CD UI URL for this Verrazzano installation</p>
+</td>
+</tr>
 <tr>
 <td>
 <code>consoleUrl</code></br>
@@ -2540,8 +2611,33 @@ bool
 </td>
 <td>
 <em>(Optional)</em>
-<p>A list of <a href="https://opensearch.org/docs/1.2/im-plugin/ism/index/">Index State Management</a> policies
+<p>A list of <a href="https://opensearch.org/docs/2.3/im-plugin/ism/index/">Index State Management</a> policies
 to enable on OpenSearch.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>plugins</code></br>
+<em>
+<a href="https://pkg.go.dev/github.com/verrazzano/verrazzano-monitoring-operator/pkg/apis/vmcontroller/v1#OpenSearchPlugins">
+VMO /vmcontroller/v1.OpenSearchPlugins
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Enable to add 3rd Party / Custom plugins not offered in the default OpenSearch image.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>disableDefaultPolicy</code></br>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>To disable the default ISM policies.</p>
 </td>
 </tr>
 </tbody>
@@ -2584,6 +2680,20 @@ int32
 </td>
 <td>
 <p>The number of pods to replicate. The default is <code>1</code>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>plugins</code></br>
+<em>
+<a href="https://pkg.go.dev/github.com/verrazzano/verrazzano-monitoring-operator/pkg/apis/vmcontroller/v1#OpenSearchDashboardsPlugins">
+VMO /vmcontroller/v1.OpenSearchDashboardsPlugins
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Enable to add 3rd Party / Custom plugins not offered in the default OpenSearch-Dashboard image</p>
 </td>
 </tr>
 </tbody>
