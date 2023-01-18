@@ -20,15 +20,15 @@ Start with an initial estimate of your hardware needs. The following recommendat
 
 - Storage Requirements
 
-  s = source data(log size per day * retention period(days to store your data)
+  \\(s\\) = source data(log size per day * retention period(days to store your data))
 
-  sr = shard replicas
+  \\(sr\\) = shard replicas
 
-  io = indexing overhead(extra space used other than the actual data which is generally 1%(0.1) of the index size = 1.1
+  \\(io\\) = indexing overhead(extra space used other than the actual data which is generally 1%(0.1) of the index size = 1.1
 
-  lrs = Linux reserved space(Linux reserves 5% of the file system for the root user for some OS operations = 0.95
+  \\(lrs\\) = Linux reserved space(Linux reserves 5% of the file system for the root user for some OS operations = 0.95
 
-  oo  = OpenSearch overhead(OpenSearch keeps 20%(worst case) of the instance for segment merges, logs, and other internal operation = 0.8
+  \\(oo\\)  = OpenSearch overhead(OpenSearch keeps 20%(worst case) of the instance for segment merges, logs, and other internal operation = 0.8
 
   Minimum storage requirement = \\((s * (1 + sr) )* (1 + io)) / (1 - lrs)) / (1 - oo ))\\)
 
@@ -38,7 +38,7 @@ Start with an initial estimate of your hardware needs. The following recommendat
 
   For an example, if we have
 
-  s = 66 GiB (6(log size per day) * 11(retention period)) and sr = 1
+  \\(s\\) = 66 GiB (6 GiB(log size per day) * 11 days(retention period)) and we want one replica so \\(sr\\) = 1
 
   then our Minimum storage requirement = \\((66 * (1 + 1) ) * 1.45\\) = 192 GiB
 
@@ -46,30 +46,24 @@ Start with an initial estimate of your hardware needs. The following recommendat
 
   For every 100 GiB of your storage requirement, you should have 8 GiB of memory.
 
-  With reference to our example, for 192 Gib of storage requirement, we need 16 GiB of memory.
+  With reference to our example, for 192 GiB of storage requirement, we need 16 GiB of memory.
 
 
 - Number of Data Nodes
 
-  ts =  Total storage(GB)
+  \\(ts\\) =  Total storage(GiB)
 
-  mem = Memory per data node
+  \\(mem\\) = Memory per data node
 
-  md = Memory:data ratio(1:30 ratio means that you have 30 times larger storage on the node than you have RAM, and value used would be 30)
+  \\(md\\) = Memory:data ratio(1:30 ratio means that you have 30 times larger storage on the node than you have RAM, and value used would be 30)
 
-  fc = 1 Data node for fail over capacity
+  \\(fc\\) = 1 Data node for fail over capacity
 
   ROUNDUP \\(ts / mem / md  + fc\\)
 
   With reference to our example
 
-  ts = 192 GiB
-
-  mem = 8
-
-  md = 1:10
-
-  fc = 1
+  \\(ts\\) = 192 GiB , \\(mem\\) = 8 , \\(md\\) = 1:10 and \\(fc\\) = 1
 
   Number of data nodes = ROUNDUP \\(192 / 8 / 10  + 1\\) = 3
 
@@ -95,15 +89,15 @@ Start with an initial estimate of your hardware needs. The following recommendat
 
 - Primary shards count
 
-  s = source data(log size per day * retention period(days to store your data)
+  \\(s\\) = source data(log size per day * retention period(days to store your data)
 
-  sh = desired shard size
+  \\(sh\\) = desired shard size
 
   Primary shards = \\((s * 1.1)/sh\\)
 
-  With reference to our example, s = 192 GiB and sh = 30 GiB
+  With reference to our example, \\(s\\) = 66 GiB and we are choosing shard size \\(sh\\) = 30 GiB
 
-  then Primary shards count = \\((192 * 1.1)/30\\) = 7
+  then Primary shards count = \\((66 * 1.1)/30\\) = 2
 
 
 
