@@ -46,3 +46,12 @@ To resolve this error, delete the `verrazzanos.install.verrazzano.io` Custom Res
 ```shell
 $ kubectl delete customresourcedefinition verrazzanos.install.verrazzano.io
 ```
+
+## Multicluster
+
+Some of the multicluster wrappers APIs, which are part of `clusters.verrazzano.io/v1alpha1`, are deprecated and will be removed in Verrazzano v2.0.0.
+The APIs that will be removed are:
+
+- MultiClusterComponent - Should be replaced with a `core.oam/dev/v1alpha2` Component resource.
+- MultiClusterConfigMap - Should be replaced with a `core.oam/dev/v1alpha2` Component resource.
+- MultiClusterSecret - Should be replaced with a Kubernetes Secret and referenced in the `spec.secrets` of a MultiClusterApplicationConfiguration resource.
