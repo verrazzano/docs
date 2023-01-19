@@ -6,7 +6,7 @@ weight: 5
 draft: false
 ---
 
-There are some known issues that can occur with `MySQL`.  The `verrazzano-platform-operator` does detect and attempt to repair these issues.  The operator will initiate the repair steps within a few minutes of the issue first occurring.
+There are some known issues that can occur with `MySQL`.  The `verrazzano-platform-operator` does detect and attempt to repair all of these issues.  The operator will initiate the repair steps within a few minutes of the issue first occurring.
 
 ### MySQL pod stuck `Terminating`
 A `MySQL` pod may get stuck in a terminating state.  One possible cause is when upgrading the nodes of the Kubernetes cluster.
@@ -56,7 +56,15 @@ The action to repair this issue is to delete the pod that is in the `CrashLoopBa
 $ kubectl delete pod -n keycloak mysql-router-757595f6c5-pdgxj
 ```
 
-### InnoDBCluster object stuck `Deleting`
+### InnoDBCluster object stuck `Terminating`
+This condition has been observed to occur on an uninstallation of Verrazzano.
+
+This is an example of what this condition looks like.
+```
+$ kubectl get InnoDBCluster -n keycloak
+NAME    STATUS    ONLINE   INSTANCES   ROUTERS   AGE
+mysql   OFFLINE   0        1           1         7m51s
+```
 
 The action to repair this issue is to restart the `mysql-operator` pod.
 ```
