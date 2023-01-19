@@ -65,7 +65,7 @@ component, its version, and a brief description.
 | Istio                        | 1.15.1       | Service mesh that layers transparently onto existing distributed applications.           |
 | Jaeger                       | 1.37.0       | Distributed tracing system for monitoring and troubleshooting distributed systems.       |
 | Jaeger Operator              | 1.37.0       | Provides management for Jaeger tools.                                                    |
-| Keycloak                     | 15.0.2       | Provides single sign-on with Identity and Access Management.                             |
+| Keycloak                     | 20.0.1       | Provides single sign-on with Identity and Access Management.                             |
 | Kiali                        | 1.57.1       | Management console for the Istio service mesh.                                           |
 | kube-state-metrics           | 2.6.0        | Provides metrics about the state of Kubernetes API objects.                              |
 | MySQL                        | 8.0.31       | Open source relational database management system used by Keycloak.                      |
