@@ -36,13 +36,13 @@ Start with an initial estimate of your hardware needs. The following recommendat
 
   _Overhead_ defined above can be further explained as
 
-  \\(io\\) = indexing overhead ( extra space used other than the actual data which is generally 10%( 0.1 ) of the index size ) = 0.1
+  \\(io\\) = indexing overhead ( extra space used other than the actual data which is generally 10%( 0.1 ) of the index size ) = 1 + 0.1 = 1.1
 
-  \\(lrs\\) = Linux reserved space( Linux reserves 5% of the file system for the root user for some OS operations = 0.05
+  \\(lrs\\) = Linux reserved space( Linux reserves 5% of the file system for the root user for some OS operations = 1- 0.05 = .95
 
-  \\(oo\\)  = OpenSearch overhead ( OpenSearch keeps 20% in worst case, of the instance for segment merges, logs, and other internal operations = 0.8
+  \\(oo\\)  = OpenSearch overhead ( OpenSearch keeps maximum 20% of the instance for segment merges, logs and other internal operations ) = 1- 0.2 = 0.8
 
-   overhead \\(o\\) =  (1 + io ) ) / lrs ) / (1 - oo ) = 1.45
+   overall overhead \\(o\\) = \\( io / lrs / oo \\) = 1.45
 
 - Memory
 
