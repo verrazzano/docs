@@ -49,7 +49,7 @@ spec:
 
 For more information about setting component overrides, see [Customizing the Chart Before Installing](https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing).
 
-After you have enabled alertmanager, you can deploy alert rules to get proactive alerts.
+After you have enabled Alertmanager, you can deploy alert rules to get proactive alerts.
 To create a `TestAlertRule`, run the following command.
 ```yaml
 kubectl apply -f - <<EOF
