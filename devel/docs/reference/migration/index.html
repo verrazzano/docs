@@ -28,14 +28,14 @@ Verrazzano The install.verrazzano.io/v1alpha1 API version of Verrazzano resource
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/reference/migration/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-11-22T13:18:38-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-01-19T17:08:50-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Deprecated API Migration Guide">
 <meta itemprop="description" content="As the Verrazzano API evolves, APIs are periodically updated. When APIs evolve, the old API is deprecated and eventually removed. This document contains information that you need to know when migrating from deprecated API versions to newer and more stable API versions.
 Verrazzano The install.verrazzano.io/v1alpha1 API version of Verrazzano resources is deprecated and will no longer be served in a future release.
  Migrate manifests and API clients to use the install.">
-<meta itemprop="dateModified" content="2022-11-22T13:18:38-05:00" />
-<meta itemprop="wordCount" content="222">
+<meta itemprop="dateModified" content="2023-01-19T17:08:50-05:00" />
+<meta itemprop="wordCount" content="288">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Deprecated API Migration Guide"/>
 <meta name="twitter:description" content="As the Verrazzano API evolves, APIs are periodically updated. When APIs evolve, the old API is deprecated and eventually removed. This document contains information that you need to know when migrating from deprecated API versions to newer and more stable API versions.
@@ -123,7 +123,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.ea97b4b6fbbdcf2450c4e6df04830e89.json"
+  data-offline-search-index-json-src="../../../offline-search-index.39d9cdc9337500e8651b13655b9263d0.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -145,7 +145,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.ea97b4b6fbbdcf2450c4e6df04830e89.json"
+  data-offline-search-index-json-src="../../../offline-search-index.39d9cdc9337500e8651b13655b9263d0.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -508,6 +508,17 @@ if (!doNotTrack) {
             
 
 
+<div class="td-toc"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#verrazzano">Verrazzano</a></li>
+        <li><a href="#multicluster">Multicluster</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+
 
 
             
@@ -598,7 +609,15 @@ This document contains information that you need to know when migrating from dep
 <pre tabindex="0"><code>The CustomResourceDefinition &#34;verrazzanos.install.verrazzano.io&#34; is invalid: status.storedVersions[0]: Invalid value: &#34;v1beta1&#34;: must appear in spec.versions
 </code></pre><p>To resolve this error, delete the <code>verrazzanos.install.verrazzano.io</code> Custom Resource Definition:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl delete customresourcedefinition verrazzanos.install.verrazzano.io
-</span></span></code></pre></div>
+</span></span></code></pre></div><h2 id="multicluster">Multicluster</h2>
+<p>Some of the multicluster wrappers APIs, which are part of <code>clusters.verrazzano.io/v1alpha1</code>, are deprecated and will be removed in Verrazzano v2.0.0.
+The APIs that will be removed are:</p>
+<ul>
+<li>MultiClusterComponent - Should be replaced with a <code>core.oam/dev/v1alpha2</code> Component resource.</li>
+<li>MultiClusterConfigMap - Should be replaced with a <code>core.oam/dev/v1alpha2</code> Component resource.</li>
+<li>MultiClusterSecret - Should be replaced with a Kubernetes Secret and referenced in the <code>spec.secrets</code> of a MultiClusterApplicationConfiguration resource.</li>
+</ul>
+
 	
 		<style>
   .feedback--answer {
