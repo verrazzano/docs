@@ -33,6 +33,15 @@ The `install.verrazzano.io/v1alpha1` API version of Verrazzano resources is depr
 - Use `spec.components.verrazzano.overrides` instead of `spec.components.verrazzano.installArgs`.
 - Use `spec.components.authProxy.overrides` instead of `spec.components.authProxy.kubernetes`.
 
+## Multicluster
+
+The multicluster wrappers APIs which are part of `clusters.verrazzano.io/v1alpha1` are deprecated and will be removed in Verrazzano v2.0.0.
+The APIs that will be removed are:
+
+- MultiClusterComponent - should be replaced with a `core.oam/dev/v1alpha2` Component resource
+- MultiClusterConfigMap - should be replaced with a `core.oam/dev/v1alpha2` Component resource
+- MultiClusterSecret - should be replaced with a Kubernetes Secret and referenced in the `spec.secrets` of a MultiClusterApplicationConfiguration resource
+
 #### Co-installing previous Verrazzano versions
 
 After installing Verrazzano version 1.4.0 or later, and not uninstalling it _before_ installing versions of Verrazzano prior to 1.4.0, will result in the following error:
