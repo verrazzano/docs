@@ -44,13 +44,19 @@ The following is an example of using external load balancers for both management
 ### Example Custom Resource with management and application external load balancers
 
 ```
-apiVersion: install.verrazzano.io/v1alpha1
+apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
   name: myvz
 spec:
   components:
-    ingress:
+    ingressNGINX:
+      overrides:
+      - values:
+          controller:
+            service:
+              externalIPs:
+              - 11.22.33.44
       type: NodePort
       ports:
       - name: https
@@ -58,21 +64,25 @@ spec:
         nodePort: 31443
         protocol: TCP
         targetPort: https
-      nginxInstallArgs:
-      - name: controller.service.externalIPs
-        valueList:
-        - 11.22.33.44
     istio:
-      ingress:
-        type: NodePort
-        ports:
-        - name: https
-          port: 443
-          nodePort: 32443
-          protocol: TCP
-          targetPort: 8443
-      istioInstallArgs:
-      - name: gateways.istio-ingressgateway.externalIPs
-        valueList:
-        - 55.66.77.88
+      overrides:
+      - values:
+          apiVersion: install.istio.io/v1alpha1
+          kind: IstioOperator
+          spec:
+            components:
+              ingressGateways:
+                - enabled: true
+                  name: istio-ingressgateway
+                  k8s:
+                    service:
+                      type: NodePort
+                      ports:
+                      - name: https
+                        port: 443
+                        nodePort: 32443
+                        protocol: TCP
+                        targetPort: 8443
+                      externalIPs:
+                      - 11.22.33.55
 ```
