@@ -19,12 +19,13 @@ configurations provided by Verrazzano.
 Start with an initial estimate of your hardware needs. The following recommendations will provide you with initial, educated estimates, but for ideal sizing, you will need to test them with representative workloads, monitor their performance, and then reiterate.
 
 - Storage Requirements
+  
+| Input    | Description                                                   | Value    |
+|:----|---------------------------------------------------------------|:----|
+| \\(s\\)    | stored data size in GiB ( log size per day * days to retain ) | User defined    |
+| \\(sr\\)    | shard replica count per index                                 | User defined    |
+| \\(o\\)     | overall overhead which is a constant                          | 1.45    |
 
-  \\(s\\) = stored data size in GiB ( log size per day * days to retain )
-
-  \\(sr\\) = shard replica count per index
-
-  \\(o\\) = overall overhead which is a constant = 1.45
 
   Minimum storage requirement = \\( ( s * ( 1 + sr ) ) * o \\)
 
@@ -36,11 +37,12 @@ Start with an initial estimate of your hardware needs. The following recommendat
 
   _Overhead_ defined above can be further explained as
 
-  \\(io\\) = indexing overhead ( extra space used other than the actual data which is generally 10%( 0.1 ) of the index size ) = 1 + 0.1 = 1.1
+  | Input    | Description                                                                                           | Value |
+|-----|-------------------------------------------------------------------------------------------------------|-------|
+| \\(io\\)    | indexing overhead ( extra space used other than the actual data which is generally 10% ( 0.1 ) of the index size ) | 1.1   |
+|   \\(lrs\\)          |   Linux reserved space( Linux reserves 5% of the file system for the root user for some OS operations |  1- 0.05 = .95     |
+|    \\(oo\\)         |       OpenSearch overhead ( OpenSearch keeps maximum 20% of the instance for segment merges, logs and other internal operations )| 1- 0.2 = 0.8      |
 
-  \\(lrs\\) = Linux reserved space( Linux reserves 5% of the file system for the root user for some OS operations = 1- 0.05 = .95
-
-  \\(oo\\)  = OpenSearch overhead ( OpenSearch keeps maximum 20% of the instance for segment merges, logs and other internal operations ) = 1- 0.2 = 0.8
 
    overall overhead \\(o\\) = \\( io / lrs / oo \\) = 1.45
 
@@ -52,14 +54,13 @@ Start with an initial estimate of your hardware needs. The following recommendat
 
 
 - Number of Data Nodes
-
-  \\(ts\\) =  total storage in GiB 
-
-  \\(mem\\) = memory per data node in GiB
-
-  \\(md\\) = memory:data ratio ( 1:30 ratio means that you have 30 times larger storage on the node than you have RAM, and value used would be 30 )
-
-  \\(fc\\) = one data node for fail over capacity which is a constant = 1
+   
+|  Input   |  Description   | Value        |
+|-----|-----|--------------|
+|  \\(ts\\)   | total storage in GiB     | User defined |
+| \\(mem\\)   | memory per data node in GiB    | User defined |
+|  \\(md\\)   | memory:data ratio ( 1:30 ratio means that you have 30 times larger storage on the node than you have RAM, and value used would be 30 ) | User defined |
+|  \\(fc\\)   |   one data node for fail over capacity which is a constant | 1            |
 
   ROUNDUP \\(ts / mem / md  + fc\\)
 
@@ -91,17 +92,19 @@ Start with an initial estimate of your hardware needs. The following recommendat
 
 - Primary shards count
 
-  \\(s\\) = stored data size in GiB ( log size per day * days to retain )
-
-  \\(sh\\) = desired shard size in GiB 
    
-   \\(io\\) = indexing overhead ( extra space used other than the actual data which is generally 10% of the index size ) = 0.1
+| Input    | Description                                                                                                | Value        |
+|----------|------------------------------------------------------------------------------------------------------------|--------------|
+| \\(s\\)  | stored data size in GiB ( log size per day * days to retain )                                              | User defined |
+| \\(sh\\) | desired shard size in GiB                                                                                  | User defined |
+| \\(io\\) | indexing overhead ( extra space used other than the actual data which is generally 10% of the index size ) | 0.1          |
 
-  Primary shards = \\( ( s * (1 + io) ) / sh \\)
 
-  With reference to example, \\(s\\) = 66 GiB and if you choose shard size \\(sh\\) = 30 GiB
+   Primary shards = \\( ( s * (1 + io) ) / sh \\)
 
-  Then primary shards count = \\( ( 66 * 1.1 )/ 30 \\) = 2
+   With reference to example, \\(s\\) = 66 GiB and if you choose shard size \\(sh\\) = 30 GiB
+
+   Then primary shards count = \\( ( 66 * 1.1 )/ 30 \\) = 2
 
 
 
