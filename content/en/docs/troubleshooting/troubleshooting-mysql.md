@@ -20,7 +20,7 @@ NAME      READY   STATUS        RESTARTS   AGE
 mysql-0   0/3     Terminating   0          60m
 ```
 
-The Verrazzano platform operator repairs this issue by restarting the `mysql-operator` pod.
+You can repair this issue by restarting the `mysql-operator` pod.
 ```
 $ kubectl delete pod -l name=mysql-operator -n mysql-operator
 ```
@@ -39,7 +39,7 @@ Readiness Gates:
   mysql.oracle.com/ready        True 
 ```
 
-The Verrazzano platform operator repairs this issue by restarting the `mysql-operator` pod.
+You can repair this issue by restarting the `mysql-operator` pod.
 ```
 $ kubectl delete pod -l name=mysql-operator -n mysql-operator
 ```
@@ -53,7 +53,7 @@ NAME                            READY   STATUS             RESTARTS   AGE
 mysql-router-757595f6c5-pdgxj   1/2     CrashLoopBackOff   0          109m
 ```
 
-The Verrazzano platform operator repairs this issue by deleting the pod that is in the `CrashLoopBackOff` state.
+You can repair this issue by deleting the pod that is in the `CrashLoopBackOff` state.
 ```
 $ kubectl delete pod -n keycloak mysql-router-757595f6c5-pdgxj
 ```
@@ -68,7 +68,7 @@ NAME    STATUS    ONLINE   INSTANCES   ROUTERS   AGE
 mysql   OFFLINE   0        1           1         7m51s
 ```
 
-The Verrazzano platform operator repairs this issue by restarting the `mysql-operator` pod.
+You can repair this issue by restarting the `mysql-operator` pod.
 ```
 $ kubectl delete pod -l name=mysql-operator -n mysql-operator
 ```
