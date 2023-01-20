@@ -18,7 +18,7 @@ configurations provided by Verrazzano.
 
 Start with an initial estimate of your hardware needs. The following recommendations will provide you with initial, educated estimates, but for ideal sizing, you will need to test them with representative workloads, monitor their performance, and then reiterate.
 
-- Storage Requirements
+#### Storage Requirements
   
 | Input    | Description                                                   | Value    |
 |:----|---------------------------------------------------------------|:----|
@@ -29,31 +29,28 @@ Start with an initial estimate of your hardware needs. The following recommendat
 
   Minimum storage requirement = \\( ( s * ( 1 + sr ) ) * o \\)
 
-  For an example, if you have
-
-  \\(s\\) = 66 GiB ( 6 GiB of log size per day * 11 days to retain ) and if you choose one shard replica per index which makes \\(sr\\) = 1
+  For an example, if you have  \\(s\\) = 66 GiB ( 6 GiB of log size per day * 11 days to retain ) and if you choose one shard replica per index which makes \\(sr\\) = 1
 
   Then minimum storage requirement = \\((66 * (1 + 1) ) * 1.45\\) = 192 GiB
 
   _Overhead_ defined above can be further explained as
 
-  | Input    | Description                                                                                           | Value |
-|-----|-------------------------------------------------------------------------------------------------------|-------|
-| \\(io\\)    | indexing overhead ( extra space used other than the actual data which is generally 10% ( 0.1 ) of the index size ) | 1.1   |
-|   \\(lrs\\)          |   Linux reserved space( Linux reserves 5% of the file system for the root user for some OS operations |  1- 0.05 = .95     |
-|    \\(oo\\)         |       OpenSearch overhead ( OpenSearch keeps maximum 20% of the instance for segment merges, logs and other internal operations )| 1- 0.2 = 0.8      |
+  | Input    | Description                                                                                                                 | Value         |
+|-----|-----------------------------------------------------------------------------------------------------------------------------|---------------|
+| \\(io\\)    | indexing overhead ( extra space used other than the actual data which is generally 10% ( 0.1 ) of the index size )          | 1 + 0.1 = 1.1 |
+|   \\(lrs\\)          | Linux reserved space( Linux reserves 5% of the file system for the root user for some OS operations )                       | 1- 0.05 = .95 |
+|    \\(oo\\)         | OpenSearch overhead ( OpenSearch keeps maximum 20% of the instance for segment merges, logs and other internal operations ) | 1- 0.2 = 0.8  |
 
 
    overall overhead \\(o\\) = \\( io / lrs / oo \\) = 1.45
 
-- Memory
+#### Memory
 
   For every 100 GiB of your storage requirement, you should have 8 GiB of memory.
 
   With reference to example, for 192 GiB of storage requirement, you need 16 GiB of memory.
 
-
-- Number of Data Nodes
+#### Number of Data Nodes
    
 |  Input   |  Description   | Value        |
 |-----|-----|--------------|
@@ -64,33 +61,31 @@ Start with an initial estimate of your hardware needs. The following recommendat
 
   ROUNDUP \\(ts / mem / md  + fc\\)
 
-  With reference to example
+  With reference to example,
 
   \\(ts\\) = 192 GiB , \\(mem\\) = 8 GiB , \\(md\\) = 1:10 and \\(fc\\) = 1
 
-  Number of data nodes = ROUNDUP \\( 192 / 8 / 10  + 1 \\) = 3
+  Then number of data nodes = ROUNDUP \\( 192 / 8 / 10  + 1 \\) = 3
 
-
-- JVM heap memory
+#### JVM heap memory
 
   The heap size is the amount of RAM allocated to the Java Virtual Machine of an OpenSearch node. The OpenSearch process is very memory intensive and close to 50% of the memory available on a node should be allocated to the JVM. The JVM machine uses memory for indexing and search operations. The other 50% is required for the file system cache, which keeps data that is regularly accessed in memory.
   As a general rule, you should set `-Xms` and `-Xmx` to the same value, which should be 50% of your total available RAM, subject to a maximum of ( approximately ) 31 GiB.
 
-
-- CPU
+#### CPU
 
   Hardware requirements vary dramatically by workload, but, typically, two vCPU cores for every 100 GiB of your storage requirement is sufficient.
 
-  With reference to example, for 192 GiB, vCPU cores required are four.
+  With reference to example, for 192 GiB of storage, vCPU cores required are four.
 
 
-- Shard Size
+#### Shard Size
 
   For logging, shard sizes between 10 GiB and 50 GiB typically perform well.
   For search-intensive operations, 10-25 GiB typically is a good shard size. Overall, it is a best practice that, for a single shard, the OpenSearch shard size should not go above 50GiB. When the shards exceed 50 GiB, you will have to reindex your data.
 
 
-- Primary shards count
+#### Primary shards count
 
    
 | Input    | Description                                                                                                | Value        |
