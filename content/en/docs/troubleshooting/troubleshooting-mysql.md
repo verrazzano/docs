@@ -6,12 +6,14 @@ weight: 5
 draft: false
 ---
 
-There are some known issues that can occur with `MySQL`.  The `verrazzano-platform-operator` does detect and attempt to repair all of these issues.  The operator will initiate the repair steps within a few minutes of the issue first occurring.
+There are known issues that can occur with `MySQL`.  The `verrazzano-platform-operator` automatically detects each of the issues described below and performs the actions to repair them.  The `verrazzano-platform-operator` will initiate a repair within a few minutes of an issue being detected.  
+
+The following sections are provided in the event that a manual repair of an issue is required.
 
 ### MySQL pod stuck `Terminating`
-A `MySQL` pod may get stuck in a terminating state.  One possible cause is when upgrading the nodes of the Kubernetes cluster.
+A `MySQL` pod may get stuck in a terminating state.  One possible cause is while upgrading the nodes of a Kubernetes cluster.
 
-This is an example of what this condition looks like.
+This is an example of what this condition looks like.  All the pod containers are terminated, but the pod never finishes terminating.
 ```
 $ kubectl get pods -n keycloak -l component=mysqld
 NAME      READY   STATUS        RESTARTS   AGE
@@ -24,7 +26,7 @@ $ kubectl delete pod -l name=mysql-operator -n mysql-operator
 ```
 
 ### MySQL pod waiting for readiness gates
-The `mysql` StatefulSet may get stuck waiting to reach the ready state.  This can be caused by one or more MySQL pods not meeting it set of `ReadinessGates`.
+The `mysql` StatefulSet may get stuck waiting to reach the ready state.  This can be caused by one or more MySQL pods not meeting its set of `ReadinessGates`.
 
 This is an example of what this condition looks like.
 ```
