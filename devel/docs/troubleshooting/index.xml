@@ -281,6 +281,56 @@ cluster.management.cattle.io/c-mzb2h patched
     </item>
     
     <item>
+      <title>Docs: MySQL</title>
+      <link>/docs/troubleshooting/troubleshooting-mysql/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/troubleshooting/troubleshooting-mysql/</guid>
+      <description>
+        
+        
+        &lt;p&gt;There are known issues that can occur with MySQL.  The Verrazzano platform operator will automatically detect each of the described issues and perform actions to repair them.  The operator initiates a repair within a few minutes of detecting an issue.&lt;/p&gt;
+&lt;p&gt;The following sections are provided in the event that a manual repair of an issue is required.&lt;/p&gt;
+&lt;h3 id=&#34;mysql-pod-stuck-terminating&#34;&gt;MySQL pod stuck &lt;code&gt;Terminating&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;A MySQL pod may get stuck in a terminating state.  This may occur while upgrading the nodes of a Kubernetes cluster.&lt;/p&gt;
+&lt;p&gt;Here is an example of what this condition looks like.  All the pod containers are terminated, but the pod never finishes terminating.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get pods -n keycloak -l component=mysqld
+NAME      READY   STATUS        RESTARTS   AGE
+mysql-0   0/3     Terminating   0          60m
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;You can repair this issue by restarting the &lt;code&gt;mysql-operator&lt;/code&gt; pod.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete pod -l name=mysql-operator -n mysql-operator
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;mysql-pod-waiting-for-readiness-gates&#34;&gt;MySQL pod waiting for readiness gates&lt;/h3&gt;
+&lt;p&gt;The &lt;code&gt;mysql&lt;/code&gt; StatefulSet may get stuck while waiting to reach the ready state.  This will occur when one or more MySQL pods not meeting its set of &lt;code&gt;ReadinessGates&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Here is an example of what this condition looks like.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl describe pods -n keycloak -l component=mysqld
+
+# Excerpt from the command output
+Readiness Gates:
+  Type                          Status
+  mysql.oracle.com/configured   False 
+  mysql.oracle.com/ready        True 
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;You can repair this issue by restarting the &lt;code&gt;mysql-operator&lt;/code&gt; pod.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete pod -l name=mysql-operator -n mysql-operator
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;mysql-router-pod-in-crashloopbackoff-state&#34;&gt;MySQL router pod in &lt;code&gt;CrashLoopBackOff&lt;/code&gt; state&lt;/h3&gt;
+&lt;p&gt;Here is an example of what this condition looks like.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get pods -n keycloak -l component=mysqlrouter
+NAME                            READY   STATUS             RESTARTS   AGE
+mysql-router-757595f6c5-pdgxj   1/2     CrashLoopBackOff   0          109m
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;You can repair this issue by deleting the pod that is in the &lt;code&gt;CrashLoopBackOff&lt;/code&gt; state.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete pod -n keycloak mysql-router-757595f6c5-pdgxj
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;innodbcluster-object-stuck-terminating&#34;&gt;InnoDBCluster object stuck &lt;code&gt;Terminating&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;This condition has been observed to occur on an uninstallation of Verrazzano.&lt;/p&gt;
+&lt;p&gt;Here is an example of what this condition looks like.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get InnoDBCluster -n keycloak
+NAME    STATUS    ONLINE   INSTANCES   ROUTERS   AGE
+mysql   OFFLINE   0        1           1         7m51s
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;You can repair this issue by restarting the &lt;code&gt;mysql-operator&lt;/code&gt; pod.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete pod -l name=mysql-operator -n mysql-operator
+&lt;/code&gt;&lt;/pre&gt;
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: Prometheus</title>
       <link>/docs/troubleshooting/troubleshooting-prometheus/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
