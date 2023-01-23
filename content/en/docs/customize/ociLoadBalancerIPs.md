@@ -49,6 +49,7 @@ spec:
                 annotations:
                   service.beta.kubernetes.io/oci-load-balancer-shape: 10Mbps
 ```
+
 {{< /clipboard >}}
 
 For example, you can set up an Istio load balancer with `10Mbps` as follows:

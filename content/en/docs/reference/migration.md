@@ -38,12 +38,11 @@ The `install.verrazzano.io/v1alpha1` API version of Verrazzano resources is depr
 After installing Verrazzano version 1.4.0 or later, and not uninstalling it _before_ installing versions of Verrazzano prior to 1.4.0, will result in the following error:
 {{< clipboard >}}
 <div class="highlight">
-    <code>
 
 ```
 The CustomResourceDefinition "verrazzanos.install.verrazzano.io" is invalid: status.storedVersions[0]: Invalid value: "v1beta1": must appear in spec.versions
 ```
-   </code>
+
 </div>
 {{< /clipboard >}}
 
