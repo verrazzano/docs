@@ -22,9 +22,9 @@ Start with an initial estimate of your hardware needs. The following recommendat
   
 | Input    | Description                                                   | Value    |
 |:----|---------------------------------------------------------------|:----|
-| \\(s\\)    | stored data size in GiB ( log size per day * days to retain ) | User defined    |
-| \\(sr\\)    | shard replica count per index                                 | User defined    |
-| \\(o\\)     | overall overhead which is a constant                          | 1.45    |
+| \\(s\\)    | Stored data size in GiB ( log size per day * days to retain ) | User defined    |
+| \\(sr\\)    | Shard replica count per index                                 | User defined    |
+| \\(o\\)     | Overall overhead which is a constant                          | 1.45    |
 
 
   Minimum storage requirement = \\( ( s * ( 1 + sr ) ) * o \\)
@@ -37,7 +37,7 @@ Start with an initial estimate of your hardware needs. The following recommendat
 
   | Input    | Description                                                                                                                 | Value         |
 |-----|-----------------------------------------------------------------------------------------------------------------------------|---------------|
-| \\(io\\)    | indexing overhead ( extra space used other than the actual data which is generally 10% ( 0.1 ) of the index size )          | 1 + 0.1 = 1.1 |
+| \\(io\\)    | Indexing overhead ( extra space used other than the actual data which is generally 10% ( 0.1 ) of the index size )          | 1 + 0.1 = 1.1 |
 |   \\(lrs\\)          | Linux reserved space( Linux reserves 5% of the file system for the root user for some OS operations )                       | 1- 0.05 = .95 |
 |    \\(oo\\)         | OpenSearch overhead ( OpenSearch keeps maximum 20% of the instance for segment merges, logs and other internal operations ) | 1- 0.2 = 0.8  |
 
@@ -52,12 +52,12 @@ Start with an initial estimate of your hardware needs. The following recommendat
 
 #### Number of Data Nodes
    
-|  Input   |  Description   | Value        |
-|-----|-----|--------------|
-|  \\(ts\\)   | total storage in GiB     | User defined |
-| \\(mem\\)   | memory per data node in GiB    | User defined |
-|  \\(md\\)   | memory:data ratio ( 1:30 ratio means that you have 30 times larger storage on the node than you have RAM, and value used would be 30 ) | User defined |
-|  \\(fc\\)   |   one data node for fail over capacity which is a constant | 1            |
+|  Input   | Description                                                                                                                            | Value        |
+|-----|----------------------------------------------------------------------------------------------------------------------------------------|--------------|
+|  \\(ts\\)   | Total storage in GiB                                                                                                                   | User defined |
+| \\(mem\\)   | Memory per data node in GiB                                                                                                            | User defined |
+|  \\(md\\)   | Memory:data ratio ( 1:30 ratio means that you have 30 times larger storage on the node than you have RAM, and value used would be 30 ) | User defined |
+|  \\(fc\\)   | One data node for fail over capacity which is a constant                                                                               | 1            |
 
   ROUNDUP \\(ts / mem / md  + fc\\)
 
@@ -90,9 +90,9 @@ Start with an initial estimate of your hardware needs. The following recommendat
    
 | Input    | Description                                                                                                | Value        |
 |----------|------------------------------------------------------------------------------------------------------------|--------------|
-| \\(s\\)  | stored data size in GiB ( log size per day * days to retain )                                              | User defined |
-| \\(sh\\) | desired shard size in GiB                                                                                  | User defined |
-| \\(io\\) | indexing overhead ( extra space used other than the actual data which is generally 10% of the index size ) | 0.1          |
+| \\(s\\)  | Stored data size in GiB ( log size per day * days to retain )                                              | User defined |
+| \\(sh\\) | Desired shard size in GiB                                                                                  | User defined |
+| \\(io\\) | Indexing overhead ( extra space used other than the actual data which is generally 10% of the index size ) | 0.1          |
 
 
    Primary shards = \\( ( s * (1 + io) ) / sh \\)
