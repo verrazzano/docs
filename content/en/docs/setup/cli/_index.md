@@ -45,9 +45,9 @@ Validate the `vz` binary against the checksum file.
 The resulting output should be similar to the following.
 
 ```shell
-Version: v1.4.0
-BuildDate: 2022-09-23T21:32:57Z
-GitCommit: a34d6473a4296b8cfe64ad7851d1dcd0f18e9669
+Version: v1.4.2
+BuildDate: 2022-11-10T22:25:50Z
+GitCommit: 0576f21c8787ea948cb6cfbf1cdea52ef276749a
 ```
 
 ## Use the `vz` CLI
