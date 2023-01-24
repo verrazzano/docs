@@ -298,7 +298,7 @@ The `vz-system` and `vz-application` policies are immutable and any change to th
 {{< /alert >}}
 
 ## Default index patterns
-The default index patterns, `verrazzano-system` and `verrazzano-application*`, are created by Verrazzano. These index patterns are immutable. Changes to these index patterns will be lost as Verrazzano will reconcile and replace them with the default ISM policies.
+The default index patterns, `verrazzano-system` and `verrazzano-application*`, are created by Verrazzano. These index patterns are immutable. Changes to these index patterns will be lost because Verrazzano will reconcile and replace them with the default ISM policies.
 
 ## Install OpenSearch and OpenSearch Dashboards plug-ins
 Verrazzano supports OpenSearch and OpenSearch Dashboard plug-in installation by providing plug-ins in the Verrazzano custom resource.
