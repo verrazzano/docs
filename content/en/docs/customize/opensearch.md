@@ -279,18 +279,18 @@ To help you manage issues such as low disk space, The following two ISM policies
    ![vz-system](/docs/images/vz-system-ism-policy.png)
 - `vz-application`:  Manages the data in the application related indices having pattern `verrazzano-application*`.
   ![vz-application](/docs/images/vz-application-ism-policy.png)
-Both policy have 3 states:
+Both policies have 3 states:
    1. Hot: This is the default state. If primary shard size is greater than defined size (5 GB for `vz-system` and 1 GB for `vz-application`) or index age is greater than the defined days (30 days for `vz-system` and 7 days for `vz-application`), index will be rolled over.
    2. Cold: Index will be closed in this state if the index age is greater than the defined days (30 days for `vz-system` and 7 days for `vz-application`). A closed index is blocked for read/write operations and does not allow all operations that opened indices allow.
    3. Delete: Index will be deleted in this state if the index age is greater than the defined days (35 days for `vz-system` and 12 days for `vz-application`).
 
 ## Override default ISM policies
-`vz-system` and `vz-application` policies are immutable. Any Change in these policies will be reverted immediately. However, There are two ways to override this behavior:
+`vz-system` and `vz-application` policies are immutable. Any Change in these policies will be reverted immediately. However, there are two ways to override this behavior:
 1. **Disable default policies**: You can disable the use of these default policies by setting the flag [spec.components.opensearch.disableDefaultPolicy](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) to `true` in Verrazzano CR. This will delete the default ISM policies.
 2. **Override default policies**: Both default policies have 0 priority. You can override the default policies by creating policies with `policy.ism_template.priority` greater than 0.
 
 {{< alert title="NOTE" color="warning" >}}
-- Avoid creating policy with policy ID  `vz-system` or `vz-application` as these are default policies. Your change will be overridden if flag [spec.components.opensearch.disableDefaultPolicy](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) is `false` in Verrazzano CR.
+- Avoid creating policy with policy ID  `vz-system` or `vz-application` as these are default policies. Policies created with these names will be overridden by default ISM policies if flag [spec.components.opensearch.disableDefaultPolicy](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) is `true` in Verrazzano CR.
 {{< /alert >}}
 {{< alert title="NOTE" color="warning" >}}
 - Default policy will only be applied to the newly created indices only. New policies can be manually applied to the older indices. See [steps to attach policies to indexes](https://opensearch.org/docs/latest/im-plugin/ism/index/#step-2-attach-policies-to-indexes)
