@@ -54,12 +54,19 @@ Verrazzano Status
 
 You can get the endpoints for these consoles by issuing the following command
 and examining the `Status.Instance` field:
+{{< clipboard >}}
 
 ```shell
 $ kubectl get vz -o yaml
 ```
+{{< /clipboard >}}
+
+
 
 The resulting output is similar to the following (abbreviated to show only the relevant portions):
+
+{{< clipboard >}}
+<div class="highlight">
 
 ```
   ...
@@ -83,10 +90,18 @@ The resulting output is similar to the following (abbreviated to show only the r
       prometheusUrl: https://prometheus.vmi.system.default.11.22.33.44.nip.io
       rancherUrl: https://rancher.default.11.22.33.44.nip.io
 ```
+</div>
+{{< /clipboard >}}
+
 
 If you have `jq` installed, then you can use the following command to get the instance URLs more directly.
+{{< clipboard >}}
+<div class="highlight">
 
 `$ kubectl get vz -o jsonpath="{.items[].status.instance}" | jq .`
+
+</div>
+{{< /clipboard >}}
 
 The following is an example of the output:
 
