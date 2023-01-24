@@ -292,9 +292,7 @@ The `vz-system` and `vz-application` policies are immutable and any change to th
 
 {{< alert title="NOTE" color="warning" >}}
 - Avoid creating policies with policy IDs `vz-system` or `vz-application`. In the Verrazzano CR, the policies that are created with these names will be by default overridden with the ISM policies, if the flag [spec.components.opensearch.disableDefaultPolicy](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) is set to `true`.
-{{< /alert >}}
-{{< alert title="NOTE" color="warning" >}}
-- Default policy will be applied only to the recently created indices. To manually attach the new policies to the older indices, see [steps to attach policies to indexes](https://opensearch.org/docs/latest/im-plugin/ism/index/#step-2-attach-policies-to-indexes)
+- Default policy will be applied only to the recently created indices. To manually attach the new policies to the older indices, see [steps to attach policies to indexes](https://opensearch.org/docs/latest/im-plugin/ism/index/#step-2-attach-policies-to-indexes).
 {{< /alert >}}
 
 ## Default Index patterns
