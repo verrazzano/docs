@@ -805,7 +805,7 @@ ApplicationOperatorComponent
 </tr>
 <tr>
 <td>
-<code>argoCd</code></br>
+<code>argoCD</code></br>
 <em>
 <a href="#install.verrazzano.io/v1alpha1.ArgoCDComponent">
 ArgoCDComponent
@@ -2158,7 +2158,7 @@ Invalid override values will be ignored.</p>
 <tbody>
 <tr>
 <td>
-<code>argoCdUrl</code></br>
+<code>argoCDUrl</code></br>
 <em>
 string
 </em>
@@ -3181,6 +3181,18 @@ OpenSearchNodeStorage
 <td>
 <em>(Optional)</em>
 <p>Storage settings for the node group.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>javaOpts</code></br>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>JavaOpts settings for the OpenSearch JVM.</p>
 </td>
 </tr>
 </tbody>
