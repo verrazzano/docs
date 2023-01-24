@@ -265,19 +265,19 @@ Verrazzano will create &lt;code&gt;sales.us.example.com&lt;/code&gt; as the DNS 
 		
 
 		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-ecbafd&#34; data-toggle=&#34;tab&#34; href=&#34;#ecbafd&#34;
+		   id=&#34;nav-efcbad&#34; data-toggle=&#34;tab&#34; href=&#34;#efcbad&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;WildcardDNS&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-fcedba&#34; data-toggle=&#34;tab&#34; href=&#34;#fcedba&#34;
+		   id=&#34;nav-fdaebc&#34; data-toggle=&#34;tab&#34; href=&#34;#fdaebc&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;OracleCloudInfrastructureDNS&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-afbdec&#34; data-toggle=&#34;tab&#34; href=&#34;#afbdec&#34;
+		   id=&#34;nav-bcdefa&#34; data-toggle=&#34;tab&#34; href=&#34;#bcdefa&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;CustomDNS&lt;/a&gt;
 
 		
@@ -293,7 +293,7 @@ Verrazzano will create &lt;code&gt;sales.us.example.com&lt;/code&gt; as the DNS 
 
 
 
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;ecbafd&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;efcbad&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;Verrazzano can be configured to use either the &lt;a href=&#34;https://nip.io/&#34;&gt;nip.io&lt;/a&gt; or &lt;a href=&#34;https://sslip.io&#34;&gt;sslip.io&lt;/a&gt; free wildcard DNS services.
@@ -326,7 +326,7 @@ spec:
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;fcedba&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;fdaebc&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;Verrazzano can directly manage records in &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm&#34;&gt;Oracle Oracle Cloud Infrastructure DNS&lt;/a&gt;
@@ -491,7 +491,7 @@ spec:
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;afbdec&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;bcdefa&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;You can specify your own externally managed, custom DNS domain.  In this scenario, you manage your own DNS
@@ -1354,7 +1354,46 @@ you can also use the OpenSearch REST API. To create a policy using the OpenSearc
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To view existing policies, do the following:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ curl -ik &lt;span style=&#34;color:#4e9a06&#34;&gt;\
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&lt;/span&gt;    --user verrazzano:&lt;span style=&#34;color:#000&#34;&gt;$PASS&lt;/span&gt; https://&lt;span style=&#34;color:#000&#34;&gt;$HOST&lt;/span&gt;/_plugins/_ism/policies
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;install-opensearch-and-opensearch-dashboards-plug-ins&#34;&gt;Install OpenSearch and OpenSearch Dashboards plug-ins&lt;/h2&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;default-ism-policies&#34;&gt;Default ISM policies&lt;/h2&gt;
+&lt;p&gt;To help you manage issues, such as low disk space, the following two ISM policies are created by default:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;vz-system&lt;/code&gt;: Manages the data in the Verrazzano system indices.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../docs/images/vz-system-ism-policy.png&#34; alt=&#34;vz-system&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;vz-application&lt;/code&gt;: Manages the data in the application-related indices having the pattern, &lt;code&gt;verrazzano-application*&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../docs/images/vz-application-ism-policy.png&#34; alt=&#34;vz-application&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Both ISM policies have three states:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Hot&lt;/strong&gt;: This is the default state. If the primary shard size is greater than the defined size (5 GB for &lt;code&gt;vz-system&lt;/code&gt; and 1 GB for &lt;code&gt;vz-application&lt;/code&gt;) or the index age is greater than the defined number of days (30 days for &lt;code&gt;vz-system&lt;/code&gt; and 7 days for &lt;code&gt;vz-application&lt;/code&gt;), then the index will be rolled over.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Cold&lt;/strong&gt;:  In this state, the index will be closed if the index age is greater than the defined number of days (30 days for &lt;code&gt;vz-system&lt;/code&gt; and 7 days for &lt;code&gt;vz-application&lt;/code&gt;). A closed index is blocked for read or write operations and does not allow any operations that the opened indices allow.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Delete&lt;/strong&gt;: In this state, the index will be deleted if the index age is greater than the defined number of days (35 days for &lt;code&gt;vz-system&lt;/code&gt; and 12 days for &lt;code&gt;vz-application&lt;/code&gt;).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;override-default-ism-policies&#34;&gt;Override default ISM policies&lt;/h2&gt;
+&lt;p&gt;The &lt;code&gt;vz-system&lt;/code&gt; and &lt;code&gt;vz-application&lt;/code&gt; policies are immutable and any change to these policies will be reverted immediately. However, the following two methods will override this behavior:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Disable default policies&lt;/strong&gt;: You can disable the use of these default policies by setting the flag &lt;a href=&#34;../../docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent&#34;&gt;spec.components.opensearch.disableDefaultPolicy&lt;/a&gt; to &lt;code&gt;true&lt;/code&gt; in the Verrazzano CR. This will delete the default ISM policies.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Override default policies&lt;/strong&gt;: Both these default policies have a zero (&lt;code&gt;0&lt;/code&gt;) priority. You can override the default policies by creating policies with &lt;code&gt;policy.ism_template.priority&lt;/code&gt; greater than &lt;code&gt;0&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;div class=&#34;alert alert-warning&#34; role=&#34;alert&#34;&gt;
+&lt;h4 class=&#34;alert-heading&#34;&gt;NOTE&lt;/h4&gt;
+
+    &lt;ul&gt;
+&lt;li&gt;Avoid creating policies with policy IDs &lt;code&gt;vz-system&lt;/code&gt; or &lt;code&gt;vz-application&lt;/code&gt;. In the Verrazzano CR, by default, policies that are created with these names will be overridden with the ISM policies, if the flag &lt;a href=&#34;../../docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent&#34;&gt;spec.components.opensearch.disableDefaultPolicy&lt;/a&gt; is set to &lt;code&gt;false&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;The default policy will be applied only to the newly created indices. To manually attach the new policies to the older indices, see &lt;a href=&#34;https://opensearch.org/docs/latest/im-plugin/ism/index/#step-2-attach-policies-to-indexes&#34;&gt;Step 2: Attach policies to indexes&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;default-index-patterns&#34;&gt;Default index patterns&lt;/h2&gt;
+&lt;p&gt;The default index patterns, &lt;code&gt;verrazzano-system&lt;/code&gt; and &lt;code&gt;verrazzano-application*&lt;/code&gt;, are created by Verrazzano. These index patterns are immutable. Changes to these index patterns will be lost because Verrazzano will reconcile and replace them with the default ISM policies.&lt;/p&gt;
+&lt;h2 id=&#34;install-opensearch-and-opensearch-dashboards-plug-ins&#34;&gt;Install OpenSearch and OpenSearch Dashboards plug-ins&lt;/h2&gt;
 &lt;p&gt;Verrazzano supports OpenSearch and OpenSearch Dashboard plug-in installation by providing plug-ins in the Verrazzano custom resource.
 To install plug-ins for OpenSearch, you define the field &lt;a href=&#34;../../docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent&#34;&gt;spec.components.opensearch.plugins&lt;/a&gt; in the Verrazzano custom resource.&lt;/p&gt;
 &lt;p&gt;The following Verrazzano custom resource example installs the &lt;code&gt;analysis-stempel&lt;/code&gt; and &lt;code&gt;opensearch-anomaly-detection&lt;/code&gt; plug-ins for OpenSearch:&lt;/p&gt;

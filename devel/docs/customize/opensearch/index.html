@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/customize/opensearch/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-12-22T14:12:43-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-01-24T21:31:36+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="OpenSearch">
 <meta itemprop="description" content="Learn how to customize your OpenSearch cluster configuration">
-<meta itemprop="dateModified" content="2022-12-22T14:12:43-05:00" />
-<meta itemprop="wordCount" content="1093">
+<meta itemprop="dateModified" content="2023-01-24T21:31:36+05:30" />
+<meta itemprop="wordCount" content="1469">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="OpenSearch"/>
 <meta name="twitter:description" content="Learn how to customize your OpenSearch cluster configuration"/>
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.a15d4722d1df1697fe693467eee1e18a.json"
+  data-offline-search-index-json-src="../../../offline-search-index.91d2ab0f79ed13e17c364cce1af1a9f1.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -138,7 +138,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.a15d4722d1df1697fe693467eee1e18a.json"
+  data-offline-search-index-json-src="../../../offline-search-index.91d2ab0f79ed13e17c364cce1af1a9f1.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -509,6 +509,9 @@ if (!doNotTrack) {
       <ul>
         <li><a href="#configure-cluster-topology">Configure cluster topology</a></li>
         <li><a href="#configure-index-state-management-policies">Configure Index State Management policies</a></li>
+        <li><a href="#default-ism-policies">Default ISM policies</a></li>
+        <li><a href="#override-default-ism-policies">Override default ISM policies</a></li>
+        <li><a href="#default-index-patterns">Default index patterns</a></li>
         <li><a href="#install-opensearch-and-opensearch-dashboards-plug-ins">Install OpenSearch and OpenSearch Dashboards plug-ins</a></li>
       </ul>
     </li>
@@ -808,7 +811,46 @@ you can also use the OpenSearch REST API. To create a policy using the OpenSearc
 </span></span></code></pre></div><p>To view existing policies, do the following:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ curl -ik <span style="color:#4e9a06">\
 </span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>    --user verrazzano:<span style="color:#000">$PASS</span> https://<span style="color:#000">$HOST</span>/_plugins/_ism/policies
-</span></span></code></pre></div><h2 id="install-opensearch-and-opensearch-dashboards-plug-ins">Install OpenSearch and OpenSearch Dashboards plug-ins</h2>
+</span></span></code></pre></div><h2 id="default-ism-policies">Default ISM policies</h2>
+<p>To help you manage issues, such as low disk space, the following two ISM policies are created by default:</p>
+<ul>
+<li>
+<p><code>vz-system</code>: Manages the data in the Verrazzano system indices.</p>
+<p><img src="../../../docs/images/vz-system-ism-policy.png" alt="vz-system"></p>
+</li>
+<li>
+<p><code>vz-application</code>: Manages the data in the application-related indices having the pattern, <code>verrazzano-application*</code>.</p>
+<p><img src="../../../docs/images/vz-application-ism-policy.png" alt="vz-application"></p>
+</li>
+</ul>
+<p>Both ISM policies have three states:</p>
+<ul>
+<li><strong>Hot</strong>: This is the default state. If the primary shard size is greater than the defined size (5 GB for <code>vz-system</code> and 1 GB for <code>vz-application</code>) or the index age is greater than the defined number of days (30 days for <code>vz-system</code> and 7 days for <code>vz-application</code>), then the index will be rolled over.</li>
+<li><strong>Cold</strong>:  In this state, the index will be closed if the index age is greater than the defined number of days (30 days for <code>vz-system</code> and 7 days for <code>vz-application</code>). A closed index is blocked for read or write operations and does not allow any operations that the opened indices allow.</li>
+<li><strong>Delete</strong>: In this state, the index will be deleted if the index age is greater than the defined number of days (35 days for <code>vz-system</code> and 12 days for <code>vz-application</code>).</li>
+</ul>
+<h2 id="override-default-ism-policies">Override default ISM policies</h2>
+<p>The <code>vz-system</code> and <code>vz-application</code> policies are immutable and any change to these policies will be reverted immediately. However, the following two methods will override this behavior:</p>
+<ul>
+<li><strong>Disable default policies</strong>: You can disable the use of these default policies by setting the flag <a href="../../../docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent">spec.components.opensearch.disableDefaultPolicy</a> to <code>true</code> in the Verrazzano CR. This will delete the default ISM policies.</li>
+<li><strong>Override default policies</strong>: Both these default policies have a zero (<code>0</code>) priority. You can override the default policies by creating policies with <code>policy.ism_template.priority</code> greater than <code>0</code>.</li>
+</ul>
+
+
+<div class="alert alert-warning" role="alert">
+<h4 class="alert-heading">NOTE</h4>
+
+    <ul>
+<li>Avoid creating policies with policy IDs <code>vz-system</code> or <code>vz-application</code>. In the Verrazzano CR, by default, policies that are created with these names will be overridden with the ISM policies, if the flag <a href="../../../docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent">spec.components.opensearch.disableDefaultPolicy</a> is set to <code>false</code>.</li>
+<li>The default policy will be applied only to the newly created indices. To manually attach the new policies to the older indices, see <a href="https://opensearch.org/docs/latest/im-plugin/ism/index/#step-2-attach-policies-to-indexes">Step 2: Attach policies to indexes</a>.</li>
+</ul>
+
+
+</div>
+
+<h2 id="default-index-patterns">Default index patterns</h2>
+<p>The default index patterns, <code>verrazzano-system</code> and <code>verrazzano-application*</code>, are created by Verrazzano. These index patterns are immutable. Changes to these index patterns will be lost because Verrazzano will reconcile and replace them with the default ISM policies.</p>
+<h2 id="install-opensearch-and-opensearch-dashboards-plug-ins">Install OpenSearch and OpenSearch Dashboards plug-ins</h2>
 <p>Verrazzano supports OpenSearch and OpenSearch Dashboard plug-in installation by providing plug-ins in the Verrazzano custom resource.
 To install plug-ins for OpenSearch, you define the field <a href="../../../docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent">spec.components.opensearch.plugins</a> in the Verrazzano custom resource.</p>
 <p>The following Verrazzano custom resource example installs the <code>analysis-stempel</code> and <code>opensearch-anomaly-detection</code> plug-ins for OpenSearch:</p>
