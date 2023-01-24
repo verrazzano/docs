@@ -57,7 +57,6 @@ These flags apply to all the commands.
 
 - Create a bug report file, `bugreport.tar.gz`, by collecting data from the cluster:
 {{< clipboard >}}
-
    ```shell
    $ vz bug-report --report-file bugreport.tar.gz
    ```
@@ -80,19 +79,23 @@ For example, the following commands create a bug report by including the additio
    $ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2,ns3
    $ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-namespaces ns3
    ```
+{{< /clipboard >}}
+
 - Use the `--include-logs` flag to collect the logs from the pods in one or more namespaces, by specifying the `--include-namespaces` flag.
 For example, the following command creates a bug report by including the logs from the additional namespaces `ns1` and `ns2`:
+{{< clipboard >}}
    ```shell
    $ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-logs
    ```
+{{< /clipboard >}}
 - The `--duration` flag collects logs for the specified time period. The default value is zero (`0`), which collects the complete pod log. You can specify seconds, minutes, and hours.
 For example, the following commands create bug reports by including the logs from the additional namespaces `ns1` and `ns2` during the specified periods of time:
+{{< clipboard >}}
    ```shell
    $ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-logs --duration 5m
    $ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-logs --duration 2h
    $ vz bug-report --report-file bugreport.tgz --include-namespaces ns1,ns2 --include-logs --duration 300s
    ```
 {{< /clipboard >}}
-
 
    The values specified for the flag `--include-namespaces` are case-sensitive.
