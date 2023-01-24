@@ -298,6 +298,58 @@ and invalid values will be ignored.</p>
 </tr>
 </tbody>
 </table>
+<h3 id="install.verrazzano.io/v1beta1.ArgoCDComponent">ArgoCDComponent
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
+</p>
+<p>
+<p>ArgoCDComponent specifies the Argo CD configuration.</p>
+</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>enabled</code></br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>If true, then Argo CD will be installed.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>InstallOverrides</code></br>
+<em>
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
+InstallOverrides
+</a>
+</em>
+</td>
+<td>
+<p>
+(Members of <code>InstallOverrides</code> are embedded into this type.)
+</p>
+<em>(Optional)</em>
+<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
+find all possible values
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/argo-cd/values.yaml %}}">here</a>
+and invalid values will be ignored.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="install.verrazzano.io/v1beta1.AuthProxyComponent">AuthProxyComponent
 </h3>
 <p>
@@ -655,6 +707,20 @@ ApplicationOperatorComponent
 <td>
 <em>(Optional)</em>
 <p>The Application Operator component configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>argoCd</code></br>
+<em>
+<a href="#install.verrazzano.io/v1beta1.ArgoCDComponent">
+ArgoCDComponent
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>The Argo CD component configuration.</p>
 </td>
 </tr>
 <tr>
@@ -1724,6 +1790,7 @@ key in the <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOver
 <p>
 (<em>Appears on:</em>
 <a href="#install.verrazzano.io/v1beta1.ApplicationOperatorComponent">ApplicationOperatorComponent</a>, 
+<a href="#install.verrazzano.io/v1beta1.ArgoCDComponent">ArgoCDComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.AuthProxyComponent">AuthProxyComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.CertManagerComponent">CertManagerComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.ClusterOperatorComponent">ClusterOperatorComponent</a>, 
@@ -1808,6 +1875,17 @@ Invalid override values will be ignored.</p>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<code>argoCdUrl</code></br>
+<em>
+string
+</em>
+</td>
+<td>
+<p>The Argo CD UI URL for this Verrazzano installation.</p>
+</td>
+</tr>
 <tr>
 <td>
 <code>consoleUrl</code></br>
@@ -3230,7 +3308,7 @@ bool
 <a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
-<p>VeleroComponent  specifies the Velero configuration.</p>
+<p>VeleroComponent specifies the Velero configuration.</p>
 </p>
 <table>
 <thead>

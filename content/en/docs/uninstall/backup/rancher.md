@@ -6,15 +6,15 @@ weight: 2
 draft: false
 ---
 
-Rancher maintains many configurations, like user credentials and cluster credentials, as ConfigMaps and namespace values. The Rancher
-Backup and Restore Operator provides a seamless way to back up and restore Rancher installations, configuration, and data.
+Rancher maintains many configurations, like user credentials and cluster credentials, as ConfigMaps and namespace values. The
+rancher-backup Operator provides a seamless way to back up and restore Rancher installations, configuration, and data.
 
-- [Rancher Backup and Restore Operator prerequisites](#rancher-backup-and-restore-operator-prerequisites)
+- [rancher-backup Operator prerequisites](#rancher-backup-operator-prerequisites)
 - [Rancher backup](#rancher-backup)
 - [Rancher restore](#rancher-restore)
 
 
-## Rancher Backup and Restore Operator prerequisites
+## rancher-backup Operator prerequisites
 
 Before proceeding with a Rancher back up or restore operation, the following details should be kept handy:
 
@@ -76,7 +76,7 @@ To back up or restore Rancher, you must first enable `rancherBackup`.
 
 ## Rancher backup
 
-The Rancher backup operator creates the backup file, in `*.tar.gz` format, on the S3 compatible object store.
+The rancher-backup Operator creates the backup file, in `*.tar.gz` format, on the S3 compatible object store.
 
 1. To initiate a Rancher backup, create the following example custom resource YAML file that uses an Amazon S3 compatible object store as a back end.
    The operator uses the `credentialSecretNamespace` value to determine where to look for the Amazon S3 backup secret.
@@ -100,7 +100,7 @@ The Rancher backup operator creates the backup file, in `*.tar.gz` format, on th
     EOF
     ```
 
-    **NOTE:** In Step 3. of the example in the [prerequisites](#rancher-backup-and-restore-operator-prerequisites) section, you created the secret in the `verrazzano-backup` namespace.
+    **NOTE:** In Step 3. of the example in the [prerequisites](#rancher-backup-operator-prerequisites) section, you created the secret in the `verrazzano-backup` namespace.
 
     The following is an example:
 
@@ -124,7 +124,7 @@ The Rancher backup operator creates the backup file, in `*.tar.gz` format, on th
     ```
 
     The `*.tar.gz` file is stored in a location configured in the `storageLocation` field.
-    When the backup is complete, then the `rancher-backup` operator creates a file on the S3 compatible object store.
+    When the backup is complete, then the rancher-backup Operator creates a file on the S3 compatible object store.
 
 2. You can retrieve the backed up file name, as shown:
 
@@ -167,7 +167,7 @@ Restoring Rancher is done by creating a custom resource that indicates to `ranch
    EOF
    ```
 
-   The `rancher-backup` operator scales down the Rancher deployment during the restore operation and scales it back up after the restoration completes.
+   The rancher-backup Operator scales down the Rancher deployment during the restore operation and scales it back up after the restoration completes.
 
    Resources are restored in this order:
    1. Custom Resource Definitions (CRDs)

@@ -114,7 +114,9 @@ This is required only if specific hosts are given in an <a href="#oam.verrazzano
 <td>
 <code>workloadRef</code></br>
 <em>
+<a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/common/v1#TypedReference">
 OAM common/v1.TypedReference
+</a>
 </em>
 </td>
 <td>
@@ -242,7 +244,9 @@ string
 <td>
 <code>workloadRef</code></br>
 <em>
+<a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/common/v1#TypedReference">
 OAM common/v1.TypedReference
+</a>
 </em>
 </td>
 <td>
@@ -410,7 +414,9 @@ endpoint access.</p>
 <td>
 <code>workloadRef</code></br>
 <em>
+<a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/common/v1#TypedReference">
 OAM common/v1.TypedReference
+</a>
 </em>
 </td>
 <td>
@@ -1258,7 +1264,9 @@ This is required only if specific hosts are given in an <a href="#oam.verrazzano
 <td>
 <code>workloadRef</code></br>
 <em>
+<a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/common/v1#TypedReference">
 OAM common/v1.TypedReference
+</a>
 </em>
 </td>
 <td>
@@ -1294,7 +1302,9 @@ original ApplicationConfiguration.</p>
 <td>
 <code>ConditionedStatus</code></br>
 <em>
+<a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/common/v1#ConditionedStatus">
 OAM common/v1.ConditionedStatus
+</a>
 </em>
 </td>
 <td>
@@ -1308,7 +1318,9 @@ OAM common/v1.ConditionedStatus
 <td>
 <code>resources</code></br>
 <em>
+<a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/common/v1#TypedReference">
 []OAM common/v1.TypedReference
+</a>
 </em>
 </td>
 <td>
@@ -1374,7 +1386,9 @@ string
 <td>
 <code>workloadRef</code></br>
 <em>
+<a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/common/v1#TypedReference">
 OAM common/v1.TypedReference
+</a>
 </em>
 </td>
 <td>
@@ -1410,7 +1424,9 @@ original ApplicationConfiguration.</p>
 <td>
 <code>ConditionedStatus</code></br>
 <em>
+<a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/common/v1#ConditionedStatus">
 OAM common/v1.ConditionedStatus
+</a>
 </em>
 </td>
 <td>
@@ -1424,7 +1440,9 @@ OAM common/v1.ConditionedStatus
 <td>
 <code>resources</code></br>
 <em>
+<a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/common/v1#TypedReference">
 []OAM common/v1.TypedReference
+</a>
 </em>
 </td>
 <td>
@@ -1530,7 +1548,9 @@ endpoint access.</p>
 <td>
 <code>workloadRef</code></br>
 <em>
+<a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/common/v1#TypedReference">
 OAM common/v1.TypedReference
+</a>
 </em>
 </td>
 <td>
@@ -1566,7 +1586,9 @@ original ApplicationConfiguration.</p>
 <td>
 <code>ConditionedStatus</code></br>
 <em>
+<a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/common/v1#ConditionedStatus">
 OAM common/v1.ConditionedStatus
+</a>
 </em>
 </td>
 <td>
@@ -1836,7 +1858,9 @@ DeploymentTemplate
 <td>
 <code>ConditionedStatus</code></br>
 <em>
+<a href="https://pkg.go.dev/github.com/crossplane/crossplane-runtime/apis/common/v1#ConditionedStatus">
 OAM common/v1.ConditionedStatus
+</a>
 </em>
 </td>
 <td>
@@ -2026,7 +2050,9 @@ Kubernetes runtime.RawExtension
 <td>
 <code>-</code></br>
 <em>
+<a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/runtime#Object">
 Kubernetes runtime.Object
+</a>
 </em>
 </td>
 <td>
