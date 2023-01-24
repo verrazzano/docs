@@ -3192,7 +3192,7 @@ string
 </td>
 <td>
 <em>(Optional)</em>
-<p>JavaOpts settings for the OpenSearch JVM</p>
+<p>JavaOpts settings for the OpenSearch JVM.</p>
 </td>
 </tr>
 </tbody>
