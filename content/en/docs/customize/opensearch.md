@@ -276,8 +276,10 @@ $ curl -ik \
 ## Default ISM policies
 To help you manage issues, such as low disk space, the following two ISM policies are created by default:
 - `vz-system`: Manages the data in the Verrazzano system indices.
+
    ![vz-system](/docs/images/vz-system-ism-policy.png)
 - `vz-application`: Manages the data in the application-related indices having the pattern, `verrazzano-application*`.
+
   ![vz-application](/docs/images/vz-application-ism-policy.png)
 
 Both ISM policies have three states:
