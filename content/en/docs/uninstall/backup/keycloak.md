@@ -26,6 +26,7 @@ Before proceeding with a MySQL back up or restore operation, keep the following 
 The following example creates a secret `mysql-backup-secret` in the namespace `keycloak`.
 
 **NOTE:**  This secret must exist in the namespace `keycloak`.
+{{< clipboard >}}
 
 ````shell
 $ kubectl create secret generic -n keycloak  <secret-name> \
@@ -36,6 +37,7 @@ $ kubectl create secret generic -n keycloak  <secret-name> \
         --from-literal=passphrase="" \
         --from-file=privatekey=<full path to private key pem file>
 ````
+
 
 The following is an example of creating a Kubernetes secret consisting of OCI credentials.
 
@@ -205,3 +207,4 @@ kubectl scale sts -n keycloak keycloak --replicas=0
 kubectl scale sts -n keycloak keycloak --replicas=${KEYCLOAK_REPLICAS}
 kubectl wait -n keycloak --for=condition=ready pod -l app.kubernetes.io/instance=keycloak -timeout=600s
 ```
+{{< /clipboard >}}
