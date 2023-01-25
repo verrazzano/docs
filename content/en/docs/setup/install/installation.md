@@ -109,7 +109,7 @@ To install the Verrazzano platform operator:
 <div class="highlight">
 
    ```
-    $ kubectl apply -f {{<release_asset_operator_url verrazzano-platform-operator.yaml>}}
+   $ kubectl apply -f {{<release_asset_operator_url verrazzano-platform-operator.yaml>}}
    ```
 </div>
 {{< /clipboard >}}
@@ -120,9 +120,11 @@ To install the Verrazzano platform operator:
 <div class="highlight">
 
    ```
-    $ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
-    # Expected response
-    deployment "verrazzano-platform-operator" successfully rolled out
+   $ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
+   ```
+   ```
+   # Expected response
+   deployment "verrazzano-platform-operator" successfully rolled out
    ```
 </div>
 {{< /clipboard >}}
@@ -132,7 +134,9 @@ To install the Verrazzano platform operator:
 <div class="highlight">
 
   ```
-    $ kubectl -n verrazzano-install get pods
+   $ kubectl -n verrazzano-install get pods
+   ```
+   ```
     # Sample output
     NAME                                            READY   STATUS    RESTARTS   AGE
     verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s

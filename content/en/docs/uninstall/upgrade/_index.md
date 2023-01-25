@@ -50,9 +50,11 @@ In one simple step, you can upgrade to a specified version of Verrazzano using t
    $ vz upgrade
    ```
 </div>
+{{< /clipboard >}}
 
    To update to a specific version, where `<version>` is the desired version:
-
+   
+{{< clipboard >}}
 <div class="highlight">
 
    ```
