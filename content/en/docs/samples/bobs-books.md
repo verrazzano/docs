@@ -41,9 +41,15 @@ For more information and the source code of this application, see the [Verrazzan
 ## Deploy the application
 
 {{< alert title="NOTE" color="primary" >}}To run this application in the default namespace:
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl label namespace default verrazzano-managed=true istio-injection=enabled
    ```
+</div>
+{{< /clipboard >}}
+
    If you chose the default namespace, you can skip Step 1 and ignore the `-n` option in the rest of the commands.
 {{< /alert >}}   
 

@@ -98,7 +98,9 @@ If you have `jq` installed, then you can use the following command to get the in
 {{< clipboard >}}
 <div class="highlight">
 
-`$ kubectl get vz -o jsonpath="{.items[].status.instance}" | jq .`
+```
+$ kubectl get vz -o jsonpath="{.items[].status.instance}" | jq .
+```
 
 </div>
 {{< /clipboard >}}

@@ -16,9 +16,15 @@ Install Verrazzano by following the [installation]({{< relref "/docs/setup/insta
 This example provides a simple web application developed using [Spring Boot](https://spring.io/guides/gs/spring-boot/). For more information and the source code of this application, see the [Verrazzano Examples](https://github.com/verrazzano/examples).
 
 {{< alert title="NOTE" color="primary" >}}To run this application in the default namespace:
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl label namespace default verrazzano-managed=true istio-injection=enabled
    ```
+</div>
+{{< /clipboard >}}
+
    If you chose the default namespace, you can skip Step 1 and ignore the `-n` option in the rest of the commands.
 {{< /alert >}}
 
