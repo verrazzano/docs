@@ -72,7 +72,7 @@ spec:
           syncRancherClusters:
             enabled: true
             clusterSelector:
-              matchExpressions:Ï
+              matchExpressions:
               - key: verrazzanomulticluster
                 operator: In
                 values: [supported]
