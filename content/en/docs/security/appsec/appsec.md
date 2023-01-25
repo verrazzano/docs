@@ -38,8 +38,7 @@ Security for containers should be defined
 
 ### Specify a non-root user in the container image
 
-Unless otherwise specified, all containers run as the root user (UID 0).  Most do not require this
-level of access and do so is considered a security risk.
+Unless otherwise specified, all containers run as the root user (UID 0).  Most do not require this level of access, and it is considered a security risk.
 
 It is recommended that the image build explicitly creates an unprivileged non-root user and group and then uses that with the `USER` instruction.
 
@@ -158,8 +157,8 @@ spec:
 
 ## Pod security for ContainerizedWorkload applications
 
-The only mechanism for controlling pod security for the `ContainerizedWorkload` type to specify a non-root user in 
-using the `USER` instruction in the image build as described above.
+The only means for controlling pod security for the `ContainerizedWorkload` type to specify a non-root user utilizing 
+the `USER` instruction in the image build as described previously.
 
 The Helidon and Coherence workloads provide the ability to customize pod security settings.  If those are not being used,
 it is recommended that [Standard Kubernetes Resources]({{< relref "/docs/samples/standard-kubernetes.md" >}})
