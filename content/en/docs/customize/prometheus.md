@@ -76,6 +76,4 @@ spec:
             severity: critical
 EOF
 ```
-For more information see  [Deploying Prometheus rules.](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/alerting.md#deploying-prometheus-rules
-)
-
+For more information, see [Deploying Prometheus rules](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/alerting.md#deploying-prometheus-rules).
