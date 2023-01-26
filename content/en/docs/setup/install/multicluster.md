@@ -32,22 +32,22 @@ Install Verrazzano on each Kubernetes cluster.
 <div class="highlight">
 
    ```
-     $ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
-     $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
+   $ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
+   $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 
-     # Lists the contexts in each kubeconfig file
-     $ kubectl --kubeconfig $KUBECONFIG_ADMIN config get-contexts -o=name
-     my-admin-cluster-context
-     some-other-cluster-context
+   # Lists the contexts in each kubeconfig file
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN config get-contexts -o=name
+   my-admin-cluster-context
+   some-other-cluster-context
 
-     $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 config get-contexts -o=name
-     my-managed-cluster-context
-     some-other-cluster2-context
+   $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 config get-contexts -o=name
+   my-managed-cluster-context
+   some-other-cluster2-context
 
-     # Choose the right context name for your admin and managed clusters from the output shown and set the KUBECONTEXT
-     # environment variables
-     $ export KUBECONTEXT_ADMIN=<admin-cluster-context-name>
-     $ export KUBECONTEXT_MANAGED1=<managed-cluster-context-name>
+   # Choose the right context name for your admin and managed clusters from the output shown and set the KUBECONTEXT
+   # environment variables
+   $ export KUBECONTEXT_ADMIN=<admin-cluster-context-name>
+   $ export KUBECONTEXT_MANAGED1=<managed-cluster-context-name>
    ```
 
 </div>

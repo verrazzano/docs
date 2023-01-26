@@ -71,7 +71,7 @@ because they will not need to pull the images again.
 
     $ docker volume inspect containerd
 
-    #Sample output
+    # Sample output
     {
         "CreatedAt": "2021-01-11T16:27:47Z",
         "Driver": "local",

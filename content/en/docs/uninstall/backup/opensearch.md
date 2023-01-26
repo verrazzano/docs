@@ -224,12 +224,10 @@ To initiate an OpenSearch restore operation, first delete the existing OpenSearc
 2. Delete the OpenSearch components.
 {{< clipboard >}}
  ```shell
-  # These are sample commands to demonstrate the OpenSearch restore process
-
-  $ kubectl delete sts -n verrazzano-system -l verrazzano-component=opensearch
-  $ kubectl delete deploy -n verrazzano-system -l verrazzano-component=opensearch    $ kubectl delete pvc -n verrazzano-system -l verrazzano-component=opensearch
-
-   ```
+# These are sample commands to demonstrate the OpenSearch restore process
+$ kubectl delete sts -n verrazzano-system -l verrazzano-component=opensearch
+$ kubectl delete deploy -n verrazzano-system -l verrazzano-component=opensearch    $ kubectl delete pvc -n verrazzano-system -l verrazzano-component=opensearch
+ ```
 {{< /clipboard >}}
 
 3. To perform an OpenSearch restore operation, you can invoke the following example Velero `Restore` [API](https://velero.io/docs/v1.8/api-types/restore/) object.
