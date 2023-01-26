@@ -86,15 +86,15 @@ cluster. Try exporting and applying the registration manifest to the managed clu
 {{< clipboard >}}
 <div class="highlight">
 
-```
-# on the admin cluster
+  ```
+  # on the admin cluster
        kubectl get secret \
        -n verrazzano-mc verrazzano-cluster-managed1-manifest \
        -o jsonpath={.data.yaml} | base64 --decode > register.yaml
 
-# on the managed cluster
+  # on the managed cluster
        kubectl apply -f register.yaml
-```
+  ```
 
 </div>
 {{< /clipboard >}}

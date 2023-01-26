@@ -50,14 +50,14 @@
 
     async function copyCodeToClipboard(button, highlightDiv) {
         let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
-        // Removing Expected response and Sample output lines before copying to clipboard
+        // Removing Expected response and Sample output lines (at the end of the page) before copying to clipboard
         let codeBlock = codeToCopy.split("\n");
         let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
         if (expectedLine !== -1) {
             codeBlock.splice(expectedLine);
         }
         codeToCopy = codeBlock.join("\n");
-        // Rejoin the code block after removing the unwanted lines
+        // Replace all lines with comments with a blank line
         codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
         // Replace $ with space and then replace instances of double newline with single newline
         codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
