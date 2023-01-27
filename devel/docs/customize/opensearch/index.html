@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/customize/opensearch/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-01-24T21:31:36+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-01-27T21:29:01+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="OpenSearch">
 <meta itemprop="description" content="Learn how to customize your OpenSearch cluster configuration">
-<meta itemprop="dateModified" content="2023-01-24T21:31:36+05:30" />
-<meta itemprop="wordCount" content="1469">
+<meta itemprop="dateModified" content="2023-01-27T21:29:01+05:30" />
+<meta itemprop="wordCount" content="2232">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="OpenSearch"/>
 <meta name="twitter:description" content="Learn how to customize your OpenSearch cluster configuration"/>
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.5e0c9401b787789ab202846c80379716.json"
+  data-offline-search-index-json-src="../../../offline-search-index.629843b43bea7b9c767cbe8264dff743.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -138,7 +138,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.5e0c9401b787789ab202846c80379716.json"
+  data-offline-search-index-json-src="../../../offline-search-index.629843b43bea7b9c767cbe8264dff743.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -507,6 +507,8 @@ if (!doNotTrack) {
   <ul>
     <li>
       <ul>
+        <li><a href="#plan-cluster-topology">Plan cluster topology</a></li>
+        <li><a href="#recommended-alarms">Recommended alarms</a></li>
         <li><a href="#configure-cluster-topology">Configure cluster topology</a></li>
         <li><a href="#configure-index-state-management-policies">Configure Index State Management policies</a></li>
         <li><a href="#default-ism-policies">Default ISM policies</a></li>
@@ -579,12 +581,178 @@ if (!doNotTrack) {
 	</header>    
 	<p>Verrazzano supports two cluster topologies for an OpenSearch cluster:</p>
 <ul>
-<li>A single-node cluster (master, ingest, and data roles performed by a single node).</li>
+<li>A single-node cluster: master, ingest, and data roles performed by a single node.</li>
 <li>A multi-node cluster configuration with separate master, data, and ingest nodes.</li>
 </ul>
-<p><a href="../../../docs/setup/install/profiles/">Installation Profiles</a> describes the default OpenSearch cluster
-configurations provided by Verrazzano.</p>
-<h2 id="configure-cluster-topology">Configure cluster topology</h2>
+<p>For information about the default OpenSearch cluster configurations provided by Verrazzano, see <a href="../../../docs/setup/install/profiles/">Installation Profiles</a>.</p>
+<h2 id="plan-cluster-topology">Plan cluster topology</h2>
+<p>Start with an initial estimate of your hardware needs. The following recommendations will provide you with initial, educated estimates, but for ideal sizing, you will need to test them with representative workloads, monitor their performance, and then reiterate.</p>
+<h4 id="storage-requirements">Storage Requirements</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Input</th>
+<th>Description</th>
+<th style="text-align:left">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">\(s\)</td>
+<td>Stored data size in GiB (log size per day * days to retain).</td>
+<td style="text-align:left">User defined</td>
+</tr>
+<tr>
+<td style="text-align:left">\(sr\)</td>
+<td>Shard replica count per index.</td>
+<td style="text-align:left">User defined</td>
+</tr>
+<tr>
+<td style="text-align:left">\(o\)</td>
+<td>Overall overhead, which is a constant.</td>
+<td style="text-align:left">1.45</td>
+</tr>
+</tbody>
+</table>
+<p>Minimum storage requirement = \( ( s * ( 1 + sr ) ) * o \)</p>
+<h4 id="example">Example</h4>
+<p>If you have  \(s\) = 66 GiB (6 GiB of log size per day * 11 days to retain) and, if you choose one shard replica per index, which makes \(sr\) = 1</p>
+<p>Then, minimum storage requirement = \((66 * (1 + 1) ) * 1.45\) = 192 GiB</p>
+<p><em>Overhead</em>, which is defined in the previous table, can be further explained as follows.</p>
+<table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Description</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\(io\)</td>
+<td>Indexing overhead: Extra space used other than the actual data, which is generally 10% ( 0.1 ) of the index size.</td>
+<td>1 + 0.1 = 1.1</td>
+</tr>
+<tr>
+<td>\(lrs\)</td>
+<td>Linux reserved space: Linux reserves 5% of the file system for the root user for some OS operations.</td>
+<td>1- 0.05 = .95</td>
+</tr>
+<tr>
+<td>\(oo\)</td>
+<td>OpenSearch overhead: OpenSearch keeps a maximum 20% of the instance for segment merges, logs, and other internal operations.</td>
+<td>1- 0.2 = 0.8</td>
+</tr>
+</tbody>
+</table>
+<p>Overall overhead \(o\) = \( io / lrs / oo \) = 1.45</p>
+<h4 id="memory">Memory</h4>
+<p>For every 100 GiB of your storage requirement, you should have 8 GiB of memory.</p>
+<p>With reference to the <a href="#example">Example</a>:</p>
+<p>For 192 GiB of storage requirement, you need 16 GiB of memory.</p>
+<h4 id="number-of-data-nodes">Number of Data Nodes</h4>
+<table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Description</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\(ts\)</td>
+<td>Total storage in GiB.</td>
+<td>User defined</td>
+</tr>
+<tr>
+<td>\(mem\)</td>
+<td>Memory per data node in GiB.</td>
+<td>User defined</td>
+</tr>
+<tr>
+<td>\(md\)</td>
+<td>Memory:data ratio (1:30 ratio means that you have 30 times more storage on the node than you have RAM; the value used would be 30).</td>
+<td>User defined</td>
+</tr>
+<tr>
+<td>\(fc\)</td>
+<td>One data node for failover capacity, which is a constant.</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>ROUNDUP \(ts / mem / md  + fc\)</p>
+<p>With reference to the <a href="#example">Example</a>:</p>
+<p>\(ts\) = 192 GiB , \(mem\) = 8 GiB , \(md\) = 1:10 and \(fc\) = 1</p>
+<p>Then, number of data nodes = ROUNDUP \( 192 / 8 / 10  + 1 \) = 3</p>
+<h4 id="jvm-heap-memory">JVM heap memory</h4>
+<p>The heap size is the amount of RAM allocated to the JVM of an OpenSearch node. The OpenSearch process is very memory intensive and close to 50% of the memory available on a node should be allocated to the JVM. The JVM machine uses memory for indexing and search operations. The other 50% is required for the file system cache, which keeps data that is regularly accessed in memory.
+As a general rule, you should set <code>-Xms</code> and <code>-Xmx</code> to the same value, which should be 50% of your total available RAM, subject to a maximum of (approximately) 31 GiB.</p>
+<h4 id="cpu">CPU</h4>
+<p>Hardware requirements vary dramatically by workload, but, typically, two vCPU cores for every 100 GiB of your storage requirement is sufficient.</p>
+<p>With reference to the <a href="#example">Example</a>:</p>
+<p>For 192 GiB of storage, the vCPU cores required are 4.</p>
+<h4 id="shard-size">Shard Size</h4>
+<p>For logging, shard sizes between 10 GiB and 50 GiB typically perform well.
+For search-intensive operations, 10-25 GiB typically is a good shard size. Overall, it is a best practice that, for a single shard, the OpenSearch shard size should not go above 50GiB. When the shards exceed 50 GiB, you will have to reindex your data.</p>
+<h4 id="primary-shards-count">Primary shards count</h4>
+<table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Description</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\(s\)</td>
+<td>Stored data size in GiB (log size per day * days to retain).</td>
+<td>User defined</td>
+</tr>
+<tr>
+<td>\(sh\)</td>
+<td>Desired shard size in GiB.</td>
+<td>User defined</td>
+</tr>
+<tr>
+<td>\(io\)</td>
+<td>Indexing overhead: Extra space used other than the actual data which is generally 10% of the index size.</td>
+<td>0.1</td>
+</tr>
+</tbody>
+</table>
+<p>Primary shards = \( ( s * (1 + io) ) / sh \)</p>
+<p>With reference to the <a href="#example">Example</a>:</p>
+<p>\(s\) = 66 GiB and if you choose shard size \(sh\) = 30 GiB</p>
+<p>Then, primary shards count = \( ( 66 * 1.1 )/ 30 \) = 2</p>
+<h2 id="recommended-alarms">Recommended alarms</h2>
+<p>You can <a href="../../../docs/customize/prometheus/">customize Prometheus</a> to enable Alertmanager and configure recommended alarms (add alert rules) to get insight into your OpenSearch cluster and take some actions proactively.</p>
+<p>Use the <code>OSDataNodeFilesystemSpaceFillingUp</code> alert to indicate that the OpenSearch average disk usage has exceeded the specified threshold. Adjust the alert thresholds according to your needs.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#000">kubectl apply -f - &lt;&lt;EOF</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">monitoring.coreos.com/v1</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">PrometheusRule</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">labels</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">release</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">prometheus-operator</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">prometheus-operator-os</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">namespace</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">verrazzano-monitoring</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">groups</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">os</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">rules</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span>- <span style="color:#204a87;font-weight:bold">alert</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">OSDataNodeFilesystemSpaceFillingUp</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">          </span><span style="color:#204a87;font-weight:bold">annotations</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">runbook_url</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">&lt;link to runbook&gt;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">summary</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">Opensearch average disk usage exceeded 75%.</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">          </span><span style="color:#204a87;font-weight:bold">expr</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000;font-weight:bold">|-</span><span style="color:#8f5902;font-style:italic">
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">            </span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#f8f8f8;text-decoration:underline"> </span>- <span style="color:#000">(es_fs_total_available_bytes{node=~&#34;.*data.*&#34;}/ es_fs_total_total_bytes) &gt; .75</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">          </span><span style="color:#204a87;font-weight:bold">for</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">30m</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">          </span><span style="color:#204a87;font-weight:bold">labels</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">severity</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">warning</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#000">EOF</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span></code></pre></div><h2 id="configure-cluster-topology">Configure cluster topology</h2>
 <p>You can customize the node characteristics of your OpenSearch cluster by using the
 <a href="../../../docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchNode">spec.components.opensearch.nodes</a>
 field in the Verrazzano custom resource.  When installing or upgrading Verrazzano, you can use this field to
@@ -1068,6 +1236,19 @@ To install plug-ins for OpenSearch, you define the field <a href="../../../docs/
 
 
 
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"
+    integrity="sha512-vJqxkZ+Sugf/6WRlpcxN01qVfX/29hF6qc33eHF1va3NgoV+U+wCi+uTAsQ10sDoGyBxHLdaHvGwDlV3yVYboA==" crossorigin="anonymous">
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"
+    integrity="sha512-5ufNcHqOYgilGEHPfuRIQ5B/vDS1M8+UC+DESZ5CwVgGTg+b2Ol/15rYL/GiCWJ/Sx8oVo0FPFok1dPk8U9INQ=="
+    crossorigin="anonymous"></script>
+
+
+
+<script defer src='https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js'
+    integrity='sha512-ZA/RPrAo88DlwRnnoNVqKINnQNcWERzRK03PDaA4GIJiVZvGFIWQbdWCsUebMZfkWohnfngsDjXzU6PokO4jGw==' crossorigin='anonymous' 
+    onload='renderMathInElement(document.body, null);'></script>
 
 
 
