@@ -111,7 +111,7 @@ from a client external to the cluster:
 The following table shows Verrazzano system components that initiate requests to a destination
 outside the cluster.
 
-| Component  | Destination | Description |
+/ Component  | Destination | Description |
 | ------------- |:------------- |:-------------
 | cert-manager | Let's Encrypt | Gets signed certificate.
 | ExternalDNS | External DNS | Creates and deletes DNS entries in an external DNS.
