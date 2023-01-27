@@ -24,14 +24,18 @@ See the following respective sections.
 <br>
 
 1. Uninstall Verrazzano.
-    ```shell
-    $ vz uninstall
-    ```
+{{< clipboard >}}
+
+ ```shell
+  $ vz uninstall
+  ```
+{{< /clipboard >}}
 
 2. Wait for the uninstall to complete.
    The uninstall logs from the Verrazzano platform operator will be streamed to the command window until the uninstall has completed or until the default timeout (20m) has been reached.
 
    The following is an example of the output:
+{{< clipboard >}}
    ```shell
    Uninstalling Verrazzano
    2022-11-22T16:31:20.377Z info Reconciling Verrazzano resource default/verrazzano, generation 2, version 1.4.2
@@ -40,6 +44,7 @@ See the following respective sections.
    2022-11-22T16:31:20.418Z info Uninstalling Verrazzano default/verrazzano
    ...
    ```
+{{< /clipboard >}}
 
 {{< /tab >}}
 {{< tab tabName="kubectl" >}}
@@ -52,16 +57,23 @@ The following example starts a deletion of a Verrazzano installation in the back
 uses the `kubectl logs -f` command to tail the output of the pod performing the uninstall.
 
 1. Get the name of the Verrazzano custom resource.
+{{< clipboard >}}
 
    ```shell
    $ MYVZ=$(kubectl  get vz -o jsonpath="{.items[0].metadata.name}")
    ```
+{{< /clipboard >}}
 2. Delete the Verrazzano custom resource.  Once the delete is done, the Verrazzano uninstall will be complete.
+{{< clipboard >}}
 
    ```shell
    $ kubectl delete verrazzano $MYVZ
    ```
+{{< /clipboard >}}
+
 If you want to see the uninstall logs during the deletion, you can view them from the `Verrazzano platform operator` with the following command:
+{{< clipboard >}}
+<div class="highlight">
 
 ```
 $ kubectl logs -n verrazzano-install \
@@ -71,6 +83,8 @@ $ kubectl logs -n verrazzano-install \
     -o jsonpath="{.items[0].metadata.name}") | grep '^{.*}$' \
     | jq -r '."@timestamp" as $timestamp | "\($timestamp) \(.level) \(.message)"'
 ```
+</div>
+{{< /clipboard >}}
 
 {{< /tab >}}
 {{< /tabs >}}

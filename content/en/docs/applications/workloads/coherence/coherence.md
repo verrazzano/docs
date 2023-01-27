@@ -22,24 +22,28 @@ The custom resource YAML file for the Coherence cluster is specified as a Verraz
 In the following example, everything under the `spec:` section is standard Coherence resource YAML that you would typically use
 to provision a Coherence cluster.  Including this Component reference in your ApplicationConfiguration will result
 in a new Coherence cluster being provisioned.  You can have multiple clusters in the same application with no conflict.
-```
-apiVersion: core.oam.dev/v1alpha2
-kind: Component
-metadata:
-  name: orders
-  namespace: sockshop
-spec:
-  workload:
-    apiVersion: oam.verrazzano.io/v1alpha1
-    kind: VerrazzanoCoherenceWorkload
+{{< clipboard >}}
+<div class="highlight">
+
+    apiVersion: core.oam.dev/v1alpha2
+    kind: Component
+    metadata:
+      name: orders
+      namespace: sockshop
     spec:
-      template:
-        metadata:
-          name: orders-coh
+      workload:
+        apiVersion: oam.verrazzano.io/v1alpha1
+        kind: VerrazzanoCoherenceWorkload
         spec:
-          cluster: SockShop
+          template:
+            metadata:
+              name: orders-coh
+            spec:
+              cluster: SockShop
           ...
-```
+
+</div>
+{{< /clipboard >}}
 
 ### Life cycle
 With Verrazzano, you manage the life cycle of applications using Component and ApplicationConfiguration resources.
@@ -62,25 +66,30 @@ the ApplicationConfiguration resource, and adding or removing the Coherence comp
 Scaling a Coherence cluster is done by modifying the replicas field in the Component resource.  Verrazzano
 will modify the Coherence resource replicas field and the cluster will be scaled accordingly.  The following example
 configuration shows the `replicas` field that specifies the number of pods in the cluster.
-```
-apiVersion: core.oam.dev/v1alpha2
-kind: Component
-metadata:
-  name: orders
-  namespace: sockshop
-spec:
-  workload:
-    apiVersion: oam.verrazzano.io/v1alpha1
-    kind: VerrazzanoCoherenceWorkload
+{{< clipboard >}}
+<div class="highlight">
+
+    apiVersion: core.oam.dev/v1alpha2
+    kind: Component
+    metadata:
+      name: orders
+      namespace: sockshop
     spec:
-      template:
-        metadata:
-          name: orders-coh
+      workload:
+        apiVersion: oam.verrazzano.io/v1alpha1
+        kind: VerrazzanoCoherenceWorkload
         spec:
-          cluster: SockShop
-          replicas: 3
-          ...
-```
+          template:
+            metadata:
+              name: orders-coh
+            spec:
+              cluster: SockShop
+              replicas: 3
+              ...
+
+</div>
+{{< /clipboard >}}
+
 
 **NOTE:** A Coherence cluster provisioned with Verrazzano does not support autoscaling with a Horizontal Pod Autoscaler.
 
@@ -105,12 +114,16 @@ for example: `verrazzano-application-sockshop`.  All logs from Coherence pods in
 go into the same data stream, even for different applications.  This is standard behavior and there is no way to disable or change it.
 
 Each log record has some Coherence and application fields, along with the log message itself.  For example:
-```
- kubernetes.labels.coherenceCluster        SockShop
- kubernetes.labels.app_oam_dev/name        sockshop-appconf
- kubernetes.labels.app_oam_dev/component   orders
- ...
-```
+{{< clipboard >}}
+<div class="highlight">
+    
+     kubernetes.labels.coherenceCluster        SockShop
+     kubernetes.labels.app_oam_dev/name        sockshop-appconf
+     kubernetes.labels.app_oam_dev/component   orders
+     ...
+
+</div>
+{{< /clipboard >}}
 
 ## Metrics
 Verrazzano uses Prometheus to scrape metrics from Coherence cluster pods.  Like logging, metrics scraping is also
@@ -124,28 +137,39 @@ Coherence metrics endpoint.  To see the difference, examine the `socks-shop` and
 The [bobs-books]( {{< release_source_url path=examples/bobs-books >}} ) example uses the default
 Coherence metrics endpoint, so the configuration must enable this feature, shown in the following metrics section of the
 `roberts-coherence` component in the YAML file, [bobs-books-comp.yaml]( {{< release_source_url path=examples/bobs-books/bobs-books-comp.yaml >}} ).
-```          ...
-          coherence:
-            metrics:
-              enabled: true
-```
+{{< clipboard >}}
+<div class="highlight">
+
+    ...
+              coherence:
+                metrics:
+                  enabled: true
+
+</div>
+{{< /clipboard >}}
 
 ### Sock Shop
 The [sock-shop]( {{< release_source_url path=examples/sock-shop >}} ) example, which is a Helidon
 application with embedded Coherence, explicitly specifies the metrics port 7001 and doesn't enable Coherence metrics.  Coherence
 metrics still will be scraped, but not at the default endpoint.
-```
+{{< clipboard >}}
+<div class="highlight">
+
           ports:
             ...
             - name: metrics
               port: 7001
               serviceMonitor:
                 enabled: true
-```
+
+</div>
+{{< /clipboard >}}
 
 Because `sock-shop` components are  not using the default Coherence metrics port, you must add a MetricsTrait section
 to the ApplicationConfiguration for each component, specifying the metrics port as follows:
-```
+{{< clipboard >}}
+<div class="highlight">
+    
         - trait:
             apiVersion: oam.verrazzano.io/v1alpha1
             kind: MetricsTrait
@@ -153,7 +177,9 @@ to the ApplicationConfiguration for each component, specifying the metrics port 
               name: carts-metrics
             spec:
               port: 7001
-```
+
+</div>
+{{< /clipboard >}}
 
 ### Prometheus configuration
 Prometheus is configured using the Prometheus Operator to scrape application targets.  During application deployment,
@@ -163,50 +189,58 @@ the application is deleted, Verrazzano removes the Service Monitors so that metr
 Here is an example of the `sock-shop` Prometheus Service Monitor resource for `catalog-coh` in the application namespace.  
 Notice that services with certain labels are targeted.  Prometheus Operator will find the Service Monitor and
 generate the scrape configuration to be used by Prometheus.
-```
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  ....
-  name: catalog-coh-metrics
-  namespace: sockshop
-  ....
-spec:
-  endpoints:
-  - bearerTokenSecret:
-      key: ""
-    port: metrics
-    relabelings:
-    - action: labeldrop
-      regex: (endpoint|instance|job|service)
-  namespaceSelector: {}
-  selector:
-    matchLabels:
-      coherenceCluster: SockShop
-      coherenceComponent: coherence-service
-      coherenceDeployment: catalog-coh
-      coherencePort: metrics
-      coherenceRole: Catalog
-```
+{{< clipboard >}}
+<div class="highlight">
+
+    apiVersion: monitoring.coreos.com/v1
+    kind: ServiceMonitor
+    metadata:
+      ....
+      name: catalog-coh-metrics
+      namespace: sockshop
+      ....
+    spec:
+      endpoints:
+      - bearerTokenSecret:
+          key: ""
+        port: metrics
+        relabelings:
+        - action: labeldrop
+          regex: (endpoint|instance|job|service)
+      namespaceSelector: {}
+      selector:
+        matchLabels:
+          coherenceCluster: SockShop
+          coherenceComponent: coherence-service
+          coherenceDeployment: catalog-coh
+          coherencePort: metrics
+          coherenceRole: Catalog
+
+</div>
+{{< /clipboard >}}
 
 Here are the labels on the corresponding `catalog-coh-metrics` service.  
-```
-kind: Service
-metadata:
-  labels:
-    coherenceCluster: SockShop
-    coherenceComponent: coherence-service
-    coherenceDeployment: catalog-coh
-    coherencePort: metrics
-    coherenceRole: Catalog
-spec:
-  ports:
-  - name: metrics
-    port: 9612
-    protocol: TCP
-    targetPort: 9612
-  ....
-```
+{{< clipboard >}}
+<div class="highlight">
+    
+    kind: Service
+    metadata:
+      labels:
+        coherenceCluster: SockShop
+        coherenceComponent: coherence-service
+        coherenceDeployment: catalog-coh
+        coherencePort: metrics
+        coherenceRole: Catalog
+    spec:
+      ports:
+      - name: metrics
+        port: 9612
+        protocol: TCP
+        targetPort: 9612
+      ....
+
+</div>
+{{< /clipboard >}}
 
 ## Istio integration
 Verrazzano ensures that Coherence clusters are not included in an Istio mesh, even if the namespace has the `istio-injection: enabled` label.
@@ -214,14 +248,18 @@ This is done by adding the `sidecar.istio.io/inject: "false"` annotation to the 
 created with that label.  However, other application components in the mesh using mutual TLS authentication (mTLS)  may need to communicate with Coherence.  To handle this case,
 Verrazzano automatically creates an Istio DestinationRule to disable TLS for the Coherence port.  This policy disables mTLS for port
 9000, which happens to be used as a Coherence `extend` port for Bob's Books.
-```
-  trafficPolicy:
-    portLevelSettings:
-    - port:
-        number: 9000
-      tls: {}
-   ...
-```
+{{< clipboard >}}
+<div class="highlight">
+
+      trafficPolicy:
+        portLevelSettings:
+        - port:
+            number: 9000
+          tls: {}
+       ...
+
+</div>
+{{< /clipboard >}}
 
 Currently, port 9000 is the only port where TLS is disabled, so you need to use this as the Coherence `extend` port if
 other components in the mesh access Coherence over the `extend` protocol.

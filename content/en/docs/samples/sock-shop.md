@@ -23,17 +23,28 @@ It uses OAM resources to define the application deployment:
 * [Coherence and Spring](https://github.com/oracle/coherence-spring-sockshop-sample) in the `spring` subdirectory.
 
 {{< alert title="NOTE" color="primary" >}}To run this application in the default namespace:
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl label namespace default verrazzano-managed=true
    ```
+</div>
+{{< /clipboard >}}
+
    If you chose the default namespace, you can skip Step 1 and ignore the `-n` option in the rest of the commands.
 {{< /alert >}}
 
 1. Create a namespace for the Sock Shop application and add a label identifying the namespace as managed by Verrazzano.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl create namespace sockshop
    $ kubectl label namespace sockshop verrazzano-managed=true
    ```
+</div>
+{{< /clipboard >}}
 
 1. To deploy the application, apply the Sock Shop OAM resources.  Choose to deploy either the `helidon`, `micronaut`, or `spring` variant.
 
@@ -41,37 +52,59 @@ It uses OAM resources to define the application deployment:
    {{< tab tabName="Helidon" >}}
    <br>
 
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl apply -f {{< release_source_url raw=true path=examples/sock-shop/helidon/sock-shop-comp.yaml >}} -n sockshop
    $ kubectl apply -f {{< release_source_url raw=true path=examples/sock-shop/helidon/sock-shop-app.yaml >}} -n sockshop
    ```
+</div>
+{{< /clipboard >}}
+
    {{< /tab >}}
    {{< tab tabName="Micronaut" >}}
    <br>
+   
+{{< clipboard >}}
+<div class="highlight">
 
    ```
    $ kubectl apply -f {{< release_source_url raw=true path=examples/sock-shop/micronaut/sock-shop-comp.yaml >}} -n sockshop
    $ kubectl apply -f {{< release_source_url raw=true path=examples/sock-shop/micronaut/sock-shop-app.yaml >}} -n sockshop
    ```
+</div>
+{{< /clipboard >}}
+
    {{< /tab >}}
    {{< tab tabName="Spring" >}}
    <br>
+
+{{< clipboard >}}
+<div class="highlight">
 
    ```
    $ kubectl apply -f {{< release_source_url raw=true path=examples/sock-shop/spring/sock-shop-comp.yaml >}} -n sockshop
    $ kubectl apply -f {{< release_source_url raw=true path=examples/sock-shop/spring/sock-shop-app.yaml >}} -n sockshop
    ```
+</div>
+{{< /clipboard >}}
+
    {{< /tab >}}
    {{< /tabs >}}
 
 1. Wait for the Sock Shop application to be ready.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl wait \
       --for=condition=Ready pods \
       --all -n sockshop \
       --timeout=300s
    ```
-
+</div>
+{{< /clipboard >}}
 
 ## Explore the application
 
@@ -95,6 +128,9 @@ ports, and such.
 Follow these steps to test the endpoints.
 
 1. Get the generated host name for the application.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ HOST=$(kubectl get gateways.networking.istio.io \
         -n sockshop \
@@ -104,56 +140,68 @@ Follow these steps to test the endpoints.
    # Sample output
    sockshop-appconf.sockshop.11.22.33.44.nip.io
    ```
+</div>
+{{< /clipboard >}}
 
 1. Get the `EXTERNAL_IP` address of the `istio-ingressgateway` service.
-   ```
-   $ ADDRESS=$(kubectl get service \
-        -n istio-system istio-ingressgateway \
-        -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-   $ echo $ADDRESS
+{{< clipboard >}}
+<div class="highlight">
 
-   # Sample output
-   11.22.33.44
+  ```
+ $ ADDRESS=$(kubectl get service \
+      -n istio-system istio-ingressgateway \
+      -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+ $ echo $ADDRESS
+
+ # Sample output
+ 11.22.33.44
    ```   
+</div>
+{{< /clipboard >}}
 
 1. Access the Sock Shop application.
 
    * **Using the command line**
+{{< clipboard >}}
+<div class="highlight">
 
-     ```
-     # Get catalogue
-     $ curl -sk \
-        -X GET \
-        https://${HOST}/catalogue \
-        --resolve ${HOST}:443:${ADDRESS}
+   ```
+   # Get catalogue
+   $ curl -sk \
+      -X GET \
+      https://${HOST}/catalogue \
+      --resolve ${HOST}:443:${ADDRESS}
 
-     # Sample output
-     [{"count":115,"description":"For all those leg lovers out there....", ...}]
+   # Sample output
+   [{"count":115,"description":"For all those leg lovers out there....", ...}]
 
-     # Add a new user (replace values of username and password)
-     $ curl -i \
-        --header "Content-Type: application/json" \
-        --request POST \
-        --data '{"username":"foo","password":"****","email":"foo@example.com","firstName":"foo","lastName":"foo"}' \
-        -k https://${HOST}/register \
-        --resolve ${HOST}:443:${ADDRESS}
+   # Add a new user (replace values of username and password)
+   $ curl -i \
+      --header "Content-Type: application/json" \
+      --request POST \
+      --data '{"username":"foo","password":"****","email":"foo@example.com","firstName":"foo","lastName":"foo"}' \
+      -k https://${HOST}/register \
+      --resolve ${HOST}:443:${ADDRESS}
 
-     # Add an item to the user's cart
-     $ curl -i \
-        --header "Content-Type: application/json" \
-        --request POST \
-        --data '{"itemId": "a0a4f044-b040-410d-8ead-4de0446aec7e","unitPrice": "7.99"}' \
-        -k https://${HOST}/carts/{username}/items \
-        --resolve ${HOST}:443:${ADDRESS}
+   # Add an item to the user's cart
+   $ curl -i \
+      --header "Content-Type: application/json" \
+      --request POST \
+      --data '{"itemId": "a0a4f044-b040-410d-8ead-4de0446aec7e","unitPrice": "7.99"}' \
+      -k https://${HOST}/carts/{username}/items \
+      --resolve ${HOST}:443:${ADDRESS}
 
-     # Get cart items
-     $ curl -i \
-        -k https://${HOST}/carts/{username}/items \
-        --resolve ${HOST}:443:${ADDRESS}
+   # Get cart items
+   $ curl -i \
+      -k https://${HOST}/carts/{username}/items \
+      --resolve ${HOST}:443:${ADDRESS}
 
-     # Sample output
-     [{"itemId":"a0a4f044-b040-410d-8ead-4de0446aec7e","quantity":1,"unitPrice":7.99}]
-     ```
+   # Sample output
+   [{"itemId":"a0a4f044-b040-410d-8ead-4de0446aec7e","quantity":1,"unitPrice":7.99}]
+   ```
+</div>
+{{< /clipboard >}}
+
      If you are using `nip.io`, then you do not need to include `--resolve`.
 
    * **Local testing with a browser**
@@ -185,14 +233,22 @@ You can access them according to the directions [here]({{< relref "/docs/access/
 ## Verify the deployed application
 
 1. Verify that the application configuration, component, workload, and ingress trait all exist.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl get ApplicationConfiguration -n sockshop
    $ kubectl get Component -n sockshop
    $ kubectl get VerrazzanoCoherenceWorkload -n sockshop
    $ kubectl get IngressTrait -n sockshop
    ```   
+</div>
+{{< /clipboard >}}
 
 1. Verify that the Sock Shop service pods are successfully created and transition to the `READY` state. Note that this may take a few minutes and that you may see some of the services terminate and restart.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
     $ kubectl get pods -n sockshop
 
@@ -205,6 +261,9 @@ You can access them according to the directions [here]({{< relref "/docs/access/
     shipping-coh-0   1/1     Running       0          36s
     users-coh-0      1/1     Running       0          35s
    ```
+</div>
+{{< /clipboard >}}
+
 ## Undeploy the application
 
 1. To undeploy the application, delete the Sock Shop OAM resources.  Choose to undeploy either the `helidon`, `micronaut`, or `spring` variant.
@@ -213,31 +272,52 @@ You can access them according to the directions [here]({{< relref "/docs/access/
    {{< tabs tabTotal="3" >}}
    {{< tab tabName="Helidon" >}}
    <br>
+{{< clipboard >}}
+<div class="highlight">
 
    ```
    $ kubectl delete -f {{< release_source_url raw=true path=examples/sock-shop/helidon/sock-shop-comp.yaml >}} -n sockshop
    $ kubectl delete -f {{< release_source_url raw=true path=examples/sock-shop/helidon/sock-shop-app.yaml >}} -n sockshop
    ```
+</div>
+{{< /clipboard >}}
+
    {{< /tab >}}
    {{< tab tabName="Micronaut" >}}
    <br>
+{{< clipboard >}}
+<div class="highlight">
 
    ```
    $ kubectl delete -f {{< release_source_url raw=true path=examples/sock-shop/micronaut/sock-shop-comp.yaml >}} -n sockshop
    $ kubectl delete -f {{< release_source_url raw=true path=examples/sock-shop/micronaut/sock-shop-app.yaml >}} -n sockshop
    ```
+</div>
+{{< /clipboard >}}
+
    {{< /tab >}}
    {{< tab tabName="Spring" >}}
    <br>
+   
+{{< clipboard >}}
+<div class="highlight">
 
    ```
    $ kubectl delete -f {{< release_source_url raw=true path=examples/sock-shop/spring/sock-shop-comp.yaml >}} -n sockshop
    $ kubectl delete -f {{< release_source_url raw=true path=examples/sock-shop/spring/sock-shop-app.yaml >}} -n sockshop
    ```
+</div>
+{{< /clipboard >}}
+
    {{< /tab >}}
    {{< /tabs >}}
 
 2. Delete the namespace `sockshop` after the application pods are terminated.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl delete namespace sockshop
    ```
+</div>
+{{< /clipboard >}}

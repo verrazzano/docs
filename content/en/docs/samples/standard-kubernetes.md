@@ -19,6 +19,9 @@ Install Verrazzano by following the [installation]({{< relref "/docs/setup/insta
 The `oam-kubernetes-runtime` is not installed with privileges that allow it to create the Kubernetes Ingress resource used in this example.
 The following steps create a role that allows Ingress resource creation and binds that role to the `oam-kubernetes-runtime` service account.
 For this example to work, your cluster admin will need to run the following steps to create the ClusterRole and ClusterRoleBinding.
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 $ kubectl apply -f - <<EOF
 apiVersion: rbac.authorization.k8s.io/v1
@@ -54,18 +57,32 @@ subjects:
 EOF
 ```
 
+</div>
+{{< /clipboard >}}
+
+
 ## Deploy the application
 This example provides a web application using a common example application image.
 When accessed, the application returns the configured text.
 
 1. Create the application namespace and add a label identifying the namespace as managed by Verrazzano.
-    ```
+{{< clipboard >}}
+<div class="highlight">
+
+   ```
     $ kubectl create namespace oam-kube
     $ kubectl label namespace oam-kube verrazzano-managed=true istio-injection=enabled
-    ```
+   ```
+
+</div>
+{{< /clipboard >}}
+
 
 1. Create a Component containing a Deployment workload.
-    ```
+{{< clipboard >}}
+<div class="highlight">
+
+   ```
     $ kubectl apply -f - <<EOF
     apiVersion: core.oam.dev/v1alpha2
     kind: Component
@@ -93,10 +110,16 @@ When accessed, the application returns the configured text.
                   args:
                     - "-text=hello"
     EOF
-    ```
+   ```
+
+</div>
+{{< /clipboard >}}
 
 1. Create a Component containing a Service workload.
-    ```
+{{< clipboard >}}
+<div class="highlight">
+
+  ```
     $ kubectl apply -f - <<EOF
     apiVersion: core.oam.dev/v1alpha2
     kind: Component
@@ -115,10 +138,16 @@ When accessed, the application returns the configured text.
           ports:
           - port: 5678 # Default port for image
     EOF
-    ```
+  ```
+
+</div>
+{{< /clipboard >}}
 
 1. Create an ApplicationConfiguration referencing both Components and configuring an ingress trait.
-    ```
+{{< clipboard >}}
+<div class="highlight">
+
+  ```
     $ kubectl apply -f - <<EOF
     apiVersion: core.oam.dev/v1alpha2
     kind: ApplicationConfiguration
@@ -147,40 +176,77 @@ When accessed, the application returns the configured text.
                             serviceName: oam-kube-svc
                             servicePort: 5678
     EOF
-    ```
+   ```
+
+</div>
+{{< /clipboard >}}
+
 
 ## Explore the application
 1. Get the host name for the application.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ export HOST=$(kubectl get ingress \
        -n oam-kube oam-kube-ing \
        -o jsonpath='{.spec.rules[0].host}')
    $ echo "HOST=${HOST}"
    ```
+
+</div>
+{{< /clipboard >}}
+
 1. Get the load balancer address of the ingress gateway.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ export LOADBALANCER=$(kubectl get ingress \
        -n oam-kube oam-kube-ing \
        -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
    $ echo "LOADBALANCER=${LOADBALANCER}"
    ```
+
+</div>
+{{< /clipboard >}}
+
 1. Access the application.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ curl http://${HOST}/example --resolve ${HOST}:80:${LOADBALANCER}
 
    # Expected response
    hello
-    ```
+   ```
+
+</div>
+{{< /clipboard >}}
+
 
 ## Undeploy the application
 To undeploy the application, delete the namespace created.
 This will result in the deletion of all explicitly and implicitly created resources in the namespace.
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 $ kubectl delete namespace oam-kube
 ```
 
+</div>
+{{< /clipboard >}}
+
 If desired, the cluster admin also can remove the created ClusterRole and ClusterRoleBinding.
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 $ kubectl delete ClusterRoleBinding oam-kubernetes-runtime-ingresses
 $ kubectl delete ClusterRole oam-kubernetes-runtime-ingresses
 ```
+
+</div>
+{{< /clipboard >}}

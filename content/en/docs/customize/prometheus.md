@@ -10,6 +10,8 @@ Verrazzano installs Prometheus components, including Prometheus Operator and Pro
 [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) Helm chart.
 You can customize the installation configuration using Helm overrides specified in the
 Verrazzano custom resource. For example, the following Verrazzano custom resource overrides the number of Prometheus replicas.
+{{< clipboard >}}
+<div class="highlight">
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -26,7 +28,12 @@ spec:
               prometheusSpec:
                 replicas: 3
 ```
+</div>
+{{< /clipboard >}}
+
 To enable Alertmanager, use the following Verrazzano custom resource:
+{{< clipboard >}}
+<div class="highlight">
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -46,6 +53,9 @@ spec:
                   annotations:
                     sidecar.istio.io/inject: "false"
 ```
+
+</div>
+{{< /clipboard >}}
 
 For more information about setting component overrides, see [Customizing the Chart Before Installing](https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing).
 

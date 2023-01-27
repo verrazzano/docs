@@ -79,6 +79,8 @@ You can override the default role bindings that are created for system and proje
 ### Override system role bindings
 
 To override the set of subjects that are bound to Verrazzano (and Kubernetes) roles during installation, add the Subjects to the Verrazzano CR you use to install Verrazzano, as shown in the following example:
+{{< clipboard >}}
+<div class="highlight">
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -97,6 +99,8 @@ spec:
   ...
 ```
 
+</div>
+{{< /clipboard >}}
 You can specify multiple subjects for both admin and monitor roles. You can also specify a subject or subjects for one role, but not the other. If no subjects are specified for a role, then the default binding subjects will be used.
 
 ### Override project role bindings
@@ -104,6 +108,8 @@ You can specify multiple subjects for both admin and monitor roles. You can also
 To override the set of subjects that are bound to Verrazzano (and Kubernetes) roles for a project, add the Subjects to the VerrazzanoProject CR for the project, as shown in the following example.
 
 Note that the generated role bindings will be updated if you update the VerrazzanoProject CR and change the subjects specified for either role.
+{{< clipboard >}}
+<div class="highlight">
 
 ```
 apiVersion: clusters.verrazzano.io/v1beta1
@@ -122,4 +128,6 @@ spec:
   ...
 ```
 
+</div>
+{{< /clipboard >}}
 As with the system role bindings, you can specify multiple subjects for both project-admin and project-monitor roles. You can also specify a subject or subjects for one role, but not the other. If no subjects are specified for a role, then the default binding subjects will be used.

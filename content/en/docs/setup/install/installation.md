@@ -57,7 +57,10 @@ To use other DNS options, see [Customizing DNS]({{< relref "/docs/customize/dns"
 To create a Verrazzano installation as described in the previous section, run the following commands.
 
 1. Install Verrazzano with its `dev` profile.
-    ```
+{{< clipboard >}}
+<div class="highlight">
+
+  ```
     $ vz install -f - <<EOF
     apiVersion: install.verrazzano.io/v1beta1
     kind: Verrazzano
@@ -76,8 +79,12 @@ To create a Verrazzano installation as described in the previous section, run th
               requests:
                 storage: 2Gi
     EOF
-    ```
-    This command installs the Verrazzano platform operator and applies the Verrazzano custom resource.
+   ```
+</div>
+{{< /clipboard >}}
+
+
+   This command installs the Verrazzano platform operator and applies the Verrazzano custom resource.
 
 2. Wait for the installation to complete.
    Installation logs will be streamed to the command window until the installation has completed
@@ -98,29 +105,44 @@ custom resource, you can install, uninstall, and upgrade Verrazzano installation
 To install the Verrazzano platform operator:
 
 1. Deploy the Verrazzano platform operator.
+{{< clipboard >}}
+<div class="highlight">
 
-    ```
-    $ kubectl apply -f {{<release_asset_operator_url verrazzano-platform-operator.yaml>}}
-    ```
+   ```
+   $ kubectl apply -f {{<release_asset_operator_url verrazzano-platform-operator.yaml>}}
+   ```
+</div>
+{{< /clipboard >}}
 
-1. Wait for the deployment to complete.
+2. Wait for the deployment to complete.
 
-    ```
-    $ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
+{{< clipboard >}}
+<div class="highlight">
 
-    # Expected response
-    deployment "verrazzano-platform-operator" successfully rolled out
-    ```
+   ```
+   $ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
+   ```
+   ```
+   # Expected response
+   deployment "verrazzano-platform-operator" successfully rolled out
+   ```
+</div>
+{{< /clipboard >}}
 
-1. Confirm that the operator pod is correctly defined and running.
+3. Confirm that the operator pod is correctly defined and running.
+{{< clipboard >}}
+<div class="highlight">
 
-    ```
-    $ kubectl -n verrazzano-install get pods
-
+  ```
+   $ kubectl -n verrazzano-install get pods
+   ```
+   ```
     # Sample output
     NAME                                            READY   STATUS    RESTARTS   AGE
     verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
-    ```
+   ```
+</div>
+{{< /clipboard >}}
 
 ## Perform the installation
 
@@ -144,6 +166,9 @@ To use other DNS options, see [Customzing DNS]({{< relref "/docs/customize/dns" 
 
 To create a Verrazzano installation as described in the previous section, run the following commands.
 
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 $ kubectl apply -f - <<EOF
 apiVersion: install.verrazzano.io/v1beta1
@@ -157,11 +182,16 @@ $ kubectl wait \
     --timeout=20m \
     --for=condition=InstallComplete verrazzano/example-verrazzano
 ```
+</div>
+{{< /clipboard >}}
 
 To use a different profile with the previous example, set the `VZ_PROFILE` environment variable to the name of the profile
 you want to install.
 
 If an error occurs, check the log output of the installation. You can view the logs with the following command.
+
+{{< clipboard >}}
+<div class="highlight">
 
 ```
 $ kubectl logs -n verrazzano-install \
@@ -171,6 +201,9 @@ $ kubectl logs -n verrazzano-install \
     -o jsonpath="{.items[0].metadata.name}") | grep '^{.*}$' \
     | jq -r '."@timestamp" as $timestamp | "\($timestamp) \(.level) \(.message)"'
 ```
+</div>
+{{< /clipboard >}}
+
 {{< /tab >}}
 {{< /tabs >}}
 
@@ -178,6 +211,9 @@ $ kubectl logs -n verrazzano-install \
 ## Verify the installation
 
 Verrazzano installs multiple objects in multiple namespaces. In the `verrazzano-system` namespaces, all the pods in the `Running` state, does not guarantee, but likely indicates that Verrazzano is up and running.
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 $ kubectl get pods -n verrazzano-system
 
@@ -196,6 +232,8 @@ vmi-system-kiali-5949966fb8-465s8                  2/2     Running   0          
 vmi-system-opensearchDashboards-86b894d8f6-q4vb5   2/2     Running   0          45m
 weblogic-operator-646756c75c-hgz6j                 2/2     Running   0          49m
 ```
+</div>
+{{< /clipboard >}}
 
 For installation troubleshooting help, see the [Analysis Advice]({{< relref "/docs/troubleshooting/diagnostictools/analysisadvice/" >}}).
 

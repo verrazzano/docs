@@ -23,6 +23,8 @@ To specify an installation profile when installing Verrazzano, set the profile n
 Verrazzano custom resource.
 
 For example, to use the `dev` profile:
+{{< clipboard >}}
+<div class="highlight">
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -33,6 +35,9 @@ spec:
   profile: dev
 ```
 
+</div>
+{{< /clipboard >}}
+
 To use a different profile, replace `dev` with `prod` or `managed-cluster`.
 
 ## Customize an installation profile
@@ -40,6 +45,8 @@ To use a different profile, replace `dev` with `prod` or `managed-cluster`.
 You can override the profile settings for any component regardless of the profile.  The following example
 uses a customized `dev` profile to configure a small 8 Gi persistent volume for the MySQL instance used by Keycloak to
 provide more stability for the Keycloak service.
+{{< clipboard >}}
+<div class="highlight">
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -62,6 +69,9 @@ spec:
         requests:
           storage: 8Gi
 ```
+
+</div>
+{{< /clipboard >}}
 
 For details on how to customize Verrazzano components, see [Customize an Installation]({{< relref "/docs/customize" >}}).
 

@@ -31,6 +31,9 @@ with the ingress and egress rules.  For example, the following policy applies to
 port 8775 and from Prometheus on port 15090.  No other Pods can reach those ports or any other ports of the
 Verrazzano API Pod.  Notice that namespace selectors need to be used; the NetworkPolicy resource does not support
 specifying the namespace name.
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -61,6 +64,9 @@ spec:
     - port: 15090
       protocol: TCP
 ```
+
+</div>
+{{< /clipboard >}}
 
 The following table shows all of the ingresses that allow network traffic into system components.
 The ports shown are Pod ports, which is what NetworkPolicies require.
@@ -209,6 +215,9 @@ will use mTLS, with the exception of Coherence clusters, which are not in the me
 ingress gateway and mesh sidecars use mTLS, and the same is true between the proxy sidecars and the egress gateway.   
 
 Verrazzano sets up mTLS during installation with the PeerAuthentication resource as follows:
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 apiVersion: v1
 items:
@@ -219,6 +228,10 @@ items:
     mtls:
       mode: STRICT
 ```
+
+</div>
+{{< /clipboard >}}
+
 ## TLS
 TLS is used by external clients to access the cluster, both through the NGINX Ingress Controller and the Istio ingress gateway.
 The certificate used by these TLS connections vary; see [Verrazzano security]({{< relref "/docs/security/_index.md" >}}) for details.
@@ -323,6 +336,9 @@ namespace to disable mTLS for the Coherence extend port `9000`.  This allows a s
 extend proxy.  For an example, see [Bobs Books]( {{< release_source_url path=examples/bobs-books >}} ).
 
 Here is an example of a DestinationRule created for the Bob's Books application which includes a Coherence cluster.
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 API Version:  networking.istio.io/v1beta1
 Kind:         DestinationRule
@@ -337,6 +353,9 @@ Spec:
     Tls:
       Mode:  ISTIO_MUTUAL
 ```
+
+</div>
+{{< /clipboard >}}
 
 ## Istio access control
 Istio lets you control access to your workload in the mesh using the AuthorizationPolicy resource. This lets you
@@ -353,6 +372,9 @@ Verrazzano creates the policy in the application namespace and configures it to 
 This prevents other Pods in the cluster from gaining network access to the application Pods.
 Istio uses a service identity to determine the identity of the request's origin; for Kubernetes
 this identity is a service account.  Verrazzano creates a per-application AuthorizationPolicy as follows:
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 AuthorizationPolicy
 apiVersion: security.istio.io/v1beta1
@@ -367,6 +389,9 @@ spec:
     - cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account
     - cluster.local/ns/verrazzano-system/sa/verrazzano-monitoring-operator
 ```
+
+</div>
+{{< /clipboard >}}
 
 ## WebLogic domain access
 For WebLogic applications, the WebLogic Kubernetes Operator must have access to the domain Pods for two reasons.

@@ -31,6 +31,9 @@ If you want to provide your own CA, you must:
 * (Optional) Create your own signing key pair and CA certificate.
 
   For example, you can use the `openssl` CLI to create a key pair for the `nip.io` domain.
+{{< clipboard >}}
+<div class="highlight">
+
   ```
   # Generate a CA private key
   $ openssl genrsa -out tls.key 2048
@@ -38,6 +41,10 @@ If you want to provide your own CA, you must:
   # Create a self-signed certificate, valid for 10yrs with the 'signing' option set
   $ openssl req -x509 -new -nodes -key tls.key -subj "/CN=*.nip.io" -days 3650 -reqexts v3_req -extensions v3_ca -out tls.crt
   ```
+
+</div>
+{{< /clipboard >}}
+
   The output of these commands will be two files, `tls.key` and `tls.crt`, the key and certificate for your signing key pair.
   These files must be named in that manner for the next step.
 
@@ -48,11 +55,16 @@ If you want to provide your own CA, you must:
   You can find more details on providing your own CA, in the cert-manager [CA](https://cert-manager.io/docs/configuration/ca/) documentation.
 
 * Save your signing key pair as a Kubernetes secret.
+{{< clipboard >}}
+<div class="highlight">
 
   ```
   $ kubectl create ns mynamespace
   $ kubectl create secret tls myca --namespace=mynamespace --cert=tls.crt --key=tls.key
   ```
+
+</div>
+{{< /clipboard >}}
 
 * Specify the secret name and namespace location in the Verrazzano custom resource.
 
@@ -63,6 +75,8 @@ If you want to provide your own CA, you must:
   * `spec.components.certManager.certificate.ca.clusterResourceNamespace`
 
 For example, if you created a CA secret named `myca` in the namespace `mynamespace`, you would configure it as shown:
+{{< clipboard >}}
+<div class="highlight">
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -78,6 +92,9 @@ spec:
           secretName: myca
           clusterResourceNamespace: mynamespace
 ```
+
+</div>
+{{< /clipboard >}}
 
 ## Use LetsEncrypt certificates
 
@@ -101,6 +118,8 @@ ACME provider with the following values in the Verrazzano custom resource:
 
 The following example configures Verrazzano to use the LetsEncrypt `production` environment by default, with Oracle Cloud Infrastructure DNS
 for DNS record management.
+{{< clipboard >}}
+<div class="highlight">
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -123,7 +142,12 @@ spec:
         dnsZoneName: example.com
 ```
 
+</div>
+{{< /clipboard >}}
+
 The following example configures Verrazzano to use the LetsEncrypt `staging` environment with Oracle Cloud Infrastructure DNS.
+{{< clipboard >}}
+<div class="highlight">
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -146,6 +170,9 @@ spec:
         dnsZoneOCID: ocid1.dns-zone.oc1.....
         dnsZoneName: example.com
 ```
+
+</div>
+{{< /clipboard >}}
 
 {{< alert title="NOTE" color="warning" >}}
 Certificates issued by the LetsEncrypt `staging` environment are signed by untrusted authorities, similar to

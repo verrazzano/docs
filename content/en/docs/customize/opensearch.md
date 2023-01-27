@@ -150,6 +150,7 @@ define an OpenSearch cluster using node groups.
 The following example overrides the `dev` installation profile, OpenSearch configuration (a single-node cluster with
 1Gi of memory and ephemeral storage) to use a multi-node cluster (three master nodes, and three combination data/ingest nodes) with persistent storage.
 
+{{< clipboard >}}
 ```yaml
 apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
@@ -187,9 +188,12 @@ spec:
         - name: os-ingest
           replicas: 0
 ```
+{{< /clipboard >}}
 
 Listing the pods and persistent volumes in the `verrazzano-system` namespace for the previous configuration
 shows the expected nodes are running with the appropriate data volumes.
+{{< clipboard >}}
+<div class="highlight">
 
 ```
 $ kubectl get pvc,pod -l verrazzano-component=opensearch -n verrazzano-system
@@ -223,8 +227,13 @@ pod/vmi-system-master-2                                2/2     Running    0     
 pod/weblogic-operator-666b548749-lj66t                 2/2     Running    0          7m48s
 ```
 
+</div>
+{{< /clipboard >}}
+
 Running the command `kubectl describe pod -n verrazzano-system vmi-system-data-ingest-0-5485dcd95d-rkhvk` shows the
 requested amount of memory.
+{{< clipboard >}}
+<div class="highlight">
 
 ```
 Containers:
@@ -233,6 +242,9 @@ Containers:
     Requests:
       memory:   1Gi
 ```
+
+</div>
+{{< /clipboard >}}
 
 ## Configure Index State Management policies
 
@@ -249,6 +261,8 @@ automatically pruned every 14 days, and will be rolled over if an index meets at
 - Is three or more days old
 - Contains 1,000 documents or more
 - Is 10 GB in size or larger
+
+{{< clipboard >}}
 
 ```yaml
 apiVersion: install.verrazzano.io/v1beta1
@@ -268,8 +282,10 @@ spec:
             minDocCount: 1000
             minSize: 10Gb
 ```
-
+{{< /clipboard >}}
 The previous Verrazzano custom resource will generate the following ISM policy.
+
+{{< clipboard >}}
 
 ```json
 {
@@ -328,8 +344,12 @@ The previous Verrazzano custom resource will generate the following ISM policy.
 }
 ```
 
+{{< /clipboard >}}
+
 **NOTE:** The ISM policy created using the Verrazzano custom resource contains a minimal set of configurations. To create a more detailed ISM policy,
 you can also use the OpenSearch REST API. To create a policy using the OpenSearch API, do the following:
+
+{{< clipboard >}}
 
 ```bash
 $ PASS=$(kubectl get secret \
@@ -390,13 +410,16 @@ $ curl -ik -X PUT --user verrazzano:$PASS https://$HOST/_plugins/_ism/policies/p
 }
 EOF
 ```
-
+{{< /clipboard >}}
 To view existing policies, do the following:
+
+{{< clipboard >}}
 
 ```bash
 $ curl -ik \
     --user verrazzano:$PASS https://$HOST/_plugins/_ism/policies
 ```
+{{< /clipboard >}}
 
 ## Default ISM policies
 To help you manage issues, such as low disk space, the following two ISM policies are created by default:
@@ -430,6 +453,9 @@ Verrazzano supports OpenSearch and OpenSearch Dashboard plug-in installation by 
 To install plug-ins for OpenSearch, you define the field [spec.components.opensearch.plugins](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) in the Verrazzano custom resource.
 
 The following Verrazzano custom resource example installs the `analysis-stempel` and `opensearch-anomaly-detection` plug-ins for OpenSearch:
+
+{{< clipboard >}}
+
 ```yaml
 apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
@@ -445,31 +471,37 @@ spec:
           - analysis-stempel
           - https://repo1.maven.org/maven2/org/opensearch/plugin/opensearch-anomaly-detection/2.2.0.0/opensearch-anomaly-detection-2.2.0.0.zip
 ```
+{{< /clipboard >}}
 There are three ways to define a plug-in in the `plugins.installList`:
 - [Define a plug-in by name](https://opensearch.org/docs/latest/opensearch/install/plugins#install-a-plugin-by-name):
 
   There are some pre-built [additional plug-ins](https://opensearch.org/docs/latest/opensearch/install/plugins#additional-plugins) that you can install by name.
+  {{< clipboard >}}
 
   ```yaml
   installList:
           - analysis-icu
   ```
+  {{< /clipboard >}}
 - [Define a plug-in from a remote ZIP file](https://opensearch.org/docs/latest/opensearch/install/plugins#install-a-plugin-from-a-zip-file):
 
   Provide the URL to a remote ZIP file that contains the required plug-in.
+  {{< clipboard >}}
 
   ```yaml
   installList:
           - https://repo1.maven.org/maven2/org/opensearch/plugin/opensearch-anomaly-detection/2.2.0.0/opensearch-anomaly-detection-2.2.0.0.zip
   ```
+  {{< /clipboard >}}
 - [Define a plug-in using Maven coordinates](https://opensearch.org/docs/latest/opensearch/install/plugins#install-a-plugin-using-maven-coordinates):
 
   Provide the Maven coordinates for the available artifacts and versions hosted on [Maven Central](https://search.maven.org/search?q=org.opensearch.plugin).
-
+  {{< clipboard >}}
   ```yaml
   installList:
           - org.opensearch.plugin:opensearch-anomaly-detection:2.2.0.0
   ```
+  {{< /clipboard >}}
 {{< alert title="NOTE" color="warning" >}}
  - Your environment must be able to connect to the Internet to access the provided plug-in URL or [Maven Central](https://search.maven.org/search?q=org.opensearch.plugin) to install the plug-in. If there is any error during plug-in installation, then the OS pods (one per deployment) will go into the CrashLoopBackOff state. Check the logs for the exact reason of the failure. In the case of an Internet issue, you might see SocketException or UnknownHostException exceptions in the logs. To resolve this issue, make sure that the pods are connected to the Internet.
  - Adding a new plug-in in the `plugins.installList` or removing a plug-in from the `plugins.installList` will result in restarting the OpenSearch related pods.
@@ -479,6 +511,7 @@ There are three ways to define a plug-in in the `plugins.installList`:
 For OpenSearch Dashboard, you can provide the plug-ins by defining the field [spec.components.opensearch-dashboards.plugins](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.v1beta1.OpenSearchDashboardsComponent) in the Verrazzano custom resource.
 
 Here is a Verrazzano custom resource example to install plug-ins for the OpenSearch Dashboards:
+{{< clipboard >}}
 ```yaml
 apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
@@ -493,3 +526,4 @@ spec:
         installList:
           - <URL to OpenSearch Dashboard plugin ZIP file>
 ```
+{{< /clipboard >}}

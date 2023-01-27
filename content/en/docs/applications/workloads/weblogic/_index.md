@@ -21,6 +21,7 @@ In Verrazzano, WebLogic workloads are specified as a [VerrazzanoWebLogicWorkload
 
 
 The following is an example WebLogic OAM Component.
+{{< clipboard >}}
 
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
@@ -39,6 +40,8 @@ spec:
            omainHome: /u01/domains/tododomain          …
 
 ```
+
+{{< /clipboard >}}
 
 
 ## Verrazzano application operator
@@ -75,6 +78,7 @@ The Envoy proxy sidecar exists in front of workloads for each service providing 
 
 
 If the namespace is labeled `istio-injection=enabled`, then Istio puts the WebLogic domain in the Istio mesh. You should label all the namespaces `istio-injection=enabled` where the WebLogic domain is to be created, or WebLogic domain creation will fail. Also, you can label the namespaces when using `VerrazzanoProject`, which by default, assigns the label to all the namespaces associated with the project. In the WebLogic Domain CR, the Verrazzano application operator sets the Istio enabled field.
+{{< clipboard >}}
 
 ```yaml
 apiVersion: v1
@@ -87,6 +91,7 @@ items:
       istio:
         enabled: true
 ```
+{{< /clipboard >}}
 
 ### Istio mesh ingress and egress
 
@@ -100,6 +105,7 @@ The Istio Gateway resource describes a proxy providing ingress to the Kubernetes
 
 
 Example of an Istio `Gateway` resource
+{{< clipboard >}}
 
 ```yaml
 apiVersion: networking.istio.io/v1beta1
@@ -120,9 +126,11 @@ apiVersion: networking.istio.io/v1beta1
         mode: SIMPLE #Terminate TLS
 
 ```
-
+{{< /clipboard >}}
 
 Example of an Istio `VirtualService` resource
+
+{{< clipboard >}}
 
 ```yaml
 apiVersion: networking.istio.io/v1beta1
@@ -144,6 +152,7 @@ apiVersion: networking.istio.io/v1beta1
             number: 7001
 
 ```
+{{< /clipboard >}}
 
 #### Istio ingress and routing for multiple WebLogic domains
 
@@ -157,6 +166,7 @@ The Istio `AuthorizationPolicy` resource specifies access controls for WebLogic 
 
 
 Example Istio authorization policy
+{{< clipboard >}}
 
 ```yaml
 apiVersion: security.istio.io/v1beta1
@@ -176,6 +186,7 @@ spec:
       verrazzano.io/istio: todo-appconf
 
 ```
+{{< /clipboard >}}
 
 ## WebLogic metrics
 
@@ -188,6 +199,8 @@ If the trait doesn’t exist, Verrazzano will inject the `MetricsTrait` into the
 ### AppConfig default injection
 
 Review the following example `MetricsTrait` from the Todo List `ApplicationConfiguration`. If it's missing from `ApplicationConfiguration`, Verrazzano will inject the default `MetricsTrait`.
+
+{{< clipboard >}}
 
 ```yaml
 kind: ApplicationConfiguration
@@ -205,9 +218,11 @@ spec:
   …
 
 ```
+{{< /clipboard >}}
 ### Monitoring Exporter Component
 
 Review the following example `monitoringExporter` configuration in the OAM Component.
+{{< clipboard >}}
 
 ```yaml
 workload:
@@ -225,7 +240,7 @@ monitoringExporter:
        prefix: wls_server_
 …
 ```
-
+{{< /clipboard >}}
 ### Pod annotations
 
 The following annotations can be used for enabling metrics on pods:
@@ -234,6 +249,8 @@ The following annotations can be used for enabling metrics on pods:
 - `prometheus.io/metricsPort: ”8080"` - Specifies metrics scraping port.
 
 Example:
+
+{{< clipboard >}}
 
 ```yaml
 apiVersion: v1
@@ -245,7 +262,7 @@ metadata:
     prometheus.io/scrape: "true"
 
 ```
-
+{{< /clipboard >}}
 ## Logging
 
 WebLogic logs are sent to OpenSearch, which is installed in the Verrazzano cluster. The Fluentd sidecar is injected into each WebLogic pod to send server logs to stdout. The Fluentd `DaemonSet` in the `verrazzano-system` namespace sends logs to OpenSearch. In OpenSearch, logs are indexed by namespace.
@@ -292,7 +309,8 @@ Step 2. Create a WebLogic resource ConfigMap.
 
 Step 3. Configure the WebLogic domain to use the WebLogic resource ConfigMap.
    - You can configure the ConfigMap, containing the resource information for the JDBCSystemResource, in the configuration section of the VerrazzanoWebLogicWorkload component of the WebLogic domain.
-
+     {{< clipboard >}}
+   - 
 ```yaml
 ...
     configuration:
@@ -302,12 +320,13 @@ Step 3. Configure the WebLogic domain to use the WebLogic resource ConfigMap.
             domainType: WLS
 ...
 ```
-
+{{< /clipboard >}}
 For more details, see the [ToDo List]({{< relref "/docs/samples/todo-list.md" >}}) example application configuration.
 
 ## Ingresses
 
 To access the endpoints for a Java EE application deployed as part of a VerrazzanoWebLogicWorkload component, Verrazzano lets you specify an IngressTrait for the component which is then translated to an [Istio ingress gateway](https://istio.io/latest/docs/reference/config/networking/gateway/) and [VirtualService](https://istio.io/latest/docs/reference/config/networking/virtual-service/). For an example, see the [ToDo List]({{< relref "/docs/samples/todo-list.md" >}}) example application, where the IngressTrait is configured for the application endpoint.
+{{< clipboard >}}
 
 ```yaml
 ...
@@ -323,14 +342,18 @@ To access the endpoints for a Java EE application deployed as part of a Verrazza
 
 ...
 ```
+{{< /clipboard >}}
 
 Then, you can access the endpoint using the Istio gateway, as described in Step 8. [Access the ToDo List application]({{< relref "/docs/samples/todo-list.md" >}}).
+{{< clipboard >}}
+<div class="highlight">
 
-```
-$ HOST=$(kubectl get gateways.networking.istio.io -n todo-list -o jsonpath={.items[0].spec.servers[0].hosts[0]})
-$ ADDRESS=$(kubectl get service -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-$ curl -sk https://${HOST}/todo/ --resolve ${HOST}:443:${ADDRESS}
-```
+    $ HOST=$(kubectl get gateways.networking.istio.io -n todo-list -o jsonpath={.items[0].spec.servers[0].hosts[0]})
+    $ ADDRESS=$(kubectl get service -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    $ curl -sk https://${HOST}/todo/ --resolve ${HOST}:443:${ADDRESS}
+
+</div>
+{{< /clipboard >}}
 
 ## References
 

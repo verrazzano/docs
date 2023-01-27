@@ -21,11 +21,18 @@ As shown in the following diagram, logs written to stdout by a container running
 For components with multiple log streams or that cannot log to stdout, Verrazzano deploys a Fluentd sidecar which parses and translates the log stream.  The resulting log is sent to stdout of the sidecar container and then written to `/var/log/containers` by the kubelet service.
 
 For example, in a WebLogic deployment, `AdminServer.log` is consumed, translated, and written to stdout by the Fluentd sidecar.  You can view these logs using `kubectl` on the container named `fluentd-stdout-sidecar`.
+{{< clipboard >}}
+<div class="highlight">
+
  ```
 $ kubectl logs tododomain-adminserver \
     -n todo-list \
     -c fluentd-stdout-sidecar
 ```
+
+</div>
+{{< /clipboard >}}
+
 
 The Verrazzano Fluentd Docker image comes with these plug-ins:
 
@@ -48,6 +55,9 @@ The Verrazzano Fluentd Docker image also has two local default plug-ins, `kubern
 These plug-ins help to parse Kubernetes management log files.
 
 Here are example use cases for these plug-ins:
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 # ---- fluentd.conf ----
 # kubernetes parser
@@ -74,6 +84,10 @@ Here are example use cases for these plug-ins:
 # ----   EOF      ----
 ```
 
+</div>
+{{< /clipboard >}}
+
+
 For more details, see the [Fluentd plugins](https://github.com/verrazzano/fluentd-kubernetes-daemonset/tree/oracle-build-from-source-v1.14/docker-image/v1.14/oraclelinux-elasticsearch7/plugins) folder.
 
 ## Fluentd DaemonSet
@@ -90,6 +104,9 @@ then its logs will be exported to the `verrazzano-application-myapp` data stream
 Verrazzano creates an OpenSearch cluster as the store and search engine for the logs processed by Fluentd.  Records written by Fluentd can be queried using the OpenSearch REST API.
 
 For example, you can use `curl` to get all of the OpenSearch data streams. First, you must get the password for the `verrazzano` user and the host for the Verrazzano Monitoring Instance (VMI) OpenSearch.
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 $ PASS=$(kubectl get secret \
     --namespace verrazzano-system verrazzano \
@@ -103,7 +120,13 @@ $ curl -ik \
    --user verrazzano:$PASS https://$HOST/_data_stream
 ```
 
+</div>
+{{< /clipboard >}}
+
 To see all of the records for a specific data stream, do the following:
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 $ DATA_STREAM=verrazzano-application-todo-list
 
@@ -111,11 +134,18 @@ $ curl -ik \
     --user verrazzano:$PASS https://$HOST/$DATA_STREAM/_search?q=message:*
 ```
 
+</div>
+{{< /clipboard >}}
+
+
 Verrazzano provides support for [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}}). The production profile (`prod`), which is the default, provides a 3-node OpenSearch and persistent storage for the VMI. The development profile (`dev`) provides a single node OpenSearch and no persistent storage for the VMI. The `managed-cluster` profile does not install OpenSearch or OpenSearch Dashboards in the local cluster; all logs are forwarded to the admin cluster's OpenSearch instance.
 
 If you want the logs sent to an external OpenSearch, instead of the default VMI OpenSearch, specify `opensearchURL` and `opensearchSecret` in the [Fluentd]({{< relref "/docs/reference/API/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.FluentdComponent" >}}) Component configuration in your Verrazzano custom resource.
 
 The following is an example of a Verrazzano custom resource to send the logs to the OpenSearch endpoint `https://external-os.default.172.18.0.231.nip.io`.
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
@@ -127,6 +157,10 @@ spec:
       opensearchURL: https://external-os.default.172.18.0.231.nip.io
       opensearchSecret: external-os-secret
 ```
+
+</div>
+{{< /clipboard >}}
+
 ## OpenSearch Dashboards
 OpenSearch Dashboards is a visualization dashboard for the content indexed on an OpenSearch cluster.  Verrazzano creates a OpenSearch Dashboards deployment to provide a user interface for querying and visualizing the log data collected in OpenSearch.
 
@@ -148,6 +182,8 @@ To install the log rotation example on your cluster, save the snippet to a file 
 
 - Substitue the value of `OPENSEARCH_HOST` with your specific OpenSearch HTTPS endpoint.
 - By default, the CronJob deletes the last 7 days of data. You may customize this by modifying the query in the ConfigMap.
+{{< clipboard >}}
+<div class="highlight">
 
 ```
 apiVersion: batch/v1beta1
@@ -231,3 +267,7 @@ data:
     }
     '
 ```
+
+</div>
+{{< /clipboard >}}
+

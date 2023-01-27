@@ -43,16 +43,26 @@ In one simple step, you can upgrade to a specified version of Verrazzano using t
 1. Update the `Verrazzano` resource to the desired version.
 
    To update to the latest version (default):
+{{< clipboard >}}
+<div class="highlight">
 
    ```
    $ vz upgrade
    ```
+</div>
+{{< /clipboard >}}
 
    To update to a specific version, where `<version>` is the desired version:
+   
+{{< clipboard >}}
+<div class="highlight">
 
    ```
    $ vz upgrade --version <version>
    ```
+</div>
+{{< /clipboard >}}
+
 
 2. Wait for the upgrade to complete.
    Upgrade logs will be streamed to the command window until the upgrade has completed
@@ -75,41 +85,59 @@ In order to upgrade an existing Verrazzano installation, you must first update t
    **NOTE:** If you are using a private container registry, then to update the platform operator, follow the instructions at [Use a Private Registry]({{< relref "/docs/setup/private-registry/private-registry.md" >}}).
 
    To update to the latest version:
+  {{< clipboard >}}
+  <div class="highlight">
 
    ```
    $ kubectl apply -f {{<release_asset_operator_url verrazzano-platform-operator.yaml>}}
    ```
+  </div>
+  {{< /clipboard >}}
+
 
    To update to a specific version, where `<version>` is the desired version:
+{{< clipboard >}}
+<div class="highlight">
 
    ```
    # To update to version v1.4.0:
    $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/<version>/verrazzano-platform-operator.yaml
-
+   ```
+   ```
    # To update to a version prior to v1.4.0:
    $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/<version>/operator.yaml
    ```
+</div>
+{{< /clipboard >}}
 
-
-1. Wait for the deployment to complete.
+2. Wait for the deployment to complete.
+{{< clipboard >}}
+<div class="highlight">
 
    ```
    $ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
-
+   ```
+   ```
    # Expected response
    deployment "verrazzano-platform-operator" successfully rolled out
    ```
+</div>
+{{< /clipboard >}}
 
-1. Confirm that the operator pod is correctly defined and running.
+3. Confirm that the operator pod is correctly defined and running.
+{{< clipboard >}}
+<div class="highlight">
 
    ```
    $ kubectl -n verrazzano-install get pods
-
+   ```
+   ```
    # Sample output
    NAME                                            READY   STATUS    RESTARTS   AGE
    verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
    ```
-
+</div>
+{{< /clipboard >}}
 ### Upgrade Verrazzano
 
 To upgrade the Verrazzano installation, you need to change the version of your installed Verrazzano resource to the version supported by the
@@ -118,10 +146,15 @@ Verrazzano platform operator.
 **NOTE:** You may only change the `version` field during an upgrade; changes to other fields or component configurations are not supported at this time.
 
 In one simple step, you can upgrade to a specified version of Verrazzano using this command.
+{{< clipboard >}}
+<div class="highlight">
 
    ```
    $ kubectl patch vz example-verrazzano -p '{"spec":{"version":"{{<release_version>}}"}}' --type=merge
    ```
+</div>
+{{< /clipboard >}}
+
 Alternatively, you can upgrade the Verrazzano installation using the following steps.
 1. Update the `Verrazzano` resource to the desired version.
 
@@ -136,43 +169,62 @@ Alternatively, you can upgrade the Verrazzano installation using the following s
       a. Edit the YAML file you used to install Verrazzano and set the `version` field to the latest version.
 
       For example, to upgrade to `{{<release_version>}}`, your YAML file should be edited to add or update the `version` field.
+{{< clipboard >}}
 
-      ```yaml
-      apiVersion: install.verrazzano.io/v1beta1
-      kind: Verrazzano
-      metadata:
-        name: example-verrazzano
-      spec:
-        profile: dev
-        version: {{<release_version>}}
-      ```
+  ```yaml
+  apiVersion: install.verrazzano.io/v1beta1
+  kind: Verrazzano
+  metadata:
+    name: example-verrazzano
+  spec:
+     profile: dev
+     version: {{<release_version>}}
+  ```
 
-      Then, apply the resource to the cluster (if you have not edited the resource in-place using `kubectl edit`).
+{{< /clipboard >}}
 
-      ```
-      $ kubectl apply -f example-verrazzano.yaml
-      ```
+   Then, apply the resource to the cluster (if you have not edited the resource in-place using `kubectl edit`).
 
-      b. Edit the `Verrazzano` resource directly using `kubectl` and set the `version` field directly, for example:
+{{< clipboard >}}
+<div class="highlight">
 
-      ```
-      $ kubectl edit verrazzano example-verrazzano
-      # In the resource editor, add or update the version field to "version: {{<release_version>}}", then save.
-      ```
+   ```
+   $ kubectl apply -f example-verrazzano.yaml
+   ```
+</div>
+{{< /clipboard >}}
 
+b. Edit the `Verrazzano` resource directly using `kubectl` and set the `version` field directly, for example:
+{{< clipboard >}}
+<div class="highlight">
+
+   ```
+   $ kubectl edit verrazzano example-verrazzano
+   # In the resource editor, add or update the version field to "version: {{<release_version>}}", then save.
+   ```
+</div>
+{{< /clipboard >}}
 1. Wait for the upgrade to complete.
+{{< clipboard >}}
+<div class="highlight">
 
    ```
    $ kubectl wait \
        --timeout=30m \
        --for=condition=UpgradeComplete verrazzano/example-verrazzano
    ```
+</div>
+{{< /clipboard >}}
+
 {{< /tab >}}
 {{< /tabs >}}
 ## Verify the upgrade
 
 Check that all the pods in the `verrazzano-system` namespace are in the `Running` state.  While the upgrade is in progress,
 you may see some pods terminating and restarting as newer versions of components are applied, for example:
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 $ kubectl get pods -n verrazzano-system
 
@@ -193,8 +245,13 @@ vmi-system-kiali-574c6dd94d-f49jv                  2/2     Running   0          
 vmi-system-opensearchDashboards-77f8d998f4-zzvqr   2/2     Running   0          38m
 weblogic-operator-7b447fdb47-wlw64                 2/2     Running   0          42m
 ```
+</div>
+{{< /clipboard >}}
 
 Check that the pods in your application namespaces are ready, for example:
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 $ kubectl get pods -n todo-list
 
@@ -203,6 +260,8 @@ NAME                     READY   STATUS    RESTARTS   AGE
 mysql-67575d8954-d4vkm   2/2     Running   0          39h
 tododomain-adminserver   4/4     Running   0          39h
 ```
+</div>
+{{< /clipboard >}}
 
 ## Upgrade failures
 
@@ -221,6 +280,8 @@ version of the Verrazzano platform operator.  The following steps illustrate thi
 
 
 To see detailed progress of the upgrade, view the logs with the following command.
+{{< clipboard >}}
+<div class="highlight">
 
 ```
 $ kubectl logs -n verrazzano-install \
@@ -230,3 +291,5 @@ $ kubectl logs -n verrazzano-install \
     -o jsonpath="{.items[0].metadata.name}") | grep '^{.*}$' \
     | jq -r '."@timestamp" as $timestamp | "\($timestamp) \(.level) \(.message)"'
 ```
+</div>
+{{< /clipboard >}}

@@ -32,10 +32,15 @@ demonstrates creating OAM resources that define an application as well as the st
 - Access to the application's image in GitHub Container Registry.
 
    Confirm access using this command to pull the example's Docker image:
+{{< clipboard >}}
+<div class="highlight">
 
    ```
    $ docker pull ghcr.io/verrazzano/example-helidon-greet-app-v1:0.1.12-1-20210218160249-d8db8f3
    ```
+
+</div>
+{{< /clipboard >}}
 
 ## Application development
 This guide uses an example application which was written with Java and [Helidon](https://helidon.io).
@@ -53,6 +58,8 @@ The example application is a JAX-RS service and implements the following REST en
 The following code shows a portion of the application's implementation.
 The Verrazzano examples repository contains the complete [implementation](https://github.com/verrazzano/examples/blob/master/hello-helidon/helidon-app-greet-v1/src/main/java/io/helidon/examples/quickstart/mp/GreetResource.java).
 An important detail here is that the application contains a single resource exposed on path `/greet`.
+
+{{< clipboard >}}
 
 ```java
 package io.helidon.examples.quickstart.mp;
@@ -84,11 +91,14 @@ public class GreetResource {
 
 }
 ```
+{{< /clipboard >}}
 
 A Dockerfile is used to package the completed application JAR file into a Docker image.
 The following code shows a portion of the Dockerfile.
 The Verrazzano examples repository contains the complete [Dockerfile](https://github.com/verrazzano/examples/blob/master/hello-helidon/helidon-app-greet-v1/Dockerfile).
 Note that the Docker container exposes a single port 8080.
+
+{{< clipboard >}}
 
 ```dockerfile
 FROM ghcr.io/oracle/oraclelinux:7-slim
@@ -96,6 +106,7 @@ FROM ghcr.io/oracle/oraclelinux:7-slim
 CMD java -cp /app/helidon-quickstart-mp.jar:/app/* io.helidon.examples.quickstart.mp.Main
 EXPOSE 8080
 ```
+{{< /clipboard >}}
 
 ## Application deployment
 
@@ -112,6 +123,7 @@ describing an application's general composition and environment requirements.
 The following code shows the component for the example application used in this guide.
 This resource describes a component which is implemented by a single Docker image containing a Helidon application exposing a single endpoint.
 
+{{< clipboard >}}
 
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
@@ -140,6 +152,7 @@ spec:
                   name: http
 
 ```
+{{< /clipboard >}}
 
 A brief description of each field of the component:
 
@@ -162,6 +175,7 @@ This resource specifies the deployment of the application to the `hello-helidon`
 specified using traits, or runtime overlays that augment the workload.  For example, the ingress trait specifies the
 ingress host and path, while the metrics trait optionally provides the Prometheus scraper used to obtain the
 application related metrics.  If no metrics trait is specified, the Verrazzano-supplied Prometheus component is used by default.
+{{< clipboard >}}
 
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
@@ -192,6 +206,7 @@ spec:
                     - path: "/greet"
                       pathType: Prefix
 ```
+{{< /clipboard >}}
 
 A brief description of each field in the application configuration:
 
@@ -215,27 +230,43 @@ Steps similar to the `apply` steps would be used to deploy any application to Ve
 
 1. Create a namespace for the example application and add labels identifying the namespace as managed by Verrazzano
 and enabled for Istio.
+{{< clipboard >}}
+<div class="highlight">
 
    ```
    $ kubectl create namespace hello-helidon
    $ kubectl label namespace hello-helidon verrazzano-managed=true istio-injection=enabled
    ```
 
+</div>
+{{< /clipboard >}}
+
+
 1. Apply the application's component.
+{{< clipboard >}}
+<div class="highlight">
 
    ```
    $ kubectl apply -f {{< release_source_url raw=true path="examples/hello-helidon/hello-helidon-comp.yaml" >}} -n hello-helidon
    ```
+
+</div>
+{{< /clipboard >}}
 
    This step causes the validation and creation of the Component resource.
    No other resources or objects are created as a result.
    Application configurations applied in the future may reference this Component resource.
 
 1. Apply the application configuration.
+{{< clipboard >}}
+<div class="highlight">
 
    ```
    $ kubectl apply -f {{< release_source_url raw=true path="examples/hello-helidon/hello-helidon-app.yaml" >}} -n hello-helidon
    ```
+
+</div>
+{{< /clipboard >}}
 
    This step causes the validation and creation of the application configuration resource.
    This operation triggers the activation of a number of Verrazzano operators.
@@ -247,19 +278,31 @@ and enabled for Istio.
    After deploying the application, configure DNS to resolve the application's
    ingress DNS name to the application's load balancer IP address.
    The generated host name is obtained by querying Kubernetes for the gateway:
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-gw \
        -n hello-helidon \
        -o jsonpath='{.spec.servers[0].hosts[0]}'
    ```
+
+</div>
+{{< /clipboard >}}
+
    The load balancer IP is obtained by querying Kubernetes for the
    Istio ingress gateway status:
+{{< clipboard >}}
+<div class="highlight">
 
    ```
    $ kubectl get service \
        -n istio-system istio-ingressgateway \
        -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
    ```
+
+</div>
+{{< /clipboard >}}
 
    DNS configuration steps are outside the scope of this guide. For DNS infrastructure that can be configured and used, see
    the [Oracle Cloud Infrastructure DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/gettingstarted.htm) documentation.
@@ -276,6 +319,8 @@ and enabled for Istio.
   Those have been omitted from the lists.
 
 1. Verify the Helidon application pod is running.
+{{< clipboard >}}
+<div class="highlight">
 
    ```
    $ kubectl get pods -n hello-helidon -l app=hello-helidon
@@ -285,7 +330,12 @@ and enabled for Istio.
    hello-helidon-deployment-8664954995-wcb9d   2/2     Running   0          5m5s
    ```
 
+</div>
+{{< /clipboard >}}
+
 1. Verify that the Verrazzano application operator pod is running.
+{{< clipboard >}}
+<div class="highlight">
 
    ```
    $ kubectl get pod -n verrazzano-system -l app=verrazzano-application-operator
@@ -295,12 +345,17 @@ and enabled for Istio.
    verrazzano-application-operator-79849b89ff-lr9w6   1/1     Running   0          13m
    ```
 
+</div>
+{{< /clipboard >}}
+
    The namespace `verrazzano-system` is used by Verrazzano for
    non-application objects managed by Verrazzano.
    A single `verrazzano-application-operator` manages the life cycle of
    all OAM based applications within the cluster.
 
 1. Verify the Verrazzano monitoring infrastructure is running.
+{{< clipboard >}}
+<div class="highlight">
 
    ```
    $ kubectl get pods -n verrazzano-system | grep '^NAME\|vmi-system'
@@ -313,6 +368,11 @@ and enabled for Istio.
    vmi-system-opensearchDashboards-77f8d998f4-zzvqr   2/2     Running   0          47m
    ```
 
+</div>
+{{< /clipboard >}}
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl get pods -n verrazzano-monitoring
 
@@ -322,6 +382,9 @@ and enabled for Istio.
    prometheus-operator-kube-p-operator-857fb66b74-szv4h   1/1     Running   0          14h
    prometheus-prometheus-operator-kube-p-prometheus-0     3/3     Running   0          14h
    ```
+
+</div>
+{{< /clipboard >}}
 
    These pods in the `verrazzano-system` and `verrazzano-monitoring` namespaces constitute a
    monitoring stack created by Verrazzano for the deployed applications.
@@ -338,10 +401,15 @@ and enabled for Istio.
 
    View the event logs of any pod not entering the `Running` state within
    a reasonable length of time, such as five minutes.
+{{< clipboard >}}
+<div class="highlight">
 
    ```
    $ kubectl describe pod -n hello-helidon -l app=hello-helidon
    ```
+
+</div>
+{{< /clipboard >}}
 
    Use the specific namespace and name for the pod being investigated.
 
@@ -351,14 +419,21 @@ Follow these steps to explore the application's functionality.
 If DNS was not configured, then use the alternative commands.
 
 1.  Save the host name and IP address of the load balancer exposing the application's REST service endpoints for later.
-    ```
+{{< clipboard >}}
+<div class="highlight">
+
+   ```
     $ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-gw \
           -n hello-helidon \
           -o jsonpath='{.spec.servers[0].hosts[0]}')
     $ ADDRESS=$(kubectl get service \
           -n istio-system istio-ingressgateway \
           -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-    ```
+   ```
+
+</div>
+{{< /clipboard >}}
+
     **NOTE**:
 
     * The value of `ADDRESS` is used only if DNS has not been
@@ -368,7 +443,10 @@ If DNS was not configured, then use the alternative commands.
 
 
 1.  Get the default message.
-    ```
+{{< clipboard >}}
+<div class="highlight">
+
+  ```
     $ curl -sk \
         -X GET \
         "https://${HOST}/greet"
@@ -382,10 +460,16 @@ If DNS was not configured, then use the alternative commands.
         -X GET \
         "https://${HOST}/greet" \
         --resolve ${HOST}:443:${ADDRESS}
-    ```
+   ```
+
+</div>
+{{< /clipboard >}}
 
 1.  Get a message for Robert.
-    ```
+{{< clipboard >}}
+<div class="highlight">
+
+  ```
     $ curl -sk \
         -X GET \
         "https://${HOST}/greet/Robert"
@@ -399,42 +483,72 @@ If DNS was not configured, then use the alternative commands.
         -X GET
         "https://${HOST}/greet/Robert" \
         --resolve ${HOST}:443:${ADDRESS}
-    ```
+   ```
+
+</div>
+{{< /clipboard >}}
 
 1.  Update the default greeting.
-    ```
+{{< clipboard >}}
+<div class="highlight">
+
+  ```
     $ curl -sk \
         -X PUT \
         "https://${HOST}/greet/greeting" \
         -H 'Content-Type: application/json' \
         -d '{"greeting" : "Greetings"}'
-    ```
+   ```
+
+</div>
+{{< /clipboard >}}
+
     If DNS has not been configured, then use this command.
-    ```
+{{< clipboard >}}
+<div class="highlight">
+
+  ```
     $ curl -sk \
         -X PUT \
         "https://${HOST}/greet/greeting" \
         -H 'Content-Type: application/json' \
         -d '{"greeting" : "Greetings"}' \
         --resolve ${HOST}:443:${ADDRESS}
-    ```
+  ```
+
+</div>
+{{< /clipboard >}}
+
 
 1.  Get the new message for Robert.
-    ```
+{{< clipboard >}}
+<div class="highlight">
+
+  ```
     $ curl -sk \
         -X GET \
         "https://${HOST}/greet/Robert"
 
     # Expected response
     {"message":"Greetings Robert!"}
-    ```
+   ```
+
+</div>
+{{< /clipboard >}}
+
     If DNS has not been configured, then use this command.
-    ```
+{{< clipboard >}}
+<div class="highlight">
+
+  ```
     $ curl -sk \
         -X GET \
         "https://${HOST}/greet/Robert" \
         --resolve ${HOST}:443:${ADDRESS}
-    ```
+   ```
+
+</div>
+{{< /clipboard >}}
 
 ### Access the application's logs
 
@@ -445,6 +559,9 @@ result of applying an application configuration. For more information on creatin
 and visualizing the log data collected in OpenSearch, see [OpenSearch Dashboards]({{< relref "/docs/monitoring/logs/_index.md#opensearch-dashboards" >}}).
 
 Determine the URL to access OpenSearch Dashboards:
+{{< clipboard >}}
+<div class="highlight">
+
  ```
 $ OSD_HOST=$(kubectl get ingress \
       -n verrazzano-system vmi-system-opensearchDashboards \
@@ -454,15 +571,24 @@ $ echo "${OSD_URL}"
 $ open "${OSD_URL}"
 ```
 
+</div>
+{{< /clipboard >}}
+
 The user name to access OpenSearch Dashboards defaults to `verrazzano` during the Verrazzano installation.
 
 Determine the password to access OpenSearch Dashboards:
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 $ echo $(kubectl get secret \
       -n verrazzano-system verrazzano \
       -o jsonpath={.data.password} | base64 \
       --decode)
 ```
+
+</div>
+{{< /clipboard >}}
 
 ### Access the application's metrics
 
@@ -473,6 +599,8 @@ applying an application configuration. For more information on visualizing Prome
 metrics data, see [Grafana]({{< relref "/docs/monitoring/metrics/metrics.md#grafana" >}}).
 
 Determine the URL to access Grafana:
+{{< clipboard >}}
+<div class="highlight">
 
 ```
 $ GRAFANA_HOST=$(kubectl get ingress \
@@ -482,9 +610,15 @@ $ GRAFANA_URL="https://${GRAFANA_HOST}"
 $ echo "${GRAFANA_URL}"
 $ open "${GRAFANA_URL}"
 ```
+
+</div>
+{{< /clipboard >}}
+
 The user name to access Grafana is set to the default value `verrazzano` during the Verrazzano installation.
 
 Determine the password to access Grafana:
+{{< clipboard >}}
+<div class="highlight">
 
 ```
 $ echo $(kubectl get secret \
@@ -493,8 +627,13 @@ $ echo $(kubectl get secret \
       --decode)
 ```
 
+</div>
+{{< /clipboard >}}
+
 Alternatively, metrics can be accessed directly using Prometheus.
 Determine the URL for this access:
+{{< clipboard >}}
+<div class="highlight">
 
 ```
 $ PROMETHEUS_HOST=$(kubectl get ingress \
@@ -505,11 +644,17 @@ $ echo "${PROMETHEUS_URL}"
 $ open "${PROMETHEUS_URL}"
 ```
 
+</div>
+{{< /clipboard >}}
+
 The user name and password for both Prometheus and Grafana are the same.
 
 ### Suppress Kiali console warnings
 
 For some applications, the Kiali console may show warnings for VirtualService and Gateway objects that replicate hostname/port configurations across multiple IngressTraits. These warnings do not impact functionality and can be suppressed with the following component override:
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 kiali:
   overrides:
@@ -519,28 +664,48 @@ kiali:
             ignore: ["KIA1106", "KIA0301"]
 ```
 
+</div>
+{{< /clipboard >}}
+
 ## Remove the application
 
 Run the following commands to delete the application configuration, and optionally the component and namespace.
 
 1. Delete the application configuration.
+{{< clipboard >}}
+<div class="highlight">
 
    ```
    $ kubectl delete -f {{< release_source_url raw=true path="examples/hello-helidon/hello-helidon-app.yaml" >}}
    ```
 
+</div>
+{{< /clipboard >}}
+
+
    The deletion of the application configuration will result in the destruction
    of all application-specific Kubernetes objects.
 
 1. (Optional) Delete the application's component.
+{{< clipboard >}}
+<div class="highlight">
 
    ```
    $ kubectl delete -f {{< release_source_url raw=true path="examples/hello-helidon/hello-helidon-comp.yaml" >}}
    ```
+
+</div>
+{{< /clipboard >}}
+
    **Note**: This step is not required if other application configurations for this component will be applied in the future.
 
 1. (Optional) Delete the namespace.
+{{< clipboard >}}
+<div class="highlight">
 
    ```
    $ kubectl delete namespace hello-helidon
    ```
+
+</div>
+{{< /clipboard >}}
