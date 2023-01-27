@@ -42,6 +42,8 @@ The following is an example of using external load balancers for both management
   - Set service `ports` with a `https` named entry, `443` as `port`, `32443` as `nodePort`, `8443` as `targetPort`, and `TCP` as `protocol`.
 
 ### Example Custom Resource with management and application external load balancers
+{{< clipboard >}}
+<div class="highlight">
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -86,3 +88,6 @@ spec:
                       externalIPs:
                       - 11.22.33.55
 ```
+
+</div>
+{{< /clipboard >}}

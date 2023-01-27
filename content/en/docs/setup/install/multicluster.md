@@ -28,24 +28,31 @@ Install Verrazzano on each Kubernetes cluster.
   `KUBECONTEXT_MANAGED1`, and point them to the kubeconfig files and contexts for the admin and managed cluster,
   respectively. You will use these environment variables in subsequent steps when registering the managed cluster. The
   following shows an example of how to set these environment variables.
-     ```
-     $ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
-     $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
+{{< clipboard >}}
+<div class="highlight">
 
-     # Lists the contexts in each kubeconfig file
-     $ kubectl --kubeconfig $KUBECONFIG_ADMIN config get-contexts -o=name
-     my-admin-cluster-context
-     some-other-cluster-context
+   ```
+   $ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
+   $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 
-     $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 config get-contexts -o=name
-     my-managed-cluster-context
-     some-other-cluster2-context
+   # Lists the contexts in each kubeconfig file
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN config get-contexts -o=name
+   my-admin-cluster-context
+   some-other-cluster-context
 
-     # Choose the right context name for your admin and managed clusters from the output shown and set the KUBECONTEXT
-     # environment variables
-     $ export KUBECONTEXT_ADMIN=<admin-cluster-context-name>
-     $ export KUBECONTEXT_MANAGED1=<managed-cluster-context-name>
-     ```
+   $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 config get-contexts -o=name
+   my-managed-cluster-context
+   some-other-cluster2-context
+
+   # Choose the right context name for your admin and managed clusters from the output shown and set the KUBECONTEXT
+   # environment variables
+   $ export KUBECONTEXT_ADMIN=<admin-cluster-context-name>
+   $ export KUBECONTEXT_MANAGED1=<managed-cluster-context-name>
+   ```
+
+</div>
+{{< /clipboard >}}
+
 
 For detailed instructions on how to install and customize Verrazzano on a Kubernetes cluster using a specific profile,
 see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}}) and [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}}).
@@ -58,6 +65,9 @@ The label selector is used to determine which clusters created in Rancher will b
 #### Verrazzano configuration for cluster label selection
 
 The following illustrates an admin cluster Verrazzano resource that has been configured to support cluster label selection.
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
@@ -78,6 +88,8 @@ spec:
                 values: [supported]
 ```
 
+</div>
+{{< /clipboard >}}
 
 - If `enabled` is set to `false` (the default), then no clusters created in Rancher will be automatically registered by Verrazzano.
 - If the field is not explicitly set, then no Rancher clusters will be automatically registered.
@@ -104,6 +116,9 @@ Verrazzano will manage all clusters whose labels match the [cluster label select
 ### Register using VerrazzanoManagedCluster
 
 1. To begin the registration process for a managed cluster named `managed1`, apply the VerrazzanoManagedCluster object on the admin cluster.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    # On the admin cluster
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
@@ -117,8 +132,13 @@ Verrazzano will manage all clusters whose labels match the [cluster label select
      description: "Test VerrazzanoManagedCluster object"
    EOF
    ```
+
+</div>
+{{< /clipboard >}}
 2. Wait for the VerrazzanoManagedCluster resource to reach the `Ready` status. At that point, it will have generated a YAML
    file that must be applied on the managed cluster to complete the registration process.
+{{< clipboard >}}
+<div class="highlight">
 
    ```
    # On the admin cluster
@@ -126,6 +146,9 @@ Verrazzano will manage all clusters whose labels match the [cluster label select
        wait --for=condition=Ready \
        vmc managed1 -n verrazzano-mc
    ```
+
+</div>
+{{< /clipboard >}}
 
 3. Apply the Rancher registration manifest from the Rancher console.
 
@@ -139,10 +162,16 @@ Verrazzano will manage all clusters whose labels match the [cluster label select
    c. Under the `Registration` tab of the cluster view, select the registration command for the managed cluster.
 
 
-   d. Using the registration information in the Rancher console, from the managed cluster, apply a command using this format.
+   d. Using the registration information in the Rancher console, from the managed cluster, apply a command using this format. 
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl apply --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 -f https://<Rancher-console-url>/v3/import/<Rancher-registration>.yaml
    ```
+
+</div>
+{{< /clipboard >}}
 
 ## Verify that managed cluster registration has completed
 You can perform all the verification steps on the admin cluster.
@@ -150,6 +179,9 @@ You can perform all the verification steps on the admin cluster.
 1. Verify that the managed cluster can connect to the admin cluster. View the status of the `VerrazzanoManagedCluster`
    resource on the admin cluster, and check whether the `lastAgentConnectTime`, `prometheusHost`, and `apiUrl` fields are
    populated. This may take up to two minutes after completing the registration steps.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    # On the admin cluster
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
@@ -170,6 +202,9 @@ You can perform all the verification steps on the admin cluster.
      prometheusHost: prometheus.vmi.system.default.172.18.0.211.nip.io
    ```
 
+</div>
+{{< /clipboard >}}
+
 2. Verify that the managed cluster is successfully registered with Rancher.
    When you perform the registration steps, Verrazzano also registers the managed cluster with Rancher.
    View the Rancher UI on the admin cluster. If the registration with Rancher was successful, then your cluster will be
@@ -189,6 +224,9 @@ Run a query for a metric (for example, `node_disk_io_time_seconds_total`).
 ![Prometheus](/docs/images/multicluster/prometheus-multicluster.png)
 
 An alternative approach to using the Prometheus UI is to query metrics from the command line. Here is an example of how to obtain Prometheus metrics from the command line. Search the output of the query for responses that have the `verrazzano_cluster` field set to the name of the managed cluster.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    # On the admin cluster
    $ prometheusUrl=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
@@ -198,6 +236,9 @@ An alternative approach to using the Prometheus UI is to query metrics from the 
               -o jsonpath={.data.password} | base64 --decode; echo)
    $ curl -k --user verrazzano:${VZPASS} "${prometheusUrl}/api/v1/query?query=node_disk_io_time_seconds_total"
    ```
+
+</div>
+{{< /clipboard >}}
 
 ### Verify that managed cluster logs are being collected
 
@@ -211,6 +252,9 @@ Searching the `verrazzano-system` data stream for log records with the `cluster_
 ![OpenSearch Dashboards](/docs/images/multicluster/opensearch-multicluster.png)
 
 An alternative approach to using the OpenSearch Dashboards is to query OpenSearch from the command line.  Here is an example of how to obtain log records from the command line.  Search the output of the query for responses that have the `cluster_name` field set to the name of the managed cluster.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    # On the admin cluster
    $ OS_URL=$(kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
@@ -220,6 +264,10 @@ An alternative approach to using the OpenSearch Dashboards is to query OpenSearc
               -o jsonpath={.data.password} | base64 --decode; echo)
    $ curl -k --user verrazzano:${VZPASS} -X POST -H 'kbn-xsrf: true' "${OS_URL}/verrazzano-system/_search?size=25"
    ```
+
+</div>
+{{< /clipboard >}}
+
 
 ## Run applications in multicluster Verrazzano
 

@@ -68,8 +68,8 @@ component, its version, and a brief description.
 | Keycloak                     | 20.0.1       | Provides single sign-on with Identity and Access Management.                             |
 | Kiali                        | 1.57.1       | Management console for the Istio service mesh.                                           |
 | kube-state-metrics           | 2.6.0        | Provides metrics about the state of Kubernetes API objects.                              |
-| MySQL                        | 8.0.31       | Open source relational database management system used by Keycloak.                      |
-| MySQL Operator               | 8.0.31-2.0.7 | Operator for managing MySQL InnoDB Cluster setups inside a Kubernetes Cluster.           |
+| MySQL                        | 8.0.32       | Open source relational database management system used by Keycloak.                      |
+| MySQL Operator               | 8.0.32-2.0.8 | Operator for managing MySQL InnoDB Cluster setups inside a Kubernetes cluster.           |
 | NGINX Ingress Controller     | 1.3.1        | Traffic management solution for cloud‑native applications in Kubernetes.                 |
 | Node Exporter                | 1.3.1        | Prometheus exporter for hardware and OS metrics.                                         |
 | OAM Kubernetes Runtime       | 0.3.3        | Plug-in for implementing the Open Application Model (OAM) control plane with Kubernetes. |

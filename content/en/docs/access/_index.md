@@ -54,12 +54,19 @@ Verrazzano Status
 
 You can get the endpoints for these consoles by issuing the following command
 and examining the `Status.Instance` field:
+{{< clipboard >}}
 
 ```shell
 $ kubectl get vz -o yaml
 ```
+{{< /clipboard >}}
+
+
 
 The resulting output is similar to the following (abbreviated to show only the relevant portions):
+
+{{< clipboard >}}
+<div class="highlight">
 
 ```
   ...
@@ -83,10 +90,20 @@ The resulting output is similar to the following (abbreviated to show only the r
       prometheusUrl: https://prometheus.vmi.system.default.11.22.33.44.nip.io
       rancherUrl: https://rancher.default.11.22.33.44.nip.io
 ```
+</div>
+{{< /clipboard >}}
+
 
 If you have `jq` installed, then you can use the following command to get the instance URLs more directly.
+{{< clipboard >}}
+<div class="highlight">
 
-`$ kubectl get vz -o jsonpath="{.items[].status.instance}" | jq .`
+```
+$ kubectl get vz -o jsonpath="{.items[].status.instance}" | jq .
+```
+
+</div>
+{{< /clipboard >}}
 
 The following is an example of the output:
 
@@ -122,26 +139,32 @@ You will need the credentials to access the consoles installed by Verrazzano.
 **User:** `verrazzano`
 
 To get the password:
+{{< clipboard >}}
+<div class="highlight">
 
-```
-$ kubectl get secret \
-    --namespace verrazzano-system verrazzano \
-    -o jsonpath={.data.password} | base64 \
-    --decode; echo
-```
+    $ kubectl get secret \
+        --namespace verrazzano-system verrazzano \
+        -o jsonpath={.data.password} | base64 \
+        --decode; echo
+
+</div>
+{{< /clipboard >}}
 
 ### The Keycloak admin console
 
 **User:** `keycloakadmin`
 
 To get the password:
+{{< clipboard >}}
+<div class="highlight">
 
-```
-$ kubectl get secret \
-    --namespace keycloak keycloak-http \
-    -o jsonpath={.data.password} | base64 \
-    --decode; echo
-```
+    $ kubectl get secret \
+        --namespace keycloak keycloak-http \
+        -o jsonpath={.data.password} | base64 \
+        --decode; echo
+
+</div>
+{{< /clipboard >}}
 
 ### The Rancher console
 
@@ -151,24 +174,30 @@ To log in with Keycloak, select the `Log in with Keycloak` link or select the `U
 **Local Admin User:** `admin`
 
 To get the password:
+{{< clipboard >}}
+<div class="highlight">
 
-```
-$ kubectl get secret \
-    --namespace cattle-system rancher-admin-secret \
-    -o jsonpath={.data.password} | base64 \
-    --decode; echo
-```
+    $ kubectl get secret \
+        --namespace cattle-system rancher-admin-secret \
+        -o jsonpath={.data.password} | base64 \
+        --decode; echo
+
+</div>
+{{< /clipboard >}}
 
 **Keycloak User:** `verrazzano`
 
 To get the password:
+{{< clipboard >}}
+<div class="highlight">
 
-```
-$ kubectl get secret \
-    --namespace verrazzano-system verrazzano \
-    -o jsonpath={.data.password} | base64 \
-    --decode; echo
-```
+    $ kubectl get secret \
+        --namespace verrazzano-system verrazzano \
+        -o jsonpath={.data.password} | base64 \
+        --decode; echo
+
+</div>
+{{< /clipboard >}}
 
 ## Change the Verrazzano password
 
@@ -194,11 +223,20 @@ To change the Verrazzano password, first change the user password in Keycloak an
 **Update the Verrazzano secret**
 
 Get the base64 encoding for your new password.
+{{< clipboard >}}
+<div class="highlight">
 
-`$ echo -n 'MyNewPwd' | base64`
+    $ echo -n 'MyNewPwd' | base64
+
+</div>
+{{< /clipboard >}}
 
 Update the password in the secret.
+{{< clipboard >}}
+<div class="highlight">
 
-`$ kubectl edit secret verrazzano -n verrazzano-system`
+    $ kubectl edit secret verrazzano -n verrazzano-system
 
+</div>
+{{< /clipboard >}}
 Replace the existing password value with the new base64 encoded value.

@@ -48,6 +48,9 @@ The following `YAML` shows how to explicitly specify the pod security context fo
 the Helidon application will meet the requirements of the Kubernetes `restricted` [Pod Security Standard](https://kubernetes.io/docs/concepts/security/pod-security-standards/).  
 
 Note that the `runAsUser` 2000 UID does not exist in the container, as described previously.
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 apiVersion: core.oam.dev/v1alpha2
 kind: Component
@@ -83,3 +86,5 @@ spec:
                   drop:
                     - ALL
 ```
+{{< /clipboard >}}
+</div>

@@ -25,6 +25,9 @@ managed cluster, then re-register the managed cluster, as described [here](#re-r
 You can verify that a managed cluster was successfully registered with an admin cluster by viewing the
 corresponding VerrazzanoManagedCluster (VMC) resource on the admin cluster. For example, to verify that a managed cluster
 named `managed1` was successfully registered:
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 # on the admin cluster
 $ kubectl get verrazzanomanagedcluster managed1 \
@@ -32,7 +35,13 @@ $ kubectl get verrazzanomanagedcluster managed1 \
     -o yaml
 ```
 
+</div>
+{{< /clipboard >}}
+
 Partial sample output from the previous command.
+{{< clipboard >}}
+<div class="highlight">
+
 ```
   status:
     conditions:
@@ -43,6 +52,9 @@ Partial sample output from the previous command.
     lastAgentConnectTime: "2021-06-22T21:06:04Z"
     ... other fields ...
 ```
+
+</div>
+{{< /clipboard >}}
 
 Check the `lastAgentConnectTime` in the status of the VMC resource. This is the last time at which the
 managed cluster connected to the admin cluster. If this value is not present, or is not recent (within the last
@@ -55,6 +67,8 @@ was not completed. For the complete setup instructions, see [here]({{< relref "/
 * The managed cluster does not have network connectivity to the admin cluster. The managed cluster will attempt to
 connect to the admin cluster at regular intervals, and any errors will be reported in the
 `verrazzano-application-operator` pod's log on the _managed_ cluster. View the logs using the following command:
+{{< clipboard >}}
+<div class="highlight">
 
 ```
 # on the managed cluster
@@ -62,19 +76,28 @@ $ kubectl logs \
     -n verrazzano-system \
     -l app=verrazzano-application-operator
 ```
+
+</div>
+{{< /clipboard >}}
+
 If these logs reveal that there is a connectivity issue, then in the case of an installation that includes Rancher on
 the admin cluster, there may have been a problem with Verrazzano pushing registration details or updates to the managed
 cluster. Try exporting and applying the registration manifest to the managed cluster as shown:
+{{< clipboard >}}
+<div class="highlight">
 
-```
-# on the admin cluster
+  ```
+  # on the admin cluster
        kubectl get secret \
        -n verrazzano-mc verrazzano-cluster-managed1-manifest \
        -o jsonpath={.data.yaml} | base64 --decode > register.yaml
 
-# on the managed cluster
+  # on the managed cluster
        kubectl apply -f register.yaml
-```
+  ```
+
+</div>
+{{< /clipboard >}}
 
 **NOTE**: If your installation disabled Rancher on the admin cluster, then check the admin cluster Kubernetes server
 address that you provided during registration and ensure that it is correct, and that it is reachable from the managed
@@ -91,6 +114,8 @@ that:
 
 View the details of the project that corresponds to your application's namespace. In the example command that follows, the
 project name is assumed to be `myproject`. All projects are expected to be created in the `verrazzano-mc` namespace.
+{{< clipboard >}}
+<div class="highlight">
 
 ```
 # on the admin cluster
@@ -99,8 +124,14 @@ $ kubectl get verrazzanoproject myproject \
     -o yaml
 ```
 
+</div>
+{{< /clipboard >}}
+
+
 The following partial sample output is for a project that will result in the namespace `mynamespace` being created on the managed
 cluster `managed1`.
+{{< clipboard >}}
+<div class="highlight">
 
 ```
 spec:
@@ -114,20 +145,32 @@ spec:
 ....other fields....
 ```
 
+</div>
+{{< /clipboard >}}
+
 ## Check the multicluster resource status
 On the admin cluster, each multicluster resource's status field is updated with the status of the underlying resource
 on each managed cluster in which it is placed.
 
 The following example command shows how to view the status of a MultiClusterApplicationConfiguration named `myapp`, in
 the namespace `mynamespace`, that has a `placement` value that includes the managed cluster `managed1`.
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 $ kubectl get multiclusterapplicationconfiguration myapp \
     -n mynamespace \
     -o yaml
 ```
 
+</div>
+{{< /clipboard >}}
+
+
 The status of the underlying resource in each cluster specified in the placement is shown in the following partial sample
 output.
+{{< clipboard >}}
+<div class="highlight">
 
 ```
   status:
@@ -144,6 +187,9 @@ output.
     state: Succeeded
 ```
 
+</div>
+{{< /clipboard >}}
+
 The status message contains additional information on the operation's success or failure.
 
 ## Re-register the managed cluster
@@ -151,6 +197,9 @@ Perform the following steps to re-register the managed cluster with the admin cl
 the command is indicated in each code block.
 1. On the admin cluster, export the register YAML file newly created on the admin cluster to re-register the
    managed cluster.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    # On the admin cluster
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
@@ -158,7 +207,14 @@ the command is indicated in each code block.
        -n verrazzano-mc \
        -o jsonpath={.data.yaml} | base64 --decode > register_new.yaml
    ```
+
+</div>
+{{< /clipboard >}}
+
 2. On the managed cluster, apply the registration file exported in the previous step.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    # On the managed cluster
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
@@ -167,8 +223,15 @@ the command is indicated in each code block.
    # After the command succeeds, you may delete the register_new.yaml file
    $ rm register_new.yaml
    ```
+
+</div>
+{{< /clipboard >}}
+
 3. On the admin cluster, run `kubectl patch clusters.management.cattle.io` to trigger redeployment of the Rancher agent
-   on the managed cluster.
+   on the managed cluster. 
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    # On the admin cluster
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
@@ -186,3 +249,7 @@ the command is indicated in each code block.
    # Sample output
    cluster.management.cattle.io/c-mzb2h patched
    ```
+
+</div>
+{{< /clipboard >}}
+

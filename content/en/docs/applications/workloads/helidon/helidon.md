@@ -52,6 +52,7 @@ containerized Helidon application, independent of any other in the application.
 In the following example, everything under the `spec:` section is the custom resource YAML file for the containerized Helidon application,
 as defined by the VerrazzanoHelidonWorkload custom resource. Including this Component reference in your ApplicationConfiguration
 will result in a new containerized Helidon application being provisioned.
+{{< clipboard >}}
 
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
@@ -77,6 +78,8 @@ spec:
               ...
               ...
 ```
+
+{{< /clipboard >}}
 
 The [Application Development Guide]({{< relref "/docs/guides/app-deployment/application-deployment-guide.md" >}}) provides end-to-end instructions for
 developing and deploying the Verrazzano Helidon application.
@@ -105,6 +108,7 @@ the ApplicationConfiguration resource and adding or removing the VerrazzanoHelid
 The recommended way to scale containerized Helidon application replicas is to specify a [ManualScalerTrait](https://github.com/oam-dev/spec/blob/v0.2.1/core/traits/manual_scaler_trait.md)
 with the VerrazzanoHelidonWorkload in the ApplicationConfiguration. The following example
 configuration shows the `replicaCount` field that specifies the number of replicas for the application.
+{{< clipboard >}}
 
 ```yaml
 ...
@@ -119,6 +123,8 @@ configuration shows the `replicaCount` field that specifies the number of replic
               replicaCount: 2
 ...
 ```
+
+{{< /clipboard >}}
 
 Verrazzano will modify the Deployment resource `replicas` field and the containerized Helidon application replicas will
 be scaled accordingly.

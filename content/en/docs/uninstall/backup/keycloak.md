@@ -36,6 +36,7 @@ Before proceeding with a MySQL back up or restore operation, keep the following 
 The following example creates a secret `mysql-backup-secret` in the namespace `keycloak`.
 
 **NOTE:**  This secret must exist in the namespace `keycloak`.
+{{< clipboard >}}
 
 1. MySQL operator requires a secret to communicate with the S3 compatible object store, so we create a file called `backup-secret.txt`, which has the object store credentials.
 
@@ -58,7 +59,7 @@ The following example creates a secret `mysql-backup-secret` in the namespace `k
    $ kubectl create secret generic -n <backup-namespace> <secret-name> --from-file=<key>=<full_path_to_creds_file> --from-file=<key>=<full_path_to_config_file>
    ```
 
-   The following is an example:
+   The following is an example of creating a Kubernetes secret consisting of OCI credentials.
    ```shell
    $ kubectl create secret generic -n keycloak mysql-backup-secret --from-file=credentials=backup-secret.txt --from-file=config=backup-region.txt
    ```
@@ -228,3 +229,4 @@ kubectl scale sts -n keycloak keycloak --replicas=0
 kubectl scale sts -n keycloak keycloak --replicas=${KEYCLOAK_REPLICAS}
 kubectl wait -n keycloak --for=condition=ready pod -l app.kubernetes.io/instance=keycloak -timeout=600s
 ```
+{{< /clipboard >}}
