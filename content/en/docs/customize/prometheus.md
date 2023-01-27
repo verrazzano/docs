@@ -28,7 +28,6 @@ spec:
               prometheusSpec:
                 replicas: 3
 ```
-
 </div>
 {{< /clipboard >}}
 
@@ -59,3 +58,32 @@ spec:
 {{< /clipboard >}}
 
 For more information about setting component overrides, see [Customizing the Chart Before Installing](https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing).
+
+After you have enabled Alertmanager, you can deploy alert rules to get proactive alerts.
+To create a `TestAlertRule`, run the following command.
+```yaml
+kubectl apply -f - <<EOF
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    release: prometheus-operator
+  name: prometheus-operator-test
+  namespace: verrazzano-monitoring
+spec:
+  groups:
+    - name: test
+      rules:
+        - alert: TestAlertRule
+          annotations:
+            description: Test alert rule
+            runbook_url: test-runbook-url
+            summary: Test alert rule
+          expr: |-
+            prometheus_config_last_reload_successful{job="prometheus-operator-kube-p-prometheus",namespace="verrazzano-monitoring"} == 0
+          for: 10m
+          labels:
+            severity: critical
+EOF
+```
+For more information, see [Deploying Prometheus rules](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/alerting.md#deploying-prometheus-rules).
