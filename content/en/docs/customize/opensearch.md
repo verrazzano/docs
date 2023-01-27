@@ -527,3 +527,88 @@ spec:
           - <URL to OpenSearch Dashboard plugin ZIP file>
 ```
 {{< /clipboard >}}
+## Override default number of shards and replicas
+
+  You can override the default number of shards or replicas by overriding the default index template `verrazzano-data-stream`. 
+  For that get the default index template, copy the contents and change the number of shards and index pattern for which you want to change the number of shards and create your own index template with a higher priority.
+```
+  GET /_index_template/verrazzano-data-stream
+```
+
+Example if you want to change the number of shards to 3 and replicas to 2 for all applications indices
+
+```yaml
+PUT _index_template/my-template
+    {
+        "index_patterns" : [
+          "my-application*"
+        ],
+        "template" : {
+          "settings" : {
+            "index" : {
+              "mapping" : {
+                "total_fields" : {
+                  "limit" : "2000"
+                }
+              },
+              "refresh_interval" : "5s",
+              "number_of_shards" : "3",
+              "auto_expand_replicas" : "0-1",
+              "number_of_replicas" : "2"
+            }
+          },
+          "mappings" : {
+            "dynamic_templates" : [
+              {
+                "message_field" : {
+                  "path_match" : "message",
+                  "mapping" : {
+                    "norms" : false,
+                    "type" : "text"
+                  },
+                  "match_mapping_type" : "string"
+                }
+              },
+              {
+                "object_fields" : {
+                  "mapping" : {
+                    "type" : "object"
+                  },
+                  "match_mapping_type" : "object",
+                  "match" : "*"
+                }
+              },
+              {
+                "all_non_object_fields" : {
+                  "mapping" : {
+                    "norms" : false,
+                    "type" : "text",
+                    "fields" : {
+                      "keyword" : {
+                        "ignore_above" : 256,
+                        "type" : "keyword"
+                      }
+                    }
+                  },
+                  "match" : "*"
+                }
+              }
+            ],
+            "properties" : {
+              "@timestamp" : {
+                "format" : "strict_date_time||strict_date_optional_time||epoch_millis",
+                "type" : "date"
+              }
+            }
+          }
+        },
+        "priority" : 201,
+        "version" : 60001,
+        "data_stream" : {
+          "timestamp_field" : {
+            "name" : "@timestamp"
+          }
+        }
+}
+```
+With this, new indices will be created with 3 shards and 2 replicas for your applications.
