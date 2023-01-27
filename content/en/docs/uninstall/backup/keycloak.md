@@ -37,7 +37,7 @@ The following example creates a secret `mysql-backup-secret` in the namespace `k
 
 **NOTE:**  This secret must exist in the namespace `keycloak`.
 
-1. MySQL operator requires a secret to communicate with the S3 compatible object store, so we create a file called `backup-secret.txt` , which has the object store credentials.
+1. MySQL operator requires a secret to communicate with the S3 compatible object store, so we create a file called `backup-secret.txt`, which has the object store credentials.
 
    ```backup-secret.txt
    [default]
@@ -85,8 +85,8 @@ $ kubectl apply -f - <<EOF
       dumpInstance:              
         storage:          
           s3:
-             bucketName: < Object store bucket. This must be exist as noted in pre-requisites section. >
-             config: < Kubernetes secret name created in the prerequisite section. >
+             bucketName: < Object store bucket. This must exist as noted in pre-requisites section. >
+             config: < Kubernetes secret name created in the pre-requisites section. >
              endpoint: < OCI S3 object store endpoint. >
              prefix: < Prefix name. This folder will be auto created. >
              profile: default
@@ -94,10 +94,10 @@ EOF
 ```
 
 **NOTE:**
-- The `config` is `mysql-backup-secret` are those you created previously in the `keycloak` namespace.
+- The `config` is `mysql-backup-secret` is the name of the secret which you created previously in the `keycloak` namespace.
 - The `clustername` has to be `mysql`.
 - The `namespace` has to be `keycloak`.
-- The `profile` is the profile for the security credentials as shown in the example file. In this case it is `default`.
+- The `profile` is the profile for the security credentials as shown in the example files. In this case it is `default`.
 
 The following is an example of a `MySQLBackup` resource to initiate a MySQL backup:
 
