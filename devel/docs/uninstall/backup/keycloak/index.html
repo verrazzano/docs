@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/uninstall/backup/keycloak/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-01-12T10:56:32-08:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-01-27T11:03:02-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Keycloak Backup and Restore">
 <meta itemprop="description" content="Back up and restore Keycloak data">
-<meta itemprop="dateModified" content="2023-01-12T10:56:32-08:00" />
-<meta itemprop="wordCount" content="853">
+<meta itemprop="dateModified" content="2023-01-27T11:03:02-05:00" />
+<meta itemprop="wordCount" content="1020">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Keycloak Backup and Restore"/>
 <meta name="twitter:description" content="Back up and restore Keycloak data"/>
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.629843b43bea7b9c767cbe8264dff743.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.2234e1728f5df879e8837450c7ec2f3d.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -138,7 +138,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.629843b43bea7b9c767cbe8264dff743.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.2234e1728f5df879e8837450c7ec2f3d.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -503,18 +503,6 @@ if (!doNotTrack) {
             
 
 
-<div class="td-toc"><nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#mysql-operator-prerequisites">MySQL Operator prerequisites</a></li>
-        <li><a href="#mysql-operator-backup">MySQL Operator backup</a></li>
-        <li><a href="#mysql-operator-restore">MySQL Operator restore</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav></div>
-
 
 
             
@@ -593,8 +581,37 @@ This document shows you how to back up and restore data stored in MySQL.</p>
 <li>MySQL Operator uses OCI credentials to back up and restore MySQL data. Prior to starting a MySQL backup or restore operation, the MySQL Operator requires that a Kubernetes secret exists, consisting of the OCI credentials.</li>
 </ul>
 <p>The following example creates a secret <code>mysql-backup-secret</code> in the namespace <code>keycloak</code>.</p>
-<p><strong>NOTE:</strong>  This secret must exist in the namespace <code>keycloak</code>.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl create secret generic -n keycloak  &lt;secret-name&gt; <span style="color:#4e9a06">\
+<p><strong>NOTE:</strong>  This secret must exist in the namespace <code>keycloak</code>.
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl create secret generic -n keycloak  &lt;secret-name&gt; <span style="color:#4e9a06">\
 </span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">user</span><span style="color:#ce5c00;font-weight:bold">=</span>&lt;oci user id&gt; <span style="color:#4e9a06">\
 </span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">fingerprint</span><span style="color:#ce5c00;font-weight:bold">=</span>&lt;oci user fingerprint&gt; <span style="color:#4e9a06">\
 </span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">tenancy</span><span style="color:#ce5c00;font-weight:bold">=</span>&lt;oci tenancy id&gt;&gt; <span style="color:#4e9a06">\
@@ -731,6 +748,65 @@ Keycloak is set up to self-heal and will go into a <code>Running</code> state af
 </span></span><span style="display:flex;"><span>kubectl scale sts -n keycloak keycloak --replicas<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">${</span><span style="color:#000">KEYCLOAK_REPLICAS</span><span style="color:#4e9a06">}</span>
 </span></span><span style="display:flex;"><span>kubectl <span style="color:#204a87">wait</span> -n keycloak --for<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">condition</span><span style="color:#ce5c00;font-weight:bold">=</span>ready pod -l app.kubernetes.io/instance<span style="color:#ce5c00;font-weight:bold">=</span>keycloak -timeout<span style="color:#ce5c00;font-weight:bold">=</span>600s
 </span></span></code></pre></div>
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script></p>
+
 	
 		<style>
   .feedback--answer {

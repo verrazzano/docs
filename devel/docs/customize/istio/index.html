@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/customize/istio/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-11-23T21:44:46+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-01-27T11:03:02-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Istio">
 <meta itemprop="description" content="Customize Istio Gateways">
-<meta itemprop="dateModified" content="2022-11-23T21:44:46+05:30" />
-<meta itemprop="wordCount" content="282">
+<meta itemprop="dateModified" content="2023-01-27T11:03:02-05:00" />
+<meta itemprop="wordCount" content="449">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Istio"/>
 <meta name="twitter:description" content="Customize Istio Gateways"/>
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.629843b43bea7b9c767cbe8264dff743.json"
+  data-offline-search-index-json-src="../../../offline-search-index.2234e1728f5df879e8837450c7ec2f3d.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -138,7 +138,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.629843b43bea7b9c767cbe8264dff743.json"
+  data-offline-search-index-json-src="../../../offline-search-index.2234e1728f5df879e8837450c7ec2f3d.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -578,7 +578,7 @@ if (!doNotTrack) {
 </tr>
 <tr>
 <td><code>spec.components.istio.egress.kubernetes.affinity</code></td>
-<td>The pod affinity definition expressed as a standard Kubernetes <a href="https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity">affinity</a> definition.  The default configuration spreads the Istio gateway pods across the available nodes. <pre>spec:<br>  components:<br>    istio:<br>      egress:<br>        kubernetes:<br>          affinity:<br>            podAntiAffinity:<br>              preferredDuringSchedulingIgnoredDuringExecution:<br>                - weight: 100<br>                  podAffinityTerm:<br>                    labelSelector:<br>                      matchExpressions:<br>                        - key: app<br>                          operator: In<br>                          values:<br>                            - istio-egressgateway<br>                    topologyKey: kubernetes.io/hostname</pre></td>
+<td>The pod affinity definition expressed as a standard Kubernetes <a href="https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity">affinity</a> definition.  The default configuration spreads the Istio gateway pods across the available nodes. <div class="highlight"><pre>spec:<br>  components:<br>    istio:<br>      egress:<br>        kubernetes:<br>          affinity:<br>            podAntiAffinity:<br>              preferredDuringSchedulingIgnoredDuringExecution:<br>                - weight: 100<br>                  podAffinityTerm:<br>                    labelSelector:<br>                      matchExpressions:<br>                        - key: app<br>                          operator: In<br>                          values:<br>                            - istio-egressgateway<br>                    topologyKey: kubernetes.io/hostname</pre></div></td>
 </tr>
 <tr>
 <td><code>spec.components.istio.ingress.kubernetes.replicas</code></td>
@@ -586,15 +586,44 @@ if (!doNotTrack) {
 </tr>
 <tr>
 <td><code>spec.components.istio.ingress.kubernetes.affinity</code></td>
-<td>The pod affinity definition expressed as a standard Kubernetes <a href="https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity">affinity</a> definition.  The default configuration spreads the Istio gateway pods across the available nodes. <pre>spec:<br>  components:<br>    istio:<br>      ingress:<br>        kubernetes:<br>          affinity:<br>            podAntiAffinity:<br>              preferredDuringSchedulingIgnoredDuringExecution:<br>                - weight: 100<br>                  podAffinityTerm:<br>                    labelSelector:<br>                      matchExpressions:<br>                        - key: app<br>                          operator: In<br>                          values:<br>                            - istio-ingressgateway<br>                    topologyKey: kubernetes.io/hostname</pre></td>
+<td>The pod affinity definition expressed as a standard Kubernetes <a href="https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity">affinity</a> definition.  The default configuration spreads the Istio gateway pods across the available nodes. <div class="highlight"><pre>spec:<br>  components:<br>    istio:<br>      ingress:<br>        kubernetes:<br>          affinity:<br>            podAntiAffinity:<br>              preferredDuringSchedulingIgnoredDuringExecution:<br>                - weight: 100<br>                  podAffinityTerm:<br>                    labelSelector:<br>                      matchExpressions:<br>                        - key: app<br>                          operator: In<br>                          values:<br>                            - istio-ingressgateway<br>                    topologyKey: kubernetes.io/hostname</pre></div></td>
 </tr>
 </tbody>
 </table>
 <p>The following example customizes a Verrazzano <code>prod</code> profile as follows:</p>
 <ul>
 <li>Increases the replicas count to <code>3</code> for <code>istio-ingressgateway</code> and <code>istio-egressgateway</code></li>
-<li>Changes the <code>podAffinity</code> configuration to use <code>requiredDuringSchedulingIgnoredDuringExecution</code> for <code>istio-ingressgateway</code> and <code>istio-egressgateway</code></li>
-</ul>
+<li>Changes the <code>podAffinity</code> configuration to use <code>requiredDuringSchedulingIgnoredDuringExecution</code> for <code>istio-ingressgateway</code> and <code>istio-egressgateway</code>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
 <pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
@@ -645,7 +674,68 @@ spec:
                     service:
                       type: LoadBalancer
                   name: istio-ingressgateway
-</code></pre>
+</code></pre></div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script></li>
+</ul>
+
 	
 		<style>
   .feedback--answer {
