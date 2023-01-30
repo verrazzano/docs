@@ -536,7 +536,6 @@ spec:
 ```
 
 Here is an example to create a new index template where you want to change the number of shards to 3 and replicas to 2 for all applications indices.
-{{< /clipboard >}}
 ```yaml
 PUT _index_template/my-template
     {
@@ -610,5 +609,4 @@ PUT _index_template/my-template
         }
 }
 ```
-{{< /clipboard >}}
 With this, new indices that match `verrazzano-application-myapp*` index pattern will be created with 3 shards and 2 replicas and other indices that don't match will continue to be created with default number of shards and replicas.
