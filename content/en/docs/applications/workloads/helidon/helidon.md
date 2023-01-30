@@ -85,7 +85,7 @@ For more Verrazzano Helidon application examples, see [Examples]({{< relref "/do
 
 ### Customizing Helidon Workload service
 
-By default, deploying a Helidon Workload will create a service to provide ingress into the Helidon pod. That service 
+By default, deploying a Helidon Workload will create a service to access the Helidon pod. That service 
 can be customized by added a `ServiceTemplate` to the `VerrazzanoHelidonWorkload` spec. This supports customizing the
 service `metadata` and `serviceSpec` sections to do things like add labels and annotations, customize the service ports,
 modify the pod selector, etc. It is not necessary to provide complete `metadata` and `serviceSpec` sections. Just add the fields you
