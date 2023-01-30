@@ -83,6 +83,48 @@ developing and deploying the Verrazzano Helidon application.
 
 For more Verrazzano Helidon application examples, see [Examples]({{< relref "/docs/samples/_index.md" >}}).
 
+### Customizing Helidon Workload service
+
+By default, deploying a Helidon Workload will create a service to provide ingress into the Helidon pod. That service 
+can be customized by added a `ServiceTemplate` to the `VerrazzanoHelidonWorkload` spec. This supports customizing the
+service `metadata` and `serviceSpec` sections to do things like add labels and annotations, customize the service ports,
+modify the pod selector, etc. It is not necessary to provide complete `metadata` and `serviceSpec` sections. Just add the fields you
+would like to customize and Verrazzano will create the rest of the fields based the information
+provided in the `DeploymentTemplate`.
+```yaml
+apiVersion: core.oam.dev/v1alpha2
+kind: Component
+metadata:
+  name: hello-helidon-component
+  namespace: hello-helidon
+spec:
+  workload:
+    apiVersion: oam.verrazzano.io/v1alpha1
+    kind: VerrazzanoHelidonWorkload
+    metadata:
+      name: hello-helidon-workload
+      labels:
+        app: hello-helidon
+    spec:
+      deploymentTemplate:
+        metadata:
+          name: hello-helidon-deployment
+        podSpec:
+          containers:
+            - name: hello-helidon-container
+              ...
+              ...
+      serviceTemplate:
+        metadata:
+          name: hello-helidon-service
+        serviceSpec:
+          ports:
+            - name: http-hello-helidon
+              ...
+              ...
+```
+
+
 ### Provisioning
 
 When you apply the previous Component YAML file, Kubernetes will create a `component.oam.verrazzano.io` resource, but
