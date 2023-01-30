@@ -197,14 +197,8 @@ spec:
 
 ## Pod security for ContainerizedWorkload applications
 
-The only means for controlling pod security for the [ContainerizedWorkload]({{< relref "/docs/applications/#oam-containerizedworkload" >}}) type to specify a non-root user utilizing 
-the `USER` instruction in the image build as described previously.
-
-The [Helidon]({{< relref "/docs/applications/workloads/helidon/helidon.md" >}}) and 
-[Coherence]({{< relref "/docs/applications/workloads/coherence/coherence.md" >}}) workloads provide the ability to customize pod 
-security settings.  If those are not being used, it is recommended that [Standard Kubernetes Resources]({{< relref "/docs/samples/standard-kubernetes.md" >}})
-are used to define the application workloads.  This is described in "Security for standard Kubernetes resources" section
-below. 
+The only means for controlling pod security for the [ContainerizedWorkload]({{< relref "/docs/applications/#oam-containerizedworkload" >}}) type to 
+specify a non-root user utilizing the `USER` instruction in the container image build [as described previously](#specify-a-non-root-user-in-the-container-image).
 
 ## Pod security for applications using standard Kubernetes resources 
 
