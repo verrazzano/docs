@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/security/appsec/appsec/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2022-09-23T16:00:54-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-01-23T14:19:29-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Application Security">
 <meta itemprop="description" content="Learn about securing applications in Verrazzano">
-<meta itemprop="dateModified" content="2022-09-23T16:00:54-04:00" />
-<meta itemprop="wordCount" content="147">
+<meta itemprop="dateModified" content="2023-01-23T14:19:29-05:00" />
+<meta itemprop="wordCount" content="498">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Application Security"/>
 <meta name="twitter:description" content="Learn about securing applications in Verrazzano"/>
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.415db1b9b0342c2ec5fc4e366c80afd6.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.57f88f5da2f4d86a27ce0aea6e7e4fb5.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -138,7 +138,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.415db1b9b0342c2ec5fc4e366c80afd6.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.57f88f5da2f4d86a27ce0aea6e7e4fb5.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -477,6 +477,8 @@ if (!doNotTrack) {
       <ul>
         <li><a href="#keycloak">Keycloak</a></li>
         <li><a href="#network-security">Network security</a></li>
+        <li><a href="#pod-security">Pod security</a></li>
+        <li><a href="#helidon-pod-security">Helidon pod security</a></li>
       </ul>
     </li>
   </ul>
@@ -565,7 +567,58 @@ if (!doNotTrack) {
 </div>
 
 <p>For more information on how Verrazzano secures network traffic, see <a href="../../../../docs/networking/security/net-security/">Network Security</a>.</p>
-
+<h2 id="pod-security">Pod security</h2>
+<p>The Kubernetes pod specification includes configuration that controls container runtime security settings.  There is a pod-level security context,
+along with container-level security contexts.  Some fields are common between the two security contexts, and others are unique.  See the
+details at <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#podsecuritycontext-v1-core">Pod SecurityContext</a> and
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#securitycontext-v1-core">Container SecurityContext</a>.</p>
+<p>By default, all Kubernetes pods are run as root user, UID 0.  There are a few ways that you can specify that the container run as a non-root user.
+The first way is to modify the image build and use the <code>USER &lt;UID&gt;</code> instruction.  Even if the there is no user account matching the UID, the container
+will run as the specified user.  This means that there is no entry in <code>/etc/passwd</code>,
+so running <code>whoami</code> from the shell will return an error, such as <code>whoami: cannot find name for user ID 2000</code>.
+However, if you run the <code>id</code> command from the shell, you will see that the container process is running as the specified ID.
+It is better if the image build explicitly creates a user and group, then uses that with the <code>USER</code> instruction.</p>
+<p>The second way to run as non-root is to update the security context in the Pod spec.  This works even if you don&rsquo;t specify the <code>USER</code> instruction during
+the image build.  You can specify the UID and GID in either the pod security context or container security context.  The container security context
+has precedence over the pod security context, and both have precedence over the image <code>USER</code>.</p>
+<h2 id="helidon-pod-security">Helidon pod security</h2>
+<p>The following <code>YAML</code> shows how to explicitly specify the pod security context for a Helidon application.  With these settings,
+the Helidon application will meet the requirements of the Kubernetes <code>restricted</code> <a href="https://kubernetes.io/docs/concepts/security/pod-security-standards/">Pod Security Standard</a>.</p>
+<p>Note that the <code>runAsUser</code> 2000 UID does not exist in the container, as described previously.</p>
+<pre tabindex="0"><code>apiVersion: core.oam.dev/v1alpha2
+kind: Component
+metadata:
+  name: hello-helidon-component
+spec:
+  workload:
+    apiVersion: oam.verrazzano.io/v1alpha1
+    kind: VerrazzanoHelidonWorkload
+    metadata:
+      name: hello-helidon-workload
+      labels:
+        app: hello-helidon
+        version: v1
+    spec:
+      deploymentTemplate:
+        metadata:
+          name: hello-helidon-deployment
+        podSpec:
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
+          containers:
+            - name: hello-helidon-container
+...
+              securityContext:
+                runAsNonRoot: true
+                runAsGroup: 2000
+                runAsUser: 2000
+                privileged: false
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+</code></pre>
 	
 		<style>
   .feedback--answer {
