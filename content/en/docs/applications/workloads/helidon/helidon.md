@@ -127,6 +127,8 @@ spec:
               ...
 ```
 
+{{< /clipboard >}}
+
 
 ### Provisioning
 
