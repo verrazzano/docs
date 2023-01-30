@@ -25,22 +25,32 @@ Enforcement of NetworkPolicy requires that a Kubernetes Container Network Interf
 
 For more information on how Verrazzano secures network traffic, see [Network Security]({{< relref "/docs/networking/security/net-security.md" >}}).
 
-## Container security
+## Pod security
+
+By default all containers within a pod run as root within the container.  This could potentially allow a malicious actor to
+gain privileged access to hosts within a cluster.
 
 It is recommended that applications attempt to meet the requirements of the Kubernetes `restricted`  [Pod Security Standard](https://kubernetes.io/docs/concepts/security/pod-security-standards/).
-This essentially means running the container as a non-root user, with minimal capabilities, and without the ability to
-escalate privileges.
+This essentially means running the container within a pod as a non-root user with minimal capabilities, and without the ability to
+escalate privileges.  Each container image should also define a non-root user identify that the container process will
+execute as by default for added security.
 
-Security for containers should be defined
+In the Kubernetes `Pod` specification there is a [Pod SecurityContext](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#podsecuritycontext-v1-core)
+for defining security at the pod level and a
+[Container SecurityContext](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#securitycontext-v1-core) used
+to define security for containers.  Some fields are common between the two security contexts, and others are unique.  See
+the API specifications for each for details.  Where there is overlap, settings defined for at the container level override
+settings defined at the pod level.
 
-- In the container image itself
-- In the Kubernetes Pod and container declarations
+The following sections discuss implementing these standards in a bit more detail.
 
 ### Specify a non-root user in the container image
 
-Unless otherwise specified, all containers run as the root user (UID 0).  Most do not require this level of access, and it is considered a security risk.
+Unless otherwise specified, all containers run as the root user (UID 0).  Most do not require this level of access, and
+doing so is considered a security risk.
 
-It is recommended that the image build explicitly creates an unprivileged non-root user and group and then uses that with the `USER` instruction.
+It is recommended that the image build explicitly creates an unprivileged non-root user and group and then uses that with the `USER` instruction
+in the Dockerfile for the container.
 
 To achieve this, modify the container's image build and use the `USER <UID>` instruction.  For example,
 
@@ -52,31 +62,31 @@ USER 1000
 will make the process within the container run as UID 1000.  Even if there is no entry in `/etc/passwd` matching the UID declared, 
 the container will run as the specified UID with minimal privileges.  
 
-If there is no entry in `/etc/passwd` within the container, running `whoami` from the shell will return an error.
-However, running the `id` command from the shell will show that the container process is indeed running as the specified ID:
+For example, we can demonstrate this by running the `busybox` image and overriding the default user and group for the container process 
+using the following command:
 
 ```
-# Exec into a pod and examine the user ID of the container process
-% kubectl exec -it mypod -- bash
-bash-4.2$ whoami
-whoami: cannot find name for user ID 1000
-bash-4.2$ id
-uid=1000 gid=1000 groups=1000
-bash-4.2$ 
+$ kubectl run -it --rm busybox --image=busybox --restart=Never --overrides='{ "spec": { "securityContext": { "runAsUser": 1000, "runAsGroup": 1000, "runAsNonRoot": true } } }' -- sh
+If you don't see a command prompt, try pressing enter.
+~ $ 
+```
+
+Running `whoami` from within the container will return an error, whereas running the `id` command from the shell will show that 
+the container process is indeed running as the specified UID:
+
+```
+~ $ whoami
+whoami: unknown uid 1000
+~ $ id
+uid=1000 gid=1000
+~ $ 
 ```
 
 
 ### Specify security settings for the Pod
 
-In the Kubernetes `Pod` specification there is a [Pod SecurityContext](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#podsecuritycontext-v1-core) 
-for defining security at the pod level and a
-[Container SecurityContext](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#securitycontext-v1-core) used
-to define security for containers.  Some fields are common between the two security contexts, and others are unique.  See
-the API specifications for each for details.  Where there is overlap, settings defined for at the container level override 
-settings defined at the pod level.    
-
-By default, all Kubernetes pods run as the root user (UID 0).  The pod and container security contexts can be used to force
-containers within a pod to run as a non-root and prevent the container from acquiring escalated privileges.  These will 
+By default, containers within Kubernetes pods run as the root user (UID 0).  As mentioned above, the pod and container security 
+contexts can be used to force containers within a pod to run as a non-root and prevent the container from acquiring escalated privileges.  These will 
 override any `USER` setting within the image.
 
 ```
@@ -157,11 +167,12 @@ spec:
 
 ## Pod security for ContainerizedWorkload applications
 
-The only means for controlling pod security for the `ContainerizedWorkload` type to specify a non-root user utilizing 
+The only means for controlling pod security for the [ContainerizedWorkload]({{< relref "/docs/applications/#oam-containerizedworkload" >}}) type to specify a non-root user utilizing 
 the `USER` instruction in the image build as described previously.
 
-The Helidon and Coherence workloads provide the ability to customize pod security settings.  If those are not being used,
-it is recommended that [Standard Kubernetes Resources]({{< relref "/docs/samples/standard-kubernetes.md" >}})
+The [Helidon]({{< relref "/docs/applications/workloads/helidon/helidon.md" >}}) and 
+[Coherence]({{< relref "/docs/applications/workloads/coherence/coherence.md" >}}) workloads provide the ability to customize pod 
+security settings.  If those are not being used, it is recommended that [Standard Kubernetes Resources]({{< relref "/docs/samples/standard-kubernetes.md" >}})
 are used to define the application workloads.  This is described in "Security for standard Kubernetes resources" section
 below. 
 
