@@ -51,10 +51,16 @@ an unprivileged non-root user and group and then uses that with the `USER` instr
 
 To achieve this, modify the container's image build and use the `USER <UID>` instruction.  For example,
 
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 # Run as user 1000
 USER 1000
 ```
+{{< /clipboard >}}
+</div>
+
 
 will make the process within the container run as UID 1000.  Even if there is no entry in `/etc/passwd` matching the UID declared, 
 the container will run as the specified UID with minimal privileges.  
@@ -62,14 +68,22 @@ the container will run as the specified UID with minimal privileges.
 We can demonstrate this by running the `busybox` image and overriding the default user and group for the container process 
 using the following command.  For example,
 
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 $ kubectl run -it --rm busybox --image=busybox --restart=Never --overrides='{ "spec": { "securityContext": { "runAsUser": 1000, "runAsGroup": 1000, "runAsNonRoot": true } } }' -- sh
 If you don't see a command prompt, try pressing enter.
 ~ $ 
 ```
+{{< /clipboard >}}
+</div>
 
 Running `whoami` from within the container will return an error, whereas running the `id` command from the shell will show that 
 the container process is indeed running as the specified UID:
+
+{{< clipboard >}}
+<div class="highlight">
 
 ```
 ~ $ whoami
@@ -78,6 +92,8 @@ whoami: unknown uid 1000
 uid=1000 gid=1000
 ~ $ 
 ```
+{{< /clipboard >}}
+</div>
 
 
 ### Specify security settings for the Pod
@@ -86,6 +102,9 @@ By default, containers within Kubernetes pods run as the image default user, whi
 
 The pod and container `securityContext` fields can be used to force containers within a pod to run as a non-root 
 and prevent the container from acquiring escalated privileges.  These will override any `USER` setting within the image.
+
+{{< clipboard >}}
+<div class="highlight">
 
 ```
 apiVersion: apps/v1
@@ -114,6 +133,8 @@ spec:
           privileged: false
       ...
 ```
+{{< /clipboard >}}
+</div>
 
 As mentioned previously, where there is overlap between the pod and container security settings, the settings defined at the container level 
 override settings defined at the pod level.
