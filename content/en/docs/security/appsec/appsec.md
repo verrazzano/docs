@@ -27,8 +27,8 @@ For more information on how Verrazzano secures network traffic, see [Network Sec
 
 ## Pod security
 
-By default all containers within a pod run as root within the container.  This could potentially allow a malicious actor to
-gain privileged access to hosts within a cluster.
+By default all containers within a pod run as root (UID 0) within the container.  Most applications do not require this level of access, and
+doing so is considered a security risk.
 
 It is recommended that applications attempt to meet the requirements of the Kubernetes `restricted`  [Pod Security Standard](https://kubernetes.io/docs/concepts/security/pod-security-standards/).
 This essentially means running the container within a pod as a non-root user with minimal capabilities, and without the ability to
@@ -46,11 +46,8 @@ The following sections discuss implementing these standards in a bit more detail
 
 ### Specify a non-root user in the container image
 
-Unless otherwise specified, all containers run as the root user (UID 0).  Most do not require this level of access, and
-doing so is considered a security risk.
-
-It is recommended that the image build explicitly creates an unprivileged non-root user and group and then uses that with the `USER` instruction
-in the Dockerfile for the container.
+Unless otherwise specified, all containers run as the root user.  It is recommended that each container image build explicitly creates 
+an unprivileged non-root user and group and then uses that with the `USER` instruction in the Dockerfile for the container.
 
 To achieve this, modify the container's image build and use the `USER <UID>` instruction.  For example,
 
@@ -62,8 +59,8 @@ USER 1000
 will make the process within the container run as UID 1000.  Even if there is no entry in `/etc/passwd` matching the UID declared, 
 the container will run as the specified UID with minimal privileges.  
 
-For example, we can demonstrate this by running the `busybox` image and overriding the default user and group for the container process 
-using the following command:
+We can demonstrate this by running the `busybox` image and overriding the default user and group for the container process 
+using the following command.  For example,
 
 ```
 $ kubectl run -it --rm busybox --image=busybox --restart=Never --overrides='{ "spec": { "securityContext": { "runAsUser": 1000, "runAsGroup": 1000, "runAsNonRoot": true } } }' -- sh
@@ -85,9 +82,10 @@ uid=1000 gid=1000
 
 ### Specify security settings for the Pod
 
-By default, containers within Kubernetes pods run as the root user (UID 0).  As mentioned above, the pod and container security 
-contexts can be used to force containers within a pod to run as a non-root and prevent the container from acquiring escalated privileges.  These will 
-override any `USER` setting within the image.
+By default, containers within Kubernetes pods run as the image default user, which in turn defaults to the root user (UID 0).  
+
+The pod and container `securityContext` fields can be used to force containers within a pod to run as a non-root 
+and prevent the container from acquiring escalated privileges.  These will override any `USER` setting within the image.
 
 ```
 apiVersion: apps/v1
@@ -116,6 +114,9 @@ spec:
           privileged: false
       ...
 ```
+
+As mentioned previously, where there is overlap between the pod and container security settings, the settings defined at the container level 
+override settings defined at the pod level.
 
 ## Helidon pod security
 
