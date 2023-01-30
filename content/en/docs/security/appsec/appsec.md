@@ -65,36 +65,44 @@ USER 1000
 will make the process within the container run as UID 1000.  Even if there is no entry in `/etc/passwd` matching the UID declared, 
 the container will run as the specified UID with minimal privileges.  
 
-We can demonstrate this by running the `busybox` image and overriding the default user and group for the container process 
-using the following command.  For example,
+For example, we can demonstrate this by an running image using the `kubectl run` command with the defaults:
 
 {{< clipboard >}}
 <div class="highlight">
 
 ```
-$ kubectl run -it --rm busybox --image=busybox --restart=Never --overrides='{ "spec": { "securityContext": { "runAsUser": 1000, "runAsGroup": 1000, "runAsNonRoot": true } } }' -- sh
+% kubectl run -it --rm myol --image=ghcr.io/oracle/oraclelinux:7-slim --restart=Never -- bash
 If you don't see a command prompt, try pressing enter.
-~ $ 
+bash-4.2# whoami
+root
+bash-4.2# id
+uid=0(root) gid=0(root) groups=0(root)
+bash-4.2# 
 ```
 {{< /clipboard >}}
 </div>
 
-Running `whoami` from within the container will return an error, whereas running the `id` command from the shell will show that 
-the container process is indeed running as the specified UID:
+To run the same image as a non-root user, we can override the default user and group for the container process as shown
+below:
 
 {{< clipboard >}}
 <div class="highlight">
 
 ```
-~ $ whoami
-whoami: unknown uid 1000
-~ $ id
-uid=1000 gid=1000
-~ $ 
+% kubectl run -it --rm myol --image=ghcr.io/oracle/oraclelinux:7-slim --restart=Never --overrides='{ "spec": { "securityContext": { "runAsUser": 1000, "runAsGroup": 1000, "runAsNonRoot": true } } }' -- bash
+If you don't see a command prompt, try pressing enter.
+bash-4.2$ 
+bash-4.2$ whoami
+whoami: cannot find name for user ID 1000
+bash-4.2$ id
+uid=1000 gid=1000 groups=1000
 ```
 {{< /clipboard >}}
 </div>
 
+In the second case the container is running as UID `1000` with a GID of `1000`.  Running `whoami` from within the container returns an error
+as there user 1000 is not defined in `/etc/passwd`, but running the `id` command from the shell shows that the container process 
+is indeed running as the desired UID (1000).
 
 ### Specify security settings for the Pod
 
