@@ -1,7 +1,7 @@
 ---
 title: Access Verrazzano
 description: "Information and tools to support operating Verrazzano"
-weight: 5
+weight: 4
 draft: false
 aliases:
   - /docs/operations
@@ -32,19 +32,20 @@ The resulting output is similar to the following:
 Verrazzano Status
   Name: verrazzano
   Namespace: default
-  Version: 1.3.1
+  Version: 1.5.0
   State: Ready
   Profile: dev
+  Available Components: 23/23
   Access Endpoints:
-    Console URL: https://verrazzano.default.172.18.0.231.nip.io
-    Grafana URL: https://grafana.vmi.system.default.172.18.0.231.nip.io
-    Jaeger URL: https://jaeger.default.172.18.0.231.nip.io
-    Keycloak URL: https://keycloak.default.172.18.0.231.nip.io
-    Kiali URL: https://kiali.vmi.system.default.172.18.0.231.nip.io
-    Kibana URL: https://kibana.vmi.system.default.172.18.0.231.nip.io
-    OpenSearch URL: https://elasticsearch.vmi.system.default.172.18.0.231.nip.io
-    Prometheus URL: https://prometheus.vmi.system.default.172.18.0.231.nip.io
-    Rancher URL: https://rancher.default.172.18.0.231.nip.io
+    consoleUrl: https://verrazzano.default.172.18.0.231.nip.io
+    grafanaUrl: https://grafana.vmi.system.default.172.18.0.231.nip.io
+    jaegerURL: https://jaeger.default.172.18.0.231.nip.io
+    keyCloakUrl: https://keycloak.default.172.18.0.231.nip.io
+    kialiUrl: https://kiali.vmi.system.default.172.18.0.231.nip.io
+    openSearchDashboardsUrl: https://osd.vmi.system.default.172.18.0.231.nip.io
+    openSearchUrl: https://opensearch.vmi.system.default.172.18.0.231.nip.io
+    prometheusUrl: https://prometheus.vmi.system.default.172.18.0.231.nip.io
+    rancherUrl: https://rancher.default.172.18.0.231.nip.io
 ```
 
 {{< /tab >}}
@@ -53,12 +54,19 @@ Verrazzano Status
 
 You can get the endpoints for these consoles by issuing the following command
 and examining the `Status.Instance` field:
+{{< clipboard >}}
 
 ```shell
 $ kubectl get vz -o yaml
 ```
+{{< /clipboard >}}
+
+
 
 The resulting output is similar to the following (abbreviated to show only the relevant portions):
+
+{{< clipboard >}}
+<div class="highlight">
 
 ```
   ...
@@ -77,15 +85,25 @@ The resulting output is similar to the following (abbreviated to show only the r
       grafanaUrl: https://grafana.vmi.system.default.11.22.33.44.nip.io
       keyCloakUrl: https://keycloak.default.11.22.33.44.nip.io
       kialiUrl: https://kiali.vmi.system.default.11.22.33.44.nip.io
-      kibanaUrl: https://kibana.vmi.system.default.11.22.33.44.nip.io
-      opensearchUrl: https://elasticsearch.vmi.system.default.11.22.33.44.nip.io
+      opensearchDashboardsUrl: https://opensearchDashboards.vmi.system.default.11.22.33.44.nip.io
+      opensearchUrl: https://opensearch.vmi.system.default.11.22.33.44.nip.io
       prometheusUrl: https://prometheus.vmi.system.default.11.22.33.44.nip.io
       rancherUrl: https://rancher.default.11.22.33.44.nip.io
 ```
+</div>
+{{< /clipboard >}}
+
 
 If you have `jq` installed, then you can use the following command to get the instance URLs more directly.
+{{< clipboard >}}
+<div class="highlight">
 
-`$ kubectl get vz -o jsonpath="{.items[].status.instance}" | jq .`
+```
+$ kubectl get vz -o jsonpath="{.items[].status.instance}" | jq .
+```
+
+</div>
+{{< /clipboard >}}
 
 The following is an example of the output:
 
@@ -95,8 +113,8 @@ The following is an example of the output:
 "grafanaUrl": "https://grafana.vmi.system.default.11.22.33.44.nip.io",
 "keyCloakUrl": "https://keycloak.default.11.22.33.44.nip.io",
 "kialiUrl": "https://kiali.vmi.system.default.11.22.33.44.nip.io",
-"opensearchUrl": "https://elasticsearch.vmi.system.default.11.22.33.44.nip.io",
-"opensearchDashboardsUrl": "https://kibana.vmi.system.default.11.22.33.44.nip.io",
+"opensearchUrl": "https://opensearch.vmi.system.default.11.22.33.44.nip.io",
+"opensearchDashboardsUrl": "https://opensearchDashboards.vmi.system.default.11.22.33.44.nip.io",
 "prometheusUrl": "https://prometheus.vmi.system.default.11.22.33.44.nip.io",
 "rancherUrl": "https://rancher.default.11.22.33.44.nip.io"
 }
@@ -121,26 +139,32 @@ You will need the credentials to access the consoles installed by Verrazzano.
 **User:** `verrazzano`
 
 To get the password:
+{{< clipboard >}}
+<div class="highlight">
 
-```
-$ kubectl get secret \
-    --namespace verrazzano-system verrazzano \
-    -o jsonpath={.data.password} | base64 \
-    --decode; echo
-```
+    $ kubectl get secret \
+        --namespace verrazzano-system verrazzano \
+        -o jsonpath={.data.password} | base64 \
+        --decode; echo
+
+</div>
+{{< /clipboard >}}
 
 ### The Keycloak admin console
 
 **User:** `keycloakadmin`
 
 To get the password:
+{{< clipboard >}}
+<div class="highlight">
 
-```
-$ kubectl get secret \
-    --namespace keycloak keycloak-http \
-    -o jsonpath={.data.password} | base64 \
-    --decode; echo
-```
+    $ kubectl get secret \
+        --namespace keycloak keycloak-http \
+        -o jsonpath={.data.password} | base64 \
+        --decode; echo
+
+</div>
+{{< /clipboard >}}
 
 ### The Rancher console
 
@@ -150,24 +174,30 @@ To log in with Keycloak, select the `Log in with Keycloak` link or select the `U
 **Local Admin User:** `admin`
 
 To get the password:
+{{< clipboard >}}
+<div class="highlight">
 
-```
-$ kubectl get secret \
-    --namespace cattle-system rancher-admin-secret \
-    -o jsonpath={.data.password} | base64 \
-    --decode; echo
-```
+    $ kubectl get secret \
+        --namespace cattle-system rancher-admin-secret \
+        -o jsonpath={.data.password} | base64 \
+        --decode; echo
+
+</div>
+{{< /clipboard >}}
 
 **Keycloak User:** `verrazzano`
 
 To get the password:
+{{< clipboard >}}
+<div class="highlight">
 
-```
-$ kubectl get secret \
-    --namespace verrazzano-system verrazzano \
-    -o jsonpath={.data.password} | base64 \
-    --decode; echo
-```
+    $ kubectl get secret \
+        --namespace verrazzano-system verrazzano \
+        -o jsonpath={.data.password} | base64 \
+        --decode; echo
+
+</div>
+{{< /clipboard >}}
 
 ## Change the Verrazzano password
 
@@ -193,11 +223,20 @@ To change the Verrazzano password, first change the user password in Keycloak an
 **Update the Verrazzano secret**
 
 Get the base64 encoding for your new password.
+{{< clipboard >}}
+<div class="highlight">
 
-`$ echo -n 'MyNewPwd' | base64`
+    $ echo -n 'MyNewPwd' | base64
+
+</div>
+{{< /clipboard >}}
 
 Update the password in the secret.
+{{< clipboard >}}
+<div class="highlight">
 
-`$ kubectl edit secret verrazzano -n verrazzano-system`
+    $ kubectl edit secret verrazzano -n verrazzano-system
 
+</div>
+{{< /clipboard >}}
 Replace the existing password value with the new base64 encoded value.

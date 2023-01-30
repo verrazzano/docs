@@ -2,7 +2,7 @@
 title: minikube
 description: Instructions for setting up a minikube cluster for Verrazzano
 linkTitle: minikube
-Weight: 9
+Weight: 3
 draft: true
 ---
 
@@ -26,18 +26,21 @@ of type `LoadBalancer` by using the `minikube tunnel` command.
 
 Create a minikube cluster using a supported Kubernetes version and appropriate driver.  On Linux hosts, the default
 driver is acceptable; on macOS, hyperkit is recommended.
+{{< clipboard >}}
+<div class="highlight">
 
-```
-$ minikube start \
-    --kubernetes-version=v1.18.8 \
-    --driver=hyperkit \
-    --memory=16G \
-    --disk-size=30G \
-    --cpus=4 \
-    --extra-config=apiserver.service-account-signing-key-file=/var/lib/minikube/certs/sa.key \
-    --extra-config=apiserver.service-account-issuer=kubernetes/serviceaccount \
-    --extra-config=apiserver.service-account-api-audiences=api
-```
+    $ minikube start \
+        --kubernetes-version=v1.18.8 \
+        --driver=hyperkit \
+        --memory=16G \
+        --disk-size=30G \
+        --cpus=4 \
+        --extra-config=apiserver.service-account-signing-key-file=/var/lib/minikube/certs/sa.key \
+        --extra-config=apiserver.service-account-issuer=kubernetes/serviceaccount \
+        --extra-config=apiserver.service-account-api-audiences=api
+
+</div>
+{{< /clipboard >}}
 
 ### Run `minikube tunnel`
 
@@ -48,9 +51,14 @@ Note that the `ip` command is required by `minikube tunnel`.  You may need to ad
 
 Run a tunnel in a separate terminal from minikube:
 
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 $ minikube tunnel
 ```
+</div>
+{{< /clipboard >}}
 ## Next steps
 
 To continue, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md#install-the-verrazzano-platform-operator" >}}).

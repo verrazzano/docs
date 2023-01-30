@@ -1,6 +1,6 @@
 ---
 title: "ToDo List"
-weight: 6
+weight: 7
 description: "An example application containing a WebLogic component"
 ---
 
@@ -20,25 +20,41 @@ description: "An example application containing a WebLogic component"
 
 All files and paths in this document are relative to `<VERRAZZANO_HOME>/examples/todo-list`.
 
-## Deploy the ToDo List application
+## Deploy the application
 
 ToDo List is an example application containing a WebLogic component.
 For more information and the source code of this application, see the [Verrazzano Examples](https://github.com/verrazzano/examples).
 
 {{< alert title="NOTE" color="primary" >}}To run this application in the default namespace:
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl label namespace default verrazzano-managed=true istio-injection=enabled
    ```
+</div>
+{{< /clipboard >}}
+
    If you chose the default namespace, you can skip Step 1 and ignore the `-n` option in the rest of the commands.
 {{< /alert >}}
 
 1. Create a namespace for the ToDo List example and add a label identifying the namespace as managed by Verrazzano.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl create namespace todo-list
    $ kubectl label namespace todo-list verrazzano-managed=true istio-injection=enabled
    ```
 
+</div>
+{{< /clipboard >}}
+
+
 1. Create a `docker-registry` secret to enable pulling the ToDo List example image from the registry.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl create secret docker-registry tododomain-repo-credentials \
            --docker-server=container-registry.oracle.com \
@@ -48,10 +64,16 @@ For more information and the source code of this application, see the [Verrazzan
            -n todo-list
    ```
 
+</div>
+{{< /clipboard >}}
+
    Replace `YOUR_REGISTRY_USERNAME`, `YOUR_REGISTRY_PASSWORD`, and `YOUR_REGISTRY_EMAIL`
    with the values you use to access the registry.  
 
-1. Create and label secrets for the WebLogic domain:
+1. Create and label secrets for the WebLogic domain. The password must be at least 8 alphanumeric characters with at least one number or special character.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    # Replace the values of the WLS_USERNAME and WLS_PASSWORD environment variables as appropriate.
    $ export WLS_USERNAME=<username>
@@ -69,29 +91,62 @@ For more information and the source code of this application, see the [Verrazzan
    $ kubectl -n todo-list label secret tododomain-jdbc-tododb weblogic.domainUID=tododomain
    ```
 
+</div>
+{{< /clipboard >}}
+
    Note that the ToDo List example application is preconfigured to use specific secret names.
    For the source code of this application, see the [Verrazzano Examples](https://github.com/verrazzano/examples).  
 
 1. To deploy the application, apply the example resources.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl apply -f {{< release_source_url raw=true path=examples/todo-list/todo-list-components.yaml >}} -n todo-list
    $ kubectl apply -f {{< release_source_url raw=true path=examples/todo-list/todo-list-application.yaml >}} -n todo-list
    ```
 
-1. Wait for the ToDo List application to be ready. You can monitor its progress by listing pods and inspecting the output, or
-you can use the `kubectl wait` command. You may need to repeat the `kubectl wait` command several times before it is successful.
-   The `tododomain-adminserver` pod may take a while to be created and `Ready`.
+</div>
+{{< /clipboard >}}
+
+1. Wait for the ToDo List application to be ready. You can monitor its progress by listing pods and inspecting the output.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl get pods -n todo-list
-
-   # -or- #
-
-   $ kubectl wait pod \
-      --for=condition=Ready tododomain-adminserver \
-      -n todo-list
    ```
 
+</div>
+{{< /clipboard >}}
+
+   Alternatively, you can use the `kubectl wait` commands. However, if it is run before the respective pods are created,
+   then the `kubectl wait` commands may report `error: no matching resources found`. Specifically, the `tododomain-adminserver`
+   pod may take a while to be created and `Ready`, so you may need to repeat the `kubectl wait` command several times before
+   it is successful. 
+{{< clipboard >}}
+<div class="highlight">
+
+   ```
+   $ kubectl wait pod \
+        --for=condition=Ready \
+        -l app.oam.dev/component=todo-mysql-deployment \
+        -n todo-list \
+        --timeout=5m
+   $ kubectl wait pod \
+        --for=condition=Ready \
+        -l weblogic.serverName=AdminServer \
+        -n todo-list \
+        --timeout=5m
+   ```
+
+</div>
+{{< /clipboard >}}
+
 1. Get the generated host name for the application.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ HOST=$(kubectl get gateways.networking.istio.io \
         -n todo-list \
@@ -102,7 +157,13 @@ you can use the `kubectl wait` command. You may need to repeat the `kubectl wait
    todo-appconf.todo-list.10.11.12.13.nip.io
    ```
 
+</div>
+{{< /clipboard >}}
+
 1. Get the `EXTERNAL_IP` address of the `istio-ingressgateway` service.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ ADDRESS=$(kubectl get service \
         -n istio-system istio-ingressgateway \
@@ -113,15 +174,25 @@ you can use the `kubectl wait` command. You may need to repeat the `kubectl wait
    10.11.12.13
    ```   
 
+</div>
+{{< /clipboard >}}
+
 1. Access the ToDo List application.
 
    * **Using the command line**
-     ```
+{{< clipboard >}}
+<div class="highlight">
+
+   ```
      # The expected response of this query is the HTML of a web page
      $ curl -sk \
         https://${HOST}/todo/ \
         --resolve ${HOST}:443:${ADDRESS}
-     ```
+   ```
+
+</div>
+{{< /clipboard >}}
+
      If you are using `nip.io`, then you do not need to include `--resolve`.
    * **Local testing with a browser**
 
@@ -157,23 +228,39 @@ you can use the `kubectl wait` command. You may need to repeat the `kubectl wait
 To access the Console from the machine where you are running `kubectl`:
 
 1. Set up port forwarding.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl port-forward pods/tododomain-adminserver 7001:7001 -n todo-list
    ```
+
+</div>
+{{< /clipboard >}}
+
    **NOTE**: If you are using the Oracle Cloud Infrastructure Cloud Shell to run `kubectl`, in order to access the Console using port forwarding, you will need to run `kubectl` on another machine.
 
 1. Access the WebLogic Server Administration Console from your browser.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    http://localhost:7001/console
    ```
+
+</div>
+{{< /clipboard >}}
 
 {{< alert title="NOTE" color="warning" >}}
 It is recommended that the WebLogic Server Administration Console _not_ be exposed publicly.
 {{< /alert >}}
 
-## Troubleshooting
+## Verify the deployed application
 
 1. Verify that the application configuration, domain, and ingress trait all exist.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl get ApplicationConfiguration -n todo-list
 
@@ -194,8 +281,14 @@ It is recommended that the WebLogic Server Administration Console _not_ be expos
    todo-domain-trait-7cbd798c96   19h
    ```
 
+</div>
+{{< /clipboard >}}
+
 1. Verify that the WebLogic Administration Server and MySQL pods have been created and are running.
    Note that this will take several minutes.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl get pods -n todo-list
 
@@ -204,15 +297,31 @@ It is recommended that the WebLogic Server Administration Console _not_ be expos
    mysql-5c75c8b7f-vlhck    2/2     Running   0          19h
    tododomain-adminserver   4/4     Running   0          19h
    ```
+
+</div>
+{{< /clipboard >}}
+
 ## Undeploy the application
 
 1. To undeploy the application, delete the ToDo List OAM resources.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl delete -f {{< release_source_url raw=true path=examples/todo-list/todo-list-application.yaml >}} -n todo-list
    $ kubectl delete -f {{< release_source_url raw=true path=examples/todo-list/todo-list-components.yaml >}} -n todo-list
    ```
 
+</div>
+{{< /clipboard >}}
+
 1. Delete the namespace `todo-list` after the application pods are terminated. The secrets created for the WebLogic domain also will be deleted.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl delete namespace todo-list
    ```
+
+</div>
+{{< /clipboard >}}

@@ -2,7 +2,7 @@
 title: Oracle Cloud Native Environment
 description: Instructions for setting up an Oracle Cloud Native Environment cluster for Verrazzano
 linkTitle: Oracle Cloud Native Environment
-weight: 7
+weight: 4
 draft: false
 ---
 
@@ -16,8 +16,9 @@ Deploy Oracle Cloud Native Environment with the Kubernetes module, following ins
 
 - The `oci-ccm` module does not elect a default `StorageClass` or configure policies for the `CSIDrivers` that it installs.  A
 reasonable choice is the `oci-bv` `StorageClass` with its `CSIDriver` configured with the `File` group policy.
+{{< clipboard >}}
+<div class="highlight">
 
-    ```
     kubectl patch sc oci-bv -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
     kubectl apply -f - <<EOF
     apiVersion: storage.k8s.io/v1
@@ -27,16 +28,21 @@ reasonable choice is the `oci-bv` `StorageClass` with its `CSIDriver` configured
     spec:
       fsGroupPolicy: File
     EOF
-    ```
+
+</div>
+{{< /clipboard >}}
 
 - Unless explicitly configured, the `externalip-validation-webhook-service` defaults to blocking all external IP addresses in the cluster, which causes the
-Verrazzano installation to fail because an IP address cannot be assigned to an ingress controller. When this situation occurs, the Verrazzano Platform Operator logs
+Verrazzano installation to fail because an IP address cannot be assigned to an ingress controller. When this situation occurs, the Verrazzano platform operator logs
 will contain a message similar to this:
+{{< clipboard >}}
+<div class="highlight">
 
-    ```
     admission webhook "validate-externalip.webhook.svc" denied the request: spec.externalIPs:
         Invalid value: "<external IP address>": externalIP specified is not allowed to use
-    ```
+
+</div>
+{{< /clipboard >}}
 
    To avoid this error, either disable the `externalip-validation-webhook-service` or configure the service with your load balancer IP addresses prior to installing Verrazzano.
    For more information, see [Enabling Access to all externalIPs](https://docs.oracle.com/en/operating-systems/olcne/1.5/orchestration/external-ips.html#ext-ip-disable).
@@ -125,12 +131,12 @@ Other values can be used if required.
 
 | Role                          | Subnet  | Suggested RAM | Compatible VM Shape | Compatible VM Image |
 |-------------------------------|---------|---------------|---------------------|---------------------|
-| SSH Jump Host                 | Public  | 8GB           | VM.Standard3.Flex    | Oracle Linux 7.9    |
-| Oracle Cloud Native Environment Operator Host           | Private | 16GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
-| Kubernetes Control Plane Node | Private | 32GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
-| Kubernetes Worker Node 1      | Private | 32GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
-| Kubernetes Worker Node 2      | Private | 32GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
-| Kubernetes Worker Node 3      | Private | 32GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
+| SSH Jump Host                 | Public  | 8 GB           | VM.Standard3.Flex    | Oracle Linux 7.9    |
+| Oracle Cloud Native Environment Operator Host           | Private | 16 GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
+| Kubernetes Control Plane Node | Private | 32 GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
+| Kubernetes Worker Node 1      | Private | 32 GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
+| Kubernetes Worker Node 2      | Private | 32 GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
+| Kubernetes Worker Node 3      | Private | 32 GB          | VM.Standard3.Flex    | Oracle Linux 7.9    |
 </details>
 
 ## Next steps

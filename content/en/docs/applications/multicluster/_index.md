@@ -9,7 +9,7 @@ Verrazzano may be installed in a multicluster environment, consisting of an _adm
 _managed_ clusters.
 - The admin cluster is a central point from which Verrazzano applications in managed clusters can be deployed and monitored.
 - Managed clusters are registered with an admin cluster.
-- Verrazzano multicluster resources are used to target applications to any cluster in a multicluster Verrazzano environment.
+- MultiClusterApplicationConfiguration resources are used to target applications to any cluster in a multicluster Verrazzano environment.
 
 The following diagram shows a high-level overview of how multicluster Verrazzano works. For a more
 detailed view, see the diagram [here](#detailed-view-of-multicluster-verrazzano).
@@ -33,14 +33,14 @@ installation profile. A managed cluster has the following additional characteris
 - It is registered with an admin cluster with a unique name.
 - Logs for Verrazzano system Components and Verrazzano multicluster applications are sent to
   OpenSearch running on the admin cluster, and are viewable from that cluster.
-- A Verrazzano multicluster Kubernetes resource, created on the admin cluster, will be retrieved and deployed to a
+- A Verrazzano MultiClusterApplicationConfiguration Kubernetes resource, created on the admin cluster, will be retrieved and deployed to a
   managed cluster if all of the following are true:
-    - The resource is in a namespace governed by a VerrazzanoProject.
+    - The MultiClusterApplicationConfiguration is in a namespace governed by a VerrazzanoProject.
     - The VerrazzanoProject has a `placement` value that includes this managed cluster.
-    - The resource itself has a `placement` value that includes this managed cluster.
+    - The MultiClusterApplicationConfiguration itself has a `placement` value that includes this managed cluster.
 
 ## Verrazzano multicluster applications
-Verrazzano includes a [MultiClusterApplicationConfiguration]({{< relref "/docs/reference/api/multicluster/multiclusterapplicationconfiguration" >}})
+Verrazzano includes a [MultiClusterApplicationConfiguration]({{< relref "/docs/reference/api/vao-clusters-v1alpha1#clusters.verrazzano.io/v1alpha1.MultiClusterApplicationConfiguration" >}})
 resource definition for applications that may be targeted for placement in one or more clusters.
 
 - A MultiClusterApplicationConfiguration is a wrapper for an ApplicationConfiguration, and additionally allows the
@@ -55,7 +55,7 @@ resource definition for applications that may be targeted for placement in one o
 ## Managed cluster registration
 A managed cluster may be registered with an admin cluster using a two-step process:
 
-**Step 1:** Create a [VerrazzanoManagedCluster]({{< relref "/docs/reference/api/multicluster/verrazzanomanagedcluster" >}}) resource in the `verrazzano-mc` namespace of the admin cluster.
+**Step 1:** Create a [VerrazzanoManagedCluster]({{< relref "/docs/reference/api/vco-clusters-v1alpha1#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedCluster" >}}) resource in the `verrazzano-mc` namespace of the admin cluster.
 
 **Step 2:** Retrieve the Kubernetes manifest file generated in the VerrazzanoManagedCluster resource and apply it on
 the managed cluster to complete the registration.
@@ -63,14 +63,15 @@ the managed cluster to complete the registration.
 When a managed cluster is registered, the following will happen:
 
 - After both steps of the registration are complete, the managed cluster begins polling the admin cluster for
-  VerrazzanoProject resources and multicluster resources, which specify a `placement` in this managed cluster.
-    -  Any VerrazzanoProject resources placed in this managed cluster are retrieved, and the corresponding namespaces
+  VerrazzanoProject resources and MultiClusterApplicationConfiguration resources, which specify a `placement` in this managed cluster.
+    - Any VerrazzanoProject resources placed in this managed cluster are retrieved, and the corresponding namespaces
        and security permissions (RoleBindings) are created in the managed cluster.
-    - Any multicluster resources that are placed in this managed cluster, and are in a VerrazzanoProject that is
+    - Any MultiClusterApplicationConfigurations that are placed in this managed cluster, and are in a VerrazzanoProject that is
       also placed in this managed cluster, are retrieved, and created or updated on the managed cluster. The
-      underlying resource represented by the multicluster resource is unwrapped, and created or updated on the managed
-      cluster. The managed cluster namespace of the multicluster resource and its underlying resource matches
-      the admin cluster namespace of the multicluster resource.
+      underlying ApplicationConfiguration represented by the MultiClusterApplicationConfiguration is unwrapped, and created or updated on the managed
+      cluster. The managed cluster namespace of the MultiClusterApplicationConfiguration and its underlying ApplicationConfiguration match
+      the admin cluster namespace of the MultiClusterApplicationConfiguration.
+    - Any Component and Secret resources referenced by the retrieved MultiClusterApplicationConfigurations, are also retrieved and created on the managed cluster.
 - When the managed cluster connects to the admin cluster, it updates the VerrazzanoManagedCluster resource for this
   managed cluster with:
   - The endpoint URL that the admin cluster should use to scrape Prometheus metrics from the managed cluster.

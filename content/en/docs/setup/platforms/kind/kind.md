@@ -2,7 +2,7 @@
 title: Kind
 description: Instructions for setting up a Kind cluster for Verrazzano
 linkTitle: Kind
-Weight: 8
+Weight: 2
 draft: false
 ---
 
@@ -35,23 +35,26 @@ There you'll find a complete listing of images created for a Kind release.
 
 The following example references a Kubernetes v1.21.1-based image built for Kind v0.11.1.  Replace that image
 with one suitable for the Kind release you are using.
+{{< clipboard >}}
+<div class="highlight">
 
-```
-$ kind create cluster --config - <<EOF
-kind: Cluster
-apiVersion: kind.x-k8s.io/v1alpha4
-nodes:
-  - role: control-plane
-    image: kindest/node:v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6
-    kubeadmConfigPatches:
-      - |
-        kind: ClusterConfiguration
-        apiServer:
-          extraArgs:
-            "service-account-issuer": "kubernetes.default.svc"
-            "service-account-signing-key-file": "/etc/kubernetes/pki/sa.key"
-EOF
-```
+    $ kind create cluster --config - <<EOF
+    kind: Cluster
+    apiVersion: kind.x-k8s.io/v1alpha4
+    nodes:
+      - role: control-plane
+        image: kindest/node:v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6
+        kubeadmConfigPatches:
+          - |
+            kind: ClusterConfiguration
+            apiServer:
+              extraArgs:
+                "service-account-issuer": "kubernetes.default.svc"
+                "service-account-signing-key-file": "/etc/kubernetes/pki/sa.key"
+    EOF
+
+</div>
+{{< /clipboard >}}
 
 ### Create a Kind cluster with image caching
 
@@ -61,45 +64,52 @@ containerd inside a Kind cluster, is preserved across clusters. Subsequent insta
 because they will not need to pull the images again.
 
 1\. Create a named Docker volume that will be used for the image cache and note its `mountPoint` path. In this example, the volume is named `containerd`.
+{{< clipboard >}}
+<div class="highlight">
 
-```
-$ docker volume create containerd
+    $ docker volume create containerd
 
-$ docker volume inspect containerd
+    $ docker volume inspect containerd
 
-#Sample output
-{
-    "CreatedAt": "2021-01-11T16:27:47Z",
-    "Driver": "local",
-    "Labels": {},
-    "Mountpoint": "/var/lib/docker/volumes/containerd/_data",
-    "Name": "containerd",
-    "Options": {},
-    "Scope": "local"
-}
-```
+    # Sample output
+    {
+        "CreatedAt": "2021-01-11T16:27:47Z",
+        "Driver": "local",
+        "Labels": {},
+        "Mountpoint": "/var/lib/docker/volumes/containerd/_data",
+        "Name": "containerd",
+        "Options": {},
+        "Scope": "local"
+    }
+
+</div>
+{{< /clipboard >}}
 
 2\. Specify the `mountPoint` path obtained, as the `hostPath` under `extraMounts` in your Kind configuration file, with a `containerPath` of `/var/lib/containerd`, which is the default containerd image caching location inside the Kind container. An example of the modified Kind configuration is shown in the following `create cluster` command.
+{{< clipboard >}}
+<div class="highlight">
 
-```
-$ kind create cluster --config - <<EOF
-kind: Cluster
-apiVersion: kind.x-k8s.io/v1alpha4
-nodes:
-  - role: control-plane
-    image: kindest/node:v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6
-    kubeadmConfigPatches:
-      - |
-        kind: ClusterConfiguration
-        apiServer:
-          extraArgs:
-            "service-account-issuer": "kubernetes.default.svc"
-            "service-account-signing-key-file": "/etc/kubernetes/pki/sa.key"
-    extraMounts:
-      - hostPath: /var/lib/docker/volumes/containerd/_data
-        containerPath: /var/lib/containerd #This is the location of the image cache inside the Kind container
-EOF
-```
+    $ kind create cluster --config - <<EOF
+    kind: Cluster
+    apiVersion: kind.x-k8s.io/v1alpha4
+    nodes:
+      - role: control-plane
+        image: kindest/node:v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6
+        kubeadmConfigPatches:
+          - |
+            kind: ClusterConfiguration
+            apiServer:
+              extraArgs:
+                "service-account-issuer": "kubernetes.default.svc"
+                "service-account-signing-key-file": "/etc/kubernetes/pki/sa.key"
+        extraMounts:
+          - hostPath: /var/lib/docker/volumes/containerd/_data
+            containerPath: /var/lib/containerd #This is the location of the image cache inside the Kind container
+    EOF
+
+</div>
+{{< /clipboard >}}
+
 
 ## Install and configure MetalLB
 
@@ -107,14 +117,17 @@ By default, Kind does not provide an implementation of network load balancers ([
 [MetalLB](https://metallb.universe.tf/) offers a network load balancer implementation.
 
 To install MetalLB:
+{{< clipboard >}}
+<div class="highlight">
 
-```
-$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.11.0/manifests/namespace.yaml
-$ kubectl create secret generic \
-    -n metallb-system memberlist \
-    --from-literal=secretkey="$(openssl rand -base64 128)"
-$ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.11.0/manifests/metallb.yaml
-```
+    $ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.11.0/manifests/namespace.yaml
+    $ kubectl create secret generic \
+        -n metallb-system memberlist \
+        --from-literal=secretkey="$(openssl rand -base64 128)"
+    $ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.11.0/manifests/metallb.yaml
+
+</div>
+{{< /clipboard >}}
 
 For further details, see the MetalLB [installation guide](https://metallb.universe.tf/installation/#installation-by-manifest).
 
@@ -122,41 +135,52 @@ MetalLB is idle until configured.  Configure MetalLB in Layer 2 mode and give it
 In versions v0.7.0 and earlier, Kind uses Docker's default bridge network; in versions v0.8.0 and later, it creates its own bridge network in Kind.
 
 To determine the subnet of the `kind` Docker network in Kind v0.8.0 and later:
+{{< clipboard >}}
+<div class="highlight">
 
-```
-$ docker inspect kind | jq '.[0].IPAM.Config[0].Subnet' -r
+    $ docker inspect kind | jq '.[0].IPAM.Config[0].Subnet' -r
 
-# Sample output
-172.18.0.0/16
-```
+    # Sample output
+    172.18.0.0/16
+
+</div>
+{{< /clipboard >}}
 
 To determine the subnet of the `kind` Docker network in Kind v0.7.0 and earlier:
+{{< clipboard >}}
+<div class="highlight">
 
-```
-$ docker inspect bridge | jq '.[0].IPAM.Config[0].Subnet' -r
+    $ docker inspect bridge | jq '.[0].IPAM.Config[0].Subnet' -r
 
-# Sample output
-172.17.0.0/16
-```
+    # Sample output
+    172.17.0.0/16
+
+</div>
+{{< /clipboard >}}
+
 
 For use by MetalLB, assign a range of IP addresses at the end of the `kind` network's subnet CIDR range.
 
-```
-$ kubectl apply -f - <<-EOF
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  namespace: metallb-system
-  name: config
-data:
-  config: |
-    address-pools:
-    - name: my-ip-space
-      protocol: layer2
-      addresses:
-      - 172.18.0.230-172.18.0.250
-EOF
-```
+{{< clipboard >}}
+<div class="highlight">
+
+    $ kubectl apply -f - <<-EOF
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      namespace: metallb-system
+      name: config
+    data:
+      config: |
+        address-pools:
+        - name: my-ip-space
+          protocol: layer2
+          addresses:
+          - 172.18.0.230-172.18.0.250
+    EOF
+
+</div>
+{{< /clipboard >}}
 
 ## Next steps
 

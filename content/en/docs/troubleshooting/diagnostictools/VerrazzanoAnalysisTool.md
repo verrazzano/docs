@@ -16,27 +16,36 @@ To set up the `vz` command-line tool, follow the steps [here]({{< relref "docs/s
 
 ## Analyze clusters
 To analyze a Kubernetes cluster:
+{{< clipboard >}}
+
 ```shell
 $ vz analyze
 ```
+{{< /clipboard >}}
 
 ## Analyze cluster snapshots
 
 1. Use the `vz bug-report` tool to capture a cluster snapshot.
 
    To create a bug report in a TAR file named `my-bug-report.tar.gz` and extract it to a directory `my-cluster-snapshot`:
+{{< clipboard >}}
+
    ```shell
    $ vz bug-report my-bug-report.tar.gz
      mkdir my-cluster-snapshot
      tar -xvf my-bug-report.tar.gz -C my-cluster-snapshot
    ```
+{{< /clipboard >}}
 
 1. Use the `vz analyze` tool to analyze the cluster snapshot.
 
    To perform an analysis of the cluster snapshot under `my-cluster-snapshot`:
+{{< clipboard >}}
+
    ```shell
    $ vz analyze --capture-dir my-cluster-snapshot
    ```
+{{< /clipboard >}}
 
 ### Use the `vz analyze` tool to analyze multiple snapshots
 
@@ -54,16 +63,22 @@ For example:
                 ...
 
 To perform an analysis of the clusters under `my-cluster-snapshots`:
+{{< clipboard >}}
 ```shell
 $ vz analyze --capture-dir my-cluster-snapshots
 ```
+{{< /clipboard >}}
 
 ### Usage information
 
 Use the following syntax to run `vz` commands from your terminal window.
+
+{{< clipboard >}}
+
 ```shell
 $ vz analyze [flags]
 ```
+{{< /clipboard >}}
 
 #### Available options
 
@@ -81,5 +96,5 @@ These flags apply to all the commands.
 
 | Flag                  | Definition                                   |
 |-----------------------|----------------------------------------------|
-| `--context string`    | The name of the `kubeconfig` context to use. |
-| `--kubeconfig string` | Path to the `kubeconfig` file to use.        |
+| `--context string`    | The name of the kubeconfig file context to use. |
+| `--kubeconfig string` | Path to the kubeconfig file to use.        |

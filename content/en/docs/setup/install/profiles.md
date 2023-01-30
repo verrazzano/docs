@@ -23,6 +23,8 @@ To specify an installation profile when installing Verrazzano, set the profile n
 Verrazzano custom resource.
 
 For example, to use the `dev` profile:
+{{< clipboard >}}
+<div class="highlight">
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -33,13 +35,18 @@ spec:
   profile: dev
 ```
 
+</div>
+{{< /clipboard >}}
+
 To use a different profile, replace `dev` with `prod` or `managed-cluster`.
 
 ## Customize an installation profile
 
 You can override the profile settings for any component regardless of the profile.  The following example
-uses a customized `dev` profile to configure a small 8Gi persistent volume for the MySQL instance used by Keycloak to
+uses a customized `dev` profile to configure a small 8 Gi persistent volume for the MySQL instance used by Keycloak to
 provide more stability for the Keycloak service.
+{{< clipboard >}}
+<div class="highlight">
 
 ```
 apiVersion: install.verrazzano.io/v1beta1
@@ -63,26 +70,46 @@ spec:
           storage: 8Gi
 ```
 
-For details on how to customize Verrazzano components, see [Customize an Installation]({{< relref "/docs/setup/customizing" >}}).
+</div>
+{{< /clipboard >}}
+
+For details on how to customize Verrazzano components, see [Customize an Installation]({{< relref "/docs/customize" >}}).
 
 ## Profile configurations
 
 The following table lists the Verrazzano components that are installed with each profile.  Note that you can
 customize any Verrazzano installation, regardless of the profile.
 
-| Component | dev | prod | managed-cluster
-| ------------- |:-------------: |:-------------: |:-------------:
-| Istio | ✔️ | ✔️ | ✔️
-| NGINX | ✔️ | ✔️ | ✔️
-| Cert-Manager | ✔️ | ✔️ | ✔️
-| External-DNS |️ |️ |
-| Prometheus | ✔️ | ✔️ | ✔️
-| OpenSearch | ✔️ | ✔️ |
-| Console | ✔️ | ✔️ |
-| OpenSearch Dashboards | ✔️ | ✔️ |  
-| Grafana | ✔️ | ✔️ |  
-| Rancher | ✔️ | ✔️ |    
-| Keycloak | ✔️ | ✔️ |  
+| Component               | dev | prod | managed-cluster |
+|-------------------------|:---:|:----:|:---------------:|
+| `applicationOperator`     | ✔️  |  ✔️  |       ✔️        |
+| `authProxy`               | ✔️  |  ✔️  |       ✔️        |
+| `certManager`             | ✔️  |  ✔️  |       ✔️        |
+| `clusterOperator`         | ✔️  |  ✔️  |       ✔️        |
+| `coherenceOperator`       | ✔️  |  ✔️  |       ✔️        |
+| `console`                 | ✔️  |  ✔️  |                |
+| `dns`                     | ✔️  |  ✔️  |       ✔️        |
+| `fluentd`                 | ✔️  |  ✔️  |       ✔️        |
+| `grafana`                 | ✔️  |  ✔️  |                |
+| `ingressNGINX`            | ✔️  |  ✔️  |       ✔️        |
+| `istio`                   | ✔️  |  ✔️  |       ✔️        |
+| `jaegerOperator`          |    |     |                |
+| `keycloak`                | ✔️  |  ✔️  |                |
+| `kiali`                   | ✔️  |  ✔️  |                |
+| `kubeStateMetrics`        |    |     |                |
+| `mySQLOperator`           | ✔️  |  ✔️  |       ✔️        |
+| `oam`                     | ✔️  |  ✔️  |       ✔️        |
+| `opensearch`              | ✔️  |  ✔️  |                |
+| `opensearchDashboards`    | ✔️  |  ✔️  |                |
+| `prometheus`              | ✔️  |  ✔️  |       ✔️        |
+| `prometheusAdapter`       |    |     |                |
+| `prometheusNodeExporter`  | ✔️  |  ✔️  |       ✔️        |
+| `prometheusOperator`      | ✔️  |  ✔️  |       ✔️        |
+| `prometheusPushgateway`   |    |     |                |
+| `rancher`                 | ✔️  |  ✔️  |                |
+| `rancherBackup`           |    |     |                |
+| `velero`                  |    |     |                |
+| `weblogicOperator`        | ✔️  |  ✔️  |       ✔️        |
 
 ### Prometheus and Grafana configurations
 
@@ -90,9 +117,9 @@ The following table describes the Prometheus and Grafana configurations in each 
 
 | Profile | Prometheus | Grafana
 | ------------- |:------------- |:-------------
-| `prod` | 1 replica (128M memory, 50Gi storage) | 1 replica (48M memory, 50Gi storage)
-| `dev` | 1 replica (128M memory, ephemeral storage) | 1 replica (48M memory, ephemeral storage)
-| `managed-cluster` | 1 replica (128M memory, 50Gi storage) | Not installed
+| `prod` | One replica (128 MB memory, 50 Gi storage) | One replica (48 MB memory, 50 Gi storage)
+| `dev` | One replica (128 MB memory, ephemeral storage) | One replica (48 MB memory, ephemeral storage)
+| `managed-cluster` | One replica (128 MB memory, 50 Gi storage) | Not installed
 
 ### OpenSearch Dashboards and OpenSearch configurations
 
@@ -100,8 +127,8 @@ The following table describes the OpenSearch Dashboards and OpenSearch cluster t
 
 | Profile | OpenSearch                                                                                                                                                | OpenSearch Dashboards
 | ------------- |:----------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------
-| `prod` | 3 master replicas (1.4Gi memory, 50Gi storage each)<br/>1 ingest replica (2.5Gi memory, no storage)<br/>3 data replicas (4.8Gi memory, 50Gi storage each) | 1 replica (192M memory, ephemeral storage)
-| `dev` | 1 master/data/ingest replica (1Gi memory, ephemeral storage)                                                                                              | 1 replica (192M memory, ephemeral storage)
+| `prod` | Three master replicas (1.4 Gi memory, 50 Gi storage each)<br/>One ingest replica (2.5 Gi memory, no storage)<br/>Three data replicas (4.8 Gi memory, 50 Gi storage each) | One replica (192 MB memory, ephemeral storage)
+| `dev` | One master/data/ingest replica (1 Gi memory, ephemeral storage)                                                                                              | One replica (192 MB memory, ephemeral storage)
 | `managed-cluster` | Not installed                                                                                                                                             | Not installed
 
 {{< alert title="NOTE" color="warning" >}}
@@ -120,4 +147,4 @@ all profiles unless overridden).
 | Certificates | Uses the [cert-manager](https://cert-manager.io/) self-signed [ClusterIssuer](https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.ClusterIssuer) for certificates.
 | Ingress-type | Defaults to `LoadBalancer` service type for the ingress.
 
-For details on how to customize Verrazzano components, see [Customize an Installation]({{< relref "/docs/setup/customizing" >}}).
+For details on how to customize Verrazzano components, see [Customize an Installation]({{< relref "/docs/customize" >}}).

@@ -4,19 +4,92 @@ linkTitle: Release Notes
 weight: 13
 draft: false
 ---
+### v1.5.0
+Component version updates:
+
+- Keycloak v20.0.1
+
+### v1.4.2
+Fixes:
+
+- In OpenSearch Dashboards, resolved a redirect issue to Keycloak.
+- For the managed cluster profile, resolved an issue where Keycloak authentication integration was not identified as enabled in Rancher.
+- Resolved an intermittent Rancher issue where the available chart version was lower than the minimum chart version.
+- Updated base and other images to resolve CVEs.
+
+### v1.4.1
+Fixes:
+
+- Updated OpenSearch heap memory settings.
+- Fixed the WebLogic and Helidon Grafana dashboards so that they display data properly.
+- Updated base and other images to resolve CVEs.
+
 ### v1.4.0
 Features:
 
-- New API version for the Verrazzano resource, `install.verrazzano.io/v1beta1`. See the [Deprecated API Migration Guide]({{< relref "/docs/reference/migration" >}}).
-- Support for Kubernetes v1.24.
+- Added the Verrazzano command-line tool (CLI) for interactive installation, upgrade, uninstall, cluster analysis, and bug reporting.
+- Added backup and restore functionality using Velero and rancher-backup.
+- Added Prometheus Operator based metrics collection (using ServiceMonitors and PodMonitors) for both Verrazzano system components and applications.
+- Added a new API version for the Verrazzano resource, `install.verrazzano.io/v1beta1`. See the [Deprecated API Migration Guide]({{< relref "/docs/reference/migration" >}}).
+- Verrazzano distribution `tar.gz` artifacts now include the new CLI binaries and tooling.
+- Replaced Elasticsearch and Kibana with OpenSearch and OpenSearch dashboards (pods, URLs, CRD fields).
+- Improved Rancher integration.
+    - Added the Rancher UI-based Verrazzano console.
+    - Keycloak SSO authentication and authorization is configured by default.
+    - OCI drivers now are enabled by default and ready-to-use.
+- kube-prometheus-stack components now are enabled by default.
+- Improved uninstall resiliency and performance.
+- Added support for OCNE 1.5.x.
+- Added support for Kubernetes v1.24.
 
 Component version updates:
 
 - Coherence Operator v3.2.6
-- MySQL Operator v8.0.30-2.0.5
-- Rancher v2.6.7
+- Istio v1.14.3
+- Jaeger v1.34.1
+- Rancher v2.6.8
+
+Components added:
+
 - Rancher Backup Operator v2.1.3
 - Velero v1.8.1
+- Velero Plugin For AWS v1.4.1
+
+Components removed:
+
+- Config Map Reload
+
+Fixes:
+
+- Resolved an issue where Verrazzano started an installation, immediately after an upgrade, but before all the components were ready.
+- Resolved an issue where application pods that required an Istio sidecar did not restart after an upgrade.
+- Resolved unnecessary temporary file cleanup for Helm overrides after installation or upgrade.
+- Resolved an issue with Verrazzano resource status conditions being appended as duplicates instead of updated.
+- Resolved an issue where Verrazzano Monitoring Operator was querying OpenSearch before it was ready.
+- Resolved an issue where Verrazzano Platform Operator transitioned to a ready condition before all webhook context paths were ready.
+- Updated base and other images to resolve CVEs.
+
+### v1.3.8
+Fixes:
+
+- Fixed a Rancher upgrade issue that prevented Rancher from upgrading Fleet, GitJob, and Rancher webhook.
+- Updated images to resolve CVEs.
+
+### v1.3.7
+Fixes:
+
+- Corrected the Kiali 1.42 Helm charts.
+- Resolved an issue with resizing OpenSearch storage volumes when using a storage class that supports volume expansion.
+
+### v1.3.6
+Fixes:
+
+- Resolved an issue in OpenSearch where user provided JVM heap size setting was not used.
+
+### v1.3.5
+Component version updates:
+
+- WebLogic Kubernetes Operator v3.4.3
 
 ### v1.3.4
 Fixes:
@@ -33,6 +106,10 @@ Fixes:
 
 - Fixed AuthProxy to emit access logs.
 - Fixed Verazzano Console intermittent failures of timing out loading application details.
+
+Component version updates:
+
+- Istio v1.13.5
 
 ### v1.3.2
 Fixes:
@@ -64,7 +141,7 @@ Component version updates:
 - cert-manager v1.7.1
 - Coherence Operator 3.2.5
 - Istio v1.13.2
-- Jaeger v1.34.1
+- Jaeger Operator v1.32.0
 - Kiali v1.42.0
 - NGINX Ingress Controller v1.1.1
 - Node Exporter v1.3.1
@@ -118,8 +195,8 @@ Features:
 
 - Logging enhancements:
   - Added support for Oracle Cloud Infrastructure Logging integration.
-  - Replaced Elasticsearch and Kibana with Opensearch and Opensearch Dashboard.
-  - Updated Opensearch `prod` profile data node configuration to 3 replicas.
+  - Replaced Elasticsearch and Kibana with OpenSearch and OpenSearch Dashboard.
+  - Updated OpenSearch `prod` profile data node configuration to 3 replicas.
   - Enhanced Fluentd parsing/filtering rules for Verrazzano system logs.
 - Added support for using `instance_principal` authorization with using Oracle Cloud Infrastructure DNS.
 - Added support for metrics integration with non-OAM applications.
@@ -130,8 +207,8 @@ Features:
   - MySQL v8.0.28.
   - Grafana v7.5.11.
   - Prometheus v2.31.1.
-  - Opensearch v1.2.3 (replaces Elasticsearch).
-  - Opensearch Dashboards v1.2.0 (replaces Kibana).
+  - OpenSearch v1.2.3 (replaces Elasticsearch).
+  - OpenSearch Dashboards v1.2.0 (replaces Kibana).
   - WebLogic Kubernetes Operator v3.3.7.
 
 Fixes:
@@ -139,7 +216,7 @@ Fixes:
 - Fixed Keycloak issue creating incorrect `verrazzano-monitors` group on installation.
 - Fixed Verrazzano failing to uninstall in a private registry configuration due to a missing Rancher image.
 - Fixed Rancher installation when `tls-ca-additional` secret is not present.
-- Fixed Opensearch parsing errors of `trait` field.
+- Fixed OpenSearch parsing errors of `trait` field.
 - Fixed Custom CA certificates support.
 - Fixed issue requeuing unsupported traits in the Verrazzano Application Operator, and updated the OAM Operator.
 - Aligned Helidon workload service port names with Istio conventions to avoid protocol defaulting to TCP in all cases.

@@ -10,31 +10,45 @@ It uses OAM resources to define the application deployment in a multicluster env
 
 ## Before you begin
 
-* Set up a multicluster Verrazzano environment following the [installation instructions]({{< relref "/docs/setup/install/multicluster/_index.md" >}}).
+* Set up a multicluster Verrazzano environment following the [installation instructions]({{< relref "/docs/setup/install/multicluster.md" >}}).
 * The example assumes that there is a managed cluster named `managed1` associated with the multicluster environment.
 If your environment does not have a cluster of that name, then you should edit the deployment files and change the cluster name
 listed in the `placement` section.
 
-Set up the following environment variables to point to the `kubeconfig` for the admin and managed clusters.
+Set up the following environment variables to point to the kubeconfig file for the admin and managed clusters.
+{{< clipboard >}}
+<div class="highlight">
 
 ```
 $ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
 $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 ```
 
+</div>
+{{< /clipboard >}}
+
 **NOTE:** The Sock Shop application deployment files are contained in the Verrazzano project located at
 `<VERRAZZANO_HOME>/examples/multicluster/sockshop`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
 
 
-## Deploy the Sock Shop application
+## Deploy the application
 
 1. Create a namespace for the Sock Shop application by deploying the Verrazzano project.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
        -f {{< release_source_url raw=true path=examples/multicluster/sock-shop/verrazzano-project.yaml >}}
    ```
 
+</div>
+{{< /clipboard >}}
+
 1. Apply the Sock Shop OAM resources to deploy the application.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN apply \
        -f {{< release_source_url raw=true path=examples/multicluster/sock-shop/sock-shop-comp.yaml >}}
@@ -42,7 +56,13 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
        -f {{< release_source_url raw=true path=examples/multicluster/sock-shop/sock-shop-app.yaml >}}
    ```
 
+</div>
+{{< /clipboard >}}
+
 1. Wait for the Sock Shop application to be ready.  It may take a few minutes for the pod resources to start appearing on the managed cluster.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 wait \
        --for=condition=Ready pods \
@@ -50,7 +70,10 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
        --timeout=300s
    ```
 
-## Explore the Sock Shop application
+</div>
+{{< /clipboard >}}
+
+## Explore the application
 
 The Sock Shop microservices application implements REST API endpoints including:
 
@@ -72,6 +95,9 @@ ports, and such.
 Follow these steps to test the endpoints.
 
 1. Get the generated host name for the application.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ HOST=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 get gateway \
          -n mc-sockshop \
@@ -82,7 +108,13 @@ Follow these steps to test the endpoints.
    sockshop-appconf.mc-sockshop.11.22.33.44.nip.io
    ```
 
+</div>
+{{< /clipboard >}}
+
 1. Get the `EXTERNAL_IP` address of the `istio-ingressgateway` service.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ ADDRESS=$(kubectl --kubeconfig $KUBECONFIG_MANAGED1 get service \
        -n istio-system istio-ingressgateway \
@@ -93,11 +125,16 @@ Follow these steps to test the endpoints.
    11.22.33.44
    ```   
 
+</div>
+{{< /clipboard >}}
+
 1. Access the Sock Shop example application.
 
    * **Using the command line**
+{{< clipboard >}}
+<div class="highlight">
 
-     ```
+  ```
      # Get catalogue
      $ curl -sk \
          -X GET \
@@ -131,7 +168,11 @@ Follow these steps to test the endpoints.
 
      # Sample output
      [{"itemId":"a0a4f044-b040-410d-8ead-4de0446aec7e","quantity":1,"unitPrice":7.99}]
-     ```
+   ```
+
+</div>
+{{< /clipboard >}}
+
      If you are using `nip.io`, then you do not need to include `--resolve`.
 
    * **Local testing with a browser**
@@ -157,9 +198,12 @@ Follow these steps to test the endpoints.
        before deploying the Sock Shop application.
      * Then, you can use a browser to access the application at `https://<yourhost.your.domain>/catalogue`.
 
-## Troubleshooting
+## Verify the deployed application
 
 1. Verify that the application configuration, components, workloads, and ingress trait all exist.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get ApplicationConfiguration -n mc-sockshop
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get Component -n mc-sockshop
@@ -168,7 +212,13 @@ Follow these steps to test the endpoints.
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get IngressTrait -n mc-sockshop
    ```   
 
+</div>
+{{< /clipboard >}}
+
 1. Verify that the Sock Shop service pods are successfully created and transition to the `READY` state. Note that this may take a few minutes and that you may see some of the services terminate and restart.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
     $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get pods -n mc-sockshop
 
@@ -181,16 +231,23 @@ Follow these steps to test the endpoints.
     shipping-coh-0   2/2     Running   0          38m
     users-coh-0      2/2     Running   0          38m
    ```
+
+</div>
+{{< /clipboard >}}
+
 1. A variety of endpoints are available to further explore the logs, metrics, and such, associated with
 the deployed Sock Shop application.  You can access them according to the directions [here]({{< relref "/docs/access/#get-the-consoles-urls" >}}).
 
-## Undeploy the Sock Shop application
+## Undeploy the application
 
 Regardless of its location, to undeploy the application,
 delete the application resources and the project from the admin cluster.
 Undeploy affects all clusters in which the application is located.
 
 1. To undeploy the application, delete the Sock Shop OAM resources:
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
      -f {{< release_source_url raw=true path=examples/multicluster/sock-shop/sock-shop-app.yaml >}}
@@ -198,14 +255,29 @@ Undeploy affects all clusters in which the application is located.
      -f {{< release_source_url raw=true path=examples/multicluster/sock-shop/sock-shop-comp.yaml >}}
    ```
 
+</div>
+{{< /clipboard >}}
+
 1. Delete the project.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete \
     -f {{< release_source_url raw=true path=examples/multicluster/sock-shop/verrazzano-project.yaml >}}
    ```
 
+</div>
+{{< /clipboard >}}
+
 1. Delete the namespace `mc-sockshop` after the application pods are terminated.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl --kubeconfig $KUBECONFIG_ADMIN delete namespace mc-sockshop
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 delete namespace mc-sockshop
    ```
+
+</div>
+{{< /clipboard >}}

@@ -41,7 +41,7 @@ Kubernetes [Deployment](https://kubernetes.io/docs/reference/kubernetes-api/work
 enables an easy lift and shift of existing containerized Helidon applications.
 
 The complete VerrazzanoHelidonWorkload API
-definition and description is available at [VerrazzanoHelidonWorkload]({{< relref "/docs/reference/API/OAM/Workloads.md#verrazzanohelidonworkload" >}}).
+definition and description is available at [VerrazzanoHelidonWorkload]({{< relref "/docs/reference/API/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.VerrazzanoHelidonWorkload" >}}).
 
 ## Verrazzano Helidon application development
 
@@ -52,6 +52,7 @@ containerized Helidon application, independent of any other in the application.
 In the following example, everything under the `spec:` section is the custom resource YAML file for the containerized Helidon application,
 as defined by the VerrazzanoHelidonWorkload custom resource. Including this Component reference in your ApplicationConfiguration
 will result in a new containerized Helidon application being provisioned.
+{{< clipboard >}}
 
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
@@ -77,6 +78,8 @@ spec:
               ...
               ...
 ```
+
+{{< /clipboard >}}
 
 The [Application Development Guide]({{< relref "/docs/guides/app-deployment/application-deployment-guide.md" >}}) provides end-to-end instructions for
 developing and deploying the Verrazzano Helidon application.
@@ -147,6 +150,7 @@ the ApplicationConfiguration resource and adding or removing the VerrazzanoHelid
 The recommended way to scale containerized Helidon application replicas is to specify a [ManualScalerTrait](https://github.com/oam-dev/spec/blob/v0.2.1/core/traits/manual_scaler_trait.md)
 with the VerrazzanoHelidonWorkload in the ApplicationConfiguration. The following example
 configuration shows the `replicaCount` field that specifies the number of replicas for the application.
+{{< clipboard >}}
 
 ```yaml
 ...
@@ -161,6 +165,8 @@ configuration shows the `replicaCount` field that specifies the number of replic
               replicaCount: 2
 ...
 ```
+
+{{< /clipboard >}}
 
 Verrazzano will modify the Deployment resource `replicas` field and the containerized Helidon application replicas will
 be scaled accordingly.
@@ -186,12 +192,12 @@ go into the same data stream, even for different applications.  This is standard
 Verrazzano uses Prometheus to scrape metrics from containerized Helidon application pods. Like logging, metrics scraping is also
 enabled during provisioning. You can view metrics using the Grafana console.
 
-Using the [MetricsTrait]({{< relref "/docs/reference/API/OAM/MetricsTrait.md" >}}) custom resource, you can customize configuration
+Using the [MetricsTrait]({{< relref "/docs/reference/API/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.MetricsTrait" >}}) custom resource, you can customize configuration
 information needed to enable metrics for an application component.
 
 ### Ingress
 
-Using the [IngressTrait]({{< relref "/docs/reference/API/OAM/IngressTrait.md" >}}) custom resource, you can configure traffic
+Using the [IngressTrait]({{< relref "/docs/reference/API/vao-oam-v1alpha1#oam.verrazzano.io/v1alpha1.IngressTrait" >}}) custom resource, you can configure traffic
 routing to a containerized Helidon application for an application component.
 
 ## Troubleshooting

@@ -20,43 +20,70 @@ Troubleshooting application deployments should follow three general steps:
 For application deployment to succeed, the `oam-kubernetes-runtime` pod must have a status of `Running`.
 
 Use the following command to get the pod status:
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 $ kubectl get pods \
     -n verrazzano-system \
     -l app.kubernetes.io/name=oam-kubernetes-runtime
 ```
+</div>
+{{< /clipboard >}}
+
+
 If the pod status is not `Running`, then see the instructions for [reviewing the `oam-kubernetes-runtime`](#review-oam-kubernetes-runtime-operator-logs) pod logs.
 
 ### Review `verrazzano-application-operator` operator status
 For application deployment to succeed, the `verrazzano-application-operator` pod must have a status of `Running`.
 
 Use the following command to get the pod status:
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 $ kubectl get pods \
     -n verrazzano-system \
     -l app=verrazzano-application-operator
 ```
+
+</div>
+{{< /clipboard >}}
+
 If the pod status is not `Running`, then see the instructions for [reviewing the `verrazzano-application-operator`](#review-verrazzano-application-operator-logs) logs.
 
 ### Review `oam-kubernetes-runtime` operator logs
 Review the `oam-kubernetes-runtime` pod logs for any indication that pod startup or the generation of workloads or traits has failed.
 
 Use the following command to get the logs:
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 $ kubectl logs \
     -n verrazzano-system \
     -l app.kubernetes.io/name=oam-kubernetes-runtime
 ```
 
+</div>
+{{< /clipboard >}}
+
+
 ### Review `verrazzano-application-operator` logs
 Review the `verrazzano-application-operator` logs for any indication that pod startup or resource generation has failed.
 
 Use the following command to get the logs:
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 $ kubectl logs \
     -n verrazzano-system \
     -l app=verrazzano-application-operator
 ```
+
+</div>
+{{< /clipboard >}}
 
 ### Review generated workload resources
 The processing of a Component reference within an ApplicationConfiguration results in the generation of workloads.
@@ -67,11 +94,17 @@ If the expected workload resource, for example VerrazzanoHelidonWorkload, is mis
 If the expected related resources, for example Deployment or Service, are missing, then review the `verrazzano-application-operator` logs.
 
 The following commands are examples of checking for the resources related to a VerrazzanoHelidonWorkload deployment:
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 $ kubectl get -n hello-helidon verrazzanohelidonworkload hello-helidon-workload
 $ kubectl get -n hello-helidon deployment hello-helidon-deployment
 $ kubectl get -n hello-helidon service hello-helidon-deployment
 ```
+
+</div>
+{{< /clipboard >}}
 
 ### Review generated Trait resources
 The processing of traits embedded with an ApplicationConfiguration results in the generation of Trait resources.
@@ -82,33 +115,52 @@ If the expected Trait resource, for example IngressTrait, is missing, then revie
 If the expected related resources, for example Certificate, Gateway, and VirtualService, are missing, then review the `verrazzano-application-operator` logs.
 
 The following commands are examples of checking for the resources related to an IngressTrait:
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 $ kubectl get -n hello-helidon ingresstrait hello-helidon-ingress
 $ kubectl get -n istio-system Certificate hello-helidon-hello-helidon-appconf-cert
-$ kubectl get -n hello-helidon gateway hello-helidon-hello-helidon-appconf-gw
+$ kubectl get -n hello-helidon gateway hello-helidon-hello-helidon-gw
 $ kubectl get -n hello-helidon virtualservice hello-helidon-ingress-rule-0-vs
 ```
+
+</div>
+{{< /clipboard >}}
 
 ### Check for RBAC privilege issues
 The use of generic Kubernetes resources as workloads and traits can result in deployment failures if privileges are insufficient.
 In this case, the `oam-kubernetes-runtime` logs will contain errors containing the term `forbidden`.
 
 The following command shows how to query for this type of failure message:
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 $ kubectl logs \
     -n verrazzano-system \
     -l app.kubernetes.io/name=oam-kubernetes-runtime | grep forbidden
 ```
 
+</div>
+{{< /clipboard >}}
+
 ### Check resource owners
 Kubernetes maintains the child to parent relationship within metadata fields.
 
 The following example returns the parent of the IngressTrait, named `hello-helidon-ingress`, in the `hello-helidon` namespace:
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 $ kubectl get IngressTrait \
     -n hello-helidon hello-helidon-ingress \
     -o jsonpath='{range .metadata.ownerReferences[*]}{.name}{"\n"}{end}'
 ```
+
+</div>
+{{< /clipboard >}}
+
 The results of this command can help identify the lineage of a given resource.
 
 ### Check related resources
@@ -116,9 +168,16 @@ Some resources also record the related resources affected during their processin
 For example, when processed, an IngressTrait will create related Gateway, VirtualService, and Certificate resources.
 
 The following command is an example of how to obtain the related resources of an IngressTraits:
+{{< clipboard >}}
+<div class="highlight">
+
 ```
 $ kubectl get IngressTrait \
     -n hello-helidon hello-helidon-ingress \
     -o jsonpath='{range .status.resources[*]}{.kind}: {.name}{"\n"}{end}'
 ```
+
+</div>
+{{< /clipboard >}}
+
 The results of this command can help identify which other resources, the given resource affected.
