@@ -529,19 +529,20 @@ spec:
 {{< /clipboard >}}
 ## Override default number of shards and replicas
 
-  You can override the default number of shards or replicas by overriding the default index template `verrazzano-data-stream`. 
-  For that get the default index template, copy the contents and change the number of shards and index pattern for which you want to change the number of shards and create your own index template with a higher priority.
+  By default, verrazzano provides a default index template `verrazzano-data-stream` that creates one shard per index and one replica for each index in prod profile.
+  You can override the default number of shards or replicas by overriding the default index template.
+  For that, get the default index template, copy the contents and change the number of shards, replicas and index pattern and create your own index template with a higher priority so that the new template will override the default one.
 ```
   GET /_index_template/verrazzano-data-stream
 ```
 
-Example if you want to change the number of shards to 3 and replicas to 2 for all applications indices
+Here is an example to create a new index template where you want to change the number of shards to 3 and replicas to 2 for all applications indices.
 
 ```yaml
 PUT _index_template/my-template
     {
         "index_patterns" : [
-          "my-application*"
+          "verrazzano-application*"
         ],
         "template" : {
           "settings" : {
@@ -603,7 +604,6 @@ PUT _index_template/my-template
           }
         },
         "priority" : 201,
-        "version" : 60001,
         "data_stream" : {
           "timestamp_field" : {
             "name" : "@timestamp"
@@ -611,4 +611,4 @@ PUT _index_template/my-template
         }
 }
 ```
-With this, new indices will be created with 3 shards and 2 replicas for your applications.
+With this, new indices that match `verrazzano-application*` index pattern will be created with 3 shards and 2 replicas.
