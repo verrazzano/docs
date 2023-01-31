@@ -93,8 +93,7 @@ can be customized by added a `serviceTemplate` to the `VerrazzanoHelidonWorkload
 service `metadata` and `serviceSpec` sections to do things, like add labels and annotations, customize the service ports,
 modify the pod selector, and such. It is not necessary to provide complete `metadata` and `serviceSpec` sections. Just add the fields you
 would like to customize and Verrazzano will create the rest of the fields, based the information
-provided in the `deploymentTemplate`. Please refer to the Istio [Protocol Selection](https://istio.io/latest/docs/ops/configuration/traffic-management/protocol-selection)
-documentation when customizing service ports.
+provided in the `deploymentTemplate`. When customizing service ports, refer to Protocol Selection in the Istio documentation.
 
 {{< clipboard >}}
 ```yaml
