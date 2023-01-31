@@ -53,24 +53,16 @@ To achieve this, modify the container's image build and use the `USER <UID>` ins
 
 For example:
 
-{{< clipboard >}}
-<div class="highlight">
-
 ```
 # Run as user 1000
 USER 1000
 ```
-{{< /clipboard >}}
-</div>
 
 
 This will make the process within the container run as UID `1000`.  Even if there is no entry in `/etc/passwd` matching the UID declared,
 the container will run as the specified UID with minimal privileges.  
 
 For example, this is illustrated by a running image using the `kubectl run` command with the defaults:
-
-{{< clipboard >}}
-<div class="highlight">
 
 ```
 % kubectl run -it --rm myol --image=ghcr.io/oracle/oraclelinux:7-slim --restart=Never -- bash
@@ -81,13 +73,8 @@ bash-4.2# id
 uid=0(root) gid=0(root) groups=0(root)
 bash-4.2#
 ```
-{{< /clipboard >}}
-</div>
 
 To run the same image as a non-root user, you can override the default user and group for the container process, as shown:
-
-{{< clipboard >}}
-<div class="highlight">
 
 ```
 % kubectl run -it --rm myol --image=ghcr.io/oracle/oraclelinux:7-slim --restart=Never --overrides='{ "spec": { "securityContext": { "runAsUser": 1000, "runAsGroup": 1000, "runAsNonRoot": true } } }' -- bash
@@ -98,8 +85,6 @@ whoami: cannot find name for user ID 1000
 bash-4.2$ id
 uid=1000 gid=1000 groups=1000
 ```
-{{< /clipboard >}}
-</div>
 
 In the second example, the container is running as UID `1000` with a GID of `1000`.  Running `whoami` from within the container returns an error
 because `USER 1000` is not defined in `/etc/passwd`, but running the `id` command from the shell shows that the container process
@@ -111,9 +96,6 @@ By default, containers within Kubernetes pods run as the image default user, whi
 
 You can use the pod and container `securityContext` fields to force containers within a pod to run as non-root
 and prevent the container from acquiring escalated privileges.  These will override any `USER` setting within the image.
-
-{{< clipboard >}}
-<div class="highlight">
 
 ```
 apiVersion: apps/v1
@@ -142,8 +124,6 @@ spec:
           privileged: false
       ...
 ```
-{{< /clipboard >}}
-</div>
 
 As mentioned previously, where there is overlap between the pod and container security settings, the settings defined at the container level
 override settings defined at the pod level.
@@ -154,9 +134,6 @@ The following `YAML` shows how to explicitly specify the pod security context fo
 the Helidon application will meet the requirements of the Kubernetes `restricted` [Pod Security Standard](https://kubernetes.io/docs/concepts/security/pod-security-standards/).  
 
 Note that the `runAsUser` 2000 UID does not exist in the container, as described previously.
-
-{{< clipboard >}}
-<div class="highlight">
 
 ```
 apiVersion: core.oam.dev/v1alpha2
@@ -193,8 +170,6 @@ spec:
                   drop:
                     - ALL
 ```
-{{< /clipboard >}}
-</div>
 
 ## Pod security for ContainerizedWorkload applications
 
@@ -209,9 +184,6 @@ example.
 You configure security for these resources as you typically would for any Kubernetes `Deployment` resource.  
 
 For example:
-
-{{< clipboard >}}
-<div class="highlight">
 
 ```
 apiVersion: core.oam.dev/v1alpha2
@@ -251,5 +223,3 @@ spec:
                     - ALL
                 privileged: false
 ```
-{{< /clipboard >}}
-</div>
