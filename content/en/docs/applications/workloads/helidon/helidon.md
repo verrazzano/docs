@@ -93,7 +93,6 @@ would like to customize and Verrazzano will create the rest of the fields, based
 provided in the `deploymentTemplate`. When customizing service ports, refer to [Protocol Selection](https://istio.io/latest/docs/ops/configuration/traffic-management/protocol-selection)
 in the Istio documentation.
 
-{{< clipboard >}}
 ```yaml
 apiVersion: core.oam.dev/v1alpha2
 kind: Component
@@ -126,9 +125,6 @@ spec:
               ...
               ...
 ```
-
-{{< /clipboard >}}
-
 
 ### Provisioning
 
