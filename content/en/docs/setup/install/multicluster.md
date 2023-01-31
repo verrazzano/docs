@@ -79,7 +79,7 @@ spec:
     clusterOperator:
       overrides:
       - values:
-          syncRancherClusters:
+          syncClusters:
             enabled: true
             clusterSelector:
               matchExpressions:
@@ -162,7 +162,7 @@ Verrazzano will manage all clusters whose labels match the [cluster label select
    c. Under the `Registration` tab of the cluster view, select the registration command for the managed cluster.
 
 
-   d. Using the registration information in the Rancher console, from the managed cluster, apply a command using this format. 
+   d. Using the registration information in the Rancher console, from the managed cluster, apply a command using this format.
 {{< clipboard >}}
 <div class="highlight">
 
