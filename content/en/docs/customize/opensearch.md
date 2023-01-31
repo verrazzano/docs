@@ -529,7 +529,7 @@ spec:
 {{< /clipboard >}}
 ## Override default number of shards and replicas
 
-  By default, verrazzano provides a default index template `verrazzano-data-stream` that creates one shard and one replica for each index. You can override the default number of shards or replicas by overriding the default index template. 
+  By default, verrazzano provides a default index template `verrazzano-data-stream` that creates one shard and one replica for each index for new installs post 1.5. You can override the default number of shards or replicas by overriding the default index template. 
   To do that, you need to get the default index template, copy the contents and change the number of shards, replicas and index pattern and create your own index template with a higher priority so that the new template will override the default one.
 
 
