@@ -531,11 +531,27 @@ spec:
 
   By default, verrazzano provides a default index template `verrazzano-data-stream` that creates one shard and one replica for each index. You can override the default number of shards or replicas by overriding the default index template. 
   To do that, you need to get the default index template, copy the contents and change the number of shards, replicas and index pattern and create your own index template with a higher priority so that the new template will override the default one.
-```
-  GET /_index_template/verrazzano-data-stream
-```
 
-Here is an example to create a new index template where you want to change the number of shards to 3 and replicas to 2 for all applications indices.
+
+    $ HOST=$(kubectl get ingress \
+         -n verrazzano-system vmi-system-os-ingest \
+         -o jsonpath={.spec.rules[0].host})
+    $ echo $HOST
+
+    opensearch.vmi.system.default.<ip>.nip.io
+
+    $ VZPASS=$(kubectl get secret \
+         -n verrazzano-system verrazzano \
+         -o jsonpath={.data.password} | base64 \
+         --decode; echo)
+    $ curl -sk \
+        --user verrazzano:${VZPASS} \
+        -X GET https://${HOST}/_index_template/verrazzano-data-stream
+
+    {"index_templates":[{"name":"verrazzano-data-stream","index_template":{"index_patterns":["verrazzano-system","verrazzano-application*"],"template":{"settings":{"index":{"mapping":{"total_fields":{"limit":"2000"}},"refresh_interval":"5s","number_of_shards":"1","auto_expand_replicas":"0-1","number_of_replicas":"0"}},"mappings":{"dynamic_templates":[{"message_field":{"path_match":"message","mapping":{"norms":false,"type":"text"},"match_mapping_type":"string"}},{"object_fields":{"mapping":{"type":"object"},"match_mapping_type":"object","match":"*"}},{"all_non_object_fields":{"mapping":{"norms":false,"type":"text","fields":{"keyword":{"ignore_above":256,"type":"keyword"}}},"match":"*"}}],"properties":{"@timestamp":{"format":"strict_date_time||strict_date_optional_time||epoch_millis","type":"date"}}}},"composed_of":[],"priority":101,"version":60001,"data_stream":{"timestamp_field":{"name":"@timestamp"}}}}]}
+
+
+Here is an example to create a new index template where you want to change the number of shards to 3 and replicas to 2 for some application.
 ```yaml
 PUT _index_template/my-template
     {
@@ -609,4 +625,4 @@ PUT _index_template/my-template
         }
 }
 ```
-With this, new indices that match `verrazzano-application-myapp*` index pattern will be created with 3 shards and 2 replicas and other indices that don't match will continue to be created with default number of shards and replicas.
+With this, new indices that match `verrazzano-application-myapp*` index pattern will be created with three shards and two replicas and other indices that don't match will continue to be created with default number of shards and replicas.
