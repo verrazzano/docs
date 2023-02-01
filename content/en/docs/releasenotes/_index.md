@@ -9,6 +9,24 @@ Component version updates:
 
 - Keycloak v20.0.1
 
+### v1.4.3
+Fixes:
+- Fixed unnecessary restart of user applications during upgrade from a previous Verrazzano release.
+- Fixed Fluentd configuration to prevent duplication of logs in OpenSearch on Fluentd restart or upgrade.
+- Fixed WebLogic Grafana dashboards to get the service label value correctly and display data properly.
+- Fixed i/o timeout errors installing Verrazzano on a RKE2 cluster.
+- Added ServiceTemplate to VerrazzanoHelidonWorkload to allow users to customize Helidon workload service.
+- Fixed default Helidon workload service so that the service ports don't automatically get named with the prefix "tcp-".
+- Fixed CLI "vz analyze" to make it work with earlier Verrazzano releases.
+- Added support for installation of non-bundled OpenSearch plugins.
+- Fixed a bug that prevented Persistent Volumes from being deployed as part of an OAM Component.
+- Added support for "javaOpts" argument for OpenSearch JVM.
+
+Component version updates:
+- Grafana v7.5.17
+- WebLogic Kubernetes Operator v3.4.5
+- WebLogic Monitoring Exporter v2.1.1
+
 ### v1.4.2
 Fixes:
 
