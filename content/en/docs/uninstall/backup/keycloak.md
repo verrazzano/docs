@@ -38,7 +38,7 @@ The following example creates a secret `mysql-backup-secret` in the namespace `k
 **NOTE:**  This secret must exist in the namespace `keycloak`.
 {{< clipboard >}}
 
-1. MySQL operator requires a secret to communicate with the S3 compatible object store, so we create a file called `backup-secret.txt`, which has the object store credentials.
+1. MySQL Operator requires a secret to communicate with the S3 compatible object store, so we create `backup-secret.txt` file, which has the object store credentials.
 
    ```backup-secret.txt
    [default]
@@ -46,7 +46,7 @@ The following example creates a secret `mysql-backup-secret` in the namespace `k
    aws_secret_access_key=<object store secret key>
    ```
 
-2. MySQL operator also requires the region where the bucket is created to be specified in a separate confile file. Hence, we create a file with the region info called `backup-region.txt`.
+2. MySQL Operator requires the region name where the bucket is created, `backup-secret.txt` file, which contains the region information. 
 
    ```backup-region.txt
    [default]
@@ -86,19 +86,19 @@ $ kubectl apply -f - <<EOF
       dumpInstance:              
         storage:          
           s3:
-             bucketName: < Object store bucket. This must exist as noted in pre-requisites section. >
-             config: < Kubernetes secret name created in the pre-requisites section. >
+             bucketName: <The Object store bucket. See the prerequisites section.>
+             config: <Kubernetes secret name. See the prerequisites section.>
              endpoint: < OCI S3 object store endpoint. >
-             prefix: < Prefix name. This folder will be auto created. >
+             prefix: <The prefix name. This folder will be automatically created.>
              profile: default
 EOF
 ```
 
 **NOTE:**
-- The `config` is `mysql-backup-secret` is the name of the secret which you created previously in the `keycloak` namespace.
+- The `config` value is `mysql-backup-secret`, which is the name of the secret that you created earlier in the `keycloak` namespace.
 - The `clustername` has to be `mysql`.
 - The `namespace` has to be `keycloak`.
-- The `profile` is the profile for the security credentials as shown in the example files. In this case it is `default`.
+- The `profile` value is the profile for the security credentials. In this case, it is `default`.
 
 The following is an example of a `MySQLBackup` resource to initiate a MySQL backup:
 
