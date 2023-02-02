@@ -7,6 +7,7 @@ draft: false
 ### v1.5.0
 Component version updates:
 
+- Argo CD v2.6.0
 - Keycloak v20.0.1
 
 ### v1.4.2
