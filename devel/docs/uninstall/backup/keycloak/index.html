@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/uninstall/backup/keycloak/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-01-27T11:03:02-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-02-02T08:37:48-08:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Keycloak Backup and Restore">
 <meta itemprop="description" content="Back up and restore Keycloak data">
-<meta itemprop="dateModified" content="2023-01-27T11:03:02-05:00" />
-<meta itemprop="wordCount" content="1020">
+<meta itemprop="dateModified" content="2023-02-02T08:37:48-08:00" />
+<meta itemprop="wordCount" content="1226">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Keycloak Backup and Restore"/>
 <meta name="twitter:description" content="Back up and restore Keycloak data"/>
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.8682cd7985e6af382a8b51830ca5033d.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.9a62e841c6f33287de4707fa50ebd240.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -138,7 +138,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.8682cd7985e6af382a8b51830ca5033d.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.9a62e841c6f33287de4707fa50ebd240.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -576,9 +576,31 @@ This document shows you how to back up and restore data stored in MySQL.</p>
 <p>MySQL is deployed using the <a href="https://dev.mysql.com/doc/mysql-operator/en/">MySQL Operator for Kubernetes</a>. Apart from managing the life cycle of MySQL instances, MySQL Operator provides the capability to back up and restore data using an OCI object store.</p>
 <p>Before proceeding with a MySQL back up or restore operation, keep the following details handy:</p>
 <ul>
-<li>Object store bucket name.</li>
+<li>Object store bucket name.
+<ul>
+<li>An Amazon S3 compatible object storage bucket. This can be an Oracle Cloud Object Storage bucket in any compartment of your Oracle Cloud tenancy.
+<ul>
+<li>For reference, make a note of the bucket name and tenancy name.</li>
+<li>For more information about creating a bucket with Object Storage, see <a href="https://docs.oracle.com/en-us/iaas/Content/Object/Tasks/managingbuckets.htm">Managing Buckets</a>.</li>
+</ul>
+</li>
+<li>For private clouds, enterprise networks, or air-gapped environments, this could be MinIO or an equivalent object store solution.</li>
+</ul>
+</li>
+<li>Object store prefix name. This will be a child folder under the bucket, which the backup component creates.</li>
 <li>Object store region name.</li>
-<li>MySQL Operator uses OCI credentials to back up and restore MySQL data. Prior to starting a MySQL backup or restore operation, the MySQL Operator requires that a Kubernetes secret exists, consisting of the OCI credentials.</li>
+<li>Object store signing key.
+<ul>
+<li>A signing key, which is required to authenticate with the Amazon S3 compatible object store.
+<ul>
+<li>This is an Access Key or a Secret Key pair.</li>
+<li>Oracle provides the Access Key that is associated with your Console user login.</li>
+<li>You or your administrator generates the Customer Secret Key to pair with the Access Key.</li>
+</ul>
+</li>
+<li>To create a Customer Secret Key, see <a href="https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm#create-secret-key">Customer Secret Key</a>.</li>
+</ul>
+</li>
 </ul>
 <p>The following example creates a secret <code>mysql-backup-secret</code> in the namespace <code>keycloak</code>.</p>
 <p><strong>NOTE:</strong>  This secret must exist in the namespace <code>keycloak</code>.
@@ -611,24 +633,29 @@ This document shows you how to back up and restore data stored in MySQL.</p>
 </style>
 
 <div class="clipboard">
-    <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl create secret generic -n keycloak  &lt;secret-name&gt; <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">user</span><span style="color:#ce5c00;font-weight:bold">=</span>&lt;oci user id&gt; <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">fingerprint</span><span style="color:#ce5c00;font-weight:bold">=</span>&lt;oci user fingerprint&gt; <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">tenancy</span><span style="color:#ce5c00;font-weight:bold">=</span>&lt;oci tenancy id&gt;&gt; <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">region</span><span style="color:#ce5c00;font-weight:bold">=</span>&lt;region where bucket is created&gt; <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">passphrase</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;&#34;</span> <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --from-file<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">privatekey</span><span style="color:#ce5c00;font-weight:bold">=</span>&lt;full path to private key pem file&gt;
+    <ol>
+<li>
+<p>MySQL Operator requires a secret to communicate with the S3 compatible object store, so we create a <code>backup-secret.txt</code> file, which has the object store credentials.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-backup-secret.txt" data-lang="backup-secret.txt"><span style="display:flex;"><span>[default]
+</span></span><span style="display:flex;"><span>aws_access_key_id=&lt;object store access key&gt;
+</span></span><span style="display:flex;"><span>aws_secret_access_key=&lt;object store secret key&gt;
+</span></span></code></pre></div></li>
+<li>
+<p>MySQL Operator requires the region name where the bucket is created, so we create a <code>backup-secret.txt</code> file, which contains the region information.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-backup-region.txt" data-lang="backup-region.txt"><span style="display:flex;"><span>[default]
+</span></span><span style="display:flex;"><span>region=us-phoenix-1
+</span></span></code></pre></div></li>
+<li>
+<p>In the namespace <code>keycloak</code>, create a Kubernetes secret, for example <code>mysql-backup-secret</code>.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl create secret generic -n &lt;backup-namespace&gt; &lt;secret-name&gt; --from-file<span style="color:#ce5c00;font-weight:bold">=</span>&lt;key&gt;<span style="color:#ce5c00;font-weight:bold">=</span>&lt;full_path_to_creds_file&gt; --from-file<span style="color:#ce5c00;font-weight:bold">=</span>&lt;key&gt;<span style="color:#ce5c00;font-weight:bold">=</span>&lt;full_path_to_config_file&gt;
 </span></span></code></pre></div><p>The following is an example of creating a Kubernetes secret consisting of OCI credentials.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl create secret generic -n keycloak  mysql-backup-secret <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">user</span><span style="color:#ce5c00;font-weight:bold">=</span>ocid1.user.oc1..aaaaaaaa <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">fingerprint</span><span style="color:#ce5c00;font-weight:bold">=</span>aa:bb:cc:dd:ee:ff <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">tenancy</span><span style="color:#ce5c00;font-weight:bold">=</span>ocid1.tenancy.oc1..bbbbbbbbb <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">region</span><span style="color:#ce5c00;font-weight:bold">=</span>us-phoenix-1 <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --from-literal<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">passphrase</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;&#34;</span> <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --from-file<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">privatekey</span><span style="color:#ce5c00;font-weight:bold">=</span>/tmp/key.pem
-</span></span></code></pre></div><h2 id="mysql-operator-backup">MySQL Operator backup</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl create secret generic -n keycloak mysql-backup-secret --from-file<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">credentials</span><span style="color:#ce5c00;font-weight:bold">=</span>backup-secret.txt --from-file<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">config</span><span style="color:#ce5c00;font-weight:bold">=</span>backup-region.txt
+</span></span></code></pre></div><p><strong>NOTE</strong>: To avoid misuse of sensitive data, ensure that the <code>backup-secret.txt</code> file is deleted after the Kubernetes secret is created.</p>
+</li>
+</ol>
+<h2 id="mysql-operator-backup">MySQL Operator backup</h2>
 <p>To initiate a MySQL backup, create the following example custom resource YAML file that uses an OCI object store as a back end.
-The operator uses the secret referenced in the <code>credentials</code> to authenticate with the OCI object store.</p>
+The operator uses the secret referenced in <code>spec.backupProfile.dumpInstance.storage.s3.config</code> to authenticate with the OCI object store.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#000">$ kubectl apply -f - &lt;&lt;EOF</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">mysql.oracle.com/v2</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">MySQLBackup</span><span style="color:#f8f8f8;text-decoration:underline">
@@ -640,17 +667,20 @@ The operator uses the secret referenced in the <code>credentials</code> to authe
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">backupProfile</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">       
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">&lt;backupProfileName&gt;</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">dumpInstance</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">              
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">storage</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">          </span><span style="color:#204a87;font-weight:bold">ociObjectStorage</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">prefix</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">&lt;prefix name. This folder will be auto created&gt;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">bucketName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">&lt;object store bucket. This must be exist as noted in pre-requisites section&gt;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">credentials</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">&lt;Kubernetes secret name created in the prerequisite section&gt;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">storage</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">          
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">          </span><span style="color:#204a87;font-weight:bold">s3</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">             </span><span style="color:#204a87;font-weight:bold">bucketName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">&lt;The Object store bucket. See the MySQL Operator prerequisites section.&gt;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">             </span><span style="color:#204a87;font-weight:bold">config</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">&lt;Kubernetes secret name. See the MySQL Operator prerequisites section.&gt;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">             </span><span style="color:#204a87;font-weight:bold">endpoint</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">&lt; OCI S3 object store endpoint. &gt;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">             </span><span style="color:#204a87;font-weight:bold">prefix</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">&lt;The prefix name. This folder will be automatically created.&gt;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">             </span><span style="color:#204a87;font-weight:bold">profile</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">default</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">EOF</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span></code></pre></div><p><strong>NOTE:</strong></p>
 <ul>
-<li>The <code>credentials</code> in <code>mysql-backup-secret</code> are those you created previously in the <code>keycloak</code> namespace.</li>
+<li>The <code>config</code> value is <code>mysql-backup-secret</code>, which is the name of the secret that you created previously in the <code>keycloak</code> namespace.</li>
 <li>The <code>clustername</code> has to be <code>mysql</code>.</li>
 <li>The <code>namespace</code> has to be <code>keycloak</code>.</li>
+<li>The <code>profile</code> value is the profile for the security credentials. In this case, it is <code>default</code>.</li>
 </ul>
 <p>The following is an example of a <code>MySQLBackup</code> resource to initiate a MySQL backup:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#000">$ kubectl apply -f - &lt;&lt;EOF</span><span style="color:#f8f8f8;text-decoration:underline">
@@ -664,11 +694,13 @@ The operator uses the secret referenced in the <code>credentials</code> to authe
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">backupProfile</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">       
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">mysqlOneTime  </span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">dumpInstance</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">              
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">storage</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">          </span><span style="color:#204a87;font-weight:bold">ociObjectStorage</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">prefix</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">mysql-test</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">bucketName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">mysql-bucket</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">credentials</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">mysql-backup-secret</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">storage</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">          
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">          </span><span style="color:#204a87;font-weight:bold">s3</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">             </span><span style="color:#204a87;font-weight:bold">bucketName</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">mysql-bucket</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">             </span><span style="color:#204a87;font-weight:bold">config</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">mysql-backup-secret</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">             </span><span style="color:#204a87;font-weight:bold">endpoint</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">https://mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">             </span><span style="color:#204a87;font-weight:bold">prefix</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">mysql-test</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">             </span><span style="color:#204a87;font-weight:bold">profile</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">default  </span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">EOF</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span></code></pre></div><h3 id="scheduled-backups">Scheduled backups</h3>
 <p>You can also implement schedules for running MYSQL backups. For more information, see <a href="https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-backups.html">Handling MySQL Backups</a>,
@@ -689,7 +721,7 @@ A PersistentVolumeClaim Scheduled Backup Example, under <code>backupSchedules</c
 </span></span><span style="display:flex;"><span>mysql-backup-20221025-180836
 </span></span></code></pre></div></li>
 <li>
-<p>Typically, the MySQL Helm charts are present inside the Verrazzano platform operator. Retrieve the charts to a local directory.</p>
+<p>Typically, the MySQL Helm charts are present inside the Verrazzano platform operator. Retrieve the charts to a local directory called <code>mysql-charts</code>.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ mkdir mysql-charts
 </span></span><span style="display:flex;"><span>$ kubectl cp -n verrazzano-install <span style="color:#4e9a06">\
 </span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>    <span style="color:#204a87;font-weight:bold">$(</span>kubectl get pod -n verrazzano-install -l <span style="color:#000">app</span><span style="color:#ce5c00;font-weight:bold">=</span>verrazzano-platform-operator <span style="color:#4e9a06">\
@@ -705,22 +737,23 @@ A PersistentVolumeClaim Scheduled Backup Example, under <code>backupSchedules</c
 <p>Now that you have removed MySQL from the system, trigger a MySQL restore operation by installing the Helm chart as follows.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ helm install mysql mysql-charts <span style="color:#4e9a06">\
 </span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --namespace keycloak <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --set tls.useSelfSigned<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87">true</span> <span style="color:#4e9a06">\
 </span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --set initDB.dump.name<span style="color:#ce5c00;font-weight:bold">=</span>&lt;dump-name&gt; <span style="color:#4e9a06">\
 </span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --set initDB.dumpOptions.loadUsers<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87">true</span> <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --set initDB.dump.ociObjectStorage.prefix<span style="color:#ce5c00;font-weight:bold">=</span>&lt;prefixName/backup folder name&gt; <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --set initDB.dump.ociObjectStorage.bucketName<span style="color:#ce5c00;font-weight:bold">=</span>&lt;OCI bucket name&gt; <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --set initDB.dump.ociObjectStorage.credentials<span style="color:#ce5c00;font-weight:bold">=</span>&lt;Credential Name&gt; <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --set initDB.dump.s3.profile<span style="color:#ce5c00;font-weight:bold">=</span>default <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --set initDB.dump.s3.prefix<span style="color:#ce5c00;font-weight:bold">=</span>&lt;prefixName/backup folder name&gt; <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --set initDB.dump.s3.bucketName<span style="color:#ce5c00;font-weight:bold">=</span>&lt;OCI bucket name&gt; <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --set initDB.dump.s3.config<span style="color:#ce5c00;font-weight:bold">=</span>&lt;Credential Name&gt; <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --set initDB.dump.s3.endpoint<span style="color:#ce5c00;font-weight:bold">=</span>&lt;OCI S3 endpoint&gt; <span style="color:#4e9a06">\
 </span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --values &lt;mysql values file&gt;
 </span></span></code></pre></div><p>The following is an example:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ helm install mysql mysql-charts <span style="color:#4e9a06">\
 </span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --namespace keycloak <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --set tls.useSelfSigned<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87">true</span> <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --set initDB.dump.name<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;alpha&#34;</span> <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --set initDB.dumpOptions.loadUsers<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87">true</span> <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --set initDB.dump.ociObjectStorage.prefix<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;mysql-test/mysql-backup-20221025-180836&#34;</span> <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --set initDB.dump.ociObjectStorage.bucketName<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;mysql-bucket&#34;</span> <span style="color:#4e9a06">\
-</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --set initDB.dump.ociObjectStorage.credentials<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;mysql-backup-secret&#34;</span> <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --set initDB.dump.name<span style="color:#ce5c00;font-weight:bold">=</span>alpha <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --set initDB.dump.s3.profile<span style="color:#ce5c00;font-weight:bold">=</span>default <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --set initDB.dump.s3.prefix<span style="color:#ce5c00;font-weight:bold">=</span>mysql-test/mysql-backup-20221025-180836 <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --set initDB.dump.s3.bucketName<span style="color:#ce5c00;font-weight:bold">=</span>mysql-bucket <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --set initDB.dump.s3.config<span style="color:#ce5c00;font-weight:bold">=</span>mysql-backup-secret <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --set initDB.dump.s3.endpoint<span style="color:#ce5c00;font-weight:bold">=</span>https://mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com <span style="color:#4e9a06">\
 </span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>        --values mysql-values.yaml
 </span></span></code></pre></div></li>
 <li>
