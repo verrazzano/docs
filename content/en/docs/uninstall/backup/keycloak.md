@@ -38,7 +38,7 @@ The following example creates a secret `mysql-backup-secret` in the namespace `k
 **NOTE:**  This secret must exist in the namespace `keycloak`.
 {{< clipboard >}}
 
-1. MySQL Operator requires a secret to communicate with the S3 compatible object store, so we create `backup-secret.txt` file, which has the object store credentials.
+1. MySQL Operator requires a secret to communicate with the S3 compatible object store, so we create a `backup-secret.txt` file, which has the object store credentials.
 
    ```backup-secret.txt
    [default]
@@ -46,7 +46,7 @@ The following example creates a secret `mysql-backup-secret` in the namespace `k
    aws_secret_access_key=<object store secret key>
    ```
 
-2. MySQL Operator requires the region name where the bucket is created, `backup-secret.txt` file, which contains the region information. 
+2. MySQL Operator requires the region name where the bucket is created, so we create a `backup-secret.txt` file, which contains the region information.
 
    ```backup-region.txt
    [default]
