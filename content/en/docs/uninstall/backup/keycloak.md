@@ -86,8 +86,8 @@ $ kubectl apply -f - <<EOF
       dumpInstance:              
         storage:          
           s3:
-             bucketName: <The Object store bucket. See the prerequisites section.>
-             config: <Kubernetes secret name. See the prerequisites section.>
+             bucketName: <The Object store bucket. See the MySQL Operator prerequisites section.>
+             config: <Kubernetes secret name. See the MySQL Operator prerequisites section.>
              endpoint: < OCI S3 object store endpoint. >
              prefix: <The prefix name. This folder will be automatically created.>
              profile: default
@@ -95,7 +95,7 @@ EOF
 ```
 
 **NOTE:**
-- The `config` value is `mysql-backup-secret`, which is the name of the secret that you created earlier in the `keycloak` namespace.
+- The `config` value is `mysql-backup-secret`, which is the name of the secret that you created previously in the `keycloak` namespace.
 - The `clustername` has to be `mysql`.
 - The `namespace` has to be `keycloak`.
 - The `profile` value is the profile for the security credentials. In this case, it is `default`.
