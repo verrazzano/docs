@@ -20,41 +20,57 @@ MySQL is deployed using the [MySQL Operator for Kubernetes](https://dev.mysql.co
 Before proceeding with a MySQL back up or restore operation, keep the following details handy:
 
 - Object store bucket name.
+   - An Amazon S3 compatible object storage bucket. This can be an Oracle Cloud Object Storage bucket in any compartment of your Oracle Cloud tenancy.
+      - For reference, make a note of the bucket name and tenancy name.
+      - For more information about creating a bucket with Object Storage, see [Managing Buckets](https://docs.oracle.com/en-us/iaas/Content/Object/Tasks/managingbuckets.htm).
+   - For private clouds, enterprise networks, or air-gapped environments, this could be MinIO or an equivalent object store solution.
+- Object store prefix name. This will be a child folder under the bucket, which the backup component creates.
 - Object store region name.
-- MySQL Operator uses OCI credentials to back up and restore MySQL data. Prior to starting a MySQL backup or restore operation, the MySQL Operator requires that a Kubernetes secret exists, consisting of the OCI credentials.
+- Object store signing key.
+   - A signing key, which is required to authenticate with the Amazon S3 compatible object store.
+      - This is an Access Key or a Secret Key pair.
+      - Oracle provides the Access Key that is associated with your Console user login.
+      - You or your administrator generates the Customer Secret Key to pair with the Access Key.
+   - To create a Customer Secret Key, see [Customer Secret Key](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm#create-secret-key).
 
 The following example creates a secret `mysql-backup-secret` in the namespace `keycloak`.
 
 **NOTE:**  This secret must exist in the namespace `keycloak`.
 {{< clipboard >}}
 
-````shell
-$ kubectl create secret generic -n keycloak  <secret-name> \
-        --from-literal=user=<oci user id> \
-        --from-literal=fingerprint=<oci user fingerprint> \
-        --from-literal=tenancy=<oci tenancy id>> \
-        --from-literal=region=<region where bucket is created> \
-        --from-literal=passphrase="" \
-        --from-file=privatekey=<full path to private key pem file>
-````
+1. MySQL Operator requires a secret to communicate with the S3 compatible object store, so we create a `backup-secret.txt` file, which has the object store credentials.
 
+   ```backup-secret.txt
+   [default]
+   aws_access_key_id=<object store access key>
+   aws_secret_access_key=<object store secret key>
+   ```
 
-The following is an example of creating a Kubernetes secret consisting of OCI credentials.
+2. MySQL Operator requires the region name where the bucket is created, so we create a `backup-secret.txt` file, which contains the region information.
 
-````shell
-$ kubectl create secret generic -n keycloak  mysql-backup-secret \
-        --from-literal=user=ocid1.user.oc1..aaaaaaaa \
-        --from-literal=fingerprint=aa:bb:cc:dd:ee:ff \
-        --from-literal=tenancy=ocid1.tenancy.oc1..bbbbbbbbb \
-        --from-literal=region=us-phoenix-1 \
-        --from-literal=passphrase="" \
-        --from-file=privatekey=/tmp/key.pem
-````
+   ```backup-region.txt
+   [default]
+   region=us-phoenix-1
+   ```
+
+3. In the namespace `keycloak`, create a Kubernetes secret, for example `mysql-backup-secret`.
+
+   ```shell
+   $ kubectl create secret generic -n <backup-namespace> <secret-name> --from-file=<key>=<full_path_to_creds_file> --from-file=<key>=<full_path_to_config_file>
+   ```
+
+   The following is an example of creating a Kubernetes secret consisting of OCI credentials.
+   ```shell
+   $ kubectl create secret generic -n keycloak mysql-backup-secret --from-file=credentials=backup-secret.txt --from-file=config=backup-region.txt
+   ```
+
+   **NOTE**: To avoid misuse of sensitive data, ensure that the `backup-secret.txt` file is deleted after the Kubernetes secret is created.
+
 
 ## MySQL Operator backup
 
 To initiate a MySQL backup, create the following example custom resource YAML file that uses an OCI object store as a back end.
-The operator uses the secret referenced in the `credentials` to authenticate with the OCI object store.
+The operator uses the secret referenced in `spec.backupProfile.dumpInstance.storage.s3.config` to authenticate with the OCI object store.
 
 ```yaml
 $ kubectl apply -f - <<EOF
@@ -68,18 +84,21 @@ $ kubectl apply -f - <<EOF
     backupProfile:       
       name: <backupProfileName>
       dumpInstance:              
-        storage:
-          ociObjectStorage:
-            prefix: <prefix name. This folder will be auto created>
-            bucketName: <object store bucket. This must be exist as noted in pre-requisites section>
-            credentials: <Kubernetes secret name created in the prerequisite section>
+        storage:          
+          s3:
+             bucketName: <The Object store bucket. See the MySQL Operator prerequisites section.>
+             config: <Kubernetes secret name. See the MySQL Operator prerequisites section.>
+             endpoint: < OCI S3 object store endpoint. >
+             prefix: <The prefix name. This folder will be automatically created.>
+             profile: default
 EOF
 ```
 
 **NOTE:**
-- The `credentials` in `mysql-backup-secret` are those you created previously in the `keycloak` namespace.
+- The `config` value is `mysql-backup-secret`, which is the name of the secret that you created previously in the `keycloak` namespace.
 - The `clustername` has to be `mysql`.
 - The `namespace` has to be `keycloak`.
+- The `profile` value is the profile for the security credentials. In this case, it is `default`.
 
 The following is an example of a `MySQLBackup` resource to initiate a MySQL backup:
 
@@ -95,11 +114,13 @@ $ kubectl apply -f - <<EOF
     backupProfile:       
       name: mysqlOneTime  
       dumpInstance:              
-        storage:
-          ociObjectStorage:
-            prefix: mysql-test
-            bucketName: mysql-bucket
-            credentials: mysql-backup-secret
+        storage:          
+          s3:
+             bucketName: mysql-bucket
+             config: mysql-backup-secret
+             endpoint: https://mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com
+             prefix: mysql-test
+             profile: default  
 EOF
 ```
 
@@ -131,7 +152,7 @@ To initiate a MySQL restore operation from an existing backup, you need to recre
     mysql-backup-20221025-180836
     ```
 
-3. Typically, the MySQL Helm charts are present inside the Verrazzano platform operator. Retrieve the charts to a local directory.
+3. Typically, the MySQL Helm charts are present inside the Verrazzano platform operator. Retrieve the charts to a local directory called `mysql-charts`.
 
     ```shell
     $ mkdir mysql-charts
@@ -153,12 +174,13 @@ To initiate a MySQL restore operation from an existing backup, you need to recre
     ```shell
     $ helm install mysql mysql-charts \
             --namespace keycloak \
-            --set tls.useSelfSigned=true \
             --set initDB.dump.name=<dump-name> \
             --set initDB.dumpOptions.loadUsers=true \
-            --set initDB.dump.ociObjectStorage.prefix=<prefixName/backup folder name> \
-            --set initDB.dump.ociObjectStorage.bucketName=<OCI bucket name> \
-            --set initDB.dump.ociObjectStorage.credentials=<Credential Name> \
+            --set initDB.dump.s3.profile=default \
+            --set initDB.dump.s3.prefix=<prefixName/backup folder name> \
+            --set initDB.dump.s3.bucketName=<OCI bucket name> \
+            --set initDB.dump.s3.config=<Credential Name> \
+            --set initDB.dump.s3.endpoint=<OCI S3 endpoint> \
             --values <mysql values file>
    ```
 
@@ -167,14 +189,14 @@ To initiate a MySQL restore operation from an existing backup, you need to recre
     ```shell
     $ helm install mysql mysql-charts \
             --namespace keycloak \
-            --set tls.useSelfSigned=true \
-            --set initDB.dump.name="alpha" \
-            --set initDB.dumpOptions.loadUsers=true \
-            --set initDB.dump.ociObjectStorage.prefix="mysql-test/mysql-backup-20221025-180836" \
-            --set initDB.dump.ociObjectStorage.bucketName="mysql-bucket" \
-            --set initDB.dump.ociObjectStorage.credentials="mysql-backup-secret" \
+            --set initDB.dump.name=alpha \
+            --set initDB.dump.s3.profile=default \
+            --set initDB.dump.s3.prefix=mysql-test/mysql-backup-20221025-180836 \
+            --set initDB.dump.s3.bucketName=mysql-bucket \
+            --set initDB.dump.s3.config=mysql-backup-secret \
+            --set initDB.dump.s3.endpoint=https://mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com \
             --values mysql-values.yaml
-    ```   
+    ```
 
 6. After performing the restore command, wait for the MySQL cluster to be online. Ensure that the `STATUS` is `ONLINE` and the count under `ONLINE` matches the `INSTANCES`.
 
