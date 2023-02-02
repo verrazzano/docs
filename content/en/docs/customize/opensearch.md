@@ -530,11 +530,11 @@ spec:
 
 ## Override default number of shards and replicas
 
-  Beginning in v1.5, Verrazzano provides a default index template, `verrazzano-data-stream`, that creates one shard and one replica for each index. You can override the default number of shards or replicas by overriding the default index template.
+Verrazzano provides a default index template, `verrazzano-data-stream`. In initial Verrazzano v1.5 installations (not upgrades), the default index template creates one shard and one replica for each index. (In previous and upgrade installations, it creates five shards and one replica.) You can override the default number of shards or replicas by overriding the default index template.
 
-  To do that, you need to get the default index template, copy the contents and change the number of shards, replicas, and index pattern, and then create your own index template with a higher priority so that the new template will override the default one.
+To do that, you need to get the default index template, copy the contents and change the number of shards, replicas, and index pattern, and then create your own index template with a higher priority so that the new template will override the default one.
 
-  You can use the OpenSearch Dev Tools Console to send given queries to OpenSearch. To open the console, select Dev Tools on the main OpenSearch Dashboards page and write your queries in the editor pane on the left side of the console.
+You can use the OpenSearch Dev Tools Console to send given queries to OpenSearch. To open the console, select Dev Tools on the main OpenSearch Dashboards page and write your queries in the editor pane on the left side of the console.
 
 To get the existing, default template:
 {{< clipboard >}}
