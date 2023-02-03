@@ -103,7 +103,7 @@ Start with an initial estimate of your hardware needs. The following recommendat
    Primary shards = \\( ( s * (1 + io) ) / sh \\)
 
    With reference to the [Example](#example):
-   
+
    \\(s\\) = 66 GiB and if you choose shard size \\(sh\\) = 30 GiB
 
    Then, primary shards count = \\( ( 66 * 1.1 )/ 30 \\) = 2
@@ -447,6 +447,101 @@ The `vz-system` and `vz-application` policies are immutable and any change to th
 
 ## Default index patterns
 The default index patterns, `verrazzano-system` and `verrazzano-application*`, are created by Verrazzano. These index patterns are immutable. Changes to these index patterns will be lost because Verrazzano will reconcile and replace them with the default ISM policies.
+
+## Override default number of shards and replicas
+
+Verrazzano provides a default index template, `verrazzano-data-stream`. In initial Verrazzano v1.5 installations (not upgrades), the default index template creates one shard and one replica for each index. (In previous and upgrade installations, it creates five shards and one replica.) You can override the default number of shards or replicas by overriding the default index template.
+
+To do that, you need to get the default index template, copy the contents and change the number of shards, replicas, and index pattern, and then create your own index template with a higher priority so that the new template will override the default one.
+
+You can use the OpenSearch Dev Tools Console to send given queries to OpenSearch. To open the console, select Dev Tools on the main OpenSearch Dashboards page and write your queries in the editor pane on the left side of the console.
+
+To get the existing, default template:
+{{< clipboard >}}
+```yaml
+$ GET /_index_template/verrazzano-data-stream
+```
+{{< /clipboard >}}
+
+
+Here is an example to create a new index template, which changes the number of shards to `3` and replicas to `2`.
+{{< clipboard >}}
+```yaml
+$ PUT _index_template/my-template
+    {
+        "index_patterns" : [
+          "verrazzano-application-myapp*"
+        ],
+        "template" : {
+          "settings" : {
+            "index" : {
+              "mapping" : {
+                "total_fields" : {
+                  "limit" : "2000"
+                }
+              },
+              "refresh_interval" : "5s",
+              "number_of_shards" : "3",
+              "auto_expand_replicas" : "0-1",
+              "number_of_replicas" : "2"
+            }
+          },
+          "mappings" : {
+            "dynamic_templates" : [
+              {
+                "message_field" : {
+                  "path_match" : "message",
+                  "mapping" : {
+                    "norms" : false,
+                    "type" : "text"
+                  },
+                  "match_mapping_type" : "string"
+                }
+              },
+              {
+                "object_fields" : {
+                  "mapping" : {
+                    "type" : "object"
+                  },
+                  "match_mapping_type" : "object",
+                  "match" : "*"
+                }
+              },
+              {
+                "all_non_object_fields" : {
+                  "mapping" : {
+                    "norms" : false,
+                    "type" : "text",
+                    "fields" : {
+                      "keyword" : {
+                        "ignore_above" : 256,
+                        "type" : "keyword"
+                      }
+                    }
+                  },
+                  "match" : "*"
+                }
+              }
+            ],
+            "properties" : {
+              "@timestamp" : {
+                "format" : "strict_date_time||strict_date_optional_time||epoch_millis",
+                "type" : "date"
+              }
+            }
+          }
+        },
+        "priority" : 201,
+        "data_stream" : {
+          "timestamp_field" : {
+            "name" : "@timestamp"
+          }
+        }
+}
+```
+{{< /clipboard >}}
+With this example, new indices that match the `verrazzano-application-myapp*` index pattern will be created with three shards and two replicas, and other indices that don't match will continue to be created with the default number of shards and replicas.
+For more information, see [Index templates ](https://opensearch.org/docs/latest/opensearch/index-templates/) in the OpenSearch documentation.
 
 ## Install OpenSearch and OpenSearch Dashboards plug-ins
 Verrazzano supports OpenSearch and OpenSearch Dashboard plug-in installation by providing plug-ins in the Verrazzano custom resource.
