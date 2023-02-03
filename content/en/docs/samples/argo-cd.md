@@ -4,8 +4,6 @@ weight: 1
 description: "Use Argo CD to deploy and undeploy applications"
 ---
 
-***WRITER COMMENT***: The procedures here are documented based on Dev input. To view the UI and then update the procedures as required.
-
 ## Before you begin
 
 - Install Verrazzano by following the [installation]({{< relref "/docs/setup/install/installation.md" >}}) instructions.
@@ -15,17 +13,19 @@ description: "Use Argo CD to deploy and undeploy applications"
 
 Configure repositories in the Argo CD user interface which will contain the kubernetes resources for deploying an application.
 
+***WRITER COMMENT***: Missed looking at the UI for the following procedure. To take help from Preethi and update the procedure.  
+<br>
 Following is a sample procedure to configure a private GIT repository through HTTPS:
 1. Log in to the Argo CD user interface.
-2. Select **Settings** and click **Repositories**.
+2. In the left navigation, click **Settings**, and then click **Repositories**.
 3. Click **Connect Repo**.
-4. Select the connection method. Example: `HTTPS`.
-5. For the project, specify `default`.
-<br>**Note**: All the projects are defined in the `default` level, unless they are grouped together.</br>
+4. Select **HTTPS** as the connection method.
+5. For **Project Name**, specify **default**.
+<br>**Note**: All the projects are defined in the `default` level, unless they are grouped together.
 6. For **GIT repository URL**, provide the required URL.
-7. If its a private repository and the username and password (access token) is required to connect to the repo, enter the details.
-<br>**Note**: The other fields are optional based on how the GIT repository is configured.</br>
-9. Click **Connect** and verify if the connection to the GIT repository displays as successful.
+7. If its a private repository and a username and password is required to connect to the repo, enter the required credentials.
+<br>**Note**: The other fields are optional and is based on how the GIT repository is configured.
+9. Click **Connect** and verify if the connection to the GIT repository is displayed as `Successful`.
 
 ## Deploy applications
 
@@ -33,38 +33,29 @@ To deploy applications in a custom namespace, create Argo CD applications that s
 
 This example provides information about how to deploy the `Hello-helidon` application. The `Hello-helidon` application and component yaml definitions are available in the GIT repository, [Hello World Helidon](https://github.com/verrazzano/verrazzano/tree/master/examples/helidon-config).
 
-***WRITER COMMENT***: Keep this procedure as an example, where we ask users to follow a specific flow. And, not explain about all the available options. However, we have maintained a balance.  
-
 1. Log in to the Argo CD user interface.
 2. Click **New App**.
 3. Specify a name for the application.
-4. Select the required **Sync Policy** option.
+4. For **Project Name**, select **default**.
+5. Select the required **Sync Policy** option.
 <br>Options:
    - `Automatic` - By default, after every three mins, Argo CD checks the specified GIT repository and syncs the updates in Kubernetes to the GIT repository.
-   - `Manual` - If you want to manually click the **Sync** button and then sync the updates to the GIT repository.
-</br>
-5. Select **Auto-Create Namespace**, if the namespace in which the application to be deployed is other than the `default` namespace and the namespace is not pre-created before deploying the application so that the Argo CD creates the namespace and deploys the apps in that namespace.
-<br>
-***WRITER COMMENT***: I think we can skip step 5. Let the users use the `default` namespace. Thoughts?
-<br>Info: Dev content as is step 5.
-6. Under the **Source** section, do the following:
+   - `Manual` - If you want to use the **Sync** option to manually sync the updates to the GIT repository.
+6. In the **Sync Options** section, select **Auto-Create Namespace**.
+7. Under the **Source** section, do the following:
     - **Repository URL**: https://github.com/verrazzano/verrazzano/
     - **Revision**: `master`
     - **Path**: Path in the repository where the Kubernetes resource definitions are listed. For example: `examples/helidon-config`
 7. Under the **Destination** section, do the following:
     - **Cluster URL**: Select the cluster to which you want to deploy the applications.
     - **Namespace**: Specify the namespace in which you want to deploy the applications.
-8. Click **Next**.
 9. Click **Create**.
-10. If you selected the `Manual` as the **Sync Policy** option, then click **Sync**.
+10. If you selected `Manual` as the **Sync Policy** option, then click **Sync**.
 <br> This creates the Argo CD application and a pictorial representation of the deployed applications is displayed.
-</br>
 
 ## Verify the deployed application
 
-***WRITER COMMENT***: This section is an exact copy from the Hello Config World Helidon topic - https://verrazzano.io/latest/docs/samples/helidon-config/
-
-The Hello World Helidon microservices application implements a REST API endpoint, `/greet`, which returns a message `{"message":"Hello World!"}` when invoked.
+The Hello World Helidon microservices application implements a REST API endpoint, `/config`, which returns a message `{"message":"Hello World!"}` when invoked.
 
 **NOTE**:  The following instructions assume that you are using a Kubernetes environment such as OKE. Other environments or deployments may require alternative mechanisms for retrieving addresses, ports, and such.
 
@@ -99,7 +90,7 @@ Follow these steps to test the endpoints.
      ```
      $ curl -sk \
         -X GET \
-        https://${HOST}/greet \
+        https://${HOST}/config \
         --resolve ${HOST}:443:${ADDRESS}
 
      # Expected response output
@@ -115,9 +106,9 @@ Follow these steps to test the endpoints.
      ```
      11.22.33.44 hello-helidon.example.com
      ```
-     Then you can access the application in a browser at `https://<host>/greet`.
+     Then you can access the application in a browser at `https://<host>/config`.
 
-     - If you are using `nip.io`, then you can access the application in a browser using the `HOST` variable (for example, `https://${HOST}/greet`).  
+     - If you are using `nip.io`, then you can access the application in a browser using the `HOST` variable (for example, `https://${HOST}/config`).  
      - If you are going through a proxy, then you may need to add `*.nip.io` to the `NO_PROXY` list.
 
    * **Using your own DNS name**
@@ -126,7 +117,7 @@ Follow these steps to test the endpoints.
      * In this case, you would need to edit the `hello-helidon-app.yaml` file
        to use the appropriate value under the `hosts` section (such as `yourhost.your.domain`),
        before deploying the `hello-helidon` application.
-     * Then, you can use a browser to access the application at `https://<yourhost.your.domain>/greet`.     
+     * Then, you can use a browser to access the application at `https://<yourhost.your.domain>/config`.     
 
 1. A variety of endpoints associated with the deployed application are available to further explore the logs, metrics, and such.
 You can access them according to the directions [here]({{< relref "/docs/access/#get-the-consoles-urls" >}}).  
@@ -134,6 +125,6 @@ You can access them according to the directions [here]({{< relref "/docs/access/
 ## Undeploy applications
 
 1. Log in to the Argo CD user interface.
-2. Click the application that you want to undeploy, and then select **Delete**.
-3. Enter the name of the application, and the click **OK**.
-<br>This deletes all the resources created by the specific application except for the namespaces.</br>
+2. Select the application that you want to undeploy and then click **Delete**.
+3. Enter the name of the application and then click **OK**.
+<br>This deletes all the resources created by the specific application except for the namespaces.
