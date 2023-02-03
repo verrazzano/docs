@@ -35,7 +35,7 @@ Verrazzano Status
   Version: 1.5.0
   State: Ready
   Profile: dev
-  Available Components: 23/23
+  Available Components: 24/24
   Access Endpoints:
     argoCDUrl: https://argocd.default.172.18.0.231.nip.io
     consoleUrl: https://verrazzano.default.172.18.0.231.nip.io
@@ -156,7 +156,7 @@ To get the password:
 ### The Argo CD console
 
 You can log in to the Argo CD console using the `verrazzano` user configured in Keycloak or with the local `admin` user for Argo CD.
-To log in with Keycloak, select the `Log in with Keycloak` link or select the `Use a local user` link to log in with the local user.
+To log in with Keycloak, select the `Log in with Keycloak` link or enter the local user credentials to log in as a local user.
 
 **Local Admin User:** `admin`
 

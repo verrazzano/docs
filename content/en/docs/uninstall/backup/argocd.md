@@ -56,8 +56,6 @@ To back up or restore Argo CD, you must first enable Velero.
   ```
 {{< /clipboard >}}
 
-  **NOTE**: The Argo CD back up and restore operation is supported _only_ on `prod` installation profiles with a multinode Argo CD configuration.
-
 2. After Velero is enabled, verify that the Velero pods are running in the `verrazzano-backup` namespace.
 {{< clipboard >}}
 
@@ -122,11 +120,11 @@ velero-5ff8766fd4-xbn4z   1/1     Running   0          21h
 {{< /clipboard >}}
 ## Argo CD backup using Velero
 
-For Argo CD, Verrazzano provides a custom hook that you can use along with Velero while invoking a backup.
-Due to the nature of transient data handled by Argo CD, the hook invokes the Argo CD snapshot APIs to back up data streams appropriately,
-thereby ensuring that there is no loss of data and avoids data corruption as well.
-
-**NOTE:** For ArgoCD, `includedNamespaces` should list all the namespaces across which the applications are deployed.
+If you created applications with resources running in different namespaces, other than `argocd`, then based on the following criteria you can backup and restore Argo CD:
+- If applications running in different namespaces use persistent volumes, then you can back up the namespace where the applications are running with the PV.
+- If applications running in different namespaces *do not* use persistent storage then:
+<br> a) Take a backup of all the namespaces where the application is running by specifying a comma-separated list.
+<br> b) Take a backup of only the `argocd` namespace, create all the namespaces of different applications, and then restore from the backup.
 
 The following example shows a sample Velero `Backup` [API](https://velero.io/docs/v1.8/api-types/backup/) resource that you can create to initiate an Argo CD backup.
 {{< clipboard >}}
@@ -140,42 +138,19 @@ $ kubectl apply -f - <<EOF
     namespace: verrazzano-backup
   spec:
     includedNamespaces:
-      - verrazzano-system
+      - argocd
     labelSelector:
       matchLabels:
         verrazzano-component: argocd
     defaultVolumesToRestic: false
     storageLocation:  verrazzano-backup-location
-    hooks:
-      resources:
-        - name: argocd-backup-test
-          includedNamespaces:
-            - verrazzano-system
-          labelSelector:
-            matchLabels:
-              statefulset.kubernetes.io/pod-name: vmi-system-es-master-0
-          post:                           
-            - exec:
-                container: es-master
-                command:
-                  - /usr/share/argocd/bin/verrazzano-backup-hook
-                  - -operation
-                  - backup
-                  - -velero-backup-name
-                  - verrazzano-argocd-backup
-                onError: Fail
-                timeout: 10m
 EOF
 ```
 {{< /clipboard >}}
 
 The preceding example backs up the Argo CD components:
-- In this case, you are not backing up the `PersistentVolumes` directly, rather running a hook that invokes the Argo CD APIs to take a snapshot of the data.
 - The `defaultVolumesToRestic` is set to `false` so that Velero ignores the associated PVCs.
-- In this case, the hook can be `pre` or `post`.
-- The command used in the hook requires an `operation` flag and the Velero backup name as an input.
-- The container on which the hook needs to be run defaults to the first container in the pod.
-  In this case, it's `statefulset.kubernetes.io/pod-name: vmi-system-es-master-0`.
+- If the deployed applications refer to a database or persistent volumes, then you need to manually create a backup.
 
 After the backup is processed, you can see the hook logs using the `velero backup logs` command. Additionally, the hook logs are stored under the `/tmp` folder in the pod.
 
@@ -186,12 +161,6 @@ After the backup is processed, you can see the hook logs using the `velero backu
 ```shell
 # To display the logs from the backup, run the following command
 $ kubectl logs -n verrazzano-backup -l app.kubernetes.io/name=velero
-
-# Fetch the log file name as shown
-$ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- ls -al /tmp | grep verrazzano-backup-hook | tail -n 1 | awk '{print $NF}'
-
-# To examine the hook logs, exec into the pod as shown, and use the file name retrieved previously
-$ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/<log-file-name>
 ```
 {{< /clipboard >}}
 </details>
@@ -277,14 +246,7 @@ $ kubectl delete deploy -n verrazzano-system -l verrazzano-component=argocd    $
 {{< /clipboard >}}
 
    The preceding example will restore an Argo CD cluster from an existing backup.
-   - In this case, you are not restoring `PersistentVolumes` directly, rather running a hook that invokes the Argo CD APIs to restore them from an existing snapshot of the data.
    - The `restorePVs` is set to `false` so that Velero ignores restoring PVCs.
-   - The command used in the hook requires an `-operation` flag and the Velero backup name as an input.
-   - The `postHook` will invoke the Argo CD APIs that restore the snapshot data.
-   - The container on which the hook needs to be run defaults to the first container in the pod.
-     In this case, it's `statefulset.kubernetes.io/pod-name: vmi-system-es-master-0`.
-
-   **NOTE**: The hook needs to be a `postHook` because it must be applied after the Kubernetes objects are restored.
 
 4. Wait for all the Argo CD pods to be in the `RUNNING` state.
 {{< clipboard >}}
@@ -311,13 +273,6 @@ After the restore operation is processed, you can see the hook logs using the `v
 ```shell
 # To display the logs from the restore, run the following command
 $ kubectl logs -n verrazzano-backup -l app.kubernetes.io/name=velero
-
-# Fetch the log file name as shown
-$ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- ls -al /tmp | grep verrazzano-restore-hook | tail -n 1 | awk '{print $NF}'
-
-# To examine the hook logs, exec into the pod as shown, and use the file name retrieved previously
-$ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/<log-file-name>
-
 ```
 {{< /clipboard >}}
 </details>
