@@ -12,8 +12,8 @@ There are scenarios where you may want to back up your Argo CD data and restore 
 Verrazzano uses Velero to facilitate backing up and restoring Argo CD data.
 
 - [Velero operator prerequisites](#velero-operator-prerequisites)
-- [Argo CD backup using Velero](#argocd-backup-using-velero)
-- [Argo CD restore using Velero](#argocd-restore-using-velero)
+- [Argo CD backup using Velero](#argo-cd-backup-using-velero)
+- [Argo CD restore using Velero](#argo-cd-restore-using-velero)
 
 
 ## Velero operator prerequisites
@@ -95,7 +95,7 @@ velero-5ff8766fd4-xbn4z   1/1     Running   0          21h
 {{< /clipboard >}}
 
 5. Create a `BackupStorageLocation` resource, which the backup component will reference for subsequent backups. See the following `BackupStorageLocation` example.
-   For more information, see [Backup Storage Location](https://velero.io/docs/v1.8/api-types/backupstoragelocation/) in the Velero documentation.
+   For more information, see [Backup Storage Location](https://velero.io/docs/v1.8/api-types/backupstoragelocation/#backup-storage-location) in the Velero documentation.
 {{< clipboard >}}
 
   ```yaml
