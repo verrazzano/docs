@@ -4,6 +4,24 @@ linkTitle: Release Notes
 weight: 13
 draft: false
 ---
+### v1.4.3
+Fixes:
+- Fixed unnecessary restart of user applications during upgrade from a previous Verrazzano release.
+- Fixed Fluentd configuration to prevent duplication of logs in OpenSearch on Fluentd restart or upgrade.
+- Fixed WebLogic Grafana dashboards to get the service label value correctly and display data properly.
+- Fixed I/O timeout errors installing Verrazzano on a RKE2 cluster.
+- Added `serviceTemplate` to VerrazzanoHelidonWorkload to allow users to customize the Helidon workload service.
+- Fixed default Helidon workload service so that the service ports don't automatically get named with the prefix `tcp-`.
+- Fixed CLI `vz analyze` command so that it works with earlier Verrazzano releases.
+- Added support for the installation of non-bundled OpenSearch plug-ins.
+- Fixed a bug that prevented `Persistent Volumes` from being deployed as part of an OAM Component.
+- Added support for the `javaOpts` argument for the OpenSearch JVM.
+
+Component version updates:
+- Grafana v7.5.17
+- WebLogic Kubernetes Operator v3.4.5
+- WebLogic Monitoring Exporter v2.1.1
+
 ### v1.4.2
 Fixes:
 
