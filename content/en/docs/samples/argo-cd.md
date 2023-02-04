@@ -13,19 +13,18 @@ description: "Use Argo CD to deploy and undeploy applications"
 
 Configure repositories in the Argo CD user interface which will contain the kubernetes resources for deploying an application.
 
-***WRITER COMMENT***: Missed looking at the UI for the following procedure. To take help from Preethi and update the procedure.  
-<br>
 Following is a sample procedure to configure a private GIT repository through HTTPS:
 1. Log in to the Argo CD user interface.
-2. In the left navigation, click **Settings**, and then click **Repositories**.
+2. In the left navigation, click **Settings**.
+3. Click **Repositories**.
 3. Click **Connect Repo**.
-4. Select **HTTPS** as the connection method.
-5. For **Project Name**, specify **default**.
+4. Select **VIA HTTPS** as the connection method.
+5. For **Project**, specify **default**.
 <br>**Note**: All the projects are defined in the `default` level, unless they are grouped together.
-6. For **GIT repository URL**, provide the required URL.
-7. If its a private repository and a username and password is required to connect to the repo, enter the required credentials.
+6. For **Repository URL**, provide the required URL.
+7. If it is a private repository and a username and password is required to connect to the repo, enter the required credentials.
 <br>**Note**: The other fields are optional and is based on how the GIT repository is configured.
-9. Click **Connect** and verify if the connection to the GIT repository is displayed as `Successful`.
+9. Click **Connect** and verify if the connection status is displayed as `Successful`.
 
 ## Deploy applications
 
