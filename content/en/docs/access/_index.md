@@ -165,7 +165,7 @@ To get the password:
 <div class="highlight">
 
     $ kubectl -n argocd get secret \
-        --namespace secret argocd-initial-admin-secret \
+        argocd-initial-admin-secret \
         -o jsonpath={.data.password} | base64 \
         --decode; echo
 

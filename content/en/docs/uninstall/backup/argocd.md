@@ -123,7 +123,7 @@ velero-5ff8766fd4-xbn4z   1/1     Running   0          21h
 If you created applications with resources running in different namespaces, other than `argocd`, then based on the following criteria you can backup and restore Argo CD:
 - If applications running in different namespaces use persistent volumes, then you can back up the namespace where the applications are running with the PV.
 - If applications running in different namespaces *do not* use persistent storage then:
-<br> a) Take a backup of all the namespaces where the application is running by specifying a comma-separated list.
+<br> a) Take a backup of all the namespaces where the application is running by specifying the namespaces as a list.
 <br> b) Take a backup of only the `argocd` namespace, create all the namespaces of different applications, and then restore from the backup.
 
 The following example shows a sample Velero `Backup` [API](https://velero.io/docs/v1.8/api-types/backup/) resource that you can create to initiate an Argo CD backup.
@@ -138,10 +138,7 @@ $ kubectl apply -f - <<EOF
     namespace: verrazzano-backup
   spec:
     includedNamespaces:
-      - argocd
-    labelSelector:
-      matchLabels:
-        verrazzano-component: argocd
+    - argocd
     defaultVolumesToRestic: false
     storageLocation:  verrazzano-backup-location
 EOF
@@ -151,8 +148,6 @@ EOF
 The preceding example backs up the Argo CD components:
 - The `defaultVolumesToRestic` is set to `false` so that Velero ignores the associated PVCs.
 - If the deployed applications refer to a database or persistent volumes, then you need to manually create a backup.
-
-After the backup is processed, you can see the hook logs using the `velero backup logs` command. Additionally, the hook logs are stored under the `/tmp` folder in the pod.
 
 <details>
   <summary>Argo CD backup logs</summary></summary>
@@ -174,37 +169,23 @@ that is a repeatable request that is sent to the Velero server to perform a back
 After the `Schedule` object is created, the Velero server will start the backup process.
 Then, it will wait for the next valid point in the given cron expression and run the backup process on a repeating basis.
 
-<br/>
-
 ## Argo CD restore using Velero
-
-For Argo CD, Verrazzano provides a custom hook that you can use along with Velero to perform a restore operation.
-Due to the nature of transient data handled by Argo CD, the hook invokes Argo CD snapshot APIs to restore data streams appropriately,
-thereby ensuring there is no loss of data and avoids data corruption as well.
 
 To initiate an Argo CD restore operation, first delete the existing Argo CD cluster running on the system and all related data.
 
-1. Scale down the Verrazzano Monitoring Operator. This is required because the operator manages the life cycle of the Argo CD cluster, so scaling it down to zero ensures that it does not interfere with the restore operation.
-   The restore operation also ensures that this operator is scaled back up to return the system to its previous state.
-{{< clipboard >}}
- ```shell
-  $ kubectl scale deploy -n verrazzano-system verrazzano-monitoring-operator --replicas=0
-  ```
-{{< /clipboard >}}
-
-2. Delete the Argo CD components.
+1. Delete the Argo CD components.
 {{< clipboard >}}
  ```shell
 # These are sample commands to demonstrate the Argo CD restore process
-$ kubectl delete sts -n verrazzano-system -l verrazzano-component=argocd
-$ kubectl delete deploy -n verrazzano-system -l verrazzano-component=argocd    $ kubectl delete pvc -n verrazzano-system -l verrazzano-component=argocd
+$ kubectl delete sts -n argocd
+$ kubectl delete deploy -n argocd $ kubectl delete pvc -n argocd
  ```
 {{< /clipboard >}}
 
-3. To perform an Argo CD restore operation, you can invoke the following example Velero `Restore` [API](https://velero.io/docs/v1.8/api-types/restore/) object.
-
+2. To perform an Argo CD restore operation, you can invoke the following example Velero `Restore` [API](https://velero.io/docs/v1.8/api-types/restore/) object.
+<br><br>
 **NOTE:** For ArgoCD, `includedNamespaces` should list all the namespaces across which the applications are deployed.
-
+<br>
 {{< clipboard >}}
  ```yaml
   $ kubectl apply -f - <<EOF
@@ -216,55 +197,25 @@ $ kubectl delete deploy -n verrazzano-system -l verrazzano-component=argocd    $
    spec:
      backupName: verrazzano-argocd-backup
      includedNamespaces:
-       - verrazzano-system
-      labelSelector:
-        matchLabels:
-          verrazzano-component: argocd
-      restorePVs: false
-      hooks:
-        resources:
-         - name: argocd-test
-           includedNamespaces:
-             - verrazzano-system       
-           labelSelector:
-              matchLabels:            
-               statefulset.kubernetes.io/pod-name: vmi-system-es-master-0
-           postHooks:
-             - exec:
-                 container: es-master
-                 command:
-                    - /usr/share/argocd/bin/verrazzano-backup-hook
-                    - -operation
-                    - restore
-                    - -velero-backup-name
-                    - verrazzano-argocd-backup
-                 waitTimeout: 30m
-                 execTimeout: 30m
-                  onError: Fail
+     - argocd
   EOF
    ```
 {{< /clipboard >}}
 
    The preceding example will restore an Argo CD cluster from an existing backup.
-   - The `restorePVs` is set to `false` so that Velero ignores restoring PVCs.
 
-4. Wait for all the Argo CD pods to be in the `RUNNING` state.
+3. Wait for all the Argo CD pods to be in the `RUNNING` state.
 {{< clipboard >}}
  ```shell
-   $ kubectl wait -n verrazzano-system --for=condition=ready pod -l verrazzano-component=argocd --timeout=600s
-     pod/vmi-system-es-data-0-6f49bdf6f5-fc6mz condition met
-     pod/vmi-system-es-data-1-8f8785994-4pr7n condition met
-     pod/vmi-system-es-data-2-d5f569d98-q8p2v condition met
-     pod/vmi-system-es-ingest-6ddd86b9b6-fpl6j condition met
-     pod/vmi-system-es-ingest-6ddd86b9b6-jtmrh condition met
-     pod/vmi-system-es-master-0 condition met
-     pod/vmi-system-es-master-1 condition met
-     pod/vmi-system-es-master-2 condition met
+   $ kubectl wait -n argocd --for=condition=ready pod -l app.kubernetes.io/instance=argocd
+     pod/argocd-application-controller-0 condition met
+     pod/argocd-applicationset-controller-8489bfbb8-4f686 condition met
+     pod/argocd-notifications-controller-c4f5c9684-8qzl8 condition met
+     pod/argocd-redis-548968fdd9-4jcrf condition met
+     pod/argocd-repo-server-5889c8cc68-5n8j6 condition met
+     pod/argocd-server-67b6994987-j9z99 condition met
    ```
 {{< /clipboard >}}
-
-After the restore operation is processed, you can see the hook logs using the `velero restore logs` command. Additionally, the hook logs are stored under the `/tmp` folder in the pod.
-
 
 <details>
   <summary>Argo CD restore logs</summary></summary>
