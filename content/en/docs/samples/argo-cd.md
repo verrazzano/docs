@@ -7,41 +7,40 @@ description: "Use Argo CD to deploy and undeploy applications"
 ## Before you begin
 
 - Install Verrazzano by following the [installation]({{< relref "/docs/setup/install/installation.md" >}}) instructions.
-- To access the Argo CD user interface, see [Access Verrazzano]({{< relref "/docs/access/" >}}).
+- Access the Argo CD console using the instructions at [Access Verrazzano]({{< relref "/docs/access/" >}}).
 
 ## Configure repositories
 
-Configure repositories in the Argo CD user interface which will contain the kubernetes resources for deploying an application.
+In the Argo CD console, configure repositories that will contain the Kubernetes resources for deploying an application.
 
-Following is a sample procedure to configure a private GIT repository through HTTPS:
-1. Log in to the Argo CD user interface.
+The following is a sample procedure to configure a private Git repository through HTTPS.
+1. Log in to the Argo CD console.
 2. In the left navigation, click **Settings**.
 3. Click **Repositories**.
 3. Click **Connect Repo**.
 4. Select **VIA HTTPS** as the connection method.
 5. For **Project**, specify **default**.
-<br>**Note**: All the projects are defined in the `default` level, unless they are grouped together.
+<br>**Note**: Unless they are grouped together, all the projects are defined in the `default` level.
 6. For **Repository URL**, provide the required URL.
-7. If it is a private repository and a username and password is required to connect to the repo, enter the required credentials.
-<br>**Note**: The other fields are optional and is based on how the GIT repository is configured.
-9. Click **Connect** and verify if the connection status is displayed as `Successful`.
+7. If it is a private repository and a user name and password is required to connect to the repository, enter the required credentials.
+<br>**Note**: The other fields are optional and based on how the Git repository is configured.
+9. Click **Connect** and verify that the connection status displayed is `Successful`.
 
 ## Deploy applications
 
-To deploy applications in a custom namespace, create Argo CD applications that specifies the GIT repository path, which Argo CD requires to sync and deploy the applications in the specified namespace.
+To deploy applications in a custom namespace, create Argo CD applications that specify the Git repository path, which Argo CD requires to synchronize and deploy the applications in the specified namespace.
 
-This example provides information about how to deploy the `Hello-helidon` application. The `Hello-helidon` application and component yaml definitions are available in the GIT repository, [Hello World Helidon](https://github.com/verrazzano/verrazzano/tree/master/examples/helidon-config).
+This example provides information about how to deploy the `Hello-helidon` application. The `Hello-helidon` application and component YAML files are available at [Hello World Helidon](https://github.com/verrazzano/verrazzano/tree/master/examples/helidon-config).
 
-1. Log in to the Argo CD user interface.
+1. Log in to the Argo CD console.
 2. Click **New App**.
 3. Specify a name for the application.
 4. For **Project Name**, select **default**.
-5. Select the required **Sync Policy** option.
-<br>Options:
-   - `Automatic` - By default, after every three mins, Argo CD checks the specified GIT repository and syncs the updates in Kubernetes to the GIT repository.
-   - `Manual` - If you want to use the **Sync** option to manually sync the updates to the GIT repository.
+5. Select the required **Sync Policy** option:
+   - `Automatic` - By default, every three minutes, Argo CD checks the specified Git repository and synchronizes the updates in Kubernetes to the Git repository.
+   - `Manual` - For manually synchronizing the updates to the Git repository, use the **Sync** option.
 6. In the **Sync Options** section, select **Auto-Create Namespace**.
-7. Under the **Source** section, do the following:
+7. Under the **Source** section, enter the following:
     - **Repository URL**: https://github.com/verrazzano/verrazzano/
     - **Revision**: `master`
     - **Path**: Path in the repository where the Kubernetes resource definitions are listed. For example: `examples/helidon-config`
@@ -123,7 +122,7 @@ You can access them according to the directions [here]({{< relref "/docs/access/
 
 ## Undeploy applications
 
-1. Log in to the Argo CD user interface.
+1. Log in to the Argo CD console.
 2. Select the application that you want to undeploy and then click **Delete**.
 3. Enter the name of the application and then click **OK**.
 <br>This deletes all the resources created by the specific application except for the namespaces.
