@@ -7,7 +7,7 @@ description: "Use Argo CD to deploy and undeploy applications"
 ## Before you begin
 
 - Install Verrazzano by following the [installation]({{< relref "/docs/setup/install/installation.md" >}}) instructions.
-- Access the Argo CD console using the instructions at [Access Verrazzano]({{< relref "/docs/access/" >}}).
+- Access the Argo CD console using the instructions at [Access Verrazzano]({{< relref "/docs/access#the-argo-cd-console" >}}).
 
 ## Configure repositories
 
