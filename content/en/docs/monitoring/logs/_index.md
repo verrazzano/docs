@@ -87,9 +87,6 @@ Here are example use cases for these plug-ins:
 </div>
 {{< /clipboard >}}
 
-
-For more details, see the [Fluentd plugins](https://github.com/verrazzano/fluentd-kubernetes-daemonset/tree/oracle-build-from-source-v1.14/docker-image/v1.14/oraclelinux-elasticsearch7/plugins) folder.
-
 ## Fluentd DaemonSet
 Verrazzano deploys a Fluentd DaemonSet which runs one Fluentd replica per node in the `verrazzano-system` namespace.
 Each instance pulls logs from the node's `/var/log/containers` directory and writes them to the target OpenSearch data stream.
@@ -270,4 +267,3 @@ data:
 
 </div>
 {{< /clipboard >}}
-
