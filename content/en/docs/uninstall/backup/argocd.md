@@ -123,8 +123,8 @@ velero-5ff8766fd4-xbn4z   1/1     Running   0          21h
 If you created applications with resources running in different namespaces, other than `argocd`, then based on the following criteria you can back up and restore Argo CD:
 - If applications running in different namespaces use persistent volumes, then you can back up the namespace where the applications are running with the PV.
 - If applications running in different namespaces *do not* use persistent storage, then:
-<br> a) Take a backup of all the namespaces where the application is running by specifying the namespaces as a list.
-<br> b) Take a backup of only the `argocd` namespace, create all the namespaces of different applications, and then restore from the backup.
+  - Take a backup of all the namespaces where the application is running by specifying the namespaces as a list.
+  - Take a backup of only the `argocd` namespace, create all the namespaces of different applications, and then restore from the backup.
 
 The following example shows a sample Velero `Backup` [API](https://velero.io/docs/v1.8/api-types/backup/) resource that you can create to initiate an Argo CD backup.
 {{< clipboard >}}
