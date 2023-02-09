@@ -211,10 +211,10 @@ To change the Verrazzano password, first change the user password in Keycloak an
 
    b. Obtaining the Keycloak admin console credentials is described [here](#the-keycloak-admin-console).
 
-2. In the left pane, select the `verrazzano-system` realm from the drop-down list.
+2. In the left pane, select the `verrazzano-system` realm from the drop-down menu.
 3. In the left pane, under `Manage`, select `Users`.
 4. In the `Users` pane, search for `verrazzano` or click `View all users`.
-5. Click the `verrazzano` user.
+5. Select the `verrazzano` user.
 6. At the top, select the `Credentials` tab.
 7. Click `Reset Password`.
 8. Specify the new password and confirm.
