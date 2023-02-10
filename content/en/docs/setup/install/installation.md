@@ -60,7 +60,7 @@ To create a Verrazzano installation as described in the previous section, run th
 {{< clipboard >}}
 <div class="highlight">
 
-  ```
+
     $ vz install -f - <<EOF
     apiVersion: install.verrazzano.io/v1beta1
     kind: Verrazzano
@@ -79,7 +79,7 @@ To create a Verrazzano installation as described in the previous section, run th
               requests:
                 storage: 2Gi
     EOF
-   ```
+
 </div>
 {{< /clipboard >}}
 
@@ -178,6 +178,15 @@ metadata:
 spec:
   profile: ${VZ_PROFILE:-dev}
 EOF
+```
+
+</div>
+{{< /clipboard >}}
+
+{{< clipboard >}}
+<div class="highlight">
+
+```
 $ kubectl wait \
     --timeout=20m \
     --for=condition=InstallComplete verrazzano/example-verrazzano

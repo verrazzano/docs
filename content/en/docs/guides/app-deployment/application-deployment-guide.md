@@ -453,19 +453,25 @@ If DNS was not configured, then use the alternative commands.
 
     # Expected response
     {"message":"Hello World!"}
-    ```
+  ```
+</div>
+{{< /clipboard >}}
+
     If DNS has not been configured, then use this command.
-    ```
+
+{{< clipboard >}}
+<div class="highlight">
+
+  ```
     $ curl -sk \
         -X GET \
         "https://${HOST}/greet" \
         --resolve ${HOST}:443:${ADDRESS}
-   ```
-
+  ```
 </div>
 {{< /clipboard >}}
 
-1.  Get a message for Robert.
+2.  Get a message for Robert.
 {{< clipboard >}}
 <div class="highlight">
 
