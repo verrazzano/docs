@@ -184,7 +184,7 @@ Kubernetes meta/v1.Time
 </td>
 <td>
 <em>(Optional)</em>
-<p>The timestamp of last status set</p>
+<p>The timestamp of last status set.</p>
 </td>
 </tr>
 <tr>
