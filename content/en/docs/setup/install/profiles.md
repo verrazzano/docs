@@ -83,20 +83,21 @@ customize any Verrazzano installation, regardless of the profile.
 | Component               | dev | prod | managed-cluster |
 |-------------------------|:---:|:----:|:---------------:|
 | `applicationOperator`     | ✔️  |  ✔️  |       ✔️        |
+| `argoCD`                  |     |       |                 |
 | `authProxy`               | ✔️  |  ✔️  |       ✔️        |
 | `certManager`             | ✔️  |  ✔️  |       ✔️        |
 | `clusterOperator`         | ✔️  |  ✔️  |       ✔️        |
 | `coherenceOperator`       | ✔️  |  ✔️  |       ✔️        |
-| `console`                 | ✔️  |  ✔️  |                |
+| `console`                 | ✔️  |  ✔️  |                  |
 | `dns`                     | ✔️  |  ✔️  |       ✔️        |
 | `fluentd`                 | ✔️  |  ✔️  |       ✔️        |
-| `grafana`                 | ✔️  |  ✔️  |                |
+| `grafana`                 | ✔️  |  ✔️  |                  |
 | `ingressNGINX`            | ✔️  |  ✔️  |       ✔️        |
 | `istio`                   | ✔️  |  ✔️  |       ✔️        |
-| `jaegerOperator`          |    |     |                |
+| `jaegerOperator`          |      |      |                |
 | `keycloak`                | ✔️  |  ✔️  |                |
 | `kiali`                   | ✔️  |  ✔️  |                |
-| `kubeStateMetrics`        |    |     |                |
+| `kubeStateMetrics`        |      |      |                |
 | `mySQLOperator`           | ✔️  |  ✔️  |       ✔️        |
 | `oam`                     | ✔️  |  ✔️  |       ✔️        |
 | `opensearch`              | ✔️  |  ✔️  |                |
