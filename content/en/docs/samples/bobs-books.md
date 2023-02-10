@@ -157,13 +157,13 @@ For more information and the source code of this application, see the [Verrazzan
 <div class="highlight">
 
   ```
-    $ ADDRESS=$(kubectl get service \
-        -n istio-system istio-ingressgateway \
-        -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-    $ echo $ADDRESS
+  $ ADDRESS=$(kubectl get service \
+      -n istio-system istio-ingressgateway \
+      -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+  $ echo $ADDRESS
 
-    # Sample output
-    11.22.33.44
+  # Sample output
+  11.22.33.44
    ```
 
 </div>
