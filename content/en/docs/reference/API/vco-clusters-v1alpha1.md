@@ -146,7 +146,11 @@ VerrazzanoManagedClusterStatus
 <h3 id="clusters.verrazzano.io/v1alpha1.ArgoCDRegistration">ArgoCDRegistration
 </h3>
 <p>
-<p>ArgoCDRegistration defines the ArgoCD registration state for a managed cluster</p>
+(<em>Appears on:</em>
+<a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterStatus">VerrazzanoManagedClusterStatus</a>)
+</p>
+<p>
+<p>ArgoCDRegistration defines the Argo CD registration state for a managed cluster.</p>
 </p>
 <table>
 <thead>
@@ -166,18 +170,21 @@ ArgoCDRegistrationStatus
 </em>
 </td>
 <td>
-<p>The status of the ArgoCD registration</p>
+<p>The status of the ArgoCD registration.</p>
 </td>
 </tr>
 <tr>
 <td>
 <code>lastSetTimestamp</code></br>
 <em>
-string
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#time-v1-meta">
+Kubernetes meta/v1.Time
+</a>
 </em>
 </td>
 <td>
-<p>The timestamp of last status set</p>
+<em>(Optional)</em>
+<p>The timestamp of last status set.</p>
 </td>
 </tr>
 <tr>
@@ -189,7 +196,7 @@ string
 </td>
 <td>
 <em>(Optional)</em>
-<p>Supporting message related to the Rancher registration status</p>
+<p>Supporting message related to the Argo CD registration status.</p>
 </td>
 </tr>
 </tbody>
@@ -201,7 +208,7 @@ string
 <a href="#clusters.verrazzano.io/v1alpha1.ArgoCDRegistration">ArgoCDRegistration</a>)
 </p>
 <p>
-<p>ArgoCDRegistrationStatus identifies the status of a argocd registration.</p>
+<p>ArgoCDRegistrationStatus identifies the status of an Argo CD registration.</p>
 </p>
 <h3 id="clusters.verrazzano.io/v1alpha1.Condition">Condition
 </h3>
@@ -505,6 +512,19 @@ RancherRegistration
 </td>
 <td>
 <p>The state of Rancher registration for this managed cluster.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>argoCDRegistration</code></br>
+<em>
+<a href="#clusters.verrazzano.io/v1alpha1.ArgoCDRegistration">
+ArgoCDRegistration
+</a>
+</em>
+</td>
+<td>
+<p>The state of ArgoCD registration for this managed cluster.</p>
 </td>
 </tr>
 <tr>
