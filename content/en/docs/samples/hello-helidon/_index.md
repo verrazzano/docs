@@ -193,8 +193,8 @@ You can access them according to the directions [here]({{< relref "/docs/access/
 
 1. To undeploy the application, delete the Hello World Helidon OAM resources.
 
-{{< clipboard >}}
-<div class="highlight">
+   {{< clipboard >}}
+   <div class="highlight">
 
    ```
    $ kubectl delete -f {{< release_source_url raw=true path=examples/hello-helidon/hello-helidon-app.yaml >}} -n hello-helidon
