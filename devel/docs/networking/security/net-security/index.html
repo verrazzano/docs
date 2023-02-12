@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/networking/security/net-security/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-01-27T11:03:02-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-02-12T14:31:19+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Network Security">
 <meta itemprop="description" content="Learn about Verrazzano network security">
-<meta itemprop="dateModified" content="2023-01-27T11:03:02-05:00" />
-<meta itemprop="wordCount" content="2985">
+<meta itemprop="dateModified" content="2023-02-12T14:31:19+05:30" />
+<meta itemprop="wordCount" content="3008">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Network Security"/>
 <meta name="twitter:description" content="Learn about Verrazzano network security"/>
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.fc76cd2c40edd9338ea9c28b58250577.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.7a7240069f3761396829a829722ab256.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -138,7 +138,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.fc76cd2c40edd9338ea9c28b58250577.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.7a7240069f3761396829a829722ab256.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -249,7 +249,9 @@ if (!doNotTrack) {
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-docsuninstallbackup-li">
   <a href="../../../../docs/uninstall/backup/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsuninstallbackup"><span class="">Back Up and Restore</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuninstallbackupkeycloak-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuninstallbackupargocd-li">
+  <a href="../../../../docs/uninstall/backup/argocd/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsuninstallbackupargocd"><span class="">Argo CD Backup and Restore</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuninstallbackupkeycloak-li">
   <a href="../../../../docs/uninstall/backup/keycloak/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsuninstallbackupkeycloak"><span class="">Keycloak Backup and Restore</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsuninstallbackupopensearch-li">
   <a href="../../../../docs/uninstall/backup/opensearch/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsuninstallbackupopensearch"><span class="">OpenSearch Backup and Restore</span></a>
@@ -737,45 +739,17 @@ The ports shown are Pod ports, which is what NetworkPolicies require.</p>
 </thead>
 <tbody>
 <tr>
-<td>Verrazzano Application Operator</td>
-<td style="text-align:left">9443</td>
-<td style="text-align:left">Kubernetes API Server</td>
-<td style="text-align:left">Webhook entrypoint</td>
-<td></td>
-</tr>
-<tr>
-<td>Verrazzano Platform Operator</td>
-<td style="text-align:left">9443</td>
-<td style="text-align:left">Kubernetes API Server</td>
-<td style="text-align:left">Webhook entrypoint</td>
-<td></td>
-</tr>
-<tr>
-<td>Verrazzano Console</td>
-<td style="text-align:left">8000</td>
+<td>Argo CD</td>
+<td style="text-align:left">443</td>
 <td style="text-align:left">NGINX Ingress</td>
 <td style="text-align:left">Access from external client</td>
 <td></td>
 </tr>
 <tr>
-<td>Verrazzano Console</td>
-<td style="text-align:left">15090</td>
-<td style="text-align:left">Prometheus</td>
-<td style="text-align:left">Prometheus scraping</td>
-<td></td>
-</tr>
-<tr>
-<td>Verrazzano Authentication Proxy</td>
-<td style="text-align:left">8775</td>
-<td style="text-align:left">NGINX Ingress</td>
-<td style="text-align:left">Access from external client</td>
-<td></td>
-</tr>
-<tr>
-<td>Verrazzano Authentication Proxy</td>
-<td style="text-align:left">15090</td>
-<td style="text-align:left">Prometheus</td>
-<td style="text-align:left">Prometheus scraping</td>
+<td>Argo CD</td>
+<td style="text-align:left">8080</td>
+<td style="text-align:left">Argo CD Server, Internal</td>
+<td style="text-align:left">Argo CD Server data port</td>
 <td></td>
 </tr>
 <tr>
@@ -790,41 +764,6 @@ The ports shown are Pod ports, which is what NetworkPolicies require.</p>
 <td style="text-align:left">9443</td>
 <td style="text-align:left">Prometheus</td>
 <td style="text-align:left">Webhook entrypoint</td>
-<td></td>
-</tr>
-<tr>
-<td>OpenSearch</td>
-<td style="text-align:left">8775</td>
-<td style="text-align:left">NGINX Ingress</td>
-<td style="text-align:left">Access from external client</td>
-<td></td>
-</tr>
-<tr>
-<td>OpenSearch</td>
-<td style="text-align:left">8775</td>
-<td style="text-align:left">Fluentd</td>
-<td style="text-align:left">Access from Fluentd</td>
-<td></td>
-</tr>
-<tr>
-<td>OpenSearch</td>
-<td style="text-align:left">9200</td>
-<td style="text-align:left">OpenSearch Dashboards, Internal</td>
-<td style="text-align:left">OpenSearch data port</td>
-<td></td>
-</tr>
-<tr>
-<td>OpenSearch</td>
-<td style="text-align:left">9300</td>
-<td style="text-align:left">Internal</td>
-<td style="text-align:left">OpenSearch cluster port</td>
-<td></td>
-</tr>
-<tr>
-<td>OpenSearch</td>
-<td style="text-align:left">15090</td>
-<td style="text-align:left">Prometheus</td>
-<td style="text-align:left">Envoy metrics scraping</td>
 <td></td>
 </tr>
 <tr>
@@ -849,20 +788,6 @@ The ports shown are Pod ports, which is what NetworkPolicies require.</p>
 <td></td>
 </tr>
 <tr>
-<td>Istio ingress gateway</td>
-<td style="text-align:left">8443</td>
-<td style="text-align:left">External</td>
-<td style="text-align:left">Application ingress</td>
-<td></td>
-</tr>
-<tr>
-<td>Istio ingress gateway</td>
-<td style="text-align:left">15090</td>
-<td style="text-align:left">Prometheus</td>
-<td style="text-align:left">Prometheus scraping</td>
-<td></td>
-</tr>
-<tr>
 <td>Istio egress gateway</td>
 <td style="text-align:left">8443</td>
 <td style="text-align:left">Mesh services</td>
@@ -871,6 +796,20 @@ The ports shown are Pod ports, which is what NetworkPolicies require.</p>
 </tr>
 <tr>
 <td>Istio egress gateway</td>
+<td style="text-align:left">15090</td>
+<td style="text-align:left">Prometheus</td>
+<td style="text-align:left">Prometheus scraping</td>
+<td></td>
+</tr>
+<tr>
+<td>Istio ingress gateway</td>
+<td style="text-align:left">8443</td>
+<td style="text-align:left">External</td>
+<td style="text-align:left">Application ingress</td>
+<td></td>
+</tr>
+<tr>
+<td>Istio ingress gateway</td>
 <td style="text-align:left">15090</td>
 <td style="text-align:left">Prometheus</td>
 <td style="text-align:left">Prometheus scraping</td>
@@ -912,17 +851,38 @@ The ports shown are Pod ports, which is what NetworkPolicies require.</p>
 <td></td>
 </tr>
 <tr>
-<td>Rancher</td>
-<td style="text-align:left">80</td>
-<td style="text-align:left">NGINX Ingress</td>
-<td style="text-align:left">Access from external client</td>
+<td>OpenSearch</td>
+<td style="text-align:left">8775</td>
+<td style="text-align:left">Fluentd</td>
+<td style="text-align:left">Access from Fluentd</td>
 <td></td>
 </tr>
 <tr>
-<td>Rancher</td>
-<td style="text-align:left">9443</td>
-<td style="text-align:left">Kubernetes API Server</td>
-<td style="text-align:left">Webhook entrypoint</td>
+<td>OpenSearch</td>
+<td style="text-align:left">9200</td>
+<td style="text-align:left">OpenSearch Dashboards, Internal</td>
+<td style="text-align:left">OpenSearch data port</td>
+<td></td>
+</tr>
+<tr>
+<td>OpenSearch</td>
+<td style="text-align:left">9300</td>
+<td style="text-align:left">Internal</td>
+<td style="text-align:left">OpenSearch cluster port</td>
+<td></td>
+</tr>
+<tr>
+<td>OpenSearch</td>
+<td style="text-align:left">15090</td>
+<td style="text-align:left">Prometheus</td>
+<td style="text-align:left">Envoy metrics scraping</td>
+<td></td>
+</tr>
+<tr>
+<td>OpenSearch</td>
+<td style="text-align:left">8775</td>
+<td style="text-align:left">NGINX Ingress</td>
+<td style="text-align:left">Access from external client</td>
 <td></td>
 </tr>
 <tr>
@@ -937,6 +897,62 @@ The ports shown are Pod ports, which is what NetworkPolicies require.</p>
 <td style="text-align:left">9090</td>
 <td style="text-align:left">Grafana</td>
 <td style="text-align:left">Access for Grafana UI</td>
+<td></td>
+</tr>
+<tr>
+<td>Rancher</td>
+<td style="text-align:left">80</td>
+<td style="text-align:left">NGINX Ingress</td>
+<td style="text-align:left">Access from external client</td>
+<td></td>
+</tr>
+<tr>
+<td>Rancher</td>
+<td style="text-align:left">9443</td>
+<td style="text-align:left">Kubernetes API Server</td>
+<td style="text-align:left">Webhook entrypoint</td>
+<td></td>
+</tr>
+<tr>
+<td>Verrazzano Application Operator</td>
+<td style="text-align:left">9443</td>
+<td style="text-align:left">Kubernetes API Server</td>
+<td style="text-align:left">Webhook entrypoint</td>
+<td></td>
+</tr>
+<tr>
+<td>Verrazzano Authentication Proxy</td>
+<td style="text-align:left">8775</td>
+<td style="text-align:left">NGINX Ingress</td>
+<td style="text-align:left">Access from external client</td>
+<td></td>
+</tr>
+<tr>
+<td>Verrazzano Authentication Proxy</td>
+<td style="text-align:left">15090</td>
+<td style="text-align:left">Prometheus</td>
+<td style="text-align:left">Prometheus scraping</td>
+<td></td>
+</tr>
+<tr>
+<td>Verrazzano Console</td>
+<td style="text-align:left">8000</td>
+<td style="text-align:left">NGINX Ingress</td>
+<td style="text-align:left">Access from external client</td>
+<td></td>
+</tr>
+<tr>
+<td>Verrazzano Console</td>
+<td style="text-align:left">15090</td>
+<td style="text-align:left">Prometheus</td>
+<td style="text-align:left">Prometheus scraping</td>
+<td></td>
+</tr>
+<tr>
+<td>Verrazzano Platform Operator</td>
+<td style="text-align:left">9443</td>
+<td style="text-align:left">Kubernetes API Server</td>
+<td style="text-align:left">Webhook entrypoint</td>
 <td></td>
 </tr>
 </tbody>
@@ -1172,14 +1188,15 @@ as Coherence Pods, are labeled at runtime with <code>sidecar.istio.io/inject=&qu
 <h2 id="components-in-the-mesh">Components in the mesh</h2>
 <p>The following Verrazzano components are in the mesh and use mTLS for all service to service communication.</p>
 <ul>
-<li>OpenSearch</li>
+<li>Argo CD</li>
 <li>Fluentd</li>
 <li>Grafana</li>
 <li>Kiali</li>
-<li>OpenSearch Dashboards</li>
 <li>Keycloak</li>
 <li>MySQL</li>
 <li>NGINX Ingress Controller</li>
+<li>OpenSearch</li>
+<li>OpenSearch Dashboards</li>
 <li>Prometheus</li>
 <li>Verrazzano Authentication Proxy</li>
 <li>Verrazzano Console</li>
