@@ -142,7 +142,6 @@ customize any Verrazzano installation, regardless of the profile.
 | `velero`                  |    |     |                |
 | `weblogicOperator`        | ✔️  |  ✔️  |       ✔️        |
 
-
 ### Prometheus and Grafana configurations
 
 The following table describes the Prometheus and Grafana configurations in each profile.
