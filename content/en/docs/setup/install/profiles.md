@@ -137,7 +137,7 @@ EOF
 ```
 {{< /clipboard >}}
 
-To use a different profile, replace `dev` with `prod`.
+To use the `prod` profile, replace `dev` with `prod`.
 
 ### Prometheus and Grafana configurations
 
