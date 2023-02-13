@@ -35,8 +35,9 @@ Verrazzano Status
   Version: 1.5.0
   State: Ready
   Profile: dev
-  Available Components: 23/23
+  Available Components: 24/24
   Access Endpoints:
+    argoCDUrl: https://argocd.default.172.18.0.231.nip.io
     consoleUrl: https://verrazzano.default.172.18.0.231.nip.io
     grafanaUrl: https://grafana.vmi.system.default.172.18.0.231.nip.io
     jaegerURL: https://jaeger.default.172.18.0.231.nip.io
@@ -81,6 +82,7 @@ The resulting output is similar to the following (abbreviated to show only the r
       status: "True"
       type: InstallComplete
     instance:
+      argoCDUrl: https://argocd.default.172.18.0.231.nip.io
       consoleUrl: https://verrazzano.default.11.22.33.44.nip.io
       grafanaUrl: https://grafana.vmi.system.default.11.22.33.44.nip.io
       keyCloakUrl: https://keycloak.default.11.22.33.44.nip.io
@@ -109,6 +111,7 @@ The following is an example of the output:
 
 ```
 {
+"argoCDUrl": https://argocd.default.172.18.0.231.nip.io
 "consoleUrl": "https://verrazzano.default.11.22.33.44.nip.io",
 "grafanaUrl": "https://grafana.vmi.system.default.11.22.33.44.nip.io",
 "keyCloakUrl": "https://keycloak.default.11.22.33.44.nip.io",
@@ -137,6 +140,39 @@ You will need the credentials to access the consoles installed by Verrazzano.
 - Jaeger
 
 **User:** `verrazzano`
+
+To get the password:
+{{< clipboard >}}
+<div class="highlight">
+
+    $ kubectl get secret \
+        --namespace verrazzano-system verrazzano \
+        -o jsonpath={.data.password} | base64 \
+        --decode; echo
+
+</div>
+{{< /clipboard >}}
+
+### The Argo CD console
+
+You can log in to the Argo CD console using the `verrazzano` user configured in Keycloak or with the local `admin` user for Argo CD.
+To log in with Keycloak, select the `Log in with Keycloak` link or enter the local user credentials to log in as a local user.
+
+**Local Admin User:** `admin`
+
+To get the password:
+{{< clipboard >}}
+<div class="highlight">
+
+    $ kubectl -n argocd get secret \
+        argocd-initial-admin-secret \
+        -o jsonpath={.data.password} | base64 \
+        --decode; echo
+
+</div>
+{{< /clipboard >}}
+
+**Keycloak User:** `verrazzano`
 
 To get the password:
 {{< clipboard >}}

@@ -74,35 +74,37 @@ The ports shown are Pod ports, which is what NetworkPolicies require.
 
 | Component  | Pod Port           | From  | Description |
 | ------------- |:------------- |:------------- |:----- |:-------------:|
-| Verrazzano Application Operator | 9443 | Kubernetes API Server  | Webhook entrypoint
-| Verrazzano Platform Operator | 9443 | Kubernetes API Server  | Webhook entrypoint
-| Verrazzano Console | 8000 | NGINX Ingress |  Access from external client
-| Verrazzano Console | 15090 | Prometheus | Prometheus scraping
-| Verrazzano Authentication Proxy | 8775 | NGINX Ingress | Access from external client
-| Verrazzano Authentication Proxy | 15090 | Prometheus | Prometheus scraping
+| Argo CD | 443 | NGINX Ingress  | 	Access from external client
+| Argo CD | 8080 | Argo CD Server, Internal  | 	Argo CD Server data port
 | cert-manager| 9402 | Prometheus | Prometheus scraping
 | Coherence Operator | 9443 | Prometheus | Webhook entrypoint
-| OpenSearch | 8775 | NGINX Ingress | Access from external client
-| OpenSearch | 8775 | Fluentd | Access from Fluentd
-| OpenSearch | 9200 | OpenSearch Dashboards, Internal | OpenSearch data port
-| OpenSearch | 9300 | Internal | OpenSearch cluster port  
-| OpenSearch | 15090 | Prometheus | Envoy metrics scraping
 | Istio control plane | 15012 | Envoy | Envoy access to `istiod`
 | Istio control plane | 15014 | Prometheus | Prometheus scraping.
 | Istio control plane | 15017 | Kubernetes API Server  | Webhook entrypoint
-| Istio ingress gateway | 8443 | External | Application ingress
-| Istio ingress gateway| 15090 | Prometheus | Prometheus scraping
 | Istio egress gateway | 8443 | Mesh services | Application egress
 | Istio egress gateway| 15090 | Prometheus | Prometheus scraping
+| Istio ingress gateway | 8443 | External | Application ingress
+| Istio ingress gateway| 15090 | Prometheus | Prometheus scraping
 | Keycloak| 8080 | NGINX Ingress | Access from external client
 | Keycloak| 15090 | Prometheus | Prometheus scraping
 | MySql| 15090 | Prometheus | Prometheus scraping
 | MySql| 3306 | Keycloak | Keycloak datastore
 | Node exporter| 9100 | Prometheus | Prometheus scraping
-| Rancher | 80 | NGINX Ingress | Access from external client
-| Rancher | 9443 |  Kubernetes API Server  | Webhook entrypoint
+| OpenSearch | 8775 | Fluentd | Access from Fluentd
+| OpenSearch | 9200 | OpenSearch Dashboards, Internal | OpenSearch data port
+| OpenSearch | 9300 | Internal | OpenSearch cluster port  
+| OpenSearch | 15090 | Prometheus | Envoy metrics scraping
+| OpenSearch | 8775 | NGINX Ingress | Access from external client
 | Prometheus | 8775 | NGINX Ingress | Access from external client
 | Prometheus | 9090 | Grafana | Access for Grafana UI
+| Rancher | 80 | NGINX Ingress | Access from external client
+| Rancher | 9443 |  Kubernetes API Server  | Webhook entrypoint
+| Verrazzano Application Operator | 9443 | Kubernetes API Server  | Webhook entrypoint
+| Verrazzano Authentication Proxy | 8775 | NGINX Ingress | Access from external client
+| Verrazzano Authentication Proxy | 15090 | Prometheus | Prometheus scraping
+| Verrazzano Console | 8000 | NGINX Ingress |  Access from external client
+| Verrazzano Console | 15090 | Prometheus | Prometheus scraping
+| Verrazzano Platform Operator | 9443 | Kubernetes API Server  | Webhook entrypoint
 
 ### NetworkPolicies for applications
 By default, applications do not have NetworkPolicies that restrict ingress into the application or egress from it.
@@ -263,14 +265,15 @@ as Coherence Pods, are labeled at runtime with `sidecar.istio.io/inject="false"`
 
 ## Components in the mesh
 The following Verrazzano components are in the mesh and use mTLS for all service to service communication.
-- OpenSearch
+- Argo CD
 - Fluentd
 - Grafana
 - Kiali
-- OpenSearch Dashboards
 - Keycloak
 - MySQL
 - NGINX Ingress Controller
+- OpenSearch
+- OpenSearch Dashboards
 - Prometheus
 - Verrazzano Authentication Proxy
 - Verrazzano Console
