@@ -6,13 +6,13 @@ draft: false
 ---
 ### v1.5.0
 Features:
-- Added Argo CD which can be used as a declarative, GitOps continuous delivery tool for deploying applications.
-- Separated Verrazzano Platform Operator and Verrazzano Platform Webhooks into separate deployments for scalability and resiliency.
-- Added component availability to Verrazzano custom resource, displayed in the resource's status printout.
+- Added Argo CD, which can be used as a declarative, GitOps continuous delivery tool for deploying applications.
+- Separated Verrazzano Platform Operator and Verrazzano platform webhooks into separate deployments for scalability and resiliency.
+- Added component availability to the Verrazzano custom resource, now displayed in the resource's status printout.
 - Rancher clusters are automatically synchronized with `VerrazzanoManagedCluster` resources.
   - Creating a cluster in Rancher results in a `VMC` resource being created, and deleting a cluster in Rancher results in a `VMC` resource being deleted.
   - Applying the Rancher cluster registration manifest to a managed cluster causes additional Verrazzano resources to automatically transfer to the managed cluster.
-- Grafana dashboards are now organized in folders. Added Grafana dashboards for Istio, JVM Micrometer, user applications, and Verrazzano system health.
+- Grafana dashboards now are organized in folders. Added Grafana dashboards for Istio, JVM Micrometer, user applications, and Verrazzano system health.
 
 Components added:
 - Argo CD v2.5.3
@@ -41,12 +41,12 @@ Component version updates:
 
 Fixes:
 - Updated base and other images for bugs and security.
-- Rancher upgrade intermittently fails with errors stating that the available chart version is less than the minimum chart version for Rancher system charts.
+- Fixed intermittent Rancher upgrade failures with errors stating that the available chart version is less than the minimum chart version for Rancher system charts.
 - Fixed Fluentd configuration to prevent duplication of logs in OpenSearch on Fluentd restarts or upgrade.
-- Fixed I/O timeout errors installing Verrazzano on a RKE2 cluster.
-- Fixed IngressTrait JWT related issues to allow multiple paths where one path has requestPrincipals and the other doesn't.
-- Fixed IngressTrait JWT so that requestPrincipals with no paths are allowed.
-- Fixed IngressTrait related AuthorizationPolicy cleanup when application is deleted.
+- Fixed I/O timeout errors while installing Verrazzano on a RKE2 cluster.
+- Fixed IngressTrait JWT related issues to allow multiple paths where one path has `RequestPrincipals` and the other doesn't.
+- Fixed IngressTrait JWT so that `RequestPrincipals` with no paths are allowed.
+- Fixed IngressTrait related `AuthorizationPolicy` cleanup when application is deleted.
 
 ### v1.4.3
 Fixes:
