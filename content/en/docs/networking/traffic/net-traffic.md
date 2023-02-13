@@ -113,6 +113,7 @@ North-south traffic includes all system traffic that enters or leaves a Kubernet
 The following lists the Verrazzano system components which are accessed through the NGINX Ingress Controller
 from a client external to the cluster:
 
+- Argo CD
 - OpenSearch
 - Keycloak
 - OpenSearch Dashboards
@@ -126,8 +127,9 @@ from a client external to the cluster:
 The following table shows Verrazzano system components that initiate requests to a destination
 outside the cluster.
 
-/ Component  | Destination | Description |
+| Component  | Destination | Description |
 | ------------- |:------------- |:-------------
+| ArgoCD | Git webhooks (GitHub, GitLab, Bitbucket) | Argo CD connection to Git webhooks for connecting to Git repositories.
 | cert-manager | Let's Encrypt | Gets signed certificate.
 | ExternalDNS | External DNS | Creates and deletes DNS entries in an external DNS.
 | Fluentd | OpenSearch | Fluentd on the managed cluster calls OpenSearch on the admin cluster.
@@ -148,6 +150,7 @@ OpenSearch Pods.
 
 | Component  | Destination | Description |
 | ------------- |:------------- |:-------------
+| Argo CD | Kubernetes API server | Performs CRUD operations on Kubernetes resources.
 | cert-manager | Kubernetes API server | Performs CRUD operations on Kubernetes resources.
 | Fluentd | OpenSearch | Fluentd sends data to OpenSearch.
 | Grafana | Prometheus | UI for Prometheus data.
@@ -171,6 +174,7 @@ This table shows Prometheus traffic for each system component scrape target.
  Target | Description |
 |:------------- |:-------------
 | cadvisor | Kubernetes metrics
+| Argo CD | Envoy metrics
 | OpenSearch | Envoy metrics
 | Grafana | Envoy metrics
 | Istiod | Istio control plane metrics
@@ -342,6 +346,7 @@ All of these requests go through the NGINX Ingress Controller on the respective 
 | Source Cluster | Source Component | Destination Cluster | Destination Component | Description
 | ------------- |:------------- |:------------- |:------------- |:-------------
 | Admin | Prometheus | Managed | Prometheus | Scapes metrics on managed clusters.
+| Admin | Argo CD | Managed | Rancher Proxy | ArgoCD connects to the Rancher proxy for creating resources required for the Argo CD managed cluster registration.
 | Admin | Verrazzano Console | Managed | Verrazzano Authentication Proxy | Admin cluster proxy sends Kubernetes API requests to managed cluster proxy.
 | Managed | Fluentd | Admin | OpenSearch | Fluentd sends logs to OpenSearch.
 | Managed | Rancher Agent | Admin | Rancher | Rancher Agent sends requests Rancher.
