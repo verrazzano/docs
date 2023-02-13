@@ -129,7 +129,7 @@ $ vz install -f - <<EOF
   metadata:
     name: example-verrazzano
   spec:
-    profile: prod
+    profile: dev
     components:    
       argoCD:
         enabled: true
