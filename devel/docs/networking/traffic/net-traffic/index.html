@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/networking/traffic/net-traffic/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-01-27T11:03:02-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-02-13T07:42:16-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Network Traffic">
 <meta itemprop="description" content="Understand Verrazzano network traffic">
-<meta itemprop="dateModified" content="2023-01-27T11:03:02-05:00" />
-<meta itemprop="wordCount" content="3163">
+<meta itemprop="dateModified" content="2023-02-13T07:42:16-05:00" />
+<meta itemprop="wordCount" content="3219">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Network Traffic"/>
 <meta name="twitter:description" content="Understand Verrazzano network traffic"/>
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.7a7240069f3761396829a829722ab256.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.155c6a070837d2fe5ac9c40f65c8a82d.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -138,7 +138,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.7a7240069f3761396829a829722ab256.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.155c6a070837d2fe5ac9c40f65c8a82d.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -836,6 +836,7 @@ NGINX Ingress Controller.</p>
 <p>The following lists the Verrazzano system components which are accessed through the NGINX Ingress Controller
 from a client external to the cluster:</p>
 <ul>
+<li>Argo CD</li>
 <li>OpenSearch</li>
 <li>Keycloak</li>
 <li>OpenSearch Dashboards</li>
@@ -851,12 +852,17 @@ outside the cluster.</p>
 <table>
 <thead>
 <tr>
-<th>/ Component</th>
+<th>Component</th>
 <th style="text-align:left">Destination</th>
 <th style="text-align:left">Description</th>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>ArgoCD</td>
+<td style="text-align:left">Git webhooks (GitHub, GitLab, Bitbucket)</td>
+<td style="text-align:left">Argo CD connection to Git webhooks for connecting to Git repositories.</td>
+</tr>
 <tr>
 <td>cert-manager</td>
 <td style="text-align:left">Let&rsquo;s Encrypt</td>
@@ -914,6 +920,11 @@ OpenSearch Pods.</li>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>Argo CD</td>
+<td style="text-align:left">Kubernetes API server</td>
+<td style="text-align:left">Performs CRUD operations on Kubernetes resources.</td>
+</tr>
 <tr>
 <td>cert-manager</td>
 <td style="text-align:left">Kubernetes API server</td>
@@ -1004,6 +1015,10 @@ OpenSearch Pods.</li>
 <tr>
 <td style="text-align:left">cadvisor</td>
 <td style="text-align:left">Kubernetes metrics</td>
+</tr>
+<tr>
+<td style="text-align:left">Argo CD</td>
+<td style="text-align:left">Envoy metrics</td>
 </tr>
 <tr>
 <td style="text-align:left">OpenSearch</td>
@@ -1600,6 +1615,13 @@ All of these requests go through the NGINX Ingress Controller on the respective 
 <td style="text-align:left">Managed</td>
 <td style="text-align:left">Prometheus</td>
 <td style="text-align:left">Scapes metrics on managed clusters.</td>
+</tr>
+<tr>
+<td>Admin</td>
+<td style="text-align:left">Argo CD</td>
+<td style="text-align:left">Managed</td>
+<td style="text-align:left">Rancher Proxy</td>
+<td style="text-align:left">ArgoCD connects to the Rancher proxy for creating resources required for the Argo CD managed cluster registration.</td>
 </tr>
 <tr>
 <td>Admin</td>
