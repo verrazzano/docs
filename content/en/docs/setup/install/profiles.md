@@ -112,6 +112,33 @@ customize any Verrazzano installation, regardless of the profile.
 | `velero`                  |    |     |                |
 | `weblogicOperator`        | ✔️  |  ✔️  |       ✔️        |
 
+
+### Argo CD configurations
+
+To use Argo CD, it must be enabled during installation.
+
+**Note:** Use Argo CD only in `dev` or `prod` profiles.
+
+Following is an example to enabled Argo CD during installation, using the `dev` profile:
+{{< clipboard >}}
+
+  ```yaml
+$ vz install -f - <<EOF
+  apiVersion: install.verrazzano.io/v1beta1
+  kind: Verrazzano
+  metadata:
+    name: example-verrazzano
+  spec:
+    profile: prod
+    components:    
+      argoCD:
+        enabled: true
+EOF
+```
+{{< /clipboard >}}
+
+To use a different profile, replace `dev` with `prod`.
+
 ### Prometheus and Grafana configurations
 
 The following table describes the Prometheus and Grafana configurations in each profile.
