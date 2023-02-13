@@ -5,10 +5,48 @@ weight: 13
 draft: false
 ---
 ### v1.5.0
-Component version updates:
+Features:
+- Separated Verrazzano Platform Operator and Verrazzano Platform Webhooks into separate deployments for scalability and resiliency.
+- Added component availability to Verrazzano custom resource, displayed in the resource's status printout.
+- Rancher clusters are automatically synchronized with `VerrazzanoManagedCluster` resources.
+  - Creating a cluster in Rancher results in a `VMC` resource being created, and deleting a cluster in Rancher results in a `VMC` resource being deleted.
+  - Applying the Rancher cluster registration manifest to a managed cluster causes additional Verrazzano resources to automatically transfer to the managed cluster.
+- Grafana dashboards are now organized in folders. Added Grafana dashboards for Istio, JVM Micrometer, user applications, and Verrazzano system health.
+- Added Argo CD which can be used as a declarative, GitOps continuous delivery tool for deploying applications.
 
+Components added:
 - Argo CD v2.5.3
+- MySQL Operator v8.0.32-2.0.8
+
+Component version updates:
+- Coherence Operator v3.2.9
+- MySQL Server v8.0.32
+- oam-kubernetes-runtime v0.3.3
+- NGINX Ingress Controller v1.3.1
+- Prometheus v2.38.0
+- Prometheus Operator v0.59.1
+- External DNS v0.12.2
+- kube-state-metrics v2.6.0
+- cert-manager v1.9.1
+- Prometheus Adapter for Kubernetes Metrics APIs v0.10.0
+- Grafana v7.5.17
+- WebLogic Kubernetes Operator v4.0.4
+- WebLogic Monitoring Exporter v2.1.0
+- OpenSearch v2.3.0
+- OpenSearch Dashboards v2.3.0
+- Istio v1.15.3
+- Jaeger v1.37.0
+- Kiali v1.57.1
 - Keycloak v20.0.1
+
+Fixes:
+- Updated base and other images for bugs and security.
+- Rancher upgrade intermittently fails with errors stating that the available chart version is less than the minimum chart version for Rancher system charts.
+- Fixed Fluentd configuration to prevent duplication of logs in OpenSearch on Fluentd restarts or upgrade.
+- Fixed I/O timeout errors installing Verrazzano on a RKE2 cluster.
+- Fixed IngressTrait JWT related issues to allow multiple paths where one path has requestPrincipals and the other doesn't.
+- Fixed IngressTrait JWT so that requestPrincipals with no paths are allowed.
+- Fixed IngressTrait related AuthorizationPolicy cleanup when application is deleted.
 
 ### v1.4.3
 Fixes:
