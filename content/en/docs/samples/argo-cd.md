@@ -4,9 +4,12 @@ weight: 1
 description: "Use Argo CD to deploy and undeploy applications"
 ---
 
+Argo CD is a Kubernetes deployment tool that uses Git repositories as the source of truth. It monitors running applications and compares the deployed state against the desired one in Git. Argo CD lets you visualize the differences and provides methods to automatically or manually update the live state with the desired target state. For more information, see [Argo CD documentation](https://argo-cd.readthedocs.io/en/stable/).
+
 ## Before you begin
 
 - Install Verrazzano by following the [installation]({{< relref "/docs/setup/install/installation.md" >}}) instructions.
+- Enable Argo CD. **(WIP)**
 - Access the Argo CD console using the instructions at [Access Verrazzano]({{< relref "/docs/access#the-argo-cd-console" >}}).
 
 ## Configure repositories
