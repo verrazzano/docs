@@ -119,7 +119,7 @@ To use Argo CD, it must be enabled during installation.
 
 **Note:** Use Argo CD only in `dev` or `prod` profiles.
 
-Following is an example to enabled Argo CD during installation, using the `dev` profile:
+Following is an example to enable Argo CD during installation, using the `dev` profile:
 {{< clipboard >}}
 
   ```yaml
