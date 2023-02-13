@@ -6,13 +6,13 @@ draft: false
 ---
 ### v1.5.0
 Features:
+- Added Argo CD which can be used as a declarative, GitOps continuous delivery tool for deploying applications.
 - Separated Verrazzano Platform Operator and Verrazzano Platform Webhooks into separate deployments for scalability and resiliency.
 - Added component availability to Verrazzano custom resource, displayed in the resource's status printout.
 - Rancher clusters are automatically synchronized with `VerrazzanoManagedCluster` resources.
   - Creating a cluster in Rancher results in a `VMC` resource being created, and deleting a cluster in Rancher results in a `VMC` resource being deleted.
   - Applying the Rancher cluster registration manifest to a managed cluster causes additional Verrazzano resources to automatically transfer to the managed cluster.
 - Grafana dashboards are now organized in folders. Added Grafana dashboards for Istio, JVM Micrometer, user applications, and Verrazzano system health.
-- Added Argo CD which can be used as a declarative, GitOps continuous delivery tool for deploying applications.
 
 Components added:
 - Argo CD v2.5.3
