@@ -44,7 +44,7 @@ Fixes:
 - Fixed I/O timeout errors while installing Verrazzano on an RKE2 cluster.
 - Fixed IngressTrait JWT related issues to allow multiple paths where one path has `RequestPrincipals` and the other doesn't.
 - Fixed IngressTrait JWT so that `RequestPrincipals` with no paths are allowed.
-- Fixed IngressTrait related `AuthorizationPolicy` cleanup when application is deleted.
+- Fixed IngressTrait related `AuthorizationPolicy` cleanup when an application is deleted.
 
 ### v1.4.3
 Fixes:
