@@ -5,16 +5,53 @@ weight: 13
 draft: false
 ---
 ### v1.5.0
-Component version updates:
+Features:
+- Added Argo CD, which can be used as a declarative, GitOps continuous delivery tool for deploying applications.
+- Separated Verrazzano Platform Operator and Verrazzano platform webhooks into separate deployments for scalability and resiliency.
+- Added component availability to the Verrazzano custom resource, now displayed in the resource's status printout.
+- Simplified Verrazzano managed cluster registration, which now can be done entirely from the Rancher console, including the ability to configure which Rancher clusters are treated as Verrazzano managed clusters.
+- Grafana dashboards now are organized in folders. Added Grafana dashboards for Istio, JVM Micrometer, user applications, and Verrazzano system health.
+
+Components added:
 - Argo CD v2.5.3
+- MySQL Operator v8.0.32-2.0.8
+
+Component version updates:
+- Coherence Operator v3.2.9
+- MySQL Server v8.0.32
+- oam-kubernetes-runtime v0.3.3
+- NGINX Ingress Controller v1.3.1
+- Prometheus v2.38.0
+- Prometheus Operator v0.59.1
+- External DNS v0.12.2
+- kube-state-metrics v2.6.0
+- cert-manager v1.9.1
+- Prometheus Adapter for Kubernetes Metrics APIs v0.10.0
+- Grafana v7.5.17
+- WebLogic Kubernetes Operator v4.0.4
+- WebLogic Monitoring Exporter v2.1.0
+- OpenSearch v2.3.0
+- OpenSearch Dashboards v2.3.0
+- Istio v1.15.3
+- Jaeger v1.37.0
+- Kiali v1.57.1
 - Keycloak v20.0.1
+
+Fixes:
+- Updated base and other images for bugs and security.
+- Fixed intermittent Rancher upgrade failures with errors stating that the available chart version is less than the minimum chart version for Rancher system charts.
+- Fixed Fluentd configuration to prevent duplication of logs in OpenSearch on Fluentd restarts or upgrade.
+- Fixed I/O timeout errors while installing Verrazzano on an RKE2 cluster.
+- Fixed IngressTrait JWT related issues to allow multiple paths where one path has `RequestPrincipals` and the other doesn't.
+- Fixed IngressTrait JWT so that `RequestPrincipals` with no paths are allowed.
+- Fixed IngressTrait related `AuthorizationPolicy` cleanup when an application is deleted.
 
 ### v1.4.3
 Fixes:
 - Fixed unnecessary restart of user applications during upgrade from a previous Verrazzano release.
 - Fixed Fluentd configuration to prevent duplication of logs in OpenSearch on Fluentd restart or upgrade.
 - Fixed WebLogic Grafana dashboards to get the service label value correctly and display data properly.
-- Fixed I/O timeout errors installing Verrazzano on a RKE2 cluster.
+- Fixed I/O timeout errors installing Verrazzano on an RKE2 cluster.
 - Fixed an issue that prevented `Persistent Volumes` from being deployed as part of an OAM Component.
 - Fixed default Helidon workload service so that the service ports don't automatically get named with the prefix `tcp-`.
 - Fixed the CLI `vz analyze` command so that it works with earlier Verrazzano releases.
