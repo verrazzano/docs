@@ -21,15 +21,10 @@
 
 <title>Release Notes | Verrazzano Enterprise Container Platform</title>
 <meta name="description" content="v1.5.0
-Component version updates:
+Features:
 
-Argo CD v2.5.3
-Keycloak v20.0.1
-
-v1.4.3
-Fixes:
-
-Fixed unnecessary restart of user applications during upgrade from …">
+Added Argo CD, which can be used as a declarative, GitOps continuous delivery tool for deploying applications.
+Separated Verrazzano …">
 <meta property="og:title" content="Release Notes" />
 <meta property="og:description" content="A hybrid multi-cloud Kubernetes based Enterprise Container Platform for running both cloud-native and traditional applications" />
 <meta property="og:type" content="website" />
@@ -92,9 +87,11 @@ if (!doNotTrack) {
 			
 				<li class="nav-item dropdown d-none d-lg-block">
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	v1.4
+	v1.5
 </a>
 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+	
+	<a class="dropdown-item" href="https://verrazzano.io/v1.5/docs">v1.5</a>
 	
 	<a class="dropdown-item" href="https://verrazzano.io/v1.4/docs">v1.4</a>
 	
@@ -121,7 +118,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../offline-search-index.6b3d01084ce9389a637d9dab702bf8e6.json"
+  data-offline-search-index-json-src="../../offline-search-index.b66049a1e01cd6e95acbd60d77c30871.json"
   data-offline-search-base-href="../../"
   data-offline-search-max-results="10"
 >
@@ -143,7 +140,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../offline-search-index.6b3d01084ce9389a637d9dab702bf8e6.json"
+  data-offline-search-index-json-src="../../offline-search-index.b66049a1e01cd6e95acbd60d77c30871.json"
   data-offline-search-base-href="../../"
   data-offline-search-max-results="10"
 >
@@ -571,10 +568,50 @@ if (!doNotTrack) {
 		
 	</header>
 	<h3 id="v150">v1.5.0</h3>
-<p>Component version updates:</p>
+<p>Features:</p>
+<ul>
+<li>Added Argo CD, which can be used as a declarative, GitOps continuous delivery tool for deploying applications.</li>
+<li>Separated Verrazzano Platform Operator and Verrazzano platform webhooks into separate deployments for scalability and resiliency.</li>
+<li>Added component availability to the Verrazzano custom resource, now displayed in the resource&rsquo;s status printout.</li>
+<li>Simplified Verrazzano managed cluster registration, which now can be done entirely from the Rancher console, including the ability to configure which Rancher clusters are treated as Verrazzano managed clusters.</li>
+<li>Grafana dashboards now are organized in folders. Added Grafana dashboards for Istio, JVM Micrometer, user applications, and Verrazzano system health.</li>
+</ul>
+<p>Components added:</p>
 <ul>
 <li>Argo CD v2.5.3</li>
+<li>MySQL Operator v8.0.32-2.0.8</li>
+</ul>
+<p>Component version updates:</p>
+<ul>
+<li>Coherence Operator v3.2.9</li>
+<li>MySQL Server v8.0.32</li>
+<li>oam-kubernetes-runtime v0.3.3</li>
+<li>NGINX Ingress Controller v1.3.1</li>
+<li>Prometheus v2.38.0</li>
+<li>Prometheus Operator v0.59.1</li>
+<li>External DNS v0.12.2</li>
+<li>kube-state-metrics v2.6.0</li>
+<li>cert-manager v1.9.1</li>
+<li>Prometheus Adapter for Kubernetes Metrics APIs v0.10.0</li>
+<li>Grafana v7.5.17</li>
+<li>WebLogic Kubernetes Operator v4.0.4</li>
+<li>WebLogic Monitoring Exporter v2.1.0</li>
+<li>OpenSearch v2.3.0</li>
+<li>OpenSearch Dashboards v2.3.0</li>
+<li>Istio v1.15.3</li>
+<li>Jaeger v1.37.0</li>
+<li>Kiali v1.57.1</li>
 <li>Keycloak v20.0.1</li>
+</ul>
+<p>Fixes:</p>
+<ul>
+<li>Updated base and other images for bugs and security.</li>
+<li>Fixed intermittent Rancher upgrade failures with errors stating that the available chart version is less than the minimum chart version for Rancher system charts.</li>
+<li>Fixed Fluentd configuration to prevent duplication of logs in OpenSearch on Fluentd restarts or upgrade.</li>
+<li>Fixed I/O timeout errors while installing Verrazzano on an RKE2 cluster.</li>
+<li>Fixed IngressTrait JWT related issues to allow multiple paths where one path has <code>RequestPrincipals</code> and the other doesn&rsquo;t.</li>
+<li>Fixed IngressTrait JWT so that <code>RequestPrincipals</code> with no paths are allowed.</li>
+<li>Fixed IngressTrait related <code>AuthorizationPolicy</code> cleanup when an application is deleted.</li>
 </ul>
 <h3 id="v143">v1.4.3</h3>
 <p>Fixes:</p>
@@ -582,7 +619,7 @@ if (!doNotTrack) {
 <li>Fixed unnecessary restart of user applications during upgrade from a previous Verrazzano release.</li>
 <li>Fixed Fluentd configuration to prevent duplication of logs in OpenSearch on Fluentd restart or upgrade.</li>
 <li>Fixed WebLogic Grafana dashboards to get the service label value correctly and display data properly.</li>
-<li>Fixed I/O timeout errors installing Verrazzano on a RKE2 cluster.</li>
+<li>Fixed I/O timeout errors installing Verrazzano on an RKE2 cluster.</li>
 <li>Fixed an issue that prevented <code>Persistent Volumes</code> from being deployed as part of an OAM Component.</li>
 <li>Fixed default Helidon workload service so that the service ports don&rsquo;t automatically get named with the prefix <code>tcp-</code>.</li>
 <li>Fixed the CLI <code>vz analyze</code> command so that it works with earlier Verrazzano releases.</li>
