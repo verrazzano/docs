@@ -283,3 +283,58 @@ managed cluster, with the following information:
 ### Verify that managed cluster registration has completed
 
 After these steps have been completed, return to [Verify that managed cluster registration has completed]({{< relref "/docs/setup/install/multicluster.md#verify-that-managed-cluster-registration-has-completed" >}}).
+
+## De-Register a managed cluster without Rancher
+These instructions are for a Verrazzano multicluster environment in which Rancher is not enabled on the admin cluster.
+If Rancher is enabled, refer to [De-Register a managed cluster]({{< relref "docs/setup/install/multicluster.md#de-register-a-managed-cluster" >}})
+for a much simpler de-registration process.
+
+If you want to de-register a managed cluster because you no longer want it to be part of a Verrazzano multicluster
+environment, follow these steps.
+
+### On the admin cluster
+1. Export the YAML file created to register the managed cluster.
+   {{< clipboard >}}
+<div class="highlight">
+
+   ```
+   # On the admin cluster
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+       get secret verrazzano-cluster-managed1-manifest \
+       -n verrazzano-mc \
+       -o jsonpath={.data.yaml} | base64 --decode > register.yaml
+   ```
+
+</div>
+{{< /clipboard >}}
+
+1. Delete the VerrazzanoManagedCluster resource on the admin cluster.
+   {{< clipboard >}}
+<div class="highlight">
+
+   ```
+   # On the admin cluster
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+       delete vmc -n verrazzano-mc managed1
+   ```
+
+</div>
+{{< /clipboard >}}
+
+
+### On the managed cluster
+
+1. Delete the resources in the registration file exported in the previous step, on the managed cluster.
+   {{< clipboard >}}
+<div class="highlight">
+
+   ```
+   # On the managed cluster
+   $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
+       delete -f register.yaml
+   # After the command succeeds, you may delete the register.yaml file
+   $ rm register.yaml
+   ```
+
+</div>
+{{< /clipboard >}}
