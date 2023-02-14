@@ -10,7 +10,6 @@ Features:
 - Separated Verrazzano Platform Operator and Verrazzano platform webhooks into separate deployments for scalability and resiliency.
 - Added component availability to the Verrazzano custom resource, now displayed in the resource's status printout.
 - Simplified Verrazzano managed cluster registration, which now can be done entirely from the Rancher console, including the ability to configure which Rancher clusters are treated as Verrazzano managed clusters.
-For details, see [Install Multicluster Verrazzano]({{< relref "/docs/setup/install/multicluster.md" >}}).
 - Grafana dashboards now are organized in folders. Added Grafana dashboards for Istio, JVM Micrometer, user applications, and Verrazzano system health.
 
 Components added:
