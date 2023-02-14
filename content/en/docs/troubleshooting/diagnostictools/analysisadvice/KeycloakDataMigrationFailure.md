@@ -35,7 +35,7 @@ pvc-c246d7c4-3041-4164-8c1e-744dda805686   2Gi        RWO            Retain     
 </div>
 {{< /clipboard >}}
 
-1. Get the mysql-root password from the mysql (or the mysql-cluster-secret) secret in the keycloak namespace. This will be required to access the mysql server as root in the following steps.
+1. Get the mysql-root password from the mysql (or the mysql-cluster-secret) secret in the keycloak namespace. This will be required to access the MySQL server as root in the following steps.
    {{< clipboard >}}
 <div class="highlight">
 
@@ -95,7 +95,7 @@ pvc-c246d7c4-3041-4164-8c1e-744dda805686   2Gi        RWO            Retain     
 
 </div>
 {{< /clipboard >}}
-    - Check if the mysql server is up or not. If it is not up, check if the mysql pods are ready and try again.
+    - Check if the MySQL server is up or not. If it is not up, check if the mysql pods in the keycloak namespace are ready and try again.
       {{< clipboard >}}
 <div class="highlight">
 
@@ -172,4 +172,4 @@ pvc-c246d7c4-3041-4164-8c1e-744dda805686   2Gi        RWO            Retain     
 ### Related information
 * [Platform Setup]({{< relref "/docs/setup/platforms/_index.md" >}})
 * [Kubernetes Troubleshooting](https://kubernetes.io/docs/tasks/debug/)
-* [MYSQL Troubleshooting](https://dev.mysql.com/doc/refman/8.0/en/starting-server-troubleshooting.html)
+* [MySQL Troubleshooting](https://dev.mysql.com/doc/refman/8.0/en/starting-server-troubleshooting.html)
