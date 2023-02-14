@@ -4984,9 +4984,116 @@ spec:
         &lt;p&gt;Argo CD is a Kubernetes deployment tool that uses Git repositories as the source of truth. It monitors running applications and compares the deployed state against the desired one in Git. Argo CD lets you visualize the differences and provides methods to automatically or manually update the live state with the desired target state. For more information, see the &lt;a href=&#34;https://argo-cd.readthedocs.io/en/stable/&#34;&gt;Argo CD documentation&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;Install Verrazzano by following the &lt;a href=&#34;../docs/setup/install/installation/&#34;&gt;installation&lt;/a&gt; instructions.&lt;/li&gt;
-&lt;li&gt;Enable Argo CD. &lt;strong&gt;(WIP)&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;Access the Argo CD console using the instructions at &lt;a href=&#34;../docs/access/#the-argo-cd-console&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Install Verrazzano by following the &lt;a href=&#34;../docs/setup/install/installation/&#34;&gt;installation&lt;/a&gt; instructions.
+&lt;br&gt;&lt;br&gt;
+&lt;strong&gt;NOTE&lt;/strong&gt;: Because Argo CD is &lt;em&gt;not&lt;/em&gt; enabled by default, use the following example to enable it using the &lt;code&gt;dev&lt;/code&gt; installation profile.
+&lt;br&gt;
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ vz install -f - &amp;lt;&amp;lt;EOF
+  apiVersion: install.verrazzano.io/v1beta1
+  kind: Verrazzano
+  metadata:
+    name: example-verrazzano
+  spec:
+    profile: dev
+    components:    
+      argoCD:
+        enabled: true
+EOF
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Access the Argo CD console using the instructions at &lt;a href=&#34;../docs/access/#the-argo-cd-console&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;configure-repositories&#34;&gt;Configure repositories&lt;/h2&gt;
 &lt;p&gt;In the Argo CD console, configure repositories that will contain the Kubernetes resources for deploying an application.&lt;/p&gt;
@@ -7049,13 +7156,13 @@ Make sure that you have a valid kubeconfig file pointing to the Kubernetes clust
 		
 
 		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-cfbdea&#34; data-toggle=&#34;tab&#34; href=&#34;#cfbdea&#34;
+		   id=&#34;nav-ecabdf&#34; data-toggle=&#34;tab&#34; href=&#34;#ecabdf&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;vz&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-facbde&#34; data-toggle=&#34;tab&#34; href=&#34;#facbde&#34;
+		   id=&#34;nav-edbcaf&#34; data-toggle=&#34;tab&#34; href=&#34;#edbcaf&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;kubectl&lt;/a&gt;
 
 		
@@ -7071,7 +7178,7 @@ Make sure that you have a valid kubeconfig file pointing to the Kubernetes clust
 
 
 
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;cfbdea&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;ecabdf&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;Verrazzano provides a platform &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/operator/&#34;&gt;operator&lt;/a&gt;
@@ -7217,7 +7324,7 @@ or until the default timeout (30m) has been reached.&lt;/li&gt;
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;facbde&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;edbcaf&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;h2 id=&#34;install-the-verrazzano-platform-operator&#34;&gt;Install the Verrazzano platform operator&lt;/h2&gt;
@@ -10257,7 +10364,7 @@ to be granted access to the namespaces governed by the project. Two types of sub
       <description>
         
         
-        &lt;p&gt;Verrazzano provides a ready-to-use, Argo CD deployment that automates the deployment of the desired application states in the specified target environments.
+        &lt;p&gt;Verrazzano provides an Argo CD deployment that automates the deployment of the desired application states in the specified target environments.
 There are scenarios where you may want to back up your Argo CD data and restore it.&lt;/p&gt;
 &lt;p&gt;Verrazzano uses Velero to facilitate backing up and restoring Argo CD data.&lt;/p&gt;
 &lt;ul&gt;
@@ -31198,19 +31305,19 @@ Verrazzano will create &lt;code&gt;sales.us.example.com&lt;/code&gt; as the DNS 
 		
 
 		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-adcbef&#34; data-toggle=&#34;tab&#34; href=&#34;#adcbef&#34;
+		   id=&#34;nav-cdafeb&#34; data-toggle=&#34;tab&#34; href=&#34;#cdafeb&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;WildcardDNS&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-fcebad&#34; data-toggle=&#34;tab&#34; href=&#34;#fcebad&#34;
+		   id=&#34;nav-ecdabf&#34; data-toggle=&#34;tab&#34; href=&#34;#ecdabf&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;OracleCloudInfrastructureDNS&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-cedfab&#34; data-toggle=&#34;tab&#34; href=&#34;#cedfab&#34;
+		   id=&#34;nav-adfbce&#34; data-toggle=&#34;tab&#34; href=&#34;#adfbce&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;CustomDNS&lt;/a&gt;
 
 		
@@ -31226,7 +31333,7 @@ Verrazzano will create &lt;code&gt;sales.us.example.com&lt;/code&gt; as the DNS 
 
 
 
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;adcbef&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;cdafeb&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;Verrazzano can be configured to use either the &lt;a href=&#34;https://nip.io/&#34;&gt;nip.io&lt;/a&gt; or &lt;a href=&#34;https://sslip.io&#34;&gt;sslip.io&lt;/a&gt; free wildcard DNS services.
@@ -31433,7 +31540,7 @@ spec:
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;fcebad&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;ecdabf&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;Verrazzano can directly manage records in &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm&#34;&gt;Oracle Oracle Cloud Infrastructure DNS&lt;/a&gt;
@@ -32905,7 +33012,7 @@ spec:
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;cedfab&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;adfbce&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;You can specify your own externally managed, custom DNS domain.  In this scenario, you manage your own DNS
@@ -38433,13 +38540,13 @@ See the following respective sections.&lt;/p&gt;
 		
 
 		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-abcfed&#34; data-toggle=&#34;tab&#34; href=&#34;#abcfed&#34;
+		   id=&#34;nav-edabcf&#34; data-toggle=&#34;tab&#34; href=&#34;#edabcf&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;vz&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-bedcaf&#34; data-toggle=&#34;tab&#34; href=&#34;#bedcaf&#34;
+		   id=&#34;nav-cdefba&#34; data-toggle=&#34;tab&#34; href=&#34;#cdefba&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;kubectl&lt;/a&gt;
 
 		
@@ -38455,7 +38562,7 @@ See the following respective sections.&lt;/p&gt;
 
 
 
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;abcfed&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;edabcf&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;ol&gt;
@@ -38656,7 +38763,7 @@ The uninstall logs from the Verrazzano platform operator will be streamed to the
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;bedcaf&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;cdefba&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;To delete a Verrazzano installation, delete the Verrazzano custom resource you used to
