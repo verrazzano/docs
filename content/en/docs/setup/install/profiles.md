@@ -75,36 +75,6 @@ spec:
 
 For details on how to customize Verrazzano components, see [Customize an Installation]({{< relref "/docs/customize" >}}).
 
-## Enable a component by customizing an installation profile
-
-To use a component, it must be enabled during installation.
-
-Following is an example to enable Argo CD, using the `dev` profile:
-
-{{< clipboard >}}
-<div class="highlight">
-
-```
-$ vz install -f - <<EOF
-  apiVersion: install.verrazzano.io/v1beta1
-  kind: Verrazzano
-  metadata:
-    name: example-verrazzano
-  spec:
-    profile: dev
-    components:    
-      argoCD:
-        enabled: true
-EOF
-```
-
-</div>
-{{< /clipboard >}}
-
-To use a different profile, replace `dev` with `prod` or `managed-cluster`.
-
-**Note:** Use Argo CD only in `dev` or `prod` profiles.
-
 ## Profile configurations
 
 The following table lists the Verrazzano components that are installed with each profile.  Note that you can
