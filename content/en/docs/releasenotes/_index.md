@@ -41,7 +41,7 @@ Fixes:
 - Updated base and other images for bugs and security.
 - Fixed intermittent Rancher upgrade failures with errors stating that the available chart version is less than the minimum chart version for Rancher system charts.
 - Fixed Fluentd configuration to prevent duplication of logs in OpenSearch on Fluentd restarts or upgrade.
-- Fixed I/O timeout errors while installing Verrazzano on a RKE2 cluster.
+- Fixed I/O timeout errors while installing Verrazzano on an RKE2 cluster.
 - Fixed IngressTrait JWT related issues to allow multiple paths where one path has `RequestPrincipals` and the other doesn't.
 - Fixed IngressTrait JWT so that `RequestPrincipals` with no paths are allowed.
 - Fixed IngressTrait related `AuthorizationPolicy` cleanup when application is deleted.
@@ -51,7 +51,7 @@ Fixes:
 - Fixed unnecessary restart of user applications during upgrade from a previous Verrazzano release.
 - Fixed Fluentd configuration to prevent duplication of logs in OpenSearch on Fluentd restart or upgrade.
 - Fixed WebLogic Grafana dashboards to get the service label value correctly and display data properly.
-- Fixed I/O timeout errors installing Verrazzano on a RKE2 cluster.
+- Fixed I/O timeout errors installing Verrazzano on an RKE2 cluster.
 - Fixed an issue that prevented `Persistent Volumes` from being deployed as part of an OAM Component.
 - Fixed default Helidon workload service so that the service ports don't automatically get named with the prefix `tcp-`.
 - Fixed the CLI `vz analyze` command so that it works with earlier Verrazzano releases.
