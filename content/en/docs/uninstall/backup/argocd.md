@@ -6,7 +6,7 @@ weight: 2
 draft: false
 ---
 
-Verrazzano provides a ready-to-use, Argo CD deployment that automates the deployment of the desired application states in the specified target environments.
+Verrazzano provides an Argo CD deployment that automates the deployment of the desired application states in the specified target environments.
 There are scenarios where you may want to back up your Argo CD data and restore it.
 
 Verrazzano uses Velero to facilitate backing up and restoring Argo CD data.
