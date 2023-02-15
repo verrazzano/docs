@@ -203,3 +203,36 @@ To view the application metrics for the `todo-list` example application, select 
 because the `todo-list` application is a WebLogic application.
 
 ![WebLogicDashboard](/docs/images/grafana-weblogic-dashboard.png)
+
+### Dashboard discovery
+
+The Verrazzano Grafana instance supports dynamic dashboard discovery. This allows users to deploy dashboards along with other application components.
+
+Grafana will automatically discover dashboards in ConfigMaps that are labeled with `grafana_dashboard: "1"`. The ConfigMap must contain the dashboard JSON.
+The ConfigMap may also be annotated with `k8s-sidecar-target-directory` to specify the name of a Grafana folder.
+
+Here is an example ConfigMap.
+
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  annotations:
+    k8s-sidecar-target-directory: My App Dashboards
+  labels:
+    grafana_dashboard: "1"
+  name: app-dashboard
+  namespace: app
+data:
+  app_dashboard.json: |-
+    {
+      "title": "My App Dashboard",
+      "uid": "Q4Bkkx",
+      "version": 2,
+      "panels": [
+        {
+          ...
+        }
+      ...
+    }
+```
