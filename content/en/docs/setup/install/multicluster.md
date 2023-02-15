@@ -289,12 +289,12 @@ In the Verrazzano UI on the admin cluster, you can view the following:
 
 If you want to deregister a managed cluster because you no longer want it to be part of a Verrazzano multicluster
 environment, then  log in to the Rancher UI and delete the managed cluster. To delete a cluster in Rancher, see
-[What if I don't want my registered cluster managed by Rancher?](https://ranchermanager.docs.rancher.com/{{<rancher_doc_version>}}/faq/rancher-is-no-longer-needed#what-if-i-dont-want-my-registered-cluster-managed-by-rancher).
-This will result in the cluster being deregistered from Verrazzano. The associated `VerrazzanoManagedCluster` resource 
+[What if I don't want my registered cluster managed by Rancher?](https://ranchermanager.docs.rancher.com/{{<rancher_doc_version>}}/faq/rancher-is-no-longer-needed#what-if-i-dont-want-my-registered-cluster-managed-by-rancher)
+This will result in the cluster being deregistered from Verrazzano. The associated `VerrazzanoManagedCluster` resource
 will be automatically deleted.
 
 Alternatively, you can deregister a managed cluster by deleting the `VerrazzanoManagedCluster` resource. This will result
-in automatic cleanup of the Rancher cluster.
+in the automatic cleanup of the Rancher cluster.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -307,5 +307,4 @@ in automatic cleanup of the Rancher cluster.
 </div>
 {{< /clipboard >}}
 
-**NOTE**: Even after a deregistration, any applications that you previously deployed to the managed cluster will continue
-running on that cluster.
+**NOTE**: Even after deregistration, any applications that you deployed previously to the managed cluster will continue running on that cluster.
