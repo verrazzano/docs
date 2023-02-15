@@ -110,7 +110,7 @@ because additional steps will be required to register a managed cluster.
 
 ### Register using Rancher
 
-To register a cluster using Rancher, see [Setting up Kubernetes Clusters in Rancher](https://docs.ranchermanager.rancher.io/pages-for-subheaders/kubernetes-clusters-in-rancher-setup).
+To register a cluster using Rancher, see [Setting up Kubernetes Clusters in Rancher](https://ranchermanager.docs.rancher.com/{{<rancher_doc_version>}}/pages-for-subheaders/kubernetes-clusters-in-rancher-setup).
 Verrazzano will manage all clusters whose labels match the [cluster label selector](#cluster-label-selection).
 
 ### Register using VerrazzanoManagedCluster
@@ -288,11 +288,24 @@ In the Verrazzano UI on the admin cluster, you can view the following:
 **NOTE**: The following procedure is for a cluster in which Rancher is enabled. If Rancher is not enabled, then additional steps will be required to deregister a managed cluster, see [Deregister a managed cluster without Rancher]({{< relref "docs/setup/install/multicluster-no-rancher.md#deregister-a-managed-cluster-without-rancher" >}}).
 
 If you want to deregister a managed cluster because you no longer want it to be part of a Verrazzano multicluster
-environment, then  log in to the Rancher UI and delete the managed cluster. This will result in the cluster
-being deregistered from Verrazzano. The associated `VerrazzanoManagedCluster` resource will be automatically deleted, and, if present, then the Argo CD registration of the managed cluster will also be removed.
+environment, then  log in to the Rancher UI and delete the managed cluster. To delete a cluster in Rancher, see
+[What if I don't want my registered cluster managed by Rancher?](https://ranchermanager.docs.rancher.com/{{<rancher_doc_version>}}/faq/rancher-is-no-longer-needed#what-if-i-dont-want-my-registered-cluster-managed-by-rancher).
+This will result in the cluster being deregistered from Verrazzano. The associated `VerrazzanoManagedCluster` resource 
+will be automatically deleted.
 
 Alternatively, you can deregister a managed cluster by deleting the `VerrazzanoManagedCluster` resource. This will result
-in automatic cleanup of the Rancher cluster, as well as ArgoCD registration, if it is present.
+in automatic cleanup of the Rancher cluster.
+{{< clipboard >}}
+<div class="highlight">
+
+   ```
+   # On the admin cluster
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+       delete vmc -n verrazzano-mc managed1
+   ```
+
+</div>
+{{< /clipboard >}}
 
 **NOTE**: Even after a deregistration, any applications that you previously deployed to the managed cluster will continue
 running on that cluster.
