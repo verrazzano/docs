@@ -284,12 +284,12 @@ managed cluster, with the following information:
 
 After these steps have been completed, return to [Verify that managed cluster registration has completed]({{< relref "/docs/setup/install/multicluster.md#verify-that-managed-cluster-registration-has-completed" >}}).
 
-## De-Register a managed cluster without Rancher
+## Deregister a managed cluster without Rancher
 
 **NOTE**: The following procedure is for a Verrazzano multicluster environment in which Rancher is not enabled on the admin cluster.
-If Rancher is enabled, for a much simpler de-registration process, see [De-Register a managed cluster]({{< relref "docs/setup/install/multicluster.md#de-register-a-managed-cluster" >}}).
+If Rancher is enabled, for a much simpler deregistration process, see [Deregister a managed cluster]({{< relref "docs/setup/install/multicluster.md#deregister-a-managed-cluster" >}}).
 
-If you want to de-register a managed cluster because you no longer want it to be part of a Verrazzano multicluster
+If you want to deregister a managed cluster because you no longer want it to be part of a Verrazzano multicluster
 environment, then complete the following steps.
 
 ### On the admin cluster
