@@ -54,13 +54,13 @@ Make sure that you have a valid kubeconfig file pointing to the Kubernetes clust
 		
 
 		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-debacf&#34; data-toggle=&#34;tab&#34; href=&#34;#debacf&#34;
+		   id=&#34;nav-efabdc&#34; data-toggle=&#34;tab&#34; href=&#34;#efabdc&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;vz&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-ceadfb&#34; data-toggle=&#34;tab&#34; href=&#34;#ceadfb&#34;
+		   id=&#34;nav-cdbefa&#34; data-toggle=&#34;tab&#34; href=&#34;#cdbefa&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;kubectl&lt;/a&gt;
 
 		
@@ -76,7 +76,7 @@ Make sure that you have a valid kubeconfig file pointing to the Kubernetes clust
 
 
 
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;debacf&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;efabdc&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;Verrazzano provides a platform &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/operator/&#34;&gt;operator&lt;/a&gt;
@@ -222,7 +222,7 @@ or until the default timeout (30m) has been reached.&lt;/li&gt;
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;ceadfb&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;cdbefa&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;h2 id=&#34;install-the-verrazzano-platform-operator&#34;&gt;Install the Verrazzano platform operator&lt;/h2&gt;
@@ -1739,7 +1739,7 @@ These methods are interchangeable and synchronized, so you can use either one to
 &lt;p&gt;If Rancher is not enabled, then refer to &lt;a href=&#34;../../../docs/setup/install/multicluster-no-rancher/&#34;&gt;Verrazzano multicluster installation without Rancher&lt;/a&gt;
 because additional steps will be required to register a managed cluster.&lt;/p&gt;
 &lt;h3 id=&#34;register-using-rancher&#34;&gt;Register using Rancher&lt;/h3&gt;
-&lt;p&gt;To register a cluster using Rancher, see &lt;a href=&#34;https://docs.ranchermanager.rancher.io/pages-for-subheaders/kubernetes-clusters-in-rancher-setup&#34;&gt;Setting up Kubernetes Clusters in Rancher&lt;/a&gt;.
+&lt;p&gt;To register a cluster using Rancher, see &lt;a href=&#34;https://ranchermanager.docs.rancher.com/v2.6/pages-for-subheaders/kubernetes-clusters-in-rancher-setup&#34;&gt;Setting up Kubernetes Clusters in Rancher&lt;/a&gt;.
 Verrazzano will manage all clusters whose labels match the &lt;a href=&#34;#cluster-label-selection&#34;&gt;cluster label selector&lt;/a&gt;.&lt;/p&gt;
 &lt;h3 id=&#34;register-using-verrazzanomanagedcluster&#34;&gt;Register using VerrazzanoManagedCluster&lt;/h3&gt;
 &lt;ol&gt;
@@ -2386,12 +2386,115 @@ $ curl -k --user verrazzano:${VZPASS} -X POST -H &amp;#39;kbn-xsrf: true&amp;#39
 &lt;li&gt;VerrazzanoProjects located on this admin cluster or any of its registered managed clusters, or both.&lt;/li&gt;
 &lt;li&gt;Applications located on this admin cluster or any of its registered managed clusters, or both.&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h2 id=&#34;deregister-a-managed-cluster&#34;&gt;Deregister a managed cluster&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The following procedure is for a cluster in which Rancher is enabled. If Rancher is not enabled, then additional steps will be required to deregister a managed cluster, see &lt;a href=&#34;../../../docs/setup/install/multicluster-no-rancher/#deregister-a-managed-cluster-without-rancher&#34;&gt;Deregister a managed cluster without Rancher&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;If you want to deregister a managed cluster because you no longer want it to be part of a Verrazzano multicluster
+environment, then  log in to the Rancher UI and delete the managed cluster. To delete a cluster in Rancher, see
+&lt;a href=&#34;https://ranchermanager.docs.rancher.com/v2.6/faq/rancher-is-no-longer-needed#what-if-i-dont-want-my-registered-cluster-managed-by-rancher&#34;&gt;What if I don&amp;rsquo;t want my registered cluster managed by Rancher?&lt;/a&gt;
+This will result in the cluster being deregistered from Verrazzano. The associated &lt;code&gt;VerrazzanoManagedCluster&lt;/code&gt; resource
+will be automatically deleted.&lt;/p&gt;
+&lt;p&gt;Alternatively, you can deregister a managed cluster by deleting the &lt;code&gt;VerrazzanoManagedCluster&lt;/code&gt; resource. This will result
+in the automatic cleanup of the Rancher cluster.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the admin cluster
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+    delete vmc -n verrazzano-mc managed1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Even after deregistration, any applications that you deployed previously to the managed cluster will continue running on that cluster.&lt;/p&gt;
 
       </description>
     </item>
     
     <item>
-      <title>Docs: Install Multicluster Verrazzano Without Rancher</title>
+      <title>Docs: Install Multicluster Verrazzano without Rancher</title>
       <link>/docs/setup/install/multicluster-no-rancher/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -2399,11 +2502,10 @@ $ curl -k --user verrazzano:${VZPASS} -X POST -H &amp;#39;kbn-xsrf: true&amp;#39
       <description>
         
         
-        &lt;p&gt;This document shows you how to register a managed cluster when Rancher has not been installed with Verrazzano.
-Rancher is recommended for Verrazzano multicluster installations.
-If Rancher is not installed, then registration will require more steps.&lt;/p&gt;
+        &lt;p&gt;Rancher is recommended for Verrazzano multicluster installations. However, if Rancher is not installed, then registration requires you to perform a few additional steps.
+The following instructions show you how to register a managed cluster when Rancher is not installed with Verrazzano.&lt;/p&gt;
 &lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
-&lt;p&gt;Make sure you have completed the steps in the Prerequisites, Install Verrazzano, and Preregistration sections in &lt;a href=&#34;../../../docs/setup/install/multicluster/&#34;&gt;Install Multicluster Verrazzano&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Before you begin, make sure you have completed the Prerequisites, Install Verrazzano, and Preregistration procedures, as described in &lt;a href=&#34;../../../docs/setup/install/multicluster/&#34;&gt;Install Multicluster Verrazzano&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;preregistration-setup&#34;&gt;Preregistration setup&lt;/h2&gt;
 &lt;p&gt;Before registering the managed cluster, first you will need to set up the following items:&lt;/p&gt;
 &lt;ul&gt;
@@ -2530,7 +2632,8 @@ $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
 If this value is empty, then your managed cluster is using certificates signed by a well-known certificate
-authority. Otherwise, your managed cluster is using self-signed certificates.&lt;/p&gt;
+authority. Otherwise, your managed cluster is using self-signed certificates.
+&lt;br&gt;&lt;/p&gt;
 &lt;h4 id=&#34;well-known-ca&#34;&gt;Well-known CA&lt;/h4&gt;
 &lt;p&gt;In this case, no additional configuration is necessary.&lt;/p&gt;
 &lt;h4 id=&#34;self-signed-certificates&#34;&gt;Self-signed certificates&lt;/h4&gt;
@@ -2745,17 +2848,14 @@ $ rm managed1.yaml
 &lt;li&gt;
 &lt;p&gt;Use the following instructions to obtain the Kubernetes API server address for the admin cluster.
 This address must be accessible from the managed cluster.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
 &lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;#most-kubernetes-clusters&#34;&gt;Most Kubernetes clusters&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&#34;#kind-clusters&#34;&gt;Kind clusters&lt;/a&gt;&lt;/p&gt;
+&lt;li&gt;&lt;a href=&#34;#most-kubernetes-clusters&#34;&gt;Most Kubernetes clusters&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#kind-clusters&#34;&gt;Kind clusters&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h4 id=&#34;most-kubernetes-clusters&#34;&gt;Most Kubernetes clusters&lt;/h4&gt;
 &lt;p&gt;For most types of Kubernetes clusters, except for Kind clusters, you can find the externally accessible API server
 address of the admin cluster from its kubeconfig file.
+&lt;br&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -2859,8 +2959,9 @@ contexts:
     document
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;&lt;/p&gt;
-&lt;p&gt;In the output of this command, you will find the URL of the admin cluster API server in the &lt;code&gt;server&lt;/code&gt; field. Set the
+&lt;/script&gt;
+&lt;br&gt;
+In the output of this command, you will find the URL of the admin cluster API server in the &lt;code&gt;server&lt;/code&gt; field. Set the
 value of the &lt;code&gt;ADMIN_K8S_SERVER_ADDRESS&lt;/code&gt; variable to this URL.
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -3144,7 +3245,7 @@ value of the &lt;code&gt;ADMIN_K8S_SERVER_ADDRESS&lt;/code&gt; variable to this 
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;/ul&gt;
+&lt;li&gt;
 &lt;p&gt;On the admin cluster, create a ConfigMap that contains the externally accessible admin cluster Kubernetes server
 address found in the previous step.
 To be detected by Verrazzano, this ConfigMap must be named &lt;code&gt;verrazzano-admin-cluster&lt;/code&gt;.
@@ -3249,6 +3350,8 @@ EOF
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
 &lt;!-- omit in toc --&gt;
 &lt;h2 id=&#34;registration-steps&#34;&gt;Registration steps&lt;/h2&gt;
 &lt;p&gt;Perform the first three registration steps on the &lt;em&gt;admin&lt;/em&gt; cluster, and the last step, on the &lt;em&gt;managed&lt;/em&gt; cluster.
@@ -3667,6 +3770,305 @@ route incoming requests for managed cluster information, to the managed cluster&
 &lt;/ul&gt;
 &lt;h3 id=&#34;verify-that-managed-cluster-registration-has-completed&#34;&gt;Verify that managed cluster registration has completed&lt;/h3&gt;
 &lt;p&gt;After these steps have been completed, return to &lt;a href=&#34;../../../docs/setup/install/multicluster/#verify-that-managed-cluster-registration-has-completed&#34;&gt;Verify that managed cluster registration has completed&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;deregister-a-managed-cluster-without-rancher&#34;&gt;Deregister a managed cluster without Rancher&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The following procedure is for a Verrazzano multicluster environment in which Rancher is not enabled on the admin cluster.
+If Rancher is enabled, for a much simpler deregistration process, see &lt;a href=&#34;../../../docs/setup/install/multicluster/#deregister-a-managed-cluster&#34;&gt;Deregister a managed cluster&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;If you want to deregister a managed cluster because you no longer want it to be part of a Verrazzano multicluster
+environment, then complete the following steps.&lt;/p&gt;
+&lt;h3 id=&#34;on-the-admin-cluster-1&#34;&gt;On the admin cluster&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Export the YAML file created to register the managed cluster.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the admin cluster
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+    get secret verrazzano-cluster-managed1-manifest \
+    -n verrazzano-mc \
+    -o jsonpath={.data.yaml} | base64 --decode &amp;gt; register.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Delete the &lt;code&gt;VerrazzanoManagedCluster&lt;/code&gt; resource on the admin cluster.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the admin cluster
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+    delete vmc -n verrazzano-mc managed1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;on-the-managed-cluster-1&#34;&gt;On the managed cluster&lt;/h3&gt;
+&lt;p&gt;Delete the resources in the registration file exported in the previous step, on the managed cluster.
+&lt;style type=&#34;text/css&#34;&gt;
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+&lt;/style&gt;
+
+&lt;div class=&#34;clipboard&#34;&gt;
+    &lt;div class=&#34;highlight&#34;&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# On the managed cluster
+$ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
+    delete -f register.yaml
+# After the command succeeds, you may delete the register.yaml file
+$ rm register.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement(&#34;button&#34;);
+        button.innerText = &#34;Copy&#34;;
+        button.className = &#34;copy-code-button&#34;;
+        button.addEventListener(&#34;click&#34;, () =&gt;
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement(&#34;div&#34;);
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
+        
+        let codeBlock = codeToCopy.split(&#34;\n&#34;);
+        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join(&#34;\n&#34;);
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement(&#39;textarea&#39;);
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand(&#39;copy&#39;);
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = &#34;Copied&#34;;
+        setTimeout(function () {
+            button.innerText = &#34;Copy&#34;;
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(&#34;.highlight&#34;)
+        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
+&lt;/script&gt;&lt;/p&gt;
 
       </description>
     </item>
