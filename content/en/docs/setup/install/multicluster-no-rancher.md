@@ -11,7 +11,7 @@ The following instructions show you how to register a managed cluster when Ranch
 
 ## Prerequisites
 
-Before you begin, make sure you have completed the Prerequisites, Install Verrazzano, and Preregistration procedures as described in [Install Multicluster Verrazzano]({{< relref "/docs/setup/install/multicluster.md" >}}).
+Before you begin, make sure you have completed the Prerequisites, Install Verrazzano, and Preregistration procedures, as described in [Install Multicluster Verrazzano]({{< relref "/docs/setup/install/multicluster.md" >}}).
 
 ## Preregistration setup
 
@@ -112,23 +112,22 @@ This address must be accessible from the managed cluster.
 {{< clipboard >}}
 <div class="highlight">
 
-  ```
-      # View the information for the admin cluster in your kubeconfig file
-      $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN config view --minify
+```
+# View the information for the admin cluster in your kubeconfig file
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN config view --minify
 
-      # Sample output
-      apiVersion: v1
-      kind: Config
-      clusters:
-      - cluster:
-        certificate-authority-data: DATA+OMITTED
-        server: https://11.22.33.44:6443
-        name: my-admin-cluster
-      contexts:
-      ....
-      ....
-  ```
-
+# Sample output
+apiVersion: v1
+kind: Config
+clusters:
+- cluster:
+  certificate-authority-data: DATA+OMITTED
+  server: https://11.22.33.44:6443
+  name: my-admin-cluster
+contexts:
+....
+....
+```
 </div>
 {{< /clipboard >}}
 <br>
@@ -291,7 +290,7 @@ After these steps have been completed, return to [Verify that managed cluster re
 If Rancher is enabled, for a much simpler de-registration process, see [De-Register a managed cluster]({{< relref "docs/setup/install/multicluster.md#de-register-a-managed-cluster" >}}).
 
 If you want to de-register a managed cluster because you no longer want it to be part of a Verrazzano multicluster
-environment, complete the following steps.
+environment, then complete the following steps.
 
 ### On the admin cluster
 1. Export the YAML file created to register the managed cluster.
