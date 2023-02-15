@@ -1,17 +1,17 @@
 ---
-title: "Install Multicluster Verrazzano Without Rancher"
-description: "How to set up a multicluster Verrazzano environment without Rancher installed"
+title: "Install Multicluster Verrazzano without Rancher"
+description: "How to set up a multicluster Verrazzano environment without a Rancher installation"
 weight: 3
 draft: false
 ---
 
-This document shows you how to register a managed cluster when Rancher has not been installed with Verrazzano.
-Rancher is recommended for Verrazzano multicluster installations.
-If Rancher is not installed, then registration will require more steps.
+Rancher is recommended for Verrazzano multicluster installations. However, if Rancher is not installed, then registration requires you to perform a few additional steps.
+The following instructions show you how to register a managed cluster when Rancher is not installed with Verrazzano.
+
 
 ## Prerequisites
 
-Make sure you have completed the steps in the Prerequisites, Install Verrazzano, and Preregistration sections in [Install Multicluster Verrazzano]({{< relref "/docs/setup/install/multicluster.md" >}}).
+Before you begin, make sure you have completed the Prerequisites, Install Verrazzano, and Preregistration procedures, as described in [Install Multicluster Verrazzano]({{< relref "/docs/setup/install/multicluster.md" >}}).
 
 ## Preregistration setup
 
@@ -51,7 +51,7 @@ $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
 {{< /clipboard >}}
           If this value is empty, then your managed cluster is using certificates signed by a well-known certificate
           authority. Otherwise, your managed cluster is using self-signed certificates.
-
+<br>
           #### Well-known CA
 
           In this case, no additional configuration is necessary.
@@ -101,38 +101,38 @@ $ rm managed1.yaml
 
 1. Use the following instructions to obtain the Kubernetes API server address for the admin cluster.
 This address must be accessible from the managed cluster.
-- [Most Kubernetes clusters](#most-kubernetes-clusters)
-- [Kind clusters](#kind-clusters)
+    - [Most Kubernetes clusters](#most-kubernetes-clusters)
+    - [Kind clusters](#kind-clusters)
 
-  #### Most Kubernetes clusters
+    #### Most Kubernetes clusters
 
-  For most types of Kubernetes clusters, except for Kind clusters, you can find the externally accessible API server
-  address of the admin cluster from its kubeconfig file.
+    For most types of Kubernetes clusters, except for Kind clusters, you can find the externally accessible API server
+    address of the admin cluster from its kubeconfig file.
+<br>
 {{< clipboard >}}
 <div class="highlight">
 
-  ```
-  # View the information for the admin cluster in your kubeconfig file
-  $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN config view --minify
+```
+# View the information for the admin cluster in your kubeconfig file
+$ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN config view --minify
 
-  # Sample output
-  apiVersion: v1
-  kind: Config
-  clusters:
-  - cluster:
-    certificate-authority-data: DATA+OMITTED
-    server: https://11.22.33.44:6443
-    name: my-admin-cluster
-  contexts:
-  ....
-  ....
-  ```
-
+# Sample output
+apiVersion: v1
+kind: Config
+clusters:
+- cluster:
+  certificate-authority-data: DATA+OMITTED
+  server: https://11.22.33.44:6443
+  name: my-admin-cluster
+contexts:
+....
+....
+```
 </div>
 {{< /clipboard >}}
-
+<br>
   In the output of this command, you will find the URL of the admin cluster API server in the `server` field. Set the
-  value of the `ADMIN_K8S_SERVER_ADDRESS` variable to this URL. 
+  value of the `ADMIN_K8S_SERVER_ADDRESS` variable to this URL.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -143,13 +143,13 @@ This address must be accessible from the managed cluster.
 </div>
 {{< /clipboard >}}
 
-  #### Kind clusters
+    #### Kind clusters
 
-  Kind clusters run within a Docker container. If your admin and managed clusters are Kind clusters, then the API server
-  address of the admin cluster in its kubeconfig file is typically a local address on the host machine, which will not be
-  accessible from the managed cluster. Use the `kind` command to obtain the `internal` kubeconfig of the admin
-  cluster, which will contain a server address accessible from other Kind clusters on the same machine, and therefore in
-  the same Docker network. 
+    Kind clusters run within a Docker container. If your admin and managed clusters are Kind clusters, then the API server
+    address of the admin cluster in its kubeconfig file is typically a local address on the host machine, which will not be
+    accessible from the managed cluster. Use the `kind` command to obtain the `internal` kubeconfig of the admin
+    cluster, which will contain a server address accessible from other Kind clusters on the same machine, and therefore in
+    the same Docker network.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -171,7 +171,7 @@ This address must be accessible from the managed cluster.
 </div>
 {{< /clipboard >}}
 
-On the admin cluster, create a ConfigMap that contains the externally accessible admin cluster Kubernetes server
+1. On the admin cluster, create a ConfigMap that contains the externally accessible admin cluster Kubernetes server
 address found in the previous step.
 To be detected by Verrazzano, this ConfigMap must be named `verrazzano-admin-cluster`.
 {{< clipboard >}}
@@ -283,3 +283,58 @@ managed cluster, with the following information:
 ### Verify that managed cluster registration has completed
 
 After these steps have been completed, return to [Verify that managed cluster registration has completed]({{< relref "/docs/setup/install/multicluster.md#verify-that-managed-cluster-registration-has-completed" >}}).
+
+## Deregister a managed cluster without Rancher
+
+**NOTE**: The following procedure is for a Verrazzano multicluster environment in which Rancher is not enabled on the admin cluster.
+If Rancher is enabled, for a much simpler deregistration process, see [Deregister a managed cluster]({{< relref "docs/setup/install/multicluster.md#deregister-a-managed-cluster" >}}).
+
+If you want to deregister a managed cluster because you no longer want it to be part of a Verrazzano multicluster
+environment, then complete the following steps.
+
+### On the admin cluster
+1. Export the YAML file created to register the managed cluster.
+   {{< clipboard >}}
+<div class="highlight">
+
+   ```
+   # On the admin cluster
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+       get secret verrazzano-cluster-managed1-manifest \
+       -n verrazzano-mc \
+       -o jsonpath={.data.yaml} | base64 --decode > register.yaml
+   ```
+
+</div>
+{{< /clipboard >}}
+
+1. Delete the `VerrazzanoManagedCluster` resource on the admin cluster.
+   {{< clipboard >}}
+<div class="highlight">
+
+   ```
+   # On the admin cluster
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+       delete vmc -n verrazzano-mc managed1
+   ```
+
+</div>
+{{< /clipboard >}}
+
+
+### On the managed cluster
+
+Delete the resources in the registration file exported in the previous step, on the managed cluster.
+   {{< clipboard >}}
+<div class="highlight">
+
+   ```
+   # On the managed cluster
+   $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
+       delete -f register.yaml
+   # After the command succeeds, you may delete the register.yaml file
+   $ rm register.yaml
+   ```
+
+</div>
+{{< /clipboard >}}
