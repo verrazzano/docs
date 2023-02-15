@@ -206,7 +206,7 @@ because the `todo-list` application is a WebLogic application.
 
 ### Dashboard discovery
 
-The Verrazzano Grafana instance supports dynamic dashboard discovery. This allows users to deploy dashboards along with other application components.
+The Verrazzano Grafana instance supports dynamic dashboard discovery. This lets you deploy dashboards along with other application components.
 
 Grafana will automatically discover dashboards in ConfigMaps that are labeled with `grafana_dashboard: "1"`. The ConfigMap must contain the dashboard JSON.
 The ConfigMap may also be annotated with `k8s-sidecar-target-directory` to specify the name of a Grafana folder.
