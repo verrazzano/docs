@@ -36,7 +36,7 @@ Validate the `vz` binary against the checksum file.
 {{< clipboard >}}
 <div class="highlight">
 
-    $ sha256sum -c {{<release_asset -linux-amd64.tar.gz.sha256>}}
+    $ sha256sum -c verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz.sha256
 
 </div>
 {{< /clipboard >}}
@@ -44,11 +44,11 @@ Validate the `vz` binary against the checksum file.
 ### Unpack and copy the `vz` binary
 
   ```shell
-   $ tar xvf {{<release_asset -linux-amd64.tar.gz>}}
+   $ tar xvf verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz
   ```
   The following command needs to be run as root.
   ```shell
-   $ sudo cp {{<release_asset "/bin/vz">}} /usr/local/bin
+   $ sudo cp verrazzano-{{<verrazzano_development_version>}}/bin/vz /usr/local/bin
   ```
 
 ### Test to ensure that the version you installed is up-to-date
@@ -64,9 +64,9 @@ The resulting output should be similar to the following.
 {{< clipboard >}}
 <div class="highlight">
 
-    Version: v1.4.0
-    BuildDate: 2022-09-23T21:32:57Z
-    GitCommit: a34d6473a4296b8cfe64ad7851d1dcd0f18e9669
+    Version: {{<release_version>}}
+    BuildDate: 2023-02-12T21:07:26Z
+    GitCommit: cb0778bbf7a2cd90e1ae8458abd242f9da27a100
 
 </div>
 {{< /clipboard >}}
@@ -91,23 +91,24 @@ Use the following syntax to run `vz` commands from your terminal window.
 
 ### Available commands
 
-| Command     | Definition                                                      |
-|-------------|-----------------------------------------------------------------|
-| `analyze`   | Analyze cluster                                                 |
-| `bug-report`| Collect information from the cluster to report an issue         |
-| `help`      | Help about any command                                          |
-| `install`   | Deploy the Verrazzano platform operator and install Verrazzano  |
-| `status`    | Status of the Verrazzano installation and access endpoints      |
-| `uninstall` | Uninstall Verrazzano                                            |
-| `upgrade`   | Upgrade the Verrazzano platform operator and upgrade Verrazzano |
-| `version`   | Verrazzano version information                                  |
+| Command      | Definition                                                      |
+|--------------|-----------------------------------------------------------------|
+| `analyze`    | Analyze cluster                                                 |
+| `bug-report` | Collect information from the cluster to report an issue         |
+| `completion` | Generate the autocompletion script for the specified shell      |
+| `help`       | Help about any command                                          |
+| `install`    | Install Verrazzano                                              |
+| `status`     | Status of the Verrazzano installation and access endpoints      |
+| `uninstall`  | Uninstall Verrazzano                                            |
+| `upgrade`    | Upgrade Verrazzano                                              |
+| `version`    | Verrazzano version information                                  |
 
 ### Available Flags
 
 These flags apply to all the commands.
 
-| Flag                  | Definition                                 |
-|-----------------------|--------------------------------------------|
+| Flag                  | Definition                                      |
+|-----------------------|-------------------------------------------------|
 | `--context string`    | The name of the kubeconfig file context to use. |
-| `-h`, `--help`        | Help for `vz`.                             |
-| `--kubeconfig string` | Path to the kubeconfig file to use.        |
+| `-h`, `--help`        | Help for `vz`.                                  |
+| `--kubeconfig string` | Path to the kubeconfig file to use.             |
