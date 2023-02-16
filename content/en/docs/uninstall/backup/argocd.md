@@ -28,10 +28,10 @@ Before proceeding with an Argo CD backup or restore operation, the following det
 - Object store prefix name. This will be a child folder under the bucket, which the backup component creates.
 - Object store region name.
 - Object store signing key.
-    - A signing key, which is required to authenticate with the Amazon S3 compatible object store.
-        - This is an Access Key/Secret Key pair.
-    - In Oracle Cloud Infrastructure, you or your administrator creates the Customer Secret Key. An associated Access Key will be generated for the secret key.
-    - To create a Customer Secret Key, see [Customer Secret Key](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm#create-secret-key).
+    - A signing key, which is required to authenticate with the Amazon S3 compatible object store; this is an Access Key/Secret Key pair.
+    - In Oracle Cloud Infrastructure, you or your administrator creates the Customer Secret Key.
+       - An associated Access Key will be generated for the secret key.
+       - To create a Customer Secret Key, see [Customer Secret Key](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm#create-secret-key).
 
 
 
@@ -185,7 +185,7 @@ Then, it will wait for the next valid point in the given cron expression and run
 
 ## Argo CD restore using Velero
 
-To initiate an Argo CD restore operation, first delete the existing Argo CD running on the system and all related data. 
+To initiate an Argo CD restore operation, first delete the existing Argo CD running on the system and all related data.
 Make sure that the data you are deleting is not needed. The restore operation will only restore data from the
 specified backup, and any additional data since that backup will be destroyed by the deletion.
 
@@ -226,7 +226,8 @@ EOF
  ```shell
    $ kubectl wait -n argocd --for=condition=ready pod -l app.kubernetes.io/instance=argocd
  ```
- Sample output:
+Sample output:
+
  ```
      pod/argocd-application-controller-0 condition met
      pod/argocd-applicationset-controller-8489bfbb8-4f686 condition met
