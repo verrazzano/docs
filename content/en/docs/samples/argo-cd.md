@@ -70,7 +70,7 @@ This example provides information about how to deploy the `Hello-helidon` applic
     - **Path**: Path in the repository where the Kubernetes resource definitions are listed. For example: `examples/helidon-config`
 7. Under the **Destination** section, do the following:
     - **Cluster URL**: Select the cluster to which you want to deploy the applications.
-    - **Namespace**: Specify the namespace in which you want to deploy the applications. The instruction to get the generated host in this sample uses `hello-helidon` as the namespace.
+    - **Namespace**: Specify the namespace in which you want to deploy the applications. The instructions in this sample use `hello-helidon` as the namespace.
 9. Click **Create**.
 10. If you selected `Manual` as the **Sync Policy** option, then click **Sync**. In the **Synchronize Resources** section, select all the resources and then click **Synchronize**.
 <br> This creates the Argo CD application and a pictorial representation of the deployed applications is displayed.
