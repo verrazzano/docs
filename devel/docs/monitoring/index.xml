@@ -2961,7 +2961,33 @@ of the nodes in your cluster.&lt;/p&gt;
 &lt;p&gt;To view the application metrics for the &lt;code&gt;todo-list&lt;/code&gt; example application, select &lt;code&gt;WebLogic Server Dashboard&lt;/code&gt;
 because the &lt;code&gt;todo-list&lt;/code&gt; application is a WebLogic application.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;../../docs/images/grafana-weblogic-dashboard.png&#34; alt=&#34;WebLogicDashboard&#34;&gt;&lt;/p&gt;
-
+&lt;h3 id=&#34;dashboard-discovery&#34;&gt;Dashboard discovery&lt;/h3&gt;
+&lt;p&gt;The Verrazzano Grafana instance supports dynamic dashboard discovery. This lets you deploy dashboards along with other application components.&lt;/p&gt;
+&lt;p&gt;Grafana will automatically discover dashboards in ConfigMaps that are labeled with &lt;code&gt;grafana_dashboard: &amp;quot;1&amp;quot;&lt;/code&gt;. The ConfigMap must contain the dashboard JSON.
+The ConfigMap may also be annotated with &lt;code&gt;k8s-sidecar-target-directory&lt;/code&gt; to specify the name of a Grafana folder.&lt;/p&gt;
+&lt;p&gt;Here is an example ConfigMap.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: v1
+kind: ConfigMap
+metadata:
+  annotations:
+    k8s-sidecar-target-directory: My App Dashboards
+  labels:
+    grafana_dashboard: &amp;#34;1&amp;#34;
+  name: app-dashboard
+  namespace: app
+data:
+  app_dashboard.json: |-
+    {
+      &amp;#34;title&amp;#34;: &amp;#34;My App Dashboard&amp;#34;,
+      &amp;#34;uid&amp;#34;: &amp;#34;Q4Bkkx&amp;#34;,
+      &amp;#34;version&amp;#34;: 2,
+      &amp;#34;panels&amp;#34;: [
+        {
+          ...
+        }
+      ...
+    }
+&lt;/code&gt;&lt;/pre&gt;
       </description>
     </item>
     

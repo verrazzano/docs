@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/monitoring/metrics/metrics/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-01-27T11:03:02-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-02-16T11:29:49-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Metrics">
 <meta itemprop="description" content="Understand Verrazzano metrics gathering and viewing">
-<meta itemprop="dateModified" content="2023-01-27T11:03:02-05:00" />
-<meta itemprop="wordCount" content="1949">
+<meta itemprop="dateModified" content="2023-02-16T11:29:49-05:00" />
+<meta itemprop="wordCount" content="2046">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Metrics"/>
 <meta name="twitter:description" content="Understand Verrazzano metrics gathering and viewing"/>
@@ -118,7 +118,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.d90981c828b7a2293aab99d75f0355f9.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.4ca1033da62ce62f04e63964944303d3.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -140,7 +140,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.d90981c828b7a2293aab99d75f0355f9.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.4ca1033da62ce62f04e63964944303d3.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -1330,7 +1330,33 @@ of the nodes in your cluster.</p>
 <p>To view the application metrics for the <code>todo-list</code> example application, select <code>WebLogic Server Dashboard</code>
 because the <code>todo-list</code> application is a WebLogic application.</p>
 <p><img src="../../../../docs/images/grafana-weblogic-dashboard.png" alt="WebLogicDashboard"></p>
-
+<h3 id="dashboard-discovery">Dashboard discovery</h3>
+<p>The Verrazzano Grafana instance supports dynamic dashboard discovery. This lets you deploy dashboards along with other application components.</p>
+<p>Grafana will automatically discover dashboards in ConfigMaps that are labeled with <code>grafana_dashboard: &quot;1&quot;</code>. The ConfigMap must contain the dashboard JSON.
+The ConfigMap may also be annotated with <code>k8s-sidecar-target-directory</code> to specify the name of a Grafana folder.</p>
+<p>Here is an example ConfigMap.</p>
+<pre tabindex="0"><code>apiVersion: v1
+kind: ConfigMap
+metadata:
+  annotations:
+    k8s-sidecar-target-directory: My App Dashboards
+  labels:
+    grafana_dashboard: &#34;1&#34;
+  name: app-dashboard
+  namespace: app
+data:
+  app_dashboard.json: |-
+    {
+      &#34;title&#34;: &#34;My App Dashboard&#34;,
+      &#34;uid&#34;: &#34;Q4Bkkx&#34;,
+      &#34;version&#34;: 2,
+      &#34;panels&#34;: [
+        {
+          ...
+        }
+      ...
+    }
+</code></pre>
 	
 		<style>
   .feedback--answer {

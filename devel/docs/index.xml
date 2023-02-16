@@ -7156,13 +7156,13 @@ Make sure that you have a valid kubeconfig file pointing to the Kubernetes clust
 		
 
 		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-bcedfa&#34; data-toggle=&#34;tab&#34; href=&#34;#bcedfa&#34;
+		   id=&#34;nav-bcdeaf&#34; data-toggle=&#34;tab&#34; href=&#34;#bcdeaf&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;vz&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-dfeacb&#34; data-toggle=&#34;tab&#34; href=&#34;#dfeacb&#34;
+		   id=&#34;nav-cadfeb&#34; data-toggle=&#34;tab&#34; href=&#34;#cadfeb&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;kubectl&lt;/a&gt;
 
 		
@@ -7178,7 +7178,7 @@ Make sure that you have a valid kubeconfig file pointing to the Kubernetes clust
 
 
 
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;bcedfa&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;bcdeaf&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;Verrazzano provides a platform &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/operator/&#34;&gt;operator&lt;/a&gt;
@@ -7324,7 +7324,7 @@ or until the default timeout (30m) has been reached.&lt;/li&gt;
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;dfeacb&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;cadfeb&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;h2 id=&#34;install-the-verrazzano-platform-operator&#34;&gt;Install the Verrazzano platform operator&lt;/h2&gt;
@@ -15313,7 +15313,33 @@ of the nodes in your cluster.&lt;/p&gt;
 &lt;p&gt;To view the application metrics for the &lt;code&gt;todo-list&lt;/code&gt; example application, select &lt;code&gt;WebLogic Server Dashboard&lt;/code&gt;
 because the &lt;code&gt;todo-list&lt;/code&gt; application is a WebLogic application.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;../docs/images/grafana-weblogic-dashboard.png&#34; alt=&#34;WebLogicDashboard&#34;&gt;&lt;/p&gt;
-
+&lt;h3 id=&#34;dashboard-discovery&#34;&gt;Dashboard discovery&lt;/h3&gt;
+&lt;p&gt;The Verrazzano Grafana instance supports dynamic dashboard discovery. This lets you deploy dashboards along with other application components.&lt;/p&gt;
+&lt;p&gt;Grafana will automatically discover dashboards in ConfigMaps that are labeled with &lt;code&gt;grafana_dashboard: &amp;quot;1&amp;quot;&lt;/code&gt;. The ConfigMap must contain the dashboard JSON.
+The ConfigMap may also be annotated with &lt;code&gt;k8s-sidecar-target-directory&lt;/code&gt; to specify the name of a Grafana folder.&lt;/p&gt;
+&lt;p&gt;Here is an example ConfigMap.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;apiVersion: v1
+kind: ConfigMap
+metadata:
+  annotations:
+    k8s-sidecar-target-directory: My App Dashboards
+  labels:
+    grafana_dashboard: &amp;#34;1&amp;#34;
+  name: app-dashboard
+  namespace: app
+data:
+  app_dashboard.json: |-
+    {
+      &amp;#34;title&amp;#34;: &amp;#34;My App Dashboard&amp;#34;,
+      &amp;#34;uid&amp;#34;: &amp;#34;Q4Bkkx&amp;#34;,
+      &amp;#34;version&amp;#34;: 2,
+      &amp;#34;panels&amp;#34;: [
+        {
+          ...
+        }
+      ...
+    }
+&lt;/code&gt;&lt;/pre&gt;
       </description>
     </item>
     
@@ -31346,19 +31372,19 @@ Verrazzano will create &lt;code&gt;sales.us.example.com&lt;/code&gt; as the DNS 
 		
 
 		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-dbecfa&#34; data-toggle=&#34;tab&#34; href=&#34;#dbecfa&#34;
+		   id=&#34;nav-dbefac&#34; data-toggle=&#34;tab&#34; href=&#34;#dbefac&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;WildcardDNS&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-cefdba&#34; data-toggle=&#34;tab&#34; href=&#34;#cefdba&#34;
+		   id=&#34;nav-dcbeaf&#34; data-toggle=&#34;tab&#34; href=&#34;#dcbeaf&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;OracleCloudInfrastructureDNS&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-cdbefa&#34; data-toggle=&#34;tab&#34; href=&#34;#cdbefa&#34;
+		   id=&#34;nav-ebfacd&#34; data-toggle=&#34;tab&#34; href=&#34;#ebfacd&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;CustomDNS&lt;/a&gt;
 
 		
@@ -31374,7 +31400,7 @@ Verrazzano will create &lt;code&gt;sales.us.example.com&lt;/code&gt; as the DNS 
 
 
 
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;dbecfa&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;dbefac&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;Verrazzano can be configured to use either the &lt;a href=&#34;https://nip.io/&#34;&gt;nip.io&lt;/a&gt; or &lt;a href=&#34;https://sslip.io&#34;&gt;sslip.io&lt;/a&gt; free wildcard DNS services.
@@ -31581,7 +31607,7 @@ spec:
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;cefdba&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;dcbeaf&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;Verrazzano can directly manage records in &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm&#34;&gt;Oracle Oracle Cloud Infrastructure DNS&lt;/a&gt;
@@ -33053,7 +33079,7 @@ spec:
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;cdbefa&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;ebfacd&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;You can specify your own externally managed, custom DNS domain.  In this scenario, you manage your own DNS
@@ -38983,13 +39009,13 @@ See the following respective sections.&lt;/p&gt;
 		
 
 		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-cdefba&#34; data-toggle=&#34;tab&#34; href=&#34;#cdefba&#34;
+		   id=&#34;nav-defbac&#34; data-toggle=&#34;tab&#34; href=&#34;#defbac&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;vz&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-ecdafb&#34; data-toggle=&#34;tab&#34; href=&#34;#ecdafb&#34;
+		   id=&#34;nav-acfedb&#34; data-toggle=&#34;tab&#34; href=&#34;#acfedb&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;kubectl&lt;/a&gt;
 
 		
@@ -39005,7 +39031,7 @@ See the following respective sections.&lt;/p&gt;
 
 
 
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;cdefba&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;defbac&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;ol&gt;
@@ -39206,7 +39232,7 @@ The uninstall logs from the Verrazzano platform operator will be streamed to the
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;ecdafb&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;acfedb&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;To delete a Verrazzano installation, delete the Verrazzano custom resource you used to
