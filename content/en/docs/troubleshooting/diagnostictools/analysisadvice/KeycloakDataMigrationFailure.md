@@ -149,7 +149,7 @@ Analysis detected that the Verrazzano upgrade failed when migrating Keycloak dat
       ```
 
 
-5. In the `db-migration` secret, add a `db-migration` field and set its value to `true (base64 encoded)`. This will notify the VPO that the Keycloak data was migrated manually.
+5. In the `db-migration` secret, add a `db-migrated` field and set its value to `true (base64 encoded)`. This will notify the VPO that the Keycloak data was migrated manually.
    {{< clipboard >}}
 <div class="highlight">
 
