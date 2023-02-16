@@ -10,7 +10,7 @@ draft: false
 Analysis detected that the Verrazzano upgrade failed when migrating Keycloak data from the existing `legacyDB` to the new `InnoDB`.
 
 ### Steps
-1. Verify if the dump-claim PVC exists and is bound to the PV.
+1. Verify whether the `dump-claim` PVC exists and is bound to the PV.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -36,7 +36,7 @@ Analysis detected that the Verrazzano upgrade failed when migrating Keycloak dat
 </div>
 {{< /clipboard >}}
 
-2. Get the `mysql-root password` from the `mysql` or `mysql-cluster-secret` secret in the keycloak namespace. The password is required to access the MySQL server as a `root` user in the following steps.
+2. Get the `mysql-root password` from the `mysql` or `mysql-cluster-secret` secret in the `keycloak` namespace. The password is required to access the MySQL server as a `root` user in the following steps.
    {{< clipboard >}}
 <div class="highlight">
 
@@ -49,7 +49,7 @@ Analysis detected that the Verrazzano upgrade failed when migrating Keycloak dat
 </div>
 {{< /clipboard >}}
 
-3. Create a load dump pod to help in migrating the previous Keycloak database data into the new database instance.
+3. Create a `load-dump` pod to help in migrating the previous Keycloak database data into the new database instance.
 
     {{< clipboard >}}
 <div class="highlight">
@@ -79,7 +79,7 @@ Analysis detected that the Verrazzano upgrade failed when migrating Keycloak dat
 </div>   
 {{< /clipboard >}}
 
-4. Start a shell session inside the pod, and then run the listed commands:
+4. Start a shell session inside the pod, and then run these commands:
    {{< clipboard >}}
 <div class="highlight">
 
@@ -89,7 +89,7 @@ Analysis detected that the Verrazzano upgrade failed when migrating Keycloak dat
 
 </div>
 {{< /clipboard >}}
-    - Fix the dump directory permission.
+    a. Fix the `dump` directory permission.
       {{< clipboard >}}
 <div class="highlight">
 
@@ -99,7 +99,7 @@ Analysis detected that the Verrazzano upgrade failed when migrating Keycloak dat
 
 </div>
 {{< /clipboard >}}
-    - Check if the MySQL server is running. If it is not running, check if the MySQL pods in the keycloak namespace are ready and check again.
+    b. Check if the MySQL server is running. If it is not running, check if the MySQL pods in the `keycloak` namespace are ready, and then check again.
       {{< clipboard >}}
 <div class="highlight">
 
@@ -112,7 +112,7 @@ Analysis detected that the Verrazzano upgrade failed when migrating Keycloak dat
 
 </div>
 {{< /clipboard >}}
-    - Migrate the Keycloak data.
+    c. Migrate the Keycloak data.
       {{< clipboard >}}
 <div class="highlight">
 
@@ -149,7 +149,7 @@ Analysis detected that the Verrazzano upgrade failed when migrating Keycloak dat
       ```
 
 
-5. In the `db-migration` secret, add a `db-migrated` field and set its value to `true (base64 encoded)`. This will notify the VPO that the Keycloak data was migrated manually.
+5. In the `db-migration` secret, add a `db-migrated` field and set its value to `true (base64 encoded)`. This will notify the Verrazzano platform operator that the Keycloak data was migrated manually.
    {{< clipboard >}}
 <div class="highlight">
 
@@ -167,7 +167,7 @@ Analysis detected that the Verrazzano upgrade failed when migrating Keycloak dat
 </div>
 {{< /clipboard >}}
 
-6. Delete the load dump pod.
+6. Delete the `load-dump` pod.
       {{< clipboard >}}
 <div class="highlight">
 
