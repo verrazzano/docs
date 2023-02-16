@@ -72,7 +72,7 @@ This example provides information about how to deploy the `Hello-helidon` applic
     - **Cluster URL**: Select the cluster to which you want to deploy the applications.
     - **Namespace**: Specify the namespace in which you want to deploy the applications. The instructions in this sample use `hello-helidon` as the namespace.
 9. Click **Create**.
-10. If you selected `Manual` as the **Sync Policy** option, then click **Sync**. In the **Synchronize Resources** section, select all the resources and then click **Synchronize**.
+10. If you selected `Manual` as the **Sync Policy** option, then click **Sync**. In the **Synchronize Resources** section, select all the resources, and then click **Synchronize**.
 <br> This creates the Argo CD application and a pictorial representation of the deployed applications is displayed.
 
 ## Verify the deployed application
