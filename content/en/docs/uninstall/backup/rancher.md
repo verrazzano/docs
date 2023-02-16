@@ -26,11 +26,10 @@ Before proceeding with a Rancher back up or restore operation, the following det
 - Object store prefix name. This will be a child folder under the bucket, which the backup component creates.
 - Object store region name.
 - Object store signing key.
-    - A signing key, which is required to authenticate with the Amazon S3 compatible object store.
-        - This is an Access Key or a Secret Key pair.
-        - Oracle provides the Access Key that is associated with your Console user login.
-        - You or your administrator generates the Customer Secret Key to pair with the Access Key.
-    - To create a Customer Secret Key, see [Customer Secret Key](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm#create-secret-key).
+   - A signing key, which is required to authenticate with the Amazon S3 compatible object store; this is an Access Key/Secret Key pair.
+   - In Oracle Cloud Infrastructure, you or your administrator creates the Customer Secret Key.
+      - An associated Access Key will be generated for the secret key.
+      - To create a Customer Secret Key, see [Customer Secret Key](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm#create-secret-key).
 
 
 To back up or restore Rancher, you must first enable `rancherBackup`.
@@ -156,7 +155,7 @@ Restoring Rancher is done by creating a custom resource that indicates to `ranch
 1. To initiate a Rancher restore operation, create the following example custom resource YAML file.
    When a `Restore` custom resource is created, the operator accesses the backup `*.tar.gz` file specified and restores the application data from that file.
 {{< clipboard >}}
- 
+
  ```yaml
   $ kubectl apply -f - <<EOF
     apiVersion: resources.cattle.io/v1

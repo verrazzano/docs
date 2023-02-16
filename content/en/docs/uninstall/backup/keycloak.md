@@ -27,11 +27,10 @@ Before proceeding with a MySQL back up or restore operation, keep the following 
 - Object store prefix name. This will be a child folder under the bucket, which the backup component creates.
 - Object store region name.
 - Object store signing key.
-   - A signing key, which is required to authenticate with the Amazon S3 compatible object store.
-      - This is an Access Key or a Secret Key pair.
-      - Oracle provides the Access Key that is associated with your Console user login.
-      - You or your administrator generates the Customer Secret Key to pair with the Access Key.
-   - To create a Customer Secret Key, see [Customer Secret Key](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm#create-secret-key).
+   - A signing key, which is required to authenticate with the Amazon S3 compatible object store; this is an Access Key/Secret Key pair.
+   - In Oracle Cloud Infrastructure, you or your administrator creates the Customer Secret Key.
+      - An associated Access Key will be generated for the secret key.
+      - To create a Customer Secret Key, see [Customer Secret Key](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm#create-secret-key).
 
 The following example creates a secret `mysql-backup-secret` in the namespace `keycloak`.
 
