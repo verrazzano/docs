@@ -189,13 +189,14 @@ To initiate an Argo CD restore operation, first delete the existing Argo CD runn
 Make sure that the data you are deleting is not needed. The restore operation will only restore data from the
 specified backup, and any additional data since that backup will be destroyed by the deletion.
 
-1. Delete the Argo CD components.
+1. Delete the Argo CD components and the namespace.
 {{< clipboard >}}
  ```shell
 # These are sample commands to demonstrate the Argo CD restore process
 $ kubectl delete sts -l app.kubernetes.io/part-of=argocd -n argocd
 $ kubectl delete deploy -l app.kubernetes.io/part-of=argocd -n argocd
 $ kubectl delete pvc -n argocd <pvc name>
+$ kubectl delete ns argocd
  ```
 {{< /clipboard >}}
 
