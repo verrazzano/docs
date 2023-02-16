@@ -36,7 +36,7 @@ Analysis detected that the Verrazzano upgrade failed when migrating Keycloak dat
 </div>
 {{< /clipboard >}}
 
-2. Get the `mysql-root password` from the `mysql` or `mysql-cluster-secret` secret in the Keycloak namespace. The password is required to access the MySQL server as a `root` user in the following steps.
+2. Get the `mysql-root password` from the `mysql` or `mysql-cluster-secret` secret in the keycloak namespace. The password is required to access the MySQL server as a `root` user in the following steps.
    {{< clipboard >}}
 <div class="highlight">
 
@@ -99,7 +99,7 @@ Analysis detected that the Verrazzano upgrade failed when migrating Keycloak dat
 
 </div>
 {{< /clipboard >}}
-    - Check if the MySQL server is running. If it is not running, check if the MySQL pods in the Keycloak namespace are ready and check again.
+    - Check if the MySQL server is running. If it is not running, check if the MySQL pods in the keycloak namespace are ready and check again.
       {{< clipboard >}}
 <div class="highlight">
 
