@@ -36,7 +36,7 @@ Validate the `vz` binary against the checksum file.
 {{< clipboard >}}
 <div class="highlight">
 
-    $ sha256sum -c {{<release_asset -linux-amd64.tar.gz.sha256>}}
+    $ sha256sum -c verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz.sha256
 
 </div>
 {{< /clipboard >}}
@@ -44,11 +44,11 @@ Validate the `vz` binary against the checksum file.
 ### Unpack and copy the `vz` binary
 
   ```shell
-   $ tar xvf {{<release_asset -linux-amd64.tar.gz>}}
+   $ tar xvf verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz.sha256
   ```
   The following command needs to be run as root.
   ```shell
-   $ sudo cp {{<release_asset "/bin/vz">}} /usr/local/bin
+   $ sudo cp verrazzano-{{<verrazzano_development_version>}/bin/vz /usr/local/bin
   ```
 
 ### Test to ensure that the version you installed is up-to-date
