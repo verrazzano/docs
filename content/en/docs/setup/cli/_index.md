@@ -48,7 +48,7 @@ Validate the `vz` binary against the checksum file.
   ```
   The following command needs to be run as root.
   ```shell
-   $ sudo cp verrazzano-{{<verrazzano_development_version>}/bin/vz /usr/local/bin
+   $ sudo cp verrazzano-{{<verrazzano_development_version>}}/bin/vz /usr/local/bin
   ```
 
 ### Test to ensure that the version you installed is up-to-date
