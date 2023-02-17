@@ -9,7 +9,7 @@ Argo CD is a Kubernetes deployment tool that uses Git repositories as the source
 ## Before you begin
 
 - Install Verrazzano by following the [installation]({{< relref "/docs/setup/install/installation.md" >}}) instructions.
-- Enable Argo CD using the instructions at [Enable Argo CD]({{< relref "/docs/setup/install/register-argocd/register-argocd#enable-argo-cd" >}}).
+- Enable Argo CD using the instructions at [Enable Argo CD]({{< relref "/docs/setup/register-argocd/register-argocd#enable-argo-cd" >}}).
 - Access the Argo CD console using the instructions at [Access Verrazzano]({{< relref "/docs/access#the-argo-cd-console" >}}).
 
 

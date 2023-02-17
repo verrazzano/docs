@@ -59,7 +59,7 @@ see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}
 
 ### Cluster label selection
 
-You can provide a label selector in the Verrazzano resource. The label selector is used to determine which clusters created in Rancher will be automatically registered by Verrazzano. If Argo CD is [enabled on the admin cluster]({{< relref "/docs/samples/argo-cd.md#enable-argo-cd" >}}), all synced Rancher clusters also will be automatically registered in Argo CD.
+You can provide a label selector in the Verrazzano resource. The label selector is used to determine which clusters created in Rancher will be automatically registered by Verrazzano. If Argo CD is [enabled on the admin cluster]({{< relref "/docs/setup/register-argocd/register-argocd#enable-argo-cd" >}}), all synchronized Rancher clusters also will be automatically registered in Argo CD.
 
 #### Verrazzano configuration for cluster label selection
 
@@ -293,7 +293,7 @@ This will result in the cluster being deregistered from Verrazzano. The associat
 will be automatically deleted, and, if present, then the Argo CD registration of the managed cluster will also be removed.
 
 Alternatively, you can deregister a managed cluster by deleting the `VerrazzanoManagedCluster` resource. This will result
-in the automatic cleanup of the Rancher cluster, as well as Argo CD registration, if it is present.
+in the automatic cleanup of the Rancher cluster, as well as the Argo CD registration, if it is present.
 {{< clipboard >}}
 <div class="highlight">
 

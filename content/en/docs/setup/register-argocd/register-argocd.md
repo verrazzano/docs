@@ -7,11 +7,12 @@ draft: false
 
 ## Prerequisites
 
-- Before you begin, read this document, [Verrazzano in a multicluster environment]({{< relref "/docs/concepts/VerrazzanoMultiCluster.md" >}}).
-- Make sure you have completed the steps in the Prerequisites, Install Verrazzano, and Preregistration sections in [Install Multicluster Verrazzano]({{< relref "/docs/setup/install/multicluster.md" >}}).
+- Make sure you have completed the steps in the Prerequisites and Install Verrazzano sections in [Install Multicluster Verrazzano]({{< relref "/docs/setup/install/multicluster.md" >}}).
+- [Enable Argo CD](#enable-argo-cd).
 
-## Enable Argo CD
+### Enable Argo CD
 
+To use Argo CD in a multicluster Verrazzano environment, you must first enable it on the admin cluster.
 Argo CD is _not_ enabled by default, use the following example to enable it using the `dev` installation profile.
 {{< clipboard >}}
 <div class="highlight">
@@ -35,7 +36,7 @@ EOF
 
 ## Overview
 
-Argo CD integration depends on Rancher setup in a multicluster Verrazzano environment. If Rancher is enabled, it will be installed before Argo CD.
+In a multicluster Verrazzano environment, Argo CD integration depends on Rancher being set up. If Rancher is enabled, it will be installed before Argo CD.
 
 
 ## Refresh the Rancher API token
