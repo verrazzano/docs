@@ -113,7 +113,7 @@ North-south traffic includes all system traffic that enters or leaves a Kubernet
 The following lists the Verrazzano system components which are accessed through the NGINX Ingress Controller
 from a client external to the cluster:
 
-- Argo CD
+- argoCD
 - OpenSearch
 - Keycloak
 - OpenSearch Dashboards
@@ -129,7 +129,7 @@ outside the cluster.
 
 | Component  | Destination | Description |
 | ------------- |:------------- |:-------------
-| ArgoCD | Git webhooks (GitHub, GitLab, Bitbucket) | Argo CD connection to Git webhooks for connecting to Git repositories.
+| argoCD | Git webhooks (GitHub, GitLab, Bitbucket) | Argo CD connection to Git webhooks for connecting to Git repositories.
 | cert-manager | Let's Encrypt | Gets signed certificate.
 | ExternalDNS | External DNS | Creates and deletes DNS entries in an external DNS.
 | Fluentd | OpenSearch | Fluentd on the managed cluster calls OpenSearch on the admin cluster.
@@ -150,7 +150,7 @@ OpenSearch Pods.
 
 | Component  | Destination | Description |
 | ------------- |:------------- |:-------------
-| Argo CD | Kubernetes API server | Performs CRUD operations on Kubernetes resources.
+| argoCD | Kubernetes API server | Performs CRUD operations on Kubernetes resources.
 | cert-manager | Kubernetes API server | Performs CRUD operations on Kubernetes resources.
 | Fluentd | OpenSearch | Fluentd sends data to OpenSearch.
 | Grafana | Prometheus | UI for Prometheus data.
@@ -173,21 +173,21 @@ This table shows Prometheus traffic for each system component scrape target.
 
  Target | Description |
 |:------------- |:-------------
+| argoCD | Envoy metrics
 | cadvisor | Kubernetes metrics
-| Argo CD | Envoy metrics
-| OpenSearch | Envoy metrics
 | Grafana | Envoy metrics
 | Istiod | Istio control plane metrics
 | Istiod | Envoy metrics
 | Istio egress gateway | Envoy metrics
 | Istio ingress gateway | Envoy metrics
 | Keycloak |Envoy metrics
-| OpenSearch Dashboards | Envoy metrics
 | MySQL | Envoy metrics
 | NGINX Ingress Controller | Envoy metrics
 | NGINX Ingress Controller | NGINX metrics
 | NGINX default back end | Envoy metrics
 | Node exporter | Node metrics
+| OpenSearch | Envoy metrics
+| OpenSearch Dashboards | Envoy metrics
 | Prometheus | Envoy metrics
 | Prometheus | Prometheus metrics
 | Verrazzano Console | Envoy metrics
@@ -346,7 +346,7 @@ All of these requests go through the NGINX Ingress Controller on the respective 
 | Source Cluster | Source Component | Destination Cluster | Destination Component | Description
 | ------------- |:------------- |:------------- |:------------- |:-------------
 | Admin | Prometheus | Managed | Prometheus | Scapes metrics on managed clusters.
-| Admin | Argo CD | Managed | Rancher Proxy | ArgoCD connects to the Rancher proxy for creating resources required for the Argo CD managed cluster registration.
+| Admin | argoCD | Managed | Rancher Proxy | Argo CD connects to the Rancher proxy for creating resources required for the Argo CD managed cluster registration.
 | Admin | Verrazzano Console | Managed | Verrazzano Authentication Proxy | Admin cluster proxy sends Kubernetes API requests to managed cluster proxy.
 | Managed | Fluentd | Admin | OpenSearch | Fluentd sends logs to OpenSearch.
 | Managed | Rancher Agent | Admin | Rancher | Rancher Agent sends requests Rancher.
