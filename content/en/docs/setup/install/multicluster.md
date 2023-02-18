@@ -59,8 +59,7 @@ see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}
 
 ### Cluster label selection
 
-You can provide a label selector in the Verrazzano resource.
-The label selector is used to determine which clusters created in Rancher will be automatically registered by Verrazzano.
+You can provide a label selector in the Verrazzano resource. The label selector is used to determine which clusters created in Rancher will be automatically registered by Verrazzano. If Argo CD is enabled on the admin cluster (to add a link to the new topic), all synchronized Rancher clusters also will be automatically registered in Argo CD.
 
 #### Verrazzano configuration for cluster label selection
 
@@ -111,7 +110,7 @@ because additional steps will be required to register a managed cluster.
 ### Register using Rancher
 
 To register a cluster using Rancher, see [Setting up Kubernetes Clusters in Rancher](https://ranchermanager.docs.rancher.com/{{<rancher_doc_version>}}/pages-for-subheaders/kubernetes-clusters-in-rancher-setup).
-Verrazzano will manage all clusters whose labels match the [cluster label selector](#cluster-label-selection).
+Verrazzano will manage all clusters whose labels match the [cluster label selector](#cluster-label-selection), including Argo CD, if it is enabled on the admin cluster.
 
 ### Register using VerrazzanoManagedCluster
 
@@ -291,10 +290,10 @@ If you want to deregister a managed cluster because you no longer want it to be 
 environment, then  log in to the Rancher UI and delete the managed cluster. To delete a cluster in Rancher, see
 [What if I don't want my registered cluster managed by Rancher?](https://ranchermanager.docs.rancher.com/{{<rancher_doc_version>}}/faq/rancher-is-no-longer-needed#what-if-i-dont-want-my-registered-cluster-managed-by-rancher)
 This will result in the cluster being deregistered from Verrazzano. The associated `VerrazzanoManagedCluster` resource
-will be automatically deleted.
+will be automatically deleted, and, if present, then the Argo CD registration of the managed cluster will also be removed.
 
 Alternatively, you can deregister a managed cluster by deleting the `VerrazzanoManagedCluster` resource. This will result
-in the automatic cleanup of the Rancher cluster.
+in the automatic cleanup of the Rancher cluster, as well as the Argo CD registration, if it is present.
 {{< clipboard >}}
 <div class="highlight">
 
