@@ -36,35 +36,12 @@ EOF
 
 ## Overview
 
-In a multicluster Verrazzano environment, Argo CD integration depends on Rancher being set up. If Rancher is enabled, it will be installed before Argo CD.
+In a multicluster Verrazzano environment, Argo CD integration depends on Rancher being set up. Rancher is installed and enabled in both the `dev` and `prod` profiles. Argo CD is always installed, just not enabled by default.
 
 
 ## Refresh the Rancher API token
 
-Add a configurable `ARGOCD_CLUSTER_TOKEN_TTL` token in the cluster operator's helm chart, where the default is to 240 minutes. In the controller, we will update the token periodically by checking the token's `created` or `ExpiresAt` value.
-
-{{< clipboard >}}
-<div class="highlight">
-
-```
-- name: ARGOCD_CLUSTER_TOKEN_TTL
-  value: "{{ .Values.argoCDClusterTokenTTL }}"
-```
-  </div>
-  {{< /clipboard >}}
-
-{{< clipboard >}}
-<div class="highlight">
-
-```
-  # TTL in minutes
-  argoCDClusterTokenTTL: 240
-```
-  </div>
-  {{< /clipboard >}}
-
-
-To override the Argo CD token's TTL:   
+In the cluster operator's helm chart, you can update the configurable `ARGOCD_CLUSTER_TOKEN_TTL` token's `argoCDClusterTokenTTL` value. By default, the TTL value is set to 240 minutes. In the controller, override the Argo CD token's TTL to 600 minutes.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -88,4 +65,6 @@ spec:
 </div>
 {{< /clipboard >}}
 
-**Note**: To deregister a cluster in Argo CD, deregister the managed cluster. See [Deregister a managed cluster]({{< relref "/docs/setup/install/mc-install/multicluster#deregister-a-managed-cluster" >}}).
+## Deregister a cluster in Argo CD
+
+To deregister a cluster in Argo CD, deregister the managed cluster. See [Deregister a managed cluster]({{< relref "/docs/setup/install/mc-install/multicluster#deregister-a-managed-cluster" >}}).
