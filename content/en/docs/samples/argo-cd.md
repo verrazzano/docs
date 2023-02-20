@@ -33,7 +33,7 @@ The following is a sample procedure to configure a private Git repository throug
 
 To deploy applications in a custom namespace, create Argo CD applications that specify the Git repository path, which Argo CD requires to synchronize and deploy the applications in the specified namespace.
 
-This example provides information about how to deploy the `Hello-helidon` application. The `Hello-helidon` application and component YAML files are available at [Hello World Helidon](https://github.com/verrazzano/verrazzano/tree/master/examples/helidon-config).
+This example provides information about how to deploy the `Hello-helidon` application. The `Hello-helidon` application and component YAML files are available at [Hello World Helidon]({{< ghlink raw=false path="examples/helidon-config" >}}).
 
 1. Log in to the Argo CD console.
 2. Click **New App**.
@@ -41,17 +41,17 @@ This example provides information about how to deploy the `Hello-helidon` applic
 4. For **Project Name**, select **default**.
 5. Select the required **Sync Policy** option:
    - `Automatic` - By default, every three minutes, Argo CD checks the specified Git repository and synchronizes the updates in Kubernetes to the Git repository.
-   - `Manual` - For manually synchronizing the updates to the Git repository, use the **Sync** option.
+   - `Manual` - For manually synchronizing the updates to the Git repository, use the **Manual** option.
 6. In the **Sync Options** section, select **Auto-Create Namespace**.
 7. Under the **Source** section, enter the following:
     - **Repository URL**: https://github.com/verrazzano/verrazzano/
-    - **Revision**: `master`
+    - **Revision**: `{{<release_branch>}}`
     - **Path**: Path in the repository where the Kubernetes resource definitions are listed. For example: `examples/helidon-config`
 7. Under the **Destination** section, do the following:
     - **Cluster URL**: Select the cluster to which you want to deploy the applications.
-    - **Namespace**: Specify the namespace in which you want to deploy the applications.
+    - **Namespace**: Specify the namespace in which you want to deploy the applications. The instructions in this sample use `hello-helidon` as the namespace.
 9. Click **Create**.
-10. If you selected `Manual` as the **Sync Policy** option, then click **Sync**.
+10. If you selected `Manual` as the **Sync Policy** option, then click **Sync**. In the **Synchronize Resources** section, select all the resources, and then click **Synchronize**.
 <br> This creates the Argo CD application and a pictorial representation of the deployed applications is displayed.
 
 ## Verify the deployed application
@@ -65,13 +65,13 @@ Follow these steps to test the endpoints.
 1. Get the generated host name for the application.
 
    ```
-   $ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-gw \
+   $ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-helidon-config-appconf-gw \
         -n hello-helidon \
         -o jsonpath='{.spec.servers[0].hosts[0]}')
    $ echo $HOST
 
    # Sample output
-   hello-helidon-appconf.hello-helidon.11.22.33.44.nip.io
+   helidon-config-appconf.hello-helidon.11.22.33.44.nip.io
    ```
 
 1. Get the `EXTERNAL_IP` address of the `istio-ingressgateway` service.
