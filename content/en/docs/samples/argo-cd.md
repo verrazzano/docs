@@ -45,7 +45,7 @@ This example provides information about how to deploy the `Hello-helidon` applic
 6. In the **Sync Options** section, select **Auto-Create Namespace**.
 7. Under the **Source** section, enter the following:
     - **Repository URL**: https://github.com/verrazzano/verrazzano/
-    - **Revision**: `{{<release_branch>}}`
+    - **Revision**: <place_holder>
     - **Path**: Path in the repository where the Kubernetes resource definitions are listed. For example: `examples/helidon-config`
 7. Under the **Destination** section, do the following:
     - **Cluster URL**: Select the cluster to which you want to deploy the applications.
