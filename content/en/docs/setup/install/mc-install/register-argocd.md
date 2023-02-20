@@ -64,6 +64,6 @@ spec:
 </div>
 {{< /clipboard >}}
 
-## Deregister a cluster in Argo CD
+## Deregister a cluster
 
 To deregister a cluster in Argo CD, deregister the managed cluster. See [Deregister a managed cluster]({{< relref "/docs/setup/install/mc-install/multicluster#deregister-a-managed-cluster" >}}).
