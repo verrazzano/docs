@@ -36,8 +36,7 @@ EOF
 
 ## Overview
 
-In a multicluster Verrazzano environment, Argo CD integration depends on Rancher being set up. Rancher is installed and enabled in both the `dev` and `prod` profiles. Argo CD is always installed, just not enabled by default.
-
+In a multicluster Verrazzano environment, Argo CD integration depends on Rancher being set up. If Rancher is _enabled_, Rancher will be installed before Argo CD and the Argo CD cluster registration will be successful. If Rancher is _disabled_, Argo CD will be installed, however, the Argo CD cluster registration will not be complete until Rancher is installed.
 
 ## Refresh the Rancher API token
 
