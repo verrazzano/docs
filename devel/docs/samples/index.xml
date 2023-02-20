@@ -47,7 +47,7 @@
 &lt;/ol&gt;
 &lt;h2 id=&#34;deploy-applications&#34;&gt;Deploy applications&lt;/h2&gt;
 &lt;p&gt;To deploy applications in a custom namespace, create Argo CD applications that specify the Git repository path, which Argo CD requires to synchronize and deploy the applications in the specified namespace.&lt;/p&gt;
-&lt;p&gt;This example provides information about how to deploy the &lt;code&gt;Hello-helidon&lt;/code&gt; application. The &lt;code&gt;Hello-helidon&lt;/code&gt; application and component YAML files are available at &lt;a href=&#34;https://github.com/verrazzano/verrazzano/tree/master/examples/helidon-config&#34;&gt;Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This example provides information about how to deploy the &lt;code&gt;Hello-helidon&lt;/code&gt; application. The &lt;code&gt;Hello-helidon&lt;/code&gt; application and component YAML files are available at &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/master/examples/helidon-config&#34;&gt;Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Log in to the Argo CD console.&lt;/li&gt;
 &lt;li&gt;Click &lt;strong&gt;New App&lt;/strong&gt;.&lt;/li&gt;
@@ -56,7 +56,7 @@
 &lt;li&gt;Select the required &lt;strong&gt;Sync Policy&lt;/strong&gt; option:
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;Automatic&lt;/code&gt; - By default, every three minutes, Argo CD checks the specified Git repository and synchronizes the updates in Kubernetes to the Git repository.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Manual&lt;/code&gt; - For manually synchronizing the updates to the Git repository, use the &lt;strong&gt;Sync&lt;/strong&gt; option.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Manual&lt;/code&gt; - For manually synchronizing the updates to the Git repository, use the &lt;strong&gt;Manual&lt;/strong&gt; option.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;In the &lt;strong&gt;Sync Options&lt;/strong&gt; section, select &lt;strong&gt;Auto-Create Namespace&lt;/strong&gt;.&lt;/li&gt;
@@ -70,11 +70,11 @@
 &lt;li&gt;Under the &lt;strong&gt;Destination&lt;/strong&gt; section, do the following:
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Cluster URL&lt;/strong&gt;: Select the cluster to which you want to deploy the applications.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Namespace&lt;/strong&gt;: Specify the namespace in which you want to deploy the applications.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Namespace&lt;/strong&gt;: Specify the namespace in which you want to deploy the applications. The instructions in this sample use &lt;code&gt;hello-helidon&lt;/code&gt; as the namespace.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;Click &lt;strong&gt;Create&lt;/strong&gt;.&lt;/li&gt;
-&lt;li&gt;If you selected &lt;code&gt;Manual&lt;/code&gt; as the &lt;strong&gt;Sync Policy&lt;/strong&gt; option, then click &lt;strong&gt;Sync&lt;/strong&gt;.
+&lt;li&gt;If you selected &lt;code&gt;Manual&lt;/code&gt; as the &lt;strong&gt;Sync Policy&lt;/strong&gt; option, then click &lt;strong&gt;Sync&lt;/strong&gt;. In the &lt;strong&gt;Synchronize Resources&lt;/strong&gt; section, select all the resources, and then click &lt;strong&gt;Synchronize&lt;/strong&gt;.
 &lt;br&gt; This creates the Argo CD application and a pictorial representation of the deployed applications is displayed.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;verify-the-deployed-application&#34;&gt;Verify the deployed application&lt;/h2&gt;
@@ -84,13 +84,13 @@
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Get the generated host name for the application.&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-gw \
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-helidon-config-appconf-gw \
      -n hello-helidon \
      -o jsonpath=&amp;#39;{.spec.servers[0].hosts[0]}&amp;#39;)
 $ echo $HOST
 
 # Sample output
-hello-helidon-appconf.hello-helidon.11.22.33.44.nip.io
+helidon-config-appconf.hello-helidon.11.22.33.44.nip.io
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Get the &lt;code&gt;EXTERNAL_IP&lt;/code&gt; address of the &lt;code&gt;istio-ingressgateway&lt;/code&gt; service.&lt;/p&gt;
@@ -2132,19 +2132,19 @@ $ kubectl label namespace sockshop verrazzano-managed=true
 		
 
 		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-ecbafd&#34; data-toggle=&#34;tab&#34; href=&#34;#ecbafd&#34;
+		   id=&#34;nav-badefc&#34; data-toggle=&#34;tab&#34; href=&#34;#badefc&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Helidon&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-defabc&#34; data-toggle=&#34;tab&#34; href=&#34;#defabc&#34;
+		   id=&#34;nav-efcdba&#34; data-toggle=&#34;tab&#34; href=&#34;#efcdba&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Micronaut&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-dcafeb&#34; data-toggle=&#34;tab&#34; href=&#34;#dcafeb&#34;
+		   id=&#34;nav-deacfb&#34; data-toggle=&#34;tab&#34; href=&#34;#deacfb&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Spring&lt;/a&gt;
 
 		
@@ -2160,7 +2160,7 @@ $ kubectl label namespace sockshop verrazzano-managed=true
 
 
 
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;ecbafd&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;badefc&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	   &lt;br&gt;
 &lt;style type=&#34;text/css&#34;&gt;
@@ -2261,7 +2261,7 @@ $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/maste
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;defabc&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;efcdba&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	   &lt;br&gt;
 &lt;style type=&#34;text/css&#34;&gt;
@@ -2362,7 +2362,7 @@ $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/maste
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;dcafeb&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;deacfb&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	   &lt;br&gt;
 &lt;style type=&#34;text/css&#34;&gt;
@@ -3150,19 +3150,19 @@ $ kubectl get IngressTrait -n sockshop
 		
 
 		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-fdcaeb&#34; data-toggle=&#34;tab&#34; href=&#34;#fdcaeb&#34;
+		   id=&#34;nav-dbacef&#34; data-toggle=&#34;tab&#34; href=&#34;#dbacef&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Helidon&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-cfedab&#34; data-toggle=&#34;tab&#34; href=&#34;#cfedab&#34;
+		   id=&#34;nav-afdcbe&#34; data-toggle=&#34;tab&#34; href=&#34;#afdcbe&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Micronaut&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-efadcb&#34; data-toggle=&#34;tab&#34; href=&#34;#efadcb&#34;
+		   id=&#34;nav-bafced&#34; data-toggle=&#34;tab&#34; href=&#34;#bafced&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Spring&lt;/a&gt;
 
 		
@@ -3178,7 +3178,7 @@ $ kubectl get IngressTrait -n sockshop
 
 
 
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;fdcaeb&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;dbacef&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	   &lt;br&gt;
 &lt;style type=&#34;text/css&#34;&gt;
@@ -3278,7 +3278,7 @@ $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/mast
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;cfedab&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;afdcbe&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	   &lt;br&gt;
 &lt;style type=&#34;text/css&#34;&gt;
@@ -3378,7 +3378,7 @@ $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/mast
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;efadcb&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;bafced&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	   &lt;br&gt;
 &lt;style type=&#34;text/css&#34;&gt;

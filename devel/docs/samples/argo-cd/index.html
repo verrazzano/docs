@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/samples/argo-cd/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-02-18T19:01:19+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-02-20T17:00:59+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Argo CD">
 <meta itemprop="description" content="Use Argo CD to deploy and undeploy applications">
-<meta itemprop="dateModified" content="2023-02-18T19:01:19+05:30" />
-<meta itemprop="wordCount" content="820">
+<meta itemprop="dateModified" content="2023-02-20T17:00:59+05:30" />
+<meta itemprop="wordCount" content="843">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Argo CD"/>
 <meta name="twitter:description" content="Use Argo CD to deploy and undeploy applications"/>
@@ -118,7 +118,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.07ef52d246a96a24c8b692201b4a59ad.json"
+  data-offline-search-index-json-src="../../../offline-search-index.903bb71fc4ace7d5fea55e60842f97f0.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -140,7 +140,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.07ef52d246a96a24c8b692201b4a59ad.json"
+  data-offline-search-index-json-src="../../../offline-search-index.903bb71fc4ace7d5fea55e60842f97f0.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -611,7 +611,7 @@ if (!doNotTrack) {
 </ol>
 <h2 id="deploy-applications">Deploy applications</h2>
 <p>To deploy applications in a custom namespace, create Argo CD applications that specify the Git repository path, which Argo CD requires to synchronize and deploy the applications in the specified namespace.</p>
-<p>This example provides information about how to deploy the <code>Hello-helidon</code> application. The <code>Hello-helidon</code> application and component YAML files are available at <a href="https://github.com/verrazzano/verrazzano/tree/master/examples/helidon-config">Hello World Helidon</a>.</p>
+<p>This example provides information about how to deploy the <code>Hello-helidon</code> application. The <code>Hello-helidon</code> application and component YAML files are available at <a href="https://github.com/verrazzano/verrazzano/blob/master/examples/helidon-config">Hello World Helidon</a>.</p>
 <ol>
 <li>Log in to the Argo CD console.</li>
 <li>Click <strong>New App</strong>.</li>
@@ -620,7 +620,7 @@ if (!doNotTrack) {
 <li>Select the required <strong>Sync Policy</strong> option:
 <ul>
 <li><code>Automatic</code> - By default, every three minutes, Argo CD checks the specified Git repository and synchronizes the updates in Kubernetes to the Git repository.</li>
-<li><code>Manual</code> - For manually synchronizing the updates to the Git repository, use the <strong>Sync</strong> option.</li>
+<li><code>Manual</code> - For manually synchronizing the updates to the Git repository, use the <strong>Manual</strong> option.</li>
 </ul>
 </li>
 <li>In the <strong>Sync Options</strong> section, select <strong>Auto-Create Namespace</strong>.</li>
@@ -634,11 +634,11 @@ if (!doNotTrack) {
 <li>Under the <strong>Destination</strong> section, do the following:
 <ul>
 <li><strong>Cluster URL</strong>: Select the cluster to which you want to deploy the applications.</li>
-<li><strong>Namespace</strong>: Specify the namespace in which you want to deploy the applications.</li>
+<li><strong>Namespace</strong>: Specify the namespace in which you want to deploy the applications. The instructions in this sample use <code>hello-helidon</code> as the namespace.</li>
 </ul>
 </li>
 <li>Click <strong>Create</strong>.</li>
-<li>If you selected <code>Manual</code> as the <strong>Sync Policy</strong> option, then click <strong>Sync</strong>.
+<li>If you selected <code>Manual</code> as the <strong>Sync Policy</strong> option, then click <strong>Sync</strong>. In the <strong>Synchronize Resources</strong> section, select all the resources, and then click <strong>Synchronize</strong>.
 <br> This creates the Argo CD application and a pictorial representation of the deployed applications is displayed.</li>
 </ol>
 <h2 id="verify-the-deployed-application">Verify the deployed application</h2>
@@ -648,13 +648,13 @@ if (!doNotTrack) {
 <ol>
 <li>
 <p>Get the generated host name for the application.</p>
-<pre tabindex="0"><code>$ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-hello-helidon-gw \
+<pre tabindex="0"><code>$ HOST=$(kubectl get gateways.networking.istio.io hello-helidon-helidon-config-appconf-gw \
      -n hello-helidon \
      -o jsonpath=&#39;{.spec.servers[0].hosts[0]}&#39;)
 $ echo $HOST
 
 # Sample output
-hello-helidon-appconf.hello-helidon.11.22.33.44.nip.io
+helidon-config-appconf.hello-helidon.11.22.33.44.nip.io
 </code></pre></li>
 <li>
 <p>Get the <code>EXTERNAL_IP</code> address of the <code>istio-ingressgateway</code> service.</p>
