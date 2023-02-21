@@ -5,8 +5,8 @@ weight: 3
 draft: false
 ---
 
-Rancher is recommended for Verrazzano multicluster installations. However, if Rancher is not installed, then registration requires you to perform a few additional steps.
-The following instructions show you how to register a managed cluster when Rancher is not installed with Verrazzano.
+Rancher is recommended for Verrazzano multicluster installations. However, if Rancher is not enabled on the _admin_ cluster, then registration requires you to perform a few additional steps.
+The following instructions show you how to register a managed cluster when Rancher is not enabled in Verrazzano.
 
 
 ## Prerequisites

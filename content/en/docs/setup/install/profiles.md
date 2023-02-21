@@ -15,7 +15,7 @@ The following table describes the Verrazzano installation profiles.
 | ------------- |:------------- |:-------------
 | `prod` | Full installation, production configuration. | Default profile:<br/>- Full installation.<br/>- Persistent storage. <br/>- Production OpenSearch cluster topology.
 | `dev` | Development or evaluation configuration. | Lightweight installation:<br/>- For evaluation purposes.<br/>- No persistence.<br/>- Single-node OpenSearch cluster topology.
-| `managed-cluster` | A specialized installation for managed clusters in a multicluster topology. | Minimal installation for a managed cluster:<br/>- Cluster must be registered with an admin cluster to use [multicluster]({{< relref "/docs/concepts/verrazzanomulticluster" >}}) features.
+| `managed-cluster` | A specialized installation for managed clusters in a multicluster topology. | Minimal installation for a managed cluster:<br/>- Clusters must be registered with an admin cluster to use [multicluster]({{< relref "/docs/concepts/verrazzanomulticluster" >}}) features.
 
 ## Use an installation profile
 
@@ -42,7 +42,7 @@ To use a different profile, replace `dev` with `prod` or `managed-cluster`.
 
 ## Customize an installation profile
 
-You can override the profile settings for any component regardless of the profile.  The following example
+Regardless of the profile, you can override the profile settings for any component. The following example
 uses a customized `dev` profile to configure a small 8 Gi persistent volume for the MySQL instance used by Keycloak to
 provide more stability for the Keycloak service.
 {{< clipboard >}}
@@ -77,8 +77,8 @@ For details on how to customize Verrazzano components, see [Customize an Install
 
 ## Profile configurations
 
-The following table lists the Verrazzano components that are installed with each profile.  Note that you can
-customize any Verrazzano installation, regardless of the profile.
+The following table lists the Verrazzano components that are enabled by default with each profile.  Note that you can
+customize any Verrazzano installation regardless of the profile.
 
 | Component               | dev | prod | managed-cluster |
 |-------------------------|:---:|:----:|:---------------:|
