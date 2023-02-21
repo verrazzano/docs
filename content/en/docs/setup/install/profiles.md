@@ -78,7 +78,7 @@ For details on how to customize Verrazzano components, see [Customize an Install
 ## Profile configurations
 
 The following table lists the Verrazzano components that are enabled by default with each profile.  Note that you can
-customize any Verrazzano installation, such as by enabling or disabling components explicitly, regardless of the profile.
+customize any Verrazzano installation regardless of the profile.
 
 | Component               | dev | prod | managed-cluster |
 |-------------------------|:---:|:----:|:---------------:|
