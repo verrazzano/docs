@@ -1,18 +1,18 @@
 ---
-title: "Modify Verrazzano Installation"
-description: "How to modify a Verrazzano Installation"
+title: "Modify Verrazzano Installations"
+description: "How to modify a Verrazzano installation"
 weight: 3
 draft: false
 ---
 
-The following instructions show you how to modify Verrazzano to add customizations to your installation.
+This document shows how you can modify Verrazzano to add customizations to your installation.
 
-## Verrazzano resource
+## Verrazzano custom resource
 
-The Verrazzano resource controls the installation of Verrazzano on a cluster.
-The lifecycle of this custom resource controls the lifecycle of Verrazzano.
-You are able to apply customizations to Verrazzano by modifying the spec of this resource.
-The following is an example of a Verrazzano resource without extra configurations.
+The Verrazzano custom resource controls the installation of Verrazzano in a cluster.
+The life cycle of this custom resource controls the life cycle of Verrazzano.
+You can apply customizations to Verrazzano by modifying the specification of this resource.
+The following is an example of a Verrazzano custom resource without extra configurations.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -29,14 +29,14 @@ spec:
 </div>
 {{< /clipboard >}}
 
-## Editing the Verrazzano resource
+## Edit the Verrazzano custom resource
 
-The following will demonstrate how to modify the Verrazzano custom resource.
+The following sections show you how to modify the Verrazzano custom resource.
 
 ### Pre-Installation
 
-Before you install Verrazzano, you can define a Verrazzano custom resource manifest that can be supplied at install time.
-The following is an example of a Verrazzano manifest that enables components that are disabled by default.
+Before you install Verrazzano, you can define a Verrazzano custom resource manifest file that can be supplied at installation time.
+The following is an example of a Verrazzano manifest file that enables two Verrazzano components, `argoCD` and `velero`, that are disabled by default.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -58,32 +58,32 @@ spec:
 </div>
 {{< /clipboard >}}
 
-You can save this manifest to a file and supply it to the Verrazzano CLI at install time.
+You can save this manifest file and supply it to the Verrazzano CLI at installation time.
 
 {{< clipboard >}}
 <div class="highlight">
 
 ```
-vz install -f verrazzano.yaml
+$ vz install -f verrazzano.yaml
 ```
 
 </div>
 {{< /clipboard >}}
 
-Refer to the [installation documentation]({{< relref "/docs/setup/install/installation.md" >}}) for detailed installation instructions.
+For detailed installation instructions, see the [Install Guide]({{< relref "/docs/setup/install/installation.md" >}}).
 
 ### Post-Installation
 
-You can modify the Verrazzano custom resource after it has been installed.
+Also, you can modify the Verrazzano custom resource _after_ it has been installed.
 Updates to the Verrazzano custom resource will be reflected in the cluster.
-You must locate the installed Verrazzano to be able to edit it in cluster.
-Verrazzano only allows for one custom resource to exist per cluster.
+You must get the name of the Verrazzano custom resource to be able to edit it in the cluster.
+Verrazzano allows only one custom resource to exist per cluster.
 
 {{< clipboard >}}
 <div class="highlight">
 
 ```
-kubectl get vz -A
+$ kubectl get vz -A
 ```
 ```
 # Sample output
@@ -94,16 +94,17 @@ default     example-verrazzano   24/24       InstallComplete   1.5.0
 </div>
 {{< /clipboard >}}
 
-Once you have the name of your Verrazzano resource, you can edit its manifest.
-The `kubectl edit` command allows you to directly edit any API resource on the cluster.
-Refer to the [kubectl edit documentation](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#edit) for more information on `kubectl edit`.
-The following example edits the Verrazzano resource found in the sample output.
+After you have the name of the Verrazzano custom resource, you can edit its manifest file.
+The `kubectl edit` command lets you directly edit any API resource on the cluster.
+for more information on `kubectl edit`, see the [kubectl edit documentation](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#edit).
+
+The following example edits the Verrazzano custom resource found in the previous sample output.
 
 {{< clipboard >}}
 <div class="highlight">
 
 ```
-kubectl edit vz example-verrazzano
+$ kubectl edit vz example-verrazzano
 ```
 
 </div>
@@ -112,15 +113,17 @@ kubectl edit vz example-verrazzano
 ## Customization options
 
 Verrazzano supplies a variety of customization options.
-Refer to [Customize Verrazzano]({{< relref "/docs/customize/_index.md" >}}) for or more detail on specific customization
-The following demonstrates a generic overview of the customization options available through the [Verrazzano API]({{< relref "/docs/reference/API/vpo-verrazzano-v1beta1.md" >}}).
+For details on specific customizations, see [Customize Verrazzano]({{< relref "/docs/customize/_index.md" >}}).
 
-### Component Features
+The following section illustrates a generic overview of the customization options available using the
+[Verrazzano Custom Resource Definition]({{< relref "/docs/reference/api/vpo-verrazzano-v1beta1" >}}).
+
+### Component features
 
 Each component has two main fields, `enabled` and `overrides`.
 
-- The `enabled` field allows you to selectively install components with the Verrazzano installation.
-- The `overrides` field allows you to supply custom value overrides to the underlying Helm charts for that component.
+- The `enabled` field lets you selectively install components with the Verrazzano installation.
+- The `overrides` field lets you supply custom value overrides to the underlying Helm charts for that component.
 
 The format of these fields is as follows.
 
