@@ -1,7 +1,7 @@
 ---
 title: "Install Multicluster Verrazzano"
 description: "How to set up a multicluster Verrazzano environment"
-weight: 3
+weight: 1
 draft: false
 ---
 
@@ -59,7 +59,7 @@ see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}
 
 ### Cluster label selection
 
-You can provide a label selector in the Verrazzano resource. The label selector is used to determine which clusters created in Rancher will be automatically registered by Verrazzano. If Argo CD is enabled on the admin cluster, all synchronized Rancher clusters also will be automatically registered in Argo CD.
+You can provide a label selector in the Verrazzano resource. The label selector is used to determine which clusters created in Rancher will be automatically registered by Verrazzano. If Argo CD is [enabled on the admin cluster]({{< relref "/docs/setup/install/mc-install/register-argocd#enable-argo-cd" >}}), all synchronized Rancher clusters also will be automatically registered in Argo CD.
 
 #### Verrazzano configuration for cluster label selection
 
@@ -104,7 +104,7 @@ These methods are interchangeable and synchronized, so you can use either one to
 - [Register using Rancher](#register-using-rancher)
 - [Register using VerrazzanoManagedCluster](#registration-through-vmc)
 
-If Rancher is not enabled, then refer to [Verrazzano multicluster installation without Rancher]({{< relref "docs/setup/install/multicluster-no-rancher.md" >}})
+If Rancher is not enabled, then refer to [Verrazzano multicluster installation without Rancher]({{< relref "docs/setup/install/mc-install/multicluster-no-rancher.md" >}})
 because additional steps will be required to register a managed cluster.
 
 ### Register using Rancher
@@ -284,7 +284,7 @@ In the Verrazzano UI on the admin cluster, you can view the following:
 
 ## Deregister a managed cluster
 
-**NOTE**: The following procedure is for a cluster in which Rancher is enabled on the admin cluster. If Rancher is not enabled, then additional steps will be required to deregister a managed cluster, see [Deregister a managed cluster without Rancher]({{< relref "docs/setup/install/multicluster-no-rancher.md#deregister-a-managed-cluster-without-rancher" >}}).
+**NOTE**: The following procedure is for a cluster in which Rancher is enabled on the admin cluster. If Rancher is not enabled, then additional steps will be required to deregister a managed cluster, see [Deregister a managed cluster without Rancher]({{< relref "docs/setup/install/mc-install/multicluster-no-rancher.md#deregister-a-managed-cluster-without-rancher" >}}).
 
 If you want to deregister a managed cluster because you no longer want it to be part of a Verrazzano multicluster
 environment, then  log in to the Rancher console and delete the managed cluster. To delete a cluster in Rancher, see

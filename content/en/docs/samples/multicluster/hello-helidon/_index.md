@@ -9,7 +9,7 @@ The Hello World Helidon example is a Helidon-based service that returns a "Hello
 
 ## Before you begin
 
-Create a multicluster Verrazzano installation with one admin and one managed cluster, and register the managed cluster, by following the instructions [here]({{< relref "/docs/setup/install/multicluster.md" >}}).
+Create a multicluster Verrazzano installation with one admin and one managed cluster, and register the managed cluster, by following the instructions [here]({{< relref "/docs/setup/install/mc-install/multicluster.md" >}}).
 
 Set up the following environment variables to point to the kubeconfig file for the admin and managed clusters.
 {{< clipboard >}}
@@ -188,7 +188,7 @@ By default, the application is located on the managed cluster called `managed1`.
 {{< /clipboard >}}
 
    **Note:** If you are returning the application to the managed cluster, then instead, wait for the application to be
-   ready on the managed cluster. 
+   ready on the managed cluster.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -261,4 +261,3 @@ Undeploy affects all clusters in which the application is located.
 
 </div>
 {{< /clipboard >}}
-
