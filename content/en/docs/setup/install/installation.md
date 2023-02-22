@@ -47,7 +47,7 @@ This document shows how to create a basic Verrazzano installation using:
 
 **NOTE**: Because the `dev` profile installs self-signed certificates, when installing Verrazzano on macOS, you might see: **Your connection is not private**. For a workaround, see this [FAQ]({{< relref "/docs/faq/_index.md#enable-google-chrome-to-accept-self-signed-verrazzano-certificates" >}}).
 
-For an overview of how to configure Verrazzano, see [Modify Verrazzano Installations]({{< relref "/docs/setup/install/customize-installation.md" >}}).
+For an overview of how to configure Verrazzano, see [Modify Verrazzano Installations]({{< relref "/docs/setup/install/modify-installation.md" >}}).
 For a complete description of Verrazzano configuration options, see the
 [Verrazzano Custom Resource Definition]({{< relref "/docs/reference/api/vpo-verrazzano-v1beta1" >}}).
 
