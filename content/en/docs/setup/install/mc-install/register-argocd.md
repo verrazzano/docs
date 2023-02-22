@@ -1,9 +1,11 @@
 ---
-title: "Register Argo CD"
+title: "Register Argo CD in a Multicluster Verrazzano Environment"
 description: "How to register Argo CD in a multicluster Verrazzano environment"
 weight: 2
 draft: false
 ---
+
+In a multicluster Verrazzano environment, Argo CD integration depends on Rancher being enabled on the admin cluster. Argo CD uses Rancher to register Argo CD clusters and to contact managed clusters to deploy applications. By registering a managed cluster with Argo CD, once you set up a new application in the Argo CD console, registered clusters will be available in the console and you can select to deploy the applications to that registered cluster.
 
 ## Prerequisites
 
@@ -13,7 +15,9 @@ draft: false
 ### Enable Argo CD
 
 To use Argo CD in a multicluster Verrazzano environment, you must first enable it on the admin cluster.
+
 Argo CD is _not_ enabled by default, use the following example to enable it using the `dev` installation profile.
+
 {{< clipboard >}}
 <div class="highlight">
 
@@ -33,10 +37,6 @@ EOF
 </div>
 {{< /clipboard >}}
 
-
-## Overview
-
-In a multicluster Verrazzano environment, Argo CD integration depends on Rancher being set up. If Rancher is _enabled_, Rancher will be installed before Argo CD and the Argo CD cluster registration will be successful. If Rancher is _disabled_, Argo CD will be installed, however, the Argo CD cluster registration will not be complete until Rancher is installed.
 
 ## Refresh the Rancher API token
 
