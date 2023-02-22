@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/install/multicluster/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-02-21T15:26:08-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-02-22T10:42:57+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Install Multicluster Verrazzano">
 <meta itemprop="description" content="How to set up a multicluster Verrazzano environment">
-<meta itemprop="dateModified" content="2023-02-21T15:26:08-05:00" />
-<meta itemprop="wordCount" content="3009">
+<meta itemprop="dateModified" content="2023-02-22T10:42:57+05:30" />
+<meta itemprop="wordCount" content="3068">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Install Multicluster Verrazzano"/>
 <meta name="twitter:description" content="How to set up a multicluster Verrazzano environment"/>
@@ -118,7 +118,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.06236f806cc751a2359f9d38b8ae1856.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.bd0b816bd4ffccf59d74472c93a37f4a.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -140,7 +140,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.06236f806cc751a2359f9d38b8ae1856.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.bd0b816bd4ffccf59d74472c93a37f4a.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -394,6 +394,8 @@ if (!doNotTrack) {
   <a href="../../../../docs/troubleshooting/diagnostictools/analysisadvice/istioingressgatewaynoloadbalancerip/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsanalysisadviceistioingressgatewaynoloadbalancerip"><span class="">Istio Ingress Gateway No External IP</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingdiagnostictoolsanalysisadviceistioloadbalancercreationissue-li">
   <a href="../../../../docs/troubleshooting/diagnostictools/analysisadvice/istioloadbalancercreationissue/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsanalysisadviceistioloadbalancercreationissue"><span class="">Istio Ingress Load Balancer Creation Issue</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingdiagnostictoolsanalysisadvicekeycloakdatamigrationfailure-li">
+  <a href="../../../../docs/troubleshooting/diagnostictools/analysisadvice/keycloakdatamigrationfailure/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsanalysisadvicekeycloakdatamigrationfailure"><span class="">Keycloak Data Migration Failure</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingdiagnostictoolsanalysisadvicenginxloadbalancercreationissue-li">
   <a href="../../../../docs/troubleshooting/diagnostictools/analysisadvice/nginxloadbalancercreationissue/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docstroubleshootingdiagnostictoolsanalysisadvicenginxloadbalancercreationissue"><span class="">NGINX Ingress Controller Load Balancer Creation Issue</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docstroubleshootingdiagnostictoolsanalysisadvicependingpods-li">
@@ -716,8 +718,7 @@ $ export KUBECONTEXT_MANAGED1=&lt;managed-cluster-context-name&gt;
 <p>For detailed instructions on how to install and customize Verrazzano on a Kubernetes cluster using a specific profile,
 see the <a href="../../../../docs/setup/install/installation/">Installation Guide</a> and <a href="../../../../docs/setup/install/profiles/">Installation Profiles</a>.</p>
 <h3 id="cluster-label-selection">Cluster label selection</h3>
-<p>You can provide a label selector in the Verrazzano resource.
-The label selector is used to determine which clusters created in Rancher will be automatically registered by Verrazzano.</p>
+<p>You can provide a label selector in the Verrazzano resource. The label selector is used to determine which clusters created in Rancher will be automatically registered by Verrazzano. If Argo CD is enabled on the admin cluster, all synchronized Rancher clusters also will be automatically registered in Argo CD.</p>
 <h4 id="verrazzano-configuration-for-cluster-label-selection">Verrazzano configuration for cluster label selection</h4>
 <p>The following illustrates an admin cluster Verrazzano resource that has been configured to support cluster label selection.
 <style type="text/css">
@@ -850,7 +851,7 @@ These methods are interchangeable and synchronized, so you can use either one to
 because additional steps will be required to register a managed cluster.</p>
 <h3 id="register-using-rancher">Register using Rancher</h3>
 <p>To register a cluster using Rancher, see <a href="https://ranchermanager.docs.rancher.com/v2.6/pages-for-subheaders/kubernetes-clusters-in-rancher-setup">Setting up Kubernetes Clusters in Rancher</a>.
-Verrazzano will manage all clusters whose labels match the <a href="#cluster-label-selection">cluster label selector</a>.</p>
+Verrazzano will manage all clusters whose labels match the <a href="#cluster-label-selection">cluster label selector</a>, including Argo CD, if it is enabled on the admin cluster.</p>
 <h3 id="register-using-verrazzanomanagedcluster">Register using VerrazzanoManagedCluster</h3>
 <ol>
 <li>
@@ -1502,9 +1503,9 @@ $ curl -k --user verrazzano:${VZPASS} -X POST -H &#39;kbn-xsrf: true&#39; &#34;$
 environment, then  log in to the Rancher console and delete the managed cluster. To delete a cluster in Rancher, see
 <a href="https://ranchermanager.docs.rancher.com/v2.6/faq/rancher-is-no-longer-needed#what-if-i-dont-want-my-registered-cluster-managed-by-rancher">What if I don&rsquo;t want my registered cluster managed by Rancher?</a>
 This will result in the cluster being deregistered from Verrazzano. The associated <code>VerrazzanoManagedCluster</code> resource
-will be automatically deleted.</p>
+will be automatically deleted, and, if present, then the Argo CD registration of the managed cluster will also be removed.</p>
 <p>Alternatively, you can deregister a managed cluster by deleting the <code>VerrazzanoManagedCluster</code> resource. This will result
-in the automatic cleanup of the Rancher cluster.
+in the automatic cleanup of the Rancher cluster, as well as the Argo CD registration, if it is present.
 <style type="text/css">
     code {
         margin: 0;

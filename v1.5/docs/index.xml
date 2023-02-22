@@ -4984,116 +4984,9 @@ spec:
         &lt;p&gt;Argo CD is a Kubernetes deployment tool that uses Git repositories as the source of truth. It monitors running applications and compares the deployed state against the desired one in Git. Argo CD lets you visualize the differences and provides methods to automatically or manually update the live state with the desired target state. For more information, see the &lt;a href=&#34;https://argo-cd.readthedocs.io/en/stable/&#34;&gt;Argo CD documentation&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Install Verrazzano by following the &lt;a href=&#34;../docs/setup/install/installation/&#34;&gt;installation&lt;/a&gt; instructions.
-&lt;br&gt;&lt;br&gt;
-&lt;strong&gt;NOTE&lt;/strong&gt;: Because Argo CD is &lt;em&gt;not&lt;/em&gt; enabled by default, use the following example to enable it using the &lt;code&gt;dev&lt;/code&gt; installation profile.
-&lt;br&gt;
-&lt;style type=&#34;text/css&#34;&gt;
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-&lt;/style&gt;
-
-&lt;div class=&#34;clipboard&#34;&gt;
-    &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ vz install -f - &amp;lt;&amp;lt;EOF
-  apiVersion: install.verrazzano.io/v1beta1
-  kind: Verrazzano
-  metadata:
-    name: example-verrazzano
-  spec:
-    profile: dev
-    components:    
-      argoCD:
-        enabled: true
-EOF
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;/div&gt;
-
-&lt;script&gt;
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement(&#34;button&#34;);
-        button.innerText = &#34;Copy&#34;;
-        button.className = &#34;copy-code-button&#34;;
-        button.addEventListener(&#34;click&#34;, () =&gt;
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement(&#34;div&#34;);
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(&#34;:last-child &gt; code, pre&#34;).innerText;
-        
-        let codeBlock = codeToCopy.split(&#34;\n&#34;);
-        let expectedLine = codeBlock.findIndex(line =&gt; line.toLowerCase().startsWith(&#34;# expected response&#34;) || line.toLowerCase().startsWith(&#34;# sample output&#34;));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join(&#34;\n&#34;);
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, &#39;&#39;).trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, &#39;&#39;).trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,&#39;\n&#39;);
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement(&#39;textarea&#39;);
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand(&#39;copy&#39;);
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = &#34;Copied&#34;;
-        setTimeout(function () {
-            button.innerText = &#34;Copy&#34;;
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(&#34;.highlight&#34;)
-        .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Access the Argo CD console using the instructions at &lt;a href=&#34;../docs/access/#the-argo-cd-console&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/p&gt;
-&lt;/li&gt;
+&lt;li&gt;Install Verrazzano by following the &lt;a href=&#34;../docs/setup/install/installation/&#34;&gt;installation&lt;/a&gt; instructions.&lt;/li&gt;
+&lt;li&gt;Enable Argo CD.&lt;/li&gt;
+&lt;li&gt;Access the Argo CD console using the instructions at &lt;a href=&#34;../docs/access/#the-argo-cd-console&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;configure-repositories&#34;&gt;Configure repositories&lt;/h2&gt;
 &lt;p&gt;In the Argo CD console, configure repositories that will contain the Kubernetes resources for deploying an application.&lt;/p&gt;
@@ -7156,13 +7049,13 @@ Make sure that you have a valid kubeconfig file pointing to the Kubernetes clust
 		
 
 		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-badefc&#34; data-toggle=&#34;tab&#34; href=&#34;#badefc&#34;
+		   id=&#34;nav-aebdfc&#34; data-toggle=&#34;tab&#34; href=&#34;#aebdfc&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;vz&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-cbdfae&#34; data-toggle=&#34;tab&#34; href=&#34;#cbdfae&#34;
+		   id=&#34;nav-cbdafe&#34; data-toggle=&#34;tab&#34; href=&#34;#cbdafe&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;kubectl&lt;/a&gt;
 
 		
@@ -7178,7 +7071,7 @@ Make sure that you have a valid kubeconfig file pointing to the Kubernetes clust
 
 
 
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;badefc&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;aebdfc&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;Verrazzano provides a platform &lt;a href=&#34;https://kubernetes.io/docs/concepts/extend-kubernetes/operator/&#34;&gt;operator&lt;/a&gt;
@@ -7324,7 +7217,7 @@ or until the default timeout (30m) has been reached.&lt;/li&gt;
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;cbdfae&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;cbdafe&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;h2 id=&#34;install-the-verrazzano-platform-operator&#34;&gt;Install the Verrazzano platform operator&lt;/h2&gt;
@@ -11250,7 +11143,7 @@ specified backup, and any additional data since that backup will be destroyed by
 &lt;li&gt;
 &lt;p&gt;To perform an Argo CD restore operation, you can invoke the following example Velero &lt;code&gt;Restore&lt;/code&gt; &lt;a href=&#34;https://velero.io/docs/v1.8/api-types/restore/&#34;&gt;API&lt;/a&gt; object.
 &lt;br&gt;&lt;br&gt;
-&lt;strong&gt;NOTE:&lt;/strong&gt; For ArgoCD, &lt;code&gt;includedNamespaces&lt;/code&gt; should list all the namespaces across which the applications are deployed.
+&lt;strong&gt;NOTE:&lt;/strong&gt; For Argo CD, &lt;code&gt;includedNamespaces&lt;/code&gt; should list all the namespaces across which the applications are deployed.
 &lt;br&gt;
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -31368,19 +31261,19 @@ Verrazzano will create &lt;code&gt;sales.us.example.com&lt;/code&gt; as the DNS 
 		
 
 		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-cabefd&#34; data-toggle=&#34;tab&#34; href=&#34;#cabefd&#34;
+		   id=&#34;nav-feabdc&#34; data-toggle=&#34;tab&#34; href=&#34;#feabdc&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;WildcardDNS&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-fceadb&#34; data-toggle=&#34;tab&#34; href=&#34;#fceadb&#34;
+		   id=&#34;nav-bedafc&#34; data-toggle=&#34;tab&#34; href=&#34;#bedafc&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;OracleCloudInfrastructureDNS&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-dabcfe&#34; data-toggle=&#34;tab&#34; href=&#34;#dabcfe&#34;
+		   id=&#34;nav-dabfec&#34; data-toggle=&#34;tab&#34; href=&#34;#dabfec&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;CustomDNS&lt;/a&gt;
 
 		
@@ -31396,7 +31289,7 @@ Verrazzano will create &lt;code&gt;sales.us.example.com&lt;/code&gt; as the DNS 
 
 
 
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;cabefd&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;feabdc&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;Verrazzano can be configured to use either the &lt;a href=&#34;https://nip.io/&#34;&gt;nip.io&lt;/a&gt; or &lt;a href=&#34;https://sslip.io&#34;&gt;sslip.io&lt;/a&gt; free wildcard DNS services.
@@ -31603,7 +31496,7 @@ spec:
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;fceadb&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;bedafc&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;Verrazzano can directly manage records in &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm&#34;&gt;Oracle Oracle Cloud Infrastructure DNS&lt;/a&gt;
@@ -33075,7 +32968,7 @@ spec:
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;dabcfe&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;dabfec&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;You can specify your own externally managed, custom DNS domain.  In this scenario, you manage your own DNS
@@ -33352,8 +33245,7 @@ $ export KUBECONTEXT_MANAGED1=&amp;lt;managed-cluster-context-name&amp;gt;
 &lt;p&gt;For detailed instructions on how to install and customize Verrazzano on a Kubernetes cluster using a specific profile,
 see the &lt;a href=&#34;../docs/setup/install/installation/&#34;&gt;Installation Guide&lt;/a&gt; and &lt;a href=&#34;../docs/setup/install/profiles/&#34;&gt;Installation Profiles&lt;/a&gt;.&lt;/p&gt;
 &lt;h3 id=&#34;cluster-label-selection&#34;&gt;Cluster label selection&lt;/h3&gt;
-&lt;p&gt;You can provide a label selector in the Verrazzano resource.
-The label selector is used to determine which clusters created in Rancher will be automatically registered by Verrazzano.&lt;/p&gt;
+&lt;p&gt;You can provide a label selector in the Verrazzano resource. The label selector is used to determine which clusters created in Rancher will be automatically registered by Verrazzano. If Argo CD is enabled on the admin cluster, all synchronized Rancher clusters also will be automatically registered in Argo CD.&lt;/p&gt;
 &lt;h4 id=&#34;verrazzano-configuration-for-cluster-label-selection&#34;&gt;Verrazzano configuration for cluster label selection&lt;/h4&gt;
 &lt;p&gt;The following illustrates an admin cluster Verrazzano resource that has been configured to support cluster label selection.
 &lt;style type=&#34;text/css&#34;&gt;
@@ -33486,7 +33378,7 @@ These methods are interchangeable and synchronized, so you can use either one to
 because additional steps will be required to register a managed cluster.&lt;/p&gt;
 &lt;h3 id=&#34;register-using-rancher&#34;&gt;Register using Rancher&lt;/h3&gt;
 &lt;p&gt;To register a cluster using Rancher, see &lt;a href=&#34;https://ranchermanager.docs.rancher.com/v2.6/pages-for-subheaders/kubernetes-clusters-in-rancher-setup&#34;&gt;Setting up Kubernetes Clusters in Rancher&lt;/a&gt;.
-Verrazzano will manage all clusters whose labels match the &lt;a href=&#34;#cluster-label-selection&#34;&gt;cluster label selector&lt;/a&gt;.&lt;/p&gt;
+Verrazzano will manage all clusters whose labels match the &lt;a href=&#34;#cluster-label-selection&#34;&gt;cluster label selector&lt;/a&gt;, including Argo CD, if it is enabled on the admin cluster.&lt;/p&gt;
 &lt;h3 id=&#34;register-using-verrazzanomanagedcluster&#34;&gt;Register using VerrazzanoManagedCluster&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;
@@ -34138,9 +34030,9 @@ $ curl -k --user verrazzano:${VZPASS} -X POST -H &amp;#39;kbn-xsrf: true&amp;#39
 environment, then  log in to the Rancher console and delete the managed cluster. To delete a cluster in Rancher, see
 &lt;a href=&#34;https://ranchermanager.docs.rancher.com/v2.6/faq/rancher-is-no-longer-needed#what-if-i-dont-want-my-registered-cluster-managed-by-rancher&#34;&gt;What if I don&amp;rsquo;t want my registered cluster managed by Rancher?&lt;/a&gt;
 This will result in the cluster being deregistered from Verrazzano. The associated &lt;code&gt;VerrazzanoManagedCluster&lt;/code&gt; resource
-will be automatically deleted.&lt;/p&gt;
+will be automatically deleted, and, if present, then the Argo CD registration of the managed cluster will also be removed.&lt;/p&gt;
 &lt;p&gt;Alternatively, you can deregister a managed cluster by deleting the &lt;code&gt;VerrazzanoManagedCluster&lt;/code&gt; resource. This will result
-in the automatic cleanup of the Rancher cluster.
+in the automatic cleanup of the Rancher cluster, as well as the Argo CD registration, if it is present.
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -37257,7 +37149,7 @@ NGINX Ingress Controller.&lt;/p&gt;
 &lt;p&gt;The following lists the Verrazzano system components which are accessed through the NGINX Ingress Controller
 from a client external to the cluster:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Argo CD&lt;/li&gt;
+&lt;li&gt;argoCD&lt;/li&gt;
 &lt;li&gt;OpenSearch&lt;/li&gt;
 &lt;li&gt;Keycloak&lt;/li&gt;
 &lt;li&gt;OpenSearch Dashboards&lt;/li&gt;
@@ -37280,7 +37172,7 @@ outside the cluster.&lt;/p&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td&gt;ArgoCD&lt;/td&gt;
+&lt;td&gt;argoCD&lt;/td&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;Git webhooks (GitHub, GitLab, Bitbucket)&lt;/td&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;Argo CD connection to Git webhooks for connecting to Git repositories.&lt;/td&gt;
 &lt;/tr&gt;
@@ -37342,7 +37234,7 @@ OpenSearch Pods.&lt;/li&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td&gt;Argo CD&lt;/td&gt;
+&lt;td&gt;argoCD&lt;/td&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;Kubernetes API server&lt;/td&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;Performs CRUD operations on Kubernetes resources.&lt;/td&gt;
 &lt;/tr&gt;
@@ -37434,16 +37326,12 @@ OpenSearch Pods.&lt;/li&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;argoCD&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy metrics&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;cadvisor&lt;/td&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;Kubernetes metrics&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Argo CD&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Envoy metrics&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;OpenSearch&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Envoy metrics&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;Grafana&lt;/td&gt;
@@ -37470,10 +37358,6 @@ OpenSearch Pods.&lt;/li&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;Envoy metrics&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;OpenSearch Dashboards&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Envoy metrics&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;MySQL&lt;/td&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;Envoy metrics&lt;/td&gt;
 &lt;/tr&gt;
@@ -37492,6 +37376,14 @@ OpenSearch Pods.&lt;/li&gt;
 &lt;tr&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;Node exporter&lt;/td&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;Node metrics&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;OpenSearch&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy metrics&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;OpenSearch Dashboards&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Envoy metrics&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;Prometheus&lt;/td&gt;
@@ -38039,10 +37931,10 @@ All of these requests go through the NGINX Ingress Controller on the respective 
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Admin&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Argo CD&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;argoCD&lt;/td&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;Managed&lt;/td&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;Rancher Proxy&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;ArgoCD connects to the Rancher proxy for creating resources required for the Argo CD managed cluster registration.&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Argo CD connects to the Rancher proxy for creating resources required for the Argo CD managed cluster registration.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Admin&lt;/td&gt;
@@ -39006,13 +38898,13 @@ See the following respective sections.&lt;/p&gt;
 		
 
 		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-abedcf&#34; data-toggle=&#34;tab&#34; href=&#34;#abedcf&#34;
+		   id=&#34;nav-bedafc&#34; data-toggle=&#34;tab&#34; href=&#34;#bedafc&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;vz&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-afebdc&#34; data-toggle=&#34;tab&#34; href=&#34;#afebdc&#34;
+		   id=&#34;nav-adbefc&#34; data-toggle=&#34;tab&#34; href=&#34;#adbefc&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;kubectl&lt;/a&gt;
 
 		
@@ -39028,7 +38920,7 @@ See the following respective sections.&lt;/p&gt;
 
 
 
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;abedcf&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;bedafc&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;ol&gt;
@@ -39229,7 +39121,7 @@ The uninstall logs from the Verrazzano platform operator will be streamed to the
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;afebdc&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;adbefc&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;To delete a Verrazzano installation, delete the Verrazzano custom resource you used to
