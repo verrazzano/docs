@@ -38,7 +38,7 @@ EOF
 {{< /clipboard >}}
 
 
-## Refresh the Rancher API token
+## Override the Argo CD TTL
 
 By default, the Argo CD token's TTL is set to 240 minutes. If you want to modify it, you can update the configurable `ARGOCD_CLUSTER_TOKEN_TTL` token's `argoCDClusterTokenTTL` value. The following example show you how to override the Argo CD token's TTL to 600 minutes.
 
