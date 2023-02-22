@@ -568,9 +568,9 @@ spec:
 ```
 {{< /clipboard >}}
 There are three ways to define a plug-in in the `plugins.installList`:
-- [Define a plug-in by name](https://opensearch.org/docs/2.3/install-and-configure/plugins#install-a-plugin-by-name):
+- [Define a plug-in by name]({{<opensearch_docs_url>}}/install-and-configure/plugins#install-a-plugin-by-name):
 
-  There are some pre-built [additional plug-ins](https://opensearch.org/docs/2.3/install-and-configure/plugins#additional-plugins) that are the only plugins you can install by name.
+  There are some pre-built [additional plug-ins]({{<opensearch_docs_url>}}/install-and-configure/plugins#additional-plugins) that are the only plugins you can install by name.
   {{< clipboard >}}
 
   ```yaml
@@ -578,7 +578,7 @@ There are three ways to define a plug-in in the `plugins.installList`:
           - analysis-icu
   ```
   {{< /clipboard >}}
-- [Define a plug-in from a remote ZIP file](https://opensearch.org/docs/2.3/install-and-configure/plugins#install-a-plugin-from-a-zip-file):
+- [Define a plug-in from a remote ZIP file]({{<opensearch_docs_url>}}/install-and-configure/plugins#install-a-plugin-from-a-zip-file):
 
   Provide the URL to a remote ZIP file that contains the required plug-in.
   {{< clipboard >}}
@@ -588,7 +588,7 @@ There are three ways to define a plug-in in the `plugins.installList`:
           - https://repo1.maven.org/maven2/org/opensearch/plugin/opensearch-anomaly-detection/2.2.0.0/opensearch-anomaly-detection-2.2.0.0.zip
   ```
   {{< /clipboard >}}
-- [Define a plug-in using Maven coordinates](https://opensearch.org/docs/2.3/install-and-configure/plugins#install-a-plugin-using-maven-coordinates):
+- [Define a plug-in using Maven coordinates]({{<opensearch_docs_url>}}/install-and-configure/plugins#install-a-plugin-using-maven-coordinates):
 
   Provide the Maven coordinates for the available artifacts and versions hosted on [Maven Central](https://search.maven.org/search?q=org.opensearch.plugin).
   {{< clipboard >}}
