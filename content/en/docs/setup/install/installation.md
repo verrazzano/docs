@@ -50,6 +50,8 @@ This document shows how to create a basic Verrazzano installation using:
 For a complete description of Verrazzano configuration options, see the
 [Verrazzano Custom Resource Definition]({{< relref "/docs/reference/api/vpo-verrazzano-v1beta1" >}}).
 
+for an overview of customization options, see [Modify Verrazzano Installation]({{< relref "/docs/setup/install/customize-installation.md" >}}).
+
 To use other DNS options, see [Customizing DNS]({{< relref "/docs/customize/dns" >}}) for more details.
 
 #### Install Verrazzano
