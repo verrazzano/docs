@@ -5,7 +5,7 @@ weight: 2
 draft: false
 ---
 
-In a multicluster Verrazzano environment, Argo CD integration depends on Rancher being enabled on the admin cluster. Argo CD connects to the Rancher proxy to create the required resources for an Argo CD cluster registration. By registering managed clusters with Argo CD, after you set up an application in the Argo CD console, those registered clusters will be available for you to select, deploy, and manage applications.
+In a multicluster Verrazzano environment, Argo CD integration depends on Rancher being enabled on the admin cluster. Argo CD connects to the Rancher proxy to create the required resources for Argo CD cluster registration. By registering managed clusters with Argo CD, after you set up an application in the Argo CD console, those registered clusters will be available for you to select, deploy, and manage applications.
 
 ## Prerequisites
 
