@@ -246,6 +246,33 @@ Containers:
 </div>
 {{< /clipboard >}}
 
+## Default ISM policies
+To help you manage issues, such as low disk space, the following two ISM policies are created by default:
+- `vz-system`: Manages the data in the Verrazzano system indices.
+
+![vz-system](/docs/images/vz-system-ism-policy.png)
+- `vz-application`: Manages the data in the application-related indices having the pattern, `verrazzano-application*`.
+
+  ![vz-application](/docs/images/vz-application-ism-policy.png)
+
+Both ISM policies have three states:
+- **Hot**: This is the default state. If the primary shard size is greater than the defined size (5 GB for `vz-system` and 1 GB for `vz-application`) or the index age is greater than the defined number of days (30 days for `vz-system` and 7 days for `vz-application`), then the index will be rolled over.
+- **Cold**:  In this state, the index will be closed if the index age is greater than the defined number of days (30 days for `vz-system` and 7 days for `vz-application`). A closed index is blocked for read or write operations and does not allow any operations that the opened indices allow.
+- **Delete**: In this state, the index will be deleted if the index age is greater than the defined number of days (35 days for `vz-system` and 12 days for `vz-application`).
+
+These index patterns specified in default ISM policies are immutable. Changes to these index patterns in the default ISM policies will be lost because Verrazzano will reconcile and replace them with the defaults.
+
+
+## Override default ISM policies
+The `vz-system` and `vz-application` policies are immutable and any change to these policies will be reverted immediately. However, the following two methods will override this behavior:
+- **Disable default policies**: You can disable the use of these default policies by setting the flag [spec.components.opensearch.disableDefaultPolicy](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) to `true` in the Verrazzano CR. This will delete the default ISM policies.
+- **Override default policies**: Both these default policies have a zero (`0`) priority. You can override the default policies by creating policies with `policy.ism_template.priority` greater than `0`.
+
+{{< alert title="NOTE" color="warning" >}}
+- Avoid creating policies with policy IDs `vz-system` or `vz-application`. In the Verrazzano CR, by default, policies that are created with these names will be overridden with the ISM policies, if the flag [spec.components.opensearch.disableDefaultPolicy](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) is set to `false`.
+- The default policy will be applied only to the newly created indices. To manually attach the new policies to the older indices, see [Step 2: Attach policies to indexes](https://opensearch.org/docs/latest/im-plugin/ism/index/#step-2-attach-policies-to-indexes).
+  {{< /alert >}}
+
 ## Configure Index State Management policies
 
 [Index State Management]({{<opensearch_docs_url>}}/im-plugin/ism/index/) (ISM) policies configure OpenSearch to manage the data in your indices.
@@ -280,7 +307,7 @@ spec:
           rollover:
             minIndexAge: 3d
             minDocCount: 1000
-            minSize: 10Gb
+            minSize: 10gb
 ```
 {{< /clipboard >}}
 The previous Verrazzano custom resource will generate the following ISM policy.
@@ -421,33 +448,6 @@ $ curl -ik \
 ```
 {{< /clipboard >}}
 
-## Default ISM policies
-To help you manage issues, such as low disk space, the following two ISM policies are created by default:
-- `vz-system`: Manages the data in the Verrazzano system indices.
-
-   ![vz-system](/docs/images/vz-system-ism-policy.png)
-- `vz-application`: Manages the data in the application-related indices having the pattern, `verrazzano-application*`.
-
-  ![vz-application](/docs/images/vz-application-ism-policy.png)
-
-Both ISM policies have three states:
-- **Hot**: This is the default state. If the primary shard size is greater than the defined size (5 GB for `vz-system` and 1 GB for `vz-application`) or the index age is greater than the defined number of days (30 days for `vz-system` and 7 days for `vz-application`), then the index will be rolled over.
-- **Cold**:  In this state, the index will be closed if the index age is greater than the defined number of days (30 days for `vz-system` and 7 days for `vz-application`). A closed index is blocked for read or write operations and does not allow any operations that the opened indices allow.
-- **Delete**: In this state, the index will be deleted if the index age is greater than the defined number of days (35 days for `vz-system` and 12 days for `vz-application`).
-
-## Override default ISM policies
-The `vz-system` and `vz-application` policies are immutable and any change to these policies will be reverted immediately. However, the following two methods will override this behavior:
-- **Disable default policies**: You can disable the use of these default policies by setting the flag [spec.components.opensearch.disableDefaultPolicy](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) to `true` in the Verrazzano CR. This will delete the default ISM policies.
-- **Override default policies**: Both these default policies have a zero (`0`) priority. You can override the default policies by creating policies with `policy.ism_template.priority` greater than `0`.
-
-{{< alert title="NOTE" color="warning" >}}
-- Avoid creating policies with policy IDs `vz-system` or `vz-application`. In the Verrazzano CR, by default, policies that are created with these names will be overridden with the ISM policies, if the flag [spec.components.opensearch.disableDefaultPolicy](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) is set to `false`.
-- The default policy will be applied only to the newly created indices. To manually attach the new policies to the older indices, see [Step 2: Attach policies to indexes](https://opensearch.org/docs/latest/im-plugin/ism/index/#step-2-attach-policies-to-indexes).
-{{< /alert >}}
-
-## Default index patterns
-The default index patterns, `verrazzano-system` and `verrazzano-application*`, are created by Verrazzano. These index patterns are immutable. Changes to these index patterns will be lost because Verrazzano will reconcile and replace them with the default ISM policies.
-
 ## Override default number of shards and replicas
 
 Verrazzano provides a default index template, `verrazzano-data-stream`. In initial Verrazzano v1.5 installations (not upgrades), the default index template creates one shard and one replica for each index. (In previous and upgrade installations, it creates five shards and one replica.) You can override the default number of shards or replicas by overriding the default index template.
@@ -570,7 +570,19 @@ spec:
 There are three ways to define a plug-in in the `plugins.installList`:
 - [Define a plug-in by name]({{<opensearch_docs_url>}}/install-and-configure/plugins#install-a-plugin-by-name):
 
-  There are some pre-built [additional plug-ins]({{<opensearch_docs_url>}}/install-and-configure/plugins#additional-plugins) that are the only plugins you can install by name.
+  These are some pre-built plugins that are the only plugins you can install by name.
+- analysis-icu
+- analysis-kuromoji 
+- analysis-phonetic 
+- analysis-smartcn 
+- ingest-attachment 
+- mapper-murmur3 
+- mapper-size 
+- opensearch-index-management 
+- opensearch-job-scheduler 
+- prometheus-exporter 
+- repository-s3
+
   {{< clipboard >}}
 
   ```yaml
@@ -598,9 +610,9 @@ There are three ways to define a plug-in in the `plugins.installList`:
   ```
   {{< /clipboard >}}
 {{< alert title="NOTE" color="warning" >}}
- - Your environment must be able to connect to the Internet to access the provided plug-in URL or [Maven Central](https://search.maven.org/search?q=org.opensearch.plugin) to install the plug-in. If there is any error during plug-in installation, then the OS pods (one per deployment) will go into the CrashLoopBackOff state. Check the logs for the exact reason of the failure. In the case of an Internet issue, you might see SocketException or UnknownHostException exceptions in the logs. To resolve this issue, make sure that the pods are connected to the Internet.
- - Adding a new plug-in in the `plugins.installList` or removing a plug-in from the `plugins.installList` will result in restarting the OpenSearch related pods.
- - To be compatible, major, minor, and patch plug-in versions must match OpenSearch major, minor, and patch versions. For example, plug-ins versions 2.3.0.x are compatible only with OpenSearch version 2.3.0.
+- Your environment must be able to connect to the Internet to access the provided plug-in URL or [Maven Central](https://search.maven.org/search?q=org.opensearch.plugin) to install the plug-in. If there is any error during plug-in installation, then the OS pods (one per deployment) will go into the CrashLoopBackOff state. Check the logs for the exact reason of the failure. In the case of an Internet issue, you might see SocketException or UnknownHostException exceptions in the logs. To resolve this issue, make sure that the pods are connected to the Internet.
+- Adding a new plug-in in the `plugins.installList` or removing a plug-in from the `plugins.installList` will result in restarting the OpenSearch related pods.
+- To be compatible, major, minor, and patch plug-in versions must match OpenSearch major, minor, and patch versions. For example, plug-ins versions 2.3.0.x are compatible only with OpenSearch version 2.3.0.
 {{< /alert >}}
 
 For OpenSearch Dashboard, you can provide the plug-ins by defining the field [spec.components.opensearch-dashboards.plugins](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.v1beta1.OpenSearchDashboardsComponent) in the Verrazzano custom resource.
