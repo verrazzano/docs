@@ -267,7 +267,7 @@ The `vz-system` and `vz-application` policies are immutable and any change to th
 - **Override default policies**: Both these default policies have a zero (`0`) priority. You can override the default policies by creating policies with `policy.ism_template.priority` greater than `0`.
 
 {{< alert title="NOTE" color="warning" >}}
-- Avoid creating policies with policy IDs `vz-system` or `vz-application`. In the Verrazzano CR, by default, policies that are created with these names will be overridden with the ISM policies, if the flag [spec.components.opensearch.disableDefaultPolicy](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) is set to `false`.
+- Avoid creating policies with policy IDs `vz-system` or `vz-application` as they are reserved for Verrazzano default policies name. In the Verrazzano CR, by default, policies that are created with these names will be overridden with the ISM policies, if the flag [spec.components.opensearch.disableDefaultPolicy](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) is set to `false`.
 - The default policy will be applied only to the newly created indices. To manually attach the new policies to the older indices, see [Step 2: Attach policies to indexes](https://opensearch.org/docs/latest/im-plugin/ism/index/#step-2-attach-policies-to-indexes).
   {{< /alert >}}
 
@@ -618,7 +618,7 @@ There are three ways to define a plug-in in the `plugins.installList`:
 {{< /alert >}}
 
 For OpenSearch Dashboard, you can provide the plug-ins by defining the field [spec.components.opensearch-dashboards.plugins](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.v1beta1.OpenSearchDashboardsComponent) in the Verrazzano custom resource.
-Here are some pre-built plugins that are bundled with OpenSearch Dashboard image.
+Here are some pre-built plugins that are bundled with OpenSearch Dashboard.
 - indexManagementDashboards
 
 Here is a Verrazzano custom resource example to install plug-ins for the OpenSearch Dashboards:
