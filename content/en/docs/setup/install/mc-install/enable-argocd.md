@@ -1,6 +1,6 @@
 ---
-title: "Register Argo CD"
-description: "How to register Argo CD in a multicluster Verrazzano environment"
+title: "Enable Argo CD"
+description: "How to enable Argo CD in a multicluster Verrazzano environment"
 weight: 2
 draft: false
 ---
@@ -10,9 +10,8 @@ In a multicluster Verrazzano environment, Argo CD integration depends on Rancher
 ## Prerequisites
 
 - Make sure you have completed the steps in the Prerequisites and Install Verrazzano sections in [Install Multicluster Verrazzano]({{< relref "/docs/setup/install/mc-install/multicluster.md" >}}).
-- [Enable Argo CD](#enable-argo-cd).
 
-### Enable Argo CD
+## Enable Argo CD
 
 To use Argo CD in a multicluster Verrazzano environment, you must first enable it on the admin cluster.
 
@@ -36,9 +35,3 @@ EOF
 ```
 </div>
 {{< /clipboard >}}
-
-## Register a cluster
-To register a cluster in Argo CD, follow the instructions at [Register the managed cluster]({{< relref "/docs/setup/install/mc-install/multicluster#register-the-managed-cluster" >}}).
-
-## Deregister a cluster
-To deregister a cluster in Argo CD, follow the instructions at [Deregister a managed cluster]({{< relref "/docs/setup/install/mc-install/multicluster#deregister-a-managed-cluster" >}}).

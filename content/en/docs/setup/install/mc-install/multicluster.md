@@ -59,7 +59,7 @@ see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}
 
 ### Cluster label selection
 
-You can provide a label selector in the Verrazzano resource. The label selector is used to determine which clusters created in Rancher will be automatically registered by Verrazzano. If Argo CD is [enabled on the admin cluster]({{< relref "/docs/setup/install/mc-install/register-argocd#enable-argo-cd" >}}), all synchronized Rancher clusters also will be automatically registered in Argo CD.
+You can provide a label selector in the Verrazzano resource. The label selector is used to determine which clusters created in Rancher will be automatically registered by Verrazzano. If you have enabled Argo CD on the admin cluster, then any managed clusters [registered during Verrazzano multicluster set up]({{< relref "/docs/setup/install/mc-install/multicluster#register-the-managed-cluster" >}}) are automatically registered in Argo CD.
 
 #### Verrazzano configuration for cluster label selection
 
