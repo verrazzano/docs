@@ -13,8 +13,8 @@ In a multicluster Verrazzano environment, Argo CD integration depends on Rancher
 - Install Verrazzano and set up a multicluster environment by following these [instructions]({{< relref "/docs/setup/install/multicluster#install-verrazzano" >}}).
   - Because Argo CD is _not_ enabled by default, you must first [enable argoCD]({{< relref "/docs/setup/install/modify-installation#pre-installation" >}}) on the _admin_ cluster.
   - When you [register managed clusters]({{< relref "/docs/setup/install/multicluster#register-the-managed-cluster" >}}), they are automatically registered in Argo CD.
-  - After you set up your application in the Argo CD console, those registered clusters will be available for you to select, deploy, and manage applications.
 - Access the Argo CD console using the instructions at [Access Verrazzano]({{< relref "/docs/access#the-argo-cd-console" >}}).
+- After you set up your application in the Argo CD console, those registered clusters will be available for you to select, deploy, and manage applications.
 
 
 
