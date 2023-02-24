@@ -159,6 +159,8 @@ spec:
 </div>
 {{< /clipboard >}}
 
+For information on OpenSearch, see the [Customize OpenSearch]({{< relref "/docs/customize/opensearch" >}}).
+
 ## OpenSearch Dashboards
 OpenSearch Dashboards is a visualization dashboard for the content indexed on an OpenSearch cluster.  Verrazzano creates a OpenSearch Dashboards deployment to provide a user interface for querying and visualizing the log data collected in OpenSearch.
 
@@ -169,8 +171,3 @@ To see the records of an OpenSearch index or data stream through OpenSearch Dash
 For example, to see the log records of a WebLogic application deployed to the `todo-list` namespace, create an index pattern of `verrazzano-application-todo-*`.
 
 ![OpenSearch Dashboards](/docs/images/opensearch-dashboards-todo.png)
-
-## Log rotation
-
-We recommend configuring log rotation for OpenSearch using Index State Management (ISM)
-For information on configuring OpenSearch ISM, see the [ISM setup page]({{< relref "/docs/customize/opensearch#configure-index-state-management-policies" >}}).

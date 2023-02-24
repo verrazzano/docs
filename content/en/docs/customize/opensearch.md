@@ -260,8 +260,6 @@ Both ISM policies have three states:
 - **Cold**:  In this state, the index will be closed if the index age is greater than the defined number of days (30 days for `vz-system` and 7 days for `vz-application`). A closed index is blocked for read or write operations and does not allow any operations that the opened indices allow.
 - **Delete**: In this state, the index will be deleted if the index age is greater than the defined number of days (35 days for `vz-system` and 12 days for `vz-application`).
 
-These index patterns specified in default ISM policies are immutable. Changes to these index patterns in the default ISM policies will be lost because Verrazzano will reconcile and replace them with the defaults.
-
 
 ## Override default ISM policies
 The `vz-system` and `vz-application` policies are immutable and any change to these policies will be reverted immediately. However, the following two methods will override this behavior:
@@ -567,21 +565,24 @@ spec:
           - https://repo1.maven.org/maven2/org/opensearch/plugin/opensearch-anomaly-detection/2.2.0.0/opensearch-anomaly-detection-2.2.0.0.zip
 ```
 {{< /clipboard >}}
+
+Here are some pre-built plugins that are bundled with OpenSearch.
+- analysis-icu
+- analysis-kuromoji
+- analysis-phonetic
+- analysis-smartcn
+- ingest-attachment
+- mapper-murmur3
+- mapper-size
+- opensearch-index-management
+- opensearch-job-scheduler
+- prometheus-exporter
+- repository-s3
+
 There are three ways to define a plug-in in the `plugins.installList`:
 - [Define a plug-in by name]({{<opensearch_docs_url>}}/install-and-configure/plugins#install-a-plugin-by-name):
-
-  These are some pre-built plugins that are the only plugins you can install by name.
-- analysis-icu
-- analysis-kuromoji 
-- analysis-phonetic 
-- analysis-smartcn 
-- ingest-attachment 
-- mapper-murmur3 
-- mapper-size 
-- opensearch-index-management 
-- opensearch-job-scheduler 
-- prometheus-exporter 
-- repository-s3
+  
+  There are some pre-built [additional plug-ins]({{<opensearch_docs_url>}}/install-and-configure/plugins#additional-plugins) that are the only plugins you can install by name.
 
   {{< clipboard >}}
 
@@ -610,12 +611,15 @@ There are three ways to define a plug-in in the `plugins.installList`:
   ```
   {{< /clipboard >}}
 {{< alert title="NOTE" color="warning" >}}
-- Your environment must be able to connect to the Internet to access the provided plug-in URL or [Maven Central](https://search.maven.org/search?q=org.opensearch.plugin) to install the plug-in. If there is any error during plug-in installation, then the OS pods (one per deployment) will go into the CrashLoopBackOff state. Check the logs for the exact reason of the failure. In the case of an Internet issue, you might see SocketException or UnknownHostException exceptions in the logs. To resolve this issue, make sure that the pods are connected to the Internet.
+- To verify that plug-in has installed successfully, make sure no pod is in CrashLoopBackOff and check the plug-in's functionality is working fine.
+- Your environment must be able to connect to the Internet to access the provided plug-in URL or [Maven Central](https://search.maven.org/search?q=org.opensearch.plugin) to install the plug-in. If there is any error during plug-in installation, then the one of the OS master pods will go into the CrashLoopBackOff state. Check the logs for the exact reason of the failure. In the case of an Internet issue, you might see SocketException or UnknownHostException exceptions in the logs. To resolve this issue, make sure that the pods are connected to the Internet.
 - Adding a new plug-in in the `plugins.installList` or removing a plug-in from the `plugins.installList` will result in restarting the OpenSearch related pods.
 - To be compatible, major, minor, and patch plug-in versions must match OpenSearch major, minor, and patch versions. For example, plug-ins versions 2.3.0.x are compatible only with OpenSearch version 2.3.0.
 {{< /alert >}}
 
 For OpenSearch Dashboard, you can provide the plug-ins by defining the field [spec.components.opensearch-dashboards.plugins](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.v1beta1.OpenSearchDashboardsComponent) in the Verrazzano custom resource.
+Here are some pre-built plugins that are bundled with OpenSearch Dashboard image.
+- indexManagementDashboards
 
 Here is a Verrazzano custom resource example to install plug-ins for the OpenSearch Dashboards:
 {{< clipboard >}}
