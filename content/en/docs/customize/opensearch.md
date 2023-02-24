@@ -250,7 +250,7 @@ Containers:
 To help you manage issues, such as low disk space, the following two ISM policies are created by default:
 - `vz-system`: Manages the data in the Verrazzano system indices.
 
-![vz-system](/docs/images/vz-system-ism-policy.png)
+  ![vz-system](/docs/images/vz-system-ism-policy.png)
 - `vz-application`: Manages the data in the application-related indices having the pattern, `verrazzano-application*`.
 
   ![vz-application](/docs/images/vz-application-ism-policy.png)
@@ -267,7 +267,7 @@ The `vz-system` and `vz-application` policies are immutable and any change to th
 - **Override default policies**: Both these default policies have a zero (`0`) priority. You can override the default policies by creating policies with `policy.ism_template.priority` greater than `0`.
 
 {{< alert title="NOTE" color="warning" >}}
-- Avoid creating policies with policy IDs `vz-system` or `vz-application` as they are reserved for Verrazzano default policies name. In the Verrazzano CR, by default, policies that are created with these names will be overridden with the default ISM policies, if the flag [spec.components.opensearch.disableDefaultPolicy](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) is set to `false`.
+- Avoid creating policies with policy IDs `vz-system` or `vz-application` because they are reserved for Verrazzano default policies names. In the Verrazzano CR, by default, if the flag [spec.components.opensearch.disableDefaultPolicy](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) is set to `false`,then policies that are created with these names will be overridden with the default ISM policies, .
 - The default policy will be applied only to the newly created indices. To manually attach the new policies to the older indices, see [Step 2: Attach policies to indexes](https://opensearch.org/docs/latest/im-plugin/ism/index/#step-2-attach-policies-to-indexes).
   {{< /alert >}}
 
@@ -566,19 +566,19 @@ spec:
 ```
 {{< /clipboard >}}
 
-#### Pre-built plugins for OpenSearch
-Here are some pre-built plugins that are bundled with OpenSearch Image.
-- analysis-icu
-- analysis-kuromoji
-- analysis-phonetic
-- analysis-smartcn
-- ingest-attachment
-- mapper-murmur3
-- mapper-size
-- opensearch-index-management
-- opensearch-job-scheduler
-- prometheus-exporter
-- repository-s3
+#### Pre-built plug-ins for OpenSearch
+Here are some pre-built plug-ins that are bundled with OpenSearch Image:
+- `analysis-icu`
+- `analysis-kuromoji`
+- `analysis-phonetic`
+- `analysis-smartcn`
+- `ingest-attachment`
+- `mapper-murmur3`
+- `mapper-size`
+- `opensearch-index-management`
+- `opensearch-job-scheduler`
+- `prometheus-exporter`
+- `repository-s3`
 
 There are three ways to define a plug-in in the `plugins.installList`:
 - [Define a plug-in by name]({{<opensearch_docs_url>}}/install-and-configure/plugins#install-a-plugin-by-name):
@@ -613,17 +613,17 @@ There are three ways to define a plug-in in the `plugins.installList`:
   {{< /clipboard >}}
 {{< alert title="NOTE" color="warning" >}}
 - Adding a new plug-in in the `plugins.installList` or removing a plug-in from the `plugins.installList` will result in restarting the OpenSearch related pods.
-- To verify that plug-in has installed successfully, make sure no pod is in CrashLoopBackOff state and plug-in's functionality is working fine.
-- If there is any error during plug-in installation, then the one of the OS master pods will go into the CrashLoopBackOff state while other pods will still be in Running the OS cluster will be healthy and functional .Check the logs for the exact reason of the failure.
+- To verify that a plug-in has installed successfully, make sure that no pod is in CrashLoopBackOff state and the plug-in functionality is working fine.
+- If there is any error during plug-in installation, then the one of the OS master pods will go into the CrashLoopBackOff state, while other pods will still be in the Running state, and the OpenSearch cluster will be healthy and functional. Check the logs for the exact reason of the failure.
 - Your environment must be able to connect to the Internet to access the provided plug-in URL or [Maven Central](https://search.maven.org/search?q=org.opensearch.plugin) to install the plug-in. In the case of an Internet issue, you might see SocketException or UnknownHostException exceptions in the logs. To resolve this issue, make sure that the pods are connected to the Internet.
-- To be compatible, major, minor, and patch plug-in versions must match OpenSearch major, minor, and patch versions. For example, plug-ins versions 2.3.0.x are compatible only with OpenSearch version 2.3.0.
+- To be compatible, major, minor, and patch plug-in versions must match the OpenSearch major, minor, and patch versions. For example, plug-ins versions 2.3.0.x are compatible only with OpenSearch version 2.3.0.
 {{< /alert >}}
 
 For OpenSearch Dashboard, you can provide the plug-ins by defining the field [spec.components.opensearch-dashboards.plugins](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.v1beta1.OpenSearchDashboardsComponent) in the Verrazzano custom resource.
 
-#### Pre-built plugins for OpenSearch Dashboards
-Here are some pre-built plugins that are bundled with OpenSearch Dashboard Image.
-- indexManagementDashboards
+#### Pre-built plug-ins for OpenSearch Dashboards
+Here is a pre-built plug-in that is bundled with the OpenSearch Dashboard Image:
+- `indexManagementDashboards`
 
 Here is a Verrazzano custom resource example to install plug-ins for the OpenSearch Dashboards:
 {{< clipboard >}}
