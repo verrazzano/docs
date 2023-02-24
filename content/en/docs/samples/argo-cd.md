@@ -6,11 +6,15 @@ description: "Use Argo CD to deploy and undeploy applications"
 
 Argo CD is a Kubernetes deployment tool that uses Git repositories as the source of truth. It monitors running applications and compares the deployed state against the desired one in Git. Argo CD lets you visualize the differences and provides methods to automatically or manually update the live state with the desired target state. For more information, see the [Argo CD documentation](https://argo-cd.readthedocs.io/en/stable/).
 
+In a multicluster Verrazzano environment, Argo CD integration depends on Rancher being enabled on the admin cluster. Argo CD connects to managed clusters using the Rancher proxy, to create the required resources for Argo CD cluster registration.
+
 ## Before you begin
 
-- Install Verrazzano by following the [installation]({{< relref "/docs/setup/install/installation.md" >}}) instructions.
-- Enable Argo CD.
+- Install Verrazzano and set up a multicluster environment by following these [instructions]({{< relref "/docs/setup/install/multicluster#install-verrazzano" >}}).
+  - Because Argo CD is _not_ enabled by default, you must first [enable argoCD]({{< relref "/docs/setup/install/modify-installation#pre-installation" >}}) on the _admin_ cluster.
+  - When you [register managed clusters]({{< relref "/docs/setup/install/multicluster#register-the-managed-cluster" >}}), they are automatically registered in Argo CD.
 - Access the Argo CD console using the instructions at [Access Verrazzano]({{< relref "/docs/access#the-argo-cd-console" >}}).
+- After you set up your application in the Argo CD console, those registered clusters will be available for you to select, deploy, and manage applications.
 
 ## Configure repositories
 
