@@ -39,6 +39,8 @@ The following is a sample procedure to configure a private Git repository throug
 
 To deploy applications in a custom namespace, create Argo CD applications that specify the Git repository path, which Argo CD requires to synchronize and deploy the applications in the specified namespace.
 
+**Note**: You can either pre-create a namespace and label it or auto-create a namespace when deploying an application. If you auto-create a namespace, the application will be deployed outside of the service mesh.
+
 This example provides information about how to deploy the `Hello-helidon` application. The `Hello-helidon` application and component YAML files are available at [Hello World Helidon]({{< ghlink raw=false path="examples/helidon-config" >}}).
 
 1. Log in to the Argo CD console.
@@ -48,7 +50,7 @@ This example provides information about how to deploy the `Hello-helidon` applic
 5. Select the required **Sync Policy** option:
    - `Automatic` - By default, every three minutes, Argo CD checks the specified Git repository and synchronizes the updates in Kubernetes to the Git repository.
    - `Manual` - For manually synchronizing the updates to the Git repository, use the **Manual** option.
-6. In the **Sync Options** section, select **Auto-Create Namespace**.
+6. _Optional_: If you want to auto-create a namespace, in the **Sync Options** section, select **Auto-Create Namespace**.
 7. Under the **Source** section, enter the following:
     - **Repository URL**: https://github.com/verrazzano/verrazzano/
     - **Revision**: `{{<release_branch>}}`
