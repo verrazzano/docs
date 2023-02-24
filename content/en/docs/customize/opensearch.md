@@ -267,7 +267,7 @@ The `vz-system` and `vz-application` policies are immutable and any change to th
 - **Override default policies**: Both these default policies have a zero (`0`) priority. You can override the default policies by creating policies with `policy.ism_template.priority` greater than `0`.
 
 {{< alert title="NOTE" color="warning" >}}
-- Avoid creating policies with policy IDs `vz-system` or `vz-application` as they are reserved for Verrazzano default policies name. In the Verrazzano CR, by default, policies that are created with these names will be overridden with the ISM policies, if the flag [spec.components.opensearch.disableDefaultPolicy](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) is set to `false`.
+- Avoid creating policies with policy IDs `vz-system` or `vz-application` as they are reserved for Verrazzano default policies name. In the Verrazzano CR, by default, policies that are created with these names will be overridden with the default ISM policies, if the flag [spec.components.opensearch.disableDefaultPolicy](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) is set to `false`.
 - The default policy will be applied only to the newly created indices. To manually attach the new policies to the older indices, see [Step 2: Attach policies to indexes](https://opensearch.org/docs/latest/im-plugin/ism/index/#step-2-attach-policies-to-indexes).
   {{< /alert >}}
 
@@ -566,7 +566,8 @@ spec:
 ```
 {{< /clipboard >}}
 
-Here are some pre-built plugins that are bundled with OpenSearch.
+#### Pre-built plugins for OpenSearch
+Here are some pre-built plugins that are bundled with OpenSearch Image.
 - analysis-icu
 - analysis-kuromoji
 - analysis-phonetic
@@ -611,14 +612,17 @@ There are three ways to define a plug-in in the `plugins.installList`:
   ```
   {{< /clipboard >}}
 {{< alert title="NOTE" color="warning" >}}
-- To verify that plug-in has installed successfully, make sure no pod is in CrashLoopBackOff and check the plug-in's functionality is working fine.
-- Your environment must be able to connect to the Internet to access the provided plug-in URL or [Maven Central](https://search.maven.org/search?q=org.opensearch.plugin) to install the plug-in. If there is any error during plug-in installation, then the one of the OS master pods will go into the CrashLoopBackOff state. Check the logs for the exact reason of the failure. In the case of an Internet issue, you might see SocketException or UnknownHostException exceptions in the logs. To resolve this issue, make sure that the pods are connected to the Internet.
 - Adding a new plug-in in the `plugins.installList` or removing a plug-in from the `plugins.installList` will result in restarting the OpenSearch related pods.
+- To verify that plug-in has installed successfully, make sure no pod is in CrashLoopBackOff state and plug-in's functionality is working fine.
+- If there is any error during plug-in installation, then the one of the OS master pods will go into the CrashLoopBackOff state while other pods will still be in Running the OS cluster will be healthy and functional .Check the logs for the exact reason of the failure.
+- Your environment must be able to connect to the Internet to access the provided plug-in URL or [Maven Central](https://search.maven.org/search?q=org.opensearch.plugin) to install the plug-in. In the case of an Internet issue, you might see SocketException or UnknownHostException exceptions in the logs. To resolve this issue, make sure that the pods are connected to the Internet.
 - To be compatible, major, minor, and patch plug-in versions must match OpenSearch major, minor, and patch versions. For example, plug-ins versions 2.3.0.x are compatible only with OpenSearch version 2.3.0.
 {{< /alert >}}
 
 For OpenSearch Dashboard, you can provide the plug-ins by defining the field [spec.components.opensearch-dashboards.plugins](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.v1beta1.OpenSearchDashboardsComponent) in the Verrazzano custom resource.
-Here are some pre-built plugins that are bundled with OpenSearch Dashboard.
+
+#### Pre-built plugins for OpenSearch Dashboards
+Here are some pre-built plugins that are bundled with OpenSearch Dashboard Image.
 - indexManagementDashboards
 
 Here is a Verrazzano custom resource example to install plug-ins for the OpenSearch Dashboards:
