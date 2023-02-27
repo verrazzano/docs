@@ -33,7 +33,7 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 </div>
 {{< /clipboard >}}
 
-**NOTE:** The ToDo List application deployment files are contained in the Verrazzano project located at
+**NOTE**: The ToDo List application deployment files are contained in the Verrazzano project located at
 `<VERRAZZANO_HOME>/examples/multicluster/todo-list`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
 
 

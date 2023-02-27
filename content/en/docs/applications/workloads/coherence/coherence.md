@@ -91,7 +91,7 @@ configuration shows the `replicas` field that specifies the number of pods in th
 {{< /clipboard >}}
 
 
-**NOTE:** A Coherence cluster provisioned with Verrazzano does not support autoscaling with a Horizontal Pod Autoscaler.
+**NOTE**: A Coherence cluster provisioned with Verrazzano does not support autoscaling with a Horizontal Pod Autoscaler.
 
 #### Termination
 You can terminate the Coherence cluster by removing the Component from the ApplicationConfiguration or by
