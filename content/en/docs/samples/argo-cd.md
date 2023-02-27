@@ -27,10 +27,10 @@ The following is a sample procedure to configure a private Git repository throug
 3. Click **Connect Repo**.
 4. Select **VIA HTTPS** as the connection method.
 5. For **Project**, specify **default**.
-<br>**Note**: Unless they are grouped together, all the projects are defined in the `default` level.
+<br>**NOTE**: Unless they are grouped together, all the projects are defined in the `default` level.
 6. For **Repository URL**, provide the required URL.
 7. If it is a private repository and a user name and password is required to connect to the repository, enter the required credentials.
-<br>**Note**: The other fields are optional and based on how the Git repository is configured.
+<br>**NOTE**: The other fields are optional and based on how the Git repository is configured.
 9. Click **Connect** and verify that the connection status displayed is `Successful`.
 
 ## Deploy applications
