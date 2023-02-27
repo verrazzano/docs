@@ -25,6 +25,9 @@ draft: false
 
 **NOTE**: Verrazzano can create network policies that can be used to limit the ports and protocols that pods use for network communication. Network policies provide additional security but they are enforced only if you install a Kubernetes Container Network Interface (CNI) plug-in that enforces them, such as Calico. For an example on OKE, see [Installing Calico and Setting Up Network Policies](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengsettingupcalico.htm).
 
+{{< alert title="NOTE" color="warning" >}} OKE clusters using only the flannel overlay network is supported. OCI VCN-Native Pod Networking will not work.
+{{< /alert >}}
+
 ## Next steps
 
 To continue, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md#install-the-verrazzano-platform-operator" >}}).
