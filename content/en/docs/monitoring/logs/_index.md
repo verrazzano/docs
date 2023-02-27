@@ -159,6 +159,8 @@ spec:
 </div>
 {{< /clipboard >}}
 
+For information on OpenSearch, see the [Customize OpenSearch]({{< relref "/docs/customize/opensearch" >}}).
+
 ## OpenSearch Dashboards
 OpenSearch Dashboards is a visualization dashboard for the content indexed on an OpenSearch cluster.  Verrazzano creates a OpenSearch Dashboards deployment to provide a user interface for querying and visualizing the log data collected in OpenSearch.
 
@@ -169,102 +171,3 @@ To see the records of an OpenSearch index or data stream through OpenSearch Dash
 For example, to see the log records of a WebLogic application deployed to the `todo-list` namespace, create an index pattern of `verrazzano-application-todo-*`.
 
 ![OpenSearch Dashboards](/docs/images/opensearch-dashboards-todo.png)
-
-## Log rotation
-
-We recommend configuring log rotation for OpenSearch using Index State Management (ISM) or a periodic job to purge or snapshot old records.
-For information on configuring OpenSearch ISM, see the [ISM setup page]({{< relref "/docs/customize/opensearch#configure-index-state-management-policies" >}}).
-
-A basic implementation of job-based log rotation (not using ISM) is provided in the following example, implemented using a Kubernetes CronJob.
-To install the log rotation example on your cluster, save the snippet to a file and make the following modifications:
-
-- Substitue the value of `OPENSEARCH_HOST` with your specific OpenSearch HTTPS endpoint.
-- By default, the CronJob deletes the last 7 days of data. You may customize this by modifying the query in the ConfigMap.
-{{< clipboard >}}
-<div class="highlight">
-
-```
-apiVersion: batch/v1beta1
-kind: CronJob
-metadata:
-  name: log-rotate
-  namespace: verrazzano-system
-  labels:
-    app: log-rotate
-spec:
-  # Rotate logs every day at midnight
-  schedule: "0 0 * * *"
-  jobTemplate:
-    spec:
-      template:
-        metadata:
-          labels:
-            app: log-rotate
-          annotations:
-            sidecar.istio.io/inject: "false"
-        spec:
-          containers:
-          - name: log-rotate
-            args:
-            - /bin/sh
-            - -c
-            - /opt/script/rotate
-            env:
-            - name: "OPENSEARCH_HOST"
-              value: "https://opensearch.vmi.system.default.172.18.0.151.nip.io"
-            - name: OPENSEARCH_USER
-              valueFrom:
-                secretKeyRef:
-                  key: username
-                  name: verrazzano
-                  optional: true
-            - name: OPENSEARCH_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: verrazzano
-                  optional: true
-            image: ghcr.io/oracle/oraclelinux:7-slim
-            imagePullPolicy: IfNotPresent
-            volumeMounts:
-            - mountPath: /opt/script
-              name: log-rotate          
-          restartPolicy: OnFailure
-          volumes:
-          - configMap:
-              defaultMode: 0777
-              name: log-rotate
-            name: log-rotate
----
-
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: log-rotate
-  namespace: verrazzano-system
-  labels:
-    app: log-rotate
-data:
-  rotate: |
-    #!/bin/bash
-    curl -v --silent -k -u "$OPENSEARCH_USER:$OPENSEARCH_PASSWORD" -X POST "$OPENSEARCH_HOST/verrazzano-*/_delete_by_query" -H 'Content-Type: application/json' -d'
-    {
-      "query": {
-        "bool": {
-          "filter": [
-            {
-              "range": {
-                "@timestamp": {
-                  "lt": "now-7d"
-                }
-              }
-            }
-          ]
-        }
-      }
-    }
-    '
-```
-
-</div>
-{{< /clipboard >}}
