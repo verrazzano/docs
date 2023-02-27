@@ -187,8 +187,8 @@ By default, the application is located on the managed cluster called `managed1`.
 </div>
 {{< /clipboard >}}
 
-   **Note:** If you are returning the application to the managed cluster, then instead, wait for the application to be
-   ready on the managed cluster. 
+   **NOTE:** If you are returning the application to the managed cluster, then instead, wait for the application to be
+   ready on the managed cluster.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -261,4 +261,3 @@ Undeploy affects all clusters in which the application is located.
 
 </div>
 {{< /clipboard >}}
-
