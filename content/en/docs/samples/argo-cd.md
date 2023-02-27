@@ -37,7 +37,7 @@ The following is a sample procedure to configure a private Git repository throug
 
 To deploy applications in a custom namespace, create Argo CD applications that specify the Git repository path, which Argo CD requires to synchronize and deploy the applications in the specified namespace.
 
-**Note**: You can either pre-create a namespace and label it or auto-create a namespace when deploying an application.
+**NOTE**: You can either pre-create a namespace and label it or auto-create a namespace when deploying an application.
 
 This example provides information about how to deploy the `Hello-helidon` application. The `Hello-helidon` application and component YAML files are available at [Hello World Helidon]({{< ghlink raw=false path="examples/helidon-config" >}}).
 
