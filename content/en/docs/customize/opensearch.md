@@ -269,14 +269,14 @@ Both ISM policies have three states:
 ## Override default ISM policies
 The `vz-system` and `vz-application` policies are immutable and any change to these policies will be reverted immediately. However, the following two methods will override this behavior:
 - **Disable default policies**: You can disable the use of these default policies by setting the flag [spec.components.opensearch.disableDefaultPolicy](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) to `true` in the Verrazzano CR. This will delete the default ISM policies.
-- **Override default policies**: Both these default policies have a zero (`0`) priority. You can override the default policies by creating policies with `policy.ism_template.priority` greater than `0`.
+- **Override default policies**: Both these default policies have a zero (`0`) priority. You can override the default policies by creating policies with `policy.ism_template.priority` greater than `0`. Check [Configure ISM Policies](/docs/customize/opensearch/#configure-ism-policies) in order to configure/create your own policies.
 
 {{< alert title="NOTE" color="warning" >}}
 - Avoid creating policies with policy IDs `vz-system` or `vz-application` because they are reserved for Verrazzano default policies names. In the Verrazzano CR, by default, if the flag [spec.components.opensearch.disableDefaultPolicy](/docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.OpenSearchComponent) is set to `false`, then policies that are created with these names will be overridden with the default ISM policies, .
 - The default policy will be applied only to the newly created indices. To manually attach the new policies to the older indices, see [Step 2: Attach policies to indexes](https://opensearch.org/docs/latest/im-plugin/ism/index/#step-2-attach-policies-to-indexes).
   {{< /alert >}}
 
-## Configure Index State Management policies
+## Configure ISM policies
 
 Verrazzano lets you configure OpenSearch ISM policies using the Verrazzano custom resource.
 The ISM policy created by Verrazzano will contain two states: ingest and delete. The ingest state can be configured only for the rollover action.
