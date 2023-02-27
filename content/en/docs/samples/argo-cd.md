@@ -16,8 +16,6 @@ In a multicluster Verrazzano environment, Argo CD integration depends on Rancher
 - Access the Argo CD console using the instructions at [Access Verrazzano]({{< relref "/docs/access#the-argo-cd-console" >}}).
 - After you set up your application in the Argo CD console, those registered clusters will be available for you to select, deploy, and manage applications.
 
-
-
 ## Configure repositories
 
 In the Argo CD console, configure repositories that will contain the Kubernetes resources for deploying an application.
@@ -29,15 +27,17 @@ The following is a sample procedure to configure a private Git repository throug
 3. Click **Connect Repo**.
 4. Select **VIA HTTPS** as the connection method.
 5. For **Project**, specify **default**.
-<br>**Note**: Unless they are grouped together, all the projects are defined in the `default` level.
+<br>**NOTE**: Unless they are grouped together, all the projects are defined in the `default` level.
 6. For **Repository URL**, provide the required URL.
 7. If it is a private repository and a user name and password is required to connect to the repository, enter the required credentials.
-<br>**Note**: The other fields are optional and based on how the Git repository is configured.
+<br>**NOTE**: The other fields are optional and based on how the Git repository is configured.
 9. Click **Connect** and verify that the connection status displayed is `Successful`.
 
 ## Deploy applications
 
 To deploy applications in a custom namespace, create Argo CD applications that specify the Git repository path, which Argo CD requires to synchronize and deploy the applications in the specified namespace.
+
+**NOTE**: You can either pre-create a namespace and label it or auto-create a namespace when deploying an application.
 
 This example provides information about how to deploy the `Hello-helidon` application. The `Hello-helidon` application and component YAML files are available at [Hello World Helidon]({{< ghlink raw=false path="examples/helidon-config" >}}).
 
@@ -48,7 +48,8 @@ This example provides information about how to deploy the `Hello-helidon` applic
 5. Select the required **Sync Policy** option:
    - `Automatic` - By default, every three minutes, Argo CD checks the specified Git repository and synchronizes the updates in Kubernetes to the Git repository.
    - `Manual` - For manually synchronizing the updates to the Git repository, use the **Manual** option.
-6. In the **Sync Options** section, select **Auto-Create Namespace**.
+6. If you want to auto-create a namespace, in the **Sync Options** section, select **Auto-Create Namespace**.
+<br>By auto-creating the namespace, the application will be deployed outside of the service mesh. The best practice is to pre-create the namespace and label it.
 7. Under the **Source** section, enter the following:
     - **Repository URL**: https://github.com/verrazzano/verrazzano/
     - **Revision**: `{{<release_branch>}}`
