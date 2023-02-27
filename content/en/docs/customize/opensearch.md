@@ -584,7 +584,7 @@ Here are some pre-built plug-ins that are bundled with the OpenSearch image:
 There are three ways to specify a plug-in in the `plugins.installList`:
 - [Specify a plug-in by name]({{<opensearch_docs_url>}}/install-and-configure/plugins#install-a-plugin-by-name):
   
-  There are some pre-built [additional plug-ins]({{<opensearch_docs_url>}}/install-and-configure/plugins#additional-plugins) that are the only plugins you can install by name.
+  There are some pre-built [additional plug-ins]({{<opensearch_docs_url>}}/install-and-configure/plugins#additional-plugins) that are the only plug-ins you can install by name.
 
   {{< clipboard >}}
 
@@ -613,9 +613,9 @@ There are three ways to specify a plug-in in the `plugins.installList`:
   ```
   {{< /clipboard >}}
 {{< alert title="NOTE" color="warning" >}}
-- Adding a new plug-in in the `plugins.installList` or removing a plug-in from the `plugins.installList` will result in restarting the OpenSearch related pods.
-- To verify that a plug-in has installed successfully, make sure that no pod is in CrashLoopBackOff state and the plug-in functionality is working fine.
-- If there is any error during plug-in installation, then the one of the OS master pods will go into the CrashLoopBackOff state, while other pods will still be in the Running state, and the OpenSearch cluster will be healthy and functional. Check the logs for the exact reason of the failure.
+- Adding a new plug-in to the `plugins.installList` or removing a plug-in from the `plugins.installList` will result in restarting the OpenSearch related pods.
+- To verify that a plug-in has installed successfully, make sure that no pod is in the CrashLoopBackOff state and the plug-in functionality is working fine.
+- If there is any error during plug-in installation, then one of the OS master pods will go into the CrashLoopBackOff state, while other pods will still be in the Running state, and the OpenSearch cluster will be healthy and functional. Check the logs for the exact reason of the failure.
 - Your environment must be able to connect to the Internet to access the provided plug-in URL or [Maven Central](https://search.maven.org/search?q=org.opensearch.plugin) to install the plug-in. In the case of an Internet issue, you might see SocketException or UnknownHostException exceptions in the logs. To resolve this issue, make sure that the pods are connected to the Internet.
 - To be compatible, major, minor, and patch plug-in versions must match the OpenSearch major, minor, and patch versions. For example, plug-ins versions 2.3.0.x are compatible only with OpenSearch version 2.3.0.
 {{< /alert >}}
