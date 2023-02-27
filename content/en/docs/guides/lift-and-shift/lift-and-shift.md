@@ -376,7 +376,7 @@ set with the given `--tag` value.
 
 Push the image to your repo.
 
-**NOTE:** The image name must be the same as what is in the `vz-application.yaml` file under
+**NOTE**: The image name must be the same as what is in the `vz-application.yaml` file under
 `spec > workload > spec > image` for the `tododomain-domain` component.
 {{< clipboard >}}
 <div class="highlight">

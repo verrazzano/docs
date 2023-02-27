@@ -104,7 +104,7 @@ The rancher-backup Operator creates the backup file, in `*.tar.gz` format, on th
   EOF
   ```
 
-**NOTE:** In Step 3. of the example in the [prerequisites](#rancher-backup-operator-prerequisites) section, you created the secret in the `verrazzano-backup` namespace.
+**NOTE**: In Step 3. of the example in the [prerequisites](#rancher-backup-operator-prerequisites) section, you created the secret in the `verrazzano-backup` namespace.
 
 The following is an example:
 
@@ -182,7 +182,7 @@ Restoring Rancher is done by creating a custom resource that indicates to `ranch
    2. Cluster-scoped resources
    3. Namespace resources
 
-   **NOTE:** The `backupFilename` is retrieved from the Rancher backup created previously.
+   **NOTE**: The `backupFilename` is retrieved from the Rancher backup created previously.
 
 2. Wait for all the Rancher pods to be in the `RUNNING` state.
 {{< clipboard >}}

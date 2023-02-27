@@ -315,7 +315,7 @@ and enabled for Istio.
   Actual creation and initialization of these objects occurs asynchronously.
   The following steps provide commands for determining when these objects are ready for use.
 
-  **Note**: Many other Kubernetes objects unrelated to the example application may also exist.
+  **NOTE**: Many other Kubernetes objects unrelated to the example application may also exist.
   Those have been omitted from the lists.
 
 1. Verify the Helidon application pod is running.
@@ -703,7 +703,7 @@ Run the following commands to delete the application configuration, and optional
 </div>
 {{< /clipboard >}}
 
-   **Note**: This step is not required if other application configurations for this component will be applied in the future.
+   **NOTE**: This step is not required if other application configurations for this component will be applied in the future.
 
 1. (Optional) Delete the namespace.
 {{< clipboard >}}
