@@ -24,7 +24,7 @@ A Verrazzano admin cluster is a central management point for:
 You may register one or more managed clusters with the admin cluster by creating a VerrazzanoManagedCluster
 resource in the `verrazzano-mc` namespace of an admin cluster.
 
-**NOTE:** The admin cluster has a fully functional Verrazzano installation. You can locate applications on the admin
+**NOTE**: The admin cluster has a fully functional Verrazzano installation. You can locate applications on the admin
 cluster as well as on managed clusters.
 
 ## Managed clusters

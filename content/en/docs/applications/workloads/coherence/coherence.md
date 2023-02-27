@@ -91,7 +91,7 @@ configuration shows the `replicas` field that specifies the number of pods in th
 {{< /clipboard >}}
 
 
-**NOTE:** A Coherence cluster provisioned with Verrazzano does not support autoscaling with a Horizontal Pod Autoscaler.
+**NOTE**: A Coherence cluster provisioned with Verrazzano does not support autoscaling with a Horizontal Pod Autoscaler.
 
 #### Termination
 You can terminate the Coherence cluster by removing the Component from the ApplicationConfiguration or by
@@ -116,7 +116,7 @@ go into the same data stream, even for different applications.  This is standard
 Each log record has some Coherence and application fields, along with the log message itself.  For example:
 {{< clipboard >}}
 <div class="highlight">
-    
+
      kubernetes.labels.coherenceCluster        SockShop
      kubernetes.labels.app_oam_dev/name        sockshop-appconf
      kubernetes.labels.app_oam_dev/component   orders
@@ -169,7 +169,7 @@ Because `sock-shop` components are  not using the default Coherence metrics port
 to the ApplicationConfiguration for each component, specifying the metrics port as follows:
 {{< clipboard >}}
 <div class="highlight">
-    
+
         - trait:
             apiVersion: oam.verrazzano.io/v1alpha1
             kind: MetricsTrait
@@ -222,7 +222,7 @@ generate the scrape configuration to be used by Prometheus.
 Here are the labels on the corresponding `catalog-coh-metrics` service.  
 {{< clipboard >}}
 <div class="highlight">
-    
+
     kind: Service
     metadata:
       labels:

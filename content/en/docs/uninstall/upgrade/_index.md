@@ -82,7 +82,7 @@ In order to upgrade an existing Verrazzano installation, you must first update t
 
 1. Update the Verrazzano platform operator.
 
-   **NOTE:** If you are using a private container registry, then to update the platform operator, follow the instructions at [Use a Private Registry]({{< relref "/docs/setup/private-registry/private-registry.md" >}}).
+   **NOTE**: If you are using a private container registry, then to update the platform operator, follow the instructions at [Use a Private Registry]({{< relref "/docs/setup/private-registry/private-registry.md" >}}).
 
    To update to the latest version:
   {{< clipboard >}}
@@ -143,7 +143,7 @@ In order to upgrade an existing Verrazzano installation, you must first update t
 To upgrade the Verrazzano installation, you need to change the version of your installed Verrazzano resource to the version supported by the
 Verrazzano platform operator.
 
-**NOTE:** You may only change the `version` field during an upgrade; changes to other fields or component configurations are not supported at this time.
+**NOTE**: You may only change the `version` field during an upgrade; changes to other fields or component configurations are not supported at this time.
 
 In one simple step, you can upgrade to a specified version of Verrazzano using this command.
 {{< clipboard >}}

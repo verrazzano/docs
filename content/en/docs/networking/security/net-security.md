@@ -19,7 +19,7 @@ Kubernetes has a NetworkPolicy resource that provides network level 3 and 4 secu
 restricting both ingress and egress IP traffic for a set of Pods in a namespace.  Verrazzano configures all
 system components with NetworkPolicies to control ingress.  Egress is not restricted.
 
-**NOTE:** A NetworkPolicy resource needs a NetworkPolicy controller to implement the policy, otherwise the
+**NOTE**: A NetworkPolicy resource needs a NetworkPolicy controller to implement the policy, otherwise the
 policy has no effect.  You must install a Kubernetes Container Network Interface (CNI) plug-in that provides a NetworkPolicy controller,
 such as Calico, before installing Verrazzano, or else the policies are ignored.
 

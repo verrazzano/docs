@@ -23,7 +23,7 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 </div>
 {{< /clipboard >}}
 
-**NOTE:**  The Hello World Helidon application deployment files are contained in the Verrazzano project located at
+**NOTE**:  The Hello World Helidon application deployment files are contained in the Verrazzano project located at
 `<VERRAZZANO_HOME>/examples/multicluster/hello-helidon`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
 
 
@@ -187,7 +187,7 @@ By default, the application is located on the managed cluster called `managed1`.
 </div>
 {{< /clipboard >}}
 
-   **NOTE:** If you are returning the application to the managed cluster, then instead, wait for the application to be
+   **NOTE**: If you are returning the application to the managed cluster, then instead, wait for the application to be
    ready on the managed cluster.
 {{< clipboard >}}
 <div class="highlight">

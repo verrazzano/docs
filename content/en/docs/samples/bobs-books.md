@@ -15,7 +15,7 @@ description: "An example application based on WebLogic, Helidon, and Coherence"
      * From the drop-down menu, select your language and click Continue.
      * Then read and accept the license agreement.
 
-   **NOTE:** The Bob's Books example application deployment files are contained in the Verrazzano project located at
+   **NOTE**: The Bob's Books example application deployment files are contained in the Verrazzano project located at
    `<VERRAZZANO_HOME>/examples/bobs-books`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
 
 ## Overview

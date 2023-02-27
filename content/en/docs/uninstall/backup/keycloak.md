@@ -35,7 +35,7 @@ Before proceeding with a MySQL back up or restore operation, keep the following 
 
 The following example creates a secret `mysql-backup-secret` in the namespace `keycloak`.
 
-**NOTE:**  This secret must exist in the namespace `keycloak`.
+**NOTE**:  This secret must exist in the namespace `keycloak`.
 {{< clipboard >}}
 
 1. MySQL Operator requires a secret to communicate with the S3 compatible object store, so we create a `backup-secret.txt` file, which has the object store credentials.
@@ -94,7 +94,7 @@ $ kubectl apply -f - <<EOF
 EOF
 ```
 
-**NOTE:**
+**NOTE**:
 - The `config` value is `mysql-backup-secret`, which is the name of the secret that you created previously in the `keycloak` namespace.
 - The `clustername` has to be `mysql`.
 - The `namespace` has to be `keycloak`.
