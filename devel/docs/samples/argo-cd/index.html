@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/samples/argo-cd/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-02-24T11:34:42-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-02-27T21:53:29+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Argo CD">
 <meta itemprop="description" content="Use Argo CD to deploy and undeploy applications">
-<meta itemprop="dateModified" content="2023-02-24T11:34:42-05:00" />
-<meta itemprop="wordCount" content="921">
+<meta itemprop="dateModified" content="2023-02-27T21:53:29+05:30" />
+<meta itemprop="wordCount" content="971">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Argo CD"/>
 <meta name="twitter:description" content="Use Argo CD to deploy and undeploy applications"/>
@@ -118,7 +118,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.2518080c313435ca77ffb3ab8e1b0425.json"
+  data-offline-search-index-json-src="../../../offline-search-index.0bb704b5fa7f0279623484601539815e.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -140,7 +140,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.2518080c313435ca77ffb3ab8e1b0425.json"
+  data-offline-search-index-json-src="../../../offline-search-index.0bb704b5fa7f0279623484601539815e.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -611,14 +611,15 @@ if (!doNotTrack) {
 <li>Click <strong>Connect Repo</strong>.</li>
 <li>Select <strong>VIA HTTPS</strong> as the connection method.</li>
 <li>For <strong>Project</strong>, specify <strong>default</strong>.
-<br><strong>Note</strong>: Unless they are grouped together, all the projects are defined in the <code>default</code> level.</li>
+<br><strong>NOTE</strong>: Unless they are grouped together, all the projects are defined in the <code>default</code> level.</li>
 <li>For <strong>Repository URL</strong>, provide the required URL.</li>
 <li>If it is a private repository and a user name and password is required to connect to the repository, enter the required credentials.
-<br><strong>Note</strong>: The other fields are optional and based on how the Git repository is configured.</li>
+<br><strong>NOTE</strong>: The other fields are optional and based on how the Git repository is configured.</li>
 <li>Click <strong>Connect</strong> and verify that the connection status displayed is <code>Successful</code>.</li>
 </ol>
 <h2 id="deploy-applications">Deploy applications</h2>
 <p>To deploy applications in a custom namespace, create Argo CD applications that specify the Git repository path, which Argo CD requires to synchronize and deploy the applications in the specified namespace.</p>
+<p><strong>NOTE</strong>: You can either pre-create a namespace and label it or auto-create a namespace when deploying an application.</p>
 <p>This example provides information about how to deploy the <code>Hello-helidon</code> application. The <code>Hello-helidon</code> application and component YAML files are available at <a href="https://github.com/verrazzano/verrazzano/blob/master/examples/helidon-config">Hello World Helidon</a>.</p>
 <ol>
 <li>Log in to the Argo CD console.</li>
@@ -631,7 +632,8 @@ if (!doNotTrack) {
 <li><code>Manual</code> - For manually synchronizing the updates to the Git repository, use the <strong>Manual</strong> option.</li>
 </ul>
 </li>
-<li>In the <strong>Sync Options</strong> section, select <strong>Auto-Create Namespace</strong>.</li>
+<li>If you want to auto-create a namespace, in the <strong>Sync Options</strong> section, select <strong>Auto-Create Namespace</strong>.
+<br>By auto-creating the namespace, the application will be deployed outside of the service mesh. The best practice is to pre-create the namespace and label it.</li>
 <li>Under the <strong>Source</strong> section, enter the following:
 <ul>
 <li><strong>Repository URL</strong>: <a href="https://github.com/verrazzano/verrazzano/">https://github.com/verrazzano/verrazzano/</a></li>
