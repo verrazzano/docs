@@ -9,7 +9,7 @@ description: "Implementations of the Sock Shop Microservices Demo Application"
 
 Install Verrazzano by following the [installation]({{< relref "/docs/setup/install/installation.md" >}}) instructions.
 
-**NOTE:** The Sock Shop example application deployment files are contained in the Verrazzano project located at
+**NOTE**: The Sock Shop example application deployment files are contained in the Verrazzano project located at
 `<VERRAZZANO_HOME>/examples/sockshop`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
 
 

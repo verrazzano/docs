@@ -202,7 +202,7 @@ $ kubectl delete ns argocd
 
 2. To perform an Argo CD restore operation, you can invoke the following example Velero `Restore` [API](https://velero.io/docs/v1.8/api-types/restore/) object.
 <br><br>
-**NOTE:** For Argo CD, `includedNamespaces` should list all the namespaces across which the applications are deployed.
+**NOTE**: For Argo CD, `includedNamespaces` should list all the namespaces across which the applications are deployed.
 <br>
 {{< clipboard >}}
  ```yaml

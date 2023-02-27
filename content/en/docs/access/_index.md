@@ -139,7 +139,7 @@ You will need the credentials to access the consoles installed by Verrazzano.
 - Kiali
 - Jaeger
 
-**User:** `verrazzano`
+**User**: `verrazzano`
 
 To get the password:
 {{< clipboard >}}
@@ -158,7 +158,7 @@ To get the password:
 You can log in to the Argo CD console using the `verrazzano` user configured in Keycloak or with the local `admin` user for Argo CD.
 To log in with Keycloak, select the `Log in with Keycloak` link or enter the local user credentials to log in as a local user.
 
-**Local Admin User:** `admin`
+**Local Admin User**: `admin`
 
 To get the password:
 {{< clipboard >}}
@@ -172,7 +172,7 @@ To get the password:
 </div>
 {{< /clipboard >}}
 
-**Keycloak User:** `verrazzano`
+**Keycloak User**: `verrazzano`
 
 To get the password:
 {{< clipboard >}}
@@ -188,7 +188,7 @@ To get the password:
 
 ### The Keycloak admin console
 
-**User:** `keycloakadmin`
+**User**: `keycloakadmin`
 
 To get the password:
 {{< clipboard >}}
@@ -207,7 +207,7 @@ To get the password:
 You can log in to the Rancher console using the `verrazzano` user configured in Keycloak or with the local `admin` user for Rancher.
 To log in with Keycloak, select the `Log in with Keycloak` link or select the `Use a local user` link to log in with the local user.
 
-**Local Admin User:** `admin`
+**Local Admin User**: `admin`
 
 To get the password:
 {{< clipboard >}}
@@ -221,7 +221,7 @@ To get the password:
 </div>
 {{< /clipboard >}}
 
-**Keycloak User:** `verrazzano`
+**Keycloak User**: `verrazzano`
 
 To get the password:
 {{< clipboard >}}

@@ -24,7 +24,7 @@ A Verrazzano admin cluster is a central management point for:
 You may register one or more managed clusters with the admin cluster by creating a VerrazzanoManagedCluster
 resource in the `verrazzano-mc` namespace of an admin cluster.
 
-**Note:** The admin cluster has a fully functional Verrazzano installation. You can locate applications on the admin
+**NOTE**: The admin cluster has a fully functional Verrazzano installation. You can locate applications on the admin
 cluster as well as on managed clusters.
 
 ## Managed clusters
@@ -55,9 +55,9 @@ resource definition for applications that may be targeted for placement in one o
 ## Managed cluster registration
 A managed cluster may be registered with an admin cluster using a two-step process:
 
-**Step 1:** Create a [VerrazzanoManagedCluster]({{< relref "/docs/reference/api/vco-clusters-v1alpha1#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedCluster" >}}) resource in the `verrazzano-mc` namespace of the admin cluster.
+**Step 1**: Create a [VerrazzanoManagedCluster]({{< relref "/docs/reference/api/vco-clusters-v1alpha1#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedCluster" >}}) resource in the `verrazzano-mc` namespace of the admin cluster.
 
-**Step 2:** Retrieve the Kubernetes manifest file generated in the VerrazzanoManagedCluster resource and apply it on
+**Step 2**: Retrieve the Kubernetes manifest file generated in the VerrazzanoManagedCluster resource and apply it on
 the managed cluster to complete the registration.
 
 When a managed cluster is registered, the following will happen:

@@ -34,7 +34,7 @@ As an alternative, you can enter a secret passphrase in Chrome to enable it to p
 * Reload the site.
 * Chrome will prompt you to accept the certificate.
 
-**Note**: This should be used only when accessing sites that are known to be safe, such as in this situation.
+**NOTE**: This should be used only when accessing sites that are known to be safe, such as in this situation.
 
 #### Related articles
 
