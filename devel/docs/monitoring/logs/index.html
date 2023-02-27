@@ -114,7 +114,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.7b162123796ac3d147ed69379d8a7f02.json"
+  data-offline-search-index-json-src="../../../offline-search-index.8ccde421c59b7ca23abc81384788d410.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -136,7 +136,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../offline-search-index.7b162123796ac3d147ed69379d8a7f02.json"
+  data-offline-search-index-json-src="../../../offline-search-index.8ccde421c59b7ca23abc81384788d410.json"
   data-offline-search-base-href="../../../"
   data-offline-search-max-results="10"
 >
@@ -519,7 +519,6 @@ if (!doNotTrack) {
         <li><a href="#fluentd-daemonset">Fluentd DaemonSet</a></li>
         <li><a href="#opensearch">OpenSearch</a></li>
         <li><a href="#opensearch-dashboards">OpenSearch Dashboards</a></li>
-        <li><a href="#log-rotation">Log rotation</a></li>
       </ul>
     </li>
   </ul>
@@ -1129,191 +1128,13 @@ spec:
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
+<p>For information on OpenSearch, see the <a href="../../../docs/customize/opensearch/">Customize OpenSearch</a>.</p>
 <h2 id="opensearch-dashboards">OpenSearch Dashboards</h2>
 <p>OpenSearch Dashboards is a visualization dashboard for the content indexed on an OpenSearch cluster.  Verrazzano creates a OpenSearch Dashboards deployment to provide a user interface for querying and visualizing the log data collected in OpenSearch.</p>
 <p>To access the OpenSearch Dashboards, read <a href="../../../docs/access/">Access Verrazzano</a>.</p>
 <p>To see the records of an OpenSearch index or data stream through OpenSearch Dashboards, create an index pattern to filter for records under the desired data stream or index.</p>
 <p>For example, to see the log records of a WebLogic application deployed to the <code>todo-list</code> namespace, create an index pattern of <code>verrazzano-application-todo-*</code>.</p>
 <p><img src="../../../docs/images/opensearch-dashboards-todo.png" alt="OpenSearch Dashboards"></p>
-<h2 id="log-rotation">Log rotation</h2>
-<p>We recommend configuring log rotation for OpenSearch using Index State Management (ISM) or a periodic job to purge or snapshot old records.
-For information on configuring OpenSearch ISM, see the <a href="../../../docs/customize/opensearch/#configure-index-state-management-policies">ISM setup page</a>.</p>
-<p>A basic implementation of job-based log rotation (not using ISM) is provided in the following example, implemented using a Kubernetes CronJob.
-To install the log rotation example on your cluster, save the snippet to a file and make the following modifications:</p>
-<ul>
-<li>Substitue the value of <code>OPENSEARCH_HOST</code> with your specific OpenSearch HTTPS endpoint.</li>
-<li>By default, the CronJob deletes the last 7 days of data. You may customize this by modifying the query in the ConfigMap.
-<style type="text/css">
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-</style>
-
-<div class="clipboard">
-    <div class="highlight">
-<pre tabindex="0"><code>apiVersion: batch/v1beta1
-kind: CronJob
-metadata:
-  name: log-rotate
-  namespace: verrazzano-system
-  labels:
-    app: log-rotate
-spec:
-  # Rotate logs every day at midnight
-  schedule: &#34;0 0 * * *&#34;
-  jobTemplate:
-    spec:
-      template:
-        metadata:
-          labels:
-            app: log-rotate
-          annotations:
-            sidecar.istio.io/inject: &#34;false&#34;
-        spec:
-          containers:
-          - name: log-rotate
-            args:
-            - /bin/sh
-            - -c
-            - /opt/script/rotate
-            env:
-            - name: &#34;OPENSEARCH_HOST&#34;
-              value: &#34;https://opensearch.vmi.system.default.172.18.0.151.nip.io&#34;
-            - name: OPENSEARCH_USER
-              valueFrom:
-                secretKeyRef:
-                  key: username
-                  name: verrazzano
-                  optional: true
-            - name: OPENSEARCH_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: verrazzano
-                  optional: true
-            image: ghcr.io/oracle/oraclelinux:7-slim
-            imagePullPolicy: IfNotPresent
-            volumeMounts:
-            - mountPath: /opt/script
-              name: log-rotate          
-          restartPolicy: OnFailure
-          volumes:
-          - configMap:
-              defaultMode: 0777
-              name: log-rotate
-            name: log-rotate
----
-
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: log-rotate
-  namespace: verrazzano-system
-  labels:
-    app: log-rotate
-data:
-  rotate: |
-    #!/bin/bash
-    curl -v --silent -k -u &#34;$OPENSEARCH_USER:$OPENSEARCH_PASSWORD&#34; -X POST &#34;$OPENSEARCH_HOST/verrazzano-*/_delete_by_query&#34; -H &#39;Content-Type: application/json&#39; -d&#39;
-    {
-      &#34;query&#34;: {
-        &#34;bool&#34;: {
-          &#34;filter&#34;: [
-            {
-              &#34;range&#34;: {
-                &#34;@timestamp&#34;: {
-                  &#34;lt&#34;: &#34;now-7d&#34;
-                }
-              }
-            }
-          ]
-        }
-      }
-    }
-    &#39;
-</code></pre></div>
-
-</div>
-
-<script>
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement("button");
-        button.innerText = "Copy";
-        button.className = "copy-code-button";
-        button.addEventListener("click", () =>
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement("div");
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
-        
-        let codeBlock = codeToCopy.split("\n");
-        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join("\n");
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement('textarea');
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = "Copied";
-        setTimeout(function () {
-            button.innerText = "Copy";
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(".highlight")
-        .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script></li>
-</ul>
 
         <div class="section-index">
     
