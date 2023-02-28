@@ -21,7 +21,7 @@ metadata:
 spec:
   profile: prod
   components:
-    ingress:
+    ingressNGINX:
       type: LoadBalancer
       overrides:
       - values:
