@@ -40,7 +40,7 @@ metadata:
 spec:
   profile: dev
   components:
-    ingress:
+    ingressNGINX:
       type: LoadBalancer
       overrides:
         - values:
@@ -97,7 +97,7 @@ metadata:
 spec:
   profile: dev
   components:
-    ingress:
+    ingressNGINX:
       type: LoadBalancer
       overrides:
         - values:
@@ -150,7 +150,7 @@ metadata:
 spec:
   profile: dev
   components:
-    ingress:
+    ingressNGINX:
       type: LoadBalancer
       overrides:
         - values:
