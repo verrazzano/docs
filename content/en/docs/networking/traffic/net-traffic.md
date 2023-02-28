@@ -343,15 +343,20 @@ Verrazzano authentication proxy, and Prometheus.
 The following table shows Verrazzano system components that initiate requests between the admin and managed clusters.
 All of these requests go through the NGINX Ingress Controller on the respective destination cluster.
 
-| Source Cluster | Source Component | Destination Cluster | Destination Component | Description
-| ------------- |:------------- |:------------- |:------------- |:-------------
+Traffic on port 443 needs to be allowed in both directions i.e. from managed clusters to the admin cluster, and from
+the admin cluster to managed clusters. Additionally, if Rancher is not enabled on the admin cluster, then managed
+clusters will also need access to the admin cluster's Kubernetes API server port (usually, this is port 6443)
+
+| Source Cluster | Source Component | Destination Cluster | Destination Component                  | Description
+| ------------- |:------------- |:------------- |:---------------------------------------|:-------------
 | Admin | Prometheus | Managed | Prometheus | Scapes metrics on managed clusters.
 | Admin | argoCD | Managed | Rancher Proxy | Argo CD connects to the Rancher proxy for creating resources required for the Argo CD managed cluster registration.
 | Admin | Verrazzano Console | Managed | Verrazzano Authentication Proxy | Admin cluster proxy sends Kubernetes API requests to managed cluster proxy.
+| Admin | Verrazzano Cluster Operator | Managed | Rancher Proxy | Admin cluster sends registration updates to managed cluster, and retrieves managed cluster CA certificate.
 | Managed | Fluentd | Admin | OpenSearch | Fluentd sends logs to OpenSearch.
 | Managed | Rancher Agent | Admin | Rancher | Rancher Agent sends requests Rancher.
 | Managed | Verrazzano Authentication Proxy | Admin | Keycloak | Proxy sends requests to Keycloak.
-| Managed | Verrazzano Agent | Admin | Kubernetes API server | Agent, in the platform operator, sends requests Kubernetes API server.
+| Managed | Verrazzano Agent | Admin | Rancher Proxy or Kubernetes API server | Managed Cluster Agent, in the application operator, sends requests to the Rancher Proxy if Rancher is enabled, or to the Kubernetes API server.
 
 ### Verrazzano agent
 In the multicluster topology, the Verrazzano platform operator has an agent thread running on the managed cluster
