@@ -356,7 +356,7 @@ clusters will also need access to the admin cluster's Kubernetes API server port
 | Managed | Fluentd | Admin | OpenSearch | Fluentd sends logs to OpenSearch.
 | Managed | Rancher Agent | Admin | Rancher | Rancher Agent sends requests Rancher.
 | Managed | Verrazzano Authentication Proxy | Admin | Keycloak | Proxy sends requests to Keycloak.
-| Managed | Verrazzano Agent | Admin | Rancher Proxy or Kubernetes API server | Managed Cluster Agent, in the application operator, sends requests to the Rancher Proxy if Rancher is enabled, or to the Kubernetes API server.
+| Managed | Verrazzano Agent | Admin | Rancher Proxy or Kubernetes API server | Managed Cluster Agent, in the application operator, sends requests to the Rancher Proxy if Rancher is enabled, or to the admin cluster Kubernetes API server.
 
 ### Verrazzano agent
 In the multicluster topology, the Verrazzano platform operator has an agent thread running on the managed cluster
