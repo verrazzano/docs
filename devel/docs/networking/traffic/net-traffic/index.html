@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/networking/traffic/net-traffic/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-02-18T19:01:19+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-03-01T10:22:01-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Network Traffic">
 <meta itemprop="description" content="Understand Verrazzano network traffic">
-<meta itemprop="dateModified" content="2023-02-18T19:01:19+05:30" />
-<meta itemprop="wordCount" content="3216">
+<meta itemprop="dateModified" content="2023-03-01T10:22:01-05:00" />
+<meta itemprop="wordCount" content="3311">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Network Traffic"/>
 <meta name="twitter:description" content="Understand Verrazzano network traffic"/>
@@ -118,7 +118,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.9ac144ec0c63e1762429089554b528d9.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.2a811efdde7add51fe0b1b67c37ed0fd.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -140,7 +140,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="../../../../offline-search-index.9ac144ec0c63e1762429089554b528d9.json"
+  data-offline-search-index-json-src="../../../../offline-search-index.2a811efdde7add51fe0b1b67c37ed0fd.json"
   data-offline-search-base-href="../../../../"
   data-offline-search-max-results="10"
 >
@@ -1606,6 +1606,9 @@ Verrazzano authentication proxy, and Prometheus.</p>
 <h3 id="multicluster-egress">Multicluster egress</h3>
 <p>The following table shows Verrazzano system components that initiate requests between the admin and managed clusters.
 All of these requests go through the NGINX Ingress Controller on the respective destination cluster.</p>
+<p>Traffic on port 443 needs to be allowed in both directions, from managed clusters to the admin cluster, and from
+the admin cluster to managed clusters. Additionally, if Rancher is not enabled on the admin cluster, then managed
+clusters will also need access to the admin cluster&rsquo;s Kubernetes API server port (typically, this is port 6443).</p>
 <table>
 <thead>
 <tr>
@@ -1622,7 +1625,7 @@ All of these requests go through the NGINX Ingress Controller on the respective 
 <td style="text-align:left">Prometheus</td>
 <td style="text-align:left">Managed</td>
 <td style="text-align:left">Prometheus</td>
-<td style="text-align:left">Scapes metrics on managed clusters.</td>
+<td style="text-align:left">Scrapes metrics on managed clusters.</td>
 </tr>
 <tr>
 <td>Admin</td>
@@ -1637,6 +1640,13 @@ All of these requests go through the NGINX Ingress Controller on the respective 
 <td style="text-align:left">Managed</td>
 <td style="text-align:left">Verrazzano Authentication Proxy</td>
 <td style="text-align:left">Admin cluster proxy sends Kubernetes API requests to managed cluster proxy.</td>
+</tr>
+<tr>
+<td>Admin</td>
+<td style="text-align:left">Verrazzano Cluster Operator</td>
+<td style="text-align:left">Managed</td>
+<td style="text-align:left">Rancher Proxy</td>
+<td style="text-align:left">Admin cluster sends registration updates to managed cluster, and retrieves managed cluster CA certificate.</td>
 </tr>
 <tr>
 <td>Managed</td>
@@ -1663,8 +1673,8 @@ All of these requests go through the NGINX Ingress Controller on the respective 
 <td>Managed</td>
 <td style="text-align:left">Verrazzano Agent</td>
 <td style="text-align:left">Admin</td>
-<td style="text-align:left">Kubernetes API server</td>
-<td style="text-align:left">Agent, in the platform operator, sends requests Kubernetes API server.</td>
+<td style="text-align:left">Rancher Proxy or Kubernetes API server</td>
+<td style="text-align:left">Managed cluster agent, in the application operator, sends requests to the Rancher proxy if Rancher is enabled, or to the admin cluster Kubernetes API server.</td>
 </tr>
 </tbody>
 </table>
