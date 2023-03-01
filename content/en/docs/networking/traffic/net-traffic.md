@@ -343,7 +343,7 @@ Verrazzano authentication proxy, and Prometheus.
 The following table shows Verrazzano system components that initiate requests between the admin and managed clusters.
 All of these requests go through the NGINX Ingress Controller on the respective destination cluster.
 
-Traffic on port 443 needs to be allowed in both directions, for example, from managed clusters to the admin cluster, and from
+Traffic on port 443 needs to be allowed in both directions, from managed clusters to the admin cluster, and from
 the admin cluster to managed clusters. Additionally, if Rancher is not enabled on the admin cluster, then managed
 clusters will also need access to the admin cluster's Kubernetes API server port (typically, this is port 6443).
 
