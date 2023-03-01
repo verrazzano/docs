@@ -34,7 +34,7 @@ Kind images are prebuilt for each release.  To find images suitable for a given 
 There you'll find a complete listing of images created for a Kind release.
 
 The following example references a Kubernetes v1.21.1-based image built for Kind v0.11.1.  Replace that image
-with one suitable for the Kind release you are using.
+with one suitable for the Kind release you are using. For the supported Kubernetes versions, see the listing [here]({{< relref "/docs/setup/prereqs#kubernetes" >}}).
 {{< clipboard >}}
 <div class="highlight">
 
