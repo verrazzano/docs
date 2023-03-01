@@ -10,9 +10,9 @@ Component version updates:
 - WebLogic Monitoring Exporter v2.1.2
 
 Fixes:
-- Fixed the query for the `Service` variable in WebLogic Grafana dashboard.
-- Fixed upgrade issue with PVCs getting deleted when OpenSearch master node's `StatefulSet` was occasionally killed during upgrade.
-- Fixed OpenSearch plugin install to fail only the master nodes in case of plugin install failure.
+- Fixed the query for the `Service` variable in the WebLogic Grafana dashboard.
+- Fixed upgrade issue with PVCs getting lost when OpenSearch master node's `StatefulSet` was occasionally deleted during upgrade.
+- In the case of a plug-in installation failure, fixed the OpenSearch plug-in installation to fail only the master nodes.
 - Updated base and other images for bugs and security.
 
 ### v1.5.0
