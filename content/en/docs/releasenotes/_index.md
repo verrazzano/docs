@@ -4,6 +4,17 @@ linkTitle: Release Notes
 weight: 13
 draft: false
 ---
+### v1.5.1
+Component version updates:
+- WebLogic Kubernetes Operator v4.0.5
+- WebLogic Monitoring Exporter v2.1.2
+
+Fixes:
+- Fixed the query for the `Service` variable in WebLogic Grafana dashboard.
+- Fixed upgrade issue with PVCs getting deleted when OpenSearch master node's `StatefulSet` was occasionally killed during upgrade.
+- Fixed OpenSearch plugin install to fail only the master nodes in case of plugin install failure.
+- Updated base and other images for bugs and security.
+
 ### v1.5.0
 Features:
 - Added Argo CD, which can be used as a declarative, GitOps continuous delivery tool for deploying applications.
