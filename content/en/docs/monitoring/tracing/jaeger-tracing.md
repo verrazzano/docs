@@ -216,6 +216,51 @@ If you have multiple Jaeger instances in your cluster, specify the name of the J
 send the traces, as a value for the annotation `sidecar.jaegertracing.io/inject`. For more details,
 see the [Jaeger documentation](https://www.jaegertracing.io/docs/{{<jaeger_doc_version>}}/operator/#auto-injecting-jaeger-agent-sidecars).
 
+**NOTE**: Using the Jaeger agent is not supported in Helidon 3.x. To use Jaeger tracing,
+the Helidon application should connect directly to the Jaeger collector. See the following example YAML file, where
+`"TRACING_HOST"` is set to `"jaeger-operator-jaeger-collector.verrazzano-monitoring"` and `"TRACING_PORT"` to `"9411"`.
+For [Jaeger tracing in a multicluster Verrazzano environment](#jaeger-tracing-in-a-multicluster-verrazzano-environment),
+set the `"TRACING_HOST"` to `"jaeger-verrazzano-managed-cluster-collector.verrazzano-monitoring.svc.cluster.local"`.
+
+
+{{< clipboard >}}
+
+```yaml
+apiVersion: core.oam.dev/v1alpha2
+kind: Component
+metadata:
+  name: hello-helidon-component
+spec:
+  workload:
+    apiVersion: oam.verrazzano.io/v1alpha1
+    kind: VerrazzanoHelidonWorkload
+    metadata:
+      name: hello-helidon-workload
+      labels:
+        app: hello-helidon
+        version: v1
+    spec:
+      deploymentTemplate:
+        metadata:
+          name: hello-helidon-deployment
+        podSpec:
+          containers:
+            - name: hello-helidon-container
+              image: "ghcr.io/verrazzano/example-helidon-greet-app-v1:1.0.0-1-20220513221156-7da0d32"
+              env:
+                - name: "TRACING_SERVICE"
+                  value: "hello-helidon"
+                - name: "TRACING_PORT"
+                  value: "9411"
+                - name: "TRACING_HOST"
+                  value: "jaeger-operator-jaeger-collector.verrazzano-monitoring"
+              ports:
+                - containerPort: 8080
+                  name: http
+```
+{{< /clipboard >}}
+
+
 ## View traces on the Jaeger UI
 
 After the installation has completed, you can use the Verrazzano Jaeger UI to view the traces.
