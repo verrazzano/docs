@@ -35,7 +35,7 @@ and integrity for connections within the cluster and for external connections.&l
 Kubernetes has a NetworkPolicy resource that provides network level 3 and 4 security for Pods,
 restricting both ingress and egress IP traffic for a set of Pods in a namespace.  Verrazzano configures all
 system components with NetworkPolicies to control ingress.  Egress is not restricted.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; A NetworkPolicy resource needs a NetworkPolicy controller to implement the policy, otherwise the
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: A NetworkPolicy resource needs a NetworkPolicy controller to implement the policy, otherwise the
 policy has no effect.  You must install a Kubernetes Container Network Interface (CNI) plug-in that provides a NetworkPolicy controller,
 such as Calico, before installing Verrazzano, or else the policies are ignored.&lt;/p&gt;
 &lt;h3 id=&#34;networkpolicies-for-system-components&#34;&gt;NetworkPolicies for system components&lt;/h3&gt;
@@ -692,7 +692,7 @@ you configure using a Verrazzano IngressTrait.&lt;/p&gt;
 cluster in a namespace that is annotated to do sidecar injection, it disables injection of the Coherence resource using the
 &lt;code&gt;sidecar.istio.io/inject=&amp;quot;false&amp;quot;&lt;/code&gt; label shown previously.  Furthermore, Verrazzano will create a DestinationRule in the application
 namespace to disable mTLS for the Coherence extend port &lt;code&gt;9000&lt;/code&gt;.  This allows a service in the mesh to call the Coherence
-extend proxy.  For an example, see &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.5.0/examples/bobs-books&#34;&gt;Bobs Books&lt;/a&gt;.&lt;/p&gt;
+extend proxy.  For an example, see &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.5.1/examples/bobs-books&#34;&gt;Bobs Books&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Here is an example of a DestinationRule created for the Bob&amp;rsquo;s Books application which includes a Coherence cluster.
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -1794,7 +1794,7 @@ items:
 &lt;p&gt;To manage east-west traffic, each service in the mesh should be routed using a VirtualService and an optional
 DestinationRule.  You can still send east-west traffic without either of these resources, but you won’t get any custom
 routing or load balancing.  Verrazzano doesn&amp;rsquo;t configure east-west traffic.  Consider &lt;code&gt;bobbys-front-end&lt;/code&gt; in the Bob&amp;rsquo;s Books example at
-&lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.5.0/examples/bobs-books/bobs-books-comp.yaml&#34;&gt;bobs-books-comp.yaml&lt;/a&gt;.
+&lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/v1.5.1/examples/bobs-books/bobs-books-comp.yaml&#34;&gt;bobs-books-comp.yaml&lt;/a&gt;.
 When deploying Bob&amp;rsquo;s Books, a VirtualService is created for &lt;code&gt;bobbys-front-end&lt;/code&gt;, because of the IngressTrait, but there are
 no VirtualServices for the other services in the application.  When &lt;code&gt;bobbys-front-end&lt;/code&gt; sends requests to
 &lt;code&gt;bobbys-helidon-stock-application&lt;/code&gt;, this east-west traffic still goes to &lt;code&gt;bobbys-helidon-stock-application&lt;/code&gt; through
@@ -1949,6 +1949,9 @@ Verrazzano authentication proxy, and Prometheus.&lt;/p&gt;
 &lt;h3 id=&#34;multicluster-egress&#34;&gt;Multicluster egress&lt;/h3&gt;
 &lt;p&gt;The following table shows Verrazzano system components that initiate requests between the admin and managed clusters.
 All of these requests go through the NGINX Ingress Controller on the respective destination cluster.&lt;/p&gt;
+&lt;p&gt;Traffic on port 443 needs to be allowed in both directions, from managed clusters to the admin cluster, and from
+the admin cluster to managed clusters. Additionally, if Rancher is not enabled on the admin cluster, then managed
+clusters will also need access to the admin cluster&amp;rsquo;s Kubernetes API server port (typically, this is port 6443).&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -1965,7 +1968,7 @@ All of these requests go through the NGINX Ingress Controller on the respective 
 &lt;td style=&#34;text-align:left&#34;&gt;Prometheus&lt;/td&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;Managed&lt;/td&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;Prometheus&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Scapes metrics on managed clusters.&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Scrapes metrics on managed clusters.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Admin&lt;/td&gt;
@@ -1980,6 +1983,13 @@ All of these requests go through the NGINX Ingress Controller on the respective 
 &lt;td style=&#34;text-align:left&#34;&gt;Managed&lt;/td&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;Verrazzano Authentication Proxy&lt;/td&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;Admin cluster proxy sends Kubernetes API requests to managed cluster proxy.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Admin&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Verrazzano Cluster Operator&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Managed&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Rancher Proxy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Admin cluster sends registration updates to managed cluster, and retrieves managed cluster CA certificate.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Managed&lt;/td&gt;
@@ -2006,8 +2016,8 @@ All of these requests go through the NGINX Ingress Controller on the respective 
 &lt;td&gt;Managed&lt;/td&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;Verrazzano Agent&lt;/td&gt;
 &lt;td style=&#34;text-align:left&#34;&gt;Admin&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Kubernetes API server&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Agent, in the platform operator, sends requests Kubernetes API server.&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Rancher Proxy or Kubernetes API server&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Managed cluster agent, in the application operator, sends requests to the Rancher proxy if Rancher is enabled, or to the admin cluster Kubernetes API server.&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;

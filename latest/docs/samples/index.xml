@@ -45,14 +45,15 @@
 &lt;li&gt;Click &lt;strong&gt;Connect Repo&lt;/strong&gt;.&lt;/li&gt;
 &lt;li&gt;Select &lt;strong&gt;VIA HTTPS&lt;/strong&gt; as the connection method.&lt;/li&gt;
 &lt;li&gt;For &lt;strong&gt;Project&lt;/strong&gt;, specify &lt;strong&gt;default&lt;/strong&gt;.
-&lt;br&gt;&lt;strong&gt;Note&lt;/strong&gt;: Unless they are grouped together, all the projects are defined in the &lt;code&gt;default&lt;/code&gt; level.&lt;/li&gt;
+&lt;br&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Unless they are grouped together, all the projects are defined in the &lt;code&gt;default&lt;/code&gt; level.&lt;/li&gt;
 &lt;li&gt;For &lt;strong&gt;Repository URL&lt;/strong&gt;, provide the required URL.&lt;/li&gt;
 &lt;li&gt;If it is a private repository and a user name and password is required to connect to the repository, enter the required credentials.
-&lt;br&gt;&lt;strong&gt;Note&lt;/strong&gt;: The other fields are optional and based on how the Git repository is configured.&lt;/li&gt;
+&lt;br&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The other fields are optional and based on how the Git repository is configured.&lt;/li&gt;
 &lt;li&gt;Click &lt;strong&gt;Connect&lt;/strong&gt; and verify that the connection status displayed is &lt;code&gt;Successful&lt;/code&gt;.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;deploy-applications&#34;&gt;Deploy applications&lt;/h2&gt;
 &lt;p&gt;To deploy applications in a custom namespace, create Argo CD applications that specify the Git repository path, which Argo CD requires to synchronize and deploy the applications in the specified namespace.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: You can either pre-create a namespace and label it or auto-create a namespace when deploying an application.&lt;/p&gt;
 &lt;p&gt;This example provides information about how to deploy the &lt;code&gt;Hello-helidon&lt;/code&gt; application. The &lt;code&gt;Hello-helidon&lt;/code&gt; application and component YAML files are available at &lt;a href=&#34;https://github.com/verrazzano/verrazzano/blob/release-1.5/examples/helidon-config&#34;&gt;Hello World Helidon&lt;/a&gt;.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Log in to the Argo CD console.&lt;/li&gt;
@@ -65,7 +66,8 @@
 &lt;li&gt;&lt;code&gt;Manual&lt;/code&gt; - For manually synchronizing the updates to the Git repository, use the &lt;strong&gt;Manual&lt;/strong&gt; option.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;In the &lt;strong&gt;Sync Options&lt;/strong&gt; section, select &lt;strong&gt;Auto-Create Namespace&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;If you want to auto-create a namespace, in the &lt;strong&gt;Sync Options&lt;/strong&gt; section, select &lt;strong&gt;Auto-Create Namespace&lt;/strong&gt;.
+&lt;br&gt;By auto-creating the namespace, the application will be deployed outside of the service mesh. The best practice is to pre-create the namespace and label it.&lt;/li&gt;
 &lt;li&gt;Under the &lt;strong&gt;Source&lt;/strong&gt; section, enter the following:
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Repository URL&lt;/strong&gt;: &lt;a href=&#34;https://github.com/verrazzano/verrazzano/&#34;&gt;https://github.com/verrazzano/verrazzano/&lt;/a&gt;&lt;/li&gt;
@@ -190,7 +192,7 @@ You can access them according to the directions &lt;a href=&#34;../../docs/acces
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The Bob&amp;rsquo;s Books example application deployment files are contained in the Verrazzano project located at
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The Bob&amp;rsquo;s Books example application deployment files are contained in the Verrazzano project located at
 &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/bobs-books&lt;/code&gt;, where &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
@@ -655,8 +657,8 @@ If you want to use secret names that are different from what is specified in the
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/bobs-books/bobs-books-comp.yaml -n bobs-books
-$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/bobs-books/bobs-books-app.yaml -n bobs-books
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/bobs-books/bobs-books-comp.yaml -n bobs-books
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/bobs-books/bobs-books-app.yaml -n bobs-books
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -1026,7 +1028,7 @@ bobs-books.bobs-books.11.22.33.44.nip.io
 &lt;p&gt;Access the application. To access the application in a browser, you will need to do one of the following:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Option 1:&lt;/strong&gt; If you are using &lt;code&gt;nip.io&lt;/code&gt;, then you can access the application using the generated host name. For example:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Option 1&lt;/strong&gt;: If you are using &lt;code&gt;nip.io&lt;/code&gt;, then you can access the application using the generated host name. For example:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;Robert&amp;rsquo;s Books UI at &lt;code&gt;https://bobs-books.bobs-books.11.22.33.44.nip.io/&lt;/code&gt;.&lt;/p&gt;
@@ -1040,7 +1042,7 @@ bobs-books.bobs-books.11.22.33.44.nip.io
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Option 2:&lt;/strong&gt; Temporarily, modify the &lt;code&gt;/etc/hosts&lt;/code&gt; file (on Mac or Linux) or &lt;code&gt;c:\Windows\System32\Drivers\etc\hosts&lt;/code&gt; file (on Windows 10), to add an entry mapping the host used by the application to the external IP address assigned to your gateway. For example:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Option 2&lt;/strong&gt;: Temporarily, modify the &lt;code&gt;/etc/hosts&lt;/code&gt; file (on Mac or Linux) or &lt;code&gt;c:\Windows\System32\Drivers\etc\hosts&lt;/code&gt; file (on Windows 10), to add an entry mapping the host used by the application to the external IP address assigned to your gateway. For example:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;11.22.33.44 bobs-books.example.com
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Then, you can use a browser to access the application, as shown:&lt;/p&gt;
 &lt;ul&gt;
@@ -1056,7 +1058,7 @@ bobs-books.bobs-books.11.22.33.44.nip.io
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Option 3:&lt;/strong&gt; Alternatively, point your own DNS name to the load balancer&amp;rsquo;s external IP address. In this case, you would need to have edited the &lt;code&gt;bobs-books-app.yaml&lt;/code&gt; file to use the appropriate values under the &lt;code&gt;hosts&lt;/code&gt; section for the application (such as &lt;code&gt;your-roberts-books-host.your.domain&lt;/code&gt;), before deploying the application.
+&lt;p&gt;&lt;strong&gt;Option 3&lt;/strong&gt;: Alternatively, point your own DNS name to the load balancer&amp;rsquo;s external IP address. In this case, you would need to have edited the &lt;code&gt;bobs-books-app.yaml&lt;/code&gt; file to use the appropriate values under the &lt;code&gt;hosts&lt;/code&gt; section for the application (such as &lt;code&gt;your-roberts-books-host.your.domain&lt;/code&gt;), before deploying the application.
 Then, you can use a browser to access the application, as shown:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -1711,8 +1713,8 @@ roberts-coherence-1                                 2/2     Running   0         
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/bobs-books/bobs-books-app.yaml -n bobs-books
-$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/bobs-books/bobs-books-comp.yaml -n bobs-books
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/bobs-books/bobs-books-app.yaml -n bobs-books
+$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/bobs-books/bobs-books-comp.yaml -n bobs-books
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -1920,7 +1922,7 @@ $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5
         
         &lt;h2 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h2&gt;
 &lt;p&gt;Install Verrazzano by following the &lt;a href=&#34;../../docs/setup/install/installation/&#34;&gt;installation&lt;/a&gt; instructions.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The Sock Shop example application deployment files are contained in the Verrazzano project located at
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The Sock Shop example application deployment files are contained in the Verrazzano project located at
 &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/sockshop&lt;/code&gt;, where &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
 &lt;h2 id=&#34;deploy-the-application&#34;&gt;Deploy the application&lt;/h2&gt;
 &lt;p&gt;This example application provides various implementations of the &lt;a href=&#34;https://microservices-demo.github.io/&#34;&gt;Sock Shop Microservices Demo Application&lt;/a&gt;.
@@ -2138,19 +2140,19 @@ $ kubectl label namespace sockshop verrazzano-managed=true
 		
 
 		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-fbaecd&#34; data-toggle=&#34;tab&#34; href=&#34;#fbaecd&#34;
+		   id=&#34;nav-fbcead&#34; data-toggle=&#34;tab&#34; href=&#34;#fbcead&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Helidon&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-efacbd&#34; data-toggle=&#34;tab&#34; href=&#34;#efacbd&#34;
+		   id=&#34;nav-febadc&#34; data-toggle=&#34;tab&#34; href=&#34;#febadc&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Micronaut&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-bcfead&#34; data-toggle=&#34;tab&#34; href=&#34;#bcfead&#34;
+		   id=&#34;nav-bfdeca&#34; data-toggle=&#34;tab&#34; href=&#34;#bfdeca&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Spring&lt;/a&gt;
 
 		
@@ -2166,7 +2168,7 @@ $ kubectl label namespace sockshop verrazzano-managed=true
 
 
 
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;fbaecd&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;fbcead&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	   &lt;br&gt;
 &lt;style type=&#34;text/css&#34;&gt;
@@ -2198,8 +2200,8 @@ $ kubectl label namespace sockshop verrazzano-managed=true
 &lt;/style&gt;
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/sock-shop/helidon/sock-shop-comp.yaml -n sockshop
-$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/sock-shop/helidon/sock-shop-app.yaml -n sockshop
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/sock-shop/helidon/sock-shop-comp.yaml -n sockshop
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/sock-shop/helidon/sock-shop-app.yaml -n sockshop
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;script&gt;
@@ -2267,7 +2269,7 @@ $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;efacbd&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;febadc&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	   &lt;br&gt;
 &lt;style type=&#34;text/css&#34;&gt;
@@ -2299,8 +2301,8 @@ $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.
 &lt;/style&gt;
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/sock-shop/micronaut/sock-shop-comp.yaml -n sockshop
-$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/sock-shop/micronaut/sock-shop-app.yaml -n sockshop
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/sock-shop/micronaut/sock-shop-comp.yaml -n sockshop
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/sock-shop/micronaut/sock-shop-app.yaml -n sockshop
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;script&gt;
@@ -2368,7 +2370,7 @@ $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;bcfead&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;bfdeca&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	   &lt;br&gt;
 &lt;style type=&#34;text/css&#34;&gt;
@@ -2400,8 +2402,8 @@ $ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.
 &lt;/style&gt;
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/sock-shop/spring/sock-shop-comp.yaml -n sockshop
-$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/sock-shop/spring/sock-shop-app.yaml -n sockshop
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/sock-shop/spring/sock-shop-comp.yaml -n sockshop
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/sock-shop/spring/sock-shop-app.yaml -n sockshop
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;script&gt;
@@ -3156,19 +3158,19 @@ $ kubectl get IngressTrait -n sockshop
 		
 
 		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-aedcfb&#34; data-toggle=&#34;tab&#34; href=&#34;#aedcfb&#34;
+		   id=&#34;nav-dcaefb&#34; data-toggle=&#34;tab&#34; href=&#34;#dcaefb&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Helidon&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-efbcda&#34; data-toggle=&#34;tab&#34; href=&#34;#efbcda&#34;
+		   id=&#34;nav-daebcf&#34; data-toggle=&#34;tab&#34; href=&#34;#daebcf&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Micronaut&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-befadc&#34; data-toggle=&#34;tab&#34; href=&#34;#befadc&#34;
+		   id=&#34;nav-dbcfea&#34; data-toggle=&#34;tab&#34; href=&#34;#dbcfea&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;Spring&lt;/a&gt;
 
 		
@@ -3184,7 +3186,7 @@ $ kubectl get IngressTrait -n sockshop
 
 
 
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;aedcfb&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;dcaefb&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	   &lt;br&gt;
 &lt;style type=&#34;text/css&#34;&gt;
@@ -3215,8 +3217,8 @@ $ kubectl get IngressTrait -n sockshop
 &lt;p&gt;&lt;/style&gt;&lt;/p&gt;
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/sock-shop/helidon/sock-shop-comp.yaml -n sockshop
-$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/sock-shop/helidon/sock-shop-app.yaml -n sockshop
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/sock-shop/helidon/sock-shop-comp.yaml -n sockshop
+$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/sock-shop/helidon/sock-shop-app.yaml -n sockshop
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;script&gt;
@@ -3284,7 +3286,7 @@ $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;efbcda&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;daebcf&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	   &lt;br&gt;
 &lt;style type=&#34;text/css&#34;&gt;
@@ -3315,8 +3317,8 @@ $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5
 &lt;p&gt;&lt;/style&gt;&lt;/p&gt;
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/sock-shop/micronaut/sock-shop-comp.yaml -n sockshop
-$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/sock-shop/micronaut/sock-shop-app.yaml -n sockshop
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/sock-shop/micronaut/sock-shop-comp.yaml -n sockshop
+$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/sock-shop/micronaut/sock-shop-app.yaml -n sockshop
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;script&gt;
@@ -3384,7 +3386,7 @@ $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;befadc&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;dbcfea&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	   &lt;br&gt;
 &lt;style type=&#34;text/css&#34;&gt;
@@ -3416,8 +3418,8 @@ $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5
 &lt;/style&gt;
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/sock-shop/spring/sock-shop-comp.yaml -n sockshop
-$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/sock-shop/spring/sock-shop-app.yaml -n sockshop
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/sock-shop/spring/sock-shop-comp.yaml -n sockshop
+$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/sock-shop/spring/sock-shop-app.yaml -n sockshop
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;script&gt;
@@ -3594,7 +3596,7 @@ $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5
         
         &lt;h2 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h2&gt;
 &lt;p&gt;Install Verrazzano by following the &lt;a href=&#34;../../docs/setup/install/installation/&#34;&gt;installation&lt;/a&gt; instructions.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The Spring Boot example application deployment files are contained in the Verrazzano project located at &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/springboot-app&lt;/code&gt;, where &lt;code&gt;VERRAZZANO_HOME&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The Spring Boot example application deployment files are contained in the Verrazzano project located at &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/springboot-app&lt;/code&gt;, where &lt;code&gt;VERRAZZANO_HOME&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
 &lt;h2 id=&#34;deploy-the-application&#34;&gt;Deploy the application&lt;/h2&gt;
 &lt;p&gt;This example provides a simple web application developed using &lt;a href=&#34;https://spring.io/guides/gs/spring-boot/&#34;&gt;Spring Boot&lt;/a&gt;. For more information and the source code of this application, see the &lt;a href=&#34;https://github.com/verrazzano/examples&#34;&gt;Verrazzano Examples&lt;/a&gt;.&lt;/p&gt;
 
@@ -3824,8 +3826,8 @@ $ kubectl label namespace springboot verrazzano-managed=true istio-injection=ena
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/springboot-app/springboot-comp.yaml -n springboot
-$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/springboot-app/springboot-app.yaml -n springboot
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/springboot-app/springboot-comp.yaml -n springboot
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/springboot-app/springboot-app.yaml -n springboot
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -4365,8 +4367,8 @@ You can access them according to the directions &lt;a href=&#34;../../docs/acces
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/springboot-app/springboot-app.yaml -n springboot
-$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/springboot-app/springboot-comp.yaml -n springboot
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/springboot-app/springboot-app.yaml -n springboot
+$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/springboot-app/springboot-comp.yaml -n springboot
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -5634,7 +5636,7 @@ $ kubectl delete ClusterRole oam-kubernetes-runtime-ingresses
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The ToDo List example application deployment files are contained in the Verrazzano project located at
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The ToDo List example application deployment files are contained in the Verrazzano project located at
 &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/todo-list&lt;/code&gt;, where &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
 &lt;p&gt;All files and paths in this document are relative to &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/todo-list&lt;/code&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;deploy-the-application&#34;&gt;Deploy the application&lt;/h2&gt;
@@ -6077,8 +6079,8 @@ For the source code of this application, see the &lt;a href=&#34;https://github.
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/todo-list/todo-list-components.yaml -n todo-list
-$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/todo-list/todo-list-application.yaml -n todo-list
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/todo-list/todo-list-components.yaml -n todo-list
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/todo-list/todo-list-application.yaml -n todo-list
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -7124,8 +7126,8 @@ tododomain-adminserver   4/4     Running   0          19h
 
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/todo-list/todo-list-application.yaml -n todo-list
-$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/todo-list/todo-list-components.yaml -n todo-list
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/todo-list/todo-list-application.yaml -n todo-list
+$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/todo-list/todo-list-components.yaml -n todo-list
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -7299,7 +7301,7 @@ $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5
 &lt;p&gt;This example is a Helidon-based service that returns a &amp;ldquo;HelloConfig World&amp;rdquo; response when invoked. The application configuration uses a Kubernetes ConfigMap, instead of the default, microprofile properties file.&lt;/p&gt;
 &lt;h2 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h2&gt;
 &lt;p&gt;Install Verrazzano by following the &lt;a href=&#34;../../docs/setup/install/installation/&#34;&gt;installation&lt;/a&gt; instructions.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The Hello World Helidon configuration example application deployment files are contained in the Verrazzano project located at &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/helidon-config&lt;/code&gt;, where &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The Hello World Helidon configuration example application deployment files are contained in the Verrazzano project located at &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/helidon-config&lt;/code&gt;, where &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
 &lt;h2 id=&#34;deploy-the-hello-config-world-helidon-application&#34;&gt;Deploy the Hello Config World Helidon application&lt;/h2&gt;
 
 
@@ -7528,8 +7530,8 @@ $ kubectl label namespace helidon-config verrazzano-managed=true istio-injection
 
 &lt;div class=&#34;clipboard&#34;&gt;
        &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/helidon-config/helidon-config-comp.yaml -n helidon-config
-$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/helidon-config/helidon-config-app.yaml -n helidon-config
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/helidon-config/helidon-config-comp.yaml -n helidon-config
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/helidon-config/helidon-config-app.yaml -n helidon-config
 &lt;/code&gt;&lt;/pre&gt;   &lt;/div&gt;
 
 &lt;/div&gt;
@@ -8261,8 +8263,8 @@ Note that this may take a few minutes and that you may see some of the services 
 
 &lt;div class=&#34;clipboard&#34;&gt;
        &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/helidon-config/helidon-config-app.yaml -n helidon-config
-$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/helidon-config/helidon-config-comp.yaml -n helidon-config
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/helidon-config/helidon-config-app.yaml -n helidon-config
+$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/helidon-config/helidon-config-comp.yaml -n helidon-config
 &lt;/code&gt;&lt;/pre&gt;   &lt;/div&gt;
 
 &lt;/div&gt;
@@ -8436,7 +8438,7 @@ $ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5
 &lt;p&gt;This example is a Helidon-based service that returns a “Hello World” response when invoked. The application configuration uses the default, microprofile properties file.&lt;/p&gt;
 &lt;h2 id=&#34;before-you-begin&#34;&gt;Before you begin&lt;/h2&gt;
 &lt;p&gt;Install Verrazzano by following the &lt;a href=&#34;../../docs/setup/install/installation/&#34;&gt;installation&lt;/a&gt; instructions.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; The Hello World Helidon example application deployment files are contained in the Verrazzano project located at &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/hello-helidon&lt;/code&gt;, where &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: The Hello World Helidon example application deployment files are contained in the Verrazzano project located at &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;/examples/hello-helidon&lt;/code&gt;, where &lt;code&gt;&amp;lt;VERRAZZANO_HOME&amp;gt;&lt;/code&gt; is the root of the Verrazzano project.&lt;/p&gt;
 &lt;h2 id=&#34;deploy-the-hello-world-helidon-application&#34;&gt;Deploy the Hello World Helidon application&lt;/h2&gt;
 
 
@@ -8665,8 +8667,8 @@ $ kubectl label namespace hello-helidon verrazzano-managed=true istio-injection=
 
 &lt;div class=&#34;clipboard&#34;&gt;
        &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/hello-helidon/hello-helidon-comp.yaml -n hello-helidon
-$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/hello-helidon/hello-helidon-app.yaml -n hello-helidon
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/hello-helidon/hello-helidon-comp.yaml -n hello-helidon
+$ kubectl apply -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/hello-helidon/hello-helidon-app.yaml -n hello-helidon
 &lt;/code&gt;&lt;/pre&gt;   &lt;/div&gt;
 
 &lt;/div&gt;
@@ -9399,8 +9401,8 @@ Note that this may take a few minutes and that you may see some of the services 
 
 &lt;div class=&#34;clipboard&#34;&gt;
        &lt;div class=&#34;highlight&#34;&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/hello-helidon/hello-helidon-app.yaml -n hello-helidon
-$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.0/examples/hello-helidon/hello-helidon-comp.yaml -n hello-helidon
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/hello-helidon/hello-helidon-app.yaml -n hello-helidon
+$ kubectl delete -f https://raw.githubusercontent.com/verrazzano/verrazzano/v1.5.1/examples/hello-helidon/hello-helidon-comp.yaml -n hello-helidon
 &lt;/code&gt;&lt;/pre&gt;   &lt;/div&gt;
 
 &lt;/div&gt;
