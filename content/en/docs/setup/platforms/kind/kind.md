@@ -110,6 +110,7 @@ because they will not need to pull the images again.
 </div>
 {{< /clipboard >}}
 
+**NOTE**: When using a private registry or experience rate-limiting, refer to the [Kind documentation](https://kind.sigs.k8s.io/docs/user/private-registries/). 
 
 ## Install and configure MetalLB
 
@@ -125,6 +126,15 @@ To install MetalLB:
         -n metallb-system memberlist \
         --from-literal=secretkey="$(openssl rand -base64 128)"
     $ kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.11.0/manifests/metallb.yaml
+
+</div>
+{{< /clipboard >}}
+
+Wait for MetalLB to be ready:
+{{< clipboard >}}
+<div class="highlight">
+
+    $ kubectl get all -n metallb-system
 
 </div>
 {{< /clipboard >}}
