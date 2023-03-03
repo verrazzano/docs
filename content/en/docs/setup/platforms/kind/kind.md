@@ -110,7 +110,7 @@ because they will not need to pull the images again.
 </div>
 {{< /clipboard >}}
 
-**NOTE**: When using a private registry or experience rate-limiting, refer to the [Kind documentation](https://kind.sigs.k8s.io/docs/user/private-registries/). 
+**NOTE**: When using a private container registry or experiencing rate-limiting of container image pulls, refer to the [Kind documentation](https://kind.sigs.k8s.io/docs/user/private-registries/).
 
 ## Install and configure MetalLB
 
@@ -130,11 +130,14 @@ To install MetalLB:
 </div>
 {{< /clipboard >}}
 
-Wait for MetalLB to be ready:
+Wait for MetalLB to be `READY` `1/1` and `STATUS` `Running`:
 {{< clipboard >}}
 <div class="highlight">
 
-    $ kubectl get all -n metallb-system
+    $ kubectl get pods -n metallb-system -L app=metallb
+    NAME                         READY   STATUS    RESTARTS       AGE   APP=METALLB
+    controller-d9d8c78b6-hhplg   1/1     Running   1 (3d4h ago)   9d    
+    speaker-4lqpg                1/1     Running   1 (3d4h ago)   9d
 
 </div>
 {{< /clipboard >}}
