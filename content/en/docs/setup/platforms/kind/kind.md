@@ -130,7 +130,7 @@ To install MetalLB:
 </div>
 {{< /clipboard >}}
 
-Wait for MetalLB to be `READY` `1/1` and `STATUS` `Running`:
+Wait for MetalLB to be ready, as shown:
 {{< clipboard >}}
 <div class="highlight">
 
