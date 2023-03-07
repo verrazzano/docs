@@ -45,7 +45,7 @@ The following example creates a secret `mysql-backup-secret` in the namespace `k
    aws_secret_access_key=<object store secret key>
    ```
 
-2. MySQL Operator requires the region name where the bucket is created, so we create a `backup-secret.txt` file, which contains the region information.
+2. MySQL Operator requires the region name where the bucket is created, so we create a `backup-region.txt` file, which contains the region information.
 
    ```backup-region.txt
    [default]
