@@ -131,5 +131,6 @@ Additionally, an authorization policy limiting access to specific request princi
 Use the following rules related to the host name:
 
 - If you provide a host name, then you have an option to provide a certificate.  If you do not provide a certificate, then Verrazzano generates one for you.
+- If you provide a certificate, the TLS secret for that certificate must be in the istio-system namespace.
 - If you provide a certificate, then you must provide a host name.
 - If you do not provide either a host name or a certificate, then Verrazzano generates them for you.
