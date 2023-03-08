@@ -99,23 +99,23 @@ velero-5ff8766fd4-xbn4z   1/1     Running   0          21h
 
   ```yaml
    $ kubectl apply -f -<<EOF
-     apiVersion: velero.io/v1
-      kind: BackupStorageLocation
-     metadata:
-       name: verrazzano-backup-location
-       namespace: verrazzano-backup
-      spec:
-       provider: aws
-        objectStorage:
-          bucket: example-verrazzano
-          prefix: backup-demo
-        credential:
-         name: verrazzano-backup-creds
-         key: cloud
-        config:
-         region: us-phoenix-1
-         s3ForcePathStyle: "true"
-         s3Url: https://mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com
+   apiVersion: velero.io/v1
+   kind: BackupStorageLocation
+   metadata:
+     name: verrazzano-backup-location
+     namespace: verrazzano-backup
+   spec:
+     provider: aws
+     objectStorage:
+       bucket: example-verrazzano
+       prefix: backup-demo
+     credential:
+       name: verrazzano-backup-creds
+       key: cloud
+     config:
+       region: us-phoenix-1
+       s3ForcePathStyle: "true"
+       s3Url: https://mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com
    EOF
   ```
 {{< /clipboard >}}
