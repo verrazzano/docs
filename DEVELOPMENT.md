@@ -1,30 +1,18 @@
 # Documentation Development Instructions
 
-## Setup
+## Prerequisites
 
-1. Clone this repository (or your fork) using `--recurse-submodules`:
+1. Install [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
+
+1. Install the extended edition of [Hugo](https://gohugo.io/installation/) for your platform.
+
+1. Install [Go](https://go.dev/dl/).
+
+1. Clone this repository (or your fork):
 
    ```shell
-   git clone --recurse-submodules https://github.com/verrazzano/docs.git
+   git clone https://github.com/verrazzano/docs.git
    ```
-
-   If you cloned this repository without `--recurse-submodules`, you'll
-   need to run the following commands inside the repository:
-
-   ```shell
-   git submodule init
-   git submodule update
-   cd themes/docsy
-   git submodule init
-   git submodule update
-   ```
-
-   (Docsy uses two submodules, but those don't use further submodules.)
-
-1. (Optional) If you want to change the CSS, install
-   [PostCSS](https://www.docsy.dev/docs/getting-started/#install-postcss).
-
-1. Install a supported version of [Hugo](https://www.docsy.dev/docs/getting-started/#install-hugo).
 
 ## Run locally
 
