@@ -58,7 +58,7 @@ Verrazzano installs the Jaeger Operator and Jaeger using the
 Using Helm overrides specified in the Verrazzano custom resource, you can customize the installation configuration.
 For more information about setting component overrides, see [Customizing the Chart Before Installing](https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing).
 
-### Customize a Jaeger instance to use an external OpenSearch for storage
+### Customize a Jaeger instance to use an external OpenSearch or Elasticsearch for storage
 
 You can use the default Jaeger instance with an external OpenSearch cluster. The following example shows you how to
 configure Jaeger Operator Helm overrides in the Verrazzano custom resource to use an external OpenSearch cluster
@@ -101,7 +101,7 @@ spec:
               spec:
                 strategy: production
                 storage:
-                  type: opensearch
+                  type: elasticsearch
                   options:
                     es:
                       # Enter your OpenSearch cluster endpoint here.
@@ -367,7 +367,7 @@ desired values.
 
 ```
 storage:
-  type: opensearch
+  type: elasticsearch
   esIndexCleaner:
     enabled: true                                 // turn the cron job deployment on and off
     numberOfDays: 7                               // number of days to wait before deleting a record
@@ -380,11 +380,11 @@ storage:
 ## Jaeger tracing in a multicluster Verrazzano environment
 
 If the Jaeger Operator component is enabled in the managed cluster, after successful registration with the admin cluster,
-a Jaeger collector service runs in the managed cluster, which exports the traces to the OpenSearch
+a Jaeger collector service runs in the managed cluster, which exports the traces to the OpenSearch or Elasticsearch
 storage configured in the admin cluster.
 
 **NOTE**: Traces are exported to the admin cluster only when the Jaeger instance in the admin cluster is configured
-with the OpenSearch storage.
+with the OpenSearch or Elasticsearch storage.
 
 Listing Jaeger resources in the managed cluster shows output similar to the following.
 {{< clipboard >}}
@@ -393,7 +393,7 @@ Listing Jaeger resources in the managed cluster shows output similar to the foll
 ```
 $ kubectl get jaegers -n verrazzano-monitoring
 NAME                                STATUS    VERSION   STRATEGY     STORAGE         AGE
-jaeger-verrazzano-managed-cluster   Running   1.34.1    production   opensearch      11m
+jaeger-verrazzano-managed-cluster   Running   1.34.1    production   elasticsearch   11m
 ```
 
 </div>
@@ -401,7 +401,7 @@ jaeger-verrazzano-managed-cluster   Running   1.34.1    production   opensearch 
 ### Configure the Istio mesh in a managed cluster to export Jaeger traces to the admin cluster
 
 To export the Istio mesh traces in the managed cluster to the admin cluster, set `meshConfig.defaultConfig.tracing.zipkin.address`
-to the Jaeger Collector URL created in the managed cluster that exports the traces to the OpenSearch
+to the Jaeger Collector URL created in the managed cluster that exports the traces to the OpenSearch or Elasticsearch
 storage configured in the admin cluster.
 
 Configure the Istio mesh on the managed cluster at the time of the Verrazzano installation, as follows:
