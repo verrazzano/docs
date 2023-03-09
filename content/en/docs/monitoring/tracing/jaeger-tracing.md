@@ -101,7 +101,7 @@ spec:
               spec:
                 strategy: production
                 storage:
-                  type: elasticsearch
+                  type: opensearch
                   options:
                     es:
                       # Enter your OpenSearch cluster endpoint here.
@@ -367,7 +367,7 @@ desired values.
 
 ```
 storage:
-  type: elasticsearch
+  type: opensearch
   esIndexCleaner:
     enabled: true                                 // turn the cron job deployment on and off
     numberOfDays: 7                               // number of days to wait before deleting a record
@@ -393,7 +393,7 @@ Listing Jaeger resources in the managed cluster shows output similar to the foll
 ```
 $ kubectl get jaegers -n verrazzano-monitoring
 NAME                                STATUS    VERSION   STRATEGY     STORAGE         AGE
-jaeger-verrazzano-managed-cluster   Running   1.34.1    production   elasticsearch   11m
+jaeger-verrazzano-managed-cluster   Running   1.34.1    production   opensearch      11m
 ```
 
 </div>
