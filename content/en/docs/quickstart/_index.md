@@ -13,10 +13,10 @@ platforms for installing Verrazzano, see [Platform Setup]({{< relref "/docs/setu
 
 - Find the Verrazzano prerequisite requirements [here]({{< relref "/docs/setup/prereqs.md" >}}).
 - Install  the [Verrazzano CLI]({{< relref "docs/setup/cli/_index.md" >}}).
-- Review the list of the [software versions supported]({{< relref "/docs/setup/prereqs.md#supported-software-versions" >}}) and [installed]({{< relref "/docs/setup/prereqs.md#installed-components" >}}) by Verrazzano.
-- For detailed Verrazzano installation instructions, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}}).
 
 **NOTE**: If you just created the cluster, then you must wait until your nodes reach `Ready` status before installing Verrazzano.
+
+For detailed Verrazzano installation instructions, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}}).
 
 ## Install Verrazzano
 
@@ -29,14 +29,9 @@ The [Verrazzano platform operator](https://github.com/verrazzano/verrazzano) con
 
 You install Verrazzano by creating a Verrazzano custom resource in
 your Kubernetes cluster.  Verrazzano currently supports a default production (`prod`)
-profile and a development (`dev`) profile suitable for evaluation.
+profile and a development (`dev`) profile suitable for evaluation. For more information, see [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}}).
 
-The development profile has the following characteristics:
-* Wildcard (nip.io) DNS
-* Self-signed certificates
-* Shared observability stack used by the system components and all applications
-* Ephemeral storage for the observability stack (if the pods are restarted, you lose all of your logs and metrics)
-* Single-node, reduced memory OpenSearch cluster
+Using the Quick Start, you'll install the `dev` profile.
 
 {{< alert title="NOTE" color="warning" >}}Because the `dev` profile installs self-signed certificates, when installing Verrazzano on macOS, you might see: **Your connection is not private**. For a workaround, see this [FAQ]({{< relref "/docs/faq/_index.md#enable-google-chrome-to-accept-self-signed-verrazzano-certificates" >}}).
 {{< /alert >}}
