@@ -233,7 +233,7 @@ deployment.apps/jaeger-operator-jaeger-query       1/1     1            1       
 &lt;a href=&#34;https://github.com/jaegertracing/helm-charts/tree/jaeger-operator-2.32.2/charts/jaeger-operator&#34;&gt;jaeger-operator&lt;/a&gt; Helm chart.
 Using Helm overrides specified in the Verrazzano custom resource, you can customize the installation configuration.
 For more information about setting component overrides, see &lt;a href=&#34;https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing&#34;&gt;Customizing the Chart Before Installing&lt;/a&gt;.&lt;/p&gt;
-&lt;h3 id=&#34;customize-a-jaeger-instance-to-use-an-external-opensearch-for-storage&#34;&gt;Customize a Jaeger instance to use an external OpenSearch for storage&lt;/h3&gt;
+&lt;h3 id=&#34;customize-a-jaeger-instance-to-use-an-external-opensearch-or-elasticsearch-for-storage&#34;&gt;Customize a Jaeger instance to use an external OpenSearch or Elasticsearch for storage&lt;/h3&gt;
 &lt;p&gt;You can use the default Jaeger instance with an external OpenSearch cluster. The following example shows you how to
 configure Jaeger Operator Helm overrides in the Verrazzano custom resource to use an external OpenSearch cluster
 with a TLS CA certificate mounted from a volume and the user/password stored in a secret. For more details, see the
@@ -383,7 +383,7 @@ to connect to OpenSearch.
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;              &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;spec&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;strategy&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;production&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;storage&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;opensearch&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;elasticsearch&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                  &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;options&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                    &lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;es&lt;/span&gt;&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;                      &lt;/span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Enter your OpenSearch cluster endpoint here.&lt;/span&gt;&lt;span style=&#34;color:#f8f8f8;text-decoration:underline&#34;&gt;
@@ -1293,7 +1293,7 @@ desired values.
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;storage:
-  type: opensearch
+  type: elasticsearch
   esIndexCleaner:
     enabled: true                                 // turn the cron job deployment on and off
     numberOfDays: 7                               // number of days to wait before deleting a record
@@ -1360,10 +1360,10 @@ desired values.
 &lt;/script&gt;&lt;/p&gt;
 &lt;h2 id=&#34;jaeger-tracing-in-a-multicluster-verrazzano-environment&#34;&gt;Jaeger tracing in a multicluster Verrazzano environment&lt;/h2&gt;
 &lt;p&gt;If the Jaeger Operator component is enabled in the managed cluster, after successful registration with the admin cluster,
-a Jaeger collector service runs in the managed cluster, which exports the traces to the OpenSearch
+a Jaeger collector service runs in the managed cluster, which exports the traces to the OpenSearch or Elasticsearch
 storage configured in the admin cluster.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt;: Traces are exported to the admin cluster only when the Jaeger instance in the admin cluster is configured
-with the OpenSearch storage.&lt;/p&gt;
+with the OpenSearch or Elasticsearch storage.&lt;/p&gt;
 &lt;p&gt;Listing Jaeger resources in the managed cluster shows output similar to the following.
 &lt;style type=&#34;text/css&#34;&gt;
     code {
@@ -1397,7 +1397,7 @@ with the OpenSearch storage.&lt;/p&gt;
     &lt;div class=&#34;highlight&#34;&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get jaegers -n verrazzano-monitoring
 NAME                                STATUS    VERSION   STRATEGY     STORAGE         AGE
-jaeger-verrazzano-managed-cluster   Running   1.34.1    production   opensearch      11m
+jaeger-verrazzano-managed-cluster   Running   1.34.1    production   elasticsearch   11m
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -1460,7 +1460,7 @@ jaeger-verrazzano-managed-cluster   Running   1.34.1    production   opensearch 
 &lt;/script&gt;&lt;/p&gt;
 &lt;h3 id=&#34;configure-the-istio-mesh-in-a-managed-cluster-to-export-jaeger-traces-to-the-admin-cluster&#34;&gt;Configure the Istio mesh in a managed cluster to export Jaeger traces to the admin cluster&lt;/h3&gt;
 &lt;p&gt;To export the Istio mesh traces in the managed cluster to the admin cluster, set &lt;code&gt;meshConfig.defaultConfig.tracing.zipkin.address&lt;/code&gt;
-to the Jaeger Collector URL created in the managed cluster that exports the traces to the OpenSearch
+to the Jaeger Collector URL created in the managed cluster that exports the traces to the OpenSearch or Elasticsearch
 storage configured in the admin cluster.&lt;/p&gt;
 &lt;p&gt;Configure the Istio mesh on the managed cluster at the time of the Verrazzano installation, as follows:
 &lt;style type=&#34;text/css&#34;&gt;
