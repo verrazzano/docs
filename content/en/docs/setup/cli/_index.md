@@ -9,6 +9,9 @@ draft: false
 The Verrazzano command-line tool, `vz`, is available for Linux and Mac systems.
 Download the binary you want from the [Releases](https://github.com/verrazzano/verrazzano/releases/) page.
 
+{{< alert title="NOTE" color="warning" >}}For optimal functionality, install or upgrade the CLI version to match the desired Verrazzano version.   
+{{< /alert >}}
+
 ## Install the `vz` CLI
 
 These instructions demonstrate installing the CLI on Linux AMD64 machines.
