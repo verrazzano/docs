@@ -103,6 +103,7 @@ The rancher-backup Operator creates the backup file, in `*.tar.gz` format, on th
       resourceSetName: rancher-resource-set
   EOF
   ```
+{{< /clipboard >}}
 
 **NOTE**: In Step 3. of the example in the [prerequisites](#rancher-backup-operator-prerequisites) section, you created the secret in the `verrazzano-backup` namespace.
 
