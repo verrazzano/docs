@@ -32,6 +32,9 @@ Currently, there is no way to roll back either the platform operator update or t
 You can upgrade Verrazzano using the  [Verrazzano CLI]({{< relref "/docs/setup/install/installation.md" >}}) or with [kubectl](https://kubernetes.io/docs/reference/kubectl/kubectl/).
 See the following respective sections.
 
+{{< alert title="NOTE" color="warning" >}}For optimal functionality, be sure to install or upgrade the CLI version to match the Verrazzano version to which you are upgrading.   
+{{< /alert >}}
+
 {{< tabs tabTotal="2" >}}
 {{< tab tabName="vz" >}}
 <br>
@@ -53,7 +56,7 @@ In one simple step, you can upgrade to a specified version of Verrazzano using t
 {{< /clipboard >}}
 
    To update to a specific version, where `<version>` is the desired version:
-   
+
 {{< clipboard >}}
 <div class="highlight">
 
