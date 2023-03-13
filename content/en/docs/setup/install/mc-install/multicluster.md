@@ -59,8 +59,10 @@ see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}
 
 ## Register the managed cluster using VerrazzanoManagedCluster
 
+{{< alert title="NOTE" color="primary" >}}
 If Rancher is not enabled, then refer to [Verrazzano multicluster installation without Rancher]({{< relref "docs/setup/install/mc-install/multicluster-no-rancher.md" >}})
 because additional steps will be required to register a managed cluster.
+{{< /alert >}}
 
 To register using VerrazzanoManagedCluster, complete the following steps:
 
@@ -121,3 +123,9 @@ To register using VerrazzanoManagedCluster, complete the following steps:
 
 </div>
 {{< /clipboard >}}
+
+To deregister a managed cluster, see [Deregister a Managed Cluster]({{< relref "/docs/setup/install/mc-install/deregister-install.md" >}}).
+
+## Next steps
+
+Deploy applications by following the [Multicluster Hello World Helidon]({{< relref "/docs/samples/multicluster/hello-helidon/_index.md" >}}) example application.
