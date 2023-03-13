@@ -1618,7 +1618,7 @@ string
 <td>
 <em>(Optional)</em>
 <p>The target OpenSearch URLs.
-Specify this option in this <a href="https://docs.fluentd.org/output/opensearch#hosts-optional">format</a>.
+Specify this option in this <a href="https://docs.fluentd.org/output/elasticsearch#hosts-optional">format</a>.
 The default <code>http://vmi-system-es-ingest-oidc:8775</code> is the VMI OpenSearch URL.</p>
 </td>
 </tr>
