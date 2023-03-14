@@ -1,7 +1,7 @@
 ---
 title: "Modify Verrazzano Installations"
 description: "How to modify a Verrazzano installation"
-weight: 3
+weight: 6
 draft: false
 ---
 
