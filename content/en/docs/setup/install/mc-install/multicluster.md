@@ -9,7 +9,7 @@ draft: false
 
 - Before you begin, read this document, [Verrazzano in a multicluster environment]({{< relref "/docs/concepts/VerrazzanoMultiCluster.md" >}}).
 - To set up a multicluster Verrazzano environment, you will need two or more Kubernetes clusters. One of these clusters
-will be *admin* cluster; the others will be *managed* clusters.
+will be *admin* cluster; the others will be *managed* clusters. For instructions on preparing Kubernetes platforms for installing Verrazzano, see [Platform Setup]({{< relref "/docs/setup/platforms/_index.md" >}}).
 
 {{< alert title="NOTE" color="primary" >}}
 If Rancher is not enabled, then refer to [Verrazzano multicluster installation without Rancher]({{< relref "docs/setup/install/mc-install/multicluster-no-rancher.md" >}})
@@ -61,7 +61,7 @@ see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}
 
 ## Register the managed cluster
 
-To register the managed cluster using VerrazzanoManagedCluster, complete the following steps:
+To register the managed cluster using the VerrazzanoManagedCluster resource, complete the following steps:
 
 1. To begin the registration process for a managed cluster named `managed1`, apply the VerrazzanoManagedCluster resource on the admin cluster.
 {{< clipboard >}}
@@ -131,8 +131,8 @@ To register the managed cluster using VerrazzanoManagedCluster, complete the fol
 
 ## Next steps
 
-- Deploy applications by following the [Multicluster Hello World Helidon]({{< relref "/docs/samples/multicluster/hello-helidon/_index.md" >}}) example application.
 - Verify your multicluster Verrazzano environment set up by following the instructions at [Verify Multicluster Installation]({{< relref "/docs/setup/install/mc-install/verify-install.md" >}}).
+- Deploy multicluster example applications. See [Examples of using Verrazzano in a multicluster environment]({{< relref "/docs/samples/multicluster/_index.md" >}}).
 
 {{< alert title="NOTE" color="primary" >}}
 To deregister a managed cluster, see [Deregister a Managed Cluster]({{< relref "/docs/setup/install/mc-install/deregister-install.md" >}}).

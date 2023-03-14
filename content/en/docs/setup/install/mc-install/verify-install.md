@@ -48,14 +48,14 @@ You can perform all the verification steps on the admin cluster.
 Verify that the admin cluster is collecting metrics from the managed cluster.  The Prometheus output will include
 records that contain the name of the Verrazzano cluster (labeled as `verrazzano_cluster`).
 
-You can find the Prometheus UI URL for your cluster by following the instructions for [Accessing Verrazzano]({{<relref "/docs/access#consoles-accessed-by-the-same-user-name" >}}).
+You can find the Prometheus console URL for your cluster by following the instructions for [Accessing Verrazzano]({{<relref "/docs/access#consoles-accessed-by-the-same-user-name" >}}).
 Run a query for a metric (for example, `node_disk_io_time_seconds_total`).
 
 **Sample output of a Prometheus query**
 
 ![Prometheus](/docs/images/multicluster/prometheus-multicluster.png)
 
-An alternative approach to using the Prometheus UI is to query metrics from the command line. Here is an example of how to obtain Prometheus metrics from the command line. Search the output of the query for responses that have the `verrazzano_cluster` field set to the name of the managed cluster.
+An alternative approach to using the Prometheus console is to query metrics from the command line. Here is an example of how to obtain Prometheus metrics from the command line. Search the output of the query for responses that have the `verrazzano_cluster` field set to the name of the managed cluster.
 {{< clipboard >}}
 <div class="highlight">
 
