@@ -86,14 +86,14 @@ as new information becomes available.
 
 // defaulted/infered values
 
-the domain will be configured to send logs to this application's verrazzano-provided elasticsearch
+the domain will be configured to send logs to this application's verrazzano-provided opensearch
     if component.logging.type is specified:
         if it is exporter:
             udpate the WebLogicLoggingExporter.yaml in `<domain_home>/config` with the right host/port
             it looks like this: 
 
-            publishHost:  {{ the verrazzano elasticsearch host }}
-            publishPort:  {{ the verrazzano elasticsearch port }}
+            publishHost:  {{ the verrazzano opensearch host }}
+            publishPort:  {{ the verrazzano opensearch port }}
             domainUID:  {{ component.name }}
             weblogicLoggingExporterEnabled: true
             weblogicLoggingIndexName:  {{  component.logging.index-pattern if specified, else "wls-"component.name }}
