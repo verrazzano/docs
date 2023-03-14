@@ -29,14 +29,14 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/reference/api/vpo-verrazzano-v1alpha1/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-01-24T12:36:43-08:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-03-14T09:49:45-07:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Verrazzano v1alpha1">
 <meta itemprop="description" content="Packages:
   install.verrazzano.io/v1alpha1   install.verrazzano.io/v1alpha1  Resource Types:  Verrazzano  Verrazzano   Verrazzano specifies the Verrazzano API.
    Field Description      apiVersion string   install.verrazzano.io/v1alpha1      kind string  Verrazzano    metadata  Kubernetes meta/v1.ObjectMeta     Refer to the Kubernetes API documentation for the fields of the metadata field.     spec  VerrazzanoSpec          components  ComponentSpec     (Optional) The Verrazzano components.">
-<meta itemprop="dateModified" content="2023-01-24T12:36:43-08:00" />
-<meta itemprop="wordCount" content="5292">
+<meta itemprop="dateModified" content="2023-03-14T09:49:45-07:00" />
+<meta itemprop="wordCount" content="5391">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Verrazzano v1alpha1"/>
 <meta name="twitter:description" content="Packages:
@@ -128,7 +128,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../offline-search-index.8e60d4a5d1387ebeb619f8dde540e512.json"
+    data-offline-search-index-json-src="../../../../offline-search-index.d5c7e341aaf4123f30e334a08d33ae89.json"
     data-offline-search-base-href="../../../../"
     data-offline-search-max-results="10"
   >
@@ -153,7 +153,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../offline-search-index.8e60d4a5d1387ebeb619f8dde540e512.json"
+    data-offline-search-index-json-src="../../../../offline-search-index.d5c7e341aaf4123f30e334a08d33ae89.json"
     data-offline-search-base-href="../../../../"
     data-offline-search-max-results="10"
   >
@@ -2039,6 +2039,20 @@ RancherBackupComponent
 </tr>
 <tr>
 <td>
+<code>thanos</code></br>
+<em>
+<a href="#install.verrazzano.io/v1alpha1.ThanosComponent">
+ThanosComponent
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>The Thanos component configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>velero</code></br>
 <em>
 <a href="#install.verrazzano.io/v1alpha1.VeleroComponent">
@@ -2964,6 +2978,7 @@ bool
 <a href="#install.verrazzano.io/v1alpha1.PrometheusPushgatewayComponent">PrometheusPushgatewayComponent</a>, 
 <a href="#install.verrazzano.io/v1alpha1.RancherBackupComponent">RancherBackupComponent</a>, 
 <a href="#install.verrazzano.io/v1alpha1.RancherComponent">RancherComponent</a>, 
+<a href="#install.verrazzano.io/v1alpha1.ThanosComponent">ThanosComponent</a>, 
 <a href="#install.verrazzano.io/v1alpha1.VeleroComponent">VeleroComponent</a>, 
 <a href="#install.verrazzano.io/v1alpha1.VerrazzanoComponent">VerrazzanoComponent</a>, 
 <a href="#install.verrazzano.io/v1alpha1.WebLogicOperatorComponent">WebLogicOperatorComponent</a>)
@@ -3134,6 +3149,17 @@ string
 </td>
 <td>
 <p>The Rancher URL for this Verrazzano installation.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>thanosQueryFrontendUrl</code></br>
+<em>
+string
+</em>
+</td>
+<td>
+<p>The Thanos Query Frontend URL for this Verrazzano installation.</p>
 </td>
 </tr>
 </tbody>
@@ -4576,6 +4602,58 @@ bool
 <td>
 <em>(Optional)</em>
 <p>Specifies subjects that should be bound to the verrazzano-monitor role.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="install.verrazzano.io/v1alpha1.ThanosComponent">ThanosComponent
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#install.verrazzano.io/v1alpha1.ComponentSpec">ComponentSpec</a>)
+</p>
+<p>
+<p>ThanosComponent specifies the Thanos configuration.</p>
+</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>enabled</code></br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>If true, then Thanos will be installed.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>InstallOverrides</code></br>
+<em>
+<a href="#install.verrazzano.io/v1alpha1.InstallOverrides">
+InstallOverrides
+</a>
+</em>
+</td>
+<td>
+<p>
+(Members of <code>InstallOverrides</code> are embedded into this type.)
+</p>
+<em>(Optional)</em>
+<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
+find all possible values
+<a href="https://github.com/verrazzano/verrazzano/blob/master/platform-operator/thirdparty/charts/thanos/values.yaml">here</a>
+and invalid values will be ignored.</p>
 </td>
 </tr>
 </tbody>
