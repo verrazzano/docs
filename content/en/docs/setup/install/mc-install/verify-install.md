@@ -1,7 +1,7 @@
 ---
 title: "Verify Multicluster Installation"
 description: "How to verify your multicluster Verrazzano environment set up"
-weight: 2
+weight: 3
 draft: false
 ---
 
@@ -39,8 +39,8 @@ You can perform all the verification steps on the admin cluster.
 
 2. Verify that the managed cluster is successfully registered with Rancher.
    When you perform the registration steps, Verrazzano also registers the managed cluster with Rancher.
-   View the Rancher UI on the admin cluster. If the registration with Rancher was successful, then your cluster will be
-   listed in Rancher's list of clusters, and will be in `Active` state. You can find the Rancher UI URL for your
+   View the Rancher console on the admin cluster. If the registration with Rancher was successful, then your cluster will be
+   listed in Rancher's list of clusters, and will be in `Active` state. You can find the Rancher console URL for your
    cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/access#the-rancher-console" >}}).
 
 ## Verify that managed cluster metrics are being collected

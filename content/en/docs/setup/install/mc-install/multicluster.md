@@ -7,24 +7,26 @@ draft: false
 
 ## Prerequisites
 
-Before you begin, read this document, [Verrazzano in a multicluster environment]({{< relref "/docs/concepts/VerrazzanoMultiCluster.md" >}}).
+- Before you begin, read this document, [Verrazzano in a multicluster environment]({{< relref "/docs/concepts/VerrazzanoMultiCluster.md" >}}).
+- To set up a multicluster Verrazzano environment, you will need two or more Kubernetes clusters. One of these clusters
+will be *admin* cluster; the others will be *managed* clusters.
 
-## Overview
+{{< alert title="NOTE" color="primary" >}}
+If Rancher is not enabled, then refer to [Verrazzano multicluster installation without Rancher]({{< relref "docs/setup/install/mc-install/multicluster-no-rancher.md" >}})
+because additional steps will be required to register a managed cluster.
+{{< /alert >}}
 
-To set up a multicluster Verrazzano environment, you will need two or more Kubernetes clusters. One of these clusters
-will the *admin* cluster; the others will be *managed* clusters.
-
-The instructions assume an admin cluster and a single managed cluster. For each additional managed
+The following instructions assume an admin cluster and a single managed cluster. For each additional managed
 cluster, simply repeat the managed cluster instructions.
 
 ## Install Verrazzano
 
-Install Verrazzano on each Kubernetes cluster.
+To install Verrazzano on each Kubernetes cluster, complete the following steps:
 
 1. On one cluster, install Verrazzano using the `dev` or `prod` profile; this will be the *admin* cluster.
-1. On the other cluster, install Verrazzano using the `managed-cluster` profile; this will be a
+2. On the other cluster, install Verrazzano using the `managed-cluster` profile; this will be a
   managed cluster. The `managed-cluster` profile contains only the components that are required for a managed cluster.
-1. Create the environment variables, `KUBECONFIG_ADMIN`, `KUBECONTEXT_ADMIN`, `KUBECONFIG_MANAGED1`, and
+3. Create the environment variables, `KUBECONFIG_ADMIN`, `KUBECONTEXT_ADMIN`, `KUBECONFIG_MANAGED1`, and
   `KUBECONTEXT_MANAGED1`, and point them to the kubeconfig files and contexts for the admin and managed cluster,
   respectively. You will use these environment variables in subsequent steps when registering the managed cluster. The
   following shows an example of how to set these environment variables.
@@ -57,16 +59,11 @@ Install Verrazzano on each Kubernetes cluster.
 For detailed instructions on how to install and customize Verrazzano on a Kubernetes cluster using a specific profile,
 see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}}) and [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}}).
 
-## Register the managed cluster using VerrazzanoManagedCluster
+## Register the managed cluster
 
-{{< alert title="NOTE" color="primary" >}}
-If Rancher is not enabled, then refer to [Verrazzano multicluster installation without Rancher]({{< relref "docs/setup/install/mc-install/multicluster-no-rancher.md" >}})
-because additional steps will be required to register a managed cluster.
-{{< /alert >}}
+To register the managed cluster using VerrazzanoManagedCluster, complete the following steps:
 
-To register using VerrazzanoManagedCluster, complete the following steps:
-
-1. To begin the registration process for a managed cluster named `managed1`, apply the VerrazzanoManagedCluster object on the admin cluster.
+1. To begin the registration process for a managed cluster named `managed1`, apply the VerrazzanoManagedCluster resource on the admin cluster.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -80,7 +77,7 @@ To register using VerrazzanoManagedCluster, complete the following steps:
      name: managed1
      namespace: verrazzano-mc
    spec:
-     description: "Test VerrazzanoManagedCluster object"
+     description: "Test VerrazzanoManagedCluster resource"
    EOF
    ```
 
@@ -101,31 +98,42 @@ To register using VerrazzanoManagedCluster, complete the following steps:
 </div>
 {{< /clipboard >}}
 
-3. Apply the Rancher registration manifest from the Rancher console.
-
-
-   a. In the Rancher menu, under `GLOBAL APPS`, navigate to `Cluster Management`.
-
-
-   b. Select the cluster with the same name as the VerrazzanoManagedCluster resource that you just created.
-
-
-   c. Under the `Registration` tab of the cluster view, select the registration command for the managed cluster.
-
-
-   d. Using the registration information in the Rancher console, from the managed cluster, apply a command using this format.
+3. Export the YAML file created to register the managed cluster.
 {{< clipboard >}}
 <div class="highlight">
 
    ```
-   $ kubectl apply --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 -f https://<Rancher-console-url>/v3/import/<Rancher-registration>.yaml
+   # On the admin cluster
+   $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
+       get secret verrazzano-cluster-managed1-manifest \
+       -n verrazzano-mc \
+       -o jsonpath={.data.yaml} | base64 --decode > register.yaml
    ```
 
 </div>
 {{< /clipboard >}}
 
-To deregister a managed cluster, see [Deregister a Managed Cluster]({{< relref "/docs/setup/install/mc-install/deregister-install.md" >}}).
+4. Apply the registration file exported in the previous step, on the managed cluster.
+{{< clipboard >}}
+<div class="highlight">
+
+   ```
+   # On the managed cluster
+   $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
+       apply -f register.yaml
+
+   # After the command succeeds, you may delete the register.yaml file
+   $ rm register.yaml
+   ```
+
+</div>
+{{< /clipboard >}}
 
 ## Next steps
 
-Deploy applications by following the [Multicluster Hello World Helidon]({{< relref "/docs/samples/multicluster/hello-helidon/_index.md" >}}) example application.
+- Deploy applications by following the [Multicluster Hello World Helidon]({{< relref "/docs/samples/multicluster/hello-helidon/_index.md" >}}) example application.
+- Verify your multicluster Verrazzano environment set up by following the instructions at [Verify Multicluster Installation]({{< relref "/docs/setup/install/mc-install/verify-install.md" >}}).
+
+{{< alert title="NOTE" color="primary" >}}
+To deregister a managed cluster, see [Deregister a Managed Cluster]({{< relref "/docs/setup/install/mc-install/deregister-install.md" >}}).
+{{< /alert >}}
