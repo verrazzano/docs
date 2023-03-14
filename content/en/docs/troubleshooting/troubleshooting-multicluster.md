@@ -62,7 +62,7 @@ three minutes), then the managed cluster named `managed1` cannot successfully co
 This could be due to several reasons:
 
 * The managed cluster registration process step of applying the registration YAML on the managed cluster,
-was not completed. For the complete setup instructions, see [here]({{< relref "/docs/setup/install/mc-install/multicluster#register-the-managed-cluster" >}}).
+was not completed. For the complete setup instructions, see [here]({{< relref "/docs/setup/install/multicluster#register-the-managed-cluster" >}}).
 
 * The managed cluster does not have network connectivity to the admin cluster. The managed cluster will attempt to
 connect to the admin cluster at regular intervals, and any errors will be reported in the
@@ -102,7 +102,7 @@ cluster. Try exporting and applying the registration manifest to the managed clu
 **NOTE**: If your installation disabled Rancher on the admin cluster, then check the admin cluster Kubernetes server
 address that you provided during registration and ensure that it is correct, and that it is reachable from the managed
 cluster. If it is incorrect, then you will need to repeat the managed cluster registration process described in the setup instructions
-[here]({{< relref "/docs/setup/install/mc-install/multicluster#register-the-managed-cluster" >}}).
+[here]({{< relref "/docs/setup/install/multicluster#register-the-managed-cluster" >}}).
 
 
 ## Verify VerrazzanoProject placement
@@ -228,7 +228,7 @@ the command is indicated in each code block.
 {{< /clipboard >}}
 
 3. On the admin cluster, run `kubectl patch clusters.management.cattle.io` to trigger redeployment of the Rancher agent
-   on the managed cluster.
+   on the managed cluster. 
 {{< clipboard >}}
 <div class="highlight">
 
@@ -252,3 +252,4 @@ the command is indicated in each code block.
 
 </div>
 {{< /clipboard >}}
+
