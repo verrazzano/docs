@@ -1,10 +1,8 @@
 ---
 title: "Install Multicluster Verrazzano without Rancher"
-description: "How to set up a multicluster Verrazzano environment when Rancher is disabled"
-weight: 5
+description: "How to set up a multicluster Verrazzano environment without a Rancher installation"
+weight: 3
 draft: false
-toc_hide: true
-hide_summary: true
 ---
 
 Rancher is recommended for Verrazzano multicluster installations. However, if Rancher is not enabled on the _admin_ cluster, then registration requires you to perform a few additional steps.
@@ -13,7 +11,7 @@ The following instructions show you how to register a managed cluster when Ranch
 
 ## Prerequisites
 
-Before you begin, make sure you have completed the Prerequisites and Install Verrazzano, as described in [Install Multicluster Verrazzano]({{< relref "/docs/setup/install/mc-install/multicluster.md" >}}).
+Before you begin, make sure you have completed the Prerequisites, Install Verrazzano, and Preregistration procedures, as described in [Install Multicluster Verrazzano]({{< relref "/docs/setup/install/multicluster.md" >}}).
 
 ## Preregistration setup
 
@@ -204,7 +202,7 @@ The cluster against which to run the command is indicated in each code block.
 
 #### On the admin cluster
 
-1. To begin the registration process for a managed cluster named `managed1`, apply the VerrazzanoManagedCluster resource on the admin cluster.
+1. To begin the registration process for a managed cluster named `managed1`, apply the VerrazzanoManagedCluster object on the admin cluster.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -284,12 +282,12 @@ managed cluster, with the following information:
 
 ### Verify that managed cluster registration has completed
 
-After these steps have been completed, return to [Verify that managed cluster registration has completed]({{< relref "/docs/setup/install/mc-install/multicluster.md#verify-that-managed-cluster-registration-has-completed" >}}).
+After these steps have been completed, return to [Verify that managed cluster registration has completed]({{< relref "/docs/setup/install/multicluster.md#verify-that-managed-cluster-registration-has-completed" >}}).
 
 ## Deregister a managed cluster without Rancher
 
 **NOTE**: The following procedure is for a Verrazzano multicluster environment in which Rancher is not enabled on the admin cluster.
-If Rancher is enabled, for a much simpler deregistration process, see [Deregister a managed cluster]({{< relref "docs/setup/install/mc-install/multicluster.md#deregister-a-managed-cluster" >}}).
+If Rancher is enabled, for a much simpler deregistration process, see [Deregister a managed cluster]({{< relref "docs/setup/install/multicluster.md#deregister-a-managed-cluster" >}}).
 
 If you want to deregister a managed cluster because you no longer want it to be part of a Verrazzano multicluster
 environment, then complete the following steps.

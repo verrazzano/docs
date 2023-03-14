@@ -10,7 +10,7 @@ For more information and the source code of this application, see the [Verrazzan
 
 ## Before you begin
 
-* Set up a multicluster Verrazzano environment following the [installation instructions]({{< relref "/docs/setup/install/mc-install/multicluster.md" >}}).
+* Set up a multicluster Verrazzano environment following the [installation instructions]({{< relref "/docs/setup/install/multicluster.md" >}}).
 * The example assumes that there is a managed cluster named `managed1` associated with the multicluster environment.
 If your environment does not have a cluster of that name, then you should edit the deployment files and change the cluster name
 listed in the `placement` section.
@@ -112,7 +112,7 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 {{< /clipboard >}}
 
 1. Wait for the ToDo List example application to be ready.
-   The `tododomain-adminserver` pod may take several minutes to be created and `Ready`.
+   The `tododomain-adminserver` pod may take several minutes to be created and `Ready`. 
 {{< clipboard >}}
 <div class="highlight">
 
