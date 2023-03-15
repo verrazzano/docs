@@ -1,0 +1,17 @@
+{{ $icon := .Get "icon" | default "fa-lightbulb" -}}
+{{ $url_text := .Get "url_text" -}}
+{{ $shadow := .Get "shadow" | default "light-shadow" -}}
+<div class="col-lg-4 mb-5 mb-lg-0 text-center">
+  <div class="{{ $shadow }} tile-background-color">
+  <div class="mb-4 h1 text-color">
+    <i class="{{ if not (or (hasPrefix $icon "fas ") (hasPrefix $icon "fab ")) }}fas {{ end }}{{ $icon }}"></i>
+  </div>
+  <h4 class="h3 header-color">
+    {{- .Get "title" | markdownify -}}
+  </h4>
+  <div class="mb-0 text-color">
+    {{ .Inner }}
+  </div>
+  {{ with .Get "url" }}<p><a href="{{ . }}">{{ with $url_text }}{{ $url_text }}{{ else }}{{ T "ui_read_more" }}{{ end }} …</a></p>{{ end }}
+</div>
+</div>
