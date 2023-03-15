@@ -1,6 +1,6 @@
 ---
-title: "Multicluster Integration with Rancher"
-description: "How to integrate Rancher in a multicluster Verrazzano environment"
+title: "Use Rancher for Multicluster Verrazzano"
+description: "Use Rancher to set up a multicluster environment"
 weight: 2
 draft: false
 ---
