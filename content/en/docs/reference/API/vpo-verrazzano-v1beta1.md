@@ -1075,6 +1075,20 @@ RancherBackupComponent
 </tr>
 <tr>
 <td>
+<code>thanos</code></br>
+<em>
+<a href="#install.verrazzano.io/v1beta1.ThanosComponent">
+ThanosComponent
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>The Thanos component configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>velero</code></br>
 <em>
 <a href="#install.verrazzano.io/v1beta1.VeleroComponent">
@@ -1618,7 +1632,7 @@ string
 <td>
 <em>(Optional)</em>
 <p>The target OpenSearch URLs.
-Specify this option in this <a href="https://docs.fluentd.org/output/elasticsearch#hosts-optional">format</a>.
+Specify this option in this <a href="https://docs.fluentd.org/output/opensearch#hosts-optional">format</a>.
 The default <code>http://vmi-system-es-ingest-oidc:8775</code> is the VMI OpenSearch URL.</p>
 </td>
 </tr>
@@ -1813,6 +1827,7 @@ key in the <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOver
 <a href="#install.verrazzano.io/v1beta1.PrometheusPushgatewayComponent">PrometheusPushgatewayComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.RancherBackupComponent">RancherBackupComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.RancherComponent">RancherComponent</a>, 
+<a href="#install.verrazzano.io/v1beta1.ThanosComponent">ThanosComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.VeleroComponent">VeleroComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.VerrazzanoComponent">VerrazzanoComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.WebLogicOperatorComponent">WebLogicOperatorComponent</a>)
@@ -1983,6 +1998,17 @@ string
 </td>
 <td>
 <p>The Rancher URL for this Verrazzano installation.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>thanosQueryFrontendUrl</code></br>
+<em>
+string
+</em>
+</td>
+<td>
+<p>The Thanos Query Frontend URL for this Verrazzano installation.</p>
 </td>
 </tr>
 </tbody>
@@ -3309,6 +3335,58 @@ bool
 <td>
 <em>(Optional)</em>
 <p>Specifies subjects that should be bound to the verrazzano-monitor role.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="install.verrazzano.io/v1beta1.ThanosComponent">ThanosComponent
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
+</p>
+<p>
+<p>ThanosComponent specifies the Thanos configuration.</p>
+</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>enabled</code></br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>If true, then Thanos will be installed.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>InstallOverrides</code></br>
+<em>
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
+InstallOverrides
+</a>
+</em>
+</td>
+<td>
+<p>
+(Members of <code>InstallOverrides</code> are embedded into this type.)
+</p>
+<em>(Optional)</em>
+<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
+find all possible values
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/thanos/values.yaml %}}">here</a>
+and invalid values will be ignored.</p>
 </td>
 </tr>
 </tbody>
