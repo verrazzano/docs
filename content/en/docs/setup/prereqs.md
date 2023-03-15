@@ -24,13 +24,17 @@ Verrazzano supports the following software versions.
 ### Kubernetes
 You can install Verrazzano on the following Kubernetes versions.
 
-| Verrazzano | Release Date | Latest Patch Release | Latest Patch Release Date | Kubernetes Versions    | End of Error Correction |
+| Verrazzano | Release Date | Latest Patch Release | Latest Patch Release Date | Kubernetes Versions    | End of Error Correction*|
 |------------|--------------|----------------------|---------------------------|------------------------|-------------------------|
-| 1.4        | 2022-09-30   | 1.4.3                | 2023-02-06                | 1.21, 1.22, 1.23, 1.24 |                         |
-| 1.3        | 2022-05-24   | 1.3.8                | 2022-11-17                | 1.21, 1.22, 1.23       |                         |
+| 1.4        | 2022-09-30   | 1.4.4                | 2023-03-15                | 1.21, 1.22, 1.23, 1.24 | 2023-10-31              |
+| 1.3        | 2022-05-24   | 1.3.8                | 2022-11-17                | 1.21, 1.22, 1.23       | 2023-05-31              |
 | 1.2        | 2022-03-14   | 1.2.2                | 2022-05-10                | 1.19, 1.20, 1.21       | 2022-11-30              |
 | 1.1        | 2021-12-16   | 1.1.2                | 2022-03-09                | 1.19, 1.20, 1.21       | 2022-09-30              |
 | 1.0        | 2021-08-02   | 1.0.4                | 2021-12-20                | 1.18, 1.19, 1.20       | 2022-06-30              |
+
+*_End of error correction for Verrazzano releases._<br>
+
+<br>
 
 For more information, see [Kubernetes Release Documentation](https://kubernetes.io/releases/).
 For platform specific details, see [Verrazzano platform setup]({{< relref "/docs/setup/platforms/_index.md" >}}).
@@ -79,4 +83,5 @@ component, its version, and a brief description.
 | Rancher                      | 2.6.8        | Manages multiple Kubernetes clusters.                                                    |
 | Rancher Backup Operator      | 2.1.3        | Manages backup and restore of Rancher configurations and data.                           |
 | Velero                       | 1.9.1        | Manages backup and restore of Kubernetes configurations and data.                        |
-| WebLogic Kubernetes Operator | 3.4.4        | Assists with deploying and managing WebLogic domains.                                    |
+| WebLogic Kubernetes Operator | 3.4.6        | Assists with deploying and managing WebLogic domains.                                    |
+| WebLogic Monitoring Exporter | 2.1.2        | Exports Prometheus-compatible metrics from WebLogic instances.                           |
