@@ -4,6 +4,20 @@ linkTitle: Release Notes
 weight: 13
 draft: false
 ---
+### v1.4.4
+Fixes:
+
+- Fixed IngressTrait JWT related issues to allow multiple paths where one path has requestPrincipals and the other doesn't.
+- Fixed IngressTrait JWT so that requestPrincipals with no paths are allowed.
+- Fixed IngressTrait related AuthorizationPolicy cleanup when application is deleted.
+- Fixed the query for the Service variable in WebLogic Grafana dashboard.
+- Fixed issues with Keycloak startup due to stale JGROUPSPING entries after pod restarts.
+
+Component version updates:
+
+- WebLogic Kubernetes Operator v3.4.6
+- WebLogic Monitoring Exporter v2.1.2
+
 ### v1.4.3
 Fixes:
 - Fixed unnecessary restart of user applications during upgrade from a previous Verrazzano release.
