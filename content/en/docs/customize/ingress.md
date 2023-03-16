@@ -28,7 +28,9 @@ spec:
           contoller:
             service:
               annotations:
-                service.beta.kubernetes.io/oci-load-balancer-shape: 10Mbps
+                service.beta.kubernetes.io/oci-load-balancer-shape: flexible
+                service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "100"
+                 service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "100"
     istio:
       overrides:
       - values:
@@ -41,7 +43,9 @@ spec:
                   name: istio-ingressgateway
                   k8s:
                     serviceAnnotations:
-                      service.beta.kubernetes.io/oci-load-balancer-shape: 10Mbps
+                      service.beta.kubernetes.io/oci-load-balancer-shape: flexible
+                      service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "100"
+                      service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "100"
 ```
 
 
