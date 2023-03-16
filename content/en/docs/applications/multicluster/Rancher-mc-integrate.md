@@ -9,7 +9,9 @@ Multicluster Verrazzano provides integration with Rancher that can allow automat
 
 ## Step 1: Enable cluster label selection in Verrazzano
 
-You can provide a label selector in the Verrazzano resource. The label selector is used to determine which clusters created in Rancher will be automatically registered by Verrazzano. If Argo CD is enabled on the admin cluster, all synchronized Rancher clusters also will be automatically registered in Argo CD.
+You can provide a label selector in the Verrazzano resource. The label selector is used to determine which clusters created in Rancher will be automatically registered by Verrazzano.
+
+**NOTE**: If Argo CD is enabled in Verrazzano, then the label selector is also used by Verrazzano to select the Rancher clusters to automatically register with Argo CD. For more information about using Argo CD with Verrazzano, see [Argo CD]({{< relref "/docs/samples/argo-cd/_index.md" >}}).
 
 ### Verrazzano configuration for cluster label selection
 
@@ -41,11 +43,10 @@ spec:
 {{< /clipboard >}}
 
 - If `enabled` is set to `false` (the default), then no clusters created in Rancher will be automatically registered by Verrazzano.
-- If the field is not explicitly set, then no Rancher clusters will be automatically registered.
-- If `enabled` is explicitly set to `true`, then Verrazzano will automatically register clusters created in Rancher that match the `clusterSelector` field.
+- If `enabled` is explicitly set to `true`, then Verrazzano will automatically register clusters created in Rancher with labels that match the `clusterSelector` field.
+  - The `clusterSelector` field is optional. If it is omitted, then all clusters created in Rancher will be automatically registered.
   - The `clusterSelector` field implements a [LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/{{<kubernetes_api_version>}}/#labelselector-v1-meta).
-  - Any cluster created with a label that matches the `clusterSelector` will be automatically registered by Verrazzano.
-  - If the `clusterSelector` field is omitted, then all clusters created in Rancher will be automatically registered.
+
 
 ## Step 2: Register managed cluster from Rancher console
 
@@ -57,7 +58,7 @@ To register a cluster using Rancher, complete the following steps:
 2. Select **Cluster Management**, and then click **Import Existing Cluster**.
 3. Provide a name for your managed cluster. For example: _managed1_.
 4. In your Verrazzano configuration, if you specified a cluster selection label, then under **Labels & Annotations** provide a `label` and `value` for the Rancher cluster.
-For the Verrazzano synchronization to occur automatically, in your Verrazzano configuration, the `label` and `value` information should match the cluster selection `matchExpression`.
+<br>For the Verrazzano synchronization to occur automatically, the `label` and `value` information should match the cluster selection `matchExpression` in your Verrazzano configuration.
 5. After the import is complete, follow Rancher's on-screen instructions to complete the registration by running the provided command against the managed cluster.
 
 After the Rancher cluster reaches the `Active` state in the Rancher console, synchronization with Verrazzano will happen automatically, and a VerrazzanoManagedCluster resource will be created in the `verrazzano-mc` namespace.
@@ -73,4 +74,4 @@ $ kubectl get vmc -n verrazzano-mc <Rancher_cluster_name> -o yaml
 </div>
 {{< /clipboard >}}
 
-For more information, see [Registering Existing Clusters](https://ranchermanager.docs.rancher.com/{{<rancher_doc_version>}}/how-to-guides/new-user-guides/kubernetes-clusters-in-rancher-setup/register-existing-clusters).
+For more information, see [Registering Existing Clusters](https://ranchermanager.docs.rancher.com/{{<rancher_doc_version>}}/how-to-guides/new-user-guides/kubernetes-clusters-in-rancher-setup/register-existing-clusters) in the Rancher documentation.
