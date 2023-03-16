@@ -5,13 +5,13 @@ weight: 2
 draft: false
 ---
 
-Multicluster Verrazzano provides integration with Rancher that can allow automatic synchronization of Rancher clusters with Verrazzano managed clusters, which will simplify your managed cluster registration process. By configuring cluster label selection, you can customize your Verrazzano installation to perform this automatic synchronization.
+Multicluster Verrazzano provides integration with Rancher that allows automatic synchronization of Rancher clusters with Verrazzano managed clusters, which simplifies your managed cluster registration process. By configuring cluster label selection, you can customize your Verrazzano installation to perform this automatic synchronization.
 
 ## Step 1: Enable cluster label selection in Verrazzano
 
 You can provide a label selector in the Verrazzano resource. The label selector is used to determine which clusters created in Rancher will be automatically registered by Verrazzano.
 
-**NOTE**: If Argo CD is enabled in Verrazzano, then the label selector is also used by Verrazzano to select the Rancher clusters to automatically register with Argo CD. For more information about using Argo CD with Verrazzano, see [Argo CD]({{< relref "/docs/samples/argo-cd/_index.md" >}}).
+**NOTE**: If Argo CD is enabled in Verrazzano, then the label selector also is used by Verrazzano to select the Rancher clusters to automatically register with Argo CD. For more information about using Argo CD with Verrazzano, see [Argo CD]({{< relref "/docs/samples/argo-cd/_index.md" >}}).
 
 ### Verrazzano configuration for cluster label selection
 
@@ -61,9 +61,9 @@ To register a cluster using Rancher, complete the following steps:
 <br>For the Verrazzano synchronization to occur automatically, the `label` and `value` information should match the cluster selection `matchExpression` in your Verrazzano configuration.
 5. After the import is complete, follow Rancher's on-screen instructions to complete the registration by running the provided command against the managed cluster.
 
-After the Rancher cluster reaches the `Active` state in the Rancher console, synchronization with Verrazzano will happen automatically, and a VerrazzanoManagedCluster resource will be created in the `verrazzano-mc` namespace.
+After the Rancher cluster reaches the `Active` state in the Rancher console, synchronization with Verrazzano will happen automatically and a VerrazzanoManagedCluster resource will be created in the `verrazzano-mc` namespace.
 
-Run the following command to view the details and status of Verrazzano's multicluster initialization operations
+Run the following command to view the details and status of Verrazzano's multicluster initialization operations:
 {{< clipboard >}}
 <div class="highlight">
 

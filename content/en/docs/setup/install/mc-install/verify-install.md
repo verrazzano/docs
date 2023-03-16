@@ -40,7 +40,7 @@ You can perform all the verification steps on the admin cluster.
 2. Verify that the managed cluster is successfully registered with Rancher.
    When you perform the registration steps, Verrazzano also registers the managed cluster with Rancher.
    View the Rancher console on the admin cluster. If the registration with Rancher was successful, then your cluster will be
-   listed in Rancher's list of clusters, and will be in `Active` state. You can find the Rancher console URL for your
+   listed in Rancher's list of clusters, and will be in the `Active` state. You can find the Rancher console URL for your
    cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/access#the-rancher-console" >}}).
 
 ## Verify that managed cluster metrics are being collected
@@ -76,7 +76,7 @@ An alternative approach to using the Prometheus console is to query metrics from
 
 Verify that the admin cluster is collecting logs from the managed cluster.  The output will include records which have the name of the managed cluster in the `cluster_name` field.
 
-You can find the OpenSearch Dashboards URL for your cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/access/_index.md" >}}).
+You can find the OpenSearch Dashboards URL for your cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/access#consoles-accessed-by-the-same-user-name" >}}).
 Searching the `verrazzano-system` data stream for log records with the `cluster_name` set to the managed cluster name yields logs for the managed cluster.
 
 **Sample output of a OpenSearch Dashboards screen**
