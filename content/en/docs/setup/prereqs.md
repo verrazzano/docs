@@ -29,7 +29,7 @@ You can install Verrazzano on the following Kubernetes versions.
 | Verrazzano | Release Date | Latest Patch Release | Latest Patch Release Date | End of Error Correction* | Kubernetes Versions    |
 |------------|--------------|----------------------|---------------------------|--------------------------|------------------------|
 | 1.5        | 2023-02-15   | 1.5.1                | 2023-03-01                | 2024-02-28**             | 1.21, 1.22, 1.23, 1.24 |
-| 1.4        | 2022-09-30   | 1.4.3                | 2023-02-06                | 2023-10-31               | 1.21, 1.22, 1.23, 1.24 |
+| 1.4        | 2022-09-30   | 1.4.4                | 2023-03-15                | 2023-10-31               | 1.21, 1.22, 1.23, 1.24 |
 | 1.3        | 2022-05-24   | 1.3.8                | 2022-11-17                | 2023-05-31               | 1.21, 1.22, 1.23       |
 | 1.2        | 2022-03-14   | 1.2.2                | 2022-05-10                | 2022-11-30               | 1.19, 1.20, 1.21       |
 | 1.1        | 2021-12-16   | 1.1.2                | 2022-03-09                | 2022-09-30               | 1.19, 1.20, 1.21       |
@@ -62,7 +62,7 @@ component, its version, and a brief description.
 
 | Component                    | Version      | Description                                                                              |
 |------------------------------|--------------|------------------------------------------------------------------------------------------|
-| Alertmanager                | 0.24.0       | Handles alerts sent by client applications, such as the Prometheus server.               |
+| Alertmanager                 | 0.24.0       | Handles alerts sent by client applications, such as the Prometheus server.               |
 | Argo CD                      | 2.5.3        | A declarative, GitOps continuous delivery tool for Kubernetes.                           |
 | cert-manager                 | 1.9.1        | Automates the management and issuance of TLS certificates.                               |
 | Coherence Operator           | 3.2.9        | Assists with deploying and managing Coherence clusters.                                  |
