@@ -10,7 +10,7 @@ Component version updates:
 
 Fixes:
 - Fixed `vz` CLI to allow specified version numbers to start without a leading "v".
-- Fixed an upgrade failure where a validation webhook was called when upgrading from v1.5.0. This failure occurred when using v1.4.n of the `vz` CLI.
+- Fixed an upgrade failure where a validation webhook was called when upgrading from v1.5.0. This failure occurred when using v1.4.x of the `vz` CLI.
 
 ### v1.5.1
 Component version updates:
