@@ -94,7 +94,7 @@ velero-5ff8766fd4-xbn4z   1/1     Running   0          21h
 {{< /clipboard >}}
 
 5. Create a `BackupStorageLocation` resource, which the backup component will reference for subsequent backups. See the following `BackupStorageLocation` example, which uses Oracle Cloud Object Storage.
-   For more information, see [Backup Storage Location](https://velero.io/docs/v1.8/api-types/backupstoragelocation/#backup-storage-location) in the Velero documentation.
+   For more information, see [Backup Storage Location](https://velero.io/docs/v1.9/api-types/backupstoragelocation/#backup-storage-location) in the Velero documentation.
 {{< clipboard >}}
 
   ```yaml
@@ -127,11 +127,11 @@ If you created applications with resources running in different namespaces, othe
   - Take a backup of all the namespaces where the application is running by specifying the namespaces as a list.
   - Take a backup of only the `argocd` namespace, create all the namespaces of different applications, and then restore from the backup.
 
-The following example shows a sample Velero `Backup` [API](https://velero.io/docs/v1.8/api-types/backup/) resource that you can create to initiate an Argo CD backup.
+The following example shows a sample Velero `Backup` [API](https://velero.io/docs/v1.9/api-types/backup/) resource that you can create to initiate an Argo CD backup.
 {{< clipboard >}}
 
 ```yaml
-$ kubectl apply -f - <<EOF
+  $ kubectl apply -f - <<EOF
   apiVersion: velero.io/v1
   kind: Backup
   metadata:
@@ -156,7 +156,7 @@ The preceding example backs up the Argo CD components:
 
 ```shell
 # To display the status of the backup, run the following command
-$ kubectl get backup -n verrazzano-backup verrazzano-argocd-backup -o yaml
+$ kubectl get backup.velero.io -n verrazzano-backup verrazzano-argocd-backup -o yaml
 ```
 ```
 # Sample output showing just the status portion of the backup
@@ -178,7 +178,7 @@ status:
 
 ### Argo CD scheduled backups
 
-Velero supports a `Schedule` [API](https://velero.io/docs/v1.8/api-types/schedule/)
+Velero supports a `Schedule` [API](https://velero.io/docs/v1.9/api-types/schedule/)
 that is a repeatable request that is sent to the Velero server to perform a backup for a given cron notation.
 After the `Schedule` object is created, the Velero server will start the backup process.
 Then, it will wait for the next valid point in the given cron expression and run the backup process on a repeating basis.
@@ -188,6 +188,17 @@ Then, it will wait for the next valid point in the given cron expression and run
 To initiate an Argo CD restore operation, first delete the existing Argo CD running on the system and all related data.
 Make sure that the data you are deleting is not needed. The restore operation will only restore data from the
 specified backup, and any additional data since that backup will be destroyed by the deletion.
+
+**NOTE**: If you are restoring Argo CD to a different cluster, make sure you have created a Velero
+`BackupStorageLocation` resource in the new cluster pointing to the same backup storage location configured in the
+original cluster. Velero resources created by the original cluster’s backup will be automatically synced to the new
+cluster. Once the sync occurs, you will be able to access the backup from original cluster on the new cluster. It's
+recommended to configure the `BackupStorageLocation` on the new cluster as read-only by setting `accessMode` to
+`ReadOnly` in the `BackupStorageLocation` spec. This will make sure that the backup is not deleted from the object store
+by mistake during the restore. For more information, see 
+[Backup Storage Location](https://velero.io/docs/v1.9/api-types/backupstoragelocation/#backup-storage-location) in the
+Velero documentation.
+
 
 1. Delete the Argo CD components and the namespace.
 {{< clipboard >}}
@@ -200,7 +211,7 @@ $ kubectl delete ns argocd
  ```
 {{< /clipboard >}}
 
-2. To perform an Argo CD restore operation, you can invoke the following example Velero `Restore` [API](https://velero.io/docs/v1.8/api-types/restore/) object.
+2. To perform an Argo CD restore operation, you can invoke the following example Velero `Restore` [API](https://velero.io/docs/v1.9/api-types/restore/) object.
 <br><br>
 **NOTE**: For Argo CD, `includedNamespaces` should list all the namespaces across which the applications are deployed.
 <br>

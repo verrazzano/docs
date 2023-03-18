@@ -47,7 +47,7 @@ $ kubectl apply -f -<<EOF
      components:    
       rancherBackup:
          enabled: true
-    EOF
+EOF
   ```
 {{< /clipboard >}}
 
@@ -101,7 +101,7 @@ The rancher-backup Operator creates the backup file, in `*.tar.gz` format, on th
           region: <region name where bucket exists>
           endpoint: <object store endpoint configuration>
       resourceSetName: rancher-resource-set
-  EOF
+EOF
   ```
 {{< /clipboard >}}
 
@@ -127,7 +127,7 @@ The following is an example:
           region: us-phoenix-1
           endpoint: mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com
       resourceSetName: rancher-resource-set
-    EOF
+EOF
    ```
 {{< /clipboard >}}
 
@@ -173,7 +173,7 @@ Restoring Rancher is done by creating a custom resource that indicates to `ranch
           folder: rancher-backup
           region: us-phoenix-1
           endpoint: mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com
-  EOF
+EOF
    ```
 {{< /clipboard >}}
    The rancher-backup Operator scales down the Rancher deployment during the restore operation and scales it back up after the restoration completes.

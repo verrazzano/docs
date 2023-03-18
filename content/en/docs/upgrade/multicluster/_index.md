@@ -1,11 +1,11 @@
 ---
 title: "Upgrade Multicluster Verrazzano"
 description: "Learn how to upgrade a multicluster Verrazzano environment"
-weight: 1
+weight: 2
 draft: false
 ---
 
-Each cluster of a multicluster environment is upgraded separately. Start with the admin cluster, and then for each managed cluster, follow the [Upgrade Verrazzano]({{< relref "/docs/uninstall/upgrade/_index.md" >}}) instructions.
+Each cluster of a multicluster environment is upgraded separately. Start with the admin cluster, and then for each managed cluster, follow the [Upgrade Verrazzano]({{< relref "/docs/upgrade/upgrade.md" >}}) instructions.
 
 ## Verify the upgrade of each managed cluster
 
