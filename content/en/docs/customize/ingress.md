@@ -30,7 +30,7 @@ spec:
               annotations:
                 service.beta.kubernetes.io/oci-load-balancer-shape: flexible
                 service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "100"
-                 service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "100"
+                service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "100"
     istio:
       overrides:
       - values:

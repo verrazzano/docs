@@ -16,12 +16,13 @@ documentation [here](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/co
 
 This document describes how to use these annotations to customize the following settings for Verrazzano load balancers:
 * Load balancer shape
+* Load balancer min/max bandwidth
 * Private IP address and subnet placement
 
-### Customize the load balancer shape  
+### Customize the load balancer shape
 
 At installation, Verrazzano lets you customize the shape and size of the load balancers created.
-The shape of an Oracle Cloud Infrastructure load balancer specifies its maximum total bandwidth.
+The shape of an OCI load balancer specifies its maximum total bandwidth.
 By default, load balancers are created with a shape of 100Mbps. Other shapes are available, including 400Mbps and 8000Mbps.
 
 For more details on service limits and shape, see [here](https://docs.oracle.com/en-us/iaas/Content/Balance/Tasks/managingloadbalancer.htm#console).
