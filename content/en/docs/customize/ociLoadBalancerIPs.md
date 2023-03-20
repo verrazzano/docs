@@ -28,7 +28,6 @@ By default, load balancers are created with a shape of 100Mbps. Other shapes are
 For more details on service limits and shape, see [here](https://docs.oracle.com/en-us/iaas/Content/Balance/Tasks/managingloadbalancer.htm#console).
 
 For example, you can set up a `flexible` NGINX load balancer with a `min` and `max` bandwidth as follows:
-{{< clipboard >}}
 
 ```yaml
 apiVersion: install.verrazzano.io/v1beta1
@@ -50,10 +49,8 @@ spec:
                   service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "100"
 ```
 
-{{< /clipboard >}}
 
 For example, you can set up a `flexible` Istio load balancer with a `min` and `max` bandwidth as follows:
-{{< clipboard >}}
 
 ```yaml
 apiVersion: install.verrazzano.io/v1beta1
