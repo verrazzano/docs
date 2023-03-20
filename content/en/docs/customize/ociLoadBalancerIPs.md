@@ -16,20 +16,18 @@ documentation [here](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/co
 
 This document describes how to use these annotations to customize the following settings for Verrazzano load balancers:
 * Load balancer shape
+* Load balancer min/max bandwidth
 * Private IP address and subnet placement
 
-### Customize the load balancer shape  
+### Customize the load balancer shape
 
 At installation, Verrazzano lets you customize the shape and size of the load balancers created.
-Oracle Cloud Infrastructure offers a flexible load balancer which uses Dynamic Shape:
-* 10 Mbps
-* 100 Mbps
-* 400 Mbps
-* 8,000 Mbps
+The shape of an OCI load balancer specifies its maximum total bandwidth.
+By default, load balancers are created with a shape of 100Mbps. Other shapes are available, including 400Mbps and 8000Mbps.
 
 For more details on service limits and shape, see [here](https://docs.oracle.com/en-us/iaas/Content/Balance/Tasks/managingloadbalancer.htm#console).
 
-For example, you can set up an NGINX load balancer with `10Mbps` as follows:
+For example, you can set up a `flexible` NGINX load balancer with a `min` and `max` bandwidth as follows:
 {{< clipboard >}}
 
 ```yaml
@@ -47,12 +45,14 @@ spec:
             controller:
               service:
                 annotations:
-                  service.beta.kubernetes.io/oci-load-balancer-shape: 10Mbps
+                  service.beta.kubernetes.io/oci-load-balancer-shape: flexible
+                  service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "100"
+                  service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "100"
 ```
 
 {{< /clipboard >}}
 
-For example, you can set up an Istio load balancer with `10Mbps` as follows:
+For example, you can set up a `flexible` Istio load balancer with a `min` and `max` bandwidth as follows:
 {{< clipboard >}}
 
 ```yaml
@@ -75,7 +75,9 @@ spec:
                     name: istio-ingressgateway
                     k8s:
                       serviceAnnotations:
-                        service.beta.kubernetes.io/oci-load-balancer-shape: 10Mbps
+                        service.beta.kubernetes.io/oci-load-balancer-shape: flexible
+                        service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "100"
+                        service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "100"
 ```
 {{< /clipboard >}}
 ### Use private IP addresses with a load balancer
