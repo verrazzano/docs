@@ -2912,7 +2912,7 @@ Kubernetes apiextensions/v1.JSON
 </td>
 <td>
 <em>(Optional)</em>
-<p>Configure overrides using inline YAML.</p>
+<p>Configure overrides using inline YAML. (<a href="../../../../docs/customize/externallbs">values Example from External Load Balancers</a>)</p>
 </td>
 </tr>
 </tbody>
@@ -2923,18 +2923,15 @@ Kubernetes apiextensions/v1.JSON
 <table>
 <thead>
 <tr>
-<th>configMap
-    <br><code>configMap.yaml</code>
-    </th>
-<th>configMapRef<br><code>vzWithConfigMapRef.yaml</code></th>
+<th>ConfigMap<br><code>configMap.yaml</code></th>
+<th>ConfigMapRef<br><code>vzWithConfigMapRef.yaml</code></th>
 </tr>
 </thead>
 <tr>
 <td>
 {{< clipboard >}}
-<div class="highlight">
 
-```
+```yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -2953,14 +2950,12 @@ data:
               type: NodePort
           name: istio-ingressgateway 
 ```
-</div>
 {{< /clipboard >}}
 </td>
 <td>
 {{< clipboard >}}
-<div class="highlight">
 
-```
+```yaml
 apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
@@ -2977,7 +2972,7 @@ spec:
            name: istio-cm
            key: istio-override 
 ```
-</div>
+
 {{< /clipboard >}}
 </td>
 </tr>
@@ -2987,16 +2982,15 @@ spec:
 <table>
 <thead>
 <tr>
-<th>Secret</th>
-<th>SecretRef</th>
+<th>Secret<br><code>secret.yaml</code></th>
+<th>SecretRef<br><code>vzWithSecretRef.yaml</code></th>
 </tr>
 </thead>
 <tr>
 <td>
 {{< clipboard >}}
-<div class="highlight">
 
-```
+```yaml
 apiVersion: v1
 kind: Secret
 metadata:
@@ -3015,14 +3009,12 @@ stringData:
               type: NodePort
           name: istio-ingressgateway
 ```
-</div>
 {{< /clipboard >}}
 </td>
 <td>
 {{< clipboard >}}
-<div class="highlight">
 
-```
+```yaml
 apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
@@ -3039,7 +3031,6 @@ spec:
            name: istio-s
            key: istio-override 
 ```
-</div>
 {{< /clipboard >}}
 </td>
 </tr>
