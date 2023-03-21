@@ -1,13 +1,13 @@
 ---
 title: Install, Uninstall, or Uprade Failure
 linkTitle: Install, Uninstall, or Uprade Failure
-description: Analysis detected a failure during an install, uninstall, or upgrade
+description: Analysis detected a failure while installing, uninstalling, or upgrading Verrazzano
 weight: 5
 draft: false
 ---
 
 ### Summary
-Analysis detected that the Verrazzano installation, uninstallation, or upgrade has failed; however, it did not isolate the exact reason for the failure.
+Analysis detected a failure while installing, uninstalling, or upgrading Verrazzano; however, it did not isolate the exact reason for the failure.
 
 ### Steps
 1. Review the analysis data, which can help identify the issue.
