@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/customize/ociloadbalancerips/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-02-28T09:18:44-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-03-20T15:29:45-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Load Balancers on OCI">
 <meta itemprop="description" content="Customize load balancers on OCI for Verrazzano system and application endpoints">
-<meta itemprop="dateModified" content="2023-02-28T09:18:44-05:00" />
-<meta itemprop="wordCount" content="1148">
+<meta itemprop="dateModified" content="2023-03-20T15:29:45-04:00" />
+<meta itemprop="wordCount" content="1173">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Load Balancers on OCI"/>
 <meta name="twitter:description" content="Customize load balancers on OCI for Verrazzano system and application endpoints"/>
@@ -110,7 +110,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../offline-search-index.baaf2e3252480403654b24d11460c2ce.json"
+    data-offline-search-index-json-src="../../../offline-search-index.fe6feb497005eeb8e3e301a3bc7ccf2c.json"
     data-offline-search-base-href="../../../"
     data-offline-search-max-results="10"
   >
@@ -136,7 +136,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../offline-search-index.baaf2e3252480403654b24d11460c2ce.json"
+    data-offline-search-index-json-src="../../../offline-search-index.fe6feb497005eeb8e3e301a3bc7ccf2c.json"
     data-offline-search-base-href="../../../"
     data-offline-search-max-results="10"
   >
@@ -859,19 +859,15 @@ documentation <a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/
 <p>This document describes how to use these annotations to customize the following settings for Verrazzano load balancers:</p>
 <ul>
 <li>Load balancer shape</li>
+<li>Load balancer min/max bandwidth</li>
 <li>Private IP address and subnet placement</li>
 </ul>
 <h3 id="customize-the-load-balancer-shape">Customize the load balancer shape</h3>
 <p>At installation, Verrazzano lets you customize the shape and size of the load balancers created.
-Oracle Cloud Infrastructure offers a flexible load balancer which uses Dynamic Shape:</p>
-<ul>
-<li>10 Mbps</li>
-<li>100 Mbps</li>
-<li>400 Mbps</li>
-<li>8,000 Mbps</li>
-</ul>
+The shape of an OCI load balancer specifies its maximum total bandwidth.
+By default, load balancers are created with a shape of 100Mbps. Other shapes are available, including 400Mbps and 8000Mbps.</p>
 <p>For more details on service limits and shape, see <a href="https://docs.oracle.com/en-us/iaas/Content/Balance/Tasks/managingloadbalancer.htm#console">here</a>.</p>
-<p>For example, you can set up an NGINX load balancer with <code>10Mbps</code> as follows:
+<p>For example, you can set up a <code>flexible</code> NGINX load balancer with a <code>min</code> and <code>max</code> bandwidth as follows:
 <style type="text/css">
     code {
         margin: 0;
@@ -915,7 +911,9 @@ Oracle Cloud Infrastructure offers a flexible load balancer which uses Dynamic S
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">            </span><span style="color:#204a87;font-weight:bold">controller</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">service</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                </span><span style="color:#204a87;font-weight:bold">annotations</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                  </span><span style="color:#204a87;font-weight:bold">service.beta.kubernetes.io/oci-load-balancer-shape</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">10Mbps</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                  </span><span style="color:#204a87;font-weight:bold">service.beta.kubernetes.io/oci-load-balancer-shape</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">flexible</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                  </span><span style="color:#204a87;font-weight:bold">service.beta.kubernetes.io/oci-load-balancer-shape-flex-max</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;100&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                  </span><span style="color:#204a87;font-weight:bold">service.beta.kubernetes.io/oci-load-balancer-shape-flex-min</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;100&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span></code></pre></div>
 </div>
 
@@ -975,7 +973,7 @@ Oracle Cloud Infrastructure offers a flexible load balancer which uses Dynamic S
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
-<p>For example, you can set up an Istio load balancer with <code>10Mbps</code> as follows:
+<p>For example, you can set up a <code>flexible</code> Istio load balancer with a <code>min</code> and <code>max</code> bandwidth as follows:
 <style type="text/css">
     code {
         margin: 0;
@@ -1024,7 +1022,9 @@ Oracle Cloud Infrastructure offers a flexible load balancer which uses Dynamic S
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                    </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">istio-ingressgateway</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                    </span><span style="color:#204a87;font-weight:bold">k8s</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                      </span><span style="color:#204a87;font-weight:bold">serviceAnnotations</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                        </span><span style="color:#204a87;font-weight:bold">service.beta.kubernetes.io/oci-load-balancer-shape</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">10Mbps</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                        </span><span style="color:#204a87;font-weight:bold">service.beta.kubernetes.io/oci-load-balancer-shape</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">flexible</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                        </span><span style="color:#204a87;font-weight:bold">service.beta.kubernetes.io/oci-load-balancer-shape-flex-max</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;100&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                        </span><span style="color:#204a87;font-weight:bold">service.beta.kubernetes.io/oci-load-balancer-shape-flex-min</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;100&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span></code></pre></div>
 </div>
 
