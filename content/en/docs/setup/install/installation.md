@@ -249,7 +249,7 @@ weblogic-operator-webhook-547b9756f4-454rq                 1/1     Running   0  
 </div>
 {{< /clipboard >}}
 
-For installation troubleshooting help, see the [Analysis Advice]({{< relref "/docs/troubleshooting/diagnostictools/analysisadvice/" >}}).
+For installation troubleshooting help, see [Analysis Advice]({{< relref "/docs/troubleshooting/diagnostictools/analysisadvice/" >}}).
 
 After the installation has completed, you can use the Verrazzano consoles.
 For information on how to get the consoles URLs and credentials, see [Access Verrazzano]({{< relref "/docs/access/" >}}).

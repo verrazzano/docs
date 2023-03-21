@@ -296,3 +296,6 @@ $ kubectl logs -n verrazzano-install \
 ```
 </div>
 {{< /clipboard >}}
+
+For additional troubleshooting help, see [Analysis Advice]({{< relref "/docs/troubleshooting/diagnostictools/analysisadvice/" >}}).
+
