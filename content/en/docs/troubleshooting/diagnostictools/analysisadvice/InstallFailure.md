@@ -1,6 +1,6 @@
 ---
-title: Install, Uprade, or Uninstall Failure
-linkTitle: Install, Uprade, or Uninstall Failure
+title: Install, Upgrade, or Uninstall Failure
+linkTitle: Install, Upgrade, or Uninstall Failure
 description: Analysis detected a failure while installing, upgrading, or uninstalling Verrazzano
 weight: 5
 draft: false
