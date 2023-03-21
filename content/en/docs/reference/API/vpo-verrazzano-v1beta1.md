@@ -1246,7 +1246,7 @@ string
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1beta1.ComponentStatusDetails">ComponentStatusDetails</a>, 
+<a href="#install.verrazzano.io/v1beta1.ComponentStatusDetails">ComponentStatusDetails</a>,
 <a href="#install.verrazzano.io/v1beta1.VerrazzanoStatus">VerrazzanoStatus</a>)
 </p>
 <p>
@@ -1803,33 +1803,33 @@ key in the <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOver
 </h3>
 <p>
 (<em>Appears on:</em>
-<a href="#install.verrazzano.io/v1beta1.ApplicationOperatorComponent">ApplicationOperatorComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.ArgoCDComponent">ArgoCDComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.AuthProxyComponent">AuthProxyComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.CertManagerComponent">CertManagerComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.ClusterOperatorComponent">ClusterOperatorComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.CoherenceOperatorComponent">CoherenceOperatorComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.ConsoleComponent">ConsoleComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.DNSComponent">DNSComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.FluentdComponent">FluentdComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.IngressNginxComponent">IngressNginxComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.IstioComponent">IstioComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.JaegerOperatorComponent">JaegerOperatorComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.KeycloakComponent">KeycloakComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.KialiComponent">KialiComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.KubeStateMetricsComponent">KubeStateMetricsComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.MySQLComponent">MySQLComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.MySQLOperatorComponent">MySQLOperatorComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.OAMComponent">OAMComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.PrometheusAdapterComponent">PrometheusAdapterComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.PrometheusNodeExporterComponent">PrometheusNodeExporterComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.PrometheusOperatorComponent">PrometheusOperatorComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.PrometheusPushgatewayComponent">PrometheusPushgatewayComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.RancherBackupComponent">RancherBackupComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.RancherComponent">RancherComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.ThanosComponent">ThanosComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.VeleroComponent">VeleroComponent</a>, 
-<a href="#install.verrazzano.io/v1beta1.VerrazzanoComponent">VerrazzanoComponent</a>, 
+<a href="#install.verrazzano.io/v1beta1.ApplicationOperatorComponent">ApplicationOperatorComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.ArgoCDComponent">ArgoCDComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.AuthProxyComponent">AuthProxyComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.CertManagerComponent">CertManagerComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.ClusterOperatorComponent">ClusterOperatorComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.CoherenceOperatorComponent">CoherenceOperatorComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.ConsoleComponent">ConsoleComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.DNSComponent">DNSComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.FluentdComponent">FluentdComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.IngressNginxComponent">IngressNginxComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.IstioComponent">IstioComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.JaegerOperatorComponent">JaegerOperatorComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.KeycloakComponent">KeycloakComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.KialiComponent">KialiComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.KubeStateMetricsComponent">KubeStateMetricsComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.MySQLComponent">MySQLComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.MySQLOperatorComponent">MySQLOperatorComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.OAMComponent">OAMComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.PrometheusAdapterComponent">PrometheusAdapterComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.PrometheusNodeExporterComponent">PrometheusNodeExporterComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.PrometheusOperatorComponent">PrometheusOperatorComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.PrometheusPushgatewayComponent">PrometheusPushgatewayComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.RancherBackupComponent">RancherBackupComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.RancherComponent">RancherComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.ThanosComponent">ThanosComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.VeleroComponent">VeleroComponent</a>,
+<a href="#install.verrazzano.io/v1beta1.VerrazzanoComponent">VerrazzanoComponent</a>,
 <a href="#install.verrazzano.io/v1beta1.WebLogicOperatorComponent">WebLogicOperatorComponent</a>)
 </p>
 <p>
@@ -2884,7 +2884,7 @@ Kubernetes core/v1.ConfigMapKeySelector
 </td>
 <td>
 <em>(Optional)</em>
-<p>Selector for ConfigMap containing override data.</p>
+<p>Selector for ConfigMap containing override data. (<a href="#install.verrazzano.io/v1beta1.ConfigMapRefExample">configMapRef Example</a>)</p>
 </td>
 </tr>
 <tr>
@@ -2898,7 +2898,7 @@ Kubernetes core/v1.SecretKeySelector
 </td>
 <td>
 <em>(Optional)</em>
-<p>Selector for Secret containing override data.</p>
+<p>Selector for Secret containing override data. (<a href="#install.verrazzano.io/v1beta1.SecretRefExample">secretRef Example</a>)</p>
 </td>
 </tr>
 <tr>
@@ -2917,6 +2917,134 @@ Kubernetes apiextensions/v1.JSON
 </tr>
 </tbody>
 </table>
+<h5>Examples</h5>
+<p>The following examples are similar and use essentially the same format . . . TODO</p>
+<h5 id="install.verrazzano.io/v1beta1.ConfigMapRefExample">ConfigMapRef Example</h5><p>(istio e.g.)</p>
+<table>
+<thead>
+<tr>
+<th>configMap
+    <br><code>configMap.yaml</code>
+    </th>
+<th>configMapRef<br><code>vzWithConfigMapRef.yaml</code></th>
+</tr>
+</thead>
+<tr>
+<td>
+{{< clipboard >}}
+<div class="highlight">
+
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: istio-cm
+data:
+  istio-override: |
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
+    spec:
+      components:
+        ingressGateways:
+        - k8s:
+            service:
+              externalIPs:
+              - 11.22.33.55
+              type: NodePort
+          name: istio-ingressgateway 
+```
+</div>
+{{< /clipboard >}}
+</td>
+<td>
+{{< clipboard >}}
+<div class="highlight">
+
+```
+apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: vz-with-cm
+  namespace: default
+spec:
+  profile: dev
+  components:
+    rancher:
+      enabled: false
+    istio:
+      overrides:
+      -  configMapRef:
+           name: istio-cm
+           key: istio-override 
+```
+</div>
+{{< /clipboard >}}
+</td>
+</tr>
+</table>
+
+<h5 id="install.verrazzano.io/v1beta1.SecretRefExample">SecretRef Example</h5><p>(istio e.g.)</p>
+<table>
+<thead>
+<tr>
+<th>Secret</th>
+<th>SecretRef</th>
+</tr>
+</thead>
+<tr>
+<td>
+{{< clipboard >}}
+<div class="highlight">
+
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: istio-s
+stringData:
+  istio-override: |
+    apiVersion: install.istio.io/v1alpha1
+    kind: IstioOperator
+    spec:
+      components:
+        ingressGateways:
+        - k8s:
+            service:
+              externalIPs:
+              - 11.22.33.55
+              type: NodePort
+          name: istio-ingressgateway
+```
+</div>
+{{< /clipboard >}}
+</td>
+<td>
+{{< clipboard >}}
+<div class="highlight">
+
+```
+apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: vz-with-secret
+  namespace: default
+spec:
+  profile: dev
+  components:
+    rancher:
+      enabled: false
+    istio:
+      overrides:
+      -  secretRef:
+           name: istio-s
+           key: istio-override 
+```
+</div>
+{{< /clipboard >}}
+</td>
+</tr>
+</table>
+
 <h3 id="install.verrazzano.io/v1beta1.ProfileType">ProfileType
 (<code>string</code> alias)</p></h3>
 <p>
@@ -3858,7 +3986,7 @@ Kubernetes core/v1.TypedLocalObjectReference
 <em>(Optional)</em>
 <p>dataSource field can be used to specify either:
 * An existing VolumeSnapshot object (snapshot.storage.k8s.io/VolumeSnapshot)
-* An existing PVC (PersistentVolumeClaim)
+*An existing PVC (PersistentVolumeClaim)
 If the provisioner or an external controller can support the specified data source,
 it will create a new volume based on the contents of the specified data source.
 If the AnyVolumeDataSource feature gate is enabled, this field will always have
