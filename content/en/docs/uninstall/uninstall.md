@@ -88,3 +88,5 @@ $ kubectl logs -n verrazzano-install \
 
 {{< /tab >}}
 {{< /tabs >}}
+
+For troubleshooting help, see [Analysis Advice]({{< relref "/docs/troubleshooting/diagnostictools/analysisadvice/" >}}).
