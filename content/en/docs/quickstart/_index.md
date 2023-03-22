@@ -36,7 +36,7 @@ Using the Quick Start, you'll install the `dev` profile.
 {{< alert title="NOTE" color="warning" >}}Because the `dev` profile installs self-signed certificates, when installing Verrazzano on macOS, you might see: **Your connection is not private**. For a workaround, see this [FAQ]({{< relref "/docs/faq/_index.md#enable-google-chrome-to-accept-self-signed-verrazzano-certificates" >}}).
 {{< /alert >}}
 
-### Install Verrazzano using the [Verrazzano CLI]({{< relref "docs/setup/cli/_index.md" >}})
+### Install Verrazzano using the Verrazzano CLI
 
 1. Install Verrazzano with its `dev` profile.
 {{< clipboard >}}
@@ -67,6 +67,8 @@ Using the Quick Start, you'll install the `dev` profile.
 2. Wait for the installation to complete.
    Installation logs will be streamed to the command window until the installation has completed
    or until the default timeout (30m) has been reached.
+
+For information about installing the Verrazzano CLI, see [CLI Setup]({{< relref "docs/setup/cli/_index.md" >}}).
 
 **NOTE**: For some applications, the Kiali console may show warnings for objects that replicate hostname/port configurations across multiple IngressTraits. These warnings do not impact functionality and can be suppressed with the following [component override]({{< relref "docs/guides/app-deployment/application-deployment-guide.md#suppress-kiali-console-warnings" >}}).
 
