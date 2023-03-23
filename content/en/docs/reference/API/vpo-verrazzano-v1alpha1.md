@@ -3283,7 +3283,8 @@ Kubernetes core/v1.ConfigMapKeySelector
 <td>
 <em>(Optional)</em>
 <p>Selector for ConfigMap containing override data.
-(<a href="../../../../docs/customize/installationoverrides">configMapRef e.g.</a>)</p>
+For sample usage, see
+<a href="../../../../docs/customize/installationoverrides">ConfigMapRef</a>.</p>
 </td>
 </tr>
 <tr>
@@ -3298,7 +3299,8 @@ Kubernetes core/v1.SecretKeySelector
 <td>
 <em>(Optional)</em>
 <p>Selector for Secret containing override data.
-(<a href="../../../../docs/customize/installationoverrides">secretRef e.g.</a>)</p>
+For sample usage, see
+<a href="../../../../docs/customize/installationoverrides">SecretRef</a>.</p>
 </td>
 </tr>
 <tr>
@@ -3313,7 +3315,8 @@ Kubernetes apiextensions/v1.JSON
 <td>
 <em>(Optional)</em>
 <p>Configure overrides using inline YAML.
-(<a href="../../../../docs/customize/externallbs">values e.g. from External Load Balancers</a>)</p>
+For sample usage, see
+<a href="../../../../docs/customize/externallbs">Values</a>.</p>
 </td>
 </tr>
 </tbody>
