@@ -8,7 +8,7 @@ draft: false
 
 You can customize Verrazzano Install Overrides by using a **ConfigMapRef**, **SecretRef**, or raw **Values**
 
-The following table has examples of the [Istio component InstallOverrides]({{< relref "/docs/reference/API/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.InstallOverrides" >}}) ConfigMap and Secret that both 
+The following table has examples of the [Istio component InstallOverrides]({{< relref "/docs/reference/API/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.InstallOverrides" >}}) ConfigMap and Secret, where the externalIPs is specified instead of using the defaults, that can be found [here](https://istio.io/v1.13/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec).
 
 ### Examples
 In both examples the ConfigMap and Secret are a applied before applying the vz install yaml.
