@@ -236,7 +236,7 @@ original cluster:
 - verrazzano-es-internal
 - verrazzano-prom-internal
 
-Also, restart the `fluentd` pods in the new cluster to use the original cluster password to connect to OpenSearch.
+Then, restart the `fluentd` pods in the new cluster to use the original cluster password to connect to OpenSearch.
 ```
 $ kubectl delete pod -l app=fluentd -n verrazzano-system
 ```

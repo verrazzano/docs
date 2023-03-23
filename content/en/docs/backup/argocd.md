@@ -189,13 +189,13 @@ To initiate an Argo CD restore operation, first delete the existing Argo CD runn
 Make sure that the data you are deleting is not needed. The restore operation will only restore data from the
 specified backup, and any additional data since that backup will be destroyed by the deletion.
 
-**NOTE**: If you are restoring Argo CD to a different cluster, make sure you have created a Velero
-`BackupStorageLocation` resource in the new cluster pointing to the same backup storage location configured in the
-original cluster. Velero resources created by the original cluster’s backup will be automatically synced to the new
-cluster. Once the sync occurs, you will be able to access the backup from original cluster on the new cluster. It's
-recommended to configure the `BackupStorageLocation` on the new cluster as read-only by setting `accessMode` to
-`ReadOnly` in the `BackupStorageLocation` spec. This will make sure that the backup is not deleted from the object store
-by mistake during the restore. For more information, see 
+If you restore Argo CD to a different cluster, create a Velero `BackupStorageLocation` resource in the new cluster that
+points to the same backup storage location configured in the original cluster. This ensures that the Velero resources
+created by the original cluster’s backup are automatically synced to the new cluster. Once the sync completes, you will
+be able to access the backup from the original cluster on the new cluster. It is recommended to configure the
+`BackupStorageLocation` on the new cluster as read-only by setting `accessMode` to `ReadOnly` in the
+`BackupStorageLocation` spec. This ensures that the backup in the object store is not modified from the new cluster. For
+more information, see 
 [Backup Storage Location](https://velero.io/docs/v1.9/api-types/backupstoragelocation/#backup-storage-location) in the
 Velero documentation.
 

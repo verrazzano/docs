@@ -1,5 +1,5 @@
 ---
-title: "Backup and Restore"
+title: "Back up and Restore"
 description: "Learn how to back up and restore Verrazzano"
 weight: 7
 draft: false
