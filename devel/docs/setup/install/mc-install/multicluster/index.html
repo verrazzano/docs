@@ -25,11 +25,11 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/setup/install/mc-install/multicluster/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-03-17T19:57:11+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-03-24T20:31:34+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Install Multicluster">
 <meta itemprop="description" content="How to set up a multicluster Verrazzano environment">
-<meta itemprop="dateModified" content="2023-03-17T19:57:11+05:30" />
+<meta itemprop="dateModified" content="2023-03-24T20:31:34+05:30" />
 <meta itemprop="wordCount" content="1376">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Install Multicluster"/>
@@ -110,7 +110,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.c5ca95cc92b8f28523f5d63ee942762b.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.f729c97d8c68573b8672da776aef9cca.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -136,7 +136,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.c5ca95cc92b8f28523f5d63ee942762b.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.f729c97d8c68573b8672da776aef9cca.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -896,7 +896,14 @@ cluster, simply repeat the managed cluster instructions.</p>
 <li>On one cluster, install Verrazzano using the <code>dev</code> or <code>prod</code> profile; this will be the <em>admin</em> cluster.</li>
 <li>On the other cluster, install Verrazzano using the <code>managed-cluster</code> profile; this will be a managed cluster. The <code>managed-cluster</code> profile contains only the components that are required for a managed cluster.
 <br><strong>NOTE</strong>: You also can use the <code>dev</code> or <code>prod</code> profile.</li>
-<li>Create the environment variables, <code>KUBECONFIG_ADMIN</code>, <code>KUBECONTEXT_ADMIN</code>, <code>KUBECONFIG_MANAGED1</code>, and
+</ol>
+<p>For detailed instructions on how to install and customize Verrazzano on a Kubernetes cluster using a specific profile,
+see the <a href="../../../../../docs/setup/install/installation/">Installation Guide</a> and <a href="../../../../../docs/setup/install/profiles/">Installation Profiles</a>.</p>
+<h2 id="register-the-managed-cluster">Register the managed cluster</h2>
+<p>To register the managed cluster using the VerrazzanoManagedCluster resource, complete the following steps:</p>
+<ol>
+<li>
+<p>Create the environment variables, <code>KUBECONFIG_ADMIN</code>, <code>KUBECONTEXT_ADMIN</code>, <code>KUBECONFIG_MANAGED1</code>, and
 <code>KUBECONTEXT_MANAGED1</code>, and point them to the kubeconfig files and contexts for the admin and managed cluster,
 respectively. You will use these environment variables in subsequent steps when registering the managed cluster. The
 following shows an example of how to set these environment variables.
@@ -1000,13 +1007,8 @@ $ export KUBECONTEXT_MANAGED1=&lt;managed-cluster-context-name&gt;
     document
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script></li>
-</ol>
-<p>For detailed instructions on how to install and customize Verrazzano on a Kubernetes cluster using a specific profile,
-see the <a href="../../../../../docs/setup/install/installation/">Installation Guide</a> and <a href="../../../../../docs/setup/install/profiles/">Installation Profiles</a>.</p>
-<h2 id="register-the-managed-cluster">Register the managed cluster</h2>
-<p>To register the managed cluster using the VerrazzanoManagedCluster resource, complete the following steps:</p>
-<ol>
+</script></p>
+</li>
 <li>
 <p>To begin the registration process for a managed cluster named <code>managed1</code>, apply the VerrazzanoManagedCluster resource on the admin cluster.
 <style type="text/css">
