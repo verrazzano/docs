@@ -26,7 +26,15 @@ To install Verrazzano on each Kubernetes cluster, complete the following steps:
 1. On one cluster, install Verrazzano using the `dev` or `prod` profile; this will be the *admin* cluster.
 2. On the other cluster, install Verrazzano using the `managed-cluster` profile; this will be a managed cluster. The `managed-cluster` profile contains only the components that are required for a managed cluster.
 <br>**NOTE**: You also can use the `dev` or `prod` profile.
-3. Create the environment variables, `KUBECONFIG_ADMIN`, `KUBECONTEXT_ADMIN`, `KUBECONFIG_MANAGED1`, and
+
+For detailed instructions on how to install and customize Verrazzano on a Kubernetes cluster using a specific profile,
+see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}}) and [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}}).
+
+## Register the managed cluster
+
+To register the managed cluster using the VerrazzanoManagedCluster resource, complete the following steps:
+
+1. Create the environment variables, `KUBECONFIG_ADMIN`, `KUBECONTEXT_ADMIN`, `KUBECONFIG_MANAGED1`, and
   `KUBECONTEXT_MANAGED1`, and point them to the kubeconfig files and contexts for the admin and managed cluster,
   respectively. You will use these environment variables in subsequent steps when registering the managed cluster. The
   following shows an example of how to set these environment variables.
@@ -50,15 +58,7 @@ To install Verrazzano on each Kubernetes cluster, complete the following steps:
 </div>
 {{< /clipboard >}}
 
-
-For detailed instructions on how to install and customize Verrazzano on a Kubernetes cluster using a specific profile,
-see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}}) and [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}}).
-
-## Register the managed cluster
-
-To register the managed cluster using the VerrazzanoManagedCluster resource, complete the following steps:
-
-1. To begin the registration process for a managed cluster named `managed1`, apply the VerrazzanoManagedCluster resource on the admin cluster.
+2. To begin the registration process for a managed cluster named `managed1`, apply the VerrazzanoManagedCluster resource on the admin cluster.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -78,7 +78,8 @@ To register the managed cluster using the VerrazzanoManagedCluster resource, com
 
 </div>
 {{< /clipboard >}}
-2. Wait for the VerrazzanoManagedCluster resource to reach the `Ready` status. At that point, it will have generated a YAML
+
+3. Wait for the VerrazzanoManagedCluster resource to reach the `Ready` status. At that point, it will have generated a YAML
    file that must be applied on the managed cluster to complete the registration process.
 {{< clipboard >}}
 <div class="highlight">
@@ -93,7 +94,7 @@ To register the managed cluster using the VerrazzanoManagedCluster resource, com
 </div>
 {{< /clipboard >}}
 
-3. Export the YAML file created to register the managed cluster.
+4. Export the YAML file created to register the managed cluster.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -108,7 +109,7 @@ To register the managed cluster using the VerrazzanoManagedCluster resource, com
 </div>
 {{< /clipboard >}}
 
-4. Apply the registration file exported in the previous step, on the managed cluster.
+5. Apply the registration file exported in the previous step, on the managed cluster.
 {{< clipboard >}}
 <div class="highlight">
 
