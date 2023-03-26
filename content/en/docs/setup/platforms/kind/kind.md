@@ -38,7 +38,7 @@ with one suitable for the Kind release you are using. For the supported Kubernet
 {{< clipboard >}}
 <div class="highlight">
 
-    $ kind create cluster --name dev --config - <<EOF
+    $ kind create cluster --config - <<EOF
     kind: Cluster
     apiVersion: kind.x-k8s.io/v1alpha4
     kubeadmConfigPatches:
