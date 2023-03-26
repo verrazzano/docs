@@ -38,9 +38,29 @@ with one suitable for the Kind release you are using. For the supported Kubernet
 {{< clipboard >}}
 <div class="highlight">
 
-    $ kind create cluster --config - <<EOF
+    $ kind create cluster --name dev --config - <<EOF
     kind: Cluster
     apiVersion: kind.x-k8s.io/v1alpha4
+    kubeadmConfigPatches:
+    - |-
+      kind: ClusterConfiguration
+      # configure controller-manager bind address
+      controllerManager:
+        extraArgs:
+          bind-address: 0.0.0.0
+      # configure etcd metrics listen address
+      etcd:
+        local:
+          extraArgs:
+            listen-metrics-urls: http://0.0.0.0:2381
+      # configure scheduler bind address
+      scheduler:
+        extraArgs:
+          bind-address: 0.0.0.0
+    - |-
+      kind: KubeProxyConfiguration
+      # configure proxy metrics bind address
+      metricsBindAddress: 0.0.0.0
     nodes:
       - role: control-plane
         image: kindest/node:v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6
@@ -92,6 +112,26 @@ because they will not need to pull the images again.
     $ kind create cluster --config - <<EOF
     kind: Cluster
     apiVersion: kind.x-k8s.io/v1alpha4
+    kubeadmConfigPatches:
+    - |-
+      kind: ClusterConfiguration
+      # configure controller-manager bind address
+      controllerManager:
+        extraArgs:
+          bind-address: 0.0.0.0
+      # configure etcd metrics listen address
+      etcd:
+        local:
+          extraArgs:
+            listen-metrics-urls: http://0.0.0.0:2381
+      # configure scheduler bind address
+      scheduler:
+        extraArgs:
+          bind-address: 0.0.0.0
+    - |-
+      kind: KubeProxyConfiguration
+      # configure proxy metrics bind address
+      metricsBindAddress: 0.0.0.0
     nodes:
       - role: control-plane
         image: kindest/node:v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6
