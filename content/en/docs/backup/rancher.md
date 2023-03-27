@@ -1,7 +1,7 @@
 ---
-title: "Rancher Backup and Restore"
+title: "Rancher"
 description: "Back up and restore Rancher"
-linkTitle: Rancher Backup and Restore
+linkTitle: Rancher
 weight: 2
 draft: false
 ---

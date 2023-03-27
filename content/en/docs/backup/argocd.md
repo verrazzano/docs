@@ -1,7 +1,7 @@
 ---
-title: "Argo CD Backup and Restore"
+title: "Argo CD"
 description: "Back up and restore Argo CD"
-linkTitle: Argo CD Backup and Restore
+linkTitle: Argo CD
 weight: 2
 draft: false
 ---
@@ -195,7 +195,7 @@ created by the original cluster’s backup are automatically synced to the new c
 be able to access the backup from the original cluster on the new cluster. It is recommended to configure the
 `BackupStorageLocation` on the new cluster as read-only by setting `accessMode` to `ReadOnly` in the
 `BackupStorageLocation` spec. This ensures that the backup in the object store is not modified from the new cluster. For
-more information, see 
+more information, see
 [Backup Storage Location](https://velero.io/docs/v1.9/api-types/backupstoragelocation/#backup-storage-location) in the
 Velero documentation.
 

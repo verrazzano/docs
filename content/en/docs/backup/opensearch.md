@@ -1,7 +1,7 @@
 ---
-title: "OpenSearch Backup and Restore"
+title: "OpenSearch"
 description: "Back up and restore OpenSearch"
-linkTitle: OpenSearch Backup and Restore
+linkTitle: OpenSearch
 weight: 2
 draft: false
 ---

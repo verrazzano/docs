@@ -1,7 +1,7 @@
 ---
-title: "Keycloak Backup and Restore"
+title: "Keycloak"
 description: "Back up and restore Keycloak data"
-linkTitle: Keycloak Backup and Restore
+linkTitle: Keycloak
 weight: 2
 draft: false
 ---
@@ -240,5 +240,5 @@ Then, restart the `fluentd` pods in the new cluster to use the original cluster 
 ```
 $ kubectl delete pod -l app=fluentd -n verrazzano-system
 ```
-         
+
 {{< /clipboard >}}
