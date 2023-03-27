@@ -7,11 +7,11 @@ draft: false
 ---
 
 Installation overrides let you supply custom values to the underlying Helm charts or operator for a given component.
-You can supply Verrazzano installation overrides by using a [`ConfigMapRef`](#configmap), [`SecretRef`](#secret), or raw [`Values`](#values).
+You can supply Verrazzano installation overrides by using a `configMapRef`, `secretRef`, or raw `values`.
 
-The following tables have examples of the Istio component InstallOverrides ConfigMap, Secret, and Values, where the external IP addresses are specified instead of using the defaults. For the default values, see the [IstioOperatorSpec](https://istio.io/v1.13/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec).
+The following tables have examples of the Istio component InstallOverrides [ConfigMap](#configmap), [Secret](#secret), and [Values](#values), where the external IP addresses are specified instead of using the defaults. For the default values, see the [IstioOperatorSpec](https://istio.io/v1.13/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec).
 
-In the examples, the ConfigMap and Secret overrides are applied before applying the Verrazzano resource installation YAML file. 
+In the examples, the ConfigMap and Secret overrides are applied before applying the Verrazzano resource installation YAML file.
 
 ## ConfigMap
 
