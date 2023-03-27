@@ -189,27 +189,38 @@ To access Grafana:
 
 ![Grafana](/docs/images/grafana-initial-page.png)
 
+### Grafana dashboards
 
-From here, you can select an existing dashboard or create a new dashboard.
-To select an existing dashboard, use the drop-down list in the top left corner.
-The initial value of this list is `Home`.
+The dashboards in Grafana are organized into folders, and each folder represents a Kubernetes workspace.
 
+Here are the different dashboards in Grafana:
 
-To view host level metrics, select `Host Metrics`. This will provide system metrics for all
-of the nodes in your cluster.
+- Coherence, Helidon, and WebLogic are workload-specific dashboards and provide metrics for each of these applications that are deployed in Verrazzano.
+- Istio and JVM are third-party dashboards. Istio dashboard provide metrics for Istio component that is installed as part of Verrazzano. JVM dashboard provides metrics for SpringBoot and Micronaut applications.
+- NGINX dashboard provides a rich collection of Prometheus metrics such as request volume, connections, success rates, config reloads, network pressure, and so on.
+- OpenSearch dashboard provides metrics of the OpenSearch data such as cluster health, shard details, index details, JVM metrics, and so on.
+- Prometheus Operator dashboard provides metrics of the cluster compute resources such as CPU utilization, memory limits, and so on.
+- Verrazzano Application dashboard provides information of the overall health and performance of the OAM applications that are deployed in Verrazzano, and the details of the running pods in an application. You can filter information based on cluster, application, and component.
+- Verrazzano Monitoring dashboards has a set of dashboards for `kubernetes-mixin` and `node-exporter-mixin`, and dashboards for `alertmanager-mixin` and `etcd-mixin`.  `kubernetes-mixin` dashboards collect metrics about API servers, cluster, pods, workloads, persistent volumes, proxy, and scheduler. `node-exporter-mixin` collect metrics about cluster, nodes, and hardware and OS metrics for Mac system.
+- Verrazzano System dashboards provide information of the health of all Verrazzano system components and the resource usage of the Kubernetes resources across the cluster. For resource usage, you can filter information based on cluster, component, and so on.
 
+You can select an existing dashboard or create a new dashboard. To select an existing dashboard, locate the `Dashboards icon`, and click `Manage`.
 
-To view the application metrics for the `todo-list` example application, select `WebLogic Server Dashboard`
-because the `todo-list` application is a WebLogic application.
+To view the application metrics for the `todo-list` example application, click `WebLogic` and then select `WebLogic Server Dashboard` because the `todo-list` application is a WebLogic application.
 
 ![WebLogicDashboard](/docs/images/grafana-weblogic-dashboard.png)
 
-### Dashboard discovery
+### Dashboard ConfigMaps
 
-The Verrazzano Grafana instance supports dynamic dashboard discovery. This lets you deploy dashboards along with other application components.
+The Verrazzano Grafana instance supports dynamic dashboard discovery. This lets you to package the dashboard as ConfigMaps and deploy dashboards along with other application components in Grafana.
 
-Grafana will automatically discover dashboards in ConfigMaps that are labeled with `grafana_dashboard: "1"`. The ConfigMap must contain the dashboard JSON.
-The ConfigMap may also be annotated with `k8s-sidecar-target-directory` to specify the name of a Grafana folder.
+To configure the dashboard as a ConfigMap:
+1. Create a dashboard as a JSON file.
+You can also export an existing public Grafana dashboard as a JSON file.
+2. Create a ConfigMap file with:
+- `grafana_dashboard` label set to `"1"` so that Grafana can identify dashboards with this label in the ConfigMap
+- name of the JSON file that contains the dashboard JSON
+- name of the `k8s-sidecar-target-directory` as `MyDashboardFolder` to place the dashboard in a custom folder in Grafana
 
 Here is an example ConfigMap.
 
