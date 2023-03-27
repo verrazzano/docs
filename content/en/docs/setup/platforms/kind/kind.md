@@ -44,22 +44,22 @@ with one suitable for the Kind release you are using. For the supported Kubernet
     kubeadmConfigPatches:
     - |-
       kind: ClusterConfiguration
-      # configure controller-manager bind address
+    # configure controller-manager bind address
       controllerManager:
         extraArgs:
           bind-address: 0.0.0.0
-      # configure etcd metrics listen address
+    # configure etcd metrics listen address
       etcd:
         local:
           extraArgs:
             listen-metrics-urls: http://0.0.0.0:2381
-      # configure scheduler bind address
+    # configure scheduler bind address
       scheduler:
         extraArgs:
           bind-address: 0.0.0.0
     - |-
       kind: KubeProxyConfiguration
-      # configure proxy metrics bind address
+    # configure proxy metrics bind address
       metricsBindAddress: 0.0.0.0
     nodes:
       - role: control-plane
@@ -115,22 +115,22 @@ because they will not need to pull the images again.
     kubeadmConfigPatches:
     - |-
       kind: ClusterConfiguration
-      # configure controller-manager bind address
+    # configure controller-manager bind address
       controllerManager:
         extraArgs:
           bind-address: 0.0.0.0
-      # configure etcd metrics listen address
+    # configure etcd metrics listen address
       etcd:
         local:
           extraArgs:
             listen-metrics-urls: http://0.0.0.0:2381
-      # configure scheduler bind address
+    # configure scheduler bind address
       scheduler:
         extraArgs:
           bind-address: 0.0.0.0
     - |-
       kind: KubeProxyConfiguration
-      # configure proxy metrics bind address
+    # configure proxy metrics bind address
       metricsBindAddress: 0.0.0.0
     nodes:
       - role: control-plane
