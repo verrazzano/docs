@@ -12,12 +12,12 @@ The tables below have examples of the Istio component InstallOverrides ConfigMap
 
 ## ConfigMap 
 In both the configMap and secret examples, the ConfigMap and Secret are applied before applying the Verrazzano resource install YAML file.
-The **name** in both the <code>configMap.yaml</code> and <code>vzWithConfigMapRef.yaml</code>  must match each other as well as the **key** in the configMapRef definition and in the data section of the configMap.
+Take note that the **name** under metadata in <code>configMap.yaml</code> and under the configMapRef in <code>verrazzanoResourceWithConfigMapRef.yaml</code>  must match each other, as well as the **key** in the configMapRef and in the key in the data section of the configMap.
 <table>
    <thead>
       <tr>
          <th>ConfigMap<br><code>configMap.yaml</code></th>
-         <th>ConfigMapRef<br><code>vzWithConfigMapRef.yaml</code></th>
+         <th>ConfigMapRef<br><code>verrazzanoResourceWithConfigMapRef.yaml</code></th>
       </tr>
    </thead>
 <tr>
@@ -72,7 +72,7 @@ spec:
    <thead>
       <tr>
          <th>Secret<br><code>secret.yaml</code></th>
-         <th>SecretRef<br><code>vzWithSecretRef.yaml</code></th>
+         <th>SecretRef<br><code>verrazzanoResourceWithSecretRef.yaml</code></th>
       </tr>
    </thead>
    <tr>
@@ -127,7 +127,7 @@ spec:
 <table>
    <thead>
       <tr>
-         <th>Raw Values<br><code>values.yaml</code></th>
+         <th>Values<br><code>verrazzanoResourceWithValues.yaml</code></th>
       </tr>
    </thead>
    <tr>
