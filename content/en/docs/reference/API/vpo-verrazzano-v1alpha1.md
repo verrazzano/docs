@@ -3316,7 +3316,7 @@ Kubernetes apiextensions/v1.JSON
 <em>(Optional)</em>
 <p>Configure overrides using inline YAML.
 For sample usage, see
-<a href="../../../../docs/customize/externallbs/#example-custom-resource-with-management-and-application-external-load-balancers">Values</a>.</p>
+<a href="../../../../docs/customize/installationoverrides/#values">Values</a>.</p>
 </td>
 </tr>
 </tbody>
