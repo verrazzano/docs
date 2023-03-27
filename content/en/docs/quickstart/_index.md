@@ -43,6 +43,8 @@ The development profile has the following characteristics:
 
 ### Install Verrazzano using the Verrazzano CLI
 
+For information about installing the Verrazzano CLI, see [CLI Setup]({{< relref "docs/setup/cli/_index.md" >}}).
+
 1. Install Verrazzano with its `dev` profile.
     ```
     $ vz install -f - <<EOF
@@ -68,8 +70,6 @@ The development profile has the following characteristics:
 2. Wait for the installation to complete.
    Installation logs will be streamed to the command window until the installation has completed
    or until the default timeout (30m) has been reached.
-
-For information about installing the Verrazzano CLI, see [CLI Setup]({{< relref "docs/setup/cli/_index.md" >}}).
 
 **NOTE:** For some applications, the Kiali console may show warnings for objects that replicate hostname/port configurations across multiple IngressTraits. These warnings do not impact functionality and can be suppressed with the following [component override]({{< relref "docs/guides/app-deployment/application-deployment-guide.md#suppress-kiali-console-warnings" >}}).
 
