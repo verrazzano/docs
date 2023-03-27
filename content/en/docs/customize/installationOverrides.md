@@ -11,6 +11,8 @@ You can supply Verrazzano installation overrides by using a `configMapRef`, `sec
 
 The following tables have examples of the Istio component InstallOverrides [ConfigMap](#configmap), [Secret](#secret), and [Values](#values), where the external IP addresses are specified instead of using the defaults. For the default values, see the [IstioOperatorSpec](https://istio.io/v1.13/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec).
 
+In the examples, the ConfigMap and Secret overrides are applied before applying the Verrazzano resource installation YAML file.
+
 ## ConfigMap
 
 Note that the value of the `metadata` `name` in the `configMap.yaml` file must match the `configMapRef` `name` in the `verrazzanoResourceWithConfigMapRef.yaml` file. Also, the values of the `key` in the `configMapRef` and the key in the `data` section of the `configMap` must match.
