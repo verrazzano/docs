@@ -1,18 +1,21 @@
 ---
 title: "Installation Overrides"
-description: "Customize Installation Overrides"
+description: "Customize installation overrides"
 linkTitle: Installation Overrides
 weight: 8
 draft: false
 ---
 
-Installation overrides let you supply custom value overrides to the underlying Helm charts or operator for a given component.
-You can customize Verrazzano Installation Overrides by using a **ConfigMapRef**, **SecretRef**, or raw **Values**.
-The tables below have examples of the Istio component InstallOverrides ConfigMap, Secret, and Values where the externalIPs are specified instead of using the defaults. The default values can be found [here](https://istio.io/v1.13/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec).
+Installation overrides let you supply custom values to the underlying Helm charts or operator for a given component.
+You can supply Verrazzano installation overrides by using a [`ConfigMapRef`](#configmap), [`SecretRef`](#secretref), or raw [`Values`](#values).
 
-## ConfigMap 
-In both the configMap and secret examples, the ConfigMap and Secret are applied before applying the Verrazzano resource install YAML file.
-Take note that the **name** under metadata in <code>configMap.yaml</code> and under the configMapRef in <code>verrazzanoResourceWithConfigMapRef.yaml</code>  must match each other, as well as the **key** in the configMapRef and in the key in the data section of the configMap.
+The following tables have examples of the Istio component InstallOverrides ConfigMap, Secret, and Values, where the external IP addresses are specified instead of using the defaults. For the default values, see the [IstioOperatorSpec](https://istio.io/v1.13/docs/reference/config/istio.operator.v1alpha1/#IstioOperatorSpec).
+
+In the examples, the ConfigMap and Secret overrides are applied before applying the Verrazzano resource installation YAML file. The values overrides are supplied in the Verrazzano resource installation YAML file. 
+
+## ConfigMap
+
+Note that the value of the `metadata` `name` in the `configMap.yaml` file must match the `configMapRef` `name` in the `verrazzanoResourceWithConfigMapRef.yaml` file. Also, the values of the `key` in the `configMapRef` and the key in the `data` section of the `configMap` must match.
 <table>
    <thead>
       <tr>
@@ -40,7 +43,7 @@ data:
               externalIPs:
               - 11.22.33.44
               type: NodePort
-          name: istio-ingressgateway 
+          name: istio-ingressgateway
 ```
 {{< /clipboard >}}
 </td>
@@ -67,7 +70,7 @@ spec:
 </tr>
 </table>
 
-## Secret 
+## Secret
 <table>
    <thead>
       <tr>
