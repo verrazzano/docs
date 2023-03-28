@@ -1,27 +1,18 @@
 ---
-title: "Uninstall"
-linkTitle: "Uninstall"
+title: "Performing the Uninstall"
+linkTitle: "Performing the Uninstall"
 description: "Learn how to uninstall Verrazzano"
-weight: 9
+weight: 2
 draft: false
 ---
 
-## Uninstall considerations
-Before uninstalling Verrazzano, you should delete your Verrazzano applications because they may not function properly after the uninstall is done.
-
-When you uninstall Verrazzano:
-* All of the Verrazzano components are uninstalled
-* The CRDs installed by Verrazzano are not deleted
-* Any applications that were deployed will still exist, but they may not be functional
-
-## Perform the uninstall
-
 You can uninstall Verrazzano using the [Verrazzano CLI]({{< relref "/docs/setup/install/installation.md" >}}) or with [kubectl](https://kubernetes.io/docs/reference/kubectl/kubectl/).
-See the following respective sections.
 
-{{< tabs tabTotal="2" >}}
-{{< tab tabName="vz" >}}
-<br>
+See the following respective sections:
+- [Uninstall using Verrazzano CLI]({{< relref "#uninstall-using-verrazzano-cli" >}})
+- [Uninstall using kubectl]({{< relref "#uninstall-using-kubectl" >}})
+
+## Uninstall using Verrazzano CLI
 
 1. Uninstall Verrazzano.
 {{< clipboard >}}
@@ -46,9 +37,7 @@ See the following respective sections.
    ```
 {{< /clipboard >}}
 
-{{< /tab >}}
-{{< tab tabName="kubectl" >}}
-<br>
+## Uninstall using kubectl
 
 To delete a Verrazzano installation, delete the Verrazzano custom resource you used to
 install it into your cluster.
@@ -86,7 +75,5 @@ $ kubectl logs -n verrazzano-install \
 </div>
 {{< /clipboard >}}
 
-{{< /tab >}}
-{{< /tabs >}}
 
 For troubleshooting help, see [Analysis Advice]({{< relref "/docs/troubleshooting/diagnostictools/analysisadvice/" >}}).
