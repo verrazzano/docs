@@ -1,7 +1,7 @@
 ---
-title: "Keycloak Backup and Restore"
+title: "Keycloak"
 description: "Back up and restore Keycloak data"
-linkTitle: Keycloak Backup and Restore
+linkTitle: Keycloak
 weight: 2
 draft: false
 ---
@@ -228,4 +228,16 @@ kubectl scale sts -n keycloak keycloak --replicas=0
 kubectl scale sts -n keycloak keycloak --replicas=${KEYCLOAK_REPLICAS}
 kubectl wait -n keycloak --for=condition=ready pod -l app.kubernetes.io/instance=keycloak -timeout=600s
 ```
+**NOTE**:  If you are restoring the Keycloak on a different cluster, then make sure that the following secrets in the
+`verrazzano-system` namespace are updated in the new cluster with the corresponding values from the
+original cluster:
+- verrazzano
+- verrazzano-es-internal
+- verrazzano-prom-internal
+
+Then, restart the `fluentd` pods in the new cluster to use the original cluster password to connect to OpenSearch.
+```
+$ kubectl delete pod -l app=fluentd -n verrazzano-system
+```
+
 {{< /clipboard >}}

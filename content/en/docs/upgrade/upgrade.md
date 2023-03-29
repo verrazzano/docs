@@ -1,6 +1,6 @@
 ---
-title: "Upgrade"
-linkTitle: "Upgrade"
+title: "Upgrade Verrazzano"
+linkTitle: "Upgrade Verrazzano"
 description: "Learn how to upgrade Verrazzano"
 weight: 1
 draft: false

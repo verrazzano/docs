@@ -1,7 +1,7 @@
 ---
-title: "OpenSearch Backup and Restore"
+title: "OpenSearch"
 description: "Back up and restore OpenSearch"
-linkTitle: OpenSearch Backup and Restore
+linkTitle: OpenSearch
 weight: 2
 draft: false
 ---
@@ -51,7 +51,7 @@ To back up or restore OpenSearch, you must first enable Velero.
         components:    
           velero:
             enabled: true
-    EOF
+EOF
   ```
 {{< /clipboard >}}
 
@@ -94,7 +94,7 @@ velero-5ff8766fd4-xbn4z   1/1     Running   0          21h
 {{< /clipboard >}}
 
 5. Create a `BackupStorageLocation` resource, which the backup component will reference for subsequent backups. See the following `BackupStorageLocation` example.
-   For more information, see [Backup Storage Location](https://velero.io/docs/v1.8/api-types/backupstoragelocation/) in the Velero documentation.
+   For more information, see [Backup Storage Location](https://velero.io/docs/v1.9/api-types/backupstoragelocation/) in the Velero documentation.
 {{< clipboard >}}
 
   ```yaml
@@ -116,7 +116,7 @@ velero-5ff8766fd4-xbn4z   1/1     Running   0          21h
        region: us-phoenix-1
        s3ForcePathStyle: "true"
        s3Url: https://mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com
-   EOF
+EOF
   ```
 {{< /clipboard >}}
 ## OpenSearch backup Using Velero
@@ -125,11 +125,11 @@ For OpenSearch, Verrazzano provides a custom hook that you can use along with Ve
 Due to the nature of transient data handled by OpenSearch, the hook invokes the OpenSearch snapshot APIs to back up data streams appropriately,
 thereby ensuring that there is no loss of data and avoids data corruption as well.
 
-The following example shows a sample Velero `Backup` [API](https://velero.io/docs/v1.8/api-types/backup/) resource that you can create to initiate an OpenSearch backup.
+The following example shows a sample Velero `Backup` [API](https://velero.io/docs/v1.9/api-types/backup/) resource that you can create to initiate an OpenSearch backup.
 {{< clipboard >}}
 
 ```yaml
-$ kubectl apply -f - <<EOF
+  $ kubectl apply -f - <<EOF
   apiVersion: velero.io/v1
   kind: Backup
   metadata:
@@ -197,7 +197,7 @@ $ kubectl exec -it vmi-system-es-master-0 -n verrazzano-system -- cat /tmp/<log-
 
 ### OpenSearch scheduled backups
 
-Velero supports a `Schedule` [API](https://velero.io/docs/v1.8/api-types/schedule/)
+Velero supports a `Schedule` [API](https://velero.io/docs/v1.9/api-types/schedule/)
 that is a repeatable request that is sent to the Velero server to perform a backup for a given cron notation.
 After the `Schedule` object is created, the Velero server will start the backup process.
 Then, it will wait for the next valid point in the given cron expression and run the backup process on a repeating basis.
@@ -209,6 +209,16 @@ Then, it will wait for the next valid point in the given cron expression and run
 For OpenSearch, Verrazzano provides a custom hook that you can use along with Velero to perform a restore operation.
 Due to the nature of transient data handled by OpenSearch, the hook invokes OpenSearch snapshot APIs to restore data streams appropriately,
 thereby ensuring there is no loss of data and avoids data corruption as well.
+
+If you restore OpenSearch to a different cluster, create a Velero `BackupStorageLocation` resource in the new cluster
+that points to the same backup storage location configured in the original cluster. This ensures that the Velero
+resources created by the original cluster’s backup are automatically synced to the new cluster. Once the sync completes,
+you will be able to access the backup from the original cluster on the new cluster. It is recommended to configure the
+`BackupStorageLocation` on the new cluster as read-only by setting `accessMode` to
+`ReadOnly` in the `BackupStorageLocation` spec. This ensures that the backup in the object store  is not modified from
+the new cluster. For more information, see
+[Backup Storage Location](https://velero.io/docs/v1.9/api-types/backupstoragelocation/#backup-storage-location) in the
+Velero documentation.
 
 To initiate an OpenSearch restore operation, first delete the existing OpenSearch cluster running on the system and all related data.
 
@@ -225,48 +235,49 @@ To initiate an OpenSearch restore operation, first delete the existing OpenSearc
  ```shell
 # These are sample commands to demonstrate the OpenSearch restore process
 $ kubectl delete sts -n verrazzano-system -l verrazzano-component=opensearch
-$ kubectl delete deploy -n verrazzano-system -l verrazzano-component=opensearch    $ kubectl delete pvc -n verrazzano-system -l verrazzano-component=opensearch
+$ kubectl delete deploy -n verrazzano-system -l verrazzano-component=opensearch
+$ kubectl delete pvc -n verrazzano-system -l verrazzano-component=opensearch
  ```
 {{< /clipboard >}}
 
-3. To perform an OpenSearch restore operation, you can invoke the following example Velero `Restore` [API](https://velero.io/docs/v1.8/api-types/restore/) object.
+3. To perform an OpenSearch restore operation, you can invoke the following example Velero `Restore` [API](https://velero.io/docs/v1.9/api-types/restore/) object.
 {{< clipboard >}}
  ```yaml
-  $ kubectl apply -f - <<EOF
+   $ kubectl apply -f - <<EOF
    apiVersion: velero.io/v1
-    kind: Restore
+   kind: Restore
    metadata:
-      name: verrazzano-opensearch-restore
+     name: verrazzano-opensearch-restore
      namespace: verrazzano-backup
    spec:
      backupName: verrazzano-opensearch-backup
      includedNamespaces:
        - verrazzano-system
-      labelSelector:
-        matchLabels:
-          verrazzano-component: opensearch
-      restorePVs: false
-      hooks:
-        resources:
-         - name: opensearch-test
-           includedNamespaces:
-             - verrazzano-system       
-           labelSelector:
-              matchLabels:            
-               statefulset.kubernetes.io/pod-name: vmi-system-es-master-0
-           postHooks:
-             - exec:
-                 container: es-master
-                 command:
-                    - /usr/share/opensearch/bin/verrazzano-backup-hook
-                    - -operation
-                    - restore
-                    - -velero-backup-name
-                    - verrazzano-opensearch-backup
-                 waitTimeout: 30m
-                 execTimeout: 30m
-                  onError: Fail
-  EOF
+     labelSelector:
+       matchLabels:
+         verrazzano-component: opensearch
+     restorePVs: false
+     hooks:
+       resources:
+       - name: opensearch-test
+         includedNamespaces:
+         - verrazzano-system       
+         labelSelector:
+           matchLabels:            
+             statefulset.kubernetes.io/pod-name: vmi-system-es-master-0
+         postHooks:
+         - exec:
+             container: es-master
+             command:
+             - /usr/share/opensearch/bin/verrazzano-backup-hook
+             - -operation
+             - restore
+             - -velero-backup-name
+             - verrazzano-opensearch-backup
+             waitTimeout: 30m
+             execTimeout: 30m
+             onError: Fail
+EOF
    ```
 {{< /clipboard >}}
 
