@@ -1,7 +1,7 @@
 ---
 title: Release Notes
 linkTitle: Release Notes
-weight: 13
+weight: 16
 draft: false
 ---
 ### v1.5.2

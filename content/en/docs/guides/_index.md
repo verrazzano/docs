@@ -1,6 +1,6 @@
 ---
 title: "Guides"
 description: "Guides for common tasks with Verrazzano"
-weight: 11
+weight: 13
 draft: false
 ---
