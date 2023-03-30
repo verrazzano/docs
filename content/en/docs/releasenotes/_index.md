@@ -4,6 +4,10 @@ linkTitle: Release Notes
 weight: 16
 draft: false
 ---
+### v1.6.0
+Component version updates:
+- Jaeger v1.42.0
+
 ### v1.5.2
 Component version updates:
 - Rancher 2.7.1
