@@ -9,7 +9,7 @@ draft: false
 ## Prepare for the generic install
 
 Verrazzano requires that your Kubernetes cluster provides an implementation of network load balancers ([Services of type LoadBalancer](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/)) for a production environment. If your generic Kubernetes implementation provides this feature, then you can use a default configuration
-of the Verrazzano custom resource with no customizations and follow the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}}).
+of the Verrazzano custom resource with no customizations and follow the [Installation Guide]({{< relref "/docs/setup/install/" >}}).
 
 
 {{% alert title="NOTE" color="warning" %}}
@@ -29,4 +29,4 @@ Verrazzano is highly customizable.  If your Kubernetes implementation requires a
 
 ## Next steps
 
-To continue, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md#install-the-verrazzano-platform-operator" >}}).
+To continue, see the [Installation Guide]({{< relref "/docs/setup/install" >}}).
