@@ -234,9 +234,9 @@ kubectl wait -n keycloak --for=condition=ready pod -l app.kubernetes.io/instance
 
 After you complete the MySQL restore operation, the password for the following secrets in the
 `verrazzano-system` namespace must be updated in the new cluster:
-- verrazzano
-- verrazzano-es-internal
-- verrazzano-prom-internal
+- `verrazzano`
+- `verrazzano-es-internal`
+- `verrazzano-prom-internal`
 
 <br>
 
