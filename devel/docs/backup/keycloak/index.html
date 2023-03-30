@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/backup/keycloak/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-03-28T09:33:54+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-03-31T00:28:14+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Keycloak">
 <meta itemprop="description" content="Back up and restore Keycloak data">
-<meta itemprop="dateModified" content="2023-03-28T09:33:54+05:30" />
-<meta itemprop="wordCount" content="1285">
+<meta itemprop="dateModified" content="2023-03-31T00:28:14+05:30" />
+<meta itemprop="wordCount" content="1343">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Keycloak"/>
 <meta name="twitter:description" content="Back up and restore Keycloak data"/>
@@ -110,7 +110,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../offline-search-index.491f66e704698ffaf627a326fb47e468.json"
+    data-offline-search-index-json-src="../../../offline-search-index.09e688440be79b0735c6342e5c2c4c72.json"
     data-offline-search-base-href="../../../"
     data-offline-search-max-results="10"
   >
@@ -136,7 +136,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../offline-search-index.491f66e704698ffaf627a326fb47e468.json"
+    data-offline-search-index-json-src="../../../offline-search-index.09e688440be79b0735c6342e5c2c4c72.json"
     data-offline-search-base-href="../../../"
     data-offline-search-max-results="10"
   >
@@ -1089,17 +1089,34 @@ Keycloak is set up to self-heal and will go into a <code>Running</code> state af
 </span></span><span style="display:flex;"><span>kubectl scale sts -n keycloak keycloak --replicas<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#0000cf;font-weight:bold">0</span>
 </span></span><span style="display:flex;"><span>kubectl scale sts -n keycloak keycloak --replicas<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">${</span><span style="color:#000">KEYCLOAK_REPLICAS</span><span style="color:#4e9a06">}</span>
 </span></span><span style="display:flex;"><span>kubectl <span style="color:#204a87">wait</span> -n keycloak --for<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">condition</span><span style="color:#ce5c00;font-weight:bold">=</span>ready pod -l app.kubernetes.io/instance<span style="color:#ce5c00;font-weight:bold">=</span>keycloak -timeout<span style="color:#ce5c00;font-weight:bold">=</span>600s
-</span></span></code></pre></div><p><strong>NOTE</strong>:  If you are restoring the Keycloak on a different cluster, then make sure that the following secrets in the
-<code>verrazzano-system</code> namespace are updated in the new cluster with the corresponding values from the
-original cluster:</p>
+</span></span></code></pre></div><h3 id="restore-keycloak-on-a-different-cluster">Restore Keycloak on a different cluster</h3>
+<p>After you complete the MySQL restore operation, the password for the following secrets in the
+<code>verrazzano-system</code> namespace must be updated in the new cluster:</p>
 <ul>
-<li>verrazzano</li>
-<li>verrazzano-es-internal</li>
-<li>verrazzano-prom-internal</li>
+<li><code>verrazzano</code></li>
+<li><code>verrazzano-es-internal</code></li>
+<li><code>verrazzano-prom-internal</code></li>
 </ul>
-<p>Then, restart the <code>fluentd</code> pods in the new cluster to use the original cluster password to connect to OpenSearch.</p>
-<pre tabindex="0"><code>$ kubectl delete pod -l app=fluentd -n verrazzano-system
-</code></pre>
+<br>
+<ol>
+<li>
+<p>On the original cluster, run the following command for the <code>verrazzano</code> secret:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl get secret --namespace verrazzano-system verrazzano -o <span style="color:#000">jsonpath</span><span style="color:#ce5c00;font-weight:bold">={</span>.data.password<span style="color:#ce5c00;font-weight:bold">}</span><span style="color:#000;font-weight:bold">;</span> <span style="color:#204a87">echo</span>
+</span></span></code></pre></div></li>
+<li>
+<p>On the new cluster, replace the existing password value with the value displayed in Step 1.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>kubectl edit secret &lt;password&gt; -n verrazzano-system
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># Where, &lt;password&gt; is the value displayed in Step 1.</span>
+</span></span></code></pre></div></li>
+<li>
+<p>Repeat Steps 1 and 2 for the <code>verrazzano-es-internal</code> and <code>verrazzano-prom-internal</code> secrets.</p>
+</li>
+<li>
+<p>Restart the <code>fluentd</code> pods in the new cluster to use the original cluster password to connect to OpenSearch.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl delete pod -l <span style="color:#000">app</span><span style="color:#ce5c00;font-weight:bold">=</span>fluentd -n verrazzano-system
+</span></span></code></pre></div></li>
+</ol>
+
 </div>
 
 <script>
