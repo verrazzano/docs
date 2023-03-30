@@ -13,7 +13,7 @@ Several standard Kubernetes resources are used in this example, both as workload
 - Ingress is used as a trait within an ApplicationConfiguration.
 
 ## Before you begin
-Install Verrazzano by following the [installation]({{< relref "/docs/setup/install/installation.md" >}}) instructions.
+Install Verrazzano by following the [installation]({{< relref "/docs/setup/install/" >}}) instructions.
 
 ### Grant permissions
 The `oam-kubernetes-runtime` is not installed with privileges that allow it to create the Kubernetes Ingress resource used in this example.

@@ -16,7 +16,7 @@ platforms for installing Verrazzano, see [Platform Setup]({{< relref "/docs/setu
 
 **NOTE**: If you just created the cluster, then you must wait until your nodes reach `Ready` status before installing Verrazzano.
 
-For detailed Verrazzano installation instructions, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}}).
+For detailed Verrazzano installation instructions, see the [Installation Guide]({{< relref "/docs/setup/install" >}}).
 
 ## Install Verrazzano
 

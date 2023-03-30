@@ -197,4 +197,4 @@ For use by MetalLB, assign a range of IP addresses at the end of the `kind` netw
 
 ## Next steps
 
-To continue, see the [Installation Guide]({{< relref "/docs/setup/install/installation.md#install-the-verrazzano-platform-operator" >}}).
+To continue, see the [Installation Guide]({{< relref "/docs/setup/install" >}}).
