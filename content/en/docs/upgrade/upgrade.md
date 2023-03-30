@@ -29,7 +29,7 @@ The platform operator contains the newer component charts and image versions, so
 Updating the platform operator has no effect on an existing installation until you initiate the Verrazzano installation upgrade.
 Currently, there is no way to roll back either the platform operator update or the Verrazzano installation upgrade.  
 
-You can upgrade Verrazzano using the  [Verrazzano CLI]({{< relref "/docs/setup/install/installation.md" >}}) or with [kubectl](https://kubernetes.io/docs/reference/kubectl/kubectl/).
+You can upgrade Verrazzano using the  [Verrazzano CLI]({{< relref "/docs/setup/install" >}}) or with [kubectl](https://kubernetes.io/docs/reference/kubectl/kubectl/).
 See the following respective sections.
 
 {{< alert title="NOTE" color="warning" >}}For optimal functionality, be sure to install or upgrade the CLI version to match the Verrazzano version to which you are upgrading.   

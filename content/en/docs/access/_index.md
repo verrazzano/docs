@@ -12,7 +12,7 @@ aliases:
 Verrazzano installs several consoles. The endpoints for an installation are stored in the `Status` field of the
 installed Verrazzano Custom Resource.
 
-You can access the installation endpoints using the [Verrazzano CLI]({{< relref "/docs/setup/install/installation.md" >}}) or with [kubectl](https://kubernetes.io/docs/reference/kubectl/kubectl/).
+You can access the installation endpoints using the [Verrazzano CLI]({{< relref "/docs/setup/install" >}}) or with [kubectl](https://kubernetes.io/docs/reference/kubectl/kubectl/).
 See the following respective sections.
 
 {{< tabs tabTotal="2" >}}
