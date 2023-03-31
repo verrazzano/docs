@@ -59,7 +59,7 @@ spec:
 - If `enabled` is set to `false` (the default), then all the Rancher clusters will not be synchronized.
 - If `enabled` is set to `true`, then all the Rancher clusters will be automatically synchronized across Verrazzano.
 
-**NOTE**: To customize which clusters you can select for synchronization, see [Customize Cluster Selection]({{< relref "/docs/applications\multicluster\customize-cluster.md" >}}).
+**NOTE**: To customize which clusters you can select for synchronization, see [Customize Cluster Selection]({{< relref "/docs/applications/multicluster/customize-cluster.md" >}}).
 
 ## Register the managed cluster
 
@@ -89,7 +89,7 @@ $ kubectl get vmc -n verrazzano-mc <Rancher_cluster_name> -o yaml
 
 For more information, see [Registering Existing Clusters](https://ranchermanager.docs.rancher.com/{{<rancher_doc_version>}}/how-to-guides/new-user-guides/kubernetes-clusters-in-rancher-setup/register-existing-clusters) in the Rancher documentation.
 
-**NOTE**: You can also register the managed clusters using kubectl, see [Register Managed Clusters using kubectl]({{< relref "/docs/applications\multicluster\register-kubectl.md" >}}).
+**NOTE**: You can also register the managed clusters using kubectl, see [Register Managed Clusters using kubectl]({{< relref "/docs/applications/multicluster/register-kubectl.md" >}}).
 
 
 ## Next steps
