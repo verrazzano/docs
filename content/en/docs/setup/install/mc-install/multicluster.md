@@ -30,100 +30,67 @@ To install Verrazzano on each Kubernetes cluster, complete the following steps:
 For detailed instructions on how to install and customize Verrazzano on a Kubernetes cluster using a specific profile,
 see the [Installation Guide]({{< relref "/docs/setup/install/" >}}) and [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}}).
 
+## Enable `syncClusters`
+
+You can use `syncClusters` to synchronize cluster registrations across Verrazzano, including in the Verrazzano managed cluster resources, in Rancher, and in Argo CD.
+
+The following illustrates an admin cluster Verrazzano resource that has been configured to use `syncClusters`.
+{{< clipboard >}}
+<div class="highlight">
+
+```
+apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: admin
+spec:
+  profile: prod
+  components:
+    clusterOperator:
+      overrides:
+      - values:
+          syncClusters:
+            enabled: true
+```
+
+</div>
+{{< /clipboard >}}
+
+- If `enabled` is set to `false` (the default), then all the Rancher clusters will not be synchronized.
+- If `enabled` is set to `true`, then all the Rancher clusters will be automatically synchronized across Verrazzano.
+
+**NOTE**: To customize which clusters you can select for synchronization, see [Customize Cluster Selection]({{< relref "/docs/applications\multicluster\customize-cluster.md" >}}).
+
 ## Register the managed cluster
 
-To register the managed cluster using the VerrazzanoManagedCluster resource, complete the following steps:
+Verrazzano will manage all clusters whose labels match the cluster label selector, including Argo CD, if it is enabled on the admin cluster.
 
-1. Create the environment variables, `KUBECONFIG_ADMIN`, `KUBECONTEXT_ADMIN`, `KUBECONFIG_MANAGED1`, and
-  `KUBECONTEXT_MANAGED1`, and point them to the kubeconfig files and contexts for the admin and managed cluster,
-  respectively. You will use these environment variables in subsequent steps when registering the managed cluster. The
-  following shows an example of how to set these environment variables.
+To register a cluster, complete the following steps:
+1. Open the Rancher console on the admin cluster.
+<br>You can find the Rancher console URL for your cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/access/_index.md" >}}).
+2. Select **Cluster Management**, and then click **Import Existing Cluster**.
+3. Provide a name for your managed cluster. For example: _managed1_.
+4. In your Verrazzano configuration, if you specified a cluster selection label, then under **Labels & Annotations** provide a `label` and `value` for the cluster.
+<br>For the Verrazzano synchronization to occur automatically, the `label` and `value` information should match the cluster selection `matchExpression` in your Verrazzano configuration.
+5. After the import is complete, follow the on-screen instructions to complete the registration by running the provided command against the managed cluster.
+
+After the cluster reaches the `Active` state in the console, synchronization with Verrazzano will happen automatically and a VerrazzanoManagedCluster resource will be created in the `verrazzano-mc` namespace.
+
+Run the following command to view the details and status of Verrazzano's multicluster initialization operations:
 {{< clipboard >}}
 <div class="highlight">
 
-   ```
-   $ export KUBECONFIG_ADMIN=/path/to/your/adminclusterkubeconfig
-   $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
-
-   # Lists the contexts in each kubeconfig file
-   $ kubectl --kubeconfig $KUBECONFIG_ADMIN config get-contexts -o=name
-   $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 config get-contexts -o=name
-
-   # Choose the right context name for your admin and managed clusters from the output shown and set the KUBECONTEXT
-   # environment variables
-   $ export KUBECONTEXT_ADMIN=<admin-cluster-context-name>
-   $ export KUBECONTEXT_MANAGED1=<managed-cluster-context-name>
-   ```
+```
+$ kubectl get vmc -n verrazzano-mc <Rancher_cluster_name> -o yaml
+```
 
 </div>
 {{< /clipboard >}}
 
-2. To begin the registration process for a managed cluster named `managed1`, apply the VerrazzanoManagedCluster resource on the admin cluster.
-{{< clipboard >}}
-<div class="highlight">
+For more information, see [Registering Existing Clusters](https://ranchermanager.docs.rancher.com/{{<rancher_doc_version>}}/how-to-guides/new-user-guides/kubernetes-clusters-in-rancher-setup/register-existing-clusters) in the Rancher documentation.
 
-   ```
-   # On the admin cluster
-   $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
-       apply -f <<EOF -
-   apiVersion: clusters.verrazzano.io/v1alpha1
-   kind: VerrazzanoManagedCluster
-   metadata:
-     name: managed1
-     namespace: verrazzano-mc
-   spec:
-     description: "Test VerrazzanoManagedCluster resource"
-   EOF
-   ```
+**NOTE**: You can also register the managed clusters using kubectl, see [Register Managed Clusters using kubectl]({{< relref "/docs/applications\multicluster\register-kubectl.md" >}}).
 
-</div>
-{{< /clipboard >}}
-
-3. Wait for the VerrazzanoManagedCluster resource to reach the `Ready` status. At that point, it will have generated a YAML
-   file that must be applied on the managed cluster to complete the registration process.
-{{< clipboard >}}
-<div class="highlight">
-
-   ```
-   # On the admin cluster
-   $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
-       wait --for=condition=Ready \
-       vmc managed1 -n verrazzano-mc
-   ```
-
-</div>
-{{< /clipboard >}}
-
-4. Export the YAML file created to register the managed cluster.
-{{< clipboard >}}
-<div class="highlight">
-
-   ```
-   # On the admin cluster
-   $ kubectl --kubeconfig $KUBECONFIG_ADMIN --context $KUBECONTEXT_ADMIN \
-       get secret verrazzano-cluster-managed1-manifest \
-       -n verrazzano-mc \
-       -o jsonpath={.data.yaml} | base64 --decode > register.yaml
-   ```
-
-</div>
-{{< /clipboard >}}
-
-5. Apply the registration file exported in the previous step, on the managed cluster.
-{{< clipboard >}}
-<div class="highlight">
-
-   ```
-   # On the managed cluster
-   $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 --context $KUBECONTEXT_MANAGED1 \
-       apply -f register.yaml
-
-   # After the command succeeds, you may delete the register.yaml file
-   $ rm register.yaml
-   ```
-
-</div>
-{{< /clipboard >}}
 
 ## Next steps
 
