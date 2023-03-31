@@ -4,9 +4,13 @@ linkTitle: Release Notes
 weight: 16
 draft: false
 ---
+### v1.5.3
+Component version updates:
+- Jaeger v1.42.0
+
 ### v1.5.2
 Component version updates:
-- Rancher 2.7.1
+- Rancher v2.7.1
 
 Fixes:
 - Fixed `vz` CLI to allow specified version numbers to start without a leading "v".
