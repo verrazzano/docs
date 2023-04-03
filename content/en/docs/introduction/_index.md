@@ -2,7 +2,7 @@
 title: "Features"
 description: ""
 weight: 1
-draft: true
+draft: false
 ---
 
 The Verrazzano Enterprise Container Platform delivers a single portal solution for standardizing application management across various applications and hosting environments. It's built from many familiar open source projects, each working in concert on Kubernetes clusters to provide vital container management services.
