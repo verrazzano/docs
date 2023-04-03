@@ -5,7 +5,7 @@ weight: 2
 draft: false
 ---
 
--> To register managed clusters using the VerrazzanoManagedCluster resource, complete the following steps:
+To register managed clusters using the VerrazzanoManagedCluster resource, complete the following steps:
 
 1. Create the environment variables, `KUBECONFIG_ADMIN`, `KUBECONTEXT_ADMIN`, `KUBECONFIG_MANAGED1`, and
   `KUBECONTEXT_MANAGED1`, and point them to the kubeconfig files and contexts for the admin and managed cluster,
