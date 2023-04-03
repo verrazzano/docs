@@ -32,7 +32,7 @@ see the [Installation Guide]({{< relref "/docs/setup/install/" >}}) and [Install
 
 ## Enable `syncClusters`
 
-You can use `syncClusters` to synchronize cluster registrations across Verrazzano, including in the Verrazzano managed cluster resources, in Rancher, and in Argo CD.
+You can use `syncClusters` to synchronize cluster registration across Verrazzano, including in Verrazzano managed cluster resources, Rancher, and Argo CD.
 
 The following illustrates an admin cluster Verrazzano resource that has been configured to use `syncClusters`.
 {{< clipboard >}}
@@ -61,7 +61,7 @@ spec:
 
 ## Set a label selector
 
-You can provide a label selector in the Verrazzano resource. The label selector is used to determine which clusters created in Rancher will be automatically registered by Verrazzano.
+In addition, in the Verrazzano resource, you can provide a label selector. The label selector is used to specify which clusters created in Rancher will be automatically registered by Verrazzano.
 
 The following illustrates an admin cluster Verrazzano resource that has been configured to support cluster label selection.
 {{< clipboard >}}
@@ -97,16 +97,16 @@ spec:
 
 **NOTE**: If Argo CD is enabled in Verrazzano, then the label selector also is used by Verrazzano to select the Rancher clusters to automatically register with Argo CD. For more information about using Argo CD with Verrazzano, see [Argo CD]({{< relref "/docs/samples/argo-cd/_index.md" >}}).  
 
-## Register the managed cluster using the Verrazzano UI
+## Register managed clusters using the Verrazzano console
 
 Verrazzano will manage all clusters whose labels match the cluster label selector, including Argo CD, if it is enabled on the admin cluster.
 
 To register a cluster, complete the following steps:
-1. Open the Rancher console on the admin cluster.
-<br>You can find the Rancher console URL for your cluster by following the instructions for [Accessing Verrazzano]({{< relref "/docs/access/_index.md" >}}).
+1. On the admin cluster, open the Rancher console.
+<br>You can find the Rancher console URL for your cluster by following the instructions [here]({{< relref "/docs/access/_index.md#get-the-consoles-urls" >}}).
 2. Select **Cluster Management**, and then click **Import Existing Cluster**.
-3. Provide a name for your managed cluster. For example: _managed1_.
-4. In your Verrazzano configuration, if you specified a cluster selection label, then under **Labels & Annotations** provide a `label` and `value` for the cluster.
+3. Provide a name for your managed cluster, for example, _managed1_.
+4. In your Verrazzano configuration, if you specified a cluster label selector, then under **Labels & Annotations** provide a `label` and `value` for the cluster.
 <br>For the Verrazzano synchronization to occur automatically, the `label` and `value` information should match the cluster selection `matchExpression` in your Verrazzano configuration.
 5. After the import is complete, follow the on-screen instructions to complete the registration by running the provided command against the managed cluster.
 
@@ -125,7 +125,7 @@ $ kubectl get vmc -n verrazzano-mc <Rancher_cluster_name> -o yaml
 
 For more information, see [Registering Existing Clusters](https://ranchermanager.docs.rancher.com/{{<rancher_doc_version>}}/how-to-guides/new-user-guides/kubernetes-clusters-in-rancher-setup/register-existing-clusters) in the Rancher documentation.
 
-**NOTE**: You can also register the managed clusters using kubectl, see [Register Managed Clusters using kubectl]({{< relref "/docs/applications/multicluster/register-kubectl.md" >}}).
+**NOTE**: You can also register managed clusters using kubectl, see [Register Managed Clusters using kubectl]({{< relref "/docs/applications/multicluster/register-kubectl.md" >}}).
 
 
 ## Next steps
