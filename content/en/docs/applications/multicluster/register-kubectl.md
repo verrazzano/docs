@@ -1,6 +1,6 @@
 ---
 title: "Register Managed Clusters using kubectl"
-description: "Learn how to register your managed clusters using kubectl"
+description: "Learn how to register your managed clusters using `kubectl`"
 weight: 2
 draft: false
 ---
