@@ -14,5 +14,5 @@ Analysis detected that the Verrazzano installation has failed, however, it did n
 Review the analysis data, which can help identify the issue.
 
 ### Related information
-* [Installation Guide]({{< relref "/docs/setup/install/installation.md" >}})
+* [Installation Guide]({{< relref "/docs/setup/install/" >}})
 * [Kubernetes Troubleshooting](https://kubernetes.io/docs/tasks/debug/)

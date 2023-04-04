@@ -70,7 +70,7 @@ $ vz install -f verrazzano.yaml
 </div>
 {{< /clipboard >}}
 
-For detailed installation instructions, see the [Install Guide]({{< relref "/docs/setup/install/installation.md" >}}).
+For detailed installation instructions, see the [Install Guide]({{< relref "/docs/setup/install/" >}}).
 
 ### Post-Installation
 

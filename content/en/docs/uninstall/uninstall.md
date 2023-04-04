@@ -6,7 +6,7 @@ weight: 2
 draft: false
 ---
 
-You can uninstall Verrazzano using the [Verrazzano CLI]({{< relref "/docs/setup/install/installation.md" >}}) or with [kubectl](https://kubernetes.io/docs/reference/kubectl/kubectl/).
+You can uninstall Verrazzano using the [Verrazzano CLI]({{< relref "/docs/setup/install/" >}}) or with [kubectl](https://kubernetes.io/docs/reference/kubectl/kubectl/).
 
 See the following respective sections:
 - [Uninstall using the Verrazzano CLI]({{< relref "#uninstall-using-the-verrazzano-cli" >}})
