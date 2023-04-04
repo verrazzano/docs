@@ -191,36 +191,71 @@ To access Grafana:
 
 ### Grafana dashboards
 
-The dashboards in Grafana are organized into folders, and each folder represents a Kubernetes workspace.
+Verrazzano installs a number of preconfigured dashboards in Grafana. These preconfigured dashboards are organized logically into folders. To view the folders, locate the **Dashboards icon**, and click **Manage**.
 
-Here are the different dashboards in Grafana:
+![GrafanaFolders](/docs/images/grafana-manage-folders.png)
 
-- Coherence, Helidon, and WebLogic are workload-specific dashboards and provide metrics for each of these applications that are deployed in Verrazzano.
-- Istio and JVM are third-party dashboards. Istio dashboard provide metrics for Istio component that is installed as part of Verrazzano. JVM dashboard provides metrics for SpringBoot and Micronaut applications.
-- NGINX dashboard provides a rich collection of Prometheus metrics such as request volume, connections, success rates, config reloads, network pressure, and so on.
-- OpenSearch dashboard provides metrics of the OpenSearch data such as cluster health, shard details, index details, JVM metrics, and so on.
-- Prometheus Operator dashboard provides metrics of the cluster compute resources such as CPU utilization, memory limits, and so on.
-- Verrazzano Application dashboard provides information of the overall health and performance of the OAM applications that are deployed in Verrazzano, and the details of the running pods in an application. You can filter information based on cluster, application, and component.
-- Verrazzano Monitoring dashboards has a set of dashboards for `kubernetes-mixin` and `node-exporter-mixin`, and dashboards for `alertmanager-mixin` and `etcd-mixin`.  `kubernetes-mixin` dashboards collect metrics about API servers, cluster, pods, workloads, persistent volumes, proxy, and scheduler. `node-exporter-mixin` collect metrics about cluster, nodes, and hardware and OS metrics for Mac system.
-- Verrazzano System dashboards provide information of the health of all Verrazzano system components and the resource usage of the Kubernetes resources across the cluster. For resource usage, you can filter information based on cluster, component, and so on.
+When you click a folder, you can find the preconfigured dashboards within each of the folders. These dashboards provide a visual representation of the metrics to monitor your applications, the Kubernetes clusters where your applications are running, and Verrazzano itself. You can configure the dashboards by adding panels or rows, modify the dashboard settings, and also copy the dashboards.
 
-You can select an existing dashboard or create a new dashboard. To select an existing dashboard, locate the `Dashboards icon`, and click `Manage`.
+Here is the list of folders that contains the preconfigured dashboards, and their description:
 
-To view the application metrics for the `todo-list` example application, click `WebLogic` and then select `WebLogic Server Dashboard` because the `todo-list` application is a WebLogic application.
+- `Coherence` - Has a set of dashboards that allow you to monitor Coherence applications and provide metrics from Coherence clusters,Caches, Elastic Data, Federation Details, HTTP Servers, Kuberenetes, Machines, Cluster Members, Persistence Summary, Proxy Servers, and Coherence Services.
+- `Helidon` - Is for Helidon workloads and provide the JVM details of the Helidon application such as Status, Heap Usage, JVM Heap Sizes, Thread Count, HTTP Requests, etc.
+- `Istio` - Has a set of dashboards  that monitor the Verrazzano system components.
+- `JVM` -  Monitors the Verrazzano applications that are deployed in the Verrazzano environment.
+- `NGINX` - Controls and forwards incoming requests from ingresses, and provides controller metrics to Prometheus and Grafana. The metrics include Controller Request Volume, Controller Connections, Controller Success Rate, Config Reloads, Network Pressure, etc.
+- `OpenSearch` - Provides metrics from the OpenSearch data such as Cluster Health, Shard Details, Index Details, JVM Metrics, etc.
+- `Prometheus Operator` - Provides metrics of the cluster compute resources such as CPU Utilization, Memory Limits, etc.
+- `WebLogic` - Is for WebLogic workloads. The dashboard provides WebLogic Server runtime metrics to monitor and diagnose the runtime deployment of WebLogic Server.
+
+Besides these, the folder also contains the preconfigured Grafana Verrazzano dashboards. See [Grafana Verrazzano Dashboards](#grafana-verrazzano-dashboards).
+
+If you deployed the [ToDo List]({{< relref "/docs/samples/todo-list" >}}) application, an example application containing a WebLogic component, and you want to view the application metrics for the application, click **WebLogic** and then select **WebLogic Server Dashboard**.
 
 ![WebLogicDashboard](/docs/images/grafana-weblogic-dashboard.png)
 
+#### Grafana Verrazzano dashboards
+
+The Grafana Verrazzano dashboards are located in `Verrazzano Application`, `Verrazzano Monitoring`, and `Verrazzano System` folders.
+
+- `Verrazzano Application` contains the `Application Status` dashboard. This dashboard provides information of the overall health and performance for the OAM applications that are deployed in Verrazzano, and the details of the running pods in an application. You can filter this information based on cluster, application, and component.
+<br>Whenever you deploy a new application in Verrazzano, the new application is automatically added to the dashboard, and is available in the list of `Applications`. You can select the specific application that you want to monitor, and also decide which metrics to view for the application.
+<br>The metrics is available in three rows: `Summary`, `Storage`, and `Requests`. Each row can be collapsed and expanded. `Summary` provides CPU and memory usage, and pod status, `Storage` provides disk and PVC (Persistent Volume Claims) usage, and `Requests` provides HTTP Requests and request metrics.
+
+- `Verrazzano Monitoring` contains the `alertmanager-mixin` dashboard and the `etcd-mixin` dashboard, and a set of dashboards for `kubernetes-mixin` and `node-exporter-mixin`.
+    * `alertmanager-mixin` displays the alerts that have been created by the Alertmanager, and the successful and invalid notifications that have been sent by the Alertmanager.
+    * `etcd-mixin` provides the cluster metrics, and shows other information such as active streams, RPC rate, database size, memory usage, client traffic, peer traffic, etc.
+    * `kubernetes-mixin` provides CPU, memory and network metrics based on cluster, pod, workload type, and nodes; network bandwidth based on cluster, pod, workload type, and nodes; persistent volume usage; and metrics for proxy and scheduler.
+    * `node-exporter-mixin` provides node level status for CPU, memory, disk and network usage.
+
+![Verrazzano Monitoring Dashboard](/docs/images/grafana-verrazzano-monitoring-dashboards.png)
+
+- `Verrazzano System` has a set of dashboards  that provide information of the health for all Verrazzano system components and the resource usage of the Kubernetes resources across the cluster.
+    * `Resource Usage Detailed` gives a detailed view of the resource usage for each of the Verrazzano System Health operators such as application operator, cluster operator,  monitoring operator, and platform operator. You can filter information based on cluster, component, and so on.
+    * `Resource Usage Summary` gives the summary of the resource usage that can be viewed for all components or for a specific component. You can filter information based on cluster, component, and so on.
+    <br> The metrics is available in three rows: `Summary`, `Storage`, and `Requests`. Each row can be collapsed and expanded. `Summary` provides CPU and memory usage, and pod status, `Storage` provides disk and PVC (Persistent Volume Claims) usage, and `Requests` provides HTTP Requests and request metrics.
+    * `System Health` gives the health for all Verrazzano system components that can be viewed for local cluster or any other registered clusters.
+
 ### Dashboard ConfigMaps
 
-The Verrazzano Grafana instance supports dynamic dashboard discovery. This lets you to package the dashboard as ConfigMaps and deploy dashboards along with other application components in Grafana.
+Verrazzano can dynamically deploy the Grafana dashboard that is configured in a ConfigMap, in the Verrazzano Grafana instance. So, you can create individual ConfigMaps in your Kubernetes clusters or package the dashboard ConfigMaps with your application.
+
+The dashboard ConfigMap allows you to automatically add the dashboard JSON to the cluster. The JSON configuration is then translated into a Grafana dashboard, and can be viewed in the Grafana UI.
+
+You can use dashboard ConfigMaps to deploy many custom dashboards without accessing the Grafana UI.
+
+You cannot modify and save these dashboard ConfigMaps in the Grafana UI. However, if you modify the dashboard, you must save it as a new dashboard.
 
 To configure the dashboard as a ConfigMap:
 1. Create a dashboard as a JSON file.
-You can also export an existing public Grafana dashboard as a JSON file.
-2. Create a ConfigMap file with:
-- `grafana_dashboard` label set to `"1"` so that Grafana can identify dashboards with this label in the ConfigMap
+<br>You can also export an existing public Grafana dashboard as a JSON file.
+2. Create a ConfigMap file as follows:
+- `grafana_dashboard` label set to `"1"` so that knows Grafana to select this ConfigMap as a data source for a dashboard
+<br>**NOTE**: Ensure that you use this label only for the `grafana_dashboard`.
 - name of the JSON file that contains the dashboard JSON
 - name of the `k8s-sidecar-target-directory` as `MyDashboardFolder` to place the dashboard in a custom folder in Grafana
+
+You must create the ConfigMap in the _admin_ cluster.
 
 Here is an example ConfigMap.
 
