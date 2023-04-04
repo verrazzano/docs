@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/backup/keycloak/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-03-31T00:34:55+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-04-04T10:29:28-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Keycloak">
 <meta itemprop="description" content="Back up and restore Keycloak data">
-<meta itemprop="dateModified" content="2023-03-31T00:34:55+05:30" />
-<meta itemprop="wordCount" content="1343">
+<meta itemprop="dateModified" content="2023-04-04T10:29:28-04:00" />
+<meta itemprop="wordCount" content="1176">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Keycloak"/>
 <meta name="twitter:description" content="Back up and restore Keycloak data"/>
@@ -38,8 +38,8 @@
 
 
 
-<link rel="preload" href="../../../scss/main.min.6a7bb8f2e590af4043f2921e84d395a960c116b4416b10ec8b774b1d10327e65.css" as="style">
-<link href="../../../scss/main.min.6a7bb8f2e590af4043f2921e84d395a960c116b4416b10ec8b774b1d10327e65.css" rel="stylesheet" integrity="">
+<link rel="preload" href="../../../scss/main.min.aaa6eb74cbc080f6597a6c4aa259c625375edf42e6bcddd9ae6238eebdf330d4.css" as="style">
+<link href="../../../scss/main.min.aaa6eb74cbc080f6597a6c4aa259c625375edf42e6bcddd9ae6238eebdf330d4.css" rel="stylesheet" integrity="">
 
 <script
   src="https://code.jquery.com/jquery-3.6.0.min.js"
@@ -110,7 +110,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../offline-search-index.023f5b9413260aff78e43a3cdc43a131.json"
+    data-offline-search-index-json-src="../../../offline-search-index.29fd6203e5329eb62cbefe37009a464e.json"
     data-offline-search-base-href="../../../"
     data-offline-search-max-results="10"
   >
@@ -136,7 +136,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../offline-search-index.023f5b9413260aff78e43a3cdc43a131.json"
+    data-offline-search-index-json-src="../../../offline-search-index.29fd6203e5329eb62cbefe37009a464e.json"
     data-offline-search-base-href="../../../"
     data-offline-search-max-results="10"
   >
@@ -214,9 +214,13 @@ if (!doNotTrack) {
   <label for="m-docssetupinstall-check"><a href="../../../docs/setup/install/" class="align-left pl-0  td-sidebar-link td-sidebar-link__section" id="m-docssetupinstall"><span class="">Install</span></a></label>
   
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupinstallinstallation-li">
-  <input type="checkbox" id="m-docssetupinstallinstallation-check"/>
-  <label for="m-docssetupinstallinstallation-check"><a href="../../../docs/setup/install/installation/" class="align-left pl-0  td-sidebar-link td-sidebar-link__page" id="m-docssetupinstallinstallation"><span class="">Install Guide</span></a></label>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupinstallcli-installation-li">
+  <input type="checkbox" id="m-docssetupinstallcli-installation-check"/>
+  <label for="m-docssetupinstallcli-installation-check"><a href="../../../docs/setup/install/cli-installation/" class="align-left pl-0  td-sidebar-link td-sidebar-link__page" id="m-docssetupinstallcli-installation"><span class="">Install With CLI</span></a></label>
+  
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupinstallkubectl-installation-li">
+  <input type="checkbox" id="m-docssetupinstallkubectl-installation-check"/>
+  <label for="m-docssetupinstallkubectl-installation-check"><a href="../../../docs/setup/install/kubectl-installation/" class="align-left pl-0  td-sidebar-link td-sidebar-link__page" id="m-docssetupinstallkubectl-installation"><span class="">Install With Kubectl</span></a></label>
   
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docssetupinstallmc-install-li">
   <input type="checkbox" id="m-docssetupinstallmc-install-check"/>
@@ -808,6 +812,8 @@ if (!doNotTrack) {
     <li>
       <ul>
         <li><a href="#mysql-operator-prerequisites">MySQL Operator prerequisites</a></li>
+        <li><a href="#mysql-operator-backup">MySQL Operator backup</a></li>
+        <li><a href="#mysql-operator-restore">MySQL Operator restore</a></li>
       </ul>
     </li>
   </ul>
@@ -908,37 +914,8 @@ This document shows you how to back up and restore data stored in MySQL.</p>
 </li>
 </ul>
 <p>The following example creates a secret <code>mysql-backup-secret</code> in the namespace <code>keycloak</code>.</p>
-<p><strong>NOTE</strong>:  This secret must exist in the namespace <code>keycloak</code>.
-<style type="text/css">
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-</style>
-
-<div class="clipboard">
-    <ol>
+<p><strong>NOTE</strong>:  This secret must exist in the namespace <code>keycloak</code>.</p>
+<ol>
 <li>
 <p>MySQL Operator requires a secret to communicate with the S3 compatible object store, so we create a <code>backup-secret.txt</code> file, which has the object store credentials.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-backup-secret.txt" data-lang="backup-secret.txt"><span style="display:flex;"><span>[default]
@@ -1112,65 +1089,6 @@ Keycloak is set up to self-heal and will go into a <code>Running</code> state af
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>$ kubectl delete pod -l <span style="color:#000">app</span><span style="color:#ce5c00;font-weight:bold">=</span>fluentd -n verrazzano-system
 </span></span></code></pre></div></li>
 </ol>
-
-</div>
-
-<script>
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement("button");
-        button.innerText = "Copy";
-        button.className = "copy-code-button";
-        button.addEventListener("click", () =>
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement("div");
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
-        
-        let codeBlock = codeToCopy.split("\n");
-        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join("\n");
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement('textarea');
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = "Copied";
-        setTimeout(function () {
-            button.innerText = "Copy";
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(".highlight")
-        .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script></p>
 
 	
 		<style>
