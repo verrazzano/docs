@@ -8502,7 +8502,6 @@ you want to install.&lt;/p&gt;
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
 &lt;h2 id=&#34;verify-the-installation&#34;&gt;Verify the installation&lt;/h2&gt;
-&lt;p&gt;Verrazzano installs multiple objects in multiple namespaces. In the &lt;code&gt;verrazzano-system&lt;/code&gt; namespaces, all the pods in the &lt;code&gt;Running&lt;/code&gt; state, does not guarantee, but likely indicates that Verrazzano is up and running.
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -8532,27 +8531,12 @@ you want to install.&lt;/p&gt;
 &lt;/style&gt;
 
 &lt;div class=&#34;clipboard&#34;&gt;
-    &lt;p&gt;To verify the Verrazzano installation, you can use the &lt;code&gt;vz status&lt;/code&gt; command to determine the status of your installation.  After a successful installation, Verrazzano should be in the &lt;code&gt;Ready&lt;/code&gt; state.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz status
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Sample output for a dev profile install&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Verrazzano Status
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  Name: example-verrazzano
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  Namespace: default
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  Profile: prod
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  Version: v1.5.1
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  State: Ready
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  Available Components: 23/23
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  Access Endpoints:
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    consoleUrl: https://verrazzano.default.10.0.0.1.nip.io
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    grafanaUrl: https://grafana.vmi.system.default.10.0.0.1.nip.io
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    keyCloakUrl: https://keycloak.default.10.0.0.1.nip.io
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    kialiUrl: https://kiali.vmi.system.default.10.0.0.1.nip.io
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    openSearchDashboardsUrl: https://osd.vmi.system.default.10.0.0.1.nip.io
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    openSearchUrl: https://opensearch.vmi.system.default.10.0.0.1.nip.io
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    prometheusUrl: https://prometheus.vmi.system.default.10.0.0.1.nip.io
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    rancherUrl: https://rancher.default.10.0.0.1.nip.io
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+    &lt;p&gt;To verify the Verrazzano installation, you can use &lt;code&gt;kubectl&lt;/code&gt; to view the status of the Verrazzano resource.  After a successful installation, Verrazzano status should be &lt;code&gt;InstallComplete&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ kubectl get vz
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# Example response
+NAME                 AVAILABLE   STATUS            VERSION
+example-verrazzano   23/23       InstallComplete   v1.5.2
+&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
 &lt;script&gt;
@@ -8610,7 +8594,7 @@ you want to install.&lt;/p&gt;
     document
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;&lt;/p&gt;
+&lt;/script&gt;
 &lt;p&gt;For installation troubleshooting help, see &lt;a href=&#34;../docs/troubleshooting/diagnostictools/analysisadvice/&#34;&gt;Analysis Advice&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;After the installation has completed, you can use the Verrazzano consoles.
 For information on how to get the consoles URLs and credentials, see &lt;a href=&#34;../docs/access/&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/p&gt;
@@ -10512,13 +10496,13 @@ See the following respective sections.&lt;/p&gt;
 		
 
 		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-cdfaeb&#34; data-toggle=&#34;tab&#34; href=&#34;#cdfaeb&#34;
+		   id=&#34;nav-ecfdab&#34; data-toggle=&#34;tab&#34; href=&#34;#ecfdab&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;vz&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-efacbd&#34; data-toggle=&#34;tab&#34; href=&#34;#efacbd&#34;
+		   id=&#34;nav-eacfdb&#34; data-toggle=&#34;tab&#34; href=&#34;#eacfdb&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;kubectl&lt;/a&gt;
 
 		
@@ -10534,7 +10518,7 @@ See the following respective sections.&lt;/p&gt;
 
 
 
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;cdfaeb&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;ecfdab&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;h2 id=&#34;upgrade-verrazzano&#34;&gt;Upgrade Verrazzano&lt;/h2&gt;
@@ -10736,7 +10720,7 @@ or until the default timeout (30m) has been reached.&lt;/li&gt;
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;efacbd&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;eacfdb&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;Upgrading an existing Verrazzano installation is a two-step process:&lt;/p&gt;
@@ -34572,19 +34556,19 @@ Verrazzano will create &lt;code&gt;sales.us.example.com&lt;/code&gt; as the DNS 
 		
 
 		&lt;a class=&#34;nav-item nav-link  active &#34;
-		   id=&#34;nav-bfeacd&#34; data-toggle=&#34;tab&#34; href=&#34;#bfeacd&#34;
+		   id=&#34;nav-dafecb&#34; data-toggle=&#34;tab&#34; href=&#34;#dafecb&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;WildcardDNS&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-bfcdea&#34; data-toggle=&#34;tab&#34; href=&#34;#bfcdea&#34;
+		   id=&#34;nav-bdfeac&#34; data-toggle=&#34;tab&#34; href=&#34;#bdfeac&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;OracleCloudInfrastructureDNS&lt;/a&gt;
 
 		
 
 		&lt;a class=&#34;nav-item nav-link &#34;
-		   id=&#34;nav-bacfed&#34; data-toggle=&#34;tab&#34; href=&#34;#bacfed&#34;
+		   id=&#34;nav-cafdbe&#34; data-toggle=&#34;tab&#34; href=&#34;#cafdbe&#34;
 		   role=&#34;tab&#34; aria-controls=&#34;nav-home&#34; aria-selected=&#34;true&#34;&gt;CustomDNS&lt;/a&gt;
 
 		
@@ -34600,7 +34584,7 @@ Verrazzano will create &lt;code&gt;sales.us.example.com&lt;/code&gt; as the DNS 
 
 
 
-&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;bfeacd&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show active &#34; id=&#34;dafecb&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;Verrazzano can be configured to use either the &lt;a href=&#34;https://nip.io/&#34;&gt;nip.io&lt;/a&gt; or &lt;a href=&#34;https://sslip.io&#34;&gt;sslip.io&lt;/a&gt; free wildcard DNS services.
@@ -34807,7 +34791,7 @@ spec:
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;bfcdea&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;bdfeac&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;Verrazzano can directly manage records in &lt;a href=&#34;https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm&#34;&gt;Oracle Oracle Cloud Infrastructure DNS&lt;/a&gt;
@@ -36279,7 +36263,7 @@ spec:
 
 
 
-&lt;div class=&#34;tab-pane fade show &#34; id=&#34;bacfed&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
+&lt;div class=&#34;tab-pane fade show &#34; id=&#34;cafdbe&#34; role=&#34;tabpanel&#34; aria-labelledby=&#34;nav-1&#34;&gt;
 
 	&lt;br&gt;
 &lt;p&gt;You can specify your own externally managed, custom DNS domain.  In this scenario, you manage your own DNS

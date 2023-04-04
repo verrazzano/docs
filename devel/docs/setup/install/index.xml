@@ -915,7 +915,6 @@ you want to install.&lt;/p&gt;
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;
 &lt;h2 id=&#34;verify-the-installation&#34;&gt;Verify the installation&lt;/h2&gt;
-&lt;p&gt;Verrazzano installs multiple objects in multiple namespaces. In the &lt;code&gt;verrazzano-system&lt;/code&gt; namespaces, all the pods in the &lt;code&gt;Running&lt;/code&gt; state, does not guarantee, but likely indicates that Verrazzano is up and running.
 &lt;style type=&#34;text/css&#34;&gt;
     code {
         margin: 0;
@@ -945,27 +944,12 @@ you want to install.&lt;/p&gt;
 &lt;/style&gt;
 
 &lt;div class=&#34;clipboard&#34;&gt;
-    &lt;p&gt;To verify the Verrazzano installation, you can use the &lt;code&gt;vz status&lt;/code&gt; command to determine the status of your installation.  After a successful installation, Verrazzano should be in the &lt;code&gt;Ready&lt;/code&gt; state.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ vz status
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# Sample output for a dev profile install&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Verrazzano Status
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  Name: example-verrazzano
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  Namespace: default
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  Profile: prod
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  Version: v1.5.1
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  State: Ready
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  Available Components: 23/23
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  Access Endpoints:
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    consoleUrl: https://verrazzano.default.10.0.0.1.nip.io
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    grafanaUrl: https://grafana.vmi.system.default.10.0.0.1.nip.io
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    keyCloakUrl: https://keycloak.default.10.0.0.1.nip.io
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    kialiUrl: https://kiali.vmi.system.default.10.0.0.1.nip.io
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    openSearchDashboardsUrl: https://osd.vmi.system.default.10.0.0.1.nip.io
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    openSearchUrl: https://opensearch.vmi.system.default.10.0.0.1.nip.io
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    prometheusUrl: https://prometheus.vmi.system.default.10.0.0.1.nip.io
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    rancherUrl: https://rancher.default.10.0.0.1.nip.io
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+    &lt;p&gt;To verify the Verrazzano installation, you can use &lt;code&gt;kubectl&lt;/code&gt; to view the status of the Verrazzano resource.  After a successful installation, Verrazzano status should be &lt;code&gt;InstallComplete&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ kubectl get vz
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# Example response
+NAME                 AVAILABLE   STATUS            VERSION
+example-verrazzano   23/23       InstallComplete   v1.5.2
+&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
 &lt;script&gt;
@@ -1023,7 +1007,7 @@ you want to install.&lt;/p&gt;
     document
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
-&lt;/script&gt;&lt;/p&gt;
+&lt;/script&gt;
 &lt;p&gt;For installation troubleshooting help, see &lt;a href=&#34;../../../docs/troubleshooting/diagnostictools/analysisadvice/&#34;&gt;Analysis Advice&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;After the installation has completed, you can use the Verrazzano consoles.
 For information on how to get the consoles URLs and credentials, see &lt;a href=&#34;../../../docs/access/&#34;&gt;Access Verrazzano&lt;/a&gt;.&lt;/p&gt;
