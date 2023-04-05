@@ -243,9 +243,9 @@ To change the Verrazzano password, first change the user password in Keycloak an
 
 1. Navigate to the Keycloak admin console.
 
-   a. Obtaining the Keycloak admin console URL is described [here](#get-the-consoles-urls).
+   a. Obtain the Keycloak admin console URL, as described [here](#get-the-consoles-urls).
 
-   b. Obtaining the Keycloak admin console credentials is described [here](#the-keycloak-admin-console).
+   b. Obtain the Keycloak admin console credentials, as described [here](#the-keycloak-admin-console).
 
 2. In the left pane, select the `verrazzano-system` realm from the drop-down menu.
 3. In the left pane, under `Manage`, select `Users`.
@@ -285,9 +285,9 @@ To change the Keycloak administrator password, first change the user password in
 
 1. Navigate to the Keycloak admin console.
 
-   a. Obtaining the Keycloak admin console URL is described [here](#get-the-consoles-urls).
+   a. Obtain the Keycloak admin console URL, as described [here](#get-the-consoles-urls).
 
-   b. Obtaining the Keycloak admin console credentials is described [here](#the-keycloak-admin-console).
+   b. Obtain the Keycloak admin console credentials, as described [here](#the-keycloak-admin-console).
 
 2. In the left pane, select the `master` realm from the drop-down menu.
 3. In the left pane, under `Manage`, select `Users`.
