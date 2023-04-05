@@ -46,11 +46,9 @@ It uses OAM resources to define the application deployment:
 </div>
 {{< /clipboard >}}
 
-1. To deploy the application, apply the Sock Shop OAM resources.  Choose to deploy either the `helidon`, `micronaut`, or `spring` variant.
+1. To deploy the application, apply the Sock Shop OAM resources.  Choose to deploy either the `helidon`, `micronaut`, or `spring` variant:
 
-   {{< tabs tabTotal="3" >}}
-   {{< tab tabName="Helidon" >}}
-   <br>
+`helidon`
 
 {{< clipboard >}}
 <div class="highlight">
@@ -62,10 +60,8 @@ It uses OAM resources to define the application deployment:
 </div>
 {{< /clipboard >}}
 
-   {{< /tab >}}
-   {{< tab tabName="Micronaut" >}}
-   <br>
-   
+`micronaut`
+
 {{< clipboard >}}
 <div class="highlight">
 
@@ -76,9 +72,7 @@ It uses OAM resources to define the application deployment:
 </div>
 {{< /clipboard >}}
 
-   {{< /tab >}}
-   {{< tab tabName="Spring" >}}
-   <br>
+`spring`
 
 {{< clipboard >}}
 <div class="highlight">
@@ -90,10 +84,8 @@ It uses OAM resources to define the application deployment:
 </div>
 {{< /clipboard >}}
 
-   {{< /tab >}}
-   {{< /tabs >}}
 
-1. Wait for the Sock Shop application to be ready.
+3. Wait for the Sock Shop application to be ready.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -268,10 +260,8 @@ You can access them according to the directions [here]({{< relref "/docs/access/
 
 1. To undeploy the application, delete the Sock Shop OAM resources.  Choose to undeploy either the `helidon`, `micronaut`, or `spring` variant.
 
+`helidon`
 
-   {{< tabs tabTotal="3" >}}
-   {{< tab tabName="Helidon" >}}
-   <br>
 {{< clipboard >}}
 <div class="highlight">
 
@@ -282,9 +272,8 @@ You can access them according to the directions [here]({{< relref "/docs/access/
 </div>
 {{< /clipboard >}}
 
-   {{< /tab >}}
-   {{< tab tabName="Micronaut" >}}
-   <br>
+`micronaut`
+
 {{< clipboard >}}
 <div class="highlight">
 
@@ -295,10 +284,8 @@ You can access them according to the directions [here]({{< relref "/docs/access/
 </div>
 {{< /clipboard >}}
 
-   {{< /tab >}}
-   {{< tab tabName="Spring" >}}
-   <br>
-   
+`spring`
+
 {{< clipboard >}}
 <div class="highlight">
 
@@ -309,8 +296,7 @@ You can access them according to the directions [here]({{< relref "/docs/access/
 </div>
 {{< /clipboard >}}
 
-   {{< /tab >}}
-   {{< /tabs >}}
+
 
 2. Delete the namespace `sockshop` after the application pods are terminated.
 {{< clipboard >}}

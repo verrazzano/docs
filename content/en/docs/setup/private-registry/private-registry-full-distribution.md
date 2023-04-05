@@ -28,12 +28,12 @@ You must have the following software installed:
  * Helm charts for the Verrazzano platform operator
  * `README.md` which provides the layout of the respective distribution
 
-Set up a private registry using the following instructions, depending on your distribution.
-{{< tabs tabTotal="2" >}}
-{{< tab tabName="LiteDistribution" >}}
-<br>
+Set up a private registry using the following instructions, depending on your distribution:
 
-## Load the images
+- [Lite Distribution](#lite-distribution)
+- [Full Distribution](#full-distribution)
+
+### Lite Distribution
 
 1. Download the desired Verrazzano distribution from the GitHub releases page.
 
@@ -71,8 +71,8 @@ Set up a private registry using the following instructions, depending on your di
 
    After a successful extraction, the release artifacts will be under the `verrazzano-{{<verrazzano_development_version>}}` directory.
 
-   e. Define an environment variable `DISTRIBUTION_DIR`. 
-   
+   e. Define an environment variable `DISTRIBUTION_DIR`.
+
 {{< clipboard >}}
 <div class="highlight">
 
@@ -94,11 +94,7 @@ Set up a private registry using the following instructions, depending on your di
 
 The previous command downloads all the images to the `${DISTRIBUTION_DIR}/images` directory. 	 
 
-{{< /tab >}}
-{{< tab tabName="FullDistribution" >}}
-<br>     
-
-## Load the images
+### Full Distribution
 
 1. Download the Verrazzano ZIP file.
     * Download the Verrazzano ZIP file from the Oracle Software Delivery Cloud for major or minor releases.
@@ -155,8 +151,7 @@ The previous command downloads all the images to the `${DISTRIBUTION_DIR}/images
       ```
       **NOTE**: Use the `sha256sum` command on Linux and `shasum` on MacOS.    
 
-{{< /tab >}}
-{{< /tabs >}}
+
 
 3. Load the product images into your private registry.
 
@@ -186,7 +181,7 @@ The previous command downloads all the images to the `${DISTRIBUTION_DIR}/images
 </div>
 {{< /clipboard >}}
 	  d. Although most images can be protected using credentials stored in an image pull secret, some images _must_ be public. Use the following commands to get the list of public images:
-       
+
    * All the Rancher images in the `rancher/additional-rancher` subcomponent.
 {{< clipboard >}}
 <div class="highlight">
