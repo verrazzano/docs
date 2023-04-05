@@ -106,7 +106,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../offline-search-index.a73e401a434764338baf104b109fe496.json"
+    data-offline-search-index-json-src="../../offline-search-index.b2cdfe219d3b592b156155b77088c263.json"
     data-offline-search-base-href="../../"
     data-offline-search-max-results="10"
   >
@@ -132,7 +132,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../offline-search-index.a73e401a434764338baf104b109fe496.json"
+    data-offline-search-index-json-src="../../offline-search-index.b2cdfe219d3b592b156155b77088c263.json"
     data-offline-search-base-href="../../"
     data-offline-search-max-results="10"
   >
@@ -814,6 +814,7 @@ if (!doNotTrack) {
         <li><a href="#get-the-consoles-urls">Get the consoles URLs</a></li>
         <li><a href="#get-consoles-credentials">Get consoles credentials</a></li>
         <li><a href="#change-the-verrazzano-password">Change the Verrazzano password</a></li>
+        <li><a href="#change-the-keycloak-administrator-password">Change the Keycloak administrator password</a></li>
       </ul>
     </li>
   </ul>
@@ -890,13 +891,13 @@ See the following respective sections.</p>
 		
 
 		<a class="nav-item nav-link  active "
-		   id="nav-acbedf" data-toggle="tab" href="#acbedf"
+		   id="nav-fdebac" data-toggle="tab" href="#fdebac"
 		   role="tab" aria-controls="nav-home" aria-selected="true">vz</a>
 
 		
 
 		<a class="nav-item nav-link "
-		   id="nav-dfabec" data-toggle="tab" href="#dfabec"
+		   id="nav-fabedc" data-toggle="tab" href="#fabedc"
 		   role="tab" aria-controls="nav-home" aria-selected="true">kubectl</a>
 
 		
@@ -912,7 +913,7 @@ See the following respective sections.</p>
 
 
 
-<div class="tab-pane fade show active " id="acbedf" role="tabpanel" aria-labelledby="nav-1">
+<div class="tab-pane fade show active " id="fdebac" role="tabpanel" aria-labelledby="nav-1">
 
 	<br>
 <p>You can get the endpoints for these consoles by issuing the following command
@@ -946,7 +947,7 @@ and examining the <code>Status.Instance</code> field:</p>
 
 
 
-<div class="tab-pane fade show " id="dfabec" role="tabpanel" aria-labelledby="nav-1">
+<div class="tab-pane fade show " id="fabedc" role="tabpanel" aria-labelledby="nav-1">
 
 	<br>
 <p>You can get the endpoints for these consoles by issuing the following command
@@ -1861,8 +1862,8 @@ To log in with Keycloak, select the <code>Log in with Keycloak</code> link or se
 <ol>
 <li>
 <p>Navigate to the Keycloak admin console.</p>
-<p>a. Obtaining the Keycloak admin console URL is described <a href="#get-the-consoles-urls">here</a>.</p>
-<p>b. Obtaining the Keycloak admin console credentials is described <a href="#the-keycloak-admin-console">here</a>.</p>
+<p>a. Obtain the Keycloak admin console URL, as described <a href="#get-the-consoles-urls">here</a>.</p>
+<p>b. Obtain the Keycloak admin console credentials, as described <a href="#the-keycloak-admin-console">here</a>.</p>
 </li>
 <li>
 <p>In the left pane, select the <code>verrazzano-system</code> realm from the drop-down menu.</p>
@@ -1889,7 +1890,7 @@ To log in with Keycloak, select the <code>Log in with Keycloak</code> link or se
 <p>Specify whether the new password is a temporary password. A temporary password must be reset on next login.</p>
 </li>
 <li>
-<p>Confirm the password reset by clicking <code>Reset password</code> in the confirmation dialog.</p>
+<p>Save and confirm the password reset by clicking <code>Reset password</code> in the confirmation dialog.</p>
 </li>
 </ol>
 <p><strong>Update the Verrazzano secret</strong></p>
@@ -1924,7 +1925,7 @@ To log in with Keycloak, select the <code>Log in with Keycloak</code> link or se
 
 <div class="clipboard">
     <div class="highlight">
-<pre><code>$ echo -n 'MyNewPwd' | base64
+<pre><code>$ echo -n '&lt;new password of verrazzano user&gt;' | base64
 </code></pre>
 </div>
 
@@ -1986,7 +1987,7 @@ To log in with Keycloak, select the <code>Log in with Keycloak</code> link or se
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
-<p>Update the password in the secret.
+<p>Update the password in the secret to replace the existing password value with the new base64 encoded value.
 <style type="text/css">
     code {
         margin: 0;
@@ -2017,7 +2018,7 @@ To log in with Keycloak, select the <code>Log in with Keycloak</code> link or se
 
 <div class="clipboard">
     <div class="highlight">
-<pre><code>$ kubectl edit secret verrazzano -n verrazzano-system
+<pre><code>$ kubectl patch secret verrazzano -n verrazzano-system -p '{&quot;data&quot;: {&quot;password&quot;: &quot;&lt;base64 password of verrazzano user&gt;&quot;}}'
 </code></pre>
 </div>
 
@@ -2078,8 +2079,228 @@ To log in with Keycloak, select the <code>Log in with Keycloak</code> link or se
     document
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
-Replace the existing password value with the new base64 encoded value.</p>
+</script></p>
+<h2 id="change-the-keycloak-administrator-password">Change the Keycloak administrator password</h2>
+<p>To change the Keycloak administrator password, first change the user password in Keycloak and then update the Keycloak secret.</p>
+<p><strong>Change the administrator user in Keycloak</strong></p>
+<ol>
+<li>
+<p>Navigate to the Keycloak admin console.</p>
+<p>a. Obtain the Keycloak admin console URL, as described <a href="#get-the-consoles-urls">here</a>.</p>
+<p>b. Obtain the Keycloak admin console credentials, as described <a href="#the-keycloak-admin-console">here</a>.</p>
+</li>
+<li>
+<p>In the left pane, select the <code>master</code> realm from the drop-down menu.</p>
+</li>
+<li>
+<p>In the left pane, under <code>Manage</code>, select <code>Users</code>.</p>
+</li>
+<li>
+<p>In the <code>Users</code> pane, select the <code>keycloakadmin</code> user.</p>
+</li>
+<li>
+<p>At the top, select the <code>Credentials</code> tab.</p>
+</li>
+<li>
+<p>Click <code>Reset password</code>.</p>
+</li>
+<li>
+<p>Specify the new password and confirm.</p>
+</li>
+<li>
+<p>Specify whether the new password is a temporary password. A temporary password must be reset on next login.</p>
+</li>
+<li>
+<p>Save and confirm the password reset by clicking <code>Reset password</code> in the confirmation dialog.</p>
+</li>
+</ol>
+<p><strong>Update the Keycloak secret</strong></p>
+<p>Get the base64 encoding for your new password.
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre><code>$ echo -n '&lt;new password for keycloakadmin user&gt;' | base64
+</code></pre>
+</div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script></p>
+<p>Update the password in the secret to replace the existing password value with the new base64 encoded value.
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre><code>$ kubectl patch secret keycloak-http -n keycloak -p '{&quot;data&quot;: {&quot;password&quot;: &quot;&lt;base64 password of keycloakadmin user&gt;&quot;}}'
+</code></pre>
+</div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script></p>
 
         <div class="section-index">
     
