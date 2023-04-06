@@ -71,7 +71,7 @@ when configured to use the [`spec.components.dns.oci`](/docs/reference/api/vpo-v
 through the [External DNS Service](https://github.com/kubernetes-sigs/external-dns), which is a component that is
 conditionally installed when Oracle Cloud Infrastructure DNS is configured for DNS management in Verrazzano.
 
-### Prerequisites
+#### Prerequisites
 
 The following prerequisites must be met before using Oracle Cloud Infrastructure DNS with Verrazzano:
 
@@ -118,7 +118,7 @@ The following prerequisites must be met before using Oracle Cloud Infrastructure
   After the key pair has been created, you must upload the public key to your account in your Oracle Cloud Infrastructure tenancy.   For details, see
   the Oracle Cloud Infrastructure documentation, [Required Keys and OCIDs](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm).
 
-### Create an Oracle Cloud Infrastructure API secret in the target cluster
+#### Create an Oracle Cloud Infrastructure API secret in the target cluster
 
 To communicate with Oracle Cloud Infrastructure DNS to manage DNS records, Verrazzano needs to be made aware of the necessary API credentials.  
 A generic Kubernetes secret must be created in the cluster's `verrazzano-install` namespace with the required credentials.
@@ -198,7 +198,7 @@ $ kubectl create secret generic -n verrazzano-install oci --from-file=oci.yaml
 
 This secret will later be referenced from the Verrazzano custom resource used during installation.
 
-### Use a Verrazzano helper script to create an Oracle Cloud Infrastructure secret
+#### Use a Verrazzano helper script to create an Oracle Cloud Infrastructure secret
 
 Verrazzano also provides a helper script to create the necessary Kubernetes secret based on your Oracle Cloud Infrastructure CLI configuration file,
 assuming that you have the Oracle Cloud Infrastructure CLI installed and a valid Oracle Cloud Infrastructure CLI profile with the required API key information. The script
@@ -272,7 +272,7 @@ secret/myoci created
 {{< /clipboard >}}
 
 
-### Installation
+#### Installation
 
 After the Oracle Cloud Infrastructure API secret is created, create a Verrazzano custom resource for the installation that is configured to use Oracle Cloud Infrastructure
 DNS and reference the secret you created.

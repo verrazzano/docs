@@ -54,24 +54,24 @@ Set up a private registry using the following instructions, depending on your di
 </div>
 {{< /clipboard >}}
 
- **NOTE**: Use the `sha256sum` command on Linux and `shasum` on MacOS.
+    **NOTE**: Use the `sha256sum` command on Linux and `shasum` on MacOS.
 
    d. Expand the TAR file to access the release artifacts.
 
    The following example, extracts the distribution archive `verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz` into the current directory.
 
-{{< clipboard >}}
-<div class="highlight">
+   {{< clipboard >}}
+   <div class="highlight">
 
-   ```
+    ```
     $ tar xvf verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz
-   ```
-</div>
-{{< /clipboard >}}
+    ```
+   </div>
+   {{< /clipboard >}}
 
-   After a successful extraction, the release artifacts will be under the `verrazzano-{{<verrazzano_development_version>}}` directory.
+    After a successful extraction, the release artifacts will be under the `verrazzano-{{<verrazzano_development_version>}}` directory.
 
-   e. Define an environment variable `DISTRIBUTION_DIR`.
+     e. Define an environment variable `DISTRIBUTION_DIR`.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -82,7 +82,7 @@ Set up a private registry using the following instructions, depending on your di
 </div>
 {{< /clipboard >}}
 
-1. Download the Verrazzano images defined in the BOM, `${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json`, using the script, `${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh`.
+2. Download the Verrazzano images defined in the BOM, `${DISTRIBUTION_DIR}/manifests/verrazzano-bom.json`, using the script, `${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh`.
 {{< clipboard >}}
 <div class="highlight">
 

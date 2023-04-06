@@ -56,14 +56,14 @@ In one simple step, you can upgrade to a specified version of Verrazzano using t
 
    To update to a specific version, where `<version>` is the desired version:
 
-{{< clipboard >}}
-<div class="highlight">
+   {{< clipboard >}}
+   <div class="highlight">
 
-   ```
-   $ vz upgrade --version <version>
-   ```
-</div>
-{{< /clipboard >}}
+  ```
+  $ vz upgrade --version <version>
+  ```
+   </div>
+   {{< /clipboard >}}
 
 
 2. Wait for the upgrade to complete.
