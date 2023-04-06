@@ -28,14 +28,14 @@ You must have the following software installed:
  * Helm charts for the Verrazzano platform operator
  * `README.md` which provides the layout of the respective distribution
 
-Set up a private registry using the following instructions, depending on your distribution:
+To set up a private registry, download the desired Verrazzano distribution, then [Load the images](#load-the-images):
 
 - [Lite Distribution](#lite-distribution)
 - [Full Distribution](#full-distribution)
 
 ### Lite Distribution
 
-1. Download the desired Verrazzano distribution from the GitHub releases page.
+1. Download the `Verrazzano Lite Distribution` from the GitHub releases page.
 
    a. In your browser, go to [Verrazzano releases](https://github.com/verrazzano/verrazzano/releases).
 
@@ -92,7 +92,7 @@ Set up a private registry using the following instructions, depending on your di
 </div>
 {{< /clipboard >}}
 
-The previous command downloads all the images to the `${DISTRIBUTION_DIR}/images` directory. 	 
+   The previous command downloads all the images to the `${DISTRIBUTION_DIR}/images` directory. 	 
 
 ### Full Distribution
 
@@ -151,13 +151,13 @@ The previous command downloads all the images to the `${DISTRIBUTION_DIR}/images
       ```
       **NOTE**: Use the `sha256sum` command on Linux and `shasum` on MacOS.    
 
+### Load the images
 
+Load the product images into your private registry.
 
-3. Load the product images into your private registry.
+1. To log in to the Docker registry, run `docker login <SERVER>` with your credentials.
 
-   a. To log in to the Docker registry, run `docker login <SERVER>` with your credentials.
-
-   b. For use with the examples in this document, define the following variables with respect to your target registry and repository: `MYREG`, `MYREPO`, `VPO_IMAGE`.    
+2. For use with the examples in this document, define the following variables with respect to your target registry and repository: `MYREG`, `MYREPO`, `VPO_IMAGE`.    
 
     These identify the target Docker registry and repository, and the Verrazzano platform operator image, as defined in the BOM file. For example, using a target registry of `myreg.io` and a target repository of `myrepo/v8o`:
 {{< clipboard >}}
@@ -171,7 +171,7 @@ The previous command downloads all the images to the `${DISTRIBUTION_DIR}/images
 </div>
 {{< /clipboard >}}
 
-   c. Run the `${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh` script to push the images to the registry:
+3. Run the `${DISTRIBUTION_DIR}/bin/vz-registry-image-helper.sh` script to push the images to the registry:
 {{< clipboard >}}
 <div class="highlight">
 
@@ -180,7 +180,7 @@ The previous command downloads all the images to the `${DISTRIBUTION_DIR}/images
    ```   
 </div>
 {{< /clipboard >}}
-	  d. Although most images can be protected using credentials stored in an image pull secret, some images _must_ be public. Use the following commands to get the list of public images:
+4. Although most images can be protected using credentials stored in an image pull secret, some images _must_ be public. Use the following commands to get the list of public images:
 
    * All the Rancher images in the `rancher/additional-rancher` subcomponent.
 {{< clipboard >}}
@@ -222,8 +222,9 @@ The previous command downloads all the images to the `${DISTRIBUTION_DIR}/images
 </div>
 {{< /clipboard >}}
 
-  * The Verrazzano platform operator image identified by `$VPO_IMAGE`, as defined previously.
-  * For all the Verrazzano Docker images in the private registry that are not explicitly marked public, you will need to create the secret `verrazzano-container-registry` in the `default` namespace, with the appropriate credentials for the registry, identified by `$MYREG`.    
+    * The Verrazzano platform operator image identified by `$VPO_IMAGE`, as defined previously.
+
+    * For all the Verrazzano Docker images in the private registry that are not explicitly marked public, you will need to create the secret `verrazzano-container-registry` in the `default` namespace, with the appropriate credentials for the registry, identified by `$MYREG`.    
   For example:
 {{< clipboard >}}
 <div class="highlight">
