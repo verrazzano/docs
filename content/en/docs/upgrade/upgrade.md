@@ -184,7 +184,6 @@ Alternatively, you can upgrade the Verrazzano installation using the following s
 {{< /clipboard >}}
 
    Then, apply the resource to the cluster (if you have not edited the resource in-place using `kubectl edit`).
-
 {{< clipboard >}}
 <div class="highlight">
 
@@ -193,7 +192,6 @@ Alternatively, you can upgrade the Verrazzano installation using the following s
    ```
 </div>
 {{< /clipboard >}}
-
 b. Edit the `Verrazzano` resource directly using `kubectl` and set the `version` field directly, for example:
 {{< clipboard >}}
 <div class="highlight">

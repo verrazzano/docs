@@ -46,10 +46,10 @@ It uses OAM resources to define the application deployment:
 </div>
 {{< /clipboard >}}
 
-1. To deploy the application, apply the Sock Shop OAM resources.  Choose to deploy either the `helidon`, `micronaut`, or `spring` variant:
+2. To deploy the application, apply the Sock Shop OAM resources.  Choose to deploy either the `helidon`, `micronaut`, or `spring` variant:
 
-`helidon`
-
+    For **`helidon`**:
+<br>
 {{< clipboard >}}
 <div class="highlight">
 
@@ -60,8 +60,8 @@ It uses OAM resources to define the application deployment:
 </div>
 {{< /clipboard >}}
 
-`micronaut`
-
+    For **`micronaut`**:
+<br>
 {{< clipboard >}}
 <div class="highlight">
 
@@ -72,8 +72,8 @@ It uses OAM resources to define the application deployment:
 </div>
 {{< /clipboard >}}
 
-`spring`
-
+    For **`spring`**:
+<br>
 {{< clipboard >}}
 <div class="highlight">
 
@@ -260,8 +260,8 @@ You can access them according to the directions [here]({{< relref "/docs/access/
 
 1. To undeploy the application, delete the Sock Shop OAM resources.  Choose to undeploy either the `helidon`, `micronaut`, or `spring` variant.
 
-`helidon`
-
+    For **`helidon`**:
+<br>
 {{< clipboard >}}
 <div class="highlight">
 
@@ -272,8 +272,8 @@ You can access them according to the directions [here]({{< relref "/docs/access/
 </div>
 {{< /clipboard >}}
 
-`micronaut`
-
+    For **`micronaut`**:
+<br>
 {{< clipboard >}}
 <div class="highlight">
 
@@ -284,8 +284,8 @@ You can access them according to the directions [here]({{< relref "/docs/access/
 </div>
 {{< /clipboard >}}
 
-`spring`
-
+   For **`spring`**:
+<br>
 {{< clipboard >}}
 <div class="highlight">
 
