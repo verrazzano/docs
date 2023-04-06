@@ -177,10 +177,11 @@ To change the Verrazzano password, first change the user password in Keycloak an
 
 1. Navigate to the Keycloak admin console.
 
-   a. Obtaining the Keycloak admin console URL is described [here](#get-the-consoles-urls).
+   a. Obtain the Keycloak admin console URL, as described [here](#get-the-consoles-urls).
 
-   b. Obtaining the Keycloak admin console credentials is described [here](#the-keycloak-admin-console).
+   b. Obtain the Keycloak admin console credentials, as described [here](#the-keycloak-admin-console).
 
+1. In the left pane, select the `verrazzano-system` realm from the drop-down menu.
 1. In the left pane, under `Manage`, select `Users`.
 1. In the `Users` pane, search for `verrazzano` or click `View all users`.
 1. For the `verrazzano` user, click the `Edit` action.
@@ -188,16 +189,45 @@ To change the Verrazzano password, first change the user password in Keycloak an
 1. Specify the new password and confirm.
 1. Specify whether the new password is a temporary password. A temporary password must be reset on next login.
 1. Click `Reset Password`.
-1. Confirm the password reset by clicking `Reset password` in the confirmation dialog.
+1. Save and confirm the password reset by clicking `Reset password` in the confirmation dialog.
 
 **Update the Verrazzano secret**
 
 Get the base64 encoding for your new password.
 
-`$ echo -n 'MyNewPwd' | base64`
+`$ echo -n '<new password of verrazzano user>' | base64`
 
-Update the password in the secret.
+Update the password in the secret to replace the existing password value with the new base64 encoded value.
 
-`$ kubectl edit secret verrazzano -n verrazzano-system`
+`$ kubectl patch secret verrazzano -n verrazzano-system -p '{"data": {"password": "<base64 password of verrazzano user>"}}'`
 
-Replace the existing password value with the new base64 encoded value.
+## Change the Keycloak administrator password
+
+To change the Keycloak administrator password, first change the user password in Keycloak and then update the Keycloak secret.
+
+**Change the administrator user in Keycloak**
+
+1. Navigate to the Keycloak admin console.
+
+   a. Obtain the Keycloak admin console URL, as described [here](#get-the-consoles-urls).
+
+   b. Obtain the Keycloak admin console credentials, as described [here](#the-keycloak-admin-console).
+
+1. In the left pane, select the `master` realm from the drop-down menu.
+1. In the left pane, under `Manage`, select `Users`.
+1. In the `Users` pane, select the `keycloakadmin` user.
+1. At the top, select the `Credentials` tab.
+1. Click `Reset password`.
+1. Specify the new password and confirm.
+1. Specify whether the new password is a temporary password. A temporary password must be reset on next login.
+1. Save and confirm the password reset by clicking `Reset password` in the confirmation dialog.
+
+**Update the Keycloak secret**
+
+Get the base64 encoding for your new password.
+
+`$ echo -n '<new password for keycloakadmin user>' | base64`
+
+Update the password in the secret to replace the existing password value with the new base64 encoded value.
+
+`$ kubectl patch secret keycloak-http -n keycloak -p '{"data": {"password": "<base64 password of keycloakadmin user>"}}''`
