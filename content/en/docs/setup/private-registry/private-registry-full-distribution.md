@@ -59,20 +59,17 @@ To set up a private registry, download the desired Verrazzano distribution, then
    d. Expand the TAR file to access the release artifacts.
 
    The following example, extracts the distribution archive `verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz` into the current directory.
+{{< clipboard >}}
+<div class="highlight">
 
-   {{< clipboard >}}
-   <div class="highlight">
-
-    ```
-    $ tar xvf verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz
-    ```
-   </div>
-   {{< /clipboard >}}
-
+   ```
+   $ tar xvf verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz
+   ```
+</div>
+{{< /clipboard >}}
     After a successful extraction, the release artifacts will be under the `verrazzano-{{<verrazzano_development_version>}}` directory.
 
      e. Define an environment variable `DISTRIBUTION_DIR`.
-
 {{< clipboard >}}
 <div class="highlight">
 
@@ -222,9 +219,9 @@ Load the product images into your private registry.
 </div>
 {{< /clipboard >}}
 
-    * The Verrazzano platform operator image identified by `$VPO_IMAGE`, as defined previously.
+* The Verrazzano platform operator image identified by `$VPO_IMAGE`, as defined previously.
 
-    * For all the Verrazzano Docker images in the private registry that are not explicitly marked public, you will need to create the secret `verrazzano-container-registry` in the `default` namespace, with the appropriate credentials for the registry, identified by `$MYREG`.    
+* For all the Verrazzano Docker images in the private registry that are not explicitly marked public, you will need to create the secret `verrazzano-container-registry` in the `default` namespace, with the appropriate credentials for the registry, identified by `$MYREG`.    
   For example:
 {{< clipboard >}}
 <div class="highlight">
