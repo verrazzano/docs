@@ -124,30 +124,16 @@ $ kubectl logs -n verrazzano-install \
 
 ## Verify the installation
 
-Verrazzano installs multiple objects in multiple namespaces. In the `verrazzano-system` namespaces, all the pods in the `Running` state, does not guarantee, but likely indicates that Verrazzano is up and running.
 {{< clipboard >}}
-To verify the Verrazzano installation, you can use the `vz status` command to determine the status of your installation.  After a successful installation, Verrazzano should be in the `Ready` state.
+To verify the Verrazzano installation, you can use `kubectl` to view the status of the Verrazzano resource.  After a successful installation, Verrazzano status should be `InstallComplete`.
 
 ```bash
-$ vz status
-
-# Sample output for a dev profile install
-Verrazzano Status
-  Name: example-verrazzano
-  Namespace: default
-  Profile: prod
-  Version: v1.5.1
-  State: Ready
-  Available Components: 23/23
-  Access Endpoints:
-    consoleUrl: https://verrazzano.default.10.0.0.1.nip.io
-    grafanaUrl: https://grafana.vmi.system.default.10.0.0.1.nip.io
-    keyCloakUrl: https://keycloak.default.10.0.0.1.nip.io
-    kialiUrl: https://kiali.vmi.system.default.10.0.0.1.nip.io
-    openSearchDashboardsUrl: https://osd.vmi.system.default.10.0.0.1.nip.io
-    openSearchUrl: https://opensearch.vmi.system.default.10.0.0.1.nip.io
-    prometheusUrl: https://prometheus.vmi.system.default.10.0.0.1.nip.io
-    rancherUrl: https://rancher.default.10.0.0.1.nip.io
+$ kubectl get vz
+```
+```
+# Example response
+NAME                 AVAILABLE   STATUS            VERSION
+example-verrazzano   23/23       InstallComplete   v{{<verrazzano_development_version>}}
 ```
 {{< /clipboard >}}
 
