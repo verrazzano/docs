@@ -106,11 +106,7 @@ func openRepo(args *argsType) (*git.Repository, error) {
 	if len(args.repoDir) > 0 {
 		return openRepoOnDisk(args.repoDir)
 	}
-	if len(args.repoURL) > 0 {
-		return cloneRepoInMemory(args.repoURL)
-	}
-	// Logically unreachable
-	return nil, fmt.Errorf("invalid repoURL and repoDir combination")
+	return cloneRepoInMemory(args.repoURL)
 }
 
 // Joins all map keys into a delimited string
