@@ -219,9 +219,9 @@ Load the product images into your private registry.
 </div>
 {{< /clipboard >}}
 
-* The Verrazzano platform operator image identified by `$VPO_IMAGE`, as defined previously.
+   * The Verrazzano platform operator image identified by `$VPO_IMAGE`, as defined previously in Step 2.
 
-* For all the Verrazzano Docker images in the private registry that are not explicitly marked public, you will need to create the secret `verrazzano-container-registry` in the `default` namespace, with the appropriate credentials for the registry, identified by `$MYREG`.    
+   * For all the Verrazzano Docker images in the private registry that are not explicitly marked public, you will need to create the secret `verrazzano-container-registry` in the `default` namespace, with the appropriate credentials for the registry, identified by `$MYREG`.    
   For example:
 {{< clipboard >}}
 <div class="highlight">
