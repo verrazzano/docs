@@ -12,12 +12,12 @@ aliases:
 Verrazzano installs several consoles. The endpoints for an installation are stored in the `Status` field of the
 installed Verrazzano Custom Resource.
 
-You can access the installation endpoints using the [Verrazzano CLI]({{< relref "/docs/setup/install" >}}) or with [kubectl](https://kubernetes.io/docs/reference/kubectl/kubectl/).
-See the following respective sections.
+You can access the installation endpoints using the [Verrazzano CLI]({{< relref "/docs/setup/install" >}}) or with [kubectl](https://kubernetes.io/docs/reference/kubectl/kubectl/):
 
-{{< tabs tabTotal="2" >}}
-{{< tab tabName="vz" >}}
-<br>
+- [Verrazzano CLI](#verrazzano-cli)
+- [kubectl](#kubectl)
+
+### Verrazzano CLI
 
 You can get the endpoints for these consoles by issuing the following command
 and examining the `Status.Instance` field:
@@ -49,9 +49,7 @@ Verrazzano Status
     rancherUrl: https://rancher.default.172.18.0.231.nip.io
 ```
 
-{{< /tab >}}
-{{< tab tabName="kubectl" >}}
-<br>
+### kubectl
 
 You can get the endpoints for these consoles by issuing the following command
 and examining the `Status.Instance` field:
@@ -123,8 +121,6 @@ The following is an example of the output:
 }
 ```
 
-{{< /tab >}}
-{{< /tabs >}}
 
 ## Get consoles credentials
 
