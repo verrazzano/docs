@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/customize/dns/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-01-27T11:03:02-05:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-04-07T11:07:11-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="DNS">
 <meta itemprop="description" content="Customize DNS configurations for Verrazzano system and application endpoints">
-<meta itemprop="dateModified" content="2023-01-27T11:03:02-05:00" />
-<meta itemprop="wordCount" content="4534">
+<meta itemprop="dateModified" content="2023-04-07T11:07:11-04:00" />
+<meta itemprop="wordCount" content="4540">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="DNS"/>
 <meta name="twitter:description" content="Customize DNS configurations for Verrazzano system and application endpoints"/>
@@ -110,7 +110,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../offline-search-index.b2cdfe219d3b592b156155b77088c263.json"
+    data-offline-search-index-json-src="../../../offline-search-index.4cf1b3dbc27b812dbf9d54e27c968599.json"
     data-offline-search-base-href="../../../"
     data-offline-search-max-results="10"
   >
@@ -136,7 +136,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../offline-search-index.b2cdfe219d3b592b156155b77088c263.json"
+    data-offline-search-index-json-src="../../../offline-search-index.4cf1b3dbc27b812dbf9d54e27c968599.json"
     data-offline-search-base-href="../../../"
     data-offline-search-max-results="10"
   >
@@ -220,7 +220,7 @@ if (!doNotTrack) {
   
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupinstallkubectl-installation-li">
   <input type="checkbox" id="m-docssetupinstallkubectl-installation-check"/>
-  <label for="m-docssetupinstallkubectl-installation-check"><a href="../../../docs/setup/install/kubectl-installation/" class="align-left pl-0  td-sidebar-link td-sidebar-link__page" id="m-docssetupinstallkubectl-installation"><span class="">Install With Kubectl</span></a></label>
+  <label for="m-docssetupinstallkubectl-installation-check"><a href="../../../docs/setup/install/kubectl-installation/" class="align-left pl-0  td-sidebar-link td-sidebar-link__page" id="m-docssetupinstallkubectl-installation"><span class="">Install With kubectl</span></a></label>
   
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docssetupinstallmc-install-li">
   <input type="checkbox" id="m-docssetupinstallmc-install-check"/>
@@ -881,9 +881,9 @@ if (!doNotTrack) {
 	</header>    
 	<p>Verrazzano supports three DNS choices for Verrazzano services and applications:</p>
 <ul>
-<li>Free wildcard DNS services (<a href="https://nip.io/">nip.io</a> and <a href="https://sslip.io">sslip.io</a>)</li>
-<li><a href="https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm">Oracle Cloud Infrastructure DNS</a> managed by Verrazzano</li>
-<li>Custom (user-managed) DNS</li>
+<li>Free <a href="#wildcard-dns-services">wildcard DNS services</a> (<a href="https://nip.io/">nip.io</a> and <a href="https://sslip.io">sslip.io</a>)</li>
+<li><a href="#oracle-cloud-infrastructure-dns">Oracle Cloud Infrastructure DNS</a> managed by Verrazzano</li>
+<li><a href="#custom-dns">Custom</a> (user-managed) DNS</li>
 </ul>
 <h2 id="how-verrazzano-constructs-a-dns-domain">How Verrazzano constructs a DNS domain</h2>
 <p>Regardless of which DNS management you use, the value in the
@@ -892,51 +892,10 @@ prepended to the configured domain in the <a href="../../../docs/reference/api/v
 section of the custom resource, to form the full DNS domain name used to access Verrazzano endpoints.</p>
 <p>For example, if <code>spec.environmentName</code> is set to <code>sales</code> and the domain is configured in <code>spec.components.dns</code> as <code>us.example.com</code>,
 Verrazzano will create <code>sales.us.example.com</code> as the DNS domain for the installation.</p>
-<nav>
-	<div class="nav nav-tabs" id="nav-tab" role="tablist">
-
-		
-		
-		
-		
-
-		
-
-		<a class="nav-item nav-link  active "
-		   id="nav-cfbade" data-toggle="tab" href="#cfbade"
-		   role="tab" aria-controls="nav-home" aria-selected="true">WildcardDNS</a>
-
-		
-
-		<a class="nav-item nav-link "
-		   id="nav-abedcf" data-toggle="tab" href="#abedcf"
-		   role="tab" aria-controls="nav-home" aria-selected="true">OracleCloudInfrastructureDNS</a>
-
-		
-
-		<a class="nav-item nav-link "
-		   id="nav-defbac" data-toggle="tab" href="#defbac"
-		   role="tab" aria-controls="nav-home" aria-selected="true">CustomDNS</a>
-
-		
-
-	</div>
-</nav>
-
-<div class="tab-content" id="nav-tab-content">
-
-	
-
-
-
-
-
-<div class="tab-pane fade show active " id="cfbade" role="tabpanel" aria-labelledby="nav-1">
-
-	<br>
+<h3 id="wildcard-dns-services">Wildcard DNS Services</h3>
 <p>Verrazzano can be configured to use either the <a href="https://nip.io/">nip.io</a> or <a href="https://sslip.io">sslip.io</a> free wildcard DNS services.
 When queried with a host name with an embedded IP address, wildcard DNS services return that IP address.</p>
-<p>For example, using the <code>nip.io</code> service, the following DNS names all map to the IP address <code>10.0.0.1</code>:</p>
+<p>For example, using the <code>nip.io</code> service, the following DNS names all map to the IP address <code>10.0.0.1</code>:
 <style type="text/css">
     code {
         margin: 0;
@@ -964,13 +923,16 @@ When queried with a host name with an embedded IP address, wildcard DNS services
     }
 
 </style>
+
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>10.0.0.1.nip.io
 app.10.0.0.1.nip.io
 customer1.app.10.0.0.1.nip.io
 </code></pre></div>
+
 </div>
+
 <script>
     function createCopyButton(highlightDiv) {
         const button = document.createElement("button");
@@ -1026,11 +988,11 @@ customer1.app.10.0.0.1.nip.io
     document
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
+</script></p>
 <p>To configure Verrazzano to use one of these services, set the
 <a href="../../../docs/reference/api/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.Wildcard"><code>spec.wildcard.domain</code></a>
 field in the Verrazzano custom resource to either <code>nip.io</code> or <code>sslip.io</code>; the default is <code>nip.io</code>.</p>
-<p>For example, the following configuration uses <code>sslip.io</code>, instead of <code>nip.io</code>, for wildcard DNS with a <code>dev</code> installation profile.</p>
+<p>For example, the following configuration uses <code>sslip.io</code>, instead of <code>nip.io</code>, for wildcard DNS with a <code>dev</code> installation profile.
 <style type="text/css">
     code {
         margin: 0;
@@ -1058,6 +1020,7 @@ field in the Verrazzano custom resource to either <code>nip.io</code> or <code>s
     }
 
 </style>
+
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1beta1
@@ -1071,7 +1034,9 @@ spec:
       wildcard:
         domain: sslip.io
 </code></pre></div>
+
 </div>
+
 <script>
     function createCopyButton(highlightDiv) {
         const button = document.createElement("button");
@@ -1127,25 +1092,13 @@ spec:
     document
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
-<br/>
-
-
-</div>
-
-
-
-
-
-
-<div class="tab-pane fade show " id="abedcf" role="tabpanel" aria-labelledby="nav-1">
-
-	<br>
+</script></p>
+<h3 id="oracle-cloud-infrastructure-dns">Oracle Cloud Infrastructure DNS</h3>
 <p>Verrazzano can directly manage records in <a href="https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm">Oracle Oracle Cloud Infrastructure DNS</a>
 when configured to use the <a href="../../../docs/reference/api/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.OCI"><code>spec.components.dns.oci</code></a> field.  This is achieved
 through the <a href="https://github.com/kubernetes-sigs/external-dns">External DNS Service</a>, which is a component that is
 conditionally installed when Oracle Cloud Infrastructure DNS is configured for DNS management in Verrazzano.</p>
-<h3 id="prerequisites">Prerequisites</h3>
+<h4 id="prerequisites">Prerequisites</h4>
 <p>The following prerequisites must be met before using Oracle Cloud Infrastructure DNS with Verrazzano:</p>
 <ul>
 <li>
@@ -1155,209 +1108,7 @@ conditionally installed when Oracle Cloud Infrastructure DNS is configured for D
 <p>You must have an Oracle Cloud Infrastructure DNS Service Zone that is configured to manage records for that domain. Verrazzano also supports the use of both GLOBAL and PRIVATE Oracle Cloud Infrastructure DNS zones.</p>
 <p>A DNS Service Zone is a distinct portion of a domain namespace. You must ensure that the zone is appropriately associated with a parent domain.
 For example, an appropriate zone name for parent domain <code>example.com</code> is <code>us.example.com</code>.</p>
-<p>To create an Oracle Cloud Infrastructure DNS zone using the Oracle Cloud Infrastructure CLI:</p>
-<style type="text/css">
-  code {
-      margin: 0;
-      padding: 0;
-  }
-
-  .copy-code-button {
-      position: absolute;
-      right: 0;
-      top: -29px;
-      font-size: 12px;
-      line-height: 14px;
-      width: 65px;
-      color: white;
-      background-color: #30638E;
-      border: 1px solid #30638E;
-      white-space: nowrap;
-      padding: 6px 6px 7px 6px;
-  }
-
-  .copy-code-button:hover,
-  .copy-code-button:focus{
-      background-color: gray;
-      opacity: 1;
-  }
-
-</li>
-</ul>
-<p></style></p>
-<div class="clipboard">
-      <div class="highlight">
-<pre tabindex="0"><code>$ oci dns zone create \
-    -c &lt;compartment ocid&gt; \
-    --name &lt;zone-name-prefix&gt;.example.com \
-    --zone-type PRIMARY
-</code></pre>  </div>
-</div>
-<script>
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement("button");
-        button.innerText = "Copy";
-        button.className = "copy-code-button";
-        button.addEventListener("click", () =>
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement("div");
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
-        
-        let codeBlock = codeToCopy.split("\n");
-        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join("\n");
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement('textarea');
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = "Copied";
-        setTimeout(function () {
-            button.innerText = "Copy";
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(".highlight")
-        .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
-<p>To create an Oracle Cloud Infrastructure DNS zone using the Oracle Cloud Infrastructure Console, see
-<a href="https://docs.oracle.com/en-us/iaas/Content/DNS/Tasks/managingdnszones.htm">Managing DNS Service Zones</a>.</p>
-<ul>
-<li>
-<p>You must have a valid Oracle Cloud Infrastructure API signing key that can be used to communicate with Oracle Cloud Infrastructure DNS in your tenancy.</p>
-<p>For example, you can create an API signing key using the Oracle Cloud Infrastructure CLI.</p>
-<style type="text/css">
-  code {
-      margin: 0;
-      padding: 0;
-  }
-
-  .copy-code-button {
-      position: absolute;
-      right: 0;
-      top: -29px;
-      font-size: 12px;
-      line-height: 14px;
-      width: 65px;
-      color: white;
-      background-color: #30638E;
-      border: 1px solid #30638E;
-      white-space: nowrap;
-      padding: 6px 6px 7px 6px;
-  }
-
-  .copy-code-button:hover,
-  .copy-code-button:focus{
-      background-color: gray;
-      opacity: 1;
-  }
-
-</li>
-</ul>
-<p></style></p>
-<div class="clipboard">
-      <div class="highlight">
-<pre tabindex="0"><code>  $ oci setup keys --key-name myapikey
-  Enter a passphrase for your private key (empty for no passphrase):
-  Public key written to: /Users/jdoe/.oci/myapikey_public.pem
-  Private key written to: /Users/jdoe/.oci/myapikey.pem
-  Public key fingerprint: 39:08:44:69:9f:f5:73:86:7a:46:d8:ad:34:4f:95:29
-</code></pre>   </div>
-</div>
-<script>
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement("button");
-        button.innerText = "Copy";
-        button.className = "copy-code-button";
-        button.addEventListener("click", () =>
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement("div");
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
-        
-        let codeBlock = codeToCopy.split("\n");
-        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join("\n");
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement('textarea');
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = "Copied";
-        setTimeout(function () {
-            button.innerText = "Copy";
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(".highlight")
-        .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
-<p>If you haven&rsquo;t already uploaded your API signing public key through the
-console, follow the instructions in this section, <a href="https://docs.cloud.oracle.com/Content/API/Concepts/apisigningkey.htm#How2">How to upload the public key</a>.</p>
-<p>After the key pair has been created, you must upload the public key to your account in your Oracle Cloud Infrastructure tenancy.   For details, see
-the Oracle Cloud Infrastructure documentation, <a href="https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm">Required Keys and OCIDs</a>.</p>
-<h3 id="create-an-oracle-cloud-infrastructure-api-secret-in-the-target-cluster">Create an Oracle Cloud Infrastructure API secret in the target cluster</h3>
-<p>To communicate with Oracle Cloud Infrastructure DNS to manage DNS records, Verrazzano needs to be made aware of the necessary API credentials.<br>
-A generic Kubernetes secret must be created in the cluster&rsquo;s <code>verrazzano-install</code> namespace with the required credentials.
-That secret must then be referenced by the custom resource that is used to install Verrazzano.</p>
-<p>After you have an Oracle Cloud Infrastructure API key ready for use, create a YAML file, <code>oci.yaml</code>, with the API credentials in the form:</p>
+<p>To create an Oracle Cloud Infrastructure DNS zone using the Oracle Cloud Infrastructure CLI:
 <style type="text/css">
     code {
         margin: 0;
@@ -1385,6 +1136,213 @@ That secret must then be referenced by the custom resource that is used to insta
     }
 
 </style>
+
+<div class="clipboard">
+      <div class="highlight">
+<pre tabindex="0"><code>$ oci dns zone create \
+    -c &lt;compartment ocid&gt; \
+    --name &lt;zone-name-prefix&gt;.example.com \
+    --zone-type PRIMARY
+</code></pre>  </div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script>
+To create an Oracle Cloud Infrastructure DNS zone using the Oracle Cloud Infrastructure Console, see
+<a href="https://docs.oracle.com/en-us/iaas/Content/DNS/Tasks/managingdnszones.htm">Managing DNS Service Zones</a>.</p>
+</li>
+<li>
+<p>You must have a valid Oracle Cloud Infrastructure API signing key that can be used to communicate with Oracle Cloud Infrastructure DNS in your tenancy.</p>
+<p>For example, you can create an API signing key using the Oracle Cloud Infrastructure CLI.
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+      <div class="highlight">
+<pre tabindex="0"><code>  $ oci setup keys --key-name myapikey
+  Enter a passphrase for your private key (empty for no passphrase):
+  Public key written to: /Users/jdoe/.oci/myapikey_public.pem
+  Private key written to: /Users/jdoe/.oci/myapikey.pem
+  Public key fingerprint: 39:08:44:69:9f:f5:73:86:7a:46:d8:ad:34:4f:95:29
+</code></pre>   </div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script>
+If you haven&rsquo;t already uploaded your API signing public key through the
+console, follow the instructions in this section, <a href="https://docs.cloud.oracle.com/Content/API/Concepts/apisigningkey.htm#How2">How to upload the public key</a>.</p>
+<p>After the key pair has been created, you must upload the public key to your account in your Oracle Cloud Infrastructure tenancy.   For details, see
+the Oracle Cloud Infrastructure documentation, <a href="https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm">Required Keys and OCIDs</a>.</p>
+</li>
+</ul>
+<h4 id="create-an-oracle-cloud-infrastructure-api-secret-in-the-target-cluster">Create an Oracle Cloud Infrastructure API secret in the target cluster</h4>
+<p>To communicate with Oracle Cloud Infrastructure DNS to manage DNS records, Verrazzano needs to be made aware of the necessary API credentials.<br>
+A generic Kubernetes secret must be created in the cluster&rsquo;s <code>verrazzano-install</code> namespace with the required credentials.
+That secret must then be referenced by the custom resource that is used to install Verrazzano.</p>
+<p>After you have an Oracle Cloud Infrastructure API key ready for use, create a YAML file, <code>oci.yaml</code>, with the API credentials in the form:
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>auth:
@@ -1395,7 +1353,9 @@ That secret must then be referenced by the custom resource that is used to insta
     &lt;oci-api-private-key-file-contents&gt;
   fingerprint: &lt;oci-api-private-key-fingerprint&gt;
 </code></pre></div>
+
 </div>
+
 <script>
     function createCopyButton(highlightDiv) {
         const button = document.createElement("button");
@@ -1451,11 +1411,11 @@ That secret must then be referenced by the custom resource that is used to insta
     document
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
+</script></p>
 <p>This information typically can be found in your Oracle Cloud Infrastructure CLI config file or in the Oracle Cloud Infrastructure Console.  The
 <code>&lt;oci-api-private-key-file-contents&gt;</code> contents are the PEM-encoded contents of the <code>key_file</code> value within the Oracle Cloud Infrastructure CLI
 configuration profile.</p>
-<p>For example, your <code>oci.yaml</code> file will look similar to the following:</p>
+<p>For example, your <code>oci.yaml</code> file will look similar to the following:
 <style type="text/css">
     code {
         margin: 0;
@@ -1483,6 +1443,7 @@ configuration profile.</p>
     }
 
 </style>
+
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>auth:
@@ -1495,7 +1456,9 @@ configuration profile.</p>
     -----END RSA PRIVATE KEY-----
   fingerprint: 12:d3:4c:gh:fd:9e:27:g8:b9:0d:9f:00:22:33:c3:gg
 </code></pre></div>
+
 </div>
+
 <script>
     function createCopyButton(highlightDiv) {
         const button = document.createElement("button");
@@ -1551,10 +1514,10 @@ configuration profile.</p>
     document
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
+</script></p>
 <p>Verrazzano also supports the use of instance principals to communicate with Oracle Cloud Infrastructure in order to create or update Oracle Cloud Infrastructure DNS records.
 Instance principals require some prerequisites that can be found <a href="https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/callingservicesfrominstances.htm">here</a>.</p>
-<p>When using instance principals, your <code>oci.yaml</code> file will look as follows:</p>
+<p>When using instance principals, your <code>oci.yaml</code> file will look as follows:
 <style type="text/css">
     code {
         margin: 0;
@@ -1582,12 +1545,15 @@ Instance principals require some prerequisites that can be found <a href="https:
     }
 
 </style>
+
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>auth:
   authtype: instance_principal
 </code></pre></div>
+
 </div>
+
 <script>
     function createCopyButton(highlightDiv) {
         const button = document.createElement("button");
@@ -1643,8 +1609,8 @@ Instance principals require some prerequisites that can be found <a href="https:
     document
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
-<p>Then, you can create a generic Kubernetes secret in the cluster&rsquo;s <code>verrazzano-install</code> namespace using <code>kubectl</code>.</p>
+</script></p>
+<p>Then, you can create a generic Kubernetes secret in the cluster&rsquo;s <code>verrazzano-install</code> namespace using <code>kubectl</code>.
 <style type="text/css">
     code {
         margin: 0;
@@ -1672,11 +1638,14 @@ Instance principals require some prerequisites that can be found <a href="https:
     }
 
 </style>
+
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>$ kubectl create secret generic -n verrazzano-install &lt;secret-name&gt; --from-file=&lt;path-to-oci-yaml-file&gt;
 </code></pre></div>
+
 </div>
+
 <script>
     function createCopyButton(highlightDiv) {
         const button = document.createElement("button");
@@ -1732,8 +1701,8 @@ Instance principals require some prerequisites that can be found <a href="https:
     document
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
-<p>For example, to create a secret named <code>oci</code> from a file <code>oci.yaml</code>, do the following:</p>
+</script></p>
+<p>For example, to create a secret named <code>oci</code> from a file <code>oci.yaml</code>, do the following:
 <style type="text/css">
     code {
         margin: 0;
@@ -1761,11 +1730,14 @@ Instance principals require some prerequisites that can be found <a href="https:
     }
 
 </style>
+
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>$ kubectl create secret generic -n verrazzano-install oci --from-file=oci.yaml
 </code></pre></div>
+
 </div>
+
 <script>
     function createCopyButton(highlightDiv) {
         const button = document.createElement("button");
@@ -1821,13 +1793,13 @@ Instance principals require some prerequisites that can be found <a href="https:
     document
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
+</script></p>
 <p>This secret will later be referenced from the Verrazzano custom resource used during installation.</p>
-<h3 id="use-a-verrazzano-helper-script-to-create-an-oracle-cloud-infrastructure-secret">Use a Verrazzano helper script to create an Oracle Cloud Infrastructure secret</h3>
+<h4 id="use-a-verrazzano-helper-script-to-create-an-oracle-cloud-infrastructure-secret">Use a Verrazzano helper script to create an Oracle Cloud Infrastructure secret</h4>
 <p>Verrazzano also provides a helper script to create the necessary Kubernetes secret based on your Oracle Cloud Infrastructure CLI configuration file,
 assuming that you have the Oracle Cloud Infrastructure CLI installed and a valid Oracle Cloud Infrastructure CLI profile with the required API key information. The script
 <code>create_oci_config_secret.sh</code> reads your Oracle Cloud Infrastructure CLI configuration file to create the secret.</p>
-<p>First, download the <code>create_oci_config_secret.sh</code> script.</p>
+<p>First, download the <code>create_oci_config_secret.sh</code> script.
 <style type="text/css">
     code {
         margin: 0;
@@ -1855,13 +1827,16 @@ assuming that you have the Oracle Cloud Infrastructure CLI installed and a valid
     }
 
 </style>
+
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>$ curl \
     -o ./create_oci_config_secret.sh \
     https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/scripts/install/create_oci_config_secret.sh
 </code></pre></div>
+
 </div>
+
 <script>
     function createCopyButton(highlightDiv) {
         const button = document.createElement("button");
@@ -1917,9 +1892,9 @@ assuming that you have the Oracle Cloud Infrastructure CLI installed and a valid
     document
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
+</script></p>
 <p>Next, set your <code>KUBECONFIG</code> environment variable to point to your cluster and run <code>create_oci_config_secret.sh -h</code>
-to display the script options.</p>
+to display the script options.
 <style type="text/css">
     code {
         margin: 0;
@@ -1947,6 +1922,7 @@ to display the script options.</p>
     }
 
 </style>
+
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>$ chmod +x create_oci_config_secret.sh
@@ -1960,7 +1936,9 @@ usage: ./create_oci_config_secret.sh [-o oci_config_file] [-s config_file_sectio
   -a auth_type               The auth_type to be used to access Oracle Cloud Infrastructure. Valid values are user_principal/instance_principal. Default is user_principal.
   -h                         Help
 </code></pre></div>
+
 </div>
+
 <script>
     function createCopyButton(highlightDiv) {
         const button = document.createElement("button");
@@ -2016,9 +1994,9 @@ usage: ./create_oci_config_secret.sh [-o oci_config_file] [-s config_file_sectio
     document
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
+</script></p>
 <p>For example, to have the script create the YAML file using your <code>[DEFAULT]</code> Oracle Cloud Infrastructure CLI profile and then create a Kubernetes secret
-named <code>oci</code>, you can run the script with no arguments, as follows:</p>
+named <code>oci</code>, you can run the script with no arguments, as follows:
 <style type="text/css">
     code {
         margin: 0;
@@ -2046,12 +2024,15 @@ named <code>oci</code>, you can run the script with no arguments, as follows:</p
     }
 
 </style>
+
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>$ ./create_oci_config_secret.sh
 secret/oci created
 </code></pre></div>
+
 </div>
+
 <script>
     function createCopyButton(highlightDiv) {
         const button = document.createElement("button");
@@ -2107,8 +2088,8 @@ secret/oci created
     document
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
-<p>The following example creates a secret <code>myoci</code> using an Oracle Cloud Infrastructure CLI profile named <code>[dev]</code>.</p>
+</script></p>
+<p>The following example creates a secret <code>myoci</code> using an Oracle Cloud Infrastructure CLI profile named <code>[dev]</code>.
 <style type="text/css">
     code {
         margin: 0;
@@ -2136,12 +2117,15 @@ secret/oci created
     }
 
 </style>
+
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>$ ./create_oci_config_secret.sh -s dev -k myoci
 secret/myoci created
 </code></pre></div>
+
 </div>
+
 <script>
     function createCopyButton(highlightDiv) {
         const button = document.createElement("button");
@@ -2197,8 +2181,8 @@ secret/myoci created
     document
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
-<p>When using instance principals, all other parameters will be ignored automatically. The following example creates a secret <code>myoci</code> using Oracle Cloud Infrastructure instance principal.</p>
+</script></p>
+<p>When using instance principals, all other parameters will be ignored automatically. The following example creates a secret <code>myoci</code> using Oracle Cloud Infrastructure instance principal.
 <style type="text/css">
     code {
         margin: 0;
@@ -2226,12 +2210,15 @@ secret/myoci created
     }
 
 </style>
+
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>$ ./create_oci_config_secret.sh -a instance_principal
 secret/myoci created
 </code></pre></div>
+
 </div>
+
 <script>
     function createCopyButton(highlightDiv) {
         const button = document.createElement("button");
@@ -2287,11 +2274,11 @@ secret/myoci created
     document
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
-<h3 id="installation">Installation</h3>
+</script></p>
+<h4 id="installation">Installation</h4>
 <p>After the Oracle Cloud Infrastructure API secret is created, create a Verrazzano custom resource for the installation that is configured to use Oracle Cloud Infrastructure
 DNS and reference the secret you created.</p>
-<p>As a starting point, download the sample Verrazzano custom resource <code>install-oci.yaml</code> file for Oracle Cloud Infrastructure DNS.</p>
+<p>As a starting point, download the sample Verrazzano custom resource <code>install-oci.yaml</code> file for Oracle Cloud Infrastructure DNS.
 <style type="text/css">
     code {
         margin: 0;
@@ -2319,13 +2306,16 @@ DNS and reference the secret you created.</p>
     }
 
 </style>
+
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>$ curl \
     -o ./install-oci.yaml \
     https://raw.githubusercontent.com/verrazzano/verrazzano/master/platform-operator/config/samples/install-oci.yaml
 </code></pre></div>
+
 </div>
+
 <script>
     function createCopyButton(highlightDiv) {
         const button = document.createElement("button");
@@ -2381,7 +2371,7 @@ DNS and reference the secret you created.</p>
     document
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
+</script></p>
 <p>Edit the <code>install-oci.yaml</code> file to provide values for the following configuration settings in the
 custom resource spec:</p>
 <ul>
@@ -2395,7 +2385,7 @@ custom resource spec:</p>
 <p>The field <code>spec.components.dns.oci.ociConfigSecret</code> should reference the secret created earlier. For details on the
 Oracle Cloud Infrastructure DNS configuration settings, see <a href="../../../docs/reference/api/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.OCI"><code>spec.components.dns.oci</code></a>.</p>
 <p>For example, a custom resource for a <code>prod</code> installation profile using Oracle Cloud Infrastructure DNS might look as follows, yielding
-a domain of <code>myenv.example.com</code> (Oracle Cloud Infrastructure identifiers redacted):</p>
+a domain of <code>myenv.example.com</code> (Oracle Cloud Infrastructure identifiers redacted):
 <style type="text/css">
     code {
         margin: 0;
@@ -2423,6 +2413,7 @@ a domain of <code>myenv.example.com</code> (Oracle Cloud Infrastructure identifi
     }
 
 </style>
+
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1beta1
@@ -2440,7 +2431,9 @@ spec:
         dnsZoneOCID: ocid1.dns-zone.oc1..zone-ocid
         dnsZoneName: example.com
 </code></pre></div>
+
 </div>
+
 <script>
     function createCopyButton(highlightDiv) {
         const button = document.createElement("button");
@@ -2496,8 +2489,8 @@ spec:
     document
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
-<p>If using a private DNS zone, then the same <code>prod</code> installation profile using Oracle Cloud Infrastructure DNS will look as follows:</p>
+</script></p>
+<p>If using a private DNS zone, then the same <code>prod</code> installation profile using Oracle Cloud Infrastructure DNS will look as follows:
 <style type="text/css">
     code {
         margin: 0;
@@ -2525,6 +2518,7 @@ spec:
     }
 
 </style>
+
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1beta1
@@ -2543,7 +2537,9 @@ spec:
         dnsZoneName: example.com
         dnsScope: PRIVATE
 </code></pre></div>
+
 </div>
+
 <script>
     function createCopyButton(highlightDiv) {
         const button = document.createElement("button");
@@ -2599,20 +2595,9 @@ spec:
     document
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
+</script></p>
 <p>After the custom resource is ready, apply it using <code>kubectl apply -f &lt;path-to-custom-resource-file&gt;</code>.</p>
-
-
-</div>
-
-
-
-
-
-
-<div class="tab-pane fade show " id="defbac" role="tabpanel" aria-labelledby="nav-1">
-
-	<br>
+<h3 id="custom-dns">Custom DNS</h3>
 <p>You can specify your own externally managed, custom DNS domain.  In this scenario, you manage your own DNS
 domain and all DNS records in that domain.</p>
 <p>An externally managed DNS domain is specified in the <a href="../../../docs/reference/api/vpo-verrazzano-v1beta1/#install.verrazzano.io/v1beta1.External"><code>spec.components.dns.external.suffix</code></a>
@@ -2645,7 +2630,7 @@ the user.</p>
 </tbody>
 </table>
 <p>For example, if <code>spec.environmentName</code> is set to <code>myenv</code>, and <code>spec.components.dns.external.suffix</code> is
-set to <code>example.com</code>, the A records would need to be set up as follows:</p>
+set to <code>example.com</code>, the A records would need to be set up as follows:
 <style type="text/css">
     code {
         margin: 0;
@@ -2673,12 +2658,15 @@ set to <code>example.com</code>, the A records would need to be set up as follow
     }
 
 </style>
+
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>198.51.100.10                                   A       ingress-mgmt.myenv.example.com.
 203.0.113.10                                    A       ingress-verrazzano.myenv.example.com.
 </code></pre></div>
+
 </div>
+
 <script>
     function createCopyButton(highlightDiv) {
         const button = document.createElement("button");
@@ -2734,18 +2722,11 @@ set to <code>example.com</code>, the A records would need to be set up as follow
     document
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
+</script></p>
 <p>This example assumes that load balancers exist for <code>ingress-mgmt</code> on <code>198.51.100.10</code> and for <code>ingress-verrazzano</code> on
 <code>203.0.113.10</code>.</p>
 <p>For a more complete example, see the documentation for setting up Verrazzano on the
 <a href="../../../docs/setup/platforms/olcne/olcne/">Oracle Cloud Native Environment Platform</a>.</p>
-
-
-</div>
-
-
-
-</div>
 
 	
 		<style>
