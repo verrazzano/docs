@@ -16,7 +16,7 @@ If there are no missing pages the tool will exit with a 0 exit code.
 Otherwise the tool will exit with a 1 exit code.
 
 By default the tool does an in memory clone of the https://github.com/verrazzano/docs.git repository.
-This can be time consuming an may eventually be tool large.
+This can be time consuming an may eventually be too large.
 In this case the repo can be cloned before the tool is run and the -repoDir flag used to provide the location of the cloned repository.
 Beware that this tool checks out all of the branches provided via -priorBranches and -checkBranch flags.
 Therefore it is usually best to use a separate repository clone from the one where the tool is being run.

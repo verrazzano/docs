@@ -36,9 +36,10 @@ func Test_convertFileNameToPageName(t *testing.T) {
 	g := NewGomegaWithT(t)
 	g.Expect(convertFileNameToPageName("")).Should(Equal(""))
 	g.Expect(convertFileNameToPageName("/")).Should(Equal("/"))
+	g.Expect(convertFileNameToPageName("//")).Should(Equal("/"))
 	g.Expect(convertFileNameToPageName("/_index.md")).Should(Equal("/"))
 	g.Expect(convertFileNameToPageName("path/_index.md")).Should(Equal("path"))
-	g.Expect(convertFileNameToPageName("path/file.md")).Should(Equal("file"))
+	g.Expect(convertFileNameToPageName("path/file.md")).Should(Equal("path/file"))
 }
 
 func Test_extractHeaderFromReader_withEmptyHeaderAndContent(t *testing.T) {
@@ -95,4 +96,17 @@ draft: false
 	a, e := extractAliasesFromHeader(h)
 	g.Expect(e).ShouldNot(HaveOccurred())
 	g.Expect(a).Should(HaveLen(0))
+}
+
+func Test_openRepo(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	// Expect error when both repoURL and repoDir are blank.
+	a := argsType{
+		repoURL: "",
+		repoDir: "",
+	}
+	r, e := openRepo(&a)
+	g.Expect(r).Should(BeNil())
+	g.Expect(e).Should(HaveOccurred())
 }

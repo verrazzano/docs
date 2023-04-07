@@ -98,7 +98,7 @@ func parseArgs() argsType {
 	return args
 }
 
-// Opens the repo dir using either repoUrl or repoDir
+// Opens the repo using either repoUrl or repoDir
 func openRepo(args *argsType) (*git.Repository, error) {
 	if len(args.repoDir) == 0 && len(args.repoURL) == 0 {
 		return nil, fmt.Errorf("must provide either repoURL or repoDir")
@@ -109,6 +109,7 @@ func openRepo(args *argsType) (*git.Repository, error) {
 	if len(args.repoURL) > 0 {
 		return cloneRepoInMemory(args.repoURL)
 	}
+	// Logically unreachable
 	return nil, fmt.Errorf("invalid repoURL and repoDir combination")
 }
 
@@ -168,17 +169,19 @@ func addOrUpdatePageInfoForFile(fileName string, branchName string, fileInfo map
 
 // Converts a file name to a page name
 func convertFileNameToPageName(fileName string) string {
-	fileName = strings.TrimSuffix(fileName, "/_index.md")
-	m := markdown_re.FindStringSubmatch(fileName)
-	if m != nil {
-		fileName = m[1]
-	}
+	// Remove .md extension.
+	fileName = strings.TrimSuffix(fileName, ".md")
+	// Remove _index suffix if present.
+	fileName = strings.TrimSuffix(fileName, "_index")
+	// Remove leading slash if there is more than on character left.
 	if len(fileName) > 1 {
 		fileName = strings.TrimPrefix(fileName, "/")
 	}
+	// Remove trailing slash if there is more than on character left.
 	if len(fileName) > 1 {
 		fileName = strings.TrimSuffix(fileName, "/")
 	}
+	// Convert to lower case.
 	return strings.ToLower(fileName)
 }
 
@@ -262,7 +265,7 @@ func extractHeaderFromReader(r *bufio.Reader) string {
 		}
 		h += t + "\n"
 	}
-	return h
+	return strings.TrimSpace(h)
 }
 
 // Extracts the aliases from a Hugo header string
