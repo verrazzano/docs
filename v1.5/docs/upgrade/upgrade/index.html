@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/upgrade/upgrade/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-04-04T10:29:28-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-04-07T11:18:25-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Upgrade Verrazzano">
 <meta itemprop="description" content="Learn how to upgrade Verrazzano">
-<meta itemprop="dateModified" content="2023-04-04T10:29:28-04:00" />
-<meta itemprop="wordCount" content="3584">
+<meta itemprop="dateModified" content="2023-04-07T11:18:25-04:00" />
+<meta itemprop="wordCount" content="3603">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Upgrade Verrazzano"/>
 <meta name="twitter:description" content="Learn how to upgrade Verrazzano"/>
@@ -110,7 +110,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../offline-search-index.f2c09fcf9a2eef47e3ebda7fc5e9a5a9.json"
+    data-offline-search-index-json-src="../../../offline-search-index.98c82ef19d94e4b89791dcdbc92ed8c0.json"
     data-offline-search-base-href="../../../"
     data-offline-search-max-results="10"
   >
@@ -136,7 +136,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../offline-search-index.f2c09fcf9a2eef47e3ebda7fc5e9a5a9.json"
+    data-offline-search-index-json-src="../../../offline-search-index.98c82ef19d94e4b89791dcdbc92ed8c0.json"
     data-offline-search-base-href="../../../"
     data-offline-search-max-results="10"
   >
@@ -220,7 +220,7 @@ if (!doNotTrack) {
   
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupinstallkubectl-installation-li">
   <input type="checkbox" id="m-docssetupinstallkubectl-installation-check"/>
-  <label for="m-docssetupinstallkubectl-installation-check"><a href="../../../docs/setup/install/kubectl-installation/" class="align-left pl-0  td-sidebar-link td-sidebar-link__page" id="m-docssetupinstallkubectl-installation"><span class="">Install With Kubectl</span></a></label>
+  <label for="m-docssetupinstallkubectl-installation-check"><a href="../../../docs/setup/install/kubectl-installation/" class="align-left pl-0  td-sidebar-link td-sidebar-link__page" id="m-docssetupinstallkubectl-installation"><span class="">Install With kubectl</span></a></label>
   
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docssetupinstallmc-install-li">
   <input type="checkbox" id="m-docssetupinstallmc-install-check"/>
@@ -813,6 +813,8 @@ if (!doNotTrack) {
       <ul>
         <li><a href="#application-and-system-pod-restarts">Application and system pod restarts</a></li>
         <li><a href="#upgrade-steps">Upgrade steps</a></li>
+        <li><a href="#upgrade-verrazzano-using-the-cli">Upgrade Verrazzano using the CLI</a></li>
+        <li><a href="#upgrade-using-kubectl">Upgrade using <code>kubectl</code></a></li>
         <li><a href="#verify-the-upgrade">Verify the upgrade</a></li>
         <li><a href="#upgrade-failures">Upgrade failures</a></li>
       </ul>
@@ -909,50 +911,16 @@ See the following respective sections.</p>
 
 </div>
 
-<nav>
-	<div class="nav nav-tabs" id="nav-tab" role="tablist">
-
-		
-		
-		
-		
-
-		
-
-		<a class="nav-item nav-link  active "
-		   id="nav-bcadef" data-toggle="tab" href="#bcadef"
-		   role="tab" aria-controls="nav-home" aria-selected="true">vz</a>
-
-		
-
-		<a class="nav-item nav-link "
-		   id="nav-ebadcf" data-toggle="tab" href="#ebadcf"
-		   role="tab" aria-controls="nav-home" aria-selected="true">kubectl</a>
-
-		
-
-	</div>
-</nav>
-
-<div class="tab-content" id="nav-tab-content">
-
-	
-
-
-
-
-
-<div class="tab-pane fade show active " id="bcadef" role="tabpanel" aria-labelledby="nav-1">
-
-	<br>
-<h2 id="upgrade-verrazzano">Upgrade Verrazzano</h2>
+<ul>
+<li><a href="#upgrade-verrazzano-using-the-cli">Upgrade Verrazzano using the CLI</a></li>
+<li><a href="#upgrade-using-kubectl">Upgrade using <code>kubectl</code></a></li>
+</ul>
+<h2 id="upgrade-verrazzano-using-the-cli">Upgrade Verrazzano using the CLI</h2>
 <p>In one simple step, you can upgrade to a specified version of Verrazzano using this command.</p>
 <ol>
 <li>
 <p>Update the <code>Verrazzano</code> resource to the desired version.</p>
-<p>To update to the latest version (default):</p>
-</li>
-</ol>
+<p>To update to the latest version (default):
 <style type="text/css">
     code {
         margin: 0;
@@ -980,11 +948,14 @@ See the following respective sections.</p>
     }
 
 </style>
+
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>$ vz upgrade
 </code></pre></div>
+
 </div>
+
 <script>
     function createCopyButton(highlightDiv) {
         const button = document.createElement("button");
@@ -1040,7 +1011,7 @@ See the following respective sections.</p>
     document
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
+</script></p>
 <p>To update to a specific version, where <code>&lt;version&gt;</code> is the desired version:</p>
 <style type="text/css">
     code {
@@ -1069,11 +1040,14 @@ See the following respective sections.</p>
     }
 
 </style>
+
 <div class="clipboard">
-    <div class="highlight">
+       <div class="highlight">
 <pre tabindex="0"><code>$ vz upgrade --version &lt;version&gt;
-</code></pre></div>
+</code></pre>   </div>
+
 </div>
+
 <script>
     function createCopyButton(highlightDiv) {
         const button = document.createElement("button");
@@ -1130,23 +1104,14 @@ See the following respective sections.</p>
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script>
-<ol start="2">
-<li>Wait for the upgrade to complete.
+</li>
+<li>
+<p>Wait for the upgrade to complete.
 Upgrade logs will be streamed to the command window until the upgrade has completed
-or until the default timeout (30m) has been reached.</li>
+or until the default timeout (30m) has been reached.</p>
+</li>
 </ol>
-
-
-</div>
-
-
-
-
-
-
-<div class="tab-pane fade show " id="ebadcf" role="tabpanel" aria-labelledby="nav-1">
-
-	<br>
+<h2 id="upgrade-using-kubectl">Upgrade using <code>kubectl</code></h2>
 <p>Upgrading an existing Verrazzano installation is a two-step process:</p>
 <ul>
 <li>Update the Verrazzano platform operator to the <a href="https://github.com/verrazzano/verrazzano/releases/">Verrazzano release version</a> to which you want to upgrade.</li>
@@ -1158,10 +1123,8 @@ or until the default timeout (30m) has been reached.</li>
 <li>
 <p>Update the Verrazzano platform operator.</p>
 <p><strong>NOTE</strong>: If you are using a private container registry, then to update the platform operator, follow the instructions at <a href="../../../docs/setup/private-registry/private-registry/">Use a Private Registry</a>.</p>
-<p>To update to the latest version:</p>
-</li>
-</ol>
-  <style type="text/css">
+<p>To update to the latest version:
+<style type="text/css">
     code {
         margin: 0;
         padding: 0;
@@ -1188,11 +1151,14 @@ or until the default timeout (30m) has been reached.</li>
     }
 
 </style>
+
 <div class="clipboard">
       <div class="highlight">
 <pre tabindex="0"><code>$ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/v1.5.2/verrazzano-platform-operator.yaml
 </code></pre>  </div>
+
 </div>
+
 <script>
     function createCopyButton(highlightDiv) {
         const button = document.createElement("button");
@@ -1248,8 +1214,8 @@ or until the default timeout (30m) has been reached.</li>
     document
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
-<p>To update to a specific version, where <code>&lt;version&gt;</code> is the desired version:</p>
+</script></p>
+<p>To update to a specific version, where <code>&lt;version&gt;</code> is the desired version:
 <style type="text/css">
     code {
         margin: 0;
@@ -1277,6 +1243,7 @@ or until the default timeout (30m) has been reached.</li>
     }
 
 </style>
+
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code># To update to version v1.4.0:
@@ -1284,7 +1251,9 @@ $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/&l
 </code></pre><pre tabindex="0"><code># To update to a version prior to v1.4.0:
 $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/&lt;version&gt;/operator.yaml
 </code></pre></div>
+
 </div>
+
 <script>
     function createCopyButton(highlightDiv) {
         const button = document.createElement("button");
@@ -1340,10 +1309,10 @@ $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/&l
     document
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
-<ol start="2">
-<li>Wait for the deployment to complete.</li>
-</ol>
+</script></p>
+</li>
+<li>
+<p>Wait for the deployment to complete.
 <style type="text/css">
     code {
         margin: 0;
@@ -1371,13 +1340,16 @@ $ kubectl apply -f https://github.com/verrazzano/verrazzano/releases/download/&l
     }
 
 </style>
+
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>$ kubectl -n verrazzano-install rollout status deployment/verrazzano-platform-operator
 </code></pre><pre tabindex="0"><code># Expected response
 deployment &#34;verrazzano-platform-operator&#34; successfully rolled out
 </code></pre></div>
+
 </div>
+
 <script>
     function createCopyButton(highlightDiv) {
         const button = document.createElement("button");
@@ -1433,10 +1405,10 @@ deployment &#34;verrazzano-platform-operator&#34; successfully rolled out
     document
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
-<ol start="3">
-<li>Confirm that the operator pod is correctly defined and running.</li>
-</ol>
+</script></p>
+</li>
+<li>
+<p>Confirm that the operator pod is correctly defined and running.
 <style type="text/css">
     code {
         margin: 0;
@@ -1464,6 +1436,7 @@ deployment &#34;verrazzano-platform-operator&#34; successfully rolled out
     }
 
 </style>
+
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>$ kubectl -n verrazzano-install get pods
@@ -1471,7 +1444,9 @@ deployment &#34;verrazzano-platform-operator&#34; successfully rolled out
 NAME                                            READY   STATUS    RESTARTS   AGE
 verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114s
 </code></pre></div>
+
 </div>
+
 <script>
     function createCopyButton(highlightDiv) {
         const button = document.createElement("button");
@@ -1527,12 +1502,14 @@ verrazzano-platform-operator-59d5c585fd-lwhsx   1/1     Running   0          114
     document
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
+</script></p>
+</li>
+</ol>
 <h3 id="upgrade-verrazzano">Upgrade Verrazzano</h3>
 <p>To upgrade the Verrazzano installation, you need to change the version of your installed Verrazzano resource to the version supported by the
 Verrazzano platform operator.</p>
 <p><strong>NOTE</strong>: You may only change the <code>version</code> field during an upgrade; changes to other fields or component configurations are not supported at this time.</p>
-<p>In one simple step, you can upgrade to a specified version of Verrazzano using this command.</p>
+<p>In one simple step, you can upgrade to a specified version of Verrazzano using this command.
 <style type="text/css">
     code {
         margin: 0;
@@ -1560,11 +1537,14 @@ Verrazzano platform operator.</p>
     }
 
 </style>
+
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>$ kubectl patch vz example-verrazzano -p &#39;{&#34;spec&#34;:{&#34;version&#34;:&#34;v1.5.2&#34;}}&#39; --type=merge
 </code></pre></div>
+
 </div>
+
 <script>
     function createCopyButton(highlightDiv) {
         const button = document.createElement("button");
@@ -1620,7 +1600,7 @@ Verrazzano platform operator.</p>
     document
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
+</script></p>
 <p>Alternatively, you can upgrade the Verrazzano installation using the following steps.</p>
 <ol>
 <li>
@@ -1631,9 +1611,7 @@ match the version supported by the platform operator to which you upgraded and a
 corresponding to a valid <a href="https://github.com/verrazzano/verrazzano/releases/">Verrazzano release version</a>.</p>
 <p>To update the resource, do one of the following:</p>
 <p>a. Edit the YAML file you used to install Verrazzano and set the <code>version</code> field to the latest version.</p>
-<p>For example, to upgrade to <code>v1.5.2</code>, your YAML file should be edited to add or update the <code>version</code> field.</p>
-</li>
-</ol>
+<p>For example, to upgrade to <code>v1.5.2</code>, your YAML file should be edited to add or update the <code>version</code> field.
 <style type="text/css">
     code {
         margin: 0;
@@ -1661,6 +1639,7 @@ corresponding to a valid <a href="https://github.com/verrazzano/verrazzano/relea
     }
 
 </style>
+
 <div class="clipboard">
     <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">install.verrazzano.io/v1beta1</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">Verrazzano</span><span style="color:#f8f8f8;text-decoration:underline">
@@ -1671,6 +1650,7 @@ corresponding to a valid <a href="https://github.com/verrazzano/verrazzano/relea
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">   </span><span style="color:#204a87;font-weight:bold">version</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">v1.5.2</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span></code></pre></div>
 </div>
+
 <script>
     function createCopyButton(highlightDiv) {
         const button = document.createElement("button");
@@ -1726,8 +1706,8 @@ corresponding to a valid <a href="https://github.com/verrazzano/verrazzano/relea
     document
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
-<p>Then, apply the resource to the cluster (if you have not edited the resource in-place using <code>kubectl edit</code>).</p>
+</script></p>
+<p>Then, apply the resource to the cluster (if you have not edited the resource in-place using <code>kubectl edit</code>).
 <style type="text/css">
     code {
         margin: 0;
@@ -1755,11 +1735,14 @@ corresponding to a valid <a href="https://github.com/verrazzano/verrazzano/relea
     }
 
 </style>
+
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>$ kubectl apply -f example-verrazzano.yaml
 </code></pre></div>
+
 </div>
+
 <script>
     function createCopyButton(highlightDiv) {
         const button = document.createElement("button");
@@ -1816,7 +1799,7 @@ corresponding to a valid <a href="https://github.com/verrazzano/verrazzano/relea
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script>
-<p>b. Edit the <code>Verrazzano</code> resource directly using <code>kubectl</code> and set the <code>version</code> field directly, for example:</p>
+b. Edit the <code>Verrazzano</code> resource directly using <code>kubectl</code> and set the <code>version</code> field directly, for example:
 <style type="text/css">
     code {
         margin: 0;
@@ -1844,12 +1827,15 @@ corresponding to a valid <a href="https://github.com/verrazzano/verrazzano/relea
     }
 
 </style>
+
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>$ kubectl edit verrazzano example-verrazzano
 # In the resource editor, add or update the version field to &#34;version: v1.5.2&#34;, then save.
 </code></pre></div>
+
 </div>
+
 <script>
     function createCopyButton(highlightDiv) {
         const button = document.createElement("button");
@@ -1905,10 +1891,10 @@ corresponding to a valid <a href="https://github.com/verrazzano/verrazzano/relea
     document
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
-<ol>
-<li>Wait for the upgrade to complete.</li>
-</ol>
+</script></p>
+</li>
+<li>
+<p>Wait for the upgrade to complete.
 <style type="text/css">
     code {
         margin: 0;
@@ -1936,13 +1922,16 @@ corresponding to a valid <a href="https://github.com/verrazzano/verrazzano/relea
     }
 
 </style>
+
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>$ kubectl wait \
     --timeout=30m \
     --for=condition=UpgradeComplete verrazzano/example-verrazzano
 </code></pre></div>
+
 </div>
+
 <script>
     function createCopyButton(highlightDiv) {
         const button = document.createElement("button");
@@ -1998,14 +1987,9 @@ corresponding to a valid <a href="https://github.com/verrazzano/verrazzano/relea
     document
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
-
-
-</div>
-
-
-
-</div>
+</script></p>
+</li>
+</ol>
 <h2 id="verify-the-upgrade">Verify the upgrade</h2>
 <p>Check that all the pods in the <code>verrazzano-system</code> namespace are in the <code>Running</code> state.  While the upgrade is in progress,
 you may see some pods terminating and restarting as newer versions of components are applied, for example:
@@ -2334,6 +2318,7 @@ version of the Verrazzano platform operator.  The following steps illustrate thi
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
+<p>For additional troubleshooting help, see <a href="../../../docs/troubleshooting/diagnostictools/analysisadvice/">Analysis Advice</a>.</p>
 
 	
 		<style>
