@@ -8,9 +8,9 @@ draft: false
 
 Verrazzano supports three DNS choices for Verrazzano services and applications:
 
-* Free wildcard DNS services ([nip.io](https://nip.io/) and [sslip.io](https://sslip.io))
-* [Oracle Cloud Infrastructure DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm) managed by Verrazzano
-* Custom (user-managed) DNS
+* Free [wildcard DNS services](#wildcard-dns-services) ([nip.io](https://nip.io/) and [sslip.io](https://sslip.io))
+* [Oracle Cloud Infrastructure DNS](#oracle-cloud-infrastructure-dns) managed by Verrazzano
+* [Custom](#custom-dns) (user-managed) DNS
 
 ## How Verrazzano constructs a DNS domain
 
@@ -22,9 +22,7 @@ section of the custom resource, to form the full DNS domain name used to access 
 For example, if `spec.environmentName` is set to `sales` and the domain is configured in `spec.components.dns` as `us.example.com`,
 Verrazzano will create `sales.us.example.com` as the DNS domain for the installation.
 
-{{< tabs tabTotal="3" >}}
-{{< tab tabName="Wildcard DNS" >}}
-<br>
+### Wildcard DNS Services
 
 Verrazzano can be configured to use either the [nip.io](https://nip.io/) or [sslip.io](https://sslip.io) free wildcard DNS services.
 When queried with a host name with an embedded IP address, wildcard DNS services return that IP address.
@@ -63,18 +61,17 @@ spec:
 ```
 </div>
 {{< /clipboard >}}
-<br/>
 
-{{< /tab >}}
-{{< tab tabName="Oracle Cloud Infrastructure DNS" >}}
-<br>
+
+### Oracle Cloud Infrastructure DNS
+
 
 Verrazzano can directly manage records in [Oracle Oracle Cloud Infrastructure DNS](https://docs.cloud.oracle.com/en-us/iaas/Content/DNS/Concepts/dnszonemanagement.htm)
 when configured to use the [`spec.components.dns.oci`](/docs/reference/api/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.OCI) field.  This is achieved
 through the [External DNS Service](https://github.com/kubernetes-sigs/external-dns), which is a component that is
 conditionally installed when Oracle Cloud Infrastructure DNS is configured for DNS management in Verrazzano.
 
-### Prerequisites
+#### Prerequisites
 
 The following prerequisites must be met before using Oracle Cloud Infrastructure DNS with Verrazzano:
 
@@ -121,7 +118,7 @@ The following prerequisites must be met before using Oracle Cloud Infrastructure
   After the key pair has been created, you must upload the public key to your account in your Oracle Cloud Infrastructure tenancy.   For details, see
   the Oracle Cloud Infrastructure documentation, [Required Keys and OCIDs](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm).
 
-### Create an Oracle Cloud Infrastructure API secret in the target cluster
+#### Create an Oracle Cloud Infrastructure API secret in the target cluster
 
 To communicate with Oracle Cloud Infrastructure DNS to manage DNS records, Verrazzano needs to be made aware of the necessary API credentials.  
 A generic Kubernetes secret must be created in the cluster's `verrazzano-install` namespace with the required credentials.
@@ -201,7 +198,7 @@ $ kubectl create secret generic -n verrazzano-install oci --from-file=oci.yaml
 
 This secret will later be referenced from the Verrazzano custom resource used during installation.
 
-### Use a Verrazzano helper script to create an Oracle Cloud Infrastructure secret
+#### Use a Verrazzano helper script to create an Oracle Cloud Infrastructure secret
 
 Verrazzano also provides a helper script to create the necessary Kubernetes secret based on your Oracle Cloud Infrastructure CLI configuration file,
 assuming that you have the Oracle Cloud Infrastructure CLI installed and a valid Oracle Cloud Infrastructure CLI profile with the required API key information. The script
@@ -275,7 +272,7 @@ secret/myoci created
 {{< /clipboard >}}
 
 
-### Installation
+#### Installation
 
 After the Oracle Cloud Infrastructure API secret is created, create a Verrazzano custom resource for the installation that is configured to use Oracle Cloud Infrastructure
 DNS and reference the secret you created.
@@ -355,9 +352,7 @@ spec:
 
 After the custom resource is ready, apply it using `kubectl apply -f <path-to-custom-resource-file>`.
 
-{{< /tab >}}
-{{< tab tabName="Custom DNS" >}}
-<br>
+### Custom DNS
 
 You can specify your own externally managed, custom DNS domain.  In this scenario, you manage your own DNS
 domain and all DNS records in that domain.
@@ -398,5 +393,3 @@ This example assumes that load balancers exist for `ingress-mgmt` on `198.51.100
 
 For a more complete example, see the documentation for setting up Verrazzano on the
 [Oracle Cloud Native Environment Platform]({{< relref "/docs/setup/platforms/olcne/olcne.md" >}}).
-{{< /tab >}}
-{{< /tabs >}}

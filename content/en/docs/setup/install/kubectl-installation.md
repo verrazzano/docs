@@ -1,6 +1,6 @@
 ---
-title: "Install With Kubectl"
-description: "How to install Verrazzano with kubectl"
+title: "Install With kubectl"
+description: "How to install Verrazzano with `kubectl`"
 weight: 1
 draft: false
 ---
