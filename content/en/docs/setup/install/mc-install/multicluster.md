@@ -30,10 +30,10 @@ To install Verrazzano on each Kubernetes cluster, complete the following steps:
 For detailed instructions on how to install and customize Verrazzano on a Kubernetes cluster using a specific profile,
 see the [Installation Guide]({{< relref "/docs/setup/install/" >}}) and [Installation Profiles]({{< relref "/docs/setup/install/profiles.md" >}}).
 
-## Register managed clusters using the Verrazzano console
+## Register managed clusters using the console
 
 To register a cluster, complete the following steps:
-1. Enable `syncClusters`.
+1. Enable `syncClusters`. For more information, see [Enable syncClusters]({{< relref "/docs/setup/install/mc-install/advanced/syncclusters#enable-syncclusters" >}}).
 {{< clipboard >}}
 <div class="highlight">
 
@@ -56,14 +56,12 @@ EOF
 
 </div>
 {{< /clipboard >}}
-For more information, see [Enable syncclusters]({{< relref "/docs/setup/install/mc-install/advanced/syncclusters.md" >}}).
 
 2. On the admin cluster, open the Rancher console.
 <br>You can find the Rancher console URL for your cluster by following the instructions [here]({{< relref "/docs/access/_index.md#get-the-consoles-urls" >}}).
 2. Select **Cluster Management**, and then click **Import Existing Cluster**.
 3. Provide a name for your managed cluster, for example, _managed1_.
-4. In your Verrazzano configuration, if you specified a [cluster label selector]({{< relref "/docs/setup/install/mc-install/advanced/syncclusters.md" >}}), then under **Labels & Annotations** provide a `label` and `value` for the cluster.
-<br>For the Verrazzano synchronization to occur automatically, the `label` and `value` information should match the cluster selection `matchExpression` in your Verrazzano configuration.
+4. Optional. In your Verrazzano configuration, if you specified a [cluster label selector]({{< relref "/docs/setup/install/mc-install/advanced/syncclusters#filter-cluster-selection" >}}), then under **Labels & Annotations** provide the `label` and `value` for the cluster. The `label` and `value` information must match the cluster selection `matchExpression` in your Verrazzano configuration for selective cluster registration to occur.
 5. Click **Create**.
 6. On the next screen, follow the on-screen instructions to complete the registration by running the provided command against the managed cluster.
 
