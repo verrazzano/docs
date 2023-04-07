@@ -32,7 +32,9 @@ see the [Installation Guide]({{< relref "/docs/setup/install/" >}}) and [Install
 
 ## Enable `syncClusters`
 
-You can use `syncClusters` to synchronize cluster registration across Verrazzano, including in Verrazzano managed cluster resources, Rancher, and Argo CD.
+You can use `syncClusters` to synchronize cluster registration across Verrazzano. So, any clusters imported in the Rancher console will be synchronized across the rest of Verrazzano, including in Verrazzano managed cluster resources, Rancher, and Argo CD.
+
+**NOTE**: Optionally, in the Verrazzano resource, you can set a label selector to filter which clusters will be automatically synchronized. To enable `syncClusters` and set a label selector, see [Customize Cluster Selection]({{< relref "/docs\applications\multicluster\customize-cluster.md" >}}).
 
 The following illustrates an admin cluster Verrazzano resource that has been configured to use `syncClusters`.
 {{< clipboard >}}
@@ -56,46 +58,8 @@ spec:
 </div>
 {{< /clipboard >}}
 
-- If `enabled` is set to `false` (the default), then all the Rancher clusters will not be synchronized.
-- If `enabled` is set to `true`, then all the Rancher clusters will be automatically synchronized across Verrazzano.
-
-## Set a label selector
-
-In addition, in the Verrazzano resource, you can provide a label selector. The label selector is used to specify which clusters created in Rancher will be automatically registered by Verrazzano.
-
-The following illustrates an admin cluster Verrazzano resource that has been configured to support cluster label selection.
-{{< clipboard >}}
-<div class="highlight">
-
-```
-apiVersion: install.verrazzano.io/v1beta1
-kind: Verrazzano
-metadata:
-  name: admin
-spec:
-  profile: prod
-  components:
-    clusterOperator:
-      overrides:
-      - values:
-          syncClusters:
-            enabled: true
-            clusterSelector:
-              matchExpressions:
-              - key: verrazzanomulticluster
-                operator: In
-                values: [supported]
-```
-
-</div>
-{{< /clipboard >}}
-
-- If `enabled` is set to `false` (the default), then no clusters created in Rancher will be automatically registered by Verrazzano.
-- If `enabled` is explicitly set to `true`, then Verrazzano will automatically register clusters created in Rancher with labels that match the `clusterSelector` field.
-  - The `clusterSelector` field is optional. If it is omitted, then all clusters created in Rancher will be automatically registered.
-  - The `clusterSelector` field implements a [LabelSelector](https://kubernetes.io/docs/reference/generated/kubernetes-api/{{<kubernetes_api_version>}}/#labelselector-v1-meta).
-
-**NOTE**: If Argo CD is enabled in Verrazzano, then the label selector also is used by Verrazzano to select the Rancher clusters to automatically register with Argo CD. For more information about using Argo CD with Verrazzano, see [Argo CD]({{< relref "/docs/samples/argo-cd/_index.md" >}}).  
+- If `enabled` is set to `false` (the default), Verrazzano will _not_ synchronize the registration of clusters across Verrazzano, Rancher, and Argo CD.
+- If `enabled` is set to `true`, Verrazzano will synchronize the registration of clusters across Verrazzano, Rancher, and Argo CD.
 
 ## Register managed clusters using the Verrazzano console
 
@@ -108,7 +72,8 @@ To register a cluster, complete the following steps:
 3. Provide a name for your managed cluster, for example, _managed1_.
 4. In your Verrazzano configuration, if you specified a cluster label selector, then under **Labels & Annotations** provide a `label` and `value` for the cluster.
 <br>For the Verrazzano synchronization to occur automatically, the `label` and `value` information should match the cluster selection `matchExpression` in your Verrazzano configuration.
-5. After the import is complete, follow the on-screen instructions to complete the registration by running the provided command against the managed cluster.
+5. Click **Create**.
+6. On the next screen, follow the on-screen instructions to complete the registration by running the provided command against the managed cluster.
 
 After the cluster reaches the `Active` state in the console, synchronization with Verrazzano will happen automatically and a VerrazzanoManagedCluster resource will be created in the `verrazzano-mc` namespace.
 
