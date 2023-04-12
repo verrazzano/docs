@@ -6,7 +6,7 @@ weight: 1
 draft: false
 ---
 
-Thanos is a group of components that seamlessly integrates with Prometheus to monitor your applications. You can install and configure Thanos components with Verrazzano and use long-term storage to store metrics. Then, use the Thanos console to query for metrics across all Prometheus instances and long-term storage. Thanos also makes it easier to scale Prometheus horizontally and obtain a global view of data from multiple Prometheus servers.
+Thanos is a group of components that seamlessly integrates with Prometheus to monitor your applications. You can install and configure Thanos components with Verrazzano and use long-term storage to store metrics. By using the Thanos console you can query for metrics across all Prometheus instances and long-term storage. Thanos also makes it easier to scale Prometheus horizontally and obtain a global view of data from multiple Prometheus servers.
 
 Advantages of using Thanos:
 - Long-term metrics retention
@@ -18,14 +18,14 @@ For more information on Thanos, see the [Thanos website](https://thanos.io/).
 
 ## Components
 
-Thanos comprises of the  following components:
+Thanos comprises of the following components:
 
 | Components     | Description                                                                                                                                         |
 |----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
 | Sidecar        | Container that resides in the Prometheus pod. It connects to Prometheus, reads its data for queries, and uploads it to long-term storage.           |
 | Store Gateway  | Serves metrics from long-term storage.                                                                                                              |
 | Query          | Implements Prometheus API to aggregate data from the underlying components and provides a user interface for querying across all Prometheus stores. |
-| Query Frontend | Implements Prometheus API and proxies it to Query while caching the response and optionally splits queries .                                        |
+| Query Frontend | Implements Prometheus API and proxies it to Query while caching the response and optionally splits queries.                                        |
 
 ## Enable Thanos
 
@@ -58,83 +58,7 @@ config:
 
 Create the secret for object storage configuration.
 
-The following example uses the filename `objstore.yml` so that the key name in the secret is exactly what is expected by the Store Gateway.
-
-{{< clipboard >}}
-<div class="highlight">
-
-```
-k create secret generic -n verrazzano-monitoring objstore-config --from-file objstore.yml
-```
-
-</div>
-{{< /clipboard >}}
-
-To enable Thanos and send metrics to long-term storage:
-
-{{< clipboard >}}
-<div class="highlight">
-
-```
-apiVersion: install.verrazzano.io/v1beta1
-kind: Verrazzano
-metadata:
-  name: my-verrazzano
-spec:
-  components:
-    prometheusOperator:
-      enabled: true
-      overrides:
-      - values:
-          prometheus:
-            thanos
-              integration: sidecar
-            prometheusSpec:
-              thanos:
-                objectStorageConfig:
-                  name: objstore-config
-                  key: objstore.yml
-    thanos:
-      enabled: true
-```
-
-</div>
-{{< /clipboard >}}
-
-To access the Thanos Query console, see Access Verrazzano.
-
-## Configure Thanos Store Gateway
-
-Store Gateway helps you to query metrics in long-term storage.
-
-Complete the following steps to enable the Store Gateway:  
-
-#### Step 1: Create a YAML configuration file
-
-Create a `objstore.yml` file.
-
-This following example uses S3 compatibility API.  
-
-{{< clipboard >}}
-<div class="highlight">
-
-```
-type: S3
-config:
-  bucket: thanos
-  endpoint: odsbuilddev.compat.objectstorage.us-ashburn-1.oraclecloud.com
-  secret_key: abc... // customer secret key
-  access_key: efg... // customer access key
-```
-
-</div>
-{{< /clipboard >}}
-
-#### Step 2: Create a secret
-
-Create the secret for object storage configuration.
-
-The following example uses the filename `objstore.yml` so that the key name in the secret is exactly what is expected by the Store Gateway.
+**NOTE**: Use the `objstore.yml` filename to match the key name in the secret.
 
 {{< clipboard >}}
 <div class="highlight">
