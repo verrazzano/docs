@@ -29,7 +29,7 @@ Thanos comprises of the following components:
 
 ## Enable Thanos
 
-You can enable the Thanos Prometheus sidecar, Query, and Query Frontend components.
+You can enable the Thanos Prometheus Sidecar, Query, and Query Frontend components.
 
 ### Step 1: Create a YAML configuration file
 
@@ -72,7 +72,7 @@ $ kubectl create secret generic -n verrazzano-monitoring objstore-config --from-
 </div>
 {{< /clipboard >}}
 
-#### Step 3: Enable the Prometheus Thanos sidecar, Thanos Query, and send metrics to long-term storage.
+#### Step 3: Enable the Prometheus Thanos Sidecar, Thanos Query, and send metrics to long-term storage.
 
 {{< clipboard >}}
 <div class="highlight">
