@@ -58,13 +58,15 @@ config:
 
 Create the secret for object storage configuration.
 
-**NOTE**: Use the `objstore.yml` filename to match the key name in the secret.
+The following example uses the filename `objstore.yml`. Using the `objstore.yml` filename helps you to generate the right key when creating the bucket secret.
+The Store Gateway requires the secret key `objstore.yml` to fetch the bucket credentials.
 
 {{< clipboard >}}
 <div class="highlight">
 
 ```
-k create secret generic -n verrazzano-monitoring objstore-config --from-file objstore.yml
+$ kubectl create namespace verrazzano-monitoring
+$ kubectl create secret generic -n verrazzano-monitoring objstore-config --from-file objstore.yml
 ```
 
 </div>
