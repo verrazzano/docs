@@ -47,6 +47,7 @@ Verrazzano Status
     openSearchUrl: https://opensearch.vmi.system.default.172.18.0.231.nip.io
     prometheusUrl: https://prometheus.vmi.system.default.172.18.0.231.nip.io
     rancherUrl: https://rancher.default.172.18.0.231.nip.io
+    thanosQueryUrl: https://thanos-query.default.172.18.0.231.nip.io
 ```
 
 ### kubectl
@@ -89,6 +90,7 @@ The resulting output is similar to the following (abbreviated to show only the r
       opensearchUrl: https://opensearch.vmi.system.default.11.22.33.44.nip.io
       prometheusUrl: https://prometheus.vmi.system.default.11.22.33.44.nip.io
       rancherUrl: https://rancher.default.11.22.33.44.nip.io
+      thanosQueryUrl: https://thanos-query.default.172.18.0.231.nip.io
 ```
 </div>
 {{< /clipboard >}}
@@ -118,6 +120,7 @@ The following is an example of the output:
 "opensearchDashboardsUrl": "https://opensearchDashboards.vmi.system.default.11.22.33.44.nip.io",
 "prometheusUrl": "https://prometheus.vmi.system.default.11.22.33.44.nip.io",
 "rancherUrl": "https://rancher.default.11.22.33.44.nip.io"
+"thanosQueryUrl": "https://thanos-query.default.172.18.0.231.nip.io"
 }
 ```
 
@@ -134,6 +137,7 @@ You will need the credentials to access the consoles installed by Verrazzano.
 - OpenSearch
 - Kiali
 - Jaeger
+- Thanos Query
 
 **User**: `verrazzano`
 
