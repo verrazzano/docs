@@ -71,4 +71,4 @@ The `syncClusters` `enabled` field must be set to `true` to use cluster label se
   - The `clusterSelector` field is optional.
   - If `enabled` is set to `true` and the `clusterSelector` field is omitted, then all clusters imported into Rancher will be automatically registered.
 
-When you import a cluster into Rancher, you can provide a `label` and `value` for the cluster. If the label matches the label selector `matchExpression`, then the cluster will be synchronized.
+When you import a cluster into Rancher, you can provide a `label` and `value` for the cluster. If the label matches the label selector match expression, then the cluster will be synchronized
