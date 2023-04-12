@@ -89,7 +89,7 @@ spec:
       overrides:
       - values:
           prometheus:
-            thanos
+            thanos:
               integration: sidecar
             prometheusSpec:
               thanos:
