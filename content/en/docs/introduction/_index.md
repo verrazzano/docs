@@ -7,11 +7,15 @@ draft: false
 
 The Verrazzano Enterprise Container Platform delivers a unified platform for standardizing application and cluster management across various hosting environments. It's built from many familiar open source projects, each working in concert on Kubernetes clusters to provide vital container management services.
 
+Getting started with Verrazzano is easy - the basic installation process is simple yet flexible enough to evolve with your requirements.
+
 ## Complete Application Life Cycle Management
 
-Verrazzano understands that application management is a continuous and dynamic process. As an application moves through its life cycle, its needs can vary significantly and its management system must adapt accordingly.
+Starting with deployment, Verrazzano supports an application through all phases of its life cycle. It extensively automates the deployment process so you can reproduce successful application deployments reliably, even in multicloud environments. 
 
-Verrazzano supports an application through all phases of its life cycle, promoting communication across teams and departments. Users can effortlessly coordinate with each other to quickly identify issues, address them, and then implement strategies to avert future obstacles.
+Verrazzano understands that application management is a continuous and dynamic process where deployment is just the beginning. As an application moves through its life cycle, its management system must be able to adapt to its developing needs. Day 2 operations are given equal consideration so that post-deployment, you can continue to optimize your applications and their clusters over the course of their lifetime.
+
+With management occurring within a single platform, Verrazzano makes it easy to follow the principles of DevOps and GitOps. Coordination between diverse types of users becomes effortless, encouraging quick resolutions and creative innovations.
 
 For a list of the components that make up Verrazzano and what they do, see [Installed Components]({{< relref "/docs/setup/prereqs#installed-components" >}}).
 
