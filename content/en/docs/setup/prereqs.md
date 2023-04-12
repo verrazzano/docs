@@ -89,5 +89,5 @@ component, its version, and a brief description.
 | Rancher                      | 2.6.8        | Manages multiple Kubernetes clusters.                                                    |
 | Rancher Backup Operator      | 2.1.3        | Manages backup and restore of Rancher configurations and data.                           |
 | Velero                       | 1.9.1        | Manages backup and restore of Kubernetes configurations and data.                        |
-| WebLogic Kubernetes Operator | 4.0.5        | Assists with deploying and managing WebLogic domains.                                    |
-| WebLogic Monitoring Exporter | 2.1.2        | Exports Prometheus-compatible metrics from WebLogic instances.                           |
+| WebLogic Kubernetes Operator | 4.0.6        | Assists with deploying and managing WebLogic domains.                                    |
+| WebLogic Monitoring Exporter | 2.1.3        | Exports Prometheus-compatible metrics from WebLogic instances.                           |
