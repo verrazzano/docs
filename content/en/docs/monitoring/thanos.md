@@ -18,7 +18,7 @@ For more information on Thanos, see the [Thanos website](https://thanos.io/).
 
 ## Components
 
-Thanos comprises of the following components:
+Verrazzano supports the following Thanos components:
 
 | Components     | Description                                                                                                                                         |
 |----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -42,10 +42,10 @@ Create an `objstore.yml` file using the OCI object storage.
 type: OCI
 config:
   provider: "raw"
-  bucket: "<bucket_name>"
-  compartment_ocid: "<stack_compartment_ocid>"
-  tenancy_ocid: "<tenancy_ocid>"
-  user_ocid: "<user_ocid>"
+  bucket: "<bucket name>"
+  compartment_ocid: "<bucket compartment OCID>"
+  tenancy_ocid: "<tenancy OCID>"
+  user_ocid: "<user OCID>"
   region: "<region>"
   fingerprint: ""
   privatekey: ""
@@ -58,8 +58,7 @@ config:
 
 Create the secret for object storage configuration.
 
-The following example uses the filename `objstore.yml`. Using the `objstore.yml` filename helps you to generate the right key when creating the bucket secret.
-The Store Gateway requires the secret key `objstore.yml` to fetch the bucket credentials.
+The following example uses the filename `objstore.yml`. The Thanos Store Gateway requires the key in the secret to be `objstore.yml`. If you use a different filename, make sure that the key in the secret is exactly `objstore.yml`.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -72,7 +71,37 @@ $ kubectl create secret generic -n verrazzano-monitoring objstore-config --from-
 </div>
 {{< /clipboard >}}
 
-#### Step 3: Enable the Prometheus Thanos Sidecar, Thanos Query, and send metrics to long-term storage.
+#### Step 3: Enable the Prometheus Thanos Sidecar, Thanos Query, and Thanos Query Frontend
+
+{{< clipboard >}}
+<div class="highlight">
+
+```
+apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: my-verrazzano
+spec:
+  components:
+    prometheusOperator:
+      enabled: true
+      overrides:
+      - values:
+          prometheus:
+            thanos:
+              integration: sidecar
+    thanos:
+      enabled: true
+```
+
+</div>
+{{< /clipboard >}}
+
+#### Step 4: Enable storage and Thanos Store Gateway
+
+The following example enables storage, creates the required secret, and enables Thanos Store Gateway. It also configures the Thanos Sidecar to write to object storage and the Store Gateway to read from object storage.
+
+**Note**: `objstore-config` is the secret that you created in Step 2.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -96,27 +125,6 @@ spec:
                 objectStorageConfig:
                   name: objstore-config
                   key: objstore.yml
-    thanos:
-      enabled: true
-```
-
-</div>
-{{< /clipboard >}}
-
-## Configure Thanos Store Gateway
-
-Store Gateway helps you to query metrics in long-term storage.
-
-Enable the `storegateway` with the following Verrazzano configuration, where `objstore-config` is an existing secret.
-
-{{< clipboard >}}
-<div class="highlight">
-
-```
-spec:
-  components:
-    ...
-    ...
     thanos:
       enabled: true
       overrides:
