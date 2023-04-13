@@ -31,7 +31,33 @@ Verrazzano supports the following Thanos components:
 
 To enable the Thanos Prometheus Sidecar, Query, and Query Frontend components:
 
-### Step 1: Create a YAML configuration file
+#### Step 1: Enable the Prometheus Thanos Sidecar, Thanos Query, and Thanos Query Frontend
+
+{{< clipboard >}}
+<div class="highlight">
+
+```
+apiVersion: install.verrazzano.io/v1beta1
+kind: Verrazzano
+metadata:
+  name: my-verrazzano
+spec:
+  components:
+    prometheusOperator:
+      enabled: true
+      overrides:
+      - values:
+          prometheus:
+            thanos:
+              integration: sidecar
+    thanos:
+      enabled: true
+```
+
+</div>
+{{< /clipboard >}}
+
+### Step 2: Create a YAML configuration file
 
 Create an `objstore.yml` file using OCI object storage.
 
@@ -54,7 +80,7 @@ config:
 </div>
 {{< /clipboard >}}
 
-#### Step 2: Create a secret
+#### Step 3: Create a secret
 
 Create the secret for object storage configuration.
 
@@ -66,32 +92,6 @@ The following example uses the file name `objstore.yml`. The Thanos Store Gatewa
 ```
 $ kubectl create namespace verrazzano-monitoring
 $ kubectl create secret generic -n verrazzano-monitoring objstore-config --from-file objstore.yml
-```
-
-</div>
-{{< /clipboard >}}
-
-#### Step 3: Enable the Prometheus Thanos Sidecar, Thanos Query, and Thanos Query Frontend
-
-{{< clipboard >}}
-<div class="highlight">
-
-```
-apiVersion: install.verrazzano.io/v1beta1
-kind: Verrazzano
-metadata:
-  name: my-verrazzano
-spec:
-  components:
-    prometheusOperator:
-      enabled: true
-      overrides:
-      - values:
-          prometheus:
-            thanos:
-              integration: sidecar
-    thanos:
-      enabled: true
 ```
 
 </div>
