@@ -6,7 +6,7 @@ weight: 1
 draft: false
 ---
 
-Thanos is a group of components that seamlessly integrates with Prometheus to monitor your applications. You can install and configure Thanos components with Verrazzano and use long-term storage to store metrics. By using the Thanos console you can query for metrics across all Prometheus instances and long-term storage. Thanos also makes it easier to scale Prometheus horizontally and obtain a global view of data from multiple Prometheus servers.
+Thanos is a group of components that seamlessly integrate with Prometheus to monitor your applications. You can enable and configure Thanos components with Verrazzano and use long-term storage to store metrics. By using the Thanos console, you can query for metrics across all Prometheus instances and long-term storage. Thanos also makes it easier to scale Prometheus horizontally and obtain a global view of data from multiple Prometheus servers.
 
 Advantages of using Thanos:
 - Long-term metrics retention
@@ -16,7 +16,7 @@ Advantages of using Thanos:
 
 For more information on Thanos, see the [Thanos website](https://thanos.io/).
 
-## Components
+## Thanos Components
 
 Verrazzano supports the following Thanos components:
 
@@ -29,11 +29,11 @@ Verrazzano supports the following Thanos components:
 
 ## Enable Thanos
 
-You can enable the Thanos Prometheus Sidecar, Query, and Query Frontend components.
+To enable the Thanos Prometheus Sidecar, Query, and Query Frontend components:
 
 ### Step 1: Create a YAML configuration file
 
-Create an `objstore.yml` file using the OCI object storage.
+Create an `objstore.yml` file using OCI object storage.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -58,7 +58,7 @@ config:
 
 Create the secret for object storage configuration.
 
-The following example uses the filename `objstore.yml`. The Thanos Store Gateway requires the key in the secret to be `objstore.yml`. If you use a different filename, make sure that the key in the secret is exactly `objstore.yml`.
+The following example uses the file name `objstore.yml`. The Thanos Store Gateway requires the key in the secret to be `objstore.yml`. If you use a different file name, make sure that the key in the secret is exactly `objstore.yml`.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -137,6 +137,6 @@ spec:
 </div>
 {{< /clipboard >}}
 
-## Access Thanos Query Console
+## Access the Thanos Query console
 
-You can access the Thanos Query console using the instructions at [Get the consoles URLs]({{< relref "/docs/access/#get-the-consoles-urls" >}}). section in [Access Verrazzano]({{< relref "/docs/access/" >}}).
+You can access the Thanos Query console using the instructions at [Get the consoles URLs]({{< relref "/docs/access/#get-the-consoles-urls" >}}).
