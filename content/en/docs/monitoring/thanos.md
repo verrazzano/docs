@@ -97,7 +97,7 @@ spec:
 </div>
 {{< /clipboard >}}
 
-#### Step 4: Enable storage and Thanos Store Gateway
+#### Step 4 (optional): Enable storage and Thanos Store Gateway
 
 The following example enables storage, creates the required secret, and enables Thanos Store Gateway. It also configures the Thanos Sidecar to write to object storage and the Store Gateway to read from object storage.
 
