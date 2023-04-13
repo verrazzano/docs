@@ -16,7 +16,7 @@ Advantages of using Thanos:
 
 For more information on Thanos, see the [Thanos website](https://thanos.io/).
 
-## Thanos Components
+## Thanos components
 
 Verrazzano supports the following Thanos components:
 
@@ -30,8 +30,6 @@ Verrazzano supports the following Thanos components:
 ## Enable Thanos
 
 To enable the Thanos Prometheus Sidecar, Query, and Query Frontend components:
-
-#### Step 1: Enable the Prometheus Thanos Sidecar, Thanos Query, and Thanos Query Frontend
 
 {{< clipboard >}}
 <div class="highlight">
@@ -57,7 +55,11 @@ spec:
 </div>
 {{< /clipboard >}}
 
-### Step 2: Create a YAML configuration file
+## Enable long-term storage
+
+Optionally, to enable long-term storage of metrics complete the following steps:
+
+### Step 1: Create a YAML configuration file
 
 Create an `objstore.yml` file using OCI object storage.
 
@@ -80,7 +82,7 @@ config:
 </div>
 {{< /clipboard >}}
 
-#### Step 3: Create a secret
+#### Step 2: Create a secret
 
 Create the secret for object storage configuration.
 
@@ -97,7 +99,7 @@ $ kubectl create secret generic -n verrazzano-monitoring objstore-config --from-
 </div>
 {{< /clipboard >}}
 
-#### Step 4 (optional): Enable storage and Thanos Store Gateway
+#### Step 3: Enable storage and Thanos Store Gateway
 
 The following example enables storage, creates the required secret, and enables Thanos Store Gateway. It also configures the Thanos Sidecar to write to object storage and the Store Gateway to read from object storage.
 
