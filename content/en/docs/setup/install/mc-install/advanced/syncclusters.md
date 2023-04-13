@@ -1,13 +1,13 @@
 ---
 title: "Synchronize Managed Clusters Registration"
-description: "Learn how to synchronize and filter cluster registration"
+description: "Learn how to register and synchronize cluster registration automatically."
 weight: 1
 draft: false
 ---
 
-You can synchronize cluster registration automatically across Verrazzano by enabling `syncClusters` in the Verrazzano custom resource. Any clusters imported in the Rancher console then will be synchronized across the rest of Verrazzano, including in Verrazzano managed cluster resources, Rancher, and Argo CD. Additionally, by using a [label selector](#filter-cluster-selection), you can filter the clusters that you want to be synchronized.
+You can synchronize cluster registration across Verrazzano by enabling `syncClusters` in the Verrazzano custom resource. Any clusters imported in the Rancher console will be synchronized across the rest of Verrazzano, including in Verrazzano managed cluster resources, Rancher, and Argo CD. Additionally, you can use a [label selector](#filter-cluster-selection) to filter the clusters you want registered.
 
-## Enable `syncClusters`
+## Register Managed Clusters Automatically
 
 The following illustrates an admin cluster Verrazzano resource that enables `syncClusters`.
 {{< clipboard >}}

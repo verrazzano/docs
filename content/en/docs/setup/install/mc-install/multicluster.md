@@ -33,7 +33,8 @@ see the [Installation Guide]({{< relref "/docs/setup/install/" >}}) and [Install
 ## Register managed clusters using the console
 
 To register a cluster, complete the following steps:
-1. Enable `syncClusters`. For more information, see [Enable syncClusters]({{< relref "/docs/setup/install/mc-install/advanced/syncclusters#enable-syncclusters" >}}).
+1. Enable `syncClusters`.
+<br>For information about `syncClusters`, see [Enable syncClusters]({{< relref "/docs/setup/install/mc-install/advanced/syncclusters#enable-syncclusters" >}}).
 {{< clipboard >}}
 <div class="highlight">
 
