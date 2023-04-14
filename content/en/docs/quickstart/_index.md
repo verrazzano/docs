@@ -13,7 +13,7 @@ For detailed installation instructions, see the [Installation Guides]({{< relref
 
 <br>
 
-Getting up and running quickly with Verrazzano is as easy as [1](#install-cli) - [2](#install-verrazzano) - [3](#deploy-an-application):
+Getting up and running quickly with Verrazzano is as easy as [1](#1-install-cli) - [2](#2-install-verrazzano) - [3](#3-deploy-an-application):
 
 ![QS steps](/docs/images/QS-numbers.png)
 
