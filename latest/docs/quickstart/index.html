@@ -106,7 +106,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../offline-search-index.345010ec79368494d1e82af42d31f834.json"
+    data-offline-search-index-json-src="../../offline-search-index.9a4ffc03622686a0389284cc5b262fba.json"
     data-offline-search-base-href="../../"
     data-offline-search-max-results="10"
   >
@@ -132,7 +132,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../offline-search-index.345010ec79368494d1e82af42d31f834.json"
+    data-offline-search-index-json-src="../../offline-search-index.9a4ffc03622686a0389284cc5b262fba.json"
     data-offline-search-base-href="../../"
     data-offline-search-max-results="10"
   >
@@ -246,7 +246,7 @@ if (!doNotTrack) {
   
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupinstallmc-installadvancedregister-kubectl-li">
   <input type="checkbox" id="m-docssetupinstallmc-installadvancedregister-kubectl-check"/>
-  <label for="m-docssetupinstallmc-installadvancedregister-kubectl-check"><a href="../../docs/setup/install/mc-install/advanced/register-kubectl/" class="align-left pl-0  td-sidebar-link td-sidebar-link__page" id="m-docssetupinstallmc-installadvancedregister-kubectl"><span class="">Register Managed Clusters using kubectl</span></a></label>
+  <label for="m-docssetupinstallmc-installadvancedregister-kubectl-check"><a href="../../docs/setup/install/mc-install/advanced/register-kubectl/" class="align-left pl-0  td-sidebar-link td-sidebar-link__page" id="m-docssetupinstallmc-installadvancedregister-kubectl"><span class="">Register Managed Clusters Using kubectl</span></a></label>
   
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetupinstallmc-installadvancedmulticluster-no-rancher-li">
   <input type="checkbox" id="m-docssetupinstallmc-installadvancedmulticluster-no-rancher-check"/>
@@ -822,10 +822,9 @@ if (!doNotTrack) {
   <ul>
     <li>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#install-cli">Install CLI</a></li>
-        <li><a href="#install-verrazzano">Install Verrazzano</a></li>
-        <li><a href="#deploy-an-application">Deploy an application</a></li>
+        <li><a href="#1-install-cli">1. Install CLI</a></li>
+        <li><a href="#2-install-verrazzano">2. Install Verrazzano</a></li>
+        <li><a href="#3-deploy-an-application">3. Deploy an application</a></li>
         <li><a href="#next-steps">Next steps</a></li>
       </ul>
     </li>
@@ -887,19 +886,16 @@ if (!doNotTrack) {
 
 		
 	</header>
-	<h2 id="prerequisites">Prerequisites</h2>
-<p>The Quick Start assumes that you have already installed a
+	<p>The Quick Start assumes that you have already installed a
 <a href="https://kubernetes.io/">Kubernetes</a> cluster. For instructions on preparing Kubernetes
 platforms for installing Verrazzano, see <a href="../../docs/setup/platforms/">Platform Setup</a>.
 For detailed installation instructions, see the <a href="../../docs/setup/install/">Installation Guides</a>.</p>
 <p><strong>NOTE</strong>: If you just created the cluster, then you must wait until your nodes reach <code>Ready</code> status before installing Verrazzano.</p>
 <br>
-<p>Getting up and running quickly with Verrazzano is as easy as <a href="#install-cli">1</a> - <a href="#install-verrazzano">2</a> - <a href="#deploy-an-application">3</a>:</p>
+<p>Getting up and running quickly with Verrazzano is as easy as <a href="#1-install-cli">1</a> - <a href="#2-install-verrazzano">2</a> - <a href="#3-deploy-an-application">3</a>:</p>
 <p><img src="../../docs/images/QS-numbers.png" alt="QS steps"></p>
-<h2 id="install-cli">Install CLI</h2>
+<h2 id="1-install-cli">1. Install CLI</h2>
 <p>The Verrazzano command-line tool, <code>vz</code>, is available for Linux and Mac systems.</p>
-<ol>
-<li>
 <p>Download the binary you want from the <a href="https://github.com/verrazzano/verrazzano/releases/">Releases</a> page.</p>
 <p>For example, to download the latest release for Linux AMD64 machines:
 <style type="text/css">
@@ -994,15 +990,193 @@ For detailed installation instructions, see the <a href="../../docs/setup/instal
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
-</li>
-<li>
-<p>Unpack and copy the <code>vz</code> binary</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span> $ tar xvf verrazzano-1.5.2-linux-amd64.tar.gz
-</span></span></code></pre></div><p>The following command needs to be run as root.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span> $ sudo cp verrazzano-1.5.2/bin/vz /usr/local/bin
-</span></span></code></pre></div></li>
-</ol>
-<h2 id="install-verrazzano">Install Verrazzano</h2>
+<p>Unpack and copy the <code>vz</code> binary.
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre><code>  $ tar xvf verrazzano-1.5.2-linux-amd64.tar.gz
+</code></pre>
+</div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script></p>
+<p>The following command needs to be run as root.</p>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight">
+<pre><code>  $ sudo cp verrazzano-1.5.2/bin/vz /usr/local/bin
+</code></pre>
+</div>
+
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script>
+<h2 id="2-install-verrazzano">2. Install Verrazzano</h2>
 <p>You install Verrazzano by creating a Verrazzano custom resource in your Kubernetes cluster.
 Verrazzano currently supports several <a href="../../docs/setup/install/profiles/">installation profiles</a>.</p>
 <p>Using the Quick Start, you&rsquo;ll install the <code>dev</code> profile, which is suitable for evaluation.</p>
@@ -1015,8 +1189,6 @@ Verrazzano currently supports several <a href="../../docs/setup/install/profiles
 
 </div>
 
-<ol>
-<li>
 <p>Install Verrazzano with its <code>dev</code> profile.
 <style type="text/css">
     code {
@@ -1127,15 +1299,11 @@ EOF
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
-</li>
-<li>
 <p>Wait for the installation to complete.
 Installation logs will be streamed to the command window until the installation has completed
 or until the default timeout (30m) has been reached.</p>
-</li>
-</ol>
 <p><strong>NOTE</strong>: For some applications, the Kiali console may show warnings for objects that replicate hostname/port configurations across multiple IngressTraits. These warnings do not impact functionality and can be suppressed with the following <a href="../../docs/guides/app-deployment/application-deployment-guide/#suppress-kiali-console-warnings">component override</a>.</p>
-<h2 id="deploy-an-application">Deploy an application</h2>
+<h2 id="3-deploy-an-application">3. Deploy an application</h2>
 <p>The <a href="../../docs/samples/hello-helidon/">Hello World Helidon</a>
 example application provides a simple <em>Hello World</em> REST service written with <a href="https://helidon.io">Helidon</a>.
 For more information and the code of this application, see the <a href="https://github.com/verrazzano/examples">Verrazzano Examples</a>.</p>
