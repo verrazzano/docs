@@ -37,16 +37,17 @@ Verrazzano Status
   Profile: dev
   Available Components: 24/24
   Access Endpoints:
-    argoCDUrl: https://argocd.default.172.18.0.231.nip.io
-    consoleUrl: https://verrazzano.default.172.18.0.231.nip.io
-    grafanaUrl: https://grafana.vmi.system.default.172.18.0.231.nip.io
-    jaegerURL: https://jaeger.default.172.18.0.231.nip.io
-    keyCloakUrl: https://keycloak.default.172.18.0.231.nip.io
-    kialiUrl: https://kiali.vmi.system.default.172.18.0.231.nip.io
-    openSearchDashboardsUrl: https://osd.vmi.system.default.172.18.0.231.nip.io
-    openSearchUrl: https://opensearch.vmi.system.default.172.18.0.231.nip.io
-    prometheusUrl: https://prometheus.vmi.system.default.172.18.0.231.nip.io
-    rancherUrl: https://rancher.default.172.18.0.231.nip.io
+    argoCDUrl: https://argocd.default.11.22.33.44.nip.io
+    consoleUrl: https://verrazzano.default.11.22.33.44.nip.io
+    grafanaUrl: https://grafana.vmi.system.default.11.22.33.44.nip.io
+    jaegerURL: https://jaeger.default.11.22.33.44.nip.io
+    keyCloakUrl: https://keycloak.default.11.22.33.44.nip.io
+    kialiUrl: https://kiali.vmi.system.default.11.22.33.44.nip.io
+    openSearchDashboardsUrl: https://osd.vmi.system.default.11.22.33.44.nip.io
+    openSearchUrl: https://opensearch.vmi.system.default.11.22.33.44.nip.io
+    prometheusUrl: https://prometheus.vmi.system.default.11.22.33.44.nip.io
+    rancherUrl: https://rancher.default.11.22.33.44.nip.io
+    thanosQueryUrl: https://thanos-query.default.11.22.33.44.nip.io
 ```
 
 ### kubectl
@@ -80,7 +81,7 @@ The resulting output is similar to the following (abbreviated to show only the r
       status: "True"
       type: InstallComplete
     instance:
-      argoCDUrl: https://argocd.default.172.18.0.231.nip.io
+      argoCDUrl: https://argocd.default.11.22.33.44.nip.io
       consoleUrl: https://verrazzano.default.11.22.33.44.nip.io
       grafanaUrl: https://grafana.vmi.system.default.11.22.33.44.nip.io
       keyCloakUrl: https://keycloak.default.11.22.33.44.nip.io
@@ -89,6 +90,7 @@ The resulting output is similar to the following (abbreviated to show only the r
       opensearchUrl: https://opensearch.vmi.system.default.11.22.33.44.nip.io
       prometheusUrl: https://prometheus.vmi.system.default.11.22.33.44.nip.io
       rancherUrl: https://rancher.default.11.22.33.44.nip.io
+      thanosQueryUrl: https://thanos-query.default.11.22.33.44.nip.io
 ```
 </div>
 {{< /clipboard >}}
@@ -109,7 +111,7 @@ The following is an example of the output:
 
 ```
 {
-"argoCDUrl": https://argocd.default.172.18.0.231.nip.io
+"argoCDUrl": https://argocd.default.11.22.33.44.nip.io
 "consoleUrl": "https://verrazzano.default.11.22.33.44.nip.io",
 "grafanaUrl": "https://grafana.vmi.system.default.11.22.33.44.nip.io",
 "keyCloakUrl": "https://keycloak.default.11.22.33.44.nip.io",
@@ -118,6 +120,7 @@ The following is an example of the output:
 "opensearchDashboardsUrl": "https://opensearchDashboards.vmi.system.default.11.22.33.44.nip.io",
 "prometheusUrl": "https://prometheus.vmi.system.default.11.22.33.44.nip.io",
 "rancherUrl": "https://rancher.default.11.22.33.44.nip.io"
+"thanosQueryUrl": "https://thanos-query.default.11.22.33.44.nip.io"
 }
 ```
 
@@ -134,6 +137,7 @@ You will need the credentials to access the consoles installed by Verrazzano.
 - OpenSearch
 - Kiali
 - Jaeger
+- Thanos Query
 
 **User**: `verrazzano`
 
