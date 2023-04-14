@@ -4,9 +4,6 @@ description: "Instructions for getting started with Verrazzano"
 weight: 2
 ---
 
-
-## Prerequisites
-
 The Quick Start assumes that you have already installed a
 [Kubernetes](https://kubernetes.io/) cluster. For instructions on preparing Kubernetes
 platforms for installing Verrazzano, see [Platform Setup]({{< relref "/docs/setup/platforms/_index.md" >}}).
@@ -16,15 +13,15 @@ For detailed installation instructions, see the [Installation Guides]({{< relref
 
 <br>
 
-Getting up and running quickly with Verrazzano is as easy as [1](#install-cli) - [2](#install-verrazzano) - [3](#deploy-an-application):
+Getting up and running quickly with Verrazzano is as easy as [1](#1-install-cli) - [2](#2-install-verrazzano) - [3](#3-deploy-an-application):
 
 ![QS steps](/docs/images/QS-numbers.png)
 
-## Install CLI
+## 1. Install CLI
 
 The Verrazzano command-line tool, `vz`, is available for Linux and Mac systems.
 
-1. Download the binary you want from the [Releases](https://github.com/verrazzano/verrazzano/releases/) page.
+Download the binary you want from the [Releases](https://github.com/verrazzano/verrazzano/releases/) page.
 
    For example, to download the latest release for Linux AMD64 machines:
    {{< clipboard >}}
@@ -35,18 +32,25 @@ The Verrazzano command-line tool, `vz`, is available for Linux and Mac systems.
    </div>
    {{< /clipboard >}}
 
-2. Unpack and copy the `vz` binary
+Unpack and copy the `vz` binary.
+{{< clipboard >}}
+<div class="highlight">
 
-     ```shell
       $ tar xvf verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz
-     ```
-     The following command needs to be run as root.
-     ```shell
+
+</div>
+{{< /clipboard >}}
+
+  The following command needs to be run as root.
+
+{{< clipboard >}}
+<div class="highlight">
+
       $ sudo cp verrazzano-{{<verrazzano_development_version>}}/bin/vz /usr/local/bin
-     ```
+</div>
+{{< /clipboard >}}
 
-
-## Install Verrazzano
+## 2. Install Verrazzano
 
 You install Verrazzano by creating a Verrazzano custom resource in your Kubernetes cluster.
 Verrazzano currently supports several [installation profiles]({{< relref "/docs/setup/install/profiles.md" >}}).
@@ -57,7 +61,7 @@ Using the Quick Start, you'll install the `dev` profile, which is suitable for e
 {{< /alert >}}
 
 
-1. Install Verrazzano with its `dev` profile.
+Install Verrazzano with its `dev` profile.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -83,21 +87,19 @@ Using the Quick Start, you'll install the `dev` profile, which is suitable for e
 </div>
 {{< /clipboard >}}
 
-2. Wait for the installation to complete.
+Wait for the installation to complete.
    Installation logs will be streamed to the command window until the installation has completed
    or until the default timeout (30m) has been reached.
 
 **NOTE**: For some applications, the Kiali console may show warnings for objects that replicate hostname/port configurations across multiple IngressTraits. These warnings do not impact functionality and can be suppressed with the following [component override]({{< relref "docs/guides/app-deployment/application-deployment-guide.md#suppress-kiali-console-warnings" >}}).
 
-## Deploy an application
+## 3. Deploy an application
 
 The [Hello World Helidon]({{< relref "/docs/samples/hello-helidon/_index.md" >}})
 example application provides a simple *Hello World* REST service written with [Helidon](https://helidon.io).
 For more information and the code of this application, see the [Verrazzano Examples](https://github.com/verrazzano/examples).
 
 To deploy the Hello World Helidon example application:
-
-
 
 1. Create a namespace for the example application and add labels identifying the namespace as managed by Verrazzano and
    enabled for Istio.
@@ -111,7 +113,7 @@ To deploy the Hello World Helidon example application:
 {{< /clipboard >}}
 
 
-1. Apply the `hello-helidon` resources to deploy the application.
+2. Apply the `hello-helidon` resources to deploy the application.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -121,7 +123,7 @@ To deploy the Hello World Helidon example application:
 </div>
 {{< /clipboard >}}
 
-1. Wait for the application to be ready.
+3. Wait for the application to be ready.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -139,7 +141,7 @@ To deploy the Hello World Helidon example application:
    This creates the Verrazzano OAM Component application resources for the example and waits for the pods in the `hello-helidon`
    namespace to be ready.
 
-1.  Save the host name of the load balancer exposing the application's REST service endpoints.
+4. Save the host name of the load balancer exposing the application's REST service endpoints.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -150,7 +152,7 @@ To deploy the Hello World Helidon example application:
 </div>
 {{< /clipboard >}}
 
-1.  Get the default message.
+5. Get the default message.
 {{< clipboard >}}
 <div class="highlight">
 
