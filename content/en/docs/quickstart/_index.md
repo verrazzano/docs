@@ -32,16 +32,23 @@ Download the binary you want from the [Releases](https://github.com/verrazzano/v
    </div>
    {{< /clipboard >}}
 
-Unpack and copy the `vz` binary
+Unpack and copy the `vz` binary.
+{{< clipboard >}}
+<div class="highlight">
 
-     ```shell
       $ tar xvf verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz
-     ```
-     The following command needs to be run as root.
-     ```shell
-      $ sudo cp verrazzano-{{<verrazzano_development_version>}}/bin/vz /usr/local/bin
-     ```
 
+</div>
+{{< /clipboard >}}
+
+  The following command needs to be run as root.
+
+{{< clipboard >}}
+<div class="highlight">
+
+      $ sudo cp verrazzano-{{<verrazzano_development_version>}}/bin/vz /usr/local/bin
+</div>
+{{< /clipboard >}}
 
 ## 2. Install Verrazzano
 
@@ -94,9 +101,7 @@ For more information and the code of this application, see the [Verrazzano Examp
 
 To deploy the Hello World Helidon example application:
 
-
-
-Create a namespace for the example application and add labels identifying the namespace as managed by Verrazzano and
+1. Create a namespace for the example application and add labels identifying the namespace as managed by Verrazzano and
    enabled for Istio.
 {{< clipboard >}}
 <div class="highlight">
@@ -108,7 +113,7 @@ Create a namespace for the example application and add labels identifying the na
 {{< /clipboard >}}
 
 
-Apply the `hello-helidon` resources to deploy the application.
+2. Apply the `hello-helidon` resources to deploy the application.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -118,7 +123,7 @@ Apply the `hello-helidon` resources to deploy the application.
 </div>
 {{< /clipboard >}}
 
-Wait for the application to be ready.
+3. Wait for the application to be ready.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -136,7 +141,7 @@ Wait for the application to be ready.
    This creates the Verrazzano OAM Component application resources for the example and waits for the pods in the `hello-helidon`
    namespace to be ready.
 
-Save the host name of the load balancer exposing the application's REST service endpoints.
+4. Save the host name of the load balancer exposing the application's REST service endpoints.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -147,7 +152,7 @@ Save the host name of the load balancer exposing the application's REST service 
 </div>
 {{< /clipboard >}}
 
-Get the default message.
+5. Get the default message.
 {{< clipboard >}}
 <div class="highlight">
 
