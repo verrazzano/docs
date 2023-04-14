@@ -1,10 +1,8 @@
 ---
-title: "Install Multicluster Verrazzano without Rancher"
+title: "Install Multicluster Verrazzano Without Rancher"
 description: "How to set up a multicluster Verrazzano environment when Rancher is disabled"
-weight: 5
+weight: 3
 draft: false
-toc_hide: true
-hide_summary: true
 ---
 
 Rancher is recommended for Verrazzano multicluster installations. However, if Rancher is not enabled on the _admin_ cluster, then registration requires you to perform a few additional steps.

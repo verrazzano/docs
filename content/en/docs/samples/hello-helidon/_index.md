@@ -5,7 +5,7 @@ This example is a Helidon-based service that returns a “Hello World” respons
 
 ## Before you begin
 
-Install Verrazzano by following the [installation]({{< relref "/docs/setup/install/installation.md" >}}) instructions.
+Install Verrazzano by following the [installation]({{< relref "/docs/setup/install/" >}}) instructions.
 
 **NOTE**: The Hello World Helidon example application deployment files are contained in the Verrazzano project located at `<VERRAZZANO_HOME>/examples/hello-helidon`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
 

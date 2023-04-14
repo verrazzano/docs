@@ -1,6 +1,6 @@
 ---
-title: "Upgrade"
-linkTitle: "Upgrade"
+title: "Upgrade Verrazzano"
+linkTitle: "Upgrade Verrazzano"
 description: "Learn how to upgrade Verrazzano"
 weight: 1
 draft: false
@@ -29,17 +29,16 @@ The platform operator contains the newer component charts and image versions, so
 Updating the platform operator has no effect on an existing installation until you initiate the Verrazzano installation upgrade.
 Currently, there is no way to roll back either the platform operator update or the Verrazzano installation upgrade.  
 
-You can upgrade Verrazzano using the  [Verrazzano CLI]({{< relref "/docs/setup/install/installation.md" >}}) or with [kubectl](https://kubernetes.io/docs/reference/kubectl/kubectl/).
+You can upgrade Verrazzano using the  [Verrazzano CLI]({{< relref "/docs/setup/install" >}}) or with [kubectl](https://kubernetes.io/docs/reference/kubectl/kubectl/).
 See the following respective sections.
 
 {{< alert title="NOTE" color="warning" >}}For optimal functionality, be sure to install or upgrade the CLI version to match the Verrazzano version to which you are upgrading.   
 {{< /alert >}}
 
-{{< tabs tabTotal="2" >}}
-{{< tab tabName="vz" >}}
-<br>
+- [Upgrade Verrazzano using the CLI](#upgrade-verrazzano-using-the-cli)
+- [Upgrade using `kubectl`](#upgrade-using-kubectl)
 
-## Upgrade Verrazzano
+## Upgrade Verrazzano using the CLI
 
 In one simple step, you can upgrade to a specified version of Verrazzano using this command.
 
@@ -57,23 +56,21 @@ In one simple step, you can upgrade to a specified version of Verrazzano using t
 
    To update to a specific version, where `<version>` is the desired version:
 
-{{< clipboard >}}
-<div class="highlight">
+   {{< clipboard >}}
+   <div class="highlight">
 
-   ```
-   $ vz upgrade --version <version>
-   ```
-</div>
-{{< /clipboard >}}
+  ```
+  $ vz upgrade --version <version>
+  ```
+   </div>
+   {{< /clipboard >}}
 
 
 2. Wait for the upgrade to complete.
    Upgrade logs will be streamed to the command window until the upgrade has completed
    or until the default timeout (30m) has been reached.
 
-{{< /tab >}}
-{{< tab tabName="kubectl" >}}
-<br>
+## Upgrade using `kubectl`
 
 Upgrading an existing Verrazzano installation is a two-step process:
 
@@ -187,7 +184,6 @@ Alternatively, you can upgrade the Verrazzano installation using the following s
 {{< /clipboard >}}
 
    Then, apply the resource to the cluster (if you have not edited the resource in-place using `kubectl edit`).
-
 {{< clipboard >}}
 <div class="highlight">
 
@@ -196,7 +192,6 @@ Alternatively, you can upgrade the Verrazzano installation using the following s
    ```
 </div>
 {{< /clipboard >}}
-
 b. Edit the `Verrazzano` resource directly using `kubectl` and set the `version` field directly, for example:
 {{< clipboard >}}
 <div class="highlight">
@@ -219,8 +214,7 @@ b. Edit the `Verrazzano` resource directly using `kubectl` and set the `version`
 </div>
 {{< /clipboard >}}
 
-{{< /tab >}}
-{{< /tabs >}}
+
 ## Verify the upgrade
 
 Check that all the pods in the `verrazzano-system` namespace are in the `Running` state.  While the upgrade is in progress,
@@ -296,3 +290,5 @@ $ kubectl logs -n verrazzano-install \
 ```
 </div>
 {{< /clipboard >}}
+
+For additional troubleshooting help, see [Analysis Advice]({{< relref "/docs/troubleshooting/diagnostictools/analysisadvice/" >}}).

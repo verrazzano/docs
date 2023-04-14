@@ -7,7 +7,7 @@ description: "Implementations of the Sock Shop Microservices Demo Application"
 
 ## Before you begin
 
-Install Verrazzano by following the [installation]({{< relref "/docs/setup/install/installation.md" >}}) instructions.
+Install Verrazzano by following the [installation]({{< relref "/docs/setup/install/" >}}) instructions.
 
 **NOTE**: The Sock Shop example application deployment files are contained in the Verrazzano project located at
 `<VERRAZZANO_HOME>/examples/sockshop`, where `<VERRAZZANO_HOME>` is the root of the Verrazzano project.
@@ -46,12 +46,10 @@ It uses OAM resources to define the application deployment:
 </div>
 {{< /clipboard >}}
 
-1. To deploy the application, apply the Sock Shop OAM resources.  Choose to deploy either the `helidon`, `micronaut`, or `spring` variant.
+2. To deploy the application, apply the Sock Shop OAM resources.  Choose to deploy either the `helidon`, `micronaut`, or `spring` variant:
 
-   {{< tabs tabTotal="3" >}}
-   {{< tab tabName="Helidon" >}}
-   <br>
-
+    For **`helidon`**:
+<br>
 {{< clipboard >}}
 <div class="highlight">
 
@@ -62,10 +60,8 @@ It uses OAM resources to define the application deployment:
 </div>
 {{< /clipboard >}}
 
-   {{< /tab >}}
-   {{< tab tabName="Micronaut" >}}
-   <br>
-   
+    For **`micronaut`**:
+<br>
 {{< clipboard >}}
 <div class="highlight">
 
@@ -76,10 +72,8 @@ It uses OAM resources to define the application deployment:
 </div>
 {{< /clipboard >}}
 
-   {{< /tab >}}
-   {{< tab tabName="Spring" >}}
-   <br>
-
+    For **`spring`**:
+<br>
 {{< clipboard >}}
 <div class="highlight">
 
@@ -90,10 +84,8 @@ It uses OAM resources to define the application deployment:
 </div>
 {{< /clipboard >}}
 
-   {{< /tab >}}
-   {{< /tabs >}}
 
-1. Wait for the Sock Shop application to be ready.
+3. Wait for the Sock Shop application to be ready.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -268,10 +260,8 @@ You can access them according to the directions [here]({{< relref "/docs/access/
 
 1. To undeploy the application, delete the Sock Shop OAM resources.  Choose to undeploy either the `helidon`, `micronaut`, or `spring` variant.
 
-
-   {{< tabs tabTotal="3" >}}
-   {{< tab tabName="Helidon" >}}
-   <br>
+    For **`helidon`**:
+<br>
 {{< clipboard >}}
 <div class="highlight">
 
@@ -282,9 +272,8 @@ You can access them according to the directions [here]({{< relref "/docs/access/
 </div>
 {{< /clipboard >}}
 
-   {{< /tab >}}
-   {{< tab tabName="Micronaut" >}}
-   <br>
+    For **`micronaut`**:
+<br>
 {{< clipboard >}}
 <div class="highlight">
 
@@ -295,10 +284,8 @@ You can access them according to the directions [here]({{< relref "/docs/access/
 </div>
 {{< /clipboard >}}
 
-   {{< /tab >}}
-   {{< tab tabName="Spring" >}}
-   <br>
-   
+   For **`spring`**:
+<br>
 {{< clipboard >}}
 <div class="highlight">
 
@@ -309,8 +296,7 @@ You can access them according to the directions [here]({{< relref "/docs/access/
 </div>
 {{< /clipboard >}}
 
-   {{< /tab >}}
-   {{< /tabs >}}
+
 
 2. Delete the namespace `sockshop` after the application pods are terminated.
 {{< clipboard >}}

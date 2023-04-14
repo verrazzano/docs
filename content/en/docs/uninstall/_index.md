@@ -1,6 +1,6 @@
 ---
-title: "Upgrade, Back Up, & Uninstall"
-description: "Upgrade, back up, and uninstall Verrazzano"
-weight: 6
+title: "Uninstall"
+description: "Learn how to uninstall Verrazzano"
+weight: 7
 draft: false
 ---

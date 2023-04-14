@@ -2002,13 +2002,14 @@ string
 </tr>
 <tr>
 <td>
-<code>thanosQueryFrontendUrl</code></br>
+<code>thanosQueryUrl</code></br>
 <em>
 string
 </em>
 </td>
 <td>
-<p>The Thanos Query Frontend URL for this Verrazzano installation.</p>
+<p>The Thanos Query URL for this Verrazzano installation.
+The Thanos Query ingress gets forwarded to the Thanos Query Frontend service.</p>
 </td>
 </tr>
 </tbody>
@@ -2884,7 +2885,9 @@ Kubernetes core/v1.ConfigMapKeySelector
 </td>
 <td>
 <em>(Optional)</em>
-<p>Selector for ConfigMap containing override data.</p>
+<p>Selector for ConfigMap containing override data.
+For sample usage, see
+<a href="../../../../docs/customize/installationoverrides/#configmap">ConfigMapRef</a>.</p>
 </td>
 </tr>
 <tr>
@@ -2898,7 +2901,9 @@ Kubernetes core/v1.SecretKeySelector
 </td>
 <td>
 <em>(Optional)</em>
-<p>Selector for Secret containing override data.</p>
+<p>Selector for Secret containing override data.
+For sample usage, see
+<a href="../../../../docs/customize/installationoverrides/#secret">SecretRef</a>.</p>
 </td>
 </tr>
 <tr>
@@ -2912,7 +2917,9 @@ Kubernetes apiextensions/v1.JSON
 </td>
 <td>
 <em>(Optional)</em>
-<p>Configure overrides using inline YAML.</p>
+<p>Configure overrides using inline YAML.
+For sample usage, see
+<a href="../../../../docs/customize/installationoverrides/#values">Values</a>.</p>
 </td>
 </tr>
 </tbody>
