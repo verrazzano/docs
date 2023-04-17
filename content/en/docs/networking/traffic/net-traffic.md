@@ -153,13 +153,13 @@ OpenSearch Pods.
 | argoCD | Kubernetes API server | Performs CRUD operations on Kubernetes resources.
 | cert-manager | Kubernetes API server | Performs CRUD operations on Kubernetes resources.
 | Fluentd | OpenSearch | Fluentd sends data to OpenSearch.
-| Grafana | Prometheus | UI for Prometheus data.
-| OpenSearch Dashboards | OpenSearch | UI for OpenSearch.
+| Grafana | Prometheus | Console for Prometheus data.
+| OpenSearch Dashboards | OpenSearch | Console for OpenSearch.
 | NGINX Ingress Controller | Kubernetes API server | Performs CRUD operations on Kubernetes resources.
 | Istio | Kubernetes API server | Performs CRUD operations on Kubernetes resources.
 | Rancher | Kubernetes API server | Performs CRUD operations on Kubernetes resources.
 | Verrazzano Authentication Proxy | Keycloak | Calls Keycloak for token authentication.
-| Verrazzano Authentication Proxy | VMI components | Access UIs for OpenSearch Dashboards, Grafana, and such.
+| Verrazzano Authentication Proxy | VMI components | Access consoles for OpenSearch Dashboards, Grafana, and such.
 | Verrazzano Authentication Proxy | Kubernetes API server | Performs CRUD operations on Kubernetes resources.
 | Verrazzano Application Operator | Kubernetes API server | Performs CRUD operations on Kubernetes resources.
 | Verrazzano Monitoring Operator | Kubernetes API server | Performs CRUD operations on Kubernetes resources.

@@ -261,10 +261,10 @@ spec:
 {{< /clipboard >}}
 
 
-## View traces on the Jaeger UI
+## View traces on the Jaeger console
 
-After the installation has completed, you can use the Verrazzano Jaeger UI to view the traces.
-For information on how to get the Verrazzano Jaeger UI URL and credentials, see [Access Verrazzano]({{< relref "/docs/access/" >}}).
+After the installation has completed, you can use the Verrazzano Jaeger console to view the traces.
+For information on how to get the Verrazzano Jaeger console URL and credentials, see [Access Verrazzano]({{< relref "/docs/access/" >}}).
 
 ## Configure the Istio mesh to use Jaeger tracing
 
@@ -434,13 +434,13 @@ spec:
 
 ### View the managed cluster traces
 
-You can see the managed cluster traces from the Jaeger UI in the admin cluster only. To find the Jaeger UI URL for
+You can see the managed cluster traces from the Jaeger console in the admin cluster only. To find the Jaeger console URL for
 your admin cluster, follow the instructions for [Accessing Verrazzano]({{< relref "/docs/access/_index.md" >}}).
 
 The spans include the Process tag `verrazzano_cluster`, which has the name of the managed cluster. To see the traces
 for the managed cluster only, search based on the tag `verrazzano_cluster=<managed cluster name>`.
 
-**Sample output of Jager UI screens**
+**Sample output of Jager console screens**
 
-![Jaeger UI](/docs/images/multicluster/jaeger-multicluster-filter-based-on-tag.png)
+![Jaeger console](/docs/images/multicluster/jaeger-multicluster-filter-based-on-tag.png)
 ![Jaeger SPAN](/docs/images/multicluster/jaeger-multicluster-span-details.png)
