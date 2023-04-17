@@ -96,7 +96,7 @@ The ports shown are Pod ports, which is what NetworkPolicies require.
 | OpenSearch | 15090 | Prometheus | Envoy metrics scraping
 | OpenSearch | 8775 | NGINX Ingress | Access from external client
 | Prometheus | 8775 | NGINX Ingress | Access from external client
-| Prometheus | 9090 | Grafana | Access for Grafana UI
+| Prometheus | 9090 | Grafana | Access for Grafana console
 | Rancher | 80 | NGINX Ingress | Access from external client
 | Rancher | 9443 |  Kubernetes API Server  | Webhook entrypoint
 | Verrazzano Application Operator | 9443 | Kubernetes API Server  | Webhook entrypoint
