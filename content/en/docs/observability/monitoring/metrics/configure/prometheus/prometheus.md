@@ -1,7 +1,7 @@
 ---
 title: "Prometheus"
 linkTitle: Prometheus
-description: "Learn how to use customize Prometheus to monitor Verrazzano"
+description: "Learn how to customize Prometheus to monitor Verrazzano"
 weight: 1
 draft: false
 ---

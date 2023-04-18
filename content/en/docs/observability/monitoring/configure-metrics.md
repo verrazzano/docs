@@ -1,6 +1,6 @@
 ---
-title: "Monitoring Components in Verrazzano"
-linkTitle: Monitoring Components
+title: "Monitor Components in Verrazzano"
+linkTitle: Monitor Components
 description: "Understand Verrazzano metrics gathering and viewing"
 weight: 1
 draft: false
