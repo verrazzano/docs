@@ -37,7 +37,7 @@ $ vz analyze
    ```
 {{< /clipboard >}}
 
-1. Use the vz analyze tool to analyze the cluster snapshot.
+1. Use the `vz analyze` tool to analyze the cluster snapshot.
 
    To perform an analysis of the cluster snapshot under `my-cluster-snapshot`:
 {{< clipboard >}}
