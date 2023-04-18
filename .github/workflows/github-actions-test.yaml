@@ -40,29 +40,19 @@ jobs:
           mkdir -p production
           hugo --source . --destination production --environment production
 
-  Deploy:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
       - name: Publish documentation to gh-pages
         run: |
           echo "run site publisher"
           #bash scripts/publish.sh -xe "${env.BRANCH_NAME}"
 
-  Upload:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
       - name: Creating production documentation zip
+        env:
+          HUGO_ENVIRONMENT: production
+          HUGO_ENV: production
         run: |
           mkdir -p public
-          ls
-          pwd
-          ls ..
-          cp content/en/docs/setup/private-registry/private-registry-full-distribution.md content/en/docs/setup/private-registry/private-registry.md
-          env HUGO_ENV=production hugo --source . --destination public --environment production
+          cp /content/en/docs/setup/private-registry/private-registry-full-distribution.md /content/en/docs/setup/private-registry/private-registry.md
+          hugo --source . --destination public --environment production
           zip -r verrazzano-production-docs.zip public
 
       - name: Archive artifacts
