@@ -55,16 +55,26 @@ jobs:
           hugo --source . --destination public --environment production
           zip -r verrazzano-production-docs.zip public
 
-      - name: Archive artifacts
+      - name: Archive staging
         uses: actions/upload-artifact@v3
         with:
-          name: |
-            Staging
-            Production
-            Public
-            zip
-          path: |
-            staging/**
-            production/**
-            public/**
-            verrazzano-production-docs.zip
+          name: Staging
+          path: staging/**
+
+      - name: Archive production
+        uses: actions/upload-artifact@v3
+        with:
+          name: Production
+          path: production/**
+
+      - name: Archive public
+        uses: actions/upload-artifact@v3
+        with:
+          name: Public
+          path: public/**
+
+      - name: Archive zip
+        uses: actions/upload-artifact@v3
+        with:
+          name: zip
+          path: verrazzano-production-docs.zip
