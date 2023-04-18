@@ -111,7 +111,7 @@ Start with an initial estimate of your hardware needs. The following recommendat
 
 
 ## Recommended alarms
-You can [customize Prometheus]({{< relref "/docs/customize/Prometheus.md" >}}) to enable Alertmanager and configure recommended alarms (add alert rules) to get insight into your OpenSearch cluster and take some actions proactively.
+You can [customize Prometheus]({{< relref "/docs/observability/monitoring/metrics/configure/prometheus/prometheus.md" >}}) to enable Alertmanager and configure recommended alarms (add alert rules) to get insight into your OpenSearch cluster and take some actions proactively.
 
 Use the `OSDataNodeFilesystemSpaceFillingUp` alert to indicate that the OpenSearch average disk usage has exceeded the specified threshold. Adjust the alert thresholds according to your needs.
    ```yaml
@@ -583,7 +583,7 @@ Here are some pre-built plug-ins that are bundled with the OpenSearch image:
 
 There are three ways to specify a plug-in in the `plugins.installList`:
 - [Specify a plug-in by name]({{<opensearch_docs_url>}}/install-and-configure/plugins#install-a-plugin-by-name):
-  
+
   There are some pre-built [additional plug-ins]({{<opensearch_docs_url>}}/install-and-configure/plugins#additional-plugins) that are the only plug-ins you can install by name.
 
   {{< clipboard >}}
