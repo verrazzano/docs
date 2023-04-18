@@ -30,7 +30,7 @@ The [Initial steps](#initial-steps) create a very simple on-premises domain that
 
 In the initial steps, you create a sample domain that represents your on-premises WebLogic Server domain.
 
-### Create a database using MySQL called `tododb`
+### Create a database using MySQL called tododb
 
 1. Download the [MySQL image](https://hub.docker.com/_/mysql) from Docker Hub.
 {{< clipboard >}}
