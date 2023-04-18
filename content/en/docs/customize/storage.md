@@ -53,11 +53,11 @@ by either `defaultVolumeSource` or a specific component's `volumeSource`.
 ## Examples
 Review the following customizing persistent storage examples:
 
-- [Customize persistence globally using `defaultVolumeSource`](#customize-persistence-globally-using-defaultvolumesource)
-- [Customize PersistentVolumeClaim settings for Keycloak using `volumeSource`](#customize-persistentvolumeclaim-settings-for-keycloak-using-volumesource)
+- [Customize persistence globally using defaultVolumeSource](#customize-persistence-globally-using-defaultvolumesource)
+- [Customize PersistentVolumeClaim settings for Keycloak using volumeSource](#customize-persistentvolumeclaim-settings-for-keycloak-using-volumesource)
 - [Use global and local persistence settings together](#use-global-and-local-persistence-settings-together)
 
-### Customize persistence globally using `defaultVolumeSource`
+### Customize persistence globally using defaultVolumeSource
 
 {{< alert title="NOTE" color="warning" >}}
 Beginning in version 1.5, persistent storage is always required for MySQL. If `defaultVolumeSource` is configured to use `emptyDir`, then MySQL will ignore that configuration setting.
@@ -128,7 +128,7 @@ spec:
 </div>
 {{< /clipboard >}}
 
-### Customize PersistentVolumeClaim settings for Keycloak using `volumeSource`
+### Customize PersistentVolumeClaim settings for Keycloak using volumeSource
 
 The following example Verrazzano configuration enables a `100Gi` PersistentVolumeClaim for the MySQL component in Keycloak
 in a `dev` profile configuration.  This overrides the default of ephemeral storage for Keycloak in that profile, while
