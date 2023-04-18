@@ -233,9 +233,11 @@ In addition, there are the following preconfigured Grafana Verrazzano dashboards
 
 ### Dynamic dashboard discovery and portability
 
-Verrazzano can dynamically deploy Grafana dashboards that are configured in a ConfigMap, in the Verrazzano Grafana instance. You can create individual ConfigMaps in your Kubernetes clusters or package the dashboard ConfigMaps with your application. The ConfigMaps automatically add the dashboard JSON to the cluster. The JSON configuration is then translated into a Grafana dashboard and can be viewed in the Grafana console.
+The Verrazzano Grafana instance supports dynamic dashboard discovery. This lets you package the dashboard as a Kubernetes ConfigMap and deploy it with your application.
 
-You can use dashboard ConfigMaps to deploy custom dashboards without accessing the Grafana console. You cannot modify and save these dashboard ConfigMaps in the Grafana console; if you modify the dashboard, then you must save it as a new dashboard. You create the ConfigMap in the _admin_ cluster.
+Grafana represents a dashboard as a JSON object. See [Dashboard JSON model](https://grafana.com/docs/grafana/latest/dashboards/build-dashboards/view-dashboard-json-model/). If you have a JSON dashboard, then you can create a ConfigMap using the JSON object and add it to Grafana, and then use Verrazzano to deploy the ConfigMap as a generic Kubernetes resource, in the Verrazzano Grafana instance.
+
+You create the ConfigMap in the _admin_ cluster.
 
 To configure a dashboard as a ConfigMap:
 
@@ -247,8 +249,6 @@ To configure a dashboard as a ConfigMap:
    - Name of the JSON file that contains the dashboard JSON.
 
    - Name of the `k8s-sidecar-target-directory` as `MyDashboardFolder` to place the dashboard in a custom folder in Grafana.
-
-
 
 Here is an example dashboard ConfigMap.
 
@@ -275,3 +275,6 @@ data:
       ...
     }
 ```
+You can also create a ConfigMap from a file using `kubectl create configmap`, or generate ConfigMap from files. See [Create a ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#create-a-configmap).
+
+You can use dashboard ConfigMaps to deploy custom dashboards. You cannot modify and save these dashboard ConfigMaps in the Grafana console; if you modify the dashboard, then you must save it as a new dashboard.
