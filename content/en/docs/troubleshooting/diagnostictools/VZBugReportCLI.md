@@ -11,7 +11,7 @@ Use the `vz bug-report` tool to selectively capture cluster information and crea
 ## CLI setup
 To set up the `vz` command-line tool, follow the steps [here]({{< relref "docs/setup/cli/_index.md" >}}).
 
-## Use the `vz bug-report` tool
+## Use the vz bug-report tool
 
 To create a bug report in a TAR file named `my-bug-report.tar.gz`:
 {{< clipboard >}}

@@ -10,7 +10,7 @@ There are known issues that can occur with MySQL.  The Verrazzano platform opera
 
 The following sections are provided in the event that a manual repair of an issue is required.
 
-### MySQL pod stuck `Terminating`
+### MySQL pod stuck Terminating
 A MySQL pod may get stuck in a terminating state.  This may occur while upgrading the nodes of a Kubernetes cluster.
 
 Here is an example of what this condition looks like.  All the pod containers are terminated, but the pod never finishes terminating.
@@ -51,8 +51,8 @@ $ kubectl describe pods -n keycloak -l component=mysqld
 # Excerpt from the command output
 Readiness Gates:
   Type                          Status
-  mysql.oracle.com/configured   False 
-  mysql.oracle.com/ready        True 
+  mysql.oracle.com/configured   False
+  mysql.oracle.com/ready        True
 ```
 {{< /clipboard >}}
 </div>
@@ -67,7 +67,7 @@ $ kubectl delete pod -l name=mysql-operator -n mysql-operator
 {{< /clipboard >}}
 </div>
 
-### MySQL router pod in `CrashLoopBackOff` state
+### MySQL router pod in CrashLoopBackOff state
 
 Here is an example of what this condition looks like.
 {{< clipboard >}}
@@ -91,7 +91,7 @@ $ kubectl delete pod -n keycloak mysql-router-757595f6c5-pdgxj
 {{< /clipboard >}}
 </div>
 
-### InnoDBCluster object stuck `Terminating`
+### InnoDBCluster object stuck Terminating
 This condition has been observed to occur on an uninstallation of Verrazzano.
 
 Here is an example of what this condition looks like.

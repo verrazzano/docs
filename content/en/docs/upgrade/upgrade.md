@@ -36,7 +36,7 @@ See the following respective sections.
 {{< /alert >}}
 
 - [Upgrade Verrazzano using the CLI](#upgrade-verrazzano-using-the-cli)
-- [Upgrade using `kubectl`](#upgrade-using-kubectl)
+- [Upgrade using kubectl](#upgrade-using-kubectl)
 
 ## Upgrade Verrazzano using the CLI
 
@@ -70,7 +70,7 @@ In one simple step, you can upgrade to a specified version of Verrazzano using t
    Upgrade logs will be streamed to the command window until the upgrade has completed
    or until the default timeout (30m) has been reached.
 
-## Upgrade using `kubectl`
+## Upgrade using kubectl
 
 Upgrading an existing Verrazzano installation is a two-step process:
 

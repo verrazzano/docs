@@ -37,7 +37,7 @@ $ vz analyze
    ```
 {{< /clipboard >}}
 
-1. Use the `vz analyze` tool to analyze the cluster snapshot.
+1. Use the vz analyze tool to analyze the cluster snapshot.
 
    To perform an analysis of the cluster snapshot under `my-cluster-snapshot`:
 {{< clipboard >}}
@@ -47,7 +47,7 @@ $ vz analyze
    ```
 {{< /clipboard >}}
 
-### Use the `vz analyze` tool to analyze multiple snapshots
+### Use the vz analyze tool to analyze multiple snapshots
 
 The `vz analyze` tool will find and analyze all cluster snapshot directories found under a specified root directory.
 This lets you create a directory to hold the cluster snapshots of related clusters in subdirectories, which the tool can then analyze.
