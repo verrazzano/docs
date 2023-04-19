@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/observability/logs/tracing/jaeger-tracing/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-04-19T11:22:28+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-04-19T12:30:37-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Jaeger Tracing">
 <meta itemprop="description" content="Configure Jaeger to capture application traces">
-<meta itemprop="dateModified" content="2023-04-19T11:22:28+05:30" />
-<meta itemprop="wordCount" content="3601">
+<meta itemprop="dateModified" content="2023-04-19T12:30:37-04:00" />
+<meta itemprop="wordCount" content="3605">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Jaeger Tracing"/>
 <meta name="twitter:description" content="Configure Jaeger to capture application traces"/>
@@ -110,7 +110,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.798e0a1ccba41c980d87ff33b0c208f5.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.96ffa4a238d564326527d796577347ea.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -136,7 +136,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.798e0a1ccba41c980d87ff33b0c208f5.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.96ffa4a238d564326527d796577347ea.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -1081,15 +1081,6 @@ custom resource, listing Jaeger resources will show output similar to the follow
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>$ kubectl get services,deployments -l app.kubernetes.io/instance=jaeger-operator-jaeger -n verrazzano-monitoring
-
-NAME                                                TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                                  AGE
-service/jaeger-operator-jaeger-collector            ClusterIP   10.96.120.223   &lt;none&gt;        9411/TCP,14250/TCP,14267/TCP,14268/TCP   79m
-service/jaeger-operator-jaeger-collector-headless   ClusterIP   None            &lt;none&gt;        9411/TCP,14250/TCP,14267/TCP,14268/TCP   79m
-service/jaeger-operator-jaeger-query                ClusterIP   10.96.209.196   &lt;none&gt;        16686/TCP,16685/TCP                      79m
-
-NAME                                               READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/jaeger-operator-jaeger-collector   1/1     1            1           79m
-deployment.apps/jaeger-operator-jaeger-query       1/1     1            1           79m
 </code></pre></div>
 
 </div>
@@ -1150,7 +1141,16 @@ deployment.apps/jaeger-operator-jaeger-query       1/1     1            1       
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
-<h2 id="customize-jaeger">Customize Jaeger</h2>
+<pre tabindex="0"><code>#sample output
+NAME                                                TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                                  AGE
+service/jaeger-operator-jaeger-collector            ClusterIP   10.96.120.223   &lt;none&gt;        9411/TCP,14250/TCP,14267/TCP,14268/TCP   79m
+service/jaeger-operator-jaeger-collector-headless   ClusterIP   None            &lt;none&gt;        9411/TCP,14250/TCP,14267/TCP,14268/TCP   79m
+service/jaeger-operator-jaeger-query                ClusterIP   10.96.209.196   &lt;none&gt;        16686/TCP,16685/TCP                      79m
+
+NAME                                               READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/jaeger-operator-jaeger-collector   1/1     1            1           79m
+deployment.apps/jaeger-operator-jaeger-query       1/1     1            1           79m
+</code></pre><h2 id="customize-jaeger">Customize Jaeger</h2>
 <p>Verrazzano installs the Jaeger Operator and Jaeger using the
 <a href="https://github.com/jaegertracing/helm-charts/tree/jaeger-operator-2.32.2/charts/jaeger-operator">jaeger-operator</a> Helm chart.
 Using Helm overrides specified in the Verrazzano custom resource, you can customize the installation configuration.
@@ -2318,8 +2318,6 @@ with the OpenSearch storage.</p>
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>$ kubectl get jaegers -n verrazzano-monitoring
-NAME                                STATUS    VERSION   STRATEGY     STORAGE         AGE
-jaeger-verrazzano-managed-cluster   Running   1.34.1    production   opensearch      11m
 </code></pre></div>
 
 </div>
@@ -2380,7 +2378,10 @@ jaeger-verrazzano-managed-cluster   Running   1.34.1    production   opensearch 
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
-<h3 id="configure-the-istio-mesh-in-a-managed-cluster-to-export-jaeger-traces-to-the-admin-cluster">Configure the Istio mesh in a managed cluster to export Jaeger traces to the admin cluster</h3>
+<pre tabindex="0"><code>#sample output
+NAME                                STATUS    VERSION   STRATEGY     STORAGE         AGE
+jaeger-verrazzano-managed-cluster   Running   1.34.1    production   opensearch      11m
+</code></pre><h3 id="configure-the-istio-mesh-in-a-managed-cluster-to-export-jaeger-traces-to-the-admin-cluster">Configure the Istio mesh in a managed cluster to export Jaeger traces to the admin cluster</h3>
 <p>To export the Istio mesh traces in the managed cluster to the admin cluster, set <code>meshConfig.defaultConfig.tracing.zipkin.address</code>
 to the Jaeger Collector URL created in the managed cluster that exports the traces to the OpenSearch
 storage configured in the admin cluster.</p>
