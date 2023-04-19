@@ -2,7 +2,7 @@
 title: "Thanos"
 linkTitle: Thanos
 description: "Learn how to use Thanos to monitor Verrazzano"
-weight: 1
+weight: 2
 draft: false
 ---
 
