@@ -159,15 +159,6 @@ custom resource, listing Jaeger resources will show output similar to the follow
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get services,deployments -l app.kubernetes.io/instance=jaeger-operator-jaeger -n verrazzano-monitoring
-
-NAME                                                TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                                  AGE
-service/jaeger-operator-jaeger-collector            ClusterIP   10.96.120.223   &amp;lt;none&amp;gt;        9411/TCP,14250/TCP,14267/TCP,14268/TCP   79m
-service/jaeger-operator-jaeger-collector-headless   ClusterIP   None            &amp;lt;none&amp;gt;        9411/TCP,14250/TCP,14267/TCP,14268/TCP   79m
-service/jaeger-operator-jaeger-query                ClusterIP   10.96.209.196   &amp;lt;none&amp;gt;        16686/TCP,16685/TCP                      79m
-
-NAME                                               READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/jaeger-operator-jaeger-collector   1/1     1            1           79m
-deployment.apps/jaeger-operator-jaeger-query       1/1     1            1           79m
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -228,7 +219,16 @@ deployment.apps/jaeger-operator-jaeger-query       1/1     1            1       
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;h2 id=&#34;customize-jaeger&#34;&gt;Customize Jaeger&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#sample output
+NAME                                                TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                                  AGE
+service/jaeger-operator-jaeger-collector            ClusterIP   10.96.120.223   &amp;lt;none&amp;gt;        9411/TCP,14250/TCP,14267/TCP,14268/TCP   79m
+service/jaeger-operator-jaeger-collector-headless   ClusterIP   None            &amp;lt;none&amp;gt;        9411/TCP,14250/TCP,14267/TCP,14268/TCP   79m
+service/jaeger-operator-jaeger-query                ClusterIP   10.96.209.196   &amp;lt;none&amp;gt;        16686/TCP,16685/TCP                      79m
+
+NAME                                               READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/jaeger-operator-jaeger-collector   1/1     1            1           79m
+deployment.apps/jaeger-operator-jaeger-query       1/1     1            1           79m
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;customize-jaeger&#34;&gt;Customize Jaeger&lt;/h2&gt;
 &lt;p&gt;Verrazzano installs the Jaeger Operator and Jaeger using the
 &lt;a href=&#34;https://github.com/jaegertracing/helm-charts/tree/jaeger-operator-2.32.2/charts/jaeger-operator&#34;&gt;jaeger-operator&lt;/a&gt; Helm chart.
 Using Helm overrides specified in the Verrazzano custom resource, you can customize the installation configuration.
@@ -1396,8 +1396,6 @@ with the OpenSearch storage.&lt;/p&gt;
 &lt;div class=&#34;clipboard&#34;&gt;
     &lt;div class=&#34;highlight&#34;&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ kubectl get jaegers -n verrazzano-monitoring
-NAME                                STATUS    VERSION   STRATEGY     STORAGE         AGE
-jaeger-verrazzano-managed-cluster   Running   1.34.1    production   opensearch      11m
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;/div&gt;
@@ -1458,7 +1456,10 @@ jaeger-verrazzano-managed-cluster   Running   1.34.1    production   opensearch 
         .querySelectorAll(&#34;.highlight&#34;)
         .forEach((highlightDiv) =&gt; createCopyButton(highlightDiv));
 &lt;/script&gt;&lt;/p&gt;
-&lt;h3 id=&#34;configure-the-istio-mesh-in-a-managed-cluster-to-export-jaeger-traces-to-the-admin-cluster&#34;&gt;Configure the Istio mesh in a managed cluster to export Jaeger traces to the admin cluster&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#sample output
+NAME                                STATUS    VERSION   STRATEGY     STORAGE         AGE
+jaeger-verrazzano-managed-cluster   Running   1.34.1    production   opensearch      11m
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;configure-the-istio-mesh-in-a-managed-cluster-to-export-jaeger-traces-to-the-admin-cluster&#34;&gt;Configure the Istio mesh in a managed cluster to export Jaeger traces to the admin cluster&lt;/h3&gt;
 &lt;p&gt;To export the Istio mesh traces in the managed cluster to the admin cluster, set &lt;code&gt;meshConfig.defaultConfig.tracing.zipkin.address&lt;/code&gt;
 to the Jaeger Collector URL created in the managed cluster that exports the traces to the OpenSearch
 storage configured in the admin cluster.&lt;/p&gt;
