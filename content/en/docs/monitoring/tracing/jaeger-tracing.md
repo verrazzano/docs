@@ -37,7 +37,12 @@ custom resource, listing Jaeger resources will show output similar to the follow
 
 ```
 $ kubectl get services,deployments -l app.kubernetes.io/instance=jaeger-operator-jaeger -n verrazzano-monitoring
+```
+</div>
+{{< /clipboard >}}
 
+```
+#sample output
 NAME                                                TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                                  AGE
 service/jaeger-operator-jaeger-collector            ClusterIP   10.96.120.223   <none>        9411/TCP,14250/TCP,14267/TCP,14268/TCP   79m
 service/jaeger-operator-jaeger-collector-headless   ClusterIP   None            <none>        9411/TCP,14250/TCP,14267/TCP,14268/TCP   79m
@@ -48,8 +53,7 @@ deployment.apps/jaeger-operator-jaeger-collector   1/1     1            1       
 deployment.apps/jaeger-operator-jaeger-query       1/1     1            1           79m
 ```
 
-</div>
-{{< /clipboard >}}
+
 
 ## Customize Jaeger
 
@@ -392,12 +396,15 @@ Listing Jaeger resources in the managed cluster shows output similar to the foll
 
 ```
 $ kubectl get jaegers -n verrazzano-monitoring
+```
+</div>
+{{< /clipboard >}}
+```
+#sample output
 NAME                                STATUS    VERSION   STRATEGY     STORAGE         AGE
 jaeger-verrazzano-managed-cluster   Running   1.34.1    production   opensearch      11m
 ```
 
-</div>
-{{< /clipboard >}}
 ### Configure the Istio mesh in a managed cluster to export Jaeger traces to the admin cluster
 
 To export the Istio mesh traces in the managed cluster to the admin cluster, set `meshConfig.defaultConfig.tracing.zipkin.address`
