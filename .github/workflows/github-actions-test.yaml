@@ -78,12 +78,13 @@ jobs:
           name: verrazzano-production-docs.zip
           path: verrazzano-production-docs.zip
       - name: Extract branch name
+        shell: bash
         run: echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >>$GITHUB_OUTPUT
         id: extract_branch
       - name: Deploy docs
         run: |
           echo ${{ steps.extract_branch.outputs.branch }}
-          bash scripts/publish.sh ${{ steps.extract_branch.outputs.branch }}
+          scripts/publish.sh ${{ steps.extract_branch.outputs.branch }}
 
 #  deploy:
 #    runs-on: ubuntu-latest
