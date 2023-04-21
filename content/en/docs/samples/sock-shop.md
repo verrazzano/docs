@@ -241,18 +241,18 @@ You can access them according to the directions [here]({{< relref "/docs/access/
 {{< clipboard >}}
 <div class="highlight">
 
-   ```
-    $ kubectl get pods -n sockshop
+  ```
+  $ kubectl get pods -n sockshop
 
-    # Sample output
-    NAME             READY   STATUS        RESTARTS   AGE
-    carts-coh-0      1/1     Running       0          41s
-    catalog-coh-0    1/1     Running       0          40s
-    orders-coh-0     1/1     Running       0          39s
-    payment-coh-0    1/1     Running       0          37s
-    shipping-coh-0   1/1     Running       0          36s
-    users-coh-0      1/1     Running       0          35s
-   ```
+  # Sample output
+  NAME             READY   STATUS        RESTARTS   AGE
+  carts-coh-0      1/1     Running       0          41s
+  catalog-coh-0    1/1     Running       0          40s
+  orders-coh-0     1/1     Running       0          39s
+  payment-coh-0    1/1     Running       0          37s
+  shipping-coh-0   1/1     Running       0          36s
+  users-coh-0      1/1     Running       0          35s
+  ```
 </div>
 {{< /clipboard >}}
 

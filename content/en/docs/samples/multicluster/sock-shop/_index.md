@@ -134,41 +134,41 @@ Follow these steps to test the endpoints.
 {{< clipboard >}}
 <div class="highlight">
 
-  ```
-     # Get catalogue
-     $ curl -sk \
-         -X GET \
-         https://${HOST}/catalogue \
-         --resolve ${HOST}:443:${ADDRESS}
+ ```
+ # Get catalogue
+ $ curl -sk \
+     -X GET \
+     https://${HOST}/catalogue \
+     --resolve ${HOST}:443:${ADDRESS}
 
-     # Sample output
-     [{"count":115,"description":"For all those leg lovers out there....", ...}]
+ # Sample output
+ [{"count":115,"description":"For all those leg lovers out there....", ...}]
 
-     # Add a new user (replace values of username and password)
-     $ curl -i \
-         --header "Content-Type: application/json" --request POST \
-         --data '{"username":"foo","password":"****","email":"foo@example.com","firstName":"foo","lastName":"foo"}' \
-         -k https://${HOST}/register \
-         --resolve ${HOST}:443:${ADDRESS}
+ # Add a new user (replace values of username and password)
+ $ curl -i \
+     --header "Content-Type: application/json" --request POST \
+     --data '{"username":"foo","password":"****","email":"foo@example.com","firstName":"foo","lastName":"foo"}' \
+     -k https://${HOST}/register \
+     --resolve ${HOST}:443:${ADDRESS}
 
-     # Add an item to the user's cart
-     $ curl -i \
-         --header "Content-Type: application/json" --request POST \
-         --data '{"itemId": "a0a4f044-b040-410d-8ead-4de0446aec7e","unitPrice": "7.99"}' \
-         -k https://${HOST}/carts/{username}/items \
-         --resolve ${HOST}:443:${ADDRESS}
+ # Add an item to the user's cart
+ $ curl -i \
+     --header "Content-Type: application/json" --request POST \
+     --data '{"itemId": "a0a4f044-b040-410d-8ead-4de0446aec7e","unitPrice": "7.99"}' \
+     -k https://${HOST}/carts/{username}/items \
+     --resolve ${HOST}:443:${ADDRESS}
 
-     # Sample output
-     {"itemId":"a0a4f044-b040-410d-8ead-4de0446aec7e","quantity":1,"unitPrice":7.99}
+ # Sample output
+ {"itemId":"a0a4f044-b040-410d-8ead-4de0446aec7e","quantity":1,"unitPrice":7.99}
 
-     # Get cart items
-     $ curl -i \
-         -k https://${HOST}/carts/{username}/items \
-         --resolve ${HOST}:443:${ADDRESS}
+ # Get cart items
+ $ curl -i \
+     -k https://${HOST}/carts/{username}/items \
+     --resolve ${HOST}:443:${ADDRESS}
 
-     # Sample output
-     [{"itemId":"a0a4f044-b040-410d-8ead-4de0446aec7e","quantity":1,"unitPrice":7.99}]
-   ```
+ # Sample output
+ [{"itemId":"a0a4f044-b040-410d-8ead-4de0446aec7e","quantity":1,"unitPrice":7.99}]
+ ```
 
 </div>
 {{< /clipboard >}}
@@ -220,16 +220,16 @@ Follow these steps to test the endpoints.
 <div class="highlight">
 
    ```
-    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get pods -n mc-sockshop
+   $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get pods -n mc-sockshop
 
-    # Sample output
-    NAME             READY   STATUS    RESTARTS   AGE
-    carts-coh-0      2/2     Running   0          38m
-    catalog-coh-0    2/2     Running   0          38m
-    orders-coh-0     2/2     Running   0          38m
-    payment-coh-0    2/2     Running   0          38m
-    shipping-coh-0   2/2     Running   0          38m
-    users-coh-0      2/2     Running   0          38m
+   # Sample output
+   NAME             READY   STATUS    RESTARTS   AGE
+   carts-coh-0      2/2     Running   0          38m
+   catalog-coh-0    2/2     Running   0          38m
+   orders-coh-0     2/2     Running   0          38m
+   payment-coh-0    2/2     Running   0          38m
+   shipping-coh-0   2/2     Running   0          38m
+   users-coh-0      2/2     Running   0          38m
    ```
 
 </div>

@@ -167,9 +167,9 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 <div class="highlight">
 
    ```
-    # The expected response of this query is the HTML of a web page
-    $ curl -sk https://${HOST}/todo/ \
-        --resolve ${HOST}:443:${ADDRESS}
+   # The expected response of this query is the HTML of a web page
+   $ curl -sk https://${HOST}/todo/ \
+       --resolve ${HOST}:443:${ADDRESS}
    ```
 
 </div>
@@ -232,6 +232,9 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
 
 1. Verify that the WebLogic Administration Server and MySQL pods have been created and are running.
    Note that this will take several minutes.
+{{< clipboard >}}
+<div class="highlight">
+
    ```
    $ kubectl --kubeconfig $KUBECONFIG_MANAGED1 get pods -n mc-todo-list
 
@@ -239,7 +242,10 @@ $ export KUBECONFIG_MANAGED1=/path/to/your/managedclusterkubeconfig
    NAME                     READY   STATUS    RESTARTS   AGE
    mysql-5c75c8b7f-vlhck    2/2     Running   0          19h
    tododomain-adminserver   4/4     Running   0          19h
+
    ```
+</div>
+{{< /clipboard >}}
 
 ## Undeploy the application
 
