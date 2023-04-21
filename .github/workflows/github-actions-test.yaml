@@ -10,10 +10,11 @@
 name: Build and Publish Verrazzano Documentation
 
 on:
-  # Runs on pushes targeting the base docs branch
+  # Runs on pushes targeting the active doc branch
   push:
-#    branches:
-#    - master
+    branches:
+    - master
+    - 'release-**'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -45,12 +46,10 @@ jobs:
           && sudo dpkg -i ${{ runner.temp }}/hugo.deb
       - name: Checkout repository code
         uses: actions/checkout@v3
-#        with:
-#          submodules: recursive
       - name: Install Node.js dependencies
         run: npm ci
-#      - name: Setup Pages
-#        uses: actions/configure-pages@v3
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
       - name: Build production documentation
         run: |
           mkdir -p production
@@ -77,24 +76,30 @@ jobs:
         with:
           name: verrazzano-production-docs.zip
           path: verrazzano-production-docs.zip
+
+  process:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
       - name: Extract branch name
         shell: bash
         run: echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >>$GITHUB_OUTPUT
         id: extract_branch
-      - name: Deploy docs
-        run: |
-          echo ${{ steps.extract_branch.outputs.branch }}
-          scripts/publish.sh ${{ steps.extract_branch.outputs.branch }}
+      - name: Process branch
+        run: if branch=release-1.5 then var=v1.5 \
+              elif branch = release-1.4 then var=v1.4 \ 
+              elif branch = release-1.3 then var=v1.4 \ 
+              elif branch = master then var=devel
 
-#  deploy:
-#    runs-on: ubuntu-latest
-#    needs: build
-#    run: ./test-publish.sh ${{ github.base_ref }}
-#    env:
-#      name: github-pages
-#      url: ${{ steps.deployment.outputs.page_url }}
-#    steps:
-#      - name: Deploy production to GH pages
-#        uses: actions/deploy-pages@v2
-#        id: deployment
-#        artifactName: Production
+  deploy:
+    runs-on: ubuntu-latest
+    needs: process
+    env:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+      branch: ${{ steps.extract_branch.outputs.branch }}
+    steps:
+      - name: Deploy production to GH pages
+        uses: actions/deploy-pages@v2
+        id: deployment
+        artifactName: Production
