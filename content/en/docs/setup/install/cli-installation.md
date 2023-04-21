@@ -1,9 +1,9 @@
 ---
-title: "Install With CLI"
-description: "How to install Verrazzano with the vz CLI"
+title: "Install with CLI"
+description: "How to install Verrazzano with the `vz` CLI"
 weight: 1
 draft: false
-aliases: 
+aliases:
 - "/docs/setup/install/installation"
 - "/docs/setup/install/installation.md"
 ---

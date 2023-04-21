@@ -15,7 +15,7 @@ The `install.verrazzano.io/v1alpha1` API version of Verrazzano resources is depr
 - Migrate manifests and API clients to use the `install.verrazzano.io/v1beta1` API version, available since 1.4.0.
 - All existing persisted objects are accessible using the new API.
 
-#### Notable Changes In `install.verrazzano.io/v1beta1`
+#### Notable Changes In install.verrazzano.io/v1beta1
 
 - `spec.components.ingress` is renamed to `spec.components.ingressNGINX`.
 - `spec.components.kibana` is renamed to `spec.components.opensearchDashboards`
@@ -62,4 +62,3 @@ The APIs that will be removed are:
 - MultiClusterComponent - Should be replaced with a `core.oam/dev/v1alpha2` Component resource.
 - MultiClusterConfigMap - Should be replaced with a `core.oam/dev/v1alpha2` Component resource.
 - MultiClusterSecret - Should be replaced with a Kubernetes Secret and referenced in the `spec.secrets` of a MultiClusterApplicationConfiguration resource.
-

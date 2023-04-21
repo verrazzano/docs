@@ -1,6 +1,6 @@
 ---
-title: "Logging & Monitoring"
+title: "Observability"
 description: "View logging, monitoring, and diagnostic metrics"
-weight: 10
+weight: 8
 draft: false
 ---

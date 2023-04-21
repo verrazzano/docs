@@ -12,7 +12,7 @@ Download the binary you want from the [Releases](https://github.com/verrazzano/v
 {{< alert title="NOTE" color="warning" >}}For optimal functionality, install or upgrade the CLI version to match the desired Verrazzano version.   
 {{< /alert >}}
 
-## Install the `vz` CLI
+## Install the vz CLI
 
 These instructions demonstrate installing the CLI on Linux AMD64 machines.
 
@@ -44,7 +44,7 @@ Validate the `vz` binary against the checksum file.
 </div>
 {{< /clipboard >}}
 
-### Unpack and copy the `vz` binary
+### Unpack and copy the vz binary
 
   ```shell
    $ tar xvf verrazzano-{{<verrazzano_development_version>}}-linux-amd64.tar.gz
@@ -74,7 +74,7 @@ The resulting output should be similar to the following.
 </div>
 {{< /clipboard >}}
 
-## Use the `vz` CLI
+## Use the vz CLI
 
 Verrazzano provides a command-line tool for managing a Verrazzano environment using the Verrazzano and Kubernetes API.
 

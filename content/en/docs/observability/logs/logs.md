@@ -2,7 +2,7 @@
 title: "Logging"
 linkTitle: Logging
 description: "Learn about Verrazzano log collection and viewing"
-weight: 2
+weight: 3
 draft: false
 ---
 

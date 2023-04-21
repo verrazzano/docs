@@ -1,12 +1,11 @@
 ---
-title: "Prometheus"
-linkTitle: "Prometheus"
+title: "Troubleshoot Prometheus"
 description: "Troubleshoot Prometheus issues"
 weight: 5
 draft: false
 ---
 
-### Kubernetes cluster monitors are in a `DOWN` state
+### Kubernetes cluster monitors are in a DOWN state
 When viewing targets in the Prometheus console, some Kubernetes cluster monitors may be down (`kube-etcd`, `kube-proxy`, and such). This is likely caused by the configuration of the Kubernetes cluster
 itself. Depending on the type of cluster, certain metrics may be disabled by default. Enabling metrics is cluster dependent; for details, refer to the documentation for your cluster type.
 
@@ -102,4 +101,4 @@ spec:
 </div>
 {{< /clipboard >}}
 
-After you've completed these steps, you can [verify metrics collection]({{< relref "/docs/monitoring/metrics/metrics.md#verify-metrics-collection" >}}) has succeeded.
+After you've completed these steps, you can [verify metrics collection]({{< relref "/docs/observability/monitoring/configure-metrics.md#verify-metrics-collection" >}}) has succeeded.
