@@ -170,7 +170,7 @@ To access Grafana:
 {{< /clipboard >}}
 
 
-1. Get the password for the user `verrazzano`.
+2. Get the password for the user `verrazzano`.
 {{< clipboard >}}
 <div class="highlight">
 
@@ -184,8 +184,8 @@ To access Grafana:
 </div>
 {{< /clipboard >}}
 
-1. Access Grafana in a browser using the host name.
-1. Log in using the `verrazzano` user and the password.
+3. Access Grafana in a browser using the host name.
+4. Log in using the `verrazzano` user and the password.
 
 ![Grafana](/docs/images/grafana-initial-page.png)
 
@@ -237,7 +237,8 @@ Verrazzano enables dynamic discovery of Grafana dashboards. Using this feature, 
 
 To configure a dashboard as a ConfigMap:
 
-1. Create a dashboard as a JSON file. Or, you can export an existing Grafana dashboard as a JSON file. See [Manage Dashboards](https://grafana.com/docs/grafana/latest/dashboards/manage-dashboards/#manage-dashboards).
+1. Access Grafana. See [Grafana](#grafana).
+2. Create a dashboard as a JSON file. Or, you can export an existing Grafana dashboard as a JSON file. See [Manage Dashboards](https://grafana.com/docs/grafana/latest/dashboards/manage-dashboards/#manage-dashboards).
 2. Create a ConfigMap file in the _admin_ cluster as follows:
 
    - The `grafana_dashboard` label must be set to `"1"` so that Grafana selects this ConfigMap as a data source for a dashboard. **NOTE**: Use this label _only_ for the `grafana_dashboard`.
