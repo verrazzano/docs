@@ -118,13 +118,13 @@ Follow these steps to test the endpoints.
 <div class="highlight">
 
   ```
-     $ curl -sk \
-        -X GET \
-        https://${HOST}/greet \
-        --resolve ${HOST}:443:${ADDRESS}
+  $ curl -sk \
+     -X GET \
+     https://${HOST}/greet \
+     --resolve ${HOST}:443:${ADDRESS}
 
-     # Expected response output
-     {"message":"Hello World!"}
+  # Expected response output
+  {"message":"Hello World!"}
   ```
 
 </div>

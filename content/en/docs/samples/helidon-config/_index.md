@@ -117,13 +117,13 @@ Follow these steps to test the endpoints.
 <div class="highlight">
 
   ```
-     $ curl -sk \
-        -X GET \
-        https://${HOST}/config \
-        --resolve ${HOST}:443:${ADDRESS}
+  $ curl -sk \
+     -X GET \
+     https://${HOST}/config \
+     --resolve ${HOST}:443:${ADDRESS}
 
-     # Expected response output
-     {"message":"HelloConfig World!"}
+  # Expected response output
+  {"message":"HelloConfig World!"}
   ```
 
 </div>
