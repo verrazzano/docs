@@ -79,7 +79,7 @@ $ kubectl get vmc -n verrazzano-mc <Rancher_cluster_name> -o yaml
 </div>
 {{< /clipboard >}}
 
-For more information, see [Registering Existing Clusters](https://ranchermanager.docs.rancher.com/{{<rancher_doc_version>}}/how-to-guides/new-user-guides/kubernetes-clusters-in-rancher-setup/register-existing-clusters) in the Rancher documentation.
+For more information, see [Registering Existing Clusters](https://ranchermanager.docs.rancher.com/how-to-guides/new-user-guides/kubernetes-clusters-in-rancher-setup/register-existing-clusters) in the Rancher documentation.
 
 **NOTE**: You can also register managed clusters using `kubectl`, see [Register Managed Clusters using kubectl]({{< relref "/docs/setup/install/mc-install/advanced/register-kubectl.md" >}}).
 
