@@ -111,17 +111,17 @@ This example provides a simple web application developed using [Spring Boot](htt
 <div class="highlight">
 
    ```
-     # The expected response of this query is the HTML of a web page
-     $ curl -sk \
-         https://${HOST} \
-         --resolve ${HOST}:443:${ADDRESS}
+   # The expected response of this query is the HTML of a web page
+   $ curl -sk \
+      https://${HOST} \
+      --resolve ${HOST}:443:${ADDRESS}
 
-     $ curl -sk \
-         https://${HOST}/facts \
-         --resolve ${HOST}:443:${ADDRESS}
+   $ curl -sk \
+      https://${HOST}/facts \
+      --resolve ${HOST}:443:${ADDRESS}
 
-     # Sample output
-     In 1524, Verrazzano became the first European to enter the New York Harbor and the Hudson River.
+   # Sample output
+   In 1524, Verrazzano became the first European to enter the New York Harbor and the Hudson River.
    ```
 
 </div>
