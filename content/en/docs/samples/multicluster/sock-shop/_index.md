@@ -133,7 +133,7 @@ Follow these steps to test the endpoints.
    * **Using the command line**
    <br>
    <br>
-   a. Get catalogue
+   a. Get catalogue.
    {{< clipboard >}}
    <div class="highlight">
 
@@ -150,7 +150,7 @@ Follow these steps to test the endpoints.
 
    </div>
    {{< /clipboard >}}
-   b. Add a new user (replace values of username and password)
+   b. Add a new user (replace values of username and password).
    {{< clipboard >}}
    <div class="highlight">
 
@@ -165,7 +165,7 @@ Follow these steps to test the endpoints.
 
    </div>
    {{< /clipboard >}}
-   c. Add an item to the user's cart
+   c. Add an item to the user's cart.
      {{< clipboard >}}
    <div class="highlight">
 
@@ -183,7 +183,7 @@ Follow these steps to test the endpoints.
 
    </div>
    {{< /clipboard >}}
-   d. Get cart items
+   d. Get cart items.
    {{< clipboard >}}
    <div class="highlight">
 

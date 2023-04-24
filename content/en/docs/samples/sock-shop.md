@@ -151,48 +151,77 @@ Follow these steps to test the endpoints.
 </div>
 {{< /clipboard >}}
 
-1. Access the Sock Shop application.
+1. Access the Sock Shop example application.
 
    * **Using the command line**
-{{< clipboard >}}
-<div class="highlight">
+   <br>
+   <br>
+   a. Get catalogue.
+   {{< clipboard >}}
+   <div class="highlight">
 
-   ```
-   # Get catalogue
-   $ curl -sk \
+  ```
+  $ curl -sk \
       -X GET \
       https://${HOST}/catalogue \
       --resolve ${HOST}:443:${ADDRESS}
 
-   # Sample output
-   [{"count":115,"description":"For all those leg lovers out there....", ...}]
+  # Sample output
+  [{"count":115,"description":"For all those leg lovers out there....", ...}]
 
-   # Add a new user (replace values of username and password)
-   $ curl -i \
-      --header "Content-Type: application/json" \
-      --request POST \
+  ```
+
+   </div>
+   {{< /clipboard >}}
+   b. Add a new user (replace values of username and password).
+   {{< clipboard >}}
+   <div class="highlight">
+
+  ```
+  $ curl -i \
+      --header "Content-Type: application/json" --request POST \
       --data '{"username":"foo","password":"****","email":"foo@example.com","firstName":"foo","lastName":"foo"}' \
       -k https://${HOST}/register \
       --resolve ${HOST}:443:${ADDRESS}
 
-   # Add an item to the user's cart
-   $ curl -i \
-      --header "Content-Type: application/json" \
-      --request POST \
+  ```
+
+   </div>
+   {{< /clipboard >}}
+   c. Add an item to the user's cart.
+     {{< clipboard >}}
+   <div class="highlight">
+
+  ```
+  $ curl -i \
+      --header "Content-Type: application/json" --request POST \
       --data '{"itemId": "a0a4f044-b040-410d-8ead-4de0446aec7e","unitPrice": "7.99"}' \
       -k https://${HOST}/carts/{username}/items \
       --resolve ${HOST}:443:${ADDRESS}
 
-   # Get cart items
-   $ curl -i \
+  # Sample output
+  {"itemId":"a0a4f044-b040-410d-8ead-4de0446aec7e","quantity":1,"unitPrice":7.99}
+
+  ```
+
+   </div>
+   {{< /clipboard >}}
+   d. Get cart items.
+   {{< clipboard >}}
+   <div class="highlight">
+
+  ```   
+  $ curl -i \
       -k https://${HOST}/carts/{username}/items \
       --resolve ${HOST}:443:${ADDRESS}
 
-   # Sample output
-   [{"itemId":"a0a4f044-b040-410d-8ead-4de0446aec7e","quantity":1,"unitPrice":7.99}]
-   ```
-</div>
-{{< /clipboard >}}
+  # Sample output
+  [{"itemId":"a0a4f044-b040-410d-8ead-4de0446aec7e","quantity":1,"unitPrice":7.99}]
+  ```
+
+   </div>
+   {{< /clipboard >}}
+
 
      If you are using `nip.io`, then you do not need to include `--resolve`.
 
