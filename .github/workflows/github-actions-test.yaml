@@ -39,6 +39,7 @@ jobs:
       HUGO_ENVIRONMENT: production
       HUGO_ENV: production
     steps:
+      # Initial setup
       - name: Install Hugo CLI
         run: |
           wget -O ${{ runner.temp }}/hugo.deb \
@@ -50,10 +51,8 @@ jobs:
         run: npm ci
       - name: Setup Pages
         uses: actions/configure-pages@v3
-      - name: Build production documentation
-        run: |
-          mkdir -p production
-          hugo --source . --destination production --environment production
+
+      # Oracle Docs builds
       - name: Build zip for Oracle Docs
         run: |
           mkdir -p public
@@ -61,45 +60,82 @@ jobs:
           content/en/docs/setup/private-registry/private-registry.md
           hugo --source . --destination public --environment production
           zip -r verrazzano-production-docs.zip public
-      - name: Upload production artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: Production
-          path: production/**
       - name: Upload public artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: Public
           path: public/**
       - name: Upload zip artifact
         uses: actions/upload-artifact@v3
         with:
-          name: verrazzano-production-docs.zip
           path: verrazzano-production-docs.zip
 
-  process:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
+      # Extract branch name
       - name: Extract branch name
         shell: bash
-        run: echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >>$GITHUB_OUTPUT
+        run: echo "BRANCH=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_OUTPUT
         id: extract_branch
-      - name: Process branch
-        run: if branch=release-1.5 then var=v1.5 \
-              elif branch = release-1.4 then var=v1.4 \ 
-              elif branch = release-1.3 then var=v1.4 \ 
-              elif branch = master then var=devel
+      # Extract release branch version (if applicable)
+      - name: Process branch version
+        env:
+          BRANCH: ${{ steps.extract_branch.outputs.BRANCH }}
+        run: echo "VERSION=$(./scripts/branch.sh ${BRANCH})" >> $GITHUB_OUTPUT
+        id: branch_ver
+      # Extract IS_LATEST variable
+      - name: Process IS_LATEST
+        run: echo "IS_LATEST=$(<.latest)" >> $GITHUB_OUTPUT
+        id: is_latest
 
+      # Build and upload docs under ${version} dir
+      - name: Build production documentation
+        env:
+          VERSION: ${{ steps.branch_ver.outputs.VERSION }}
+        run: |
+          mkdir -p ${VERSION}
+          hugo --source . --destination ${VERSION} --environment production
+      - name: Upload production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          path: ${VERSION}/**
+
+      # Build and upload docs under latest dir (if applicable)
+      - name: Build latest documentation
+        if: ${{ IS_LATEST }}
+        env:
+          IS_LATEST: ${{ steps.is_latest.outputs.IS_LATEST }}
+        run: |
+          mkdir -p latest
+          hugo --source . --destination latest --environment production
+      - name: Upload latest artifacts
+        if: ${{ IS_LATEST }}
+        uses: actions/upload-artifact@v3
+        with:
+          path: latest/**
+
+  # Deploy docs under ${version} dir
   deploy:
     runs-on: ubuntu-latest
-    needs: process
+    needs: build
     env:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-      branch: ${{ steps.extract_branch.outputs.branch }}
+      VERSION: ${{ steps.branch_ver.outputs.VERSION }}
     steps:
       - name: Deploy production to GH pages
         uses: actions/deploy-pages@v2
         id: deployment
-        artifactName: Production
+        artifactName: ${VERSION}
+
+  # Deploy docs under latest dir (if applicable)
+  deploy-latest:
+    runs-on: ubuntu-latest
+    needs: build
+    env:
+      name: github-pages
+      url: ${{ steps.deploy-latest.outputs.page_url }}
+      IS_LATEST: ${{ steps.is_latest.outputs.IS_LATEST }}
+    steps:
+      - name: Deploy production to GH pages
+        if: ${{ IS_LATEST }}
+        uses: actions/deploy-pages@v2
+        id: deploy-latest
+        artifactName: latest
