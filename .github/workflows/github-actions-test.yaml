@@ -10,11 +10,12 @@
 name: Build and Publish Verrazzano Documentation
 
 on:
-  # Runs on pushes targeting the active doc branch
+  # Runs on pushes targeting the active doc branches
   push:
     branches:
     - master
-    - 'release-**'
+    - release-*
+    - archive
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -72,24 +73,23 @@ jobs:
       # Extract branch name
       - name: Extract branch name
         shell: bash
-        run: echo "BRANCH=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_OUTPUT
-        id: extract_branch
-      # Extract release branch version (if applicable)
+        run: echo "BRANCH=$(echo ${GITHUB_REF#refs/heads/})" >> "$GITHUB_ENV"
+      # Extract publish branch to use (v1.x, devel, archive)
       - name: Process branch version
+        shell: bash
         env:
-          BRANCH: ${{ steps.extract_branch.outputs.BRANCH }}
-        run: echo "VERSION=$(./scripts/branch.sh ${BRANCH})" >> $GITHUB_OUTPUT
-        id: branch_ver
+          BRANCH: ${{ env.BRANCH }}
+        run: ./scripts/branch.sh ${BRANCH}
       # Extract IS_LATEST variable
       - name: Process IS_LATEST
-        run: echo "IS_LATEST=$(<.latest)" >> $GITHUB_OUTPUT
-        id: is_latest
+        run: echo "IS_LATEST=$(<.latest)" >> "$GITHUB_ENV"
 
       # Build and upload docs under ${version} dir
       - name: Build production documentation
         env:
-          VERSION: ${{ steps.branch_ver.outputs.VERSION }}
+          VERSION: ${{ env.VERSION }}
         run: |
+          echo ${VERSION}
           mkdir -p ${VERSION}
           hugo --source . --destination ${VERSION} --environment production
       - name: Upload production artifacts
@@ -97,11 +97,11 @@ jobs:
         with:
           path: ${VERSION}/**
 
-      # Build and upload docs under latest dir (if applicable)
+      # Build and upload docs under "latest" dir (if applicable)
       - name: Build latest documentation
         if: ${{ IS_LATEST }}
         env:
-          IS_LATEST: ${{ steps.is_latest.outputs.IS_LATEST }}
+          IS_LATEST: ${{ env.IS_LATEST }}
         run: |
           mkdir -p latest
           hugo --source . --destination latest --environment production
@@ -118,7 +118,7 @@ jobs:
     env:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-      VERSION: ${{ steps.branch_ver.outputs.VERSION }}
+      VERSION: ${{ env.VERSION }}
     steps:
       - name: Deploy production to GH pages
         uses: actions/deploy-pages@v2
@@ -132,7 +132,7 @@ jobs:
     env:
       name: github-pages
       url: ${{ steps.deploy-latest.outputs.page_url }}
-      IS_LATEST: ${{ steps.is_latest.outputs.IS_LATEST }}
+      IS_LATEST: ${{ env.IS_LATEST }}
     steps:
       - name: Deploy production to GH pages
         if: ${{ IS_LATEST }}
