@@ -38,7 +38,7 @@ To enable Thanos in Verrazzano, add the following:
 apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
-  name: my-verrazzano
+  name: example-verrazzano
 spec:
   components:
     prometheusOperator:
