@@ -18,7 +18,7 @@ For more information on Thanos, see the [Thanos website](https://thanos.io/).
 
 ## Thanos components
 
-Verrazzano supports the following Thanos components:
+Verrazzano currently supports the following Thanos components:
 
 | Components     | Description                                                                                                                                         |
 |----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -29,7 +29,7 @@ Verrazzano supports the following Thanos components:
 
 ## Enable Thanos
 
-To enable the Thanos Prometheus Sidecar, Query, and Query Frontend components:
+To enable Thanos in Verrazzano, add the following:
 
 {{< clipboard >}}
 <div class="highlight">
@@ -82,24 +82,24 @@ config:
 </div>
 {{< /clipboard >}}
 
-#### Step 2: Create a secret
+### Step 2: Create a secret
 
 Create the secret for object storage configuration.
 
-The following example uses the file name `objstore.yml`. The Thanos Store Gateway requires the key in the secret to be `objstore.yml`. If you use a different file name, make sure that the key in the secret is exactly `objstore.yml`.
+The following example uses the file name `objstore.yml`. The Thanos Store Gateway requires the key in the secret to be `objstore.yml`.
 
 {{< clipboard >}}
 <div class="highlight">
 
 ```
 $ kubectl create namespace verrazzano-monitoring
-$ kubectl create secret generic -n verrazzano-monitoring objstore-config --from-file objstore.yml
+$ kubectl -n verrazzano-monitoring create secret generic objstore-config --from-file=objstore.yml=storage.yaml
 ```
 
 </div>
 {{< /clipboard >}}
 
-#### Step 3: Enable storage and Thanos Store Gateway
+### Step 3: Enable storage and Thanos Store Gateway
 
 The following example enables storage, creates the required secret, and enables Thanos Store Gateway. It also configures the Thanos Sidecar to write to object storage and the Store Gateway to read from object storage.
 
@@ -112,7 +112,7 @@ The following example enables storage, creates the required secret, and enables 
 apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
-  name: my-verrazzano
+  name: example-verrazzano
 spec:
   components:
     prometheusOperator:
