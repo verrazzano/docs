@@ -237,15 +237,15 @@ Verrazzano enables dynamic discovery of Grafana dashboards. Using this feature, 
 
 To configure a dashboard as a ConfigMap:
 
-1. Access Grafana. See [Grafana](#grafana).
-2. Create a dashboard as a JSON file. Or, you can export an existing Grafana dashboard as a JSON file. See [Manage Dashboards](https://grafana.com/docs/grafana/latest/dashboards/manage-dashboards/#manage-dashboards).
-2. Create a ConfigMap file in the _admin_ cluster as follows:
+1.Create a dashboard as a JSON file. Or, you can export an existing Grafana dashboard as a JSON file. See [Manage Dashboards](https://grafana.com/docs/grafana/latest/dashboards/manage-dashboards/#manage-dashboards).
+2. Create a ConfigMap file on the same cluster that Grafana is running using:
 
-   - The `grafana_dashboard` label must be set to `"1"` so that Grafana selects this ConfigMap as a data source for a dashboard. **NOTE**: Use this label _only_ for the `grafana_dashboard`.
+   - `grafana_dashboard`:`"1"` so that Grafana selects this ConfigMap.
 
-   - Name of the JSON file that contains the dashboard JSON.
+   - dashboard JSON from step 1.
 
-   - Name of the `k8s-sidecar-target-directory` as `MyDashboardFolder` to place the dashboard in a custom folder in Grafana.
+   - `k8s-sidecar-target-directory` annotation to specify the Grafana folder name. If the value is
+not specified, the dashboard appears in the default Grafana folder.
 
 After the ConfigMap is created, the dashboard gets loaded in Grafana.
 
@@ -277,4 +277,4 @@ data:
 
 You can also create a ConfigMap from a file using `kubectl create configmap`, or generate ConfigMap from files. See [Create a ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#create-a-configmap).
 
-You can use dashboard ConfigMaps to deploy custom dashboards; these dashboards cannot be modified or saved.   If you modify the dashboard, then you must save it as a new dashboard.
+You can use dashboard ConfigMaps to deploy custom dashboards; these dashboards can be modified but cannot be saved in Grafana. If you want to modify the dashboard, then update the ConfigMap, or save it as a new dashboard from the Grafana UI.
