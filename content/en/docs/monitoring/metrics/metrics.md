@@ -237,7 +237,7 @@ Verrazzano enables dynamic discovery of Grafana dashboards. Using this feature, 
 
 To configure a dashboard as a ConfigMap:
 
-1.Create a dashboard as a JSON file. Or, you can export an existing Grafana dashboard as a JSON file. See [Manage Dashboards](https://grafana.com/docs/grafana/latest/dashboards/manage-dashboards/#manage-dashboards).
+1. Create a dashboard as a JSON file. Or, you can export an existing Grafana dashboard as a JSON file. See [Manage Dashboards](https://grafana.com/docs/grafana/latest/dashboards/manage-dashboards/#manage-dashboards).
 2. Create a ConfigMap file on the same cluster that Grafana is running using:
 
    - `grafana_dashboard`:`"1"` so that Grafana selects this ConfigMap.
