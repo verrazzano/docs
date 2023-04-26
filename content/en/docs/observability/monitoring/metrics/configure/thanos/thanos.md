@@ -61,7 +61,7 @@ Optionally, to enable long-term storage of metrics complete the following steps:
 
 ### Step 1: Create a YAML configuration file
 
-Create an `storage.yaml` file using OCI object storage.
+Create a `storage.yaml` file using OCI object storage.
 
 {{< clipboard >}}
 <div class="highlight">
