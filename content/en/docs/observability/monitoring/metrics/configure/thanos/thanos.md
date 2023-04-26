@@ -86,7 +86,7 @@ config:
 
 Create the secret for object storage configuration.
 
-The following example uses the file name `objstore.yml`. The Thanos Store Gateway requires the key in the secret to be `objstore.yml`.
+The following example uses the file name `storage.yaml`. The Thanos Store Gateway requires the key in the secret to be `storage.yaml`.
 
 {{< clipboard >}}
 <div class="highlight">
