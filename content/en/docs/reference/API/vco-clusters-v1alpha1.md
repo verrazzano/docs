@@ -503,6 +503,17 @@ string
 </tr>
 <tr>
 <td>
+<code>thanosQueryStore</code></br>
+<em>
+string
+</em>
+</td>
+<td>
+<p>The Thanos Query Store API host name for this managed cluster.</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>rancherRegistration</code></br>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.RancherRegistration">
