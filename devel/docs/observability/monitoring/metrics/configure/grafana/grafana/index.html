@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/observability/monitoring/metrics/configure/grafana/grafana/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-04-19T11:22:28+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-04-26T20:25:21+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Grafana">
 <meta itemprop="description" content="Learn how to use Grafana to monitor Verrazzano">
-<meta itemprop="dateModified" content="2023-04-19T11:22:28+05:30" />
-<meta itemprop="wordCount" content="607">
+<meta itemprop="dateModified" content="2023-04-26T20:25:21+05:30" />
+<meta itemprop="wordCount" content="1346">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Grafana"/>
 <meta name="twitter:description" content="Learn how to use Grafana to monitor Verrazzano"/>
@@ -110,7 +110,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../../../offline-search-index.597b341b596bc217b48bf377d9feba09.json"
+    data-offline-search-index-json-src="../../../../../../../offline-search-index.d96c3175f4fdb9164c4047dad2b8c971.json"
     data-offline-search-base-href="../../../../../../../"
     data-offline-search-max-results="10"
   >
@@ -136,7 +136,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../../../offline-search-index.597b341b596bc217b48bf377d9feba09.json"
+    data-offline-search-index-json-src="../../../../../../../offline-search-index.d96c3175f4fdb9164c4047dad2b8c971.json"
     data-offline-search-base-href="../../../../../../../"
     data-offline-search-max-results="10"
   >
@@ -863,9 +863,9 @@ if (!doNotTrack) {
   <ul>
     <li>
       <ul>
-        <li>
+        <li><a href="#grafana-dashboards">Grafana dashboards</a>
           <ul>
-            <li><a href="#dashboard-discovery">Dashboard discovery</a></li>
+            <li><a href="#dynamic-dashboard-discovery-and-portability">Dynamic dashboard discovery and portability</a></li>
           </ul>
         </li>
       </ul>
@@ -1148,19 +1148,82 @@ vmi-system-grafana   &lt;none&gt;   grafana.vmi.system.default.123.456.789.10.ni
 </li>
 </ol>
 <p><img src="../../../../../../../docs/images/grafana-initial-page.png" alt="Grafana"></p>
-<p>From here, you can select an existing dashboard or create a new dashboard.
-To select an existing dashboard, use the drop-down list in the top left corner.
-The initial value of this list is <code>Home</code>.</p>
-<p>To view host level metrics, select <code>Host Metrics</code>. This will provide system metrics for all
-of the nodes in your cluster.</p>
-<p>To view the application metrics for the <code>todo-list</code> example application, select <code>WebLogic Server Dashboard</code>
-because the <code>todo-list</code> application is a WebLogic application.</p>
-<p><img src="../../../../../../../docs/images/grafana-weblogic-dashboard.png" alt="WebLogicDashboard"></p>
-<h3 id="dashboard-discovery">Dashboard discovery</h3>
-<p>The Verrazzano Grafana instance supports dynamic dashboard discovery. This lets you deploy dashboards along with other application components.</p>
-<p>Grafana will automatically discover dashboards in ConfigMaps that are labeled with <code>grafana_dashboard: &quot;1&quot;</code>. The ConfigMap must contain the dashboard JSON.
-The ConfigMap may also be annotated with <code>k8s-sidecar-target-directory</code> to specify the name of a Grafana folder.</p>
-<p>Here is an example ConfigMap.</p>
+<h2 id="grafana-dashboards">Grafana dashboards</h2>
+<p>Verrazzano installs a number of preconfigured dashboards in Grafana. These dashboards are organized logically into folders. To view the folders, locate the <strong>Dashboards</strong> icon and select <strong>Manage</strong>.</p>
+<p><img src="../../../../../../../docs/images/grafana-manage-folders.png" alt="GrafanaFolders"></p>
+<p>Within each folder, you will find one or more preconfigured dashboards. The dashboards provide a visual representation of metrics for monitoring your applications, the Kubernetes clusters where your applications are running, and Verrazzano itself. You can add to these dashboards, and you can copy and modify the preconfigured dashboards.</p>
+<p>Here are the folders and dashboard descriptions:</p>
+<ul>
+<li><code>Coherence</code> - A set of dashboards for monitoring Coherence applications. They provide metrics from Coherence clusters, Caches, Elastic Data, Federation Details, HTTP Servers, Kubernetes, Machines, Cluster Members, Persistence Summary, Proxy Servers, and Coherence Services.</li>
+<li><code>Helidon</code> - For Helidon workloads, provides the JVM details for Helidon applications, such as Status, Heap Usage, JVM Heap Sizes, Thread Count, HTTP Requests, and such.</li>
+<li><code>Istio</code> - A set of dashboards for monitoring the Verrazzano Istio service mesh and the workloads running in the mesh.</li>
+<li><code>JVM</code> -  For monitoring applications deployed in Verrazzano.</li>
+<li><code>NGINX</code> - For monitoring the Verrazzano system ingress controller and the ingresses created using the ingress controller. Metrics include Controller Request Volume, Controller Connections, Controller Success Rate, Config Reloads, Network Pressure, and such.</li>
+<li><code>OpenSearch</code> - Provides metrics from OpenSearch clusters, such as Cluster Health, Shard Details, Index Details, JVM Metrics, and such.</li>
+<li><code>Prometheus Operator</code> - Provides metrics for the cluster compute resources, such as CPU Utilization, Memory Limits, and such.</li>
+<li><code>WebLogic</code> - For WebLogic workloads, provides WebLogic Server runtime metrics to monitor and diagnose the runtime deployment of WebLogic Server.</li>
+</ul>
+<p>In addition, there are the following preconfigured Grafana Verrazzano dashboards. These dashboards are located in <code>Verrazzano Application</code>, <code>Verrazzano Monitoring</code>, and <code>Verrazzano System</code> folders:</p>
+<ul>
+<li><code>Verrazzano Application</code> contains the <code>Application Status</code> dashboard. This dashboard provides information on the overall health and performance of OAM applications that are deployed in Verrazzano and the details of the running pods. You can filter this information based on cluster, application, and component.
+<ul>
+<li>When you deploy a new application in Verrazzano, the application is automatically added to the dashboard and becomes available in the list of <code>Applications</code>. You can select the specific application that you want to monitor and select which application metrics to view. Metrics are available in three rows:
+<ul>
+<li><code>Summary</code> provides CPU and memory usage and pod status.</li>
+<li><code>Storage</code> provides disk and PVC (Persistent Volume Claims) usage.</li>
+<li><code>Requests</code> provides HTTP requests and request metrics.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>Verrazzano Monitoring</code> contains dashboards for monitoring the Kubernetes clusters where Verrazzano is running:
+<ul>
+<li><code>alertmanager-mixin</code> displays alerts created by Alertmanager, including the successful and invalid notifications sent by Alertmanager.</li>
+<li><code>etcd-mixin</code> provides cluster metrics and shows additional information, such as active streams, RPC rate, database size, memory usage, client traffic, peer traffic, and such.</li>
+<li><code>kubernetes-mixin</code> provides CPU, memory and network metrics based on cluster, pod, workload type, and nodes; network bandwidth based on cluster, pod, workload type, and nodes; persistent volume usage; and metrics for proxy and scheduler.</li>
+<li><code>node-exporter-mixin</code> provides node level status for CPU, memory, disk, and network usage.</li>
+</ul>
+</li>
+</ul>
+<p><img src="../../../../../../../docs/images/grafana-verrazzano-monitoring-dashboards.png" alt="Verrazzano Monitoring Dashboard"></p>
+<ul>
+<li><code>Verrazzano System</code> has a set of dashboards  that provide information on the health of all Verrazzano system components and the resource usage of Kubernetes resources across clusters.
+<ul>
+<li><code>Resource Usage Detailed</code> gives a detailed view of the resource usage for each of the Verrazzano system components, such as the application operator, cluster operator, monitoring operator, and platform operator. You can filter information based on cluster, component, and so on.</li>
+<li><code>Resource Usage Summary</code> gives a summary of the resource usage that can be viewed for all components or for a specific component. You can filter information based on cluster, component, and so on. Metrics are available in three rows:
+<ul>
+<li><code>Summary</code> provides CPU and memory usage and pod status.</li>
+<li><code>Storage</code> provides disk and PVC (Persistent Volume Claims) usage.</li>
+<li><code>Requests</code> provides HTTP requests and request metrics.</li>
+</ul>
+</li>
+<li><code>System Health</code> gives the health for all Verrazzano system components that can be viewed for local clusters or any other registered clusters.</li>
+</ul>
+</li>
+</ul>
+<h3 id="dynamic-dashboard-discovery-and-portability">Dynamic dashboard discovery and portability</h3>
+<p>Verrazzano enables dynamic discovery of Grafana dashboards. Using this feature, you can package the dashboard configuration and settings as a Kubernetes ConfigMap, and then deploy it individually or along with your application.</p>
+<p>To configure a dashboard as a ConfigMap:</p>
+<ol>
+<li>
+<p>Create a dashboard as a JSON file. Or, you can export an existing Grafana dashboard as a JSON file. See <a href="https://grafana.com/docs/grafana/latest/dashboards/manage-dashboards/#manage-dashboards">Manage Dashboards</a>.</p>
+</li>
+<li>
+<p>Create a ConfigMap on the same cluster running Grafana that includes:</p>
+<ul>
+<li>
+<p>The label, <code>grafana_dashboard</code>:<code>&quot;1&quot;</code>, so that Grafana discovers the dashboard.</p>
+</li>
+<li>
+<p>The JSON code that defines and configures the dashboard (the dashboard JSON from step 1).</p>
+</li>
+<li>
+<p>Optionally, a <code>k8s-sidecar-target-directory</code> annotation, which specifies the Grafana folder name in which you want the dashboard to appear. The value of the annotation is the Grafana folder name. If not specified, the dashboard will appear in the default Grafana folder.</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>Here is an example dashboard ConfigMap.</p>
 <pre tabindex="0"><code>apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -1182,7 +1245,10 @@ data:
         }
       ...
     }
-</code></pre>
+</code></pre><p>After the ConfigMap is created, the dashboard gets loaded in Grafana.</p>
+<p>Alternatively, you can create a ConfigMap from a file using <code>kubectl create configmap</code>, or generate ConfigMap from files. See <a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#create-a-configmap">Create a ConfigMap</a>.</p>
+<p>You can use dashboard ConfigMaps to deploy custom dashboards; these dashboards can be modified but cannot be saved in Grafana. If you want to modify the dashboard, then either update the ConfigMap or save the dashboard to a new location from the Grafana console.</p>
+
 	
 		<style>
   .feedback--answer {
