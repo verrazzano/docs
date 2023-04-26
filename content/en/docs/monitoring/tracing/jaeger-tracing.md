@@ -7,7 +7,10 @@ draft: false
 ---
 
 Jaeger is a distributed tracing system used for monitoring and troubleshooting microservices.
-For more information on Jaeger, see the [Jaeger website](https://www.jaegertracing.io/).
+Distributed tracing lets you trace errors across your microservice architecture. You can track
+application requests as they flow from frontend devices to backend services and databases.
+You use distributed tracing to troubleshoot requests that exhibit high latency or errors.
+For more information on Jaeger distributed tracing, see the [Jaeger website](https://www.jaegertracing.io/).
 
 ## Install Jaeger Operator
 
@@ -61,6 +64,14 @@ Verrazzano installs the Jaeger Operator and Jaeger using the
 [jaeger-operator](https://github.com/jaegertracing/helm-charts/tree/jaeger-operator-{{<jaeger_operator_helm_chart_version>}}/charts/jaeger-operator) Helm chart.
 Using Helm overrides specified in the Verrazzano custom resource, you can customize the installation configuration.
 For more information about setting component overrides, see [Customizing the Chart Before Installing](https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing).
+
+The following sections describe some common customizations you might want to employ:
+- [Customize a Jaeger instance to use an external OpenSearch for storage](#customize-a-jaeger-instance-to-use-an-external-opensearch-for-storage)
+- [Enable Jaeger Service Performance Monitoring](#enable-jaeger-service-performance-monitoring)
+- [Disable default Jaeger instance creation](#disable-default-jaeger-instance-creation)
+- [Jaeger Operator Helm chart values that you cannot override](#jaeger-operator-helm-chart-values-that-you-cannot-override)
+- [Configure the Istio mesh to use Jaeger tracing](#configure-the-istio-mesh-to-use-jaeger-tracing)
+- [Manage Jaeger indices in OpenSearch](#manage-jaeger-indices-in-opensearch)
 
 ### Customize a Jaeger instance to use an external OpenSearch for storage
 
@@ -125,13 +136,15 @@ spec:
 ```
 {{< /clipboard >}}
 
-### Enable the Service Performance Monitoring experimental feature
+### Enable Jaeger Service Performance Monitoring
 
-To enable the Jaeger [Service Performance Monitoring](https://www.jaegertracing.io/docs/{{<jaeger_doc_version>}}/spm/) experimental
-feature in the default Jaeger instance created by Verrazzano, use the following Verrazzano custom resource. Verrazzano
+**NOTE**: The Service Performance Monitoring (SPM) feature is currently considered experimental.
+
+To enable [Service Performance Monitoring](https://www.jaegertracing.io/docs/{{<jaeger_doc_version>}}/spm/)
+in the default Jaeger instance created by Verrazzano, use the following Verrazzano custom resource. Verrazzano
 sets `jaeger.spec.query.options.prometheus.server-url` to the Prometheus server URL managed by Verrazzano, if it exists.
 To configure an external Prometheus server for your use case, override `jaeger.spec.query.options.prometheus.server-url`,
-`jaeger.spec.query.options.prometheus.tls.enabled` and `jaeger.spec.query.options.prometheus.tls.ca` appropriately in
+`jaeger.spec.query.options.prometheus.tls.enabled`, and `jaeger.spec.query.options.prometheus.tls.ca`, appropriately, in
 the Verrazzano custom resource. For more details, see the [Jaeger documentation](https://www.jaegertracing.io/docs/{{<jaeger_doc_version>}}/deployment/#tls-support-1).
 {{< clipboard >}}
 
@@ -157,7 +170,7 @@ spec:
 
 ### Disable default Jaeger instance creation
 
-To disable the default Jaeger instance created by Verrazzano, use the following Verrazzano custom resource:
+If you have a custom Jaeger instance and want to disable the default Jaeger instance created by Verrazzano, then use the following Verrazzano custom resource:
 {{< clipboard >}}
 ```yaml
 apiVersion: install.verrazzano.io/v1beta1
@@ -176,101 +189,23 @@ spec:
 ```
 {{< /clipboard >}}
 
-### Jaeger Operator Helm chart values that cannot be overridden
+### Jaeger Operator Helm chart values that you cannot override
 
-The following Jaeger Operator Helm values are not supported to be overridden in the Verrazzano custom resource:
+The following Jaeger Operator Helm values are _not_ supported to be overridden in the Verrazzano custom resource:
 - `nameOverride`
 - `fullnameOverride`
 - `serviceAccount.name`
 - `ingress.enabled`
 - `jaeger.spec.storage.dependencies.enabled`
 
-If you try to override the above Helm values in the Verrazzano custom resource, the request will be rejected and an
+If you try to override these Helm values in the Verrazzano custom resource, the request will be rejected and an
 error message returned.
 
-**NOTE**: - Verrazzano does not support [Jaeger Spark dependencies](https://github.com/jaegertracing/spark-dependencies)
-and hence the Helm chart value `jaeger.spec.storage.dependencies.enabled`, which is set to `false` for the Jaeger
+**NOTE**: Verrazzano does not support [Jaeger Spark dependencies](https://github.com/jaegertracing/spark-dependencies)
+and hence, the Helm chart value `jaeger.spec.storage.dependencies.enabled`, which is set to `false` for the Jaeger
 instance managed by Verrazzano, cannot be overridden.
 
-## Configure an application to export traces to Jaeger
-
-The Jaeger agent sidecar is injected to application pods by the
-`"sidecar.jaegertracing.io/inject": "true"` annotation. You may apply this annotation to namespaces or pod controllers,
-such as Deployments. The subsequent snippet shows how to annotate an OAM Component for Jaeger agent injection.
-{{< clipboard >}}
-
-```yaml
-apiVersion: core.oam.dev/v1alpha2
-kind: Component
-metadata:
-  name: example-component
-spec:
-  workload:
-    apiVersion: core.oam.dev/v1alpha2
-    kind: ContainerizedWorkload
-    metadata:
-      name: example-workload
-      annotations:
-        # The component's Deployment will carry the Jaeger annotation.
-        "sidecar.jaegertracing.io/inject": "true"
-```
-{{< /clipboard >}}
-
-If you have multiple Jaeger instances in your cluster, specify the name of the Jaeger instance to which you intend to
-send the traces, as a value for the annotation `sidecar.jaegertracing.io/inject`. For more details,
-see the [Jaeger documentation](https://www.jaegertracing.io/docs/{{<jaeger_doc_version>}}/operator/#auto-injecting-jaeger-agent-sidecars).
-
-**NOTE**: Using the Jaeger agent is not supported in Helidon 3.x. To use Jaeger tracing,
-the Helidon application should connect directly to the Jaeger collector. See the following example YAML file, where
-`"TRACING_HOST"` is set to `"jaeger-operator-jaeger-collector.verrazzano-monitoring"` and `"TRACING_PORT"` to `"9411"`.
-For [Jaeger tracing in a multicluster Verrazzano environment](#jaeger-tracing-in-a-multicluster-verrazzano-environment),
-set the `"TRACING_HOST"` to `"jaeger-verrazzano-managed-cluster-collector.verrazzano-monitoring.svc.cluster.local"`.
-
-
-{{< clipboard >}}
-
-```yaml
-apiVersion: core.oam.dev/v1alpha2
-kind: Component
-metadata:
-  name: hello-helidon-component
-spec:
-  workload:
-    apiVersion: oam.verrazzano.io/v1alpha1
-    kind: VerrazzanoHelidonWorkload
-    metadata:
-      name: hello-helidon-workload
-      labels:
-        app: hello-helidon
-        version: v1
-    spec:
-      deploymentTemplate:
-        metadata:
-          name: hello-helidon-deployment
-        podSpec:
-          containers:
-            - name: hello-helidon-container
-              image: "ghcr.io/verrazzano/example-helidon-greet-app-v1:1.0.0-1-20220513221156-7da0d32"
-              env:
-                - name: "TRACING_SERVICE"
-                  value: "hello-helidon"
-                - name: "TRACING_PORT"
-                  value: "9411"
-                - name: "TRACING_HOST"
-                  value: "jaeger-operator-jaeger-collector.verrazzano-monitoring"
-              ports:
-                - containerPort: 8080
-                  name: http
-```
-{{< /clipboard >}}
-
-
-## View traces on the Jaeger console
-
-After the installation has completed, you can use the Verrazzano Jaeger console to view the traces.
-For information on how to get the Verrazzano Jaeger console URL and credentials, see [Access Verrazzano]({{< relref "/docs/access/" >}}).
-
-## Configure the Istio mesh to use Jaeger tracing
+### Configure the Istio mesh to use Jaeger tracing
 
 You can view Istio mesh traffic by enabling Istio's distributed tracing integration. Traces from the Istio mesh provide observability on application traffic
 that passes through Istio's ingress and egress gateways.
@@ -360,7 +295,7 @@ spec:
 ```
 {{< /clipboard >}}
 
-## Management of Jaeger indices in OpenSearch
+### Manage Jaeger indices in OpenSearch
 
 To clean old Jaeger data from OpenSearch, Verrazzano uses the [index management](https://www.jaegertracing.io/docs/{{<jaeger_doc_version>}}/operator/#elasticsearch-index-cleaner-job)
 provided by Jaeger. By default, a cron job with the following default values is created to clean old traces. To
@@ -381,14 +316,92 @@ storage:
 </div>
 {{< /clipboard >}}
 
-## Jaeger tracing in a multicluster Verrazzano environment
+## Configure applications to export traces to Jaeger
+
+The Jaeger agent sidecar is injected to application pods by the
+`"sidecar.jaegertracing.io/inject": "true"` annotation. You may apply this annotation to namespaces or pod controllers,
+such as Deployments. The subsequent snippet shows how to annotate an OAM Component for Jaeger agent injection.
+{{< clipboard >}}
+
+```yaml
+apiVersion: core.oam.dev/v1alpha2
+kind: Component
+metadata:
+  name: example-component
+spec:
+  workload:
+    apiVersion: core.oam.dev/v1alpha2
+    kind: ContainerizedWorkload
+    metadata:
+      name: example-workload
+      annotations:
+        # The component's Deployment will carry the Jaeger annotation.
+        "sidecar.jaegertracing.io/inject": "true"
+```
+{{< /clipboard >}}
+
+If you have multiple Jaeger instances in your cluster, specify the name of the Jaeger instance to which you intend to
+send the traces, as a value for the annotation `sidecar.jaegertracing.io/inject`. For more details,
+see the [Jaeger documentation](https://www.jaegertracing.io/docs/{{<jaeger_doc_version>}}/operator/#auto-injecting-jaeger-agent-sidecars).
+
+**NOTE**: Using the Jaeger agent is not supported in Helidon 3.x. To use Jaeger tracing,
+the Helidon application should connect directly to the Jaeger collector. See the following example YAML file, where
+`"TRACING_HOST"` is set to `"jaeger-operator-jaeger-collector.verrazzano-monitoring"` and `"TRACING_PORT"` to `"9411"`.
+For [Jaeger tracing in a multicluster Verrazzano environment](#jaeger-tracing-in-a-multicluster-verrazzano-environment),
+set the `"TRACING_HOST"` to `"jaeger-verrazzano-managed-cluster-collector.verrazzano-monitoring.svc.cluster.local"`.
+
+
+{{< clipboard >}}
+
+```yaml
+apiVersion: core.oam.dev/v1alpha2
+kind: Component
+metadata:
+  name: hello-helidon-component
+spec:
+  workload:
+    apiVersion: oam.verrazzano.io/v1alpha1
+    kind: VerrazzanoHelidonWorkload
+    metadata:
+      name: hello-helidon-workload
+      labels:
+        app: hello-helidon
+        version: v1
+    spec:
+      deploymentTemplate:
+        metadata:
+          name: hello-helidon-deployment
+        podSpec:
+          containers:
+            - name: hello-helidon-container
+              image: "ghcr.io/verrazzano/example-helidon-greet-app-v1:1.0.0-1-20220513221156-7da0d32"
+              env:
+                - name: "TRACING_SERVICE"
+                  value: "hello-helidon"
+                - name: "TRACING_PORT"
+                  value: "9411"
+                - name: "TRACING_HOST"
+                  value: "jaeger-operator-jaeger-collector.verrazzano-monitoring"
+              ports:
+                - containerPort: 8080
+                  name: http
+```
+{{< /clipboard >}}
+
+
+## View traces on the Jaeger console
+
+After the installation has completed, you can use the Verrazzano Jaeger console to view the traces.
+For information on how to get the Verrazzano Jaeger console URL and credentials, see [Access Verrazzano]({{< relref "/docs/access/" >}}).
+
+
+## Use Jaeger tracing in a multicluster Verrazzano environment
 
 If the Jaeger Operator component is enabled in the managed cluster, after successful registration with the admin cluster,
 a Jaeger collector service runs in the managed cluster, which exports the traces to the OpenSearch
 storage configured in the admin cluster.
 
-**NOTE**: Traces are exported to the admin cluster only when the Jaeger instance in the admin cluster is configured
-with the OpenSearch storage.
+**NOTE**: Traces are exported to the admin cluster only when the Jaeger instance in the admin cluster is configured with the OpenSearch storage.
 
 Listing Jaeger resources in the managed cluster shows output similar to the following.
 {{< clipboard >}}
@@ -451,3 +464,8 @@ for the managed cluster only, search based on the tag `verrazzano_cluster=<manag
 
 ![Jaeger console](/docs/images/multicluster/jaeger-multicluster-filter-based-on-tag.png)
 ![Jaeger SPAN](/docs/images/multicluster/jaeger-multicluster-span-details.png)
+
+## Additional information
+
+Read the blog, [Jaeger, Fluentd, and OpenSearch with Verrazzano](https://medium.com/verrazzano/the-verrazzano-platform-includes-several-cloud-native-solutions-to-improve-an-enterprises-day-2-25212f01f5cc),
+for a detailed look at how these Verrazzano components work together to provide a complete observability stack.
