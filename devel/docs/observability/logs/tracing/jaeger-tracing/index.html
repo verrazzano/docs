@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/observability/logs/tracing/jaeger-tracing/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-04-19T12:30:37-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-04-26T09:58:56-04:00" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Jaeger Tracing">
 <meta itemprop="description" content="Configure Jaeger to capture application traces">
-<meta itemprop="dateModified" content="2023-04-19T12:30:37-04:00" />
-<meta itemprop="wordCount" content="3605">
+<meta itemprop="dateModified" content="2023-04-26T09:58:56-04:00" />
+<meta itemprop="wordCount" content="3742">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Jaeger Tracing"/>
 <meta name="twitter:description" content="Configure Jaeger to capture application traces"/>
@@ -110,7 +110,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.9475c3f239bbc2a79e5e34bf839a95df.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.597b341b596bc217b48bf377d9feba09.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -136,7 +136,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../offline-search-index.9475c3f239bbc2a79e5e34bf839a95df.json"
+    data-offline-search-index-json-src="../../../../../offline-search-index.597b341b596bc217b48bf377d9feba09.json"
     data-offline-search-base-href="../../../../../"
     data-offline-search-max-results="10"
   >
@@ -867,21 +867,22 @@ if (!doNotTrack) {
         <li><a href="#customize-jaeger">Customize Jaeger</a>
           <ul>
             <li><a href="#customize-a-jaeger-instance-to-use-an-external-opensearch-for-storage">Customize a Jaeger instance to use an external OpenSearch for storage</a></li>
-            <li><a href="#enable-the-service-performance-monitoring-experimental-feature">Enable the Service Performance Monitoring experimental feature</a></li>
+            <li><a href="#enable-jaeger-service-performance-monitoring">Enable Jaeger Service Performance Monitoring</a></li>
             <li><a href="#disable-default-jaeger-instance-creation">Disable default Jaeger instance creation</a></li>
-            <li><a href="#jaeger-operator-helm-chart-values-that-cannot-be-overridden">Jaeger Operator Helm chart values that cannot be overridden</a></li>
+            <li><a href="#jaeger-operator-helm-chart-values-that-you-cannot-override">Jaeger Operator Helm chart values that you cannot override</a></li>
+            <li><a href="#configure-the-istio-mesh-to-use-jaeger-tracing">Configure the Istio mesh to use Jaeger tracing</a></li>
+            <li><a href="#manage-jaeger-indices-in-opensearch">Manage Jaeger indices in OpenSearch</a></li>
           </ul>
         </li>
-        <li><a href="#configure-an-application-to-export-traces-to-jaeger">Configure an application to export traces to Jaeger</a></li>
+        <li><a href="#configure-applications-to-export-traces-to-jaeger">Configure applications to export traces to Jaeger</a></li>
         <li><a href="#view-traces-on-the-jaeger-console">View traces on the Jaeger console</a></li>
-        <li><a href="#configure-the-istio-mesh-to-use-jaeger-tracing">Configure the Istio mesh to use Jaeger tracing</a></li>
-        <li><a href="#management-of-jaeger-indices-in-opensearch">Management of Jaeger indices in OpenSearch</a></li>
-        <li><a href="#jaeger-tracing-in-a-multicluster-verrazzano-environment">Jaeger tracing in a multicluster Verrazzano environment</a>
+        <li><a href="#use-jaeger-tracing-in-a-multicluster-verrazzano-environment">Use Jaeger tracing in a multicluster Verrazzano environment</a>
           <ul>
             <li><a href="#configure-the-istio-mesh-in-a-managed-cluster-to-export-jaeger-traces-to-the-admin-cluster">Configure the Istio mesh in a managed cluster to export Jaeger traces to the admin cluster</a></li>
             <li><a href="#view-the-managed-cluster-traces">View the managed cluster traces</a></li>
           </ul>
         </li>
+        <li><a href="#additional-information">Additional information</a></li>
       </ul>
     </li>
   </ul>
@@ -949,7 +950,10 @@ if (!doNotTrack) {
 		
 	</header>    
 	<p>Jaeger is a distributed tracing system used for monitoring and troubleshooting microservices.
-For more information on Jaeger, see the <a href="https://www.jaegertracing.io/">Jaeger website</a>.</p>
+Distributed tracing lets you trace errors across your microservice architecture. You can track
+application requests as they flow from frontend devices to backend services and databases.
+You use distributed tracing to troubleshoot requests that exhibit high latency or errors.
+For more information on Jaeger distributed tracing, see the <a href="https://www.jaegertracing.io/">Jaeger website</a>.</p>
 <h2 id="install-jaeger-operator">Install Jaeger Operator</h2>
 <p>To install the Jaeger Operator, enable the <code>jaegerOperator</code> component in your Verrazzano custom resource. Here is
 an example YAML file that enables the Jaeger Operator. Verrazzano installs the Jaeger Operator in the
@@ -1159,6 +1163,15 @@ deployment.apps/jaeger-operator-jaeger-query       1/1     1            1       
 <a href="https://github.com/jaegertracing/helm-charts/tree/jaeger-operator-2.32.2/charts/jaeger-operator">jaeger-operator</a> Helm chart.
 Using Helm overrides specified in the Verrazzano custom resource, you can customize the installation configuration.
 For more information about setting component overrides, see <a href="https://helm.sh/docs/intro/using_helm/#customizing-the-chart-before-installing">Customizing the Chart Before Installing</a>.</p>
+<p>The following sections describe some common customizations you might want to employ:</p>
+<ul>
+<li><a href="#customize-a-jaeger-instance-to-use-an-external-opensearch-for-storage">Customize a Jaeger instance to use an external OpenSearch for storage</a></li>
+<li><a href="#enable-jaeger-service-performance-monitoring">Enable Jaeger Service Performance Monitoring</a></li>
+<li><a href="#disable-default-jaeger-instance-creation">Disable default Jaeger instance creation</a></li>
+<li><a href="#jaeger-operator-helm-chart-values-that-you-cannot-override">Jaeger Operator Helm chart values that you cannot override</a></li>
+<li><a href="#configure-the-istio-mesh-to-use-jaeger-tracing">Configure the Istio mesh to use Jaeger tracing</a></li>
+<li><a href="#manage-jaeger-indices-in-opensearch">Manage Jaeger indices in OpenSearch</a></li>
+</ul>
 <h3 id="customize-a-jaeger-instance-to-use-an-external-opensearch-for-storage">Customize a Jaeger instance to use an external OpenSearch for storage</h3>
 <p>You can use the default Jaeger instance with an external OpenSearch cluster. The following example shows you how to
 configure Jaeger Operator Helm overrides in the Verrazzano custom resource to use an external OpenSearch cluster
@@ -1386,12 +1399,13 @@ to connect to OpenSearch.
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></li>
 </ol>
-<h3 id="enable-the-service-performance-monitoring-experimental-feature">Enable the Service Performance Monitoring experimental feature</h3>
-<p>To enable the Jaeger <a href="https://www.jaegertracing.io/docs/1.37/spm/">Service Performance Monitoring</a> experimental
-feature in the default Jaeger instance created by Verrazzano, use the following Verrazzano custom resource. Verrazzano
+<h3 id="enable-jaeger-service-performance-monitoring">Enable Jaeger Service Performance Monitoring</h3>
+<p><strong>NOTE</strong>: The Service Performance Monitoring (SPM) feature is currently considered experimental.</p>
+<p>To enable <a href="https://www.jaegertracing.io/docs/1.37/spm/">Service Performance Monitoring</a>
+in the default Jaeger instance created by Verrazzano, use the following Verrazzano custom resource. Verrazzano
 sets <code>jaeger.spec.query.options.prometheus.server-url</code> to the Prometheus server URL managed by Verrazzano, if it exists.
 To configure an external Prometheus server for your use case, override <code>jaeger.spec.query.options.prometheus.server-url</code>,
-<code>jaeger.spec.query.options.prometheus.tls.enabled</code> and <code>jaeger.spec.query.options.prometheus.tls.ca</code> appropriately in
+<code>jaeger.spec.query.options.prometheus.tls.enabled</code>, and <code>jaeger.spec.query.options.prometheus.tls.ca</code>, appropriately, in
 the Verrazzano custom resource. For more details, see the <a href="https://www.jaegertracing.io/docs/1.37/deployment/#tls-support-1">Jaeger documentation</a>.
 <style type="text/css">
     code {
@@ -1498,7 +1512,7 @@ the Verrazzano custom resource. For more details, see the <a href="https://www.j
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
 <h3 id="disable-default-jaeger-instance-creation">Disable default Jaeger instance creation</h3>
-<p>To disable the default Jaeger instance created by Verrazzano, use the following Verrazzano custom resource:
+<p>If you have a custom Jaeger instance and want to disable the default Jaeger instance created by Verrazzano, then use the following Verrazzano custom resource:
 <style type="text/css">
     code {
         margin: 0;
@@ -1600,8 +1614,8 @@ the Verrazzano custom resource. For more details, see the <a href="https://www.j
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
-<h3 id="jaeger-operator-helm-chart-values-that-cannot-be-overridden">Jaeger Operator Helm chart values that cannot be overridden</h3>
-<p>The following Jaeger Operator Helm values are not supported to be overridden in the Verrazzano custom resource:</p>
+<h3 id="jaeger-operator-helm-chart-values-that-you-cannot-override">Jaeger Operator Helm chart values that you cannot override</h3>
+<p>The following Jaeger Operator Helm values are <em>not</em> supported to be overridden in the Verrazzano custom resource:</p>
 <ul>
 <li><code>nameOverride</code></li>
 <li><code>fullnameOverride</code></li>
@@ -1609,247 +1623,12 @@ the Verrazzano custom resource. For more details, see the <a href="https://www.j
 <li><code>ingress.enabled</code></li>
 <li><code>jaeger.spec.storage.dependencies.enabled</code></li>
 </ul>
-<p>If you try to override the above Helm values in the Verrazzano custom resource, the request will be rejected and an
+<p>If you try to override these Helm values in the Verrazzano custom resource, the request will be rejected and an
 error message returned.</p>
 <p><strong>NOTE</strong>: Verrazzano does not support <a href="https://github.com/jaegertracing/spark-dependencies">Jaeger Spark dependencies</a>
-and hence the Helm chart value <code>jaeger.spec.storage.dependencies.enabled</code>, which is set to <code>false</code> for the Jaeger
+and hence, the Helm chart value <code>jaeger.spec.storage.dependencies.enabled</code>, which is set to <code>false</code> for the Jaeger
 instance managed by Verrazzano, cannot be overridden.</p>
-<h2 id="configure-an-application-to-export-traces-to-jaeger">Configure an application to export traces to Jaeger</h2>
-<p>The Jaeger agent sidecar is injected to application pods by the
-<code>&quot;sidecar.jaegertracing.io/inject&quot;: &quot;true&quot;</code> annotation. You may apply this annotation to namespaces or pod controllers,
-such as Deployments. The subsequent snippet shows how to annotate an OAM Component for Jaeger agent injection.
-<style type="text/css">
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-</style>
-
-<div class="clipboard">
-    <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">core.oam.dev/v1alpha2</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">Component</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">example-component</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">workload</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">core.oam.dev/v1alpha2</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">ContainerizedWorkload</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">example-workload</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">annotations</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#8f5902;font-style:italic"># The component&#39;s Deployment will carry the Jaeger annotation.</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">&#34;sidecar.jaegertracing.io/inject&#34;: </span><span style="color:#4e9a06">&#34;true&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span></code></pre></div>
-</div>
-
-<script>
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement("button");
-        button.innerText = "Copy";
-        button.className = "copy-code-button";
-        button.addEventListener("click", () =>
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement("div");
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
-        
-        let codeBlock = codeToCopy.split("\n");
-        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join("\n");
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement('textarea');
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = "Copied";
-        setTimeout(function () {
-            button.innerText = "Copy";
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(".highlight")
-        .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script></p>
-<p>If you have multiple Jaeger instances in your cluster, specify the name of the Jaeger instance to which you intend to
-send the traces, as a value for the annotation <code>sidecar.jaegertracing.io/inject</code>. For more details,
-see the <a href="https://www.jaegertracing.io/docs/1.37/operator/#auto-injecting-jaeger-agent-sidecars">Jaeger documentation</a>.</p>
-<p><strong>NOTE</strong>: Using the Jaeger agent is not supported in Helidon 3.x. To use Jaeger tracing,
-the Helidon application should connect directly to the Jaeger collector. See the following example YAML file, where
-<code>&quot;TRACING_HOST&quot;</code> is set to <code>&quot;jaeger-operator-jaeger-collector.verrazzano-monitoring&quot;</code> and <code>&quot;TRACING_PORT&quot;</code> to <code>&quot;9411&quot;</code>.
-For <a href="#jaeger-tracing-in-a-multicluster-verrazzano-environment">Jaeger tracing in a multicluster Verrazzano environment</a>,
-set the <code>&quot;TRACING_HOST&quot;</code> to <code>&quot;jaeger-verrazzano-managed-cluster-collector.verrazzano-monitoring.svc.cluster.local&quot;</code>.</p>
-<style type="text/css">
-    code {
-        margin: 0;
-        padding: 0;
-    }
-
-    .copy-code-button {
-        position: absolute;
-        right: 0;
-        top: -29px;
-        font-size: 12px;
-        line-height: 14px;
-        width: 65px;
-        color: white;
-        background-color: #30638E;
-        border: 1px solid #30638E;
-        white-space: nowrap;
-        padding: 6px 6px 7px 6px;
-    }
-
-    .copy-code-button:hover,
-    .copy-code-button:focus{
-        background-color: gray;
-        opacity: 1;
-    }
-
-</style>
-
-<div class="clipboard">
-    <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">core.oam.dev/v1alpha2</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">Component</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">hello-helidon-component</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">workload</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">oam.verrazzano.io/v1alpha1</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">VerrazzanoHelidonWorkload</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">hello-helidon-workload</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">labels</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">app</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">hello-helidon</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">version</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">v1</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">deploymentTemplate</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">          </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">hello-helidon-deployment</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">podSpec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">          </span><span style="color:#204a87;font-weight:bold">containers</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">            </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">hello-helidon-container</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">image</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;ghcr.io/verrazzano/example-helidon-greet-app-v1:1.0.0-1-20220513221156-7da0d32&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">env</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;TRACING_SERVICE&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                  </span><span style="color:#204a87;font-weight:bold">value</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;hello-helidon&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;TRACING_PORT&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                  </span><span style="color:#204a87;font-weight:bold">value</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;9411&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;TRACING_HOST&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                  </span><span style="color:#204a87;font-weight:bold">value</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;jaeger-operator-jaeger-collector.verrazzano-monitoring&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">ports</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                </span>- <span style="color:#204a87;font-weight:bold">containerPort</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">8080</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">http</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span></code></pre></div>
-</div>
-
-<script>
-    function createCopyButton(highlightDiv) {
-        const button = document.createElement("button");
-        button.innerText = "Copy";
-        button.className = "copy-code-button";
-        button.addEventListener("click", () =>
-            copyCodeToClipboard(button, highlightDiv)
-        );
-        addCopyButton(button, highlightDiv);
-    }
-
-    function addCopyButton(button, highlightDiv) {
-        highlightDiv.insertBefore(button, highlightDiv.firstChild);
-        const wrapper = document.createElement("div");
-        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
-        wrapper.appendChild(highlightDiv);
-    }
-
-    async function copyCodeToClipboard(button, highlightDiv) {
-        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
-        
-        let codeBlock = codeToCopy.split("\n");
-        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
-        if (expectedLine !== -1) {
-            codeBlock.splice(expectedLine);
-        }
-        codeToCopy = codeBlock.join("\n");
-        
-        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
-        
-        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
-        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
-        console.log(codeToCopy);
-        try {
-            await navigator.clipboard.writeText(codeToCopy);
-        } catch (err) {
-            
-            const textarea = document.createElement('textarea');
-            textarea.value = codeToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            textarea.remove();
-        }
-        button.blur();
-        button.innerText = "Copied";
-        setTimeout(function () {
-            button.innerText = "Copy";
-        }, 2000);
-    }
-
-
-    document
-        .querySelectorAll(".highlight")
-        .forEach((highlightDiv) => createCopyButton(highlightDiv));
-</script>
-<h2 id="view-traces-on-the-jaeger-console">View traces on the Jaeger console</h2>
-<p>After the installation has completed, you can use the Verrazzano Jaeger console to view the traces.
-For information on how to get the Verrazzano Jaeger console URL and credentials, see <a href="../../../../../docs/access/">Access Verrazzano</a>.</p>
-<h2 id="configure-the-istio-mesh-to-use-jaeger-tracing">Configure the Istio mesh to use Jaeger tracing</h2>
+<h3 id="configure-the-istio-mesh-to-use-jaeger-tracing">Configure the Istio mesh to use Jaeger tracing</h3>
 <p>You can view Istio mesh traffic by enabling Istio&rsquo;s distributed tracing integration. Traces from the Istio mesh provide observability on application traffic
 that passes through Istio&rsquo;s ingress and egress gateways.</p>
 <p>Istio tracing is disabled by default. To turn on traces, customize your Istio component like the following example:
@@ -2183,7 +1962,7 @@ If you want a different sampling rate, configure your desired rate using the <co
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
-<h2 id="management-of-jaeger-indices-in-opensearch">Management of Jaeger indices in OpenSearch</h2>
+<h3 id="manage-jaeger-indices-in-opensearch">Manage Jaeger indices in OpenSearch</h3>
 <p>To clean old Jaeger data from OpenSearch, Verrazzano uses the <a href="https://www.jaegertracing.io/docs/1.37/operator/#elasticsearch-index-cleaner-job">index management</a>
 provided by Jaeger. By default, a cron job with the following default values is created to clean old traces. To
 configure it to your use case, override the following Jaeger spec values in the Verrazzano custom resource with your
@@ -2284,12 +2063,246 @@ desired values.
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script></p>
-<h2 id="jaeger-tracing-in-a-multicluster-verrazzano-environment">Jaeger tracing in a multicluster Verrazzano environment</h2>
+<h2 id="configure-applications-to-export-traces-to-jaeger">Configure applications to export traces to Jaeger</h2>
+<p>The Jaeger agent sidecar is injected to application pods by the
+<code>&quot;sidecar.jaegertracing.io/inject&quot;: &quot;true&quot;</code> annotation. You may apply this annotation to namespaces or pod controllers,
+such as Deployments. The subsequent snippet shows how to annotate an OAM Component for Jaeger agent injection.
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">core.oam.dev/v1alpha2</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">Component</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">example-component</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">workload</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">core.oam.dev/v1alpha2</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">ContainerizedWorkload</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">example-workload</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">annotations</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#8f5902;font-style:italic"># The component&#39;s Deployment will carry the Jaeger annotation.</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">&#34;sidecar.jaegertracing.io/inject&#34;: </span><span style="color:#4e9a06">&#34;true&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span></code></pre></div>
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script></p>
+<p>If you have multiple Jaeger instances in your cluster, specify the name of the Jaeger instance to which you intend to
+send the traces, as a value for the annotation <code>sidecar.jaegertracing.io/inject</code>. For more details,
+see the <a href="https://www.jaegertracing.io/docs/1.37/operator/#auto-injecting-jaeger-agent-sidecars">Jaeger documentation</a>.</p>
+<p><strong>NOTE</strong>: Using the Jaeger agent is not supported in Helidon 3.x. To use Jaeger tracing,
+the Helidon application should connect directly to the Jaeger collector. See the following example YAML file, where
+<code>&quot;TRACING_HOST&quot;</code> is set to <code>&quot;jaeger-operator-jaeger-collector.verrazzano-monitoring&quot;</code> and <code>&quot;TRACING_PORT&quot;</code> to <code>&quot;9411&quot;</code>.
+For <a href="#jaeger-tracing-in-a-multicluster-verrazzano-environment">Jaeger tracing in a multicluster Verrazzano environment</a>,
+set the <code>&quot;TRACING_HOST&quot;</code> to <code>&quot;jaeger-verrazzano-managed-cluster-collector.verrazzano-monitoring.svc.cluster.local&quot;</code>.</p>
+<style type="text/css">
+    code {
+        margin: 0;
+        padding: 0;
+    }
+
+    .copy-code-button {
+        position: absolute;
+        right: 0;
+        top: -29px;
+        font-size: 12px;
+        line-height: 14px;
+        width: 65px;
+        color: white;
+        background-color: #30638E;
+        border: 1px solid #30638E;
+        white-space: nowrap;
+        padding: 6px 6px 7px 6px;
+    }
+
+    .copy-code-button:hover,
+    .copy-code-button:focus{
+        background-color: gray;
+        opacity: 1;
+    }
+
+</style>
+
+<div class="clipboard">
+    <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">core.oam.dev/v1alpha2</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">Component</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">hello-helidon-component</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">workload</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">oam.verrazzano.io/v1alpha1</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">VerrazzanoHelidonWorkload</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">hello-helidon-workload</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">labels</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">app</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">hello-helidon</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">version</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">v1</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">deploymentTemplate</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">          </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">hello-helidon-deployment</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">podSpec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">          </span><span style="color:#204a87;font-weight:bold">containers</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">            </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">hello-helidon-container</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">image</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;ghcr.io/verrazzano/example-helidon-greet-app-v1:1.0.0-1-20220513221156-7da0d32&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">env</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;TRACING_SERVICE&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                  </span><span style="color:#204a87;font-weight:bold">value</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;hello-helidon&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;TRACING_PORT&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                  </span><span style="color:#204a87;font-weight:bold">value</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;9411&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                </span>- <span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;TRACING_HOST&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                  </span><span style="color:#204a87;font-weight:bold">value</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;jaeger-operator-jaeger-collector.verrazzano-monitoring&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">              </span><span style="color:#204a87;font-weight:bold">ports</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                </span>- <span style="color:#204a87;font-weight:bold">containerPort</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">8080</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">                  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">http</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span></code></pre></div>
+</div>
+
+<script>
+    function createCopyButton(highlightDiv) {
+        const button = document.createElement("button");
+        button.innerText = "Copy";
+        button.className = "copy-code-button";
+        button.addEventListener("click", () =>
+            copyCodeToClipboard(button, highlightDiv)
+        );
+        addCopyButton(button, highlightDiv);
+    }
+
+    function addCopyButton(button, highlightDiv) {
+        highlightDiv.insertBefore(button, highlightDiv.firstChild);
+        const wrapper = document.createElement("div");
+        highlightDiv.parentNode.insertBefore(wrapper, highlightDiv);
+        wrapper.appendChild(highlightDiv);
+    }
+
+    async function copyCodeToClipboard(button, highlightDiv) {
+        let codeToCopy = highlightDiv.querySelector(":last-child > code, pre").innerText;
+        
+        let codeBlock = codeToCopy.split("\n");
+        let expectedLine = codeBlock.findIndex(line => line.toLowerCase().startsWith("# expected response") || line.toLowerCase().startsWith("# sample output"));
+        if (expectedLine !== -1) {
+            codeBlock.splice(expectedLine);
+        }
+        codeToCopy = codeBlock.join("\n");
+        
+        codeToCopy = codeToCopy.replace(/^#(.*)$/gm, '').trim();
+        
+        codeToCopy = codeToCopy.replace(/\$\s+/gm, '').trim();
+        codeToCopy = codeToCopy.replace(/\n{2,}/g,'\n');
+        console.log(codeToCopy);
+        try {
+            await navigator.clipboard.writeText(codeToCopy);
+        } catch (err) {
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = codeToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            textarea.remove();
+        }
+        button.blur();
+        button.innerText = "Copied";
+        setTimeout(function () {
+            button.innerText = "Copy";
+        }, 2000);
+    }
+
+
+    document
+        .querySelectorAll(".highlight")
+        .forEach((highlightDiv) => createCopyButton(highlightDiv));
+</script>
+<h2 id="view-traces-on-the-jaeger-console">View traces on the Jaeger console</h2>
+<p>After the installation has completed, you can use the Verrazzano Jaeger console to view the traces.
+For information on how to get the Verrazzano Jaeger console URL and credentials, see <a href="../../../../../docs/access/">Access Verrazzano</a>.</p>
+<h2 id="use-jaeger-tracing-in-a-multicluster-verrazzano-environment">Use Jaeger tracing in a multicluster Verrazzano environment</h2>
 <p>If the Jaeger Operator component is enabled in the managed cluster, after successful registration with the admin cluster,
 a Jaeger collector service runs in the managed cluster, which exports the traces to the OpenSearch
 storage configured in the admin cluster.</p>
-<p><strong>NOTE</strong>: Traces are exported to the admin cluster only when the Jaeger instance in the admin cluster is configured
-with the OpenSearch storage.</p>
+<p><strong>NOTE</strong>: Traces are exported to the admin cluster only when the Jaeger instance in the admin cluster is configured with the OpenSearch storage.</p>
 <p>Listing Jaeger resources in the managed cluster shows output similar to the following.
 <style type="text/css">
     code {
@@ -2507,6 +2520,9 @@ for the managed cluster only, search based on the tag <code>verrazzano_cluster=&
 <p><strong>Sample output of Jager console screens</strong></p>
 <p><img src="../../../../../docs/images/multicluster/jaeger-multicluster-filter-based-on-tag.png" alt="Jaeger console">
 <img src="../../../../../docs/images/multicluster/jaeger-multicluster-span-details.png" alt="Jaeger SPAN"></p>
+<h2 id="additional-information">Additional information</h2>
+<p>Read the blog, <a href="https://medium.com/verrazzano/the-verrazzano-platform-includes-several-cloud-native-solutions-to-improve-an-enterprises-day-2-25212f01f5cc">Jaeger, Fluentd, and OpenSearch with Verrazzano</a>,
+for a detailed look at how these Verrazzano components work together to provide a complete observability stack.</p>
 
 	
 		<style>
