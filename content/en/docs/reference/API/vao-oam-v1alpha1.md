@@ -602,6 +602,19 @@ DeploymentTemplate
 <p>An embedded Helidon application deployment.</p>
 </td>
 </tr>
+<tr>
+<td>
+<code>serviceTemplate</code></br>
+<em>
+<a href="#oam.verrazzano.io/v1alpha1.ServiceTemplate">
+ServiceTemplate
+</a>
+</em>
+</td>
+<td>
+<p>An embedded Helidon application service.</p>
+</td>
+</tr>
 </table>
 </td>
 </tr>
@@ -1709,6 +1722,55 @@ string
 </tr>
 </tbody>
 </table>
+<h3 id="oam.verrazzano.io/v1alpha1.ServiceTemplate">ServiceTemplate
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#oam.verrazzano.io/v1alpha1.VerrazzanoHelidonWorkloadSpec">VerrazzanoHelidonWorkloadSpec</a>)
+</p>
+<p>
+<p>ServiceTemplate specifies the metadata and pod spec of a Helidon workload.</p>
+</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>metadata</code></br>
+<em>
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#objectmeta-v1-meta">
+Kubernetes meta/v1.ObjectMeta
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Metadata about a Helidon application.</p>
+Refer to the Kubernetes API documentation for the fields of the
+<code>metadata</code> field.
+</td>
+</tr>
+<tr>
+<td>
+<code>serviceSpec</code></br>
+<em>
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#servicespec-v1-core">
+Kubernetes core/v1.ServiceSpec
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>The service spec of a Helidon application.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="oam.verrazzano.io/v1alpha1.VerrazzanoCoherenceWorkloadSpec">VerrazzanoCoherenceWorkloadSpec
 </h3>
 <p>
@@ -1790,7 +1852,7 @@ string
 <a href="#oam.verrazzano.io/v1alpha1.VerrazzanoHelidonWorkload">VerrazzanoHelidonWorkload</a>)
 </p>
 <p>
-<p>VerrazzanoHelidonWorkloadSpec wraps a Helidon application deployment.</p>
+<p>VerrazzanoHelidonWorkloadSpec wraps a Helidon application deployment and service.</p>
 </p>
 <table>
 <thead>
@@ -1811,6 +1873,19 @@ DeploymentTemplate
 </td>
 <td>
 <p>An embedded Helidon application deployment.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>serviceTemplate</code></br>
+<em>
+<a href="#oam.verrazzano.io/v1alpha1.ServiceTemplate">
+ServiceTemplate
+</a>
+</em>
+</td>
+<td>
+<p>An embedded Helidon application service.</p>
 </td>
 </tr>
 </tbody>

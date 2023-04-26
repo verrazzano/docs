@@ -143,6 +143,73 @@ VerrazzanoManagedClusterStatus
 </tr>
 </tbody>
 </table>
+<h3 id="clusters.verrazzano.io/v1alpha1.ArgoCDRegistration">ArgoCDRegistration
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#clusters.verrazzano.io/v1alpha1.VerrazzanoManagedClusterStatus">VerrazzanoManagedClusterStatus</a>)
+</p>
+<p>
+<p>ArgoCDRegistration defines the Argo CD registration state for a managed cluster.</p>
+</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>status</code></br>
+<em>
+<a href="#clusters.verrazzano.io/v1alpha1.ArgoCDRegistrationStatus">
+ArgoCDRegistrationStatus
+</a>
+</em>
+</td>
+<td>
+<p>The status of the ArgoCD registration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>lastSetTimestamp</code></br>
+<em>
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.24/#time-v1-meta">
+Kubernetes meta/v1.Time
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>The timestamp of last status set.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>message</code></br>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>Supporting message related to the Argo CD registration status.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="clusters.verrazzano.io/v1alpha1.ArgoCDRegistrationStatus">ArgoCDRegistrationStatus
+(<code>string</code> alias)</p></h3>
+<p>
+(<em>Appears on:</em>
+<a href="#clusters.verrazzano.io/v1alpha1.ArgoCDRegistration">ArgoCDRegistration</a>)
+</p>
+<p>
+<p>ArgoCDRegistrationStatus identifies the status of an Argo CD registration.</p>
+</p>
 <h3 id="clusters.verrazzano.io/v1alpha1.Condition">Condition
 </h3>
 <p>
@@ -436,6 +503,17 @@ string
 </tr>
 <tr>
 <td>
+<code>thanosQueryStore</code></br>
+<em>
+string
+</em>
+</td>
+<td>
+<p>The Thanos Query Store API host name for this managed cluster.</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>rancherRegistration</code></br>
 <em>
 <a href="#clusters.verrazzano.io/v1alpha1.RancherRegistration">
@@ -445,6 +523,19 @@ RancherRegistration
 </td>
 <td>
 <p>The state of Rancher registration for this managed cluster.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>argoCDRegistration</code></br>
+<em>
+<a href="#clusters.verrazzano.io/v1alpha1.ArgoCDRegistration">
+ArgoCDRegistration
+</a>
+</em>
+</td>
+<td>
+<p>The state of ArgoCD registration for this managed cluster.</p>
 </td>
 </tr>
 <tr>

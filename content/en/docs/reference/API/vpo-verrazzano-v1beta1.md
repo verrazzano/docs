@@ -298,6 +298,58 @@ and invalid values will be ignored.</p>
 </tr>
 </tbody>
 </table>
+<h3 id="install.verrazzano.io/v1beta1.ArgoCDComponent">ArgoCDComponent
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
+</p>
+<p>
+<p>ArgoCDComponent specifies the Argo CD configuration.</p>
+</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>enabled</code></br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>If true, then Argo CD will be installed.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>InstallOverrides</code></br>
+<em>
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
+InstallOverrides
+</a>
+</em>
+</td>
+<td>
+<p>
+(Members of <code>InstallOverrides</code> are embedded into this type.)
+</p>
+<em>(Optional)</em>
+<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
+find all possible values
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/argo-cd/values.yaml %}}">here</a>
+and invalid values will be ignored.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="install.verrazzano.io/v1beta1.AuthProxyComponent">AuthProxyComponent
 </h3>
 <p>
@@ -387,6 +439,37 @@ string
 </td>
 <td>
 <p>The secret name.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="install.verrazzano.io/v1beta1.CAPIComponent">CAPIComponent
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
+</p>
+<p>
+<p>CAPIComponent specifies the CAPI configuration.</p>
+</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>enabled</code></br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>If true, then CAPI Providers will be installed.</p>
 </td>
 </tr>
 </tbody>
@@ -659,6 +742,20 @@ ApplicationOperatorComponent
 </tr>
 <tr>
 <td>
+<code>argoCD</code></br>
+<em>
+<a href="#install.verrazzano.io/v1beta1.ArgoCDComponent">
+ArgoCDComponent
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>The Argo CD component configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>authProxy</code></br>
 <em>
 <a href="#install.verrazzano.io/v1beta1.AuthProxyComponent">
@@ -669,6 +766,20 @@ AuthProxyComponent
 <td>
 <em>(Optional)</em>
 <p>The AuthProxy component configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>capi</code></br>
+<em>
+<a href="#install.verrazzano.io/v1beta1.CAPIComponent">
+CAPIComponent
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>The CAPI component configuration.</p>
 </td>
 </tr>
 <tr>
@@ -1005,6 +1116,20 @@ RancherBackupComponent
 <td>
 <em>(Optional)</em>
 <p>The rancherBackup component configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>thanos</code></br>
+<em>
+<a href="#install.verrazzano.io/v1beta1.ThanosComponent">
+ThanosComponent
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>The Thanos component configuration.</p>
 </td>
 </tr>
 <tr>
@@ -1552,7 +1677,7 @@ string
 <td>
 <em>(Optional)</em>
 <p>The target OpenSearch URLs.
-Specify this option in this <a href="https://docs.fluentd.org/output/elasticsearch#hosts-optional">format</a>.
+Specify this option in this <a href="https://docs.fluentd.org/output/opensearch#hosts-optional">format</a>.
 The default <code>http://vmi-system-es-ingest-oidc:8775</code> is the VMI OpenSearch URL.</p>
 </td>
 </tr>
@@ -1611,6 +1736,20 @@ int32
 <td>
 <em>(Optional)</em>
 <p>The number of pods to replicate. The default is <code>1</code>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>smtp</code></br>
+<em>
+<a href="https://pkg.go.dev/github.com/verrazzano/verrazzano-monitoring-operator/pkg/apis/vmcontroller/v1#SMTPInfo">
+VMO /vmcontroller/v1.SMTPInfo
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>The SMTP notification settings.</p>
 </td>
 </tr>
 </tbody>
@@ -1724,6 +1863,7 @@ key in the <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOver
 <p>
 (<em>Appears on:</em>
 <a href="#install.verrazzano.io/v1beta1.ApplicationOperatorComponent">ApplicationOperatorComponent</a>, 
+<a href="#install.verrazzano.io/v1beta1.ArgoCDComponent">ArgoCDComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.AuthProxyComponent">AuthProxyComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.CertManagerComponent">CertManagerComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.ClusterOperatorComponent">ClusterOperatorComponent</a>, 
@@ -1746,6 +1886,7 @@ key in the <a href="#install.verrazzano.io/v1beta1.InstallOverrides">InstallOver
 <a href="#install.verrazzano.io/v1beta1.PrometheusPushgatewayComponent">PrometheusPushgatewayComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.RancherBackupComponent">RancherBackupComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.RancherComponent">RancherComponent</a>, 
+<a href="#install.verrazzano.io/v1beta1.ThanosComponent">ThanosComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.VeleroComponent">VeleroComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.VerrazzanoComponent">VerrazzanoComponent</a>, 
 <a href="#install.verrazzano.io/v1beta1.WebLogicOperatorComponent">WebLogicOperatorComponent</a>)
@@ -1808,6 +1949,17 @@ Invalid override values will be ignored.</p>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<code>argoCDUrl</code></br>
+<em>
+string
+</em>
+</td>
+<td>
+<p>The Argo CD UI URL for this Verrazzano installation.</p>
+</td>
+</tr>
 <tr>
 <td>
 <code>consoleUrl</code></br>
@@ -1905,6 +2057,18 @@ string
 </td>
 <td>
 <p>The Rancher URL for this Verrazzano installation.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>thanosQueryUrl</code></br>
+<em>
+string
+</em>
+</td>
+<td>
+<p>The Thanos Query URL for this Verrazzano installation.
+The Thanos Query ingress gets forwarded to the Thanos Query Frontend service.</p>
 </td>
 </tr>
 </tbody>
@@ -2555,7 +2719,18 @@ VMO /vmcontroller/v1.OpenSearchPlugins
 </td>
 <td>
 <em>(Optional)</em>
-<p>Enable to add 3rd Party / Custom plugins not offered in the default OpenSearch image</p>
+<p>Enable to add 3rd Party / Custom plugins not offered in the default OpenSearch image.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>disableDefaultPolicy</code></br>
+<em>
+bool
+</em>
+</td>
+<td>
+<p>To disable the default ISM policies.</p>
 </td>
 </tr>
 </tbody>
@@ -2697,6 +2872,18 @@ OpenSearchNodeStorage
 <p>Storage settings for the node group.</p>
 </td>
 </tr>
+<tr>
+<td>
+<code>javaOpts</code></br>
+<em>
+string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>JavaOpts settings for the OpenSearch JVM.</p>
+</td>
+</tr>
 </tbody>
 </table>
 <h3 id="install.verrazzano.io/v1beta1.OpenSearchNodeStorage">OpenSearchNodeStorage
@@ -2757,7 +2944,9 @@ Kubernetes core/v1.ConfigMapKeySelector
 </td>
 <td>
 <em>(Optional)</em>
-<p>Selector for ConfigMap containing override data.</p>
+<p>Selector for ConfigMap containing override data.
+For sample usage, see
+<a href="../../../../docs/customize/installationoverrides/#configmap">ConfigMapRef</a>.</p>
 </td>
 </tr>
 <tr>
@@ -2771,7 +2960,9 @@ Kubernetes core/v1.SecretKeySelector
 </td>
 <td>
 <em>(Optional)</em>
-<p>Selector for Secret containing override data.</p>
+<p>Selector for Secret containing override data.
+For sample usage, see
+<a href="../../../../docs/customize/installationoverrides/#secret">SecretRef</a>.</p>
 </td>
 </tr>
 <tr>
@@ -2785,7 +2976,9 @@ Kubernetes apiextensions/v1.JSON
 </td>
 <td>
 <em>(Optional)</em>
-<p>Configure overrides using inline YAML.</p>
+<p>Configure overrides using inline YAML.
+For sample usage, see
+<a href="../../../../docs/customize/installationoverrides/#values">Values</a>.</p>
 </td>
 </tr>
 </tbody>
@@ -3212,6 +3405,58 @@ bool
 </tr>
 </tbody>
 </table>
+<h3 id="install.verrazzano.io/v1beta1.ThanosComponent">ThanosComponent
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
+</p>
+<p>
+<p>ThanosComponent specifies the Thanos configuration.</p>
+</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>enabled</code></br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>If true, then Thanos will be installed.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>InstallOverrides</code></br>
+<em>
+<a href="#install.verrazzano.io/v1beta1.InstallOverrides">
+InstallOverrides
+</a>
+</em>
+</td>
+<td>
+<p>
+(Members of <code>InstallOverrides</code> are embedded into this type.)
+</p>
+<em>(Optional)</em>
+<p>List of Overrides for the default <code>values.yaml</code> file for the component Helm chart. Overrides are merged together,
+but in the event of conflicting fields, the last override in the list takes precedence over any others. You can
+find all possible values
+<a href="{{% release_source_url path=platform-operator/thirdparty/charts/thanos/values.yaml %}}">here</a>
+and invalid values will be ignored.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="install.verrazzano.io/v1beta1.VeleroComponent">VeleroComponent
 </h3>
 <p>
@@ -3219,7 +3464,7 @@ bool
 <a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
 </p>
 <p>
-<p>VeleroComponent  specifies the Velero configuration.</p>
+<p>VeleroComponent specifies the Velero configuration.</p>
 </p>
 <table>
 <thead>
