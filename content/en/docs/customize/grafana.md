@@ -6,6 +6,8 @@ Weight: 5
 draft: false
 ---
 
+### Configure Grafana database
+
 By default, Verrazzano automatically installs and configures a Grafana database. However, you can use your own external database.
 
 If you prefer to use your own Grafana database, complete the following steps:
@@ -58,5 +60,57 @@ If you prefer to use your own Grafana database, complete the following steps:
 
 </div>
 {{< /clipboard >}}
+
+### Configure SMTP server
+
+To configure SMTP server for Grafana notifications, complete the following steps:
+
+1. Create a secret named `smtp-secret` in the `verrazzano-system` namespace which contains the SMTP server credentials. For example:
+{{< clipboard >}}
+<div class="highlight">
+
+   ```
+   $ kubectl -n verrazzano-system create secret generic smtp-secret \
+    --from-literal=username="<smtp server username>" \
+    --from-literal=password="<smtp server password>" \
+    --from-file=cert=<path to file containing certificate> \
+    --from-file=key=<path to file containing certificate key>
+   ```
+
+</div>
+{{< /clipboard >}}
+
+1. Configure the Grafana component of the Verrazzano custom resource. For example:
+{{< clipboard >}}
+<div class="highlight">
+
+   ```
+   apiVersion: install.verrazzano.io/v1beta1
+   kind: Verrazzano
+   metadata:
+     name: grafana-smtp-example
+   spec:
+     profile: dev
+     components:
+       grafana:
+         smtp:
+           certFileKey: "cert"
+           ehloIdentity: "<Name to be used as client identity for EHLO in SMTP dialog>"
+           enabled: true
+           existingSecret: "smtp-secret"
+           fromAddress: "<Address used when sending out emails>"
+           fromName: "<Name to be used when sending out emails>"
+           host: "<host or host:port for the smtp server>"
+           passwordKey: "password"
+           skipVerify: true
+           startTLSPolicy: ""
+           userKey: "username"
+           keyFileKey: "key"
+   ```
+
+</div>
+{{< /clipboard >}}
+
+For more information abou the Grafana SMTP configurations, see [Grafana Documentation](https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#smtp).
 
 For more information about the component definition, see [Grafana component]({{< relref "/docs/reference/API/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.GrafanaComponent" >}}) in the Verrazzano custom resource.
