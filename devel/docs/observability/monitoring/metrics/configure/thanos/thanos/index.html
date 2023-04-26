@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/observability/monitoring/metrics/configure/thanos/thanos/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2023-04-19T11:22:28+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
+<meta property="article:modified_time" content="2023-04-26T23:59:50+05:30" /><meta property="og:site_name" content="Verrazzano Enterprise Container Platform" />
 
 <meta itemprop="name" content="Thanos">
 <meta itemprop="description" content="Learn how to use Thanos to monitor Verrazzano">
-<meta itemprop="dateModified" content="2023-04-19T11:22:28+05:30" />
-<meta itemprop="wordCount" content="1105">
+<meta itemprop="dateModified" content="2023-04-26T23:59:50+05:30" />
+<meta itemprop="wordCount" content="1084">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Thanos"/>
 <meta name="twitter:description" content="Learn how to use Thanos to monitor Verrazzano"/>
@@ -110,7 +110,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../../../offline-search-index.d96c3175f4fdb9164c4047dad2b8c971.json"
+    data-offline-search-index-json-src="../../../../../../../offline-search-index.d43c49f29e9ce5b384f14fd6532f133b.json"
     data-offline-search-base-href="../../../../../../../"
     data-offline-search-max-results="10"
   >
@@ -136,7 +136,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="../../../../../../../offline-search-index.d96c3175f4fdb9164c4047dad2b8c971.json"
+    data-offline-search-index-json-src="../../../../../../../offline-search-index.d43c49f29e9ce5b384f14fd6532f133b.json"
     data-offline-search-base-href="../../../../../../../"
     data-offline-search-max-results="10"
   >
@@ -868,6 +868,8 @@ if (!doNotTrack) {
         <li><a href="#enable-long-term-storage">Enable long-term storage</a>
           <ul>
             <li><a href="#step-1-create-a-yaml-configuration-file">Step 1: Create a YAML configuration file</a></li>
+            <li><a href="#step-2-create-a-secret">Step 2: Create a secret</a></li>
+            <li><a href="#step-3-enable-storage-and-thanos-store-gateway">Step 3: Enable storage and Thanos Store Gateway</a></li>
           </ul>
         </li>
         <li><a href="#access-the-thanos-query-console">Access the Thanos Query console</a></li>
@@ -950,7 +952,7 @@ if (!doNotTrack) {
 </ul>
 <p>For more information on Thanos, see the <a href="https://thanos.io/">Thanos website</a>.</p>
 <h2 id="thanos-components">Thanos components</h2>
-<p>Verrazzano supports the following Thanos components:</p>
+<p>Verrazzano currently supports the following Thanos components:</p>
 <table>
 <thead>
 <tr>
@@ -978,7 +980,7 @@ if (!doNotTrack) {
 </tbody>
 </table>
 <h2 id="enable-thanos">Enable Thanos</h2>
-<p>To enable the Thanos Prometheus Sidecar, Query, and Query Frontend components:</p>
+<p>To enable Thanos in Verrazzano, add the following:</p>
 <style type="text/css">
     code {
         margin: 0;
@@ -1012,7 +1014,7 @@ if (!doNotTrack) {
 <pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
-  name: my-verrazzano
+  name: example-verrazzano
 spec:
   components:
     prometheusOperator:
@@ -1087,7 +1089,7 @@ spec:
 <h2 id="enable-long-term-storage">Enable long-term storage</h2>
 <p>Optionally, to enable long-term storage of metrics complete the following steps:</p>
 <h3 id="step-1-create-a-yaml-configuration-file">Step 1: Create a YAML configuration file</h3>
-<p>Create an <code>objstore.yml</code> file using OCI object storage.</p>
+<p>Create a <code>storage.yaml</code> file using OCI object storage.</p>
 <style type="text/css">
     code {
         margin: 0;
@@ -1188,9 +1190,9 @@ config:
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script>
-<h4 id="step-2-create-a-secret">Step 2: Create a secret</h4>
+<h3 id="step-2-create-a-secret">Step 2: Create a secret</h3>
 <p>Create the secret for object storage configuration.</p>
-<p>The following example uses the file name <code>objstore.yml</code>. The Thanos Store Gateway requires the key in the secret to be <code>objstore.yml</code>. If you use a different file name, make sure that the key in the secret is exactly <code>objstore.yml</code>.</p>
+<p>The following example uses the file name <code>storage.yaml</code>. The Thanos Store Gateway requires the key in the secret to be <code>objstore.yml</code>.</p>
 <style type="text/css">
     code {
         margin: 0;
@@ -1222,7 +1224,7 @@ config:
 <div class="clipboard">
     <div class="highlight">
 <pre tabindex="0"><code>$ kubectl create namespace verrazzano-monitoring
-$ kubectl create secret generic -n verrazzano-monitoring objstore-config --from-file objstore.yml
+$ kubectl create secret generic objstore-config -n verrazzano-monitoring --from-file=objstore.yml=storage.yaml
 </code></pre></div>
 
 </div>
@@ -1283,7 +1285,7 @@ $ kubectl create secret generic -n verrazzano-monitoring objstore-config --from-
         .querySelectorAll(".highlight")
         .forEach((highlightDiv) => createCopyButton(highlightDiv));
 </script>
-<h4 id="step-3-enable-storage-and-thanos-store-gateway">Step 3: Enable storage and Thanos Store Gateway</h4>
+<h3 id="step-3-enable-storage-and-thanos-store-gateway">Step 3: Enable storage and Thanos Store Gateway</h3>
 <p>The following example enables storage, creates the required secret, and enables Thanos Store Gateway. It also configures the Thanos Sidecar to write to object storage and the Store Gateway to read from object storage.</p>
 <p><strong>Note</strong>: <code>objstore-config</code> is the secret that you created in Step 2.</p>
 <style type="text/css">
@@ -1319,7 +1321,7 @@ $ kubectl create secret generic -n verrazzano-monitoring objstore-config --from-
 <pre tabindex="0"><code>apiVersion: install.verrazzano.io/v1beta1
 kind: Verrazzano
 metadata:
-  name: my-verrazzano
+  name: example-verrazzano
 spec:
   components:
     prometheusOperator:
