@@ -92,8 +92,8 @@ The following example uses the file name `objstore.yml`. The Thanos Store Gatewa
 <div class="highlight">
 
 ```
-$ kubectl -n verrazzano-monitoring create secret generic objstore-config --from-file=objstore.yml=storage.yaml
 $ kubectl create namespace verrazzano-monitoring
+$ kubectl create secret generic objstore-config -n verrazzano-monitoring --from-file=objstore.yml=storage.yaml
 ```
 
 </div>
