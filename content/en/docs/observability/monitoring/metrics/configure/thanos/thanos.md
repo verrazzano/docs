@@ -61,7 +61,7 @@ Optionally, to enable long-term storage of metrics complete the following steps:
 
 ### Step 1: Create a YAML configuration file
 
-Create an `objstore.yml` file using OCI object storage.
+Create an `storage.yaml` file using OCI object storage.
 
 {{< clipboard >}}
 <div class="highlight">
@@ -92,8 +92,8 @@ The following example uses the file name `objstore.yml`. The Thanos Store Gatewa
 <div class="highlight">
 
 ```
-$ kubectl create namespace verrazzano-monitoring
 $ kubectl -n verrazzano-monitoring create secret generic objstore-config --from-file=objstore.yml=storage.yaml
+$ kubectl create namespace verrazzano-monitoring
 ```
 
 </div>
