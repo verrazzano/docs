@@ -26,6 +26,7 @@ If you are unable to see logs in OpenSearch, it may be due to a permission issue
       ```
 3. Resolve Permission Issue:
     - The issue occurs when SELinux is **enforcing** on the worker nodes, and Fluentd does not have the appropriate SELinux context to have read/write access to the logs directory.
+    - Check if SELinux is **enforcing** by running the command: `sudo getenforce` on the worker nodes. If SELinux is `enforcing`, follow the below steps.
     - To fix this issue, you need to override the default SELinux option in the Verrazzano Custom Resource.
     - Edit the Verrazzano CR and add the necessary SELinux options to provide read/write access to the logs directory in the Fluentd section. For example:
       ```
