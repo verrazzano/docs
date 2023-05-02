@@ -18,7 +18,7 @@ To troubleshoot the Fluentd permission issue, follow these steps:
 - View the logs of the Fluentd pod using the following command:
 {{< clipboard >}}
 ```sh
-kubectl logs <fluentd-pod-name> -n verrazzano-system
+$ kubectl logs <fluentd-pod-name> -n verrazzano-system
 ```
 {{< /clipboard >}}
 
@@ -33,7 +33,7 @@ kubectl logs <fluentd-pod-name> -n verrazzano-system
     - Check if SELinux is in `enforcing` mode by running this command on the worker nodes:
 {{< clipboard >}}
 ```sh
-sudo getenforce
+$ sudo getenforce
 ```
 {{< /clipboard >}}
     - If SELinux is in `enforcing` mode, then follow these steps:
