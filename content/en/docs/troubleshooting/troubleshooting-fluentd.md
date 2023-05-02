@@ -57,4 +57,3 @@ spec:
     - Verify that Fluentd is able to read and push the logs to OpenSearch by reviewing the Fluentd logs.
     - Verify that the logs are visible in OpenSearch by accessing the OpenSearch dashboard or using relevant search queries.
 
-If the issue persists or you encounter any other problems, please reach out to us for further assistance.
