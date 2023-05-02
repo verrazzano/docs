@@ -63,7 +63,7 @@ If you prefer to use your own Grafana database, complete the following steps:
 
 ### Configure SMTP server
 
-To configure SMTP server for Grafana notifications, complete the following steps:
+To configure Grafana to send SMTP notifications, complete the following steps:
 
 1. Create a secret named `smtp-secret` in the `verrazzano-system` namespace which contains the SMTP server credentials. For example:
 {{< clipboard >}}
@@ -111,6 +111,6 @@ To configure SMTP server for Grafana notifications, complete the following steps
 </div>
 {{< /clipboard >}}
 
-For more information abou the Grafana SMTP configurations, see [Grafana Documentation](https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#smtp).
+For more information about the Grafana SMTP configurations, see [Grafana Documentation](https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#smtp).
 
 For more information about the component definition, see [Grafana component]({{< relref "/docs/reference/API/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.GrafanaComponent" >}}) in the Verrazzano custom resource.
