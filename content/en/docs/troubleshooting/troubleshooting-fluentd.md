@@ -15,7 +15,7 @@ To troubleshoot the Fluentd permission issue, follow these steps:
 
 1. Check Fluentd pod logs.
     - Identify the Fluentd pod related to the Verrazzano installation.
-- View the logs of the Fluentd pod using the following command:
+    - View the logs of the Fluentd pod using the following command:
 {{< clipboard >}}
 ```sh
 $ kubectl logs <fluentd-pod-name> -n verrazzano-system
@@ -24,7 +24,7 @@ $ kubectl logs <fluentd-pod-name> -n verrazzano-system
 
 2. Check for an error description.
     - Look for an error message in the Fluentd pod logs.
-- If you see an error with the following description, then follow the instructions in Step 3. Resolve permission issue.
+    - If you see an error with the following description, then follow the instructions in Step 3. Resolve permission issue.
    ```
    unexpected error error_class=Errno::EACCES error="Permission denied @ rb_sysopen - /var/log/vz-fluentd-containers.log.pos", it indicates a permission issue. Fluentd doesn't have enough privilege to write `.pos` file.
    ```
