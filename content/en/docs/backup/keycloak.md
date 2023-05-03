@@ -55,73 +55,110 @@ The following example creates a secret `mysql-backup-secret` in the namespace `k
 3. In the namespace `keycloak`, create a Kubernetes secret, for example `mysql-backup-secret`.
 
    ```shell
-   $ kubectl create secret generic -n <backup-namespace> <secret-name> --from-file=<key>=<full_path_to_creds_file> --from-file=<key>=<full_path_to_config_file>
+   $ kubectl create secret generic --namespace <backup-namespace> <secret-name> --from-file=<key>=<full_path_to_creds_file> --from-file=<key>=<full_path_to_config_file>
    ```
 
    The following is an example of creating a Kubernetes secret consisting of OCI credentials.
    ```shell
-   $ kubectl create secret generic -n keycloak mysql-backup-secret --from-file=credentials=backup-secret.txt --from-file=config=backup-region.txt
+   $ kubectl create secret generic --namespace keycloak mysql-backup-secret --from-file=credentials=backup-secret.txt --from-file=config=backup-region.txt
    ```
 
-   **NOTE**: To avoid misuse of sensitive data, ensure that the `backup-secret.txt` file is deleted after the Kubernetes secret is created.
-
+   **NOTE**:
+    - To restore Keycloak on a new cluster, create the secret in the new cluster in the namespace `keycloak` as well.
+    - To avoid misuse of sensitive data, ensure that the `backup-secret.txt` file is deleted after the Kubernetes secret is created.
 
 ## MySQL Operator backup
 
-To initiate a MySQL backup, create the following example custom resource YAML file that uses an OCI object store as a back end.
-The operator uses the secret referenced in `spec.backupProfile.dumpInstance.storage.s3.config` to authenticate with the OCI object store.
+1. To initiate a MySQL backup on the original cluster, create the following example custom resource YAML file that uses an OCI object store as a back end.
+   The operator uses the secret referenced in `spec.backupProfile.dumpInstance.storage.s3.config` to authenticate with the OCI object store.
 
-```yaml
-$ kubectl apply -f - <<EOF
-  apiVersion: mysql.oracle.com/v2
-  kind: MySQLBackup
-  metadata:
-      name: <backup name>
-      namespace: keycloak
-  spec:
-    clusterName: mysql
-    backupProfile:       
-      name: <backupProfileName>
-      dumpInstance:              
-        storage:          
-          s3:
-             bucketName: <The Object store bucket. See the MySQL Operator prerequisites section.>
-             config: <Kubernetes secret name. See the MySQL Operator prerequisites section.>
-             endpoint: < OCI S3 object store endpoint. >
-             prefix: <The prefix name. This folder will be automatically created.>
-             profile: default
-EOF
-```
+   ```yaml
+   $ kubectl apply -f - <<EOF
+     apiVersion: mysql.oracle.com/v2
+     kind: MySQLBackup
+     metadata:
+         name: <backup name>
+         namespace: keycloak
+     spec:
+       clusterName: mysql
+       backupProfile:       
+         name: <backupProfileName>
+         dumpInstance:              
+           storage:          
+             s3:
+                bucketName: <The Object store bucket. See the MySQL Operator prerequisites section.>
+                config: <Kubernetes secret name. See the MySQL Operator prerequisites section.>
+                endpoint: < OCI S3 object store endpoint. >
+                prefix: <The prefix name. This folder will be automatically created.>
+                profile: default
+   EOF
+   ```
 
-**NOTE**:
-- The `config` value is `mysql-backup-secret`, which is the name of the secret that you created previously in the `keycloak` namespace.
-- The `clustername` has to be `mysql`.
-- The `namespace` has to be `keycloak`.
-- The `profile` value is the profile for the security credentials. In this case, it is `default`.
+   **NOTE**:
+   - The `config` value is `mysql-backup-secret`, which is the name of the secret that you created previously in the `keycloak` namespace.
+   - The `clustername` has to be `mysql`.
+   - The `namespace` has to be `keycloak`.
+   - The `profile` value is the profile for the security credentials. In this case, it is `default`.
 
-The following is an example of a `MySQLBackup` resource to initiate a MySQL backup:
+   The following is an example of a `MySQLBackup` resource to initiate a MySQL backup:
 
-```yaml
-$ kubectl apply -f - <<EOF
-  apiVersion: mysql.oracle.com/v2
-  kind: MySQLBackup
-  metadata:
-      name: mysql-backup
-      namespace: keycloak
-  spec:
-    clusterName: mysql
-    backupProfile:       
-      name: mysqlOneTime  
-      dumpInstance:              
-        storage:          
-          s3:
-             bucketName: mysql-bucket
-             config: mysql-backup-secret
-             endpoint: https://mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com
-             prefix: mysql-test
-             profile: default  
-EOF
-```
+   ```yaml
+   $ kubectl apply -f - <<EOF
+     apiVersion: mysql.oracle.com/v2
+     kind: MySQLBackup
+     metadata:
+         name: mysql-backup
+         namespace: keycloak
+     spec:
+       clusterName: mysql
+       backupProfile:       
+         name: mysqlOneTime  
+         dumpInstance:              
+           storage:          
+             s3:
+                bucketName: mysql-bucket
+                config: mysql-backup-secret
+                endpoint: https://mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com
+                prefix: mysql-test
+                profile: default  
+   EOF
+   ```
+2. Confirm that the backup operation is complete, by running the following command on the original cluster.
+  ```bash
+   $ kubectl get MySQLBackup --namespace keycloak
+   ```
+   ```
+    # Sample output
+    NAME           CLUSTER   STATUS      OUTPUT                         AGE
+    mysql-backup   mysql     Completed   mysql-backup-20221025-180836   119s
+   ```
+
+3. A successful backup of MySQL creates a backup folder in the object store. Note down the backup folder prefix name that the MySQL backup created on the original cluster.
+
+    ```shell
+    $ kubectl get mysqlbackup --namespace keycloak <mysql-backup-name> -o jsonpath={.status.output}
+    ```
+   The following is an example:
+    ```shell
+    $ kubectl get mysqlbackup --namespace keycloak mysql-backup -o jsonpath={.status.output}
+    mysql-backup-20221025-180836
+    ```
+
+4. Back up the values in the MySQL Helm chart in the original cluster to a file, `mysql-values.yaml` .
+
+   ```shell
+    $ helm get values --namespace keycloak mysql > mysql-values.yaml
+    ```
+
+5. MySQL Helm charts are present inside the Verrazzano platform operator. Retrieve the charts from the original cluster to a local directory called `mysql-charts`, which required for the restore operation.
+
+    ```shell
+    $ mkdir mysql-charts
+    $ kubectl cp --namespace verrazzano-install \
+        $(kubectl get pod --namespace verrazzano-install -l app=verrazzano-platform-operator \
+        -o custom-columns=:metadata.name --no-headers):platform-operator/thirdparty/charts/mysql \
+        -c verrazzano-platform-operator mysql-charts/
+    ```
 
 ### Scheduled backups
 
@@ -134,41 +171,14 @@ Before you begin, read the [MySQL Operator prerequisites](#mysql-operator-prereq
 
 To initiate a MySQL restore operation from an existing backup, you need to recreate the MySQL cluster. Use the following steps for a successful MySQL restore operation:
 
-1. Back up the values in the MySQL Helm chart to a file, `mysql-values.yaml`.
-
-   ```shell
-    $ helm get values -n keycloak mysql > mysql-values.yaml
-    ```
-
-2. The MySQL backup creates a backup folder in the object store. Get the backup folder prefix name that the MySQL backup created.
+1. Delete the MySQL pods and PVC from the system on the new cluster.
 
     ```shell
-    $ kubectl get mysqlbackup -n keycloak <mysql-backup-name> -o jsonpath={.status.output}
-    ```
-   The following is an example:
-    ```shell
-    $ kubectl get mysqlbackup -n keycloak mysql-backup -o jsonpath={.status.output}
-    mysql-backup-20221025-180836
+    $ helm delete mysql --namespace keycloak
+    $ kubectl delete pvc --namespace keycloak -l tier=mysql
     ```
 
-3. Typically, the MySQL Helm charts are present inside the Verrazzano platform operator. Retrieve the charts to a local directory called `mysql-charts`.
-
-    ```shell
-    $ mkdir mysql-charts
-    $ kubectl cp -n verrazzano-install \
-        $(kubectl get pod -n verrazzano-install -l app=verrazzano-platform-operator \
-        -o custom-columns=:metadata.name --no-headers):platform-operator/thirdparty/charts/mysql \
-        -c verrazzano-platform-operator mysql-charts/
-    ```
-
-4. Delete the MySQL pods and PVC from the system.
-
-    ```shell
-    $ helm delete mysql -n keycloak
-    $ kubectl delete pvc -n keycloak -l tier=mysql
-    ```
-
-5. Now that you have removed MySQL from the system, trigger a MySQL restore operation by installing the Helm chart as follows.
+2. Now that you have removed MySQL from the system, trigger a MySQL restore operation by installing the Helm chart as follows.
 
     ```shell
     $ helm install mysql mysql-charts \
@@ -197,18 +207,18 @@ To initiate a MySQL restore operation from an existing backup, you need to recre
             --values mysql-values.yaml
     ```
 
-6. After performing the restore command, wait for the MySQL cluster to be online. Ensure that the `STATUS` is `ONLINE` and the count under `ONLINE` matches the `INSTANCES`.
+3. After performing the restore command, wait for the MySQL cluster to be online. Ensure that the `STATUS` is `ONLINE` and the count under `ONLINE` matches the `INSTANCES`.
 
    ```shell
-    $ kubectl get innodbclusters -n keycloak mysql
+    $ kubectl get innodbclusters --namespace keycloak mysql
       NAME    STATUS   ONLINE   INSTANCES   ROUTERS   AGE
       mysql   ONLINE   3        3           3         2m23s
     ```
 
-7. Wait for all the MySQL pods to be in the `RUNNING` state.
+4. Wait for all the MySQL pods to be in the `RUNNING` state.
 
    ```shell
-    $ kubectl wait -n keycloak --for=condition=ready pod -l tier=mysql --timeout=600s
+    $ kubectl wait --namespace keycloak --for=condition=ready pod -l tier=mysql --timeout=600s
       pod/mysql-0 condition met
       pod/mysql-1 condition met
       pod/mysql-2 condition met
@@ -217,19 +227,32 @@ To initiate a MySQL restore operation from an existing backup, you need to recre
       pod/mysql-router-746d9d75c7-t8bhb condition met
     ```
 
-At this point, the MySQL cluster has been restored successfully from the backup, along with the PVCs that were deleted previously.
+    At this point, the MySQL cluster has been restored successfully from the backup, along with the PVCs that were deleted previously.
 
-The removal and recreation of the MySQL cluster may cause the Keycloak pods to go into a crashloop state because MySQL goes offline during the restore operation.
-Keycloak is set up to self-heal and will go into a `Running` state after all the back ends are available. You may also choose to force Keycloak into a `Running` state by using the following commands:
+5. Update keycloak-http secret
 
-```shell
-KEYCLOAK_REPLICAS=$(kubectl get sts -n keycloak keycloak -o custom-columns=:status.replicas --no-headers)
-kubectl scale sts -n keycloak keycloak --replicas=0
-kubectl scale sts -n keycloak keycloak --replicas=${KEYCLOAK_REPLICAS}
-kubectl wait -n keycloak --for=condition=ready pod -l app.kubernetes.io/instance=keycloak -timeout=600s
-```
+    On the original cluster, run the following command for the `keycloak-http` secret in `keycloak` namespace if you are restoring Keycloak on a new cluster:
+    ```shell
+    $ kubectl get secret --namespace keycloak keycloak-http -o jsonpath={.data.password}; echo
+    ```
 
-### Restore Keycloak on a different cluster
+    On the new cluster, replace the existing password value with the value displayed above.
+    ```shell
+    kubectl patch secret keycloak-http --namespace keycloak -p '{"data": {"password": "<password displayed in the step above>"}}'
+    ```
+
+6. Restart Keycloak pods
+   The removal and recreation of the MySQL cluster may bring down the Keycloak pods because MySQL goes offline during the restore operation. Run the following commands to restart Keycloak pods:
+    ```shell
+    KEYCLOAK_REPLICAS=$(kubectl get sts --namespace keycloak keycloak -o custom-columns=:status.replicas --no-headers)
+    kubectl scale sts --namespace keycloak keycloak --replicas=0
+    kubectl scale sts --namespace keycloak keycloak --replicas=${KEYCLOAK_REPLICAS}
+    kubectl wait --namespace keycloak --for=condition=ready pod -l app.kubernetes.io/instance=keycloak --timeout=600s
+    ```
+
+## Update Verrazzano secrets and restart fluentd pods
+
+The steps mentioned below are applicable only if you are restoring Keycloak on a new cluster. 
 
 After you complete the MySQL restore operation, the password for the following secrets in the
 `verrazzano-system` namespace must be updated in the new cluster:
@@ -244,15 +267,14 @@ After you complete the MySQL restore operation, the password for the following s
     $ kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password}; echo
     ```
 
-2. On the new cluster, replace the existing password value with the value displayed in Step 1.
+2. On the new cluster, replace the existing password value with the value displayed in step 1.
     ```shell
-    kubectl edit secret <password> -n verrazzano-system
-    # Where, <password> is the value displayed in Step 1.
+    kubectl patch secret verrazzano --namespace verrazzano-system -p '{"data": {"password": "<password displayed in step 1>"}}'
     ```
 
-3. Repeat Steps 1 and 2 for the `verrazzano-es-internal` and `verrazzano-prom-internal` secrets.
+3. Repeat steps 1 and 2 for the `verrazzano-es-internal` and `verrazzano-prom-internal` secrets.
 
 4. Restart the `fluentd` pods in the new cluster to use the original cluster password to connect to OpenSearch.
     ```shell
-    $ kubectl delete pod -l app=fluentd -n verrazzano-system
+    $ kubectl delete pod -l app=fluentd --namespace verrazzano-system
     ```
