@@ -13,6 +13,9 @@ This document shows you how to back up and restore data stored in MySQL.
 - [MySQL Operator backup](#mysql-operator-backup)
 - [MySQL Operator restore](#mysql-operator-restore)
 
+
+The terms original cluster and new cluster refer to same cluster, if you are restoring Keycloak to the same cluster.
+
 ## MySQL Operator prerequisites
 
 MySQL is deployed using the [MySQL Operator for Kubernetes](https://dev.mysql.com/doc/mysql-operator/en/). Apart from managing the life cycle of MySQL instances, MySQL Operator provides the capability to back up and restore data using an OCI object store.
@@ -32,10 +35,13 @@ Before proceeding with a MySQL back up or restore operation, keep the following 
       - An associated Access Key will be generated for the secret key.
       - To create a Customer Secret Key, see [Customer Secret Key](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm#create-secret-key).
 
-
 The following example creates a secret `mysql-backup-secret` in the namespace `keycloak`.
 
-**NOTE**:  This secret must exist in the namespace `keycloak`.
+{{< alert title="NOTE" color="warning" >}}
+- The secret must exist in the namespace `keycloak`.
+- To restore Keycloak on a new cluster, create the secret in the new cluster in the namespace `keycloak` as well.
+- To avoid misuse of sensitive data, ensure that the `backup-secret.txt` file is deleted after the Kubernetes secret is created.
+{{< /alert >}}
 
 1. MySQL Operator requires a secret to communicate with the S3 compatible object store, so we create a `backup-secret.txt` file, which has the object store credentials.
 
@@ -62,10 +68,6 @@ The following example creates a secret `mysql-backup-secret` in the namespace `k
    ```shell
    $ kubectl create secret generic --namespace keycloak mysql-backup-secret --from-file=credentials=backup-secret.txt --from-file=config=backup-region.txt
    ```
-
-   **NOTE**:
-    - To restore Keycloak on a new cluster, create the secret in the new cluster in the namespace `keycloak` as well.
-    - To avoid misuse of sensitive data, ensure that the `backup-secret.txt` file is deleted after the Kubernetes secret is created.
 
 ## MySQL Operator backup
 
@@ -171,17 +173,17 @@ Before you begin, read the [MySQL Operator prerequisites](#mysql-operator-prereq
 
 To initiate a MySQL restore operation from an existing backup, you need to recreate the MySQL cluster. Use the following steps for a successful MySQL restore operation:
 
-1. Delete the MySQL pods and PVC from the system on the new cluster.
+1. Delete the MySQL pods and PersistentVolumeClaim (PVC) from the system on the new cluster.
 
     ```shell
     $ helm delete mysql --namespace keycloak
     $ kubectl delete pvc --namespace keycloak -l tier=mysql
     ```
 
-2. Now that you have removed MySQL from the system, trigger a MySQL restore operation by installing the Helm chart as follows.
+2. Trigger a MySQL restore operation by installing the Helm chart by using the chart from the original chart as follows.
 
     ```shell
-    $ helm install mysql mysql-charts \
+    $ helm install mysql <path to directory mysql-charts, where original charts are extracted> \
             --namespace keycloak \
             --set initDB.dump.name=<dump-name> \
             --set initDB.dumpOptions.loadUsers=true \
@@ -229,9 +231,10 @@ To initiate a MySQL restore operation from an existing backup, you need to recre
 
     At this point, the MySQL cluster has been restored successfully from the backup, along with the PVCs that were deleted previously.
 
-5. Update keycloak-http secret
+5. Update Keycloak secret
+   This step is required only if you are restoring Keycloak on a new cluster.
 
-    On the original cluster, run the following command for the `keycloak-http` secret in `keycloak` namespace if you are restoring Keycloak on a new cluster:
+   On the original cluster, run the following command for the `keycloak-http` secret in `keycloak` namespace if you are restoring Keycloak on a new cluster:
     ```shell
     $ kubectl get secret --namespace keycloak keycloak-http -o jsonpath={.data.password}; echo
     ```
@@ -259,8 +262,6 @@ After you complete the MySQL restore operation, the password for the following s
 - `verrazzano`
 - `verrazzano-es-internal`
 - `verrazzano-prom-internal`
-
-<br>
 
 1. On the original cluster, run the following command for the `verrazzano` secret:   
     ```shell
