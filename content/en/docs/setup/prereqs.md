@@ -69,8 +69,8 @@ Verrazzano supports all versions of Helidon.  For more information, see [Helidon
  | Fluentd                      |                             | 1.14.5       | Collects logs and sends them to OpenSearch.                                              |
  | Grafana                      |                             | 7.5.17       | Tool to help you examine, analyze, and monitor metrics.                                  |
  | Istio                        |                             | 1.15.3       | Service mesh that layers transparently onto existing distributed applications.           |
- | Jaeger                       |                             | 1.37.0       | Distributed tracing system for monitoring and troubleshooting distributed systems.       |
- | Jaeger Operator              |                             | 1.37.0       | Provides management for Jaeger tools.                                                    |
+ | Jaeger                       |                             | 1.42.0       | Distributed tracing system for monitoring and troubleshooting distributed systems.       |
+ | Jaeger Operator              |                             | 1.42.0       | Provides management for Jaeger tools.                                                    |
  | Keycloak                     |                             | 20.0.1       | Provides single sign-on with Identity and Access Management.                             |
  | Kiali                        |                             | 1.57.1       | Management console for the Istio service mesh.                                           |
  | kube-state-metrics           |                             | 2.6.0        | Provides metrics about the state of Kubernetes API objects.                              |
@@ -85,8 +85,8 @@ Verrazzano supports all versions of Helidon.  For more information, see [Helidon
  | Prometheus Adapter           |                             | 0.10.0       | Provides metrics in support of pod autoscaling.                                          |
  | Prometheus Operator          |                             | 0.59.1       | Provides management for Prometheus monitoring tools.                                     |
  | Prometheus Pushgateway       |                             | 1.4.2        | Allows ephemeral and batch jobs to expose their metrics to Prometheus.                   |
- | Rancher                      |                             | 2.7.1        | Manages multiple Kubernetes clusters.                                                    |
+ | Rancher                      |                             | 2.6.8        | Manages multiple Kubernetes clusters.                                                    |
  | Rancher Backup Operator      |                             | 2.1.3        | Manages backup and restore of Rancher configurations and data.                           |
  | Velero                       |                             | 1.9.1        | Manages backup and restore of Kubernetes configurations and data.                         |
- | WebLogic Operator            | WebLogic Kubernetes Operator| 4.0.5        | Assists with deploying and managing WebLogic domains.                                    |
- | WebLogic Exporter            | WebLogic Monitoring Exporter| 2.1.2        | Exports Prometheus-compatible metrics from WebLogic instances.                           |
+ | WebLogic Operator            | WebLogic Kubernetes Operator| 4.0.6        | Assists with deploying and managing WebLogic domains.                                    |
+ | WebLogic Operator            | WebLogic Monitoring Exporter| 2.1.3        | Exports Prometheus-compatible metrics from WebLogic instances.                           |
