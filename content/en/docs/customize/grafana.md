@@ -6,7 +6,7 @@ Weight: 5
 draft: false
 ---
 
-### Configure Grafana database
+### Configure a Grafana database
 
 By default, Verrazzano automatically installs and configures a Grafana database. However, you can use your own external database.
 
@@ -17,12 +17,9 @@ If you prefer to use your own Grafana database, complete the following steps:
 <div class="highlight">
   
    ```
-   $ # Load the login credentials into variables
    $ ROOT_SECRET=$(echo <database root user secret> | base64)
    $ USER=$(echo <database user> | base64)
    $ USER_SECRET=$(echo <database user secret> | base64)
-   $ #
-   $ # Create the secret
    $ kubectl apply -f - <<-EOF
    apiVersion: v1
    kind: Secret
@@ -61,7 +58,7 @@ If you prefer to use your own Grafana database, complete the following steps:
 </div>
 {{< /clipboard >}}
 
-### Configure SMTP server
+### Configure an SMTP server
 
 To configure Grafana to send SMTP notifications, complete the following steps:
 
@@ -111,6 +108,6 @@ To configure Grafana to send SMTP notifications, complete the following steps:
 </div>
 {{< /clipboard >}}
 
-For more information about the Grafana SMTP configurations, see [Grafana Documentation](https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#smtp).
+For more information about Grafana SMTP configurations, see the [Grafana Documentation](https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/#smtp).
 
 For more information about the component definition, see [Grafana component]({{< relref "/docs/reference/API/vpo-verrazzano-v1beta1#install.verrazzano.io/v1beta1.GrafanaComponent" >}}) in the Verrazzano custom resource.
