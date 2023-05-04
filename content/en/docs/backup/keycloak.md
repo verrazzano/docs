@@ -8,7 +8,7 @@ draft: false
 
 Verrazzano stores user login information in Keycloak. In turn, Keycloak uses MySQL as a back end to store all persistent data.
 This document shows you how to back up persistent data stored in MySQL from the original cluster and restore it in a new cluster.
-The terms original cluster and new cluster refer to same cluster, if you are restoring data to the same cluster.
+If you are restoring data to the same cluster, then the terms original cluster and new cluster refer to same cluster.
 
 - [MySQL Operator prerequisites](#mysql-operator-prerequisites)
 - [MySQL Operator backup](#mysql-operator-backup)
@@ -34,7 +34,7 @@ Before proceeding with a MySQL back up or restore operation, keep the following 
       - An associated Access Key will be generated for the secret key.
       - To create a Customer Secret Key, see [Customer Secret Key](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm#create-secret-key).
 
-The following example creates a secret `mysql-backup-secret` in the namespace `keycloak`. The instructions in this page backup data from MySQL to Oracle Cloud Object Storage bucket and restore
+The following example creates a secret `mysql-backup-secret` in the namespace `keycloak`. The instructions in this document back up data from MySQL to an Oracle Cloud Object Storage bucket and restore it from there.
 from there.
 
 1. MySQL Operator requires a secret to communicate with the S3 compatible object storage, so we create a `backup-secret.txt` file, which has the object storage credentials.
@@ -48,7 +48,7 @@ from there.
    {{< /clipboard >}}
 
 2. MySQL Operator requires the region name where the bucket is created, so we create a `backup-region.txt` file, which contains the region information.
-   The following is an example of a `backup-region.txt` indicating the object storage is created in region `us-phoenix-1`:
+   The following is an example of a `backup-region.txt` file indicating that the object storage is created in region `us-phoenix-1`:
    {{< clipboard >}}
    ```
    [default]
@@ -64,14 +64,14 @@ from there.
    ```
    {{< /clipboard >}}
 
-   The following is an example to create a Kubernetes secret consisting of credentials to connect to Object Storage.
+   The following is an example to create a Kubernetes secret consisting of credentials to connect to OCI Object Storage.
    ```
    $ kubectl create secret generic --namespace keycloak mysql-backup-secret --from-file=credentials=backup-secret.txt --from-file=config=backup-region.txt
    ```
 
 {{< alert title="NOTE" color="warning" >}}
 - The secret must be created in the namespace `keycloak`.
-- To restore Keycloak on a new cluster, create the secret in the namespace `keycloak`, in the new cluster.
+- To restore Keycloak on a new cluster, create the secret in the namespace, `keycloak`, in the new cluster.
 - To avoid misuse of sensitive data, ensure that the `backup-secret.txt` file is deleted after the Kubernetes secret is created.
 {{< /alert >}}
 
@@ -147,7 +147,7 @@ EOF
    ```
    {{< /clipboard >}}
 
-3. A successful backup of MySQL creates a backup folder in the object storage. Note down the backup folder prefix name that the MySQL backup created on the original cluster.
+3. A successful backup of MySQL creates a backup folder in the object storage. Make note of the backup folder prefix name that the MySQL backup created on the original cluster.
 
    {{< clipboard >}}
    ```bash
@@ -161,7 +161,7 @@ EOF
    mysql-backup-20221025-180836
    ```
 
-4. Backup MySQL Helm chart and values.
+4. Back up MySQL Helm chart and values.
    
    Back up the values in the MySQL Helm chart, in the original cluster to a file, `mysql-values.yaml` .
 
@@ -174,7 +174,7 @@ EOF
    MySQL Helm charts are present inside the Verrazzano platform operator. Retrieve the charts from the original cluster to a local directory. 
 
    The following example retrieves the MySQL charts to a directory `mysql-charts` under the current directory. In order to avoid data corruption, ensure
-that directory `mysql-charts` doesn't exist under the current directory.
+that the directory, `mysql-charts`, doesn't already exist under the current directory.
 
    {{< clipboard >}}
    ```bash
@@ -187,8 +187,8 @@ that directory `mysql-charts` doesn't exist under the current directory.
 
 ### Scheduled backups
 
-You can also implement schedules for running MYSQL backups. For more information, see [Handling MySQL Backups](https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-backups.html),
-section `A PersistentVolumeClaim Scheduled Backup Example`.
+You can also implement schedules for running MYSQL backups. For more information, see the [Handling MySQL Backups](https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-backups.html) section,
+"A PersistentVolumeClaim Scheduled Backup Example".
 
 ## MySQL Operator restore
 
@@ -265,27 +265,27 @@ To initiate a MySQL restore operation from an existing backup, you need to recre
    ```
    {{< /clipboard >}}
 
-   At this point, the MySQL cluster has been restored successfully from the backup, along with the `PersistentVolumeClaim` that were deleted previously.
+   At this point, the MySQL cluster has been restored successfully from the backup, along with the `PersistentVolumeClaim` that was deleted previously.
 
-5. Update Keycloak secret if you are restoring Keycloak on a new cluster.
+5. If you are restoring Keycloak on a new cluster, then update the Keycloak secret.
 
-   On the original cluster, run the following command for the `keycloak-http` secret in `keycloak` namespace if you are restoring Keycloak on a new cluster:
+   On the original cluster, if you are restoring Keycloak on a new cluster, then run the following command for the `keycloak-http` secret in `keycloak` namespace:
    {{< clipboard >}}
    ```bash
     $ kubectl get secret --namespace keycloak keycloak-http -o jsonpath={.data.password}; echo
    ```
     {{< /clipboard >}}
 
-    On the new cluster, replace the existing password value with the value displayed above.
+    On the new cluster, replace the existing password value with the value displayed from the previous command.
     {{< clipboard >}}
    ```bash
     kubectl patch secret keycloak-http --namespace keycloak -p '{"data": {"password": "<password displayed in the step above>"}}'
    ```
     {{< /clipboard >}}
 
-6. Restart Keycloak pods. 
+6. Restart the Keycloak pods. 
 
-   The removal and recreation of the MySQL cluster may bring down the Keycloak pods because MySQL goes offline during the restore operation. Run the following commands to restart Keycloak pods:
+   The removal and recreation of the MySQL cluster may bring down the Keycloak pods because MySQL goes offline during the restore operation. Run the following commands to restart the Keycloak pods:
    {{< clipboard >}}
    ```bash
     KEYCLOAK_REPLICAS=$(kubectl get sts --namespace keycloak keycloak -o custom-columns=:status.replicas --no-headers)
