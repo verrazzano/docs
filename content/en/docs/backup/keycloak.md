@@ -47,7 +47,7 @@ The following example creates a secret `mysql-backup-secret` in the namespace `k
    {{< /clipboard >}}
 
 2. MySQL Operator requires the region name where the bucket is created, so we create a `backup-region.txt` file, which contains the region information.
-
+   The following is an example of a `backup-region.txt` indicating the object store is created in region `us-phoenix-1`:
    {{< clipboard >}}
    ```
    [default]
@@ -64,11 +64,9 @@ The following example creates a secret `mysql-backup-secret` in the namespace `k
    {{< /clipboard >}}
 
    The following is an example of creating a Kubernetes secret consisting of OCI credentials.
-   {{< clipboard >}}
    ```bash
    $ kubectl create secret generic --namespace keycloak mysql-backup-secret --from-file=credentials=backup-secret.txt --from-file=config=backup-region.txt
    ```
-   {{< /clipboard >}}
 
 {{< alert title="NOTE" color="warning" >}}
 - The secret must be created in the namespace `keycloak`.
@@ -110,6 +108,7 @@ The following example creates a secret `mysql-backup-secret` in the namespace `k
    - The `clustername` has to be `mysql`.
    - The `namespace` has to be `keycloak`.
    - The `profile` value is the profile for the security credentials. In this case, it is `default`.      
+   </br>
 
    The following is an example of a `MySQLBackup` resource to initiate a MySQL backup:
 
@@ -157,12 +156,10 @@ The following example creates a secret `mysql-backup-secret` in the namespace `k
    {{< /clipboard >}}
 
    The following is an example:
-   {{< clipboard >}}
    ```bash
    $ kubectl get mysqlbackup --namespace keycloak mysql-backup -o jsonpath={.status.output}
    mysql-backup-20221025-180836
    ```
-   {{< /clipboard >}}
 
 4. Back up the values in the MySQL Helm chart in the original cluster to a file, `mysql-values.yaml` .
 
@@ -243,8 +240,8 @@ To initiate a MySQL restore operation from an existing backup, you need to recre
    ```
    ```
    # Sample output
-      NAME    STATUS   ONLINE   INSTANCES   ROUTERS   AGE
-      mysql   ONLINE   3        3           3         2m23s
+   NAME    STATUS   ONLINE   INSTANCES   ROUTERS   AGE
+   mysql   ONLINE   3        3           3         2m23s
    ```
    {{< /clipboard >}}
 
@@ -256,32 +253,32 @@ To initiate a MySQL restore operation from an existing backup, you need to recre
    ```
    ```
    # Sample output
-      pod/mysql-0 condition met
-      pod/mysql-1 condition met
-      pod/mysql-2 condition met
-      pod/mysql-router-746d9d75c7-6pc5p condition met
-      pod/mysql-router-746d9d75c7-bhrkw condition met
-      pod/mysql-router-746d9d75c7-t8bhb condition met
+   pod/mysql-0 condition met
+   pod/mysql-1 condition met
+   pod/mysql-2 condition met
+   pod/mysql-router-746d9d75c7-6pc5p condition met
+   pod/mysql-router-746d9d75c7-bhrkw condition met
+   pod/mysql-router-746d9d75c7-t8bhb condition met
    ```
    {{< /clipboard >}}
 
     At this point, the MySQL cluster has been restored successfully from the backup, along with the `PersistentVolumeClaim` that were deleted previously.
 
-5. Update Keycloak secret    
+5. Update Keycloak secret in the new cluster.    
    This step is required only if you are restoring Keycloak on a new cluster.
 
    On the original cluster, run the following command for the `keycloak-http` secret in `keycloak` namespace if you are restoring Keycloak on a new cluster:
    {{< clipboard >}}
    ```bash
     $ kubectl get secret --namespace keycloak keycloak-http -o jsonpath={.data.password}; echo
-    ```
+   ```
     {{< /clipboard >}}
 
     On the new cluster, replace the existing password value with the value displayed above.
     {{< clipboard >}}
    ```bash
     kubectl patch secret keycloak-http --namespace keycloak -p '{"data": {"password": "<password displayed in the step above>"}}'
-    ```
+   ```
     {{< /clipboard >}}
 
 6. Restart Keycloak pods    
@@ -292,7 +289,7 @@ To initiate a MySQL restore operation from an existing backup, you need to recre
     kubectl scale sts --namespace keycloak keycloak --replicas=0
     kubectl scale sts --namespace keycloak keycloak --replicas=${KEYCLOAK_REPLICAS}
     kubectl wait --namespace keycloak --for=condition=ready pod -l app.kubernetes.io/instance=keycloak --timeout=600s
-    ```
+   ```
    {{< /clipboard >}}
 
 ## Update Verrazzano secrets and restart fluentd pods in the new cluster
@@ -309,14 +306,14 @@ After you complete the MySQL restore operation, the password for the following s
    {{< clipboard >}}
    ```bash
     $ kubectl get secret --namespace verrazzano-system verrazzano -o jsonpath={.data.password}; echo
-    ```
+   ```
    {{< /clipboard >}}
 
 2. On the new cluster, replace the existing password value with the value displayed in step 1.
    {{< clipboard >}}
    ```bash
     kubectl patch secret verrazzano --namespace verrazzano-system -p '{"data": {"password": "<password displayed in step 1>"}}'
-    ```
+   ```
    {{< /clipboard >}}
 
 3. Repeat steps 1 and 2 for the `verrazzano-es-internal` and `verrazzano-prom-internal` secrets.
@@ -325,5 +322,5 @@ After you complete the MySQL restore operation, the password for the following s
    {{< clipboard >}}
    ```bash
     $ kubectl delete pod -l app=fluentd --namespace verrazzano-system
-    ```
+   ```
    {{< /clipboard >}}
