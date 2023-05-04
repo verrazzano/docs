@@ -64,7 +64,7 @@ from there.
    ```
    {{< /clipboard >}}
 
-   The following is an example of creating a Kubernetes secret consisting of credentials to connect to Object Storage.
+   The following is an example to create a Kubernetes secret consisting of credentials to connect to Object Storage.
    ```
    $ kubectl create secret generic --namespace keycloak mysql-backup-secret --from-file=credentials=backup-secret.txt --from-file=config=backup-region.txt
    ```
@@ -104,12 +104,12 @@ EOF
    ```
    {{< /clipboard >}}
 
-   **NOTE**:
+   {{< alert title="NOTE" color="warning" >}}
    - The `config` value is `mysql-backup-secret`, which is the name of the secret that you created previously in the `keycloak` namespace.
    - The `clustername` has to be `mysql`.
    - The `namespace` has to be `keycloak`.
-   - The `profile` value is the profile for the security credentials. In this case, it is `default`.      
-   </br>
+   - The `profile` value is the profile for the security credentials. In this case, it is `default`.
+   {{< /alert >}}
 
    The following is an example of a `MySQLBackup` resource to initiate a MySQL backup:
 
@@ -135,8 +135,7 @@ EOF
    EOF
    ```
 
-2. Confirm that the backup operation is complete, by running the following command on the original cluster and ensure that the 
-   STATUS is Completed.
+2. Confirm that the backup operation is complete. Run the following command on the original cluster and ensure that the `STATUS` is `Completed`.
    {{< clipboard >}}
    ```bash
    $ kubectl get MySQLBackup --namespace keycloak
@@ -174,7 +173,7 @@ EOF
 
    MySQL Helm charts are present inside the Verrazzano platform operator. Retrieve the charts from the original cluster to a local directory. 
 
-   The following example retrieves the MySQL charts to a directory `mysql-charts` under current directory. In order to avoid data corruption, ensure
+   The following example retrieves the MySQL charts to a directory `mysql-charts` under the current directory. In order to avoid data corruption, ensure
 that directory `mysql-charts` doesn't exist under the current directory.
 
    {{< clipboard >}}
@@ -205,7 +204,7 @@ To initiate a MySQL restore operation from an existing backup, you need to recre
    ```
    {{< /clipboard >}}
 
-2. Trigger a MySQL restore operation by installing the Helm chart by using the chart from the original chart as follows.
+2. Start a MySQL restore operation by installing the Helm chart by using the chart from the original cluster.
 
    {{< clipboard >}}
    ```bash
@@ -298,7 +297,7 @@ To initiate a MySQL restore operation from an existing backup, you need to recre
 
 ### Update Verrazzano secrets in the new cluster
 
-The steps mentioned below are applicable only if you are restoring Keycloak on a new cluster. 
+The following steps are applicable only if you are restoring Keycloak on a new cluster.
 
 After you complete the MySQL restore operation, the password for the following secrets in the
 `verrazzano-system` namespace must be updated in the new cluster:
