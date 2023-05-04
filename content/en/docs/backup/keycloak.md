@@ -188,7 +188,7 @@ that directory `mysql-charts` doesn't exist under the current directory.
 ### Scheduled backups
 
 You can also implement schedules for running MYSQL backups. For more information, see [Handling MySQL Backups](https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-backups.html),
-`A PersistentVolumeClaim Scheduled Backup Example`, under `backupSchedules`.
+section `A PersistentVolumeClaim Scheduled Backup Example`.
 
 ## MySQL Operator restore
 
