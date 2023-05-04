@@ -56,37 +56,37 @@ See the Coherence versions supported [here](https://oracle.github.io/coherence-o
 Verrazzano supports all versions of Helidon.  For more information, see [Helidon](https://helidon.io) and
  [Helidon Commercial Offerings](https://support.oracle.com/knowledge/Middleware/2645279_1.html).
 
- ## Installed components
- Verrazzano installs a curated set of open source components and software. The following table lists each component, its software (where applicable), its version, and a brief description.
+## Installed software
+Verrazzano installs a curated set of open source software. The following table lists each software, its  version, and a brief description.
 
- | Component                    | Software               | Version      | Description                                                                              |
- |------------------------------|------------------------|--------------|------------------------------------------------------------------------------------------|
- | Alertmanager                 |                             | 0.24.0       | Handles alerts sent by client applications, such as the Prometheus server.               |
- | Argo CD                      |                             | 2.5.3        | A declarative, GitOps continuous delivery tool for Kubernetes.                           |
- | cert-manager                 |                             | 1.9.1        | Automates the management and issuance of TLS certificates.                               |
- | Coherence Operator           |                             | 3.2.9        | Assists with deploying and managing Coherence clusters.                                  |
- | DNS                          | ExternalDNS                 | 0.12.2       | Synchronizes exposed Kubernetes Services and ingresses with DNS providers.               |
- | Fluentd                      |                             | 1.14.5       | Collects logs and sends them to OpenSearch.                                              |
- | Grafana                      |                             | 7.5.17       | Tool to help you examine, analyze, and monitor metrics.                                  |
- | Istio                        |                             | 1.15.3       | Service mesh that layers transparently onto existing distributed applications.           |
- | Jaeger                       |                             | 1.42.0       | Distributed tracing system for monitoring and troubleshooting distributed systems.       |
- | Jaeger Operator              |                             | 1.42.0       | Provides management for Jaeger tools.                                                    |
- | Keycloak                     |                             | 20.0.1       | Provides single sign-on with Identity and Access Management.                             |
- | Kiali                        |                             | 1.57.1       | Management console for the Istio service mesh.                                           |
- | kube-state-metrics           |                             | 2.6.0        | Provides metrics about the state of Kubernetes API objects.                              |
- | MySQL                        |                             | 8.0.32       | Open source relational database management system used by Keycloak.                      |
- | MySQL Operator               |                             | 8.0.32-2.0.8 | Operator for managing MySQL InnoDB Cluster setups inside a Kubernetes cluster.           |
- | Ingress NGINX                | NGINX Ingress Controller    | 1.3.1        | Traffic management solution for cloud‑native applications in Kubernetes.                 |
- | Node Exporter                |                             | 1.3.1        | Prometheus exporter for hardware and OS metrics.                                         |
- | OAM                          | OAM Kubernetes Runtime      | 0.3.3        | Plug-in for implementing the Open Application Model (OAM) control plane with Kubernetes. |
- | OpenSearch                   |                             | 2.3.0        | Provides a distributed, multitenant-capable full-text search engine.                     |
- | OpenSearch Dashboards        |                             | 2.3.0        | Provides search and data visualization capabilities for data indexed in OpenSearch.      |
- | Prometheus                   |                             | 2.38.0       | Provides event monitoring and alerting.                                                  |
- | Prometheus Adapter           |                             | 0.10.0       | Provides metrics in support of pod autoscaling.                                          |
- | Prometheus Operator          |                             | 0.59.1       | Provides management for Prometheus monitoring tools.                                     |
- | Prometheus Pushgateway       |                             | 1.4.2        | Allows ephemeral and batch jobs to expose their metrics to Prometheus.                   |
- | Rancher                      |                             | 2.6.8        | Manages multiple Kubernetes clusters.                                                    |
- | Rancher Backup Operator      |                             | 2.1.3        | Manages backup and restore of Rancher configurations and data.                           |
- | Velero                       |                             | 1.9.1        | Manages backup and restore of Kubernetes configurations and data.                         |
- | WebLogic Operator            | WebLogic Kubernetes Operator| 4.0.6        | Assists with deploying and managing WebLogic domains.                                    |
- | WebLogic Operator            | WebLogic Monitoring Exporter| 2.1.3        | Exports Prometheus-compatible metrics from WebLogic instances.                           |
+  | Software       | Version    | Description                                                                 |
+  |----------------|------------|-----------------------------------------------------------------------------|
+  | Alertmanager   | 0.24.0   | Handles alerts sent by client applications, such as the Prometheus server.    |
+  | Argo CD   | 2.5.3   | A declarative, GitOps continuous delivery tool for Kubernetes.                      |
+  | cert-manager  | 1.9.1   | Automates the management and issuance of TLS certificates.                      |
+  | Coherence Operator | 3.2.9   | Assists with deploying and managing Coherence clusters.                    |
+  | [ExternalDNS]({{< relref "/docs/reference/api/vpo-verrazzano-v1alpha1/#install.verrazzano.io/v1alpha1.DNSComponent" >}})    | 0.12.2   | Synchronizes exposed Kubernetes Services and ingresses with DNS providers.                       |
+  | Fluentd   | 1.14.5   | Collects logs and sends them to OpenSearch.                                        |
+  | Grafana   | 7.5.17   | Tool to help you examine, analyze, and monitor metrics.                            |
+  | Istio   | 1.15.3   | Service mesh that layers transparently onto existing distributed applications.       |
+  | Jaeger   | 1.42.0   | Distributed tracing system for monitoring and troubleshooting distributed systems.  |
+  | Jaeger Operator   | 1.42.0   | Provides management for Jaeger tools.                                      |
+  | Keycloak   | 20.0.1   | Provides single sign-on with Identity and Access Management.                      |
+  | Kiali   | 1.57.1   | Management console for the Istio service mesh.                                       |
+  | kube-state-metrics   | 2.6.0   | Provides metrics about the state of Kubernetes API objects.              |
+  | MySQL   | 8.0.32   | Open source relational database management system used by Keycloak.                  |
+  | MySQL Operator   | 8.0.32-2.0.8 |   Operator for managing MySQL InnoDB Cluster setups inside a Kubernetes cluster.    |
+  | [NGINX Ingress Controller]({{< relref "/docs/reference/api/vpo-verrazzano-v1alpha1/#install.verrazzano.io/v1alpha1.IngressNginxComponent" >}})   | 1.3.1   | Traffic management solution for cloud‑native applications in Kubernetes.                 |
+  | Node Exporter  | 1.3.1   | Prometheus exporter for hardware and OS metrics.                               |
+  | [OAM Kubernetes Runtime]({{< relref "/docs/reference/api/vpo-verrazzano-v1alpha1/#install.verrazzano.io/v1alpha1.OAMComponent" >}})   | 0.3.3   | Plug-in for implementing the Open Application Model (OAM) control plane with Kubernetes. |
+  | OpenSearch   | 2.3.0   | Provides a distributed, multitenant-capable full-text search engine.             |
+  | OpenSearch Dashboards   | 2.3.0   | Provides search and data visualization capabilities for data indexed in OpenSearch. |
+  | Prometheus   | 2.38.0   | Provides event monitoring and alerting.                                         |
+  | Prometheus Adapter   | 0.10.0   | Provides metrics in support of pod autoscaling.                         |
+  | Prometheus Operator   | 0.59.1  | Provides management for Prometheus monitoring tools.                    |
+  | Prometheus Pushgateway   | 1.4.2   | Allows ephemeral and batch jobs to expose their metrics to Prometheus.   |
+  | Rancher   | 2.6.8   | Manages multiple Kubernetes clusters.                                               |
+  | Rancher Backup Operator   | 2.1.3   | Manages backup and restore of Rancher configurations and data.      |
+  | Velero   | 1.9.1   | Manages backup and restore of Kubernetes configurations and data.                    |
+  | [WebLogic Kubernetes Operator]({{< relref "/docs/reference/api/vpo-verrazzano-v1alpha1/#install.verrazzano.io/v1alpha1.WebLogicOperatorComponent" >}})   | 4.0.6   | Assists with deploying and managing WebLogic domains.                                    |
+  | [WebLogic Monitoring Exporter]({{< relref "/docs/reference/api/vpo-verrazzano-v1alpha1/#install.verrazzano.io/v1alpha1.WebLogicOperatorComponent" >}})   | 2.1.3   | Exports Prometheus-compatible metrics from WebLogic instances.                           |
