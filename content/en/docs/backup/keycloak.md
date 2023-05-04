@@ -7,7 +7,7 @@ draft: false
 ---
 
 Verrazzano stores user login information in Keycloak. In turn, Keycloak uses MySQL as a back end to store all persistent data.
-This document shows you how to back up persistent data from MySQL in the original cluster and restore it in the new cluster.
+This document shows you how to back up persistent data from the original cluster and restore it in a new cluster.
 The terms original cluster and new cluster refer to same cluster, if you are restoring data to the same cluster.
 
 - [MySQL Operator prerequisites](#mysql-operator-prerequisites)
@@ -17,7 +17,7 @@ The terms original cluster and new cluster refer to same cluster, if you are res
 
 ## MySQL Operator prerequisites
 
-MySQL is deployed using the [MySQL Operator for Kubernetes](https://dev.mysql.com/doc/mysql-operator/en/). Apart from managing the life cycle of MySQL instances, MySQL Operator provides the capability to back up and restore data using an OCI object store.
+MySQL is deployed using the [MySQL Operator for Kubernetes](https://dev.mysql.com/doc/mysql-operator/en/). Apart from managing the life cycle of MySQL instances, MySQL Operator provides the capability to back up and restore data using an Amazon S3 compatible object storage.
 
 Before proceeding with a MySQL back up or restore operation, keep the following details handy:
 
@@ -30,11 +30,12 @@ Before proceeding with a MySQL back up or restore operation, keep the following 
 - Object store region name.
 - Object store signing key.
    - A signing key, which is required to authenticate with the Amazon S3 compatible object store; this is an Access Key/Secret Key pair.
-   - In Oracle Cloud Infrastructure, you or your administrator creates the Customer Secret Key.
+   - In Oracle Cloud Infrastructure (OCI), you or your administrator creates the Customer Secret Key.
       - An associated Access Key will be generated for the secret key.
       - To create a Customer Secret Key, see [Customer Secret Key](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm#create-secret-key).
 
-The following example creates a secret `mysql-backup-secret` in the namespace `keycloak`.
+The following example creates a secret `mysql-backup-secret` in the namespace `keycloak`. The instructions in this page backup data from MySQL to Oracle Cloud Object Storage bucket and restore
+from there.
 
 1. MySQL Operator requires a secret to communicate with the S3 compatible object store, so we create a `backup-secret.txt` file, which has the object store credentials.
 
@@ -42,7 +43,7 @@ The following example creates a secret `mysql-backup-secret` in the namespace `k
    ```
    [default]
    aws_access_key_id=<object store access key>
-   aws_secret_access_key=<div store secret key>
+   aws_secret_access_key=<object store secret key>
    ```
    {{< /clipboard >}}
 
@@ -63,8 +64,8 @@ The following example creates a secret `mysql-backup-secret` in the namespace `k
    ```
    {{< /clipboard >}}
 
-   The following is an example of creating a Kubernetes secret consisting of OCI credentials.
-   ```bash
+   The following is an example of creating a Kubernetes secret consisting of credentials to connect to Object Store.
+   ```
    $ kubectl create secret generic --namespace keycloak mysql-backup-secret --from-file=credentials=backup-secret.txt --from-file=config=backup-region.txt
    ```
 
@@ -94,7 +95,7 @@ The following example creates a secret `mysql-backup-secret` in the namespace `k
       dumpInstance:              
         storage:          
           s3:
-             bucketName: <The Object store bucket. See the MySQL Operator prerequisites section.>
+             bucketName: <The Object Store bucket. See the MySQL Operator prerequisites section.>
              config: <Kubernetes secret name. See the MySQL Operator prerequisites section.>
              endpoint: < OCI S3 object store endpoint.>
              prefix: <The prefix name. This folder will be automatically created.>
@@ -112,7 +113,7 @@ The following example creates a secret `mysql-backup-secret` in the namespace `k
 
    The following is an example of a `MySQLBackup` resource to initiate a MySQL backup:
 
-   ```bash
+   ```
    $ kubectl apply -f - <<EOF
    apiVersion: mysql.oracle.com/v2
    kind: MySQLBackup
@@ -156,12 +157,14 @@ The following example creates a secret `mysql-backup-secret` in the namespace `k
    {{< /clipboard >}}
 
    The following is an example:
-   ```bash
+   ```
    $ kubectl get mysqlbackup --namespace keycloak mysql-backup -o jsonpath={.status.output}
    mysql-backup-20221025-180836
    ```
 
-4. Back up the values in the MySQL Helm chart in the original cluster to a file, `mysql-values.yaml` .
+4. Backup MySQL Helm chart and values.
+   
+   Back up the values in the MySQL Helm chart, in the original cluster to a file, `mysql-values.yaml` .
 
    {{< clipboard >}}
    ```bash
@@ -169,7 +172,7 @@ The following example creates a secret `mysql-backup-secret` in the namespace `k
    ```
    {{< /clipboard >}}
 
-5. MySQL Helm charts are present inside the Verrazzano platform operator. Retrieve the charts from the original cluster to a local directory. 
+   MySQL Helm charts are present inside the Verrazzano platform operator. Retrieve the charts from the original cluster to a local directory. 
 
    The following example retrieves the MySQL charts to a directory `mysql-charts` under current directory. In order to avoid data corruption, ensure
 that directory `mysql-charts` doesn't exist under the current directory.
@@ -186,7 +189,7 @@ that directory `mysql-charts` doesn't exist under the current directory.
 ### Scheduled backups
 
 You can also implement schedules for running MYSQL backups. For more information, see [Handling MySQL Backups](https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-backups.html),
-A PersistentVolumeClaim Scheduled Backup Example, under `backupSchedules`.
+`A PersistentVolumeClaim Scheduled Backup Example`, under `backupSchedules`.
 
 ## MySQL Operator restore
 
@@ -220,7 +223,7 @@ To initiate a MySQL restore operation from an existing backup, you need to recre
    {{< /clipboard >}}
 
    The following is an example:
-    ```shell
+   ```
     $ helm install mysql mysql-charts \
             --namespace keycloak \
             --set initDB.dump.name=alpha \
@@ -230,7 +233,7 @@ To initiate a MySQL restore operation from an existing backup, you need to recre
             --set initDB.dump.s3.config=mysql-backup-secret \
             --set initDB.dump.s3.endpoint=https://mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com \
             --values mysql-values.yaml
-    ```
+   ```
 
 3. After performing the restore command, wait for the MySQL cluster to be online. Ensure that the `STATUS` is `ONLINE` and the count under `ONLINE` matches the `INSTANCES`.
 
@@ -238,6 +241,7 @@ To initiate a MySQL restore operation from an existing backup, you need to recre
    ```bash
    $ kubectl get innodbclusters --namespace keycloak mysql
    ```
+   
    ```
    # Sample output
    NAME    STATUS   ONLINE   INSTANCES   ROUTERS   AGE
@@ -262,10 +266,9 @@ To initiate a MySQL restore operation from an existing backup, you need to recre
    ```
    {{< /clipboard >}}
 
-    At this point, the MySQL cluster has been restored successfully from the backup, along with the `PersistentVolumeClaim` that were deleted previously.
+   At this point, the MySQL cluster has been restored successfully from the backup, along with the `PersistentVolumeClaim` that were deleted previously.
 
-5. Update Keycloak secret in the new cluster.    
-   This step is required only if you are restoring Keycloak on a new cluster.
+5. Update Keycloak secret if you are restoring Keycloak on a new cluster.
 
    On the original cluster, run the following command for the `keycloak-http` secret in `keycloak` namespace if you are restoring Keycloak on a new cluster:
    {{< clipboard >}}
@@ -281,7 +284,8 @@ To initiate a MySQL restore operation from an existing backup, you need to recre
    ```
     {{< /clipboard >}}
 
-6. Restart Keycloak pods    
+6. Restart Keycloak pods. 
+
    The removal and recreation of the MySQL cluster may bring down the Keycloak pods because MySQL goes offline during the restore operation. Run the following commands to restart Keycloak pods:
    {{< clipboard >}}
    ```bash
@@ -292,7 +296,7 @@ To initiate a MySQL restore operation from an existing backup, you need to recre
    ```
    {{< /clipboard >}}
 
-## Update Verrazzano secrets and restart fluentd pods in the new cluster
+### Update Verrazzano secrets in the new cluster
 
 The steps mentioned below are applicable only if you are restoring Keycloak on a new cluster. 
 
