@@ -443,6 +443,37 @@ string
 </tr>
 </tbody>
 </table>
+<h3 id="install.verrazzano.io/v1beta1.CAPIComponent">CAPIComponent
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#install.verrazzano.io/v1beta1.ComponentSpec">ComponentSpec</a>)
+</p>
+<p>
+<p>CAPIComponent specifies the CAPI configuration.</p>
+</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>enabled</code></br>
+<em>
+bool
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>If true, then CAPI Providers will be installed.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <h3 id="install.verrazzano.io/v1beta1.CertManagerComponent">CertManagerComponent
 </h3>
 <p>
@@ -735,6 +766,20 @@ AuthProxyComponent
 <td>
 <em>(Optional)</em>
 <p>The AuthProxy component configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>capi</code></br>
+<em>
+<a href="#install.verrazzano.io/v1beta1.CAPIComponent">
+CAPIComponent
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>The CAPI component configuration.</p>
 </td>
 </tr>
 <tr>
@@ -1691,6 +1736,20 @@ int32
 <td>
 <em>(Optional)</em>
 <p>The number of pods to replicate. The default is <code>1</code>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>smtp</code></br>
+<em>
+<a href="https://pkg.go.dev/github.com/verrazzano/verrazzano-monitoring-operator/pkg/apis/vmcontroller/v1#SMTPInfo">
+VMO /vmcontroller/v1.SMTPInfo
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>The SMTP notification settings.</p>
 </td>
 </tr>
 </tbody>
