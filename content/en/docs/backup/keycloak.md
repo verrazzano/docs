@@ -35,7 +35,6 @@ Before proceeding with a MySQL back up or restore operation, keep the following 
       - To create a Customer Secret Key, see [Customer Secret Key](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm#create-secret-key).
 
 The following example creates a secret `mysql-backup-secret` in the namespace `keycloak`. The instructions in this document back up data from MySQL to an Oracle Cloud Object Storage bucket and restore it from there.
-from there.
 
 1. MySQL Operator requires a secret to communicate with the S3 compatible object storage, so we create a `backup-secret.txt` file, which has the object storage credentials.
 
@@ -162,7 +161,7 @@ EOF
    ```
 
 4. Back up MySQL Helm chart and values.
-   
+
    Back up the values in the MySQL Helm chart, in the original cluster to a file, `mysql-values.yaml` .
 
    {{< clipboard >}}
@@ -171,7 +170,7 @@ EOF
    ```
    {{< /clipboard >}}
 
-   MySQL Helm charts are present inside the Verrazzano platform operator. Retrieve the charts from the original cluster to a local directory. 
+   MySQL Helm charts are present inside the Verrazzano platform operator. Retrieve the charts from the original cluster to a local directory.
 
    The following example retrieves the MySQL charts to a directory `mysql-charts` under the current directory. In order to avoid data corruption, ensure
 that the directory, `mysql-charts`, doesn't already exist under the current directory.
@@ -188,7 +187,7 @@ that the directory, `mysql-charts`, doesn't already exist under the current dire
 ### Scheduled backups
 
 You can also implement schedules for running MYSQL backups. For more information, see the [Handling MySQL Backups](https://dev.mysql.com/doc/mysql-operator/en/mysql-operator-backups.html) section,
-"A PersistentVolumeClaim Scheduled Backup Example".
+"A PersistentVolumeClaim Scheduled Backup Example."
 
 ## MySQL Operator restore
 
@@ -240,7 +239,7 @@ To initiate a MySQL restore operation from an existing backup, you need to recre
    ```bash
    $ kubectl get innodbclusters --namespace keycloak mysql
    ```
-   
+
    ```
    # Sample output
    NAME    STATUS   ONLINE   INSTANCES   ROUTERS   AGE
@@ -283,7 +282,7 @@ To initiate a MySQL restore operation from an existing backup, you need to recre
    ```
     {{< /clipboard >}}
 
-6. Restart the Keycloak pods. 
+6. Restart the Keycloak pods.
 
    The removal and recreation of the MySQL cluster may bring down the Keycloak pods because MySQL goes offline during the restore operation. Run the following commands to restart the Keycloak pods:
    {{< clipboard >}}
