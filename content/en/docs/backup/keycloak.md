@@ -81,26 +81,26 @@ from there.
    The operator uses the secret referenced in `spec.backupProfile.dumpInstance.storage.s3.config` to authenticate with the OCI object store.
 
    {{< clipboard >}}
-   ```bash
+   ```yaml
    $ kubectl apply -f - <<EOF
-   apiVersion: mysql.oracle.com/v2
-   kind: MySQLBackup
-   metadata:
-      name: <backup name>
-      namespace: keycloak
-   spec:
-    clusterName: mysql
-    backupProfile:       
-      name: <backupProfileName>
-      dumpInstance:              
-        storage:          
-          s3:
-             bucketName: <The Object Store bucket. See the MySQL Operator prerequisites section.>
-             config: <Kubernetes secret name. See the MySQL Operator prerequisites section.>
-             endpoint: < OCI S3 object store endpoint.>
-             prefix: <The prefix name. This folder will be automatically created.>
-             profile: default
-   EOF
+       apiVersion: mysql.oracle.com/v2
+       kind: MySQLBackup
+       metadata:
+         name: <backup name>
+         namespace: keycloak
+       spec:
+         clusterName: mysql
+         backupProfile:
+           name: <backupProfileName>
+           dumpInstance:
+             storage:
+               s3:
+                 bucketName: <The Object Store bucket. See the MySQL Operator prerequisites section.>
+                 config: <Kubernetes secret name. See the MySQL Operator prerequisites section.>
+                 endpoint: < OCI S3 object store endpoint.>
+                 prefix: <The prefix name. This folder will be automatically created.>
+                 profile: default
+EOF
    ```
    {{< /clipboard >}}
 
@@ -115,23 +115,23 @@ from there.
 
    ```
    $ kubectl apply -f - <<EOF
-   apiVersion: mysql.oracle.com/v2
-   kind: MySQLBackup
-   metadata:
-      name: mysql-backup
-      namespace: keycloak
-   spec:
-    clusterName: mysql
-    backupProfile:       
-      name: mysqlOneTime  
-      dumpInstance:              
-        storage:          
-          s3:
-             bucketName: mysql-bucket
-             config: mysql-backup-secret
-             endpoint: https://mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com
-             prefix: mysql-test
-             profile: default  
+       apiVersion: mysql.oracle.com/v2
+       kind: MySQLBackup
+       metadata:
+         name: mysql-backup
+         namespace: keycloak
+       spec:
+         clusterName: mysql
+         backupProfile:
+           name: mysqlOneTime
+           dumpInstance:
+             storage:
+               s3:
+                 bucketName: mysql-bucket
+                 config: mysql-backup-secret
+                 endpoint: https://mytenancy.compat.objectstorage.us-phoenix-1.oraclecloud.com
+                 prefix: mysql-test
+                 profile: default
    EOF
    ```
 
