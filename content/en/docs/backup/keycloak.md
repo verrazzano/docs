@@ -7,7 +7,7 @@ draft: false
 ---
 
 Verrazzano stores user login information in Keycloak. In turn, Keycloak uses MySQL as a back end to store all persistent data.
-This document shows you how to back up persistent data from the original cluster and restore it in a new cluster.
+This document shows you how to back up persistent data stored in MySQL from the original cluster and restore it in a new cluster.
 The terms original cluster and new cluster refer to same cluster, if you are restoring data to the same cluster.
 
 - [MySQL Operator prerequisites](#mysql-operator-prerequisites)
@@ -21,15 +21,15 @@ MySQL is deployed using the [MySQL Operator for Kubernetes](https://dev.mysql.co
 
 Before proceeding with a MySQL back up or restore operation, keep the following details handy:
 
-- Object store bucket name.
+- Object storage bucket name.
    - An Amazon S3 compatible object storage bucket. This can be an Oracle Cloud Object Storage bucket in any compartment of your Oracle Cloud tenancy.
       - For reference, make a note of the bucket name and tenancy name.
       - For more information about creating a bucket with Object Storage, see [Managing Buckets](https://docs.oracle.com/en-us/iaas/Content/Object/Tasks/managingbuckets.htm).
-   - For private clouds, enterprise networks, or air-gapped environments, this could be MinIO or an equivalent object store solution.
-- Object store prefix name. This will be a child folder under the bucket, which the backup component creates.
-- Object store region name.
-- Object store signing key.
-   - A signing key, which is required to authenticate with the Amazon S3 compatible object store; this is an Access Key/Secret Key pair.
+   - For private clouds, enterprise networks, or air-gapped environments, this could be MinIO or an equivalent object storage solution.
+- Object storage prefix name. This will be a child folder under the bucket, which the backup component creates.
+- Object storage region name.
+- Object storage signing key.
+   - A signing key, which is required to authenticate with the Amazon S3 compatible object storage; this is an Access Key/Secret Key pair.
    - In Oracle Cloud Infrastructure (OCI), you or your administrator creates the Customer Secret Key.
       - An associated Access Key will be generated for the secret key.
       - To create a Customer Secret Key, see [Customer Secret Key](https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm#create-secret-key).
@@ -37,18 +37,18 @@ Before proceeding with a MySQL back up or restore operation, keep the following 
 The following example creates a secret `mysql-backup-secret` in the namespace `keycloak`. The instructions in this page backup data from MySQL to Oracle Cloud Object Storage bucket and restore
 from there.
 
-1. MySQL Operator requires a secret to communicate with the S3 compatible object store, so we create a `backup-secret.txt` file, which has the object store credentials.
+1. MySQL Operator requires a secret to communicate with the S3 compatible object storage, so we create a `backup-secret.txt` file, which has the object storage credentials.
 
    {{< clipboard >}}
    ```
    [default]
-   aws_access_key_id=<object store access key>
-   aws_secret_access_key=<object store secret key>
+   aws_access_key_id=<object storage access key>
+   aws_secret_access_key=<object storage secret key>
    ```
    {{< /clipboard >}}
 
 2. MySQL Operator requires the region name where the bucket is created, so we create a `backup-region.txt` file, which contains the region information.
-   The following is an example of a `backup-region.txt` indicating the object store is created in region `us-phoenix-1`:
+   The following is an example of a `backup-region.txt` indicating the object storage is created in region `us-phoenix-1`:
    {{< clipboard >}}
    ```
    [default]
@@ -64,7 +64,7 @@ from there.
    ```
    {{< /clipboard >}}
 
-   The following is an example of creating a Kubernetes secret consisting of credentials to connect to Object Store.
+   The following is an example of creating a Kubernetes secret consisting of credentials to connect to Object Storage.
    ```
    $ kubectl create secret generic --namespace keycloak mysql-backup-secret --from-file=credentials=backup-secret.txt --from-file=config=backup-region.txt
    ```
@@ -77,8 +77,8 @@ from there.
 
 ## MySQL Operator backup
 
-1. To initiate a MySQL backup on the original cluster, create the following example custom resource YAML file that uses an OCI object store as a back end.
-   The operator uses the secret referenced in `spec.backupProfile.dumpInstance.storage.s3.config` to authenticate with the OCI object store.
+1. To initiate a MySQL backup on the original cluster, create the following example custom resource YAML file that uses an OCI Object Storage as a back end.
+   The operator uses the secret referenced in `spec.backupProfile.dumpInstance.storage.s3.config` to authenticate with the OCI Object Storage.
 
    {{< clipboard >}}
    ```yaml
@@ -95,9 +95,9 @@ from there.
            dumpInstance:
              storage:
                s3:
-                 bucketName: <The Object Store bucket. See the MySQL Operator prerequisites section.>
+                 bucketName: <The Object Storage bucket. See the MySQL Operator prerequisites section.>
                  config: <Kubernetes secret name. See the MySQL Operator prerequisites section.>
-                 endpoint: < OCI S3 object store endpoint.>
+                 endpoint: < OCI S3 Object Storage endpoint.>
                  prefix: <The prefix name. This folder will be automatically created.>
                  profile: default
 EOF
@@ -148,7 +148,7 @@ EOF
    ```
    {{< /clipboard >}}
 
-3. A successful backup of MySQL creates a backup folder in the object store. Note down the backup folder prefix name that the MySQL backup created on the original cluster.
+3. A successful backup of MySQL creates a backup folder in the object storage. Note down the backup folder prefix name that the MySQL backup created on the original cluster.
 
    {{< clipboard >}}
    ```bash
