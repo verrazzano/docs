@@ -221,6 +221,6 @@ For example, for the [Oracle Cloud Native Environment platform]({{< relref "/doc
 ## WebLogic applications
 
 WebLogic applications require that the container registry secret be specified in the `Domain` resource. Create a registry secret in the application namespace and specify the secret in
-the `imagePullSecrets` field of the WebLogic `Domain` spec for the application.
+the `imagePullSecrets` field of the WebLogic [Domain](https://github.com/oracle/weblogic-kubernetes-operator/blob/main/documentation/domains/Domain.md#domain-spec) spec for the application.
 
 For an example, see the [ToDo List]( {{< release_source_url path=examples/todo-list/todo-list-components.yaml >}} ) example application component YAML file.
