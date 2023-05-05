@@ -38,7 +38,7 @@ for the managed cluster only, search based on the tag `verrazzano_cluster=<manag
 
 **Sample output of Jager console screens**
 
-Output filtered for the managed cluster only (arrow).
+Output filtered for the managed cluster (arrow).
 
 ![Jaeger console](/docs/images/multicluster/jaeger-multicluster-filter-based-on-tag.png)
 
