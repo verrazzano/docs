@@ -65,7 +65,7 @@ Verrazzano installs a curated set of open source software. The following table l
   | Argo CD   | 2.5.3   | A declarative, GitOps continuous delivery tool for Kubernetes.                      |
   | cert-manager  | 1.9.1   | Automates the management and issuance of TLS certificates.                      |
   | Coherence Operator | 3.2.9   | Assists with deploying and managing Coherence clusters.                    |
-  | [ExternalDNS](../../api/vpo-verrazzano-v1alpha1/#install.verrazzano.io/v1alpha1.DNSComponent)    | 0.12.2   | Synchronizes exposed Kubernetes Services and ingresses with DNS providers.                       |
+  | [ExternalDNS](../../reference/api/vpo-verrazzano-v1alpha1/#install.verrazzano.io/v1alpha1.DNSComponent)    | 0.12.2   | Synchronizes exposed Kubernetes Services and ingresses with DNS providers.                       |
   | Fluentd   | 1.14.5   | Collects logs and sends them to OpenSearch.                                        |
   | Grafana   | 7.5.17   | Tool to help you examine, analyze, and monitor metrics.                            |
   | Istio   | 1.15.3   | Service mesh that layers transparently onto existing distributed applications.       |
@@ -76,9 +76,9 @@ Verrazzano installs a curated set of open source software. The following table l
   | kube-state-metrics   | 2.6.0   | Provides metrics about the state of Kubernetes API objects.              |
   | MySQL   | 8.0.32   | Open source relational database management system used by Keycloak.                  |
   | MySQL Operator   | 8.0.32-2.0.8 |   Operator for managing MySQL InnoDB Cluster setups inside a Kubernetes cluster.    |
-  | [NGINX Ingress Controller](../../api/vpo-verrazzano-v1alpha1/#install.verrazzano.io/v1alpha1.IngressNginxComponent)   | 1.3.1   | Traffic management solution for cloud‑native applications in Kubernetes.                 |
+  | [NGINX Ingress Controller](../../reference/api/vpo-verrazzano-v1alpha1/#install.verrazzano.io/v1alpha1.IngressNginxComponent)   | 1.3.1   | Traffic management solution for cloud‑native applications in Kubernetes.                 |
   | Node Exporter  | 1.3.1   | Prometheus exporter for hardware and OS metrics.                               |
-  | [OAM Kubernetes Runtime](../../api/vpo-verrazzano-v1alpha1/#install.verrazzano.io/v1alpha1.OAMComponent)   | 0.3.3   | Plug-in for implementing the Open Application Model (OAM) control plane with Kubernetes. |
+  | [OAM Kubernetes Runtime](../../reference/api/vpo-verrazzano-v1alpha1/#install.verrazzano.io/v1alpha1.OAMComponent)   | 0.3.3   | Plug-in for implementing the Open Application Model (OAM) control plane with Kubernetes. |
   | OpenSearch   | 2.3.0   | Provides a distributed, multitenant-capable full-text search engine.             |
   | OpenSearch Dashboards   | 2.3.0   | Provides search and data visualization capabilities for data indexed in OpenSearch. |
   | Prometheus   | 2.38.0   | Provides event monitoring and alerting.                                         |
@@ -88,5 +88,5 @@ Verrazzano installs a curated set of open source software. The following table l
   | Rancher   | 2.6.8   | Manages multiple Kubernetes clusters.                                               |
   | Rancher Backup Operator   | 2.1.3   | Manages backup and restore of Rancher configurations and data.      |
   | Velero   | 1.9.1   | Manages backup and restore of Kubernetes configurations and data.                    |
-  | [WebLogic Kubernetes Operator](../../api/vpo-verrazzano-v1alpha1/#install.verrazzano.io/v1alpha1.WebLogicOperatorComponent)   | 4.0.6   | Assists with deploying and managing WebLogic domains.                                    |
-  | [WebLogic Monitoring Exporter](../../api/vpo-verrazzano-v1alpha1/#install.verrazzano.io/v1alpha1.WebLogicOperatorComponent)   | 2.1.3   | Exports Prometheus-compatible metrics from WebLogic instances.                           |
+  | [WebLogic Kubernetes Operator](../../reference/api/vpo-verrazzano-v1alpha1/#install.verrazzano.io/v1alpha1.WebLogicOperatorComponent)   | 4.0.6   | Assists with deploying and managing WebLogic domains.                                    |
+  | [WebLogic Monitoring Exporter](../../reference/api/vpo-verrazzano-v1alpha1/#install.verrazzano.io/v1alpha1.WebLogicOperatorComponent)   | 2.1.3   | Exports Prometheus-compatible metrics from WebLogic instances.                           |
